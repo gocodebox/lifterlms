@@ -382,10 +382,16 @@ gulp.task( 'loc-get-info', function( cb ) {
 					const formatData = formatter.findCurrency( countries[ i ].currencyCode );
 					if ( formatData ) {
 
+						const symbolPosition = [];
+						symbolPosition.push( formatData.symbolOnLeft ? 'left' : 'right' );
+						if ( formatData.spaceBetweenAmountAndSymbol ) {
+							symbolPosition.push( 'space' );
+						}
+
 						list[ countries[ i ].countryCode ] = {
 							currency: {
 								code: countries[ i ].currencyCode,
-								symbol_position: formatData.symbolOnLeft ? 'left' : 'right',
+								symbol_position: symbolPosition.join( '_' ),
 								thousand_separator: formatData.thousandsSeparator,
 								decimal_separator: formatData.decimalSeparator,
 								decimals: formatData.decimalDigits,

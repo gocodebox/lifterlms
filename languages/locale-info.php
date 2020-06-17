@@ -35,7 +35,7 @@ return array(
 	'AD' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -47,7 +47,7 @@ return array(
 	'AE' => array(
 		'currency' => array(
 			'code' => 'AED',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -105,7 +105,7 @@ return array(
 	'AM' => array(
 		'currency' => array(
 			'code' => 'AMD',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -129,7 +129,7 @@ return array(
 	'AR' => array(
 		'currency' => array(
 			'code' => 'ARS',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -151,7 +151,7 @@ return array(
 	'AT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -190,7 +190,7 @@ return array(
 	'AX' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -200,7 +200,7 @@ return array(
 	'AZ' => array(
 		'currency' => array(
 			'code' => 'AZN',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -212,7 +212,7 @@ return array(
 	'BA' => array(
 		'currency' => array(
 			'code' => 'BAM',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -236,7 +236,7 @@ return array(
 	'BD' => array(
 		'currency' => array(
 			'code' => 'BDT',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 0,
@@ -246,7 +246,7 @@ return array(
 	'BE' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -271,7 +271,7 @@ return array(
 	'BG' => array(
 		'currency' => array(
 			'code' => 'BGN',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -284,7 +284,7 @@ return array(
 	'BH' => array(
 		'currency' => array(
 			'code' => 'BHD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 3,
@@ -320,7 +320,7 @@ return array(
 	'BL' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -354,7 +354,7 @@ return array(
 	'BO' => array(
 		'currency' => array(
 			'code' => 'BOB',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -376,7 +376,7 @@ return array(
 	'BR' => array(
 		'currency' => array(
 			'code' => 'BRL',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -400,7 +400,7 @@ return array(
 	'BT' => array(
 		'currency' => array(
 			'code' => 'BTN',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 1,
@@ -412,7 +412,7 @@ return array(
 	'BV' => array(
 		'currency' => array(
 			'code' => 'NOK',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -504,7 +504,7 @@ return array(
 	'CH' => array(
 		'currency' => array(
 			'code' => 'CHF',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '\'',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -541,7 +541,7 @@ return array(
 	'CL' => array(
 		'currency' => array(
 			'code' => 'CLP',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -575,7 +575,7 @@ return array(
 	'CO' => array(
 		'currency' => array(
 			'code' => 'COP',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -641,7 +641,7 @@ return array(
 	'CY' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -654,7 +654,7 @@ return array(
 	'CZ' => array(
 		'currency' => array(
 			'code' => 'CZK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -667,7 +667,7 @@ return array(
 	'DE' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -692,7 +692,7 @@ return array(
 	'DK' => array(
 		'currency' => array(
 			'code' => 'DKK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -729,7 +729,7 @@ return array(
 	'DZ' => array(
 		'currency' => array(
 			'code' => 'DZD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -753,7 +753,7 @@ return array(
 	'EE' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -766,7 +766,7 @@ return array(
 	'EG' => array(
 		'currency' => array(
 			'code' => 'EGP',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -778,7 +778,7 @@ return array(
 	'EH' => array(
 		'currency' => array(
 			'code' => 'MAD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -800,7 +800,7 @@ return array(
 	'ES' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -825,7 +825,7 @@ return array(
 	'FI' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -874,7 +874,7 @@ return array(
 	'FO' => array(
 		'currency' => array(
 			'code' => 'DKK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -886,7 +886,7 @@ return array(
 	'FR' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -936,7 +936,7 @@ return array(
 	'GE' => array(
 		'currency' => array(
 			'code' => 'GEL',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -948,7 +948,7 @@ return array(
 	'GF' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -992,7 +992,7 @@ return array(
 	'GL' => array(
 		'currency' => array(
 			'code' => 'DKK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1028,7 +1028,7 @@ return array(
 	'GP' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1050,7 +1050,7 @@ return array(
 	'GR' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1142,7 +1142,7 @@ return array(
 	'HN' => array(
 		'currency' => array(
 			'code' => 'HNL',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1154,7 +1154,7 @@ return array(
 	'HR' => array(
 		'currency' => array(
 			'code' => 'HRK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1176,7 +1176,7 @@ return array(
 	'HU' => array(
 		'currency' => array(
 			'code' => 'HUF',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1200,7 +1200,7 @@ return array(
 	'IE' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1213,7 +1213,7 @@ return array(
 	'IL' => array(
 		'currency' => array(
 			'code' => 'ILS',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1258,7 +1258,7 @@ return array(
 	'IQ' => array(
 		'currency' => array(
 			'code' => 'IQD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1268,7 +1268,7 @@ return array(
 	'IR' => array(
 		'currency' => array(
 			'code' => 'IRR',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '/',
 			'decimals' => 2,
@@ -1278,7 +1278,7 @@ return array(
 	'IS' => array(
 		'currency' => array(
 			'code' => 'ISK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 0,
@@ -1290,7 +1290,7 @@ return array(
 	'IT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1325,7 +1325,7 @@ return array(
 	'JO' => array(
 		'currency' => array(
 			'code' => 'JOD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 3,
@@ -1362,7 +1362,7 @@ return array(
 	'KG' => array(
 		'currency' => array(
 			'code' => 'KGS',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => '-',
 			'decimals' => 2,
@@ -1444,7 +1444,7 @@ return array(
 	'KW' => array(
 		'currency' => array(
 			'code' => 'KWD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 3,
@@ -1492,7 +1492,7 @@ return array(
 	'LB' => array(
 		'currency' => array(
 			'code' => 'LBP',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1514,7 +1514,7 @@ return array(
 	'LI' => array(
 		'currency' => array(
 			'code' => 'CHF',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '\'',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1526,7 +1526,7 @@ return array(
 	'LK' => array(
 		'currency' => array(
 			'code' => 'LKR',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 0,
@@ -1560,7 +1560,7 @@ return array(
 	'LT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1573,7 +1573,7 @@ return array(
 	'LU' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1586,7 +1586,7 @@ return array(
 	'LV' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1609,7 +1609,7 @@ return array(
 	'MA' => array(
 		'currency' => array(
 			'code' => 'MAD',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1621,7 +1621,7 @@ return array(
 	'MC' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1633,7 +1633,7 @@ return array(
 	'MD' => array(
 		'currency' => array(
 			'code' => 'MDL',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1645,7 +1645,7 @@ return array(
 	'ME' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1657,7 +1657,7 @@ return array(
 	'MF' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1691,7 +1691,7 @@ return array(
 	'MK' => array(
 		'currency' => array(
 			'code' => 'MKD',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1757,7 +1757,7 @@ return array(
 	'MQ' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1781,7 +1781,7 @@ return array(
 	'MT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1806,7 +1806,7 @@ return array(
 	'MV' => array(
 		'currency' => array(
 			'code' => 'MVR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 1,
@@ -1927,7 +1927,7 @@ return array(
 	'NI' => array(
 		'currency' => array(
 			'code' => 'NIO',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -1939,7 +1939,7 @@ return array(
 	'NL' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -1952,7 +1952,7 @@ return array(
 	'NO' => array(
 		'currency' => array(
 			'code' => 'NOK',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2014,7 +2014,7 @@ return array(
 	'OM' => array(
 		'currency' => array(
 			'code' => 'OMR',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 3,
@@ -2026,7 +2026,7 @@ return array(
 	'PA' => array(
 		'currency' => array(
 			'code' => 'PAB',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2038,7 +2038,7 @@ return array(
 	'PE' => array(
 		'currency' => array(
 			'code' => 'PEN',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2096,7 +2096,7 @@ return array(
 	'PL' => array(
 		'currency' => array(
 			'code' => 'PLN',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2109,7 +2109,7 @@ return array(
 	'PM' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2143,7 +2143,7 @@ return array(
 	'PS' => array(
 		'currency' => array(
 			'code' => 'ILS',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2153,7 +2153,7 @@ return array(
 	'PT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2178,7 +2178,7 @@ return array(
 	'PY' => array(
 		'currency' => array(
 			'code' => 'PYG',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2190,7 +2190,7 @@ return array(
 	'QA' => array(
 		'currency' => array(
 			'code' => 'QAR',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2202,7 +2202,7 @@ return array(
 	'RE' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2214,7 +2214,7 @@ return array(
 	'RO' => array(
 		'currency' => array(
 			'code' => 'RON',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2227,7 +2227,7 @@ return array(
 	'RS' => array(
 		'currency' => array(
 			'code' => 'RSD',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2239,7 +2239,7 @@ return array(
 	'RU' => array(
 		'currency' => array(
 			'code' => 'RUB',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2251,7 +2251,7 @@ return array(
 	'RW' => array(
 		'currency' => array(
 			'code' => 'RWF',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2263,7 +2263,7 @@ return array(
 	'SA' => array(
 		'currency' => array(
 			'code' => 'SAR',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2309,7 +2309,7 @@ return array(
 	'SE' => array(
 		'currency' => array(
 			'code' => 'SEK',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2347,7 +2347,7 @@ return array(
 	'SI' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2360,7 +2360,7 @@ return array(
 	'SJ' => array(
 		'currency' => array(
 			'code' => 'NOK',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2372,7 +2372,7 @@ return array(
 	'SK' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2397,7 +2397,7 @@ return array(
 	'SM' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2467,7 +2467,7 @@ return array(
 	'SY' => array(
 		'currency' => array(
 			'code' => 'SYP',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2513,7 +2513,7 @@ return array(
 	'TF' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2547,7 +2547,7 @@ return array(
 	'TJ' => array(
 		'currency' => array(
 			'code' => 'TJS',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ';',
 			'decimals' => 2,
@@ -2591,7 +2591,7 @@ return array(
 	'TN' => array(
 		'currency' => array(
 			'code' => 'TND',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 3,
@@ -2721,7 +2721,7 @@ return array(
 	'UY' => array(
 		'currency' => array(
 			'code' => 'UYU',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2733,7 +2733,7 @@ return array(
 	'UZ' => array(
 		'currency' => array(
 			'code' => 'UZS',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2743,7 +2743,7 @@ return array(
 	'VA' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2789,7 +2789,7 @@ return array(
 	'VN' => array(
 		'currency' => array(
 			'code' => 'VND',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => '.',
 			'decimal_separator' => '.',
 			'decimals' => 0,
@@ -2837,7 +2837,7 @@ return array(
 	'XK' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,
@@ -2847,7 +2847,7 @@ return array(
 	'YE' => array(
 		'currency' => array(
 			'code' => 'YER',
-			'symbol_position' => 'left',
+			'symbol_position' => 'left_space',
 			'thousand_separator' => ',',
 			'decimal_separator' => '.',
 			'decimals' => 2,
@@ -2859,7 +2859,7 @@ return array(
 	'YT' => array(
 		'currency' => array(
 			'code' => 'EUR',
-			'symbol_position' => 'right',
+			'symbol_position' => 'right_space',
 			'thousand_separator' => ' ',
 			'decimal_separator' => ',',
 			'decimals' => 2,

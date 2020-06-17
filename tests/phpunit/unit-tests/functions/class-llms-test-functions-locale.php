@@ -1,6 +1,8 @@
 <?php
 /**
- * Tests for LifterLMS Locale functiosn
+ * Tests for LifterLMS Locale functions
+ *
+ * @package  LifterLMS/Tests/Functions
  *
  * @group functions
  * @group locale
@@ -9,6 +11,51 @@
  * @version [version]
  */
 class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
+
+
+	/**
+	 * Test llms_get_country_locale_info() for valid countries
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function test_llms_get_country_locale_info() {
+
+		foreach ( array( 'AU', 'GB', 'IT', 'MH', 'US', ) as $code ) {
+
+			$res = llms_get_country_locale_info( $code );
+
+			$this->assertTrue( is_array( $res ) );
+			$this->assertArrayHasKey( 'currency', $res );
+			$this->assertArrayHasKey( 'platforms', $res );
+
+		}
+
+	}
+
+	/**
+	 * Test llms_get_country_locale_info() for invalid countries
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function test_llms_get_country_locale_info_not_found() {
+		$this->assertFalse( llms_get_country_locale_info( 'FAKE' ) );
+	}
+
+	function test_llms_get_locale_info() {
+
+		$res = llms_get_locale_info();
+		$this->assertTrue( is_array( $res ) );
+
+		// Spot check random countries.
+		foreach( array( 'AS', 'FI', 'CN', 'IM', 'BR' ) as $code ) {
+			$this->assertArrayHasKey( $code, $res );
+		}
+
+	}
 
 	/**
 	 * Test the get_lifterlms_countries() method.
@@ -84,7 +131,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 * @since 3.24.1
 	 * @since [version] Updated name when adding test for the base function
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_get_lifterlms_countries_filter_and_unique() {
 

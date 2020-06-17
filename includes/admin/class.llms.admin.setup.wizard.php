@@ -432,87 +432,100 @@ class LLMS_Admin_Setup_Wizard {
 
 		update_option( 'llms_setup_data', $data );
 
-		if ( ! empty( $data['location'] ) && in_array( $data['location'], get_lifterlms_countries(), true ) ) {
+		if ( ! empty( $data['location'] ) && in_array( $data['location'], array_keys( get_lifterlms_countries() ), true ) ) {
+
+			// Update country.
 			update_option( 'lifterlms_country', $data['location'] );
+
+			// Lookup locale info and setup currency options if available.
+			$info = llms_get_country_locale_info( $data['location'] );
+			if ( $info && $info['currency'] ) {
+				update_option( 'lifterlms_currency', $info['currency']['code'] );
+				update_option( 'lifterlms_currency_position', $info['currency']['symbol_position'] );
+				update_option( 'lifterlms_thousand_separator', $info['currency']['thousand_separator'] );
+				update_option( 'lifterlms_decimal_separator', $info['currency']['decimal_separator'] );
+				update_option( 'lifterlms_decimals', $info['currency']['decimals'] );
+			}
+
 		}
 
 		llms_redirect_and_exit( $this->get_step_url( $this->get_next_step() ) );
 
-		return;
+		// return;
 
-		switch ( llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING ) ) {
+		// switch ( llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING ) ) {
 
-			case 'coupon':
-				update_option( 'llms_allow_tracking', 'yes' );
-				$req = LLMS_Tracker::send_data( true );
+		// 	case 'coupon':
+		// 		update_option( 'llms_allow_tracking', 'yes' );
+		// 		$req = LLMS_Tracker::send_data( true );
 
-				if ( is_wp_error( $req ) ) {
-					$r = false;
-				} elseif ( isset( $req['success'] ) ) {
-					$r = $req['success'];
+		// 		if ( is_wp_error( $req ) ) {
+		// 			$r = false;
+		// 		} elseif ( isset( $req['success'] ) ) {
+		// 			$r = $req['success'];
 
-					if ( ! $req['success'] ) {
+		// 			if ( ! $req['success'] ) {
 
-						$this->error = new WP_Error( 'error', $r['message'] );
-						return;
+		// 				$this->error = new WP_Error( 'error', $r['message'] );
+		// 				return;
 
-					}
-				}
+		// 			}
+		// 		}
 
-				break;
+		// 		break;
 
-			case 'finish':
-				add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
-				add_action( 'llms_generator_new_course', array( $this, 'watch_course_generation' ) );
-				$json = file_get_contents( LLMS_PLUGIN_DIR . 'sample-data/sample-course.json' );
-				$gen  = new LLMS_Generator( $json );
-				$gen->set_generator();
-				$gen->generate();
-				if ( $gen->is_error() ) {
-					wp_die( $gen->get_results() );
-				} else {
-					if ( $this->generated_course_id ) {
-						wp_safe_redirect( get_edit_post_link( $this->generated_course_id, 'not-display' ) );
-						exit;
-					}
-				}
-				break;
+		// 	case 'finish':
+		// 		add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
+		// 		add_action( 'llms_generator_new_course', array( $this, 'watch_course_generation' ) );
+		// 		$json = file_get_contents( LLMS_PLUGIN_DIR . 'sample-data/sample-course.json' );
+		// 		$gen  = new LLMS_Generator( $json );
+		// 		$gen->set_generator();
+		// 		$gen->generate();
+		// 		if ( $gen->is_error() ) {
+		// 			wp_die( $gen->get_results() );
+		// 		} else {
+		// 			if ( $this->generated_course_id ) {
+		// 				wp_safe_redirect( get_edit_post_link( $this->generated_course_id, 'not-display' ) );
+		// 				exit;
+		// 			}
+		// 		}
+		// 		break;
 
-			case 'pages':
-				$r = LLMS_Install::create_pages();
-				break;
+		// 	case 'pages':
+		// 		$r = LLMS_Install::create_pages();
+		// 		break;
 
-			case 'payments':
-				$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
-				update_option( 'lifterlms_country', $country );
+		// 	case 'payments':
+		// 		$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
+		// 		update_option( 'lifterlms_country', $country );
 
-				$currency = isset( $_POST['currency'] ) ? llms_filter_input( INPUT_POST, 'currency', FILTER_SANITIZE_STRING ) : get_lifterlms_currency();
-				update_option( 'lifterlms_currency', $currency );
+		// 		$currency = isset( $_POST['currency'] ) ? llms_filter_input( INPUT_POST, 'currency', FILTER_SANITIZE_STRING ) : get_lifterlms_currency();
+		// 		update_option( 'lifterlms_currency', $currency );
 
-				$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
-				update_option( 'llms_gateway_manual_enabled', $manual );
+		// 		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
+		// 		update_option( 'llms_gateway_manual_enabled', $manual );
 
-				$r = true;
+		// 		$r = true;
 
-				break;
+		// 		break;
 
-			default:
-				$r = false;
+		// 	default:
+		// 		$r = false;
 
-				break;
-		}
+		// 		break;
+		// }
 
-		if ( false === $r ) {
+		// if ( false === $r ) {
 
-			$this->error = new WP_Error( 'error', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
-			return;
+		// 	$this->error = new WP_Error( 'error', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		// 	return;
 
-		} else {
+		// } else {
 
-			wp_safe_redirect( $this->get_step_url( $this->get_next_step() ) );
-			exit;
+		// 	wp_safe_redirect( $this->get_step_url( $this->get_next_step() ) );
+		// 	exit;
 
-		}
+		// }
 
 	}
 

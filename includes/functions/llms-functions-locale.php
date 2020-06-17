@@ -11,6 +11,19 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Retrieve locale info for the specified country
+ *
+ * @since [version]
+ *
+ * @param string $code Country code.
+ * @return array|false Array of locale info or `false` if the specified country code was not found.
+ */
+function llms_get_country_locale_info( $code ) {
+	$info = llms_get_locale_info();
+	return isset( $info[ $code ] ) ? $info[ $code ] : false;
+}
+
+/**
  * Retrieve the country name by country code
  *
  * @since 3.8.0
@@ -39,28 +52,28 @@ function llms_get_country_states( $code ) {
 }
 
 /**
- * Get countries locale information.
+ * Get country locale information.
  *
- * Provides a list of language and address information for supported countries.
+ * Provides a list of localization and formatting data by country.
  *
  * @since [version]
  *
- * @see languages/countries-locale.php
+ * @see languages/locale-info.php
  *
  * @return array
  */
-function llms_get_countries_locale() {
+function llms_get_locale_info() {
 
-	$states = require LLMS_PLUGIN_DIR . 'languages/countries-locale.php';
+	$info = require LLMS_PLUGIN_DIR . 'languages/locale-info.php';
 
 	/**
-	 * Modify the default states list.
+	 * Modify the default info list.
 	 *
-	 * @since 1.0.0
+	 * @since [version]
 	 *
-	 * @param array $states Multi-dimensional array. See "languages/countries-locale.php" for details.
+	 * @param array $info Multi-dimensional array. See "languages/locale-info.php" for details.
 	 */
-	return apply_filters( 'lifterlms_countries_locale', $states );
+	return apply_filters( 'lifterlms_locale_info', $info );
 
 }
 
