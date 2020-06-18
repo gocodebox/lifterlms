@@ -1,6 +1,208 @@
 LifterLMS Changelog
 ===================
 
+v4.0.0-rc.1 - 2020-06-18
+------------------------
+
+##### Version 4.0.0 Release Candidate
+
+No additional API changes will be made prior to the release of 4.0.0 on the stable channel.
+
+The expected stable release of 4.0.0 is Thursday, June 25, 2020.
+
+##### Action Scheduler Library
+
+Switches from prospress/action-scheduler to woocommerce/action-scheduler. The repository has been moved but it's the same library & upgrades to latest version (3.1.6).
+
+While this is a semantically major upgrade of the library there are no backwards incompatible changes to the public API.
+
+There have been several deprecated functions/classes. The LifterLMS core does not directly use any of these deprecated functions but 3rd parties might and should review the changelog of the library to see if they are affected by any deprecations: https://github.com/woocommerce/action-scheduler/releases.
+
+##### Deprecations
+
++ Function `LLMS()` is deprecated in favor of `llms()`.
+
+##### Templates Modified
+
++ templates/global/form-login.php
++ templates/global/form-registration.php
+
+##### Miscellaneous Breaking Changes
+
+**WP Session Manager Library**
+
+Removes the bundled WP Session Manager plugin dependency, all public methods included with this plugin have been removed without direct replacements.
+
+**Removed JS dependencies**
+
+Removes bundled JS bootstrap 3 dependencies: "collapse" and "transition"
+
+**Removed CSS Classes**
+
+Removes classnames from student dashboard login and registration form wrapper elements which conflict with bootstrap causing visual issues.
+
+These classes are not used by the LifterLMS core or add-ons and are a legacy class that hasn't been removed for fear of creating backwards compatibility issues with any custom css, 3rd party themes, etc...
+
++ templates/global/form-login.php: Removes `col-1` class from the `div.llms-person-login-form-wrapper` element.
++ templates/global/form-registration.php: : Removes `col-2` class from the `div.llms-new-person-form-wrapper` element.
+
+##### Previously deprecated classes (and files) that have been removed
+
++ `LLMS_Admin_Analytics`: `includes/admin/class.llms.admin.analytics.php`
++ `LLMS_Analytics`: `includes/class.llms.analytics.php`
++ `LLMS_Analytics_Courses`: `includes/admin/analytics/class.llms.analytics.courses.php`
++ `LLMS_Analytics_Memberships`: `includes/admin/analytics/class.llms.analytics.memberships.php`
++ `LLMS_Analytics_Page`: `includes/admin/analytics/class.llms.analytics.page.php`
++ `LLMS_Analytics_Sales`: `includes/admin/analytics/class.llms.analytics.sales.php`
++ `LLMS_Course_Basic`: `includes/class.llms.course.basic.php`
++ `LLMS_Course_Handler`: `includes/class.llms.course.handler.php`
++ `LLMS_Course_Factory`: `includes/class.llms.course.factory.php`
++ `LLMS_Lesson_Basic`: `includes/class.llms.lesson.basic.php`
++ `LLMS_Meta_Box_Expiration`: `includes/admin/post-types/meta-boxes/class.llms.meta.box.expiration.php`
++ `LLMS_Meta_Box_Video`: `includes/admin/post-types/meta-boxes/class.llms.meta.box.video.php`
++ `LLMS_Number`: `includes/class.llms.number.php`
++ `LLMS_Person`: `includes/class.llms.person.php`
++ `LLMS_Quiz_Legacy`: `includes/class.llms.quiz.legacy.php`
++ `LLMS_Table_Questions`: `includes/admin/reporting/tables/llms.table.questions.php`
++ `LLMS\Users\User`: `includes/Users/User.php`
+
+##### Previously deprecated class properties that have been removed
+
++ `LifterLMS->person` (generally accessed via `LLMS()->person`).
++ `LLMS_Analytics_Widget->date_end`
++ `LLMS_Analytics_Widget->date_start`
++ `LLMS_Analytics_Widget->output`
++ `LLMS_Certificate->enabled`
++ `LLMS_Course_Data->$course`
++ `LLMS_Course_Data->$course_id`
+
+##### Previously deprecated class methods that have been removed:
+
++ `LLMS_Admin_Table::queue_export()`
++ `LLMS_AJAX::get_achievements()`
++ `LLMS_AJAX::get_all_posts()`
++ `LLMS_AJAX::get_associated_lessons()`
++ `LLMS_AJAX::get_certificates()`
++ `LLMS_AJAX::get_courses()`
++ `LLMS_AJAX::get_course_tracks()`
++ `LLMS_AJAX::get_emails()`
++ `LLMS_AJAX::get_enrolled_students()`
++ `LLMS_AJAX::get_enrolled_students_ids()`
++ `LLMS_AJAX::get_lesson()`
++ `LLMS_AJAX::get_lessons()`
++ `LLMS_AJAX::get_lessons_alt()`
++ `LLMS_AJAX::get_memberships()`
++ `LLMS_AJAX::get_question()`
++ `LLMS_AJAX::get_sections()`
++ `LLMS_AJAX::get_sections_alt()`
++ `LLMS_AJAX::get_students()`
++ `LLMS_AJAX::update_syllabus()`
++ `LLMS_Course::get_children_sections()`
++ `LLMS_Course::get_children_lessons()`
++ `LLMS_Course::get_author()`
++ `LLMS_Course::get_author_id()`
++ `LLMS_Course::get_author_name()`
++ `LLMS_Course::get_sku()`
++ `LLMS_Course::get_id()`
++ `LLMS_Course::get_title()`
++ `LLMS_Course::get_permalink()`
++ `LLMS_Course::get_user_postmeta_data()`
++ `LLMS_Course::get_user_postmetas_by_key()`
++ `LLMS_Course::get_checkout_url()`
++ `LLMS_Course::get_start_date()`
++ `LLMS_Course::get_end_date()`
++ `LLMS_Course::get_next_uncompleted_lesson()`
++ `LLMS_Course::get_lesson_ids()`
++ `LLMS_Course::get_syllabus_sections()`
++ `LLMS_Course::get_short_description()`
++ `LLMS_Course::get_syllabus()`
++ `LLMS_Course::get_user_enroll_date()`
++ `LLMS_Course::get_user_post_data()`
++ `LLMS_Course::check_enrollment()`
++ `LLMS_Course::is_user_enrolled()`
++ `LLMS_Course::get_student_progress()`
++ `LLMS_Course::get_membership_link()`
++ `LLMS_Lesson::get_assigned_quiz()`
++ `LLMS_Lesson::get_drip_days()`
++ `LLMS_Lesson::mark_complete()`
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_after()`
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_before()`
++ `LLMS_PlayNice::wc_is_account_page()`
++ `LLMS_Post_Instructors::get_defaults()`
++ `LLMS_Query::set_dashboard_pagination()`
++ `LLMS_Query::add_query_vars()`
++ `LLMS_Question::get_correct_option()`
++ `LLMS_Question::get_correct_option_key()`
++ `LLMS_Question::get_options()`
++ `LLMS_Quiz::get_assoc_lesson()`
++ `LLMS_Quiz::get_passing_percent()`
++ `LLMS_Quiz::get_remaining_attempts_by_user()`
++ `LLMS_Quiz::get_time_limit()`
++ `LLMS_Quiz::get_total_allowed_attempts()`
++ `LLMS_Quiz::get_total_attempts_by_user()`
++ `LLMS_Quiz_Attempt::get_status()`
++ `LLMS_Shortcode_My_Account::lost_password()`
++ `LLMS_Section::count_children_lessons()`
++ `LLMS_Section::delete()`
++ `LLMS_Section::get_children_lessons()`
++ `LLMS_Section::remove_all_child_lessons()`
++ `LLMS_Section::remove_child_lesson()`
++ `LLMS_Section::set_order()`
++ `LLMS_Section::set_title()`
++ `LLMS_Section::update()`
++ `LLMS_Session::init()`
++ `LLMS_Session::maybe_start_session()`
++ `LLMS_Session::set_expiration_variant_time()`
++ `LLMS_Session::set_expiration_time()`
++ `LLMS_Session::use_php_sessions()`
++ `LLMS_Student::delete_quiz_attempt()`
++ `LLMS_Student::get_best_quiz_attempt()`
++ `LLMS_Student::get_quiz_data()`
++ `LLMS_Student::has_access()`
++ `LLMS_Student_Dashboard::output_courses_content()`
++ `LLMS_Student_Dashboard::output_dashboard_content()`
++ `LLMS_Student_Dashboard::output_notifications_content()`
++ `LLMS_Widget_Course_Progress::widget_contents()`
+
+##### Previously deprecated functions that have been removed
+
++ `is_filtered()`
++ `lifterlms_template_loop_view_link()`
++ `llms_add_user_table_columns()`
++ `llms_add_user_table_rows()`
++ `llms_create_new_person()`
++ `llms_get_question()`
++ `llms_get_quiz()`
++ `llms_set_user_password_rest_key()`
++ `llms_setup_product_data()`
++ `llms_setup_question_data()`
++ `llms_verify_password_reset_key()`
+
+##### Previously deprecated hooks that have been removed
+
++ Action: `lifterlms_before_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
++ Filter: `lifterlms_completed_transaction_message`
++ Filter: `lifterlms_is_filtered`
++ Filter: `lifterlms_get_analytics_pages`
++ Filter: `lifterlms_analytics_tabs_array`
+
+##### Previously deprecated shortcodes that have been removed
+
++ `[courses]`
++ `[lifterlms_user_statistics]`
+
+##### Previously deprecated templates that have been removed
+
++ `templates/loop/view-link.php`
+
+##### Previously deprecated global variables that have been removed
+
++ `$product`
++ `$question`
+
+
 v3.41.0 - 2020-06-12
 --------------------
 
