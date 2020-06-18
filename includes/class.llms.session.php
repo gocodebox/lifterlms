@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.7
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,249 +17,358 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.7.7 Unknown.
  * @since 3.37.7 Added a second parameter to the `get()` method, that represents the default value
  *               to return if the session variable requested doesn't exist.
+ * @since 4.0.0 Major refactor to remove reliance on the wp-session-manager library:
+ *               + Moved getters & setter methods into LLMS_Abstract_Session_Data
+ *               + Added new methods to support built-in DB session management.
+ *               + Deprecated legacy methods
+ *               + Removed the ability to utilize PHP sessions.
+ *               + Removed unused methods.
  */
-class LLMS_Session {
+class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 	/**
-	 * Session data
-	 *
-	 * @var array|WP_Session
-	 */
-	private $session;
-
-	/**
-	 * Use php session
-	 *
-	 * @var bool
-	 */
-	private $use_php_sessions = false;
-
-	/**
-	 * Session prefix
+	 * Session cookie name
 	 *
 	 * @var string
 	 */
-	private $prefix = '';
+	protected $cookie = '';
+
+	/**
+	 * Timestamp of the session's expiration
+	 *
+	 * @var int
+	 */
+	protected $expires;
+
+	/**
+	 * Timestamp of when the session is nearing expiration
+	 *
+	 * @var int
+	 */
+	protected $expiring;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @since 3.7.5 Unkwnown.
+	 * @since 3.7.5 Unknown.
+	 * @since 4.0.0 Removed PHP sessions.
+	 *               Added session auto-destroy on `wp_logout`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		$this->use_php_sessions = $this->use_php_sessions();
+		/**
+		 * Customize the name of the LifterLMS User Session Cookie
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $name Default session cookie name.
+		 */
+		$this->cookie = apply_filters( 'llms_session_cookie_name', sprintf( 'wp_llms_session_%s', COOKIEHASH ) );
 
-		if ( $this->use_php_sessions ) {
+		/**
+		 * Trigger cleanup via action.
+		 *
+		 * This is hooked to an hourly scheduled task.
+		 */
+		add_action( 'llms_delete_expired_session_data', array( $this, 'clean' ) );
 
-			if ( is_multisite() ) {
+		if ( $this->should_init() ) {
 
-				$this->prefix = '_' . get_current_blog_id();
+			$this->init_cookie();
 
-			}
+			add_action( 'wp_logout', array( $this, 'destroy' ) );
+			add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
 
-			// Use PHP SESSION (must be enabled via the LLMS_USE_PHP_SESSIONS constant).
-			add_action( 'init', array( $this, 'maybe_start_session' ), -2 );
-
-		} else {
-
-			require_once plugin_dir_path( LLMS_PLUGIN_FILE ) . 'vendor/ericmann/wp-session-manager/wp-session-manager.php';
-
-			add_filter( 'wp_session_expiration_variant', array( $this, 'set_expiration_variant_time' ), 99999 );
-			add_filter( 'wp_session_expiration', array( $this, 'set_expiration_time' ), 99999 );
-
-		}
-
-		if ( empty( $this->session ) && ! $this->use_php_sessions ) {
-			add_action( 'plugins_loaded', array( $this, 'init' ), -1 );
-		} else {
-			add_action( 'init', array( $this, 'init' ), -1 );
 		}
 
 	}
 
 	/**
-	 * Setup the WP_Session instance.
+	 * Destroys the current session
 	 *
-	 * @since ??
+	 * Removes session data from the database, expires the cookie,
+	 * and resets class variables.
 	 *
-	 * @return array|WP_Session
+	 * @since 4.0.0
+	 *
+	 * @return boolean
 	 */
-	public function init() {
+	public function destroy() {
 
-		if ( $this->use_php_sessions ) {
-			$this->session = isset( $_SESSION[ 'llms' . $this->prefix ] ) && is_array( $_SESSION[ 'llms' . $this->prefix ] ) ? $_SESSION[ 'llms' . $this->prefix ] : array();
-		} else {
-			$this->session = @WP_Session::get_instance();
+		// Delete from DB.
+		$this->delete( $this->get_id() );
+
+		// Reset class vars.
+		$this->id       = '';
+		$this->data     = array();
+		$this->is_clean = true;
+
+		// Destroy the cookie.
+		return llms_setcookie( $this->cookie, '', time() - YEAR_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $this->use_secure_cookie(), true );
+
+	}
+
+	/**
+	 * Retrieve an validate the session cookie
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return false|mixed[]
+	 */
+	protected function get_cookie() {
+
+		$value = isset( $_COOKIE[ $this->cookie ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ $this->cookie ] ) ) : false;
+
+		if ( empty( $value ) || ! is_string( $value ) ) {
+			return false;
 		}
 
-		return $this->session;
-	}
+		/**
+		 * Explode the cookie into it's parts.
+		 *
+		 * @param string|int $0 User ID.
+		 * @param int        $1 Expiration timestamp.
+		 * @param int        $2 Expiration variance timestamp.
+		 * @param string     $3 Cookie hash.
+		 */
+		$parts = explode( '||', $value );
 
-	/**
-	 * Retrieve session ID.
-	 *
-	 * @since ??
-	 *
-	 * @return string Session ID.
-	 */
-	public function get_id() {
-		return $this->session->session_id;
-	}
-
-	/**
-	 * Retrieve a session variable.
-	 *
-	 * @since 1.0.0
-	 * @since 3.37.7 Added the `$default` parameter that represents the default value
-	 *               to return if the session variable requested doesn't exist.
-	 *
-	 * @param string $key     The key of the session variable.
-	 * @param mixed  $default Optional. The default value to return if no session variable is found with the provided key. Default `false`.
-	 * @return mixed
-	 */
-	public function get( $key, $default = false ) {
-		$key = sanitize_key( $key );
-		return isset( $this->session[ $key ] ) ? maybe_unserialize( $this->session[ $key ] ) : $default;
-	}
-
-	/**
-	 * Set a session variable.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $key   The key of the session variable.
-	 * @param string $value The value of the session variable.
-	 * @return mixed
-	 */
-	public function set( $key, $value ) {
-
-		$key = sanitize_key( $key );
-
-		if ( is_array( $value ) ) {
-			$this->session[ $key ] = serialize( $value );
-		} else {
-			$this->session[ $key ] = $value;
+		if ( empty( $parts[0] ) || empty( $parts[3] ) ) {
+			return false;
 		}
 
-		if ( $this->use_php_sessions ) {
+		$hash_str = sprintf( '%1$s|%2$s', $parts[0], $parts[1] );
+		$expected = hash_hmac( 'md5', $hash_str, wp_hash( $hash_str ) );
 
-			$_SESSION[ 'llms' . $this->prefix ] = $this->session;
+		if ( ! hash_equals( $expected, $parts[3] ) ) {
+			return false;
 		}
 
-		return $this->session[ $key ];
+		return $parts;
+
 	}
 
 	/**
-	 * Force the cookie expiration variant time to 23 hours.
+	 * Initialize the session cookie
 	 *
-	 * @since ??
+	 * Retrieves and validates the cookie,
+	 * when there's a valid cookie it will initialize the object
+	 * with data from the cookie. Otherwise it sets up and saves
+	 * a new session and cookie.
 	 *
-	 * @param int $exp Default expiration (1 hour).
-	 * @return int
-	 */
-	public function set_expiration_variant_time( $exp ) {
-		return ( $exp * 30 * 60 * 23 );
-	}
-
-	/**
-	 * Force the cookie expiration time to 24 hours.
-	 *
-	 * @since ??
-	 *
-	 * @param int $exp Default expiration (1 hour).
-	 * @return int
-	 */
-	public function set_expiration_time( $exp ) {
-		return ( 30 * 60 * 24 );
-	}
-
-	/**
-	 * Determine should we use php session or wp.
-	 *
-	 * @since ??
-	 *
-	 * @return bool
-	 */
-	public function use_php_sessions() {
-
-		$ret = false;
-
-		if ( defined( 'LLMS_USE_PHP_SESSIONS' ) && LLMS_USE_PHP_SESSIONS ) {
-			$ret = true;
-		} elseif ( defined( 'LLMS_USE_PHP_SESSIONS' ) && ! LLMS_USE_PHP_SESSIONS ) {
-			$ret = false;
-		}
-
-		return (bool) apply_filters( 'llms_use_php_sessions', $ret );
-	}
-
-	/**
-	 * Starts a new session if one hasn't started yet.
-	 *
-	 * @since ??
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
-	public function maybe_start_session() {
+	protected function init_cookie() {
 
-		if ( ! session_id() && ! headers_sent() ) {
-			session_start();
+		$cookie = $this->get_cookie();
+
+		$set_cookie = false;
+
+		if ( $cookie ) {
+
+			$this->id       = $cookie[0];
+			$this->expires  = $cookie[1];
+			$this->expiring = $cookie[2];
+			$this->data     = $this->read( $this->id );
+
+			// If the user has logged in, update the session data.
+			$update_id = $this->maybe_update_id();
+
+			// If the session is nearing expiration, update the session.
+			$extend_expiration = $this->maybe_extend_expiration();
+
+			// If either of these two items are true, the cookie needs to be updated.
+			$set_cookie = $update_id || $extend_expiration;
+
+		} else {
+
+			$this->id       = $this->generate_id();
+			$this->data     = array();
+			$this->is_clean = false;
+			$set_cookie     = true;
+			$this->set_expiration();
+
 		}
+
+		if ( $set_cookie ) {
+			$this->set_cookie();
+		}
+
 	}
 
 	/**
-	 * __get function.
+	 * Extend the sessions expiration when the session is nearing expiration
 	 *
-	 * @since 1.0.0
+	 * If the user is still active on the site and the cookie is older than the
+	 * "expiring" time but not yet expired, renew the session.
 	 *
-	 * @param string $key The key of the session variable.
-	 * @return mixed
+	 * @since 4.0.0
+	 *
+	 * @return boolean `true` if the expiration was extended, otherwise `false`.
 	 */
-	public function __get( $key ) {
-		return $this->get( $key );
+	protected function maybe_extend_expiration() {
+
+		if ( time() > $this->expiring ) {
+			$this->set_expiration();
+			$this->is_clean = false;
+			return true;
+		}
+
+		return false;
+
 	}
 
 	/**
-	 * __set function.
+	 * Save session data if not clean
 	 *
-	 * @since 1.0.0
+	 * Callback for `shutdown` action hook.
 	 *
-	 * @param string $key   The key of the session variable.
-	 * @param string $value The value of the session variable.
+	 * @since 4.0.0
+	 *
+	 * @return boolean
+	 */
+	public function maybe_save_data() {
+
+		if ( ! $this->is_clean ) {
+			return $this->save( $this->expires );
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Updates the session id when an anonymous visitor logs in.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return boolean `true` if the id was updated, otherwise `false`.
+	 */
+	protected function maybe_update_id() {
+
+		$uid = strval( get_current_user_id() );
+		if ( $uid && $uid !== $this->get_id() ) {
+			$old_id         = $this->get_id();
+			$this->id       = $uid;
+			$this->is_clean = false;
+			$this->delete( $old_id );
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Determines if the cookie and related save/destroy handler actions should be initialized
+	 *
+	 * When doing CRON or when on the admin panel we don't want to load, otherwise we do.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return boolean
+	 */
+	protected function should_init() {
+
+		$init = ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( is_admin() && ! wp_doing_ajax() ) ? false : true;
+
+		/**
+		 * Filter whether or not session cookies and related hooks are initialized
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param boolean $init Whether or not initialization should take place.
+		 */
+		return apply_filters( 'llms_session_should_init', $init );
+
+	}
+
+	/**
+	 * Set the cookie
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return boolean
+	 */
+	protected function set_cookie() {
+
+		$hash_str = sprintf( '%1$s|%2$s', $this->get_id(), $this->expires );
+		$hash     = hash_hmac( 'md5', $hash_str, wp_hash( $hash_str ) );
+		$value    = sprintf( '%1$s||%2$d||%3$d||%4$s', $this->get_id(), $this->expires, $this->expiring, $hash );
+
+		// There's no cookie set or the existing cookie needs to be updated.
+		if ( ! isset( $_COOKIE[ $this->cookie ] ) || $_COOKIE[ $this->cookie ] !== $value ) {
+
+			return llms_setcookie( $this->cookie, $value, $this->expires, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $this->use_secure_cookie(), true );
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Set cookie expiration and expiring timestamps
+	 *
+	 * @since 4.0.0
+	 *
 	 * @return void
 	 */
-	public function __set( $key, $value ) {
-		$this->set( $key, $value );
+	protected function set_expiration() {
+
+		/**
+		 * Filter the lifespan of user session data
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param int $duration Lifespan of session data, in seconds.
+		 */
+		$duration = (int) apply_filters( 'llms_session_data_expiration_duration', HOUR_IN_SECONDS * 6 );
+
+		/**
+		 * Filter the user session lifespan variance
+		 *
+		 * This is subtracted from the session cookie expiration to determine it's "expiring" timestamp.
+		 *
+		 * When an active session passes it's expiring timestamp but has not yet passed it's expiration timestamp
+		 * the session data will be extended and the data session will not be destroyed.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param int $duration Lifespan of session data, in seconds.
+		 */
+		$variance = (int) apply_filters( 'llms_session_data_expiration_variance', HOUR_IN_SECONDS );
+
+		$this->expires  = time() + $duration;
+		$this->expiring = $this->expires - $variance;
+
 	}
 
 	/**
-	 * __isset function.
+	 * Determine if a secure cookie should be used.
 	 *
-	 * @since 1.0.0
+	 * @since 4.0.0
 	 *
-	 * @param string $key The key of the session variable.
-	 * @return bool
+	 * @return boolean
 	 */
-	public function __isset( $key ) {
-		return isset( $this->session[ sanitize_title( $key ) ] );
-	}
+	protected function use_secure_cookie() {
 
-	/**
-	 * __unset function.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $key The key of the session variable.
-	 * @return void
-	 */
-	public function __unset( $key ) {
-		if ( isset( $this->session[ $key ] ) ) {
-			unset( $this->session[ $key ] );
-		}
+		$secure = llms_is_site_https() && is_ssl();
+
+		/**
+		 * Determine whether or not a secure cookie should be used for user session data
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param boolean $secure Whether or not a secure cookie should be used.
+		 */
+		return apply_filters( 'llms_session_use_secure_cookie', $secure );
+
 	}
 
 }

@@ -2,7 +2,7 @@
 /**
  * WP Async Request
  *
- * @package WP-Background-Processing
+ * @package LifterLMS/Libraries/WPBackgroundProcessing/Classes
  *
  * @since Unknown
  * @version 2017-02-10

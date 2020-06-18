@@ -2,9 +2,16 @@
 /**
  * LifterLMS Coupon Model
  *
- * @package  LifterLMS/Models
- * @since    3.0.0
- * @version  3.24.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.0.0
+ * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Coupon model.
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -16,13 +23,10 @@
  * @property  $plan_type  (string)  Determine the type of plans the coupon can be used with . [any|one-time|recurring]
  * @property  $title  (string)  Coupon Code / Post Title
  * @property  $trial_amount  (float)  Amount to subtract from the trial price when using the coupon. Used with $discount_type to determine the type of discount
- * @property  $usage_limit  (int)  Amount of times the coupon can be used
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Coupon model.
+ * @property  $usage_limit  (int)  Amount of times the coupon can be used.
+ *
+ * @since 3.0.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Coupon extends LLMS_Post_Model {
 

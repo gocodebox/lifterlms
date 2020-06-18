@@ -2,6 +2,8 @@
 /**
  * bbPress Integration
  *
+ * @package LifterLMS/Integrations/Classes
+ *
  * @since 3.0.0
  * @version 3.38.1
  */

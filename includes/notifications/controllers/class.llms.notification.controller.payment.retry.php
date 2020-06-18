@@ -1,13 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Payment Retry Scheduled
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.10.0
+ * @version 3.10.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Payment Retry Scheduled
  *
- * @since    3.10.0
- * @version  3.10.0
+ * @since 3.10.0
  */
 class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notification_Controller {
 

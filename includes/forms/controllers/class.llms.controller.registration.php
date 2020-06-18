@@ -1,11 +1,20 @@
 <?php
+/**
+ * User Registration Forms
+ *
+ * @package LifterLMS/Forms/Controllers/Classes
+ *
+ * @since 3.0.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * User Registration Forms (excludes checkout registration)
  *
- * @since   3.0.0
- * @version 3.24.0
+ * @since 3.0.0
+ * @version 4.0.0
  */
 class LLMS_Controller_Registration {
 

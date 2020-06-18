@@ -1,11 +1,20 @@
 <?php
+/**
+ * Notification View: Quiz Passed
+ *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.8.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Quiz Passed
  *
- * @since    3.8.0
- * @version  3.24.0
+ * @since 3.8.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View_Quiz_Completion {
 

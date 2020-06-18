@@ -2,6 +2,17 @@
 /**
  * Query LifterLMS Students for a given course / membership
  *
+ * @package LifterLMS/Notifications/Classes
+ *
+ * @since 3.8.0
+ * @version 3.14.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Query LifterLMS Students for a given course / membership
+ *
  * @example
  *   $query = new LLMS_Notifications_Query( array(
  *       'subscriber' => 123, // null
@@ -10,13 +21,9 @@
  *       'types' => 'basic', // array( 'basic', 'email', '...' )
  *   ) );
  *
- * @since    3.8.0
- * @version  3.14.0
+ * @since 3.8.0
+ * @since 3.14.0 Unknown.
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**

@@ -1,8 +1,8 @@
 <?php
 /**
- * Convert LifterLMS Tables to CSVs as a background process
+ * Processor: Table to CSV
  *
- * @package LifterLMS/Classes/Processors
+ * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
  * @version 3.17.8
@@ -12,7 +12,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Processor_Table_To_Csv class.
+ * LLMS_Processor_Table_To_Csv class
+ *
+ * Convert LifterLMS Tables to CSVs as a background process.
  *
  * @since 3.15.0
  * @since 3.17.8 Unknown.

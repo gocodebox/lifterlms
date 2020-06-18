@@ -1,8 +1,8 @@
 <?php
 /**
- * Load, access, and manage LifterLMS Processors
+ * Processors
  *
- * @package LifterLMS/Classes/Processors
+ * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
  * @version 3.15.0
@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Processors class
+ *
+ * Load, access, and manage LifterLMS Processors
  *
  * @since 3.15.0
  */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
+ * @since 4.0.0 Remove JS dependencies "collapse" and "transition".
  */
 class LLMS_Frontend_Assets {
 
@@ -155,6 +156,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 3.36.0 Localize tracking with client-side settings.
+	 * @since 4.0.0 Remove dependencies "collapse" and "transition".
 	 *
 	 * @return void
 	 */
@@ -163,10 +165,6 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'jquery-ui-tooltip' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
-
-		// @todo: these two scripts are probably unsued.
-		wp_enqueue_script( 'collapse', LLMS_PLUGIN_URL . 'assets/js/vendor/collapse.js', array(), '3.3.5' );
-		wp_enqueue_script( 'transition', LLMS_PLUGIN_URL . 'assets/js/vendor/transition.js', array(), '3.3.5' );
 
 		wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.2.15', true );
 

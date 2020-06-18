@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @version 3.21.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ if ( ! empty( $message ) ) {
 
 <?php do_action( 'llms_before_person_login_form' ); ?>
 
-<div class="col-1 llms-person-login-form-wrapper">
+<div class="llms-person-login-form-wrapper">
 
 	<form action="" class="llms-login" method="POST">
 
