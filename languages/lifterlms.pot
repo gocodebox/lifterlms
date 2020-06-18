@@ -56,11 +56,11 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: includes/class-llms-staging.php:50, includes/class.llms.install.php:661, includes/class.llms.install.php:681, includes/admin/class.llms.admin.notices.php:222, includes/admin/class.llms.admin.page.status.php:40, includes/admin/class.llms.admin.page.status.php:236
+#: includes/class-llms-staging.php:50, includes/class.llms.install.php:673, includes/class.llms.install.php:693, includes/admin/class.llms.admin.notices.php:222, includes/admin/class.llms.admin.page.status.php:40, includes/admin/class.llms.admin.page.status.php:236
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class-llms-staging.php:53, includes/class.llms.install.php:665, includes/class.llms.install.php:685, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class-llms-admin-export-download.php:58, includes/admin/class.llms.admin.notices.php:225
+#: includes/class-llms-staging.php:53, includes/class.llms.install.php:677, includes/class.llms.install.php:697, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class-llms-admin-export-download.php:58, includes/admin/class.llms.admin.notices.php:225
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -265,38 +265,38 @@ msgstr ""
 msgid "The supplied generator is invalid."
 msgstr ""
 
-#: includes/class.llms.install.php:284, includes/admin/class.llms.admin.setup.wizard.php:362, includes/admin/settings/class.llms.settings.courses.php:100
+#: includes/class.llms.install.php:289, includes/admin/class.llms.admin.setup.wizard.php:362, includes/admin/settings/class.llms.settings.courses.php:100
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:290, includes/admin/class.llms.admin.setup.wizard.php:366
+#: includes/class.llms.install.php:295, includes/admin/class.llms.admin.setup.wizard.php:366
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:296
+#: includes/class.llms.install.php:301
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:302, includes/class.llms.student.dashboard.php:153, includes/admin/class.llms.admin.builder.php:51
+#: includes/class.llms.install.php:307, includes/class.llms.student.dashboard.php:153, includes/admin/class.llms.admin.builder.php:51
 msgid "Dashboard"
 msgstr ""
 
-#: includes/class.llms.install.php:411
+#: includes/class.llms.install.php:420
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:412
+#: includes/class.llms.install.php:421
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:413
+#: includes/class.llms.install.php:422
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:745
+#: includes/class.llms.install.php:757
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
