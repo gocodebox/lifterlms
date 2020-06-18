@@ -14,4 +14,8 @@ export { fillField } from './fill-field';
 
 export { loginStudent } from './login-student';
 export { logoutUser } from './logout-user';
+
+export { runSetupWizard } from './run-setup-wizard';
+
 export { visitPage } from './visit-page';
+export { visitSettingsPage } from './visit-settings-page';
