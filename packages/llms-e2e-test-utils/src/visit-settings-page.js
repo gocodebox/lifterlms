@@ -6,7 +6,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
 /**
  * Visit a LifterLMS Settings Page on the admin panel
  *
- * @since [version]
+ * @since 2.1.0
  *
  * @param {Object} args {
  *     Settings page options.

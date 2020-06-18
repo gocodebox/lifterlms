@@ -6,7 +6,7 @@ const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
 /**
  * Retrieve the Setup Wizard Page Title.
  *
- * @since [version]
+ * @since 2.1.0
  *
  * @return {String}
  */
@@ -17,7 +17,7 @@ const getTitle = async function() {
 /**
  * Run (and test) the LifterLMS Setup Wizard
  *
- * @since [version]
+ * @since 2.1.0
  *
  * @return {void}
  */
