@@ -672,9 +672,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Record the attempt as started
 	 *
-	 * @return   obj             $this for chaining
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return LLMS_Quiz_Attempt Instance of the current quiz attempt object.
 	 */
 	public function start() {
 
@@ -687,9 +687,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the private data array
 	 *
-	 * @return   array
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return array
 	 */
 	public function to_array() {
 		return $this->data;
