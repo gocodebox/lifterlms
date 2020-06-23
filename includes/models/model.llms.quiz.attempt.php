@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.24.0 Unknown.
  * @since 3.29.0 Unknown.
  * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
+ *              Fix issue encountered when answering a question incorrectly after initially answering it correctly.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -86,31 +87,37 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Answer a question
-	 * records the selected option and whether or not the selected option was the correct option
+	 *
+	 * Records the selected option and whether or not the selected option was the correct option.
+	 *
 	 * Automatically updates & saves the attempt to the database
 	 *
-	 * @param    int $question_id  WP_Post ID of the LLMS_Question
-	 * @param    int $answer       index/key of the selected answer option
-	 *                             as found in the array of options retrieved by LLMS_Question->get_options()
-	 * @return   $this
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Updated to accommodate quiz builder improvements.
+	 * @since [version] Explicitly set earned points to `0` when answering incorrectly.
+	 *              Exit the loop as soon as we find our question.
+	 *              Use strict comparison for IDs.
+	 *
+	 * @param int      $question_id WP_Post ID of the LLMS_Question.
+	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
+	 * @return LLMS_Quiz_Attempt Instance of the current attempt.
 	 */
 	public function answer_question( $question_id, $answer ) {
 
 		$questions = $this->get_questions();
 
 		foreach ( $questions as $key => $data ) {
-			if ( $question_id != $data['id'] ) {
+
+			if ( absint( $question_id ) !== absint( $data['id'] ) ) {
 				continue;
 			}
+
 			$question                     = llms_get_post( $question_id );
 			$graded                       = $question->grade( $answer );
 			$questions[ $key ]['answer']  = $answer;
 			$questions[ $key ]['correct'] = $graded;
-			if ( llms_parse_bool( $graded ) ) {
-				$questions[ $key ]['earned'] = $questions[ $key ]['points'];
-			}
+			$questions[ $key ]['earned']  = llms_parse_bool( $graded ) ? $questions[ $key ]['points'] : 0;
+
 			break;
 		}
 
