@@ -88,7 +88,7 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:567, includes/class.llms.ajax.handler.php:630, includes/class.llms.ajax.handler.php:700, includes/class.llms.template.loader.php:386
+#: includes/class.llms.ajax.handler.php:567, includes/class.llms.ajax.handler.php:630, includes/class.llms.ajax.handler.php:700, includes/class.llms.template.loader.php:390
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -2516,8 +2516,12 @@ msgstr ""
 msgid "Order History"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:376
+#: includes/class.llms.template.loader.php:380
 msgid "You must be enrolled in the course to access this quiz."
+msgstr ""
+
+#: includes/class.llms.template.loader.php:567
+msgid "This content is restricted"
 msgstr ""
 
 #: includes/class.llms.view.manager.php:102
