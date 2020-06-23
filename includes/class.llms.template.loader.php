@@ -525,9 +525,11 @@ class LLMS_Template_Loader {
 	 *
 	 * @since [version]
 	 *
+	 * @param WP_Post  &$post  Post Object, passed by reference.
+	 * @param WP_Query &$query Query object, passed by reference.
 	 * @return void
 	 */
-	public function maybe_restrict_post_content( $post, $query ) {
+	public function maybe_restrict_post_content( &$post, &$query ) {
 		/**
 		 * Filters the post types that must be skipped.
 		 *
