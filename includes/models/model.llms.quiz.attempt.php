@@ -411,7 +411,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$questions[ $inc[ $perm ] ] = $swap;
 				}
 			}
-		}// End if().
+		}
 
 		return $questions;
 
@@ -652,16 +652,17 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Set the status of the attempt
 	 *
-	 * @param    string  $status   status value
-	 * @param    boolean $save     if true, immediately persists to database
-	 * @return   self
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Use strict comparisons.
+	 *
+	 * @param string  $status Status value.
+	 * @param boolean $save   If `true`, immediately persists to database.
+	 * @return false|LLMS_Quiz_Attempt
 	 */
 	public function set_status( $status, $save = false ) {
 
 		$statuses = array_keys( llms_get_quiz_attempt_statuses() );
-		if ( ! in_array( $status, $statuses ) ) {
+		if ( ! in_array( $status, $statuses, true ) ) {
 			return false;
 		}
 		return $this->set( 'status', $status );
