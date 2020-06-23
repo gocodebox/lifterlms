@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.41.0
+Stable tag: 3.41.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,12 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.41.1 - 2020-06-23 =
+------------------------
+
++ Apply restrictions to post content and excerpts during WP REST requests.
+
+
 = v3.41.0 - 2020-06-12 =
 ------------------------
 
@@ -731,11 +737,5 @@ The following template file is deprecated:
 + `LLMS_PlayNice::wc_is_account_page()` is no longer required and is deprecated with no replacement
 + WP core `get_password_reset_key()` should be used in favor of `llms_set_user_password_rest_key()`.
 + WP core `check_password_reset_key()` should be used in favor of `llms_verify_password_reset_key()`.
-
-
-= v3.37.16 - 2020-03-31 =
--------------------------
-
-+ Bugfix: Fix issue causing student dashboard notification view to work incorrectly.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -6,7 +6,7 @@
  *
  * @group template_loader
  *
- * @since [version]
+ * @since 3.41.1
  */
 class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
@@ -22,7 +22,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 *
 	 * Used by `test_maybe_restrict_post_content_restricted_by_other()` method.
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @param array $restrictions Restriction data array from `llms_page_restricted()`.
 	 * @param int   $post_id      WP_Post ID.
@@ -41,7 +41,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a WP_Post object for restriction-related tests.
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @param string $post_type Post type to be created.
 	 * @return WP_Post
@@ -57,7 +57,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Assertion helper for restriction-related tests.
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @param WP_Post $post    Post object
 	 * @param string  $content Expected post_content string.
@@ -74,7 +74,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): for a skipped post type.
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): for a valid post type that's not restricted
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): for a post restricted by a membership (when not accessible by the user)
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): for a post restricted by a membership that is accessible by the user
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_restrict_post_content(): for a custom restriction applied via filter by a 3rd party.
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */

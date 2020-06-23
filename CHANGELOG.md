@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.41.1 - 2020-06-23
+--------------------
+
++ Apply restrictions to post content and excerpts during WP REST requests.
+
+
 v3.41.0 - 2020-06-12
 --------------------
 

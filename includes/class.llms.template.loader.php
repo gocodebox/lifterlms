@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.41.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.20.0 Unknown.
  * @since 3.37.2 Notices are printed on sales pages too.
  * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
- * @since [version] Fixed content membership restricted post's content not restricted in REST requests.
+ * @since 3.41.1 Fixed content membership restricted post's content not restricted in REST requests.
  */
 class LLMS_Template_Loader {
 
@@ -26,7 +26,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 1.0.0
 	 * @since 3.20.0 Unknown.
-	 * @since [version] Predispose posts content restriction in REST requests.
+	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 */
 	public function __construct() {
 
@@ -511,7 +511,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Maybe restrict the post content in REST requets
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @return void
 	 */
@@ -523,7 +523,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Maybe restrict the post content in the REST loop
 	 *
-	 * @since [version]
+	 * @since 3.41.1
 	 *
 	 * @param WP_Post  &$post  Post Object, passed by reference.
 	 * @param WP_Query &$query Query object, passed by reference.
@@ -535,7 +535,7 @@ class LLMS_Template_Loader {
 		 *
 		 * The LifterLMS post types content restriction should be handled by the LifterLMS rest-api.
 		 *
-		 * @since [version]
+		 * @since 3.41.1
 		 *
 		 * @param string[] $post_types The array of post types to skip.
 		 */
@@ -586,7 +586,7 @@ class LLMS_Template_Loader {
 			 *
 			 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
 			 *
-			 * @since [version]
+			 * @since 3.41.1
 			 *
 			 * @param string $message     Restriction message.
 			 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
