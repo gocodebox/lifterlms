@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.41.1 - 2020-06-23 =
+------------------------
+
++ Apply restrictions to post content and excerpts during WP REST requests.
+
+
 = v3.41.0 - 2020-06-12 =
 ------------------------
 
@@ -217,9 +223,3 @@ The following template file is deprecated:
 + `LLMS_PlayNice::wc_is_account_page()` is no longer required and is deprecated with no replacement
 + WP core `get_password_reset_key()` should be used in favor of `llms_set_user_password_rest_key()`.
 + WP core `check_password_reset_key()` should be used in favor of `llms_verify_password_reset_key()`.
-
-
-= v3.37.16 - 2020-03-31 =
--------------------------
-
-+ Bugfix: Fix issue causing student dashboard notification view to work incorrectly.
