@@ -3,7 +3,7 @@
  *
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
- * @since [version] Use `runSetupWizard()`.
+ * @since 4.0.0-rc.1 Use `runSetupWizard()`.
  */
 
 import { runSetupWizard } from '@lifterlms/llms-e2e-test-utils';

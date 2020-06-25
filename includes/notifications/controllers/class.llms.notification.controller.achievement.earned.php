@@ -1,13 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Achievement Earned
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.8.0
+ * @version 3.8.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Achievement Earned
  *
- * @since    3.8.0
- * @version  3.8.0
+ * @since 3.8.0
  */
 class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Notification_Controller {
 

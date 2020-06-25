@@ -1,10 +1,47 @@
 <?php
 /**
  * Test LifterLMS Shortcodes
- * @since    3.4.3
- * @version  3.24.1
+ *
+ * @package  LifterLMS/Tests
+ *
+ * @group shortcodes
+ *
+ * @since 3.4.3
+ * @since 3.24.1 Unknown.
+ * @since 4.0.0 Add tests for `get_course_id()` method.
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
+
+	/**
+	 * Test the private get_course_id() method used by various legacy shortcodes.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_course_id() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'questions' => 1 ) );
+
+		$course_id = $course->get( 'id' );
+
+		// On course.
+		$this->go_to( get_permalink( $course_id ) );
+		$this->assertTrue( is_course() );
+		$this->assertEquals( $course_id, LLMS_Unit_Test_Util::call_method( 'LLMS_Shortcodes', 'get_course_id' ) );
+
+		// On lesson.
+		$lesson = $course->get_lessons()[0];
+		$this->go_to( get_permalink( $lesson->get( 'id' ) ) );
+		$this->assertTrue( is_lesson() );
+		$this->assertEquals( $course_id, LLMS_Unit_Test_Util::call_method( 'LLMS_Shortcodes', 'get_course_id' ) );
+
+		// On quiz.
+		$this->go_to( get_permalink( $lesson->get( 'quiz' ) ) );
+		$this->assertTrue( is_quiz() );
+		$this->assertEquals( $course_id, LLMS_Unit_Test_Util::call_method( 'LLMS_Shortcodes', 'get_course_id' ) );
+
+	}
 
 	/**
 	 * Generic tests and a few tests on the abstract

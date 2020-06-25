@@ -2,6 +2,8 @@
 /**
  * Notification Controller: Student Welcome
  *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
  * @since 3.8.0
  * @version 3.39.0
  */

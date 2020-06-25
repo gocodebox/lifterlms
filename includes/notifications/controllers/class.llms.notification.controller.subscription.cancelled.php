@@ -1,20 +1,26 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Subscription Cancelled (by Student)
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.17.8
+ * @version 3.17.8
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Subscription Cancelled (by Student)
  *
- * @since    3.17.8
- * @version  3.17.8
+ * @since 3.17.8
  */
 class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var [type]
 	 */
 	public $id = 'subscription_cancelled';
 

@@ -13,10 +13,7 @@
     <exclude-pattern>packages/</exclude-pattern>
 
     <!-- Exclude deprecated/legacy files -->
-    <exclude-pattern>includes/admin/analytics/*.php</exclude-pattern>
-    <exclude-pattern>includes/class.llms.analytics.php</exclude-pattern>
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
-    <exclude-pattern>includes/admin/class.llms.admin.analytics.php</exclude-pattern>
 
 	<!-- Don't throw errors for this 3rd party library file -->
 	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
@@ -31,9 +28,8 @@
 		<!-- @todo: Fix docs and comments to adhere to these rules -->
 		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
 		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
-		<exclude name="Generic.Commenting.DocComment.MissingShort" />
 
-		<exclude name="Generic.Commenting.DocComment.LongNotCapital" />
+		<exclude name="Generic.Commenting.DocComment.MissingShort" />
 		<exclude name="Generic.Commenting.DocComment.ShortNotCapital" />
 
 		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
@@ -73,43 +69,22 @@
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 	<rule ref="Squiz.Commenting.FileComment">
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 	<rule ref="Squiz.Commenting.ClassComment.Missing">
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">

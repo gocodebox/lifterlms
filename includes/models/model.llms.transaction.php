@@ -2,8 +2,16 @@
 /**
  * LifterLMS Order Model
  *
+ * @package LifterLMS/Models/Classes
+ *
  * @since  3.0.0
  * @version 3.37.6
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Transaction model class
  *
  * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $amount  (float)  Transaction charge amount
@@ -21,12 +29,6 @@
  * @property   $refund_amount  (float)  Amount refunded, will always be 0 until a refund is actually recorded
  * @property   $refund_data  (array)  Array of arrays. Contains refund data for each refund recorded for this transaction.
  * @property   $title  (string)  Post Title
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Transaction model.
  *
  * @since 3.0.0
  * @since 3.37.6 Transaction creation date is now specified using `llms_current_time()`.

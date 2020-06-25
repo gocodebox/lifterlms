@@ -1,9 +1,13 @@
 <?php
 /**
- * Tests for the LLMS_Install Class
- * @group    quizzes
- * @since    3.9.0
- * @version  3.17.4
+ * Tests LLMS_Quiz_Attempt model.
+ *
+ * @group quizzes
+ * @group quiz_attempt
+ *
+ * @since 3.9.0
+ * @since 3.17.4 Unknown.
+ * @since 4.0.0 Add tests for the answer_question() method.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -27,6 +31,32 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		$attempt = LLMS_Quiz_Attempt::init( $qid, $lid, $uid );
 		$attempt->save();
 		return $attempt;
+
+	}
+
+	/**
+	 * Retrieve the first incorrect choice for a given question.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param LLMS_Question|WP_Post|int $question Question object, WP_Post object for a question post, or WP_Post ID of the question.
+	 * @return LLMS_Question_Choice
+	 */
+	private function get_incorrect_choice( $question ) {
+
+		$question = is_a( $question, 'LLMS_Question' ) ? $question : llms_get_post( $question );
+
+		foreach ( $question->get_choices() as $choice ) {
+
+			if ( $choice->is_correct() ) {
+				continue;
+			}
+
+			return array(
+				$choice->get( 'id' ),
+			);
+
+		}
 
 	}
 
@@ -63,7 +93,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 			$answer_type = ( $current_question <= $to_answer_correctly );
 
-			// answer correctly until we don't have to anymore
+			// Answer correctly until we don't have to anymore.
 			foreach( $question->get_choices() as $key => $choice ) {
 				if ( $answer_type === $choice->is_correct() ) {
 					$attempt->answer_question( $question_id, array( $choice->get( 'id' ) ) );
@@ -81,7 +111,89 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	}
 
+	public function test_answer_question_correctly() {
 
+		$attempt   = $this->get_mock_attempt();
+		$questions = wp_list_pluck( $attempt->get_questions(), 'id' );
+		$question  = llms_get_post( $questions[0] );
+		$correct   = $question->get_correct_choice();
+
+		// Answer question.
+		$attempt = $attempt->answer_question( $questions[0], $correct );
+
+		$this->assertTrue( is_a( $attempt, 'LLMS_Quiz_Attempt' ) );
+
+		$res = $attempt->get_questions()[0];
+
+		$this->assertEquals( $res['points'], $res['earned'] );
+		$this->assertEquals( 'yes', $res['correct'] );
+		$this->assertEquals( $correct, $res['answer'] );
+
+
+		/**
+		 * Answer the question again to simulate a user going back to change their answer.
+		 *
+		 * @see https://github.com/gocodebox/lifterlms/issues/1211
+		 */
+		$incorrect = $this->get_incorrect_choice( $question );
+		$attempt->answer_question( $questions[0], $incorrect );
+
+		$res = $attempt->get_questions()[0];
+
+		$this->assertEquals( 0, $res['earned'] );
+		$this->assertEquals( 'no', $res['correct'] );
+		$this->assertEquals( $incorrect, $res['answer'] );
+
+	}
+
+	/**
+	 * Test answer_question() when supplying a correct answer
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	public function test_answer_question_incorrectly() {
+
+		$attempt   = $this->get_mock_attempt();
+		$questions = wp_list_pluck( $attempt->get_questions(), 'id' );
+		$question  = llms_get_post( $questions[0] );
+		$correct   = $question->get_correct_choice();
+
+		// Answer question.
+		$incorrect = $this->get_incorrect_choice( $question );
+		$attempt = $attempt->answer_question( $questions[0], $incorrect );
+
+		$res = $attempt->get_questions()[0];
+
+		$this->assertEquals( 0, $res['earned'] );
+		$this->assertEquals( 'no', $res['correct'] );
+		$this->assertEquals( $incorrect, $res['answer'] );
+
+		/**
+		 * Answer the question again to simulate a user going back to change their answer.
+		 *
+		 * @see https://github.com/gocodebox/lifterlms/issues/1211
+		 */
+		$attempt->answer_question( $questions[0], $correct );
+
+		$this->assertTrue( is_a( $attempt, 'LLMS_Quiz_Attempt' ) );
+
+		$res = $attempt->get_questions()[0];
+
+		$this->assertEquals( $res['points'], $res['earned'] );
+		$this->assertEquals( 'yes', $res['correct'] );
+		$this->assertEquals( $correct, $res['answer'] );
+
+	}
+
+	/**
+	 * Test answer_question() when supplying an incorrect answer
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
 	public function test_grading_with_floats() {
 
 		$attempt = $this->get_mock_attempt( 6 );

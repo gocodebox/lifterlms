@@ -2,22 +2,23 @@
 /**
  * LifterLMS Membership Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 3.38.1
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Membership model.
+ * LLMS_Membership model class
  *
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
  * @since 3.32.0 Added `get_student_count()` method.
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
+ * @since 4.0.0 Added MySQL 8.0 compatibility.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -344,6 +345,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Performs a WPDB query to retrieve posts associated with the membership
 	 *
 	 * @since 3.38.1
+	 * @since 4.0.0 Escape `{` character in SQL query to add MySQL 8.0 support.
 	 *
 	 * @see LLMS_Membesrhip::get_associated_posts()
 	 *
@@ -382,7 +384,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 					$enabled_key,
 					$enabled_value,
 					$list_key,
-					'a:[0-9][0-9]*:{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . $this->get( 'id' ) . '"?;)'
+					'a:[0-9][0-9]*:\{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . $this->get( 'id' ) . '"?;)'
 				)
 			);
 

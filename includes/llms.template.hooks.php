@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version 3.38.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
  */
 add_action( 'lifterlms_before_main_content', 'lifterlms_output_content_wrapper', 10 );
 add_action( 'lifterlms_after_main_content', 'lifterlms_output_content_wrapper_end', 10 );
-
 
 /**
  * Single Course
@@ -43,7 +42,6 @@ add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
 
-
 /**
  * Single Lesson
  *
@@ -56,7 +54,6 @@ add_action( 'lifterlms_single_lesson_before_summary', 'lifterlms_template_single
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_complete_lesson_link', 10 );
 add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_navigation', 20 );
 
-
 /**
  * Course & Membership Loops
  *
@@ -66,7 +63,6 @@ add_action( 'lifterlms_archive_description', 'lifterlms_archive_description', 10
 add_action( 'lifterlms_before_loop', 'lifterlms_loop_start', 10 );
 add_action( 'lifterlms_loop', 'lifterlms_loop', 10 );
 add_action( 'lifterlms_after_loop', 'lifterlms_loop_end', 10 );
-
 
 /**
  * Course & Membership Loop Items
@@ -86,7 +82,6 @@ add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_difficul
 
 add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 
-
 /**
  * Emails
  *
@@ -95,7 +90,6 @@ add_action( 'lifterlms_after_loop_item', 'lifterlms_loop_link_end', 5 );
 add_action( 'lifterlms_email_header', 'llms_email_header', 10, 1 );
 add_action( 'lifterlms_email_body', 'llms_email_body', 10, 1 );
 add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
-
 
 /**
  * Pricing Tables
@@ -116,7 +110,6 @@ add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_trial', 10 );
 add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_button', 20 );
 
 add_action( 'lifterlms_product_not_purchasable', 'llms_template_product_not_purchasable', 10 );
-
 
 /**
  * Privacy
@@ -143,7 +136,6 @@ add_action( 'lifterlms_single_quiz_before_summary', 'lifterlms_template_quiz_met
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_quiz_wrapper_end', 5 );
 add_action( 'lifterlms_single_quiz_after_summary', 'lifterlms_template_start_button', 10 );
 
-
 /**
  * Questions
  *
@@ -157,7 +149,6 @@ add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_vi
 add_action( 'lifterlms_single_question_content', 'lifterlms_template_question_content', 40 );
 
 add_action( 'lifterlms_single_question_after_summary', 'lifterlms_template_question_wrapper_end', 10 );
-
 
 /**
  * Student Dashboard
@@ -182,20 +173,25 @@ add_action( 'llms_my_grades_course_table', 'lifterlms_template_student_dashboard
 
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
-
 /**
- * Memberships
+ * Single Membership
  *
  * @since Unknown
  */
-add_action( 'lifterlms_before_memberships_loop_item_title', 'lifterlms_template_loop_course_thumbnail', 10 );
-add_action( 'lifterlms_after_memberships_loop_item_title', 'lifterlms_template_loop_price', 10 );
-add_action( 'lifterlms_after_memberships_loop_item_title', 'lifterlms_template_loop_view_link', 10 );
-
 add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pricing_table', 10 );
 
+/**
+ * Sidebar
+ *
+ * LifterLMS *does not* automatically output sidebars on course
+ * and membership catalogs.
+ *
+ * But there is a "stub" that themes (or other plugins) can utilize
+ * in order to add a sidebar to the catalogs.
+ *
+ * @since Unknown
+ */
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
-
 
 if ( ! is_admin() ) {
 	add_filter( 'post_class', 'llms_post_classes', 20, 3 );

@@ -1,20 +1,26 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Manual Gateway Payment Due
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.10.0
+ * @version 3.10.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Manual Gateway Payment Due
  *
- * @since    3.10.0
- * @version  3.10.0
+ * @since 3.10.0
  */
 class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var [type]
 	 */
 	public $id = 'manual_payment_due';
 

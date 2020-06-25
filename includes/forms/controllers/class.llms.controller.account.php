@@ -2,7 +2,7 @@
 /**
  * User Account Edit Forms
  *
- * @param LifterLMS/Classes/Forms/Controllers
+ * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
  * @version 3.37.17

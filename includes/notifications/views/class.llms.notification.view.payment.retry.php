@@ -1,13 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification View: Payment Retry
+ *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.10.0
+ * @version 3.10.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification View: Purchase Receipt
+ * Notification View: Payment Retry
  *
- * @since    3.10.0
- * @version  3.10.0
+ * @since 3.10.0
  */
 class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_View {
 

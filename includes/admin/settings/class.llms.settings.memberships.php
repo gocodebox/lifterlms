@@ -20,7 +20,11 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 	/**
 	 * Constructor
 	 *
-	 * executes settings tab actions
+	 * Executes settings tab actions.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 

@@ -8304,15 +8304,20 @@ define( 'Views/LessonEditor',[
 } );
 
 /**
- * Single Quiz View
+ * Popover View
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ * @version 4.0.0
  */
 define( 'Views/Popover',[], function() {
 
 	return Backbone.View.extend( {
 
+		/**
+		 * Default Properties
+		 *
+		 * @type {Object}
+		 */
 		defaults: {
 			placement: 'auto',
 			// container: document.body,
@@ -8331,16 +8336,17 @@ define( 'Views/Popover',[], function() {
 		/**
 		 * Wrapper Tag name
 		 *
-		 * @type  {String}
+		 * @type {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 *
-		 * @return   void
-		 * @since    3.14.1
-		 * @version  3.14.1
+		 * @since 3.14.1
+		 * @since 4.0.0 Add RTL support for popovers.
+		 *
+		 * @return void
 		 */
 		initialize: function( data ) {
 
@@ -8349,6 +8355,18 @@ define( 'Views/Popover',[], function() {
 			}
 
 			this.args = _.defaults( data.args, this.defaults );
+
+			// Reverse directions for RTL sites.
+			if ( $( 'body' ).hasClass( 'rtl' ) ) {
+
+				if ( -1 !== this.args.placement.indexOf( 'left' ) ) {
+					this.args.placement = this.args.placement.replace( 'left', 'right' );
+				} else if ( -1 !== this.args.placement.indexOf( 'right' ) ) {
+					this.args.placement = this.args.placement.replace( 'right', 'left' );
+				}
+
+			}
+
 			this.render();
 
 		},
@@ -8356,9 +8374,9 @@ define( 'Views/Popover',[], function() {
 		/**
 		 * Compiles the template and renders the view
 		 *
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Object} Instance of the Backbone.view.
 		 */
 		render: function() {
 
@@ -8370,9 +8388,10 @@ define( 'Views/Popover',[], function() {
 		/**
 		 * Hide the popover
 		 *
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @since 3.16.0
+		 * @since 3.16.12 Unknown.
+		 *
+		 * @return {Object} Instance of the Backbone.view.
 		 */
 		hide: function() {
 
@@ -8384,9 +8403,10 @@ define( 'Views/Popover',[], function() {
 		/**
 		 * Show the popover
 		 *
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @since 3.16.0
+		 * @since 3.16.12 Unknown.
+		 *
+		 * @return {Object} Instance of the Backbone.view.
 		 */
 		show: function() {
 
