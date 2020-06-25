@@ -2,7 +2,7 @@
 /**
  * Manage Theme Support classes
  *
- * @package  LifterLMS/Classes/ThemeSupport
+ * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
  * @version 3.37.0

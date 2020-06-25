@@ -2,8 +2,10 @@
 /**
  * bbPress Integration
  *
+ * @package LifterLMS/Integrations/Classes
+ *
  * @since 3.0.0
- * @version 3.38.1
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.11 Don't update saved forum values during course quick edits.
  * @since 3.38.1 When looking for forum course restrictions make sure to run a more generic query
  *               so that it matches forum ids whether they've been save as integers or strings.
+ * @since 4.0.0 Added MySQL 8.0 compatibility.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -241,8 +244,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check if a forum is restricted to a course(s)
 	 *
 	 * @since 3.12.0
-	 * @since 3.38.1 Make the query more generic so that it matches forum ids whether they've been saved
-	 *               as integers or strings.
+	 * @since 3.38.1 Make the query more generic so that it matches forum ids whether they've been saved as integers or strings.
+	 * @since 4.0.0 Escape `{` character in SQL query to add MySQL 8.0 support.
 	 *
 	 * @param int $forum_id WP_Post ID of the forum.
 	 * @return int[]
@@ -258,7 +261,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			 WHERE metas.meta_key = '_llms_bbp_forum_ids'
 			   AND metas.meta_value REGEXP %s
 			   AND posts.post_status = 'publish';",
-				'a:[0-9][0-9]*:{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . sprintf( '%d', absint( $forum_id ) ) . '"?;)'
+				'a:[0-9][0-9]*:\{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . sprintf( '%d', absint( $forum_id ) ) . '"?;)'
 			)
 		);
 

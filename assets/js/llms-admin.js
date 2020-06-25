@@ -158,7 +158,7 @@
 
 	};
 
-	// Automatically setup any select with the `llms-posts-select2` class.
+	// automatically setup any select with the `llms-posts-select2` class
 	$( 'select.llms-posts-select2' ).llmsPostsSelect2();
 
 	/**
@@ -306,4 +306,3 @@
 	};
 
 } )( jQuery );
-

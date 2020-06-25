@@ -1,11 +1,20 @@
 <?php
+/**
+ * Notification Controller: Transaction Success
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.8.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Transaction Success
  *
- * @since    3.8.0
- * @version  3.24.0
+ * @since 3.8.0
+ * @since 3.24.0 Unknown
  */
 class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notification_Controller {
 

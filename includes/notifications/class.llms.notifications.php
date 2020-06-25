@@ -1,7 +1,6 @@
 <?php
 /**
  * LifterLMS Notifications Management and Interface
- * Loads and allows interactions with notification views, controllers, and processors
  *
  * @package LifterLMS/Notifications/Classes
  *
@@ -13,7 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Notifications Management and Interface
- * Loads and allows interactions with notification views, controllers, and processors
+ *
+ * Loads and allows interactions with notification views, controllers, and processors.
  *
  * @since 3.8.0
  * @since 3.24.0 Unknown.

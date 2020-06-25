@@ -2,15 +2,23 @@
 /**
  * Quiz Attempt Model
  *
- * @package LifterLMS/Models
- * @since   3.9.0
- * @version 3.29.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.9.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Quiz_Attempt model.
+ * LLMS_Quiz_Attempt model class
+ *
+ * @since 3.9.0
+ * @since 3.16.0 Unknown.
+ * @since 3.24.0 Unknown.
+ * @since 3.29.0 Unknown.
+ * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
+ *              Fix issue encountered when answering a question incorrectly after initially answering it correctly.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -79,31 +87,37 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Answer a question
-	 * records the selected option and whether or not the selected option was the correct option
+	 *
+	 * Records the selected option and whether or not the selected option was the correct option.
+	 *
 	 * Automatically updates & saves the attempt to the database
 	 *
-	 * @param    int $question_id  WP_Post ID of the LLMS_Question
-	 * @param    int $answer       index/key of the selected answer option
-	 *                             as found in the array of options retrieved by LLMS_Question->get_options()
-	 * @return   $this
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Updated to accommodate quiz builder improvements.
+	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
+	 *              Exit the loop as soon as we find our question.
+	 *              Use strict comparison for IDs.
+	 *
+	 * @param int      $question_id WP_Post ID of the LLMS_Question.
+	 * @param string[] $answer      Array of selected choice IDs (for core question types) or an array containing the user-submitted answer(s).
+	 * @return LLMS_Quiz_Attempt Instance of the current attempt.
 	 */
 	public function answer_question( $question_id, $answer ) {
 
 		$questions = $this->get_questions();
 
 		foreach ( $questions as $key => $data ) {
-			if ( $question_id != $data['id'] ) {
+
+			if ( absint( $question_id ) !== absint( $data['id'] ) ) {
 				continue;
 			}
+
 			$question                     = llms_get_post( $question_id );
 			$graded                       = $question->grade( $answer );
 			$questions[ $key ]['answer']  = $answer;
 			$questions[ $key ]['correct'] = $graded;
-			if ( llms_parse_bool( $graded ) ) {
-				$questions[ $key ]['earned'] = $questions[ $key ]['points'];
-			}
+			$questions[ $key ]['earned']  = llms_parse_bool( $graded ) ? $questions[ $key ]['points'] : 0;
+
 			break;
 		}
 
@@ -116,9 +130,11 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Calculate and the grade for a completed quiz
 	 *
-	 * @return   $this      for chaining
-	 * @since    3.9.0
-	 * @version  3.24.0
+	 * @since 3.9.0
+	 * @since 3.24.0 Unknown.
+	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+	 *
+	 * @return LLMS_Quiz Instance of the current quiz object.
 	 */
 	public function calculate_grade() {
 
@@ -129,7 +145,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz      = $this->get_quiz();
-			$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
+			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;
 
 			$this->set( 'grade', $grade );
 			$status = ( $min_grade <= $grade ) ? 'pass' : 'fail';
@@ -395,7 +411,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$questions[ $inc[ $perm ] ] = $swap;
 				}
 			}
-		}// End if().
+		}
 
 		return $questions;
 
@@ -636,16 +652,17 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Set the status of the attempt
 	 *
-	 * @param    string  $status   status value
-	 * @param    boolean $save     if true, immediately persists to database
-	 * @return   self
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since 4.0.0 Use strict comparisons.
+	 *
+	 * @param string  $status Status value.
+	 * @param boolean $save   If `true`, immediately persists to database.
+	 * @return false|LLMS_Quiz_Attempt
 	 */
 	public function set_status( $status, $save = false ) {
 
 		$statuses = array_keys( llms_get_quiz_attempt_statuses() );
-		if ( ! in_array( $status, $statuses ) ) {
+		if ( ! in_array( $status, $statuses, true ) ) {
 			return false;
 		}
 		return $this->set( 'status', $status );
@@ -655,9 +672,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Record the attempt as started
 	 *
-	 * @return   obj             $this for chaining
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return LLMS_Quiz_Attempt Instance of the current quiz attempt object.
 	 */
 	public function start() {
 
@@ -670,41 +687,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the private data array
 	 *
-	 * @return   array
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return array
 	 */
 	public function to_array() {
 		return $this->data;
-	}
-
-
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get the attempts status based on start and end dates
-	 *
-	 * @return   string
-	 * @since      3.9.0
-	 * @version    3.16.0
-	 * @deprecated 3.16.0
-	 */
-	public function get_status() {
-		llms_deprecated_function( 'LLMS_Quiz_Attempt::get_status()', '3.16.0', "LLMS_Quiz_Attempt::get( 'status' )" );
-		return $this->get( 'status' );
 	}
 
 }

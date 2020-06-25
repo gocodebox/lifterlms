@@ -1,8 +1,8 @@
 <?php
 /**
- * LifterLMS Privacy Exporter functions
+ * LifterLMS Privacy Exporter
  *
- * @package LifterLMS/Classes/Privacy
+ * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
  * @version 3.37.9
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Privacy Exporter functions
+ * LifterLMS Privacy Exporter class
  *
  * @since 3.18.0
  * @since 3.30.3 Fixed spelling error.

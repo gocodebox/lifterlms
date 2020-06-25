@@ -1,15 +1,8 @@
 <?php
 /**
- * Handle background processing of average progress & average grade for LifterLMS Courses
- * This triggers a bg process which gets the current progress
- * of all students in a course
+ * Processor: Membership Bulk Enroll
  *
- * Progress is queued for recalculation when
- *      students enroll
- *      students unenroll
- *      students complete lessons
- *
- * @package LifterLMS/Classes/Processors
+ * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
  * @version 3.26.1
@@ -19,6 +12,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Processor_Membership_Bulk_Enroll class
+ *
+ * Handle background processing of average progress & average grade for LifterLMS Courses.
+ * This triggers a bg process which gets the current progress
+ * of all students in a course.
+ *
+ * Progress is queued for recalculation when:
+ *      students enroll
+ *      students unenroll
+ *      students complete lessons
  *
  * @since 3.15.0
  * @since 3.26.1 Unknown.
