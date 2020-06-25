@@ -88,7 +88,7 @@ class LLMS_Install {
 			'llms_update_3280_clear_session_cleanup_cron',
 			'llms_update_3280_update_db_version',
 		),
-		'4.0.0-rc.1' => array(
+		'4.0.0' => array(
 			'llms_update_400_remove_session_options',
 			'llms_update_400_clear_session_cron',
 			'llms_update_400_update_db_version',
