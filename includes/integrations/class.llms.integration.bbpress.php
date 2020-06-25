@@ -5,7 +5,7 @@
  * @package LifterLMS/Integrations/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.11 Don't update saved forum values during course quick edits.
  * @since 3.38.1 When looking for forum course restrictions make sure to run a more generic query
  *               so that it matches forum ids whether they've been save as integers or strings.
- * @since [version] Added MySQL 8.0 compatibility.
+ * @since 4.0.0 Added MySQL 8.0 compatibility.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -245,7 +245,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.38.1 Make the query more generic so that it matches forum ids whether they've been saved as integers or strings.
-	 * @since [version] Escape `{` character in SQL query to add MySQL 8.0 support.
+	 * @since 4.0.0 Escape `{` character in SQL query to add MySQL 8.0 support.
 	 *
 	 * @param int $forum_id WP_Post ID of the forum.
 	 * @return int[]

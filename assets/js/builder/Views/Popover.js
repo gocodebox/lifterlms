@@ -2,7 +2,7 @@
  * Popover View
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.0.0
  */
 define( [], function() {
 
@@ -39,7 +39,7 @@ define( [], function() {
 		 * Initialization callback func (renders the element on screen)
 		 *
 		 * @since 3.14.1
-		 * @since [version] Add RTL support for popovers.
+		 * @since 4.0.0 Add RTL support for popovers.
 		 *
 		 * @return void
 		 */

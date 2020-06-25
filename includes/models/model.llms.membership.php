@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Added `get_student_count()` method.
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
- * @since [version] Added MySQL 8.0 compatibility.
+ * @since 4.0.0 Added MySQL 8.0 compatibility.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -345,7 +345,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Performs a WPDB query to retrieve posts associated with the membership
 	 *
 	 * @since 3.38.1
-	 * @since [version] Escape `{` character in SQL query to add MySQL 8.0 support.
+	 * @since 4.0.0 Escape `{` character in SQL query to add MySQL 8.0 support.
 	 *
 	 * @see LLMS_Membesrhip::get_associated_posts()
 	 *

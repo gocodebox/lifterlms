@@ -88,7 +88,7 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:567, includes/class.llms.ajax.handler.php:630, includes/class.llms.ajax.handler.php:700, includes/class.llms.template.loader.php:390
+#: includes/class.llms.ajax.handler.php:567, includes/class.llms.ajax.handler.php:630, includes/class.llms.ajax.handler.php:700, includes/class.llms.template.loader.php:391
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -2511,11 +2511,11 @@ msgstr ""
 msgid "Order History"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:380
+#: includes/class.llms.template.loader.php:381
 msgid "You must be enrolled in the course to access this quiz."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:567
+#: includes/class.llms.template.loader.php:569
 msgid "This content is restricted"
 msgstr ""
 
@@ -5712,35 +5712,35 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:49, includes/integrations/class.llms.integration.bbpress.php:125
+#: includes/integrations/class.llms.integration.bbpress.php:50, includes/integrations/class.llms.integration.bbpress.php:126
 msgid "bbPress"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:50
+#: includes/integrations/class.llms.integration.bbpress.php:51
 msgid "Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:132
+#: includes/integrations/class.llms.integration.bbpress.php:133
 msgid "Select forums"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:134
+#: includes/integrations/class.llms.integration.bbpress.php:135
 msgid "Add forums which will only be available to students currently enrolled in this course."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:138
+#: includes/integrations/class.llms.integration.bbpress.php:139
 msgid "Private Course Forums"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:203
+#: includes/integrations/class.llms.integration.bbpress.php:204
 msgid "You must be enrolled in this course to access the course forum."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:403
+#: includes/integrations/class.llms.integration.bbpress.php:404
 msgid "Student creates a new forum topic"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:404
+#: includes/integrations/class.llms.integration.bbpress.php:405
 msgid "Student creates a new forum reply"
 msgstr ""
 
@@ -5951,15 +5951,15 @@ msgstr ""
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:532, includes/models/model.llms.user.postmeta.php:93, includes/admin/post-types/tables/class.llms.table.student.management.php:189
+#: includes/models/model.llms.quiz.attempt.php:539, includes/models/model.llms.user.postmeta.php:93, includes/admin/post-types/tables/class.llms.table.student.management.php:189
 msgid "[Deleted]"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:533
+#: includes/models/model.llms.quiz.attempt.php:540
 msgid "Quiz Attempt #%1$d by %2$s"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:554
+#: includes/models/model.llms.quiz.attempt.php:561
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 

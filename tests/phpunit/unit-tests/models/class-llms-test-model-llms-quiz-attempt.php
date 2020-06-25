@@ -7,7 +7,7 @@
  *
  * @since 3.9.0
  * @since 3.17.4 Unknown.
- * @since [version] Add tests for the answer_question() method.
+ * @since 4.0.0 Add tests for the answer_question() method.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -37,7 +37,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve the first incorrect choice for a given question.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param LLMS_Question|WP_Post|int $question Question object, WP_Post object for a question post, or WP_Post ID of the question.
 	 * @return LLMS_Question_Choice
@@ -149,7 +149,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Test answer_question() when supplying a correct answer
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Test answer_question() when supplying an incorrect answer
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

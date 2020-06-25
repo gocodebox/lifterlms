@@ -94,7 +94,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Updated to accommodate quiz builder improvements.
-	 * @since [version] Explicitly set earned points to `0` when answering incorrectly.
+	 * @since 4.0.0 Explicitly set earned points to `0` when answering incorrectly.
 	 *              Exit the loop as soon as we find our question.
 	 *              Use strict comparison for IDs.
 	 *
@@ -653,7 +653,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Set the status of the attempt
 	 *
 	 * @since 3.16.0
-	 * @since [version] Use strict comparisons.
+	 * @since 4.0.0 Use strict comparisons.
 	 *
 	 * @param string  $status Status value.
 	 * @param boolean $save   If `true`, immediately persists to database.
