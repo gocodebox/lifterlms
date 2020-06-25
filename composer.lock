@@ -43,16 +43,16 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.12",
+            "version": "1.0.0-beta.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "dc4fe6f0feacdf1c234022caec913fa75d6202c7"
+                "reference": "49b4494a566e210991901e99825bedceb3fc357d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/dc4fe6f0feacdf1c234022caec913fa75d6202c7",
-                "reference": "dc4fe6f0feacdf1c234022caec913fa75d6202c7",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/49b4494a566e210991901e99825bedceb3fc357d",
+                "reference": "49b4494a566e210991901e99825bedceb3fc357d",
                 "shasum": ""
             },
             "require-dev": {
@@ -71,7 +71,7 @@
                 }
             ],
             "description": "REST API feature plugin for the LifterLMS Core.",
-            "time": "2020-05-27T22:58:20+00:00"
+            "time": "2020-06-22T20:25:36+00:00"
         },
         {
             "name": "woocommerce/action-scheduler",
