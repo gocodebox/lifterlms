@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.41.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.2 Notices are printed on sales pages too.
  * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
  * @since 3.41.1 Fixed content membership restricted post's content not restricted in REST requests.
+ * @since [version] Don't pass objects by reference because it's unnecessary.
  */
 class LLMS_Template_Loader {
 
@@ -524,12 +525,13 @@ class LLMS_Template_Loader {
 	 * Maybe restrict the post content in the REST loop
 	 *
 	 * @since 3.41.1
+	 * @since [version] Don't pass by reference because it's unnecessary.
 	 *
-	 * @param WP_Post  &$post  Post Object, passed by reference.
-	 * @param WP_Query &$query Query object, passed by reference.
+	 * @param WP_Post  $post  Post Object.
+	 * @param WP_Query $query Query object.
 	 * @return void
 	 */
-	public function maybe_restrict_post_content( &$post, &$query ) {
+	public function maybe_restrict_post_content( $post, $query ) {
 		/**
 		 * Filters the post types that must be skipped.
 		 *
