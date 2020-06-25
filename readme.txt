@@ -567,6 +567,12 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 + templates/global/form-login.php: Removes `col-1` class from the `div.llms-person-login-form-wrapper` element.
 + templates/global/form-registration.php: : Removes `col-2` class from the `div.llms-new-person-form-wrapper` element.
 
+**Removed SVG assets and functionality**
+
++ LifterLMS no longer utilizes SVGs powered by the `LLMS_Svg` class. The class has been deprecated and removed (see below).
++ The `assets/svg` directory (and all SVG assets contained within) has been removed.
++ The constant `LLMS_SVG_DIR` has been removed.
+
 ##### Previously deprecated classes (and files) that have been removed
 
 + `LLMS_Admin_Analytics`: `includes/admin/class.llms.admin.analytics.php`
@@ -584,6 +590,7 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 + `LLMS_Number`: `includes/class.llms.number.php`
 + `LLMS_Person`: `includes/class.llms.person.php`
 + `LLMS_Quiz_Legacy`: `includes/class.llms.quiz.legacy.php`
++ `LLMS_Svg`: `includes/class.llms.svg.php`
 + `LLMS_Table_Questions`: `includes/admin/reporting/tables/llms.table.questions.php`
 + `LLMS\Users\User`: `includes/Users/User.php`
 
