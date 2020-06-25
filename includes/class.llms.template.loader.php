@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.10
+ * @version 3.41.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.20.0 Unknown.
  * @since 3.37.2 Notices are printed on sales pages too.
  * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
+ * @since 3.41.1 Fixed content membership restricted post's content not restricted in REST requests.
  */
 class LLMS_Template_Loader {
 
@@ -25,13 +26,16 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 1.0.0
 	 * @since 3.20.0 Unknown.
+	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 */
 	public function __construct() {
 
-		// do template loading.
+		// Do template loading.
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
 
-		// restriction actions for each kind of restriction.
+		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
+
+		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
 			'llms_restriction_reasons',
 			array(
@@ -88,14 +92,14 @@ class LLMS_Template_Loader {
 	 */
 	public function maybe_redirect_to_sales_page() {
 
-		// only proceed for courses and memberships.
+		// Only proceed for courses and memberships.
 		if ( ! in_array( get_post_type(), array( 'course', 'llms_membership' ), true ) ) {
 			return;
 		}
 
 		$page_restricted = llms_page_restricted( get_the_id() );
 
-		// only proceed if the page isn't restricted.
+		// Only proceed if the page isn't restricted.
 		if ( ! $page_restricted['is_restricted'] ) {
 			return;
 		}
@@ -195,7 +199,7 @@ class LLMS_Template_Loader {
 
 		$post_type = get_post_type( $info['content_id'] );
 
-		// if this restriction occurs when attempting to view a lesson,
+		// If this restriction occurs when attempting to view a lesson,
 		// redirect the user to the course, course restriction will handle display of the
 		// message once we get there.
 		// This prevents duplicate messages from being displayed.
@@ -208,7 +212,7 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		// handle the restriction action & allow developers to filter the results.
+		// Handle the restriction action & allow developers to filter the results.
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_course_time_period_message', $msg, $info ),
 			apply_filters( 'llms_restricted_by_course_time_period_redirect', $redirect, $info ),
@@ -308,10 +312,10 @@ class LLMS_Template_Loader {
 
 		$membership_id = $info['restriction_id'];
 
-		// do nothing if we don't have a membership id.
+		// Do nothing if we don't have a membership id.
 		if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
 
-			// instantiate the membership.
+			// Instantiate the membership.
 			$membership = new LLMS_Membership( $membership_id );
 
 			$msg      = '';
@@ -323,7 +327,7 @@ class LLMS_Template_Loader {
 
 			}
 
-			// get the redirect based on the redirect type (if set).
+			// Get the redirect based on the redirect type (if set).
 			switch ( $membership->get( 'restriction_redirect_type' ) ) {
 
 				case 'custom':
@@ -347,7 +351,7 @@ class LLMS_Template_Loader {
 
 			}
 
-			// handle the restriction action & allow developers to filter the results.
+			// Handle the restriction action & allow developers to filter the results.
 			$this->handle_restriction(
 				apply_filters( 'llms_restricted_by_membership_message', $msg, $info ),
 				apply_filters( 'llms_restricted_by_membership_redirect', $redirect, $info )
@@ -428,29 +432,29 @@ class LLMS_Template_Loader {
 
 		$this->maybe_print_notices_on_sales_page_redirect();
 
-		// blog should bypass checks, except when sitewide restrictions are enabled.
+		// Blog should bypass checks, except when sitewide restrictions are enabled.
 		if ( is_home() && 'sitewide_membership' === $page_restricted['reason'] && $page_restricted['is_restricted'] ) {
 
-			// generic content restricted action.
+			// Generic content restricted action.
 			do_action( 'lifterlms_content_restricted', $page_restricted );
 
-			// specific content restriction action.
+			// Specific content restriction action.
 			do_action( 'llms_content_restricted_by_' . $page_restricted['reason'], $page_restricted );
 
-			// prints notices on the blog page when there's not redirects setup.
+			// Prints notices on the blog page when there's not redirects setup.
 			add_action( 'loop_start', 'llms_print_notices', 5 );
 
 			return $template;
 
 		} elseif ( $page_restricted['is_restricted'] ) {
 
-			// generic content restricted action.
+			// Generic content restricted action.
 			do_action( 'lifterlms_content_restricted', $page_restricted );
 
-			// specific content restriction action.
+			// Specific content restriction action.
 			do_action( 'llms_content_restricted_by_' . $page_restricted['reason'], $page_restricted );
 
-			// the actual content of membership and courses is handled via separate wysiwyg areas,
+			// The actual content of membership and courses is handled via separate wysiwyg areas,
 			// so for these post types we'll return the regular template.
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 				return $template;
@@ -481,7 +485,7 @@ class LLMS_Template_Loader {
 
 		}
 
-		// check for an override file.
+		// Check for an override file.
 		$override      = llms_get_template_override( $template );
 		$template_path = $override ? $override : LLMS()->plugin_path() . '/templates/';
 		return $template_path . $template;
@@ -498,9 +502,102 @@ class LLMS_Template_Loader {
 	private function maybe_print_notices_on_sales_page_redirect() {
 
 		if ( llms_filter_input( INPUT_GET, 'llms_print_notices' ) ) {
-			// prints notices on the page at loop start.
+			// Prints notices on the page at loop start.
 			add_action( 'loop_start', 'llms_print_notices', 5 );
 		}
+
+	}
+
+	/**
+	 * Maybe restrict the post content in REST requets
+	 *
+	 * @since 3.41.1
+	 *
+	 * @return void
+	 */
+	public function maybe_prepare_post_content_restriction() {
+		// Fired on `setup_postdata()` see `WP_REST_Posts_Controller::prepare_item_for_response()`.
+		add_action( 'the_post', array( $this, 'maybe_restrict_post_content' ), 9999, 2 );
+	}
+
+	/**
+	 * Maybe restrict the post content in the REST loop
+	 *
+	 * @since 3.41.1
+	 *
+	 * @param WP_Post  &$post  Post Object, passed by reference.
+	 * @param WP_Query &$query Query object, passed by reference.
+	 * @return void
+	 */
+	public function maybe_restrict_post_content( &$post, &$query ) {
+		/**
+		 * Filters the post types that must be skipped.
+		 *
+		 * The LifterLMS post types content restriction should be handled by the LifterLMS rest-api.
+		 *
+		 * @since 3.41.1
+		 *
+		 * @param string[] $post_types The array of post types to skip.
+		 */
+		$skip = apply_filters(
+			'llms_in_rest_restrict_content_skip_post_types',
+			array(
+				'course',
+				'lesson',
+				'llms_quiz',
+				'llms_membership',
+				'llms_question',
+				'llms_certificate',
+				'llms_my_certificate',
+			)
+		);
+
+		if ( in_array( get_post_type( $post ), $skip, true ) ) {
+			return;
+		}
+
+		// Needed by `llms_page_restricted()` to work as expected.
+		$is_singular = $query->is_singular;
+		$query->is_singular = true;
+
+		$page_restricted = llms_page_restricted( get_the_ID() );
+
+		if ( $page_restricted['is_restricted'] ) {
+
+			$msg    = __( 'This content is restricted', 'lifterlms' );
+			$reason = $page_restricted['reason'];
+
+			if ( in_array( $reason, array( 'membership', 'sitewide_membership', true ) ) ) {
+
+				$membership_id = $page_restricted['restriction_id'];
+
+				if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
+
+					$membership = new LLMS_Membership( $membership_id );
+
+					if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
+						$msg = $membership->get( 'restriction_notice' );
+					}
+				}
+			}
+
+			/**
+			 * Filters the restriction message.
+			 *
+			 * The dynamic portion of the hook name, `$reason`, refers to the restriction reason.
+			 *
+			 * @since 3.41.1
+			 *
+			 * @param string $message     Restriction message.
+			 * @param array  $restriction Array of restriction info from `llms_page_restricted()`.
+			 */
+			$msg = apply_filters( "llms_in_rest_restricted_by_{$reason}_message", $msg, $page_restricted );
+
+			$post->post_content = $msg;
+			$post->post_excerpt = $msg;
+		}
+
+		$query->is_singular = $is_singular;
 
 	}
 

@@ -210,6 +210,12 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 + `$question`
 
 
+v3.41.1 - 2020-06-23
+--------------------
+
++ Apply restrictions to post content and excerpts during WP REST requests.
+
+
 v4.0.0-rc.1 - 2020-06-18
 ------------------------
 
