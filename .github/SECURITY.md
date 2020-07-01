@@ -7,7 +7,8 @@ LifterLMS 3.x is the only supported branch of LifterLMS. If you're using an unsu
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 3.x     | :white_check_mark: |
+| 4.x     | :white_check_mark: |
+| 3.x     | :x: |
 | 2.x     | :x:                |
 | 1.x     | :x:                |
 
