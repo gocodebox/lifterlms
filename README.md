@@ -135,7 +135,7 @@ Endless thanks to all our incredible contributors!
 
 ### Partners and Sponsors
 
-[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png" height="60" alt="BrowserStack">](https://www.browserstack.com/)
+[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/.github/sponsors/browserstack-logo.png" height="60" alt="BrowserStack">](https://www.browserstack.com/)
 
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
 

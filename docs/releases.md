@@ -58,8 +58,8 @@ The following steps are performed automatically by the above task:
 
 1. Publish to GitHub
 
-    A. The contents of the distribution archive is force-pushed to the `trunk` branch.
-    B. A new release tag draft is created for the current version number using `trunk` as the commit target.
+    A. The contents of the distribution archive is force-pushed to the `release` branch.
+    B. A new release tag draft is created for the current version number using `release` as the commit target.
     C. The distribution archive is uploaded to the release.
     D. The release is published.
     E. A webhook ping notifies the `llms-releaser` server which performs the remaining steps of the release:

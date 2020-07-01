@@ -74,6 +74,6 @@ The following utility packages are used to help facilitate e2e tests in WordPres
 
 + [@wordpress/scripts](https://github.com/WordPress/gutenberg/tree/master/packages/scripts): A collection of reusable scripts tailored for WordPress development.
 + [@wordpress/e2e-test-utils](https://github.com/WordPress/gutenberg/tree/master/packages/e2e-test-utils): End-To-End (E2E) test utils for WordPress.
-+ [llms-e2e-test-utils](https://github.com/gocodebox/lifterlms/tree/master/packages/llms-e2e-test-utils): End-To-End (E2E) test utils for LifterLMS.
++ [llms-e2e-test-utils](https://github.com/gocodebox/lifterlms/tree/trunk/packages/llms-e2e-test-utils): End-To-End (E2E) test utils for LifterLMS.
 
 A debt of gratitude is owed to [WP React Starter by devowl.io](https://github.com/devowlio/wp-react-starter), without the open-source code found in this repository our lead developer would surely have descended into eventual madness trying to figure out how to mount a working directory into a Docker container. I know you're saying it sounds simple and in retrospect he agrees with you but you know how things go sometimes...

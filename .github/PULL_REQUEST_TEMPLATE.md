@@ -1,6 +1,6 @@
-<!-- 
+<!--
 Contributors:
-Prior to opening a pull request, please review our contributing guidelines at https://github.com/gocodebox/lifterlms/blob/master/.github/CONTRIBUTING.md
+Prior to opening a pull request, please review our contributing guidelines at https://github.com/gocodebox/lifterlms/blob/trunk/.github/CONTRIBUTING.md
 -->
 
 ## Description
@@ -23,6 +23,6 @@ Fixes #<!-- insert the related issue number here -->
 
 ## Checklist:
 - [ ] My code has been tested.
-- [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script tests-run`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/tests/README.md -->
-- [ ] My code follows the LifterLMS Coding & Documentation Standards. <!-- Check code: `composer run-script check-cs-errors`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md and https://github.com/gocodebox/lifterlms/blob/master/docs/documentation-standards.md -->
+- [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script tests-run`, Guidelines: https://github.com/gocodebox/lifterlms/blob/trunk/tests/README.md -->
+- [ ] My code follows the LifterLMS Coding & Documentation Standards. <!-- Check code: `composer run-script check-cs-errors`, Guidelines: https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md and https://github.com/gocodebox/lifterlms/blob/trunk/docs/documentation-standards.md -->
 
