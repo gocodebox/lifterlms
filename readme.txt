@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 4.0.0
+Stable tag: 4.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,15 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v4.1.0 - 2020-07-06 =
+-----------------------
+
+##### LifterLMS REST 1.0.0-beta.14
+
++ **Breaking**: `LLMS_REST_Controller::prepare_links()` now requires a second parameter, the `WP_REST_Request` for the current request. Any classes extending and overwriting this method must adjust their method signature to accommodate this change.
++ Bugfix: Fixed issue causing response objects to unintentionally include keys of remapped fields. This error occurs only when extending core controllers and attempting to exclude core fields.
+
+
 = v4.0.0 - 2020-06-25 =
 -----------------------
 
@@ -948,13 +957,5 @@ View beta release notes at [https://make.lifterlms.com/2020/06/01/lifterlms-vers
 
 + Added localization to strings on the coupon admin screen. Thanks [parfilov](https://github.com/parfilov)!
 + Fixed issue encountered in metaboxes when the `$post` global variable is not set.
-
-
-= v3.37.18 - 2020-04-14 =
--------------------------
-
-+ Fix regression introduced in version 3.34.0 which prevented checkout success redirection to external domains.
-+ Resolved a conflict with LifterLMS, Divi, and WooCommerce encountered when using the Divi frontend pagebuilder on courses and memberships.
-+ Fixed issue causing localization issues when creating access plans, thanks [@mcguffin](https://github.com/mcguffin)!
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
