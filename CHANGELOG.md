@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v4.1.0 - 2020-07-06
+-------------------
+
+##### LifterLMS REST 1.0.0-beta.14
+
++ **Breaking**: `LLMS_REST_Controller::prepare_links()` now requires a second parameter, the `WP_REST_Request` for the current request. Any classes extending and overwriting this method must adjust their method signature to accommodate this change.
++ Bugfix: Fixed issue causing response objects to unintentionally include keys of remapped fields. This error occurs only when extending core controllers and attempting to exclude core fields.
+
+
 v4.0.0 - 2020-06-25
 -------------------
 
