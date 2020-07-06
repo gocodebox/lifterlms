@@ -958,4 +958,4 @@ View beta release notes at [https://make.lifterlms.com/2020/06/01/lifterlms-vers
 + Added localization to strings on the coupon admin screen. Thanks [parfilov](https://github.com/parfilov)!
 + Fixed issue encountered in metaboxes when the `$post` global variable is not set.
 
-[View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
+[View the full changelog](https://make.lifterlms.com/tag/lifterlms/)

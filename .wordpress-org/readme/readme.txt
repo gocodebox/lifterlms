@@ -10,4 +10,4 @@
 
 //= include ./changelog.md
 
-[View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
+[View the full changelog](https://make.lifterlms.com/tag/lifterlms/)
