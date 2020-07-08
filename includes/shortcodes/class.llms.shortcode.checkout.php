@@ -4,7 +4,7 @@
  *
  * Controls functionality associated with shortcode [llms_checkout].
  *
- * @package LifterLMS/Shortcodes
+ * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
  * @version 3.36.3
