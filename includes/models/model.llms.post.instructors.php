@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.3 Explicitly define class properties.
- * @since 4.0.0 Remove deprecated method `get_defaults()`.
+ * @since 4.0.0  Remove deprecated method `get_defaults()`.
+ * @since [version] Normalized return structure in `get_instructors()` when no instructor set.
  */
 class LLMS_Post_Instructors {
 
@@ -70,22 +71,32 @@ class LLMS_Post_Instructors {
 	/**
 	 * Retrieve course instructor information
 	 *
-	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.23.0
+	 * @since 3.13.0
+	 * @since 3.23.0 Unknown.
+	 * @since [version] Normalize return data when no instructor data is saved.
+	 *
+	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @return array[] {
+	 *     Array or instructor data arrays.
+	 *
+	 *     @type int    $id         WP_User ID of the instructor user.
+	 *     @type string $visibility Display visibility option for the instructor.
+	 *     @type string $label      User input display noun for the instructor. EG: "Author" or "Coach" or "Instructor".
+	 *     @type string $name       WP_User Display Name.
+	 * }
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
 		$instructors = $this->post->get( 'instructors' );
 
-		// if empty, respond with the course author in an array
+		// If empty, respond with the course author in an array.
 		if ( ! $instructors ) {
-			$author      = get_userdata( $this->post->get( 'author' ) );
+			$author_id   = $this->post->get( 'author' );
+			$author      = get_userdata( $author_id );
 			$instructors = array(
 				wp_parse_args(
 					array(
-						'id'   => $this->post->get( 'author' ),
+						'id'   => $author_id,
 						'name' => $author ? $author->display_name : '',
 					),
 					llms_get_instructors_defaults()
