@@ -811,7 +811,7 @@ class LLMS_Admin_Settings {
 		} elseif ( $tooltip ) {
 
 			$position = isset( $field['tooltip_position'] ) ? $field['tooltip_position'] : 'top-right';
-			$tooltip = '<span class="llms-help-tooltip tip--' . esc_attr( $position ) . '" data-tip="' . esc_attr( $tooltip ) . '"><span class="dashicons dashicons-editor-help"></span></span>';
+			$tooltip  = '<span class="llms-help-tooltip tip--' . esc_attr( $position ) . '" data-tip="' . esc_attr( $tooltip ) . '"><span class="dashicons dashicons-editor-help"></span></span>';
 
 		}
 
