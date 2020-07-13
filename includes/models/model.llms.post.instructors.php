@@ -81,10 +81,12 @@ class LLMS_Post_Instructors {
 
 		// if empty, respond with the course author in an array
 		if ( ! $instructors ) {
+			$author      = get_userdata( $this->post->get( 'author' ) );
 			$instructors = array(
 				wp_parse_args(
 					array(
-						'id' => $this->post->get( 'author' ),
+						'id'   => $this->post->get( 'author' ),
+						'name' => $author ? $author->display_name : '',
 					),
 					llms_get_instructors_defaults()
 				),

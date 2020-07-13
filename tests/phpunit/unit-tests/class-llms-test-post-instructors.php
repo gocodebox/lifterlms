@@ -90,6 +90,8 @@ class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 			$post->set_instructors();
 			$expect = $defaults;
 			$expect['id'] = $user_ids[1];
+			$author = get_userdata( $user_ids[1] );
+			$expect['name'] = $author->display_name;
 			$this->assertEquals( array( $expect ), $post->get_instructors() );
 
 		}
