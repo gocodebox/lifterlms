@@ -34,7 +34,7 @@ class LLMS_Install {
 	 * @var array
 	 */
 	private static $db_updates = array(
-		'3.0.0'        => array(
+		'3.0.0'  => array(
 			'llms_update_300_create_access_plans',
 			'llms_update_300_del_deprecated_options',
 			'llms_update_300_migrate_account_field_options',
@@ -46,33 +46,33 @@ class LLMS_Install {
 			'llms_update_300_update_orders',
 			'llms_update_300_update_db_version',
 		),
-		'3.0.3'        => array(
+		'3.0.3'  => array(
 			'llms_update_303_update_students_role',
 			'llms_update_303_update_db_version',
 		),
-		'3.4.3'        => array(
+		'3.4.3'  => array(
 			'llms_update_343_update_relationships',
 			'llms_update_343_update_db_version',
 		),
-		'3.6.0'        => array(
+		'3.6.0'  => array(
 			'llms_update_360_set_product_visibility',
 			'llms_update_360_update_db_version',
 		),
-		'3.8.0'        => array(
+		'3.8.0'  => array(
 			'llms_update_380_set_access_plan_visibility',
 			'llms_update_380_update_db_version',
 		),
-		'3.12.0'       => array(
+		'3.12.0' => array(
 			'llms_update_3120_update_order_end_dates',
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
-		'3.13.0'       => array(
+		'3.13.0' => array(
 			'llms_update_3130_create_default_instructors',
 			'llms_update_3130_builder_notice',
 			'llms_update_3130_update_db_version',
 		),
-		'3.16.0'       => array(
+		'3.16.0' => array(
 			'llms_update_3160_update_quiz_settings',
 			'llms_update_3160_lesson_to_quiz_relationships_migration',
 			'llms_update_3160_attempt_migration',
@@ -84,11 +84,11 @@ class LLMS_Install {
 			'llms_update_3160_builder_notice',
 			'llms_update_3160_update_db_version',
 		),
-		'3.28.0'       => array(
+		'3.28.0' => array(
 			'llms_update_3280_clear_session_cleanup_cron',
 			'llms_update_3280_update_db_version',
 		),
-		'4.0.0' => array(
+		'4.0.0'  => array(
 			'llms_update_400_remove_session_options',
 			'llms_update_400_clear_session_cron',
 			'llms_update_400_update_db_version',
