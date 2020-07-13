@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.37.9
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.1 Fix saving issue.
  * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
  * @since 3.37.9 Add option for fields to show an asterisk for required fields.
+ * @since [version] Use dashicons for tooltip icon display.
  */
 class LLMS_Admin_Settings {
 
@@ -756,12 +757,22 @@ class LLMS_Admin_Settings {
 	/**
 	 * Setup a field's tooltip and description based on supplied values
 	 *
-	 * @param    array $field  associative array of field data
-	 * @return   array          associative array containing field description and tooltip HTML
-	 * @since    1.4.5
-	 * @version  3.24.0
+	 * @since 1.4.5
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Use a dashicon in place of image for tooltip icon.
+	 *
+	 * @param array $field Associative array of field data.
+	 * @return array {
+	 *     Associative array containing field description and tooltip HTML.
+	 *
+	 *     @type string $description Description element HTML.
+	 *     @type string $tooltip     Tooltip element HTML.
+	 * }
 	 */
 	public static function set_field_descriptions( $field = array() ) {
+
+		$description = '';
+		$tooltip     = '';
 
 		if ( true === $field['desc_tooltip'] ) {
 
@@ -774,11 +785,8 @@ class LLMS_Admin_Settings {
 			$tooltip     = $field['desc_tooltip'];
 
 		} elseif ( ! empty( $field['desc'] ) ) {
-			$description = $field['desc'];
-			$tooltip     = '';
-		} else {
 
-			$description = '';
+			$description = $field['desc'];
 			$tooltip     = '';
 
 		}
@@ -790,6 +798,7 @@ class LLMS_Admin_Settings {
 		} elseif ( $description && in_array( $field['type'], array( 'checkbox' ) ) ) {
 
 			$description = wp_kses_post( $description );
+
 		} elseif ( $description ) {
 
 			$description = '<span class="description">' . wp_kses_post( $description ) . '</span>';
@@ -801,14 +810,12 @@ class LLMS_Admin_Settings {
 
 		} elseif ( $tooltip ) {
 
-			$tooltip = '<img class="help_tooltip" data-tooltip="' . esc_attr( $tooltip ) . '" src="' . LLMS()->plugin_url() . '/assets/images/help.png" height="16" width="16" />';
+			$position = isset( $field['tooltip_position'] ) ? $field['tooltip_position'] : 'top-right';
+			$tooltip  = '<span class="llms-help-tooltip tip--' . esc_attr( $position ) . '" data-tip="' . esc_attr( $tooltip ) . '"><span class="dashicons dashicons-editor-help"></span></span>';
 
 		}
 
-		return array(
-			'description' => $description,
-			'tooltip'     => $tooltip,
-		);
+		return compact( 'description', 'tooltip' );
 
 	}
 
