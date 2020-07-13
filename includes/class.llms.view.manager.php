@@ -2,21 +2,25 @@
 /**
  * View Manager
  *
- * Allows qualifying user roles to view as various user types to make easier testing and editing of LLMS Content
+ * Allows qualifying user roles to view as various user types to make easier testing and editing of LLMS Content.
  *
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_View_Manager
+ * LLMS_View_Manager class.
  *
  * @since 3.7.0
  * @since 3.35.0 Sanitize `$_GET` data.
+ * @since [version] Disable the view management when creating a pending order.
+ *               Added `modify_display_free_enroll_form` method.
+ *               `get_url` method modified so to take into account already present
+ *               query args in the request URI.
  */
 class LLMS_View_Manager {
 
@@ -24,36 +28,40 @@ class LLMS_View_Manager {
 	 * Constructor
 	 *
 	 * @since 3.7.0
-	 * @version 3.7.0
+	 * @since [version] Added early return when creating a pending order.
 	 */
 	public function __construct() {
+
+		// Do nothing if we're creating a pending order.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
+			return;
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		add_action( 'init', array( $this, 'add_actions' ) );
 
 	}
 
 	/**
-	 * Add actions & filters
+	 * Add actions & filters.
 	 *
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 * @since [version] Added filter to handle the displaying of the free enroll.
+	 *
+	 * @return void
 	 */
 	public function add_actions() {
 
-		// if user can't bypass restrictions don't do anything
-		if ( ! llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
-			return;
-		}
-
-		// output view links on the admin menu
+		// output view links on the admin menu.
 		add_action( 'admin_bar_menu', array( $this, 'add_menu_items' ), 777 );
 
-		// filter page restrictions
+		// filter page restrictions.
 		add_filter( 'llms_page_restricted', array( $this, 'modify_restrictions' ), 10, 1 );
 		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 1 );
 		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 1 );
 
-		// filters we'll only run when view as links are called
+		// filters we'll only run when view as links are called.
 		if ( isset( $_GET['llms-view-as'] ) ) {
 
 			add_filter( 'llms_is_course_complete', array( $this, 'modify_completion' ), 10, 1 );
@@ -62,6 +70,8 @@ class LLMS_View_Manager {
 
 			add_filter( 'llms_get_enrollment_status', array( $this, 'modify_enrollment_status' ), 10, 1 );
 
+			add_filter( 'llms_display_free_enroll_form', array( $this, 'modify_display_free_enroll_form' ), 10, 1 );
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		}
@@ -69,27 +79,28 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Add view links to the admin menu bar for qualifying users
+	 * Add view links to the admin menu bar for qualifying users.
 	 *
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.16.0
+	 * @since 3.7.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function add_menu_items() {
 
-		// dont display on admin panel
+		// dont display on admin panel.
 		if ( is_admin() ) {
 			return;
 		}
 
-		// check this to prevent leaked globals creating a false positive below
+		// check this to prevent leaked globals creating a false positive below.
 		if ( is_post_type_archive() ) {
 			return;
 		}
 
-		// don't need to do anything for most post types
+		// don't need to do anything for most post types.
 		global $post;
-		if ( ! $post || ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ) ) ) {
+		if ( ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ) {
 			return;
 		}
 
@@ -129,13 +140,12 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Inline JS
-	 * Updates links so admins can navigate around quickly when "viewing as"
+	 * Inline JS.
+	 * Updates links so admins can navigate around quickly when "viewing as".
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
-	 *
-	 * @return   string
+	 * @return string
 	 */
 	private function get_inline_script() {
 		ob_start();
@@ -146,26 +156,25 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Get a view url for the requested view
+	 * Get a view url for the requested view.
 	 *
-	 * @param    string $role  view option [self|visitor|student]
-	 * @param    array  $args  additional query args to add to the url
-	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 * @since [version] Take into account already present query args. e.g. ?plan=X
+	 *
+	 * @param string $role View option [self|visitor|student].
+	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
+	 * @return string
 	 */
 	private function get_url( $role, $args = array() ) {
 
-		global $post;
-		$permalink = get_permalink( $post->ID );
-
+		// returns the current url without the `llms-view-as` and `view_nonce` query args.
 		if ( 'self' === $role ) {
-			return $permalink;
+			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
 		}
 
 		$args['llms-view-as'] = $role;
 
-		$href = add_query_arg( $args, $permalink );
+		$href = add_query_arg( $args );
 		$href = wp_nonce_url( $href, 'llms-view-as', 'view_nonce' );
 
 		return $href;
@@ -173,12 +182,12 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Get the current view role/type
+	 * Get the current view role/type.
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	private function get_view() {
 
@@ -197,11 +206,11 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Get a list of available views
+	 * Get a list of available views.
 	 *
-	 * @return   array
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 *
+	 * @return array
 	 */
 	private function get_views() {
 		return array(
@@ -212,13 +221,13 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Modify the completion status of course, lessons, tracks based on current view
-	 * Visitors and students will always show content as not completed
+	 * Modify the completion status of course, lessons, tracks based on current view.
+	 * Visitors and students will always show content as not completed.
 	 *
-	 * @param    boolean $completed   actual status for the current user
-	 * @return   boolean
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 *
+	 * @param boolean $completed The actual status for the current user.
+	 * @return boolean
 	 */
 	public function modify_completion( $completed ) {
 		switch ( $this->get_view() ) {
@@ -233,14 +242,14 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Modify the status of a course access period based on the current view
-	 * Students and Visitors will see the actual access period
-	 * If viewing as self and self can bypass restrictions will appear as if course is open
+	 * Modify the status of a course access period based on the current view.
+	 * Students and Visitors will see the actual access period.
+	 * If viewing as self and self can bypass restrictions will appear as if course is open.
 	 *
-	 * @param    boolean $status  default status
-	 * @return   boolean
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 *
+	 * @param boolean $status The default status.
+	 * @return boolean
 	 */
 	public function modify_course_open( $status ) {
 
@@ -255,14 +264,14 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Modify the enrollment status of current user based on the view
-	 * students will always show as enrolled
-	 * visitors will always show as not-enrolled
+	 * Modify the enrollment status of current user based on the view.
+	 * Students will always show as enrolled.
+	 * Visitors will always show as not-enrolled.
 	 *
-	 * @param    string $status   actual status for the current user
-	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 *
+	 * @param string $status The actual status for the current user.
+	 * @return string
 	 */
 	public function modify_enrollment_status( $status ) {
 
@@ -283,12 +292,31 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions
+	 * Modify the displaying of the free enroll form (free access plans).
+	 * Visitors will never be shown the free enroll form.
 	 *
-	 * @param    array $restrictions  restriction data
-	 * @return   array
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since [version]
+	 *
+	 * @param bool $display Whether or not the form is being displayed.
+	 * @return bool
+	 */
+	public function modify_display_free_enroll_form( $display ) {
+
+		if ( ! $display || 'visitor' === $this->get_view() ) {
+			return false;
+		}
+
+		return $display;
+
+	}
+
+	/**
+	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $restrictions Restriction data.
+	 * @return array
 	 */
 	public function modify_restrictions( $restrictions ) {
 
@@ -303,7 +331,7 @@ class LLMS_View_Manager {
 	}
 
 	/**
-	 * Enqueue Scripts
+	 * Enqueue Scripts.
 	 *
 	 * @since 3.7.0
 	 * @since 3.17.8 Unknown.

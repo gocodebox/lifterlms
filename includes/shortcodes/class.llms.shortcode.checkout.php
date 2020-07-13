@@ -1,13 +1,13 @@
 <?php
 /**
- * LifterLMS Checkout Page Shortcode
+ * LifterLMS Checkout Page Shortcode.
  *
  * Controls functionality associated with shortcode [llms_checkout].
  *
- * @package LifterLMS/Shortcodes
+ * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  * @since 3.35.0 Sanitize input data.
  * @since 3.36.3 Added l10n function to membership restriction error message.
+ * @since [version] Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -31,24 +32,25 @@ class LLMS_Shortcode_Checkout {
 	public static $uid;
 
 	/**
-	 * Renders the checkout template
+	 * Renders the checkout template.
 	 *
 	 * @since 1.0.0
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 * @since 3.36.3 Added l10n function to membership restriction error message.
+	 * @since [version] Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
 	 *
 	 * @param array $atts Shortcode attributes array.
 	 * @return void
 	 */
 	private static function checkout( $atts ) {
 
-		// if there are membership restrictions, check the user is in at least one membership
-		// this is to combat CHEATERS
+		// if there are membership restrictions, check the user is in at least one membership.
+		// this is to combat CHEATERS.
 		if ( $atts['plan']->has_availability_restrictions() ) {
 			$access = false;
 			foreach ( $atts['plan']->get_array( 'availability_restrictions' ) as $mid ) {
 
-				// once we find a membership, exit
+				// once we find a membership, exit.
 				if ( llms_is_user_enrolled( self::$uid, $mid ) ) {
 					$access = true;
 					break;
@@ -64,15 +66,25 @@ class LLMS_Shortcode_Checkout {
 			// ensure the user isn't enrolled in the product being purchased.
 			if ( isset( $atts['product'] ) && llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
 
-				llms_print_notice(
-					sprintf(
-						// Translators: 2$s = The product type (course/membership); %1$s = product permalink.
-						__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
-						llms_get_page_url( 'myaccount' ),
-						$atts['product']->get_post_type_label()
-					),
-					'notice'
-				);
+				/**
+				 * Filter the displaying of the checkout form notice for already enrolled in the product being purchased.
+				 *
+				 * @since [version]
+				 *
+				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
+				 */
+				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
+					llms_print_notice(
+						sprintf(
+							// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
+							__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
+							llms_get_page_url( 'myaccount' ),
+							$atts['product']->get_post_type_label()
+						),
+						'notice'
+					);
+				}
+
 				return;
 			}
 
@@ -87,7 +99,7 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Renders the confirm payment checkout template
+	 * Renders the confirm payment checkout template.
 	 *
 	 * @since 1.0.0
 	 * @version 3.0.0
@@ -102,12 +114,12 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Output error messages when they're encountered
+	 * Output error messages when they're encountered.
 	 *
 	 * @since 3.0.0
-	 * @version 3.0.0
 	 *
-	 * @return   void
+	 * @param string $message The error message.
+	 * @return void
 	 */
 	private static function error( $message ) {
 
@@ -116,12 +128,11 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Retrieve the shortcode content
+	 * Retrieve the shortcode content.
 	 *
 	 * @since 1.0.0
-	 * @version 1.0.0
 	 *
-	 * @param array $atts shortcode attributes.
+	 * @param array $atts Shortcode attributes.
 	 * @return string
 	 */
 	public static function get( $atts ) {
@@ -131,13 +142,13 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Gather a bunch of information and output the actual content for the shortcode
+	 * Gather a bunch of information and output the actual content for the shortcode.
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @param array $atts shortcode atts from originating shortcode
+	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
 	 */
 	public static function output( $atts ) {
@@ -164,8 +175,8 @@ class LLMS_Shortcode_Checkout {
 
 		echo '<div class="llms-checkout-wrapper">';
 
-		// allow gateways to throw errors before outputting anything else
-		// useful if you need to check for extra session or query string data
+		// allow gateways to throw errors before outputting anything else.
+		// useful if you need to check for extra session or query string data.
 		$err = apply_filters( 'lifterlms_pre_checkout_error', false );
 		if ( $err ) {
 			return self::error( $err );
@@ -173,12 +184,12 @@ class LLMS_Shortcode_Checkout {
 
 		llms_print_notices();
 
-		// purchase step 1
+		// purchase step 1.
 		if ( isset( $_GET['plan'] ) && is_numeric( $_GET['plan'] ) ) {
 
 			$plan_id = llms_filter_input( INPUT_GET, 'plan', FILTER_SANITIZE_NUMBER_INT );
 
-			// Only retrieve if plan is a llms_access_plan and is published
+			// Only retrieve if plan is a llms_access_plan and is published.
 			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
