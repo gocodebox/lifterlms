@@ -1917,7 +1917,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			 * @param int $student_id WP_User ID of the student.
 			 * @param int $object_id  WP_Post ID of the object.
 			 */
-			do_action( "lifterlms_{$object_type}_{$status}", $student_id, $object_id );
+			do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
 
 			// Cascade up for parents.
 			if ( $parent_data['ids'] && $parent_data['type'] ) {
