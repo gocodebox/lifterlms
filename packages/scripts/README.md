@@ -13,6 +13,10 @@ Install the module
 npm install --save-dev @lifterlms/scripts
 ```
 
+## CHANGELOG
+
+[CHANGELOG](./CHANGELOG.md)
+
 ## API
 
 API Docs to be written.
