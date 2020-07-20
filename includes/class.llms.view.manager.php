@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *               Added `modify_display_free_enroll_form` method.
  *               `get_url` method modified so to take into account already present
  *               query args in the request URI.
+ *               Update admin bar icon.
  */
 class LLMS_View_Manager {
 
@@ -53,15 +54,15 @@ class LLMS_View_Manager {
 	 */
 	public function add_actions() {
 
-		// output view links on the admin menu.
+		// Output view links on the admin menu.
 		add_action( 'admin_bar_menu', array( $this, 'add_menu_items' ), 777 );
 
-		// filter page restrictions.
+		// Filter page restrictions.
 		add_filter( 'llms_page_restricted', array( $this, 'modify_restrictions' ), 10, 1 );
 		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 1 );
 		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 1 );
 
-		// filters we'll only run when view as links are called.
+		// Filters we'll only run when view as links are called.
 		if ( isset( $_GET['llms-view-as'] ) ) {
 
 			add_filter( 'llms_is_course_complete', array( $this, 'modify_completion' ), 10, 1 );
@@ -83,22 +84,23 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.16.0 Unknown.
+	 * @since [version] Updated icon.
 	 *
 	 * @return void
 	 */
 	public function add_menu_items() {
 
-		// dont display on admin panel.
+		// Don't display on admin panel.
 		if ( is_admin() ) {
 			return;
 		}
 
-		// check this to prevent leaked globals creating a false positive below.
+		// Check this to prevent leaked globals creating a false positive below.
 		if ( is_post_type_archive() ) {
 			return;
 		}
 
-		// don't need to do anything for most post types.
+		// Don't need to do anything for most post types.
 		global $post;
 		if ( ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ) {
 			return;
@@ -116,7 +118,7 @@ class LLMS_View_Manager {
 			array(
 				'id'     => 'llms-view-as-menu',
 				'parent' => 'top-secondary',
-				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png"></span>' . $title,
+				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
 			)
 		);
 
@@ -141,6 +143,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Inline JS.
+	 *
 	 * Updates links so admins can navigate around quickly when "viewing as".
 	 *
 	 * @since 3.7.0
@@ -167,7 +170,7 @@ class LLMS_View_Manager {
 	 */
 	private function get_url( $role, $args = array() ) {
 
-		// returns the current url without the `llms-view-as` and `view_nonce` query args.
+		// Returns the current url without the `llms-view-as` and `view_nonce` query args.
 		if ( 'self' === $role ) {
 			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
 		}
@@ -195,7 +198,7 @@ class LLMS_View_Manager {
 			return 'self';
 		}
 
-		// ensure it's a valid view
+		// Ensure it's a valid view
 		$views = $this->get_views();
 		if ( ! isset( $views[ $_GET['llms-view-as'] ] ) ) {
 			return 'self';
@@ -222,6 +225,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify the completion status of course, lessons, tracks based on current view.
+	 *
 	 * Visitors and students will always show content as not completed.
 	 *
 	 * @since 3.7.0
@@ -243,7 +247,9 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify the status of a course access period based on the current view.
+	 *
 	 * Students and Visitors will see the actual access period.
+	 *
 	 * If viewing as self and self can bypass restrictions will appear as if course is open.
 	 *
 	 * @since 3.7.0
@@ -265,7 +271,9 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify the enrollment status of current user based on the view.
+	 *
 	 * Students will always show as enrolled.
+	 *
 	 * Visitors will always show as not-enrolled.
 	 *
 	 * @since 3.7.0
@@ -293,6 +301,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify the displaying of the free enroll form (free access plans).
+	 *
 	 * Visitors will never be shown the free enroll form.
 	 *
 	 * @since [version]
@@ -337,11 +346,11 @@ class LLMS_View_Manager {
 	 * @since 3.17.8 Unknown.
 	 * @since 3.35.0 Declare asset version.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function scripts() {
 
-		// if it's self we don't need anything fancy going on here
+		// If it's self we don't need anything fancy going on here
 		if ( 'self' === $this->get_view() ) {
 			return;
 		}
