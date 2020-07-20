@@ -1817,7 +1817,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * Lessons have binary completion (complete or incomplete).
 		 *
 		 * Other objects are dependent on their children's statuses. These other object types
-		 * must check the combined progress of their children to see if it's complete / incomplete
+		 * must check the combined progress of their children to see if it's complete / incomplete.
 		 */
 		$complete = ( 'lesson' === $object_type ) ? ( 'complete' === $status ) : ( 100 == $this->get_progress( $object_id, $object_type, false ) );
 
