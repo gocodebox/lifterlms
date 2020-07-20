@@ -1710,7 +1710,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$delete = true;
 
-		} else if ( ! $enrollment_trigger ) {
+		} elseif ( ! $enrollment_trigger ) {
 
 			/**
 			 * Customize the behavior of enrollment deletion for "legacy" orders.
