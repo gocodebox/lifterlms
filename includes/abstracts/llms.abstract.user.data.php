@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.9.0
- * @version 3.17.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.9.0
  * @since 3.17.0 Unknown.
  * @since 3.34.0 Allow `user_url` to be retrieved by `get()`.
+ * @since [version] The `get_id()` always returns an int.
  */
 abstract class LLMS_Abstract_User_Data {
 
@@ -183,12 +184,13 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the user id
 	 *
-	 * @return   int
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 * @since [version] Always return an absolute integer.
+	 *
+	 * @return int
 	 */
 	public function get_id() {
-		return $this->id;
+		return absint( $this->id );
 	}
 
 	/**
