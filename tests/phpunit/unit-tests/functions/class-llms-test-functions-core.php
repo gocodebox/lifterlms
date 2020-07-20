@@ -10,7 +10,7 @@
  * @since 3.36.1 Use exception from lifterlms-tests lib.
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
- * @version 3.37.14
+ * @since [version] Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -72,6 +72,29 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'another', 'new_key', 'item' ) );
 
 	}
+
+	/**
+	 * Test llms_get_completable_post_types()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_completable_post_types() {
+		$this->assertEquals( array( 'course', 'section', 'lesson' ), llms_get_completable_post_types() );
+	}
+
+	/**
+	 * Test llms_get_completable_taxonomies()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_completable_taxonomies() {
+		$this->assertEquals( array( 'course_track' ), llms_get_completable_taxonomies() );
+	}
+
 
 	/**
 	 * Test llms_get_core_supported_themes()
