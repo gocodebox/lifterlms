@@ -1528,6 +1528,7 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @since 3.36.0
 	 * @since 3.37.14 Use persistent reference to JS Cookies.
+	 * @since 4.2.0 Set sameSite to `strict` for cookies.
 	 *
 	 * @param string group Storage group id/name.
 	 */
@@ -1589,6 +1590,7 @@ var LLMS = window.LLMS || {};
 		 * Store an item in the group by key.
 		 *
 		 * @since 3.36.0
+		 * @since 4.2.0 Set sameSite to `strict` for cookies.
 		 *
 		 * @param string key Item key name.
 		 * @param mixed val Item value
@@ -1597,7 +1599,7 @@ var LLMS = window.LLMS || {};
 		this.set = function( key, val ) {
 			var data = self.getAll();
 			data[ key ] = val;
-			return store.set( group, data );
+			return store.set( group, data, { sameSite: 'strict' } );
 		};
 	
 	}

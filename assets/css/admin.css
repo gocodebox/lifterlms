@@ -2621,6 +2621,10 @@ a.llms-view-as {
     font-size: 20px;
     padding: 20px;
     margin: -20px -20px 20px; }
+  .wrap.llms-reporting .llms-setting-group .llms-help-tooltip .dashicons,
+  .wrap.lifterlms-settings .llms-setting-group .llms-help-tooltip .dashicons {
+    color: #444;
+    cursor: help; }
   .wrap.llms-reporting .llms-setting-group .form-table,
   .wrap.lifterlms-settings .llms-setting-group .form-table {
     margin: 0; }
