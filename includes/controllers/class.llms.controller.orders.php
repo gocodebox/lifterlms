@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
- * @since [version] Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
+ * @since 4.2.0 Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
  *               Also `llms_unenroll_on_error_order` fiter hook added.
  */
 class LLMS_Controller_Orders {
@@ -29,7 +29,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.19.0 Updated.
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
-	 * @since [version] Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
+	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 */
 	public function __construct() {
 
@@ -318,7 +318,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Added `llms_unenroll_on_error_order` filter hook.
+	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
 	 *
 	 * @param  LLMS_Order $order Instance of an LLMS_Order
 	 * @return void
@@ -333,7 +333,7 @@ class LLMS_Controller_Orders {
 		/**
 		 * Determine if student should be unenrolled on order error.
 		 *
-		 * @since [version]
+		 * @since 4.2.0
 		 *
 		 * @param bool       $unenroll_on_error_order True if the student should be unenrolled, false otherwise. Default true.
 		 * @param LLMS_Order $order                   Order object.
@@ -385,7 +385,7 @@ class LLMS_Controller_Orders {
 	 * Called when an user enrollment is deleted.
 	 * Will set the related order status to 'cancelled'.
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @param int    $user_id    WP User ID.
 	 * @param int    $product_id WP Post ID of the course or membership.

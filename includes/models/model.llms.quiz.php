@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  * @since 4.0.0 Remove deprecated methods.
- * @since [version] Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
+ * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -144,7 +144,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Determine if the quiz is an orphan.
 	 *
 	 * @since 3.16.12
-	 * @since [version] Added the $deep parameter.
+	 * @since 4.2.0 Added the $deep parameter.
 	 *
 	 * @param bool $deep Optional. Whether or not deeply check this quiz is orphan. Default `false`.
 	 *                   When set to true will ensure not only that this quiz as a `lesson_id` property set

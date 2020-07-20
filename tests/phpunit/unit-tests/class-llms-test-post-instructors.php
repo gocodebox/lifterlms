@@ -38,7 +38,7 @@ class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 	 * Test get and set methods.
 	 *
 	 * @since Unknown
-	 * @since [version] Added check to ensure `name` is set when no instructor data is set.
+	 * @since 4.2.0 Added check to ensure `name` is set when no instructor data is set.
 	 *
 	 * @return void
 	 */

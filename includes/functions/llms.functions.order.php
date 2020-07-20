@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -170,7 +170,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Setup a pending order which can be passed to an LLMS_Payment_Gateway for processing.
  *
  * @since 3.29.0
- * @since [version] Prevent double displaying a notice to already enrolled students in the product being purchased.
+ * @since 4.2.0 Prevent double displaying a notice to already enrolled students in the product being purchased.
  *
  * @param array $data {
  *     Data used to create a pending order.

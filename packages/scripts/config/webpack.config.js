@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since 1.3.0
- * @version [version]
+ * @version 1.2.1
  */
 
 // Deps.
@@ -18,7 +18,7 @@ const
 /**
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
  *
- * @since [version]
+ * @since 1.2.1
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
@@ -38,7 +38,7 @@ function requestToExternal( request ) {
 /**
  * Used by dependency extractor to handle requests to scripts included in the LifterLMS Core.
  *
- * @since [version]
+ * @since 1.2.1
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
@@ -52,7 +52,7 @@ function requestToHandle( request ) {
 /**
  * Configure the `entry` object of the webpack config file.
  *
- * @since [version]
+ * @since 1.2.1
  *
  * @param {String[]} js     Array of JS file slugs.
  * @return {Object} Webpack config entry object.
@@ -71,7 +71,7 @@ function setupEntry( js ) {
 /**
  * Setup the `plugins` array of the webpack config file.
  *
- * @since [version]
+ * @since 1.2.1
  *
  * @param {Object[]} plugins Array of plugin objects or classes.
  * @param {String[]} css     Array of CSS file slugs.
@@ -124,7 +124,7 @@ function setupPlugins( plugins, css, prefix ) {
  * SASS files should be imported via the JS source file.
  *
  * @since 1.3.0
- * @since [version] Reduce method size by using helper methods
+ * @since 1.2.1 Reduce method size by using helper methods
  *
  * @param {String[]} options.css        Array of CSS file slugs.
  * @param {String[]} options.js         Array of JS file slugs.

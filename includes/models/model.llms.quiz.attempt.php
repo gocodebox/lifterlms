@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0 Unknown.
  * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
  *              Fix issue encountered when answering a question incorrectly after initially answering it correctly.
- * @since [version] Use strict type comparisons where possible.
+ * @since 4.2.0 Use strict type comparisons where possible.
  *              In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
  *              Added the public method `get_siblings()`.
  */
@@ -247,7 +247,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get sibling attempts
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @param array  $args Optional. List of args to be passed as params of the quiz attempts query. Default empty array.
 	 *                     See `LLMS_Query_Quiz_Attempt` and `LLMS_Database_Query` for the list of args.
@@ -280,7 +280,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Ensure only one return point.
+	 * @since 4.2.0 Ensure only one return point.
 	 *
 	 * @param string $key The key of the data to count.
 	 * @return int
@@ -370,7 +370,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.2
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Use strict type comparison.
+	 * @since 4.2.0 Use strict type comparison.
 	 *
 	 * @param int $question_id WP Post ID of the LLMS_Question.
 	 * @return int
@@ -476,7 +476,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Use strict type comparison.
+	 * @since 4.2.0 Use strict type comparison.
 	 *
 	 * @param int $last_question Optional. WP Post ID of the current LLMS_Question the "next" refers to. Default `null`.
 	 * @return int|false
@@ -679,7 +679,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Made sure the status key exists to avoid trying to access to array's undefined index.
+	 * @since 4.2.0 Made sure the status key exists to avoid trying to access to array's undefined index.
 	 *
 	 * @param string $key Key to translate.
 	 * @return string
@@ -767,7 +767,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * Overrides the parent method to perform other actions before deletion.
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @return bool `true` on success, `false` otherwise.
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status on save.
- * @since [version] In ` save_delete_enrollment()` removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
+ * @since 4.2.0 In ` save_delete_enrollment()` removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
  *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
  *                Also, add order note about the enrollment deletion only if it actually occurred.
  */
@@ -136,7 +136,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Delete enrollment data based on posted values.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
+	 * @since 4.2.0 Removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
 	 *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
 	 *                Also, add order note about the enrollment deletion only if it actually occurred.
 	 *

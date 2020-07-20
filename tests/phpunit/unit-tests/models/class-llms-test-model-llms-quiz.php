@@ -10,7 +10,7 @@
  *
  * @since 3.16.0
  * @since 3.37.2 Added test coverage for many untested methods.
- * @since [version] Added test coverage for `is_orphan()` method with `$deep` param set to true.
+ * @since 4.2.0 Added test coverage for `is_orphan()` method with `$deep` param set to true.
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
@@ -402,7 +402,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the is_orphan() method with the $deep param set to true
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @return void
 	 */

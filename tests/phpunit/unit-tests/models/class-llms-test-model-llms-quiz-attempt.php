@@ -8,7 +8,7 @@
  * @since 3.9.0
  * @since 3.17.4 Unknown.
  * @since 4.0.0 Add tests for the answer_question() method.
- * @since [version] Added tests for the get_siblings() method.
+ * @since 4.2.0 Added tests for the get_siblings() method.
  *              Added tests on lesson completion status when deleting attempts.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
@@ -18,7 +18,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.9.2
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Added uid and courses parameter.
+	 * @since 4.2.0 Added uid and courses parameter.
 	 *
 	 * @param integer $num_questions Optional. Number of questions to add to the quiz. Default 5.
 	 * @param integer $uid           Optional. WordPress user id, if not passed a new user will be created. Default `null`.
@@ -44,7 +44,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Get a series of initialized mock sibling attempts
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @param integer $num           Optional. Number of sibling attmpts. Default 5.
 	 * @param integer $num_questions Optional. Number of questions to add to the quiz. Default 5.

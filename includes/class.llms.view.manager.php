@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.7.0
  * @since 3.35.0 Sanitize `$_GET` data.
- * @since [version] Disable the view management when creating a pending order.
+ * @since 4.2.0 Disable the view management when creating a pending order.
  *               Added `modify_display_free_enroll_form` method.
  *               `get_url` method modified so to take into account already present
  *               query args in the request URI.
@@ -29,7 +29,7 @@ class LLMS_View_Manager {
 	 * Constructor
 	 *
 	 * @since 3.7.0
-	 * @since [version] Added early return when creating a pending order.
+	 * @since 4.2.0 Added early return when creating a pending order.
 	 */
 	public function __construct() {
 
@@ -48,7 +48,7 @@ class LLMS_View_Manager {
 	 * Add actions & filters.
 	 *
 	 * @since 3.7.0
-	 * @since [version] Added filter to handle the displaying of the free enroll.
+	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Updated icon.
+	 * @since 4.2.0 Updated icon.
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_View_Manager {
 	 * Get a view url for the requested view.
 	 *
 	 * @since 3.7.0
-	 * @since [version] Take into account already present query args. e.g. ?plan=X
+	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X
 	 *
 	 * @param string $role View option [self|visitor|student].
 	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
@@ -304,7 +304,7 @@ class LLMS_View_Manager {
 	 *
 	 * Visitors will never be shown the free enroll form.
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @param bool $display Whether or not the form is being displayed.
 	 * @return bool

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0  Remove deprecated method `get_defaults()`.
- * @since [version] Normalized return structure in `get_instructors()` when no instructor set.
+ * @since 4.2.0 Normalized return structure in `get_instructors()` when no instructor set.
  */
 class LLMS_Post_Instructors {
 
@@ -67,7 +67,7 @@ class LLMS_Post_Instructors {
 	 *
 	 * @since 3.13.0
 	 * @since 3.23.0 Unknown.
-	 * @since [version] Normalize return data when no instructor data is saved.
+	 * @since 4.2.0 Normalize return data when no instructor data is saved.
 	 *
 	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
 	 * @return array[] {
