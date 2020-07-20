@@ -8,20 +8,27 @@
  * @since 3.9.0
  * @since 3.17.4 Unknown.
  * @since 4.0.0 Add tests for the answer_question() method.
+ * @since [version] Added tests for the get_siblings() method.
+ *              Added tests on lesson completion status when deleting attempts.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	/**
 	 * Get an initialized mock attempt
-	 * @param    integer    $num_questions  number of questions to add to the quiz
-	 * @return   obj
-	 * @since    3.9.2
-	 * @version  3.16.11
+	 *
+	 * @since 3.9.2
+	 * @since 3.16.11 Unknown.
+	 * @since [version] Added uid and courses parameter.
+	 *
+	 * @param integer $num_questions Optional. Number of questions to add to the quiz. Default 5.
+	 * @param integer $uid           Optional. WordPress user id, if not passed a new user will be created. Default `null`.
+	 * @param int[]   $course        Optional. Course id, if not passed a new mock course will be created. Default `null`.
+	 * @return obj
 	 */
-	private function get_mock_attempt( $num_questions = 5 ) {
+	private function get_mock_attempt( $num_questions = 5, $uid = null, $course = null ) {
 
-		$uid = $this->factory->user->create();
-		$courses = $this->generate_mock_courses( 1, 1, 1, 1, $num_questions );
+		$uid     = $uid ? $uid : $this->factory->user->create();
+		$courses = ! empty( $course ) ? array( $course ) : $this->generate_mock_courses( 1, 1, 1, 1, $num_questions );
 
 		$course = llms_get_post( $courses[0] );
 		$lesson = $course->get_lessons()[0];
@@ -32,6 +39,31 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 		$attempt->save();
 		return $attempt;
 
+	}
+
+	/**
+	 * Get a series of initialized mock sibling attempts
+	 *
+	 * @since [version]
+	 *
+	 * @param integer $num           Optional. Number of sibling attmpts. Default 5.
+	 * @param integer $num_questions Optional. Number of questions to add to the quiz. Default 5.
+	 * @param integer $uid           Optional. WordPress user id, if not passed a new user will be created. Default `null`.
+	 * @param int[]   $course        Optional. Course id, if not passed a new mock course will be created. Default `null`.
+	 * @return obj[]
+	 */
+	private function get_mock_sibling_attempts( $num = 5, $num_questions = 5, $uid = null, $course = null ) {
+
+		$uid     = $uid ? $uid : $this->factory->user->create();
+		$course = ! empty( $course ) ? $course : $this->generate_mock_courses( 1, 1, 1, 1, $num_questions )[0];
+
+		// Create attempts.
+		$attempts = array();
+		for ( $i = 0; $i < $num; $i++ ) {
+			$attempts[] = $this->get_mock_attempt( $num_questions, $uid, $course );
+		}
+
+		return $attempts;
 	}
 
 	/**
@@ -434,6 +466,172 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			$i = $i + ( 5 * rand( 1, 20 ) );
 
 		}
+
+	}
+
+	/**
+	 * Test get siblings
+	 *
+	 * @return void
+	 */
+	public function test_get_siblings() {
+
+		$attempts = $this->get_mock_sibling_attempts( 5, 1 );
+		$attempt_ids = array_map(
+			function( $attempt ) {
+				return $attempt->get( 'id' );
+			},
+			$attempts
+		);
+
+
+		// Test get siblings of the first attempt equals to the created array of attempts (id).
+		$this->assertEquals(
+			array_reverse( $attempt_ids ),
+			$attempts[0]->get_siblings( array(), 'ids' )
+		);
+
+		// Test exclude.
+		$this->assertEquals(
+			array_reverse( array_slice( $attempt_ids, 1, count( $attempt_ids ) ) ),
+			$attempts[0]->get_siblings(
+				array(
+					'exclude' => array( $attempt_ids[0] ),
+				),
+				'ids'
+			)
+		);
+
+		// Test per page, get only 4 attempts out of 5.
+		$this->assertEquals(
+			array_slice( array_reverse( $attempt_ids ), 0, count( $attempt_ids ) - 1 ),
+			$attempts[0]->get_siblings(
+				array(
+					'per_page' => count( $attempt_ids ) - 1,
+				),
+				'ids'
+			)
+		);
+
+		// Test return as attempt.
+		$is_attempt = $attempts[0]->get_siblings(
+			array(
+				'per_page' => 1,
+			),
+			'attempts'
+		)[0] instanceof LLMS_Quiz_Attempt;
+		$is_attempt_two = $attempts[0]->get_siblings(
+			array(
+				'per_page' => 1,
+			),
+			'whatever'
+		)[0] instanceof LLMS_Quiz_Attempt;
+		$this->assertTrue( $is_attempt );
+
+	}
+
+	/**
+	 * Test lesson completion on delete attempts for a lesson not requiring a passing grade
+	 *
+	 * @return void
+	 */
+	public function test_delete_not_requiring_passing_grade_lesson() {
+
+		// Create 3 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take a quiz (no passing). This will mark the lesson as complete.
+		$this->take_a_quiz( 0, 65, 1, $attempts[0] );
+
+		// Only the last deletion will mark the lesson as incomplete.
+		foreach ( $attempts as $attempt ) {
+			$this->assertTrue( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+			$attempt->delete();
+		}
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+
+		// Create 3 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take a quiz (passing). This will mark the lesson as complete.
+		$this->take_a_quiz( 100, 65, 1, $attempts[0] );
+
+		// We have 1 passing attempt, still only the last deletion will mark the lesson as incomplete.
+		foreach ( $attempts as $attempt ) {
+			$this->assertTrue( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+			$attempt->delete();
+		}
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+
+	}
+
+	/**
+	 * Test lesson completion on delete attempts for a lesson requiring a passing grade
+	 *
+	 * @return void
+	 */
+	public function test_delete_requiring_passing_grade_lesson() {
+
+		// Create 3 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take a quiz (no passing). This will NOT mark the lesson as complete.
+		$this->take_a_quiz( 0, 65, 1, $attempts[0], 'no', 'yes' );
+
+		foreach ( $attempts as $attempt ) {
+			$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+			$attempt->delete();
+		}
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+
+		// Create 3 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take a quiz (passing). This will mark the lesson as complete.
+		$this->take_a_quiz( 100, 65, 1, $attempts[0], 'no', 'yes' );
+
+		// We have 1 passing attempt (the first), deleting all the others (see the reverse order) will not mark the lesson as incomplete.
+		foreach ( array_reverse( $attempts ) as $attempt ) {
+			$this->assertTrue( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+			$attempt->delete();
+		}
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+
+		// Create 1 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take a quiz (passing). This will mark the lesson as complete.
+		$this->take_a_quiz( 100, 65, 1, $attempts[0], 'no', 'yes' );
+
+		// We have 1 passing attempt (the first), deleting it will mark the lesson as incomplete.
+		$attempts[0]->delete();
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+
+		// Create 3 attempts (for a quiz with 1 question), for a given lesson.
+		$attempts   = $this->get_mock_sibling_attempts( 3, 1 );
+		$lesson_id  = $attempts[0]->get( 'lesson_id' );
+		$student_id = $attempts[0]->get( 'student_id' );
+
+		// Take two passing quizzes.
+		$this->take_a_quiz( 100, 65, 1, $attempts[0], 'no', 'yes' );
+		//$this->take_a_quiz( 100, 65, 1, $attempts[1], 'no', 'yes' );
+
+		// We have 2 passing attempts (the first two), the lesson will be marked as incomplete only after deleting all the passed attempts.
+		foreach ( array_reverse( $attempts ) as $attempt ) {
+			$this->assertTrue( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
+			$attempt->delete();
+		}
+		$this->assertFalse( llms_is_complete( $student_id, $lesson_id, 'lesson' ) );
 
 	}
 
