@@ -1618,7 +1618,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				 */
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			} elseif ( $enrollment_trigger == $trigger ) {
+			} elseif ( $enrollment_trigger === $trigger ) {
 
 				$update = true;
 
