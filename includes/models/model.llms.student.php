@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
  * @since 3.37.9 Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
  * @since 4.0.0 Remove previously deprecated methods.
- * @since [version] The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
+ * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  *              Added new filter to allow customization of object completion data.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
@@ -1689,7 +1689,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
-	 * @since [version] The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
+	 * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
 	 *
 	 * @see `llms_delete_student_enrollment()` calls this function without having to instantiate the LLMS_Student class first.
 	 *
@@ -1749,7 +1749,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			 * Fires after an user enrollment has been deleted.
 			 *
 			 * @since 3.33.0
-			 * @since [version] The `$enrollment_trigger` parameter was added.
+			 * @since 4.2.0 The `$enrollment_trigger` parameter was added.
 			 *
 			 * @param int    $user_id            WP User ID.
 			 * @param int    $product_id         WP Post ID of the course or membership.
@@ -1777,7 +1777,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Inserts / updates necessary user postmeta data.
 	 *
 	 * @since 3.17.0
-	 * @since [version] Use filterable functions to determine if the object is completable.
+	 * @since 4.2.0 Use filterable functions to determine if the object is completable.
 	 *                Added filter to allow customization of object parent data.
 	 *
 	 * @param string $status      New status to update to, either "complete" or "incomplete".
@@ -1851,7 +1851,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		/**
 		 * Filter the parent data used to cascade object completion up to an object's parent(s).
 		 *
-		 * @since [version]
+		 * @since 4.2.0
 		 *
 		 * @param array  $parent_data {
 		 *     Array of the object's parent information.

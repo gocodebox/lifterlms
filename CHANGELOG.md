@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v4.2.0 - 2020-07-21
+-------------------
+
+##### Updates
+
++ Admins can now preview the checkout screen as visitors or students using the "View As" function from the WP Admin bar
++ Javascript cookies now set cookies with `sameSite` set to `strict` as recommended by Firefox/Mozilla.
++ Added filters to allow 3rd parties to use LifterLMS completion tracking APIs to "complete" external or non-LMS content.
++ Added "deep" orphan checks when checking the relationship between a quiz and a lesson.
++ Normalized the return structure in `LLMS_Post_Instructors::get_instructors()` when no instructor set, thanks [@nicolas-jaussaud](https://github.com/nicolas-jaussaud)!
++ Update LifterLMS rocket icon used in the WP Admin Bar in the "View As" area.
+
+##### Bug fixes
+
++ When deleting a quiz attempt the related lesson will now be automatically marked as "Incomplete" when appropriate.
++ `LLMS_Abstact_User_Data::get_id()` now always returns an integer.
++ Fixed a 404 error resulting from settings tooltips referencing a missing icon asset.
++ Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
+
+
+
 v4.1.0 - 2020-07-06
 -------------------
 

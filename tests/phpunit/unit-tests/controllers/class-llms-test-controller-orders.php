@@ -12,9 +12,9 @@
  * @since 3.36.1 When testing deleting/erroring orders make sure to schedule a recurring payment when setting an order as active so that,
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
- * @since [version] Added `test_on_user_enrollment_deleted()`.
+ * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
  *
- * @version [version]
+ * @version 4.2.0
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -264,7 +264,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * The controller's `on_user_enrollment_deleted()` method is reponsible of changing the order status to `cancelled`
 	 * in reaction to the deletion of an enrollment with the same order as trigger.
 	 * @group whattino
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @return void
 	 */

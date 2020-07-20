@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.35.0 Unknown.
- * @since [version] Added `exclude` arg.
+ * @since 4.2.0 Added `exclude` arg.
  *
  * @arg  $attempt    (int)       Query by attempt number
  * @arg  $quiz_id    (int|array) Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
@@ -44,7 +44,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * Retrieve default arguments for a student query
 	 *
 	 * @since 3.16.0
-	 * @since [version] Added `exclude` default arg.
+	 * @since 4.2.0 Added `exclude` default arg.
 	 *
 	 * @return array
 	 */
@@ -104,7 +104,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * If no valid statuses, returns to the default.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Added `exclude` arg sanitization.
+	 * @since 4.2.0 Added `exclude` arg sanitization.
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 *
 	 * @since 3.16.0
 	 * @since 3.35.0 Better SQL preparation.
-	 * @since [version] Added `exclude` arg logic.
+	 * @since 4.2.0 Added `exclude` arg logic.
 	 *
 	 * @return string
 	 */

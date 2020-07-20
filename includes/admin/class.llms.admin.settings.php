@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.1 Fix saving issue.
  * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
  * @since 3.37.9 Add option for fields to show an asterisk for required fields.
- * @since [version] Use dashicons for tooltip icon display.
+ * @since 4.2.0 Use dashicons for tooltip icon display.
  */
 class LLMS_Admin_Settings {
 
@@ -759,7 +759,7 @@ class LLMS_Admin_Settings {
 	 *
 	 * @since 1.4.5
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Use a dashicon in place of image for tooltip icon.
+	 * @since 4.2.0 Use a dashicon in place of image for tooltip icon.
 	 *
 	 * @param array $field Associative array of field data.
 	 * @return array {

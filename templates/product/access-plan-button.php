@@ -7,8 +7,8 @@
  * @package LifterLMS/Templates
  *
  * @since 3.23.0
- * @since [version] Added `llms_display_free_enroll_form` filter hook.
- * @version [version]
+ * @since 4.2.0 Added `llms_display_free_enroll_form` filter hook.
+ * @version 4.2.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Filter the displaying of the free enroll form.
  *
- * @since [version]
+ * @since 4.2.0
  *
  * @param boolean          $display Whether or not displaying the free enroll form.
  * @param LLMS_Access_Plan $plan    Instance of the LLMS_Access_Plan.

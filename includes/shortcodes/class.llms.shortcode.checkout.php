@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  * @since 3.35.0 Sanitize input data.
  * @since 3.36.3 Added l10n function to membership restriction error message.
- * @since [version] Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
+ * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -37,7 +37,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 * @since 3.36.3 Added l10n function to membership restriction error message.
-	 * @since [version] Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
+	 * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
 	 *
 	 * @param array $atts Shortcode attributes array.
 	 * @return void
@@ -69,7 +69,7 @@ class LLMS_Shortcode_Checkout {
 				/**
 				 * Filter the displaying of the checkout form notice for already enrolled in the product being purchased.
 				 *
-				 * @since [version]
+				 * @since 4.2.0
 				 *
 				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
 				 */

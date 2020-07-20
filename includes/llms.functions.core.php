@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,7 +214,7 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 /**
  * Retrieve an array of post types which can be completed by students
  *
- * @since [version]
+ * @since 4.2.0
  *
  * @return string[]
  */
@@ -234,7 +234,7 @@ function llms_get_completable_post_types() {
 /**
  * Retrieve an array of taxonomies which can be completed by students
  *
- * @since [version]
+ * @since 4.2.0
  *
  * @return string[]
  */
@@ -243,7 +243,7 @@ function llms_get_completable_taxonomies() {
 	/**
 	 * Filter the list of taxonomies which can be completed by students.
 	 *
-	 * @since [version]
+	 * @since 4.2.0
 	 *
 	 * @param string[] $taxonomies Taxonomy names.
 	 */

@@ -4,9 +4,9 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.8.0
- * @since [version] Added access plans action button selector to the list of links to update.
+ * @since 4.2.0 Added access plans action button selector to the list of links to update.
  *
- * @version [version]
+ * @version 4.2.0
  */
 
 ( function( $, undefined ) {
@@ -46,7 +46,7 @@
 		 * Update various links on the page for easy navigation when using views.
 		 *
 		 * @since 3.8.0
-		 * @since [version] Added access plans action button selector to the list of links to update.
+		 * @since 4.2.0 Added access plans action button selector to the list of links to update.
 		 *
 		 * @return void
 		 */
