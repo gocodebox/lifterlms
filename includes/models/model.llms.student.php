@@ -1778,7 +1778,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.17.0
 	 * @since 4.2.0 Use filterable functions to determine if the object is completable.
-	 *                Added filter to allow customization of object parent data.
+	 *              Added filter to allow customization of object parent data.
 	 *
 	 * @param string $status      New status to update to, either "complete" or "incomplete".
 	 * @param int    $object_id   WP_Post ID of the object.

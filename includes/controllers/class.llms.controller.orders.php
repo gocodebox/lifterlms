@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
  * @since 4.2.0 Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
- *               Also `llms_unenroll_on_error_order` fiter hook added.
+ *              Also `llms_unenroll_on_error_order` fiter hook added.
  */
 class LLMS_Controller_Orders {
 
@@ -320,7 +320,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
 	 *
-	 * @param  LLMS_Order $order Instance of an LLMS_Order
+	 * @param LLMS_Order $order Instance of an LLMS_Order.
 	 * @return void
 	 *
 	 * @since    3.0.0
