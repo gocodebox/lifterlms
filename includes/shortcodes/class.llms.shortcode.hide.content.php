@@ -4,7 +4,7 @@
  *
  * [lifterlms_hide_content]
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.5.1
  * @version 3.24.1

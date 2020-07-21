@@ -4,7 +4,7 @@
  *
  * [lifterlms_bbp_course_forums]
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.12.0
  * @version 3.12.1

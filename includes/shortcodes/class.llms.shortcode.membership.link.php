@@ -2,11 +2,11 @@
 /**
  * LifterLMS Membership Link Shortcode
  *
- * Output an anchor link for a membership.
+ * Output an anchor link for a membership
  *
  * [lifterlms_membership_link]
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.0.0
  * @version 3.4.3

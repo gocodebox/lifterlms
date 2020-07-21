@@ -4,7 +4,7 @@
  *
  * [lifterlms_my_achievements]
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.14.1
  * @version 3.14.1

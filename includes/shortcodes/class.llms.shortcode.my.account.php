@@ -4,7 +4,7 @@
  *
  * Shortcode: [lifterlms_my_account].
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
  * @version 4.0.0

@@ -4,7 +4,7 @@
  *
  * [lifterlms_course_continue_button]
  *
- * @package LifterLMS/Shortcodes/Classes
+ * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.11.1
  * @version 3.11.1
