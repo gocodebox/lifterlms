@@ -559,7 +559,7 @@ class LLMS_Template_Loader {
 		}
 
 		// Needed by `llms_page_restricted()` to work as expected.
-		$is_singular = $query->is_singular;
+		$is_singular        = $query->is_singular;
 		$query->is_singular = true;
 
 		$page_restricted = llms_page_restricted( get_the_ID() );

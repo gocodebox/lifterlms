@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 3.36.1
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
+ * @since 4.2.0 Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
+ *              Also `llms_unenroll_on_error_order` fiter hook added.
  */
 class LLMS_Controller_Orders {
 
@@ -26,7 +28,8 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Updated.
-	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion
+	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
+	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
 	 */
 	public function __construct() {
 
@@ -40,6 +43,9 @@ class LLMS_Controller_Orders {
 
 		// this action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed.
 		add_action( 'before_delete_post', array( $this, 'on_delete_order' ) );
+
+		// this action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted.
+		add_action( 'llms_user_enrollment_deleted', array( $this, 'on_user_enrollment_deleted' ), 10, 3 );
 
 		/**
 		 * Status Change Actions for Orders and Transactions
@@ -308,15 +314,33 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Called when an order's status changes to refunded, cancelled, expired, or failed
+	 * Called when an order's status changes to refunded, cancelled, expired, or failed.
 	 *
-	 * @param    obj $order  instance of an LLMS_Order
-	 * @return   void
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
+	 *
+	 * @param LLMS_Order $order Instance of an LLMS_Order.
+	 * @return void
 	 *
 	 * @since    3.0.0
 	 * @version  3.10.0
 	 */
 	public function error_order( $order ) {
+
+		$order->unschedule_recurring_payment();
+
+		/**
+		 * Determine if student should be unenrolled on order error.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param bool       $unenroll_on_error_order True if the student should be unenrolled, false otherwise. Default true.
+		 * @param LLMS_Order $order                   Order object.
+		 */
+		if ( ! apply_filters( 'llms_unenroll_on_error_order', true, $order ) ) {
+			return;
+		}
 
 		switch ( current_filter() ) {
 
@@ -334,8 +358,6 @@ class LLMS_Controller_Orders {
 				break;
 
 		}
-
-		$order->unschedule_recurring_payment();
 
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 
@@ -355,6 +377,34 @@ class LLMS_Controller_Orders {
 		$order = llms_get_post( $post_id );
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+		}
+
+	}
+
+	/**
+	 * Called when an user enrollment is deleted.
+	 * Will set the related order status to 'cancelled'.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param int    $user_id    WP User ID.
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    The deleted enrollment trigger, or 'any' if no specific trigger.
+	 * @return void
+	 */
+	public function on_user_enrollment_deleted( $user_id, $product_id, $trigger ) {
+
+		$order_id = 'order_' === substr( $trigger, 0, 6 ) ? absint( substr( $trigger, 6 ) ) : false;
+		$order    = $order_id ? llms_get_post( $order_id ) : false;
+
+		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+
+			// No need to run an unenrollment as we're reacting to an enrollment deletion, user enrollments data already removed.
+			add_filter( 'llms_unenroll_on_error_order', '__return_false', 100 );
+			$order->set_status( 'cancelled' );
+			// Reset unenrollment's suspension.
+			remove_filter( 'llms_unenroll_on_error_order', '__return_false', 100 );
+
 		}
 
 	}

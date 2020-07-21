@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,18 +14,26 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Quiz_Attempt model class
  *
  * @since 3.9.0
+ * @since 3.9.2 Added `calculate_point_weight()`, `get_question_order()`, `is_passing()` methods.
  * @since 3.16.0 Unknown.
+ * @since 3.16.7 Unknown.
+ * @since 3.17.1 Unknown.
+ * @since 3.19.2 Unknown.
  * @since 3.24.0 Unknown.
+ * @since 3.26.3 Unknown.
  * @since 3.29.0 Unknown.
  * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
  *              Fix issue encountered when answering a question incorrectly after initially answering it correctly.
+ * @since 4.2.0 Use strict type comparisons where possible.
+ *              In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
+ *              Added the public method `get_siblings()`.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Array of table column name => format
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $columns = array(
 		'student_id'  => '%d',
@@ -46,16 +54,18 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Database Table Name
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $table = 'quiz_attempts';
 
 	/**
 	 * Constructor
 	 *
-	 * @param    mixed $item  array/obj of attempt data or int
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param mixed $item Optional. Array/obj of attempt data or int. Default `null`.
+	 * @return void
 	 */
 	public function __construct( $item = null ) {
 
@@ -134,7 +144,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @since 3.24.0 Unknown.
 	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
 	 *
-	 * @return LLMS_Quiz Instance of the current quiz object.
+	 * @return LLMS_Quiz_Attempt Instance of the current quiz attempt.
 	 */
 	public function calculate_grade() {
 
@@ -161,9 +171,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Calculate the weight of each point
 	 *
-	 * @return   float
-	 * @since    3.9.2
-	 * @version  3.16.0
+	 * @since 3.9.2
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return float
 	 */
 	private function calculate_point_weight() {
 		$available = $this->get_count( 'available_points' );
@@ -173,13 +184,14 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Run actions designating quiz completion
 	 *
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.17.1
+	 * @since 3.16.0
+	 * @since 3.17.1 Unknown.
+	 *
+	 * @return void
 	 */
 	public function do_completion_actions() {
 
-		// do quiz completion actions
+		// Do quiz completion actions.
 		do_action( 'lifterlms_quiz_completed', $this->get_student()->get_id(), $this->get( 'quiz_id' ), $this );
 
 		$passed = false;
@@ -205,12 +217,14 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * End a quiz attempt
-	 * Sets end date, unsets the quiz as the current quiz, and records a grade
 	 *
-	 * @param    boolean $silent   if true, will not trigger actions or mark related lesson as complete
-	 * @return   $this
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * Sets end date, unsets the quiz as the current quiz, and records a grade.
+	 *
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param boolean $silent Optional. If `true`, will not trigger actions or mark related lesson as complete. Default `false`.
+	 * @return LLMS_Quiz_Attempt This quiz attempt instance (for chaining).
 	 */
 	public function end( $silent = false ) {
 
@@ -223,7 +237,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		}
 
-		// clear "cached" grade so it's recalculated next time it's requested
+		// Clear "cached" grade so it's recalculated next time it's requested.
 		$this->get_student()->set( 'overall_grade', '' );
 
 		return $this;
@@ -231,12 +245,45 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Get sibling attempts
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array  $args Optional. List of args to be passed as params of the quiz attempts query. Default empty array.
+	 *                     See `LLMS_Query_Quiz_Attempt` and `LLMS_Database_Query` for the list of args.
+	 *                     By default the `per_page` param is set to 1000.
+	 * @param string $return Optional. Type of return [ids|attempts]. Default 'attempts'.
+	 * @return int[]|LLMS_Quiz_Attempt[] Type depends on value of `$return`.
+	 */
+	public function get_siblings( $args = array(), $return = 'attempts' ) {
+
+		$defaults = array(
+			'per_page' => 1000,
+		);
+
+		$args  = wp_parse_args( $args, $defaults );
+		$query = new LLMS_Query_Quiz_Attempt(
+			array_merge(
+				$args,
+				array(
+					'student_id' => $this->get( 'student_id' ),
+					'quiz_id'    => $this->get( 'quiz_id' ),
+				)
+			)
+		);
+
+		return 'ids' === $return ? wp_list_pluck( $query->get_results(), 'id' ) : $query->get_attempts();
+	}
+
+	/**
 	 * Retrieve a count for various pieces of information related to the attempt
 	 *
-	 * @param    string $key  data to count
-	 * @return   int
-	 * @since    3.9.0
-	 * @version  3.19.2
+	 * @since 3.9.0
+	 * @since 3.19.2 Unknown.
+	 * @since 4.2.0 Ensure only one return point.
+	 *
+	 * @param string $key The key of the data to count.
+	 * @return int
 	 */
 	public function get_count( $key ) {
 
@@ -248,17 +295,17 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			case 'available_points':
 			case 'correct_answers':
 			case 'earned':
-			case 'gradeable_questions': // like "questions" but excludes content questions
-			case 'points': // legacy version of earned
+			case 'gradeable_questions': // Like "questions" but excludes content questions.
+			case 'points': // Legacy version of earned.
 				foreach ( $questions as $data ) {
-					// get the total number of correct answers
+					// Get the total number of correct answers.
 					if ( 'correct_answers' === $key ) {
 						if ( 'yes' === $data['correct'] ) {
 							$count++;
 						}
 					} elseif ( 'earned' === $key || 'points' === $key ) {
 						$count += $data['earned'];
-						// get the total number of possible points
+						// Get the total number of possible points.
 					} elseif ( 'available_points' === $key ) {
 						$count += $data['points'];
 					} elseif ( 'gradeable_questions' === $key ) {
@@ -270,8 +317,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 				break;
 
 			case 'questions':
-				return count( $questions );
-			break;
+				$count = count( $questions );
+				break;
 
 		}
 
@@ -282,11 +329,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a formatted date
 	 *
-	 * @param    string $key     start or end
-	 * @param    string $format  output date format (PHP), uses WordPress format options if none provided
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param string $key    'start' or 'end'.
+	 * @param string $format Optional. Output date format (PHP), uses WordPress format options if none provided.
+	 *                       If not provided defaults to WP date format options.
+	 * @return string
 	 */
 	public function get_date( $key, $format = null ) {
 
@@ -299,9 +348,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the first question for the attempt
 	 *
-	 * @return   int|false
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return int|false
 	 */
 	public function get_first_question() {
 
@@ -318,16 +368,18 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get the numeric order of a question in a given quiz
 	 *
-	 * @param    int $question_id  WP Post ID of the LLMS_Question
-	 * @return   int
-	 * @since    3.9.2
-	 * @version  3.16.0
+	 * @since 3.9.2
+	 * @since 3.16.0 Unknown.
+	 * @since 4.2.0 Use strict type comparison.
+	 *
+	 * @param int $question_id WP Post ID of the LLMS_Question.
+	 * @return int
 	 */
 	public function get_question_order( $question_id ) {
 
 		foreach ( $this->get_questions() as $order => $data ) {
 
-			if ( $data['id'] == $question_id ) {
+			if ( absint( $data['id'] ) === $question_id ) {
 				return $order + 1;
 			}
 		}
@@ -339,9 +391,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get an encoded attempt key that can be passed in URLs and the like
 	 *
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.16.7
+	 * @since 3.9.0
+	 * @since 3.16.7 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_key() {
 		return LLMS_Hasher::hash( $this->get( 'id' ) );
@@ -350,9 +403,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve an array of blank questions for insertion into a new attempt during initialization
 	 *
-	 * @return   array
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return array
 	 */
 	private function get_new_questions() {
 
@@ -364,12 +418,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			$randomize = llms_parse_bool( $quiz->get( 'random_questions' ) );
 
-			// array of indexes that will be locked during shuffling
+			// Array of indexes that will be locked during shuffling.
 			$locks = array();
 
 			foreach ( $quiz->get_questions() as $index => $question ) {
 
-				// if randomization is enabled, store the questions index so we can lock it during randomization
+				// If randomization is enabled, store the questions index so we can lock it during randomization.
 				if ( $randomize && $question->supports( 'random_lock' ) ) {
 					$locks[] = $index;
 				}
@@ -386,8 +440,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 			if ( $randomize ) {
 
-				// lifted from https://stackoverflow.com/a/28491007/400568
-				// i generally comprehend this code but also in a truer way i have no idea...
+				// Lifted from https://stackoverflow.com/a/28491007/400568.
+				// I generally comprehend this code but also in a truer way i have no idea...
 				$inc = array();
 				$i   = 0;
 				$j   = 0;
@@ -402,7 +456,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 					$i++;
 				}
 
-				// fisher-yates-knuth shuffle variation O(n)
+				// Fisher-yates-knuth shuffle variation O(n).
 				$num = count( $inc );
 				while ( $num-- ) {
 					$perm                       = rand( 0, $num );
@@ -420,9 +474,12 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the next unanswered question in the attempt
 	 *
-	 * @return   int|false
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 * @since 4.2.0 Use strict type comparison.
+	 *
+	 * @param int $last_question Optional. WP Post ID of the current LLMS_Question the "next" refers to. Default `null`.
+	 * @return int|false
 	 */
 	public function get_next_question( $last_question = null ) {
 
@@ -433,8 +490,8 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			if ( $next || is_null( $question['answer'] ) ) {
 				return $question['id'];
 
-				// when rewinding and moving back through we don't want to skip questions
-			} elseif ( $last_question && $last_question == $question['id'] ) {
+				// When rewinding and moving back through we don't want to skip questions.
+			} elseif ( $last_question && absint( $last_question ) === absint( $question['id'] ) ) {
 				$next = true;
 			}
 		}
@@ -446,9 +503,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a permalink for the attempt
 	 *
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.29.0
+	 * @since 3.9.0
+	 *
+	 * @return string
 	 */
 	public function get_permalink() {
 		if ( ! $this->get_quiz() ) {
@@ -460,10 +517,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get array of serialized questions
 	 *
-	 * @param    boolean $cache  if true, save data to to the object for future gets
-	 * @return   mixed
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param boolean $cache Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 * @return array
 	 */
 	public function get_questions( $cache = true ) {
 
@@ -478,10 +535,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve an array of attempt question objects
 	 *
-	 * @param    boolean $cache  if true, save data to to the object for future gets
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param boolean $cache Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 * @return array
 	 */
 	public function get_question_objects( $cache = true ) {
 
@@ -496,9 +553,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get an instance of the LLMS_Quiz for the attempt
 	 *
-	 * @return   obj
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return LLMS_Quiz
 	 */
 	public function get_quiz() {
 		return llms_get_post( $this->get( 'quiz_id' ) );
@@ -507,9 +564,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get an LLMS_Student for the quiz
 	 *
-	 * @return   obj
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return LLMS_Student
 	 */
 	public function get_student() {
 		return llms_get_student( $this->get( 'student_id' ) );
@@ -518,10 +575,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Get the time spent on the quiz from start to end
 	 *
-	 * @param    integer $precision  precision passed to llms_get_date_diff
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @param integer $precision Precision passed to `llms_get_date_diff()`.
+	 * @return string
 	 */
 	public function get_time( $precision = 2 ) {
 		return llms_get_date_diff( $this->get_date( 'start', 'U' ), $this->get_date( 'end', 'U' ), $precision );
@@ -530,9 +587,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a title-like string
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.26.3
+	 * @since 3.16.0
+	 * @since 3.26.3 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_title() {
 		$student = $this->get_student();
@@ -542,16 +600,19 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Initialize a new quiz attempt by quiz and lesson for a user
-	 * if no user is passed the current user will be used
-	 * if no user found returns a WP_Error
 	 *
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * If no user found throws an Exception.
 	 *
-	 * @param int   $quiz_id    WP Post ID of the quiz
-	 * @param int   $lesson_id  WP Post ID of the lesson
-	 * @param mixed $student    accepts anything that can be passed to llms_get_student
+	 * @since 3.9.0
+	 * @version 3.16.0
+	 *
 	 * @throws Exception When the user is not logged in.
+	 *
+	 * @param int   $quiz_id   WP Post ID of the quiz.
+	 * @param int   $lesson_id WP Post ID of the lesson.
+	 * @param mixed $student   Optional. Accepts anything that can be passed to llms_get_student.
+	 *                         If no user is passed the current user will be used. Default `null`.
+	 *
 	 * @return obj
 	 */
 	public static function init( $quiz_id, $lesson_id, $student = null ) {
@@ -561,7 +622,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			throw new Exception( __( 'You must be logged in to take a quiz!', 'lifterlms' ) );
 		}
 
-		// initialize a new attempt
+		// Initialize a new attempt.
 		$attempt = new self();
 		$attempt->set( 'quiz_id', $quiz_id );
 		$attempt->set( 'lesson_id', $lesson_id );
@@ -584,9 +645,9 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Determine if the attempt can be autograded
 	 *
-	 * @return   bool
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return bool
 	 */
 	private function is_auto_gradeable() {
 
@@ -604,9 +665,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Determine if the attempt was passing
 	 *
-	 * @return   boolean
-	 * @since    3.9.2
-	 * @version  3.16.0
+	 * @since 3.9.2
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return boolean
 	 */
 	public function is_passing() {
 		return ( 'pass' === $this->get( 'status' ) );
@@ -615,35 +677,40 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Translate attempt related strings
 	 *
-	 * @param    string $key  key to translate
-	 * @return   string
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 * @since 4.2.0 Made sure the status key exists to avoid trying to access to array's undefined index.
+	 *
+	 * @param string $key Key to translate.
+	 * @return string
 	 */
 	public function l10n( $key ) {
 
+		$tkey = '';
+
 		switch ( $key ) {
 
-			case 'passed': // deprecated
+			case 'passed': // Deprecated.
 			case 'status':
 				$statuses = llms_get_quiz_attempt_statuses();
-				return $statuses[ $this->get( 'status' ) ];
-			break;
+				$status   = $this->get( 'status' );
+				$tkey     = ( $status && isset( $statuses[ $status ] ) ) ? $statuses[ $status ] : $tkey;
+				break;
 
 		}
 
-		return '';
+		return $tkey;
 
 	}
 
 	/**
 	 * Setter for serialized questions array
 	 *
-	 * @param    array   $questions  question data
-	 * @param    boolean $save       if true, immediately persists to database
-	 * @return   self
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param array   $questions Question data.
+	 * @param boolean $save      Optional. If `true`, immediately persists to database. Default `false`.
+	 * @return LLMS_Quiz_Attempt This quiz attempt instance (for chaining).
 	 */
 	public function set_questions( $questions = array(), $save = false ) {
 		return $this->set( 'questions', serialize( $questions ), $save );
@@ -693,6 +760,62 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function to_array() {
 		return $this->data;
+	}
+
+	/**
+	 * Delete the object from the database
+	 *
+	 * Overrides the parent method to perform other actions before deletion.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return bool `true` on success, `false` otherwise.
+	 */
+	public function delete() {
+
+		if ( ! $this->id ) {
+			return false;
+		}
+
+		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
+
+		// No lesson, or lesson incomplete, nothing special to do here.
+		if ( ! $lesson || ! ( $lesson instanceof LLMS_Lesson ) || ! llms_is_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson' ) ) {
+			return parent::delete();
+		}
+
+		/**
+		 * Prepare the query args to retrieve at least another sibling attempt,
+		 * excluding the current one.
+		 */
+		$sibling_query_args = array(
+			'exclude'  => $this->get_id( 'id' ),
+			'per_page' => 1,
+		);
+
+		/**
+		 * If this lesson requires a passing grade, then retrieve only the possible passed sibling
+		 * that might have been triggered the lesson completion.
+		 */
+		if ( llms_parse_bool( $lesson->get( 'require_passing_grade' ) ) ) {
+			$sibling_query_args['status'] = array(
+				'pass',
+			);
+		}
+
+		$sibling_attempts = $this->get_siblings( $sibling_query_args, 'ids' );
+
+		// If this is the only one relevant left attempt.
+		if ( empty( $sibling_attempts ) ) {
+			llms_mark_incomplete(
+				$this->get( 'student_id' ),
+				$this->get( 'lesson_id' ),
+				'lesson',
+				'quiz_' . $this->get( 'quiz_id' )
+			);
+		}
+
+		return parent::delete();
 	}
 
 }

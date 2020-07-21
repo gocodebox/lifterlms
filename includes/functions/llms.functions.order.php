@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.30.1
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -170,16 +170,16 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Setup a pending order which can be passed to an LLMS_Payment_Gateway for processing.
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @since 4.2.0 Prevent double displaying a notice to already enrolled students in the product being purchased.
  *
  * @param array $data {
  *     Data used to create a pending order.
  *
- *     @type int plan_id (Required) LLMS_Access_Plan ID.
- *     @type array customer (Required). Array of customer information formatted to be passed to `LLMS_Person_Handler::update()` or `llms_register_user()`
- *     @type string agree_to_terms (Required if `llms_are_terms_and_conditions_required()` are required) If terms & conditions are required this should be "yes" for agreement.
+ *     @type int    plan_id         (Required) LLMS_Access_Plan ID.
+ *     @type array  customer        (Required). Array of customer information formatted to be passed to `LLMS_Person_Handler::update()` or `llms_register_user()`
+ *     @type string agree_to_terms  (Required if `llms_are_terms_and_conditions_required()` are required) If terms & conditions are required this should be "yes" for agreement.
  *     @type string payment_gateway (Optional) ID of a registered LLMS_Payment_Gateway which will be used to process the order.
- *     @type string coupon_code (Optional) Coupon code to be applied to the order.
+ *     @type string coupon_code     (Optional) Coupon code to be applied to the order.
  * }
  * @return array
  */
@@ -187,6 +187,8 @@ function llms_setup_pending_order( $data = array() ) {
 
 	/**
 	 * @filter llms_before_setup_pending_order
+	 *
+	 * @param array $data Array of input data from a checkout form.
 	 */
 	$data = apply_filters( 'llms_before_setup_pending_order', $data );
 
@@ -204,7 +206,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	$err = new WP_Error();
 
-	// check t & c if configured
+	// check t & c if configured.
 	if ( llms_are_terms_and_conditions_required() ) {
 		if ( ! isset( $data['agree_to_terms'] ) || ! llms_parse_bool( $data['agree_to_terms'] ) ) {
 			$err->add( 'terms-violation', sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id' ) ) ) );
@@ -212,24 +214,24 @@ function llms_setup_pending_order( $data = array() ) {
 		}
 	}
 
-	// we must have a plan_id to proceed
+	// we must have a plan_id to proceed.
 	if ( empty( $data['plan_id'] ) ) {
 		$err->add( 'missing-plan-id', __( 'Missing an Access Plan ID.', 'lifterlms' ) );
 		return $err;
 	}
 
-	// validate the plan is a real plan
+	// validate the plan is a real plan.
 	$plan = llms_get_post( absint( $data['plan_id'] ) );
 	if ( ! $plan || 'llms_access_plan' !== $plan->get( 'type' ) ) {
 		$err->add( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
 		return $err;
 	}
 
-	// used later
+	// used later.
 	$coupon_id = null;
 	$coupon    = false;
 
-	// if a coupon is being used, validate it
+	// if a coupon is being used, validate it.
 	if ( ! empty( $data['coupon_code'] ) ) {
 
 		$coupon_id = llms_find_coupon( $data['coupon_code'] );
@@ -240,18 +242,18 @@ function llms_setup_pending_order( $data = array() ) {
 			return $err;
 		}
 
-		// coupon is real, make sure it's valid for the current plan
+		// coupon is real, make sure it's valid for the current plan.
 		$coupon = llms_get_post( $coupon_id );
 		$valid  = $coupon->is_valid( $data['plan_id'] );
 
-		// if the coupon has a validation error, return an error message
+		// if the coupon has a validation error, return an error message.
 		if ( is_wp_error( $valid ) ) {
 			$err->add( 'invalid-coupon', $valid->get_error_message() );
 			return $err;
 		}
 	}
 
-	// if payment is required, verify we have a gateway
+	// if payment is required, verify we have a gateway.
 	if ( $plan->requires_payment( $coupon_id ) && empty( $data['payment_gateway'] ) ) {
 		$err->add( 'missing-gateway-id', __( 'No payment method selected.', 'lifterlms' ) );
 		return $err;
@@ -268,19 +270,19 @@ function llms_setup_pending_order( $data = array() ) {
 		return $err;
 	}
 
-	// update the customer
+	// update the customer.
 	if ( ! empty( $data['customer']['user_id'] ) ) {
 		$person_id = LLMS_Person_Handler::update( $data['customer'], 'checkout' );
 	} else {
 		$person_id = llms_register_user( $data['customer'], 'checkout', true );
 	}
 
-	// validation or registration issues
+	// validation or registration issues.
 	if ( is_wp_error( $person_id ) ) {
 		return $person_id;
 	}
 
-	// this will likely never actually happen unless there's something very strange afoot
+	// this will likely never actually happen unless there's something very strange afoot.
 	if ( ! is_numeric( $person_id ) ) {
 
 		$err->add( 'account-creation', __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ) );
@@ -288,18 +290,22 @@ function llms_setup_pending_order( $data = array() ) {
 
 	}
 
-	// ensure the new user isn't enrolled in the product being purchased
+	// ensure the new user isn't enrolled in the product being purchased.
 	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) ) {
 
 		$product = $plan->get_product();
 		$err->add(
 			'already-enrolled',
 			sprintf(
+				// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
 				__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
 				llms_get_page_url( 'myaccount' ),
 				$product->get_post_type_label()
 			)
 		);
+		// Prevent double displaying a notice to already enrolled students in the product being purchased.
+		add_filter( 'llms_display_checkout_form_enrolled_students_notice', '__return_false' );
+
 		return $err;
 	}
 

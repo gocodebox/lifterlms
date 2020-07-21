@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +23,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
  * @since 3.37.9 Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
  * @since 4.0.0 Remove previously deprecated methods.
+ * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
+ *              Added new filter to allow customization of object completion data.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1617,7 +1619,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				 */
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			} elseif ( $enrollment_trigger == $trigger ) {
+			} elseif ( $enrollment_trigger === $trigger ) {
 
 				$update = true;
 
@@ -1687,148 +1689,195 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
+	 * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
 	 *
-	 * @see llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
+	 * @see `llms_delete_student_enrollment()` calls this function without having to instantiate the LLMS_Student class first.
 	 *
 	 * @param int    $product_id WP Post ID of the course or membership.
 	 * @param string $trigger    Optional. Only delete the student's enrollment if the original enrollment trigger matches the submitted value.
 	 *                           "any" will remove regardless of enrollment trigger. Default "any".
-	 * @return boolean Whether or not the enrollment records have been succesfully removed.
+	 * @return boolean Whether or not the enrollment records have been successfully removed.
 	 */
 	public function delete_enrollment( $product_id, $trigger = 'any' ) {
 
-		// assume we can't delete the enrollment
+		// Assume we can't delete the enrollment.
 		$delete = false;
 
-		// if trigger is "any" we'll just delete the enrollment regardless of the trigger.
-		if ( 'any' === $trigger ) {
+		// Get the stored trigger.
+		$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
+
+		// Okay to delete if trigger is "any" or if it matches the stored enrollment trigger.
+		if ( 'any' === $trigger || $enrollment_trigger === $trigger ) {
 
 			$delete = true;
 
-		} else {
+		} elseif ( ! $enrollment_trigger ) {
 
-			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
+			/**
+			 * Customize the behavior of enrollment deletion for "legacy" orders.
+			 *
+			 * These orders were created before version 3.0.0 when there was no stored
+			 * enrollment trigger.
+			 *
+			 * By default, we'll automatically delete these enrollments regardless of trigger.
+			 *
+			 * @since 3.33.0
+			 *
+			 * @param boolean $delete Whether or not to delete the enrollment.
+			 */
+			$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
 
-			// no enrollment trigger exists b/c pre 3.0.0 enrollment, delete the user's enrollment.
-			if ( ! $enrollment_trigger ) {
+			// Ensure we have an `$enrollment_trigger` when firing the `llms_user_enrollment_deleted` hook.
+			$enrollment_trigger = $trigger;
 
-				$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
-
-			} elseif ( $enrollment_trigger === $trigger ) {
-
-				$delete = true;
-
-			}
 		}
 
-		// delete if we can
-		if ( $delete ) {
+		// Delete the enrollment.
+		if ( $delete && $this->delete_enrollment_postmeta( $product_id ) ) {
 
-			// delete enrollment for the product
-			if ( $this->delete_enrollment_postmeta( $product_id ) ) {
+			// clean the cache
+			$this->cache_delete( sprintf( 'enrollment_status_%d', $product_id ) );
+			$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+			$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
-				// clean the cache
-				$this->cache_delete( sprintf( 'enrollment_status_%d', $product_id ) );
-				$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
-				$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
-
-				if ( 'llms_membership' === get_post_type( $product_id ) ) {
-						// Physically remove from the membership level & remove enrollments data on related products.
-						$this->remove_membership_level( $product_id, '', true );
-				}
-
-				// trigger action
-				do_action( 'llms_user_enrollment_deleted', $this->get_id(), $product_id );
-
-				return true;
-
+			if ( 'llms_membership' === get_post_type( $product_id ) ) {
+				// Physically remove from the membership level & remove enrollments data on related products.
+				$this->remove_membership_level( $product_id, '', true );
 			}
+
+			/**
+			 * Fires after an user enrollment has been deleted.
+			 *
+			 * @since 3.33.0
+			 * @since 4.2.0 The `$enrollment_trigger` parameter was added.
+			 *
+			 * @param int    $user_id            WP User ID.
+			 * @param int    $product_id         WP Post ID of the course or membership.
+			 * @param string $enrollment_trigger The enrollment trigger.
+			 */
+			do_action( 'llms_user_enrollment_deleted', $this->get_id(), $product_id, $enrollment_trigger );
+
+			// Success.
+			return true;
+
 		}
 
-		// return false if we didn't remove anything
+		// Nothing was deleted.
 		return false;
 
 	}
 
 	/**
 	 * Update the completion status of a track, course, section, or lesson for the current student
-	 * Cascades up to parents and clears progress caches for parents
-	 * Triggers actions for completion/incompletion
-	 * Inserts / updates necessary user postmeta data
 	 *
-	 * @param    string $status       new status to update to [complete|incomplete]
-	 * @param    int    $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param    string $object_type  object type [lesson|section|course|course_track]
-	 * @param    string $trigger      String describing the reason for marking complete
-	 * @return   boolean
-	 * @since    3.17.0
-	 * @version  3.17.0
+	 * Cascades up to parents and clears progress caches for parents.
+	 *
+	 * Triggers actions for completion/incompletion.
+	 *
+	 * Inserts / updates necessary user postmeta data.
+	 *
+	 * @since 3.17.0
+	 * @since 4.2.0 Use filterable functions to determine if the object is completable.
+	 *              Added filter to allow customization of object parent data.
+	 *
+	 * @param string $status      New status to update to, either "complete" or "incomplete".
+	 * @param int    $object_id   WP_Post ID of the object.
+	 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+	 * @param string $trigger     String describing the reason for the status change.
+	 * @return boolean
 	 */
 	private function update_completion_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
 
-		/**
-		 * Before hook
-		 *
-		 * @action  before_llms_mark_complete
-		 * @action  before_llms_mark_incomplete
-		 */
-		do_action( 'before_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+		$student_id = $this->get_id();
 
-		// can only be marked incomplete in the following post types
-		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
+		/**
+		 * Fires before a student's object completion status is updated.
+		 *
+		 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+		 * either "complete" or "incomplete"
+		 *
+		 * @since Unknown
+		 *
+		 * @param int    $student_id  WP_User ID of the student.
+		 * @param int    $object_id   WP_Post ID of the object.
+		 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+		 * @param string $trigger     String describing the reason for the status change.
+		 */
+		do_action( "before_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
+
+		// Retrieve an instance of the objec we're acting on.
+		if ( in_array( $object_type, llms_get_completable_post_types(), true ) ) {
 			$object = llms_get_post( $object_id );
-		} elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id, 'course_track' );
+		} elseif ( in_array( $object_type, llms_get_completable_taxonomies(), true ) ) {
+			$object = get_term( $object_id, $object_type );
 		} else {
 			return false;
 		}
 
-		// parent(s) to cascade up and check for incompletion
-		// lessons -> section -> course -> track(s)
-		$parent_ids  = array();
-		$parent_type = false;
-
-		// lessons are complete / incomplete automatically
-		// other object types are dependent on their children's statuses
-		// so the other object types need to check progress manually (bypassing cache) to see if it's complete / incomplete
+		/**
+		 * Lessons have binary completion (complete or incomplete).
+		 *
+		 * Other objects are dependent on their children's statuses. These other object types
+		 * must check the combined progress of their children to see if it's complete / incomplete.
+		 */
 		$complete = ( 'lesson' === $object_type ) ? ( 'complete' === $status ) : ( 100 == $this->get_progress( $object_id, $object_type, false ) );
 
-		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
+		// Get parent information.
+		$parent_data = array(
+			'ids'  => array(),
+			'type' => false,
+		);
+
+		// Get the immediate parent so we can cascade up and maybe update the parent's status.
 		switch ( $object_type ) {
 
 			case 'lesson':
-				$parent_ids  = array( $object->get( 'parent_section' ) );
-				$parent_type = 'section';
+				$parent_data['ids']  = array( $object->get( 'parent_section' ) );
+				$parent_data['type'] = 'section';
 				break;
 
 			case 'section':
-				$parent_ids  = array( $object->get( 'parent_course' ) );
-				$parent_type = 'course';
+				$parent_data['ids']  = array( $object->get( 'parent_course' ) );
+				$parent_data['type'] = 'course';
 				break;
 
 			case 'course':
-				$parent_ids  = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'course_track';
+				$parent_data['ids']  = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_data['type'] = 'course_track';
 				break;
 
 		}
 
-		// reset the cached progress for any objects with children
+		/**
+		 * Filter the parent data used to cascade object completion up to an object's parent(s).
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array  $parent_data {
+		 *     Array of the object's parent information.
+		 *
+		 *     @type int[]  $ids  Object ids for the parent object(s).
+		 *     @type string $type Object type (course, course_track, etc...).
+		 * }
+		 * @param object $object      The object. An `LLMS_Course`, for example.
+		 * @param int    $ojbect_id   The object's ID.
+		 * @param string $object_type The object's type.
+		 */
+		$parent_data = apply_filters( 'llms_mark_complete_parent_data', $parent_data, $object, $object_id, $object_type );
+
+		// Reset the cached progress for any objects with children.
 		if ( 'lesson' !== $object_type ) {
 			$this->set( sprintf( '%1$s_%2$d_progress', $object_type, $object_id ), '' );
 		}
 
-		// reset cache for all parents
-		if ( $parent_ids && $parent_type ) {
-
-			foreach ( $parent_ids as $pid ) {
-
-				$this->set( sprintf( '%1$s_%2$d_progress', $parent_type, $pid ), '' );
-
+		// Reset cache for all parents.
+		if ( $parent_data['ids'] && $parent_data['type'] ) {
+			foreach ( $parent_data['ids'] as $pid ) {
+				$this->set( sprintf( '%1$s_%2$d_progress', $parent_data['type'], $pid ), '' );
 			}
 		}
 
-		// determine if an update should be made
+		// Determine if an update should be made.
 		$update = ( 'complete' === $status && $complete ) || ( 'incomplete' === $status && ! $complete );
 
 		if ( $update ) {
@@ -1841,41 +1890,60 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			}
 
 			/**
-			 * Generic hook
+			 * Hook that fires when a student's completion status is updated for any object.
 			 *
-			 * @action  llms_mark_complete
-			 * @action  llms_mark_incomplete
+			 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+			 * either "complete" or "incomplete"
+			 *
+			 * @since Unknown
+			 *
+			 * @param int    $student_id  WP_User ID of the student.
+			 * @param int    $object_id   WP_Post ID of the object.
+			 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+			 * @param string $trigger     String describing the reason for the status change.
 			 */
-			do_action( 'llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+			do_action( "llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
 
 			/**
-			 * Specific hook
-			 * Also backwards compatible
+			 * Hook that fires when a student's completion status is updated for a specific object type.
 			 *
-			 * @action  lifterlms_{$object_type}_completed
-			 * @action  lifterlms_{$object_type}_incompleted
+			 * The dynamic portion of this hook, `$object_type` refers to the WP_Post post_type of the object
+			 * which the student's completion status is being updated for.
+			 *
+			 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+			 * either "complete" or "incomplete"
+			 *
+			 * @since Unknown
+			 *
+			 * @param int $student_id WP_User ID of the student.
+			 * @param int $object_id  WP_Post ID of the object.
 			 */
-			do_action( 'lifterlms_' . $object_type . '_' . $status . 'd', $this->get_id(), $object_id );
+			do_action( "lifterlms_{$object_type}_{$status}d", $student_id, $object_id );
 
-			// cascade up for parents
-			if ( $parent_ids && $parent_type ) {
-
-				foreach ( $parent_ids as $pid ) {
-
-					$this->update_completion_status( $status, $pid, $parent_type, $trigger );
-
+			// Cascade up for parents.
+			if ( $parent_data['ids'] && $parent_data['type'] ) {
+				foreach ( $parent_data['ids'] as $pid ) {
+					$this->update_completion_status( $status, $pid, $parent_data['type'], $trigger );
 				}
 			}
 
 			/**
-			 * Generic after hook
+			 * Hook that fires after a student's completion status for an object and it's parents have
+			 * been updated.
 			 *
-			 * @action  after_llms_mark_complete
-			 * @action  after_llms_mark_incomplete
+			 * The dynamic portion of this hook, `$status`, refers to the new completion status of the object,
+			 * either "complete" or "incomplete"
+			 *
+			 * @since Unknown
+			 *
+			 * @param int    $student_id  WP_User ID of the student.
+			 * @param int    $object_id   WP_Post ID of the object.
+			 * @param string $object_type The type of object. A lesson, section, course, or course_track.
+			 * @param string $trigger     String describing the reason for the status change.
 			 */
-			do_action( 'after_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+			do_action( "after_llms_mark_{$status}", $student_id, $object_id, $object_type, $trigger );
 
-		}// End if().
+		}
 
 		return $update;
 

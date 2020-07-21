@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.1.0';
+	public $version = '4.2.0';
 
 	/**
 	 * Singleton instance of LifterLMS.

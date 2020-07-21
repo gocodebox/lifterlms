@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 3.33.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status on save.
+ * @since 4.2.0 In ` save_delete_enrollment()` removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
+ *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
+ *                Also, add order note about the enrollment deletion only if it actually occurred.
  */
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
@@ -133,6 +136,9 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Delete enrollment data based on posted values.
 	 *
 	 * @since 3.33.0
+	 * @since 4.2.0 Removed order cancellation instruction, moved elsewhere as reaction to the enrollment deletion.
+	 *                @see `LLMS_Controller_Orders->on_deleted_enrollment()` in `includes\controllers\class.llms.controller.orders.php`.
+	 *                Also, add order note about the enrollment deletion only if it actually occurred.
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void
@@ -141,14 +147,16 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		$order = llms_get_post( $post_id );
 
-		// Switch the order status to Cancelled: it will also unenroll the student setting the enrollment status to 'cancelled' as well
-		// @see `LLMS_Controller_Orders->error_order()`
-		$order->set_status( 'cancelled' );
+		/**
+		 * Completely remove any enrollment records related to the given product & order.
+		 * Also note that, by design, at this stage the student has already been unenrolled,
+		 * as the delete button is only available when the enrollment status is NOT 'enrolled'.
+		 */
+		if ( llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) ) ) {
 
-		// Completely remove any enrollment records related to the given product & order.
-		llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+			$order->add_note( __( 'Student enrollment records have been deleted.', 'lifterlms' ), true );
 
-		$order->add_note( __( 'Student enrollment records have been deleted.', 'lifterlms' ), true );
+		}
 
 	}
 

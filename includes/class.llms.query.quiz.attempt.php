@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 3.35.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,15 +14,16 @@ defined( 'ABSPATH' ) || exit;
  * Query LifterLMS Students for a given course / membership
  *
  * @since 3.16.0
- * @since 3.35.0
+ * @since 3.35.0 Unknown.
+ * @since 4.2.0 Added `exclude` arg.
  *
- * @arg  $attempt     (int)        Query by attempt number
- * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
- * @arg  $student_id  (int|array)  Query by WP User ID (locate by multiple users with an array of ids)
+ * @arg  $attempt    (int)       Query by attempt number
+ * @arg  $quiz_id    (int|array) Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
+ * @arg  $student_id (int|array) Query by WP User ID (locate by multiple users with an array of ids)
  *
- * @arg  $page        (int)        Get results by page
- * @arg  $per_page    (int)        Number of results per page (default: 25)
- * @arg  $sort        (array)      Define query sorting options [id,student_id,quiz_id,start_date,update_date,end_date,attempt,grade,current,passed]
+ * @arg  $page       (int)       Get results by page
+ * @arg  $per_page   (int)       Number of results per page (default: 25)
+ * @arg  $sort       (array)     Define query sorting options [id,student_id,quiz_id,start_date,update_date,end_date,attempt,grade,current,passed]
  *
  * @example
  *       $query = new LLMS_Query_Quiz_Attempt( array(
@@ -42,9 +43,10 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a student query
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since 4.2.0 Added `exclude` default arg.
+	 *
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -59,6 +61,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			'status'         => array(),
 			'status_exclude' => array(),
 			'attempt'        => null,
+			'exclude'        => array(),
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -70,9 +73,9 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Retrieve an array of LLMS_Quiz_Attempts for the given result set returned by the query
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return array
 	 */
 	public function get_attempts() {
 
@@ -96,30 +99,32 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 
 	/**
 	 * Parses data passed to $statuses
-	 * Convert strings to array and ensure resulting array contains only valid statuses
-	 * If no valid statuses, returns to the default
 	 *
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * Convert strings to array and ensure resulting array contains only valid statuses.
+	 * If no valid statuses, returns to the default.
+	 *
+	 * @since 3.16.0
+	 * @since 4.2.0 Added `exclude` arg sanitization.
+	 *
+	 * @return void
 	 */
 	protected function parse_args() {
 
-		// sanitize post & user ids
-		foreach ( array( 'student_id', 'quiz_id' ) as $key ) {
+		// Sanitize post, user, excluded attempts ids.
+		foreach ( array( 'student_id', 'quiz_id', 'exclude' ) as $key ) {
 			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
 		}
 
-		// validate status args
+		// Validate status args.
 		$valid_statuses = array_keys( llms_get_quiz_attempt_statuses() );
 		foreach ( array( 'status', 'status_exclude' ) as $key ) {
 
-			// allow single statuses to be passed in as a string
+			// Allow single statuses to be passed in as a string.
 			if ( is_string( $this->arguments[ $key ] ) ) {
 				$this->arguments[ $key ] = array( $this->arguments[ $key ] );
 			}
 
-			// ensure submitted statuses are valid
+			// Ensure submitted statuses are valid.
 			if ( $this->arguments[ $key ] ) {
 				$this->arguments[ $key ] = array_intersect( $valid_statuses, $this->arguments[ $key ] );
 			}
@@ -130,9 +135,9 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return string
 	 */
 	protected function preprare_query() {
 
@@ -151,8 +156,9 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 *
 	 * @since 3.16.0
 	 * @since 3.35.0 Better SQL preparation.
+	 * @since 4.2.0 Added `exclude` arg logic.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	protected function sql_where() {
 
@@ -168,10 +174,17 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 			}
 		}
 
-		// add attempt lookup.
+		// Add attempt lookup.
 		$val = $this->get( 'attempt' );
 		if ( '' !== $val ) {
 			$sql .= $wpdb->prepare( ' AND attempt = %d', $val );
+		}
+
+		// Add attempt exclude.
+		$exclude = $this->get( 'exclude' );
+		if ( $exclude ) {
+			$prepared = implode( ',', $exclude );
+			$sql     .= " AND id NOT IN ({$prepared})";
 		}
 
 		$status = $this->get( 'status' );

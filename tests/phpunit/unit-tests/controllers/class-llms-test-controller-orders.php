@@ -12,8 +12,9 @@
  * @since 3.36.1 When testing deleting/erroring orders make sure to schedule a recurring payment when setting an order as active so that,
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
+ * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
  *
- * @version 3.36.1
+ * @version 4.2.0
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -258,6 +259,59 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test on user enrollment deleted.
+	 * The controller's `on_user_enrollment_deleted()` method is reponsible of changing the order status to `cancelled`
+	 * in reaction to the deletion of an enrollment with the same order as trigger.
+	 * @group whattino
+	 * @since 4.2.0
+	 *
+	 * @return void
+	 */
+	public function test_on_user_enrollment_deleted() {
+
+		$order            = $this->get_mock_order();
+		$student_id       = $order->get( 'user_id' );
+		$order_product_id = $order->get( 'product_id' );
+		$order_id         = $order->get( 'id' );
+
+		// enroll the student.
+		$order->set( 'status', 'llms-active' );
+
+		$order_cancelled_actions = did_action( 'lifterlms_order_status_cancelled' );
+
+		$fake_order_id = $order_id + 999;
+
+		// delete user enrollment passing a fake order as trigger.
+		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$fake_order_id}" );
+		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
+		// check order status.
+		$this->assertEquals( 'llms-active', llms_get_post( $order_id )->get( 'status' ) );
+
+		// delete user enrollment.
+		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
+		$this->assertEquals( $order_cancelled_actions + 1, did_action( 'lifterlms_order_status_cancelled' ) );
+		// check order status.
+		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
+
+		$order_cancelled_actions = did_action( 'lifterlms_order_status_cancelled' );
+
+		// check that trying to delete it again doesn't trigger the action again.
+		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
+		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
+		// check order status.
+		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
+
+		// enroll the student again on the same course with a different trigger.
+		$student = llms_get_student( $student_id );
+		llms_enroll_student( $student_id, $order_product_id );
+
+		llms_delete_student_enrollment( $student_id, $order_product_id, "order_{$order_id}" );
+		$this->assertEquals( $order_cancelled_actions, did_action( 'lifterlms_order_status_cancelled' ) );
+		// check order status.
+		$this->assertEquals( 'llms-cancelled', llms_get_post( $order_id )->get( 'status' ) );
+
+	}
 
 	/**
 	 * Test expire access function

@@ -10,6 +10,7 @@
  *
  * @since 3.16.0
  * @since 3.37.2 Added test coverage for many untested methods.
+ * @since 4.2.0 Added test coverage for `is_orphan()` method with `$deep` param set to true.
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
@@ -395,6 +396,41 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 		$this->obj->set( 'lesson_id', 123 );
 		$this->assertFalse( $this->obj->is_orphan() );
+
+	}
+
+	/**
+	 * Test the is_orphan() method with the $deep param set to true
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return void
+	 */
+	public function test_is_orphan_deep() {
+
+		$this->create();
+		$lesson = llms_get_post( $this->factory->post->create( array( 'post_type' => 'lesson' ) ) );
+		$lesson->set( 'quiz', $this->obj->get( 'id' ) );
+
+		// Quiz `lesson_id` meta unset, we expect both `is_orpan()` and `is_orphan( $deep = true )` to return true.
+		$this->obj->set( 'lesson_id', '' );
+		$this->assertTrue( $this->obj->is_orphan() );
+		$this->assertTrue( $this->obj->is_orphan( true ) );
+
+		// Quiz `lesson_id` set as `$lesson`'s id, we expect both `is_orpan()` and `is_orphan( $deep = true )` to return false.
+		$this->obj->set( 'lesson_id', $lesson->get( 'id' ) );
+		$this->assertFalse( $this->obj->is_orphan() );
+		$this->assertFalse( $this->obj->is_orphan( true ) );
+
+		// quiz `lesson_id` and the lesson's quiz id differ: we expect `is_orpan()` to return false but `is_orphan( $deep = true )` to return true.
+		$lesson->set( 'quiz', 123 );
+		$this->assertFalse( $this->obj->is_orphan() );
+		$this->assertTrue( $this->obj->is_orphan( true ) );
+
+		// quiz `lesson_id` and lesson's quiz id are equal but 123 is not a real lesson's id: we expect `is_orpan()` to return false but `is_orphan( $deep = true )` to return true.
+		$this->obj->set( 'lesson_id', 123 );
+		$this->assertFalse( $this->obj->is_orphan() );
+		$this->assertTrue( $this->obj->is_orphan( true ) );
 
 	}
 

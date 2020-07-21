@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.3 Explicitly define class properties.
- * @since 4.0.0 Remove deprecated method `get_defaults()`.
+ * @since 4.0.0  Remove deprecated method `get_defaults()`.
+ * @since 4.2.0 Normalized return structure in `get_instructors()` when no instructor set.
  */
 class LLMS_Post_Instructors {
 
@@ -29,40 +30,34 @@ class LLMS_Post_Instructors {
 	 * WP Post ID
 	 *
 	 * @var int
-	 * @since 3.13.0
 	 */
 	public $id;
 
 	/**
+	 * Instance of the post (course or membership)
+	 *
 	 * @var LLMS_Post_Model
-	 * @since 3.13.0
 	 */
 	public $post;
 
 	/**
 	 * Constructor
 	 *
-	 * @param    mixed $post  (obj) LLMS_Post_Model
-	 *                        (obj) WP_Post
-	 *                        (int) WP_Post ID
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param LLMS_Post_Model|WP_Post|int $post Post object or ID.
 	 */
 	public function __construct( $post ) {
 
-		// setup a post if post id of WP_Post is passed in
+		// Setup a post if post id of WP_Post is passed in.
 		if ( is_numeric( $post ) || is_a( $post, 'WP_Post' ) ) {
-
 			$post = llms_get_post( $post );
-
 		}
 
-		// double check we have an LLMS_Post
+		// Double check we have an LLMS_Post.
 		if ( is_subclass_of( $post, 'LLMS_Post_Model' ) ) {
-
 			$this->post = $post;
 			$this->id   = $post->get( 'id' );
-
 		}
 
 	}
@@ -70,21 +65,33 @@ class LLMS_Post_Instructors {
 	/**
 	 * Retrieve course instructor information
 	 *
-	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.23.0
+	 * @since 3.13.0
+	 * @since 3.23.0 Unknown.
+	 * @since 4.2.0 Normalize return data when no instructor data is saved.
+	 *
+	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @return array[] {
+	 *     Array or instructor data arrays.
+	 *
+	 *     @type int    $id         WP_User ID of the instructor user.
+	 *     @type string $visibility Display visibility option for the instructor.
+	 *     @type string $label      User input display noun for the instructor. EG: "Author" or "Coach" or "Instructor".
+	 *     @type string $name       WP_User Display Name.
+	 * }
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
 		$instructors = $this->post->get( 'instructors' );
 
-		// if empty, respond with the course author in an array
+		// If empty, respond with the course author in an array.
 		if ( ! $instructors ) {
+			$author_id   = $this->post->get( 'author' );
+			$author      = get_userdata( $author_id );
 			$instructors = array(
 				wp_parse_args(
 					array(
-						'id' => $this->post->get( 'author' ),
+						'id'   => $author_id,
+						'name' => $author ? $author->display_name : '',
 					),
 					llms_get_instructors_defaults()
 				),
@@ -106,30 +113,30 @@ class LLMS_Post_Instructors {
 	/**
 	 * Format an instructors array for saving to the db.
 	 *
-	 * @param   array $instructors  array of full (or partial) instructor data
-	 * @return  array
-	 * @since   3.25.0
-	 * @version 3.25.0
+	 * @since 3.25.0
+	 *
+	 * @param array $instructors Array of full (or partial) instructor data.
+	 * @return array
 	 */
 	public function pre_set_instructors( $instructors = array() ) {
 
-		// we cannot allow no instructors to exist...
-		// so we'll revert to the default current post_author
+		/**
+		 * We cannot allow no instructors to exist
+		 * so we'll revert to the default `post_author`.
+		 */
 		if ( ! $instructors ) {
-
-			// clear so the getter will retrieve the default author
+			// Clear so the getter will retrieve the default author.
 			$this->post->set( 'instructors', array() );
 			$instructors = $this->get_instructors();
-
 		}
 
-		// allow partial arrays to be passed & we'll fill em up with defaults
+		// Allow partial arrays to be passed & we'll fill em up with defaults.
 		foreach ( $instructors as $i => &$instructor ) {
 
 			$instructor       = wp_parse_args( $instructor, llms_get_instructors_defaults() );
 			$instructor['id'] = absint( $instructor['id'] );
 
-			// remove instructors without an ID
+			// Remove instructors without an ID.
 			if ( empty( $instructor['id'] ) ) {
 				unset( $instructors[ $i ] );
 			}
@@ -142,21 +149,21 @@ class LLMS_Post_Instructors {
 	/**
 	 * Save instructor information
 	 *
-	 * @param    array $instructors  array of course instructor information
-	 * @since    3.13.0
-	 * @version  3.25.0
+	 * @since 3.13.0
+	 * @since 3.25.0 Unknown.
+	 *
+	 * @param array $instructors Array of course instructor information.
 	 */
 	public function set_instructors( $instructors = array() ) {
 
 		$instructors = $this->pre_set_instructors( $instructors );
 
-		// set the post_author to be the first author in the array
+		// Set the post_author to be the first author in the array.
 		$this->post->set( 'author', $instructors[0]['id'] );
 
-		// save the instructors array
+		// Save the instructors array.
 		$this->post->set( 'instructors', $instructors );
 
-		// return the instructors array
 		return $instructors;
 
 	}

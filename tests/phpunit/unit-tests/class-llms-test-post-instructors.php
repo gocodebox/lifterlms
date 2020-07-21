@@ -2,12 +2,13 @@
 /**
  * Tests for LLMS_Post_Instructors model & functions
  *
- * @group   LLMS_Post_Instructors
- * @group   LLMS_Course
- * @group   LLMS_Membership
+ * @package LifterLMS/Tests
+ *
+ * @group LLMS_Post_Instructors
+ * @group LLMS_Course
+ * @group LLMS_Membership
  *
  * @since 3.13.0
- * @version 3.25.2
  */
 class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 
@@ -33,6 +34,14 @@ class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get and set methods.
+	 *
+	 * @since Unknown
+	 * @since 4.2.0 Added check to ensure `name` is set when no instructor data is set.
+	 *
+	 * @return void
+	 */
 	public function test_getters_setters() {
 
 		$user_ids = $this->factory->user->create_many( 3 );
@@ -81,15 +90,17 @@ class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 			$post->set_instructors( $update );
 			$this->assertEquals( $update, $post->get_instructors() );
 
-			// check exclude hidden works right
+			// Check exclude hidden works right.
 			unset( $update[1] );
 			$this->assertEquals( $update, $post->get_instructors( true ) );
 
 
-			// clear instructors, should respond with a default of the post_author
+			// Clear instructors, should respond with a default of the post_author.
 			$post->set_instructors();
 			$expect = $defaults;
 			$expect['id'] = $user_ids[1];
+			$author = get_userdata( $user_ids[1] );
+			$expect['name'] = $author->display_name;
 			$this->assertEquals( array( $expect ), $post->get_instructors() );
 
 		}

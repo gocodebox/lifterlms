@@ -3,8 +3,10 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.8.0
- * @version  3.8.0
+ * @since 3.8.0
+ * @since 4.2.0 Added access plans action button selector to the list of links to update.
+ *
+ * @version 4.2.0
  */
 
 ( function( $, undefined ) {
@@ -41,11 +43,12 @@
 		}
 
 		/**
-		 * Update various links on the page for easy navigation when using views
+		 * Update various links on the page for easy navigation when using views.
 		 *
-		 * @return   void
-		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @since 3.8.0
+		 * @since 4.2.0 Added access plans action button selector to the list of links to update.
+		 *
+		 * @return void
 		 */
 		this.update_links = function() {
 
@@ -53,7 +56,7 @@
 				return;
 			}
 
-			var $links = $( '.llms-widget-syllabus .llms-lesson a, .llms-course-progress a, .llms-lesson-preview a.llms-lesson-link, .llms-parent-course-link a.llms-lesson-link' );
+			var $links = $( '.llms-widget-syllabus .llms-lesson a, .llms-course-progress a, .llms-lesson-preview a.llms-lesson-link, .llms-parent-course-link a.llms-lesson-link, .llms-access-plans a.llms-button-action' );
 
 			$links.each( function() {
 

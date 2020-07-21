@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 3.37.12
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.8 Allow orphaned quizzes to be deleted.
  *               Output quiz IDs as plain text (no link) when they cannot be edited and link to the quiz within the course builder when they can.
  * @since 3.37.12 Fixed the 'actions' column name.
+ * @since 4.2.0 Added deep checks on whether the quiz is associated to a lesson.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -92,13 +93,14 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Get HTML for buttons in the actions cell of the table
 	 *
 	 * @since 3.37.8
+	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
 	 *
 	 * @param LLMS_Quiz $quiz Quiz object.
 	 * @return string
 	 */
 	private function get_actions_html( $quiz ) {
 
-		if ( ! $quiz->is_orphan() && $quiz->get_course() ) {
+		if ( ! $quiz->is_orphan( true ) && $quiz->get_course() ) {
 			return '';
 		}
 
@@ -141,6 +143,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.24.0 Unknown.
 	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
 	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
+	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
 	 *
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.
@@ -219,7 +222,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				$value = $id;
 
 				$course = $quiz->get_course();
-				if ( ! $quiz->is_orphan() && $course ) {
+				if ( ! $quiz->is_orphan( true ) && $course ) {
 
 					$url = add_query_arg(
 						array(

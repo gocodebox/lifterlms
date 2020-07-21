@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -209,6 +209,46 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
 		return filter_input( $type, $variable_name, $filter, $options );
 	}
+}
+
+/**
+ * Retrieve an array of post types which can be completed by students
+ *
+ * @since 4.2.0
+ *
+ * @return string[]
+ */
+function llms_get_completable_post_types() {
+
+	/**
+	 * Filter the list of post types which can be completed by students.
+	 *
+	 * @since Unknown
+	 *
+	 * @param string[] $post_types WP_Post post type names.
+	 */
+	return apply_filters( 'llms_completable_post_types', array( 'course', 'section', 'lesson' ) );
+
+}
+
+/**
+ * Retrieve an array of taxonomies which can be completed by students
+ *
+ * @since 4.2.0
+ *
+ * @return string[]
+ */
+function llms_get_completable_taxonomies() {
+
+	/**
+	 * Filter the list of taxonomies which can be completed by students.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string[] $taxonomies Taxonomy names.
+	 */
+	return apply_filters( 'llms_completable_taxonomies', array( 'course_track' ) );
+
 }
 
 /**

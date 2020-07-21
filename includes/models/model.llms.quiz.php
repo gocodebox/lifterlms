@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 4.0.0
+ * @version 4.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,21 +13,22 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Quiz model class.
  *
- * @property  $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
- * @property  $passing_percent (float) Grade required for a student to "pass" the quiz.
- * @property  $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
- * @property  $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
- * @property  $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
- * @property  $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
- * @property  $show_options_description_wrong_answer (yesno) If yes, displays the question description when the student chooses the wrong answer.
- * @property  $show_results (yesno) If yes, results will be shown to the student at the conclusion of the quiz.
- * @property  $time_limit (int) Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz.
+ * @property $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
+ * @property $passing_percent (float) Grade required for a student to "pass" the quiz.
+ * @property $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
+ * @property $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
+ * @property $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
+ * @property $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
+ * @property $show_options_description_wrong_answer (yesno) If yes, displays the question description when the student chooses the wrong answer.
+ * @property $show_results (yesno) If yes, results will be shown to the student at the conclusion of the quiz.
+ * @property $time_limit (int) Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz.
  *
  * @since 3.3.0
  * @since 3.19.2 Unkwnown.
  * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  * @since 4.0.0 Remove deprecated methods.
+ * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -143,15 +144,31 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Determine if the quiz is an orphan.
 	 *
 	 * @since 3.16.12
+	 * @since 4.2.0 Added the $deep parameter.
 	 *
+	 * @param bool $deep Optional. Whether or not deeply check this quiz is orphan. Default `false`.
+	 *                   When set to true will ensure not only that this quiz as a `lesson_id` property set
+	 *                   But also that the lesson with id `lesson_id` has a `quiz` property as equal as this quiz id.
 	 * @return bool
 	 */
-	public function is_orphan() {
+	public function is_orphan( $deep = false ) {
 
 		$parent_id = $this->get( 'lesson_id' );
 
 		if ( ! $parent_id ) {
 			return true;
+		}
+
+		/**
+		 * This is to take into account possible data inconsistency.
+		 * see https://github.com/gocodebox/lifterlms/issues/1039
+		 */
+		if ( $deep ) {
+			$lesson = llms_get_post( $parent_id );
+			// Both the ids are already absint, see LLMS_Post_Model::___get().
+			if ( ! $lesson || $this->get( 'id' ) !== $lesson->get( 'quiz' ) ) {
+				return true;
+			}
 		}
 
 		return false;

@@ -14,6 +14,7 @@ LLMS.CookieStore = Cookies.noConflict();
  *
  * @since 3.36.0
  * @since 3.37.14 Use persistent reference to JS Cookies.
+ * @since 4.2.0 Set sameSite to `strict` for cookies.
  *
  * @param string group Storage group id/name.
  */
@@ -75,6 +76,7 @@ LLMS.Storage = function( group ) {
 	 * Store an item in the group by key.
 	 *
 	 * @since 3.36.0
+	 * @since 4.2.0 Set sameSite to `strict` for cookies.
 	 *
 	 * @param string key Item key name.
 	 * @param mixed val Item value
@@ -83,7 +85,7 @@ LLMS.Storage = function( group ) {
 	this.set = function( key, val ) {
 		var data = self.getAll();
 		data[ key ] = val;
-		return store.set( group, data );
+		return store.set( group, data, { sameSite: 'strict' } );
 	};
 
 }
