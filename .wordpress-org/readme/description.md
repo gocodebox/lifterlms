@@ -1,6 +1,4 @@
-== Description ==
-
-**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory. 
+**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
 
 LifterLMS strikes a beautiful balance in being an **all-in-one solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
@@ -17,7 +15,7 @@ LifterLMS is also known for having a thriving well supported user community thro
 
 ***
 
-> We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together. 
+> We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together.
 
 > Are you ready to **[Try LifterLMS for $1][try]?** 🚀
 
@@ -194,7 +192,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Demo course
 + System analyzer
 + User community
-+ [REST API](https://developer.lifterlms.com/rest-api/) 
++ [REST API](https://developer.lifterlms.com/rest-api/)
 + [Developer ecosystem][devblog]
 + [Recommended Resources][resources] for course creators
 

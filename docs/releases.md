@@ -32,6 +32,10 @@ Replace all `[version]` tags with the release version number: run `llms-dev ver:
 
 Run `gulp build`.
 
+### 2D. Regenrate the readme.txt file
+
+Run `llms-dev readme`
+
 
 ## 3. Generate the Distribution Archive
 
