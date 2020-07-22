@@ -279,7 +279,7 @@ abstract class LLMS_Abstract_Database_Store {
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */
-			do_action_deprecated( "llms__created", $this->id, $this );
+			do_action_deprecated( 'llms__created', $this->id, $this );
 
 			return $this->id;
 		}
@@ -329,7 +329,7 @@ abstract class LLMS_Abstract_Database_Store {
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */
-			do_action_deprecated( "llms__deleted", $id, $this );
+			do_action_deprecated( 'llms__deleted', $id, $this );
 
 			return true;
 		}
@@ -396,7 +396,7 @@ abstract class LLMS_Abstract_Database_Store {
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */
-			do_action_deprecated( "llms__updated", $this->id, $this );
+			do_action_deprecated( 'llms__updated', $this->id, $this );
 
 			return true;
 		}
