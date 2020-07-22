@@ -18,6 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since 3.36.0 Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
  *               Hydrate before returning an array via the `to_array()` method.
+ * @since [version]  Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
+ *                 Updated the `$type` property to have a default placeholder value.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -90,11 +92,11 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * Used for filters/actions.
 	 *
-	 * Should be defined by extending classes.
+	 * This is a placeholder which should be redefined in any extending classes.
 	 *
 	 * @var string
 	 */
-	protected $type = '';
+	protected $type = '_db_record_';
 
 	/**
 	 * Constructor
@@ -241,6 +243,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
 	 *
 	 * @return int|false Record ID on success, false on error or when there's nothing to save.
 	 */
@@ -254,9 +257,31 @@ abstract class LLMS_Abstract_Database_Store {
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $this->data ) );
 		$res    = $wpdb->insert( $this->get_table(), $this->data, $format ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( 1 === $res ) {
+
 			$this->id = $wpdb->insert_id;
-			do_action( 'llms_' . $this->type . '_created', $this->id, $this );
-			return $wpdb->insert_id;
+
+			/**
+			 * Fires when a new database record is created.
+			 *
+			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_created", $this->id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated [version]
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( "llms__created", $this->id, $this );
+
+			return $this->id;
 		}
 		return false;
 
@@ -267,6 +292,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
 	 *
 	 * @return boolean `true` on success, `false` otherwise.
 	 */
@@ -283,7 +309,28 @@ abstract class LLMS_Abstract_Database_Store {
 		if ( $res ) {
 			$this->id   = null;
 			$this->data = array();
-			do_action( 'llms_' . $this->type . '_deleted', $id, $this );
+
+			/**
+			 * Fires when a new database record is created.
+			 *
+			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_deleted", $id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated [version]
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( "llms__deleted", $id, $this );
+
 			return true;
 		}
 		return false;
@@ -317,6 +364,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
 	 *
 	 * @param array $data Data to update as key=>val.
 	 * @return boolean
@@ -328,7 +376,28 @@ abstract class LLMS_Abstract_Database_Store {
 		$where  = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
 		$res    = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( $res ) {
-			do_action( 'llms_' . $this->type . '_updated', $this->id, $this );
+
+			/**
+			 * Fires when a new database record is updated.
+			 *
+			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_updated", $this->id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated [version]
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( "llms__updated", $this->id, $this );
+
 			return true;
 		}
 		return false;
