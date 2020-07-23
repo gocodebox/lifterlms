@@ -94,11 +94,20 @@ A link in the form of a URL, such as related GitHub issue or other documentation
 
 ### Changelogs
 
-Use `@since`, `@version`, and `@deprecated` to create a changelog for the element.
+Whenever any code is changed within an element, an `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
+
+#### Changes Warrating a Changelog Entry
+
+Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
+
++ **Classes**: Any breaking changes, deprecations, or the introduction of new class elements (elements which do not have their own changelog, such as class properties) require an accompanying `@since` tag entry. Changes to a class method should be recorded on the method's changelog, not on the class changelog.
++ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry 
+
+Changes which do not affect the functionality or execution of the element *should not* be recorded on the element's changelog. For example, a coding standards change such as alignment or spacing should not be recorded.
 
 #### Recording the Version Number
 
@@ -121,11 +130,11 @@ When an element is marked for deprecation this should be recorded at the end of 
 
 A short description may be added to provide additional information about the deprecation. If a replacement function has been added in it's place, note as much with an `@see` tag.
 
-
 ```
  * @since 3.3.0
  * @since 3.5.0 Added optional 3rd argument.
  * @deprecated 3.10.0 Use `llms_new_function_name()` instead.
+ *
  * @see llms_new_function_name()
 ```
 
@@ -134,6 +143,32 @@ When adding documentation on an existing element which does not yet have a chang
 #### File Headers
 
 Whenever an element within a file is updated, the `@version` tag in the header should be updated to the current version of the codebase.
+
+#### Tag alignment and order
+
+All changelog tags, `@since`, `@version`, and `@deprecated` should be grouped together with a space before the first `@since` tag and after the last tag in the group.
+
+```
+ * @since 3.3.0
+ * @since 3.5.0 Changelog entry description.
+ * @deprecated 3.10.0 Use `llms_new_function_name()` instead.
+```
+
+When multiple lines are required for a single entry, subsequent lines should be indented to match the starting point of the description.
+
+```
+ * @since 3.3.0
+ * @since 3.5.0 Changelog entry description.
+                A second entry aligned to with the first entry.
+```
+
+Multiple logs with version numbers of differening lengths should not be alinged to one another.
+
+```
+ * @since 3.3.0
+ * @since 3.25.0 Changelog entry description.
+ * @since 4.0.0 This entry should not be aligned with the 3.25.0 entry above it.
+```
 
 #### Using Placeholders
 
