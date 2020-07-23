@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_User_Postmeta model class
  *
  * @since 3.15.0
+ * @since [version] Added `$type` propertly declaration.
  */
 class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 
@@ -48,6 +49,13 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 * @var  string
 	 */
 	protected $table = 'user_postmeta';
+
+	/**
+	 * The record type
+	 *
+	 * @var string
+	 */
+	protected $type = 'user_postmeta';
 
 	/**
 	 * Constructor
