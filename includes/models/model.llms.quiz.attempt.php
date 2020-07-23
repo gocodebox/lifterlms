@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Quiz_Attempt model class
  *
  * @since 3.9.0
- * @since 3.9.2  Added `calculate_point_weight()`, `get_question_order()`, `is_passing()` methods.
+ * @since 3.9.2 Added `calculate_point_weight()`, `get_question_order()`, `is_passing()` methods.
  * @since 3.16.0 Unknown.
  * @since 3.16.7 Unknown.
  * @since 3.17.1 Unknown.
@@ -22,12 +22,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.24.0 Unknown.
  * @since 3.26.3 Unknown.
  * @since 3.29.0 Unknown.
- * @since 4.0.0  Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
- *               Fix issue encountered when answering a question incorrectly after initially answering it correctly.
- * @since 4.2.0  Use strict type comparisons where possible.
- *               In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
- *               Added the public method `get_siblings()`.
- * @since [version]  Added `$type` property declaration.
+ * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
+ *              Fix issue encountered when answering a question incorrectly after initially answering it correctly.
+ * @since 4.2.0 Use strict type comparisons where possible.
+ *              In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
+ *              Added the public method `get_siblings()`.
+ * @since [version] Added `$type` property declaration.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 

@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since 3.36.0 Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
  *               Hydrate before returning an array via the `to_array()` method.
- * @since [version]  Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
- *                 Updated the `$type` property to have a default placeholder value.
+ * @since [version] Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
+ *              Updated the `$type` property to have a default placeholder value.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -263,7 +263,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Fires when a new database record is created.
 			 *
-			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
 			 *
 			 * @since Unknown.
 			 *
@@ -313,7 +313,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Fires when a new database record is created.
 			 *
-			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
 			 *
 			 * @since Unknown.
 			 *
@@ -380,7 +380,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Fires when a new database record is updated.
 			 *
-			 * The dynamic portion of this hook, `$type`, refers to the record type.
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
 			 *
 			 * @since Unknown.
 			 *
@@ -409,7 +409,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 *
-	 * @return LLMS_Abstract_Database_Store Instance of the current object, useful for chaining.
+	 * @return LLMS_Abstract_Database_Store instance of the current object, useful for chaining.
 	 */
 	protected function hydrate() {
 
