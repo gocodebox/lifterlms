@@ -7,7 +7,6 @@
  * @group theme_support
  *
  * @since 3.37.0
- * @version 3.37.0
  */
 class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 
@@ -15,6 +14,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.0
+	 * @since [version] Update theme support class instantiation.
 	 *
 	 * @return void
 	 */
@@ -22,7 +22,8 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 
 		parent::setUp();
 		update_option( 'template', 'twentytwenty' );
-		new LLMS_Theme_Support();
+		$support = new LLMS_Theme_Support();
+		$support->includes();
 
 	}
 
