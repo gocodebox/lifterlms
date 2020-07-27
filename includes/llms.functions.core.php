@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -568,14 +568,14 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 /**
  * Generate the HTML for a form field
  *
- * This function is used during AJAX calls so needs to be in a core file
- * loaded during AJAX calls!
+ * @since 3.0.0
+ * @since 3.19.4 Unknown
+ * @since [version] Escape field values during output.
+ *              Added filter `llms_form_field_args`.
  *
- * @param    array   $field  field data
- * @param    boolean $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.19.4
+ * @param array   $field Field data.
+ * @param boolean $echo  Whether or not to output (echo) the HTML.
+ * @return string
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -605,117 +605,134 @@ function llms_form_field( $field = array(), $echo = true ) {
 		)
 	);
 
-	// setup the field value (if one exists)
+	/**
+	 * Filter arguments used to generate a LifterLMS form field
+	 *
+	 * This filter runs after submitted fields arguments are merged with defaults
+	 * and the field attributes are generated and rendered.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $field Field data arguments.
+	 */
+	$field = apply_filters( 'llms_form_field_args', $field );
+
+	// Setup the field value (if one exists).
 	if ( '' !== $field['value'] ) {
 		$field['value'] = $field['value'];
 	} elseif ( '' !== $field['default'] ) {
 		$field['value'] = $field['default'];
 	}
-	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
+	$value_attr = ( '' !== $field['value'] ) ? ' value="' . esc_attr( $field['value'] ) . '"' : '';
 
-	// use id as the name if name isn't specified
+	// Use id as the name if name isn't specified.
 	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
 
-	// allow items to not have a name attr (eg: not be posted via form submission)
-	// example use case found in Stripe CC fields
-	if ( false === $field['name'] ) {
-		$name_attr = '';
-	} else {
-		$name_attr = ' name="' . $field['name'] . '"';
-	}
+	/**
+	 * Allow items to not have a name attr (eg: not be posted via form submission).
+	 *
+	 * Example use case found in Stripe CC fields which are excluded from $_POST.
+	 */
+	$name_attr = false === $field['name'] ? '' : ' name="' . $field['name'] . '"';
 
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
-	// add inline css if set
+	// Add inline css if set.
 	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
 
-	// add space to classes
+	// Add space to classes.
 	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
 	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
 
-	// add column information to the wrapper
+	// Add column information to the wrapper.
 	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
 	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
 
 	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
 
-	// required attributes and content
+	// Required attributes and content.
 	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
 	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
 	$required_attr = $field['required'] ? ' required="required"' : '';
 
-	// setup the label
+	// Setup the label.
 	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
 
-	$r = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
-
-	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
-		$r .= $label;
-	}
-
+	// Disabled field.
 	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
 
+	// Min & Max values.
 	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
 	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
+
+	// Setup the return value.
+	$html = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
+
+	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
+		$html .= $label;
+	}
 
 	switch ( $field['type'] ) {
 
 		case 'button':
 		case 'reset':
 		case 'submit':
-			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
+			$html .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
 			break;
 
 		case 'checkbox':
 		case 'radio':
 			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$r      .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
-			$r      .= $label;
+			$html   .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
+			$html   .= $label;
 			break;
 
 		case 'html':
-			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
+			$html .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
 			break;
 
 		case 'select':
-			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
+			$html .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
 			foreach ( $field['options'] as $k => $v ) {
-				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
+				$html .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
 			}
-			$r .= '</select>';
+			$html .= '</select>';
 			break;
 
 		case 'textarea':
-			$r .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
+			$html .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . esc_html( $field['value'] ) . '</textarea>';
 			break;
 
 		default:
-			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
+			$html .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
 
 	}
 
 	if ( 'hidden' !== $field['type'] ) {
-		$r .= $desc;
+		$html .= $desc;
 	}
 
-	$r .= '</div>';
+	$html .= '</div>';
 
 	if ( $field['last_column'] ) {
-		$r .= '<div class="clear"></div>';
+		$html .= '<div class="clear"></div>';
 	}
 
-	$r = apply_filters( 'llms_form_field', $r, $field );
+	/**
+	 * Modify the HTML output of a form field,
+	 *
+	 * @since Unknown
+	 *
+	 * @param string $html  HTML string for the field.
+	 * @param array  $field Form field options used to generate the field.
+	 */
+	$html = apply_filters( 'llms_form_field', $html, $field );
 
 	if ( $echo ) {
-
-		echo $r;
-		return;
-
-	} else {
-
-		return $r;
-
+		echo $html;
 	}
+
+	return $html;
 
 }
 
