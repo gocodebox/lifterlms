@@ -518,7 +518,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 ##### Security Fix
 
-+ Fixed an XSS issue on account edit and registration forms. Thanks [@name](#link)!
++ Fixed an XSS issue on account edit and registration forms. Thanks to [Morningstar](https://twitter.com/0xMstar) for reporting this issue!
 
 ##### Bug fixes
 
@@ -532,7 +532,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Added a filter `llms_form_field_args` to allow extending form fields prior to HTML rendering.
 
-##### Deprecated Hooks
+##### Deprecations
 
 The following filter hooks have been deprecated. These hooks were being called as the result of a bug (noted above) and should no longer be used. They will be removed in the next *major* version of LifterLMS.
 
