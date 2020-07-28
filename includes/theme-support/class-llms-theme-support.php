@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version [version]
+ * @version 4.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ class LLMS_Theme_Support {
 	 * Constructor
 	 *
 	 * @since 3.37.0
-	 * @since [version] Load includes during `after_setup_theme` instead of `plugins_loaded`.
+	 * @since 4.3.0 Load includes during `after_setup_theme` instead of `plugins_loaded`.
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Theme_Support {
 	 * Conditionally require additional theme support classes.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Method access changed to `public`.
+	 * @since 4.3.0 Method access changed to `public`.
 	 *
 	 * @return void
 	 */

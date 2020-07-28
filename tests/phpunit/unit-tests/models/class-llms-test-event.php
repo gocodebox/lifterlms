@@ -8,7 +8,7 @@
  * @group events
  *
  * @since 3.36.0
- * @since [version] Add assertions to test against hooks and deprecated hooks.
+ * @since 4.3.0 Add assertions to test against hooks and deprecated hooks.
  */
 class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 
@@ -40,7 +40,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	 * Test CRUD.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Add update & deletion & added assertions against expected hooks.
+	 * @since 4.3.0 Add update & deletion & added assertions against expected hooks.
 	 *
 	 * @return void
 	 */
