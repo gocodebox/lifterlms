@@ -719,7 +719,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	}
 
 	/**
-	 * Modify the HTML output of a form field,
+	 * Modify the HTML output of a form field
 	 *
 	 * @since Unknown
 	 *
