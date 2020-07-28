@@ -1,6 +1,6 @@
 {
 	"build": {
-		"custom": [ "js-additional", "js-builder", "readme" ]
+		"custom": [ "js-additional", "js-builder" ]
 	},
 	"docs": {
 		"package": "LifterLMS"
