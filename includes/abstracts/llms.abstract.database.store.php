@@ -18,37 +18,56 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since 3.36.0 Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
  *               Hydrate before returning an array via the `to_array()` method.
+ * @since 4.3.0 Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
+ *              Updated the `$type` property to have a default placeholder value.
  */
 abstract class LLMS_Abstract_Database_Store {
 
 	/**
 	 * The Database ID of the record
 	 *
-	 * @var  null
+	 * @var int
 	 */
 	protected $id = null;
 
 	/**
 	 * Object properties
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private $data = array();
 
+	/**
+	 * Column name of the record's "created" date
+	 *
+	 * This can be set to an empty string if the extending
+	 * class does not utilize or require created date storage.
+	 *
+	 * @var string
+	 */
 	protected $date_created = 'created';
+
+	/**
+	 * Column name of the record's "updated" date
+	 *
+	 * This can be set to an empty string if the extending
+	 * class does not utilize or require updated date storage.
+	 *
+	 * @var string
+	 */
 	protected $date_updated = 'updated';
 
 	/**
 	 * Array of table column name => format
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $columns = array();
 
 	/**
 	 * Primary Key column name => format
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $primary_key = array(
 		'id' => '%d',
@@ -57,37 +76,41 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Database Table Name
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $table = '';
 
 	/**
 	 * Database Table Prefix
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $table_prefix = 'lifterlms_';
 
 	/**
 	 * The record type
-	 * Used for filters/actions
-	 * Should be defined by extending classes
 	 *
-	 * @var  string
+	 * Used for filters/actions.
+	 *
+	 * This is a placeholder which should be redefined in any extending classes.
+	 *
+	 * @var string
 	 */
-	protected $type = '';
+	protected $type = '_db_record_';
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.14.0
-	 * @version  3.21.0
+	 * @since 3.14.0
+	 * @since 3.21.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
 		if ( ! $this->id ) {
 
-			// if created dates supported, add current time to the data on construction
+			// If created dates supported, add current time to the data on construction.
 			if ( $this->date_created ) {
 				$this->set( $this->date_created, llms_current_time( 'mysql' ), false );
 			}
@@ -102,23 +125,22 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Get object data
 	 *
-	 * @param    string $key  key to retrieve
-	 * @return   mixed
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param string $key Key to retrieve.
+	 * @return mixed
 	 */
 	public function __get( $key ) {
-
 		return $this->data[ $key ];
-
 	}
 
 	/**
 	 * Determine if the item exists in the database
 	 *
-	 * @return   boolean
-	 * @since    3.14.7
-	 * @version  3.15.0
+	 * @since 3.14.7
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return boolean
 	 */
 	public function exists() {
 
@@ -127,6 +149,7 @@ abstract class LLMS_Abstract_Database_Store {
 		}
 
 		return false;
+
 	}
 
 	/**
@@ -136,9 +159,9 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.16.0 Unknown.
 	 * @since 3.36.0 Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
 	 *
-	 * @param    string  $key    key to retrieve
-	 * @param    boolean $cache  if true, save data to to the object for future gets
-	 * @return   mixed
+	 * @param string  $key   Key to retrieve.
+	 * @param boolean $cache If true, save data to to the object for future gets.
+	 * @return mixed
 	 */
 	public function get( $key, $cache = true ) {
 
@@ -157,27 +180,26 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Set object data
 	 *
-	 * @param    string $key  column name
-	 * @param    mixed  $val  column value
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param string $key Column name.
+	 * @param mixed  $val Column value.
+	 * @return void
 	 */
 	public function __set( $key, $val ) {
-
 		$this->data[ $key ] = $val;
-
 	}
 
 	/**
 	 * General setter
 	 *
-	 * @param    string  $key   column name
-	 * @param    mixed   $val   column value
-	 * @param    boolean $save  if true, immediately persists to database
-	 * @return   self
-	 * @since    3.14.0
-	 * @version  3.21.0
+	 * @since 3.14.0
+	 * @since 3.21.0 Unknown.
+	 *
+	 * @param string  $key  Column name.
+	 * @param mixed   $val  Column value.
+	 * @param boolean $save If true, immediately persists to database.
+	 * @return LLMS_Abstract_Database_Store Instance of the current object, useful for chaining.
 	 */
 	public function set( $key, $val, $save = false ) {
 
@@ -186,14 +208,14 @@ abstract class LLMS_Abstract_Database_Store {
 			$update = array(
 				$key => $val,
 			);
-			// if update date supported, add an updated date
+			// If update date supported, add an updated date.
 			if ( $this->date_updated ) {
 				$update[ $this->date_updated ] = llms_current_time( 'mysql' );
 			}
 			$this->update( $update );
 		}
 
-		return $this; // allow chaining like $this->set( $key, $val )->save();
+		return $this;
 
 	}
 
@@ -204,7 +226,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.33.0 Return self for chaining instead of void.
 	 *
 	 * @param array $data key => val
-	 * @return self
+	 * @return LLMS_Abstract_Database_Store Instance of the current object, useful for chaining.
 	 */
 	public function setup( $data ) {
 
@@ -212,16 +234,18 @@ abstract class LLMS_Abstract_Database_Store {
 			$this->set( $key, $val, false );
 		}
 
-		return $this; // allow chaining like $this->setup( $data )->save();
+		return $this;
 
 	}
 
 	/**
 	 * Create the item in the database
 	 *
-	 * @return   int|false
-	 * @since    3.14.0
-	 * @version  3.24.0
+	 * @since 3.14.0
+	 * @since 3.24.0 Unknown.
+	 * @since 4.3.0 Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
+	 *
+	 * @return int|false Record ID on success, false on error or when there's nothing to save.
 	 */
 	private function create() {
 
@@ -231,11 +255,33 @@ abstract class LLMS_Abstract_Database_Store {
 
 		global $wpdb;
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $this->data ) );
-		$res    = $wpdb->insert( $this->get_table(), $this->data, $format );
+		$res    = $wpdb->insert( $this->get_table(), $this->data, $format ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( 1 === $res ) {
+
 			$this->id = $wpdb->insert_id;
-			do_action( 'llms_' . $this->type . '_created', $this->id, $this );
-			return $wpdb->insert_id;
+
+			/**
+			 * Fires when a new database record is created.
+			 *
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_created", $this->id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated 4.3.0
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( 'llms__created', $this->id, $this );
+
+			return $this->id;
 		}
 		return false;
 
@@ -244,9 +290,11 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Delete the object from the database
 	 *
-	 * @return   boolean     true on success, false otherwise
-	 * @since    3.14.0
-	 * @version  3.24.0
+	 * @since 3.14.0
+	 * @since 3.24.0 Unknown.
+	 * @since 4.3.0 Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
+	 *
+	 * @return boolean `true` on success, `false` otherwise.
 	 */
 	public function delete() {
 
@@ -257,11 +305,32 @@ abstract class LLMS_Abstract_Database_Store {
 		$id = $this->id;
 		global $wpdb;
 		$where = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
-		$res   = $wpdb->delete( $this->get_table(), $where, array_values( $this->primary_key ) );
+		$res   = $wpdb->delete( $this->get_table(), $where, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( $res ) {
 			$this->id   = null;
 			$this->data = array();
-			do_action( 'llms_' . $this->type . '_deleted', $id, $this );
+
+			/**
+			 * Fires when a new database record is created.
+			 *
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_deleted", $id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated 4.3.0
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( 'llms__deleted', $id, $this );
+
 			return true;
 		}
 		return false;
@@ -271,10 +340,10 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Read object data from the database
 	 *
-	 * @param    array|string $keys   key name (or array of keys) to retrieve from the database
-	 * @return   array|false           key=>val array of data or false when record not found
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param string[]|string $keys Key name (or array of keys) to retrieve from the database.
+	 * @return array|false Returns a key=>val array of data or `false` when record not found.
 	 */
 	private function read( $keys ) {
 
@@ -282,7 +351,7 @@ abstract class LLMS_Abstract_Database_Store {
 		if ( is_array( $keys ) ) {
 			$keys = implode( ', ', $keys );
 		}
-		$res = $wpdb->get_row(
+		$res = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
 			ARRAY_A
 		);
@@ -293,19 +362,42 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Update object data in the database
 	 *
-	 * @param    array $data  data to update as key=>val
-	 * @return   bool
-	 * @since    3.14.0
-	 * @version  3.24.0
+	 * @since 3.14.0
+	 * @since 3.24.0 Unknown.
+	 * @since 4.3.0 Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
+	 *
+	 * @param array $data Data to update as key=>val.
+	 * @return boolean
 	 */
 	private function update( $data ) {
 
 		global $wpdb;
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $data ) );
 		$where  = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
-		$res    = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) );
+		$res    = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( $res ) {
-			do_action( 'llms_' . $this->type . '_updated', $this->id, $this );
+
+			/**
+			 * Fires when a new database record is updated.
+			 *
+			 * The dynamic portion of this hook, `$this->type`, refers to the record type.
+			 *
+			 * @since Unknown.
+			 *
+			 * @param int                          $id  Record ID.
+			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
+			 */
+			do_action( "llms_{$this->type}_updated", $this->id, $this );
+
+			/**
+			 * Deprecated hook resulting from bug.
+			 *
+			 * @deprecated 4.3.0
+			 *
+			 * @link https://github.com/gocodebox/lifterlms/issues/1248
+			 */
+			do_action_deprecated( 'llms__updated', $this->id, $this );
+
 			return true;
 		}
 		return false;
@@ -317,7 +409,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 *
-	 * @return obj
+	 * @return LLMS_Abstract_Database_Store instance of the current object, useful for chaining.
 	 */
 	protected function hydrate() {
 
@@ -328,32 +420,30 @@ abstract class LLMS_Abstract_Database_Store {
 			}
 		}
 
-		return $this; // allow chaining
+		return $this;
 
 	}
 
 	/**
 	 * Save object to the database
-	 * Creates is it doesn't already exist, updates if it does
 	 *
-	 * @return   boolean
-	 * @since    3.14.0
-	 * @version  3.24.0
+	 * Creates it if doesn't already exist, updates if it does.
+	 *
+	 * @since 3.14.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return boolean
 	 */
 	public function save() {
 
 		if ( ! $this->id ) {
-
 			$id = $this->create();
 			if ( $id ) {
 				return true;
 			}
 			return false;
-
 		} else {
-
 			return $this->update( $this->data );
-
 		}
 
 	}
@@ -361,10 +451,10 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the format for a column
 	 *
-	 * @param    string $key  column name
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param string $key Column name.
+	 * @return string
 	 */
 	private function get_column_format( $key ) {
 
@@ -378,23 +468,21 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve the primary key column name
 	 *
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return string
 	 */
 	protected function get_primary_key() {
-
 		$primary_key = array_keys( $this->primary_key );
 		return preg_replace( '/[^a-zA-Z0-9_]/', '', $primary_key[0] );
-
 	}
 
 	/**
 	 * Get the ID of the object
 	 *
-	 * @return   int
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return int
 	 */
 	public function get_id() {
 		return $this->id;
@@ -403,9 +491,9 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Get the table Name
 	 *
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return string
 	 */
 	private function get_table() {
 

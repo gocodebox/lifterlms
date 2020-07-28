@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 4.2.0
+ * @version 4.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.2.0 Use strict type comparisons where possible.
  *              In the `l10n()` method, made sure the status key exists to avoid trying to access to array's undefined index.
  *              Added the public method `get_siblings()`.
+ * @since 4.3.0 Added `$type` property declaration.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -57,6 +58,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @var string
 	 */
 	protected $table = 'quiz_attempts';
+
+	/**
+	 * The record type
+	 *
+	 * @var string
+	 */
+	protected $type = 'quiz_attempt';
 
 	/**
 	 * Constructor

@@ -8,7 +8,7 @@
  * @group events
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @since 4.3.0 Add assertions to test against hooks and deprecated hooks.
  */
 class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 
@@ -37,13 +37,16 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test creation.
+	 * Test CRUD.
 	 *
 	 * @since 3.36.0
+	 * @since 4.3.0 Add update & deletion & added assertions against expected hooks.
 	 *
 	 * @return void
 	 */
-	public function test_create() {
+	public function test_crud() {
+
+		$actions = did_action( 'llms_event_created' );
 
 		$expected_time = current_time( 'timestamp' ) - DAY_IN_SECONDS;
 		llms_tests_mock_current_time( $expected_time );
@@ -56,19 +59,40 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 			'event_action' => 'load',
 		);
 
+		// Create.
 		$event = new LLMS_Event();
 		$event->setUp( $args );
 		$this->assertTrue( $event->save() );
-		$this->assertTrue( is_numeric( $event->get( 'id' ) ) );
+		$id = $event->get( 'id' );
+		$this->assertTrue( is_numeric( $id ) );
 
 		llms_tests_reset_current_time();
 
-		$event = new LLMS_Event( $event->get( 'id' ) );
+		$event = new LLMS_Event( $id );
 
 		$this->assertEquals( $expected_time, strtotime( $event->get( 'date' ) ) );
 		foreach( $args as $key => $expected ) {
 			$this->assertEquals( $expected, $event->get( $key ) );
 		}
+
+		$this->assertEquals( ++$actions, did_action( 'llms_event_created' ) );
+		$this->assertEquals( 0, did_action( 'llms___created' ) );
+
+		// Update.
+		$actions = did_action( 'llms_event_updated' );
+		$event->set( 'actor_id', 2, true );
+
+		$this->assertEquals( ++$actions, did_action( 'llms_event_updated' ) );
+		$this->assertEquals( 0, did_action( 'llms__updated' ) );
+
+		$event = new LLMS_Event( $id );
+		$this->assertEquals( 2, $event->get( 'actor_id' ) );
+
+		// Delete.
+		$actions = did_action( 'llms_event_deleted' );
+		$this->assertTrue( $event->delete() );
+		$this->assertEquals( ++$actions, did_action( 'llms_event_deleted' ) );
+		$this->assertEquals( 0, did_action( 'llms__deleted' ) );
 
 	}
 

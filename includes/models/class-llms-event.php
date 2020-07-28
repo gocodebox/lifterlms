@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version 4.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Event Model
  *
  * @since 3.36.0
+ * @since 4.3.0 Added record `$type` property definition.
  */
 class LLMS_Event extends LLMS_Abstract_Database_Store {
 
@@ -52,6 +53,13 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @var  string
 	 */
 	protected $table = 'events';
+
+	/**
+	 * The record type
+	 *
+	 * @var string
+	 */
+	protected $type = 'event';
 
 	/**
 	 * Constructor

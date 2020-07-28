@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.2.0
+Stable tag: 4.3.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -514,6 +514,33 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.3.0 - 2020-07-28 =
+
+##### Security Fix
+
++ Fixed an XSS issue on account edit and registration forms. Thanks to [Morningstar](https://twitter.com/0xMstar) for reporting this issue!
+
+##### Bug fixes
+
++ Fixed an error encountered during customizer live theme preview encountered when Twenty-twenty is the current theme.
++ The `$type` property of the `LLMS_Abstract_Database_Store` is now set to a default placeholder value (`_db_record_`) in favor of an empty string.
++ Set the `$type` property of the `LLMS_Event` class to `event`.
++ Set the `$type` property of the `LLMS_Quiz_Attempt` class to `quiz_attempt`.
++ Set the `$type` property of the `LLMS_User_Post_Meta` class to `user_postmeta`.
+
+##### Updates
+
++ Added a filter `llms_form_field_args` to allow extending form fields prior to HTML rendering.
+
+##### Deprecations
+
+The following filter hooks have been deprecated. These hooks were being called as the result of a bug (noted above) and should no longer be used. They will be removed in the next *major* version of LifterLMS.
+
++ `llms__created` has been deprecated, use `llms_{$type}_created` where `{$type}` is the database record type defined by the class property.
++ `llms__deleted` has been deprecated, use `llms_{$type}_deleted` where `{$type}` is the database record type defined by the class property.
++ `llms__updated` has been deprecated, use `llms_{$type}_updated` where `{$type}` is the database record type defined by the class property.
+
+
 = v4.2.0 - 2020-07-21 =
 
 ##### Updates
@@ -869,11 +896,6 @@ View beta release notes at [https://make.lifterlms.com/2020/06/10/lifterlms-vers
 = v4.0.0-beta.2 - 2020-06-04 =
 
 View beta release notes at [https://make.lifterlms.com/2020/06/04/lifterlms-version-4-0-0-beta-2/](https://make.lifterlms.com/2020/06/04/lifterlms-version-4-0-0-beta-2/).
-
-
-= v4.0.0-beta.1 - 2020-06-01 =
-
-View beta release notes at [https://make.lifterlms.com/2020/06/01/lifterlms-version-4-0-0-beta-1/](https://make.lifterlms.com/2020/06/01/lifterlms-version-4-0-0-beta-1/).
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

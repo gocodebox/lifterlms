@@ -7,7 +7,6 @@
  * @group theme_support
  *
  * @since 3.37.0
- * @version 3.37.0
  */
 class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 
@@ -44,6 +43,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	 * Test theme support classes are loaded based on the current theme template.
 	 *
 	 * @since 3.37.0
+	 * @since 4.3.0 Update theme support class instantiation.
 	 *
 	 * @return void
 	 */
@@ -51,7 +51,8 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 
 		foreach ( $this->supported as $template => $class ) {
 			update_option( 'template', $template );
-			new LLMS_Theme_Support();
+			$support = new LLMS_Theme_Support();
+			$support->includes();
 			$this->assertTrue( class_exists( $class ) );
 		}
 
