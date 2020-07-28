@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_User_Postmeta model class
  *
  * @since 3.15.0
- * @since [version] Added `$type` propertly declaration.
+ * @since 4.3.0 Added `$type` propertly declaration.
  */
 class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 

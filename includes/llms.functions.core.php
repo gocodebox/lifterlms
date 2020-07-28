@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -570,7 +570,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  *
  * @since 3.0.0
  * @since 3.19.4 Unknown
- * @since [version] Escape field values during output.
+ * @since 4.3.0 Escape field values during output.
  *              Added filter `llms_form_field_args`.
  *
  * @param array   $field Field data.
@@ -611,7 +611,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	 * This filter runs after submitted fields arguments are merged with defaults
 	 * and the field attributes are generated and rendered.
 	 *
-	 * @since [version]
+	 * @since 4.3.0
 	 *
 	 * @param array $field Field data arguments.
 	 */

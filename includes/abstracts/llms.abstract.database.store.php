@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since 3.36.0 Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
  *               Hydrate before returning an array via the `to_array()` method.
- * @since [version] Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
+ * @since 4.3.0 Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
  *              Updated the `$type` property to have a default placeholder value.
  */
 abstract class LLMS_Abstract_Database_Store {
@@ -243,7 +243,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
+	 * @since 4.3.0 Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
 	 *
 	 * @return int|false Record ID on success, false on error or when there's nothing to save.
 	 */
@@ -275,7 +275,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Deprecated hook resulting from bug.
 			 *
-			 * @deprecated [version]
+			 * @deprecated 4.3.0
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */
@@ -292,7 +292,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
+	 * @since 4.3.0 Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
 	 *
 	 * @return boolean `true` on success, `false` otherwise.
 	 */
@@ -325,7 +325,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Deprecated hook resulting from bug.
 			 *
-			 * @deprecated [version]
+			 * @deprecated 4.3.0
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */
@@ -364,7 +364,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
+	 * @since 4.3.0 Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
 	 *
 	 * @param array $data Data to update as key=>val.
 	 * @return boolean
@@ -392,7 +392,7 @@ abstract class LLMS_Abstract_Database_Store {
 			/**
 			 * Deprecated hook resulting from bug.
 			 *
-			 * @deprecated [version]
+			 * @deprecated 4.3.0
 			 *
 			 * @link https://github.com/gocodebox/lifterlms/issues/1248
 			 */

@@ -43,7 +43,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	 * Test theme support classes are loaded based on the current theme template.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Update theme support class instantiation.
+	 * @since 4.3.0 Update theme support class instantiation.
 	 *
 	 * @return void
 	 */
