@@ -158,9 +158,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		update_option( 'lifterlms_membership_required', $membership );
 
-		// Todo: fix this, see https://github.com/gocodebox/lifterlms/issues/1262
-		return;
-
 		// Restricted.
 		$res = llms_page_restricted( 123 );
 		$this->assertTrue( $res['is_restricted'] );

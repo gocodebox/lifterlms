@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int      $post_id WordPress Post ID of the content.
  * @param int|null $user_id Optional. WP User ID. Defaults to the current user if none supplied.
  * @return array {
- *     Hash of restriction information.
+ *     Associative array of restriction information.
  *
  *     @type int    $content_id     WP_Post ID of the requested content post.
  *     @type int    $restriction_id WP_Post ID of the post governing restriction over the requested content.
@@ -33,11 +33,6 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
-	$user_id = $user_id ? $user_id : get_current_user_id();
-	$student = $user_id ? llms_get_student( $user_id ) : false;
-
-	$post_type = get_post_type( $post_id );
-
 	$results = array(
 		'content_id'     => $post_id,
 		'is_restricted'  => false,
@@ -45,100 +40,90 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		'restriction_id' => 0,
 	);
 
-	/**
-	 * Do checks to determine if the content should be restricted.
-	 */
+	$user_id = $user_id ? $user_id : get_current_user_id();
+	$student = $user_id ? llms_get_student( $user_id ) : false;
+
+	$post_type = get_post_type( $post_id );
+
 	$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id );
-	$membership_id          = llms_is_post_restricted_by_membership( $post_id, $user_id );
-
-	if ( is_home() && $sitewide_membership_id ) {
-		$restriction_id = $sitewide_membership_id;
-		$reason         = 'sitewide_membership';
-		// if it's a search page and the site isn't restricted to a membership bypass restrictions.
-	} elseif ( ( is_search() ) && ! get_option( 'lifterlms_membership_required', '' ) ) {
-		return apply_filters( 'llms_page_restricted', $results, $post_id );
-	} elseif ( is_singular() && $sitewide_membership_id ) {
-		$restriction_id = $sitewide_membership_id;
-		$reason         = 'sitewide_membership';
-	} elseif ( is_singular() && $membership_id ) {
-		$restriction_id = $membership_id;
-		$reason         = 'membership';
-	} elseif ( is_singular() && 'lesson' === $post_type ) {
-		$lesson = new LLMS_Lesson( $post_id );
-		// if lesson is free, return accessible results and skip the rest of this function.
-		if ( $lesson->is_free() ) {
-			return $results;
-		} else {
-			$restriction_id = $lesson->get_parent_course();
-			$reason         = 'enrollment_lesson';
-		}
-	} elseif ( is_singular() && 'course' === $post_type ) {
-		$restriction_id = $post_id;
-		$reason         = 'enrollment_course';
-	} elseif ( is_singular() && 'llms_membership' === $post_type ) {
-		$restriction_id = $post_id;
-		$reason         = 'enrollment_membership';
-	} else {
-
-		/**
-		 * Allow filtering of results before checking if the student has access.
-		 *
-		 * @since Unknown.
-		 *
-		 * @param array $results Restriction check result data.
-		 * @param int   $post_id WordPress Post ID of the content.
-		 */
-		$results = apply_filters( 'llms_page_restricted_before_check_access', $results, $post_id );
-		extract( $results ); // phpcs:ignore
-
-	}
 
 	/**
-	 * Content should be restricted, so we'll do the restriction checks
-	 * and return restricted results.
+	 * Setup restriction data for the given post.
 	 *
-	 * This is run if we have a restriction and a reason for restriction
-	 * and we either don't have a logged in student or the logged in student doesn't have access.
+	 * This will determine if the post should be restricted and later we'll check if the user can access it.
 	 */
-	if ( ! empty( $restriction_id ) && ! empty( $reason ) && ( ! $student || ! $student->is_enrolled( $restriction_id ) ) ) {
+	if ( $sitewide_membership_id && ( is_home() || is_search() || is_singular() ) ) {
 
-		$results['is_restricted']  = true;
-		$results['reason']         = $reason;
-		$results['restriction_id'] = $restriction_id;
+		$results['restriction_id'] = $sitewide_membership_id;
+		$results['reason']         = 'sitewide_membership';
 
-		/**
-		 * Allow filtering of the restricted results.
-		 *
-		 * @since Unknown
-		 *
-		 * @param array $results Restriction check result data.
-		 * @param int   $post_id WordPress Post ID of the content.
-		 */
-		return apply_filters( 'llms_page_restricted', $results, $post_id );
+	} elseif ( is_singular() ) {
 
-	}
+		$post = llms_get_post( $post_id );
+		if ( 'lesson' === $post_type && $post && ! $post->is_free() ) {
 
-	/**
-	 * At this point student has access or the content isn't supposed to be restricted
-	 * we need to do some additional checks for specific post types.
-	 */
-	if ( is_singular() ) {
+			$results['restriction_id'] = $post->get_parent_course();
+			$results['reason']         = 'enrollment_lesson';
 
-		if ( 'llms_quiz' === $post_type ) {
+		} elseif ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
 
-			$quiz_id = llms_is_quiz_accessible( $post_id, $user_id );
-			if ( $quiz_id ) {
+			$results['restriction_id'] = $post_id;
+			$results['reason']         = sprintf( 'enrollment_%s', str_replace( 'llms_', '', $post_type ) );
 
-				$results['is_restricted']  = true;
-				$results['reason']         = 'quiz';
-				$results['restriction_id'] = $post_id;
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
+		} else {
 
+			$membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
+			if ( $membership_id ) {
+				$results['restriction_id'] = $membership_id;
+				$results['reason']         = 'membership';
 			}
 		}
+	}
 
-		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
+	/**
+	 * Filter restriction setup data before the user access is checked.
+	 *
+	 * This filter will allow application of restriction rules for custom post types
+	 * or modification of the defaults as put forth above.
+	 *
+	 * @since Unknown.
+	 *
+	 * @param array $results {
+	 *     Associative array of restriction information.
+	 *
+	 *     @type int    $content_id     WP_Post ID of the requested content post.
+	 *     @type int    $restriction_id WP_Post ID of the post governing restriction over the requested content.
+	 *     @type bool   $is_restricted  Whether or not the requested content is accessible by the requested user.
+	 *     @type string $reason         A code describing the reason why the requested content is restricted.
+	 * }
+	 * @param int   $post_id WordPress Post ID of the content.
+	 */
+	$results = apply_filters( 'llms_page_restricted_before_check_access', $results, $post_id );
+
+	/**
+	 * Content should be restricted.
+	 *
+	 * We have a restriction ID and a reason for restriction and there's no logged in user
+	 * or the logged in user does not have access.
+	 */
+	if ( ! empty( $results['restriction_id'] ) && 'accessible' !== $results['reason'] && ( ! $student || ! $student->is_enrolled( $results['restriction_id'] ) ) ) {
+
+		$results['is_restricted'] = true;
+
+	} elseif ( is_singular() ) {
+
+		/**
+		 * At this point student has access or the content isn't supposed to be restricted.
+		 *
+		 * We will perform additional checks for specific post types.
+		 */
+		if ( 'llms_quiz' === $post_type && llms_is_quiz_accessible( $post_id, $user_id ) ) {
+
+			$results['is_restricted']  = true;
+			$results['reason']         = 'quiz';
+			$results['restriction_id'] = $post_id;
+
+		} elseif ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
 
 			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
 			if ( $course_id ) {
@@ -146,36 +131,45 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 				$results['is_restricted']  = true;
 				$results['reason']         = 'course_time_period';
 				$results['restriction_id'] = $course_id;
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
 
-			}
+			} else {
 
-			$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
-			if ( $prereq_data ) {
+				$prereq_data = llms_is_post_restricted_by_prerequisite( $post_id, $user_id );
+				if ( $prereq_data ) {
 
-				$results['is_restricted']  = true;
-				$results['reason']         = sprintf( '%s_prerequisite', $prereq_data['type'] );
-				$results['restriction_id'] = $prereq_data['id'];
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
+					$results['is_restricted']  = true;
+					$results['reason']         = sprintf( '%s_prerequisite', $prereq_data['type'] );
+					$results['restriction_id'] = $prereq_data['id'];
 
-			}
+				} else {
 
-			$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
-			if ( $lesson_id ) {
+					$lesson_id = llms_is_post_restricted_by_drip_settings( $post_id, $user_id );
+					if ( $lesson_id ) {
 
-				$results['is_restricted']  = true;
-				$results['reason']         = 'lesson_drip';
-				$results['restriction_id'] = $lesson_id;
-				/* This filter is documented above. */
-				return apply_filters( 'llms_page_restricted', $results, $post_id );
+						$results['is_restricted']  = true;
+						$results['reason']         = 'lesson_drip';
+						$results['restriction_id'] = $lesson_id;
 
+					}
+				}
 			}
 		}
 	}
 
-	/* This filter is documented above. */
+	// There's no restriction for the current user.
+	if ( ! $results['is_restricted'] ) {
+		$results['reason']         = 'accessible';
+		$results['restriction_id'] = 0;
+	}
+
+	/**
+	 * Allow filtering of the restricted results.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $results Restriction check result data.
+	 * @param int   $post_id WordPress Post ID of the content.
+	 */
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
 
 }
@@ -214,7 +208,7 @@ function llms_get_post_membership_restrictions( $post_id ) {
 			'llms_question',
 			'llms_certificate',
 			'llms_my_certificate',
-		),
+		)
 	);
 
 	if ( ! in_array( get_post_type( $post_id ), $skip_post_types, true ) ) {
@@ -595,7 +589,6 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 	 * @param int|null $user_id     WP_User ID of the requested user.
 	 */
 	return apply_filters( 'llms_is_post_restricted_by_membership', $restriction, $post_id, $user_id );
-
 
 }
 
