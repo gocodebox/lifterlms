@@ -2,26 +2,271 @@
 /**
  * Tests for LifterLMS Access Functions.
  *
- * @group access
+ * @group functions
+ * @group functions_access
  *
  * @since 3.7.3
  * @since 3.16.0 Unknown.
  * @since 3.37.10 Added tests on sitewide membership restriction.
- * @version 3.37.10
+ * @since [version] Added new tests.
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 	/**
+	 * Temporary globals reset via tearDown()
+	 *
+	 * @var array
+	 */
+	protected $temp = array();
+
+	/**
+	 * Setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+
+		parent::setUp();
+		$this->uid = $this->factory->student->create();
+
+		wp_set_current_user( $this->uid );
+
+	}
+
+	/**
+	 * Tear down the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+		wp_set_current_user( null );
+		$this->reset_query();
+
+	}
+
+	/**
 	 * Get a formatted date for setting time period related restrictions.
 	 *
-	 * @param    string     $offset  adjust day via strtotime
-	 * @param    string     $format  desired returned format, passed to date()
-	 * @return   string
-	 * @since    3.7.3
-	 * @version  3.7.3
+	 * @since 3.7.3
+	 *
+	 * @param string $offset Adjust day via strtotime.
+	 * @param string $format Desired returned format, passed to date().
+	 * @return string
 	 */
 	private function get_date( $offset = '+7 days', $format = 'm/d/y' ) {
 		return date( $format, strtotime( $offset, current_time( 'timestamp' ) ) );
+	}
+
+	/**
+	 * Mock the `$wp
+	 *
+	 * @since [version]
+	 *
+	 * @see [Reference]
+	 * @link [URL]
+	 *
+	 * @param [type] $post_id [description]
+	 * @return [type] [description]
+	 */
+	private function mock_query( $post_id ) {
+
+		global $post, $wp_query;
+		$this->temp = compact( 'post', 'wp_query' );
+
+		$wp_query = new WP_Query( array( 'p' => $post_id ) );
+
+	}
+
+	/**
+	 * Reset mocked query data configured by $this->mock_query()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function reset_query() {
+
+		global $post, $wp_query;
+		extract( $this->temp );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against is_home() with sitewide membership enabled
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_sitewide_membership_is_home() {
+
+		global $wp_query;
+		$temp = $wp_query->is_home;
+		$wp_query->is_home = true;
+
+		$membership = $this->factory->membership->create();
+
+		update_option( 'lifterlms_membership_required', $membership );
+
+		// Restricted.
+		$res = llms_page_restricted( 123 );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( 123, $res['content_id'] );
+		$this->assertEquals( $membership, $res['restriction_id'] );
+		$this->assertEquals( 'sitewide_membership', $res['reason'] );
+
+		// Not restricted.
+		llms_enroll_student( $this->uid, $membership );
+		$res = llms_page_restricted( 123 );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( 123, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+		delete_option( 'lifterlms_membership_required' );
+		$wp_query->is_home = $temp;
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against is_search() with sitewide membership enabled
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_is_search() {
+
+		global $wp_query;
+		$temp = $wp_query->is_search;
+		$wp_query->is_search = true;
+
+		// Search okay.
+		$res = llms_page_restricted( 123 );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( 123, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+		$membership = $this->factory->membership->create();
+
+		update_option( 'lifterlms_membership_required', $membership );
+
+		// Todo: fix this, see https://github.com/gocodebox/lifterlms/issues/1262
+		return;
+
+		// Restricted.
+		$res = llms_page_restricted( 123 );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( 123, $res['content_id'] );
+		$this->assertEquals( $membership, $res['restriction_id'] );
+		$this->assertEquals( 'sitewide_membership', $res['reason'] );
+
+		// Not restricted.
+		llms_enroll_student( $this->uid, $membership );
+		$res = llms_page_restricted( 123 );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( 123, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+		delete_option( 'lifterlms_membership_required' );
+		$wp_query->is_search = $temp;
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against a single post when a sitewide membership is enabled
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_sitewide_membership() {
+
+		$post = $this->factory->post->create();
+		$this->mock_query( $post );
+
+		$membership = $this->factory->membership->create();
+		update_option( 'lifterlms_membership_required', $membership );
+
+		// Restricted.
+		$res = llms_page_restricted( $post );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $post, $res['content_id'] );
+		$this->assertEquals( $membership, $res['restriction_id'] );
+		$this->assertEquals( 'sitewide_membership', $res['reason'] );
+
+		// Not restricted.
+		llms_enroll_student( $this->uid, $membership );
+		$res = llms_page_restricted( $post );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $post, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+		delete_option( 'lifterlms_membership_required' );
+
+	}
+
+	/**
+	 * Test llms_get_post_membership_restrictions() against skipped post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_membership_restrictions_skipped_types() {
+
+		$post_types = array(
+			'course',
+			'lesson',
+			'llms_quiz',
+			'llms_membership',
+			'llms_question',
+			'llms_certificate',
+			'llms_my_certificate',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			$post = $this->factory->post->create( compact( 'post_type' ) );
+			$this->assertEquals( array(), llms_get_post_membership_restrictions( $post ) );
+
+		}
+
+	}
+
+	/**
+	 * Test llms_get_post_membership_restrictions()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_membership_restrictions() {
+
+		$memberships = $this->factory->post->create_many( 2 );
+		$post = $this->factory->post->create();
+
+		// No restrictions.
+		$this->assertEquals( array(), llms_get_post_membership_restrictions( $post ) );
+
+		update_post_meta( $post, '_llms_is_restricted', 'no' );
+		update_post_meta( $post, '_llms_restricted_levels', $memberships );
+
+		// Has memberships but restrictions not enabled.
+		$this->assertEquals( array(), llms_get_post_membership_restrictions( $post ) );
+
+		update_post_meta( $post, '_llms_is_restricted', 'yes' );
+		$this->assertEquals( $memberships, llms_get_post_membership_restrictions( $post ) );
+
 	}
 
 	/**
@@ -93,7 +338,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$student = $this->get_mock_student();
 		$uid = $student->get_id();
 
-
 		$this->assertFalse( llms_is_post_restricted_by_membership( $post_id ) );
 		$this->assertFalse( llms_is_post_restricted_by_membership( $post_id, $uid ) );
 
@@ -102,9 +346,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id ) );
 		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id, $uid ) );
-
-		$out = llms_is_post_restricted_by_membership( $post_id );
-		$in = llms_is_post_restricted_by_membership( $post_id, $uid );
 
 		$student->enroll( $memberships[1] );
 		$this->assertEquals( $memberships[1], llms_is_post_restricted_by_membership( $post_id, $uid ) );
@@ -222,6 +463,26 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertFalse( llms_is_post_restricted_by_sitewide_membership( llms_get_page_id( 'myaccount' ) ) );
 		$this->assertFalse( llms_is_post_restricted_by_sitewide_membership( llms_get_page_id( 'checkout' ) ) );
 		$this->assertFalse( llms_is_post_restricted_by_sitewide_membership( absint( get_option( 'wp_page_for_privacy_policy' ) ) ) );
+
+	}
+
+	/**
+	 * Test llms_is_post_restricted_by_sitewide_membership() for invalid post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_is_post_restricted_by_sitewide_membership_invalid_posts() {
+
+		$post_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		// Not a membership.
+		$this->assertFalse( llms_is_post_restricted_by_sitewide_membership( $post_id ) );
+
+		// Non-existent.
+		$this->assertFalse( llms_is_post_restricted_by_sitewide_membership( ++$post_id ) );
+
 	}
 
 	/**
