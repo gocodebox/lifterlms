@@ -5,24 +5,38 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.37.10
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Determine if content should be restricted.
+ * Determine if a WP_Post is accessible to a given user
+ *
  * Called during "template_include" to determine if redirects
  * or template overrides are in order.
  *
  * @since 1.0.0
  * @since 3.16.11 Unknown.
+ * @since [version] Simplified default variable fallbacks.
  *
  * @param int      $post_id WordPress Post ID of the content.
- * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return array Restriction check result data.
+ * @param int|null $user_id Optional. WP User ID. Defaults to the current user if none supplied.
+ * @return array {
+ *     Hash of restriction information.
+ *
+ *     @type int    $content_id     WP_Post ID of the requested content post.
+ *     @type int    $restriction_id WP_Post ID of the post governing restriction over the requested content.
+ *     @type bool   $is_restricted  Whether or not the requested content is accessible by the requested user.
+ *     @type string $reason         A code describing the reason why the requested content is restricted.
+ * }
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
+
+	$user_id = $user_id ? $user_id : get_current_user_id();
+	$student = $user_id ? llms_get_student( $user_id ) : false;
+
+	$post_type = get_post_type( $post_id );
 
 	$results = array(
 		'content_id'     => $post_id,
@@ -30,17 +44,6 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		'reason'         => 'accessible',
 		'restriction_id' => 0,
 	);
-
-	if ( ! $user_id ) {
-		$user_id = get_current_user_id();
-	}
-
-	$student = false;
-	if ( $user_id ) {
-		$student = new LLMS_Student( $user_id );
-	}
-
-	$post_type = get_post_type( $post_id );
 
 	/**
 	 * Do checks to determine if the content should be restricted.
@@ -174,6 +177,62 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 
 	/* This filter is documented above. */
 	return apply_filters( 'llms_page_restricted', $results, $post_id );
+
+}
+
+/**
+ * Retrieve a list of memberships that a given post is restricted to
+ *
+ * @since [version]
+ *
+ * @param int $post_id WP_Post ID of the post.
+ * @return int[] List of the WP_Post IDs of llms_membership post types. An empty array signifies the post
+ *               has no restrictions.
+ */
+function llms_get_post_membership_restrictions( $post_id ) {
+
+	$memberships = array();
+
+	/**
+	 * Filter the post types which cannot be restricted to a membership.
+	 *
+	 * These LifterLMS core post types are restricted via enrollment into that
+	 * post (or it's parent post) directly so there won't be any related
+	 * memberships for these post types.
+	 *
+	 * @since Unknown
+	 *
+	 * @param string[] $post_types Array of post type names.
+	 */
+	$skip_post_types = apply_filters(
+		'llms_is_post_restricted_by_membership_skip_post_types',
+		array(
+			'course',
+			'lesson',
+			'llms_quiz',
+			'llms_membership',
+			'llms_question',
+			'llms_certificate',
+			'llms_my_certificate',
+		),
+	);
+
+	if ( ! in_array( get_post_type( $post_id ), $skip_post_types, true ) ) {
+		$saved_ids = get_post_meta( $post_id, '_llms_restricted_levels', true );
+		if ( llms_parse_bool( get_post_meta( $post_id, '_llms_is_restricted', true ) ) && is_array( $saved_ids ) ) {
+			$memberships = array_map( 'absint', $saved_ids );
+		}
+	}
+
+	/**
+	 * Filter the list the membership restrictions for a given post.
+	 *
+	 * @since [version]
+	 *
+	 * @param int[] $memberships List of the WP_Post IDs of llms_membership post types.
+	 * @param int   $post_id     WP_Post ID of the restricted post.
+	 */
+	return apply_filters( 'llms_get_post_membership_restrictions', $memberships, $post_id );
 
 }
 
@@ -496,67 +555,47 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  */
 function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
-	// don't check these posts types.
-	$skip = apply_filters(
-		'llms_is_post_restricted_by_membership_skip_post_types',
-		array(
-			'course',
-			'lesson',
-			'llms_quiz',
-			'llms_membership',
-			'llms_question',
-			'llms_certificate',
-			'llms_my_certificate',
-		)
-	);
+	$restriction = false;
 
-	if ( in_array( get_post_type( $post_id ), $skip, true ) ) {
-		return false;
-	}
+	$memberships = llms_get_post_membership_restrictions( $post_id );
+	if ( $memberships ) {
 
-	$memberships = get_post_meta( $post_id, '_llms_restricted_levels', true );
-	$restricted  = get_post_meta( $post_id, '_llms_is_restricted', true );
-
-	if ( 'yes' === $restricted && $memberships && is_array( $memberships ) ) {
-
-		// if no user, return the first membership from the array as the restriction id.
-		if ( ! $user_id ) {
-
-			$restriction_id = array_shift( $memberships );
-
+		$student = $user_id ? llms_get_student( $user_id ) : false;
+		if ( ! $student ) {
+			$restriction = array_shift( $memberships );
 		} else {
 
-			$student = llms_get_student( $user_id );
-			if ( ! $student ) {
+			/**
+			 * Reverse to ensure a user enrolled in none of the memberships,
+			 * encounters the same restriction settings as a visitor.
+			 */
+			foreach ( array_reverse( $memberships ) as $mid ) {
 
-				$restriction_id = array_shift( $memberships );
+				// Set this as the restriction id.
+				$restriction = $mid;
 
-			} else {
-
-				// reverse so to ensure that if user is in none of the memberships,
-				// they'd encounter the same restriction settings as a visitor.
-				$memberships = array_reverse( $memberships );
-
-				// loop through the memberships.
-				foreach ( $memberships as $mid ) {
-
-					// set this as the restriction id.
-					$restriction_id = $mid;
-
-					// once we find the student has access break the loop,
-					// this will be the restriction that the template loader will check against later.
-					if ( $student->is_enrolled( $mid ) ) {
-						break;
-					}
+				/*
+				 * Once we find the student has access break the loop,
+				 * this will be the restriction that the template loader will check against later.
+				 */
+				if ( $student->is_enrolled( $mid ) ) {
+					break;
 				}
 			}
 		}
-
-		return absint( $restriction_id );
-
 	}
 
-	return false;
+	/**
+	 * Filter the result of `llms_is_post_restricted_by_sitewide_membership()`
+	 *
+	 * @since [version]
+	 *
+	 * @param bool|int $restriction Restriction result. WP_Post ID of the membership or `false` when there's no restriction.
+	 * @param int      $post_id     WP_Post ID of the requested post.
+	 * @param int|null $user_id     WP_User ID of the requested user.
+	 */
+	return apply_filters( 'llms_is_post_restricted_by_membership', $restriction, $post_id, $user_id );
+
 
 }
 
@@ -570,6 +609,8 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
  * @since 3.37.10 Do not apply membership restrictions on the page set as membership's restriction redirect page.
  *                  Exclude the privacy policy from the sitewide restriction.
  *                  Call `in_array()` with strict comparison.
+ * @since [version] Refactored to reduce complexity and remove nested conditions.
+ *              Added filter on return.
  *
  * @param int      $post_id WP Post ID.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -578,49 +619,59 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
  */
 function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = null ) {
 
+	// Return value.
+	$restriction = false;
+
 	$membership_id = absint( get_option( 'lifterlms_membership_required', '' ) );
+	$membership    = $membership_id ? llms_get_post( $membership_id ) : false;
 
 	// site is restricted to a membership.
-	if ( ! empty( $membership_id ) ) {
-
-		$membership = new LLMS_Membership( $membership_id );
-
-		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
-			return false;
-		}
+	if ( $membership && is_a( $membership, 'LLMS_Membership' ) ) {
 
 		// Restricted contents redirection page id, if any.
 		$redirect_page_id = 'page' === $membership->get( 'restriction_redirect_type' ) ? absint( $membership->get( 'redirect_page_id' ) ) : 0;
 
-		/**
-		 * Pages that can be bypassed when sitewide restrictions are enabled.
-		 */
-		$allowed = apply_filters(
-			'lifterlms_sitewide_restriction_bypass_ids',
-			array_filter(
-				array(
-					absint( $membership_id ), // the membership page the site is restricted to.
-					absint( get_option( 'lifterlms_terms_page_id' ) ), // terms and conditions.
-					llms_get_page_id( 'memberships' ), // membership archives.
-					llms_get_page_id( 'myaccount' ), // lifterlms account page.
-					llms_get_page_id( 'checkout' ), // lifterlms checkout page.
-					absint( get_option( 'wp_page_for_privacy_policy' ) ), // wp privacy policy page.
-					$redirect_page_id, // Restricted contents redirection page id.
-				)
-			)
+		$bypass_ids = array(
+			$membership_id, // The membership page the site is restricted to.
+			get_option( 'lifterlms_terms_page_id' ), // Terms and conditions.
+			llms_get_page_id( 'memberships' ), // Membership archives.
+			llms_get_page_id( 'myaccount' ), // Student dashboard.
+			llms_get_page_id( 'checkout' ), // Checkout page.
+			get_option( 'wp_page_for_privacy_policy' ), // WP Core privacy policy page.
+			$redirect_page_id, // Restricted contents redirection page id.
 		);
 
-		if ( in_array( $post_id, $allowed, true ) ) {
-			return false;
-		}
+		$bypass_ids = array_filter( array_map( 'absint', $bypass_ids ) );
 
-		return $membership_id;
+		/**
+		 * Filter a list of sitewide membership restriction post IDs.
+		 *
+		 * Any post id found in this will be accessible regardless of user enrollment into the
+		 * site's sitewide membership restriction.
+		 *
+		 * Note: Post IDs are evaluated with a strict comparator. When filtering ensure that
+		 * additional IDs are added to the array as integers, not numeric strings!
+		 *
+		 * @since Unknown
+		 *
+		 * @param int[] $bypass_ids Array of WP_Post IDs.
+		 */
+		$allowed = apply_filters( 'lifterlms_sitewide_restriction_bypass_ids', $bypass_ids );
 
-	} else {
-
-		return false;
+		$restriction = in_array( $post_id, $allowed, true ) ? false : $membership_id;
 
 	}
+
+	/**
+	 * Filter the result of `llms_is_post_restricted_by_sitewide_membership()`
+	 *
+	 * @since [version]
+	 *
+	 * @param bool|int $restriction Restriction result. WP_Post ID of the sitewide membership or `false` when there's no restriction.
+	 * @param int      $post_id     WP_Post ID of the requested post.
+	 * @param int|null $user_id     WP_User ID of the requested user.
+	 */
+	return apply_filters( 'llms_is_post_restricted_by_sitewide_membership', $restriction, $post_id, $user_id );
 
 }
 
