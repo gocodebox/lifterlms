@@ -417,8 +417,82 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 			remove_filter( 'llms_is_course_open', '__return_false' );
 
-
 		}
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against prerequisite restrictions
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_prereqs() {
+
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 2, 0 )[0] );
+
+		llms_enroll_student( $this->uid, $course->get( 'id' ) );
+
+		$lessons = $course->get_lessons( 'ids' );
+
+		$lesson_2 = llms_get_post( $lessons[1] );
+		$lesson_2->set( 'has_prerequisite', 'yes' );
+		$lesson_2->set( 'prerequisite', $lessons[0] );
+
+		$this->mock_query( $lessons[1] );
+
+		// Incomplete prereq.
+		$res = llms_page_restricted( $lessons[1] );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $lessons[1], $res['content_id'] );
+		$this->assertEquals( $lessons[0], $res['restriction_id'] );
+		$this->assertEquals( 'lesson_prerequisite', $res['reason'] );
+
+		llms_mark_complete( $this->uid, $lessons[0], 'lesson' );
+
+		// No restriction.
+		$res = llms_page_restricted( $lessons[1] );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $lessons[1], $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against drip restrictions
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_drip() {
+
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0 )[0] );
+
+		llms_enroll_student( $this->uid, $course->get( 'id' ) );
+
+		$lesson    = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$lesson->set( 'drip_method', 'enrollment' );
+		$lesson->set( 'days_before_available', '3' );
+
+		$this->mock_query( $lesson_id );
+
+		$res = llms_page_restricted( $lesson_id );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $lesson_id, $res['content_id'] );
+		$this->assertEquals( $lesson_id, $res['restriction_id'] );
+		$this->assertEquals( 'lesson_drip', $res['reason'] );
+
+		// No restriction.
+		llms_tests_mock_current_time( '+1week' );
+		$res = llms_page_restricted( $lesson_id );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $lesson_id, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
 
 	}
 

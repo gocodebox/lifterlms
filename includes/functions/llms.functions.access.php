@@ -363,37 +363,42 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.11 Unknown.
  * @since 3.37.10 Use strict comparison '===' in place of '=='.
+ * @since [version] Refactored and added filter on return value.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return int|false False if the lesson is available.
- *                   WP Post ID of the lesson if it is not.
+ * @return int|bool False if the lesson is available.
+ *                  WP Post ID of the lesson if it is not.
  */
 function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
+	$restriction = false;
+
 	$post_type = get_post_type( $post_id );
-
-	// if we're on a lesson, lesson id is the post id.
-	if ( 'lesson' === $post_type ) {
-		$lesson_id = $post_id;
-	} elseif ( 'llms_quiz' === $post_type ) {
+	$lesson_id = 'lesson' === $post_type ? $post_id : false;
+	if ( 'llms_quiz' === $post_type ) {
 		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
-			return false;
+		$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : false;
+	}
+
+	if ( $lesson_id ) {
+		$lesson = llms_get_post( $lesson_id );
+		if ( $lesson && ! $lesson->is_available() ) {
+			$restriction = $lesson_id;
 		}
-	} else {
-		// dont pass other post types in here dumb dumb.
-		return false;
 	}
 
-	$lesson = new LLMS_Lesson( $lesson_id );
-
-	if ( $lesson->is_available() ) {
-		return false;
-	} else {
-		return $lesson_id;
-	}
+	/**
+	 * Customize the restriction information for a post's drip restrictions
+	 *
+	 * @since [version]
+	 *
+	 * @param int|bool $restriction False if the lesson is available.
+	 *                              WP Post ID of the lesson if it is not.
+	 * @param int      $post_id WP Post ID of a lesson or quiz.
+	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 */
+	return apply_filters( 'llms_is_post_restricted_by_drip_settings', $restriction, $post_id, $user_id );
 
 }
 
@@ -402,82 +407,79 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
+ * @since [version] Refactored and added filter to return.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return array|false False if the post is not restricted or the user has completed the prereq
- *                     associative array with prereq type and prereq id
- *                     array(
- *                         type => [course|course_track|lesson]
- *                         id => int (object id)
- *                     ).
+ * @return array|bool Returns `false` if the post is not restricted or the user has completed all applicable prerequisites,
+ *                     when at least one incomplete prerequisite has been found, returns an associative array describing the
+ *                     prerequisite type and object id.
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
+	$restriction = false;
+
 	$post_type = get_post_type( $post_id );
-
-	if ( 'lesson' === $post_type ) {
-		$lesson_id = $post_id;
-	} elseif ( 'llms_quiz' === $post_type ) {
+	$lesson_id = 'lesson' === $post_type ? $post_id : false;
+	if ( 'llms_quiz' === $post_type ) {
 		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
-			return false;
-		}
-	} else {
-		return false;
+		$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : false;
 	}
 
-	$lesson = llms_get_post( $lesson_id );
-	$course = $lesson->get_course();
+	if ( $lesson_id ) {
+		$lesson = llms_get_post( $lesson_id );
+		$course = $lesson ? $lesson->get_course() : false;
 
-	if ( ! $course ) {
-		return false;
-	}
+		if ( $course ) {
 
-	// get an array of all possible prereqs.
-	$prerequisites = array();
+			// Get an array of all possible prereqs.
+			$prerequisites = array();
 
-	if ( $course->has_prerequisite( 'course' ) ) {
-		$prerequisites[] = array(
-			'id'   => $course->get_prerequisite_id( 'course' ),
-			'type' => 'course',
-		);
-	}
+			// Course prereqs.
+			foreach ( array( 'course', 'course_track' ) as $prereq_type ) {
+				if ( $course->has_prerequisite( $prereq_type ) ) {
+					$prerequisites[] = array(
+						'id'   => $course->get_prerequisite_id( $prereq_type ),
+						'type' => $prereq_type,
+					);
+				}
+			}
 
-	if ( $course->has_prerequisite( 'course_track' ) ) {
-		$prerequisites[] = array(
-			'id'   => $course->get_prerequisite_id( 'course_track' ),
-			'type' => 'course_track',
-		);
-	}
+			// Lesson prereqs.
+			if ( $lesson->has_prerequisite() ) {
+				$prerequisites[] = array(
+					'id'   => $lesson->get_prerequisite(),
+					'type' => 'lesson',
+				);
+			}
 
-	if ( $lesson->has_prerequisite() ) {
-		$prerequisites[] = array(
-			'id'   => $lesson->get_prerequisite(),
-			'type' => 'lesson',
-		);
-	}
+			if ( $prerequisites ) {
 
-	// prereqs exist and user is not logged in, return the first prereq id.
-	if ( $prerequisites && ! $user_id ) {
+				$student = llms_get_student( $user_id );
 
-		return array_shift( $prerequisites );
+				foreach ( $prerequisites as $prereq ) {
 
-		// if incomplete, send the prereq id.
-	} else {
-
-		$student = new LLMS_Student( $user_id );
-		foreach ( $prerequisites as $prereq ) {
-			if ( ! $student->is_complete( $prereq['id'], $prereq['type'] ) ) {
-				return $prereq;
+					if ( ! $student || ! $student->is_complete( $prereq['id'], $prereq['type'] ) ) {
+						$restriction = $prereq;
+						break;
+					}
+				}
 			}
 		}
 	}
 
-	// otherwise return false.
-	// no prereq.
-	return false;
+	/**
+	 * Filter restriction data determining if a post is restricted by a prerequisite
+	 *
+	 * @since [version]
+	 *
+	 * @param array|bool $restriction Restriction result: `false` if the post is not restricted or the user has
+	 *                                completed all applicable prerequisites, when at least one incomplete prerequisite
+	 *                                has been found, returns an associative array describing the prerequisite type and object id.
+	 * @param int        $post_id     WP Post ID of a lesson or quiz.
+	 * @param int|null   $user_id     Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 */
+	return apply_filters( 'llms_is_post_restricted_by_prerequisite', $restriction, $post_id, $user_id );
 
 }
 
