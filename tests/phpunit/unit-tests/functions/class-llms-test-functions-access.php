@@ -216,6 +216,145 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_page_restricted() against a single post restricted to a membership.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_to_membership() {
+
+		$post = $this->factory->post->create();
+		$this->mock_query( $post );
+
+		$membership = $this->factory->membership->create();
+		update_post_meta( $post, '_llms_is_restricted', 'yes' );
+		update_post_meta( $post, '_llms_restricted_levels', array( $membership ) );
+
+		// Restricted.
+		$res = llms_page_restricted( $post );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $post, $res['content_id'] );
+		$this->assertEquals( $membership, $res['restriction_id'] );
+		$this->assertEquals( 'membership', $res['reason'] );
+
+		// Not restricted.
+		llms_enroll_student( $this->uid, $membership );
+		$res = llms_page_restricted( $post );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $post, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against a single lesson.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_lesson() {
+
+		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
+		$course_id = $course->get( 'id' );
+		$lesson_id = $course->get_lessons( 'ids' )[0];
+
+		$this->mock_query( $lesson_id );
+
+		// Free lesson not restricted.
+		update_post_meta( $lesson_id, '_llms_free_lesson', 'yes' );
+		$res = llms_page_restricted( $lesson_id );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $lesson_id, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+		// Restricted.
+		update_post_meta( $lesson_id, '_llms_free_lesson', 'no' );
+		$res = llms_page_restricted( $lesson_id );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $lesson_id, $res['content_id'] );
+		$this->assertEquals( $course_id, $res['restriction_id'] );
+		$this->assertEquals( 'enrollment_lesson', $res['reason'] );
+
+		// Enrolled, not restricted.
+		llms_enroll_student( $this->uid, $course_id );
+		$res = llms_page_restricted( $lesson_id );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $lesson_id, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against a single membership.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_course() {
+
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$this->mock_query( $course );
+
+		// Restricted.
+		$res = llms_page_restricted( $course );
+
+		// Restricted.
+		$res = llms_page_restricted( $course );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $course, $res['content_id'] );
+		$this->assertEquals( $course, $res['restriction_id'] );
+		$this->assertEquals( 'enrollment_course', $res['reason'] );
+
+		// Enrolled, not restricted.
+		llms_enroll_student( $this->uid, $course );
+		$res = llms_page_restricted( $course );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $course, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against a single membership.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_membership() {
+
+		$membership = $this->factory->membership->create();
+		$this->mock_query( $membership );
+
+		// Restricted.
+		$res = llms_page_restricted( $membership );
+
+		// Restricted.
+		$res = llms_page_restricted( $membership );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $membership, $res['content_id'] );
+		$this->assertEquals( $membership, $res['restriction_id'] );
+		$this->assertEquals( 'enrollment_membership', $res['reason'] );
+
+		// Enrolled, not restricted.
+		llms_enroll_student( $this->uid, $membership );
+		$res = llms_page_restricted( $membership );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $membership, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
 	 * Test llms_get_post_membership_restrictions() against skipped post types.
 	 *
 	 * @since [version]
