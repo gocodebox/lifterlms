@@ -333,9 +333,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		// Restricted.
 		$res = llms_page_restricted( $membership );
-
-		// Restricted.
-		$res = llms_page_restricted( $membership );
 		$this->assertTrue( $res['is_restricted'] );
 		$this->assertEquals( $membership, $res['content_id'] );
 		$this->assertEquals( $membership, $res['restriction_id'] );
@@ -348,6 +345,80 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertEquals( $membership, $res['content_id'] );
 		$this->assertEquals( 0, $res['restriction_id'] );
 		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against a single quiz.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_quiz() {
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$lesson  = $course->get_lessons()[0];
+		$quiz_id = $lesson->get( 'quiz' );
+
+		$this->mock_query( $quiz_id );
+
+		// Restricted.
+		$res = llms_page_restricted( $quiz_id );
+		$this->assertTrue( $res['is_restricted'] );
+		$this->assertEquals( $quiz_id, $res['content_id'] );
+		$this->assertEquals( $quiz_id, $res['restriction_id'] );
+		$this->assertEquals( 'quiz', $res['reason'] );
+
+		// Enrolled, not restricted.
+		llms_enroll_student( $this->uid, $course->get( 'id' ) );
+		$res = llms_page_restricted( $quiz_id );
+		$this->assertFalse( $res['is_restricted'] );
+		$this->assertEquals( $quiz_id, $res['content_id'] );
+		$this->assertEquals( 0, $res['restriction_id'] );
+		$this->assertEquals( 'accessible', $res['reason'] );
+
+	}
+
+	/**
+	 * Test llms_page_restricted() against for course time period restrictions
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_course_time_period() {
+
+		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$course_id = $course->get( 'id' );
+		$lesson    = $course->get_lessons()[0];
+
+		llms_enroll_student( $this->uid, $course_id );
+
+		foreach ( array( $lesson->get( 'id' ), $lesson->get( 'quiz' ) ) as $post_id ) {
+
+			$this->mock_query( $post_id );
+
+			// No time period.
+			$res = llms_page_restricted( $post_id );
+			$this->assertFalse( $res['is_restricted'] );
+			$this->assertEquals( $post_id, $res['content_id'] );
+			$this->assertEquals( 0, $res['restriction_id'] );
+			$this->assertEquals( 'accessible', $res['reason'] );
+
+			// Has time period.
+			add_filter( 'llms_is_course_open', '__return_false' );
+
+			$res = llms_page_restricted( $post_id );
+			$this->assertTrue( $res['is_restricted'] );
+			$this->assertEquals( $post_id, $res['content_id'] );
+			$this->assertEquals( $course_id, $res['restriction_id'] );
+			$this->assertEquals( 'course_time_period', $res['reason'] );
+
+			remove_filter( 'llms_is_course_open', '__return_false' );
+
+
+		}
 
 	}
 

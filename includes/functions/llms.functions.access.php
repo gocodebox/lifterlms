@@ -123,7 +123,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 			$results['reason']         = 'quiz';
 			$results['restriction_id'] = $post_id;
 
-		} elseif ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
+		} elseif ( in_array( $post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
 
 			$course_id = llms_is_post_restricted_by_time_period( $post_id, $user_id );
 			if ( $course_id ) {
@@ -486,50 +486,34 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
+ * @since [version] Refactored to utilize `llms_get_post_parent_course()`.
+ *              Added filter on return.
  *
  * @param int      $post_id WP Post ID of a course, lesson, or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
- * @return int|false False if the post is not restricted by course time period,
- *                   WP Post ID of the course if it is.
+ * @return int|bool False if the post is not restricted by course time period,
+ *                  WP Post ID of the course if it is.
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
-	$post_type = get_post_type( $post_id );
+	$restriction = false;
 
-	// if we're on a lesson, get course information.
-	if ( 'lesson' === $post_type ) {
-
-		$lesson    = new LLMS_Lesson( $post_id );
-		$course_id = $lesson->get_parent_course();
-
-	} elseif ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz->get( 'lesson_id' );
-		if ( ! $lesson_id ) {
-			return false;
-		}
-		$lesson = llms_get_post( $lesson_id );
-		if ( ! $lesson_id ) {
-			return false;
-		}
-		$course_id = $lesson->get_parent_course();
-
-	} elseif ( 'course' === $post_type ) {
-
-		$course_id = $post_id;
-
-	} else {
-
-		return false;
-
+	$course = 'course' === get_post_type( $post_id ) ? llms_get_post( $post_id ) : llms_get_post_parent_course( $post_id );
+	if ( $course ) {
+		$restriction = $course->is_open() ? false : $course->get( 'id' );
 	}
 
-	$course = new LLMS_Course( $course_id );
-	if ( $course->is_open() ) {
-		return false;
-	} else {
-		return $course_id;
-	}
+	/**
+	 * Filter whether or not a give post is restricted as a result of a time period restriction.
+	 *
+	 * @since [version]
+	 *
+	 * @param int|bool $restriction False if the post is not restricted by course time period,
+	 *                              WP Post ID of the course if it is.
+	 * @param int      $post_id     WP_Post ID of the post being checked.
+	 * @param int      $user_id     WP_User ID of the user.
+	 */
+	return apply_filters( 'llms_is_post_restricted_by_time_period', $restriction, $post_id, $user_id );
 
 }
 
