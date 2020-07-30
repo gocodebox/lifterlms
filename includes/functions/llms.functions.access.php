@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.16.11 Unknown.
- * @since [version] Refactored and added caching options.
+ * @since [version] Major refactor; added caching mechanisms.
  *
  * @param int      $post_id   WordPress Post ID of the content.
  * @param int|null $user_id   Optional. WP User ID. Defaults to the current user if none supplied.
@@ -65,6 +65,7 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 
 	$student = $user_id ? llms_get_student( $user_id ) : false;
 
+	$post      = llms_get_post( $post_id );
 	$post_type = get_post_type( $post_id );
 
 	$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id );
@@ -74,31 +75,27 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 	 *
 	 * This will determine if the post should be restricted and later we'll check if the user can access it.
 	 */
-	if ( $sitewide_membership_id && ( is_home() || is_search() || is_singular() ) ) {
+	if ( $sitewide_membership_id ) {
 
 		$results['restriction_id'] = $sitewide_membership_id;
 		$results['reason']         = 'sitewide_membership';
 
-	} elseif ( is_singular() ) {
+	} elseif ( 'lesson' === $post_type && $post && ! $post->is_free() ) {
 
-		$post = llms_get_post( $post_id );
-		if ( 'lesson' === $post_type && $post && ! $post->is_free() ) {
+		$results['restriction_id'] = $post->get_parent_course();
+		$results['reason']         = 'enrollment_lesson';
 
-			$results['restriction_id'] = $post->get_parent_course();
-			$results['reason']         = 'enrollment_lesson';
+	} elseif ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
 
-		} elseif ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+		$results['restriction_id'] = $post_id;
+		$results['reason']         = sprintf( 'enrollment_%s', str_replace( 'llms_', '', $post_type ) );
 
-			$results['restriction_id'] = $post_id;
-			$results['reason']         = sprintf( 'enrollment_%s', str_replace( 'llms_', '', $post_type ) );
+	} else {
 
-		} else {
-
-			$membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
-			if ( $membership_id ) {
-				$results['restriction_id'] = $membership_id;
-				$results['reason']         = 'membership';
-			}
+		$membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
+		if ( $membership_id ) {
+			$results['restriction_id'] = $membership_id;
+			$results['reason']         = 'membership';
 		}
 	}
 
@@ -132,7 +129,7 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 
 		$results['is_restricted'] = true;
 
-	} elseif ( is_singular() ) {
+	} else {
 
 		/**
 		 * At this point student has access or the content isn't supposed to be restricted.
