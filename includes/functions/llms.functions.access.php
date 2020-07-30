@@ -18,10 +18,11 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.16.11 Unknown.
- * @since [version] Simplified default variable fallbacks.
+ * @since [version] Refactored and added caching options.
  *
- * @param int      $post_id WordPress Post ID of the content.
- * @param int|null $user_id Optional. WP User ID. Defaults to the current user if none supplied.
+ * @param int      $post_id   WordPress Post ID of the content.
+ * @param int|null $user_id   Optional. WP User ID. Defaults to the current user if none supplied.
+ * @param bool     $use_cache If `true`, uses data stored in object cache (where available).
  * @return array {
  *     Associative array of restriction information.
  *
@@ -31,7 +32,24 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $reason         A code describing the reason why the requested content is restricted.
  * }
  */
-function llms_page_restricted( $post_id, $user_id = null ) {
+function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
+
+	/**
+	 * Disable caching for the `llms_page_restricted()` function.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $disable If `true`, caching will be disabled regardless of the value of the function's `$use_cache` parameter.
+	 */
+	$use_cache = apply_filters( 'llms_page_restricted_disable_caching', false ) ? false : true;
+
+	$cache_key = sprintf( '%1$d::%2$d', $post_id, $user_id );
+	$cached = $use_cache ? wp_cache_get( $cache_key, 'llms_page_restricted' ) : false;
+
+	// Return early if we have cached data & cached is enabled.
+	if ( $cached ) {
+		return $cached;
+	}
 
 	$results = array(
 		'content_id'     => $post_id,
@@ -170,7 +188,12 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	 * @param array $results Restriction check result data.
 	 * @param int   $post_id WordPress Post ID of the content.
 	 */
-	return apply_filters( 'llms_page_restricted', $results, $post_id );
+	$results = apply_filters( 'llms_page_restricted', $results, $post_id );
+
+	// Cache results.
+	wp_cache_set( $cache_key, $results, 'llms_page_restricted' );
+
+	return $results;
 
 }
 

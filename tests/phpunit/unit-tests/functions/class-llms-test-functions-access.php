@@ -33,6 +33,8 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		wp_set_current_user( $this->uid );
 
+		add_filter( 'llms_page_restricted_disable_caching', '__return_true' );
+
 	}
 
 	/**
@@ -47,6 +49,8 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		parent::tearDown();
 		wp_set_current_user( null );
 		$this->reset_query();
+
+		remove_filter( 'llms_page_restricted_disable_caching', '__return_true' );
 
 	}
 
