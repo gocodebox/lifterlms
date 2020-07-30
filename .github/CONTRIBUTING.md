@@ -9,7 +9,7 @@ We welcome and encourage contributions from the community. If you'd like to cont
 ### Ways to Contribute
 
 + [Submit bug and issues reports](#reporting-a-bug-or-issue)
-+ [Contribue new features](#contributing-new-features)
++ [Contribute new features](#contributing-new-features)
 + [Contribute new code or bug fixes / patches](#contributing-code)
 + [Translate and localize LifterLMS](#contribute-translations)
 
@@ -30,7 +30,7 @@ First check if we already have a feature request or proposal for the feature you
 
 If you can't find an existing feature request you should propose it by opening a new [feature request issue](https://github.com/gocodebox/lifterlms/issues/new?template=Feature_Request.md). In the issue we'll discuss your feature  before you start working on it.
 
-LifterLMS is a project that services a great many users. A feature which is attractive to a small number of users may create confusion for other users. These features may be better offered as a feature plugin instead of code in the core. In this scenario we'd be happy to help advise you on how to best deveolop and launch your feature as a plugin on WordPress.org! We'll even help market your add-on after you launch.
+LifterLMS is a project that services a great many users. A feature which is attractive to a small number of users may create confusion for other users. These features may be better offered as a feature plugin instead of code in the core. In this scenario we'd be happy to help advise you on how to best develop and launch your feature as a plugin on WordPress.org! We'll even help market your add-on after you launch.
 
 ### Contributing Code
 
