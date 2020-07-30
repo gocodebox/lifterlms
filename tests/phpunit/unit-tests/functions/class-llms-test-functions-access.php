@@ -13,13 +13,6 @@
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 	/**
-	 * Temporary globals reset via tearDown()
-	 *
-	 * @var array
-	 */
-	protected $temp = array();
-
-	/**
 	 * Setup the test case.
 	 *
 	 * @since [version]
@@ -48,7 +41,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 		parent::tearDown();
 		wp_set_current_user( null );
-		$this->reset_query();
 
 		remove_filter( 'llms_page_restricted_disable_caching', '__return_true' );
 
@@ -65,40 +57,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 */
 	private function get_date( $offset = '+7 days', $format = 'm/d/y' ) {
 		return date( $format, strtotime( $offset, current_time( 'timestamp' ) ) );
-	}
-
-	/**
-	 * Mock the `$wp
-	 *
-	 * @since [version]
-	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @param [type] $post_id [description]
-	 * @return [type] [description]
-	 */
-	private function mock_query( $post_id ) {
-
-		global $post, $wp_query;
-		$this->temp = compact( 'post', 'wp_query' );
-
-		$wp_query = new WP_Query( array( 'p' => $post_id ) );
-
-	}
-
-	/**
-	 * Reset mocked query data configured by $this->mock_query()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	private function reset_query() {
-
-		global $post, $wp_query;
-		extract( $this->temp );
-
 	}
 
 	/**
@@ -226,7 +184,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	public function test_llms_page_restricted_sitewide_membership() {
 
 		$post = $this->factory->post->create();
-		$this->mock_query( $post );
 
 		$membership = $this->factory->membership->create();
 		update_option( 'lifterlms_membership_required', $membership );
@@ -260,7 +217,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	public function test_llms_page_restricted_to_membership() {
 
 		$post = $this->factory->post->create();
-		$this->mock_query( $post );
 
 		$membership = $this->factory->membership->create();
 		update_post_meta( $post, '_llms_is_restricted', 'yes' );
@@ -296,8 +252,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$course    = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 0 ) );
 		$course_id = $course->get( 'id' );
 		$lesson_id = $course->get_lessons( 'ids' )[0];
-
-		$this->mock_query( $lesson_id );
 
 		// Free lesson not restricted.
 		update_post_meta( $lesson_id, '_llms_free_lesson', 'yes' );
@@ -335,7 +289,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	public function test_llms_page_restricted_course() {
 
 		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
-		$this->mock_query( $course );
 
 		// Restricted.
 		$res = llms_page_restricted( $course );
@@ -367,7 +320,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	public function test_llms_page_restricted_membership() {
 
 		$membership = $this->factory->membership->create();
-		$this->mock_query( $membership );
 
 		// Restricted.
 		$res = llms_page_restricted( $membership );
@@ -398,8 +350,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
 		$lesson  = $course->get_lessons()[0];
 		$quiz_id = $lesson->get( 'quiz' );
-
-		$this->mock_query( $quiz_id );
 
 		// Restricted.
 		$res = llms_page_restricted( $quiz_id );
@@ -434,8 +384,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		llms_enroll_student( $this->uid, $course_id );
 
 		foreach ( array( $lesson->get( 'id' ), $lesson->get( 'quiz' ) ) as $post_id ) {
-
-			$this->mock_query( $post_id );
 
 			// No time period.
 			$res = llms_page_restricted( $post_id );
@@ -478,8 +426,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$lesson_2->set( 'has_prerequisite', 'yes' );
 		$lesson_2->set( 'prerequisite', $lessons[0] );
 
-		$this->mock_query( $lessons[1] );
-
 		// Incomplete prereq.
 		$res = llms_page_restricted( $lessons[1] );
 		$this->assertTrue( $res['is_restricted'] );
@@ -515,8 +461,6 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$lesson_id = $lesson->get( 'id' );
 		$lesson->set( 'drip_method', 'enrollment' );
 		$lesson->set( 'days_before_available', '3' );
-
-		$this->mock_query( $lesson_id );
 
 		$res = llms_page_restricted( $lesson_id );
 		$this->assertTrue( $res['is_restricted'] );
