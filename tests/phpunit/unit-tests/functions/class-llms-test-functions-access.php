@@ -102,6 +102,40 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test caching mechanisms of llms_page_restricted()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_page_restricted_cache() {
+
+		// Disable cache bypass that's setup for most of the rest of the tests in this class.
+		remove_filter( 'llms_page_restricted_disable_caching', '__return_true' );
+
+		$post = $this->factory->post->create();
+
+		// Legit cache miss will store the generated access array in the cache.
+		$cache_miss = llms_page_restricted( $post, $this->uid );
+		$this->assertEquals( $cache_miss, wp_cache_get( sprintf( '%1$d::%2$d', $post, $this->uid ), 'llms_page_restricted' ) );
+		$this->assertEquals( $cache_miss, llms_page_restricted( $post, $this->uid ) );
+
+		// Simulate a cache hit.
+		wp_cache_set( sprintf( '%1$d::%2$d', $post, $this->uid ), 'fake_value', 'llms_page_restricted' );
+		$cache_hit = llms_page_restricted( $post, $this->uid );
+		$this->assertEquals( 'fake_value', $cache_hit );
+
+		// Skip cache usage, we have the fake value above but we're going to bypass the cache via 3rd arg.
+		$this->assertEquals( $cache_miss, llms_page_restricted( $post, $this->uid, false ) );
+
+		// No caching for logged out user.
+		wp_set_current_user( null );
+		$not_cached = llms_page_restricted( $post );
+		$this->assertFalse( wp_cache_get( sprintf( '%1$d::0', $post ) ) );
+
+	}
+
+	/**
 	 * Test llms_page_restricted() against is_home() with sitewide membership enabled
 	 *
 	 * @since [version]
