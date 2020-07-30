@@ -34,6 +34,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 
+	// Default to current user if none supplied.
+	$user_id = $user_id ? $user_id : get_current_user_id();
+
 	/**
 	 * Disable caching for the `llms_page_restricted()` function.
 	 *
@@ -41,10 +44,12 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 	 *
 	 * @param bool $disable If `true`, caching will be disabled regardless of the value of the function's `$use_cache` parameter.
 	 */
-	$use_cache = apply_filters( 'llms_page_restricted_disable_caching', false ) ? false : true;
+	$use_cache = apply_filters( 'llms_page_restricted_disable_caching', false ) ? false : $use_cache;
 
 	$cache_key = sprintf( '%1$d::%2$d', $post_id, $user_id );
-	$cached = $use_cache ? wp_cache_get( $cache_key, 'llms_page_restricted' ) : false;
+
+	// If we are using caching
+	$cached = $use_cache && $user_id ? wp_cache_get( $cache_key, 'llms_page_restricted' ) : false;
 
 	// Return early if we have cached data & cached is enabled.
 	if ( $cached ) {
@@ -58,7 +63,6 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 		'restriction_id' => 0,
 	);
 
-	$user_id = $user_id ? $user_id : get_current_user_id();
 	$student = $user_id ? llms_get_student( $user_id ) : false;
 
 	$post_type = get_post_type( $post_id );
@@ -190,8 +194,10 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 	 */
 	$results = apply_filters( 'llms_page_restricted', $results, $post_id );
 
-	// Cache results.
-	wp_cache_set( $cache_key, $results, 'llms_page_restricted' );
+	// Cache results if we have a user.
+	if ( $user_id ) {
+		wp_cache_set( $cache_key, $results, 'llms_page_restricted' );
+	}
 
 	return $results;
 
