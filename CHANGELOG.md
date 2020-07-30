@@ -44,7 +44,7 @@ v4.2.0 - 2020-07-21
 ##### Bug fixes
 
 + When deleting a quiz attempt the related lesson will now be automatically marked as "Incomplete" when appropriate.
-+ `LLMS_Abstact_User_Data::get_id()` now always returns an integer.
++ `LLMS_Abstract_User_Data::get_id()` now always returns an integer.
 + Fixed a 404 error resulting from settings tooltips referencing a missing icon asset.
 + Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
 

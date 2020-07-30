@@ -33,7 +33,7 @@ Welcome to the LifterLMS GitHub repository. This repository serves as the core p
 If you're not a developer or contributor, please use [LifterLMS plugin page][link-wp-repo] at WordPress.org.
 
 
-### Getting Help and Support Support
+### Getting Help and Support
 
 GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support][link-support] or the [community forums][link-support-forums]. If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert][link-experts].
 
@@ -117,6 +117,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/wenchen"><img src="https://avatars1.githubusercontent.com/u/959457?v=4" title="wenchen" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars3.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars0.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
+<a href="https://github.com/nicolas-jaussaud"><img src="https://avatars0.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
 <a href="https://github.com/mrosati84"><img src="https://avatars0.githubusercontent.com/u/855068?v=4" title="mrosati84" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars3.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>
 <a href="https://github.com/hovpoghosyan"><img src="https://avatars2.githubusercontent.com/u/9405480?v=4" title="hovpoghosyan" width="80" height="80"></a>
