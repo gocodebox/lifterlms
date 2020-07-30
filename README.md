@@ -33,7 +33,7 @@ Welcome to the LifterLMS GitHub repository. This repository serves as the core p
 If you're not a developer or contributor, please use [LifterLMS plugin page][link-wp-repo] at WordPress.org.
 
 
-### Getting Help and Support Support
+### Getting Help and Support
 
 GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support][link-support] or the [community forums][link-support-forums]. If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert][link-experts].
 
