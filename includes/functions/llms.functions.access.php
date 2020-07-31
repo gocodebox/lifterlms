@@ -559,7 +559,7 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 
 		$student = $user_id ? llms_get_student( $user_id ) : false;
 		if ( ! $student ) {
-			$restriction = array_shift( $memberships );
+			$restriction = $memberships[0];
 		} else {
 
 			/**
