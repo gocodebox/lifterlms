@@ -186,6 +186,7 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 	 * Allow filtering of the restricted results.
 	 *
 	 * @since Unknown
+	 * @since [version] Added `$cached` parameter.
 	 *
 	 * @param array $results Restriction check result data.
 	 * @param int   $post_id WordPress Post ID of the content.
