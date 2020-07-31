@@ -53,7 +53,8 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 
 	// Return early if we have cached data & cached is enabled.
 	if ( $cached ) {
-		return $cached;
+		// This filter is documented later in this function.
+		return apply_filters( 'llms_page_restricted', $cached, $post_id, true );
 	}
 
 	$results = array(
@@ -188,8 +189,9 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 	 *
 	 * @param array $results Restriction check result data.
 	 * @param int   $post_id WordPress Post ID of the content.
+	 * @param bool  $cached  Whether or not cached results are being returned.
 	 */
-	$results = apply_filters( 'llms_page_restricted', $results, $post_id );
+	$results = apply_filters( 'llms_page_restricted', $results, $post_id, false );
 
 	// Cache results if we have a user.
 	if ( $user_id ) {
