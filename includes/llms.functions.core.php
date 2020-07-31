@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -886,6 +886,49 @@ function llms_get_post_parent_course( $post ) {
 
 }
 
+/**
+ * Retrieves the WP_Post ID of a lesson associated with a given post.
+ *
+ * If a `lesson` post type ID is submitted, it will return submitted id.
+ *
+ * @since [version]
+ *
+ * @param int $post_id WP_Post ID of the related post.
+ * @return int|bool $lesson_id WP_Post ID or `false` if no lesson is associated with the given post.
+ */
+function llms_get_post_related_lesson_id( $post_id ) {
+
+	$post_type = get_post_type( $post_id );
+	switch ( $post_type ) {
+
+		case 'lesson':
+			$lesson_id = $post_id;
+			break;
+
+		case 'llms_quiz':
+			$quiz      = llms_get_post( $post_id );
+			$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : false;
+			break;
+
+		default:
+			$lesson_id = false;
+
+	}
+
+	/**
+	 * Filter the ID of a lesson that is associated with a given post.
+	 *
+	 * Supports the creation of custom relationships not specifically defined by LifterLMS.
+	 *
+	 * @since [version]
+	 *
+	 * @param int|bool $lesson_id WP_Post ID or `false` if no lesson is associated with the given post.
+	 * @param int      $post_id   WP_Post ID of the related post.
+	 * @param string   $post_type Post type of the related post.
+	 */
+	return apply_filters( 'llms_get_related_lesson_id', $lesson_id, $post_id, $post_type );
+
+}
 
 /**
  * Retrieve an array of existing transaction statuses

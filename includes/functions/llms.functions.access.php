@@ -402,13 +402,7 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
 function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
 	$restriction = false;
-
-	$post_type = get_post_type( $post_id );
-	$lesson_id = 'lesson' === $post_type ? $post_id : false;
-	if ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : false;
-	}
+	$lesson_id   = llms_get_post_related_lesson_id( $post_id );
 
 	if ( $lesson_id ) {
 		$lesson = llms_get_post( $lesson_id );
@@ -447,13 +441,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	$restriction = false;
-
-	$post_type = get_post_type( $post_id );
-	$lesson_id = 'lesson' === $post_type ? $post_id : false;
-	if ( 'llms_quiz' === $post_type ) {
-		$quiz      = llms_get_post( $post_id );
-		$lesson_id = $quiz ? $quiz->get( 'lesson_id' ) : false;
-	}
+	$lesson_id   = llms_get_post_related_lesson_id( $post_id );
 
 	if ( $lesson_id ) {
 		$lesson = llms_get_post( $lesson_id );
