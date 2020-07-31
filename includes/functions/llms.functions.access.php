@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param int      $post_id   WordPress Post ID of the content.
  * @param int|null $user_id   Optional. WP User ID. Defaults to the current user if none supplied.
- * @param bool     $use_cache If `true`, uses data stored in object cache (where available).
+ * @param bool     $use_cache Optional. If `true`, uses data stored in object cache (where available). Default `true`. 
  * @return array {
  *     Associative array of restriction information.
  *
@@ -48,7 +48,7 @@ function llms_page_restricted( $post_id, $user_id = null, $use_cache = true ) {
 
 	$cache_key = sprintf( '%1$d::%2$d', $post_id, $user_id );
 
-	// If we are using caching
+	// If we are using caching.
 	$cached = $use_cache && $user_id ? wp_cache_get( $cache_key, 'llms_page_restricted' ) : false;
 
 	// Return early if we have cached data & cached is enabled.
@@ -217,7 +217,7 @@ function llms_get_post_membership_restrictions( $post_id ) {
 	 * Filter the post types which cannot be restricted to a membership.
 	 *
 	 * These LifterLMS core post types are restricted via enrollment into that
-	 * post (or it's parent post) directly so there won't be any related
+	 * post (or its parent post) directly so there won't be any related
 	 * memberships for these post types.
 	 *
 	 * @since Unknown
@@ -392,7 +392,7 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
  * @since [version] Refactored and added filter on return value.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
- * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+ * @param int|null $user_id Optional. WP User ID. Default `null`.
  * @return int|bool False if the lesson is available.
  *                  WP Post ID of the lesson if it is not.
  */
@@ -421,8 +421,8 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	 *
 	 * @param int|bool $restriction False if the lesson is available.
 	 *                              WP Post ID of the lesson if it is not.
-	 * @param int      $post_id WP Post ID of a lesson or quiz.
-	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 * @param int      $post_id     WP Post ID of a lesson or quiz.
+	 * @param int|null $user_id     WP User ID or `null` if none supplied to the function.
 	 */
 	return apply_filters( 'llms_is_post_restricted_by_drip_settings', $restriction, $post_id, $user_id );
 
@@ -438,8 +438,8 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
  * @return array|bool Returns `false` if the post is not restricted or the user has completed all applicable prerequisites,
- *                     when at least one incomplete prerequisite has been found, returns an associative array describing the
- *                     prerequisite type and object id.
+ *                    when at least one incomplete prerequisite has been found, returns an associative array describing the
+ *                    prerequisite type and object id.
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -503,7 +503,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	 *                                completed all applicable prerequisites, when at least one incomplete prerequisite
 	 *                                has been found, returns an associative array describing the prerequisite type and object id.
 	 * @param int        $post_id     WP Post ID of a lesson or quiz.
-	 * @param int|null   $user_id     Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 * @param int|null   $user_id     WP User ID or `null` if none supplied to the function.
 	 */
 	return apply_filters( 'llms_is_post_restricted_by_prerequisite', $restriction, $post_id, $user_id );
 
@@ -663,7 +663,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 		 */
 		$allowed = apply_filters( 'lifterlms_sitewide_restriction_bypass_ids', $bypass_ids );
 
-		$restriction = in_array( $post_id, $allowed, true ) ? false : $membership_id;
+		$restriction = in_array( absint( $post_id ), $allowed, true ) ? false : $membership_id;
 
 	}
 
