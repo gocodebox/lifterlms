@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param int      $post_id   WordPress Post ID of the content.
  * @param int|null $user_id   Optional. WP User ID. Defaults to the current user if none supplied.
- * @param bool     $use_cache Optional. If `true`, uses data stored in object cache (where available). Default `true`. 
+ * @param bool     $use_cache Optional. If `true`, uses data stored in object cache (where available). Default `true`.
  * @return array {
  *     Associative array of restriction information.
  *
