@@ -21,7 +21,7 @@ LLMS.Achievements = {
 		var self = this;
 
 		if ( $( '.llms-achievement' ) ) {
-			$( document ).on( 'ready', function() {
+			$( function() {
 				self.bind();
 				self.maybe_open();
 			} );
