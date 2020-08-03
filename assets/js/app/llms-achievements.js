@@ -3,8 +3,8 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.14.0
- * @version  3.14.0
+ * @since 3.14.0
+ * @version [version]
  */
 
 LLMS.Achievements = {
@@ -12,9 +12,9 @@ LLMS.Achievements = {
 	/**
 	 * Init
 	 *
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return void
 	 */
 	init: function() {
 
@@ -32,9 +32,9 @@ LLMS.Achievements = {
 	/**
 	 * Bind DOM events
 	 *
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return void
 	 */
 	bind: function() {
 
@@ -65,10 +65,10 @@ LLMS.Achievements = {
 	/**
 	 * Creates modal a modal for an achievement
 	 *
-	 * @param    obj   $el  jQuery selector for the modal card
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param obj $el The jQuery selector for the modal card.
+	 * @return void
 	 */
 	create_modal: function( $el ) {
 
@@ -108,9 +108,9 @@ LLMS.Achievements = {
 	/**
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
 	 *
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return void
 	 */
 	maybe_open: function() {
 
