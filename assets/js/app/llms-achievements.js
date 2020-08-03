@@ -18,9 +18,10 @@ LLMS.Achievements = {
 	 */
 	init: function() {
 
-		var self = this;
-
 		if ( $( '.llms-achievement' ) ) {
+
+			var self = this;
+
 			$( function() {
 				self.bind();
 				self.maybe_open();
