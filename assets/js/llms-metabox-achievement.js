@@ -1,6 +1,7 @@
-jQuery( document ).ready(function($){
+( function( $ ) {
 
-	$( '.achievement_image_button' ).click(function(e) {
+	// Open Media Manager modal.
+	$( '.achievement_image_button' ).click( function( e ) {
 
 		// Create Media Manager On Click to allow multiple on one Page
 		var achievement_uploader;
@@ -41,12 +42,6 @@ jQuery( document ).ready(function($){
 
 	});
 
-});
-/*
-* Media Manager 3.5
-* @version 1.70
-*/
-jQuery( document ).ready(function($){
 	// Remove Image and replace with default and Erase Image ID for achievement
 	$( '.llms_achievement_clear_image_button' ).click(function(e) {
 		e.preventDefault();
@@ -58,4 +53,4 @@ jQuery( document ).ready(function($){
 		$( achievement_img_src ).attr( 'src', achievement_default_img_src );
 	});
 
-});
+} )( jQuery );
