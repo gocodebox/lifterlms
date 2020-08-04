@@ -23,7 +23,7 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	 *
 	 * @var string
 	 */
-	protected $db_post_type    = 'llms_my_achievement';
+	protected $db_post_type = 'llms_my_achievement';
 
 	/**
 	 * Post type name.

@@ -39,10 +39,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_admin_field_upload( $id, $src, $value, $opts = array() ) {
 
-	$name   = empty( $opts['name'] ) ? $id : $opts['name'];
-	$class  = empty( $opts['class'] ) ? '' : $opts['class'];
-	$desc   = empty( $opts['desc'] ) ? '' : $opts['desc'];
-	$after  = empty( $opts['after'] ) ? '' : $opts['after'];
+	$name  = empty( $opts['name'] ) ? $id : $opts['name'];
+	$class = empty( $opts['class'] ) ? '' : $opts['class'];
+	$desc  = empty( $opts['desc'] ) ? '' : $opts['desc'];
+	$after = empty( $opts['after'] ) ? '' : $opts['after'];
 
 	$img_class = 'llms-image-field-preview';
 	if ( ! empty( $opts['img_class'] ) ) {

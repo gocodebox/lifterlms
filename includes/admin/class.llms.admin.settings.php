@@ -626,11 +626,18 @@ class LLMS_Admin_Settings {
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
 
-						<?php llms_admin_field_upload( $field['id'], $src, $option_value, array(
-							'class'  => $field['class'],
-							'after'  => ! empty( $field['after_html'] ) ? $field['after_html'] : '',
-							'desc'   => $description
-						) ); ?>
+						<?php
+						llms_admin_field_upload(
+							$field['id'],
+							$src,
+							$option_value,
+							array(
+								'class' => $field['class'],
+								'after' => ! empty( $field['after_html'] ) ? $field['after_html'] : '',
+								'desc'  => $description,
+							)
+						);
+						?>
 
 					</td>
 				</tr>

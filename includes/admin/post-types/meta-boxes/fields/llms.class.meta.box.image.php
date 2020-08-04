@@ -60,10 +60,15 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 			$imgclass = 'llms_certificate_image';
 		}
 
-		llms_admin_field_upload( $this->field['id'], $image, $this->meta, array(
-			'class'     => 'upload_' . $this->field['class'] . '_image',
-			'img_class' => $imgclass,
-		) );
+		llms_admin_field_upload(
+			$this->field['id'],
+			$image,
+			$this->meta,
+			array(
+				'class'     => 'upload_' . $this->field['class'] . '_image',
+				'img_class' => $imgclass,
+			)
+		);
 
 		parent::close_output();
 	}
