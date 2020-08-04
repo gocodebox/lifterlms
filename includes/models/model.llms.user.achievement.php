@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -90,10 +90,11 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the image source for the achievement
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 * @since [version] Use `LLMS_Achievements::get_default_image()` in favor of hard-coded image path.
+	 *
+	 * @param array $size Dimensions of the image to return (width x height).
+	 * @return string
 	 */
 	public function get_image( $size = array(), $key = 'achievement_image' ) {
 
@@ -102,7 +103,7 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 		}
 
 		if ( ! $this->get( 'achievement_image' ) ) {
-			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
+			$src = llms()->achievements()->get_default_image();
 		} else {
 			$src = parent::get_image( $size, $key );
 		}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 2.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,10 +47,11 @@ function llms_get_certificate_content( $id = 0 ) {
  *
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder)
  *
- * @param  integer $id  WP Certificate Post ID
- * @return array        associative array of certificate image details
- * @since    2.2.0
- * @version  2.2.0
+ * @since 2.2.0
+ * @since [version] Use `LLMS_Certificates::get_default_image()` instead of hard-coded image path.
+ *
+ * @param int $id WP Certificate Post ID.
+ * @return array Associative array of certificate image details.
  */
 function llms_get_certificate_image( $id = 0 ) {
 
@@ -58,7 +59,7 @@ function llms_get_certificate_image( $id = 0 ) {
 
 	$img_id = get_post_meta( $id, '_llms_certificate_image', true );
 
-	// don't retrieve a size if legacy mode is enabled
+	// Ton't retrieve a size if legacy mode is enabled.
 	$size = ( 'yes' === get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? '' : 'lifterlms_certificate_background';
 
 	$src = wp_get_attachment_image_src( $img_id, $size );
@@ -67,7 +68,7 @@ function llms_get_certificate_image( $id = 0 ) {
 
 		$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
 		$width  = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
-		$src    = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png', $id );
+		$src    = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', llms()->certificates()->get_default_image(), $id );
 
 	} else {
 
