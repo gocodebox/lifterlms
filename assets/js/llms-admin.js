@@ -2,14 +2,123 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version 3.40.0
+ * @version [version]
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
  */
-;( function( $ ) {
+( function( $ ) {
 
 	window.llms = window.llms || {};
+
+	/**
+	 * Image upload handler for metabox and settings image fields.
+	 *
+	 * @since [version]
+	 */
+	var Uploads = function() {
+
+		var self = this,
+			$uploads = $( '.llms-image-field-upload' );
+
+		/**
+		 * Bind click events for field buttons.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		this.bind = function() {
+
+			$uploads.on( 'click', function( e ) {
+				e.preventDefault();
+				self.open_media_lib( $( this ), e );
+			} );
+
+			$( '.llms-image-field-remove' ).on( 'click', function( e ) {
+				e.preventDefault();
+				self.update_image( $( this ), '', '' );
+			} );
+
+		}
+
+		/**
+		 * Open the media library
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $btn  The jQuery object for clicked button.
+		 * @param {Object} event JS event object.
+		 * @return {Void}
+		 */
+		this.open_media_lib = function( $btn, event ) {
+
+			var self  = this,
+				frame = null;
+
+			if ( ! frame ) {
+				var title       = $btn.attr( 'data-frame-title' ) || LLMS.l10n.translate( 'Select an Image' ),
+					button_text = $btn.attr( 'data-frame-button' ) || LLMS.l10n.translate( 'Select Image' );
+					frame       = wp.media.frames.file_frame = wp.media( {
+						title: title,
+						button: {
+							text: button_text,
+						},
+						multiple: false,
+					} );
+			}
+
+			frame.on( 'select', function() {
+
+				// We set multiple to false so only get one image from the uploader.
+				var attachment = frame.state().get( 'selection' ).first().toJSON();
+
+				self.update_image( $btn, attachment.id, attachment.url );
+
+			});
+
+			frame.open();
+
+		};
+
+		/**
+		 * Update the DOM with a selected image
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object}  $btn The jQuery object of the clicked button
+		 * @param {Integer} id   WP Attachment ID of the image
+		 * @param {String}  src  Image element src of the selected image.
+		 * @return {Void}
+		 */
+		this.update_image = function( $btn, id, src ) {
+
+			var $input   = $( '#' + $btn.attr( 'data-id' ) ),
+				$preview = $btn.prevAll( 'img.llms-image-field-preview' )
+				$remove  = $btn.hasClass( 'llms-image-field-remove' ) ? $btn : $btn.next( 'input.llms-image-field-remove' );
+
+			$input.val( id );
+			$preview.attr( 'src', src );
+
+			if ( '' !== id ) {
+				$remove.removeClass( 'hidden' );
+			} else {
+				$remove.addClass( 'hidden' );
+			}
+
+		}
+
+		if ( $uploads.length ) {
+			this.bind();
+		}
+
+		return this;
+
+	};
+
+	window.llms.admin_fields = {
+		image: new Uploads(),
+	};
 
 	window.llms.widgets = function() {
 

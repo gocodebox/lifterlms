@@ -5,10 +5,53 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version 3.30.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Output the HTML of an upload field
+ *
+ * This field is shared by metaboxes and settings pages.
+ *
+ * An image preview, an "Upload Image" button, a "Remove Image" button,
+ * and a hidden input are output.
+ *
+ * This field relies on Javascript found in `llms.admin_fields` JS class as
+ * well as the WP core media modal.
+ *
+ * @since [version]
+ *
+ * @param string $id    Field ID/Name. Pass `opts.name` in order to customize the field name.
+ * @param string $src   Image source URL.
+ * @param string $value Value of the hidden input. This is the valued stored in the database.
+ * @param array  $opts  {
+ *     Associative array of additional options.
+ *
+ *     @type string $img_class Class name(s) for the image preview element.
+ *     @type string $class     Class name(s) for the hidden input field.
+ *     @type string $name      Input field name attribute. Defaults to `$id` if none supplied.
+ *     @type string $desc      HTML description of the field (displayed below the field).
+ *     @type string $after     Additional HTML displayed after the field.
+ * }
+ * @return void
+ */
+function llms_admin_field_upload( $id, $src, $value, $opts = array() ) {
+
+	$name   = empty( $opts['name'] ) ? $id : $opts['name'];
+	$class  = empty( $opts['class'] ) ? '' : $opts['class'];
+	$desc   = empty( $opts['desc'] ) ? '' : $opts['desc'];
+	$after  = empty( $opts['after'] ) ? '' : $opts['after'];
+
+	$img_class = 'llms-image-field-preview';
+	if ( ! empty( $opts['img_class'] ) ) {
+		$img_class .= ' ' . $img_class;
+	}
+
+	include 'views/settings/field-upload.php';
+
+}
 
 /**
  * Create a Page & save it's id as an option

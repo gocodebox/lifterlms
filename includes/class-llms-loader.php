@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +46,7 @@ class LLMS_Loader {
 	 * @since 1.0.0
 	 * @since 3.15.0 Unknown.
 	 * @since 4.0.0 Moved from `LifterLMS` class.
+	 * @since [version] Added trait autoloading.
 	 *
 	 * @param string $class Class name being called.
 	 * @return void
@@ -69,6 +70,9 @@ class LLMS_Loader {
 		} elseif ( 0 === strpos( $class, 'llms_abstract' ) ) {
 			$path = LLMS_PLUGIN_DIR . '/includes/abstracts/';
 			$file = $fileize . '.php';
+		} elseif ( 0 === strpos( $class, 'llms_trait' ) ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/traits/';
+			$file = str_replace( '_', '-', $class ) . '.php';
 		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
 			$path = LLMS_PLUGIN_DIR . '/includes/interfaces/';
 			$file = $fileize . '.php';
@@ -86,6 +90,7 @@ class LLMS_Loader {
 	 * Includes that are included everywhere
 	 *
 	 * @since 4.0.0
+	 * @since [version] Include engagement abstract.
 	 *
 	 * @return void
 	 */
@@ -95,6 +100,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-engagement.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-data.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-database-handler.php';
 
