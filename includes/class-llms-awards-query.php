@@ -14,84 +14,161 @@ defined( 'ABSPATH' ) || exit;
  * Query awarded achievements and engagements.
  *
  * @since [version]
+ *
+ * Valid query arguments
+ *
+ * {@see LLMS_Abstract_Query} and {@see LLMS_Abstract_Posts_Query} for inherited query arguments.
+ *
+ * @param int|int[] $users                  Include awards for the specified WP_User(s) by WP_User ID.
+ * @param int|int[] $users__exclude         Exclude awards for the specified WP_User(s) by WP_User ID.
+ * @param int|int[] $related_posts          Include awards related to the specified WP_Post(s) by WP_Post ID.
+ * @param int|int[] $related_posts__exclude Exclude awards related to the specified WP_Post(s) by WP_Post ID.
+ * @param int|int[] $engagements            Include awards created from the specified `llms_engagement` post(s) by WP_Post ID.
+ * @param int|int[] $engagements__exclude   Exclude awards created from the specified `llms_engagement` post(s) by WP_Post ID.
+ * @param int|int[] $templates              Include awards created from the specified `llms_achievement` or `llms_certificate` template post(s) by WP_Post ID.
+ * @param int|int[] $templates__exclude     Exclude awards created from the specified `llms_achievement` or `llms_certificate` template  post(s) by WP_Post ID.
+ * @param boolean   $manual_only            Include only awards created manually. If specified the `$related_posts`, `$related_posts__exclude`, `$engagements`, `$engagements__exclude`, `$templates`, and `$templates__exclude` arguments will be ignored.
  */
-class LLMS_Awards_Query {
+class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 
 	/**
-	 * Award type.
-	 *
-	 * Either "achievements" or "certificates".
+	 * Identify the extending query.
 	 *
 	 * @var string
 	 */
-	public $type = '';
+	protected $id = 'awards';
 
 	/**
-	 * User-submitted query args before sanitization, parsing, etc...
+	 * Specify the post types allowed to be queried by this class
 	 *
-	 * @var array
+	 * @var string[]
 	 */
-	public $args = array();
+	protected $allowed_post_types = array(
+		'llms_my_achievement',
+		'llms_my_certificate',
+	);
 
 	/**
-	 * Final arguments passed to the WP_Query.
+	 * Defines fields that can be sorted on via ORDER BY.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
-	public $query_args = array();
+	protected $allowed_sort_fields = array(
+		'date',
+		'ID',
+		'user',
+	);
 
 	/**
-	 * WP_Query object for the query instance.
-	 *
-	 * @var null
-	 */
-	public $query = null;
-
-	/**
-	 * Constructor.
+	 * Retrieve query argument default values.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $type       Award type to query. Accepts: "achievements" or "certificates".
-	 * @param array  $args {
-	 *     Query arguments.
-	 *
-	 *     @type array     $sort                   Array of sorting arguments where the key is value to sort by and the value is the direction.
-	 *     @type int|int[] $users                  Include awards for the specified WP_User(s) by WP_User ID.
-	 *     @type int|int[] $users__exclude         Exclude awards for the specified WP_User(s) by WP_User ID.
-	 *     @type int|int[] $related_posts          Include awards related to the specified WP_Post(s) by WP_Post ID.
-	 *     @type int|int[] $related_posts__exclude Exclude awards related to the specified WP_Post(s) by WP_Post ID.
-	 *     @type int|int[] $engagements            Include awards created from the specified `llms_engagement` post(s) by WP_Post ID.
-	 *     @type int|int[] $engagements__exclude   Exclude awards created from the specified `llms_engagement` post(s) by WP_Post ID.
-	 *     @type int|int[] $templates              Include awards created from the specified `llms_achievement` or `llms_certificate` template post(s) by WP_Post ID.
-	 *     @type int|int[] $templates__exclude     Exclude awards created from the specified `llms_achievement` or `llms_certificate` template  post(s) by WP_Post ID.
-	 *     @type boolean   $manual                 Include only awards created manually. If specified the `$related_posts`, `$related_posts__exclude`, `$engagements`, `$engagements__exclude`, `$templates`, and `$templates__exclude` arguments will be ignored.
-	 *     @type int       $page                   Results page number.
-	 *     @type int       $per_page               Number of results to display per page. Use `-1` to show all possible results.
-	 *     @type boolean   $no_found_rows          Whether to skip counting the total rows found.
-	 * }
-	 * @return void
+	 * @return array
 	 */
-	public function __construct( $type, $args = array() ) {
+	protected function default_arguments() {
 
-		$this->type       = $type;
-		$this->args       = $args;
-		$this->query_args = $this->prepare_query( $args );
-		$this->query      = new WP_Query( $this->query_args );
+		return wp_parse_args(
+			array(
+				'sort'                   => array(
+					'date' => 'DESC',
+					'ID'   => 'DESC',
+				),
+				'users'                  => array(),
+				'users__exclude'         => array(),
+				'related_posts'          => array(),
+				'related_posts__exclude' => array(),
+				'engagements'            => array(),
+				'engagements__exclude'   => array(),
+				'templates'              => array(),
+				'templates__exclude'     => array(),
+				'manual_only'            => false,
+			),
+			parent::default_arguments()
+		);
 
 	}
 
 	/**
-	 * Sanitize arguments passed into a query.
+	 * Map input arguments to WP_Query arguments.
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args Array of arguments.
-	 * @return array Cleaned arguments.
+	 * @return array
 	 */
-	private function clean_args( $args ) {
+	protected function get_arg_map() {
 
-		$args['sort'] = $this->clean_sort( (array) $args['sort'] );
+		$map = parent::get_arg_map();
+
+		return array_merge(
+			$map,
+			array(
+				'users'              => 'author__in',
+				'users__exclude'     => 'author__not_in',
+				'templates'          => 'post_parent__in',
+				'templates__exclude' => 'post_parent__not_in',
+			)
+		);
+
+
+	}
+
+	/**
+	 * Retrieve an array of award objects for the given result set returned by the query
+	 *
+	 * @since [version]
+	 *
+	 * @return array Array of LLMS_User_Achievement and/or LLMS_User_Certificate objects.
+	 */
+	public function get_awards() {
+
+		$awards = array_filter( array_map( array( $this, 'get_object' ), $this->get_results() ) );
+
+		if ( $this->get( 'suppress_filters' ) ) {
+			return $awards;
+		}
+
+		/**
+		 * Filters the query results array.
+		 *
+		 * @since [version]
+		 *
+		 * @param array             $awards Array of LLMS_User_Achievement and/or LLMS_User_Certificate objects.
+		 * @param LLMS_Awards_Query $query  Instance of the query class.
+		 */
+		return apply_filters( "llms_awards_query_get_awards", $awards, $this );
+
+	}
+
+	/**
+	 * Retrieve the object for a given result.
+	 *
+	 * @since [version]
+	 *
+	 * @param int|WP_Post $post Post object or ID.
+	 * @return LLMS_User_Achievement|LLMS_User_Certificate|null Returns the award object or `null` for unexpected post types.
+	 */
+	protected function get_object( $post ) {
+
+		$post_type = get_post_type( $post );
+		if ( 'llms_my_achievement' === $post_type ) {
+			return new LLMS_User_Achievement( $post );
+		} elseif ( 'llms_my_certificate' === $post_type ) {
+			return llms_get_certificate( $post );
+		}
+
+		return null;
+
+	}
+
+	/**
+	 * Parse arguments needed for the query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function parse_args() {
 
 		$int_arrays = array(
 			'users',
@@ -104,276 +181,16 @@ class LLMS_Awards_Query {
 			'templates__exclude',
 		);
 		foreach ( $int_arrays as $key ) {
-			$args[ $key ] = $this->to_int_array( $args[ $key ] );
+			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
 		}
 
-		$args['manual'] = llms_parse_bool( $args['manual'] );
+		$this->arguments['manual_only'] = llms_parse_bool( $this->arguments['manual_only'] );
 
-		$args['page']     = absint( $args['page'] );
-		$args['per_page'] = intval( $args['per_page'] );
+		$this->arguments['page']     = absint( $this->arguments['page'] );
+		$this->arguments['per_page'] = intval( $this->arguments['per_page'] );
 
-		$args['no_found_rows'] = llms_parse_bool( $args['no_found_rows'] );
+		$this->arguments['no_found_rows'] = llms_parse_bool( $this->arguments['no_found_rows'] );
 
-		return $args;
-
-	}
-
-	/**
-	 * Cleans the `sort` argument.
-	 *
-	 * Forces the sort order to DESC if an invalid order is provided.
-	 *
-	 * Ensures the sort fields are allowed and removes anything not in the allowed list.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $sort Sort argument array.
-	 * @return array
-	 */
-	private function clean_sort( $sort ) {
-
-		foreach ( $sort as $field => &$order ) {
-
-			$order = strtoupper( $order );
-			if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
-				$order = 'DESC';
-			}
-
-			if ( ! in_array( $field, $this->get_allowed_sort_fields(), true ) ) {
-				unset( $sort[ $field ] );
-			}
-		}
-
-		return $sort;
-
-	}
-
-	/**
-	 * Retrieve a list of fields that are allowed to be used for result sorting.
-	 *
-	 * @since [version]
-	 *
-	 * @return string[]
-	 */
-	private function get_allowed_sort_fields() {
-
-		$fields = array(
-			'date',
-			'ID',
-			'user',
-		);
-
-		/**
-		 * Filters the allowed sort fields.
-		 *
-		 * The dynamic portion of this hook, `$this->type`, refers to the award type
-		 * for the query, either "achievements" or "certificates".
-		 *
-		 * @since [version]
-		 *
-		 * @param array $defaults Default arguments.
-		 */
-		return apply_filters( "llms_{$this->type}_awards_query_allowed_sort_fields", $fields );
-
-	}
-
-	/**
-	 * Retrieve query argument default values.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	private function get_defaults() {
-
-		$defaults = array(
-			'sort'                   => array(
-				'date' => 'DESC',
-				'ID'   => 'DESC',
-			),
-			'users'                  => array(),
-			'users__exclude'         => array(),
-			'related_posts'          => array(),
-			'related_posts__exclude' => array(),
-			'engagements'            => array(),
-			'engagements__exclude'   => array(),
-			'templates'              => array(),
-			'templates__exclude'     => array(),
-			'manual'                 => false,
-			'page'                   => 1,
-			'per_page'               => 10,
-			'no_found_rows'          => false,
-		);
-
-		/**
-		 * Filters the query defaults.
-		 *
-		 * They dynamic portion of this hook, `$this->type`, refers to the award type
-		 * for the query, either "achievements" or "certificates".
-		 *
-		 * @since [version]
-		 *
-		 * @param array $defaults Default arguments.
-		 */
-		return apply_filters( "llms_{$this->type}_awards_query_defaults", $defaults );
-
-	}
-
-	/**
-	 * Retrieve the total found awards for the query.
-	 *
-	 * If `no_found_rows` is supplied to the initial query this will return `0`
-	 * which may not reflect the actual number of found posts for the given query.
-	 *
-	 * @since [version]
-	 *
-	 * @return int
-	 */
-	public function get_found_results() {
-		return $this->query->found_posts;
-	}
-
-	/**
-	 * Retrieve the number of results for the given query page.
-	 *
-	 * @since [version]
-	 *
-	 * @return int
-	 */
-	public function get_number_results() {
-		return $this->query->post_count;
-	}
-
-	/**
-	 * Retrieve the award's object from a WP_Post.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post $post Post object.
-	 * @return LLMS_User_Achievement|LLMS_User_Certificate|WP_Post
-	 */
-	private function get_object( $post ) {
-
-		$object = $post;
-		if ( 'achievements' === $this->type ) {
-			$object = new LLMS_User_Achievement( $post );
-		} elseif ( 'certificates' === $this->type ) {
-			$object = llms_get_certificate( $post );
-		}
-
-		/**
-		 * Filters the returned object.
-		 *
-		 * @since [version]
-		 *
-		 * @param object  $object     The retrieved object.
-		 * @param string  $award_type The award type for the query, either "achievements" or "certificates".
-		 * @param WP_Post $post       The original object.
-		 */
-		return apply_filters( 'llms_awards_query_post_type', $object, $this->type, $post );
-
-	}
-
-	/**
-	 * Retrieve the post type for the query's award type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	private function get_post_type() {
-
-		$post_type = '';
-		if ( 'achievements' === $this->type ) {
-			$post_type = 'llms_my_achievement';
-		} elseif ( 'certificates' === $this->type ) {
-			$post_type = 'llms_my_certificate';
-		}
-
-		/**
-		 * Filters the post type for the query's award type.
-		 *
-		 * @since [version]
-		 *
-		 * @param string $post_type  A WP_Post_Type name.
-		 * @param string $award_type The award type for the query, either "achievements" or "certificates".
-		 */
-		return apply_filters( 'llms_awards_query_post_type', $post_type, $this->type );
-
-	}
-
-	/**
-	 * Retrieve the results for the given query.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $output Determine the return type. Either "OBJECTS" to return `LLMS_User_Achievement` or `LLMS_User_Certificate` objects
-	 *                       or `POSTS` to return `WP_Post` objects.
-	 * @return LLMS_User_Achievement[]|LLMS_User_Certificate[]|WP_Post[] Array of objects.
-	 */
-	public function get_results( $output = 'OBJECTS' ) {
-
-		$posts = $this->query->posts;
-
-		if ( 'POSTS' === $output ) {
-			return $posts;
-		}
-
-		return array_map( array( $this, 'get_object' ), $posts );
-
-	}
-
-	/**
-	 * Retrieve the meta key name for the template used to generate the awarded post.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	private function get_template_meta_key() {
-
-		$meta_key = '';
-		if ( 'achievements' === $this->type ) {
-			$meta_key = '_llms_achievement_template';
-		} elseif ( 'certificates' === $this->type ) {
-			$meta_key = '_llms_certificate_template';
-		}
-
-		/**
-		 * Filters the meta key name for the query's award type.
-		 *
-		 * @since [version]
-		 *
-		 * @param string $meta_key   The meta key name.
-		 * @param string $award_type The award type for the query, either "achievements" or "certificates".
-		 */
-		return apply_filters( 'llms_awards_query_meta_key', $meta_key, $this->type );
-
-	}
-
-	/**
-	 * Retrieve the total number of available result pages for the given query.
-	 *
-	 * If `no_found_rows` is supplied to the initial query this will return `0`
-	 * which may not reflect the actual number of result pages.
-	 *
-	 * @since [version]
-	 *
-	 * @return int
-	 */
-	public function get_total_pages() {
-		return $this->query->max_num_pages;
-	}
-
-	/**
-	 * Determine if any results were found for the query.
-	 *
-	 * @since [version]
-	 *
-	 * @return boolean
-	 */
-	public function has_results() {
-		return count( $this->query->posts ) > 0;
 	}
 
 	/**
@@ -384,10 +201,10 @@ class LLMS_Awards_Query {
 	 * @param array $args Cleaned LLMS_Awards_Query arguments.
 	 * @return array An array of meta query arrays.
 	 */
-	private function prepare_meta_query( $args ) {
+	private function prepare_meta_query() {
 
 		// If a query for manual awards we skip all other relationships and return early.
-		if ( $args['manual'] ) {
+		if ( $this->get( 'manual_only' ) ) {
 
 			return array(
 				'relation' => 'OR',
@@ -406,7 +223,7 @@ class LLMS_Awards_Query {
 
 		}
 
-		return $this->prepare_meta_query_for_relationships( $args );
+		return $this->prepare_meta_query_for_relationships();
 
 	}
 
@@ -415,38 +232,36 @@ class LLMS_Awards_Query {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args Cleaned LLMS_Awards_Query arguments.
 	 * @return array An array of meta query arrays.
 	 */
-	private function prepare_meta_query_for_relationships( $args ) {
+	private function prepare_meta_query_for_relationships() {
 
 		$meta_query = array();
 
 		$relations = array(
 			'related_posts' => '_llms_related',
 			'engagements'   => '_llms_engagement',
-			'templates'     => $this->get_template_meta_key(),
 		);
 		foreach ( $relations as $arg => $meta_key ) {
 
 			// Include.
-			if ( ! empty( $args[ $arg ] ) ) {
+			if ( ! empty( $this->get( $arg ) ) ) {
 				$meta_query[] = array(
 					'key'     => $meta_key,
-					'value'   => $this->to_int_array( $args[ $arg ] ),
+					'value'   => $this->sanitize_id_array( $this->get( $arg ) ),
 					'compare' => 'IN',
 				);
 			}
 
 			// Exclude.
 			$exclude_arg = $arg . '__exclude';
-			if ( ! empty( $args[ $exclude_arg ] ) ) {
+			if ( ! empty( $this->get( $exclude_arg ) ) ) {
 
 				$meta_query[] = array(
 					'relation' => 'OR',
 					array(
 						'key'     => $meta_key,
-						'value'   => $this->to_int_array( $args[ $exclude_arg ] ),
+						'value'   => $this->sanitize_id_array( $this->get( $exclude_arg ) ),
 						'compare' => 'NOT IN',
 					),
 					// Ensure posts that don't have the metadata set will be returned.
@@ -470,55 +285,27 @@ class LLMS_Awards_Query {
 	 * @param array $args Input arguments from `__construct()`.
 	 * @return array Array of arguments suitable to pass to a WP_Query.
 	 */
-	private function prepare_query( $args ) {
+	protected function prepare_query() {
 
-		$args = $this->clean_args( wp_parse_args( $args, $this->get_defaults() ) );
-
-		$query_args = array(
-			'author__in'     => $args['users'],
-			'author__not_in' => $args['users__exclude'],
-			'post_type'      => $this->get_post_type(),
-			'paged'          => $args['page'],
-			'per_page'       => $args['per_page'],
-			'no_found_rows'  => $args['no_found_rows'],
-			'orderby'        => $args['sort'],
+		// Remove any extra arguments not found in the map.
+		$args = array_intersect_key(
+			parent::prepare_query(),
+			array_flip( $this->get_arg_map() )
 		);
 
-		$meta_query = $this->prepare_meta_query( $args );
-		if ( $meta_query ) {
-			$query_args['meta_query'] = $meta_query;
+		// Add meta query.
+		$args['meta_query'] = $this->prepare_meta_query();
+
+		foreach ( $args as $arg => $val ) {
+			if ( is_array( $val ) && empty( $val ) ) {
+				unset( $args[ $arg ] );
+			}
 		}
 
-		/**
-		 * Filters the WP_Query arguments for the awards query before passing them into WP_Query.
-		 *
-		 * They dynamic portion of this hook, `$this->type`, refers to the award type
-		 * for the query, either "achievements" or "certificates".
-		 *
-		 * @since [version]
-		 *
-		 * @param array $query_args Prepared WP_Query arguments.
-		 * @param array $args       Array of cleaned LLMS_Awards_Query arguments.
-		 */
-		return apply_filters( "llms_{$this->type}_awards_query", $query_args, $args );
-
-	}
-
-	/**
-	 * Coerce an input value to an array of integers.
-	 *
-	 * This is used for any query arguments that allow an integer or an array
-	 * of integers.
-	 *
-	 * @since [version]
-	 *
-	 * @param mixed $val Input value.
-	 * @return int[]
-	 */
-	private function to_int_array( $val ) {
-
-		$val = ! is_array( $val ) ? array( $val ) : $val;
-		return array_values( array_filter( array_map( 'absint', $val ) ) );
+		// Remove empty arrays.
+		return array_filter( $args, function( $val ) {
+			return ! is_array( $val ) || ! empty( $val );
+		} );
 
 	}
 

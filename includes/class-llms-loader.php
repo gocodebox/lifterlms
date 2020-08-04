@@ -96,13 +96,15 @@ class LLMS_Loader {
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
-	 * @since [version] Include `LLMS_Awards_Query`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
+	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
 	 *
 	 * @return void
 	 */
 	public function includes() {
 
 		// Abstract classes that are not caught by the autoloader.
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-posts-query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
