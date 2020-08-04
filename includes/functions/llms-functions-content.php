@@ -83,5 +83,5 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $page_restricted );
 
 	}
-}// End if().
+}
 add_filter( 'the_content', 'llms_get_post_content' );
