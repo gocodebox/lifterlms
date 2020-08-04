@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +46,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
 	 * @since 3.37.12 Allow the certificate title field to store text with quotes.
+	 * @since [version] Remove unnecessary field parameters.
 	 *
 	 * @return array Array of metabox fields.
 	 */
@@ -60,11 +61,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 						'desc'       => __( 'Enter a title for your certificate. EG: Certificate of Completion', 'lifterlms' ),
 						'id'         => $this->prefix . 'certificate_title',
 						'type'       => 'text',
-						'section'    => 'certificate_meta_box',
-						'class'      => 'code input-full',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
+						'class'      => 'input-full',
 						'sanitize'   => 'no_encode_quotes',
 					),
 					array(
@@ -72,11 +69,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 						'desc'       => __( 'Select an Image to use for the certificate.', 'lifterlms' ),
 						'id'         => $this->prefix . 'certificate_image',
 						'type'       => 'image',
-						'section'    => 'certificate_meta_box',
 						'class'      => 'certificate',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
 					),
 				),
 			),
