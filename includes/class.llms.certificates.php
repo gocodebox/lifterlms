@@ -180,7 +180,7 @@ class LLMS_Certificates {
 	 * @since [version] If `$this->scrape_certificate()` generates a `WP_Error` early return it.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
-	 * @return string
+	 * @return WP_Error|string HTML of the certificate on success, otherwise an error object.
 	 */
 	private function get_export_html( $certificate_id ) {
 
