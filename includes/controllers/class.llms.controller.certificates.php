@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 3.37.4
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since 3.37.4 Modify `llms_certificate` post type registration to allow certificate templates to be exported.
  *               When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
+ * @since 4.3.1 Properly use an `error` notice to display a WP_Error when trying to download a certificate.
  */
 class LLMS_Controller_Certificates {
 
@@ -146,6 +147,7 @@ class LLMS_Controller_Certificates {
 	 * on the View Certificate front end & on reporting backend for admins.
 	 *
 	 * @since 3.18.0
+	 * @since 4.3.1 Properly use an `error` notice to display a WP_Error.
 	 *
 	 * @return void
 	 */
@@ -154,7 +156,7 @@ class LLMS_Controller_Certificates {
 		$filepath = LLMS()->certificates()->get_export( $cert_id );
 		if ( is_wp_error( $filepath ) ) {
 			// @todo need to handle errors differently on admin panel
-			return llms_add_notice( $filepath->get_error_message() );
+			return llms_add_notice( $filepath->get_error_message(), 'error' );
 		}
 
 		header( 'Content-Description: File Transfer' );

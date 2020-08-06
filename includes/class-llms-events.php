@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.37.15
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -412,6 +412,8 @@ class LLMS_Events {
 	 * @since 3.36.0
 	 * @since 3.37.14 Moved most of the logic into `store_tracking_events()` method.
 	 *                Bail if we're sending the tracking events via ajax.
+	 * @since 4.3.1 Set a secure cookie when possible.
+	 *
 	 * @return void
 	 */
 	public function store_cookie() {
@@ -428,7 +430,7 @@ class LLMS_Events {
 		$this->store_tracking_events( wp_unslash( $_COOKIE['llms-tracking'] ) ); // phpcs:ignore: WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via $this->sanitize_raw_event().
 
 		// Cookie reset.
-		setcookie( 'llms-tracking', '', time() - 60, '/' );
+		llms_setcookie( 'llms-tracking', '', time() - 60, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, llms_is_site_https() && is_ssl() );
 
 	}
 

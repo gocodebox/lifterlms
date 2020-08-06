@@ -1,9 +1,10 @@
-const {
-	visitAdminPage
-} = require( '@wordpress/e2e-test-utils' );
+// Internal dependencies.
+import { clickAndWait } from './click-and-wait';
+import { fillField } from './fill-field';
 
-const { clickAndWait } = require( './click-and-wait' ),
-	  { fillField }    = require( './fill-field' );
+// External dependencies.
+import url from 'url';
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
  * Asynchronously loop through an Object
@@ -26,7 +27,8 @@ const forEach = async ( obj, callback ) => {
 /**
  * Create a new user.
  *
- * @since  3.37.8
+ * @since 3.37.8
+ * @since 2.2.0 Returns the WP_User ID in the return object.
  *
  * @param  {Object} opts Hash of user information used to create the new user.
  * @return {Object}
@@ -63,6 +65,10 @@ export async function createUser( opts ) {
 	} );
 
 	await clickAndWait( '#createusersub' );
+
+	// Add th user's ID.
+	const url = new URL( await page.url() );
+	opts.id = url.searchParams.get( 'id' );
 
 	return opts;
 

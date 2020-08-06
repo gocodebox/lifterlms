@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.38.1
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
+ * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
  */
 class LLMS_Certificates {
 
@@ -96,8 +97,9 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.3 Added action `llms_certificate_generate_export`.
+	 * @since 4.3.1 Introduce `llms_certificate_error` WP_Error code.
 	 *
-	 * @param string $filepath Full path for the created file.
+	 * @param string $filepath       Full path for the created file.
 	 * @param int    $certificate_id WP_Post ID of the earned certificate.
 	 * @return mixed WP_Error or full path to the generated export.
 	 */
@@ -112,19 +114,19 @@ class LLMS_Certificates {
 		/**
 		 * Run actions prior to certificate export generation.
 		 *
-		 * @param string $filepath Full path where the created file will be stored. Passed as a reference.
-		 * @param string $html Certificate HTML. Passed as a reference.
-		 * @param int $certificate_id WP_Post ID of the earned certificate.
+		 * @param string $filepath       Full path where the created file will be stored. Passed as a reference.
+		 * @param string $html           Certificate HTML. Passed as a reference.
+		 * @param int    $certificate_id WP_Post ID of the earned certificate.
 		 */
 		do_action_ref_array( 'llms_certificate_generate_export', array( &$filepath, &$html, $certificate_id ) );
 
 		$file = fopen( $filepath, 'w' );
 		if ( false === $file ) {
-			return new WP_Error( __( 'Unable to open export file (HTML certificate) for writing.', 'lifterlms' ) );
+			return new WP_Error( 'llms_certificate_error', __( 'Unable to open export file (HTML certificate) for writing.', 'lifterlms' ) );
 		}
 
 		if ( false === fwrite( $file, $html ) ) {
-			return new WP_Error( __( 'Unable to write to export file (HTML certificate).', 'lifterlms' ) );
+			return new WP_Error( 'llms_certificate_error', __( 'Unable to write to export file (HTML certificate).', 'lifterlms' ) );
 		}
 
 		fclose( $file );
@@ -139,7 +141,7 @@ class LLMS_Certificates {
 	 * @since 3.18.0
 	 *
 	 * @param int  $certificate_id WP Post ID of the earned certificate.
-	 * @param bool $use_cache If true will check for existence of a cached version of the file first.
+	 * @param bool $use_cache      If true will check for existence of a cached version of the file first.
 	 * @return mixed WP_Error or full path to the generated export.
 	 */
 	public function get_export( $certificate_id, $use_cache = false ) {
@@ -175,14 +177,19 @@ class LLMS_Certificates {
 	 * @since 3.18.0
 	 * @since 3.24.3 Unknown.
 	 * @since 3.37.3 Refactored method into multiple functions.
+	 * @since 4.3.1 If `$this->scrape_certificate()` generates a `WP_Error` early return it.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
-	 * @return string
+	 * @return WP_Error|string HTML of the certificate on success, otherwise an error object.
 	 */
 	private function get_export_html( $certificate_id ) {
 
 		// Retrieve the raw HTML of the page.
 		$html = $this->scrape_certificate( $certificate_id );
+
+		if ( is_wp_error( $html ) ) {
+			return $html;
+		}
 
 		// If DOMDocument exists, modify the DOM before exporting.
 		if ( class_exists( 'DOMDocument' ) ) {
@@ -194,8 +201,8 @@ class LLMS_Certificates {
 		 *
 		 * @since  3.18.0
 		 *
-		 * @param string $html HTML to be exported.
-		 * @param int $certificate_id WP_Post ID of the earned certificate.
+		 * @param string $html           HTML to be exported.
+		 * @param int    $certificate_id WP_Post ID of the earned certificate.
 		 */
 		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
 
@@ -342,8 +349,8 @@ class LLMS_Certificates {
 		 *
 		 * @since 3.18.0
 		 *
-		 * @param string $url Certificate permalink with a one-time use authorization token appended as a query string variable.
-		 * @param int $certificate_id WP_Post ID of the earned certificate (an "llms_my_certificate" post).
+		 * @param string $url            Certificate permalink with a one-time use authorization token appended as a query string variable.
+		 * @param int    $certificate_id WP_Post ID of the earned certificate (an "llms_my_certificate" post).
 		 */
 		$url = apply_filters(
 			'llms_get_certificate_export_html_url',
