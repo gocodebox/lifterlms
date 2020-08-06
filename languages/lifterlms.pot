@@ -48,7 +48,7 @@ msgstr ""
 msgid "There was one or more errors encountered while recording the events."
 msgstr ""
 
-#: includes/class-llms-events.php:461
+#: includes/class-llms-events.php:463
 msgid "You're not allowed to store tracking events"
 msgstr ""
 
@@ -142,16 +142,16 @@ msgstr ""
 msgid "Missing tracking data."
 msgstr ""
 
-#: includes/class.llms.certificates.php:123
+#: includes/class.llms.certificates.php:125
 msgid "Unable to open export file (HTML certificate) for writing."
 msgstr ""
 
-#: includes/class.llms.certificates.php:127
+#: includes/class.llms.certificates.php:129
 msgid "Unable to write to export file (HTML certificate)."
 msgstr ""
 
 #. translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-#: includes/class.llms.certificates.php:157
+#: includes/class.llms.certificates.php:159
 msgctxt "certificate download filename"
 msgid "certificate-%1$s-%2$s"
 msgstr ""

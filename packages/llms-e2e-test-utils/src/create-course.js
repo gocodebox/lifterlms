@@ -4,7 +4,7 @@ import { createPost } from './create-post';
  * Create and publish a new course
  *
  * @since Unknown
- * @since [version] Use `createPost()`.
+ * @since 2.2.0 Use `createPost()`.
  *
  * @param string title Course title.
  * @return int The created course's WP_Post ID.

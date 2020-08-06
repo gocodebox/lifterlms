@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
- * @since [version] When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
+ * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
  */
 class LLMS_Certificates {
 
@@ -97,7 +97,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.3 Added action `llms_certificate_generate_export`.
-	 * @since [version] Introduce `llms_certificate_error` WP_Error code.
+	 * @since 4.3.1 Introduce `llms_certificate_error` WP_Error code.
 	 *
 	 * @param string $filepath       Full path for the created file.
 	 * @param int    $certificate_id WP_Post ID of the earned certificate.
@@ -177,7 +177,7 @@ class LLMS_Certificates {
 	 * @since 3.18.0
 	 * @since 3.24.3 Unknown.
 	 * @since 3.37.3 Refactored method into multiple functions.
-	 * @since [version] If `$this->scrape_certificate()` generates a `WP_Error` early return it.
+	 * @since 4.3.1 If `$this->scrape_certificate()` generates a `WP_Error` early return it.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
 	 * @return WP_Error|string HTML of the certificate on success, otherwise an error object.

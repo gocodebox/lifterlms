@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version [version]
+ * @version 4.3.1
  */
 
 LLMS.Achievements = {
