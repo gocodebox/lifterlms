@@ -15,7 +15,7 @@ LifterLMS is also known for having a thriving well supported user community thro
 
 ***
 
-> We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together.
+> We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together.
 
 > Are you ready to **[Try LifterLMS for $1][try]?** 🚀
 
@@ -54,7 +54,7 @@ The LifterLMS team is a **diverse group of talented course creators, developers,
 
 Because 5 years ago we couldn't find a plugin that provided a rock solid _all-in-one_ foundation for training websites, we decided to build LifterLMS and **contribute the core plugin to you and the WordPress community**.
 
-> LifterLMS is course & membership creation software built by course creators and a talented technical team. We understand WordPress, ecommerce, eLearning, engaegment, gamification, conversion optimization, the website building insudtry, and the needs of the online teacher coach, and training professional.
+> LifterLMS is course & membership creation software built by course creators and a talented technical team. We understand WordPress, ecommerce, eLearning, engagement, gamification, conversion optimization, the website building industry, and the needs of the online teacher coach, and training professional.
 
 You can learn more about **[the people behind LifterLMS here][team]**.
 
@@ -175,14 +175,14 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + LMS Roles
 + Security
 + Require terms
-+ Scaleable
++ Scalable
 + Layout
 + Testing tools
 
 #### **Get Support**
 
 + Technical support
-+ 30 Days of live weekly onboading calls called [Liftoff Sessions][lift]
++ 30 Days of live weekly onboarding calls called [Liftoff Sessions][lift]
 + [Live office hours][oh]
 + [Free training courses][aca]
 + [Free training webinars][webinar]
@@ -199,7 +199,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 #### **Further Reading**
 
 + The [LifterLMS Official Homepage][home]
-+ The [LifterLMS Knowledgebase][docs]
++ The [LifterLMS Knowledge base][docs]
 + The [LifterLMS Blog][blog]
 + The [LifterLMS Podcast][podcast]
 + The [LifterLMS Academy][aca]
@@ -259,7 +259,7 @@ _Save money while unlocking the full potential of your learning platform_
 _There are many ways to take LifterLMS for a test drive_
 
 + Go ahead and install the free core LifterLMS plugin right now
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo website allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1][try]** now.
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1][try]** now.
 + Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes. [Take a Free Course][demo] now.
 
 
