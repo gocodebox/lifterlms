@@ -11,7 +11,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * This performs as "manual" enrollment using the enrollment
  * area on the course or membership.
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param {Integer} postId    WP_Post ID.
  * @param {Integer} studentId WP_User ID.

@@ -28,7 +28,7 @@ const forEach = async ( obj, callback ) => {
  * Create a new user.
  *
  * @since 3.37.8
- * @since [version] Returns the WP_User ID in the return object.
+ * @since 2.2.0 Returns the WP_User ID in the return object.
  *
  * @param  {Object} opts Hash of user information used to create the new user.
  * @return {Object}

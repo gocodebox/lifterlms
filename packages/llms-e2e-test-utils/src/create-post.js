@@ -6,7 +6,7 @@ import {
 /**
  * Create and publish a new post
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param string title Post title.
  * @return int The created post's WP_Post ID.

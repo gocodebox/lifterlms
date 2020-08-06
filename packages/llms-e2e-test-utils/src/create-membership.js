@@ -3,7 +3,7 @@ import { createPost } from './create-post';
 /**
  * Create and publish a new membership
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param string title Membership title.
  * @return int The created membership's WP_Post ID.

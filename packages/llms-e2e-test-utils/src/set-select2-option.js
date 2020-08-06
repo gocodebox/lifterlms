@@ -5,7 +5,7 @@
  * instead it selects the value on the select element and artificially
  * triggers a change event.
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param {String}  selector Query selector for the select element.
  * @param {String}  value    Option value to select.

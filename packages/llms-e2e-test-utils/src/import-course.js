@@ -8,7 +8,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
 /**
  * Import a course JSON file
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param {String}  importFile Filename of the import.
  * @param {String}  importPath Local path where the file is located. By default uses `tests/assets/`.
