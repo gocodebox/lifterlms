@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since 3.37.4 Modify `llms_certificate` post type registration to allow certificate templates to be exported.
  *               When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
- * @since [version] Properly use an `error` notice to display a WP_Error when trying to download a certificate.
+ * @since 4.3.1 Properly use an `error` notice to display a WP_Error when trying to download a certificate.
  */
 class LLMS_Controller_Certificates {
 
@@ -147,7 +147,7 @@ class LLMS_Controller_Certificates {
 	 * on the View Certificate front end & on reporting backend for admins.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Properly use an `error` notice to display a WP_Error.
+	 * @since 4.3.1 Properly use an `error` notice to display a WP_Error.
 	 *
 	 * @return void
 	 */

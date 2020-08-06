@@ -1,7 +1,7 @@
 /**
  * Test restrictions when a sitewide membership is enabled.
  *
- * @since [version]
+ * @since 4.3.1
  */
 
 import {

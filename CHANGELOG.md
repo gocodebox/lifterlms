@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v4.3.1 - 2020-08-06
+-------------------
+
++ When resetting tracking data cookies, set a "secure" cookie where possible.
++ Catch an unhandled error encountered when generating certificate exports.
++ When an error is encountered during certificate export generation, display an error notice instead of a general notice.
+
+
 v4.3.0 - 2020-07-28
 -------------------
 

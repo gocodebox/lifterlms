@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -412,7 +412,7 @@ class LLMS_Events {
 	 * @since 3.36.0
 	 * @since 3.37.14 Moved most of the logic into `store_tracking_events()` method.
 	 *                Bail if we're sending the tracking events via ajax.
-	 * @since [version] Set a secure cookie when possible.
+	 * @since 4.3.1 Set a secure cookie when possible.
 	 *
 	 * @return void
 	 */

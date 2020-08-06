@@ -7,7 +7,7 @@
  * @since 3.37.6
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
  * @since 3.37.14 Reduce number of tests run for monthly and yearly chaotic simulations.
- * @since [version] Increased delta for `test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency()` and `test_recurring_lifecycle_for_month_plan_with_chaos()`.
+ * @since 4.3.1 Increased delta for `test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency()` and `test_recurring_lifecycle_for_month_plan_with_chaos()`.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -453,7 +453,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.6
 	 * @since 3.37.14 Reduce number of tests run.
-	 * @since [version] Increased delta from 24 to 48 hours.
+	 * @since 4.3.1 Increased delta from 24 to 48 hours.
 	 *
 	 * @medium
 	 *
@@ -478,7 +478,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan with chaos and irregular frequency
 	 *
 	 * @since 3.37.6
-	 * @since [version] Increased delta from 24 to 48 hours.
+	 * @since 4.3.1 Increased delta from 24 to 48 hours.
 	 *
 	 * @return void
 	 */
