@@ -26,11 +26,11 @@ module.exports = {
 	],
 
 	setupFilesAfterEnv: [
-		'./bootstrap.js',
-		'./screenshot-reporter.js',
+		require.resolve( './bootstrap.js' ),
+		require.resolve( './screenshot-reporter.js' ),
 	],
 
 	// Sort tests alphabetically by path. Ensures Tests in the "activate" directory run first.
-	testSequencer: './sequencer.js',
+	testSequencer: require.resolve( './sequencer.js' ),
 
 };
