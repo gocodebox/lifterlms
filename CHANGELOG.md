@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v4.3.2 - 2020-08-10
+-------------------
+
++ WP 5.5 compatibility: Automatically deregister "protected" post types from wp-sitemap.xml.
+
+
 v4.3.1 - 2020-08-06
 -------------------
 
