@@ -7,6 +7,28 @@
  */
 class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
+	public function test_deregister_sitemap_post_types() {
+
+		$mock = array(
+			'post' => true,
+			'page' => true,
+			'course' => true,
+			'lesson' => true,
+			'llms_quiz' => true,
+			'llms_certificate' => true,
+			'llms_my_certificate' => true
+		);
+
+		$expect = array(
+			'post' => true,
+			'page' => true,
+			'course' => true,
+		);
+
+		$this->assertEquals( $expect, LLMS_Post_Types::deregister_sitemap_post_types( $mock ) );
+
+	}
+
 	public function test_register_post_taxonomies() {
 
 		LLMS_Post_Types::register_taxonomies();

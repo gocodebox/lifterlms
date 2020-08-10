@@ -3,8 +3,8 @@
  *
  * @package LifterLMS_Groups/Scripts/Dev
  *
- * @since 1.3.0
- * @version 1.2.1
+ * @since Unknown
+ * @version 1.2.3
  */
 
 // Deps.
@@ -53,15 +53,17 @@ function requestToHandle( request ) {
  * Configure the `entry` object of the webpack config file.
  *
  * @since 1.2.1
+ * @since 1.2.3 Add a configurable source file path.
  *
- * @param {String[]} js     Array of JS file slugs.
+ * @param {String[]} js      Array of JS file slugs.
+ * @param {String}   srcPath Relative path to the base source file directory.
  * @return {Object} Webpack config entry object.
  */
-function setupEntry( js ) {
+function setupEntry( js, srcPath ) {
 
 	const entry = {};
 	js.forEach( file => {
-		entry[ file ] = path.resolve( process.cwd(), 'assets/src/js/', `${ file }.js` );
+		entry[ file ] = path.resolve( process.cwd(), `${ srcPath }js/`, `${ file }.js` );
 	} );
 
 	return entry;
@@ -117,14 +119,15 @@ function setupPlugins( plugins, css, prefix ) {
  *
  * This is opinionated based on our opinions for directory structure.
  *
- * ESNext JS source files are located in `assets/src/js`.
+ * ESNext JS source files are located in `src/js`.
  *
- * SASS/SCSS source files are located in `assets/src/sass`.
+ * SASS/SCSS source files are located in `src/sass`.
  *
  * SASS files should be imported via the JS source file.
  *
- * @since 1.3.0
+ * @since Unknown
  * @since 1.2.1 Reduce method size by using helper methods
+ * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
  *
  * @param {String[]} options.css        Array of CSS file slugs.
  * @param {String[]} options.js         Array of JS file slugs.
@@ -132,11 +135,11 @@ function setupPlugins( plugins, css, prefix ) {
  * @param {String}   options.outputPath Relative path to the output directory.
  * @return {Object} A webpack.config.js object.
  */
-module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/' } ) => {
+module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/', srcPath = 'src/' } ) => {
 
 	return {
 		...config,
-		entry: setupEntry( js ),
+		entry: setupEntry( js, srcPath ),
 		output: {
 			filename: `js/${ prefix }[name].js`,
 			path: path.resolve( process.cwd(), outputPath ),

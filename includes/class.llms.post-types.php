@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version 4.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,6 +26,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.4 Unknown.
+	 * @since 4.3.2 Add filter to deregister protected post types.
 	 *
 	 * @return void
 	 */
@@ -35,6 +36,8 @@ class LLMS_Post_Types {
 		add_action( 'init', array( __CLASS__, 'register_post_types' ), 5 );
 		add_action( 'init', array( __CLASS__, 'register_post_statuses' ), 9 );
 		add_action( 'init', array( __CLASS__, 'register_taxonomies' ), 5 );
+
+		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
@@ -99,6 +102,27 @@ class LLMS_Post_Types {
 		}
 
 		add_image_size( 'llms_notification_icon', 64, 64, true );
+
+	}
+
+	/**
+	 * De-register protected post types from wp-sitemap.xml
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param WP_Post_Type[] $post_types Array of post types.
+	 * @return WP_Post_Type[]
+	 */
+	public static function deregister_sitemap_post_types( $post_types ) {
+
+		unset(
+			$post_types['lesson'],
+			$post_types['llms_quiz'],
+			$post_types['llms_certificate'],
+			$post_types['llms_my_certificate']
+		);
+
+		return $post_types;
 
 	}
 
