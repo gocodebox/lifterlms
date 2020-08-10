@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.4 Unknown.
-	 * @since [version] Add filter to deregister protected post types.
+	 * @since 4.3.2 Add filter to deregister protected post types.
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Post_Types {
 	/**
 	 * De-register protected post types from wp-sitemap.xml
 	 *
-	 * @since [version]
+	 * @since 4.3.2
 	 *
 	 * @param WP_Post_Type[] $post_types Array of post types.
 	 * @return WP_Post_Type[]
