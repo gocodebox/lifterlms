@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v1.3.0 - 2020-08-11
+-------------------
+
++ Modify the `jest-puppeteer.config.js` to use defaults from `@wordpress/scripts`.
+
+
 v1.2.4 - 2020-08-10
 -------------------
 
