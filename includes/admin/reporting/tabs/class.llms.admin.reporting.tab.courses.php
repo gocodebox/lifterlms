@@ -42,11 +42,11 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 		$links = array();
 
-		// single student
+		// Single student.
 		if ( isset( $_GET['course_id'] ) ) {
 			$course = llms_get_post( absint( $_GET['course_id'] ) );
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'overview' ) ] = $course->get( 'title' );
-
+			// phpcs:disable -- commented out code
 			// if ( isset( $_GET['stab'] ) && 'courses' === $_GET['stab'] ) {
 			// $links[ LLMS_Admin_Reporting::get_stab_url( 'courses' ) ] = __( 'All Courses', 'lifterlms' );
 
@@ -71,6 +71,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 			// }
 			// }
+			// phpcs:enable
 		}
 
 		foreach ( $links as $url => $title ) {
@@ -91,7 +92,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	 */
 	public function output() {
 
-		// single course
+		// Single course.
 		if ( isset( $_GET['course_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
@@ -103,6 +104,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				array(
 					'overview' => __( 'Overview', 'lifterlms' ),
 					'students' => __( 'Students', 'lifterlms' ),
+				// phpcs:ignore -- commented out code
 				// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
 				)
 			);

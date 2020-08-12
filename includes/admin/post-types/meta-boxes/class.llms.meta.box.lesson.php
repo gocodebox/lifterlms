@@ -60,12 +60,12 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
 		$section = $lesson->get_section();
 
-		// if the lesson isn't first, add previous completion method
+		// Tf the lesson isn't first, add previous completion method.
 		if ( 1 !== $lesson->get( 'order' ) || ( $section && 1 !== $section->get( 'order' ) ) ) {
 			$methods['prerequisite'] = __( 'After prerequisite completion', 'lifterlms' );
 		}
 
-		// if the parent course has no start date set, unset the 'start' drip method.
+		// If the parent course has no start date set, unset the 'start' drip method.
 		$course = $lesson->get_course();
 		if ( ! $course || ! $course->get_date( 'start_date' ) ) {
 			unset( $methods['start'] );

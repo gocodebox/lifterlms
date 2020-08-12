@@ -68,7 +68,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 */
 	public function add_filters( $post_type, $which ) {
 
-		// only for the correct post type & position
+		// Only for the correct post type & position.
 		if ( 'lesson' !== $post_type || 'top' !== $which ) {
 			return;
 		}
@@ -151,29 +151,31 @@ class LLMS_Admin_Post_Table_Lessons {
 	 */
 	public function parse_query_filters( $query ) {
 
-		// only modify admin & main query
+		// Only modify admin & main query.
 		if ( ! ( is_admin() && $query->is_main_query() ) ) {
 			return $query;
 		}
 
-		// dont proceed if it's not our post type
+		// Don't proceed if it's not our post type.
 		if ( 'lesson' !== $query->query['post_type'] ) {
 			return $query;
 		}
 
-		// if none of our custom filters are set, don't proceed
+		// If none of our custom filters are set, don't proceed.
 		if ( ! isset( $_REQUEST['llms_filter_course_id'] ) ) {
 			return $query;
 		}
 
-		// get the query or a default to work with
+		// Get the query or a default to work with.
 		$meta_query = $query->get( 'meta_query' );
 		if ( ! $meta_query ) {
 			$meta_query = array();
 		}
 
-		// set an and relation for our filters
-		// if other filters already exist, we'll ensure we obey them as well this way
+		/**
+		 * Set an and relation for our filters
+		 * if other filters already exist, we'll ensure we obey them as well this way.
+		 */
 		$meta_query['relation'] = 'AND';
 
 		$meta_query[] = array(

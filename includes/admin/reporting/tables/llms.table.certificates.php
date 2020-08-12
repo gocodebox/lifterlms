@@ -112,7 +112,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				$value = get_post_meta( $data->certificate_id, '_llms_certificate_title', true );
 				break;
 
-			// prior to 3.2 this data wasn't recorded
+			// Prior to 3.2 this data wasn't recorded.
 			case 'template_id':
 				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
 				if ( $template ) {

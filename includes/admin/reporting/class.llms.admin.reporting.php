@@ -352,12 +352,12 @@ class LLMS_Admin_Reporting {
 
 		include_once LLMS_PLUGIN_DIR . '/includes/abstracts/abstract.llms.admin.table.php';
 
-		// include all the table classes
+		// Include all the table classes.
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/reporting/tables/*.php' ) as $filename ) {
 			include_once $filename;
 		}
 
-		// include tab classes
+		// Include tab classes.
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/reporting/tabs/*.php' ) as $filename ) {
 			include_once $filename;
 		}

@@ -41,7 +41,7 @@ class LLMS_Admin_Builder {
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
-		// partially lifted from `wp_admin_bar_site_menu()` in wp-includes/admin-bar.php
+		// Partially lifted from `wp_admin_bar_site_menu()` in wp-includes/admin-bar.php.
 		if ( current_user_can( 'read' ) ) {
 
 			$wp_admin_bar->add_menu(
@@ -399,7 +399,7 @@ class LLMS_Admin_Builder {
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
-		// exit if there's no builder data in the heartbeat data
+		// Exit if there's no builder data in the heartbeat data.
 		if ( empty( $data['llms_builder'] ) ) {
 			return $res;
 		}
@@ -410,13 +410,13 @@ class LLMS_Admin_Builder {
 		// Escape slashes.
 		$data = json_decode( $data, true );
 
-		// setup our return
+		// Setup our return.
 		$ret = array(
 			'status'  => 'success',
 			'message' => esc_html__( 'Success', 'lifterlms' ),
 		);
 
-		// need a numeric ID for a course post type!
+		// Need a numeric ID for a course post type!
 		if ( empty( $data['id'] ) || ! is_numeric( $data['id'] ) || 'course' !== get_post_type( $data['id'] ) ) {
 
 			$ret['status']  = 'error';
@@ -453,6 +453,7 @@ class LLMS_Admin_Builder {
 
 		// Unescape slashes after saved.
 		// This ensures that updates are recognized as successful during Sync comparisons.
+		// phpcs:ignore -- commented out code
 		// $ret = json_decode( str_replace( '\\\\', '\\', json_encode( $ret ) ), true );
 
 		// Return our data.
@@ -899,7 +900,7 @@ class LLMS_Admin_Builder {
 
 		foreach ( $groups as $name => $group ) {
 
-			// allow 3rd parties to manage their own custom save methods
+			// Allow 3rd parties to manage their own custom save methods.
 			if ( apply_filters( 'llms_builder_update_custom_fields_group_' . $name, false, $post, $post_data, $groups ) ) {
 				continue;
 			}
@@ -964,7 +965,7 @@ class LLMS_Admin_Builder {
 				)
 			);
 
-			// create a new lesson
+			// Create a new lesson.
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
 
 				$lesson = new LLMS_Lesson(
@@ -974,8 +975,10 @@ class LLMS_Admin_Builder {
 					)
 				);
 
-				// if the parent section was just created the lesson will have a temp id
-				// replace it with the newly created section's real ID
+				/**
+				 * If the parent section was just created the lesson will have a temp id
+				 * replace it with the newly created section's real ID.
+				 */
 				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
 					$lesson_data['parent_section'] = $section->get( 'id' );
 				}
@@ -996,7 +999,7 @@ class LLMS_Admin_Builder {
 
 			} else {
 
-				// return the real ID (important when creating a new lesson)
+				// Return the real ID (important when creating a new lesson).
 				$res['id'] = $lesson->get( 'id' );
 
 				$properties = array_merge(
@@ -1009,17 +1012,17 @@ class LLMS_Admin_Builder {
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
 
-				// update all updatable properties
+				// Update all updatable properties.
 				foreach ( $properties as $prop ) {
 					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props ) ) {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
 
-				// update all custom fields
+				// Update all custom fields.
 				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );
 
-				// during clone's we want to ensure custom field data comes with the lesson
+				// During clone's we want to ensure custom field data comes with the lesson.
 				if ( $created && isset( $lesson_data['custom'] ) ) {
 					foreach ( $lesson_data['custom'] as $custom_key => $custom_vals ) {
 						foreach ( $custom_vals as $val ) {
@@ -1028,7 +1031,7 @@ class LLMS_Admin_Builder {
 					}
 				}
 
-				// ensure slug gets updated when changing title from default "New Lesson"
+				// Ensure slug gets updated when changing title from default "New Lesson".
 				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
@@ -1038,7 +1041,7 @@ class LLMS_Admin_Builder {
 				}
 			}
 
-			// allow 3rd parties to update custom data
+			// Allow 3rd parties to update custom data.
 			$res = apply_filters( 'llms_builder_update_lesson', $res, $lesson_data, $lesson, $created );
 
 			array_push( $ret, $res );
@@ -1171,12 +1174,12 @@ class LLMS_Admin_Builder {
 			)
 		);
 
-		// create a quiz
+		// Create a quiz.
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
 			$quiz = new LLMS_Quiz( 'new' );
 
-			// update existing quiz
+			// Update existing quiz.
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -1186,7 +1189,7 @@ class LLMS_Admin_Builder {
 		$lesson->set( 'quiz', $quiz->get( 'id' ) );
 		$lesson->set( 'quiz_enabled', 'yes' );
 
-		// we don't have a proper quiz to work with...
+		// We don't have a proper quiz to work with...
 		if ( empty( $quiz ) || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
 
 			// Translators: %s = Quiz post id.
@@ -1194,11 +1197,13 @@ class LLMS_Admin_Builder {
 
 		} else {
 
-			// return the real ID (important when creating a new quiz)
+			// Return the real ID (important when creating a new quiz).
 			$res['id'] = $quiz->get( 'id' );
 
-			// if the parent lesson was just created the lesson will have a temp id
-			// replace it with the newly created lessons's real ID
+			/**
+			 * If the parent lesson was just created the lesson will have a temp id
+			 * replace it with the newly created lessons's real ID.
+			 */
 			if ( ! isset( $quiz_data['lesson_id'] ) || self::is_temp_id( $quiz_data['lesson_id'] ) ) {
 				$quiz_data['lesson_id'] = $lesson->get( 'id' );
 			}
@@ -1206,13 +1211,14 @@ class LLMS_Admin_Builder {
 			$properties = array_merge(
 				array_keys( $quiz->get_properties() ),
 				array(
+					// phpcs:ignore -- commented out code
 					// 'content',
 					'status',
 					'title',
 				)
 			);
 
-			// update all updatable properties
+			// Update all updatable properties.
 			foreach ( $properties as $prop ) {
 				if ( isset( $quiz_data[ $prop ] ) ) {
 					$quiz->set( $prop, $quiz_data[ $prop ] );
@@ -1223,7 +1229,7 @@ class LLMS_Admin_Builder {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 			}
 
-			// update all custom fields
+			// Update all custom fields.
 			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
 		}
@@ -1250,32 +1256,32 @@ class LLMS_Admin_Builder {
 			)
 		);
 
-		// create a new section
+		// Create a new section.
 		if ( self::is_temp_id( $section_data['id'] ) ) {
 
 			$section = new LLMS_Section( 'new' );
 			$section->set( 'parent_course', $course_id );
 
-			// update existing section
+			// Update existing section.
 		} else {
 
 			$section = llms_get_post( $section_data['id'] );
 
 		}
 
-		// we don't have a proper section to work with...
+		// We don't have a proper section to work with...
 		if ( empty( $section ) || ! is_a( $section, 'LLMS_Section' ) ) {
 			// Translators: %s = Section post id.
 			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 		} else {
 
-			// return the real ID (important when creating a new section)
+			// Return the real ID (important when creating a new section).
 			$res['id'] = $section->get( 'id' );
 
-			// run through all possible updated fields
+			// Run through all possible updated fields.
 			foreach ( array( 'order', 'title' ) as $key ) {
 
-				// update those that were sent through
+				// Update those that were sent through.
 				if ( isset( $section_data[ $key ] ) ) {
 
 					$section->set( $key, $section_data[ $key ] );

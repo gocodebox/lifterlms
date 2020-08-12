@@ -317,7 +317,7 @@ abstract class LLMS_Payment_Gateway {
 			'type'         => 'checkbox',
 		);
 
-		// gateways should use this filter to add gateway specific settings fields to the admin panel
+		// Gateways should use this filter to add gateway specific settings fields to the admin panel.
 		return apply_filters( 'llms_get_gateway_settings_fields', $fields, $this->id );
 
 	}
@@ -365,7 +365,7 @@ abstract class LLMS_Payment_Gateway {
 			esc_url( $redirect )
 		);
 
-		// redirection url on free checkout form
+		// Redirection url on free checkout form.
 		$quick_enroll_form = llms_filter_input( INPUT_POST, 'form' );
 
 		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect' );

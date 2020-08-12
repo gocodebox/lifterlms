@@ -105,7 +105,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 				break;
 
 			case 'template_id':
-				// prior to 3.2 this data wasn't recorded
+				// Prior to 3.2 this data wasn't recorded.
 				$template = get_post_meta( $data->achievement_id, '_llms_achievement_template', true );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
@@ -121,7 +121,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}
 
 		return $this->filter_get_data( $value, $key, $data );
 
@@ -147,7 +147,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * @since 2.3.0
 	 * @since 3.35.0 Get student ID more reliably.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function set_args() {
 

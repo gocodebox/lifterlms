@@ -421,7 +421,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	protected function get_new_order( $orderby = '' ) {
 
-		// current order matches submitted order, return opposite
+		// Current order matches submitted order, return opposite.
 		if ( $this->orderby === $orderby ) {
 			return ( 'ASC' === $this->order ) ? 'DESC' : 'ASC';
 		} else {
@@ -825,11 +825,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	private function is_col_visible( $data, $context = 'display' ) {
 
-		// display if 'export_only' does not exist or it does exist and is false
+		// Display if 'export_only' does not exist or it does exist and is false.
 		if ( 'display' === $context ) {
 			return ( ! isset( $data['export_only'] ) || ! $data['export_only'] );
 
-			// display if exportable is set and is true
+			// Display if exportable is set and is true.
 		} elseif ( 'export' === $context ) {
 			return ( isset( $data['exportable'] ) && $data['exportable'] );
 		}

@@ -24,7 +24,7 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'count', // type of field
+			'type'   => 'count', // Type of field.
 			'header' => array(
 				'id'    => 'enrollments',
 				'label' => __( '# of Enrollments', 'lifterlms' ),

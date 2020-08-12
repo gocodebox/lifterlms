@@ -28,8 +28,8 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	public function __construct( $_field ) {
 
 		$button_defaults = array(
-			'classes' => '', // array or space separated string
-			'icon'    => 'dashicons-plus', // dashicon classname or HTML/String
+			'classes' => '', // Array or space separated string.
+			'icon'    => 'dashicons-plus', // dashicon classname or HTML/String.
 			'id'      => $_field['id'] . '-add-new',
 			'size'    => 'small',
 			'style'   => 'primary',
@@ -57,14 +57,14 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 		$btn = $this->field['button'];
 
-		// setup class list
+		// Setup class list.
 		$classes   = explode( ' ', $btn['classes'] );
 		$classes[] = sprintf( 'llms-button-%s', $btn['style'] );
 		$classes[] = $btn['size'];
 		$classes[] = 'llms-repeater-new-btn';
 		$classes   = implode( ' ', $classes );
 
-		// setup icon
+		// Setup icon.
 		if ( $btn['icon'] && 0 === strpos( $btn['icon'], 'dashicons-' ) ) {
 			$icon = '<span class="dashicons ' . $btn['icon'] . '"></span>&nbsp;';
 		} else {

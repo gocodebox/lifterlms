@@ -43,7 +43,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 
 		$links = array();
 
-		// single student
+		// Single student.
 		if ( isset( $_GET['student_id'] ) ) {
 			$student = new LLMS_Student( absint( $_GET['student_id'] ) );
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'information' ) ] = $student->get_name();
@@ -98,7 +98,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 */
 	public function output() {
 
-		// single student
+		// Single student.
 		if ( isset( $_GET['student_id'] ) ) {
 
 			$tabs = apply_filters(

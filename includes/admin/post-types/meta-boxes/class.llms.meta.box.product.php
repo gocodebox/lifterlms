@@ -37,7 +37,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		);
 		$this->priority = 'high';
 
-		// output PHP variables for JS access
+		// Output PHP variables for JS access.
 		add_action( 'admin_print_footer_scripts', array( $this, 'localize_js' ), 9 );
 
 	}
