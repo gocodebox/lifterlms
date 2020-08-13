@@ -118,15 +118,17 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 			if ( $old_status !== $new_status ) {
 
-				// update the status
+				// Update the status.
 				$order->set( 'status', $new_status );
 
 			}
 		}
 
-		// order is important -- if both trial and next payment are updated
-		// they should be saved in that order since next payment date
-		// is automatically recalculated by trial end date update
+		/**
+		 * Order is important -- if both trial and next payment are updated
+		 * they should be saved in that order since next payment date
+		 * is automatically recalculated by trial end date update.
+		 */
 		$editable_dates = array(
 			'_llms_date_trial_end',
 			'_llms_date_next_payment',
@@ -137,16 +139,16 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 			if ( isset( $_POST[ $key ] ) ) {
 
-				// the array of date, hour, minute that was submitted
+				// The array of date, hour, minute that was submitted.
 				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
-				// format the array of data as a datetime string
+				// Format the array of data as a datetime string.
 				$new_date = $dates['date'] . ' ' . sprintf( '%02d', $dates['hour'] ) . ':' . sprintf( '%02d', $dates['minute'] );
 
-				// get the existing saved date without seconds (in the same format as $new_date)
+				// Get the existing saved date without seconds (in the same format as $new_date).
 				$saved_date = date_i18n( 'Y-m-d H:i', strtotime( get_post_meta( $post_id, $key, true ) ) );
 
-				// if the dates are not equal, update the date
+				// If the dates are not equal, update the date.
 				if ( $new_date !== $saved_date ) {
 					$order->set_date( str_replace( '_llms_date_', '', $key ), $new_date . ':00' );
 				}

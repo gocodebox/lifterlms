@@ -103,7 +103,7 @@ class LLMS_Admin_Post_Table_Orders {
 				$date = $order->get_access_expiration_date( 'F j, Y' );
 				$ts   = strtotime( $date );
 
-				// timestamp will be false if date is not a date
+				// Timestamp will be false if date is not a date.
 				if ( $ts ) {
 
 					if ( $ts < current_time( 'timestamp' ) ) {
@@ -256,14 +256,14 @@ class LLMS_Admin_Post_Table_Orders {
 	 */
 	public function modify_admin_search( $query ) {
 
-		// on the admin posts order table
-		// allow searching of custom fields
+		// On the admin posts order table.
+		// Allow searching of custom fields.
 		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
 
-			// What we are searching for
+			// What we are searching for.
 			$term = $query->query_vars['s'];
 
-			// Search wp_users
+			// Search wp_users.
 			$user_query = new WP_User_Query(
 				array(
 					'search'         => '*' . esc_attr( $term ) . '*',
@@ -272,7 +272,7 @@ class LLMS_Admin_Post_Table_Orders {
 				)
 			);
 
-			// Search wp_usermeta for First and Last names
+			// Search wp_usermeta for First and Last names.
 			$user_query2 = new WP_User_Query(
 				array(
 					'fields'     => 'ID',
@@ -294,7 +294,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
 
-			// add metaquery for the user id
+			// Add metaquery for the user id.
 			$meta_query = array(
 				'relation' => 'OR',
 				array(
@@ -304,14 +304,14 @@ class LLMS_Admin_Post_Table_Orders {
 				),
 			);
 
-			// we have to kill this value so that the query actually works
+			// We have to kill this value so that the query actually works.
 			$query->query_vars['s'] = '';
 
-			// set the query
+			// Set the query.
 			$query->set( 'meta_query', $meta_query );
 
-			// add a filter back in so we don't have 'Search results for ""' on the top of the screen
-			// @note we're not super proud of this incredible piece of duct tape
+			// Add a filter back in so we don't have 'Search results for ""' on the top of the screen.
+			// @note we're not super proud of this incredible piece of duct tape.
 			add_filter(
 				'get_search_query',
 				function( $q ) {

@@ -27,7 +27,7 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function __construct() {
 
-		// load all post table classes
+		// Load all post table classes.
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/post-tables/*.php' ) as $filename ) {
 			include_once $filename;
 		}

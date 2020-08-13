@@ -311,7 +311,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	public function clone_post() {
 
-		// if post type doesn't support cloning, don't proceed
+		// If post type doesn't support cloning, don't proceed.
 		if ( ! $this->is_cloneable() ) {
 			return null;
 		}
@@ -344,7 +344,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	public function export() {
 
-		// if post type doesnt support exporting don't proceed
+		// If post type doesnt support exporting don't proceed.
 		if ( ! $this->is_exportable() ) {
 			return;
 		}
@@ -504,7 +504,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	public function get_date( $key, $format = null ) {
 		$format = ( ! $format ) ? $this->get_date_format() : $format;
 		$raw    = $this->get( $key );
-		// only convert the date if we actually have something stored, otherwise we'll return the current date, which we probably aren't expecting
+		// Only convert the date if we actually have something stored, otherwise we'll return the current date, which we probably aren't expecting.
 		$date = $raw ? date_i18n( $format, strtotime( $raw ) ) : '';
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_date', $date, $this );
 	}
@@ -604,7 +604,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$price = $this->get( $key );
 
-		// handle empty or unset values gracefully
+		// Handle empty or unset values gracefully.
 		if ( '' === $price ) {
 			$price = 0;
 		}
@@ -647,12 +647,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected function get_creation_args( $args = null ) {
 
-		// allow nothing to be passed in
+		// Allow nothing to be passed in.
 		if ( empty( $args ) ) {
 			$args = array();
 		}
 
-		// backwards compat to original 3.0.0 format when just a title was passed in
+		// Backwards compat to original 3.0.0 format when just a title was passed in.
 		if ( is_string( $args ) ) {
 			$args = array(
 				'post_title' => $args,
@@ -719,7 +719,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$props = $this->get_properties();
 
-		// check against the properties array
+		// Check against the properties array.
 		if ( in_array( $key, array_keys( $props ) ) ) {
 			$type = $props[ $key ];
 		} else {
@@ -1016,7 +1016,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			$val = $this->scrub( $key, $val );
 
-			// update WordPress Post Properties using the wp_insert_post() function
+			// Update WordPress Post Properties using the wp_insert_post() function.
 			/**
 			 * The 'edit_date' must be passed to the wp_update_post() function in order
 			 * to allow 'drafty' posts' creation date to be modified.
@@ -1153,12 +1153,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$arr['excerpt'] = $this->post->post_excerpt;
 		$arr['title']   = $this->post->post_title;
 
-		// add the featured image if the post type supports it
+		// Add the featured image if the post type supports it.
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
 			$arr['featured_image'] = $this->get_image( 'full', 'thumbnail' );
 		}
 
-		// expand instructors if instructors are supported
+		// Expand instructors if instructors are supported.
 		if ( ! empty( $arr['instructors'] ) && method_exists( $this, 'instructors' ) ) {
 
 			foreach ( $arr['instructors'] as &$data ) {
@@ -1175,10 +1175,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			}
 		}
 
-		// add custom fields
+		// Add custom fields.
 		$arr = $this->toArrayCustom( $arr );
 
-		// allow extending classes to add properties easily without overriding the class
+		// Allow extending classes to add properties easily without overriding the class.
 		$arr = $this->toArrayAfter( $arr );
 
 		$cpt_data = $this->get_post_type_data();
@@ -1186,7 +1186,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$arr['permalink'] = get_permalink( $this->get( 'id' ) );
 		}
 
-		ksort( $arr ); // because i'm anal...
+		ksort( $arr ); // Because i'm anal...
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_to_array', $arr, $this );
 

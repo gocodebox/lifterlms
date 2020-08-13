@@ -53,6 +53,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
+	// phpcs:ignore -- commented out code
 	// abstract protected function task( $item );
 
 
@@ -77,10 +78,10 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		parent::__construct();
 
-		// setup
+		// Setup.
 		$this->init();
 
-		// add trigger actions
+		// Add trigger actions.
 		$this->add_actions();
 
 	}
@@ -163,18 +164,18 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 */
 	public function get_data( $key = null, $default = '' ) {
 
-		// get the array of processor data
+		// Get the array of processor data.
 		$all_data = get_option( 'llms_processor_data', array() );
 
-		// get data for current processor
+		// Get data for current processor.
 		$data = isset( $all_data[ $this->id ] ) ? $all_data[ $this->id ] : array();
 
-		// get a specific piece of data
+		// Get a specific piece of data.
 		if ( $key ) {
 			return isset( $data[ $key ] ) ? $data[ $key ] : $default;
 		}
 
-		// return all the data
+		// Return all the data.
 		return $data;
 
 	}
@@ -205,7 +206,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 */
 	private function save_data( $data ) {
 
-		// merge the current data with all processor data
+		// Merge the current data with all processor data.
 		$all_data = wp_parse_args(
 			array(
 				$this->id => $data,
@@ -213,7 +214,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 			get_option( 'llms_processor_data', array() )
 		);
 
-		// save it
+		// Save it.
 		update_option( 'llms_processor_data', $all_data );
 
 	}
@@ -229,7 +230,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 */
 	public function set_data( $key, $value ) {
 
-		// get the array of processor data
+		// Get the array of processor data.
 		$data         = $this->get_data();
 		$data[ $key ] = $value;
 

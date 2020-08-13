@@ -54,13 +54,13 @@ class LLMS_Student_Bulk_Enroll {
 	 * @version 3.20.0
 	 */
 	public function __construct() {
-		// hook into extra ui on users table to display product selection
+		// Hook into extra ui on users table to display product selection.
 		add_action( 'manage_users_extra_tablenav', array( $this, 'display_product_selection_for_bulk_users' ) );
 
-		// hook into users table screen to process bulk enrollment
+		// Hook into users table screen to process bulk enrollment.
 		add_action( 'admin_head-users.php', array( $this, 'maybe_enroll_users_in_product' ) );
 
-		// display enrollment results as notices
+		// Display enrollment results as notices.
 		add_action( 'admin_notices', array( $this, 'display_notices' ) );
 	}
 
@@ -73,7 +73,7 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	public function display_product_selection_for_bulk_users( $which ) {
 
-		// the attributes need to be different for top and bottom of the table
+		// The attributes need to be different for top and bottom of the table.
 		$id     = 'bottom' === $which ? 'llms_bulk_enroll_product2' : 'llms_bulk_enroll_product';
 		$submit = 'bottom' === $which ? 'llms_bulk_enroll2' : 'llms_bulk_enroll';
 		?>
@@ -97,15 +97,15 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	public function maybe_enroll_users_in_product() {
 
-		// verify bulk enrollment request
+		// Verify bulk enrollment request.
 		$do_bulk_enroll = $this->_bottom_else_top( 'llms_bulk_enroll' );
 
-		// bail if this is not a bulk enrollment request
+		// Bail if this is not a bulk enrollment request.
 		if ( empty( $do_bulk_enroll ) ) {
 			return;
 		}
 
-		// get the product (course/membership) to enroll users in
+		// Get the product (course/membership) to enroll users in.
 		$this->product_id = $this->_bottom_else_top( 'llms_bulk_enroll_product', FILTER_VALIDATE_INT );
 
 		if ( empty( $this->product_id ) ) {
@@ -114,10 +114,10 @@ class LLMS_Student_Bulk_Enroll {
 			return;
 		}
 
-		// get the product title for notices
+		// Get the product title for notices.
 		$this->product_title = get_the_title( $this->product_id );
 
-		// get all the user ids to enroll
+		// Get all the user ids to enroll.
 		$this->user_ids = filter_input( INPUT_GET, 'users', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $this->user_ids ) ) {
@@ -143,13 +143,13 @@ class LLMS_Student_Bulk_Enroll {
 
 		$return_val = false;
 
-		// get the value of the input displayed at the bottom of users table
+		// Get the value of the input displayed at the bottom of users table.
 		$bottom_value = filter_input( INPUT_GET, $param . '2', $validation );
 
-		// get the value of input displayed at the top of users table
+		// Get the value of input displayed at the top of users table.
 		$top_value = filter_input( INPUT_GET, $param, $validation );
 
-		// prefer top over bottom, just like WordPress does
+		// Prefer top over bottom, just like WordPress does.
 		if ( ! empty( $bottom_value ) ) {
 			$return_val = $bottom_value;
 		}
@@ -168,17 +168,17 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	private function enroll_users_in_product() {
 
-		// get user information from user ids
+		// Get user information from user ids.
 		$users = $this->get_users( $this->user_ids );
 
-		// bail if for some reason, no users are found (because they were deleted in the bg?)
+		// Bail if for some reason, no users are found (because they were deleted in the bg?).
 		if ( empty( $users ) ) {
 			$message = sprintf( __( 'No such users found. Cannot enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
 		}
 
-		// create manual enrollment trigger
+		// Create manual enrollment trigger.
 		$trigger = 'admin_' . get_current_user_id();
 
 		foreach ( $users as $user ) {
@@ -197,10 +197,10 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	private function get_users( $user_ids ) {
 
-		// prepare query arguments
+		// Prepare query arguments.
 		$user_query_args = array(
 			'include' => $user_ids,
-			// we need display names for notices
+			// We need display names for notices.
 			'fields'  => array( 'ID', 'display_name' ),
 		);
 
@@ -221,19 +221,19 @@ class LLMS_Student_Bulk_Enroll {
 	 */
 	private function enroll( $user, $trigger ) {
 
-		// enroll into LifterLMS product
+		// Enroll into LifterLMS product.
 		$enrolled = llms_enroll_student( $user->ID, $this->product_id, $trigger );
 
-		// figure out notice type based on enrollment success
+		// Figure out notice type based on enrollment success.
 		$type = ( ! $enrolled ) ? 'error' : 'success';
 
-		// Figure out notice message string based on notice type
+		// Figure out notice message string based on notice type.
 		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' );
 
-		// get formatted message with username and product title
+		// Get formatted message with username and product title.
 		$message = sprintf( $success_fail_string, $user->display_name, $this->product_title );
 
-		// generate a notice for display
+		// Generate a notice for display.
 		$this->generate_notice( $type, $message );
 	}
 

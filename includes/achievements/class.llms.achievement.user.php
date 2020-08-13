@@ -177,7 +177,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 		$this->init( $id, $user_id, $lesson_id );
 
-		// only award achievement if the user hasn't already earned it
+		// Only award achievement if the user hasn't already earned it.
 		if ( $this->has_user_earned() ) {
 			return;
 		}

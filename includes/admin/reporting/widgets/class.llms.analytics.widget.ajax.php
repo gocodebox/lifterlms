@@ -29,14 +29,14 @@ class LLMS_Analytics_Widget_Ajax {
 	 */
 	public function __construct() {
 
-		// only proceed if we're doing ajax
+		// Only proceed if we're doing ajax.
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX || ! isset( $_REQUEST['action'] ) ) {
 			return;
 		}
 
 		$methods = array(
 
-			// sales
+			// Sales.
 			'coupons',
 			'discounts',
 			'refunded',
@@ -45,7 +45,7 @@ class LLMS_Analytics_Widget_Ajax {
 			'sales',
 			'sold',
 
-			// enrollments
+			// Enrollments.
 			'enrollments',
 			'registrations',
 			'lessoncompletions',
@@ -53,7 +53,7 @@ class LLMS_Analytics_Widget_Ajax {
 
 		);
 
-		// include the abstract
+		// Include the abstract.
 		include LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.analytics.widget.php';
 
 		$method = str_replace( 'llms_widget_', '', sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) );

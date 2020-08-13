@@ -303,14 +303,14 @@ abstract class LLMS_Database_Query {
 			$ids = array();
 		}
 
-		// allow numeric strings & ints to be passed instead of an array
+		// Allow numeric strings & ints to be passed instead of an array.
 		if ( ! is_array( $ids ) && is_numeric( $ids ) && $ids > 0 ) {
 			$ids = array( $ids );
 		}
 
 		foreach ( $ids as $key => &$id ) {
-			$id = absint( $id ); // verify we have ints
-			if ( $id <= 0 ) { // remove anything negative or 0
+			$id = absint( $id ); // Verify we have ints.
+			if ( $id <= 0 ) { // Remove anything negative or 0.
 				unset( $ids[ $key ] );
 			}
 		}
@@ -368,7 +368,7 @@ abstract class LLMS_Database_Query {
 
 		global $wpdb;
 
-		// if no results bail early b/c no reason to calculate anything
+		// If no results bail early b/c no reason to calculate anything.
 		if ( ! $this->number_results ) {
 			return;
 		}

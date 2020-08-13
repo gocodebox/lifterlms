@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			);
 		}
 
-		// setup course difficulty select options
+		// Setup course difficulty select options.
 		$difficulty_terms   = get_terms( 'course_difficulty', 'hide_empty=0' );
 		$difficulty_options = array();
 		foreach ( $difficulty_terms as $term ) {
@@ -357,8 +357,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		);
 
 		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
-			unset( $fields[1]['fields'][0] ); // length
-			unset( $fields[1]['fields'][1] ); // difficulty
+			unset( $fields[1]['fields'][0] ); // length.
+			unset( $fields[1]['fields'][1] ); // difficulty.
 		}
 
 		return $fields;
@@ -384,7 +384,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
 
 			wp_set_object_terms( $post_id, llms_filter_input( INPUT_POST, '_llms_post_course_difficulty', FILTER_SANITIZE_STRING ), 'course_difficulty', false );
-			unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
+			unset( $_POST['_llms_post_course_difficulty'] ); // Don't save this to the postmeta table.
 
 		}
 

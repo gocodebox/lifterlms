@@ -25,7 +25,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	$option_val = get_option( $option );
 
-	// see if there's a valid page already stored for the option we're trying to create
+	// See if there's a valid page already stored for the option we're trying to create.
 	if ( $option_val && is_numeric( $option_val ) ) {
 		$page_object = get_post( $option_val );
 		if ( $page_object && 'page' === $page_object->post_type && ! in_array( $page_object->post_status, array( 'pending', 'trash', 'future', 'auto-draft' ) ) ) {
@@ -35,7 +35,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	global $wpdb;
 
-	// Search for an existing page with the specified page content like a shortcode
+	// Search for an existing page with the specified page content like a shortcode.
 	if ( strlen( $content ) > 0 ) {
 		$page_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' ) AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
 	} else {
@@ -50,14 +50,14 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 		return $page_id;
 	}
 
-	// look in the trashed page by content
+	// Look in the trashed page by content.
 	if ( strlen( $content ) > 0 ) {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
 	} else {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_name = %s LIMIT 1;", $slug ) );
 	}
 
-	// if we find it in the trash move it out of the trash
+	// If we find it in the trash move it out of the trash.
 	if ( $trashed_id ) {
 		$page_id   = $trashed_id;
 		$page_data = array(

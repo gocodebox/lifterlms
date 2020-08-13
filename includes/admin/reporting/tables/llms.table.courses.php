@@ -234,12 +234,12 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 			$query_args['s'] = sanitize_text_field( $args['search'] );
 		}
 
-		// if you can view others reports, make a regular query
+		// If you can view others reports, make a regular query.
 		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 
 			$query = new WP_Query( $query_args );
 
-			// user can only see their own reports, get a list of their students
+			// User can only see their own reports, get a list of their students.
 		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
 
 			$instructor = llms_get_instructor();

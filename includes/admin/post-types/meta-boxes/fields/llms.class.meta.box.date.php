@@ -31,7 +31,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 		$_field = wp_parse_args(
 			$_field,
 			array(
-				'date_format' => 'mm/dd/yy', // jQuery datepicker formats (http://api.jqueryui.com/datepicker/#utility-formatDate)
+				'date_format' => 'mm/dd/yy', // jQuery datepicker formats (http://api.jqueryui.com/datepicker/#utility-formatDate).
 				'date_max'    => '',
 				'date_min'    => '',
 			)

@@ -22,7 +22,7 @@ class LLMS_Analytics_Coursecompletions_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'count', // type of field
+			'type'   => 'count', // Type of field.
 			'header' => array(
 				'id'    => 'coursecompletions',
 				'label' => __( '# of Courses Completed', 'lifterlms' ),
