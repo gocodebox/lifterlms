@@ -299,7 +299,7 @@ class LLMS_Admin_Assets {
 
 			$current_tab = llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
 
-			wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04' );
+			wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04', false );
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), LLMS()->version, true );
 
 			// Settings "general" tab where we have analytics widgets.
@@ -314,9 +314,7 @@ class LLMS_Admin_Assets {
 				} elseif ( 'quizzes' === $current_tab && 'attempts' === llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) {
 					wp_enqueue_script( 'llms-quiz-attempt-review', LLMS_PLUGIN_URL . 'assets/js/llms-quiz-attempt-review' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
 				}
-
 			}
-
 		}
 
 	}
