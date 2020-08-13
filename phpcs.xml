@@ -26,7 +26,6 @@
 		<exclude-pattern>assets/js/*.js</exclude-pattern>
 
 		<!-- @todo: Fix docs and comments to adhere to these rules -->
-		<!-- exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" /-->
 
 		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
 

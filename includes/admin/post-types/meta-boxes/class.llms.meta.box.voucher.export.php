@@ -85,7 +85,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 			if ( 'vouchers' === $type || 'redeemed' === $type ) {
 
-				// Eexport CSV.
+				// Export CSV.
 
 				$csv       = array();
 				$file_name = '';
