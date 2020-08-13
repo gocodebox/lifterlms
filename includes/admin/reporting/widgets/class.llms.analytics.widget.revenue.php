@@ -26,10 +26,10 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 
 		$txn_meta_join  = '';
 		$txn_meta_where = '';
-		// create an "IN" clause that can be used for later in WHERE clauses
+		// Create an "IN" clause that can be used for later in WHERE clauses.
 		if ( $this->get_posted_students() || $this->get_posted_posts() ) {
 
-			// get an array of order based on posted students & products
+			// Get an array of order based on posted students & products.
 			$this->set_order_data_query(
 				array(
 					'date_range'     => false,
@@ -61,7 +61,7 @@ class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 			}
 		}
 
-		// date range will be used to get transactions between given dates
+		// Date range will be used to get transactions between given dates.
 		$dates            = $this->get_posted_dates();
 		$this->query_vars = array(
 			$this->format_date( $dates['start'], 'start' ),

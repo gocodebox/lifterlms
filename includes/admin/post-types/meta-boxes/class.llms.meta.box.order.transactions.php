@@ -62,7 +62,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 
 		$curr_page = isset( $_GET['txns-page'] ) ? absint( wp_unslash( $_GET['txns-page'] ) ) : 1;
-		// allow users to see all if they really want to
+		// Allow users to see all if they really want to.
 		$per_page = isset( $_GET['txns-count'] ) ? absint( wp_unslash( $_GET['txns-count'] ) ) : 20;
 
 		$transactions = $order->get_transactions(

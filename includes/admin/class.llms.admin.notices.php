@@ -76,7 +76,7 @@ class LLMS_Admin_Notices {
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
-		// dont add the notice if we've already dismissed of delayed it
+		// Don't add the notice if we've already dismissed of delayed it.
 		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
 			return;
 		}
@@ -95,15 +95,14 @@ class LLMS_Admin_Notices {
 			array(
 				'dismissible'      => true,
 				'dismiss_for_days' => 7,
-				'flash'            => false, // if true, will delete the notice after displaying it
+				'flash'            => false, // If true, will delete the notice after displaying it.
 				'html'             => '',
 				'remind_in_days'   => 7,
 				'remindable'       => false,
-				'type'             => 'info', // info, warning, success, error
-				'template'         => false, // template name, eg "admin/notices/notice.php"
-				'template_path'    => '', // allow override of default LLMS()->template_path()
-				'default_path'     => '', // allow override of default path LLMS()->plugin_path() . '/templates/'
-								  // an addon may add a notice and pass it's own path in here
+				'type'             => 'info', // Info, warning, success, error.
+				'template'         => false, // Template name, eg "admin/notices/notice.php".
+				'template_path'    => '', // Allow override of default LLMS()->template_path().
+				'default_path'     => '', // Allow override of default path LLMS()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
 			)
 		);
 
@@ -153,7 +152,7 @@ class LLMS_Admin_Notices {
 		$id = 'llms-flash-notice-';
 		$i  = 0;
 
-		// increment the notice id so we can flash multiple notices on screen in one load if necessary
+		// Increment the notice id so we can flash multiple notices on screen in one load if necessary.
 		while ( self::has_notice( $id . $i ) ) {
 			$i++;
 		}
@@ -253,8 +252,8 @@ class LLMS_Admin_Notices {
 				return;
 			}
 
-			// don't output those rogue empty notices I can't find
-			// @todo find the source
+			// Don't output those rogue empty notices I can't find.
+			// @todo find the source.
 			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
 				self::delete_notice( $notice_id );
 			}

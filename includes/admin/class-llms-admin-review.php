@@ -136,7 +136,7 @@ class LLMS_Admin_Review {
 			}
 		}
 
-		// Only load if we have 50 or more enrollments
+		// Only load if we have 50 or more enrollments.
 		if ( $enrollments < 50 ) {
 			return;
 		}

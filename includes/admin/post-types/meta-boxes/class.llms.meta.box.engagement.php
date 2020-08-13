@@ -237,31 +237,31 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			return;
 		}
 
-		// get all defined fields
+		// Get all defined fields.
 		$fields = $this->get_fields();
 
 		if ( ! is_array( $fields ) ) {
 			return;
 		}
 
-		// loop through the fields
+		// Loop through the fields.
 		foreach ( $fields as $group => $data ) {
 
-			// find the fields in each tab
+			// Find the fields in each tab.
 			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
 
-				// loop through the fields
+				// Loop through the fields.
 				foreach ( $data['fields'] as $field ) {
 
-					// don't save things that don't have an ID
+					// Don't save things that don't have an ID.
 					if ( isset( $field['id'] ) ) {
 
-						// skip our faux fields
+						// Skip our faux fields.
 						if ( 0 === strpos( $field['id'], '_faux_engagement_trigger_post_' ) ) {
 							continue;
 						}
 
-						// get the posted value
+						// Get the posted value.
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
@@ -272,7 +272,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 						}
 
-						// update the value if we have one
+						// Update the value if we have one.
 						if ( isset( $val ) ) {
 
 							update_post_meta( $post_id, $field['id'], $val );
@@ -283,10 +283,10 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 					}
 				}
-			}// End if().
-		}// End foreach().
+			}
+		}
 
-		// locate and store the trigger post id
+		// Locate and store the trigger post id.
 		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type', FILTER_SANITIZE_STRING );
 		switch ( $type ) {
 

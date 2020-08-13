@@ -1,1 +1,1 @@
-<?php // quiet
+<?php // Quiet.

@@ -128,7 +128,7 @@ if ( ! isset( $plan ) ) {
 			</div>
 
 
-			<?php // recurring plan options ?>
+			<?php // Recurring plan options. ?>
 			<div data-controller="llms-plan-frequency" data-value-is-not="0">
 
 				<div class="llms-metabox-field d-1of4">

@@ -444,10 +444,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			}
 		}
 
-		// cleanup subscriptions so if the notification
-		// is triggered again we don't have incorrect subscribers
-		// on the next trigger
-		// this happens when receipts are triggered in bulk by action scheduler
+		/**
+		 * Cleanup subscriptions so if the notification
+		 * is triggered again we don't have incorrect subscribers
+		 * on the next trigger
+		 * this happens when receipts are triggered in bulk by action scheduler.
+		 */
 		$this->unset_subscriptions();
 
 	}
@@ -465,11 +467,14 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	protected function send_one( $type, $subscriber, $force = false ) {
 
-		// if autodupcheck is set
-		// and the send function doesn't override the dupcheck
-		// and the subscriber has already received the notification
-		// skip it
+		/**
+		 * If autodupcheck is set
+		 * and the send function doesn't override the dupcheck
+		 * and the subscriber has already received the notification
+		 * skip it.
+		 */
 		if ( $this->auto_dupcheck && ! $force && $this->has_subscriber_received( $type, $subscriber ) ) {
+			// phpcs:ignore -- commented out code
 			// llms_log( sprintf( 'Skipped %1$s to subscriber "%2$s" bc of dupcheck', $type, $subscriber ), 'notifications' );
 			return false;
 		}
@@ -485,7 +490,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			)
 		);
 
-		// if successful, push to the processor where processing is supported
+		// If successful, push to the processor where processing is supported.
 		if ( $id ) {
 
 			$processor = LLMS()->notifications()->get_processor( $type );
@@ -543,7 +548,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 */
 	public function subscribe( $subscriber, $type ) {
 
-		// prevent unsupported types from being subscribed
+		// Prevent unsupported types from being subscribed.
 		if ( ! $this->supports( $type ) ) {
 			return;
 		}

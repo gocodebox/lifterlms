@@ -77,22 +77,22 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		$settings = array();
 
-		// setup vars
+		// Setup vars.
 		$type  = llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
 		$types = $controller->get_supported_types();
 		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
 		$view  = $controller->get_mock_view( $type );
 
-		// so the merge code button can use it i
+		// So the merge code button can use it.
 		$this->view = $view;
 
-		// output the merge code button for the WYSIWYG editor
+		// Output the merge code button for the WYSIWYG editor.
 		add_action( 'media_buttons', array( $this, 'merge_code_button' ) );
 
-		// add a breadcrumb on the top of the page
+		// Add a breadcrumb on the top of the page.
 		$settings[] = $this->get_breadcrumbs( $title );
 
-		// add field options for the view
+		// Add field options for the view.
 		$settings = array_merge( $settings, $view->get_field_options( $type ) );
 
 		$subscribers = $controller->get_subscriber_options( $type );

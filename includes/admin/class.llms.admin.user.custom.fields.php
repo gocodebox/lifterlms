@@ -44,11 +44,11 @@ class LLMS_Admin_User_Custom_Fields {
 			add_action( $action, array( $this, 'output_instructors_assistant_fields' ), 10, 1 );
 		}
 
-		// Allow errors to be output before saving field data
-		// Save the data if no errors are encountered
+		// Allow errors to be output before saving field data.
+		// Save the data if no errors are encountered.
 		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ), 10, 3 );
 
-		// save data when a new user is created
+		// Save data when a new user is created.
 		add_action( 'edit_user_created_user', array( $this, 'save' ) );
 
 	}
@@ -375,10 +375,10 @@ class LLMS_Admin_User_Custom_Fields {
 	 */
 	public function validate_fields( $user ) {
 
-		// ensure there's no missing required fields
+		// Ensure there's no missing required fields.
 		foreach ( $this->fields as $field => $data ) {
 
-			// return an error message for empty required fields
+			// Return an error message for empty required fields.
 			if ( empty( $_POST[ $field ] ) && $data['required'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );

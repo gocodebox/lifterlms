@@ -108,20 +108,20 @@ abstract class LLMS_Abstract_API_Handler {
 			$args['body'] = $this->is_json && $body ? json_encode( $body ) : $body;
 		}
 
-		// attempt to call the API
+		// Attempt to call the API.
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			$args
 		);
 
-		// connection error
+		// Connection error.
 		if ( is_wp_error( $response ) ) {
 
 			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms' ), 'api_connection', $response );
 
 		}
 
-		// empty body
+		// Empty body.
 		if ( ! $this->allow_empty_response && empty( $response['body'] ) ) {
 
 			return $this->set_error( __( 'Empty Response.', 'lifterlms' ), 'empty_response', $response );

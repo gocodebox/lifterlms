@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 						<li>
 							<span>
 							<?php
-								// Translators: %s = Author Name
+								// Translators: %s = Author Name.
 								printf( __( 'Author: %s', 'lifterlms' ), $addon->get( 'author' )['name'] );
 							?>
 							</span>
@@ -42,14 +42,14 @@ defined( 'ABSPATH' ) || exit;
 					<?php if ( $addon->is_installable() ) : ?>
 						<li>
 						<?php
-							// Translators: %s = Current Version Number
+							// Translators: %s = Current Version Number.
 							printf( __( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? $addon->get_installed_version() : $addon->get_latest_version() );
 						?>
 						</li>
 						<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
 							<li><strong>
 							<?php
-								// Translators: %s = Available Version Number
+								// Translators: %s = Available Version Number.
 								printf( __( 'Update Available: %s', 'lifterlms' ), $addon->get_latest_version() );
 							?>
 							</strong></li>

@@ -75,7 +75,7 @@ abstract class LLMS_Abstract_User_Data {
 	 */
 	public function __get( $key ) {
 
-		// array of items we should *not* add the $this->meta_prefix to
+		// Array of items we should *not* add the $this->meta_prefix to.
 		$unprefixed = apply_filters(
 			'llms_student_unprefixed_metas',
 			array(
@@ -93,11 +93,13 @@ abstract class LLMS_Abstract_User_Data {
 			$this
 		);
 
-		// add the meta prefix to things that aren't in the above array
-		// only if the meta prefix isn't already there
-		// this means that the following will output the same data
-		// $this->get( 'llms_billing_address_1')
-		// $this->get( 'billing_address_1')
+		/**
+		 * Add the meta prefix to things that aren't in the above array
+		 * only if the meta prefix isn't already there
+		 * this means that the following will output the same data
+		 * $this->get( 'llms_billing_address_1')
+		 * $this->get( 'billing_address_1')
+		 */
 		if ( false === strpos( $key, $this->meta_prefix ) && ! in_array( $key, $unprefixed ) ) {
 			$key = $this->meta_prefix . $key;
 		}
