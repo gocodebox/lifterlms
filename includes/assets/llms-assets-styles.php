@@ -24,7 +24,6 @@
  * @version [version]
  */
 
-
 defined( 'ABSPATH' ) || exit;
 
 return array(
