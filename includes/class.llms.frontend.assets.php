@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -122,6 +122,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
+	 * @since [version] Enqueue the main `lifterlms-styles` stylesheet using `LLMS_Assets::enqueue_style()`.
 	 *
 	 * @return void
 	 */
@@ -133,9 +134,7 @@ class LLMS_Frontend_Assets {
 
 		wp_enqueue_style( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.2.15' );
 
-		wp_enqueue_style( 'lifterlms-styles', LLMS_PLUGIN_URL . 'assets/css/lifterlms' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version );
-		wp_style_add_data( 'lifterlms-styles', 'rtl', 'replace' );
-		wp_style_add_data( 'lifterlms-styles', 'suffix', LLMS_ASSETS_SUFFIX );
+		LLMS_Assets::enqueue_style( 'lifterlms-styles' );
 
 		if ( 'llms_my_certificate' === $post_type || 'llms_certificate' === $post_type ) {
 			wp_enqueue_style( 'certificates', LLMS_PLUGIN_URL . 'assets/css/certificates' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version );
@@ -157,6 +156,8 @@ class LLMS_Frontend_Assets {
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 3.36.0 Localize tracking with client-side settings.
 	 * @since 4.0.0 Remove dependencies "collapse" and "transition".
+	 * @since [version] Enqueue the main `llms` script using `LLMS_Assets::enqueue_script()`.
+	 *              Add Add `window.llms.ajax_nonce` data to replace `wp_ajax_data.nonce`.
 	 *
 	 * @return void
 	 */
@@ -173,9 +174,7 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_script( 'llms-jquery-matchheight' );
 		}
 
-		// @todo  this is currently being double registered and enqueued by LLMS_Ajax.
-		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-		wp_enqueue_script( 'llms' );
+		LLMS_Assets::enqueue_script( 'llms' );
 
 		wp_register_script( 'llms-notifications', LLMS_PLUGIN_URL . 'assets/js/llms-notifications' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		if ( get_current_user_id() ) {
@@ -204,6 +203,10 @@ class LLMS_Frontend_Assets {
 		self::enqueue_inline_script(
 			'llms-ajaxurl',
 			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', $ssl ) . '";'
+		);
+		self::enqueue_inline_script(
+			'llms-ajax-nonce',
+			'window.llms = window.llms || {};window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";'
 		);
 		self::enqueue_inline_script(
 			'llms-tracking-settings',
