@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -86,6 +86,7 @@ class LLMS_Loader {
 	 * Includes that are included everywhere
 	 *
 	 * @since 4.0.0
+	 * @since [version] Include `LLMS_Assets` class.
 	 *
 	 * @return void
 	 */
@@ -128,6 +129,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';
 
 		// Classes.
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
