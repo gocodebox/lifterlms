@@ -58,9 +58,14 @@ LLMS.Ajax = {
 
 	/**
 	 * Initialize Ajax methods
-	 * loads class methods
+	 *
+	 * @since Unknown
+	 * @since [version] Update ajax nonce source.
+	 *
+	 * @param {Object} obj Options object.
+	 * @return {Object}
 	 */
-	init: function(obj) {
+	init: function( obj ) {
 
 		// if obj is not of type object or null return false;
 		if ( obj === null || typeof obj !== 'object' ) {
@@ -76,7 +81,7 @@ LLMS.Ajax = {
 		obj.async    = 'async'		in obj ? obj.async : this.async;
 
 		// add nonce to data object
-		obj.data._ajax_nonce = wp_ajax_data.nonce;
+		obj.data._ajax_nonce = window.llms.ajax_nonce || wp_ajax_data.nonce;
 
 		// add post id to data object
 		var $R           = LLMS.Rest,
