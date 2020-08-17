@@ -345,7 +345,7 @@ class LLMS_Generator {
 		unset( $raw['product_id'] );
 		$plan->set( 'product_id', $course_id );
 
-		// Store the from the import if there is one.
+		// Store the id from the import if there is one.
 		if ( isset( $raw['id'] ) ) {
 			$plan->set( 'generated_from_id', $raw['id'] );
 			unset( $raw['id'] );
@@ -505,7 +505,7 @@ class LLMS_Generator {
 		$lesson->set( 'parent_section', $section_id );
 		$lesson->set( 'order', $order );
 
-		// Cant trust these if they exist.
+		// Can't trust these if they exist.
 		if ( isset( $raw['parent_course'] ) ) {
 			unset( $raw['parent_course'] );
 		}
@@ -544,7 +544,7 @@ class LLMS_Generator {
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
-	 * @return int WP_Post ID of the Quiz
+	 * @return int WP_Post ID of the Quiz.
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -654,7 +654,7 @@ class LLMS_Generator {
 	/**
 	 * Creates a new section
 	 *
-	 * Creates all lessons within the section data
+	 * Creates all lessons within the section data.
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
@@ -738,7 +738,6 @@ class LLMS_Generator {
 	 *                   Falls back to current user id.
 	 *                   First_name, last_name, and description can be optionally provided.
 	 *                   When provided will be used only when creating a new user.
-	 *
 	 * @return int|void A WP_User ID or void when error encountered.
 	 */
 	private function get_author_id( $raw ) {
@@ -1137,7 +1136,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.7.3
 	 *
-	 * @param string $status  any valid WP Post Status.
+	 * @param string $status Any valid WP Post Status.
 	 * @return void
 	 */
 	public function set_default_post_status( $status ) {
