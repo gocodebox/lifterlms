@@ -4,8 +4,9 @@
  * @link https://github.com/smooth-code/jest-puppeteer/issues/131#issuecomment-424073620
  */
 
-import path from 'path';
-import mkdirp from 'mkdirp';
+const
+	path   = require( 'path' ),
+	mkdirp = require( 'mkdirp' );
 
 /**
  * Take a Screenshot.
