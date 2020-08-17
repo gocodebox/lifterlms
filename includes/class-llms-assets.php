@@ -136,7 +136,7 @@ class LLMS_Assets {
 	 * @return array|false {
 	 *     An asset definition array or `false` if an asset definition could not be located.
 	 *
-	 *     @type string   $file_slug    (Required) The file name of the asset. Excludes the path, suffix, and extension. EG: 'llms' for 'llms.js'.
+	 *     @type string   $file_name    The file name of the asset. Excludes the path, suffix, and extension,  eg: 'llms' for 'llms.js'. Defaults to the asset's handle.
 	 *     @type string   $base_url     The base URL used to locate the asset on the server. Defaults to `LLMS_PLUGIN_URL`.
 	 *     @type string   $path         The relative path to the asset within the plugin directory. Defaults to `assets/js` for scripts and `assets/css` for styles.
 	 *     @type string   $extension    The filename extension for the asset. Defaults to `.js` for scripts and `.css` for styles.
@@ -171,13 +171,14 @@ class LLMS_Assets {
 
 			$asset = wp_parse_args( $asset, self::get_defaults( $type ) );
 
-			$asset['handle'] = $handle;
-			$asset['src']    = ! empty( $asset['src'] ) ? $asset['src'] : implode(
+			$asset['handle']    = $handle;
+			$asset['file_name'] = ! empty( $asset['file_name'] ) ? $asset['file_name'] : $handle;
+			$asset['src']       = ! empty( $asset['src'] ) ? $asset['src'] : implode(
 				'',
 				array(
 					trailingslashit( $asset['base_url'] ),
 					trailingslashit( $asset['path'] ),
-					$asset['file_slug'],
+					$asset['file_name'],
 					$asset['suffix'],
 					$asset['extension'],
 				)
