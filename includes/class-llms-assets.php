@@ -70,7 +70,7 @@ class LLMS_Assets {
 	 *   + Added to the definition list via the `llms_get_script_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_script_asset` filter.
 	 *
-	 * If the script is *not defined* it this function will return `false` because registration
+	 * If the script is *not defined* this function will return `false` because registration
 	 * will fail.
 	 *
 	 * @since [version]
@@ -102,7 +102,7 @@ class LLMS_Assets {
 	 *   + Added to the definition list via the `llms_get_style_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_style_asset` filter.
 	 *
-	 * If the stylesheet is *not defined* it this function will return `false` because registration
+	 * If the stylesheet is *not defined* this function will return `false` because registration
 	 * will fail.
 	 *
 	 * @since [version]
@@ -156,7 +156,7 @@ class LLMS_Assets {
 		/**
 		 * Filter static asset data prior to preparing the definition
 		 *
-		 * The definition is "prepared" by merging it's data with the default data and preparing it's src.
+		 * The definition is "prepared" by merging its data with the default data and preparing its src.
 		 *
 		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
 		 *
@@ -277,11 +277,11 @@ class LLMS_Assets {
 	 *   + Added to the definition list via the `llms_get_script_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_script_asset` filter.
 	 *
-	 * If the script is *not defined* it this function will return `false`.
+	 * If the script is *not defined* this function will return `false`.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $handle The scripts handle.
+	 * @param string $handle The script's handle.
 	 * @return boolean
 	 */
 	public static function register_script( $handle ) {
@@ -306,9 +306,9 @@ class LLMS_Assets {
 	 *   + Added to the definition list via the `llms_get_style_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_style_asset` filter.
 	 *
-	 * If the stylesheet is *not defined* it this function will return `false`.
+	 * If the stylesheet is *not defined* this function will return `false`.
 	 *
-	 * This method will also automatically adds RTL style data unless explicitly told not to do so.
+	 * This method will also automatically add RTL style data unless explicitly told not to do so.
 	 *
 	 * The RTL stylesheet should have the same name (and suffix) with `-rtl` included prior to the suffix, for example
 	 * `llms.css` (or `llms.min.css`) would add the RTL stylesheet `llms-rtl.css` (or `llms-rtl.min.css`).
