@@ -970,9 +970,10 @@ class LLMS_Generator {
 	 * Removes prereq track associations if there's no source or source doesn't match
 	 * or if the track doesn't exist.
 	 *
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.24.0
+	 * @since 3.3.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return void
 	 */
 	private function handle_prerequisites() {
 
