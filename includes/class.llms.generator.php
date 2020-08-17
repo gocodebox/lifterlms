@@ -203,7 +203,7 @@ class LLMS_Generator {
 
 			$wpdb->hide_errors();
 
-			$wpdb->query( 'START TRANSACTION' );
+			$wpdb->query( 'START TRANSACTION' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			do_action( 'llms_generator_before_generate', $this );
 
@@ -220,9 +220,9 @@ class LLMS_Generator {
 			do_action( 'llms_generator_after_generate', $this );
 
 			if ( $this->is_error() ) {
-				$wpdb->query( 'ROLLBACK' );
+				$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			} else {
-				$wpdb->query( 'COMMIT' );
+				$wpdb->query( 'COMMIT' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			}
 		} else {
 
@@ -1123,7 +1123,7 @@ class LLMS_Generator {
 			$img_src = media_sideload_image( $image_url, $post_id, null, 'src' );
 
 			if ( ! is_wp_error( $img_src ) ) {
-				$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid = %s", array( $img_src ) ) );
+				$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE guid = %s", array( $img_src ) ) );  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				set_post_thumbnail( $post_id, $id );
 			}
 		}
