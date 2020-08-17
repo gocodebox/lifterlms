@@ -169,7 +169,7 @@
 	 * @since 3.17.5 Unknown.
 	 * @since [version] Update ajax nonce source.
 	 *
-	 * @param obj options Options passed to Select2. Each default option will pulled from the elements data-attributes.
+	 * @param obj options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
 	 * @return void
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {

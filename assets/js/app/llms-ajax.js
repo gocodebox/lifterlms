@@ -67,7 +67,7 @@ LLMS.Ajax = {
 	 */
 	init: function( obj ) {
 
-		// if obj is not of type object or null return false;
+		// If obj is not of type object or null return false.
 		if ( obj === null || typeof obj !== 'object' ) {
 			return false;
 		}
@@ -80,10 +80,10 @@ LLMS.Ajax = {
 		obj.dataType = 'dataType'	in obj ? obj.dataType : this.dataType;
 		obj.async    = 'async'		in obj ? obj.async : this.async;
 
-		// add nonce to data object
+		// Add nonce to data object.
 		obj.data._ajax_nonce = window.llms.ajax_nonce || wp_ajax_data.nonce;
 
-		// add post id to data object
+		// Add post id to data object.
 		var $R           = LLMS.Rest,
 		query_vars       = $R.get_query_vars();
 		obj.data.post_id = 'post' in query_vars ? query_vars.post : null;

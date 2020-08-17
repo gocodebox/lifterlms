@@ -60,10 +60,10 @@ define( [], function() {
 		/**
 		 * Render the section
 		 *
-		 * Initializes a new collection and views for all lessons in the section
+		 * Initializes a new collection and views for all lessons in the section.
 		 *
 		 * @since 3.16.0
-		 * @since 3.16.12 Unknown
+		 * @since 3.16.12 Unknown.
 		 * @since [version] Update ajax nonce source.
 		 *
 		 * @return void

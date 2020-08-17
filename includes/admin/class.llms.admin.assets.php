@@ -256,7 +256,7 @@ class LLMS_Admin_Assets {
 	 * Initialize the "llms" object for other scripts to hook into
 	 *
 	 * @since 1.0.0
-	 * @since 3.7.5 Unknown
+	 * @since 3.7.5 Unknown.
 	 * @since [version] Add `ajax_nonce`.
 	 *
 	 * @return void
