@@ -123,6 +123,7 @@ class LLMS_Generator {
 	 *
 	 * @param obj   $course_id WP_Post ID of a Course.
 	 * @param array $raw_terms Array of raw term arrays.
+	 * @return void
 	 */
 	private function add_course_terms( $course_id, $raw_terms ) {
 
