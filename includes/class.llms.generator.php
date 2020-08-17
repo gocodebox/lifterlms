@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.3.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -312,7 +312,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
-	 * @since [version] Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
 	 *
 	 * @param array $raw                Raw Access Plan Data
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
@@ -365,7 +365,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
-	 * @since [version] Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
 	 *
 	 * @param array $raw Raw course data.
 	 * @return void|int
@@ -455,7 +455,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
-	 * @since [version] Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -541,7 +541,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
-	 * @since [version] Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
@@ -730,7 +730,7 @@ class LLMS_Generator {
 	 * Accepts raw author data and locates an existing author by email or id or creates one
 	 *
 	 * @since 3.3.0
-	 * @since [version] Use strict string comparator.
+	 * @since 4.3.3 Use strict string comparator.
 	 *
 	 * @param array $raw Author data.
 	 *                   If id and email are provided will use id only if it matches the email for user matching that id in the database.
