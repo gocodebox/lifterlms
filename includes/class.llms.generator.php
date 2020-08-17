@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -306,12 +306,14 @@ class LLMS_Generator {
 	/**
 	 * Create a new access plan
 	 *
-	 * @param    array $raw                 Raw Access Plan Data
-	 * @param    int   $course_id           WP Post ID of a LLMS Course to assign the access plan to
-	 * @param    int   $fallback_author_id  WP User ID to use for the access plan author if no author is supplied in the raw data
-	 * @return   int
-	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @since 3.3.0
+	 * @since 3.7.3 Unknown.
+	 * @since [version] Use an empty string in favor of `null` for an empty `post_content` field.
+	 *
+	 * @param array $raw                Raw Access Plan Data
+	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
+	 * @param int   $fallback_author_id WP User ID to use for the access plan author if no author is supplied in the raw data
+	 * @return int
 	 */
 	private function create_access_plan( $raw, $course_id, $fallback_author_id = null ) {
 
@@ -325,7 +327,7 @@ class LLMS_Generator {
 			'new',
 			array(
 				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
 				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
@@ -359,9 +361,10 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
+	 * @since [version] Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
 	 *
-	 * @param    array $raw  raw course data
-	 * @return   void|int
+	 * @param array $raw Raw course data.
+	 * @return void|int
 	 */
 	private function create_course( $raw ) {
 
@@ -377,9 +380,9 @@ class LLMS_Generator {
 			'new',
 			array(
 				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
+				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
 				'post_status'   => apply_filters( 'llms_generator_course_status', $this->get_default_post_status(), $raw, $this ),
 				'post_title'    => $raw['title'],
@@ -448,13 +451,14 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
+	 * @since [version] Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
 	 *
-	 * @param    array $raw                 raw lesson data
-	 * @param    int   $order               lesson order within the section (starts at 1)
-	 * @param    int   $section_id          WP Post ID of the lesson's parent section
-	 * @param    int   $course_id           WP Post ID of the lesson's parent course
-	 * @param    int   $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
-	 * @return   mixed                          lesson id or WP_Error
+	 * @param array $raw                Raw lesson data.
+	 * @param int   $order              Lesson order within the section (starts at 1).
+	 * @param int   $section_id         WP Post ID of the lesson's parent section.
+	 * @param int   $course_id          WP Post ID of the lesson's parent course.
+	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @return int|WP_Error WP_Post ID of the created lesson on success and an error object on failure.
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -470,9 +474,9 @@ class LLMS_Generator {
 			'new',
 			array(
 				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
+				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
 				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 				'post_title'    => $raw['title'],
@@ -533,10 +537,11 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
+	 * @since [version] Use an empty string in favor of `null` for an empty `post_content` field.
 	 *
-	 * @param    array $raw                 raw quiz data
-	 * @param    int   $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
-	 * @return   int                            WP Post ID of the Quiz
+	 * @param array $raw                Raw quiz data.
+	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @return int WP_Post ID of the Quiz
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -547,12 +552,12 @@ class LLMS_Generator {
 			unset( $raw['author'] );
 		}
 
-		// insert the course
+		// Insert the course.
 		$quiz = new LLMS_Quiz(
 			'new',
 			array(
 				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
 				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
