@@ -8,7 +8,7 @@
  * @group admin_assets
  * @group assets
  *
- * @since [version]
+ * @since 4.3.3
  */
 class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
@@ -24,7 +24,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * Dequeue & Dereqister all assets that may have been enqueued during tests.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on a screen where it shouldn't be registered.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * This test tests the default "assumed" tab when there's no `tab` set in the $_GET array.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 * This test is the same as test_maybe_enqueue_reporting_general_settings_assumed() except this one explicitly
 	 * tests for the presence of the `tab=general` in the $_GET array.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on settings tabs other than general, scripts will be registered but not enqueued.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on reporting screens where the scripts aren't needed.
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on the enrollments reporting screen
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on the sales reporting screen
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on the main quizzes reporting screen
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_enqueue_reporting() on the quiz attempts reporting screen
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @since 3.17.2 Unknown.
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
- * @since [version] Legends will automatically display on top of the chart.
+ * @since 4.3.3 Legends will automatically display on top of the chart.
  *
  */( function( $, undefined ) {
 
@@ -107,7 +107,7 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.17.6 Unknown
-		 * @since [version] Force the legend to appear on top of the chart.
+		 * @since 4.3.3 Force the legend to appear on top of the chart.
 		 *
 		 * @return   void
 		 */
