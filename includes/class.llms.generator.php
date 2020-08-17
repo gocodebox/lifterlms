@@ -729,6 +729,7 @@ class LLMS_Generator {
 	 * Accepts raw author data and locates an existing author by email or id or creates one
 	 *
 	 * @since 3.3.0
+	 * @since [version] Use strict string comparator.
 	 *
 	 * @param array $raw Author data.
 	 *                   If id and email are provided will use id only if it matches the email for user matching that id in the database.
@@ -761,7 +762,7 @@ class LLMS_Generator {
 					if ( isset( $raw['email'] ) ) {
 
 						// Raw email matches found user's email.
-						if ( $user->user_email == $raw['email'] ) {
+						if ( $user->user_email === $raw['email'] ) {
 							$author_id = $user->ID;
 						}
 					} else {
