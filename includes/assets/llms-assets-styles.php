@@ -8,9 +8,6 @@
  * is used by both LifterLMS and WordPress to identify the asset
  * during registration and enqueue.
  *
- * Each definition array must contain at least a "file_slug", the value
- * of this key is the scripts filename (without it's path or extension).
- *
  * The remaining items in each definition are optional and will be
  * automatically populated with default values. See `LLMS_Assets::get_defaults()`
  * for information on the default values of the asset.
@@ -27,12 +24,25 @@
 defined( 'ABSPATH' ) || exit;
 
 return array(
+
+	// Core.
 	'lifterlms-styles' => array(
-		'file_slug' => 'lifterlms',
+		'file_name' => 'lifterlms',
 	),
+	'certificates' => array(),
+
+	// Vendor.
 	'llms-iziModal'    => array(
-		'file_slug' => 'iziModal',
+		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
+		'rtl'       => false,
 	),
+	'webui-popover' => array(
+		'file_name' => 'jquery.webui-popover',
+		'path'      => 'assets/vendor/webui-popover',
+		'version'   => '1.2.15',
+		'rtl'       => false,
+	),
+
 );
