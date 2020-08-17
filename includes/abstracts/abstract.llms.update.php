@@ -55,7 +55,7 @@ abstract class LLMS_Update {
 
 		switch ( $progress['status'] ) {
 
-			// start the update
+			// Start the update.
 			case 'pending':
 				$this->start();
 				break;
@@ -63,7 +63,7 @@ abstract class LLMS_Update {
 			case 'finished':
 				break;
 
-			// check progress
+			// Check progress.
 			case 'running':
 			default:
 				if ( is_admin() && ! defined( 'DOING_CRON' ) ) {
@@ -144,7 +144,7 @@ abstract class LLMS_Update {
 	 */
 	private function enqueue() {
 
-		// schedule an action for each function
+		// Schedule an action for each function.
 		foreach ( $this->functions as $func ) {
 			$this->schedule_function( $func );
 		}

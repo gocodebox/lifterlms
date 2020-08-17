@@ -262,7 +262,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			return false;
 		}
 
-		// CODES SAVE
+		// Codes save.
 		$codes = array();
 
 		$llms_codes           = llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
@@ -304,7 +304,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			}
 		}
 
-		// Courses and membership save
+		// Courses and membership save.
 		$products = array();
 
 		foreach ( array( 'courses', 'membership' ) as $type ) {
@@ -314,10 +314,10 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 			}
 		}
 
-		// remove old products
+		// Remove old products.
 		$voucher->delete_products();
 
-		// save new ones
+		// Save new ones.
 		if ( ! empty( $products ) ) {
 			foreach ( $products as $item ) {
 				$voucher->save_product( $item );

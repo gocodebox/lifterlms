@@ -43,7 +43,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 		$links = array();
 
-		// single quiz
+		// Single quiz.
 		if ( isset( $_GET['quiz_id'] ) ) {
 			$quiz = llms_get_post( absint( $_GET['quiz_id'] ) );
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'overview' ) ] = $quiz->get( 'title' );
@@ -74,7 +74,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 	 */
 	public function output() {
 
-		// single quiz
+		// Single quiz.
 		if ( isset( $_GET['quiz_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
@@ -98,7 +98,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 				)
 			);
 
-			// quiz table
+			// Quiz table.
 		} else {
 
 			$table = new LLMS_Table_Quizzes();

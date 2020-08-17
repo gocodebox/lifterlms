@@ -25,8 +25,8 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'amount', // type of field
-			'key'    => 'amount', // key of result field to add when counting
+			'type'   => 'amount', // Type of field.
+			'key'    => 'amount', // Key of result field to add when counting.
 			'header' => array(
 				'id'    => 'refunded',
 				'label' => __( 'Amount Refunded', 'lifterlms' ),

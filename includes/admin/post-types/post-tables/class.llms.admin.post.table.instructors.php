@@ -149,8 +149,10 @@ class LLMS_Admin_Post_Table_Instructors {
 			$class = 'class="current"';
 		}
 
-		// if mine doesn't already exist in views, we need to add it after "All" manually
-		// to preserve the user experience
+		/**
+		 * If mine doesn't already exist in views, we need to add it after "All" manually
+		 * to preserve the user experience.
+		 */
 		if ( ! isset( $views['mine'] ) ) {
 
 			$offset = array_search( 'all', array_keys( $views ) );
@@ -225,23 +227,25 @@ class LLMS_Admin_Post_Table_Instructors {
 			return;
 		}
 
-		// don't run duplicates
+		// Don't run duplicates.
 		if ( $query->get( 'llms_instructor_query' ) ) {
 			return;
 		}
-
+		// phpcs:ignore -- commented out code
 		// var_dump( $query->query_vars );
 
 		if ( isset( $query->query_vars['post_type'] ) && in_array( $query->query_vars['post_type'], $this->post_types ) && ! empty( $query->query_vars['author'] ) ) {
 
-			// get the query or a default to work with
+			// Get the query or a default to work with.
 			$meta_query = $query->get( 'meta_query' );
 			if ( ! $meta_query ) {
 				$meta_query = array();
 			}
 
-			// set an and relation for our filters
-			// if other filters already exist, we'll ensure we obey them as well this way
+			/**
+			 * Set an and relation for our filters
+			 * if other filters already exist, we'll ensure we obey them as well this way.
+			 */
 			$meta_query['relation'] = 'AND';
 
 			$meta_query[] = array(

@@ -114,8 +114,8 @@ class LLMS_Admin_AddOns {
 
 		$features = array();
 
-		// addons to exclude
-		// helper will filter this based on existing activations
+		// Addons to exclude.
+		// Helper will filter this based on existing activations.
 		$exclude = apply_filters( 'llms_admin_addon_features_exclude_ids', array() );
 
 		$cats = array(
@@ -186,7 +186,7 @@ class LLMS_Admin_AddOns {
 
 			$cats = array_keys( $item['categories'] );
 
-			// exclude bundles if bundles are not being included or requested
+			// Exclude bundles if bundles are not being included or requested.
 			if ( 'bundles' !== $cat && ! $include_bundles && in_array( 'bundles', $cats ) ) {
 				continue;
 			}
@@ -209,7 +209,7 @@ class LLMS_Admin_AddOns {
 	 */
 	public function handle_actions() {
 
-		// activate & deactivate addons
+		// Activate & deactivate addons.
 		if ( llms_verify_nonce( '_llms_manage_addon_nonce', 'llms_manage_addon' ) ) {
 
 			$this->handle_manage_addons();

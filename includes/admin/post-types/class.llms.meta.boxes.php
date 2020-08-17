@@ -37,48 +37,48 @@ class LLMS_Admin_Meta_Boxes {
 	 */
 	public function __construct() {
 
-		// achievements
+		// Achievements.
 		new LLMS_Meta_Box_Achievement();
 
-		// certs
+		// Certs.
 		new LLMS_Meta_Box_Certificate();
 
-		// emails
+		// Emails.
 		new LLMS_Meta_Box_Email_Settings();
 
-		// engagements
+		// Engagements.
 		new LLMS_Meta_Box_Engagement();
 
-		// membership restriction metabox
+		// Membership restriction metabox.
 		new LLMS_Meta_Box_Access();
 
-		// courses
+		// Courses.
 		new LLMS_Meta_Box_Course_Options();
 
-		// memberships
+		// Memberships.
 		new LLMS_Meta_Box_Membership();
 
-		// courses & memberships
+		// Courses & memberships.
 		require_once 'meta-boxes/class.llms.meta.box.course.builder.php';
 		require_once 'meta-boxes/class.llms.meta.box.visibility.php';
 		require_once 'meta-boxes/class.llms.meta.box.instructors.php';
 		new LLMS_Meta_Box_Product();
 		new LLMS_Meta_Box_Students();
 
-		// lessons
+		// Lessons.
 		require_once 'meta-boxes/class.llms.meta.box.lesson.php';
 
-		// coupons
+		// Coupons.
 		new LLMS_Meta_Box_Coupon();
 
-		// orders
+		// Orders.
 		new LLMS_Meta_Box_Order_Submit();
 		new LLMS_Meta_Box_Order_Details();
 		new LLMS_Meta_Box_Order_Transactions();
 		new LLMS_Meta_Box_Order_Enrollment();
 		new LLMS_Meta_Box_Order_Notes();
 
-		// vouchers
+		// Vouchers.
 		new LLMS_Meta_Box_Voucher();
 
 		add_action( 'add_meta_boxes', array( $this, 'hide_meta_boxes' ), 10 );
@@ -88,7 +88,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
-		// Error handling
+		// Error handling.
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
 
@@ -146,7 +146,7 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'media_buttons', 'llms_merge_code_button' );
 
 		/**
-		 * @todo  transition to new style metaboxes
+		 * @todo Transition to new style metaboxes.
 		 */
 		add_meta_box( 'lifterlms-voucher-export', __( 'Export CSV', 'lifterlms' ), 'LLMS_Meta_Box_Voucher_Export::output', 'llms_voucher', 'side', 'default' );
 
@@ -161,15 +161,15 @@ class LLMS_Admin_Meta_Boxes {
 	 */
 	public function hide_meta_boxes() {
 
-		// remove some defaults from orders
+		// Remove some defaults from orders.
 		remove_meta_box( 'commentstatusdiv', 'llms_order', 'normal' );
 		remove_meta_box( 'commentsdiv', 'llms_order', 'normal' );
 		remove_meta_box( 'slugdiv', 'llms_order', 'normal' );
 
-		// remove the default submit box in favor of our custom box
+		// Remove the default submit box in favor of our custom box.
 		remove_meta_box( 'submitdiv', 'llms_order', 'side' );
 
-		// remove some defaults from the course
+		// Remove some defaults from the course.
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty', 'course', 'side' );
 

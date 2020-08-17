@@ -5,6 +5,7 @@
  * @since 3.17.2 Unknown.
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+ * @since 4.3.3 Legends will automatically display on top of the chart.
  *
  */( function( $, undefined ) {
 
@@ -104,9 +105,11 @@
 		/**
 		 * Render the chart
 		 *
+		 * @since 3.0.0
+		 * @since 3.17.6 Unknown
+		 * @since 4.3.3 Force the legend to appear on top of the chart.
+		 *
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.17.6
 		 */
 		this.draw_chart = function() {
 
@@ -124,13 +127,10 @@
 				chart   = new google.visualization.ComboChart( el ),
 				data    = self.get_chart_data(),
 				options = {
+					legend: 'top',
 					chartArea: {
 						height: '75%',
 						width: '85%',
-						// bottom: 20,
-						// left: 20,
-						// right: 20,
-						// top: 20,
 					},
 					colors: ['#606C38','#E85D75','#EF8354','#C64191','#731963'],
 					height: 560,
@@ -146,14 +146,6 @@
 						},
 					},
 			};
-				// data = google.visualization.arrayToDataTable( [
-				// ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-				// ['2004/05',  165,      938,         522,             998,           450,      614.6],
-				// ['2005/06',  135,      1120,        599,             1268,          288,      682],
-				// ['2006/07',  157,      1167,        587,             807,           397,      623],
-				// ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-				// ['2008/09',  136,      691,         629,             1026,          366,      569.6]
-				// ] )
 
 			if ( data.length ) {
 

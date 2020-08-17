@@ -414,10 +414,10 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			return;
 		}
 
-		// save all custom fields
+		// Save all custom fields.
 		parent::save();
 
-		// save display order of gateways
+		// Save display order of gateways.
 		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
 			$option = $gateway->get_option_name( 'display_order' );
 			if ( isset( $_POST[ $option ] ) ) {

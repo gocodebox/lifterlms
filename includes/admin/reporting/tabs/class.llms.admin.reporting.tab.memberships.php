@@ -43,7 +43,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 
 		$links = array();
 
-		// single student
+		// Single student.
 		if ( isset( $_GET['membership_id'] ) ) {
 			$membership = llms_get_post( absint( $_GET['membership_id'] ) );
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'overview' ) ] = $membership->get( 'title' );
@@ -67,7 +67,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	 */
 	public function output() {
 
-		// single membership
+		// Single membership.
 		if ( isset( $_GET['membership_id'] ) ) {
 
 			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {

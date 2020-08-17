@@ -67,8 +67,6 @@ class LLMS_Admin_Post_Table_Engagements {
 	 */
 	public function manage_columns( $column, $post_id ) {
 
-		// global $post;
-
 		switch ( $column ) {
 
 			case 'trigger':
@@ -130,7 +128,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				break;
 
-		}// End switch().
+		}
 
 	}
 

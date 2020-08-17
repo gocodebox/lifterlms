@@ -85,7 +85,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 			if ( 'vouchers' === $type || 'redeemed' === $type ) {
 
-				// export CSV
+				// Export CSV.
 
 				$csv       = array();
 				$file_name = '';
@@ -147,12 +147,12 @@ class LLMS_Meta_Box_Voucher_Export {
 						$file_name = 'redeemed_codes.csv';
 
 						break;
-				}// End switch().
+				}
 
 				$send_email = llms_parse_bool( llms_filter_input( INPUT_POST, 'llms_voucher_export_send_email', FILTER_SANITIZE_STRING ) );
 				if ( $send_email ) {
 
-					// send email
+					// Send email.
 					$email_text = trim( llms_filter_input( INPUT_POST, 'llms_voucher_export_email', FILTER_SANITIZE_STRING ) );
 					if ( ! empty( $email_text ) ) {
 
@@ -224,24 +224,24 @@ class LLMS_Meta_Box_Voucher_Export {
 		$subject = 'Your LifterLMS Voucher Export';
 		$message = 'Please find the attached voucher csv export for ' . $title . '.';
 
-		// create temp file
+		// Create temp file.
 		$temp = tempnam( '/tmp', 'vouchers' );
 
-		// write csv
+		// Write CSV.
 		$handle = fopen( $temp, 'w' );
 		fwrite( $handle, $csv );
 
-		// prepare filename
+		// Prepare filename.
 		$temp_data     = stream_get_meta_data( $handle );
 		$temp_filename = $temp_data['uri'];
 
 		$new_filename = substr_replace( $temp_filename, '', 13 ) . '.csv';
 		rename( $temp_filename, $new_filename );
 
-		// send email/s
+		// Send email/s.
 		$mail = wp_mail( $emails, $subject, $message, '', $new_filename );
 
-		// and remove it
+		// And remove it.
 		fclose( $handle );
 		unlink( $new_filename );
 

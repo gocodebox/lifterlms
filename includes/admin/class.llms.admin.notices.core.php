@@ -148,8 +148,8 @@ class LLMS_Admin_Notices_Core {
 
 		if ( $screen && 'admin_page_llms-course-builder' === $screen->id ) {
 
-			remove_all_actions( 'admin_notices' ); // 3rd party notices
-			remove_action( 'admin_print_styles', array( 'LLMS_Admin_Notices', 'output_notices' ) ); // notices output by LifterLMS
+			remove_all_actions( 'admin_notices' ); // 3rd party notices.
+			remove_action( 'admin_print_styles', array( 'LLMS_Admin_Notices', 'output_notices' ) ); // Notices output by LifterLMS.
 
 		}
 

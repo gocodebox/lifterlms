@@ -52,41 +52,41 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 	 */
 	protected function get_output() {
 
-		// get a reference to the current page where the shortcode is displayed
+		// Get a reference to the current page where the shortcode is displayed.
 		global $post;
 		$current_post = $post;
 
 		$course = get_post( $this->get_attribute( 'course_id' ) );
 
-		// we don't have a post object to proceed with
+		// We don't have a post object to proceed with.
 		if ( ! $course ) {
 			return '';
 		}
 
 		if ( 'course' !== $course->post_type ) {
-			// get the parent
+			// Get the parent.
 			$parent = llms_get_post_parent_course( $course );
 
-			// post type doesn't have a parent so we can't display a syllabus
+			// Post type doesn't have a parent so we can't display a syllabus.
 			if ( ! $parent ) {
 				return '';
 			}
 
-			// we have a course
+			// We have a course.
 			$course = $parent->post;
 
 		}
 
 		ob_start();
 
-		// hack the global so our syllabus template works
+		// Hack the global so our syllabus template works.
 		if ( $course->ID != $current_post->ID ) {
 			$post = $course;
 		}
 
 		$this->template_function();
 
-		// restore the global
+		// Restore the global.
 		if ( $course->ID != $current_post->ID ) {
 			$post = $current_post;
 		}

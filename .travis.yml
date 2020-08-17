@@ -23,7 +23,8 @@ env:
     - TESTS_DB_PASS=""
     - TESTS_DB_HOST=localhost
   jobs:
-    - WP_VERSION=latest # 5.4
+    - WP_VERSION=latest # 5.5
+    - WP_VERSION="5.4"
     - WP_VERSION="5.3"
     - WP_VERSION="5.2"
     - WP_VERSION="5.1"

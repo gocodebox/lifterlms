@@ -211,7 +211,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type' => 'sectionend',
 				),
 
-				// start user info fields options
+				// Start user info fields options.
 				array(
 					'id'   => 'user_info_field_options',
 					'type' => 'sectionstart',
@@ -483,7 +483,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
 				),
-			 // end user info field options
 
 			)
 		);

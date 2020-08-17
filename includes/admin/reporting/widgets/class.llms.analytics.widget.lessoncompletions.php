@@ -22,7 +22,7 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type'   => 'count', // type of field
+			'type'   => 'count', // Type of field.
 			'header' => array(
 				'id'    => 'lessoncompletions',
 				'label' => __( '# of Lessons Completed', 'lifterlms' ),
@@ -43,15 +43,15 @@ class LLMS_Analytics_Lessoncompletions_Widget extends LLMS_Analytics_Widget {
 
 		$lessons = array();
 
-		// loop through all products
+		// Loop through all products.
 		foreach ( $products as $product ) {
 
-			// ignore the memberships
+			// Ignore the memberships.
 			if ( 'llms_membership' === get_post_type( $product ) ) {
 				continue;
 			}
 
-			// get the course
+			// Get the course.
 			$course  = llms_get_post( $product );
 			$lessons = array_merge( $course->get_lessons( 'ids' ) );
 
