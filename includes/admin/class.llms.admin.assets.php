@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.3.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -108,8 +108,8 @@ class LLMS_Admin_Assets {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 3.35.1 Don't reference external scripts & styles.
-	 * @since [version] Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
-	 *              Enqueue the main `llms` script.
+	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
+	 * @since [version] Enqueue the main `llms` script.
 	 *
 	 * @return   void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Admin_Assets {
 
 		if ( $this->is_llms_page() ) {
 
-			LLMS_Assets::enqueue_script( 'llms' );
+			llms()->assets->enqueue_script( 'llms' );
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
@@ -294,7 +294,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register and enqueue scripts used on and related-to reporting and analytics
 	 *
-	 * @since [version]
+	 * @since 4.3.3
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void

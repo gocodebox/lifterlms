@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v4.3.3 - 2020-08-17
+-------------------
+
++ Fixed an issue causing legends of reporting charts to be truncated and only readable after a mouse hover.
++ Fixed an issue caused by passing `null` values to `wp_insert_post()`.
++ Fixed a javascript error encountered on LifterLMS settings screens.
+
+
 v4.3.2 - 2020-08-10
 -------------------
 
