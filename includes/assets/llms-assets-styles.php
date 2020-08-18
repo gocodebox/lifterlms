@@ -29,7 +29,7 @@ return array(
 	'lifterlms-styles' => array(
 		'file_name' => 'lifterlms',
 	),
-	'certificates' => array(),
+	'certificates'     => array(),
 
 	// Vendor.
 	'llms-iziModal'    => array(
@@ -38,7 +38,7 @@ return array(
 		'version'   => '1.5.1',
 		'rtl'       => false,
 	),
-	'webui-popover' => array(
+	'webui-popover'    => array(
 		'file_name' => 'jquery.webui-popover',
 		'path'      => 'assets/vendor/webui-popover',
 		'version'   => '1.2.15',

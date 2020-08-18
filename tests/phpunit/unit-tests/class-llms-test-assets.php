@@ -10,16 +10,39 @@
  */
 class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
+	/**
+	 * Setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+
+		parent::setUp();
+		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+	}
+
+	/**
+	 * Teardown the test case.
+	 *
+	 * Dequeue and deregister all assets that may have been registered/enqueued during the test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 
 		parent::tearDown();
 
-		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'scripts' ) ) as $handle ) {
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'scripts' ) ) as $handle ) {
 			wp_dequeue_script( $handle );
 			wp_deregister_script( $handle );
 		}
 
-		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'styles' ) ) as $handle ) {
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'styles' ) ) as $handle ) {
 			wp_dequeue_style( $handle );
 			wp_deregister_style( $handle );
 		}
@@ -27,26 +50,60 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test init() method
+	 * Test define() with script assets.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_init() {
+	public function test_define_scripts() {
 
-		LLMS_Unit_Test_Util::set_private_property( 'LLMS_Assets', 'scripts', array() );
-		LLMS_Unit_Test_Util::set_private_property( 'LLMS_Assets', 'styles', array() );
+		$scripts = array(
+			'llms' => array( 'src' => 'mock' ), // Overwrite an existing script.
+			'mock' => array( 'src' => 'mock' ), // Define a new one.
+		);
 
-		$this->assertEquals( array(), LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'scripts' ) );
-		$this->assertEquals( array(), LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'styles' ) );
+		$res = $this->main->define( 'scripts', $scripts );
 
-		LLMS_Assets::init();
-
-		$this->assertTrue( ! empty( LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'scripts' ) ) );
-		$this->assertTrue( ! empty( LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Assets', 'styles' ) ) );
+		$this->assertEquals( $scripts['llms'], $res['llms'] );
+		$this->assertEquals( $scripts['mock'], $res['mock'] );
 
 	}
+
+	/**
+	 * Test define() with style assets.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_define_styles() {
+
+		$styles = array(
+			'lifterlms' => array( 'src' => 'mock' ), // Overwrite an existing style.
+			'mock' => array( 'src' => 'mock' ),      // Define a new one.
+		);
+
+		$res = $this->main->define( 'styles', $styles );
+
+		$this->assertEquals( $styles['lifterlms'], $res['lifterlms'] );
+		$this->assertEquals( $styles['mock'], $res['mock'] );
+
+	}
+
+	/**
+	 * Test define() with an invalid type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_define_invalid_type() {
+
+		$this->assertFalse( $this->main->define( 'fake', array() ) );
+
+	}
+
 
 	/**
 	 * Test enqueue_script() for a defined asset.
@@ -60,10 +117,10 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 		$this->assertAssetNotRegistered( 'script', 'llms' );
 
 		// Register and enqueue.
-		$this->assertTrue( LLMS_Assets::enqueue_script( 'llms' ) );
+		$this->assertTrue( $this->main->enqueue_script( 'llms' ) );
 
 		// Already registered.
-		$this->assertTrue( LLMS_Assets::enqueue_script( 'llms' ) );
+		$this->assertTrue( $this->main->enqueue_script( 'llms' ) );
 
 	}
 
@@ -76,7 +133,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_enqueue_script_undefined() {
 
-		$this->assertFalse( LLMS_Assets::enqueue_script( 'fake-script' ) );
+		$this->assertFalse( $this->main->enqueue_script( 'fake-script' ) );
 
 	}
 
@@ -92,10 +149,10 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 		$this->assertAssetNotRegistered( 'style', 'lifterlms-styles' );
 
 		// Register and enqueue.
-		$this->assertTrue( LLMS_Assets::enqueue_style( 'lifterlms-styles' ) );
+		$this->assertTrue( $this->main->enqueue_style( 'lifterlms-styles' ) );
 
 		// Already registered.
-		$this->assertTrue( LLMS_Assets::enqueue_style( 'lifterlms-styles' ) );
+		$this->assertTrue( $this->main->enqueue_style( 'lifterlms-styles' ) );
 
 	}
 
@@ -108,7 +165,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_enqueue_style_undefined() {
 
-		$this->assertFalse( LLMS_Assets::enqueue_style( 'fake-style' ) );
+		$this->assertFalse( $this->main->enqueue_style( 'fake-style' ) );
 
 	}
 
@@ -121,20 +178,28 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_get() {
 
-		$asset = LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get', array( 'script', 'llms' ) );
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'script', 'llms' ) );
 
 		// Add the handle to the data array.
 		$this->assertEquals( 'llms', $asset['handle'] );
 		$this->assertArrayHasKey( 'src', $asset );
+		$this->assertEquals( 'llms-core', $asset['package_id'] );
 
 	}
 
 	public function test_get_undefined() {
 
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get', array( 'style', 'undefined-style' ) ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'style', 'undefined-style' ) ) );
 
 	}
 
+	/**
+	 * Test that adding an asset with a custom src will use the custom src instead of a generated one
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_get_custom_src() {
 
 		add_filter( 'llms_get_script_asset_before_prep', function( $asset, $handle ) {
@@ -150,12 +215,19 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 		}, 10, 2 );
 
-		$asset = LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get', array( 'script', 'mock-script-custom-src' ) );
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'script', 'mock-script-custom-src' ) );
 
 		$this->assertEquals( 'custom-src', $asset['src'] );
 
 	}
 
+	/**
+	 * Test that adding an asset with an empty suffix will not add the default suffix.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_get_no_suffix() {
 
 		add_filter( 'llms_get_script_asset_before_prep', function( $asset, $handle ) {
@@ -171,7 +243,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 		}, 10, 2 );
 
-		$asset = LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get', array( 'script', 'mock-style-no-suffix' ) );
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'script', 'mock-style-no-suffix' ) );
 
 		$this->assertEquals( '', $asset['suffix'] );
 
@@ -197,7 +269,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'in_footer'    => true,
 			'path'         => 'assets/js',
 		);
-		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get_defaults', array( 'script' ) ) );
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'script' ) ) );
 
 	}
 
@@ -220,7 +292,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'path'         => 'assets/css',
 			'rtl'          => true,
 		);
-		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get_defaults', array( 'style' ) ) );
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'style' ) ) );
 
 	}
 
@@ -233,15 +305,12 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_get_definitions() {
 
-		LLMS_Assets::init();
-
 		// Definitions returned.
-		$this->assertFalse( empty( LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get_definitions', array( 'script' ) ) ) );
-		$this->assertFalse( empty( LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get_definitions', array( 'style' ) ) ) );
+		$this->assertFalse( empty( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions', array( 'script' ) ) ) );
+		$this->assertFalse( empty( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions', array( 'style' ) ) ) );
 
 		// Not a real asset type.
-		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( 'LLMS_Assets', 'get_definitions', array( 'fake' ) ) );
-
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions', array( 'fake' ) ) );
 
 	}
 
@@ -261,7 +330,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			return $defs;
 		} );
 
-		$this->assertTrue( LLMS_Assets::register_script( 'mock-script' ) );
+		$this->assertTrue( $this->main->register_script( 'mock-script' ) );
 		$this->assertAssetIsRegistered( 'script', 'mock-script' );
 
 	}
@@ -276,7 +345,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_register_script_defined() {
 
-		$this->assertTrue( LLMS_Assets::register_script( 'llms' ) );
+		$this->assertTrue( $this->main->register_script( 'llms' ) );
 		$this->assertAssetIsRegistered( 'script', 'llms' );
 
 	}
@@ -290,7 +359,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_register_script_undefined() {
 
-		$this->assertFalse( LLMS_Assets::register_script( 'fake-script' ) );
+		$this->assertFalse( $this->main->register_script( 'fake-script' ) );
 		$this->assertAssetNotRegistered( 'script', 'fake-script' );
 
 	}
@@ -312,7 +381,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			return $defs;
 		} );
 
-		$this->assertTrue( LLMS_Assets::register_style( 'mock-style' ) );
+		$this->assertTrue( $this->main->register_style( 'mock-style' ) );
 		$this->assertAssetIsRegistered( 'style', 'mock-style' );
 
 		// No RTL is added.
@@ -331,7 +400,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_register_style_defined() {
 
-		$this->assertTrue( LLMS_Assets::register_style( 'lifterlms-styles' ) );
+		$this->assertTrue( $this->main->register_style( 'lifterlms-styles' ) );
 		$this->assertAssetIsRegistered( 'style', 'lifterlms-styles' );
 
 		// Ensure RTL is added.
@@ -353,7 +422,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 */
 	public function test_register_style_undefined() {
 
-		$this->assertFalse( LLMS_Assets::register_style( 'fake-style' ) );
+		$this->assertFalse( $this->main->register_style( 'fake-style' ) );
 		$this->assertAssetNotRegistered( 'style', 'fake-style' );
 
 	}

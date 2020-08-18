@@ -26,36 +26,36 @@ defined( 'ABSPATH' ) || exit;
 return array(
 
 	// Core.
-	'llms' => array(
+	'llms'                    => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-form-checkout' => array(
+	'llms-form-checkout'      => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-notifications' => array(
+	'llms-notifications'      => array(
 		'dependencies' => array( 'jquery' ),
 	),
-	'llms-quiz' => array(
-		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' )
+	'llms-quiz'               => array(
+		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
 	),
 
 	// Vendor.
-	'llms-iziModal'    => array(
+	'llms-iziModal'           => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
 	),
 	'llms-jquery-matchheight' => array(
-		'file_name' => 'jquery.matchHeight',
-		'path'      => 'assets/js/vendor/',
-		'suffix'    => '',
-		'version'   => '0.7.0',
+		'file_name'    => 'jquery.matchHeight',
+		'path'         => 'assets/js/vendor/',
+		'suffix'       => '',
+		'version'      => '0.7.0',
 		'dependencies' => array( 'jquery' ),
 	),
-	'webui-popover' => array(
-		'file_name' => 'jquery.webui-popover',
-		'path'      => 'assets/vendor/webui-popover',
-		'version'   => '1.2.15',
+	'webui-popover'           => array(
+		'file_name'    => 'jquery.webui-popover',
+		'path'         => 'assets/vendor/webui-popover',
+		'version'      => '1.2.15',
 		'dependencies' => array( 'jquery' ),
 	),
 

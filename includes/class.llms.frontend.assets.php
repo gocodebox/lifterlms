@@ -123,7 +123,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
-	 * @since [version] Use `LLMS_Assets` methods for enqueueing and registration.
+	 * @since [version] Enqueue & register scripts using `LLMS_Assets` methods.
 	 *
 	 * @return void
 	 */
@@ -131,15 +131,15 @@ class LLMS_Frontend_Assets {
 
 		global $post_type;
 
-		LLMS_Assets::register_style( 'llms-iziModal' );
+		llms()->assets->register_style( 'llms-iziModal' );
 
-		LLMS_Assets::enqueue_style( 'webui-popover' );
-		LLMS_Assets::enqueue_style( 'lifterlms-styles' );
+		llms()->assets->enqueue_style( 'webui-popover' );
+		llms()->assets->enqueue_style( 'lifterlms-styles' );
 
 		if ( in_array( $post_type, array( 'llms_my_certificate', 'llms_certificate' ), true ) ) {
-			LLMS_Assets::enqueue_style( 'certificates' );
+			llms()->assets->enqueue_style( 'certificates' );
 		} elseif ( is_llms_account_page() ) {
-			LLMS_Assets::enqueue_style( 'llms-iziModal' );
+			llms()->assets->enqueue_style( 'llms-iziModal' );
 		} elseif ( is_singular( 'llms_quiz' ) ) {
 			wp_enqueue_style( 'wp-mediaelement' );
 		}
@@ -166,25 +166,25 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
 
-		LLMS_Assets::enqueue_script( 'webui-popover' );
+		llms()->assets->enqueue_script( 'webui-popover' );
 
-		LLMS_Assets::register_script( 'llms-jquery-matchheight' );
+		llms()->assets->register_script( 'llms-jquery-matchheight' );
 		if ( is_llms_account_page() || is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
-			LLMS_Assets::enqueue_script( 'llms-jquery-matchheight' );
+			llms()->assets->enqueue_script( 'llms-jquery-matchheight' );
 		}
 
-		LLMS_Assets::enqueue_script( 'llms' );
+		llms()->assets->enqueue_script( 'llms' );
 
-		LLMS_Assets::register_script( 'llms-notifications' );
+		llms()->assets->register_script( 'llms-notifications' );
 		if ( get_current_user_id() ) {
-			LLMS_Assets::enqueue_script( 'llms-notifications' );
+			llms()->assets->enqueue_script( 'llms-notifications' );
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.
 		// wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
 		// I think we only need this on account and checkout pages.
-		LLMS_Assets::enqueue_script( 'llms-form-checkout' );
+		llms()->assets->enqueue_script( 'llms-form-checkout' );
 
 		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
 			wp_enqueue_script( 'password-strength-meter' );
@@ -192,12 +192,12 @@ class LLMS_Frontend_Assets {
 		}
 
 		if ( is_singular( 'llms_quiz' ) ) {
-			LLMS_Assets::enqueue_script( 'llms-quiz' );
+			llms()->assets->enqueue_script( 'llms-quiz' );
 		}
 
-		LLMS_Assets::register_script( 'llms-iziModal' );
+		llms()->assets->register_script( 'llms-iziModal' );
 		if ( is_llms_account_page() ) {
-			LLMS_Assets::enqueue_script( 'llms-iziModal' );
+			llms()->assets->enqueue_script( 'llms-iziModal' );
 		}
 
 		$ssl = is_ssl() ? 'https' : 'http';

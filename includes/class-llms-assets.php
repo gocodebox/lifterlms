@@ -28,34 +28,95 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Assets {
 
 	/**
-	 * List of defined scripts.
+	 * An ID used to identify the originating package (plugin or theme) of the asset handler instance.
 	 *
-	 * The full list of script definitions can be found at includes/assets/llms-assets-scripts.php
+	 * @var string
+	 */
+	protected $package_id = '';
+
+	/**
+	 * List of default asset definitions
 	 *
 	 * @var array[]
 	 */
-	protected static $scripts = array();
+	protected $defaults = array(
+		// Base defaults shared by all asset types.
+		'base'   => array(
+			'base_url'     => LLMS_PLUGIN_URL,
+			'suffix'       => LLMS_ASSETS_SUFFIX,
+			'dependencies' => array(),
+			'version'      => LLMS_VERSION,
+		),
+		// Script specific defaults.
+		'script' => array(
+			'path'      => 'assets/js',
+			'extension' => '.js',
+			'in_footer' => true,
+		),
+		// Stylesheet specific defaults.
+		'style'  => array(
+			'path'      => 'assets/css',
+			'extension' => '.css',
+			'media'     => 'all',
+			'rtl'       => true,
+		),
+	);
+
+	/**
+	 * List of defined scripts.
+	 *
+	 * The full list of core script definitions can be found at includes/assets/llms-assets-scripts.php
+	 *
+	 * @var array[]
+	 */
+	protected $scripts = array();
 
 	/**
 	 * List of defined stylesheets.
 	 *
-	 * The full list of stylesheet definitions can be found at includes/assets/llms-assets-styles.php
+	 * The full list of core stylesheet definitions can be found at includes/assets/llms-assets-styles.php
 	 *
 	 * @var array[]
 	 */
-	protected static $styles = array();
+	protected $styles = array();
 
 	/**
-	 * Static constructor.
+	 * Constructor
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @param string  $package_id An ID used to identify the originating package (plugin or theme) of the asset handler instance.
+	 * @param array[] $defaults   Array of asset definitions values. Accepts a partial list of values that is merged with the default defaults.
 	 */
-	public static function init() {
+	public function __construct( $package_id, $defaults = array() ) {
 
-		self::$scripts = require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-scripts.php';
-		self::$styles  = require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php';
+		$this->package_id = $package_id;
+		$this->defaults   = array_merge_recursive( $defaults, $this->defaults );
+
+	}
+
+	/**
+	 * Define a list of assets by type so they can be enqueued or registered later.
+	 *
+	 * If an asset is already defined, redefining it will overwrite the previous definition.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $type   Asset type. Accepts 'scripts' or 'styles'.
+	 * @param array[] $assets List of assets to define. The array key is the asset's handle. Each array value is an array of asset definitions.
+	 * @return array[] Returns the updated list of defined assets.
+	 */
+	public function define( $type, $assets ) {
+
+		if ( ! in_array( $type, array( 'scripts', 'styles' ), true ) ) {
+			return false;
+		}
+
+		foreach ( $assets as $handle => $definition ) {
+			$this->{$type}[ $handle ] = $definition;
+		}
+
+		return $this->$type;
 
 	}
 
@@ -67,6 +128,7 @@ class LLMS_Assets {
 	 * The script *must* be defined in one of the following places:
 	 *
 	 *   + The script definition list found at includes/assets/llms-assets-scripts.php
+	 *   + Added to the definitions list via the `LLMS_Assets::define()` method.
 	 *   + Added to the definition list via the `llms_get_script_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_script_asset` filter.
 	 *
@@ -78,10 +140,10 @@ class LLMS_Assets {
 	 * @param string $handle The script's handle.
 	 * @return boolean
 	 */
-	public static function enqueue_script( $handle ) {
+	public function enqueue_script( $handle ) {
 
 		// Script was not registered and registration failed.
-		if ( ! wp_script_is( $handle, 'registered' ) && ! self::register_script( $handle ) ) {
+		if ( ! wp_script_is( $handle, 'registered' ) && ! $this->register_script( $handle ) ) {
 			return false;
 		}
 
@@ -99,6 +161,7 @@ class LLMS_Assets {
 	 * The stylesheet *must* be defined in one of the following places:
 	 *
 	 *   + The stylesheet definition list found at includes/assets/llms-assets-styles.php
+	 *   + Added to the definitions list via the `LLMS_Assets::define()` method.
 	 *   + Added to the definition list via the `llms_get_style_asset_definitions` filter
 	 *   + Added "just in time" via the `llms_get_style_asset` filter.
 	 *
@@ -110,10 +173,10 @@ class LLMS_Assets {
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
 	 */
-	public static function enqueue_style( $handle ) {
+	public function enqueue_style( $handle ) {
 
 		// Style was not registered and registration failed.
-		if ( ! wp_style_is( $handle, 'registered' ) && ! self::register_style( $handle ) ) {
+		if ( ! wp_style_is( $handle, 'registered' ) && ! $this->register_style( $handle ) ) {
 			return false;
 		}
 
@@ -141,16 +204,17 @@ class LLMS_Assets {
 	 *     @type string   $path         The relative path to the asset within the plugin directory. Defaults to `assets/js` for scripts and `assets/css` for styles.
 	 *     @type string   $extension    The filename extension for the asset. Defaults to `.js` for scripts and `.css` for styles.
 	 *     @type string   $suffix       The file suffix for the asset, for example `.min` for minified files. Defaults to `LLMS_ASSETS_SUFFIX`.
-	 *     @type string[] $dependencies An array of asset handles the asset depends on. These assets do not necessarily need to be assets defined by LifterLMS. For example WP Core scripts, such as `jquery`, can be used.
+	 *     @type string[] $dependencies An array of asset handles the asset depends on. These assets do not necessarily need to be assets defined by LifterLMS, for example WP Core scripts, such as `jquery`, can be used.
 	 *     @type string   $version      The asset version. Defaults to `LLMS_VERSION`.
+	 *     @type string   $package_id   An ID used to identify the originating plugin or theme that defined the asset.
 	 *     @type boolean  $in_footer    (For `script` assets only) Whether or not the script should be output in the footer. Defaults to `true`.
 	 *     @type boolean  $rtl          (For `style` assets only) Whether or not to automatically add RTL style data for the stylesheet. Defaults to `true`.
 	 *     @type boolean  $media        (For `style` assets only) The stylesheet's media type. Defaults to `all`.
 	 * }
 	 */
-	protected static function get( $type, $handle ) {
+	protected function get( $type, $handle ) {
 
-		$list  = self::get_definitions( $type );
+		$list  = $this->get_definitions( $type );
 		$asset = isset( $list[ $handle ] ) ? $list[ $handle ] : false;
 
 		/**
@@ -169,11 +233,12 @@ class LLMS_Assets {
 
 		if ( $asset && is_array( $asset ) ) {
 
-			$asset = wp_parse_args( $asset, self::get_defaults( $type ) );
+			$asset = wp_parse_args( $asset, $this->get_defaults( $type ) );
 
-			$asset['handle']    = $handle;
-			$asset['file_name'] = ! empty( $asset['file_name'] ) ? $asset['file_name'] : $handle;
-			$asset['src']       = ! empty( $asset['src'] ) ? $asset['src'] : implode(
+			$asset['handle']     = $handle;
+			$asset['package_id'] = $this->package_id;
+			$asset['file_name']  = ! empty( $asset['file_name'] ) ? $asset['file_name'] : $handle;
+			$asset['src']        = ! empty( $asset['src'] ) ? $asset['src'] : implode(
 				'',
 				array(
 					trailingslashit( $asset['base_url'] ),
@@ -208,27 +273,21 @@ class LLMS_Assets {
 	 * @param string $type The asset type. Accepts either "script" or "style".
 	 * @return array
 	 */
-	protected static function get_defaults( $type ) {
+	protected function get_defaults( $type ) {
 
-		$defaults = array(
-			'base_url'     => LLMS_PLUGIN_URL,
-			'suffix'       => LLMS_ASSETS_SUFFIX,
-			'dependencies' => array(),
-			'version'      => LLMS_VERSION,
-		);
+		$type_defaults = isset( $this->defaults[ $type ] ) ? $this->defaults[ $type ] : array();
+		$defaults      = array_merge( $this->defaults['base'], $type_defaults );
 
-		if ( 'script' === $type ) {
-			$defaults['path']      = 'assets/js';
-			$defaults['extension'] = '.js';
-			$defaults['in_footer'] = true;
-		} elseif ( 'style' === $type ) {
-			$defaults['path']      = 'assets/css';
-			$defaults['extension'] = '.css';
-			$defaults['media']     = 'all';
-			$defaults['rtl']       = true;
-		}
-
-		return $defaults;
+		/**
+		 * Filter the default values used to register or enqueue an asset
+		 *
+		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
+		 *
+		 * @since [version]
+		 *
+		 * @param array  $defaults Default definition values.
+		 */
+		return apply_filters( "llms_get_{$type}_asset_defaults", $defaults );
 
 	}
 
@@ -240,15 +299,15 @@ class LLMS_Assets {
 	 * @param string $type The asset type. Accepts either "script" or "style".
 	 * @return array[]
 	 */
-	protected static function get_definitions( $type ) {
+	protected function get_definitions( $type ) {
 
 		switch ( $type ) {
 			case 'script':
-				$list = self::$scripts;
+				$list = $this->scripts;
 				break;
 
 			case 'style':
-				$list = self::$styles;
+				$list = $this->styles;
 				break;
 
 			default:
@@ -285,9 +344,9 @@ class LLMS_Assets {
 	 * @param string $handle The script's handle.
 	 * @return boolean
 	 */
-	public static function register_script( $handle ) {
+	public function register_script( $handle ) {
 
-		$script = self::get( 'script', $handle );
+		$script = $this->get( 'script', $handle );
 		if ( $script ) {
 			return wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
 		}
@@ -319,9 +378,9 @@ class LLMS_Assets {
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
 	 */
-	public static function register_style( $handle ) {
+	public function register_style( $handle ) {
 
-		$style = self::get( 'style', $handle );
+		$style = $this->get( 'style', $handle );
 		if ( $style ) {
 
 			$reg = wp_register_style( $handle, $style['src'], $style['dependencies'], $style['version'], $style['media'] );
@@ -340,5 +399,3 @@ class LLMS_Assets {
 	}
 
 }
-
-return LLMS_Assets::init();
