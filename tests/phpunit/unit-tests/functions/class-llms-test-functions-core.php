@@ -11,6 +11,7 @@
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
+ * @since [version] Add tests for `llms_get_post_related_lesson_id()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -444,8 +445,30 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			)
 		);
 		$this->assertNull( llms_get_post_parent_course( $certificate_post ) );
+
 	}
 
+	/**
+	 * Test llms_get_post_related_lesson_id()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_related_lesson_id() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+
+		$lesson    = $course->get_lessons()[0];
+		$lesson_id = $lesson->get( 'id' );
+		$quiz_id   = $lesson->get( 'quiz' );
+
+		$this->assertEquals( $lesson_id, llms_get_post_related_lesson_id( $lesson_id ) );
+		$this->assertEquals( $lesson_id, llms_get_post_related_lesson_id( $quiz_id ) );
+		$this->assertFalse( llms_get_post_related_lesson_id( $course->get( 'id' ) ) );
+		$this->assertFalse( llms_get_post_related_lesson_id( $this->factory->post->create() ) );
+
+	}
 
 	/**
 	 * Test llms_get_transaction_statuses()
