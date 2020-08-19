@@ -115,47 +115,24 @@ if ( ! function_exists( 'llms_content' ) ) {
 /**
  * Provide deprecation warnings
  *
- * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
+ * This function uses WP core's `_deprecated_function()`, logging to the LifterLMS log file
+ * located at `wp-content/updloads/llms-logs/llms-{$hash}.log` instead of `wp-content/debug.log`.
  *
- * @param   string $function    name of the deprecated class or function
- * @param   string $version     version deprecation occurred
- * @param   string $replacement function to use in it's place (optional)
- * @return  void
- * @since   2.6.0
- * @version 3.6.0
+ * @since 2.6.0
+ * @since 3.6.0 Unknown.
+ * @since [version] Uses WP `_deprecated_function()` instead of duplicating it's logic.
+ *
+ * @param string $function    Name of the deprecated function.
+ * @param string $version     LifterLMS version that deprecated the function.
+ * @param string $replacement Replacement function.
+ * @return void
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-	// only warn if debug is enabled
-	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
-		return;
-	}
-
-	if ( function_exists( '__' ) ) {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
-		} else {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
-		}
-	} else {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
-		} else {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
-		}
-	}
-
-	// warn on screen
-	if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-		echo '<br>' . $string . '<br>';
-	}
-
-	// log to the error logger
-	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-		llms_log( $string );
-	}
+	$init_log_path = ini_get( 'error_log' );
+	ini_set( 'error_log', llms_get_log_path( 'llms' ) );
+	_deprecated_function( $function, $version, $replacement );
+	ini_set( 'error_log', $init_log_path );
 
 }
 
