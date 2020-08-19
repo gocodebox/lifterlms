@@ -74,6 +74,54 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * [test_llms_deprecated_function description]
+	 *
+	 * @since [version]
+	 *
+	 * @expectedDeprecated DEPRECATED
+	 *
+	 * @return [type] [description]
+	 */
+	public function test_llms_deprecated_function() {
+
+		// Hold the initial log path so we can test that it's properly restored.
+		$init_log_path = ini_get( 'error_log' );
+
+		// Add an action where we'll test that all our deprecation data is properly passed.
+		add_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ), 10, 3 );
+
+		llms_deprecated_function( 'DEPRECATED', '999.999.999', 'REPLACEMENT' );
+
+		remove_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ) );
+
+		// The initial log handler should be restored.
+		$this->assertEquals( ini_get( 'error_log' ), $init_log_path );
+
+	}
+
+	/**
+	 * Callback method used to test `llms_deprecated_function()`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $function    Deprecated function name.
+	 * @param string $replacement Deprecated function replacement.
+	 * @param string $version     Deprecated version number.
+	 * @return void
+	 */
+	public function deprecated_function_run_assertions( $function, $replacement, $version ) {
+
+		// Our deprecation data should be passed to the core.
+		$this->assertEquals( 'DEPRECATED', $function );
+		$this->assertEquals( 'REPLACEMENT', $replacement );
+		$this->assertEquals( '999.999.999', $version );
+
+		// The log file should be temporarily set to the llms log file.
+		$this->assertEquals( llms_get_log_path( 'llms' ), ini_get( 'error_log' ) );
+
+	}
+
+	/**
 	 * Test llms_get_completable_post_types()
 	 *
 	 * @since 4.2.0
