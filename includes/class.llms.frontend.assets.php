@@ -17,33 +17,20 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
  * @since 4.0.0 Remove JS dependencies "collapse" and "transition".
+ * @since [version] Method `enqueue_inline_script()` is deprecated in favor of `LLMS_Assets::enqueue_inline()`.
+ *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
+ *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
+ *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
  */
 class LLMS_Frontend_Assets {
 
 	/**
-	 * Inline script ids that have been enqueued
-	 *
-	 * @var  array
-	 */
-	private static $enqueued_inline_scripts = array();
-
-	/**
-	 * Array of inline scripts to be output in the header / footer respectively
-	 *
-	 * @var  array
-	 */
-	private static $inline_scripts = array(
-		'header' => array(),
-		'footer' => array(),
-	);
-
-	/**
 	 * Initializer
-	 * Replaces non-static __construct() from 3.4.0 & lower
+	 *
+	 * @since 3.4.1
+	 * @since 3.17.5 Unknown.
 	 *
 	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.17.5
 	 */
 	public static function init() {
 
@@ -57,59 +44,29 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue an inline script
 	 *
-	 * @param    string $id        unique id for the script, used to prevent duplicates
-	 * @param    string $script    JS to enqueue, do not add <script> tags!
-	 * @param    string $where     where to enqueue, in the header or footer
-	 * @param    float  $priority  enqueue priority
-	 * @return   boolean
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @version 3.4.1
+	 * @deprecated [version]
+	 *
+	 * @param string $id       Unique id for the script, used to prevent duplicates.
+	 * @param string $script   JS to enqueue, do not add <script> tags!.
+	 * @param string $location Where to enqueue, accepts "header" or "footer".
+	 * @param float  $priority Enqueue priority.
+	 * @return boolean
 	 */
-	public static function enqueue_inline_script( $id, $script, $where = 'footer', $priority = 10 ) {
-
-		// dupcheck
-		if ( self::is_inline_script_enqueued( $id ) ) {
-			return false;
-		}
-
-		// retrieve the current array of scripts
-		$scripts = self::get_inline_scripts( $where );
-
-		$priority = (string) $priority;
-
-		// if something already exist at the priority, increment until we can save it
-		while ( isset( $scripts[ $priority ] ) ) {
-
-			$priority = (float) $priority;
-			$priority = $priority + 0.01;
-			$priority = (string) $priority;
-
-		}
-
-		// add the script to the array
-		$scripts[ $priority ] = $script;
-
-		// add it to the array of enqueued scripts
-		self::$enqueued_inline_scripts[] = $id;
-
-		ksort( $scripts );
-
-		// save updated array
-		self::$inline_scripts[ $where ] = $scripts;
-
-		return true;
-
+	public static function enqueue_inline_script( $id, $script, $location = 'footer', $priority = 10 ) {
+		llms_deprecated_function( 'LLMS_Frontend_Assets::enqueue_inline_script()', '[version]', 'LLMS_Assets::enqueue_inline()' );
+		return llms()->assets->enqueue_inline( $id, $script, $location, $priority ) ? true : false;
 	}
 
 	/**
 	 * Output the inline PW Strength meter script
 	 *
-	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @since 3.4.1
+	 *
+	 * @return void
 	 */
 	public static function enqueue_inline_pw_script() {
-		self::enqueue_inline_script(
+		llms()->assets->enqueue_inline(
 			'llms-pw-strength',
 			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {}; window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; }',
 			'footer',
@@ -156,6 +113,7 @@ class LLMS_Frontend_Assets {
 	 * @since 4.0.0 Remove dependencies "collapse" and "transition".
 	 * @since [version] Enqueue & register scripts using `LLMS_Assets` methods.
 	 *              Add Add `window.llms.ajax_nonce` data to replace `wp_ajax_data.nonce`.
+	 *              Moved inline scripts to `enqueue_inline_scripts()`.
 	 *
 	 * @return void
 	 */
@@ -200,107 +158,74 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-iziModal' );
 		}
 
-		$ssl = is_ssl() ? 'https' : 'http';
-		self::enqueue_inline_script(
-			'llms-ajaxurl',
-			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', $ssl ) . '";'
-		);
-		self::enqueue_inline_script(
-			'llms-ajax-nonce',
-			'window.llms = window.llms || {};window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";'
-		);
-		self::enqueue_inline_script(
-			'llms-tracking-settings',
-			"window.llms.tracking = '" . wp_json_encode( LLMS()->events()->get_client_settings() ) . "';"
-		);
-		self::enqueue_inline_script(
-			'llms-LLMS-obj',
-			'window.LLMS = window.LLMS || {};'
-		);
-		self::enqueue_inline_script(
-			'llms-l10n',
-			'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';'
-		);
+		self::enqueue_inline_scripts();
 
 	}
 
 	/**
-	 * Retrieve inline scripts
+	 * Enqueue inline scripts.
 	 *
-	 * @param    string $where  header or footer, if none provided both will be returned
-	 * @return   array
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @since [version]
+	 *
+	 * @return [version]
 	 */
-	private static function get_inline_scripts( $where = null ) {
+	protected static function enqueue_inline_scripts() {
 
-		$scripts = self::$inline_scripts;
+		// Ensure the main llms object exists.
+		llms()->assets->enqueue_inline( 'llms-obj', 'window.llms = window.llms || {};', 'footer', 5 );
 
-		if ( isset( $scripts[ $where ] ) ) {
-			$scripts = $scripts[ $where ];
+		// Define inline scripts.
+		$scripts = array(
+			'llms-ajaxurl'           => 'window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ) . '";',
+			'llms-ajax-nonce'        => 'window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";',
+			'llms-tracking-settings' => "window.llms.tracking = '" . wp_json_encode( LLMS()->events()->get_client_settings() ) . "';",
+			'llms-LLMS-obj'          => 'window.LLMS = window.LLMS || {};',
+			'llms-l10n'              => 'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';',
+		);
+
+		// Enqueue them.
+		foreach ( $scripts as $handle => $script ) {
+			llms()->assets->enqueue_inline( $handle, $script, 'footer' );
 		}
-
-		return apply_filters( 'llms_frontend_assets_inline_scripts', $scripts );
 
 	}
 
 	/**
 	 * Determine if an inline script has already been enqueued
 	 *
-	 * @param    string $id  id of the inline script
-	 * @return   boolean
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @since 3.4.1
+	 * @deprecated [version]
+	 *
+	 * @param string $handle Handle of the inline script.
+	 * @return boolean
 	 */
-	public static function is_inline_script_enqueued( $id ) {
-		return in_array( $id, self::$enqueued_inline_scripts );
+	public static function is_inline_script_enqueued( $handle ) {
+		llms_deprecated_function( 'LLMS_Frontend_Assets::is_inline_enqueued()', '[version]', 'LLMS_Frontend_Assets::is_inline_enqueued()' );
+		return llms()->assets->is_inline_enqueued( $handle );
 	}
 
 	/**
-	 * Output inline scripts
+	 * Output inline scripts in the footer
 	 *
-	 * @param    string $where  which set of scripts to output [header|footer]
-	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.4.1
-	 */
-	private static function output_inline_scripts( $where ) {
-
-		$scripts = self::get_inline_scripts( $where );
-
-		// bail if no scripts
-		if ( ! $scripts ) {
-			return;
-		}
-
-		echo '<script id="llms-inline-' . $where . 'scripts" type="text/javascript">';
-		foreach ( $scripts as $script ) {
-			echo $script;
-		}
-		echo '</script>';
-
-	}
-
-	/**
-	 * Output inline scripts to the footer
+	 * @since 3.4.1
+	 * @since [version] Use `LLMS_Assets::output_inline()` to output scripts.
 	 *
-	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @return void
 	 */
 	public static function output_footer_scripts() {
-		self::output_inline_scripts( 'footer' );
+		llms()->assets->output_inline( 'footer' );
 	}
 
 	/**
-	 * Output inline scripts to the header
+	 * Output inline scripts in the header
 	 *
-	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @since 3.4.1
+	 * @since [version] Use `LLMS_Assets::output_inline()` to output scripts.
+	 *
+	 * @return void
 	 */
 	public static function output_header_scripts() {
-		self::output_inline_scripts( 'header' );
+		llms()->assets->output_inline( 'header' );
 	}
 
 }

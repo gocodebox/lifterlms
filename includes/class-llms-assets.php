@@ -62,6 +62,8 @@ class LLMS_Assets {
 		),
 	);
 
+	protected $inline = array();
+
 	/**
 	 * List of defined scripts.
 	 *
@@ -117,6 +119,29 @@ class LLMS_Assets {
 		}
 
 		return $this->$type;
+
+	}
+
+	/**
+	 * Enqueue an inline script or style
+	 *
+	 * @since [version]
+	 *
+	 * @see [Reference]
+	 * @link [URL]
+	 *
+	 * @param string    $handle   Inline asset ID.
+	 * @param string    $asset    The inline script or CSS rule. This should *not* be wrapped in <script> or <style> tags.
+	 * @param string    $location Output location of the inline asset. Accepts "style" (for stylesheets in the headr), "header" (for
+	 *                            scripts in the header), or "footer" (for scripts in the footer).
+	 * @param int|float $priority Output priority of the inline asset.
+	 * @return float Returns the priority of the enqueued script
+	 */
+	public function enqueue_inline( $handle, $asset, $location, $priority = 10 ) {
+
+		$priority = $this->get_inline_priority( $priority, $this->get_definitions_inline( $location ) );
+		$this->inline[ $handle ] = compact( 'handle', 'asset', 'location', 'priority' );
+		return $priority;
 
 	}
 
@@ -184,6 +209,18 @@ class LLMS_Assets {
 
 		return wp_style_is( $handle, 'enqueued' );
 
+	}
+
+	/**
+	 * Determines if an inline asset is enqueued
+	 *
+	 * @since [version]
+	 *
+	 * @param string $handle Inline asset handle.
+	 * @return boolean
+	 */
+	public function is_inline_enqueued( $handle ) {
+		return in_array( $handle, array_keys( $this->inline ), true );
 	}
 
 	/**
@@ -325,6 +362,112 @@ class LLMS_Assets {
 		 * @param array[] $list The definition list.
 		 */
 		return apply_filters( "llms_get_{$type}_asset_definitions", $list );
+
+	}
+
+
+	/**
+	 * Retrieve a list of inline asset definitions by location.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location Location of scripts to output. Accepts "style", "header", or "footer".
+	 *                         Inline header styles are output using "style".
+	 *                         Inline scripts are output using either "header" or "footer", output in their respective locations.
+	 * @return array[]
+	 */
+	protected function get_definitions_inline( $location ) {
+
+		$assets = array();
+
+		foreach( $this->inline as $handle => $definition ) {
+
+			if ( $location === $definition['location'] ) {
+				$assets[ $handle ] = $definition;
+			}
+
+		}
+
+		// Sort by priority.
+		usort( $assets, function ( $a, $b ) {
+			if ( $a['priority'] === $b['priority'] ) {
+				return 0;
+			}
+			return $a['priority'] < $b['priority'] ? -1 : 1;
+		} );
+
+		return $assets;
+
+	}
+
+	/**
+	 * Auto-increment inline asset priority to prevent duplicates.
+	 *
+	 * This ensures that
+	 *
+	 * @since [version]
+	 *
+	 * @see [Reference]
+	 * @link [URL]
+	 *
+	 * @param [type] $priority [description]
+	 * @param array $inline_assets [description]
+	 * @return [type] [description]
+	 */
+	protected function get_inline_priority( $priority, $inline_assets = array() ) {
+
+		$priority = floatval( $priority );
+
+		if ( $inline_assets ) {
+
+			$priorities = wp_list_pluck( $inline_assets, 'priority' );
+			while ( in_array( $priority, $priorities, true ) ) {
+				$priority += 0.01;
+			}
+
+		}
+
+		return $priority;
+
+	}
+
+	/**
+	 * Output inline scripts
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location Location of scripts to output. Accepts "style", "header", or "footer".
+	 *                         Inline header styles are output using "style".
+	 *                         Inline scripts are output using either "header" or "footer", output in their respective locations.
+	 * @return void
+	 */
+	public function output_inline( $location ) {
+
+		$defs = self::get_definitions_inline( $location );
+
+		if ( $defs ) {
+
+			$before = '';
+			$after  = '';
+
+			// Output inline asset handles and add line breaks when debugging.
+			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+				$before  = 'style' === $location ? '/* %s. */' : '// %s.';
+				$before .= "\n";
+				$after   = "\n";
+			}
+
+			$assets = array();
+			foreach ( $defs as $def ) {
+				$assets[] = sprintf( $before, $def['handle'] ) . $def['asset'] . $after;
+			}
+
+			$open  = 'style' === $location ? '<style id="llms-inline-styles" type="text/css">' : sprintf( '<script id="llms-inline-%s-scripts" type="text/javascript">', $location );
+			$close = 'style' === $location ? '</style>' : '</script>';
+
+			echo $open . implode( '', $assets ) . $close;
+
+		}
 
 	}
 
