@@ -30,7 +30,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.4.1
 	 * @since 3.17.5 Unknown.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public static function init() {
 
@@ -139,7 +139,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.
-		// wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
 		// I think we only need this on account and checkout pages.
 		llms()->assets->enqueue_script( 'llms-form-checkout' );
