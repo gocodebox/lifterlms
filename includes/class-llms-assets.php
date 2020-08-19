@@ -139,7 +139,7 @@ class LLMS_Assets {
 	 */
 	public function enqueue_inline( $handle, $asset, $location, $priority = 10 ) {
 
-		$priority = $this->get_inline_priority( $priority, $this->get_definitions_inline( $location ) );
+		$priority                = $this->get_inline_priority( $priority, $this->get_definitions_inline( $location ) );
 		$this->inline[ $handle ] = compact( 'handle', 'asset', 'location', 'priority' );
 		return $priority;
 
@@ -380,21 +380,23 @@ class LLMS_Assets {
 
 		$assets = array();
 
-		foreach( $this->inline as $handle => $definition ) {
+		foreach ( $this->inline as $handle => $definition ) {
 
 			if ( $location === $definition['location'] ) {
 				$assets[ $handle ] = $definition;
 			}
-
 		}
 
 		// Sort by priority.
-		usort( $assets, function ( $a, $b ) {
-			if ( $a['priority'] === $b['priority'] ) {
-				return 0;
+		usort(
+			$assets,
+			function ( $a, $b ) {
+				if ( $a['priority'] === $b['priority'] ) {
+					return 0;
+				}
+				return $a['priority'] < $b['priority'] ? -1 : 1;
 			}
-			return $a['priority'] < $b['priority'] ? -1 : 1;
-		} );
+		);
 
 		return $assets;
 
@@ -411,7 +413,7 @@ class LLMS_Assets {
 	 * @link [URL]
 	 *
 	 * @param [type] $priority [description]
-	 * @param array $inline_assets [description]
+	 * @param array  $inline_assets [description]
 	 * @return [type] [description]
 	 */
 	protected function get_inline_priority( $priority, $inline_assets = array() ) {
@@ -424,7 +426,6 @@ class LLMS_Assets {
 			while ( in_array( $priority, $priorities, true ) ) {
 				$priority += 0.01;
 			}
-
 		}
 
 		return $priority;

@@ -167,7 +167,7 @@ class LLMS_Frontend_Assets {
 	 *
 	 * @since [version]
 	 *
-	 * @return [version]
+	 * @return void
 	 */
 	protected static function enqueue_inline_scripts() {
 
