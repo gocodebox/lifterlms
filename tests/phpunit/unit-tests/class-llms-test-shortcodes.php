@@ -2,7 +2,7 @@
 /**
  * Test LifterLMS Shortcodes
  *
- * @package  LifterLMS/Tests
+ * @package LifterLMS/Tests
  *
  * @group shortcodes
  *
@@ -81,9 +81,11 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the registration shortcode
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 *
+	 * @since 3.4.3
+	 * @since [version] Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
+	 *
+	 * @return void
 	 */
 	public function test_registration() {
 
@@ -102,7 +104,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 		// ensure required scripts are enqueued
 		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
-		$this->assertTrue( LLMS_Frontend_Assets::is_inline_script_enqueued( 'llms-pw-strength' ) );
+		$this->assertTrue( llms()->assets->is_inline_enqueued( 'llms-pw-strength' ) );
 
 	}
 
