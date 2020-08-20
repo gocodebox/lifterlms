@@ -2,6 +2,8 @@
 /**
  * Tests for LifterLMS Core Functions
  *
+ * @package LifterLMS/Tests/Functions
+ *
  * @group functions
  * @group functions_core
  *
@@ -11,6 +13,7 @@
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
+ * @since [version] Add tests for `llms_deprecated_function()`
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -74,18 +77,15 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * [test_llms_deprecated_function description]
+	 * Test llms_deprecated_function()
 	 *
 	 * @since [version]
 	 *
 	 * @expectedDeprecated DEPRECATED
 	 *
-	 * @return [type] [description]
+	 * @return void
 	 */
 	public function test_llms_deprecated_function() {
-
-		// Hold the initial log path so we can test that it's properly restored.
-		$init_log_path = ini_get( 'error_log' );
 
 		// Add an action where we'll test that all our deprecation data is properly passed.
 		add_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ), 10, 3 );
@@ -93,9 +93,6 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		llms_deprecated_function( 'DEPRECATED', '999.999.999', 'REPLACEMENT' );
 
 		remove_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ) );
-
-		// The initial log handler should be restored.
-		$this->assertEquals( ini_get( 'error_log' ), $init_log_path );
 
 	}
 
@@ -115,9 +112,6 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->assertEquals( 'DEPRECATED', $function );
 		$this->assertEquals( 'REPLACEMENT', $replacement );
 		$this->assertEquals( '999.999.999', $version );
-
-		// The log file should be temporarily set to the llms log file.
-		$this->assertEquals( llms_get_log_path( 'llms' ), ini_get( 'error_log' ) );
 
 	}
 

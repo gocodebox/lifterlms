@@ -129,10 +129,7 @@ if ( ! function_exists( 'llms_content' ) ) {
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-	$init_log_path = ini_get( 'error_log' );
-	ini_set( 'error_log', llms_get_log_path( 'llms' ) );
 	_deprecated_function( $function, $version, $replacement );
-	ini_set( 'error_log', $init_log_path );
 
 }
 
