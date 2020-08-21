@@ -120,11 +120,11 @@ if ( ! function_exists( 'llms_content' ) ) {
  *
  * @since 2.6.0
  * @since 3.6.0 Unknown.
- * @since [version] Uses WP `_deprecated_function()` instead of duplicating it's logic.
+ * @since [version] Uses WP `_deprecated_function()` instead of duplicating its logic.
  *
  * @param string $function    Name of the deprecated function.
  * @param string $version     LifterLMS version that deprecated the function.
- * @param string $replacement Replacement function.
+ * @param string $replacement Optional. Replacement function. Default is `null`.
  * @return void
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {

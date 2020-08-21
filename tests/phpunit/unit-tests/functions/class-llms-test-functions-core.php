@@ -13,7 +13,7 @@
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
- * @since [version] Add tests for `llms_deprecated_function()`
+ * @since [version] Add tests for `llms_deprecated_function()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
