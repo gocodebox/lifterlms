@@ -1,27 +1,31 @@
 <?php
 /**
  * Tests for LifterLMS Lesson Model
- * @group     post_models
- * @group     lessons
  *
- * @since  3.14.8
+ * @group post_models
+ * @group lessons
+ *
+ * @since 3.14.8
  * @since 3.29.0 Unknown.
  * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
- * @version 3.36.2
+ * @since [version] Added tests on next/previous lessons retrieval.
+ * @version [version]
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * class name for the model being tested by the class
-	 * @var  string
+	 * Class name for the model being tested by the class
+	 *
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_Lesson';
 
 	/**
-	 * db post type of the model being tested
-	 * @var  string
+	 * Db post type of the model being tested
+	 *
+	 * @var string
 	 */
 	protected $post_type = 'lesson';
 
@@ -31,66 +35,72 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @var integer
 	 */
 	private $date_delta = 60;
+
 	/**
 	 * Get properties, used by test_getters_setters
-	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.14.8
-	 * @version  3.16.11
+	 *
+	 * This should match, exactly, the object's $properties array.
+	 *
+	 * @since 3.14.8
+	 * @since 3.16.11 Unknown.
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
 
-			'order' => 'absint',
+			'order'                 => 'absint',
 
-			// drippable
+			// Drippable.
 			'days_before_available' => 'absint',
-			'date_available' => 'text',
-			'drip_method' => 'text',
-			'time_available' => 'text',
+			'date_available'        => 'text',
+			'drip_method'           => 'text',
+			'time_available'        => 'text',
 
-			// parent element
-			'parent_course' => 'absint',
-			'parent_section' => 'absint',
+			// Parent element.
+			'parent_course'         => 'absint',
+			'parent_section'        => 'absint',
 
-			'audio_embed' => 'text',
-			'free_lesson' => 'yesno',
-			'has_prerequisite' => 'yesno',
-			'prerequisite' => 'absint',
+			'audio_embed'           => 'text',
+			'free_lesson'           => 'yesno',
+			'has_prerequisite'      => 'yesno',
+			'prerequisite'          => 'absint',
 			'require_passing_grade' => 'yesno',
-			'video_embed' => 'text',
+			'video_embed'           => 'text',
 
-			// quizzes
-			'quiz' => 'absint',
-			'quiz_enabled' => 'yesno',
+			// Quizzes.
+			'quiz'                  => 'absint',
+			'quiz_enabled'          => 'yesno',
 
 		);
 	}
 
 	/**
 	 * Get data to fill a create post with
-	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.14.8
-	 * @version  3.16.11
+	 *
+	 * This is used by test_getters_setters.
+	 *
+	 * @since 3.14.8
+	 * @since 3.16.11 Unknown.
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
-			'audio_embed' => 'http://example.tld/audio_embed',
-			'date_available' => '11/21/2018',
+			'audio_embed'           => 'http://example.tld/audio_embed',
+			'date_available'        => '11/21/2018',
 			'days_before_available' => '24',
-			'drip_method' => 'date',
-			'free_lesson' => 'no',
-			'has_prerequisite' => 'yes',
-			'order' => 1,
-			'parent_course' => 85,
-			'parent_section' => 32,
-			'prerequisite' => 344,
-			'quiz' => 123,
-			'quiz_enabled' => 'yes',
+			'drip_method'           => 'date',
+			'free_lesson'           => 'no',
+			'has_prerequisite'      => 'yes',
+			'order'                 => 1,
+			'parent_course'         => 85,
+			'parent_section'        => 32,
+			'prerequisite'          => 344,
+			'quiz'                  => 123,
+			'quiz_enabled'          => 'yes',
 			'require_passing_grade' => 'yes',
-			'time_available' => '12:34 PM',
-			'video_embed' => 'http://example.tld/video_embed',
+			'time_available'        => '12:34 PM',
+			'video_embed'           => 'http://example.tld/video_embed',
 		);
 	}
 
@@ -120,14 +130,14 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$format = 'Y-m-d';
 
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
-		$course = llms_get_post( $course_id );
-		$lesson = $course->get_lessons()[0];
+		$course    = llms_get_post( $course_id );
+		$lesson    = $course->get_lessons()[0];
 		$lesson_id = $lesson->get( 'id' );
-		$student = $this->get_mock_student();
+		$student   = $this->get_mock_student();
 		wp_set_current_user( $student->get_id() );
 		$student->enroll( $course_id );
 
-		// no drip settings, lesson is currently available.
+		// No drip settings, lesson is currently available.
 		$this->assertEquals( current_time( $format ), $lesson->get_available_date( $format ) );
 
 		$lesson->set( 'drip_method', 'date' );
@@ -157,7 +167,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'days_before_available', '3' );
 		$this->assertEquals( $student->get_completion_date( $prereq_id, 'U' ) + ( DAY_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
 
-		// check lesson immediately available if set to be available after 3 days ofter a course start date which is empty.
+		// Check lesson immediately available if set to be available after 3 days ofter a course start date which is empty.
 		$lesson->set( 'drip_method', 'start' );
 		$lesson->set( 'days_before_available', '3' );
 		$course->set( 'start_date', '' );
@@ -165,15 +175,22 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get course
+	 *
+	 * @since unknown
+	 *
+	 * @return void
+	 */
 	public function test_get_course() {
 
 		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
 		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
 
-		// returns a course when everything's okay.
+		// Returns a course when everything's okay.
 		$this->assertTrue( is_a( $lesson->get_course(), 'LLMS_Course' ) );
 
-		// course trashed / doesn't exist, returns null.
+		// Course trashed / doesn't exist, returns null.
 		wp_delete_post( $course->get( 'id' ), true );
 		$this->assertNull( $lesson->get_course() );
 
@@ -181,9 +198,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test Audio and Video Embeds
-	 * @return   void
-	 * @since    3.14.8
-	 * @version  3.14.8
+	 *
+	 * @since 3.14.8
+	 *
+	 * @return void
 	 */
 	public function test_get_embeds() {
 
@@ -192,7 +210,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 		$lesson = new LLMS_Lesson( 'new', 'Lesson With Embeds' );
 
-		// empty string when none set
+		// Empty string when none set.
 		$this->assertEmpty( $lesson->get_audio() );
 		$this->assertEmpty( $lesson->get_video() );
 
@@ -202,15 +220,15 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$audio_embed = $lesson->get_audio();
 		$video_embed = $lesson->get_video();
 
-		// string
+		// String.
 		$this->assertTrue( is_string( $audio_embed ) );
 		$this->assertTrue( is_string( $video_embed ) );
 
-		// should be an iframe for valid embeds
+		// Should be an iframe for valid embeds.
 		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
 		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
 
-		// fallbacks should be a link to the URL
+		// Fallbacks should be a link to the URL.
 		$lesson->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
 		$lesson->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
 		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
@@ -218,15 +236,22 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test getting parent section
+	 *
+	 * @since unknown
+	 *
+	 * @return void
+	 */
 	public function test_get_section() {
 
 		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
 		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
 
-		// returns a course when everything's okay
+		// Returns a course when everything's okay.
 		$this->assertTrue( is_a( $lesson->get_section(), 'LLMS_Section' ) );
 
-		// section trashed / doesn't exist, returns null
+		// Section trashed / doesn't exist, returns null.
 		wp_delete_post( $lesson->get( 'parent_section' ), true );
 		$this->assertNull( $lesson->get_section() );
 
@@ -234,23 +259,24 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test has_modified_slug function
-	 * @return   void
-	 * @since    3.14.8
-	 * @version  3.14.8
+	 *
+	 * @since 3.14.8
+	 *
+	 * @return void
 	 */
 	public function test_has_modified_slug() {
 
 		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
 
-		// default unmodified slug
+		// Default unmodified slug.
 		$this->assertFalse( $lesson->has_modified_slug() );
 
-		// default unmodified slug with a unique int at the end
+		// Default unmodified slug with a unique int at the end.
 		$lesson->set( 'name', 'new-lesson-123' );
 
 		$this->assertFalse( $lesson->has_modified_slug() );
 
-		// renamed slug
+		// Renamed slug.
 		$lesson->set( 'name', 'modified-slug' );
 
 		$this->assertTrue( $lesson->has_modified_slug() );
@@ -260,9 +286,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_quiz() method
 	 *
-	 * @return  void
-	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @since 3.29.0
+	 *
+	 * @return void
 	 */
 	public function test_has_quiz() {
 
@@ -274,36 +300,43 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the is_available() method
+	 *
+	 * @since unknown
+	 *
+	 * @return void
+	 */
 	public function test_is_available() {
 
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
-		$course = llms_get_post( $course_id );
-		$lesson = $course->get_lessons()[0];
+		$course    = llms_get_post( $course_id );
+		$lesson    = $course->get_lessons()[0];
 		$lesson_id = $lesson->get( 'id' );
-		$student = $this->get_mock_student();
+		$student   = $this->get_mock_student();
 		wp_set_current_user( $student->get_id() );
 		$student->enroll( $course_id );
 
-		// no drip settings, lesson is currently available
+		// No drip settings, lesson is currently available.
 		$this->assertTrue( $lesson->is_available() );
 
-		// date in past so the lesson is available
+		// Date in past so the lesson is available.
 		$lesson = llms_get_post( $lesson_id );
 		$lesson->set( 'drip_method', 'date' );
 		$lesson->set( 'date_available', '12/12/2012' );
 		$lesson->set( 'time_available', '12:12 AM' );
 		$this->assertTrue( $lesson->is_available() );
 
-		// date in future so lesson not available
+		// Date in future so lesson not available.
 		$lesson->set( 'date_available', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 		$this->assertFalse( $lesson->is_available() );
 
-		// available 3 days after enrollment
+		// Available 3 days after enrollment.
 		$lesson->set( 'drip_method', 'enrollment' );
 		$lesson->set( 'days_before_available', '3' );
 		$this->assertFalse( $lesson->is_available() );
 
-		// now available
+		// Now available.
 		llms_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 
@@ -311,10 +344,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'drip_method', 'start' );
 		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 
-		// not available until 3 days after course start date
+		// Not available until 3 days after course start date.
 		$this->assertFalse( $lesson->is_available() );
 
-		// now available
+		// Now available.
 		llms_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 		llms_reset_current_time();
@@ -322,7 +355,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$prereq_id = $lesson_id;
 		$student->mark_complete( $lesson_id, 'lesson' );
 
-		// second lesson not available until 3 days after lesson 1 is complete
+		// Second lesson not available until 3 days after lesson 1 is complete.
 		$lesson = $course->get_lessons()[1];
 
 		$lesson->set( 'has_prerequisite', 'yes' );
@@ -339,81 +372,186 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * test the is_orphan function
-	 * @return   [type]
-	 * @since    3.14.8
-	 * @version  3.14.8
+	 * Test the is_orphan() method
+	 *
+	 * @since 3.14.8
+	 *
+	 * @return void
 	 */
 	public function test_is_orphan() {
 
-		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
 		$section = llms_get_post( $course->get_sections( 'ids' )[0] );
-		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
+		$lesson  = llms_get_post( $course->get_lessons( 'ids' )[0] );
 
-		// not an orphan
+		// Not an orphan.
 		$this->assertFalse( $lesson->is_orphan() );
 
- 		$test_statuses = get_post_stati( array( '_builtin' => true ) );
+		$test_statuses = get_post_stati( array( '_builtin' => true ) );
 		foreach ( array_keys( $test_statuses ) as $status ) {
 
-			$assert = in_array( $status, array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' ) ) ? 'assertFalse' : 'assertTrue';
+			$assert = in_array( $status, array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' ), true ) ? 'assertFalse' : 'assertTrue';
 
-			// check parent course
-			wp_update_post( array(
-				'ID' => $course->get( 'id' ),
-				'post_status' => $status,
-			) );
+			// Check parent course.
+			wp_update_post(
+				array(
+					'ID'          => $course->get( 'id' ),
+					'post_status' => $status,
+				)
+			);
 			$this->$assert( $lesson->is_orphan() );
-			wp_update_post( array(
-				'ID' => $course->get( 'id' ),
-				'post_status' => 'publish',
-			) );
+			wp_update_post(
+				array(
+					'ID'          => $course->get( 'id' ),
+					'post_status' => 'publish',
+				)
+			);
 
-			// check parent section
-			wp_update_post( array(
-				'ID' => $section->get( 'id' ),
-				'post_status' => $status,
-			) );
+			// Check parent section.
+			wp_update_post(
+				array(
+					'ID'          => $section->get( 'id' ),
+					'post_status' => $status,
+				)
+			);
 			$this->$assert( $lesson->is_orphan() );
-			wp_update_post( array(
-				'ID' => $section->get( 'id' ),
-				'post_status' => 'publish',
-			) );
+			wp_update_post(
+				array(
+					'ID'          => $section->get( 'id' ),
+					'post_status' => 'publish',
+				)
+			);
 
 		}
 
-		// parent course doesn't exist
+		// Parent course doesn't exist.
 		$lesson->set( 'parent_course', 123456789 );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_course', $course->get( 'id' ) );
 
-		// parent section doesn't exist
+		// Parent section doesn't exist.
 		$lesson->set( 'parent_section', 123456789 );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_section', $section->get( 'id' ) );
 
-		// parent course isn't set
+		// Parent course isn't set.
 		$lesson->set( 'parent_course', '' );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_course', $course->get( 'id' ) );
 
-		// parent section isn't set
+		// Parent section isn't set.
 		$lesson->set( 'parent_section', '' );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_section', $section->get( 'id' ) );
 
-		// metakey for parent course doesn't exist
+		// Metakey for parent course doesn't exist.
 		delete_post_meta( $lesson->get( 'id' ), '_llms_parent_course' );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_course', $course->get( 'id' ) );
 
-		// metakey for parent section doesn't exist
+		// Metakey for parent section doesn't exist.
 		delete_post_meta( $lesson->get( 'id' ), '_llms_parent_section' );
 		$this->assertTrue( $lesson->is_orphan() );
 		$lesson->set( 'parent_section', $section->get( 'id' ) );
 
-		// not an orphan
+		// Not an orphan.
 		$this->assertFalse( $lesson->is_orphan() );
+
+	}
+
+	/**
+	 * Test next lesson
+	 *
+	 * @since [version]
+	 */
+	public function test_next_lesson() {
+
+		// Generate a course with 2 sections and 3 lessons for each of them.
+		$course_id   = $this->generate_mock_courses( 1, 2, 3, 0 )[0];
+		$section_ids = llms_get_post( $course_id )->get_sections( 'ids' );
+		$section_one = llms_get_post( $section_ids[0] );
+		$section_two = llms_get_post( $section_ids[1] );
+
+		$sec_lessons = array(
+			$section_one->get_lessons( 'ids' ),
+			$section_two->get_lessons( 'ids' ),
+		);
+
+		// Test next lesson of s1 l2 is s1 l3.
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[0][1] )->get_next_lesson() );
+
+		// Test next lesson of s1 l3 is s2 l1.
+		$this->assertEquals( $sec_lessons[1][0], llms_get_post( $sec_lessons[0][2] )->get_next_lesson() );
+
+		// Swap s1 l2 and s1 l3 orders.
+		llms_get_post( $sec_lessons[0][1] )->set( 'order', 3 );
+		llms_get_post( $sec_lessons[0][2] )->set( 'order', 2 );
+
+		// Test next lesson of s1 l1 is the original s1 l3.
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[0][0] )->get_next_lesson() );
+		// "Persist" the new order in our sec_lessons array.
+		list( $sec_lessons[0][2], $sec_lessons[0][1] ) = array( $sec_lessons[0][1], $sec_lessons[0][2] );
+
+		// Test s2 l3 has no next lesson.
+		$this->assertFalse( llms_get_post( $sec_lessons[1][2] )->get_next_lesson() );
+
+		// Unpublish s1 l2, test next lesson of s1 l1 is s1 l3.
+		llms_get_post( $sec_lessons[0][1] )->set( 'status', 'draft' );
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[0][0] )->get_next_lesson() );
+
+		// Unpublish s2 l3, test next lesson of s2 l2 is false.
+		llms_get_post( $sec_lessons[1][2] )->set( 'status', 'draft' );
+		$this->assertFalse( llms_get_post( $sec_lessons[1][1] )->get_next_lesson() );
+	}
+
+
+	/**
+	 * Test previous lesson
+	 *
+	 * @since [version]
+	 */
+	public function test_previous_lesson() {
+
+		// Generate a course with 2 sections and 3 lessons for each of them.
+		$course_id   = $this->generate_mock_courses( 1, 2, 3, 0 )[0];
+		$section_ids = llms_get_post( $course_id )->get_sections( 'ids' );
+		$section_one = llms_get_post( $section_ids[0] );
+		$section_two = llms_get_post( $section_ids[1] );
+
+		$sec_lessons = array(
+			$section_one->get_lessons( 'ids' ),
+			$section_two->get_lessons( 'ids' ),
+		);
+
+		// Test previous lesson of s1 l3 is s1 l2.
+		$this->assertEquals( $sec_lessons[0][1], llms_get_post( $sec_lessons[0][2] )->get_previous_lesson() );
+
+		// Test previous lesson of s2 l1 is s1 l3.
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[1][0] )->get_previous_lesson() );
+
+		// Swap s1 l1 and s1 l2 orders.
+		llms_get_post( $sec_lessons[0][0] )->set( 'order', 2 );
+		llms_get_post( $sec_lessons[0][1] )->set( 'order', 1 );
+
+		// Test previous lesson of s1 l3 is the original s1 l1.
+		$this->assertEquals( $sec_lessons[0][0], llms_get_post( $sec_lessons[0][2] )->get_previous_lesson() );
+		// "Persist" the new order in our sec_lessons array.
+		list( $sec_lessons[0][0], $sec_lessons[0][1] ) = array( $sec_lessons[0][1], $sec_lessons[0][0] );
+
+		// Test s1 l1 has no previous lesson.
+		$this->assertFalse( llms_get_post( $sec_lessons[0][0] )->get_previous_lesson() );
+
+		// Unpublish s2 l2, test previous lesson of s2 l3 is s2 l1.
+		llms_get_post( $sec_lessons[1][1] )->set( 'status', 'draft' );
+		$this->assertEquals( $sec_lessons[1][0], llms_get_post( $sec_lessons[1][2] )->get_previous_lesson() );
+
+		// Unpublish s2 l1, test previous lesson of s2 l2 is s1 l3.
+		llms_get_post( $sec_lessons[1][0] )->set( 'status', 'draft' );
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[1][1] )->get_previous_lesson() );
+
+		// Unpublish s1 l1, test previous lesson of s1 l2 is false.
+		llms_get_post( $sec_lessons[0][0] )->set( 'status', 'draft' );
+		$this->assertFalse( llms_get_post( $sec_lessons[0][1] )->get_previous_lesson() );
 
 	}
 

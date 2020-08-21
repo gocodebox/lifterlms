@@ -208,7 +208,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		/**
 		 * Customize the export file header columns.
 		 *
-		 * The dynamic portion of this hook ${this->id} refers to the ID of the table.
+		 * The dynamic portion of this hook `$this->id` refers to the ID of the table.
 		 *
 		 * @since 3.15.0
 		 *
