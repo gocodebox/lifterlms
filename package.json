@@ -39,6 +39,7 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
+    "build": "gulp build && llms-dev readme && npm run contributors",
     "contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "pkgs:watch": "npx watch -p 'packages/**/src/*.js' -c 'npm run pkgs:build'",
     "pkgs:clean": "lerna exec --parallel -- rm -rf ./build/",

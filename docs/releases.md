@@ -28,13 +28,13 @@ _Note: files in the `tmp` directory used during tests are currently parsed by th
 
 Replace all `[version]` tags with the release version number: run `llms-dev ver:update`. Use the `-i` or `-F` flags to update the release according to the next version number.
 
-### 2C. Generate Static Assets and Language Files
+### 2C. Build static assets
 
-Run `gulp build`.
+The following steps can be run in a single command, `npm run build`.
 
-### 2D. Regenrate the readme.txt file
-
-Run `llms-dev readme`
++ Generate static assets and language files: `gulp build`
++ Generate the readme.txt file: `llms-dev readme`
++ Update contributors list in README.md: `npm run contributors`
 
 
 ## 3. Generate the Distribution Archive
@@ -54,7 +54,7 @@ Install and activate the zip file on a temporary sandbox site.
 _This manual testing ensures no (unlikely but possible) errors occurred in the build steps above._
 
 
-## 4. Publish the Release
+## 5. Publish the Release
 
 Run `llms-dev publish:gh`.
 
@@ -80,6 +80,6 @@ The following steps are performed automatically by the above task:
 5. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
 
 
-## 5. Update documentation at developer.lifterlms.com
+## 6. Update documentation at developer.lifterlms.com
 
 Via SSH run `./updateDocs.sh` and follow the prompts.
