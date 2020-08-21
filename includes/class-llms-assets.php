@@ -424,8 +424,8 @@ class LLMS_Assets {
 	 *
 	 * @since [version]
 	 *
-	 * @param float  $priority      Requested enqueue priority.
-	 * @param array  $inline_assets List of existing inline assets for the requested location.
+	 * @param float $priority      Requested enqueue priority.
+	 * @param array $inline_assets List of existing inline assets for the requested location.
 	 * @return float
 	 */
 	protected function get_inline_priority( $priority, $inline_assets = array() ) {
@@ -508,7 +508,7 @@ class LLMS_Assets {
 		if ( $this->debugging_assets ) {
 
 			// Setup the comment template.
-			$before  = 'style' === $location ? '/* %s. */' : '// %s.';
+			$before = 'style' === $location ? '/* %s. */' : '// %s.';
 
 			// Add line breaks.
 			$before .= "\n";
