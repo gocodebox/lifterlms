@@ -35,6 +35,13 @@ class LLMS_Assets {
 	protected $package_id = '';
 
 	/**
+	 * Determines if SCRIPT_DEBUG is enabled.
+	 *
+	 * @var boolean
+	 */
+	protected $debugging_assets = false;
+
+	/**
 	 * List of default asset definitions
 	 *
 	 * @var array[]
@@ -95,6 +102,19 @@ class LLMS_Assets {
 		$this->package_id = $package_id;
 		$this->defaults   = array_merge_recursive( $defaults, $this->defaults );
 
+		/**
+		 * Filter asset debug mode.
+		 *
+		 * Asset debug mode is used only to help debug inline assets although the asset suffix is also controlled by the same
+		 * WP Core constants.g
+		 *
+		 * @since [version]
+		 *
+		 * @param bool   $debugging  Whether or not debugging is enabled. Returns `true` when `SCRIPT_DEBUG` is on, and `false` otherwise.
+		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
+		 */
+		$this->debugging_assets = apply_filters( 'llms_assets_debug', ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ), $this->package_id );
+
 	}
 
 	/**
@@ -127,9 +147,6 @@ class LLMS_Assets {
 	 *
 	 * @since [version]
 	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
 	 * @param string    $handle   Inline asset ID.
 	 * @param string    $asset    The inline script or CSS rule. This should *not* be wrapped in <script> or <style> tags.
 	 * @param string    $location Output location of the inline asset. Accepts "style" (for stylesheets in the headr), "header" (for
@@ -139,8 +156,14 @@ class LLMS_Assets {
 	 */
 	public function enqueue_inline( $handle, $asset, $location, $priority = 10 ) {
 
+		// If script already exists, remove it and re-enqueue.
+		if ( $this->is_inline_enqueued( $handle ) ) {
+			unset( $this->inline[ $handle ] );
+		}
+
 		$priority                = $this->get_inline_priority( $priority, $this->get_definitions_inline( $location ) );
 		$this->inline[ $handle ] = compact( 'handle', 'asset', 'location', 'priority' );
+
 		return $priority;
 
 	}
@@ -212,18 +235,6 @@ class LLMS_Assets {
 	}
 
 	/**
-	 * Determines if an inline asset is enqueued
-	 *
-	 * @since [version]
-	 *
-	 * @param string $handle Inline asset handle.
-	 * @return boolean
-	 */
-	public function is_inline_enqueued( $handle ) {
-		return in_array( $handle, array_keys( $this->inline ), true );
-	}
-
-	/**
 	 * Retrieve an asset definition by type and handle
 	 *
 	 * Locates the asset by type and handle and merges a potentially impartial asset definition
@@ -263,10 +274,11 @@ class LLMS_Assets {
 		 *
 		 * @since [version]
 		 *
-		 * @param array|false $asset  Array of asset data or `false` if the asset has not been defined with LifterLMS.
-		 * @param string      $handle The asset handle.
+		 * @param array|false $asset      Array of asset data or `false` if the asset has not been defined with LifterLMS.
+		 * @param string      $handle     The asset handle.
+		 * @param string      $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
-		$asset = apply_filters( "llms_get_{$type}_asset_before_prep", $asset, $handle );
+		$asset = apply_filters( "llms_get_{$type}_asset_before_prep", $asset, $handle, $this->package_id );
 
 		if ( $asset && is_array( $asset ) ) {
 
@@ -322,9 +334,10 @@ class LLMS_Assets {
 		 *
 		 * @since [version]
 		 *
-		 * @param array  $defaults Default definition values.
+		 * @param array  $defaults   Default definition values.
+		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
-		return apply_filters( "llms_get_{$type}_asset_defaults", $defaults );
+		return apply_filters( "llms_get_{$type}_asset_defaults", $defaults, $this->package_id );
 
 	}
 
@@ -359,9 +372,10 @@ class LLMS_Assets {
 		 *
 		 * @since [version]
 		 *
-		 * @param array[] $list The definition list.
+		 * @param array[] $list       The definition list.
+		 * @param string  $package_id An ID used to identify the originating plugin or theme that defined the asset.
 		 */
-		return apply_filters( "llms_get_{$type}_asset_definitions", $list );
+		return apply_filters( "llms_get_{$type}_asset_definitions", $list, $this->package_id );
 
 	}
 
@@ -388,7 +402,7 @@ class LLMS_Assets {
 		}
 
 		// Sort by priority.
-		usort(
+		uasort(
 			$assets,
 			function ( $a, $b ) {
 				if ( $a['priority'] === $b['priority'] ) {
@@ -405,16 +419,14 @@ class LLMS_Assets {
 	/**
 	 * Auto-increment inline asset priority to prevent duplicates.
 	 *
-	 * This ensures that
+	 * This ensures that inline assets are always enqueued with a unique priority for their requested
+	 * location.
 	 *
 	 * @since [version]
 	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @param [type] $priority [description]
-	 * @param array  $inline_assets [description]
-	 * @return [type] [description]
+	 * @param float  $priority      Requested enqueue priority.
+	 * @param array  $inline_assets List of existing inline assets for the requested location.
+	 * @return float
 	 */
 	protected function get_inline_priority( $priority, $inline_assets = array() ) {
 
@@ -433,6 +445,18 @@ class LLMS_Assets {
 	}
 
 	/**
+	 * Determines if an inline asset is enqueued
+	 *
+	 * @since [version]
+	 *
+	 * @param string $handle Inline asset handle.
+	 * @return boolean
+	 */
+	public function is_inline_enqueued( $handle ) {
+		return in_array( $handle, array_keys( $this->inline ), true );
+	}
+
+	/**
 	 * Output inline scripts
 	 *
 	 * @since [version]
@@ -448,19 +472,9 @@ class LLMS_Assets {
 
 		if ( $defs ) {
 
-			$before = '';
-			$after  = '';
-
-			// Output inline asset handles and add line breaks when debugging.
-			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-				$before  = 'style' === $location ? '/* %s. */' : '// %s.';
-				$before .= "\n";
-				$after   = "\n";
-			}
-
 			$assets = array();
 			foreach ( $defs as $def ) {
-				$assets[] = sprintf( $before, $def['handle'] ) . $def['asset'] . $after;
+				$assets[] = $this->prepare_inline_asset_for_output( $def, $location );
 			}
 
 			$open  = 'style' === $location ? '<style id="llms-inline-styles" type="text/css">' : sprintf( '<script id="llms-inline-%s-scripts" type="text/javascript">', $location );
@@ -469,6 +483,40 @@ class LLMS_Assets {
 			echo $open . implode( '', $assets ) . $close;
 
 		}
+
+	}
+
+	/**
+	 * Prepares an inline asset definition for being output.
+	 *
+	 * When `$this->debugging_assets` is `true` this will add line breaks between each inline asset
+	 * and output the asset's handle as a comment before the asset's script/style so that the
+	 * inline assets can be quickly located and reviewed in the generated source of the page.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $asset    The inline asset definition array.
+	 * @param string $location The location of the asset. Accepts "header", "footer", or "style".
+	 * @return string
+	 */
+	protected function prepare_inline_asset_for_output( $asset, $location ) {
+
+		$before = '';
+		$after  = '';
+
+		// Output inline asset handles and add line breaks when debugging.
+		if ( $this->debugging_assets ) {
+
+			// Setup the comment template.
+			$before  = 'style' === $location ? '/* %s. */' : '// %s.';
+
+			// Add line breaks.
+			$before .= "\n";
+			$after   = "\n";
+
+		}
+
+		return sprintf( $before, $asset['handle'] ) . $asset['asset'] . $after;
 
 	}
 
