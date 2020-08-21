@@ -10,6 +10,7 @@
  * @since 3.21.1 Add localization tests.
  * @since 4.0.0 Add tests for `init_session()` method.
  *               Remove tests against removed LLMS_SVG_DIR constant.
+ * @since [version] Add tests for `init_assets()` method.
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
@@ -71,6 +72,24 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 		$this->assertInstanceOf( 'LLMS_Engagements', $this->llms->engagements() );
 		$this->assertInstanceOf( 'LLMS_Certificates', $this->llms->certificates() );
 		$this->assertInstanceOf( 'LLMS_Achievements', $this->llms->achievements() );
+
+	}
+
+	/**
+	 * Test the init_assets() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_init_assets() {
+
+		$assets = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+		$this->assertEquals( $assets, llms()->assets );
+
+		$this->assertEquals( require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-scripts.php', LLMS_Unit_Test_Util::get_private_property_value( $assets, 'scripts' ) );
+		$this->assertEquals( require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php', LLMS_Unit_Test_Util::get_private_property_value( $assets, 'styles' ) );
 
 	}
 
