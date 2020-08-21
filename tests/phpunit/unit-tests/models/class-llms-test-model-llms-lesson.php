@@ -545,7 +545,11 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		llms_get_post( $sec_lessons[1][1] )->set( 'status', 'draft' );
 		$this->assertEquals( $sec_lessons[1][0], llms_get_post( $sec_lessons[1][2] )->get_previous_lesson() );
 
-		// Unpublish s1 l1, test next lesson of s1 l2 is false.
+		// Unpublish s2 l1, test previous lesson of s2 l2 is s1 l3.
+		llms_get_post( $sec_lessons[1][0] )->set( 'status', 'draft' );
+		$this->assertEquals( $sec_lessons[0][2], llms_get_post( $sec_lessons[1][1] )->get_previous_lesson() );
+
+		// Unpublish s1 l1, test previous lesson of s1 l2 is false.
 		llms_get_post( $sec_lessons[0][0] )->set( 'status', 'draft' );
 		$this->assertFalse( llms_get_post( $sec_lessons[0][1] )->get_previous_lesson() );
 

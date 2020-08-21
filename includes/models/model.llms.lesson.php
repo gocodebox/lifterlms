@@ -855,7 +855,11 @@ implements LLMS_Interface_Post_Audio
 			);
 			$lessons = get_posts( $args );
 
-		} else {
+		}
+
+		// Either this lesson is the first lesson of its section or any previous section's lesson are not published.
+		if ( 0 === (int) $previous_position || ( isset( $lessons ) && empty( $lessons ) ) ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
+
 			// See if there is a previous section.
 			$parent_course     = $this->get_parent_course();
 			$cursection        = new LLMS_Section( $this->get_parent_section() );
