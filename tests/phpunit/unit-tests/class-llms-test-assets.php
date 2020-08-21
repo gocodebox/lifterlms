@@ -104,6 +104,34 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test enqueue_inline()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_enqueue_inline() {
+
+		$this->assertEquals( 10, $this->main->enqueue_inline( 'mock-foot', 'console.log( 1 );', 'footer' ) );
+
+		// Already enqueued.
+		$this->assertEquals( 10, $this->main->enqueue_inline( 'mock-foot', 'console.log( 1 );', 'footer' ) );
+
+		// Priority automatically incremented.
+		$this->assertEquals( 10.01, $this->main->enqueue_inline( 'mock-foot-two', 'console.log( 1 );', 'footer' ) );
+
+		// Explicit priority.
+		$this->assertEquals( 25, $this->main->enqueue_inline( 'mock-head', 'console.log( 1 );', 'header', 25 ) );
+
+		$inline = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'inline' );
+		$this->assertEquals( array( 'mock-foot', 'mock-foot-two', 'mock-head' ), array_keys( $inline ) );
+
+		foreach ( $inline as $def ) {
+			$this->assertEquals( array( 'handle', 'asset', 'location', 'priority' ), array_keys( $def ) );
+		}
+
+	}
 
 	/**
 	 * Test enqueue_script() for a defined asset.
@@ -187,6 +215,13 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test get() metho for an undefined asset.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_get_undefined() {
 
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'style', 'undefined-style' ) ) );
@@ -311,6 +346,179 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 		// Not a real asset type.
 		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions', array( 'fake' ) ) );
+
+	}
+
+	/**
+	 * Test get_definitions_inline()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_definitions_inline() {
+
+		// No assets.
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'header' ) ) );
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'footer' ) ) );
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'style' ) ) );
+
+		// Fake.
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'fake' ) ) );
+
+		$this->main->enqueue_inline( 'in-header', '', 'header' );
+		$this->main->enqueue_inline( 'in-footer', '', 'footer' );
+		$this->main->enqueue_inline( 'in-style', '', 'style' );
+
+		// Reduces to scripts by location.
+		$this->assertEquals( array( 'in-header'), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'header' ) ) ) );
+		$this->assertEquals( array( 'in-footer' ), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'footer' ) ) ) );
+		$this->assertEquals( array( 'in-style' ), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'style' ) ) ) );
+
+		$this->main->enqueue_inline( 'in-header-first', '', 'header', 5 );
+
+		// Sorted by priority.
+		$this->assertEquals( array( 'in-header-first', 'in-header' ), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_definitions_inline', array( 'header' ) ) ) );
+
+	}
+
+	/**
+	 * Test get_inline_priority()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_inline_priority() {
+
+		$existing_priorties = array();
+
+		$i = (float) 5;
+		while ( $i <= 5.05 ) {
+
+			$this->assertEquals( $i, LLMS_Unit_Test_Util::call_method( $this->main, 'get_inline_priority', array( 5, $existing_priorties ) ) );
+
+			$existing_priorties[] = array( 'priority' => $i );
+			$i += .01;
+
+		}
+
+	}
+
+	/**
+	 * Test is_inline_enqueued()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_inline_enqueued() {
+
+		// Not enqueued.
+		$this->assertFalse( $this->main->is_inline_enqueued( 'is-inline-enqueued' ) );
+
+		// Enqueue.
+		$this->main->enqueue_inline( 'is-inline-enqueued', 'console.log( 1 );', 'footer' );
+
+		// Is enqueued.
+		$this->assertTrue( $this->main->is_inline_enqueued( 'is-inline-enqueued' ) );
+
+	}
+
+	/**
+	 * Test output_inline()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_inline() {
+
+		add_filter( 'llms_assets_debug', '__return_false' );
+		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+		$this->main->enqueue_inline( 'in-header', 'console.log(1);', 'header' );
+		$this->main->enqueue_inline( 'in-header-2', 'console.log(2);', 'header' );
+		$this->main->enqueue_inline( 'in-footer', 'console.log(1);', 'footer' );
+		$this->main->enqueue_inline( 'in-footer-2', 'console.log(2);', 'footer' );
+		$this->main->enqueue_inline( 'in-style', 'body{background:red;}', 'style' );
+		$this->main->enqueue_inline( 'in-style-2', 'body{color:black;}', 'style' );
+
+		$this->assertOutputEquals( '<script id="llms-inline-header-scripts" type="text/javascript">console.log(1);console.log(2);</script>', array( $this->main, 'output_inline' ), array( 'header' ) );
+		$this->assertOutputEquals( '<script id="llms-inline-footer-scripts" type="text/javascript">console.log(1);console.log(2);</script>', array( $this->main, 'output_inline' ), array( 'footer' ) );
+
+		$this->assertOutputEquals( '<style id="llms-inline-styles" type="text/css">body{background:red;}body{color:black;}</style>', array( $this->main, 'output_inline' ), array( 'style' ) );
+
+		remove_filter( 'llms_assets_debug', '__return_false' );
+
+	}
+
+	/**
+	 * Test prepare_inline_asset_for_output(): not in debug mode, scripts & styles work the same.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_inline_asset_for_output() {
+
+		$asset = array(
+			'handle' => 'fake-handle',
+			'asset'  => 'console.log(1);',
+		);
+
+		add_filter( 'llms_assets_debug', '__return_false' );
+		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+		$this->assertEquals( $asset['asset'], LLMS_Unit_Test_Util::call_method( $this->main, 'prepare_inline_asset_for_output', array( $asset, 'header' ) ) );
+
+		remove_filter( 'llms_assets_debug', '__return_false' );
+
+	}
+
+	/**
+	 * Test prepare_inline_asset_for_output(): for scripts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_inline_asset_for_output_scripts_debug_on() {
+
+		$asset = array(
+			'handle' => 'fake-handle',
+			'asset'  => 'console.log(1);',
+		);
+
+		add_filter( 'llms_assets_debug', '__return_true' );
+		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+		$this->assertEquals( "// fake-handle.\nconsole.log(1);\n", LLMS_Unit_Test_Util::call_method( $this->main, 'prepare_inline_asset_for_output', array( $asset, 'header' ) ) );
+
+		remove_filter( 'llms_assets_debug', '__return_true' );
+
+	}
+
+	/**
+	 * Test prepare_inline_asset_for_output(): for styles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_inline_asset_for_output_styles_debug_on() {
+
+		$asset = array(
+			'handle' => 'fake-handle',
+			'asset'  => 'body{background:red;}',
+		);
+
+		add_filter( 'llms_assets_debug', '__return_true' );
+		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
+
+		$this->assertEquals( "/* fake-handle. */\nbody{background:red;}\n", LLMS_Unit_Test_Util::call_method( $this->main, 'prepare_inline_asset_for_output', array( $asset, 'style' ) ) );
+
+		remove_filter( 'llms_assets_debug', '__return_true' );
 
 	}
 
