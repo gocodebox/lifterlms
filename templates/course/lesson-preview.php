@@ -2,10 +2,13 @@
 /**
  * Template for a lesson preview element
  *
- * @author      LifterLMS
- * @package     LifterLMS/Templates
- * @since       1.0.0
- * @version     3.19.2
+ * @author LifterLMS
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @since 3.19.2 Unknown.
+ * @since [version] Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +30,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			<?php endif; ?>
 
 			<aside class="llms-extra">
-				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), $lesson->get_order(), $total_lessons ); ?></span>
+				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get_order(), $total_lessons ); ?></span>
 				<?php echo $lesson->get_preview_icon_html(); ?>
 			</aside>
 
