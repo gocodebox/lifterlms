@@ -527,7 +527,6 @@ class LLMS_Question extends LLMS_Post_Model {
 				$grade = ( $answer === $correct ) ? 'yes' : 'no';
 
 			}
-
 		}
 
 		/**
