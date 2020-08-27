@@ -246,12 +246,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-cs.git",
-                "reference": "556ddaa5eeb1609adcb48caadcde5852c02c08ad"
+                "reference": "2b2f34c59dad8e0b9d421d16a703fc48b182ceac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/556ddaa5eeb1609adcb48caadcde5852c02c08ad",
-                "reference": "556ddaa5eeb1609adcb48caadcde5852c02c08ad",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/2b2f34c59dad8e0b9d421d16a703fc48b182ceac",
+                "reference": "2b2f34c59dad8e0b9d421d16a703fc48b182ceac",
                 "shasum": ""
             },
             "require": {
@@ -277,7 +277,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules for LifterLMS projects",
-            "time": "2020-01-16T23:59:08+00:00"
+            "time": "2020-08-27T22:25:00+00:00"
         },
         {
             "name": "lifterlms/lifterlms-tests",
