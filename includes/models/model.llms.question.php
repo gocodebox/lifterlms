@@ -200,15 +200,15 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.38.2
 	 *
-	 * @param string  $keyThe property key..
-	 * @param boolean $rawOptional. Whether or not we need to get the raw value. Default false..
+	 * @param string  $keyThe property key.
+	 * @param boolean $rawOptional. Whether or not we need to get the raw value. Default false.
 	 * @return mixed
 	 */
 	public function get( $key, $raw = false ) {
 
 		$value = parent::get( $key, $raw );
 
-		// When getting the 'not raw' value, make sure we always return a valid question type..
+		// When getting the 'not raw' value, make sure we always return a valid question type.
 		if ( ! $raw && ! $value && 'question_type' === $key ) {
 			$value = 'choice';
 		}
@@ -242,7 +242,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.35.0 Escape `LIKE` clause.
 	 * @since [version] Don't allow objects when using `unserialize()`.
 	 *
-	 * @param string $returnOptional. Determine how to return the choice data..
+	 * @param string $returnOptional. Determine how to return the choice data.
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
 	 *                       'ids' returns an array of LLMS_Question_Choice ids.
 	 * @return array
@@ -478,7 +478,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.16.15 Unknown.
 	 * @since [version] Combined nested if statements into a single condition.
 	 *
-	 * @param array[] Answer Selected answer(s)..
+	 * @param array[] Answer Selected answer(s).
 	 * @return string|null Returns `null` if the question cannot be automatically graded.
 	 *                     Returns `yes` for correct answers and `no` for incorrect answers.
 	 */
@@ -495,10 +495,10 @@ class LLMS_Question extends LLMS_Post_Model {
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param null|string   Grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer..
+		 * @param null|string   Grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer.
 		 *                                Return `yes` (correct) or `no` (incorrect) to bypass core grading methods.
-		 * @param string[]      Answer   User-submitted answers..
-		 * @param LLMS_Question $questionQuestion object..
+		 * @param string[]      Answer   User-submitted answers.
+		 * @param LLMS_Question $questionQuestion object.
 		 */
 		$grade = apply_filters( "llms_{$question_type}_question_pre_grade", null, $answer, $this );
 
@@ -522,10 +522,10 @@ class LLMS_Question extends LLMS_Post_Model {
 				 *
 				 * @since 3.16.15
 				 *
-				 * @param boolean       $case_sensitiveWhether or not answers are treated as case-sensitive..
-				 * @param string[]      Answer         User-submitted answers..
-				 * @param string[]      Correct        Correct answers..
-				 * @param LLMS_Question $question      Question object..
+				 * @param boolean       $case_sensitiveWhether or not answers are treated as case-sensitive.
+				 * @param string[]      Answer         User-submitted answers.
+				 * @param string[]      Correct        Correct answers.
+				 * @param LLMS_Question $question      Question object.
 				 */
 				if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
 
@@ -546,10 +546,10 @@ class LLMS_Question extends LLMS_Post_Model {
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param null|string   Grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer..
+		 * @param null|string   Grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer.
 		 *                                Return `yes` (correct) or `no` (incorrect) to bypass core grading methods.
-		 * @param string[]      Answer   User-submitted answers..
-		 * @param LLMS_Question $questionQuestion object..
+		 * @param string[]      Answer   User-submitted answers.
+		 * @param LLMS_Question $questionQuestion object.
 		 */
 		return apply_filters( "llms_{$question_type}_question_grade", $grade, $answer, $this );
 
@@ -641,8 +641,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.30.1
 	 * @since [version] Don't allow objects when using `unserialize()`.
 	 *
-	 * @param string $choice_a Serialized choice data..
-	 * @param string $choice_b Serialized choice data..
+	 * @param string $choice_a Serialized choice data.
+	 * @param string $choice_b Serialized choice data.
 	 * @return int
 	 */
 	private function sort_choices( $choice_a, $choice_b ) {
