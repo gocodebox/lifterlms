@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -464,51 +464,85 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Attempt to grade a question
 	 *
-	 * @param    array $answer  selected answer(s)
-	 * @return   mixed     yes = correct
-	 *                     no  = incorrect
-	 *                     null = not auto gradable
-	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @since 3.16.0
+	 * @since 3.16.15 Unknown.
+	 * @since [version] Combined nested if statements into a single condition.
+	 *
+	 * @param array[] $answer Selected answer(s).
+	 * @return string|null Returns `null` if the question cannot be automatically graded.
+	 *                     Returns `yes` for correct answers and `no` for incorrect answers.
 	 */
 	public function grade( $answer ) {
 
+		$question_type = $this->get( 'question_type' );
+
 		/**
-		 * Allow 3rd parties to do custom grading
-		 * If filter returns non-null will bypass core grading
+		 * Use this filter to bypass core grading for a given question type.
+		 *
+		 * If the filter returns a non-null value core grading is bypassed.
+		 *
+		 * The dynamic portion of this hook, `$question_type`, refers to the type of question being graded.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @param null|string   $grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer.
+		 *                                Return `yes` (correct) or `no` (incorrect) to bypass core grading methods.
+		 * @param string[]      $answer   User-submitted answers.
+		 * @param LLMS_Question $question Question object.
 		 */
-		$grade = apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_pre_grade', null, $answer, $this );
+		$grade = apply_filters( "llms_{$question_type}_question_pre_grade", null, $answer, $this );
 
-		if ( is_null( $grade ) ) {
+		if ( is_null( $grade ) && $this->get( 'points' ) >= 1 ) {
 
-			if ( $this->get( 'points' ) >= 1 ) {
+			$grading_type = $this->get_auto_grade_type();
 
-				$grading_type = $this->get_auto_grade_type();
+			if ( 'choices' === $grading_type ) {
 
-				if ( 'choices' === $grading_type ) {
+				sort( $answer );
+				$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
 
-					sort( $answer );
-					$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
+			} elseif ( 'conditional' === $grading_type ) {
 
-				} elseif ( 'conditional' === $grading_type ) {
+				$correct = $this->get_conditional_correct_value();
 
-					$correct = $this->get_conditional_correct_value();
+				/**
+				 * Filter whether or not conditionally graded question answers are treated as a case-sensitive
+				 *
+				 * By default, case sensitivity is disabled.
+				 *
+				 * @since 3.16.15
+				 *
+				 * @param boolean       $case_sensitive Whether or not answers are treated as case-sensitive.
+				 * @param string[]      $answer         User-submitted answers.
+				 * @param string[]      $correct        Correct answers.
+				 * @param LLMS_Question $question       Question object.
+				 */
+				if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
 
-					// allow case sensitivity to be enabled if required
-					if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
-
-						$answer  = array_map( 'strtolower', $answer );
-						$correct = array_map( 'strtolower', $correct );
-
-					}
-
-					$grade = ( $answer === $correct ) ? 'yes' : 'no';
+					$answer  = array_map( 'strtolower', $answer );
+					$correct = array_map( 'strtolower', $correct );
 
 				}
+
+				$grade = ( $answer === $correct ) ? 'yes' : 'no';
+
 			}
+
 		}
 
-		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_grade', $grade, $answer, $this );
+		/**
+		 * Filter the grading result of an answer for a given question type.
+		 *
+		 * The dynamic portion of this hook, `$question_type`, refers to the type of question being graded.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @param null|string   $grade    Defaults to `null` which signifies that LifterLMS should attempt to grade the answer.
+		 *                                Return `yes` (correct) or `no` (incorrect) to bypass core grading methods.
+		 * @param string[]      $answer   User-submitted answers.
+		 * @param LLMS_Question $question Question object.
+		 */
+		return apply_filters( "llms_{$question_type}_question_grade", $grade, $answer, $this );
 
 	}
 
