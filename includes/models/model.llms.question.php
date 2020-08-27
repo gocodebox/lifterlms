@@ -221,13 +221,14 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve a choice by id
 	 *
 	 * @since 3.16.0
+	 * @since [version] Use strict comparison.
 	 *
 	 * @param string $id  Choice ID.
 	 * @return obj|false
 	 */
 	public function get_choice( $id ) {
 		$choice = new LLMS_Question_Choice( $this->get( 'id' ), $id );
-		if ( $choice->exists() && $this->get( 'id' ) == $choice->get_question_id() ) {
+		if ( $choice->exists() && absint( $this->get( 'id' ) ) === absint( $choice->get_question_id() ) ) {
 			return $choice;
 		}
 		return false;
@@ -239,6 +240,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.16.0
 	 * @since 3.30.1 Improve choice sorting to accommodate numeric markers.
 	 * @since 3.35.0 Escape `LIKE` clause.
+	 * @since [version] Don't allow objects when using `unserialize()`.
 	 *
 	 * @param string $returnOptional. Determine how to return the choice data..
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
@@ -248,7 +250,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	public function get_choices( $return = 'choices' ) {
 
 		global $wpdb;
-		$results = $wpdb->get_results(
+		$results = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->prepare(
 				"SELECT meta_key AS id
 				  , meta_value AS data
@@ -269,7 +271,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		$ret = array();
 		foreach ( $results as $result ) {
-			$ret[] = new LLMS_Question_Choice( $this->get( 'id' ), unserialize( $result->data ) );
+			$ret[] = new LLMS_Question_Choice( $this->get( 'id' ), unserialize( $result->data, array( 'allowed_classes' => false ) ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 		}
 
 		return $ret;
@@ -637,14 +639,15 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Sort choices by marker.
 	 *
 	 * @since 3.30.1
+	 * @since [version] Don't allow objects when using `unserialize()`.
 	 *
 	 * @param string $choice_a Serialized choice data..
 	 * @param string $choice_b Serialized choice data..
 	 * @return int
 	 */
 	private function sort_choices( $choice_a, $choice_b ) {
-		$a_data = unserialize( $choice_a->data );
-		$b_data = unserialize( $choice_b->data );
+		$a_data = unserialize( $choice_a->data, array( 'allowed_classes' => false ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
+		$b_data = unserialize( $choice_b->data, array( 'allowed_classes' => false ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
 		return strnatcmp( $a_data['marker'], $b_data['marker'] );
 	}
 
@@ -778,7 +781,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		global $wpdb;
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_col(
+		$query = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			"SELECT post_id
 			 FROM {$wpdb->postmeta}
 			 WHERE meta_key = '_llms_questions'
