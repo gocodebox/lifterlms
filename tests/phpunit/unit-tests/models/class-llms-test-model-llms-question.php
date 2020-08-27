@@ -1,32 +1,41 @@
 <?php
 /**
  * Tests for LifterLMS Quiz Model
- * @group     post_models
- * @group     quizzes
- * @group     questions
- * @since     3.16.12
- * @version   3.16.12
+ *
+ * @package LifterLMS_Tests/Models
+ *
+ * @group post_models
+ * @group quizzes
+ * @group questions
+ *
+ * @since 3.16.12
+ * @since 3.30.1 Added more tests for `get_next_choice_marker()` and `get_choices()`
+ * @since [version] Add tests for the `grade()` method.
  */
 class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * class name for the model being tested by the class
-	 * @var  string
+	 * Class name for the model being tested by the class
+	 *
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_Question';
 
 	/**
-	 * db post type of the model being tested
+	 * DB post type of the model being tested
+	 *
 	 * @var  string
 	 */
 	protected $post_type = 'llms_question';
 
 	/**
 	 * Get properties, used by test_getters_setters
+	 *
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * @since 3.16.12
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
@@ -46,10 +55,12 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get data to fill a create post with
+	 *
 	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * @since 3.16.12
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -82,7 +93,6 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	 * Test the has_description() method.
 	 *
 	 * @since 3.16.12
-	 * @version 3.16.12
 	 *
 	 * @return void
 	 */
@@ -106,7 +116,6 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	 * Test the has_video() method.
 	 *
 	 * @since 3.16.12
-	 * @version 3.16.12
 	 *
 	 * @return void
 	 */
@@ -130,7 +139,6 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	 * Test the get_next_choice_marker() method.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
@@ -147,14 +155,13 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the get_questions() method.
+	 * Test the get_choices() method.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
-	public function test_get_questions() {
+	public function test_get_choices() {
 
 		foreach ( array( range( 'A', 'Z' ), range( 1, 26 ) ) as $i => $markers ) {
 
