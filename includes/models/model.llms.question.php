@@ -376,17 +376,6 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieves an object cache key for the question's choices
-	 *
-	 * @since 3.16.0
-	 *
-	 * @return string
-	 */
-	private function get_choice_cache_key() {
-		return sprintf( 'question_%d_choices', $this->get( 'id' ) );
-	}
-
-	/**
 	 * Retrieve URL for an image associated with the question if it's enabled
 	 *
 	 * @since 3.16.0
