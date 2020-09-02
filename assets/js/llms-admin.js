@@ -34,13 +34,11 @@
 		 */
 		this.bind = function() {
 
-			$uploads.on( 'click', function( e ) {
-				e.preventDefault();
-				self.open_media_lib( $( this ), e );
+			$uploads.on( 'click', function() {
+				self.open_media_lib( $( this ) );
 			} );
 
-			$( '.llms-image-field-remove' ).on( 'click', function( e ) {
-				e.preventDefault();
+			$( '.llms-image-field-remove' ).on( 'click', function() {
 				self.update_image( $( this ), '', '' );
 			} );
 
@@ -52,17 +50,16 @@
 		 * @since [version]
 		 *
 		 * @param {Object} $btn  The jQuery object for clicked button.
-		 * @param {Object} event JS event object.
 		 * @return {Void}
 		 */
-		this.open_media_lib = function( $btn, event ) {
+		this.open_media_lib = function( $btn ) {
 
 			var self  = this,
 				frame = null;
 
 			if ( ! frame ) {
 				var title       = $btn.attr( 'data-frame-title' ) || LLMS.l10n.translate( 'Select an Image' ),
-					button_text = $btn.attr( 'data-frame-button' ) || LLMS.l10n.translate( 'Select Image' );
+					button_text = $btn.attr( 'data-frame-button' ) || LLMS.l10n.translate( 'Select Image' ),
 					frame       = wp.media.frames.file_frame = wp.media( {
 						title: title,
 						button: {
@@ -90,16 +87,16 @@
 		 *
 		 * @since [version]
 		 *
-		 * @param {Object}  $btn The jQuery object of the clicked button
-		 * @param {Integer} id   WP Attachment ID of the image
+		 * @param {Object}  $btn The jQuery object of the clicked button.
+		 * @param {Integer} id   WP Attachment ID of the image.
 		 * @param {String}  src  Image element src of the selected image.
 		 * @return {Void}
 		 */
 		this.update_image = function( $btn, id, src ) {
 
 			var $input   = $( '#' + $btn.attr( 'data-id' ) ),
-				$preview = $btn.prevAll( 'img.llms-image-field-preview' )
-				$remove  = $btn.hasClass( 'llms-image-field-remove' ) ? $btn : $btn.next( 'input.llms-image-field-remove' );
+				$preview = $btn.prevAll( 'img.llms-image-field-preview' ),
+				$remove  = $btn.hasClass( 'llms-image-field-remove' ) ? $btn : $btn.next( '.llms-image-field-remove' );
 
 			$input.val( id );
 			$preview.attr( 'src', src );

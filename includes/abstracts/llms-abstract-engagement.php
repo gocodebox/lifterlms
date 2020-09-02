@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_Engagement {
 
 		$type = $this->get_type();
 
-		$src = LLMS_PLUGIN_URL . "/assets/images/optional_{$type}.png";
+		$src = LLMS_PLUGIN_URL . "assets/images/optional_{$type}.png";
 
 		// Deprecated filter which was previously utilized by both achievements and certificates.
 		$src = apply_filters_deprecated( 'lifterlms_placeholder_img_src', array( $src ), '[version]', "llms_default_{$type}_img_src" );

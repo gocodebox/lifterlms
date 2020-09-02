@@ -96,13 +96,13 @@
 		 * @since 3.7.3
 		 * @deprecated [version]
 		 *
-		 * @param {Object} $btn  The jQuery object for clicked button.
-		 * @param {Object} event JS event object.
+		 * @param {Object} $btn The jQuery object for clicked button.
+		 * @param {Object} e    JS event object.
 		 * @return {Void}
 		 */
 		this.image_upload_click = function( $btn, e ) {
 			console.log( 'llms.admin_settings.image_upload_click() is deprecated since [version]! Use llms.admin_fields.image.open_media_lib() instead.' );
-			return window.llms.admin_fields.image.open_media_lib( $btn, e );
+			return window.llms.admin_fields.image.open_media_lib( $btn );
 		};
 
 		/**
@@ -111,14 +111,14 @@
 		 * @since 3.7.3
 		 * @deprecated [version]
 		 *
-		 * @param {Object}  $btn The jQuery object of the clicked button
-		 * @param {Integer} id   WP Attachment ID of the image
+		 * @param {Object}  $btn The jQuery object of the clicked button.
+		 * @param {Integer} id   WP Attachment ID of the image.
 		 * @param {String}  src  Image element src of the selected image.
 		 * @return {Void}
 		 */
 		this.update_image = function( $btn, id, src ) {
 			console.log( 'llms.admin_settings.update_image() is deprecated since [version]! Use llms.admin_fields.image.update_image() instead.' );
-			return window.llms.admin_fields.image.update_image( $btn, e );
+			return window.llms.admin_fields.image.update_image( $btn, id, src );
 		};
 
 		// Go.

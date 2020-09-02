@@ -2,7 +2,7 @@
 /**
  * Singleton class trait.
  *
- * @package  LifterLMS_REST/Traits
+ * @package LifterLMS/Traits
  *
  * @since [version]
  * @version [version]
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_REST_Trait_Singleton class..
+ * LLMS_Trait_Singleton class
  *
  * @since [version]
  */
@@ -25,11 +25,11 @@ trait LLMS_Trait_Singleton {
 	private static $instance = null;
 
 	/**
-	 * Singleton Instance of the LifterLMS_REST_API class.
+	 * Singleton Instance of the class.
 	 *
 	 * @since [version]
 	 *
-	 * @return obj instance of the LifterLMS_REST_API class.
+	 * @return obj Instance of the class.
 	 */
 	public static function instance() {
 
