@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.40.0
+ * @version  4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.40.0
+	 * @version  4.4.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -223,7 +223,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/PostSearch.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.17.0
+			 * @version  4.4.0
 			 */
 			'Searching...' => esc_html__( 'Searching...', 'lifterlms' ),
 			'Attach' => esc_html__( 'Attach', 'lifterlms' ),
@@ -298,7 +298,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-admin.js.
 			 *
 			 * @since    Unknown
-			 * @version  3.40.0
+			 * @version  4.4.0
 			 */
 			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
