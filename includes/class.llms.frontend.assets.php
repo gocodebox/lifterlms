@@ -45,7 +45,7 @@ class LLMS_Frontend_Assets {
 	 * Enqueue an inline script
 	 *
 	 * @version 3.4.1
-	 * @deprecated [version]
+	 * @deprecated [version] Use `LLMS_Assets::enqueue_inline()` instead.
 	 *
 	 * @param string $id       Unique id for the script, used to prevent duplicates.
 	 * @param string $script   JS to enqueue, do not add <script> tags!.
