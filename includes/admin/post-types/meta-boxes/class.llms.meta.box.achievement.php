@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,6 +47,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Allow some fields to store values with quotes.
+	 * @since [version] Remove unnecessary field parameter declarations.
 	 *
 	 * @return array
 	 */
@@ -54,44 +55,30 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 
 		return array(
 			array(
-				'title'  => 'General',
+				'title'  => __( 'Achievement Settings', 'lifterlms' ),
 				'fields' => array(
 					array(
-						'label'      => __( 'Achievement Title', 'lifterlms' ),
-						'desc'       => __( 'Enter a title for your achievement. IE: Achievement of Completion', 'lifterlms' ),
-						'id'         => $this->prefix . 'achievement_title',
-						'type'       => 'text',
-						'section'    => 'achievement_meta_box',
-						'class'      => 'code input-full',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
-						'sanitize'   => 'no_encode_quotes',
+						'label'    => __( 'Achievement Title', 'lifterlms' ),
+						'desc'     => __( 'Enter a title for your achievement. IE: Achievement of Completion', 'lifterlms' ),
+						'id'       => $this->prefix . 'achievement_title',
+						'type'     => 'text',
+						'class'    => 'input-full',
+						'sanitize' => 'no_encode_quotes',
 					),
-					// Achievement content textarea.
 					array(
-						'label'      => __( 'Achievement Content', 'lifterlms' ),
-						'desc'       => __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),
-						'id'         => $this->prefix . 'achievement_content',
-						'type'       => 'textarea_w_tags',
-						'section'    => 'achievement_meta_box',
-						'class'      => 'code input-full',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
-						'sanitize'   => 'no_encode_quotes',
+						'label'    => __( 'Achievement Content', 'lifterlms' ),
+						'desc'     => __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),
+						'id'       => $this->prefix . 'achievement_content',
+						'type'     => 'textarea_w_tags',
+						'class'    => 'input-full',
+						'sanitize' => 'no_encode_quotes',
 					),
-					// Achievement background image.
 					array(
-						'label'      => __( 'Background Image', 'lifterlms' ),
-						'desc'       => __( 'Select an Image to use for the achievement.', 'lifterlms' ),
-						'id'         => $this->prefix . 'achievement_image',
-						'type'       => 'image',
-						'section'    => 'achievement_meta_box',
-						'class'      => 'achievement',
-						'desc_class' => 'd-all',
-						'group'      => '',
-						'value'      => '',
+						'label' => __( 'Achievement Image', 'lifterlms' ),
+						'desc'  => __( 'Select an Image to use for the achievement.', 'lifterlms' ),
+						'id'    => $this->prefix . 'achievement_image',
+						'type'  => 'image',
+						'class' => 'achievement',
 					),
 				),
 			),

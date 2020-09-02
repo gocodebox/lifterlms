@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 4.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,8 +110,9 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
 	 * @since 4.4.0 Enqueue the main `llms` script.
+	 * @since [version] Remove unneeded files: "llms-metabox-achievement.js" & "llms-metabox-certificate.js".
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function admin_scripts() {
 
@@ -187,14 +188,7 @@ class LLMS_Admin_Assets {
 			if ( 'lesson' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
-			if ( 'llms_certificate' == $post_type ) {
 
-				wp_enqueue_script( 'llms-metabox-certificate', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-certificate' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-			}
-			if ( 'llms_achievement' == $post_type ) {
-
-				wp_enqueue_script( 'llms-metabox-achievement', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-achievement' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-			}
 			if ( 'llms_membership' == $post_type ) {
 				wp_enqueue_script( 'llms-select2' );
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );

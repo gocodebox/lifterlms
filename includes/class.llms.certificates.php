@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,15 +21,12 @@ defined( 'ABSPATH' ) || exit;
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
+ * @since [version] Added extends from `LLMS_Abstract_Engagement`.
+ *              Added the `LLMS_Trait_Singleton`.
  */
-class LLMS_Certificates {
+class LLMS_Certificates extends LLMS_Abstract_Engagement {
 
-	/**
-	 * Instance
-	 *
-	 * @var LLMS_Certificates
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Array of Certificate types.
@@ -37,31 +34,6 @@ class LLMS_Certificates {
 	 * @var array
 	 */
 	public $certs = array();
-
-	/**
-	 * Instance singleton
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return LLMS_Certificates
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
-	 * Constructor
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	private function __construct() {
-		$this->init();
-	}
 
 	/**
 	 * Initialize Class
@@ -76,20 +48,28 @@ class LLMS_Certificates {
 	}
 
 	/**
-	 * Award a certificate to a user.
+	 * Retrieves an instance of an engagement subclass identified by $type
 	 *
-	 * Calls trigger method passing arguments
+	 * @since [version]
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $person_id       WP_User ID.
-	 * @param int $certificate_id  WP_Post ID of the certificate template.
-	 * @param int $related_post_id WP_Post ID of the related post, for example a lesson id.
-	 * @return void
+	 * @param string $type Engagement subclass type. This is an optional forward compatible variable as LifterLMS only supports "user" achievements.
+	 * @return LLMS_Achievement_User
 	 */
-	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		$certificate = $this->certs['LLMS_Certificate_User'];
-		$certificate->trigger( $person_id, $certificate_id, $related_post_id );
+	protected function get_sub_class( $type = '' ) {
+		return $this->certs['LLMS_Certificate_User'];
+	}
+
+	/**
+	 * Return the engagement type
+	 *
+	 * The core engagements types are "achievement" and "certificate".
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_type() {
+		return 'certificate';
 	}
 
 	/**

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version Unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,15 +20,20 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	/**
 	 * Class constructor
 	 *
+	 * @since Unknown
+	 *
 	 * @param array $_field Array containing information about field
+	 * @return void
 	 */
 	public function __construct( $_field ) {
-
 		$this->field = $_field;
 	}
 
 	/**
-	 * outputs the Html for the given field
+	 * Outputs the Html for the given field
+	 *
+	 * @since Unknown
+	 * @since [version] Don't double-output the field description.
 	 *
 	 * @return void
 	 */
@@ -37,9 +42,7 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 		global $post;
 
 		parent::output(); ?>
-
 		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo $this->meta; ?></textarea>
-		<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
 		parent::close_output();
 	}

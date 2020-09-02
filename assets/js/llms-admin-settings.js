@@ -1,14 +1,14 @@
-;/**
+/**
  * LifterLMS Settings Pages UI / UX
  *
- * @since    3.7.3
- * @version  3.18.0
- */( function( $, undefined ) {
+ * @since 3.7.3
+ * @version [version]
+ */
+
+( function( $, undefined ) {
 
 	window.llms                = window.llms || {};
 	window.llms.admin_settings = function() {
-
-		this.file_frame = null;
 
 		/**
 		 * Initialize
@@ -32,18 +32,6 @@
 		this.bind = function() {
 
 			var self = this;
-
-			if ( $( '.llms-image-field-upload' ).length ) {
-				$( '.llms-image-field-upload' ).on( 'click', function( e ) {
-					e.preventDefault();
-					self.image_upload_click( $( this ), e );
-				} );
-
-				$( '.llms-image-field-remove' ).on( 'click', function( e ) {
-					e.preventDefault();
-					self.update_image( $( this ), '', '' );
-				} );
-			}
 
 			if ( $( '.llms-gateway-table' ).length ) {
 				$( '.llms-gateway-table tbody' ).sortable( {
@@ -105,74 +93,39 @@
 		/**
 		 * Click event for image upload fields
 		 *
-		 * @param    obj   $btn  jQuery object for clicked button
-		 * @param    obj   e     JS event object
-		 * @return   void
-		 * @since    3.7.3
-		 * @version  3.7.3
+		 * @since 3.7.3
+		 * @deprecated [version]
+		 *
+		 * @param {Object} $btn  The jQuery object for clicked button.
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		this.image_upload_click = function( $btn, e ) {
-
-			var self  = this,
-				frame = null;
-
-			if ( ! frame ) {
-				var title       = $btn.attr( 'data-frame-title' ) || LLMS.l10n.translate( 'Select an Image' ),
-					button_text = $btn.attr( 'data-frame-button' ) || LLMS.l10n.translate( 'Select Image' );
-				frame           = wp.media.frames.file_frame = wp.media({
-					title: title,
-					button: {
-						text: button_text,
-					},
-					multiple: false	// Set to true to allow multiple files to be selected
-				});
-			}
-
-			frame.on( 'select', function() {
-
-				// We set multiple to false so only get one image from the uploader
-				var attachment = frame.state().get( 'selection' ).first().toJSON();
-
-				self.update_image( $btn, attachment.id, attachment.url );
-
-			});
-
-			frame.open();
-
+			console.log( 'llms.admin_settings.image_upload_click() is deprecated since [version]! Use llms.admin_fields.image.open_media_lib() instead.' );
+			return window.llms.admin_fields.image.open_media_lib( $btn, e );
 		};
 
 		/**
 		 * Update the DOM with a selected image
 		 *
-		 * @param    obj      $btn  jQuery object of the clicked button
-		 * @param    int      id    WP Attachment ID of the image
-		 * @param    string   src   <img> src of the selected image
-		 * @return   void
-		 * @since    3.7.3
-		 * @version  3.7.3
+		 * @since 3.7.3
+		 * @deprecated [version]
+		 *
+		 * @param {Object}  $btn The jQuery object of the clicked button
+		 * @param {Integer} id   WP Attachment ID of the image
+		 * @param {String}  src  Image element src of the selected image.
+		 * @return {Void}
 		 */
 		this.update_image = function( $btn, id, src ) {
+			console.log( 'llms.admin_settings.update_image() is deprecated since [version]! Use llms.admin_fields.image.update_image() instead.' );
+			return window.llms.admin_fields.image.update_image( $btn, e );
+		};
 
-			var $input   = $( '#' + $btn.attr( 'data-id' ) ),
-				$preview = $btn.prevAll( 'img.llms-image-field-preview' )
-				$remove  = $btn.hasClass( 'llms-image-field-remove' ) ? $btn : $btn.next( 'input.llms-image-field-remove' );
-
-			$input.val( id );
-			$preview.attr( 'src', src );
-
-			if ( '' !== id ) {
-				$remove.removeClass( 'hidden' );
-			} else {
-				$remove.addClass( 'hidden' );
-			}
-
-		}
-
-		// go
+		// Go.
 		this.init();
 
 	};
 
-	var a = new window.llms.admin_settings();
+	new window.llms.admin_settings();
 
 } )( jQuery );

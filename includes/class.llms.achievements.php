@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,55 +13,68 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Achievements singleton
  *
- * @see LLMS()->achievements()
+ * @see llms()->achievements()
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
+ * @since [version] Added extends from `LLMS_Abstract_Engagement`.
+ *              Added the `LLMS_Trait_Singleton`.
  */
-class LLMS_Achievements {
+class LLMS_Achievements extends LLMS_Abstract_Engagement {
 
-	public $achievements;
-
-	public $content;
-
-	private $_from_address;
-
-	private $_from_name;
-
-	private $_content_type;
-
-	protected static $_instance = null;
-
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self(); }
-		return self::$_instance;
-	}
+	use LLMS_Trait_Singleton;
 
 	/**
-	 * Constructor
+	 * Array of achievement types
 	 *
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @var array
 	 */
-	private function __construct() {
+	public $achievements = array();
 
-		$this->init();
-
-	}
+	/**
+	 * Deprecated.
+	 *
+	 * @deprecated [version]
+	 *
+	 * @var null
+	 */
+	public $content;
 
 	/**
 	 * Includes achievement class
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  ??
 	 */
 	public function init() {
-
 		include_once 'class.llms.achievement.php';
 		$this->achievements['LLMS_Achievement_User'] = include_once 'achievements/class.llms.achievement.user.php';
+	}
 
+	/**
+	 * Retrieves an instance of an engagement subclass identified by $type
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Engagement subclass type. This is an optional forward compatible variable as LifterLMS only supports "user" achievements.
+	 * @return LLMS_Achievement_User
+	 */
+	protected function get_sub_class( $type = '' ) {
+		return $this->achievements['LLMS_Achievement_User'];
+	}
+
+	/**
+	 * Return the engagement type
+	 *
+	 * The core engagements types are "achievement" and "certificate".
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_type() {
+		return 'achievement';
 	}
 
 	/**
@@ -119,22 +132,6 @@ class LLMS_Achievements {
 
 		return $achievements;
 
-	}
-
-	/**
-	 * Award an achievement to a user
-	 * Calls trigger method passing arguments
-	 *
-	 * @param  int $person_id        [ID of the current user]
-	 * @param  int $achievement      [Achievement template post ID]
-	 * @param  int $related_post_id  Post ID of the related engagement (eg lesson id)
-	 * @return void
-	 * @since    ??
-	 * @version  ??
-	 */
-	public function trigger_engagement( $person_id, $achievement_id, $related_post_id ) {
-		$achievement = $this->achievements['LLMS_Achievement_User'];
-		$achievement->trigger( $person_id, $achievement_id, $related_post_id );
 	}
 
 }

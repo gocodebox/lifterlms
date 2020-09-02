@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,25 +18,46 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_User_Achievement extends LLMS_Post_Model {
 
-	protected $db_post_type    = 'llms_my_achievement';
+	/**
+	 * Database post type.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'llms_my_achievement';
+
+	/**
+	 * Post type name.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'achievement';
 
+	/**
+	 * Object meta properties.
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
-		// 'achievement_title' => 'string', // use get( 'title' )
 		'achievement_image'    => 'absint',
-		// 'achievement_content' => 'html', // use get( 'content' )
 		'achievement_template' => 'absint',
 	);
 
 	/**
 	 * Delete the certificate
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @return void
 	 */
 	public function delete() {
 
+		/**
+		 * Triggered prior to the deletion of a user's achievement.
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param LLMS_User_Achievement $this Instance of the user achievement class.
+		 */
 		do_action( 'llms_before_delete_achievement', $this );
 
 		global $wpdb;
@@ -52,6 +73,13 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 		);
 		wp_delete_post( $id, true );
 
+		/**
+		 * Triggered after the deletion of a user's achievement.
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param LLMS_User_Achievement $this Instance of the user achievement class.
+		 */
 		do_action( 'llms_delete_achievement', $this );
 
 	}
@@ -59,10 +87,10 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the date the achievement was earned (created)
 	 *
-	 * @param    string $format  date format string
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param string $format Date format string.
+	 * @return string
 	 */
 	public function get_earned_date( $format = null ) {
 		$format = $format ? $format : get_option( 'date_format' );
@@ -72,13 +100,21 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the HTML <img> for the achievement
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @param array $size Dimensions of the image to return (width x height).
+	 * @return string
 	 */
 	public function get_image_html( $size = array() ) {
 
+		/**
+		 * Filter the HTML of an achievement image.
+		 *
+		 * @since 3.14.0
+		 *
+		 * @param string                $html HTML `<img>` element for the achievement.
+		 * @param LLMS_User_Achievement $this Instance of the user achievement class.
+		 */
 		return apply_filters(
 			'llms_achievement_get_image_html',
 			sprintf( '<img alt="%1$s" class="llms-achievement-img" src="%2$s">', esc_attr( $this->get( 'title' ) ), $this->get_image( $size ) ),
@@ -90,10 +126,11 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the image source for the achievement
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 * @since [version] Use `LLMS_Achievements::get_default_image()` in favor of hard-coded image path.
+	 *
+	 * @param array $size Dimensions of the image to return (width x height).
+	 * @return string
 	 */
 	public function get_image( $size = array(), $key = 'achievement_image' ) {
 
@@ -102,22 +139,30 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 		}
 
 		if ( ! $this->get( 'achievement_image' ) ) {
-			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
+			$src = llms()->achievements()->get_default_image();
 		} else {
 			$src = parent::get_image( $size, $key );
 		}
 
+		/**
+		 * Filter the source URL to the achievement image
+		 *
+		 * @since Unknown
+		 *
+		 * @param string                $src  URL to the achievement image.
+		 * @param LLMS_User_Achievement $this Instance of the user achievement class.
+		 */
 		return apply_filters( 'llms_achievement_get_image', $src, $this );
 
 	}
 
 	/**
 	 * Get the WP Post ID of the post which triggered the earning of the achievement
+	 *
 	 * This would be a lesson, course, section, track, etc...
 	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @return int
 	 */
 	public function get_related_post_id() {
 		$meta = $this->get_user_postmeta();
@@ -127,9 +172,9 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the user id of the user who earned the achievement
 	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return int
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
@@ -139,9 +184,9 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Retrieve user postmeta data for the achievement
 	 *
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return obj
 	 */
 	public function get_user_postmeta() {
 		global $wpdb;

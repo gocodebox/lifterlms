@@ -278,15 +278,6 @@ class LLMS_L10n_JS {
 			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),
 
 			/**
-			 * File: assets/js/llms-admin-settings.js.
-			 *
-			 * @since    3.7.3
-			 * @version  3.18.0
-			 */
-			'Select an Image' => esc_html__( 'Select an Image', 'lifterlms' ),
-			'Select Image' => esc_html__( 'Select Image', 'lifterlms' ),
-
-			/**
 			 * File: assets/js/llms-admin-tables.js.
 			 *
 			 * @since    3.2.0
@@ -300,6 +291,8 @@ class LLMS_L10n_JS {
 			 * @since    Unknown
 			 * @version  4.4.0
 			 */
+			'Select an Image' => esc_html__( 'Select an Image', 'lifterlms' ),
+			'Select Image' => esc_html__( 'Select Image', 'lifterlms' ),
 			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
 			'Error: %s' => esc_html__( 'Error: %s', 'lifterlms' ),

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -209,9 +209,10 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
+	 * @since [version] Use `llms_admin_field_upload()` for image upload field output.
 	 *
-	 * @param    array $field  array of field settings
-	 * @return   void
+	 * @param array $field Array of field settings.
+	 * @return void
 	 */
 	public static function output_field( $field ) {
 
@@ -626,23 +627,19 @@ class LLMS_Admin_Settings {
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
 
-						<img class="llms-image-field-preview" src="<?php echo $src; ?>">
-						<button class="llms-button-secondary llms-image-field-upload" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
-							<span class="dashicons dashicons-admin-media"></span>
-							<?php _e( 'Upload', 'lifterlms' ); ?>
-						</button>
-						<button class="llms-button-danger llms-image-field-remove<?php echo ( ! $src ) ? ' hidden' : ''; ?>" data-id="<?php echo esc_attr( $field['id'] ); ?>" type="button">
-							<span class="dashicons dashicons-no"></span>
-						</button>
-						<input
-							name="<?php echo esc_attr( $field['id'] ); ?>"
-							id="<?php echo esc_attr( $field['id'] ); ?>"
-							type="hidden"
-							style="<?php echo esc_attr( $field['css'] ); ?>"
-							value="<?php echo esc_attr( $option_value ); ?>"
-							class="<?php echo esc_attr( $field['class'] ); ?>"
-							<?php echo implode( ' ', $custom_attributes ); ?>
-							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
+						<?php
+						llms_admin_field_upload(
+							$field['id'],
+							$src,
+							$option_value,
+							array(
+								'class' => $field['class'],
+								'after' => ! empty( $field['after_html'] ) ? $field['after_html'] : '',
+								'desc'  => $description,
+							)
+						);
+						?>
+
 					</td>
 				</tr>
 				<?php
