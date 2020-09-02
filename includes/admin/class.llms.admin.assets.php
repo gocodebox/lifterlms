@@ -109,6 +109,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
+	 * @since 4.4.0 Enqueue the main `llms` script.
 	 *
 	 * @return   void
 	 */
@@ -147,6 +148,8 @@ class LLMS_Admin_Assets {
 		}
 
 		if ( $this->is_llms_page() ) {
+
+			llms()->assets->enqueue_script( 'llms' );
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
@@ -252,9 +255,11 @@ class LLMS_Admin_Assets {
 	/**
 	 * Initialize the "llms" object for other scripts to hook into
 	 *
+	 * @since 1.0.0
+	 * @since 3.7.5 Unknown.
+	 * @since 4.4.0 Add `ajax_nonce`.
+	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  3.7.5
 	 */
 	public function admin_print_scripts() {
 
@@ -275,6 +280,7 @@ class LLMS_Admin_Assets {
 		echo '
 			<script type="text/javascript">
 				window.llms = window.llms || {};
+				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
 				window.llms.post = ' . json_encode( $postdata ) . ';
 			</script>

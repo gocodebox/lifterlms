@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.3.3';
+	public $version = '4.4.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -39,6 +39,13 @@ final class LifterLMS {
 	 * @var LifterLMS
 	 */
 	protected static $_instance = null;
+
+	/**
+	 * LLMS_Assets instance
+	 *
+	 * @var LLMS_Assets
+	 */
+	public $assets = null;
 
 	/**
 	 * LLMS_Query instance
@@ -93,8 +100,9 @@ final class LifterLMS {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
-		// Define constants.
 		$this->define_constants();
+
+		$this->init_assets();
 
 		$this->query = new LLMS_Query();
 
@@ -186,6 +194,24 @@ final class LifterLMS {
 		$this->notifications();
 
 		do_action( 'lifterlms_init' );
+
+	}
+
+	/**
+	 * Initialize the core asset handler class.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @return LLMS_Assets
+	 */
+	private function init_assets() {
+
+		$this->assets = new LLMS_Assets( 'llms-core' );
+
+		$this->assets->define( 'scripts', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-scripts.php' );
+		$this->assets->define( 'styles', require LLMS_PLUGIN_DIR . 'includes/assets/llms-assets-styles.php' );
+
+		return $this->assets;
 
 	}
 

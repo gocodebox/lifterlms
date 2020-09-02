@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.3.3
+Stable tag: 4.4.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -514,6 +514,40 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.4.0 - 2020-09-02 =
+
+##### Updates
+
++ Improved LifterLMS static asset registration, queuing, definitions, and management.
++ Added strict comparators in various areas of the codebase.
+
+##### Changes to deprecated function logs and warnings
+
++ The `llms_deprecated_function()` method now uses `_deprecated_function()` (from the WP core) under the hood.
++ LifterLMS deprecation warnings are logged to the WP core `debug.log` file in favor of the LifterLMS log file.
++ LifterLMS deprecation warnings will now trigger a `E_USER_DEPRECATED` error when `WP_DEBUG` is enabled.
+
+##### Bugfixes
+
++ Fixed a lesson navigation issue encountered when sections contain unpublished lessons.
++ Fixed an undefined variable notice encountered on the student dashboard.
++ Fixed an issue encountered when the `wp_login_url()` function returns an empty string.
++ Fixed a double slash found in an asset URI.
+
+##### Deprecations
+
++ `LLMS_Frontend_Assets::is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
++ `LLMS_Ajax::register_script()` is deprecated with no replacement.
++ `LLMS_Ajax::get_ajax_data()` is deprecated with no replacement.
++ Javascript AJAX nonce variable is moved from `wp_ajax_data.nonce` to `window.llms.ajax-nonce`.
+
+##### Templates Updated
+
++ templates/checkout/form-gateways.php
++ templates/course/lesson-preview.php
++ templates/course/syllabus.php
+
+
 = v4.3.3 - 2020-08-17 =
 
 + Fixed an issue causing legends of reporting charts to be truncated and only readable after a mouse hover.
@@ -810,81 +844,6 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 = v4.0.0-rc.1 - 2020-06-18 =
 
 View release notes at [https://make.lifterlms.com/2020/06/18/lifterlms-version-4-0-0-rc-1/](https://make.lifterlms.com/2020/06/18/lifterlms-version-4-0-0-rc-1/).
-
-
-= v3.41.0 - 2020-06-12 =
-
-##### Bug Fixes
-
-+ Fix issues encountered when a user role with the `edit_users` capability has multiple LifterLMS roles (like Student).
-
-##### LifterLMS 4.0.0 Release Preparation
-
-LifterLMS 4.0.0, our first major release in several years, is nearing the end of it's beta testing cycle. Many unused legacy functions, classes, and files are being removed in version 4.0.0 and well as many functions, classes, and files that were previously deprecated.
-
-The following is a list of items that have not been previously deprecated but will be removed from LifterLMS 4.0.0.
-
-For full details on the release, information on beta testing, and more, see our [blog post on the release](https://make.lifterlms.com/2020/06/01/preparing-for-lifterlms-4-0-0/).
-
-##### Deprecations
-
-The WP Session Manager plugin / library that is bundled into the LifterLMS core code base is deprecated from our code base and is being fully removed in favor of an internal session manager.
-
-The bundled Javascript Boostrap 3 modules, "collapse" and "transition" are deprecated from our codebase and are being removed.
-
-The following CSS classes are deprecated and will be removed:
-
-+ `templates/global/form-login.php`: The `col-1` class from the `div.llms-person-login-form-wrapper` element will be removed.
-+ `templates/global/form-registration.php`: : The `col-2` class from the `div.llms-new-person-form-wrapper` element will be removed.
-
-The following classes are deprecated:
-
-+ `LLMS_Number`: `includes/class.llms.number.php`
-+ `LLMS_Person`: `includes/class.llms.person.php`
-+ `LLMS_Table_Questions`: `includes/admin/reporting/tables/llms.table.questions.php`
-
-The following class methods are deprecated:
-
-+ `LLMS_PlayNice::divi_fb_wc_product_tabs_after()`
-+ `LLMS_PlayNice::divi_fb_wc_product_tabs_before()`
-+ `LLMS_Question::get_correct_option()`
-+ `LLMS_Question::get_correct_option_key()`
-+ `LLMS_Quiz::get_passing_percent()`, use `LLMS_Quiz::get( 'passing_percent' )` instead.
-+ `LLMS_Quiz::get_assoc_lesson()`, use `LLMS_Quiz::get( 'lesson_id' )` instead.
-+ `LLMS_Session::init()`
-+ `LLMS_Session::maybe_start_session()`
-+ `LLMS_Session::set_expiration_variant_time()`
-+ `LLMS_Session::set_expiration_time()`
-+ `LLMS_Session::use_php_sessions()`
-
-The following class properties are deprecated:
-
-+ `LifterLMS->person` (generally accessed via `LLMS()->person`).
-
-The following functions are deprecated:
-
-+ `lifterlms_template_loop_view_link()`
-+ `llms_add_user_table_columns()`
-+ `llms_add_user_table_rows()`
-+ `llms_get_question()`
-+ `llms_get_quiz()`
-+ `llms_setup_product_data()`
-+ `llms_setup_question_data()`
-
-The following global variables are deprecated:
-
-+ `$product`
-+ `$question`
-
-The following action hooks are deprecated:
-
-+ `lifterlms_before_memberships_loop_item_title`
-+ `lifterlms_after_memberships_loop_item_title`
-+ `lifterlms_after_memberships_loop_item_title`
-
-The following template file is deprecated:
-
-+ `templates/loop/view-link.php`
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

@@ -2,6 +2,8 @@
 /**
  * Tests for LifterLMS Core Functions
  *
+ * @package LifterLMS/Tests/Functions
+ *
  * @group functions
  * @group functions_core
  *
@@ -11,6 +13,7 @@
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
+ * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -70,6 +73,45 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			'another'      => 'arst',
 		);
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'another', 'new_key', 'item' ) );
+
+	}
+
+	/**
+	 * Test llms_deprecated_function()
+	 *
+	 * @since 4.4.0
+	 *
+	 * @expectedDeprecated DEPRECATED
+	 *
+	 * @return void
+	 */
+	public function test_llms_deprecated_function() {
+
+		// Add an action where we'll test that all our deprecation data is properly passed.
+		add_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ), 10, 3 );
+
+		llms_deprecated_function( 'DEPRECATED', '999.999.999', 'REPLACEMENT' );
+
+		remove_action( 'deprecated_function_run', array( $this, 'deprecated_function_run_assertions' ) );
+
+	}
+
+	/**
+	 * Callback method used to test `llms_deprecated_function()`.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $function    Deprecated function name.
+	 * @param string $replacement Deprecated function replacement.
+	 * @param string $version     Deprecated version number.
+	 * @return void
+	 */
+	public function deprecated_function_run_assertions( $function, $replacement, $version ) {
+
+		// Our deprecation data should be passed to the core.
+		$this->assertEquals( 'DEPRECATED', $function );
+		$this->assertEquals( 'REPLACEMENT', $replacement );
+		$this->assertEquals( '999.999.999', $version );
 
 	}
 

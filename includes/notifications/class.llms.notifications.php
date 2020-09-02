@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 3.38.0
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -168,6 +168,7 @@ class LLMS_Notifications {
 	 * @since 3.22.0
 	 * @since 3.36.1 Don't automatically mark notifications as read.
 	 * @since 3.38.0 Use `wp_json_decode()` in favor of `json_decode()`.
+	 * @since 4.4.0 Use `LLMS_Assets::enqueue_inline()` in favor of deprecated `LLMS_Frontend_Assets::enqueue_inline_script()`.
 	 *
 	 * @return void
 	 */
@@ -191,9 +192,10 @@ class LLMS_Notifications {
 		$this->displayed = $query->get_notifications();
 
 		// Push to JS.
-		LLMS_Frontend_Assets::enqueue_inline_script(
+		llms()->assets->enqueue_inline(
 			'llms-queued-notifications',
-			'window.llms = window.llms || {};window.llms.queued_notifications = ' . wp_json_encode( $this->displayed ) . ';'
+			'window.llms.queued_notifications = ' . wp_json_encode( $this->displayed ) . ';',
+			'footer'
 		);
 
 	}

@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version 3.40.0
+ * @version 4.4.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -60,6 +60,7 @@
 	 * @since 3.19.4
 	 * @since 3.32.0 Added ability to fetch posts based on their post status.
 	 * @since 3.37.2 Added ability to fetch posts (llms posts) filtered by their instructor id.
+	 * @since 4.4.0 Update ajax nonce source.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.
@@ -106,7 +107,7 @@
 						instructor_id : options.instructor_id,
 						post_statuses: options.post_statuses,
 						term: params.term,
-						_ajax_nonce: wp_ajax_data.nonce
+						_ajax_nonce: window.llms.ajax_nonce,
 					};
 				},
 				processResults: function( data, params ) {
@@ -163,11 +164,13 @@
 
 	/**
 	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Students via AJAX
-	 * @param    obj   options  options passed to Select2
-	 *                          each default option will pulled from the elements data-attributes
-	 * @return   void
-	 * @since    ??
-	 * @version  3.17.5
+	 *
+	 * @since Unknown
+	 * @since 3.17.5 Unknown.
+	 * @since 4.4.0 Update ajax nonce source.
+	 *
+	 * @param obj options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
+	 * @return void
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
 
@@ -200,7 +203,7 @@
 				url: window.ajaxurl,
 				data: function( params ) {
 					return {
-						_ajax_nonce: wp_ajax_data.nonce,
+						_ajax_nonce: window.llms.ajax_nonce,
 						action: 'query_students',
 						page: params.page,
 						not_enrolled_in: params.not_enrolled_in || options.not_enrolled_in,
