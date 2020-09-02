@@ -109,7 +109,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
-	 * @since [version] Enqueue the main `llms` script.
+	 * @since 4.4.0 Enqueue the main `llms` script.
 	 *
 	 * @return   void
 	 */
@@ -257,7 +257,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.7.5 Unknown.
-	 * @since [version] Add `ajax_nonce`.
+	 * @since 4.4.0 Add `ajax_nonce`.
 	 *
 	 * @return void
 	 */

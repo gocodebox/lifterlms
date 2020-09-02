@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
  * @since 4.0.0 Remove JS dependencies "collapse" and "transition".
- * @since [version] Method `enqueue_inline_script()` is deprecated in favor of `LLMS_Assets::enqueue_inline()`.
+ * @since 4.4.0 Method `enqueue_inline_script()` is deprecated in favor of `LLMS_Assets::enqueue_inline()`.
  *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
@@ -45,7 +45,7 @@ class LLMS_Frontend_Assets {
 	 * Enqueue an inline script
 	 *
 	 * @version 3.4.1
-	 * @deprecated [version] Use `LLMS_Assets::enqueue_inline()` instead.
+	 * @deprecated 4.4.0 Use `LLMS_Assets::enqueue_inline()` instead.
 	 *
 	 * @param string $id       Unique id for the script, used to prevent duplicates.
 	 * @param string $script   JS to enqueue, do not add <script> tags!.
@@ -54,7 +54,7 @@ class LLMS_Frontend_Assets {
 	 * @return boolean
 	 */
 	public static function enqueue_inline_script( $id, $script, $location = 'footer', $priority = 10 ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::enqueue_inline_script()', '[version]', 'LLMS_Assets::enqueue_inline()' );
+		llms_deprecated_function( 'LLMS_Frontend_Assets::enqueue_inline_script()', '4.4.0', 'LLMS_Assets::enqueue_inline()' );
 		return llms()->assets->enqueue_inline( $id, $script, $location, $priority ) ? true : false;
 	}
 
@@ -80,7 +80,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
-	 * @since [version] Enqueue & register scripts using `LLMS_Assets` methods.
+	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 3.36.0 Localize tracking with client-side settings.
 	 * @since 4.0.0 Remove dependencies "collapse" and "transition".
-	 * @since [version] Enqueue & register scripts using `LLMS_Assets` methods.
+	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 *              Add Add `window.llms.ajax_nonce` data to replace `wp_ajax_data.nonce`.
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
 	 *
@@ -165,7 +165,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue inline scripts.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -194,13 +194,13 @@ class LLMS_Frontend_Assets {
 	 * Determine if an inline script has already been enqueued
 	 *
 	 * @since 3.4.1
-	 * @deprecated [version]
+	 * @deprecated 4.4.0
 	 *
 	 * @param string $handle Handle of the inline script.
 	 * @return boolean
 	 */
 	public static function is_inline_script_enqueued( $handle ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::is_inline_enqueued()', '[version]', 'LLMS_Frontend_Assets::is_inline_enqueued()' );
+		llms_deprecated_function( 'LLMS_Frontend_Assets::is_inline_enqueued()', '4.4.0', 'LLMS_Frontend_Assets::is_inline_enqueued()' );
 		return llms()->assets->is_inline_enqueued( $handle );
 	}
 
@@ -208,7 +208,7 @@ class LLMS_Frontend_Assets {
 	 * Output inline scripts in the footer
 	 *
 	 * @since 3.4.1
-	 * @since [version] Use `LLMS_Assets::output_inline()` to output scripts.
+	 * @since 4.4.0 Use `LLMS_Assets::output_inline()` to output scripts.
 	 *
 	 * @return void
 	 */
@@ -220,7 +220,7 @@ class LLMS_Frontend_Assets {
 	 * Output inline scripts in the header
 	 *
 	 * @since 3.4.1
-	 * @since [version] Use `LLMS_Assets::output_inline()` to output scripts.
+	 * @since 4.4.0 Use `LLMS_Assets::output_inline()` to output scripts.
 	 *
 	 * @return void
 	 */

@@ -6,14 +6,14 @@
  *
  * @group assets
  *
- * @since [version]
+ * @since 4.4.0
  */
 class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * Dequeue and deregister all assets that may have been registered/enqueued during the test.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test define() with script assets.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test define() with style assets.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test define() with an invalid type.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue_inline()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue_script() for a defined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -155,7 +155,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue_script() for an undefined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue_style() for a defined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue_style() for an undefined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -200,7 +200,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() method.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() metho for an undefined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -231,7 +231,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that adding an asset with a custom src will use the custom src instead of a generated one
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -259,7 +259,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that adding an asset with an empty suffix will not add the default suffix.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -289,7 +289,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_scripts()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -311,7 +311,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_styles()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_definitions()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -352,7 +352,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_definitions_inline()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -385,7 +385,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_inline_priority()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -408,7 +408,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_inline_enqueued()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -428,7 +428,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output_inline()
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -456,7 +456,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_inline_asset_for_output(): not in debug mode, scripts & styles work the same.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -479,7 +479,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_inline_asset_for_output(): for scripts.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -502,7 +502,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_inline_asset_for_output(): for styles.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -525,7 +525,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_script() for a custom asset (added via a filter)
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -547,7 +547,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_script() for a defined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -561,7 +561,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_script() for an undefined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -575,7 +575,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_style() for a custom asset (added via a filter)
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -602,7 +602,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_style() for a defined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -624,7 +624,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_style() for an undefined asset.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */

@@ -1,6 +1,41 @@
 LifterLMS Changelog
 ===================
 
+v4.4.0 - 2020-09-02
+-------------------
+
+##### Updates
+
++ Improved LifterLMS static asset registration, queuing, definitions, and management.
++ Added strict comparators in various areas of the codebase.
+
+##### Changes to deprecated function logs and warnings
+
++ The `llms_deprecated_function()` method now uses `_deprecated_function()` (from the WP core) under the hood.
++ LifterLMS deprecation warnings are logged to the WP core `debug.log` file in favor of the LifterLMS log file.
++ LifterLMS deprecation warnings will now trigger a `E_USER_DEPRECATED` error when `WP_DEBUG` is enabled.
+
+##### Bugfixes
+
++ Fixed a lesson navigation issue encountered when sections contain unpublished lessons.
++ Fixed an undefined variable notice encountered on the student dashboard.
++ Fixed an issue encountered when the `wp_login_url()` function returns an empty string.
++ Fixed a double slash found in an asset URI.
+
+##### Deprecations
+
++ `LLMS_Frontend_Assets::is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
++ `LLMS_Ajax::register_script()` is deprecated with no replacement.
++ `LLMS_Ajax::get_ajax_data()` is deprecated with no replacement.
++ Javascript AJAX nonce variable is moved from `wp_ajax_data.nonce` to `window.llms.ajax-nonce`.
+
+##### Templates Updated
+
++ templates/checkout/form-gateways.php
++ templates/course/lesson-preview.php
++ templates/course/syllabus.php
+
+
 v4.3.3 - 2020-08-17
 -------------------
 

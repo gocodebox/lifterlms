@@ -10,7 +10,7 @@
  *
  * @since 3.16.12
  * @since 3.30.1 Added more tests for `get_next_choice_marker()` and `get_choices()`
- * @since [version] Add tests for the `grade()` method.
+ * @since 4.4.0 Add tests for the `grade()` method.
  */
 class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
@@ -81,7 +81,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Overwrite unnecessary parent test.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test grade() for a question with no points.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -237,7 +237,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test grade() when grading is handled by a filter from a 3rd party
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -259,7 +259,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test grade() for a multiple choice question with multiple correct answers.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -295,7 +295,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test grade() for a multiple choice with a single correct answer and true_false questions.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */
@@ -322,7 +322,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test grade() for a conditionally auto-graded question.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -221,7 +221,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve a choice by id
 	 *
 	 * @since 3.16.0
-	 * @since [version] Use strict comparison.
+	 * @since 4.4.0 Use strict comparison.
 	 *
 	 * @param string $id  Choice ID.
 	 * @return obj|false
@@ -240,7 +240,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.16.0
 	 * @since 3.30.1 Improve choice sorting to accommodate numeric markers.
 	 * @since 3.35.0 Escape `LIKE` clause.
-	 * @since [version] Don't allow objects when using `unserialize()`.
+	 * @since 4.4.0 Don't allow objects when using `unserialize()`.
 	 *
 	 * @param string $return Optional. Determine how to return the choice data.
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
@@ -476,7 +476,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.15 Unknown.
-	 * @since [version] Combined nested if statements into a single condition.
+	 * @since 4.4.0 Combined nested if statements into a single condition.
 	 *
 	 * @param array[] $answer Selected answer(s).
 	 * @return string|null Returns `null` if the question cannot be automatically graded.
@@ -639,7 +639,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Sort choices by marker.
 	 *
 	 * @since 3.30.1
-	 * @since [version] Don't allow objects when using `unserialize()`.
+	 * @since 4.4.0 Don't allow objects when using `unserialize()`.
 	 *
 	 * @param string $choice_a Serialized choice data.
 	 * @param string $choice_b Serialized choice data.

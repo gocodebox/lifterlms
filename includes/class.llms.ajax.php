@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -61,7 +61,7 @@ class LLMS_AJAX {
 	 * Register the AJAX handler class with all the appropriate WordPress hooks.
 	 *
 	 * @since Unknown
-	 * @since [version] Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
+	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
 	 *
 	 * @return void
 	 */
@@ -122,8 +122,8 @@ class LLMS_AJAX {
 	 *
 	 * @since 1.0.0
 	 * @since 3.35.0 Sanitize data & declare script versions.
-	 * @since [version] Don't register the `llms` script.
-	 * @deprecated [version] Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
+	 * @since 4.4.0 Don't register the `llms` script.
+	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_AJAX {
 	 * Get the AJAX data
 	 *
 	 * @since Unknown
-	 * @deprecated [version] Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
+	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
 	 *
 	 * @return array
 	 */

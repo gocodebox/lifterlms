@@ -7,8 +7,8 @@
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
- * @since [version] Pass the progressive lesson order value to the lesson-prewiew template.
- * @version [version]
+ * @since 4.4.0 Pass the progressive lesson order value to the lesson-prewiew template.
+ * @version 4.4.0
  */
 defined( 'ABSPATH' ) || exit;
 global $post;

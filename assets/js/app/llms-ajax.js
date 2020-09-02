@@ -60,7 +60,7 @@ LLMS.Ajax = {
 	 * Initialize Ajax methods
 	 *
 	 * @since Unknown
-	 * @since [version] Update ajax nonce source.
+	 * @since 4.4.0 Update ajax nonce source.
 	 *
 	 * @param {Object} obj Options object.
 	 * @return {Object}

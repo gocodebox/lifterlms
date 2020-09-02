@@ -7,8 +7,8 @@
  *
  * @since 1.0.0
  * @since 3.19.2 Unknown.
- * @since [version] Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
- * @version [version]
+ * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
+ * @version 4.4.0
  */
 defined( 'ABSPATH' ) || exit;
 

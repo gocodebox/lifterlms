@@ -10,8 +10,8 @@
  * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
- * @since [version] Added tests on next/previous lessons retrieval.
- * @version [version]
+ * @since 4.4.0 Added tests on next/previous lessons retrieval.
+ * @version 4.4.0
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -462,7 +462,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test next lesson
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 */
 	public function test_next_lesson() {
 
@@ -508,7 +508,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test previous lesson
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 */
 	public function test_previous_lesson() {
 

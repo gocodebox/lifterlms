@@ -8422,8 +8422,8 @@ define( 'Views/Popover',[], function() {
 /**
  * Post Popover Search content View
  *
- * @since    3.16.0
- * @version  3.17.0
+ * @since 3.16.0
+ * @version 4.4.0
  */
 define( 'Views/PostSearch',[], function() {
 
@@ -8480,11 +8480,14 @@ define( 'Views/PostSearch',[], function() {
 
 		/**
 		 * Render the section
-		 * Initializes a new collection and views for all lessons in the section
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.12
+		 * Initializes a new collection and views for all lessons in the section.
+		 *
+		 * @since 3.16.0
+		 * @since 3.16.12 Unknown.
+		 * @since 4.4.0 Update ajax nonce source.
+		 *
+		 * @return void
 		 */
 		render: function() {
 			var self = this;
@@ -8503,15 +8506,12 @@ define( 'Views/PostSearch',[], function() {
 								post_type: self.post_type,
 								term: params.term,
 								page: params.page,
-								_ajax_nonce: wp_ajax_data.nonce,
+								_ajax_nonce: window.llms.ajax_nonce,
 							};
 						},
-						// error: function( xhr, status, error ) {
-						// console.log( status, error );
-						// },
 					},
 					dropdownParent: $( '.wrap.lifterlms.llms-builder' ),
-					// don't escape html from render_result
+					// Don't escape html from render_result.
 					escapeMarkup: function( markup ) {
 						return markup;
 					},

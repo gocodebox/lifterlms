@@ -83,7 +83,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * Test the registration shortcode
 	 *
 	 * @since 3.4.3
-	 * @since [version] Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
+	 * @since 4.4.0 Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
 	 *
 	 * @return void
 	 */
