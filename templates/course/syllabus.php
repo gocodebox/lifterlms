@@ -2,10 +2,13 @@
 /**
  * Template for the Course Syllabus Displayed on individual course pages
  *
- * @author      LifterLMS
- * @package     LifterLMS/Templates
- * @since       1.0.0
- * @version     3.24.0
+ * @author LifterLMS
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @since 3.24.0 Unknown.
+ * @since 4.4.0 Pass the progressive lesson order value to the lesson-prewiew template.
+ * @version 4.4.0
  */
 defined( 'ABSPATH' ) || exit;
 global $post;
@@ -25,6 +28,8 @@ $sections = $course->get_sections();
 
 		<?php foreach ( $sections as $section ) : ?>
 
+			<?php $lesson_order = 0; ?>
+
 			<?php if ( apply_filters( 'llms_display_outline_section_titles', true ) ) : ?>
 				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $section->get( 'id' ) ); ?></h3>
 			<?php endif; ?>
@@ -40,6 +45,7 @@ $sections = $course->get_sections();
 						array(
 							'lesson'        => $lesson,
 							'total_lessons' => count( $lessons ),
+							'order'         => ++$lesson_order,
 						)
 					);
 					?>

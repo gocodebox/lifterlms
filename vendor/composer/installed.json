@@ -1,0 +1,127 @@
+[
+    {
+        "name": "lifterlms/lifterlms-blocks",
+        "version": "1.9.1",
+        "version_normalized": "1.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+            "reference": "59f2bf6ffb103f534f817ddb861d3fd80cba65de"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/59f2bf6ffb103f534f817ddb861d3fd80cba65de",
+            "reference": "59f2bf6ffb103f534f817ddb861d3fd80cba65de",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1"
+        },
+        "require-dev": {
+            "lifterlms/lifterlms-cs": "dev-master",
+            "lifterlms/lifterlms-tests": "dev-master"
+        },
+        "time": "2020-04-29T21:40:43+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Team LifterLMS",
+                "email": "team@lifterlms.com"
+            }
+        ],
+        "description": "WordPress Editor (Gutenberg) blocks for LifterLMS."
+    },
+    {
+        "name": "lifterlms/lifterlms-rest",
+        "version": "1.0.0-beta.14",
+        "version_normalized": "1.0.0.0-beta14",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/lifterlms-rest.git",
+            "reference": "3f59650e6466786ad35319f8a785730d59b1c47f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/3f59650e6466786ad35319f8a785730d59b1c47f",
+            "reference": "3f59650e6466786ad35319f8a785730d59b1c47f",
+            "shasum": ""
+        },
+        "require-dev": {
+            "lifterlms/lifterlms-cs": "dev-master",
+            "lifterlms/lifterlms-tests": "dev-master"
+        },
+        "time": "2020-07-01T18:25:34+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Team LifterLMS",
+                "email": "team@lifterlms.com"
+            }
+        ],
+        "description": "REST API feature plugin for the LifterLMS Core."
+    },
+    {
+        "name": "woocommerce/action-scheduler",
+        "version": "3.1.6",
+        "version_normalized": "3.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/woocommerce/action-scheduler.git",
+            "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+            "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.6",
+            "woocommerce/woocommerce-sniffs": "0.0.8",
+            "wp-cli/wp-cli": "~1.5.1"
+        },
+        "time": "2020-05-12T16:22:33+00:00",
+        "type": "wordpress-plugin",
+        "extra": {
+            "scripts-description": {
+                "test": "Run unit tests",
+                "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+            }
+        },
+        "installation-source": "dist",
+        "scripts": {
+            "test": [
+                "phpunit"
+            ],
+            "phpcs": [
+                "phpcs -s -p"
+            ],
+            "phpcs-pre-commit": [
+                "phpcs -s -p -n"
+            ],
+            "phpcbf": [
+                "phpcbf -p"
+            ]
+        },
+        "license": [
+            "GPL-3.0-or-later"
+        ],
+        "description": "Action Scheduler for WordPress and WooCommerce",
+        "homepage": "https://actionscheduler.org/",
+        "support": {
+            "source": "https://github.com/woocommerce/action-scheduler/tree/3.1.6",
+            "issues": "https://github.com/woocommerce/action-scheduler/issues"
+        }
+    }
+]

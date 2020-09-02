@@ -5,10 +5,11 @@
  * @package LifterLMS/Templates/Checkout
  *
  * @since Unknown
- * @version 3.40.0
+ * @version 4.4.0
  */
 defined( 'ABSPATH' ) || exit;
 
+$coupon        = isset( $coupon ) ? $coupon : false;
 $show_gateways = true;
 
 // Don't display for free plans or plans which do not require any payment.

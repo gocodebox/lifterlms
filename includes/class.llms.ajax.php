@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,18 +59,24 @@ class LLMS_AJAX {
 
 	/**
 	 * Register the AJAX handler class with all the appropriate WordPress hooks.
+	 *
+	 * @since Unknown
+	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
+	 *
+	 * @return void
 	 */
 	public function register() {
 
 		$handler = 'LLMS_AJAX';
-
 		$methods = get_class_methods( 'LLMS_AJAX_Handler' );
 
 		foreach ( $methods as $method ) {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
-			add_action( 'wp_loaded', array( $this, 'register_script' ) );
 		}
+
+		$action = is_admin() ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
+		add_action( $action, array( $this, 'register_script' ), 20 );
 
 	}
 
@@ -116,26 +122,22 @@ class LLMS_AJAX {
 	 *
 	 * @since 1.0.0
 	 * @since 3.35.0 Sanitize data & declare script versions.
+	 * @since 4.4.0 Don't register the `llms` script.
+	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function register_script() {
 
-		// script will only register once
-		wp_register_script( 'llms', LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
-
-		$script = ! empty( $_SERVER['SCRIPT_NAME'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) ) : false;
-		// ensure this doesn't load on the wp-login.php screen
-		if ( false === stripos( $script, strrchr( wp_login_url(), '/' ) ) ) {
-			wp_enqueue_script( 'llms' );
-		}
 
 	}
 
 	/**
 	 * Get the AJAX data
-	 * Currently only retrieves the nonce until we can figure out how to get the post id too
+	 *
+	 * @since Unknown
+	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
 	 *
 	 * @return array
 	 */
