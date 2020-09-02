@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.3.3';
+	public $version = '4.4.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -200,7 +200,7 @@ final class LifterLMS {
 	/**
 	 * Initialize the core asset handler class.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return LLMS_Assets
 	 */

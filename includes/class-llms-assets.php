@@ -14,8 +14,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.4.0
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Assets Class
  *
- * @since [version]
+ * @since 4.4.0
  */
 class LLMS_Assets {
 
@@ -92,7 +92,7 @@ class LLMS_Assets {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string  $package_id An ID used to identify the originating package (plugin or theme) of the asset handler instance.
 	 * @param array[] $defaults   Array of asset definitions values. Accepts a partial list of values that is merged with the default defaults.
@@ -108,7 +108,7 @@ class LLMS_Assets {
 		 * Asset debug mode is used only to help debug inline assets although the asset suffix is also controlled by the same
 		 * WP Core constants.g
 		 *
-		 * @since [version]
+		 * @since 4.4.0
 		 *
 		 * @param bool   $debugging  Whether or not debugging is enabled. Returns `true` when `SCRIPT_DEBUG` is on, and `false` otherwise.
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
@@ -122,7 +122,7 @@ class LLMS_Assets {
 	 *
 	 * If an asset is already defined, redefining it will overwrite the previous definition.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string  $type   Asset type. Accepts 'scripts' or 'styles'.
 	 * @param array[] $assets List of assets to define. The array key is the asset's handle. Each array value is an array of asset definitions.
@@ -145,7 +145,7 @@ class LLMS_Assets {
 	/**
 	 * Enqueue an inline script or style
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string    $handle   Inline asset ID.
 	 * @param string    $asset    The inline script or CSS rule. This should *not* be wrapped in <script> or <style> tags.
@@ -183,7 +183,7 @@ class LLMS_Assets {
 	 * If the script is *not defined* this function will return `false` because registration
 	 * will fail.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -216,7 +216,7 @@ class LLMS_Assets {
 	 * If the stylesheet is *not defined* this function will return `false` because registration
 	 * will fail.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
@@ -240,7 +240,7 @@ class LLMS_Assets {
 	 * Locates the asset by type and handle and merges a potentially impartial asset definition
 	 * with default values from the `get_defaults()` method.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
@@ -272,7 +272,7 @@ class LLMS_Assets {
 		 *
 		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
 		 *
-		 * @since [version]
+		 * @since 4.4.0
 		 *
 		 * @param array|false $asset      Array of asset data or `false` if the asset has not been defined with LifterLMS.
 		 * @param string      $handle     The asset handle.
@@ -305,7 +305,7 @@ class LLMS_Assets {
 		 *
 		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
 		 *
-		 * @since [version]
+		 * @since 4.4.0
 		 *
 		 * @param array|false $asset  Array of asset data or `false` if the asset has not been defined with LifterLMS.
 		 * @param string      $handle The asset handle.
@@ -317,7 +317,7 @@ class LLMS_Assets {
 	/**
 	 * Retrieves an array of definition values based on asset type.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $type The asset type. Accepts either "script" or "style".
 	 * @return array
@@ -332,7 +332,7 @@ class LLMS_Assets {
 		 *
 		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
 		 *
-		 * @since [version]
+		 * @since 4.4.0
 		 *
 		 * @param array  $defaults   Default definition values.
 		 * @param string $package_id An ID used to identify the originating plugin or theme that defined the asset.
@@ -344,7 +344,7 @@ class LLMS_Assets {
 	/**
 	 * Retrieve the asset definition list for a given asset type.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $type The asset type. Accepts either "script" or "style".
 	 * @return array[]
@@ -370,7 +370,7 @@ class LLMS_Assets {
 		 *
 		 * The dynamic portion of this filter, `{$type}`, refers to the asset type. Either "script" or "style".
 		 *
-		 * @since [version]
+		 * @since 4.4.0
 		 *
 		 * @param array[] $list       The definition list.
 		 * @param string  $package_id An ID used to identify the originating plugin or theme that defined the asset.
@@ -383,7 +383,7 @@ class LLMS_Assets {
 	/**
 	 * Retrieve a list of inline asset definitions by location.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $location Location of scripts to output. Accepts "style", "header", or "footer".
 	 *                         Inline header styles are output using "style".
@@ -422,7 +422,7 @@ class LLMS_Assets {
 	 * This ensures that inline assets are always enqueued with a unique priority for their requested
 	 * location.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param float $priority      Requested enqueue priority.
 	 * @param array $inline_assets List of existing inline assets for the requested location.
@@ -447,7 +447,7 @@ class LLMS_Assets {
 	/**
 	 * Determines if an inline asset is enqueued
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $handle Inline asset handle.
 	 * @return boolean
@@ -459,7 +459,7 @@ class LLMS_Assets {
 	/**
 	 * Output inline scripts
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $location Location of scripts to output. Accepts "style", "header", or "footer".
 	 *                         Inline header styles are output using "style".
@@ -493,7 +493,7 @@ class LLMS_Assets {
 	 * and output the asset's handle as a comment before the asset's script/style so that the
 	 * inline assets can be quickly located and reviewed in the generated source of the page.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param array  $asset    The inline asset definition array.
 	 * @param string $location The location of the asset. Accepts "header", "footer", or "style".
@@ -531,7 +531,7 @@ class LLMS_Assets {
 	 *
 	 * If the script is *not defined* this function will return `false`.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -565,7 +565,7 @@ class LLMS_Assets {
 	 * The RTL stylesheet should have the same name (and suffix) with `-rtl` included prior to the suffix, for example
 	 * `llms.css` (or `llms.min.css`) would add the RTL stylesheet `llms-rtl.css` (or `llms-rtl.min.css`).
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean

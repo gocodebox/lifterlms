@@ -7,7 +7,7 @@
  * @group assets
  * @group frontend_assets
  *
- * @since [version]
+ * @since 4.4.0
  */
 class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 

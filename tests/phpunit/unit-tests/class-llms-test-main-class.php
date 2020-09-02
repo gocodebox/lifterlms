@@ -10,7 +10,7 @@
  * @since 3.21.1 Add localization tests.
  * @since 4.0.0 Add tests for `init_session()` method.
  *               Remove tests against removed LLMS_SVG_DIR constant.
- * @since [version] Add tests for `init_assets()` method.
+ * @since 4.4.0 Add tests for `init_assets()` method.
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
@@ -78,7 +78,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	/**
 	 * Test the init_assets() method.
 	 *
-	 * @since [version]
+	 * @since 4.4.0
 	 *
 	 * @return void
 	 */

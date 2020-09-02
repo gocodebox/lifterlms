@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0 Unknown.
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
  * @since 4.0.0 Remove deprecated methods.
- * @since [version] Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
+ * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
  *                  if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
  *                  Use strict comparisions where needed.
  *
@@ -403,7 +403,7 @@ implements LLMS_Interface_Post_Audio
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use strict comparison.
+	 * @since 4.4.0 Use strict comparison.
 	 *
 	 * @return boolean
 	 */
@@ -510,7 +510,7 @@ implements LLMS_Interface_Post_Audio
 	 * Determine if the lesson is an orphan
 	 *
 	 * @since 3.14.8
-	 * @since [version] Use `in_array()` with strict comparison to decide whether the parent course/section post status
+	 * @since 4.4.0 Use `in_array()` with strict comparison to decide whether the parent course/section post status
 	 *                  is in a set of allowed statuses.
 	 * @return bool
 	 */
@@ -725,7 +725,7 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0
-	 * @since [version] Improve the query so that we don't miss sibling lessons within the same section
+	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
 	 *                  if the next one(s) status is (are) not published.
 	 *                  Also clean up the code a little bit.
 	 *
@@ -811,7 +811,7 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Improve the query so that we don't miss sibling lessons within the same section
+	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
 	 *                  if the previous one(s) status is (are) not published.
 	 *                  Use strict comparisions where needed.
 	 *                  Make sure to always return `false` if no previous lesson is found.

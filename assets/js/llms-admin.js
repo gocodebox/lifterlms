@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version [version]
+ * @version 4.4.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -60,7 +60,7 @@
 	 * @since 3.19.4
 	 * @since 3.32.0 Added ability to fetch posts based on their post status.
 	 * @since 3.37.2 Added ability to fetch posts (llms posts) filtered by their instructor id.
-	 * @since [version] Update ajax nonce source.
+	 * @since 4.4.0 Update ajax nonce source.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.
@@ -167,7 +167,7 @@
 	 *
 	 * @since Unknown
 	 * @since 3.17.5 Unknown.
-	 * @since [version] Update ajax nonce source.
+	 * @since 4.4.0 Update ajax nonce source.
 	 *
 	 * @param obj options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
 	 * @return void

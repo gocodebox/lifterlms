@@ -2,7 +2,7 @@
  * Post Popover Search content View
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.4.0
  */
 define( [], function() {
 
@@ -64,7 +64,7 @@ define( [], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.16.12 Unknown.
-		 * @since [version] Update ajax nonce source.
+		 * @since 4.4.0 Update ajax nonce source.
 		 *
 		 * @return void
 		 */

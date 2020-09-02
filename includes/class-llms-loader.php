@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -86,7 +86,7 @@ class LLMS_Loader {
 	 * Includes that are included everywhere
 	 *
 	 * @since 4.0.0
-	 * @since [version] Include `LLMS_Assets` class.
+	 * @since 4.4.0 Include `LLMS_Assets` class.
 	 *
 	 * @return void
 	 */
