@@ -268,7 +268,7 @@ class LLMS_Engagements {
 
 		$this->log( '======= start maybe_trigger_engagement ========' );
 		$this->log( '$action: ' . $action );
-		$this->log( '$args: ' . json_encode( $args ) );
+		$this->log( '$args: ' . wp_json_encode( $args ) );
 
 		// Setup variables used in queries and triggers based on the action.
 		switch ( $action ) {
@@ -335,7 +335,7 @@ class LLMS_Engagements {
 		// Gather triggerable engagements matching the supplied criteria.
 		$engagements = apply_filters( 'lifterlms_get_engagements', $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
 
-		$this->log( '$engagements: ' . json_encode( $engagements ) );
+		$this->log( '$engagements: ' . wp_json_encode( $engagements ) );
 
 		// Only trigger engagements if there are engagements.
 		if ( $engagements ) {
