@@ -177,7 +177,7 @@ class LLMS_Engagements {
 	 * @since 3.8.0 Unknown.
 	 * @since [version] Use postmeta helpers for dupcheck and postmeta insertion.
 	 *              Add a return value in favor of `void`.
-	 *              Log success and failures to the `engagement-emails` log file instead of the mail `llms` log.
+	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 *
 	 * @param mixed[] $args {
 	 *     An array of arguments from the triggering hook.
