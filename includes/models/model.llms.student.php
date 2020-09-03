@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -88,6 +88,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.17.0 Unknown.
 	 * @since 3.34.0 Added new actions to differentiate between first-time enrollment and enrollment status updates.
 	 * @since 3.37.9 Added filter `llms_user_enrollment_allowed_post_types` to customize the post types a user can be enrolled into.
+	 * @since [version] Moved filter `llms_user_enrollment_allowed_post_types` to function `llms_get_enrollable_post_types()`.
 	 *
 	 * @see llms_enroll_student()
 	 *
@@ -105,24 +106,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 */
 		do_action( 'before_llms_user_enrollment', $this->get_id(), $product_id );
 
-		/**
-		 * Customize the post types which users can be enrolled into.
-		 *
-		 * This filter differs slightly from `llms_user_enrollment_status_allowed_post_types`. This filter
-		 * determines which post types a user can be physically associated with through enrollment while
-		 * `llms_user_enrollment_status_allowed_post_types` allows checking of user enrollment based on
-		 * posts which are associated with a post type.
-		 *
-		 * @since 3.37.9
-		 *
-		 * @see llms_user_enrollment_status_allowed_post_types
-		 *
-		 * @param string[] $post_types Array of post type names.
-		 */
-		$allowed_types = apply_filters( 'llms_user_enrollment_allowed_post_types', array( 'course', 'llms_membership' ) );
-
 		// Users can only be enrolled into the following post types.
-		if ( ! in_array( get_post_type( $product_id ), $allowed_types, true ) ) {
+		if ( ! in_array( get_post_type( $product_id ), llms_get_enrollable_post_types(), true ) ) {
 			return false;
 		}
 
@@ -613,6 +598,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.0.0
 	 * @since 3.17.0 Unknown.
 	 * @since 3.37.9 Added filter `llms_user_enrollment_status_allowed_post_types`.
+	 * @since [version] Moved filter `llms_user_enrollment_status_allowed_post_types` to function `llms_get_enrollable_status_check_post_types()`.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query
@@ -624,23 +610,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$status       = false;
 		$product_type = get_post_type( $product_id );
 
-		/**
-		 * Customize the post types that can be used to check a user's enrollment status.
-		 *
-		 * This filter differs slightly from `llms_user_enrollment_allowed_post_types`. The difference is that
-		 * a user can be enrolled into a course but we can check their course enrollment status using the ID of a child (section or lesson).
-		 *
-		 * When adding a new post type for custom enrollment functionality the post type should be registered with
-		 * both of these filters.
-		 *
-		 * @since 3.37.9
-		 *
-		 * @see llms_user_enrollment_allowed_post_types
-		 *
-		 * @param string[] $post_types List of allowed post types.
-		 */
-		$allowed_types = apply_filters( 'llms_user_enrollment_status_allowed_post_types', array( 'course', 'section', 'lesson', 'llms_membership' ) );
-		if ( ! in_array( $product_type, $allowed_types, true ) ) {
+		if ( ! in_array( $product_type, llms_get_enrollable_status_check_post_types(), true ) ) {
 			/* This filter is documented at the end of this method. */
 			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id, $use_cache );
 		}

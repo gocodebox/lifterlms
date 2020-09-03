@@ -14,6 +14,7 @@
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
+ * @since [version] Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -199,6 +200,34 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	public function test_llms_get_engagement_types() {
 		$this->assertFalse( empty( llms_get_engagement_types() ) );
 		$this->assertTrue( is_array( llms_get_engagement_types() ) );
+	}
+
+	/**
+	 * Test llms_get_enrollable_post_types()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_enrollable_post_types() {
+		foreach ( llms_get_enrollable_post_types() as $post_type ) {
+			$this->assertTrue( is_string( $post_type ) );
+			$this->assertTrue( post_type_exists( $post_type ) );
+		}
+	}
+
+	/**
+	 * Test llms_get_enrollable_status_check_post_types()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_enrollable_status_check_post_types() {
+		foreach ( llms_get_enrollable_status_check_post_types() as $post_type ) {
+			$this->assertTrue( is_string( $post_type ) );
+			$this->assertTrue( post_type_exists( $post_type ) );
+		}
 	}
 
 	/**
