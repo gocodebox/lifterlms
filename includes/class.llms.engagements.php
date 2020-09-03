@@ -18,40 +18,55 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
+ * @since [version] Deprecated protected variable `LLMS_Engagements::$_instance` in favor of PSR2 compliant `$instance`.
  */
 class LLMS_Engagements {
 
 	/**
 	 * Enable debug logging
 	 *
-	 * @since 2.7.9
 	 * @var boolean
 	 */
 	private $debug = false;
 
 	/**
-	 * Protected instance of class
+	 * Class instance.
 	 *
 	 * @var LLMS_Engagements
 	 */
-	protected static $_instance = null;
+	protected static $instance = null;
+
+	/**
+	 * Deprecated class instance.
+	 *
+	 * @deprecated [version] Use `$instance` instead.
+	 *
+	 * @var LLMS_Engagements
+	 */
+	protected static $_instance = null; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore -- Deprecated.
 
 	/**
 	 * Create instance of class
 	 *
-	 * @return LLMS_Engagements Instance of engagements class.
+	 * @since 2.3.0
+	 * @since [version] Use `self::$instance` in favor of deprecated `self::$_instance` and preserve the reference for backwards compatibility.
+	 *
+	 * @return LLMS_Engagements
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance  = new self();
+			self::$_instance = self::$instance; // Preserve for backwards compatibility.
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 *
 	 * Adds actions to events that trigger engagements.
+	 *
+	 * @since 2.3.0
 	 *
 	 * @return void
 	 */
@@ -115,6 +130,8 @@ class LLMS_Engagements {
 	/**
 	 * Include engagement types (excluding email)
 	 *
+	 * @since 2.3.0
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -124,7 +141,6 @@ class LLMS_Engagements {
 
 	}
 
-
 	/**
 	 * Award an achievement
 	 *
@@ -132,11 +148,13 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $args Indexed array of args.
-	 *                    0 => WP User ID
-	 *                    1 => WP Post ID of the email post
-	 *                    2 => WP Post ID of the related post that triggered the award
+	 * @param mixed[] $args {
+	 *     An array of arguments from the triggering hook.
 	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the email.
+	 *     @type int|string $2 WP_Post ID of the related triggering post or an empty string for engagements with no related post.
+	 * }
 	 * @return void
 	 */
 	public function handle_achievement( $args ) {
@@ -154,10 +172,13 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $args  Indexed array of args.
-	 *                     0 => WP User ID
-	 *                     1 => WP Post ID of the email post
-	 *                     2 => WP Post ID of the related post that triggered the award
+	 * @param mixed[] $args {
+	 *     An array of arguments from the triggering hook.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the email.
+	 *     @type int|string $2 WP_Post ID of the related triggering post or an empty string for engagements with no related post.
+	 * }
 	 * @return void
 	 */
 	public function handle_certificate( $args ) {
@@ -402,7 +423,7 @@ class LLMS_Engagements {
 				$delay = intval( $e->delay );
 				$this->log( '$delay: ' . $delay );
 				$this->log( '$handler_action: ' . $handler_action );
-				$this->log( '$handler_args: ' . json_encode( $handler_args ) );
+				$this->log( '$handler_args: ' . wp_json_encode( $handler_args ) );
 				if ( $delay ) {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
@@ -419,9 +440,6 @@ class LLMS_Engagements {
 
 	}
 
-
-
-
 	/**
 	 * Retrieve engagements based on the trigger type
 	 *
@@ -430,17 +448,16 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 * @since 3.13.1 Unknown.
 	 *
-	 * @param string $trigger_type  Name of the trigger to look for.
-	 * @return array Array of objects.
-	 *               Array(
-	 *                  [0] => stdClass Object (
-	 *                      [engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
-	 *                      [trigger_id]    => 123, // this is the Post ID of the llms_engagement post
-	 *                      [trigger_event] => 'user_registration', // triggering action
-	 *                      [event_type]    => 'certificate', // engagement event action
-	 *                      [delay]         => 0, // time in days to delay the engagement
-	 *                   )
-	 *               )
+	 * @param string     $trigger_type    Name of the trigger to look for.
+	 * @param int|string $related_post_id WP_Post ID of the related (triggering) post. Can be an empty string if no related post.
+	 * @return obj[] {
+	 *     Array of objects representing the engagements matching the trigger and related post.
+	 *
+	 *     @type int    $engagement_id WP_Post ID of the engagement post (an llms_email, llms_certificate, llms_achievement, etc...).
+	 *     @type int    $trigger_id    WP_Post ID of the `llms_engagement` post used to create the engagement.
+	 *     @type string $trigger_event The type of action which triggered the engagement. EG: "user_registration", "course_completed", etc...
+	 *     @type string $event_type    The type of engagement. EG: "certificate", "achievement", "email", etc...
+	 *     @type int    $delay         The time delay for the engagement (in days).
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
