@@ -92,10 +92,16 @@ class LLMS_Engagements {
 	 */
 	private function add_actions() {
 
+		/**
+		 * Filter the list of actions which might be used to trigger an engagement.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string[] $actions An array of action hooks.
+		 */
 		$actions = apply_filters(
 			'lifterlms_engagement_actions',
 			array(
-
 				'lifterlms_access_plan_purchased',
 				'lifterlms_course_completed',
 				'lifterlms_course_track_completed',
@@ -109,14 +115,11 @@ class LLMS_Engagements {
 				'lifterlms_section_completed',
 				'llms_user_enrolled_in_course',
 				'llms_user_added_to_membership_level',
-
 			)
 		);
 
 		foreach ( $actions as $action ) {
-
 			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 3 );
-
 		}
 
 		add_action( 'lifterlms_engagement_send_email', array( $this, 'handle_email' ), 10, 1 );
@@ -124,7 +127,6 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_engagement_award_certificate', array( $this, 'handle_certificate' ), 10, 1 );
 
 	}
-
 
 
 	/**
@@ -164,7 +166,6 @@ class LLMS_Engagements {
 		$a->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
 
-
 	/**
 	 * Award a certificate
 	 *
@@ -187,7 +188,6 @@ class LLMS_Engagements {
 		$c = LLMS()->certificates();
 		$c->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
-
 
 	/**
 	 * Send an email engagement
@@ -272,89 +272,174 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Handles all actions that could potentially trigger an engagement
+	 * Parse engagement data from a hook and it's arguments.
 	 *
-	 * It will fire or schedule the actions after gathering all necessary data.
+	 * @since [version]
 	 *
-	 * @return void
+	 * @param string  $hook Name of an action hook.
+	 * @param mixed[] $args Arguments passed to the hook.
+	 * @return mixed[] {
+	 *     An associative array of structured data.
 	 *
-	 * @since 2.3.0
-	 * @since 3.11.0 Unknown.
-	 * @since 3.39.0 Treat also `llms_rest_student_registered` action.
+	 *     @type int|string $related_post_id WP_Post ID of the related (triggering) post or an empty string when no related post exists.
+	 *     @type string     $trigger_type    The name of the engagement type.
+	 *     @type int        $user_id         WP_User ID of the user triggering the engagement.
+	 * }
 	 */
-	public function maybe_trigger_engagement() {
+	protected function get_engagement_query_args( $hook, $hook_args = array() ) {
 
-		$action = current_filter();
-		$args   = func_get_args();
+		$args = array(
+			'related_post_id' => isset( $hook_args[1] ) && is_numeric( $hook_args[1] ) ? absint( $hook_args[1] ) : '',
+			'trigger_type'    => '',
+			'user_id'         => isset( $hook_args[0] ) ? absint( $hook_args[0] ) : 0,
+		);
 
-		$this->log( '======= start maybe_trigger_engagement ========' );
-		$this->log( '$action: ' . $action );
-		$this->log( '$args: ' . wp_json_encode( $args ) );
+		switch ( $hook ) {
 
-		// Setup variables used in queries and triggers based on the action.
-		switch ( $action ) {
-			case 'llms_rest_student_registered':
+			/**
+			 * Possible values for trigger_type:
+			 *
+			 * + user_registration
+			 */
+			case 'llms_rest_student_registered': // @todo: Ideally we should move this to the REST repo and use the `lifterlms_external_engagement_query_arguments` filter to register the hook.
 			case 'lifterlms_created_person':
-				$user_id         = intval( $args[0] );
-				$trigger_type    = 'user_registration';
-				$related_post_id = '';
+				$args['trigger_type'] = 'user_registration';
 				break;
-
+			/**
+			 * Possible values for trigger_type:
+			 *
+			 * + course_completed
+			 * + course_track_completed
+			 * + lesson_completed
+			 * + quiz_completed
+			 * + quiz_failed
+			 * + quiz_passed
+			 * + section_completed
+			 */
 			case 'lifterlms_course_completed':
 			case 'lifterlms_course_track_completed':
 			case 'lifterlms_lesson_completed':
-			case 'lifterlms_section_completed':
-				$user_id         = intval( $args[0] );
-				$related_post_id = intval( $args[1] );
-				$trigger_type    = str_replace( 'lifterlms_', '', $action );
-				break;
-
 			case 'lifterlms_quiz_completed':
-			case 'lifterlms_quiz_passed':
 			case 'lifterlms_quiz_failed':
-				$user_id         = absint( $args[0] );
-				$related_post_id = absint( $args[1] );
-				$trigger_type    = str_replace( 'lifterlms_', '', $action );
+			case 'lifterlms_quiz_passed':
+			case 'lifterlms_section_completed':
+				$args['trigger_type'] = str_replace( 'lifterlms_', '', $hook );
 				break;
 
+			/**
+			 * Possible values for trigger_type:
+			 *
+			 * + course_enrollment
+			 * + membership_enrollment
+			 */
 			case 'llms_user_added_to_membership_level':
 			case 'llms_user_enrolled_in_course':
-				$user_id         = intval( $args[0] );
-				$related_post_id = intval( $args[1] );
-				$trigger_type    = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
+				$args['trigger_type'] = str_replace( 'llms_', '', get_post_type( $args['related_post_id'] ) ) . '_enrollment';
 				break;
 
+			/**
+			 * Possible values for trigger_type:
+			 *
+			 * + access_plan_purchased
+			 * + course_purchased
+			 * + membership_purchased
+			 */
 			case 'lifterlms_access_plan_purchased':
 			case 'lifterlms_product_purchased':
-				$user_id         = intval( $args[0] );
-				$related_post_id = intval( $args[1] );
-				$trigger_type    = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
+				$args['trigger_type'] = str_replace( 'llms_', '', get_post_type( $args['related_post_id'] ) ) . '_purchased';
 				break;
 
-			// Allow extensions to hook into our engagements.
 			default:
-				extract(
-					apply_filters(
-						'lifterlms_external_engagement_query_arguments',
-						array(
-							'related_post_id' => null,
-							'trigger_type'    => null,
-							'user_id'         => null,
-						),
-						$action,
-						$args
-					)
+				/**
+				 * Determine engagement data from a custom hook
+				 *
+				 * 3rd parties should use this hook to parse argruments passed to a custom hook and prepare
+				 * the data used by the LifterLMS core to perform an engagement query used to lookup
+				 * engagements that should be triggered or scheduled when the hook is called.
+				 *
+				 * @since 2.3.0
+				 *
+				 * @param mixed[] $args      {
+				 *     An associative array of structured data.
+				 *
+				 *     @type int|string $related_post_id WP_Post ID of the related (triggering) post or an empty string when no related post exists.
+				 *     @type string     $trigger_type    The name of the engagement type.
+				 *     @type int        $user_id         WP_User ID of the user triggering the engagement.
+				 * @param string  $hook      Name of an action hook.
+				 * @param mixed[] $hook_args Arguments passed to the hook.
+				 * }
+				 */
+				$args = apply_filters(
+					'lifterlms_external_engagement_query_arguments',
+					array(
+						'related_post_id' => null,
+						'trigger_type'    => null,
+						'user_id'         => null,
+					),
+					$hook,
+					$hook_args
 				);
 
 		}
 
+		/**
+		 * Filter engagement query data before it's used to lookup engagements.
+		 *
+		 * This data is used to perform a query to lookup engagements that should be
+		 * triggered or scheduled when a qualifying hook is called.
+		 *
+		 * @since [version]
+		 *
+		 * @param mixed[] $args      {
+		 *     An associative array of structured data.
+		 *
+		 *     @type int|string $related_post_id WP_Post ID of the related (triggering) post or an empty string when no related post exists.
+		 *     @type string     $trigger_type    The name of the engagement type.
+		 *     @type int        $user_id         WP_User ID of the user triggering the engagement.
+		 * }
+		 * @param string  $hook      Name of an action hook.
+		 * @param mixed[] $hook_args Arguments passed to the hook.
+		 */
+		$args = apply_filters( 'llms_engagement_query_arguments', $args, $hook, $hook_args );
+
+		return $args;
+
+	}
+
+	/**
+	 * Handles all actions that could potentially trigger an engagement
+	 *
+	 * It will fire or schedule the actions after gathering all necessary data.
+	 *
+	 * @since 2.3.0
+	 * @since 3.11.0 Unknown.
+	 * @since 3.39.0 Treat also `llms_rest_student_registered` action.
+	 * @since [version] Refactored for testability.
+	 *
+	 * @return void
+	 */
+	public function maybe_trigger_engagement() {
+
+		$hook = current_filter();
+		$args = func_get_args();
+
+		$this->log( '======= start maybe_trigger_engagement ========' );
+		$this->log( '$hook: ' . $hook );
+		$this->log( '$args: ' . wp_json_encode( $args ) );
+
+		$query_args = $this->get_engagement_query_args( $hook, $args );
+
 		// We need a user and a trigger to proceed, related_post is optional though.
-		if ( ! $user_id || ! $trigger_type ) {
-			return;
+		if ( empty( $query_args['user_id'] ) || empty( $query_args['trigger_type'] ) ) {
+			return false;
 		}
 
+		$user_id         = $query_args['user_id'];
+		$related_post_id = isset( $query_args['related_post_id'] ) ? $query_args['related_post_id'] : '';
+		$trigger_type    = $query_args['trigger_type'];
+
 		// Gather triggerable engagements matching the supplied criteria.
-		$engagements = apply_filters( 'lifterlms_get_engagements', $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
+		$engagements = $this->get_engagements( $trigger_type, $related_post_id );
 
 		$this->log( '$engagements: ' . wp_json_encode( $engagements ) );
 
@@ -441,9 +526,7 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Retrieve engagements based on the trigger type
-	 *
-	 * Joins rather than nested loops and sub queries ftw.
+	 * Retrieve engagements that should be triggered based on the trigger type and related post
 	 *
 	 * @since 2.3.0
 	 * @since 3.13.1 Unknown.
@@ -451,13 +534,14 @@ class LLMS_Engagements {
 	 * @param string     $trigger_type    Name of the trigger to look for.
 	 * @param int|string $related_post_id WP_Post ID of the related (triggering) post. Can be an empty string if no related post.
 	 * @return obj[] {
-	 *     Array of objects representing the engagements matching the trigger and related post.
+	 *     Array of objects representing the engagements matching the trigger type and related post.
 	 *
 	 *     @type int    $engagement_id WP_Post ID of the engagement post (an llms_email, llms_certificate, llms_achievement, etc...).
 	 *     @type int    $trigger_id    WP_Post ID of the `llms_engagement` post used to create the engagement.
 	 *     @type string $trigger_event The type of action which triggered the engagement. EG: "user_registration", "course_completed", etc...
 	 *     @type string $event_type    The type of engagement. EG: "certificate", "achievement", "email", etc...
 	 *     @type int    $delay         The time delay for the engagement (in days).
+	 * }
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
@@ -478,53 +562,66 @@ class LLMS_Engagements {
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		$r = $wpdb->get_results(
+		$engagements = $wpdb->get_results(
 			$wpdb->prepare(
-				// The query.
 				"SELECT
-				  DISTINCT triggers.ID AS trigger_id
-				, triggers_meta.meta_value AS engagement_id
+				  DISTINCT triggers.ID        AS trigger_id
+				, triggers_meta.meta_value    AS engagement_id
 				, engagements_meta.meta_value AS trigger_event
-				, event_meta.meta_value AS event_type
-				, delay.meta_value AS delay
+				, event_meta.meta_value       AS event_type
+				, delay.meta_value            AS delay
 				$related_select
 
-			FROM $wpdb->postmeta AS engagements_meta
+				FROM $wpdb->postmeta AS engagements_meta
 
-			LEFT JOIN $wpdb->posts AS triggers ON triggers.ID = engagements_meta.post_id
-			LEFT JOIN $wpdb->postmeta AS triggers_meta ON triggers.ID = triggers_meta.post_id
-			LEFT JOIN $wpdb->posts AS engagements ON engagements.ID = triggers_meta.meta_value
-			LEFT JOIN $wpdb->postmeta AS event_meta ON triggers.ID = event_meta.post_id
-			LEFT JOIN $wpdb->postmeta AS delay ON triggers.ID = delay.post_id
-			$related_join
+				LEFT JOIN $wpdb->posts    AS triggers      ON triggers.ID    = engagements_meta.post_id
+				LEFT JOIN $wpdb->postmeta AS triggers_meta ON triggers.ID    = triggers_meta.post_id
+				LEFT JOIN $wpdb->posts    AS engagements   ON engagements.ID = triggers_meta.meta_value
+				LEFT JOIN $wpdb->postmeta AS event_meta    ON triggers.ID    = event_meta.post_id
+				LEFT JOIN $wpdb->postmeta AS delay         ON triggers.ID    = delay.post_id
+				$related_join
 
-			WHERE
-				    triggers.post_type = 'llms_engagement'
-				AND triggers.post_status = 'publish'
-				AND triggers_meta.meta_key = '_llms_engagement'
+				WHERE
+					    triggers.post_type     = 'llms_engagement'
+					AND triggers.post_status   = 'publish'
+					AND triggers_meta.meta_key = '_llms_engagement'
 
-				AND engagements_meta.meta_key = '_llms_trigger_type'
-				AND engagements_meta.meta_value = %s
-				AND engagements.post_status = 'publish'
+					AND engagements_meta.meta_key   = '_llms_trigger_type'
+					AND engagements_meta.meta_value = %s
+					AND engagements.post_status     = 'publish'
 
-				AND event_meta.meta_key = '_llms_engagement_type'
+					AND event_meta.meta_key = '_llms_engagement_type'
 
-				AND delay.meta_key = '_llms_engagement_delay'
+					AND delay.meta_key = '_llms_engagement_delay'
 
-				$related_where
-			",
-				// Prepare variables.
+					$related_where
+				",
 				$trigger_type
 			),
 			OBJECT
 		);
-
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$this->log( '$wpdb->last_query' . $wpdb->last_query );
 
-		return $r;
+		/**
+		 * Filter the list of engagements that should be triggered or scheduled.
+		 *
+		 * @since [version]
+		 *
+		 * @param obj[]      $engagements     {
+		 *     Array of objects representing the engagements matching the trigger type and related post.
+		 *
+		 *     @type int    $engagement_id WP_Post ID of the engagement post (an llms_email, llms_certificate, llms_achievement, etc...).
+		 *     @type int    $trigger_id    WP_Post ID of the `llms_engagement` post used to create the engagement.
+		 *     @type string $trigger_event The type of action which triggered the engagement. EG: "user_registration", "course_completed", etc...
+		 *     @type string $event_type    The type of engagement. EG: "certificate", "achievement", "email", etc...
+		 *     @type int    $delay         The time delay for the engagement (in days).
+		 * }
+		 * @param string     $trigger_type    Name of the trigger to look for.
+		 * @param int|string $related_post_id WP_Post ID of the related (triggering) post. Can be an empty string if no related post.
+		 */
+		return apply_filters( 'lifterlms_get_engagements', $engagements, $trigger_type, $related_post_id );
 
 	}
 
