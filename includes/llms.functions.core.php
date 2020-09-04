@@ -415,7 +415,7 @@ function llms_get_engagement_types() {
 /**
  * Retrieve a list of post types which users can be enrolled into.
  *
- * @since [version]
+ * @since 4.4.1
  *
  * @return string[] A list of post type names.
  */
@@ -442,7 +442,7 @@ function llms_get_enrollable_post_types() {
 /**
  * Retrieve a list of post types that can be used to check a users enrollment status in an enroll-able post type.
  *
- * @since [version]
+ * @since 4.4.1
  *
  * @return string[] A list of post type names.
  */
