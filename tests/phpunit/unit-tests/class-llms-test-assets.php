@@ -216,7 +216,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test get() metho for an undefined asset.
+	 * Test get() method for an undefined asset.
 	 *
 	 * @since 4.4.0
 	 *
@@ -225,6 +225,34 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_get_undefined() {
 
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'style', 'undefined-style' ) ) );
+
+	}
+
+	/**
+	 * Test get() method for an asset which is defined with an empty array signifying that all asset values should be defaults.
+	 *
+	 * @since [version]
+	 *
+	 * @see https://github.com/gocodebox/lifterlms/issues/1313
+	 *
+	 * @return version
+	 */
+	public function test_get_all_default_values() {
+
+		add_filter( 'llms_get_style_asset_before_prep', function( $asset, $handle ) {
+
+			if ( 'mock-style-with-all-defaults' === $handle ) {
+				$asset = array();
+			}
+
+			return $asset;
+
+		}, 10, 2 );
+
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'style', 'mock-style-with-all-defaults' ) );
+
+		$this->assertTrue( is_array( $asset ) );
+		$this->assertEquals( 'mock-style-with-all-defaults', $asset['handle'] );
 
 	}
 
