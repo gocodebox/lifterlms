@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 3.39.0
+ * @version 4.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -175,12 +175,18 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.8.0 Unknown.
+	 * @since 4.4.1 Use postmeta helpers for dupcheck and postmeta insertion.
+	 *              Add a return value in favor of `void`.
+	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 *
-	 * @param array $args  Indexed array of args.
-	 *                     0 => WP User ID
-	 *                     1 => WP Post ID of the email post
-	 *                     2 => WP Post ID of the triggering post
-	 * @return void
+	 * @param mixed[] $args {
+	 *     An array of arguments from the triggering hook.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the email.
+	 *     @type int|string $2 WP_Post ID of the related triggering post or an empty string for engagements with no related post.
+	 * }
+	 * @return bool|WP_Error Returns `true` on success or a WP_Error when the email has failed or is prevented.
 	 */
 	public function handle_email( $args ) {
 
@@ -190,65 +196,40 @@ class LLMS_Engagements {
 		$person_id  = $args[0];
 		$email_id   = $args[1];
 		$related_id = $args[2];
+		$meta_key   = '_email_sent';
 
-		// dupcheck
-		global $wpdb;
+		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $person_id, $email_id, $related_id ? '#' . $related_id : 'N/A' );
 
-		$res = (int) $wpdb->get_var(
-			$wpdb->prepare(
-				"
-			SELECT count( meta_id )
-			FROM {$wpdb->prefix}lifterlms_user_postmeta
-			WHERE post_id = %d
-			  AND user_id = %d
-			  AND meta_value = %d
-			  LIMIT 1
-			;",
-				array(
-					$related_id,
-					$person_id,
-					$email_id,
-				)
-			)
-		);
+		if ( $related_id ) {
 
-		if ( $res >= 1 ) {
-			llms_log( sprintf( 'Email `#%d` was not sent because of dupcheck', $email_id ) );
-			return;
+			if ( in_array( get_post_type( $related_id ), llms_get_enrollable_status_check_post_types(), true ) && ! llms_is_user_enrolled( $person_id, $related_id ) ) {
+
+				// User is no longer enrolled in the triggering post. We should skip the send.
+				llms_log( $msg . ' ' . __( 'not sent due to user enrollment issues.', 'lifterlms' ), 'engagement-emails' );
+				return new WP_Error( 'llms_engagement_email_not_sent_enrollment', $msg, $args );
+			} elseif ( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) {
+
+				// User has already received this email, don't send it again.
+				llms_log( $msg . ' ' . __( 'not sent due to user enrollment issues.', 'lifterlms' ), 'engagement-emails' );
+				return new WP_Error( 'llms_engagement_email_not_sent_dupcheck', $msg, $args );
+			}
 		}
 
 		// Setup the email.
-		$email = LLMS()->mailer()->get_email(
-			'engagement',
-			array(
-				'person_id'  => $args[0],
-				'email_id'   => $args[1],
-				'related_id' => $args[2],
-			)
-		);
+		$email = LLMS()->mailer()->get_email( 'engagement', compact( 'person_id', 'email_id', 'related_id' ) );
+		if ( $email && $email->send() ) {
 
-		if ( $email ) {
-
-			if ( $email->send() ) {
-
-				$wpdb->insert(
-					$wpdb->prefix . 'lifterlms_user_postmeta',
-					array(
-						'user_id'      => $person_id,
-						'post_id'      => $related_id,
-						'meta_key'     => '_email_sent',
-						'meta_value'   => $email_id,
-						'updated_date' => current_time( 'mysql' ),
-					),
-					array( '%d', '%d', '%s', '%d', '%s' )
-				);
-				llms_log( sprintf( 'Email `#%d` sent successfully', $email_id ) );
-
-			} else {
-
-				llms_log( sprintf( 'Error: email `#%d` was not sent', $email_id ) );
+			if ( $related_id ) {
+				llms_update_user_postmeta( $person_id, $related_id, $meta_key, $email_id );
 			}
+
+			llms_log( $msg . ' ' . __( 'sent successfully.', 'lifterlms' ), 'engagement-emails' );
+			return true;
 		}
+
+		// Error sending email.
+		llms_log( $msg . ' ' . __( 'not sent due to email sending issues.', 'lifterlms' ), 'engagement-emails' );
+		return new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args );
 
 	}
 
@@ -264,9 +245,7 @@ class LLMS_Engagements {
 	public function log( $log ) {
 
 		if ( $this->debug ) {
-
 			llms_log( $log, 'engagements' );
-
 		}
 
 	}

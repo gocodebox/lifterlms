@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 4.4.0
+ * @version 4.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -241,6 +241,7 @@ class LLMS_Assets {
 	 * with default values from the `get_defaults()` method.
 	 *
 	 * @since 4.4.0
+	 * @since 4.4.1 Replace truthy check with an strict check against `false` to ensure assets defined with an empty array signifying all default values should be used.
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
@@ -280,7 +281,7 @@ class LLMS_Assets {
 		 */
 		$asset = apply_filters( "llms_get_{$type}_asset_before_prep", $asset, $handle, $this->package_id );
 
-		if ( $asset && is_array( $asset ) ) {
+		if ( false !== $asset && is_array( $asset ) ) {
 
 			$asset = wp_parse_args( $asset, $this->get_defaults( $type ) );
 

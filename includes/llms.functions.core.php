@@ -413,6 +413,61 @@ function llms_get_engagement_types() {
 }
 
 /**
+ * Retrieve a list of post types which users can be enrolled into.
+ *
+ * @since 4.4.1
+ *
+ * @return string[] A list of post type names.
+ */
+function llms_get_enrollable_post_types() {
+
+	/**
+	 * Customize the post types which users can be enrolled into.
+	 *
+	 * This filter differs slightly from `llms_user_enrollment_status_allowed_post_types`. This filter
+	 * determines which post types a user can be physically associated with through enrollment while
+	 * `llms_user_enrollment_status_allowed_post_types` allows checking of user enrollment based on
+	 * posts which are associated with a post type.
+	 *
+	 * @since 3.37.9
+	 *
+	 * @see llms_user_enrollment_status_allowed_post_types
+	 *
+	 * @param string[] $post_types Array of post type names.
+	 */
+	return apply_filters( 'llms_user_enrollment_allowed_post_types', array( 'course', 'llms_membership' ) );
+
+}
+
+/**
+ * Retrieve a list of post types that can be used to check a users enrollment status in an enroll-able post type.
+ *
+ * @since 4.4.1
+ *
+ * @return string[] A list of post type names.
+ */
+function llms_get_enrollable_status_check_post_types() {
+
+	/**
+	 * Customize the post types that can be used to check a user's enrollment status.
+	 *
+	 * This filter differs slightly from `llms_user_enrollment_allowed_post_types`. The difference is that
+	 * a user can be enrolled into a course but we can check their course enrollment status using the ID of a child (section or lesson).
+	 *
+	 * When adding a new post type for custom enrollment functionality the post type should be registered with
+	 * both of these filters.
+	 *
+	 * @since 3.37.9
+	 *
+	 * @see llms_user_enrollment_allowed_post_types
+	 *
+	 * @param string[] $post_types List of allowed post types names.
+	 */
+	return apply_filters( 'llms_user_enrollment_status_allowed_post_types', array( 'course', 'section', 'lesson', 'llms_membership' ) );
+
+}
+
+/**
  * Retrieve an HTML anchor for an option page
  *
  * @param    string $option_name
