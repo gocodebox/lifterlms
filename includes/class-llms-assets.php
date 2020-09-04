@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -241,6 +241,7 @@ class LLMS_Assets {
 	 * with default values from the `get_defaults()` method.
 	 *
 	 * @since 4.4.0
+	 * @since [version] Replace truthy check with an strict check against `false` to ensure assets defined with an empty array signifying all default values should be used.
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
