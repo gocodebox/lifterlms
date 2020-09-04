@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v4.4.1 - 2020-09-04
+-------------------
+
++ Bugfix: Delayed engagement emails will not be sent to students who's enrollment is not active in the related course or membership which triggered the email.
++ Bugfix: Fixed regression introduced in 4.4.0 preventing the `certificates.css` stylesheet from loading on certificate screens.
++ Update: Engagement email related logs will be logged to a separate logfile, `engagement-emails` in favor of the main `llms` log.
+
+
 v4.4.0 - 2020-09-02
 -------------------
 

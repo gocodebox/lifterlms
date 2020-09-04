@@ -6,14 +6,14 @@
  *
  * @group engagements
  *
- * @since [version]
+ * @since 4.4.1
  */
 class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */
@@ -26,7 +26,7 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	/**
 	 * Teardown test case
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_email() as triggered by a related post type that's enrollable.
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_email() with no related post (as found during registration)
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */

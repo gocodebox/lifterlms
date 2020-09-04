@@ -231,7 +231,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() method for an asset which is defined with an empty array signifying that all asset values should be defaults.
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @see https://github.com/gocodebox/lifterlms/issues/1313
 	 *

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version [version]
+ * @version 4.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -175,7 +175,7 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Use postmeta helpers for dupcheck and postmeta insertion.
+	 * @since 4.4.1 Use postmeta helpers for dupcheck and postmeta insertion.
 	 *              Add a return value in favor of `void`.
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 *

@@ -14,7 +14,7 @@
  * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
- * @since [version] Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
+ * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -205,7 +205,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_enrollable_post_types()
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */
@@ -219,7 +219,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_enrollable_status_check_post_types()
 	 *
-	 * @since [version]
+	 * @since 4.4.1
 	 *
 	 * @return void
 	 */
