@@ -280,7 +280,7 @@ class LLMS_Assets {
 		 */
 		$asset = apply_filters( "llms_get_{$type}_asset_before_prep", $asset, $handle, $this->package_id );
 
-		if ( $asset && is_array( $asset ) ) {
+		if ( false !== $asset && is_array( $asset ) ) {
 
 			$asset = wp_parse_args( $asset, $this->get_defaults( $type ) );
 
