@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,8 +41,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Lesson
 extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio
-		 , LLMS_Interface_Post_Video {
+implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 
 	protected $properties = array(
 
@@ -720,7 +719,84 @@ implements LLMS_Interface_Post_Audio
 		}
 	}
 
-	protected function get_sibling_lesson_query( $direction ) {
+
+
+
+
+	/**
+	 * Get next lesson ID
+	 *
+	 * @since 1.0.0
+	 * @since 3.24.0
+	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
+	 * @since [version] Use a numeric comparison for the previous position meta query.
+	 * @since [version] Refactor to use helper method `get_sibling()`.
+	 *
+	 * @return false|int WP_Post ID of the next lesson or `false` if one doesn't exist.
+	 */
+	public function get_next_lesson() {
+
+		return $this->get_sibling( 'next' );
+
+	}
+
+	/**
+	 * Get previous lesson ID
+	 *
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 * @since 3.24.0 Unknown.
+	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
+	 *              Use strict comparisions where needed.
+	 *              Make sure to always return `false` if no previous lesson is found.
+	 * @since [version] Use a numeric comparison for the previous position meta query.
+	 * @since [version] Refactor to use helper method `get_sibling()`.
+	 *
+	 * @return false|int WP_Post ID of the previous lesson or `false` if one doesn't exist.
+	 */
+	public function get_previous_lesson() {
+
+		return $this->get_sibling( 'prev' );
+
+	}
+
+	/**
+	 * Retrieve the sibling lesson in a specified direction.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling( $direction ) {
+
+		$lesson = $this->get_sibling_lesson_query( $direction );
+
+		// No lesson found within the section, look within the sibling section.
+		if ( ! $lesson ) {
+			$lesson = $this->get_sibling_section_query( $direction );
+		}
+
+		return $lesson;
+
+	}
+
+	/**
+	 * Performs a query to retrieve a sibling lesson in the specified direction
+	 *
+	 * This method tries to locate a sibling lesson in the next or previous position.
+	 *
+	 * It *does not* account for lessons in a sibling section. For example, if the lesson
+	 * is the last lesson in a section this function will *not* locate the first lesson
+	 * in the course's next section. For this reason this function should not be relied upon
+	 * alone.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	private function get_sibling_lesson_query( $direction ) {
 
 		$curr_position = $this->get_order();
 
@@ -744,10 +820,10 @@ implements LLMS_Interface_Post_Audio
 			'post_type'      => 'lesson',
 			'nopaging'       => true,
 			'post_status'    => 'publish',
-			'meta_key'       => '_llms_order',
+			'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 			'orderby'        => 'meta_value_num',
 			'order'          => $order,
-			'meta_query'     => array(
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'relation' => 'AND',
 				array(
 					'key'     => '_llms_parent_section',
@@ -763,7 +839,16 @@ implements LLMS_Interface_Post_Audio
 			),
 		);
 
-		$args = apply_filters( 'llms_lesson_get_sibling_lesson_query_args', $args, $direction );
+		/**
+		 * Filter the WP_Query arguments used to locate a sibling lesson for the specified lesson.
+		 *
+		 * @since [version]
+		 *
+		 * @param array       $args      WP_Query arguments array.
+		 * @param string      $direction Navigation direction. Either "prev" or "next".
+		 * @param LLMS_Lesson $lesson    Current lesson object.
+		 */
+		$args = apply_filters( 'llms_lesson_get_sibling_lesson_query_args', $args, $direction, $this );
 
 		$lessons = get_posts( $args );
 
@@ -771,7 +856,18 @@ implements LLMS_Interface_Post_Audio
 
 	}
 
-	protected function get_sibling_section_query( $direction ) {
+	/**
+	 * Performs a query to retrieve sibling lessons from the lesson's adjacent section
+	 *
+	 * This will retrieve either the first lesson from the course's next section or the last
+	 * lesson from the course's previous section.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	private function get_sibling_section_query( $direction ) {
 
 		$sibling_lesson = false;
 		$curr_section   = $this->get_section();
@@ -793,10 +889,10 @@ implements LLMS_Interface_Post_Audio
 				'post_type'      => 'section',
 				'posts_per_page' => 1,
 				'nopaging'       => true,
-				'meta_key'       => '_llms_order',
+				'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'orderby'        => 'meta_value_num',
 				'order'          => $order,
-				'meta_query'     => array(
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
 						'key'     => '_llms_parent_course',
@@ -811,6 +907,17 @@ implements LLMS_Interface_Post_Audio
 				),
 			);
 
+			/**
+			 * Filter the WP_Query arguments used to locate a sibling lesson from a sibling section for the specified lesson.
+			 *
+			 * @since [version]
+			 *
+			 * @param array       $args      WP_Query arguments array.
+			 * @param string      $direction Navigation direction. Either "prev" or "next".
+			 * @param LLMS_Lesson $lesson    Current lesson object.
+			 */
+			$args = apply_filters( 'llms_lesson_get_sibling_section_query_args', $args, $direction, $this );
+
 			$sections = get_posts( $args );
 
 			if ( ! empty( $sections ) ) {
@@ -818,58 +925,9 @@ implements LLMS_Interface_Post_Audio
 				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : false;
 				$sibling_lesson  = 'next' === $direction ? array_shift( $lessons ) : array_pop( $lessons );
 			}
-
 		}
 
 		return is_a( $sibling_lesson, 'WP_Post' ) ? $sibling_lesson->ID : $sibling_lesson;
-
-	}
-
-	protected function get_sibling( $direction ) {
-
-		$lesson = $this->get_sibling_lesson_query( $direction );
-
-		// No lesson found within the section, look within the sibling section.
-		if ( ! $lesson ) {
-			$lesson = $this->get_sibling_section_query( $direction );
-		}
-
-		return $lesson;
-
-	}
-
-	/**
-	 * Get next lesson ID
-	 *
-	 * @since 1.0.0
-	 * @since 3.24.0
-	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
-	 *                  if the next one(s) status is (are) not published.
-	 *                  Also clean up the code a little bit.
-	 *
-	 * @return false|int ID of the next lesson, if any, `false` otherwise.
-	 */
-	public function get_next_lesson() {
-
-		return $this->get_sibling( 'next' );
-
-	}
-
-	/**
-	 * Get previous lesson ID
-	 *
-	 * @since 1.0.0
-	 * @since 3.24.0 Unknown.
-	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
-	 *                  if the previous one(s) status is (are) not published.
-	 *                  Use strict comparisions where needed.
-	 *                  Make sure to always return `false` if no previous lesson is found.
-	 *
-	 * @return false|int ID of the previous lesson, if any, `false` otherwise.
-	 */
-	public function get_previous_lesson() {
-
-		return $this->get_sibling( 'prev' );
 
 	}
 
