@@ -720,6 +720,124 @@ implements LLMS_Interface_Post_Audio
 		}
 	}
 
+	protected function get_sibling_lesson_query( $direction ) {
+
+		$curr_position = $this->get_order();
+
+		// First cannot have a previous.
+		if ( 0 === $curr_position && 'prev' === $direction ) {
+			return false;
+		}
+
+		if ( 'next' === $direction ) {
+			$sibling_position = $curr_position + 1;
+			$order            = 'ASC';
+			$comparator       = '>=';
+		} elseif ( 'prev' === $direction ) {
+			$sibling_position = $curr_position - 1;
+			$order            = 'DESC';
+			$comparator       = '<=';
+		}
+
+		$args = array(
+			'posts_per_page' => 1,
+			'post_type'      => 'lesson',
+			'nopaging'       => true,
+			'post_status'    => 'publish',
+			'meta_key'       => '_llms_order',
+			'orderby'        => 'meta_value_num',
+			'order'          => $order,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'     => '_llms_parent_section',
+					'value'   => $this->get_parent_section(),
+					'compare' => '=',
+				),
+				array(
+					'key'     => '_llms_order',
+					'value'   => $sibling_position,
+					'compare' => $comparator,
+					'type'    => 'numeric',
+				),
+			),
+		);
+
+		$args = apply_filters( 'llms_lesson_get_sibling_lesson_query_args', $args, $direction );
+
+		$lessons = get_posts( $args );
+
+		return empty( $lessons ) ? false : $lessons[0]->ID;
+
+	}
+
+	protected function get_sibling_section_query( $direction ) {
+
+		$sibling_lesson = false;
+		$curr_section   = $this->get_section();
+
+		// Ensure we're not working with an orphan.
+		if ( $curr_section ) {
+
+			$curr_position = $curr_section->get_order();
+
+			if ( 'next' === $direction ) {
+				$sibling_position = $curr_position + 1;
+				$order            = 'ASC';
+			} elseif ( 'prev' === $direction ) {
+				$sibling_position = $curr_position - 1;
+				$order            = 'DESC';
+			}
+
+			$args = array(
+				'post_type'      => 'section',
+				'posts_per_page' => 1,
+				'nopaging'       => true,
+				'meta_key'       => '_llms_order',
+				'orderby'        => 'meta_value_num',
+				'order'          => $order,
+				'meta_query'     => array(
+					'relation' => 'AND',
+					array(
+						'key'     => '_llms_parent_course',
+						'value'   => $this->get_parent_course(),
+						'compare' => '=',
+					),
+					array(
+						'key'     => '_llms_order',
+						'value'   => $sibling_position,
+						'compare' => '=',
+					),
+				),
+			);
+
+			$sections = get_posts( $args );
+
+			if ( ! empty( $sections ) ) {
+				$sibling_section = llms_get_post( $sections[0]->ID );
+				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : false;
+				$sibling_lesson  = 'next' === $direction ? array_shift( $lessons ) : array_pop( $lessons );
+			}
+
+		}
+
+		return is_a( $sibling_lesson, 'WP_Post' ) ? $sibling_lesson->ID : $sibling_lesson;
+
+	}
+
+	protected function get_sibling( $direction ) {
+
+		$lesson = $this->get_sibling_lesson_query( $direction );
+
+		// No lesson found within the section, look within the sibling section.
+		if ( ! $lesson ) {
+			$lesson = $this->get_sibling_section_query( $direction );
+		}
+
+		return $lesson;
+
+	}
+
 	/**
 	 * Get next lesson ID
 	 *
@@ -733,77 +851,8 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_next_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'next' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
-		$next_position    = $current_position + 1;
-
-		$args    = array(
-			'posts_per_page' => 1,
-			'post_type'      => 'lesson',
-			'nopaging'       => true,
-			'post_status'    => 'publish',
-			'meta_key'       => '_llms_order',
-			'meta_query'     => array(
-				'relation' => 'AND',
-				array(
-					'key'     => '_llms_parent_section',
-					'value'   => $parent_section,
-					'compare' => '=',
-				),
-				array(
-					'key'     => '_llms_order',
-					'value'   => $next_position,
-					'compare' => '>=',
-				),
-			),
-			'orderby'        => 'meta_value_num',
-			'order'          => 'ASC',
-		);
-		$lessons = get_posts( $args );
-
-		if ( empty( $lessons ) ) {
-			// See if there is another section after this section and get first lesson there.
-			$parent_course    = $this->get_parent_course();
-			$cursection       = new LLMS_Section( $this->get_parent_section() );
-			$current_position = $cursection->get_order();
-			$next_position    = $current_position + 1;
-
-			$args     = array(
-				'post_type'      => 'section',
-				'posts_per_page' => 500,
-				'meta_key'       => '_llms_order',
-				'order'          => 'ASC',
-				'orderby'        => 'meta_value_num',
-				'meta_query'     => array(
-					'relation' => 'AND',
-					array(
-						'key'     => '_llms_parent_course',
-						'value'   => $parent_course,
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_llms_order',
-						'value'   => $next_position,
-						'compare' => '=',
-					),
-				),
-			);
-			$sections = get_posts( $args );
-
-			if ( $sections ) {
-				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons    = $newsection->get_lessons( 'posts' );
-			}
-		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
-
-		return empty( $lessons ) ? false : $lessons[0]->ID;
 	}
 
 	/**
@@ -820,89 +869,8 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_previous_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'prev' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
-
-		$previous_position = $current_position - 1;
-
-		if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
-
-			$args    = array(
-				'posts_per_page' => 1,
-				'post_type'      => 'lesson',
-				'nopaging'       => true,
-				'post_status'    => 'publish',
-				'meta_key'       => '_llms_order',
-				'meta_query'     => array(
-					'relation' => 'AND',
-					array(
-						'key'     => '_llms_parent_section',
-						'value'   => $parent_section,
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_llms_order',
-						'value'   => $previous_position,
-						'compare' => '<=',
-					),
-				),
-				'orderby'        => 'meta_value_num',
-				'order'          => 'DESC',
-			);
-			$lessons = get_posts( $args );
-
-		}
-
-		// Either this lesson is the first lesson of its section or any previous section's lesson are not published.
-		if ( 0 === (int) $previous_position || ( isset( $lessons ) && empty( $lessons ) ) ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
-
-			// See if there is a previous section.
-			$parent_course     = $this->get_parent_course();
-			$cursection        = new LLMS_Section( $this->get_parent_section() );
-			$current_position  = $cursection->get_order();
-			$previous_position = $current_position - 1;
-
-			if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
-				$args     = array(
-					'post_type'      => 'section',
-					'posts_per_page' => 500,
-					'meta_key'       => '_llms_order',
-					'order'          => 'ASC',
-					'orderby'        => 'meta_value_num',
-					'meta_query'     => array(
-						'relation' => 'AND',
-						array(
-							'key'     => '_llms_parent_course',
-							'value'   => $parent_course,
-							'compare' => '=',
-						),
-						array(
-							'key'     => '_llms_order',
-							'value'   => $previous_position,
-							'compare' => '=',
-						),
-					),
-				);
-				$sections = get_posts( $args );
-
-				if ( $sections ) {
-					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons    = $newsection->get_lessons( 'posts' );
-					if ( $lessons ) {
-						$lessons = array( $lessons[ count( $lessons ) - 1 ] );
-					}
-				}
-			}
-		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
-
-		return empty( $lessons ) ? false : $lessons[0]->ID;
 	}
 
 }
