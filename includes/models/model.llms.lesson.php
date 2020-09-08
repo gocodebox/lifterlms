@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
- *                  if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
- *                  Use strict comparisions where needed.
+ *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
+ *              Use strict comparisons where needed.
  *
  * @property $audio_embed (string) Audio embed URL
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
@@ -41,8 +41,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Lesson
 extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio
-		 , LLMS_Interface_Post_Video {
+implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 
 	protected $properties = array(
 
@@ -726,84 +725,15 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
-	 * @since 4.4.2 Use a numeric comparison for the next position meta query.
+	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since [version] Refactor to use helper method `get_sibling()`.
 	 *
 	 * @return false|int ID of the next lesson, if any, `false` otherwise.
 	 */
 	public function get_next_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'next' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
-		$next_position    = $current_position + 1;
-
-		$args    = array(
-			'posts_per_page' => 1,
-			'post_type'      => 'lesson',
-			'nopaging'       => true,
-			'post_status'    => 'publish',
-			'meta_key'       => '_llms_order',
-			'meta_query'     => array(
-				'relation' => 'AND',
-				array(
-					'key'     => '_llms_parent_section',
-					'value'   => $parent_section,
-					'compare' => '=',
-				),
-				array(
-					'key'     => '_llms_order',
-					'value'   => $next_position,
-					'compare' => '>=',
-					'type'    => 'numeric',
-				),
-			),
-			'orderby'        => 'meta_value_num',
-			'order'          => 'ASC',
-		);
-		$lessons = get_posts( $args );
-
-		if ( empty( $lessons ) ) {
-			// See if there is another section after this section and get first lesson there.
-			$parent_course    = $this->get_parent_course();
-			$cursection       = new LLMS_Section( $this->get_parent_section() );
-			$current_position = $cursection->get_order();
-			$next_position    = $current_position + 1;
-
-			$args     = array(
-				'post_type'      => 'section',
-				'posts_per_page' => 500,
-				'meta_key'       => '_llms_order',
-				'order'          => 'ASC',
-				'orderby'        => 'meta_value_num',
-				'meta_query'     => array(
-					'relation' => 'AND',
-					array(
-						'key'     => '_llms_parent_course',
-						'value'   => $parent_course,
-						'compare' => '=',
-					),
-					array(
-						'key'     => '_llms_order',
-						'value'   => $next_position,
-						'compare' => '=',
-					),
-				),
-			);
-			$sections = get_posts( $args );
-
-			if ( $sections ) {
-				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons    = $newsection->get_lessons( 'posts' );
-			}
-		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
-
-		return empty( $lessons ) ? false : $lessons[0]->ID;
 	}
 
 	/**
@@ -812,98 +742,188 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
-	 *              Use strict comparisions where needed.
+	 *              Use strict comparisons where needed.
 	 *              Make sure to always return `false` if no previous lesson is found.
-	 *              @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
+	 * @since [version] Refactor to use helper method `get_sibling()`.
 	 *
-	 * @return false|int ID of the previous lesson, if any, `false` otherwise.
+	 * @return false|int WP_Post ID of the previous lesson or `false` if one doesn't exist.
 	 */
 	public function get_previous_lesson() {
 
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:disable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
+		return $this->get_sibling( 'prev' );
 
-		$parent_section   = $this->get_parent_section();
-		$current_position = $this->get_order();
+	}
 
-		$previous_position = $current_position - 1;
+	/**
+	 * Retrieve the sibling lesson in a specified direction
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling( $direction ) {
 
-		if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
+		$lesson = $this->get_sibling_lesson_query( $direction );
 
-			$args    = array(
+		// No lesson found within the section, look within the sibling section.
+		if ( ! $lesson ) {
+			$lesson = $this->get_sibling_section_query( $direction );
+		}
+
+		return $lesson;
+
+	}
+
+	/**
+	 * Performs a query to retrieve a sibling lesson in the specified direction
+	 *
+	 * This method tries to locate a sibling lesson in the next or previous position.
+	 *
+	 * It *does not* account for lessons in a sibling section. For example, if the lesson
+	 * is the last lesson in a section this function will *not* locate the first lesson
+	 * in the course's next section. For this reason this function should not be relied upon
+	 * alone.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling_lesson_query( $direction ) {
+
+		$curr_position = $this->get_order();
+
+		// First cannot have a previous.
+		if ( 0 === $curr_position && 'prev' === $direction ) {
+			return false;
+		}
+
+		if ( 'next' === $direction ) {
+			$sibling_position = $curr_position + 1;
+			$order            = 'ASC';
+			$comparator       = '>=';
+		} elseif ( 'prev' === $direction ) {
+			$sibling_position = $curr_position - 1;
+			$order            = 'DESC';
+			$comparator       = '<=';
+		}
+
+		$args = array(
+			'posts_per_page' => 1,
+			'post_type'      => 'lesson',
+			'nopaging'       => true,
+			'post_status'    => 'publish',
+			'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'        => 'meta_value_num',
+			'order'          => $order,
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				'relation' => 'AND',
+				array(
+					'key'     => '_llms_parent_section',
+					'value'   => $this->get_parent_section(),
+					'compare' => '=',
+				),
+				array(
+					'key'     => '_llms_order',
+					'value'   => $sibling_position,
+					'compare' => $comparator,
+					'type'    => 'numeric',
+				),
+			),
+		);
+
+		/**
+		 * Filter the WP_Query arguments used to locate a sibling lesson for the specified lesson.
+		 *
+		 * @since [version]
+		 *
+		 * @param array       $args      WP_Query arguments array.
+		 * @param string      $direction Navigation direction. Either "prev" or "next".
+		 * @param LLMS_Lesson $lesson    Current lesson object.
+		 */
+		$args = apply_filters( 'llms_lesson_get_sibling_lesson_query_args', $args, $direction );
+
+		$lessons = get_posts( $args );
+
+		return empty( $lessons ) ? false : $lessons[0]->ID;
+
+	}
+
+	/**
+	 * Performs a query to retrieve sibling lessons from the lesson's adjacent section
+	 *
+	 * This will retrieve either the first lesson from the course's next section or the last
+	 * lesson from the course's previous section.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
+	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
+	 */
+	protected function get_sibling_section_query( $direction ) {
+
+		$sibling_lesson = false;
+		$curr_section   = $this->get_section();
+
+		// Ensure we're not working with an orphan.
+		if ( $curr_section ) {
+
+			$curr_position = $curr_section->get_order();
+
+			if ( 'next' === $direction ) {
+				$sibling_position = $curr_position + 1;
+				$order            = 'ASC';
+			} elseif ( 'prev' === $direction ) {
+				$sibling_position = $curr_position - 1;
+				$order            = 'DESC';
+			}
+
+			$args = array(
+				'post_type'      => 'section',
 				'posts_per_page' => 1,
-				'post_type'      => 'lesson',
 				'nopaging'       => true,
-				'post_status'    => 'publish',
-				'meta_key'       => '_llms_order',
-				'meta_query'     => array(
+				'meta_key'       => '_llms_order', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'orderby'        => 'meta_value_num',
+				'order'          => $order,
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'relation' => 'AND',
 					array(
-						'key'     => '_llms_parent_section',
-						'value'   => $parent_section,
+						'key'     => '_llms_parent_course',
+						'value'   => $this->get_parent_course(),
 						'compare' => '=',
 					),
 					array(
 						'key'     => '_llms_order',
-						'value'   => $previous_position,
-						'compare' => '<=',
-						'type'    => 'numeric',
+						'value'   => $sibling_position,
+						'compare' => '=',
 					),
 				),
-				'orderby'        => 'meta_value_num',
-				'order'          => 'DESC',
 			);
-			$lessons = get_posts( $args );
 
-		}
+			/**
+			 * Filter the WP_Query arguments used to locate a sibling lesson from a sibling section for the specified lesson.
+			 *
+			 * @since [version]
+			 *
+			 * @param array       $args      WP_Query arguments array.
+			 * @param string      $direction Navigation direction. Either "prev" or "next".
+			 * @param LLMS_Lesson $lesson    Current lesson object.
+			 */
+			$args = apply_filters( 'llms_lesson_get_sibling_section_query_args', $args, $direction, $this );
 
-		// Either this lesson is the first lesson of its section or any previous section's lesson are not published.
-		if ( 0 === (int) $previous_position || ( isset( $lessons ) && empty( $lessons ) ) ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
+			$sections = get_posts( $args );
 
-			// See if there is a previous section.
-			$parent_course     = $this->get_parent_course();
-			$cursection        = new LLMS_Section( $this->get_parent_section() );
-			$current_position  = $cursection->get_order();
-			$previous_position = $current_position - 1;
-
-			if ( 0 !== (int) $previous_position ) { // `get_order()` returns an int, but it's filterable so let's be pedantic and cast it.
-				$args     = array(
-					'post_type'      => 'section',
-					'posts_per_page' => 500,
-					'meta_key'       => '_llms_order',
-					'order'          => 'ASC',
-					'orderby'        => 'meta_value_num',
-					'meta_query'     => array(
-						'relation' => 'AND',
-						array(
-							'key'     => '_llms_parent_course',
-							'value'   => $parent_course,
-							'compare' => '=',
-						),
-						array(
-							'key'     => '_llms_order',
-							'value'   => $previous_position,
-							'compare' => '=',
-						),
-					),
-				);
-				$sections = get_posts( $args );
-
-				if ( $sections ) {
-					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons    = $newsection->get_lessons( 'posts' );
-					if ( $lessons ) {
-						$lessons = array( $lessons[ count( $lessons ) - 1 ] );
-					}
-				}
+			if ( ! empty( $sections ) ) {
+				$sibling_section = llms_get_post( $sections[0]->ID );
+				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : false;
+				$sibling_lesson  = 'next' === $direction ? array_shift( $lessons ) : array_pop( $lessons );
 			}
 		}
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		// phpcs:enable WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 
-		return empty( $lessons ) ? false : $lessons[0]->ID;
+		return is_a( $sibling_lesson, 'WP_Post' ) ? $sibling_lesson->ID : $sibling_lesson;
+
 	}
 
 }
