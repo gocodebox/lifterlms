@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.4.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -726,7 +726,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
-	 * @since [version] Use a numeric comparison for the next position meta query.
+	 * @since 4.4.2 Use a numeric comparison for the next position meta query.
 	 *
 	 * @return false|int ID of the next lesson, if any, `false` otherwise.
 	 */
@@ -814,7 +814,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
 	 *              Use strict comparisions where needed.
 	 *              Make sure to always return `false` if no previous lesson is found.
-	 *              @since [version] Use a numeric comparison for the previous position meta query.
+	 *              @since 4.4.2 Use a numeric comparison for the previous position meta query.
 	 *
 	 * @return false|int ID of the previous lesson, if any, `false` otherwise.
 	 */

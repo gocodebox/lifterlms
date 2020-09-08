@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v4.4.2 - 2020-09-08
+-------------------
+
++ Bugfix: Fix lesson navigation regression introduced in 4.4.0.
+
+
 v4.4.1 - 2020-09-04
 -------------------
 

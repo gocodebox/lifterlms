@@ -11,7 +11,7 @@
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
- * @since [version] Add additional navigation testing scenarios.
+ * @since 4.4.2 Add additional navigation testing scenarios.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -561,7 +561,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * This scenario exposes an issue that causes string comparisons to fail, the lesson order will be returned
 	 * incorrectly.
 	 *
-	 * @since [version]
+	 * @since 4.4.2
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1316
 	 *
