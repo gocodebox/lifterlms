@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -725,9 +725,8 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0
-	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
-	 *                  if the next one(s) status is (are) not published.
-	 *                  Also clean up the code a little bit.
+	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
+	 * @since [version] Use a numeric comparison for the next position meta query.
 	 *
 	 * @return false|int ID of the next lesson, if any, `false` otherwise.
 	 */
@@ -758,6 +757,7 @@ implements LLMS_Interface_Post_Audio
 					'key'     => '_llms_order',
 					'value'   => $next_position,
 					'compare' => '>=',
+					'type'    => 'numeric',
 				),
 			),
 			'orderby'        => 'meta_value_num',
@@ -811,10 +811,10 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since 4.4.0 Improve the query so that we don't miss sibling lessons within the same section
-	 *                  if the previous one(s) status is (are) not published.
-	 *                  Use strict comparisions where needed.
-	 *                  Make sure to always return `false` if no previous lesson is found.
+	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
+	 *              Use strict comparisions where needed.
+	 *              Make sure to always return `false` if no previous lesson is found.
+	 *              @since [version] Use a numeric comparison for the previous position meta query.
 	 *
 	 * @return false|int ID of the previous lesson, if any, `false` otherwise.
 	 */
@@ -848,6 +848,7 @@ implements LLMS_Interface_Post_Audio
 						'key'     => '_llms_order',
 						'value'   => $previous_position,
 						'compare' => '<=',
+						'type'    => 'numeric',
 					),
 				),
 				'orderby'        => 'meta_value_num',

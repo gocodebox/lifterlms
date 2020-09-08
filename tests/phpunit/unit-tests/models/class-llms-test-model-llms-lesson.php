@@ -11,7 +11,7 @@
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
- * @version 4.4.0
+ * @since [version] Add additional navigation testing scenarios.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -464,7 +464,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 4.4.0
 	 */
-	public function test_next_lesson() {
+	public function test_get_next_lesson() {
 
 		// Generate a course with 2 sections and 3 lessons for each of them.
 		$course_id   = $this->generate_mock_courses( 1, 2, 3, 0 )[0];
@@ -510,7 +510,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 4.4.0
 	 */
-	public function test_previous_lesson() {
+	public function test_get_previous_lesson() {
 
 		// Generate a course with 2 sections and 3 lessons for each of them.
 		$course_id   = $this->generate_mock_courses( 1, 2, 3, 0 )[0];
@@ -552,6 +552,40 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		// Unpublish s1 l1, test previous lesson of s1 l2 is false.
 		llms_get_post( $sec_lessons[0][0] )->set( 'status', 'draft' );
 		$this->assertFalse( llms_get_post( $sec_lessons[0][1] )->get_previous_lesson() );
+
+	}
+
+	/**
+	 * Test navigation with sections that have more than 10 lessons
+	 *
+	 * This scenario exposes an issue that causes string comparisons to fail, the lesson order will be returned
+	 * incorrectly.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1316
+	 *
+	 * @return void
+	 */
+	public function test_navigation_large_sections() {
+
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 2, 'lessons' => 10, 'quizzes' => 0 ) );
+		$lessons = $course->get_lessons();
+
+		$i = 0;
+		while ( $i < count( $lessons ) ) {
+
+			$lesson = $lessons[ $i ];
+
+			$next = 19 === $i ? false : $lessons[ $i + 1 ]->get( 'id' );
+			$prev = 0 === $i ? false : $lessons[ $i - 1 ]->get( 'id' );
+
+			$this->assertEquals( $next, $lesson->get_next_lesson(), $i );
+			$this->assertEquals( $prev, $lesson->get_previous_lesson(), $i );
+
+			++$i;
+
+		}
 
 	}
 
