@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.4.1
+Stable tag: 4.4.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -514,6 +514,11 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.4.2 - 2020-09-08 =
+
++ Bugfix: Fix lesson navigation regression introduced in 4.4.0.
+
+
 = v4.4.1 - 2020-09-04 =
 
 + Bugfix: Delayed engagement emails will not be sent to students who's enrollment is not active in the related course or membership which triggered the email.
@@ -841,11 +846,6 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 
 + `$product`
 + `$question`
-
-
-= v3.41.1 - 2020-06-23 =
-
-+ Apply restrictions to post content and excerpts during WP REST requests.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
