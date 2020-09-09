@@ -87,16 +87,6 @@
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
 	</rule>
 
-	<!--
-		@todo The following rule set is disabled for the following files/directories
-			  We are in the process of gradually fixing these in bulk.
-			  See https://github.com/gocodebox/lifterlms/issues/946
-	-->
-	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-		<exclude-pattern>templates/*.php</exclude-pattern>
-		<exclude-pattern>templates/**/*.php</exclude-pattern>
-	</rule>
-
 	<rule ref="WordPress.WP.I18n">
 		<!-- @todo: Fix all of these -->
 		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
