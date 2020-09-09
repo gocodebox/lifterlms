@@ -74,7 +74,6 @@ class LLMS_Question_Manager {
 		if ( 'llms_quiz' === $this->get_parent_type() ) {
 			return $this->parent;
 		}
-		// Llms_question.
 		return $this->parent->get_quiz();
 
 	}

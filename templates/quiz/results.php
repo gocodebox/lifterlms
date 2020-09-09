@@ -50,8 +50,6 @@ if ( ! $attempt && ! $attempts ) {
 		/**
 		 * Action fired prior to the output of LifterLMS Quiz Results HTML
 		 *
-		 * Hook description.
-		 *
 		 * @since Unknown
 		 *
 		 * @param LLMS_Quiz_Attempt $attempt Attempt object.
