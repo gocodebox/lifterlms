@@ -21,14 +21,12 @@ class LLMS_Controller_Achievements {
 	/**
 	 * Constructor
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
-
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
-
 	}
 
 	/**
@@ -54,10 +52,10 @@ class LLMS_Controller_Achievements {
 	/**
 	 * Delete a cert
 	 *
-	 * @param    int $cert_id  WP Post ID of the llms_my_certificate
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param int $cert_id WP Post ID of the llms_my_certificate.
+	 * @return void
 	 */
 	private function delete( $cert_id ) {
 

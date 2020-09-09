@@ -142,7 +142,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		if ( $deleted ) {
 
-			/* Translators: %d = number of notifications */
+			// Translators: %d = number of notifications.
 			$messages[] = sprintf( __( 'Removed %d notifications.', 'lifterlms' ), $deleted );
 
 		}
@@ -162,7 +162,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 */
 	private static function erase_order_data( $order ) {
 
-		// cancel recurring orders
+		// Cancel recurring orders.
 		if ( $order->is_recurring() && in_array( $order->get( 'status' ), array( 'llms-on-hold', 'llms-active', 'llms-pending-cancel' ) ) ) {
 			$order->set_status( 'cancelled' );
 			$order->add_note( __( 'Order cancelled during personal data erasure.', 'lifterlms' ) );

@@ -97,30 +97,30 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$statuses = $this->arguments['statuses'];
 
-		// allow strings to be submitted when only requesting one status
+		// Allow strings to be submitted when only requesting one status.
 		if ( is_string( $statuses ) ) {
 			$statuses = array( $statuses );
 		}
 
-		// ensure only valid statuses are used
+		// Ensure only valid statuses are used.
 		$statuses = array_intersect( $statuses, array_keys( llms_get_enrollment_statuses() ) );
 
-		// no statuses should return original default
+		// No statuses should return original default.
 		if ( ! $statuses ) {
 			$statuses = array_keys( llms_get_enrollment_statuses() );
 		}
 
 		$this->arguments['statuses'] = $statuses;
 
-		// allow numeric strings & ints to be passed instead of an array
+		// Allow numeric strings & ints to be passed instead of an array.
 		$post_ids = $this->arguments['post_id'];
 		if ( ! is_array( $post_ids ) && is_numeric( $post_ids ) && $post_ids > 0 ) {
 			$post_ids = array( $post_ids );
 		}
 
 		foreach ( $post_ids as $key => &$id ) {
-			$id = absint( $id ); // verify we have ints
-			if ( $id <= 0 ) { // remove anything negative or 0
+			$id = absint( $id ); // Verify we have ints.
+			if ( $id <= 0 ) { // Remove anything negative or 0.
 				unset( $post_ids[ $key ] );
 			}
 		}
@@ -179,7 +179,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 */
 	private function requires_field( $field ) {
 
-		// get the fields we're sorting by to see if we need to select them for the sorting
+		// Get the fields we're sorting by to see if we need to select them for the sorting.
 		$sort_fields = array_keys( $this->get( 'sort' ) );
 
 		if ( in_array( $field, $sort_fields ) ) {
@@ -238,7 +238,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			'overall_grade'    => "JOIN {$wpdb->usermeta} AS m_o_g ON u.ID = m_o_g.user_id AND m_o_g.meta_key = 'llms_overall_grade'",
 		);
 
-		// add the fields to the array of fields to select
+		// Add the fields to the array of fields to select.
 		foreach ( $fields as $key => $statment ) {
 			if ( $this->requires_field( $key ) ) {
 				$joins[] = $statment;
@@ -296,13 +296,13 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$selects = array();
 
-		// always select the ID
+		// Always select the ID.
 		$selects[] = 'u.ID as id';
 
-		// always add the subqueries for enrollment status
+		// Always add the subqueries for enrollment status.
 		$selects[] = "( {$this->sql_subquery( 'meta_value' )} ) AS status";
 
-		// all the possible fields
+		// All the possible fields.
 		$fields = array(
 			'date'             => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
 			'last_name'        => 'm_last.meta_value AS last_name',
@@ -313,7 +313,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			'overall_grade'    => 'CAST( m_o_g.meta_value AS decimal( 5, 2 ) ) AS overall_grade',
 		);
 
-		// add the fields to the array of fields to select
+		// Add the fields to the array of fields to select.
 		foreach ( $fields as $key => $statment ) {
 			if ( $this->requires_field( $key ) ) {
 				$selects[] = $statment;

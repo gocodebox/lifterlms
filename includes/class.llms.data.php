@@ -21,8 +21,8 @@ class LLMS_Data {
 	/**
 	 * Get the data data
 	 *
-	 * @param    string $dataset  dataset to retrieve data for [tracker|system_report]
-	 * @param    string $format   data return format (unused for unrecalled reasons)
+	 * @param string $dataset Dataset to retrieve data for [tracker|system_report].
+	 * @param string $format  Data return format (unused for unrecalled reasons).
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.17.0
@@ -31,47 +31,47 @@ class LLMS_Data {
 
 		$data = array();
 
-		// add admin email for tracker requests
+		// Add admin email for tracker requests.
 		if ( 'tracker' === $dataset ) {
 			$data['email'] = apply_filters( 'llms_get_data_admin_email', get_option( 'admin_email' ) );
 		}
 
-		// general data
+		// General data.
 		$data['url'] = home_url();
 
-		// wp info
+		// Wp info.
 		$data['wordpress'] = self::get_wp_data();
 
-		// llms settings
+		// Llms settings.
 		$data['settings'] = self::get_llms_settings();
 
-		// gateways
+		// Gateways.
 		$data['gateways'] = self::get_gateway_data();
 
-		// server info
+		// Server info.
 		$data['server'] = self::get_server_data();
 
-		// browser / os
+		// Browser / os.
 		$data['browser'] = self::get_browser_data();
 
-		// theme info
+		// Theme info.
 		$data['theme'] = self::get_theme_data();
 
-		// plugin info
+		// Plugin info.
 		$data['plugins'] = self::get_plugin_data();
 
 		if ( 'tracker' === $dataset ) {
 
-			// published content type counts
+			// Published content type counts.
 			$data['post_counts'] = self::get_post_type_counts();
 
-			// user data
+			// User data.
 			$data['user_counts'] = self::get_user_counts();
 
-			// count student engagements
+			// Count student engagements.
 			$data['engagement_counts'] = self::get_engagement_counts();
 
-			// order data
+			// Order data.
 			$data['order_counts'] = self::get_order_counts();
 
 		}
@@ -130,28 +130,28 @@ class LLMS_Data {
 	 * Retrieve metadata from a file.
 	 * Copied from WCs get_file_version which is based on WP Core's get_file_data function.
 	 *
-	 * @param    string $file   Path to the file
+	 * @param string $file  Path to the file.
 	 * @return   string
 	 * @since    3.11.2
 	 * @version  3.11.2
 	 */
 	private static function get_file_version( $file ) {
 
-		// Avoid notices if file does not exist
+		// Avoid notices if file does not exist.
 		if ( ! file_exists( $file ) ) {
 			return '';
 		}
 
-		// We don't need to write to the file, so just open for reading.
+		// We don't need to write to the file, so just open for reading..
 		$fp = fopen( $file, 'r' );
 
-		// Pull only the first 8kiB of the file in.
+		// Pull only the first 8kiB of the file in..
 		$file_data = fread( $fp, 8192 );
 
-		// PHP will close file handle, but we are good citizens.
+		// PHP will close file handle, but we are good citizens..
 		fclose( $fp );
 
-		// Make sure we catch CR-only line endings.
+		// Make sure we catch CR-only line endings..
 		$file_data = str_replace( "\r", "\n", $file_data );
 		$version   = '';
 
@@ -207,7 +207,7 @@ class LLMS_Data {
 
 		foreach ( $integrations->integrations() as $obj ) {
 
-			// @todo upgrade this when integration abstract is finished
+			// @todo Upgrade this when integration abstract is finished.
 			if ( method_exists( $obj, 'is_available' ) ) {
 
 				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
@@ -327,7 +327,7 @@ class LLMS_Data {
 	 * Get an option that should return a page ID
 	 * and return the page name and ID as a formatted string
 	 *
-	 * @param    string $option  option name in the wp_options table
+	 * @param string $option Option name in the wp_options table.
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -337,7 +337,7 @@ class LLMS_Data {
 		if ( absint( $id ) ) {
 			return sprintf( '%1$s (#%2$d) [%3$s]', get_the_title( $id ), $id, get_permalink( $id ) );
 		}
-		return 'Not Set'; // don't translate this or you won't be able to read it smartypants...
+		return 'Not Set'; // Don't translate this or you won't be able to read it smartypants....
 	}
 
 	/**
@@ -349,7 +349,7 @@ class LLMS_Data {
 	 */
 	private static function get_plugin_data() {
 
-		// ensure we have our plugin function
+		// Ensure we have our plugin function.
 		if ( ! function_exists( 'get_plugins' ) ) {
 			include ABSPATH . '/wp-admin/includes/plugin.php';
 		}
@@ -502,17 +502,15 @@ class LLMS_Data {
 	 */
 	private static function get_theme_data() {
 
-		$data = array();
-		// @codingStandardsIgnoreStart
-		$theme_data = wp_get_theme();
-		$data['name'] = $theme_data->get( 'Name' );
-		$data['version'] = $theme_data->get( 'Version' );
-		$data['themeuri'] = $theme_data->get( 'ThemeURI' );
-		$data['authoruri'] = $theme_data->get( 'AuthorURI' );
-		$data['template'] = $theme_data->get( 'Template' );
-		$data['child_theme'] = is_child_theme() ? 'Yes' : 'No';
+		$data                 = array();
+		$theme_data           = wp_get_theme();
+		$data['name']         = $theme_data->get( 'Name' );
+		$data['version']      = $theme_data->get( 'Version' );
+		$data['themeuri']     = $theme_data->get( 'ThemeURI' );
+		$data['authoruri']    = $theme_data->get( 'AuthorURI' );
+		$data['template']     = $theme_data->get( 'Template' );
+		$data['child_theme']  = is_child_theme() ? 'Yes' : 'No';
 		$data['llms_support'] = ( ! current_theme_supports( 'lifterlms' ) ) ? 'No' : 'Yes';
-		// @codingStandardsIgnoreEnd
 
 		return $data;
 

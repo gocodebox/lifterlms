@@ -110,7 +110,7 @@ class LLMS_Certificate {
 	 */
 	public function __construct() {
 
-		// Settings TODO Refactor: theses can come from the email post now
+		// Settings TODO Refactor: theses can come from the email post now.
 		$this->email_type = 'html';
 
 		$this->find    = array( '{blogname}', '{site_title}' );

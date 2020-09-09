@@ -82,13 +82,16 @@ class LLMS_AJAX {
 
 	/**
 	 * Handles the AJAX request for my plugin.
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
 	 */
 	public static function handle() {
 
-		// Make sure we are getting a valid AJAX request
+		// Make sure we are getting a valid AJAX request.
 		check_ajax_referer( self::NONCE );
 
-		// $request = self::scrub_request( $_REQUEST );
 		$request = $_REQUEST;
 
 		$response = call_user_func( 'LLMS_AJAX_Handler::' . $request['action'], $request );
@@ -161,17 +164,6 @@ class LLMS_AJAX {
 		);
 	}
 
-	/*
-							 /$$ /$$ /$$                           /$$
-							| $$| $$| $$                          | $$
-		  /$$$$$$$  /$$$$$$ | $$| $$| $$$$$$$   /$$$$$$   /$$$$$$$| $$   /$$  /$$$$$$$
-		 /$$_____/ |____  $$| $$| $$| $$__  $$ |____  $$ /$$_____/| $$  /$$/ /$$_____/
-		| $$        /$$$$$$$| $$| $$| $$  \ $$  /$$$$$$$| $$      | $$$$$$/ |  $$$$$$
-		| $$       /$$__  $$| $$| $$| $$  | $$ /$$__  $$| $$      | $$_  $$  \____  $$
-		|  $$$$$$$|  $$$$$$$| $$| $$| $$$$$$$/|  $$$$$$$|  $$$$$$$| $$ \  $$ /$$$$$$$/
-		 \_______/ \_______/|__/|__/|_______/  \_______/ \_______/|__/  \__/|_______/
-	*/
-
 	/**
 	 * Check if a voucher is a duplicate.
 	 *
@@ -215,7 +207,7 @@ class LLMS_AJAX {
 	 */
 	public function query_quiz_questions() {
 
-		// grab the search term if it exists
+		// Grab the search term if it exists.
 		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;

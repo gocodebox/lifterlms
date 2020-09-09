@@ -167,7 +167,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Creates new instance of WP_User and calls parent method create
 	 *
-	 * @param  int $person_id [id of user]
+	 * @param  int $user_id [id of user]
 	 * @param  int $id [id of post]
 	 * @param  int $lesson_id [id of associated lesson]
 	 *

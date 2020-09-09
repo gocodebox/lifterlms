@@ -140,7 +140,7 @@ class LLMS_Reviews {
 				</div>
 				<?php
 			}
-		}// End if().
+		}
 	}
 
 	/**
@@ -155,7 +155,7 @@ class LLMS_Reviews {
 
 		$post = array(
 			'post_content' => llms_filter_input( INPUT_POST, 'review_text', FILTER_SANITIZE_STRING ), // The full text of the post.
-			'post_name'    => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ), // The name (slug) for your post
+			'post_name'    => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ), // The name (slug) for your post.
 			'post_title'   => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ), // The title of your post.
 			'post_status'  => 'publish',
 			'post_type'    => 'llms_review',

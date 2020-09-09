@@ -179,7 +179,7 @@ class LLMS_Date {
 		$minutes_string = '';
 		$seconds_string = '';
 
-		// determine hours vs hour in string
+		// Determine hours vs hour in string.
 		if ( ! empty( $hours ) ) {
 			if ( $hours > 1 ) {
 				$hour_desc = __( 'hours', 'lifterlms' );
@@ -201,7 +201,7 @@ class LLMS_Date {
 			}
 		}
 
-		// determine minutes vs minute in string
+		// Determine minutes vs minute in string.
 		if ( ! empty( $minutes ) ) {
 			if ( $minutes > 1 ) {
 				$minute_desc = __( 'minutes', 'lifterlms' );

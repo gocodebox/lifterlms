@@ -198,7 +198,7 @@ class LLMS_View_Manager {
 			return 'self';
 		}
 
-		// Ensure it's a valid view
+		// Ensure it's a valid view.
 		$views = $this->get_views();
 		if ( ! isset( $views[ $_GET['llms-view-as'] ] ) ) {
 			return 'self';
@@ -350,7 +350,7 @@ class LLMS_View_Manager {
 	 */
 	public function scripts() {
 
-		// If it's self we don't need anything fancy going on here
+		// If it's self we don't need anything fancy going on here.
 		if ( 'self' === $this->get_view() ) {
 			return;
 		}

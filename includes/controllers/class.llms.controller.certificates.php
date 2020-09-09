@@ -55,7 +55,7 @@ class LLMS_Controller_Certificates {
 			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_STRING );
 
 			global $wpdb;
-			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok
+			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok.
 			if ( $post_id && 'llms_certificate' === get_post_type( $post_id ) ) {
 				$post_type_args['publicly_queryable'] = true;
 			}
@@ -155,7 +155,7 @@ class LLMS_Controller_Certificates {
 
 		$filepath = LLMS()->certificates()->get_export( $cert_id );
 		if ( is_wp_error( $filepath ) ) {
-			// @todo need to handle errors differently on admin panel
+			// @todo Need to handle errors differently on admin panel.
 			return llms_add_notice( $filepath->get_error_message(), 'error' );
 		}
 
@@ -165,7 +165,7 @@ class LLMS_Controller_Certificates {
 
 		readfile( $filepath );
 
-		// delete file after download
+		// Delete file after download.
 		ignore_user_abort( true );
 		wp_delete_file( $filepath );
 		exit;

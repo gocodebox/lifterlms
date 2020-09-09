@@ -26,7 +26,7 @@ class LLMS_Payment_Gateways {
 	public $payment_gateways = array();
 
 	/**
-	 * private instance of class
+	 * Private instance of class
 	 *
 	 * @var null
 	 */
@@ -50,7 +50,7 @@ class LLMS_Payment_Gateways {
 	/**
 	 * Constructor
 	 *
-	 * @version  3.0.0
+	 * @version 3.0.0
 	 */
 	public function __construct() {
 
@@ -64,7 +64,7 @@ class LLMS_Payment_Gateways {
 
 			$order = absint( $load_gateway->get_display_order() );
 
-			// if the order already exists create a new order for it
+			// If the order already exists create a new order for it.
 			if ( isset( $this->payment_gateways[ $order ] ) ) {
 
 				$order = max( array_keys( $this->payment_gateways ) ) + 1;

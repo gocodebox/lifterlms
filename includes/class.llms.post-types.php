@@ -250,7 +250,7 @@ class LLMS_Post_Types {
 				'publish_posts'          => sprintf( 'publish_%s', $plural ),
 
 				'delete_post'            => sprintf( 'delete_%s', $singular ),
-				'delete_posts'           => sprintf( 'delete_%s', $plural ), // this is the core bug issue here
+				'delete_posts'           => sprintf( 'delete_%s', $plural ), // Dhis is the core bug issue here.
 				'delete_private_posts'   => sprintf( 'delete_private_%s', $plural ),
 				'delete_published_posts' => sprintf( 'delete_published_%s', $plural ),
 				'delete_others_posts'    => sprintf( 'delete_others_%s', $plural ),

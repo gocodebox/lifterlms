@@ -92,9 +92,9 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @since 3.33.0 Added action button to delete a cancelled enrollment.
 	 * @since 3.33.0 Added icon popover tooltip via llms tooltip data attribute api.
 	 *
-	 * @param string $key The column id / key.
-	 * @param int    $user_id WP User ID.
-	 * @return  mixed
+	 * @param string       $key     The column id / key.
+	 * @param LLMS_Student $student Student object.
+	 * @return mixed
 	 */
 	public function get_data( $key, $student ) {
 

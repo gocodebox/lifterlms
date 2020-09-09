@@ -79,12 +79,12 @@ if ( ! function_exists( 'llms_email_header' ) ) {
 function llms_template_redirect() {
 	global $wp_query, $wp;
 
-	// When default permalinks are enabled, redirect shop page to post type archive url
+	// When default permalinks are enabled, redirect shop page to post type archive url.
 	if ( ! empty( $_GET['page_id'] ) && get_option( 'permalink_structure' ) == '' && llms_get_page_id( 'shop' ) == $_GET['page_id'] ) {
 		wp_safe_redirect( get_post_type_archive_link( 'course' ) );
 		exit;
 	}
-	// When default permalinks are enabled, redirect memberships page to post type archive url
+	// When default permalinks are enabled, redirect memberships page to post type archive url.
 	if ( ! empty( $_GET['page_id'] ) && get_option( 'permalink_structure' ) == '' && llms_get_page_id( 'memberships' ) == $_GET['page_id'] ) {
 		wp_safe_redirect( get_post_type_archive_link( 'llms_membership' ) );
 		exit;
@@ -609,7 +609,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 		}
 
 	}
-}// End if().
+}// End if()..
 
 /**
  * Outputs the html for a progress bar
@@ -732,7 +732,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		}
 
 	}
-}// End if().
+}// End if()..
 
 
 
@@ -1129,14 +1129,14 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 
 	$post_type = get_post_type( $post_id );
 
-	// add enrolled classes
+	// Add enrolled classes.
 	if ( 'lesson' === $post_type || 'course' === $post_type || 'llms_membership' === $post_type ) {
 
 		$classes[] = llms_is_user_enrolled( get_current_user_id(), $post_id ) ? 'is-enrolled' : 'not-enrolled';
 
 	}
 
-	// add completion classes
+	// Add completion classes.
 	if ( 'lesson' === $post_type || 'course' === $post_type ) {
 
 		if ( get_current_user_id() ) {

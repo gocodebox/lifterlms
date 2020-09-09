@@ -82,9 +82,9 @@ class LLMS_Student_Dashboard {
 	 */
 	private static function get_courses( $limit = 10, $skip = 0 ) {
 
-		// get sorting option
+		// Get sorting option.
 		$option = get_option( 'lifterlms_myaccount_courses_in_progress_sorting', 'date,DESC' );
-		// parse to order & orderby
+		// Parse to order & orderby.
 		$option  = explode( ',', $option );
 		$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
 		$order   = ! empty( $option[1] ) ? $option[1] : 'DESC';
@@ -114,7 +114,7 @@ class LLMS_Student_Dashboard {
 
 		global $wp;
 
-		// set default tab
+		// Set default tab.
 		$current_tab = apply_filters( 'llms_student_dashboard_default_tab', 'dashboard' );
 
 		$tabs = self::get_tabs();
@@ -314,11 +314,7 @@ class LLMS_Student_Dashboard {
 	}
 
 	public function modify_rewrite_rules_order( $rules ) {
-
-		// var_dump( $rules );
-
 		return $rules;
-
 	}
 
 	/**
@@ -354,7 +350,7 @@ class LLMS_Student_Dashboard {
 
 			$order = new LLMS_Order( $wp->query_vars['orders'] );
 
-			// ensure people can't locate other peoples orders by dropping numbers into the url bar
+			// Ensure people can't locate other peoples orders by dropping numbers into the url bar.
 			if ( get_current_user_id() !== $order->get( 'user_id' ) ) {
 				$order        = false;
 				$transactions = array();
