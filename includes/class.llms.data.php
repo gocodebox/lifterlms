@@ -337,7 +337,7 @@ class LLMS_Data {
 		if ( absint( $id ) ) {
 			return sprintf( '%1$s (#%2$d) [%3$s]', get_the_title( $id ), $id, get_permalink( $id ) );
 		}
-		return 'Not Set'; // Don't translate this or you won't be able to read it smartypants....
+		return 'Not Set'; // Don't translate this or you won't be able to read it smartypants.
 	}
 
 	/**
