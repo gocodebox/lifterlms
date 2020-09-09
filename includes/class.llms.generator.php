@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 4.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
+ * @since [version] Add sideloading of images found in imported post content.
  */
 class LLMS_Generator {
 
@@ -88,6 +89,13 @@ class LLMS_Generator {
 		'questions' => 0,
 		'terms'     => 0,
 	);
+
+	/**
+	 * Array of images
+	 *
+	 * @var array
+	 */
+	private $images = array();
 
 	/**
 	 * Construct a new generator instance with data
@@ -313,6 +321,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since [version] Attempt to sideload images found in the imported posts content.
 	 *
 	 * @param array $raw                Raw Access Plan Data
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
@@ -356,6 +365,8 @@ class LLMS_Generator {
 			$plan->set( $key, $val );
 		}
 
+		$this->sideload_images( $plan );
+
 		return $plan->get( 'id' );
 
 	}
@@ -366,6 +377,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since [version] Attempt to sideload images found in the imported posts content.
 	 *
 	 * @param array $raw Raw course data.
 	 * @return void|int
@@ -444,6 +456,8 @@ class LLMS_Generator {
 			}
 		}
 
+		$this->sideload_images( $course );
+
 		do_action( 'llms_generator_new_course', $course, $raw, $this );
 
 		return $course->get( 'id' );
@@ -456,6 +470,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since [version] Attempt to sideload images found in the imported posts content.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -529,6 +544,8 @@ class LLMS_Generator {
 		// Add custom meta.
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
+		$this->sideload_images( $lesson );
+
 		do_action( 'llms_generator_new_lesson', $lesson, $raw, $this );
 
 		return $lesson->get( 'id' );
@@ -542,6 +559,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since [version] Attempt to sideload images found in the imported posts content.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
@@ -591,6 +609,8 @@ class LLMS_Generator {
 
 		// Add custom meta.
 		$this->add_custom_values( $quiz->get( 'id' ), $raw );
+
+		$this->sideload_images( $quiz );
 
 		do_action( 'llms_generator_new_quiz', $quiz, $raw, $this );
 
@@ -1100,6 +1120,41 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Retrieve an array of images in a string
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string An HTML string, usually a post's `post_content` value.
+	 * @return string[] An array of image URLs retrieved from <img> `src` attributes.
+	 */
+	protected function retrieve_images_from_string( $string ) {
+
+		$images = array();
+
+		if ( ! empty( $string ) && class_exists( 'DOMDocument' ) ) {
+
+			// Don't throw or log warnings.
+			$libxml_state = libxml_use_internal_errors( true );
+
+			$dom = new DOMDocument();
+			if ( $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+
+				foreach ( $dom->getElementsByTagName( 'img' ) as $img ) {
+					$images[] = $img->getAttribute( 'src' );
+				}
+			}
+
+			// Clear and restore errors.
+			libxml_clear_errors();
+			libxml_use_internal_errors( $libxml_state );
+
+		}
+
+		return array_unique( $images );
+
+	}
+
+	/**
 	 * Saves an image (from URL) to the media library and sets it as the featured image for a given post
 	 *
 	 * @since 3.3.0
@@ -1185,6 +1240,86 @@ class LLMS_Generator {
 
 		// Return the generator name.
 		return $generator;
+
+	}
+
+	/**
+	 * Sideload an image from a url
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id WP_Post ID of the post where the image will be attached.
+	 * @param string $url     The image's URL.
+	 * @return string|WP_Error New URL for the image on success or an error object on failure.
+	 */
+	protected function sideload_image( $post_id, $url ) {
+
+		// Image was previously sideloaded.
+		if ( ! empty( $this->images[ $url ] ) ) {
+			return $this->images[ $url ];
+		}
+
+		$src = media_sideload_image( $url, $post_id, null, 'src' );
+		if ( ! is_wp_error( $src ) ) {
+			$this->images[ $url ] = $src;
+		}
+
+		return $src;
+
+	}
+
+	/**
+	 * Sideload images found in a given post
+	 *
+	 * This attempts to sideload the `src` attribute of every <img> element
+	 * found in the `post_content` of the supplied post.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model $post Post object.
+	 * @return null|boolean Returns `true` on success, `false` if there were no images to update, or `null` if sideloading is disabled.
+	 */
+	protected function sideload_images( $post ) {
+
+		/**
+		 * Disable image sideloading during generation
+		 *
+		 * Returning a truthy skips image sideloading.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean         $skip If `true`, skips sideloading.
+		 * @param LLMS_Post_Model $post Post model object.
+		 */
+		if ( apply_filters( 'llms_generator_skip_image_sideload', false, $post ) ) {
+			return null;
+		}
+
+		$content  = $post->post->post_content;
+		$find     = array();
+		$replace  = array();
+		$curr_url = get_site_url();
+
+		foreach ( $this->retrieve_images_from_string( $content ) as $src ) {
+
+			// Don't sideload images from this site.
+			if ( 0 === strpos( $src, $curr_url ) ) {
+				continue;
+			}
+
+			$new_src = $this->sideload_image( $post->get( 'id' ), $src );
+			if ( ! is_wp_error( $new_src ) ) {
+				$find[]    = $src;
+				$replace[] = $new_src;
+			}
+		}
+
+		if ( $find && $replace ) {
+			$content = str_replace( $find, $replace, $content );
+			return $post->set( 'content', $content );
+		}
+
+		return false;
 
 	}
 
