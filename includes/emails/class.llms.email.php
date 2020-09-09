@@ -312,7 +312,7 @@ class LLMS_Email {
 		global $post;
 		$temp = null;
 
-		// Override the $post global with the email post content (if it exists)..
+		// Override the $post global with the email post content (if it exists).
 		// This fixes Elementor / WC conflict outlined at https://github.com/gocodebox/lifterlms/issues/730.
 		if ( isset( $this->email_post ) ) {
 			$temp = $post;
@@ -330,7 +330,7 @@ class LLMS_Email {
 
 		$html = apply_filters( 'llms_email_content_get_content_html', ob_get_clean(), $this );
 
-		// Restore the default $post global..
+		// Restore the default $post global.
 		if ( $temp ) {
 			$post = $temp;
 		}
