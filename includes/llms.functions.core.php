@@ -149,7 +149,7 @@ function llms_cleanup_tmp() {
 
 	foreach ( glob( LLMS_TMP_DIR . '*' ) as $file ) {
 
-		// Dont cleanup index and .htaccess.
+		// Don't cleanup index and .htaccess.
 		if ( in_array( basename( $file ), $exclude ) ) {
 			continue;
 		}
@@ -646,7 +646,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	 */
 	$field = apply_filters( 'llms_form_field_args', $field );
 
-	// Setup the field value (if one exists)..
+	// Setup the field value (if one exists).
 	if ( '' !== $field['value'] ) {
 		$field['value'] = $field['value'];
 	} elseif ( '' !== $field['default'] ) {
@@ -654,7 +654,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	}
 	$value_attr = ( '' !== $field['value'] ) ? ' value="' . esc_attr( $field['value'] ) . '"' : '';
 
-	// Use id as the name if name isn't specified..
+	// Use id as the name if name isn't specified.
 	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
 
 	/**
@@ -666,35 +666,35 @@ function llms_form_field( $field = array(), $echo = true ) {
 
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
-	// Add inline css if set..
+	// Add inline css if set.
 	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
 
-	// Add space to classes..
+	// Add space to classes.
 	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
 	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
 
-	// Add column information to the wrapper..
+	// Add column information to the wrapper.
 	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
 	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
 
 	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
 
-	// Required attributes and content..
+	// Required attributes and content.
 	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
 	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
 	$required_attr = $field['required'] ? ' required="required"' : '';
 
-	// Setup the label..
+	// Setup the label.
 	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
 
-	// Disabled field..
+	// Disabled field.
 	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
 
-	// Min & Max values..
+	// Min & Max values.
 	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
 	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
 
-	// Setup the return value..
+	// Setup the return value.
 	$html = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
 
 	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
