@@ -6,7 +6,7 @@
  *
  * @since 3.16.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @version  3.16.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -104,10 +104,6 @@ $now         = current_time( 'timestamp' );
 		<h3><i class="fa fa-bolt" aria-hidden="true"></i> <?php _e( 'Recent events', 'lifterlms' ); ?></h3>
 
 		<em><?php _e( 'Quiz events coming soon...', 'lifterlms' ); ?></em>
-
-		<?php // foreach ( $data->recent_events() as $event ) : ?>
-			<?php // LLMS_Admin_Reporting::output_event( $event, 'quiz' ); ?>
-		<?php // endforeach; ?>
 
 	</aside>
 
