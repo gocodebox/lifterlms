@@ -95,8 +95,7 @@
 	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
 		<exclude-pattern>includes/*.php</exclude-pattern>
 
-		<include-pattern>includes/abstracts/*.php</include-pattern>
-		<include-pattern>includes/achievements/*.php</include-pattern>
+		<!-- <include-pattern>includes/achievements/*.php</include-pattern> -->
 		<include-pattern>includes/admin/*.php</include-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
