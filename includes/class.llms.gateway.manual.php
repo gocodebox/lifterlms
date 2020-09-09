@@ -38,11 +38,11 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		$this->admin_title          = __( 'Manual', 'lifterlms' );
 		$this->title                = __( 'Manual', 'lifterlms' );
 		$this->description          = __( 'Pay manually via check', 'lifterlms' );
-		$this->payment_instructions = ''; // fields
+		$this->payment_instructions = ''; // Fields.
 
 		$this->supports = array(
 			'checkout_fields'    => false,
-			'refunds'            => false, // manual refunds are available always for all gateways and are not handled by this class
+			'refunds'            => false, // Manual refunds are available always for all gateways and are not handled by this class.
 			'single_payments'    => true,
 			'recurring_payments' => true,
 			'test_mode'          => false,
@@ -164,19 +164,19 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 */
 	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
 
-		// no payment (free orders)
+		// No payment (free orders).
 		if ( floatval( 0 ) === $order->get_initial_price( array(), 'float' ) ) {
 
-			// free access plans do not generate receipts
+			// Free access plans do not generate receipts.
 			if ( $plan->is_free() ) {
 
 				$order->set( 'status', 'llms-completed' );
 
-				// free trial, reduced to free via coupon, etc...
-				// we do want to record a transaction and then generate a receipt
+				// Free trial, reduced to free via coupon, etc....
+				// We do want to record a transaction and then generate a receipt.
 			} else {
 
-				// record a $0.00 transaction to ensure a receipt is sent
+				// Record a $0.00 transaction to ensure a receipt is sent.
 				$order->record_transaction(
 					array(
 						'amount'             => floatval( 0 ),
@@ -192,7 +192,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			$this->complete_transaction( $order );
 
-			// payment due
+			// Payment due.
 		} else {
 
 			/**
@@ -200,12 +200,12 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 			 */
 			do_action( 'llms_manual_payment_due', $order, $this );
 
-			// show the user payment instructions for the order
+			// Show the user payment instructions for the order.
 			do_action( 'lifterlms_handle_pending_order_complete', $order );
 			wp_redirect( $order->get_view_link() );
 			exit;
 
-		}// End if().
+		}
 
 	}
 
@@ -220,10 +220,10 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 */
 	public function handle_recurring_transaction( $order ) {
 
-		// switch to order on hold if it's a paid order
+		// Switch to order on hold if it's a paid order.
 		if ( $order->get_price( 'total', array(), 'float' ) > 0 ) {
 
-			// update status
+			// Update status.
 			$order->set_status( 'on-hold' );
 
 			/**

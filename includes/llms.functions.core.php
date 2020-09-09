@@ -149,7 +149,7 @@ function llms_cleanup_tmp() {
 
 	foreach ( glob( LLMS_TMP_DIR . '*' ) as $file ) {
 
-		// dont cleanup index and .htaccess
+		// Don't cleanup index and .htaccess.
 		if ( in_array( basename( $file ), $exclude ) ) {
 			continue;
 		}
@@ -268,18 +268,18 @@ function llms_get_core_supported_themes() {
  * @version  3.24.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
-	// If not numeric then convert timestamps
+	// If not numeric then convert timestamps.
 	if ( ! is_numeric( $time1 ) ) {
 		$time1 = strtotime( $time1 );
 	}
 	if ( ! is_numeric( $time2 ) ) {
 		$time2 = strtotime( $time2 );
 	}
-	// If time1 > time2 then swap the 2 values
+	// If time1 > time2 then swap the 2 values.
 	if ( $time1 > $time2 ) {
 		list( $time1, $time2 ) = array( $time2, $time1 );
 	}
-	// Set up intervals and diffs arrays
+	// Set up intervals and diffs arrays.
 	$intervals     = array( 'year', 'month', 'day', 'hour', 'minute', 'second' );
 	$l18n_singular = array(
 		'year'   => __( 'year', 'lifterlms' ),
@@ -299,14 +299,14 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	);
 	$diffs         = array();
 	foreach ( $intervals as $interval ) {
-		// Create temp time from time1 and interval
+		// Create temp time from time1 and interval.
 		$ttime = strtotime( '+1 ' . $interval, $time1 );
-		// Set initial values
+		// Set initial values.
 		$add    = 1;
 		$looped = 0;
-		// Loop until temp time is smaller than time2
+		// Loop until temp time is smaller than time2.
 		while ( $time2 >= $ttime ) {
-			// Create new temp time from time1 and interval
+			// Create new temp time from time1 and interval.
 			$add++;
 			$ttime = strtotime( '+' . $add . ' ' . $interval, $time1 );
 			$looped++;
@@ -317,23 +317,23 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	$count = 0;
 	$times = array();
 	foreach ( $diffs as $interval => $value ) {
-		// Break if we have needed precision
+		// Break if we have needed precision.
 		if ( $count >= $precision ) {
 			break;
 		}
-		// Add value and interval if value is bigger than 0
+		// Add value and interval if value is bigger than 0.
 		if ( $value > 0 ) {
 			if ( 1 != $value ) {
 				$text = $l18n_plural[ $interval ];
 			} else {
 				$text = $l18n_singular[ $interval ];
 			}
-			// Add value and interval to times array
+			// Add value and interval to times array.
 			$times[] = $value . ' ' . $text;
 			$count++;
 		}
 	}
-	// Return string with times
+	// Return string with times.
 	return implode( ', ', $times );
 }
 
@@ -381,7 +381,7 @@ function llms_get_engagement_triggers() {
 			'course_enrollment'      => __( 'Student enrolls in a course', 'lifterlms' ),
 			'course_purchased'       => __( 'Student purchases a course', 'lifterlms' ),
 			'course_completed'       => __( 'Student completes a course', 'lifterlms' ),
-			// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo
+			// 'days_since_login' => __( 'Days since user last logged in', 'lifterlms' ), // @todo.
 			'lesson_completed'       => __( 'Student completes a lesson', 'lifterlms' ),
 			'quiz_completed'         => __( 'Student completes a quiz', 'lifterlms' ),
 			'quiz_passed'            => __( 'Student passes a quiz', 'lifterlms' ),
@@ -795,7 +795,7 @@ function llms_get_enrollment_statuses() {
  */
 function llms_get_enrollment_status_name( $status ) {
 
-	$status   = strtolower( $status ); // backwards compatibility
+	$status   = strtolower( $status ); // Backwards compatibility.
 	$statuses = llms_get_enrollment_statuses();
 	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
 		$status = $statuses[ $status ];
@@ -822,7 +822,7 @@ function llms_get_ip_address() {
 	if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 		$ip = $_SERVER['HTTP_X_REAL_IP'];
 	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-		// Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2
+		// Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
 		// Make sure we always only send through the first IP in the list which should always be the client IP.
 		$ip = trim( current( explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {

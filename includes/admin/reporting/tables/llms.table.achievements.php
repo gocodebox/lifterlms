@@ -35,7 +35,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	/**
 	 * Get HTML for buttons in the actions cell of the table
 	 *
-	 * @param    int $certificate_id  WP Post ID of the llms_my_certificate
+	 * @param    int $achievement_id WP Post ID of the achievement post.
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0

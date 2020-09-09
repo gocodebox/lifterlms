@@ -337,7 +337,7 @@ class LLMS_Voucher {
 
 				do_action( 'llms_voucher_used', $voucher->id, $user_id, $voucher->code );
 
-				// use voucher code
+				// Use voucher code.
 				$data = array(
 					'user_id' => $user_id,
 					'code_id' => $voucher->id,

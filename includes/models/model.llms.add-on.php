@@ -207,7 +207,7 @@ class LLMS_Add_On {
 	/**
 	 * Translate strings
 	 *
-	 * @param    string $status  untranslated string / key
+	 * @param    string $string Untranslated string / key.
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0

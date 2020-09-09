@@ -64,12 +64,11 @@ class LLMS_Track {
 	 */
 	public function get_courses() {
 
-		// no posts in the term, return an empty array
+		// No posts in the term, return an empty array.
 		if ( 0 === $this->term->count ) {
 			return array();
 		}
 
-		// get posts
 		$q = new WP_Query(
 			array(
 				'post_status'    => 'publish',
@@ -86,7 +85,6 @@ class LLMS_Track {
 			)
 		);
 
-		// return posts
 		if ( $q->have_posts() ) {
 			return $q->posts;
 		} else {

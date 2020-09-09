@@ -8,7 +8,7 @@
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @version 3.35.0
  *
- * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
+ * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +46,14 @@ if ( ! $attempt && ! $attempts ) {
 		 *
 		 * @hooked lifterlms_template_quiz_attempt_results - 10
 		 */
+
+		/**
+		 * Action fired prior to the output of LifterLMS Quiz Results HTML
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Quiz_Attempt $attempt Attempt object.
+		 */
 		do_action( 'llms_single_quiz_attempt_results', $attempt );
 	?>
 
@@ -56,7 +64,7 @@ if ( ! $attempt && ! $attempts ) {
 				<option value="">-- <?php _e( 'Select an Attempt', 'lifterlms' ); ?> --</option>
 				<?php foreach ( $attempts as $attempt ) : ?>
 					<option value="<?php echo esc_url( $attempt->get_permalink() ); ?>">
-						<?php // translators: 1: attempt number; 2: grade percentage; 3: pass/fail text ?>
+						<?php // Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text. ?>
 						<?php printf( __( 'Attempt #%1$d - %2$s (%3$s)', 'lifterlms' ), $attempt->get( 'attempt' ), round( $attempt->get( 'grade' ), 2 ) . '%', $attempt->l10n( 'status' ) ); ?>
 					</option>
 				<?php endforeach; ?>

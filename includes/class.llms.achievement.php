@@ -100,7 +100,7 @@ class LLMS_Achievement {
 
 	public function __construct() {
 
-		// Settings TODO Refactor: theses can come from the achievement post now
+		// Settings TODO Refactor: theses can come from the achievement post now.
 		$this->enabled = get_option( 'enabled' );
 
 		$this->find    = array( '{blogname}', '{site_title}' );

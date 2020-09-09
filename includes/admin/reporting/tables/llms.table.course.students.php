@@ -95,11 +95,12 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    int    $user_id    WP User ID
-	 * @return   mixed
-	 * @since    3.15.0
-	 * @version  3.17.2
+	 * @since 3.15.0
+	 * @since 3.17.2 Unknown.
+	 *
+	 * @param string       $key     The column id / key.
+	 * @param LLMS_Student $student Student object.
+	 * @return mixed
 	 */
 	public function get_data( $key, $student ) {
 

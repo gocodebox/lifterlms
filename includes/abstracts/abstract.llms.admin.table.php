@@ -708,7 +708,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Get a CSS class list (as a string) for each TR
 	 *
-	 * @param    mixed $data  object / array of data that the function can use to extract the data
+	 * @param    mixed $row  object / array of data that the function can use to extract the data
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -801,7 +801,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Get the HTML for a WP User Link
 	 *
-	 * @param    int    $post_id  WP User ID
+	 * @param    int    $user_id  WP User ID
 	 * @param    string $text     Optional text to display within the anchor, if none supplied $user_id if used
 	 * @return   string
 	 * @since    3.17.2

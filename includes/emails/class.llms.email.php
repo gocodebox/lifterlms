@@ -187,7 +187,7 @@ class LLMS_Email {
 	 */
 	public function add_recipient( $address, $type = 'to', $name = '' ) {
 
-		// if an ID was supplied, get the information from the student object
+		// If an ID was supplied, get the information from the student object.
 		if ( is_numeric( $address ) ) {
 			$student = llms_get_student( $address );
 			if ( ! $student ) {
@@ -197,12 +197,12 @@ class LLMS_Email {
 			$name    = $student->get_name();
 		}
 
-		// ensure address is a valid email
+		// Ensure address is a valid email.
 		if ( ! filter_var( $address, FILTER_VALIDATE_EMAIL ) ) {
 			return false;
 		}
 
-		// if a name is supplied format the name & address
+		// If a name is supplied format the name & address.
 		if ( $name ) {
 			$address = sprintf( '%1$s <%2$s>', $name, $address );
 		}
@@ -472,7 +472,7 @@ class LLMS_Email {
 	/**
 	 * set the subject for the email
 	 *
-	 * @param    string $content_type text string to use for the email subject.
+	 * @param    string $subject Text string to use for the email subject.
 	 * @return   $this
 	 * @since    3.8.0
 	 * @version  3.24.0

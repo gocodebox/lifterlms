@@ -115,8 +115,8 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 *
 	 * @since 3.32.0
 	 *
-	 * @param string $key     The column id / key.
-	 * @param int    $user_id WP User ID.
+	 * @param string       $key     The column id / key.
+	 * @param LLMS_Student $student Student object.
 	 * @return mixed
 	 */
 	public function get_data( $key, $student ) {

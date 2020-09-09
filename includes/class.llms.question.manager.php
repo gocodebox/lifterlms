@@ -74,7 +74,6 @@ class LLMS_Question_Manager {
 		if ( 'llms_quiz' === $this->get_parent_type() ) {
 			return $this->parent;
 		}
-		// llms_question
 		return $this->parent->get_quiz();
 
 	}
@@ -89,7 +88,7 @@ class LLMS_Question_Manager {
 	 */
 	public function create_question( $data = array() ) {
 
-		// ensure the question belongs to this quiz
+		// Ensure the question belongs to this quiz.
 		$data['parent_id'] = $this->get_parent()->get( 'id' );
 
 		$question = new LLMS_Question( 'new', $data );
@@ -117,12 +116,12 @@ class LLMS_Question_Manager {
 			return false;
 		}
 
-		// error
+		// Error.
 		if ( ! wp_delete_post( $id, true ) ) {
 			return false;
 		}
 
-		// deleted
+		// Deleted.
 		return true;
 
 	}
@@ -139,14 +138,14 @@ class LLMS_Question_Manager {
 
 		$question = llms_get_post( $id );
 
-		// not valid question, return false
+		// Not valid question, return false.
 		if ( empty( $question ) || ! is_a( $question, 'LLMS_Question' ) ) {
 			return false;
 		}
 
 		$parent_id = $question->get( 'parent_id' );
 
-		// when parent id is set, only retrieve questions attached to this parent
+		// When parent id is set, only retrieve questions attached to this parent.
 		if ( $parent_id && $parent_id !== $this->get_parent()->get( 'id' ) ) {
 
 			if ( 'llms_question' === $this->get_parent_type() && $this->get_quiz()->get( 'id' ) === $question->get_quiz()->get( 'id' ) ) {
@@ -156,7 +155,7 @@ class LLMS_Question_Manager {
 			return false;
 		}
 
-		// success
+		// Success.
 		return $question;
 
 	}
@@ -214,21 +213,21 @@ class LLMS_Question_Manager {
 	 */
 	public function update_question( $data = array() ) {
 
-		// if there's no ID, we'll add a new question
+		// If there's no ID, we'll add a new question.
 		if ( ! isset( $data['id'] ) ) {
 			return $this->create_question( $data );
 		}
 
-		// get the question
+		// Get the question.
 		$question = $this->get_question( $data['id'] );
 		if ( ! $question ) {
 			return false;
 		}
 
-		// update all submitted data
+		// Update all submitted data.
 		foreach ( $data as $key => $val ) {
 
-			// merge image data into the array
+			// Merge image data into the array.
 			if ( 'image' === $key ) {
 				$val = array_merge(
 					array(
@@ -244,7 +243,7 @@ class LLMS_Question_Manager {
 			$question->set( $key, $val );
 		}
 
-		// return question ID
+		// Return question ID.
 		return $question->get( 'id' );
 
 	}

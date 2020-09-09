@@ -14,7 +14,7 @@ if ( ! is_admin() ) {
 	exit;
 }
 
-// create a "step" attribute for price fields according to LLMS settings
+// Create a "step" attribute for price fields according to LLMS settings.
 $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
 
 ?>

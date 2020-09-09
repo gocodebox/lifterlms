@@ -55,28 +55,27 @@ class LLMS_Tracker {
 	 */
 	public static function send_data( $force = false ) {
 
-		// don't trigger during AJAX Requests
+		// Don't trigger during AJAX Requests.
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
 		}
 
-		// allow forcing of the send despite the interval
+		// Allow forcing of the send despite the interval.
 		if ( ! $force && ! apply_filters( 'llms_tracker_force_send', false ) ) {
 
-			// only send data once a week
+			// Only send data once a week.
 			$last_send = self::get_last_send_time();
 			if ( $last_send && $last_send > apply_filters( 'llms_tracker_send_interval', strtotime( '-1 week' ) ) ) {
 				return;
 			}
 		}
 
-		// record a last send time
+		// Record a last send time.
 		update_option( 'llms_tracker_last_send_time', time() );
 
 		$r = wp_remote_post(
 			self::API_URL,
 			array(
-				// 'sslverify'   => false,
 				'body'        => array(
 					'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ),
 				),
