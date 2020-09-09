@@ -305,7 +305,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
  * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`
  *
- * @param  int  $person_id WP_User ID.
+ * @param  int  $user_id  WP_User ID.
  * @param  bool $remember Whether to remember the user.
  * @return void
  */
