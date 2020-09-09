@@ -24,13 +24,13 @@ class LLMS_Sidebars {
 	 */
 	public static function init() {
 
-		// replaces sidebars with course & lesson sidebars
+		// Replaces sidebars with course & lesson sidebars.
 		add_filter( 'sidebars_widgets', array( __CLASS__, 'replace_default_sidebars' ) );
 
-		// registers llms core sidebars
+		// Registers llms core sidebars.
 		add_action( 'widgets_init', array( __CLASS__, 'register_sidebars' ), 5 );
 
-		// custom actions for genesis
+		// Custom actions for genesis.
 		add_action( 'genesis_init', array( __CLASS__, 'genesis_support' ) );
 
 	}
@@ -115,16 +115,16 @@ class LLMS_Sidebars {
 	 */
 	public static function genesis_support() {
 
-		// remove default registration in favor of genesis registration methods
+		// Remove default registration in favor of genesis registration methods.
 		remove_action( 'widgets_init', array( __CLASS__, 'register_sidebars' ), 5 );
 
-		// add genesis registration method
+		// Add genesis registration method.
 		add_action( 'widgets_init', array( __CLASS__, 'genesis_register_sidebars' ), 5 );
 
-		// replace primary genesis sidebar with our course / lesson sidebar
+		// Replace primary genesis sidebar with our course / lesson sidebar.
 		add_action( 'genesis_before_sidebar_widget_area', array( __CLASS__, 'genesis_do_sidebar' ) );
 
-		// genesis uses it's own reg method so we can send an empty array of settings
+		// Genesis uses it's own reg method so we can send an empty array of settings.
 		add_filter( 'llms_sidebar_settings', '__return_empty_array' );
 
 	}

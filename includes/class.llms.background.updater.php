@@ -97,12 +97,12 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 */
 	public function get_progress() {
 
-		// if the queue is empty we've already finished
+		// If the queue is empty we've already finished.
 		if ( $this->is_queue_empty() ) {
 			return 0;
 		}
 
-		// get the progress
+		// Get the progress.
 		$batch     = $this->get_batch();
 		$total     = max( array_keys( $batch->data ) ) + 1;
 		$remaining = count( $batch->data );

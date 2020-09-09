@@ -50,7 +50,7 @@ class LLMS_Post_Relationships {
 
 		'llms_quiz'  => array(
 			array(
-				'action'    => 'delete', // delete = force delete; trash = move to trash
+				'action'    => 'delete', // Delete = force delete; trash = move to trash.
 				'meta_key'  => '_llms_parent_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_question',
 			),

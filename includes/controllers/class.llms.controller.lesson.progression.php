@@ -5,21 +5,25 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version  3.29.0
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Lesson_Progression class.
+ * LLMS_Controller_Lesson_Progression class
+ *
+ * @since 3.17.1
  */
 class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.17.1
-	 * @version  3.29.0
+	 * @since 3.17.1
+	 * @since 3.29.0 Unknown
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -38,10 +42,10 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Retrieve a lesson ID from form data for the mark complete / incomplete forms
 	 *
-	 * @param   string $action form action, either "complete" or "incomplete".
-	 * @return  int|null  NULL when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success
-	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @since 3.29.0
+	 *
+	 * @param tring $action Form action, either "complete" or "incomplete".
+	 * @return int|null Returns `null` when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success.
 	 */
 	private function get_lesson_id_from_form_data( $action ) {
 
@@ -52,7 +56,7 @@ class LLMS_Controller_Lesson_Progression {
 		$submitted = llms_filter_input( INPUT_POST, 'mark_' . $action );
 		$lesson_id = llms_filter_input( INPUT_POST, 'mark-' . $action );
 
-		// required fields.
+		// Required fields.
 		if ( is_null( $submitted ) || is_null( $lesson_id ) ) {
 			return null;
 		}
@@ -74,9 +78,9 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle completion of lessons for a student.
 	 *
-	 * @return  void
-	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @since 3.29.0
+	 *
+	 * @return void
 	 */
 	public function handle_admin_managment_forms() {
 
@@ -105,13 +109,15 @@ class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Mark Lesson as complete
-	 * Complete Lesson form post
-	 * Marks lesson as complete and returns completion message to user
-	 * Autoadvances to next lesson if completion is successful
 	 *
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.29.0
+	 * + Complete Lesson form post.
+	 * + Marks lesson as complete and returns completion message to user.
+	 * + Autoadvances to next lesson if completion is successful.
+	 *
+	 * @since 3.17.1
+	 * @since 3.29.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function handle_complete_form() {
 
@@ -139,12 +145,14 @@ class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Mark Lesson as incomplete
-	 * Incomplete Lesson form post
-	 * Marks lesson as incomplete and returns incompletion message to user
 	 *
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.29.0
+	 * + Incomplete Lesson form post.
+	 * + Marks lesson as incomplete and returns incompletion message to user.
+	 *
+	 * @since 3.17.1
+	 * @since 3.29.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function handle_incomplete_form() {
 
@@ -165,13 +173,14 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Handle completion of lesson via `llms_trigger_lesson_completion` action
 	 *
-	 * @param    int    $user_id    User ID
-	 * @param    int    $lesson_id  Lesson ID
-	 * @param    string $trigger    Optional trigger description string
-	 * @param    array  $args       Optional arguments
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.29.0
+	 * @since 3.17.1
+	 * @since 3.29.0 Unknown.
+	 *
+	 * @param int    $user_id   User ID.
+	 * @param int    $lesson_id Lesson ID.
+	 * @param string $trigger   Optional trigger description string.
+	 * @param array  $args      Optional arguments.
+	 * @return void
 	 */
 	public function mark_complete( $user_id, $lesson_id, $trigger = '', $args = array() ) {
 
@@ -186,12 +195,12 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Trigger lesson completion when a quiz is completed
 	 *
-	 * @param    int $student_id  WP User ID
-	 * @param    int $quiz_id     WP Post ID of the quiz
-	 * @param    obj $attempt     Instance of the LLMS_Quiz_Attempt
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @since 3.17.1
+	 *
+	 * @param int $student_id WP User ID.
+	 * @param int $quiz_id    WP Post ID of the quiz.
+	 * @param obj $attempt    Instance of the LLMS_Quiz_Attempt.
+	 * @return void
 	 */
 	public function quiz_complete( $student_id, $quiz_id, $attempt ) {
 
@@ -210,19 +219,18 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Before a lesson is marked as complete, check if all the lesson's quiz requirements are met
 	 *
-	 * @filter   llms_allow_lesson_completion
-	 * @param    bool   $allow_completion  whether or not to allow completion (true by default, false if something else has already prevented)
-	 * @param    int    $user_id           WP User ID of the student completing the lesson
-	 * @param    int    $lesson_id         WP Post ID of the lesson to be completed
-	 * @param    string $trigger           text string to record the reason why the lesson is being completed
-	 * @param    array  $args              optional additional arguments from the triggering function
-	 * @return   bool
-	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @since 3.17.1
+	 *
+	 * @param bool   $allow_completion Whether or not to allow completion (true by default, false if something else has already prevented).
+	 * @param int    $user_id          WP User ID of the student completing the lesson.
+	 * @param int    $lesson_id        WP Post ID of the lesson to be completed.
+	 * @param string $trigger          Text string to record the reason why the lesson is being completed.
+	 * @param array  $args             Optional additional arguments from the triggering function.
+	 * @return bool
 	 */
 	public function quiz_maybe_prevent_lesson_completion( $allow_completion, $user_id, $lesson_id, $trigger, $args ) {
 
-		// if allow completion is already false, we don't need to run any quiz checks
+		// If allow completion is already false, we don't need to run any quiz checks.
 		if ( ! $allow_completion ) {
 			return $allow_completion;
 		}
@@ -230,10 +238,10 @@ class LLMS_Controller_Lesson_Progression {
 		$lesson           = llms_get_post( $lesson_id );
 		$passing_required = llms_parse_bool( $lesson->get( 'require_passing_grade' ) );
 
-		// if the lesson is being completed by a quiz
+		// If the lesson is being completed by a quiz.
 		if ( 0 === strpos( $trigger, 'quiz_' ) ) {
 
-			// passing is required AND the attempt was a failure
+			// Passing is required AND the attempt was a failure.
 			if ( $passing_required && ! $args['attempt']->is_passing() ) {
 				$allow_completion = false;
 			}
@@ -243,12 +251,12 @@ class LLMS_Controller_Lesson_Progression {
 			$student = llms_get_student( $user_id );
 			$attempt = $student->quizzes()->get_best_attempt( $quiz_id );
 
-			// passing is not required but there's not attempts yet
-			// at least one attempt (passing or otherwise) is required!
+			// Passing is not required but there's not attempts yet.
+			// At least one attempt (passing or otherwise) is required!.
 			if ( ! $passing_required && ! $attempt ) {
 				$allow_completion = false;
 
-				// passing is required and there's no attempts or the best attempt is not passing
+				// Passing is required and there's no attempts or the best attempt is not passing.
 			} elseif ( $passing_required && ( ! $attempt || ! $attempt->is_passing() ) ) {
 				$allow_completion = false;
 			}

@@ -62,9 +62,9 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.13.0 Unknown.
 	 * @since 3.37.15 Correctly pass `$user` to `$this->save()`.
 	 *
-	 * @param obj     &$errors Instance of WP_Error, passed by reference.
-	 * @param bool    $update  `true` if updating a profile, `false` if a new user.
-	 * @param WP_User $user    Instance of WP_User for the user being updated.
+	 * @param obj     $errors Instance of WP_Error, passed by reference.
+	 * @param bool    $update `true` if updating a profile, `false` if a new user.
+	 * @param WP_User $user   Instance of WP_User for the user being updated.
 	 * @return void
 	 */
 	public function add_errors( &$errors, $update, $user ) {

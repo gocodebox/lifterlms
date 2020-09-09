@@ -26,7 +26,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	/**
 	 * Add a parent instructor to an assistant instructor
 	 *
-	 * @param    mixed $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
+	 * @param    mixed $parent_ids WP User ID of the parent instructor or array of User IDs to add multiple
 	 * @return   boolean
 	 * @since    3.13.0
 	 * @version  3.14.4

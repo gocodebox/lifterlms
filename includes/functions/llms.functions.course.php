@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions
  *
- * @since unknown
+ * @since Unknown
  * @version 3.37.13
  */
 
@@ -37,7 +37,7 @@ function get_course( $the_course = false, $args = array() ) {
  * @since Unknown
  * @since 3.37.13 Use `LLMS_Lesson` in favor of the deprecated `LLMS_Course_Factory::get_lesson()` method.
  *
- * @param WP_Post|int|false $the_product Lesson post object or id. If `false` uses the global `$post` object.
+ * @param WP_Post|int|false $the_lesson Lesson post object or id. If `false` uses the global `$post` object.
  * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
  * @return LLMS_Product
  */

@@ -1397,7 +1397,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see     llms_is_user_enrolled()
 	 *
-	 * @param   int|array $product_id  WP Post ID of a Course, Section, Lesson, or Membership or array of multiple IDs.
+	 * @param   int|array $product_ids WP Post ID of a Course, Section, Lesson, or Membership or array of multiple IDs.
 	 * @param   string    $relation    Comparator for enrollment check.
 	 *                                     All = user must be enrolled in all $product_ids.
 	 *                                     Any = user must be enrolled in at least one of the $product_ids.

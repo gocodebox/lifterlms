@@ -80,7 +80,7 @@ class LLMS_Site {
 
 		$url = get_option( 'llms_site_url' );
 
-		// remove the lock string before returning it
+		// Remove the lock string before returning it.
 		$url = str_replace( self::$lock_string, '', $url );
 
 		$url = set_url_scheme( $url );

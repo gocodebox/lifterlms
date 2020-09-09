@@ -37,11 +37,11 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    int    $user_id    WP User ID
-	 * @return   mixed
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $key  The column id / key.
+	 * @param array  $data Table data array.
+	 * @return mixed
 	 */
 	public function get_data( $key, $data ) {
 

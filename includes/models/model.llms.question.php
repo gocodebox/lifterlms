@@ -200,8 +200,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.38.2
 	 *
-	 * @param string  $keyThe property key.
-	 * @param boolean $rawOptional. Whether or not we need to get the raw value. Default false.
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
 	 * @return mixed
 	 */
 	public function get( $key, $raw = false ) {
@@ -223,7 +223,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since 3.16.0
 	 * @since 4.4.0 Use strict comparison.
 	 *
-	 * @param string $id  Choice ID.
+	 * @param string $id Choice ID.
 	 * @return obj|false
 	 */
 	public function get_choice( $id ) {

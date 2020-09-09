@@ -66,18 +66,18 @@ class LLMS_Controller_Quizzes {
 	 * Handle form submission of the "take quiz" button attached to lessons with quizzes
 	 *
 	 * @since 1.0.0
-	 * @since 3.9.0 Unkown.
+	 * @since 3.9.0 Unknown.
 	 *
 	 * @return void
 	 */
 	public function take_quiz() {
 
-		// invalid nonce or the form wasn't submitted
+		// Invalid nonce or the form wasn't submitted.
 		if ( ! llms_verify_nonce( '_llms_take_quiz_nonce', 'take_quiz', 'POST' ) ) {
 			return;
 		}
 
-		// check required fields
+		// Check required fields.
 		if ( ! isset( $_POST['quiz_id'] ) || ! isset( $_POST['associated_lesson'] ) ) {
 			return llms_add_notice( __( 'Could not proceed to the quiz because required information was missing.', 'lifterlms' ), 'error' );
 		}
@@ -91,7 +91,7 @@ class LLMS_Controller_Quizzes {
 			return llms_add_notice( $exception->getMessage(), 'error' );
 		}
 
-		// redirect user to quiz page
+		// Redirect user to quiz page.
 		$redirect = add_query_arg(
 			array(
 				'attempt_key' => $attempt->get_key(),
