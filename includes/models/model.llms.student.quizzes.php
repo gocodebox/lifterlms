@@ -156,14 +156,14 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			$allowed = $quiz->get( 'allowed_attempts' );
 			$used    = $this->count_attempts_by_quiz( $quiz->get( 'id' ) );
 
-			// ensure undefined, null, '', etc.. show as an int
+			// Ensure undefined, null, '', etc.. show as an int.
 			if ( ! $allowed ) {
 				$allowed = 0;
 			}
 
 			$remaining = ( $allowed - $used );
 
-			// don't show negative attempts
+			// Don't show negative attempts.
 			$ret = max( 0, $remaining );
 
 		}
@@ -253,8 +253,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the last completed attempt for a given quiz or quiz/lesson combination
 	 *
-	 * @param    int $quiz    WP Post ID of a Quiz
-	 * @param    int $lesson  WP Post ID of a Lesson
+	 * @param    int $quiz_id    WP Post ID of a Quiz.
+	 * @param    int $deprecated Deprecated.
 	 * @return   false|obj
 	 * @since    3.9.0
 	 * @version  3.16.0

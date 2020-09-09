@@ -58,7 +58,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param int $transaction Instance of a LLMS_Transaction
+	 * @param int $user_id WP_User ID.
 	 * @return void
 	 */
 	public function action_callback( $user_id = null ) {
