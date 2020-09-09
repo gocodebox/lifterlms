@@ -609,7 +609,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 		}
 
 	}
-}// End if()..
+}
 
 /**
  * Outputs the html for a progress bar
@@ -732,7 +732,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 		}
 
 	}
-}// End if()..
+}
 
 
 

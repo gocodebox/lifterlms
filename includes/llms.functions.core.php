@@ -816,21 +816,21 @@ function llms_get_ip_address() {
 
 	$ip = '';
 
-	// Phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Look below you..
-	// Phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Look below you..
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Look below you.
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Look below you.
 
 	if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 		$ip = $_SERVER['HTTP_X_REAL_IP'];
 	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 		// Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2.
-		// Make sure we always only send through the first IP in the list which should always be the client IP..
+		// Make sure we always only send through the first IP in the list which should always be the client IP.
 		$ip = trim( current( explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
 
-	// Phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized.
-	// Phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash.
+	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	$ip = sanitize_text_field( wp_unslash( $ip ) );
 
