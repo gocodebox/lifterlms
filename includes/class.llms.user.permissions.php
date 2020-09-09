@@ -82,7 +82,7 @@ class LLMS_User_Permissions {
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
-	 * @param string[] $caps    Required primitive capabilities for the requested capability.
+	 * @param string[] $cap     Required primitive capabilities for the requested capability.
 	 * @param array    $args {
 	 *     Arguments that accompany the requested capability check.
 	 *

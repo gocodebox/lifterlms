@@ -38,14 +38,14 @@ class LLMS_L10n {
 
 		$strings = array();
 
-		// add strings that should only be translated on the admin panel
+		// Add strings that should only be translated on the admin panel.
 		if ( is_admin() ) {
 
 			$strings = apply_filters( 'lifterlms_js_l10n_admin', $strings );
 
 		}
 
-		// allow filtering so extensions don't have to implement their own l10n functions
+		// Allow filtering so extensions don't have to implement their own l10n functions.
 		$strings = apply_filters( 'lifterlms_js_l10n', $strings );
 
 		if ( true === $json ) {

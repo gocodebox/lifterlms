@@ -91,7 +91,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 */
 	protected function parse_args() {
 
-		// sanitize post & user ids
+		// Sanitize post & user ids.
 		foreach ( array( 'post_id', 'user_id' ) as $key ) {
 
 			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
@@ -166,13 +166,13 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					$this->arguments['query'][] = $all_events[ $type ];
 				}
 			}
-		}// End if().
+		}
 
 		if ( $this->arguments['query'] ) {
 
 			foreach ( $this->arguments['query'] as $i => &$query ) {
 
-				// ensure that each query has a compare operator
+				// Ensure that each query has a compare operator.
 				$query = wp_parse_args(
 					$query,
 					array(
@@ -287,7 +287,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 			$sql .= ' )';
 
-		}// End if().
+		}
 
 		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
 

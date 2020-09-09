@@ -71,25 +71,25 @@ class LLMS_Grades {
 		$grade  = null;
 		$grades = array();
 
-		// loop through all the children and compile the overall grade & points data
+		// Loop through all the children and compile the overall grade & points data.
 		foreach ( $children as $child_id ) {
 
 			$child = llms_get_post( $child_id );
 			$grade = $this->get_grade( $child_id, $student, false );
 
-			// non numeric grade (null) hasn't been taken yet or no gradable elements exist on the child
+			// Non numeric grade (null) hasn't been taken yet or no gradable elements exist on the child.
 			if ( ! is_numeric( $grade ) ) {
 				continue;
 			}
 
 			$points = $child->get( 'points' );
 
-			// if no points assigned to the child, the grade doesn't count towards the overall grade
+			// If no points assigned to the child, the grade doesn't count towards the overall grade.
 			if ( ! $points ) {
 				continue;
 			}
 
-			// add the grade & points for further processing after we have all the data
+			// Add the grade & points for further processing after we have all the data.
 			$grades[] = array(
 				'grade'  => $grade,
 				'points' => $points,
@@ -97,20 +97,20 @@ class LLMS_Grades {
 
 		}
 
-		// if we have at least one grade
+		// If we have at least one grade.
 		if ( count( $grades ) ) {
 
-			// get the total available points for all children with a numeric grade & a points value
+			// Get the total available points for all children with a numeric grade & a points value.
 			$total_points = array_sum( wp_list_pluck( $grades, 'points' ) );
 
-			// if we don't have any points this element can't have an overall grade
+			// If we don't have any points this element can't have an overall grade.
 			if ( $total_points ) {
 
-				// sum up the adjusted grade
+				// Sum up the adjusted grade.
 				$grade = 0;
 				foreach ( $grades as $data ) {
-					// calculate the adjusted the grade
-					// grade multiplied by available points over total points
+					// Calculate the adjusted the grade.
+					// Grade multiplied by available points over total points.
 					$grade += $data['grade'] * ( $data['points'] / $total_points );
 				}
 			}
@@ -175,13 +175,13 @@ class LLMS_Grades {
 
 				break;
 
-			// 3rd party / custom element grading
+			// 3rd party / custom element grading.
 			default:
 				$grade = apply_filters( 'llms_calculate_' . $post_type . '_grade', $grade, $post, $student );
 
 		}
 
-		// round numeric results
+		// Round numeric results.
 		if ( is_numeric( $grade ) ) {
 			$grade = $this->round( $grade );
 		}
@@ -231,12 +231,12 @@ class LLMS_Grades {
 
 		$grade = $use_cache ? $this->get_grade_from_cache( $post, $student ) : false;
 
-		// grade not found in cache or we're not using the cache
+		// Grade not found in cache or we're not using the cache.
 		if ( false === $grade ) {
 
 			$grade = $this->calculate_grade( $post, $student, $use_cache );
 
-			// store in the cache
+			// Store in the cache.
 			wp_cache_set(
 				sprintf( '%d_grade', $post->get( 'id' ) ),
 				$grade,

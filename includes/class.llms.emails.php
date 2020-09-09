@@ -58,14 +58,14 @@ class LLMS_Emails {
 	 */
 	private function __construct() {
 
-		// template functions
+		// Template functions.
 		LLMS()->include_template_functions();
 
-		// email base class
+		// Email base class.
 		require_once 'emails/class.llms.email.php';
 		$this->emails['generic'] = 'LLMS_Email';
 
-		// Include email child classes
+		// Include email child classes.
 		require_once 'emails/class.llms.email.engagement.php';
 		$this->emails['engagement'] = 'LLMS_Email_Engagement';
 
@@ -169,12 +169,12 @@ class LLMS_Emails {
 
 		$emails = $this->get_emails();
 
-		// if we have an email matching the ID, return an instance of that email class
+		// If we have an email matching the ID, return an instance of that email class.
 		if ( isset( $emails[ $id ] ) ) {
 			return new $emails[ $id ]( $args );
 		}
 
-		// otherwise return a generic email and set the ID to be the requested ID
+		// Otherwise return a generic email and set the ID to be the requested ID.
 		/** @var LLMS_Email $generic */
 		$generic = new $emails['generic']( $args );
 		$generic->set_id( $id );

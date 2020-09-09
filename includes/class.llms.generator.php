@@ -605,6 +605,7 @@ class LLMS_Generator {
 	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param array $raw       Raw question data.
+	 * @param obj   $manager   Question manager instance.
 	 * @param int   $author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
 	 * @return int The WP_Post ID of the generated question.
 	 */

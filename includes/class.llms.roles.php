@@ -126,7 +126,7 @@ class LLMS_Roles {
 
 		$caps = array();
 
-		// students get nothing
+		// Students get nothing.
 		if ( 'student' !== $role ) {
 
 			$post_types = array(
@@ -140,7 +140,7 @@ class LLMS_Roles {
 
 				$post_caps = LLMS_Post_Types::get_post_type_caps( $names );
 
-				// filter the caps down for these roles
+				// Filter the caps down for these roles.
 				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
 
 					$allowed = array(
@@ -170,7 +170,7 @@ class LLMS_Roles {
 
 				$caps[ $post_type ] = array_fill_keys( array_values( $post_caps ), true );
 
-			}// End foreach().
+			}
 
 			$taxes = array(
 				'course_cat'        => 'course_cat',
@@ -184,7 +184,7 @@ class LLMS_Roles {
 
 				$tax_caps = LLMS_Post_Types::get_tax_caps( $names );
 
-				// filter the caps down for these roles
+				// Filter the caps down for these roles.
 				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
 
 					$allowed = array(
@@ -202,7 +202,7 @@ class LLMS_Roles {
 				$caps[ $tax ] = array_fill_keys( array_values( $tax_caps ), true );
 
 			}
-		}// End if().
+		}
 
 		return apply_filters( 'llms_get_' . $role . '_post_type_caps', $caps );
 
@@ -235,9 +235,12 @@ class LLMS_Roles {
 					'read'          => true,
 					'upload_files'  => true,
 
-					// see WP Core issue(s)
-					// https://core.trac.wordpress.org/ticket/22895
-					// https://core.trac.wordpress.org/ticket/16808
+					/**
+					 * See WP Core issue(s)
+					 *
+					 * @link https://core.trac.wordpress.org/ticket/22895
+					 * @link https://core.trac.wordpress.org/ticket/16808
+					 */
 					'edit_posts'    => true,
 				);
 
@@ -248,9 +251,12 @@ class LLMS_Roles {
 					'read'         => true,
 					'upload_files' => true,
 
-					// see WP Core issue(s)
-					// https://core.trac.wordpress.org/ticket/22895
-					// https://core.trac.wordpress.org/ticket/16808
+					/**
+					 * See WP Core issue(s)
+					 *
+					 * @link https://core.trac.wordpress.org/ticket/22895
+					 * @link https://core.trac.wordpress.org/ticket/16808
+					 */
 					'edit_posts'   => true,
 				);
 
@@ -297,7 +303,7 @@ class LLMS_Roles {
 			default:
 				$add = array();
 
-		}// End switch().
+		}
 
 		return apply_filters( 'llms_get_' . $role . '_wp_caps', array_merge( $add, $caps ) );
 
@@ -341,8 +347,6 @@ class LLMS_Roles {
 			return;
 		}
 
-		// self::remove_roles(); // @todo remove, this is here for dev reasons only
-
 		$roles                  = self::get_roles();
 		$roles['administrator'] = __( 'Administrator', 'lifterlms' );
 
@@ -377,12 +381,12 @@ class LLMS_Roles {
 
 		$wp_roles = wp_roles();
 
-		// delete all our custom roles
+		// Delete all our custom roles.
 		foreach ( array_keys( self::get_roles() ) as $role ) {
 			$wp_roles->remove_role( $role );
 		}
 
-		// remove custom caps from the WP core admin role
+		// Remove custom caps from the WP core admin role.
 		self::update_caps( $wp_roles->get_role( 'administrator' ), 'remove' );
 
 	}

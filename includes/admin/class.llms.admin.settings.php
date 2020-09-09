@@ -846,9 +846,12 @@ class LLMS_Admin_Settings {
 	/**
 	 * Get a setting from the settings API.
 	 *
-	 * @param mixed $option
+	 * @since Unknown
+	 * @since 3.7.5 Unknown
+	 *
+	 * @param string $option_name Option name.
+	 * @param mixed  $default     Optional default value.
 	 * @return string
-	 * @version  3.7.5
 	 */
 	public static function get_option( $option_name, $default = '' ) {
 		// Array value.

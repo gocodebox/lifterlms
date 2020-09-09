@@ -32,7 +32,7 @@ class LLMS_Post_Handler {
 			$title = 'Section 1';
 		}
 
-		// create section post
+		// Create section post.
 		$post_data = apply_filters(
 			'lifterlms_new_post',
 			array(
@@ -46,9 +46,9 @@ class LLMS_Post_Handler {
 
 		$post_id = wp_insert_post( $post_data, true );
 
-		// check for error in update
+		// Check for error in update.
 		if ( is_wp_error( $post_id ) ) {
-			// for now just log the error and set $post_id to 0 (false)
+			// For now just log the error and set $post_id to 0 (false).
 			llms_log( $post_id->get_error_message() );
 			$post_id = 0;
 		}
@@ -64,7 +64,7 @@ class LLMS_Post_Handler {
 			'post_title' => $title,
 		);
 
-		// Update the post into the database
+		// Update the post into the database.
 		$updated_post_id = wp_update_post( $post_data );
 
 		if ( $updated_post_id ) {
@@ -83,7 +83,7 @@ class LLMS_Post_Handler {
 			'post_excerpt' => $excerpt,
 		);
 
-		// Update the post into the database
+		// Update the post into the database.
 		$updated_post_id = wp_update_post( $post_data );
 
 		if ( $updated_post_id ) {
@@ -104,13 +104,13 @@ class LLMS_Post_Handler {
 	 */
 	public static function create_section( $course_id, $title = '' ) {
 
-		// no course id? no new section!
+		// No course id? no new section!.
 		if ( ! isset( $course_id ) ) {
 			return;
 		}
 
-		// set the section_order variable
-		// get the count of sections in the course and add 1
+		// Set the section_order variable.
+		// Get the count of sections in the course and add 1.
 		$course        = new LLMS_Course( $course_id );
 		$sections      = $course->get_sections( 'posts' );
 		$section_order = count( $sections ) + 1;
@@ -119,7 +119,7 @@ class LLMS_Post_Handler {
 
 		$post_id = self::create( 'section', $title );
 
-		// if post created set parent course and order to order determined above
+		// If post created set parent course and order to order determined above.
 		if ( $post_id ) {
 			update_post_meta( $post_id, '_llms_order', $section_order );
 
@@ -131,22 +131,26 @@ class LLMS_Post_Handler {
 	}
 
 	/**
-	 * Creates a new Lesson
+	 * Create lesson
 	 *
-	 * @param  [int]  $course_id [the parent course id]
-	 * @param  string $title    [optional: a title for the lesson]
-	 * @param  string $excerpt  [optional: a desc for the lesson]
-	 * @return [int]            [post id of lesson]
+	 * @since Unknown
+	 * @deprecated [version]
+	 *
+	 * @param int    $course_id  WP_Post ID of the course.
+	 * @param int    $section_id WP_Post ID of the lesson's parent section.
+	 * @param string $title   Optional lesson title.
+	 * @param string $excerpt Option excerpt.
+	 * @return int WP_Post ID of the created lesson.
 	 */
 	public static function create_lesson( $course_id, $section_id, $title = '', $excerpt = '' ) {
 
-		// no course id or section id? no new lesson!
+		// No course id or section id? no new lesson!.
 		if ( ! isset( $course_id ) || ! isset( $course_id ) ) {
 			return;
 		}
 
-		// set the lesson_order variable
-		// get the count of lessons in the section
+		// Set the lesson_order variable.
+		// Get the count of lessons in the section.
 		$section      = new LLMS_Section( $section_id );
 		$lesson_order = $section->get_next_available_lesson_order();
 
@@ -154,7 +158,7 @@ class LLMS_Post_Handler {
 
 		$post_id = self::create( 'lesson', $title, $excerpt );
 
-		// if post created set parent section, parent course and order determined above
+		// If post created set parent section, parent course and order determined above.
 		if ( $post_id ) {
 			update_post_meta( $post_id, '_llms_order', $lesson_order );
 
@@ -201,7 +205,7 @@ class LLMS_Post_Handler {
 
 			foreach ( $lessons as $key => $value ) {
 
-				// get parent course if assigned
+				// Get parent course if assigned.
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
