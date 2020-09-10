@@ -168,6 +168,86 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_sideload_choice_image() for various conditions where the choice can't be sideloaded.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_sideload_choice_image_disabled() {
+
+		$gen    = new LLMS_Generator( array() );
+		$choice = array(
+			'id'     => 'mock',
+			'choice' => 'string',
+		);
+
+		// The 'choice_type' prop is missing.
+		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
+
+		$choice['choice_type'] = 'text';
+
+		// The 'choice_type' prop is not "image".
+		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
+
+		// Sideloading is disabled.
+		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
+		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
+		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
+
+	}
+
+	/**
+	 * Test maybe_sideload_choice_image()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_sideload_choice_image() {
+
+		$gen    = new LLMS_Generator( array() );
+		$choice = array(
+			'id'          => 'mock',
+			'choice_type' => 'image',
+			'choice'      => array(
+				'id'  => 123,
+				'src' => 'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg',
+			),
+		);
+
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) );
+
+		$this->assertTrue( 123 !== $res['choice']['id'] );
+		$this->assertTrue( $choice['choice']['src'] !== $res['choice']['src'] );
+		$this->assertEquals( wp_get_attachment_url( $res['choice']['id'] ),  $res['choice']['src'] );
+
+	}
+
+	/**
+	 * Test maybe_sideload_choice_image() when an error is encountered during sideloading
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_sideload_choice_image_error() {
+
+		$gen    = new LLMS_Generator( array() );
+		$choice = array(
+			'id'          => 'mock',
+			'choice_type' => 'image',
+			'choice'      => array(
+				'id'  => 123,
+				'src' => 'fake.jpg',
+			),
+		);
+
+		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
+
+	}
+
+	/**
 	 * Test set_generator(): interpret from raw missing generator.
 	 *
 	 * @since 3.36.3
@@ -269,6 +349,11 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$res2 = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url ) );
 		$this->assertEquals( $res, $res2 );
 
+		// Test ID return.
+		$id = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url, 'id' ) );
+		$this->assertTrue( is_numeric( $id ) );
+		$this->assertEquals( $res2, wp_get_attachment_url( $id ) );
+
 	}
 
 	/**
@@ -369,9 +454,9 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$gen    = new LLMS_Generator( array() );
 		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
 
-		add_filter( 'llms_generator_skip_image_sideload', '__return_true' );
+		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course ) ) );
-		remove_filter( 'llms_generator_skip_image_sideload', '__return_true' );
+		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 
 	}
 

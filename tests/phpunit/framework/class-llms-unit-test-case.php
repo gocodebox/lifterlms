@@ -271,14 +271,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			$i++;
 		}
 
-		add_filter( 'llms_generator_skip_image_sideload', '__return_true' );
+		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 
 		$gen = new LLMS_Generator( array( 'courses' => $courses ) );
 		$gen->set_generator( 'LifterLMS/BulkCourseGenerator' );
 		$gen->set_default_post_status( 'publish' );
 		$gen->generate();
 
-		remove_filter( 'llms_generator_skip_image_sideload', '__return_true' );
+		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 		if ( ! $gen->is_error() ) {
 			return $gen->get_generated_courses();
 		}
