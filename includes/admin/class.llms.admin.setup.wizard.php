@@ -37,8 +37,9 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -81,9 +82,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Enqueue static assets for the setup wizard screens
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @since 3.0.0
+	 * @since 3.17.8 Unknown.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
 		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
@@ -95,10 +97,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Allow the Sample Content installed during the final step to be published rather than drafted
 	 *
-	 * @param    string $status  post status
-	 * @return   string
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since  3.3.0
+	 *
+	 * @param string $status Post status.
+	 * @return string
 	 */
 	public function generator_course_status( $status ) {
 		return 'publish';
@@ -110,7 +112,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public function get_current_step() {
 		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
@@ -119,10 +121,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get slug if next step
 	 *
-	 * @param    string $step   step to use as current
-	 * @return   string|false
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param string $step Step to use as current.
+	 * @return string|false
 	 */
 	public function get_next_step( $step = '' ) {
 		if ( ! $step ) {
@@ -143,10 +145,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get slug if prev step
 	 *
-	 * @param    string $step   step to use as current
-	 * @return   string|false
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step to use as current.
+	 * @return string|false
 	 */
 	public function get_prev_step( $step = '' ) {
 		if ( ! $step ) {
@@ -167,10 +169,11 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the text to display on the "save" buttons
 	 *
-	 * @param    string $step  step to get text for
-	 * @return   string            translated text
-	 * @since    3.0.0
-	 * @version  3.3.0
+	 * @since 3.0.0
+	 * @since 3.3.0 Unknown.
+	 *
+	 * @param string $step Step to get text for.
+	 * @return string The translated text.
 	 */
 	private function get_save_text( $step = '' ) {
 		if ( 'coupon' === $step ) {
@@ -185,10 +188,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the text to display on the "save" buttons
 	 *
-	 * @param    string $step  step to get text for
-	 * @return   string            translated text
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step to get text for.
+	 * @return string Translated text.
 	 */
 	private function get_skip_text( $step = '' ) {
 		if ( 'coupon' === $step ) {
@@ -201,10 +204,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the URL to a step
 	 *
-	 * @param    string $step  step slug
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step slug.
+	 * @return string
 	 */
 	private function get_step_url( $step ) {
 		return add_query_arg(
@@ -219,30 +222,27 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get an array of step slugs => titles
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	public function get_steps() {
-
 		return array(
-
 			'intro'    => __( 'Welcome!', 'lifterlms' ),
 			'pages'    => __( 'Page Setup', 'lifterlms' ),
 			'payments' => __( 'Payments', 'lifterlms' ),
 			'coupon'   => __( 'Coupon', 'lifterlms' ),
 			'finish'   => __( 'Finish!', 'lifterlms' ),
-
 		);
-
 	}
 
 	/**
 	 * Output the HTML content of the setup page
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.16.14
+	 * @since 3.0.0
+	 * @since 3.16.14 Unknown.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
@@ -536,7 +536,7 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Quick and dirty JS "file"...
+	 * Quick and dirty JS "file"
 	 *
 	 * @since 3.0.0
 	 *
