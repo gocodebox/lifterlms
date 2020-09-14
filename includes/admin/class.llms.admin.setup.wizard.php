@@ -94,14 +94,12 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.17.8 Unknown.
+	 * @since [version] Use `LLMS_Assets` for asset registration and queuing.
 	 *
 	 * @return void
 	 */
 	public function enqueue() {
-		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
-		wp_enqueue_style( 'llms-admin-setup' );
-		wp_style_add_data( 'llms-admin-setup', 'rtl', 'replace' );
-		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_ASSETS_SUFFIX );
+		llms()->assets->enqueue_style( 'llms-admin-setup' );
 	}
 
 	/**
