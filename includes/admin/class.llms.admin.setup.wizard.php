@@ -63,7 +63,16 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function admin_menu() {
 
-		add_dashboard_page( __( 'LifterLMS Setup Wizard', 'lifterlms' ), '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
+		/**
+		 * Filter the WP User capability required to access and run the setup wizard.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $cap Required user capability. Default value is `install_plugins`.
+		 */
+		$cap = apply_filters( 'llms_setup_wizard_access', 'install_plugins' );
+
+		add_dashboard_page( __( 'LifterLMS Setup Wizard', 'lifterlms' ), '', $cap, 'llms-setup', array( $this, 'output' ) );
 
 		update_option( 'lifterlms_first_time_setup', 'yes' );
 
