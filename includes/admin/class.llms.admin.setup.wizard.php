@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling error.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
+ * @since [version] Method `LLMS_Admin_Setup_Wizard::scripts()` is deprecated with no replacement.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -38,6 +39,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Constructor
 	 *
 	 * @since 3.0.0
+	 * @since [verison] Remove output of inline scripts.
 	 *
 	 * @return void
 	 */
@@ -48,7 +50,6 @@ class LLMS_Admin_Setup_Wizard {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'save' ) );
-			add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
 
 		}
 
@@ -539,13 +540,12 @@ class LLMS_Admin_Setup_Wizard {
 	 * Quick and dirty JS "file"
 	 *
 	 * @since 3.0.0
+	 * @deprecated [version]
 	 *
 	 * @return void
 	 */
 	public function scripts() {
-		?>
-		jQuery( '.llms-select2' ).llmsSelect2();
-		<?php
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '[version]' );
 	}
 
 	/**
