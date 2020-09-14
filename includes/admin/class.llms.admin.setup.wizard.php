@@ -45,6 +45,15 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function __construct() {
 
+		/**
+		 * Whether or not the LifterLMS Setup Wizard is enabled.
+		 *
+		 * This filter may be used to entirely disable the setup wizard.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param boolean $enabled Whether or not the wizard is enabled.
+		 */
 		if ( apply_filters( 'llms_enable_setup_wizard', true ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
