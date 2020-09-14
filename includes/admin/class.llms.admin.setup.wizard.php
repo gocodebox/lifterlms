@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 3.37.14
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -56,13 +56,14 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Register wizard setup page
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Added dashboard page title.
+	 *
+	 * @return void
 	 */
 	public function admin_menu() {
 
-		add_dashboard_page( '', '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
+		add_dashboard_page( __( 'LifterLMS Setup Wizard', 'lifterlms' ), '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
 
 		update_option( 'lifterlms_first_time_setup', 'yes' );
 
