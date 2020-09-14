@@ -275,20 +275,6 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Outputs the HTML "body" for the requested step
-	 *
-	 * @since 3.0.0
-	 * @since 3.30.3 Fixed spelling error.
-	 * @deprecated [version]
-	 *
-	 * @param string $step Step slug.
-	 * @return void
-	 */
-	public function output_step_html( $step ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '[version]' );
-	}
-
-	/**
 	 * Handle saving data during setup
 	 *
 	 * @since 3.0.0
@@ -385,18 +371,6 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Quick and dirty JS "file"
-	 *
-	 * @since 3.0.0
-	 * @deprecated [version]
-	 *
-	 * @return void
-	 */
-	public function scripts() {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '[version]' );
-	}
-
-	/**
 	 * Callback function to store imported course information
 	 *
 	 * Uses this to handle redirect after import and generation is completed.
@@ -412,6 +386,32 @@ class LLMS_Admin_Setup_Wizard {
 			$this->generated_course_id = $course->get( 'id' );
 		}
 
+	}
+
+	/**
+	 * Outputs the HTML "body" for the requested step
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.3 Fixed spelling error.
+	 * @deprecated [version]
+	 *
+	 * @param string $step Step slug.
+	 * @return void
+	 */
+	public function output_step_html( $step ) {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '[version]' );
+	}
+
+	/**
+	 * Quick and dirty JS "file"
+	 *
+	 * @since 3.0.0
+	 * @deprecated [version]
+	 *
+	 * @return void
+	 */
+	public function scripts() {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '[version]' );
 	}
 
 }
