@@ -7,6 +7,7 @@
  * @group engagements
  *
  * @since 4.4.1
+ * @since [version] Test different emails triggered by the same post are correctly sent.
  */
 class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 
@@ -95,6 +96,65 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 			$this->assertFalse( $mailer->get_sent() );
 
 		}
+
+	}
+
+	/**
+	 * Test handle_email() as triggered by the same related post type with different emails.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_different_emails_same_trigger() {
+
+		$mailer = tests_retrieve_phpmailer_instance();
+
+		$user  = $this->factory->user->create_and_get();
+
+		$emails = $this->factory->post->create_many(
+			2,
+			array(
+				'post_type' => 'llms_email',
+				'meta_input' => array(
+					'_llms_email_subject' => 'Engagement Email',
+				),
+			)
+		);
+
+		$course = $this->factory->course->create( array(
+			'sections' => 0,
+			'lessons'  => 0,
+			'quizzes'  => 0,
+		) );
+
+		llms_enroll_student( $user->ID, $course );
+
+		// Send the email.
+		$this->assertTrue( $this->main->handle_email( array( $user->ID, $emails[0], $course ) ) );
+
+		// Email sent.
+		$sent = $mailer->get_sent();
+		$this->assertEquals( $user->user_email, $sent->to[0][0] );
+		$this->assertEquals( 'Engagement Email', $sent->subject );
+
+		// User meta recorded.
+		$this->assertEquals( $emails[0], llms_get_user_postmeta( $user->ID, $course, '_email_sent' ) );
+
+		// Reset the mailer.
+		reset_phpmailer_instance();
+		$mailer = tests_retrieve_phpmailer_instance();
+
+		// Should send the new mail.
+		$this->assertTrue( $this->main->handle_email( array( $user->ID, $emails[1], $course ) ) );
+
+		// Email sent.
+		$sent = $mailer->get_sent();
+		$this->assertEquals( $user->user_email, $sent->to[0][0] );
+		$this->assertEquals( 'Engagement Email', $sent->subject );
+
+		// User meta recorded.
+		$this->assertEquals( $emails[1], llms_get_user_postmeta( $user->ID, $course, '_email_sent' ) );
 
 	}
 
