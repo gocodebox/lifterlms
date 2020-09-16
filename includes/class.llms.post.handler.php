@@ -134,7 +134,7 @@ class LLMS_Post_Handler {
 	 * Create lesson
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 4.4.3
 	 *
 	 * @param int    $course_id  WP_Post ID of the course.
 	 * @param int    $section_id WP_Post ID of the lesson's parent section.
