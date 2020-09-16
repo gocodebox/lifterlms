@@ -178,7 +178,7 @@ class LLMS_Engagements {
 	 * @since 4.4.1 Use postmeta helpers for dupcheck and postmeta insertion.
 	 *              Add a return value in favor of `void`.
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
-	 * @since [version] Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
+	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
 	 *              Fixed dupcheck log message and error message which reversed the email and person order.
 	 *
 	 * @param mixed[] $args {

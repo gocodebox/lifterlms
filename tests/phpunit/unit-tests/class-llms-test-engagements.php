@@ -7,7 +7,7 @@
  * @group engagements
  *
  * @since 4.4.1
- * @since [version] Test different emails triggered by the same post are correctly sent.
+ * @since 4.4.3 Test different emails triggered by the same post are correctly sent.
  */
 class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 
@@ -102,7 +102,7 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_email() as triggered by the same related post type with different emails.
 	 *
-	 * @since [version]
+	 * @since 4.4.3
 	 *
 	 * @return void
 	 */

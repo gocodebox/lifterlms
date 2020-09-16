@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v4.4.3 - 2020-09-16
+-------------------
+
++ Bugfix: Fix engagement email duplicate check issue.
++ Bugfix: Fix transposition issue found in engagement email dupcheck debug log message.
+
+
 v4.4.2 - 2020-09-08
 -------------------
 
