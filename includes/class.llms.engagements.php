@@ -18,9 +18,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
- * @since 4.4.1 Avoided emails to be sent to students whose enrollment is not active in the related course or membership which triggered the engagement.
- *              Also engagement email related logs logged to a separate logfile, engagement-emails in favor of the main llms log.
- * @since [version] Fixed different emails triggered by the same related post (trigger) not sent because of a wrong duplicate check.
  */
 class LLMS_Engagements {
 
