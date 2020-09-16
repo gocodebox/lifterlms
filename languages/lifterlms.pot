@@ -189,19 +189,23 @@ msgstr ""
 msgid "minute"
 msgstr ""
 
-#: includes/class.llms.engagements.php:201
+#: includes/class.llms.engagements.php:203
 msgid "Email #%1$d to user #%2$d triggered by %3$s"
 msgstr ""
 
-#: includes/class.llms.engagements.php:208, includes/class.llms.engagements.php:213
+#: includes/class.llms.engagements.php:210
 msgid "not sent due to user enrollment issues."
 msgstr ""
 
-#: includes/class.llms.engagements.php:226
+#: includes/class.llms.engagements.php:215
+msgid "not sent because of dupcheck."
+msgstr ""
+
+#: includes/class.llms.engagements.php:228
 msgid "sent successfully."
 msgstr ""
 
-#: includes/class.llms.engagements.php:231
+#: includes/class.llms.engagements.php:233
 msgid "not sent due to email sending issues."
 msgstr ""
 
@@ -261,23 +265,23 @@ msgstr ""
 msgid "Error creating quiz"
 msgstr ""
 
-#: includes/class.llms.generator.php:628
+#: includes/class.llms.generator.php:629
 msgid "Error creating question"
 msgstr ""
 
-#: includes/class.llms.generator.php:688
+#: includes/class.llms.generator.php:689
 msgid "Error creating section"
 msgstr ""
 
-#: includes/class.llms.generator.php:951
+#: includes/class.llms.generator.php:952
 msgid "Error creating new term \"%s\""
 msgstr ""
 
-#: includes/class.llms.generator.php:1165
+#: includes/class.llms.generator.php:1166
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:1177
+#: includes/class.llms.generator.php:1178
 msgid "The supplied generator is invalid."
 msgstr ""
 
@@ -592,7 +596,7 @@ msgstr ""
 msgid "Attach"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:231, includes/class.llms.l10n.js.php:379, templates/admin/post-types/order-transactions.php:24, includes/admin/post-types/tables/class.llms.table.student.management.php:380, includes/admin/reporting/tables/llms.table.achievements.php:175, includes/admin/reporting/tables/llms.table.certificates.php:179, includes/admin/reporting/tables/llms.table.course.students.php:396, includes/admin/reporting/tables/llms.table.courses.php:300, includes/admin/reporting/tables/llms.table.membership.students.php:385, includes/admin/reporting/tables/llms.table.memberships.php:300, includes/admin/reporting/tables/llms.table.quiz.attempts.php:268, includes/admin/reporting/tables/llms.table.quizzes.php:431, includes/admin/reporting/tables/llms.table.student.course.php:260, includes/admin/reporting/tables/llms.table.student.courses.php:228, includes/admin/reporting/tables/llms.table.student.memberships.php:128, includes/admin/reporting/tables/llms.table.students.php:583
+#: includes/class.llms.l10n.js.php:231, includes/class.llms.l10n.js.php:379, templates/admin/post-types/order-transactions.php:24, includes/admin/post-types/tables/class.llms.table.student.management.php:380, includes/admin/reporting/tables/llms.table.achievements.php:175, includes/admin/reporting/tables/llms.table.certificates.php:179, includes/admin/reporting/tables/llms.table.course.students.php:397, includes/admin/reporting/tables/llms.table.courses.php:300, includes/admin/reporting/tables/llms.table.membership.students.php:385, includes/admin/reporting/tables/llms.table.memberships.php:300, includes/admin/reporting/tables/llms.table.quiz.attempts.php:268, includes/admin/reporting/tables/llms.table.quizzes.php:431, includes/admin/reporting/tables/llms.table.student.course.php:260, includes/admin/reporting/tables/llms.table.student.courses.php:228, includes/admin/reporting/tables/llms.table.student.memberships.php:128, includes/admin/reporting/tables/llms.table.students.php:583
 msgid "ID"
 msgstr ""
 
@@ -792,7 +796,7 @@ msgstr ""
 msgid "You must select an answer to continue."
 msgstr ""
 
-#: includes/class.llms.lesson.handler.php:40, includes/class.llms.post.handler.php:210
+#: includes/class.llms.lesson.handler.php:40, includes/class.llms.post.handler.php:214
 msgid "unassigned"
 msgstr ""
 
@@ -837,11 +841,11 @@ msgstr ""
 msgid "Confirm Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:139, includes/admin/reporting/tables/llms.table.course.students.php:410, includes/admin/reporting/tables/llms.table.membership.students.php:399, includes/admin/reporting/tables/llms.table.students.php:602
+#: includes/class.llms.person.handler.php:139, includes/admin/reporting/tables/llms.table.course.students.php:411, includes/admin/reporting/tables/llms.table.membership.students.php:399, includes/admin/reporting/tables/llms.table.students.php:602
 msgid "First Name"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:147, includes/admin/reporting/tables/llms.table.course.students.php:405, includes/admin/reporting/tables/llms.table.membership.students.php:394, includes/admin/reporting/tables/llms.table.students.php:597
+#: includes/class.llms.person.handler.php:147, includes/admin/reporting/tables/llms.table.course.students.php:406, includes/admin/reporting/tables/llms.table.membership.students.php:394, includes/admin/reporting/tables/llms.table.students.php:597
 msgid "Last Name"
 msgstr ""
 
@@ -990,15 +994,15 @@ msgstr ""
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1005
+#: includes/class.llms.person.handler.php:1000
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1013
+#: includes/class.llms.person.handler.php:1008
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1033
+#: includes/class.llms.person.handler.php:1028
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -1764,7 +1768,7 @@ msgstr ""
 msgid "Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:845, includes/abstracts/llms.abstract.notification.controller.php:536, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:109, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:109, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:122, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:110, includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:140, includes/admin/reporting/tables/llms.table.course.students.php:415, includes/admin/reporting/tables/llms.table.membership.students.php:404, includes/admin/reporting/tables/llms.table.students.php:588
+#: includes/class.llms.post-types.php:845, includes/abstracts/llms.abstract.notification.controller.php:536, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:109, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:109, includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:122, includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:110, includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:140, includes/admin/reporting/tables/llms.table.course.students.php:416, includes/admin/reporting/tables/llms.table.membership.students.php:404, includes/admin/reporting/tables/llms.table.students.php:588
 msgid "Email"
 msgstr ""
 
@@ -2459,23 +2463,23 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.roles.php:318
+#: includes/class.llms.roles.php:324
 msgid "LMS Manager"
 msgstr ""
 
-#: includes/class.llms.roles.php:319, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:75
+#: includes/class.llms.roles.php:325, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:75
 msgid "Instructor"
 msgstr ""
 
-#: includes/class.llms.roles.php:320
+#: includes/class.llms.roles.php:326
 msgid "Instructor's Assistant"
 msgstr ""
 
-#: includes/class.llms.roles.php:321, includes/class.llms.view.manager.php:222, includes/abstracts/llms.abstract.notification.controller.php:312, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61, includes/functions/updates/llms-functions-updates-303.php:28, includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
+#: includes/class.llms.roles.php:327, includes/class.llms.view.manager.php:222, includes/abstracts/llms.abstract.notification.controller.php:312, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61, includes/functions/updates/llms-functions-updates-303.php:28, includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
 msgid "Student"
 msgstr ""
 
-#: includes/class.llms.roles.php:347
+#: includes/class.llms.roles.php:351
 msgid "Administrator"
 msgstr ""
 
@@ -2929,11 +2933,11 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:65, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:107, includes/functions/llms.functions.templates.dashboard.php:606, includes/privacy/class-llms-privacy-exporters.php:227, includes/privacy/class-llms-privacy-exporters.php:319, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:87, includes/notifications/views/class.llms.notification.view.quiz.graded.php:150, includes/admin/post-types/tables/class.llms.table.student.management.php:401, includes/admin/reporting/tables/llms.table.course.students.php:441, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:269, includes/admin/reporting/tables/llms.table.student.courses.php:238, includes/admin/reporting/tables/llms.table.students.php:622, templates/admin/reporting/tabs/quizzes/attempt.php:48, templates/admin/reporting/tabs/students/courses-course.php:121
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:65, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:107, includes/functions/llms.functions.templates.dashboard.php:606, includes/privacy/class-llms-privacy-exporters.php:227, includes/privacy/class-llms-privacy-exporters.php:319, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:87, includes/notifications/views/class.llms.notification.view.quiz.graded.php:150, includes/admin/post-types/tables/class.llms.table.student.management.php:401, includes/admin/reporting/tables/llms.table.course.students.php:442, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:269, includes/admin/reporting/tables/llms.table.student.courses.php:238, includes/admin/reporting/tables/llms.table.students.php:622, templates/admin/reporting/tabs/quizzes/attempt.php:48, templates/admin/reporting/tabs/students/courses-course.php:121
 msgid "Grade"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:66, includes/admin/class.llms.admin.menus.php:173, includes/privacy/class-llms-privacy-exporters.php:313, templates/myaccount/view-order.php:39, includes/notifications/views/class.llms.notification.view.quiz.graded.php:88, templates/admin/post-types/order-transactions.php:25, includes/admin/post-types/tables/class.llms.table.student.management.php:389, includes/admin/reporting/tables/llms.table.course.students.php:421, includes/admin/reporting/tables/llms.table.membership.students.php:410, includes/admin/reporting/tables/llms.table.student.courses.php:235, includes/admin/reporting/tables/llms.table.student.memberships.php:134, templates/admin/reporting/tabs/quizzes/attempt.php:96, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:69, vendor/lifterlms/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:137
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:66, includes/admin/class.llms.admin.menus.php:173, includes/privacy/class-llms-privacy-exporters.php:313, templates/myaccount/view-order.php:39, includes/notifications/views/class.llms.notification.view.quiz.graded.php:88, templates/admin/post-types/order-transactions.php:25, includes/admin/post-types/tables/class.llms.table.student.management.php:389, includes/admin/reporting/tables/llms.table.course.students.php:422, includes/admin/reporting/tables/llms.table.membership.students.php:410, includes/admin/reporting/tables/llms.table.student.courses.php:235, includes/admin/reporting/tables/llms.table.student.memberships.php:134, templates/admin/reporting/tabs/quizzes/attempt.php:96, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:69, vendor/lifterlms/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:137
 msgid "Status"
 msgstr ""
 
@@ -3789,82 +3793,82 @@ msgstr ""
 msgid "No merge codes found."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.lesson.progression.php:65
+#: includes/controllers/class.llms.controller.lesson.progression.php:69
 msgid "An error occurred, please try again."
 msgstr ""
 
 #. translators: %s is the title of the lesson.
-#: includes/controllers/class.llms.controller.lesson.progression.php:160
+#: includes/controllers/class.llms.controller.lesson.progression.php:168
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:115, includes/controllers/class.llms.controller.orders.php:121, includes/shortcodes/class.llms.shortcode.checkout.php:235
+#: includes/controllers/class.llms.controller.orders.php:117, includes/controllers/class.llms.controller.orders.php:123, includes/shortcodes/class.llms.shortcode.checkout.php:235
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:134
+#: includes/controllers/class.llms.controller.orders.php:136
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:303
+#: includes/controllers/class.llms.controller.orders.php:305
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:431
+#: includes/controllers/class.llms.controller.orders.php:433
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:438
+#: includes/controllers/class.llms.controller.orders.php:440
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
-#. translators: %d = The deleted user's ID.
-#: includes/controllers/class.llms.controller.orders.php:502
+#. translators: %d = The deleted user's ID..
+#: includes/controllers/class.llms.controller.orders.php:504
 msgid "Recurring charge skipped. The user (#%d) no longer exists."
 msgstr ""
 
-#. translators: %s = error message encountered while loading the gateway.
-#: includes/controllers/class.llms.controller.orders.php:526
+#. translators: %s = error message encountered while loading the gateway..
+#: includes/controllers/class.llms.controller.orders.php:528
 msgid "Recurring charge was not processed due to an error encountered while loading the payment gateway: %s."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:539
+#: includes/controllers/class.llms.controller.orders.php:541
 msgid "Recurring charge skipped because recurring payments are disabled for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:548
+#: includes/controllers/class.llms.controller.orders.php:550
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:575
+#: includes/controllers/class.llms.controller.orders.php:577
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:580, templates/myaccount/view-order.php:16
+#: includes/controllers/class.llms.controller.orders.php:582, templates/myaccount/view-order.php:16
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:582
+#: includes/controllers/class.llms.controller.orders.php:584
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:705
+#: includes/controllers/class.llms.controller.orders.php:707
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:737, includes/functions/llms.functions.order.php:34
+#: includes/controllers/class.llms.controller.orders.php:739, includes/functions/llms.functions.order.php:34
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:742, includes/functions/llms.functions.order.php:40
+#: includes/controllers/class.llms.controller.orders.php:744, includes/functions/llms.functions.order.php:40
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:747, includes/functions/llms.functions.order.php:46
+#: includes/controllers/class.llms.controller.orders.php:749, includes/functions/llms.functions.order.php:46
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:752, includes/functions/llms.functions.order.php:52
+#: includes/controllers/class.llms.controller.orders.php:754, includes/functions/llms.functions.order.php:52
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -6098,7 +6102,7 @@ msgstr ""
 msgid "There was an error dispatching the \"%s\" processor."
 msgstr ""
 
-#. translators: %d = number of notifications
+#. translators: %d = number of notifications.
 #: includes/privacy/class-llms-privacy-erasers.php:146
 msgid "Removed %d notifications."
 msgstr ""
@@ -6173,7 +6177,7 @@ msgstr ""
 msgid "Last Activity"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:218, templates/myaccount/my-grades-single.php:22, templates/myaccount/my-grades.php:21, includes/admin/post-types/tables/class.llms.table.student.management.php:397, includes/admin/reporting/tables/llms.table.course.students.php:436, includes/admin/reporting/tables/llms.table.student.courses.php:241, includes/admin/reporting/tables/llms.table.students.php:617, templates/admin/reporting/tabs/students/courses-course.php:109
+#: includes/privacy/class-llms-privacy-exporters.php:218, templates/myaccount/my-grades-single.php:22, templates/myaccount/my-grades.php:21, includes/admin/post-types/tables/class.llms.table.student.management.php:397, includes/admin/reporting/tables/llms.table.course.students.php:437, includes/admin/reporting/tables/llms.table.student.courses.php:241, includes/admin/reporting/tables/llms.table.students.php:617, templates/admin/reporting/tabs/students/courses-course.php:109
 msgid "Progress"
 msgstr ""
 
@@ -6949,16 +6953,16 @@ msgstr ""
 msgid "Total time: %s"
 msgstr ""
 
-#: templates/quiz/results.php:54
+#: templates/quiz/results.php:62
 msgid "View Previous Attempts"
 msgstr ""
 
-#: templates/quiz/results.php:56
+#: templates/quiz/results.php:64
 msgid "Select an Attempt"
 msgstr ""
 
-#. translators: 1: attempt number; 2: grade percentage; 3: pass/fail text
-#: templates/quiz/results.php:60
+#. translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text.
+#: templates/quiz/results.php:68
 msgid "Attempt #%1$d - %2$s (%3$s)"
 msgstr ""
 
@@ -7034,7 +7038,7 @@ msgstr ""
 msgid "All Time"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:290, templates/admin/analytics/analytics.php:78, templates/admin/reporting/nav-filters.php:60, includes/admin/reporting/tables/llms.table.course.students.php:278, includes/admin/reporting/tables/llms.table.courses.php:315, includes/admin/reporting/tables/llms.table.membership.students.php:267, includes/admin/reporting/tables/llms.table.memberships.php:315, includes/admin/reporting/tables/llms.table.students.php:720, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:106, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:81, templates/admin/reporting/tabs/students/student.php:20
+#: includes/admin/reporting/class.llms.admin.reporting.php:290, templates/admin/analytics/analytics.php:78, templates/admin/reporting/nav-filters.php:60, includes/admin/reporting/tables/llms.table.course.students.php:279, includes/admin/reporting/tables/llms.table.courses.php:315, includes/admin/reporting/tables/llms.table.membership.students.php:267, includes/admin/reporting/tables/llms.table.memberships.php:315, includes/admin/reporting/tables/llms.table.students.php:720, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:106, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:81, templates/admin/reporting/tabs/students/student.php:20
 msgid "Students"
 msgstr ""
 
@@ -9539,7 +9543,7 @@ msgstr ""
 msgid "Admin: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:250, includes/admin/reporting/tables/llms.table.course.students.php:265, includes/admin/reporting/tables/llms.table.membership.students.php:254, includes/admin/reporting/tables/llms.table.students.php:346
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:250, includes/admin/reporting/tables/llms.table.course.students.php:266, includes/admin/reporting/tables/llms.table.membership.students.php:254, includes/admin/reporting/tables/llms.table.students.php:346
 msgid "Search students by name or email..."
 msgstr ""
 
@@ -9547,15 +9551,15 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:384, includes/admin/reporting/tables/llms.table.course.students.php:400, includes/admin/reporting/tables/llms.table.membership.students.php:389, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/reporting/tables/llms.table.student.courses.php:231, includes/admin/reporting/tables/llms.table.student.memberships.php:131, includes/admin/reporting/tables/llms.table.students.php:592, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60, vendor/lifterlms/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:384, includes/admin/reporting/tables/llms.table.course.students.php:401, includes/admin/reporting/tables/llms.table.membership.students.php:389, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/reporting/tables/llms.table.student.courses.php:231, includes/admin/reporting/tables/llms.table.student.memberships.php:131, includes/admin/reporting/tables/llms.table.students.php:592, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60, vendor/lifterlms/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
 msgid "Name"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:393, includes/admin/reporting/tables/llms.table.course.students.php:426, includes/admin/reporting/tables/llms.table.membership.students.php:415
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:393, includes/admin/reporting/tables/llms.table.course.students.php:427, includes/admin/reporting/tables/llms.table.membership.students.php:415
 msgid "Enrollment Updated"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:405, includes/admin/reporting/tables/llms.table.course.students.php:445
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:405, includes/admin/reporting/tables/llms.table.course.students.php:446
 msgid "Last Lesson"
 msgstr ""
 
@@ -9591,7 +9595,7 @@ msgstr ""
 msgid "This student has not yet earned any certificates."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.course.students.php:431, includes/admin/reporting/tables/llms.table.student.course.php:272, includes/admin/reporting/tables/llms.table.student.courses.php:248
+#: includes/admin/reporting/tables/llms.table.course.students.php:432, includes/admin/reporting/tables/llms.table.student.course.php:272, includes/admin/reporting/tables/llms.table.student.courses.php:248
 msgid "Completed"
 msgstr ""
 
