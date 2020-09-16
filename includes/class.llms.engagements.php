@@ -18,6 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
+ * @since 4.4.1 Avoided emails to be sent to students whose enrollment is not active in the related course or membership which triggered the engagement.
+ *              Also engagement email related logs logged to a separate logfile, engagement-emails in favor of the main llms log.
+ * @since [version] Fixed different emails triggered by the same related post (trigger) not sent because of a wrong duplicate check.
  */
 class LLMS_Engagements {
 
@@ -178,6 +181,8 @@ class LLMS_Engagements {
 	 * @since 4.4.1 Use postmeta helpers for dupcheck and postmeta insertion.
 	 *              Add a return value in favor of `void`.
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
+	 * @since [version] Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
+	 *              Fixed dupcheck log message and error message which reversed the email and person order.
 	 *
 	 * @param mixed[] $args {
 	 *     An array of arguments from the triggering hook.
@@ -198,7 +203,7 @@ class LLMS_Engagements {
 		$related_id = $args[2];
 		$meta_key   = '_email_sent';
 
-		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $person_id, $email_id, $related_id ? '#' . $related_id : 'N/A' );
+		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $email_id, $person_id, $related_id ? '#' . $related_id : 'N/A' );
 
 		if ( $related_id ) {
 
@@ -207,10 +212,10 @@ class LLMS_Engagements {
 				// User is no longer enrolled in the triggering post. We should skip the send.
 				llms_log( $msg . ' ' . __( 'not sent due to user enrollment issues.', 'lifterlms' ), 'engagement-emails' );
 				return new WP_Error( 'llms_engagement_email_not_sent_enrollment', $msg, $args );
-			} elseif ( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) {
+			} elseif ( absint( $email_id ) === absint( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) ) {
 
 				// User has already received this email, don't send it again.
-				llms_log( $msg . ' ' . __( 'not sent due to user enrollment issues.', 'lifterlms' ), 'engagement-emails' );
+				llms_log( $msg . ' ' . __( 'not sent because of dupcheck.', 'lifterlms' ), 'engagement-emails' );
 				return new WP_Error( 'llms_engagement_email_not_sent_dupcheck', $msg, $args );
 			}
 		}
