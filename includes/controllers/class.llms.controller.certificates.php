@@ -117,7 +117,31 @@ class LLMS_Controller_Certificates {
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
 			$this->delete( $cert_id );
+		} elseif ( isset( $_POST['llms_change_shareable_cert'] ) ) {
+			$this->change_shareable_settings( $cert_id, isset( $_POST['llms_is_shareable_cert'] ) );
 		}
+
+	}
+
+	/**
+	 * Change shareable settings of a certificate
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param int $cert_id WP Post ID of the llms_my_certificate
+	 * @param bool $is_allow Allow share the certificate or not
+	 * @return void
+	 */
+	private function change_shareable_settings( $cert_id, $is_allow ) {
+
+		$uid = get_current_user_id();
+		$cert = new LLMS_User_Certificate( $cert_id );
+
+		if ( $uid != $cert->get_user_id() && ! is_admin() ) {
+			return;
+		}
+
+		update_post_meta($cert_id, '_llms_allow_sharing', $is_allow ? 'yes' : 'no');
 
 	}
 
