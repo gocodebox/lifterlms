@@ -219,16 +219,16 @@ class LLMS_Grades {
 	 * Main grade getter function
 	 * Uses caching by default and can bypass cache when requested
 	 *
-	 * @param    LLMS_Post_Model $post
+	 * @param    int             $post_id
 	 * @param    LLMS_Student    $student
 	 * @param    bool            $use_cache  when true, retrieves from cache if available
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
-	public function get_grade( $post, $student, $use_cache = true ) {
+	public function get_grade( $post_id, $student, $use_cache = true ) {
 
-		$post    = llms_get_post( $post );
+		$post    = llms_get_post( $post_id );
 		$student = llms_get_student( $student );
 
 		$grade = $use_cache ? $this->get_grade_from_cache( $post, $student ) : false;
