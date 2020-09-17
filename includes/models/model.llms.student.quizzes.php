@@ -83,7 +83,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @param    int   $quiz_id  WP Post ID of the quiz
 	 * @param    array $args     additional args to pass to LLMS_Query_Quiz_Attempt
-	 * @return   array             array of LLMS_Quiz_Attempts
+	 * @return   LLMS_Quiz_Attempt[]
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
@@ -194,7 +194,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @param    int  $quiz_id    WP Post ID of a Quiz
 	 * @param    null $deprecated deprecated
-	 * @return   false|array
+	 * @return   false|LLMS_Quiz_Attempt
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
