@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.24.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,14 +215,16 @@ class LLMS_Grades {
 
 	/**
 	 * Main grade getter function
+	 *
 	 * Uses caching by default and can bypass cache when requested
+	 *
+	 * @since 3.24.0
+	 * @since [version] Don't pass the `$use_cache` parameter to the `calculate_grade()` method.
 	 *
 	 * @param    obj  $post       LLMS_Post_Model
 	 * @param    obj  $student    LLMS_Student
 	 * @param    bool $use_cache  when true, retrieves from cache if available
 	 * @return   float|null
-	 * @since    3.24.0
-	 * @version  3.24.0
 	 */
 	public function get_grade( $post, $student, $use_cache = true ) {
 
