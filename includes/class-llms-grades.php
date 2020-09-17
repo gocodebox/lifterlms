@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.24.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -217,7 +217,11 @@ class LLMS_Grades {
 
 	/**
 	 * Main grade getter function
+	 *
 	 * Uses caching by default and can bypass cache when requested
+	 *
+	 * @since 3.24.0
+	 * @since [version] Don't pass the `$use_cache` parameter to the `calculate_grade()` method.
 	 *
 	 * @param    WP_Post|int  $post_id   An instance of WP_Post or a WP Post ID.
 	 * @param    LLMS_Student $student   A LLMS_Student object.
@@ -236,7 +240,7 @@ class LLMS_Grades {
 		// Grade not found in cache or we're not using the cache.
 		if ( false === $grade ) {
 
-			$grade = $this->calculate_grade( $post, $student, $use_cache );
+			$grade = $this->calculate_grade( $post, $student );
 
 			// Store in the cache.
 			wp_cache_set(
