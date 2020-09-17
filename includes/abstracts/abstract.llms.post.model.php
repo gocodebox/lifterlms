@@ -1299,7 +1299,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				);
 
 			}
-
 		}
 
 		return $blocks;
