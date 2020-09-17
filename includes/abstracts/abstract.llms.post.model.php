@@ -1189,7 +1189,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param boolean         $include Whether or not to include extra data.
 		 * @param LLMS_Post_Model $model   Post model instance.
 		 */
-		if ( isset( $arr['content'] ) && apply_filters( "llms_{$this->model_post_type}_to_array_add_extras", true, $this ) ) {
+		if ( apply_filters( "llms_{$this->model_post_type}_to_array_add_extras", true, $this ) ) {
 			$arr = $this->to_array_extra( $arr );
 		}
 
@@ -1255,8 +1255,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	protected function to_array_extra( $arr ) {
 
 		$arr['extra'] = array(
-			'blocks' => $this->to_array_extra_blocks( $arr['content'] ),
-			'images' => $this->to_array_extra_images( $arr['content'] ),
+			'blocks' => empty( $arr['content'] ) ? array() : $this->to_array_extra_blocks( $arr['content'] ),
+			'images' => empty( $arr['content'] ) ? array() : $this->to_array_extra_images( $arr['content'] ),
 		);
 
 		return $arr;
