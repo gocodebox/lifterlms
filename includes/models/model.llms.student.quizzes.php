@@ -285,7 +285,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Parse an attempt key into it's parts
 	 *
 	 * @param    string $attempt_key  an encoded attempt key
-	 * @return   array|false
+	 * @return   int
 	 * @since    3.9.0
 	 * @version  3.16.7
 	 */
