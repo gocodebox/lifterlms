@@ -234,7 +234,7 @@ class LLMS_Grades {
 		// Grade not found in cache or we're not using the cache.
 		if ( false === $grade ) {
 
-			$grade = $this->calculate_grade( $post, $student, $use_cache );
+			$grade = $this->calculate_grade( $post, $student );
 
 			// Store in the cache.
 			wp_cache_set(
