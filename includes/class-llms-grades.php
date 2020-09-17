@@ -227,8 +227,6 @@ class LLMS_Grades {
 	 * @param    LLMS_Student $student   A LLMS_Student object.
 	 * @param    bool         $use_cache when true, retrieves from cache if available
 	 * @return   float|null
-	 * @since    3.24.0
-	 * @version  3.24.0
 	 */
 	public function get_grade( $post_id, $student, $use_cache = true ) {
 
