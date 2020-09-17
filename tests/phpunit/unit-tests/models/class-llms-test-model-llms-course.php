@@ -1,10 +1,13 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
+ *
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
- * @since    3.4.0
- * @version  3.24.0
+ *
+ * @since 3.4.0
+ * @since 3.24.0 Add tests for the `get_available_points()` method.
+ * @since [version] Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -436,6 +439,87 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 		$course->set( 'sales_page_content_type', 'page' );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
+
+	}
+
+	/**
+	 * Test to_array_extra_blocks()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_to_array_extra_blocks() {
+
+		// Mock reusable block.
+		$block_title   = 'Reusable block title';
+		$block_content = '<!-- wp:paragraph --><p>Test</p><!-- /wp:paragraph -->';
+		$block         = $this->factory->post->create( array(
+			'post_content' => $block_content,
+			'post_title'   => $block_title,
+			'post_type'    => 'wp_block',
+		) );
+
+		// Get the HTML of the reusable block to use in our mock course content..
+		$html  = serialize_block( array(
+			'blockName' => 'core/block',
+			'innerContent' => array( '' ),
+			'attrs' => array(
+				'ref' => $block,
+			)
+		) );
+		$html .= serialize_block( array(
+			'blockName'    => 'core/paragraph',
+			'innerContent' => array( 'Lorem ipsum dolor sit.' ),
+			'attrs'        => array(),
+		) );
+
+		// Mock course.
+		$post   = $this->factory->post->create_and_get( array(
+			'post_type'    => 'course',
+			'post_content' => $html,
+		) );
+		$course = llms_get_post( $post );
+
+		$expect = array(
+			$block => array(
+				'title'   => $block_title,
+				'content' => $block_content,
+			),
+		);
+
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $course, 'to_array_extra_blocks', array( $post->post_content ) ) );
+
+	}
+
+	/**
+	 * Test to_array_extra_images()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_to_array_extra_images() {
+
+		$post = $this->factory->post->create_and_get( array(
+			'post_type'    => 'course',
+			'post_content' => '<!-- wp:image {"id":552,"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" class="wp-image-1" /></figure>
+<!-- /wp:image -->
+<!-- wp:gallery {"ids":[1,2]} -->
+<figure class="wp-block-gallery columns-2 is-cropped"><ul class="blocks-gallery-grid">
+<li class="blocks-gallery-item"><figure><img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" data-id="1" data-full-url="http://example.org/wp-content/uploads/2020/09/image1.png" data-link="http://example.org/wp-content/uploads/2020/09/image1.png" class="wp-image-1" /></figure></li>
+<li class="blocks-gallery-item"><figure><img src="http://example.org/wp-content/uploads/2020/09/image2.jpg" alt="" data-id="2" data-full-url="http://example.org/wp-content/uploads/2020/09/image2.jpg" data-link="http://example.org/wp-content/uploads/2020/09/image2.jpg" class="wp-image-2" /></figure></li></ul></figure>
+<!-- /wp:gallery -->
+<img src="http://example.org/wp-content/uploads/2020/09/image1.png" alt="" class="wp-image-1"  />
+<img src="http://cdn.tld/image3.png"  />'
+		) );
+
+		$expect = array(
+			'http://example.org/wp-content/uploads/2020/09/image1.png',
+			'http://example.org/wp-content/uploads/2020/09/image2.jpg',
+		);
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( llms_get_post( $post ), 'to_array_extra_images', array( $post->post_content ) ) );
 
 	}
 
