@@ -61,7 +61,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
 	 *
 	 * @param    mixed $quiz    WP Post ID / Array of WP Post IDs
-	 * @return   object           Instance of LLMS_Query_Quiz_Attempt
+	 * @return   LLMS_Quiz_Attempt
 	 * @since    3.9.0
 	 * @version  3.16.11
 	 */
@@ -111,7 +111,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Retrieve an attempt by attempt id
 	 *
 	 * @param    int $attempt_id  Attempt ID
-	 * @return   obj
+	 * @return   LLMS_Quiz_Attempt
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
@@ -123,7 +123,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Decodes an attempt string and returns the associated attempt
 	 *
 	 * @param    string $attempt_key  encoded attempt key
-	 * @return   obj|false
+	 * @return   LLMS_Quiz_Attempt|false
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
@@ -226,7 +226,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * "Last" is defined as the attempt with the highest attempt number
 	 *
 	 * @param    int $quiz_id    WP Post ID of the quiz
-	 * @return   obj|false
+	 * @return   LLMS_Quiz_Attempt|false
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
@@ -255,7 +255,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @param    int $quiz_id    WP Post ID of a Quiz.
 	 * @param    int $deprecated Deprecated.
-	 * @return   false|obj
+	 * @return   false|LLMS_Quiz_Attempt
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
