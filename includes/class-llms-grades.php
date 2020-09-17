@@ -160,10 +160,12 @@ class LLMS_Grades {
 		switch ( $post_type ) {
 
 			case 'course':
+				/** @var LLMS_Course $post */
 				$grade = $this->calculate_course_grade( $post, $student );
 				break;
 
 			case 'lesson':
+				/** @var LLMS_Lesson $post */
 				$grade = $this->calculate_lesson_grade( $post, $student );
 				break;
 
