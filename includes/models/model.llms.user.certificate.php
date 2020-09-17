@@ -111,4 +111,49 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		);
 	}
 
+	/**
+	 * Can user manage and make some actions on the certificate
+	 *
+	 * @since [version]
+	 *
+	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 * @return bool
+	 */
+	public function can_user_manage( $user_id = null ) {
+
+		$user_id = $user_id ?? get_current_user_id();
+		$result  = ( $user_id == $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) );
+
+		return apply_filters( 'llms_certificate_can_user_manage', $result, $this );
+
+	}
+
+	/**
+	 * Can user view the certificate
+	 *
+	 * @since [version]
+	 *
+	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
+	 * @return bool
+	 */
+	public function can_user_view( $user_id = null ) {
+
+		$user_id = $user_id ?? get_current_user_id();
+		$result  = $this->can_user_manage( $user_id ) || $this->is_sharing_allowed();
+
+		return apply_filters( 'llms_certificate_can_user_view', $result, $this );
+
+	}
+
+	/**
+	 * Is sharing settings allowed
+	 *
+	 * @since [version]
+	 *
+	 * @return bool
+	 */
+	public function is_sharing_allowed() {
+		return llms_parse_bool( $this->get( 'allow_sharing' ) );
+	}
+
 }

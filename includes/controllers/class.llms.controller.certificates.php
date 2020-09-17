@@ -117,8 +117,8 @@ class LLMS_Controller_Certificates {
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
 			$this->delete( $cert_id );
-		} elseif ( isset( $_POST['llms_change_shareable_cert'] ) ) {
-			$this->change_shareable_settings( $cert_id, isset( $_POST['llms_is_shareable_cert'] ) );
+		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) || isset( $_POST['llms_disable_cert_sharing'] ) ) {
+			$this->change_sharing_settings( $cert_id, isset( $_POST['llms_enable_cert_sharing'] ) );
 		}
 
 	}
@@ -126,22 +126,21 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Change shareable settings of a certificate
 	 *
-	 * @since 4.0.0
+	 * @since [version]
 	 *
-	 * @param int $cert_id WP Post ID of the llms_my_certificate
-	 * @param bool $is_allow Allow share the certificate or not
+	 * @param int  $cert_id WP Post ID of the llms_my_certificate
+	 * @param bool $is_allowed Allow share the certificate or not
 	 * @return void
 	 */
-	private function change_shareable_settings( $cert_id, $is_allow ) {
+	private function change_sharing_settings( $cert_id, $is_allowed ) {
 
-		$uid = get_current_user_id();
 		$cert = new LLMS_User_Certificate( $cert_id );
 
-		if ( $uid != $cert->get_user_id() && ! is_admin() ) {
+		if ( ! $cert->can_user_manage() ) {
 			return;
 		}
 
-		update_post_meta($cert_id, '_llms_allow_sharing', $is_allow ? 'yes' : 'no');
+		update_post_meta( $cert_id, '_llms_allow_sharing', $is_allowed ? 'yes' : 'no' );
 
 	}
 
