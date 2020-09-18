@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling error.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
- * @since [version] Method `LLMS_Admin_Setup_Wizard::scripts()` & LLMS_Admin_Setup_Wizard::output_step_html() are deprecated with no replacements.
+ * @since [version] Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  */
 class LLMS_Admin_Setup_Wizard {
 
