@@ -18,11 +18,17 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Stylesheets assets list
+ *
+ * @since 4.4.0
+ * @since [version] Added llms-admin-setup.
+ */
 return array(
 
 	// Core.
@@ -30,6 +36,11 @@ return array(
 		'file_name' => 'lifterlms',
 	),
 	'certificates'     => array(),
+
+	// Admin.
+	'llms-admin-setup' => array(
+		'file_name' => 'admin-setup',
+	),
 
 	// Vendor.
 	'llms-iziModal'    => array(

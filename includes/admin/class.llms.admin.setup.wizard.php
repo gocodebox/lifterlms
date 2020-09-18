@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 3.37.14
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling error.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
+ * @since [version] Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -37,17 +38,27 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [verison] Remove output of inline scripts.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
+		/**
+		 * Whether or not the LifterLMS Setup Wizard is enabled.
+		 *
+		 * This filter may be used to entirely disable the setup wizard.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param boolean $enabled Whether or not the wizard is enabled.
+		 */
 		if ( apply_filters( 'llms_enable_setup_wizard', true ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'save' ) );
-			add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
 
 		}
 
@@ -56,13 +67,23 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Register wizard setup page
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Added dashboard page title.
+	 *
+	 * @return void
 	 */
 	public function admin_menu() {
 
-		add_dashboard_page( '', '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
+		/**
+		 * Filter the WP User capability required to access and run the setup wizard.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $cap Required user capability. Default value is `install_plugins`.
+		 */
+		$cap = apply_filters( 'llms_setup_wizard_access', 'install_plugins' );
+
+		add_dashboard_page( __( 'LifterLMS Setup Wizard', 'lifterlms' ), '', $cap, 'llms-setup', array( $this, 'output' ) );
 
 		update_option( 'lifterlms_first_time_setup', 'yes' );
 
@@ -71,24 +92,23 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Enqueue static assets for the setup wizard screens
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @since 3.0.0
+	 * @since 3.17.8 Unknown.
+	 * @since [version] Use `LLMS_Assets` for asset registration and queuing.
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
-		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
-		wp_enqueue_style( 'llms-admin-setup' );
-		wp_style_add_data( 'llms-admin-setup', 'rtl', 'replace' );
-		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_ASSETS_SUFFIX );
+		llms()->assets->enqueue_style( 'llms-admin-setup' );
 	}
 
 	/**
 	 * Allow the Sample Content installed during the final step to be published rather than drafted
 	 *
-	 * @param    string $status  post status
-	 * @return   string
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since  3.3.0
+	 *
+	 * @param string $status Post status.
+	 * @return string
 	 */
 	public function generator_course_status( $status ) {
 		return 'publish';
@@ -100,7 +120,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public function get_current_step() {
 		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
@@ -109,10 +129,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get slug if next step
 	 *
-	 * @param    string $step   step to use as current
-	 * @return   string|false
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param string $step Step to use as current.
+	 * @return string|false
 	 */
 	public function get_next_step( $step = '' ) {
 		if ( ! $step ) {
@@ -133,10 +153,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get slug if prev step
 	 *
-	 * @param    string $step   step to use as current
-	 * @return   string|false
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step to use as current.
+	 * @return string|false
 	 */
 	public function get_prev_step( $step = '' ) {
 		if ( ! $step ) {
@@ -157,10 +177,11 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the text to display on the "save" buttons
 	 *
-	 * @param    string $step  step to get text for
-	 * @return   string            translated text
-	 * @since    3.0.0
-	 * @version  3.3.0
+	 * @since 3.0.0
+	 * @since 3.3.0 Unknown.
+	 *
+	 * @param string $step Step to get text for.
+	 * @return string The translated text.
 	 */
 	private function get_save_text( $step = '' ) {
 		if ( 'coupon' === $step ) {
@@ -175,10 +196,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the text to display on the "save" buttons
 	 *
-	 * @param    string $step  step to get text for
-	 * @return   string            translated text
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step to get text for.
+	 * @return string Translated text.
 	 */
 	private function get_skip_text( $step = '' ) {
 		if ( 'coupon' === $step ) {
@@ -191,10 +212,10 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get the URL to a step
 	 *
-	 * @param    string $step  step slug
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $step Step slug.
+	 * @return string
 	 */
 	private function get_step_url( $step ) {
 		return add_query_arg(
@@ -209,223 +230,45 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Get an array of step slugs => titles
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	public function get_steps() {
-
 		return array(
-
 			'intro'    => __( 'Welcome!', 'lifterlms' ),
 			'pages'    => __( 'Page Setup', 'lifterlms' ),
 			'payments' => __( 'Payments', 'lifterlms' ),
 			'coupon'   => __( 'Coupon', 'lifterlms' ),
 			'finish'   => __( 'Finish!', 'lifterlms' ),
-
 		);
-
 	}
 
 	/**
 	 * Output the HTML content of the setup page
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.16.14
+	 * @since 3.0.0
+	 * @since 3.16.14 Unknown.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
-		$current = $this->get_current_step();
-		$steps   = $this->get_steps();
-		?>
+		$step_html = '';
+		$steps     = $this->get_steps();
+		$current   = $this->get_current_step();
+		$prev      = $this->get_prev_step();
+		$next      = $this->get_next_step();
 
-		<div id="llms-setup-wizard">
+		if ( in_array( $current, array_keys( $this->get_steps(), true ) ) ) {
 
-			<div class="llms-setup-wrapper">
+			ob_start();
+			include LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/step-' . $current . '.php';
+			$step_html = ob_get_clean();
 
-				<h1 id="llms-logo">
-					<a href="https://lifterlms.com/" target="_blank">
-						<img src="<?php echo LLMS()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="LifterLMS">
-					</a>
-				</h1>
+		}
 
-				<ul class="llms-setup-progress">
-					<?php foreach ( $steps as $slug => $name ) : ?>
-						<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>><?php echo $name; ?></li>
-					<?php endforeach; ?>
-				</ul>
-
-				<div class="llms-setup-content">
-					<form action="" method="POST">
-
-						<?php echo $this->output_step_html( $current ); ?>
-
-						<?php if ( is_wp_error( $this->error ) ) : ?>
-							<p class="error"><?php echo $this->error->get_error_message(); ?></p>
-						<?php endif; ?>
-
-						<p class="llms-setup-actions">
-							<?php if ( 'intro' === $current ) : ?>
-								<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
-								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
-							<?php else : ?>
-								<?php
-								$prev = $this->get_prev_step();
-								if ( $prev ) :
-									?>
-									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-								<?php
-								$next = $this->get_next_step();
-								if ( $next ) :
-									?>
-									<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
-								<?php endif; ?>
-
-								<?php if ( 'finish' === $current ) : ?>
-									<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large"><?php _e( 'Start from Scratch', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-
-								<button class="llms-button-primary large" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
-								<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
-								<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
-							<?php endif; ?>
-						</p>
-
-					</form>
-				</div>
-
-				<?php if ( 'finish' === $current ) : ?>
-					<a class="dashboard-return" href="<?php echo admin_url(); ?>"><?php _e( 'Return to the WordPress Dashboard', 'lifterlms' ); ?></a>
-				<?php endif; ?>
-
-			</div>
-
-		</div>
-
-		<?php
-	}
-
-	/**
-	 * Outputs the HTML "body" for the requested step
-	 *
-	 * @since 3.0.0
-	 * @since 3.30.3 Fixed spelling error.
-	 *
-	 * @param string $step Step slug.
-	 * @return void
-	 */
-	public function output_step_html( $step ) {
-
-		switch ( $step ) {
-
-			case 'coupon':
-				?>
-				<h1><?php _e( 'Help Improve LifterLMS & Get a Coupon', 'lifterlms' ); ?></h1>
-				<p><?php _e( 'By allowing us to collect non-sensitive usage information and diagnostic data, you\'ll be providing us with information we can use to make the future of LifterLMS stronger and more powerful with every update!', 'lifterlms' ); ?></p>
-				<p><?php _e( 'Click "Allow" to and we\'ll send you a coupon immediately.', 'lifterlms' ); ?></p>
-				<p><a href="https://lifterlms.com/usage-tracking/" target="_blank"><?php _e( 'Find out more information', 'lifterlms' ); ?></a>.</p>
-				<?php
-				break;
-
-			case 'finish':
-				?>
-				<h1><?php _e( 'Setup Complete!', 'lifterlms' ); ?></h1>
-				<p><?php _e( 'Here\'s some resources to help you get familiar with LifterLMS:', 'lifterlms' ); ?></p>
-				<ul>
-					<li><span class="dashicons dashicons-format-video"></span> <a href="https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/" target="_blank"><?php _e( 'Watch the LifterLMS video tutorials', 'lifterlms' ); ?></a></li>
-					<li><span class="dashicons dashicons-admin-page"></span> <a href="https://lifterlms.com/docs/getting-started-with-lifterlms/" target="_blank"><?php _e( 'Read the LifterLMS Getting Started Guide', 'lifterlms' ); ?></a></li>
-				</ul>
-				<br>
-				<h1 style="text-align: center;"><?php _e( 'Get started with your first course', 'lifterlms' ); ?></h1>
-				<?php
-				break;
-
-			case 'intro':
-				?>
-				<h1><?php _e( 'Welcome to LifterLMS!', 'lifterlms' ); ?></h1>
-
-				<p><?php _e( 'Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS so you can get started creating courses faster!', 'lifterlms' ); ?></p>
-				<p><?php _e( 'It will only take a few minutes and it is completely optional. If you don\'t have the time now, come back later.', 'lifterlms' ); ?></p>
-				<?php
-				break;
-
-			case 'pages':
-				?>
-				<h1><?php _e( 'Page Setup', 'lifterlms' ); ?></h1>
-
-				<p><?php _e( 'LifterLMS has a few essential pages. The following will be created automatically if they don\'t already exist.', 'lifterlms' ); ?>
-
-				<table>
-					<tr>
-						<td><a href="https://lifterlms.com/docs/course-catalog/" target="_blank"><?php _e( 'Course Catalog', 'lifterlms' ); ?></a></td>
-						<td><p><?php _e( 'This page is where your visitors will find a list of all your available courses.', 'lifterlms' ); ?></p></td>
-					</tr>
-					<tr>
-						<td><a href="https://lifterlms.com/docs/membership-catalog/" target="_blank"><?php _e( 'Membership Catalog', 'lifterlms' ); ?></a></td>
-						<td><p><?php _e( 'This page is where your visitors will find a list of all your available memberships.', 'lifterlms' ); ?></p></td>
-					</tr>
-					<tr>
-						<td><a href=" https://lifterlms.com/docs/checkout-page/" target="_blank"><?php _e( 'Checkout', 'lifterlms' ); ?></a></td>
-						<td><p><?php _e( 'This is the page where visitors will be directed in order to pay for courses and memberships.', 'lifterlms' ); ?></p></td>
-					</tr>
-					<tr>
-						<td><a href="https://lifterlms.com/docs/student-dashboard/" target="_blank"><?php _e( 'Student Dashboard', 'lifterlms' ); ?></a></td>
-						<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
-					</tr>
-				</table>
-
-				<p><?php printf( __( 'After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=page' ) ) . '" target="_blank">', '</a>', '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" target="_blank">', '</a>' ); ?></p>
-				<?php
-				break;
-
-			case 'payments':
-				$country  = get_lifterlms_country();
-				$currency = get_lifterlms_currency();
-				$payments = get_option( 'llms_gateway_manual_enabled', 'no' );
-
-				?>
-				<h1><?php _e( 'Payments', 'lifterlms' ); ?></h1>
-
-				<table>
-					<tr>
-						<td colspan="2">
-							<p><label for="llms_country"><?php _e( 'Which country should be used as the default for student registrations?', 'lifterlms' ); ?></label></p>
-							<p>
-								<select id="llms_country" name="country" class="llms-select2">
-								<?php foreach ( get_lifterlms_countries() as $code => $name ) : ?>
-									<option value="<?php echo $code; ?>"<?php selected( $code, $country ); ?>><?php echo $name; ?> (<?php echo $code; ?>)</option>
-								<?php endforeach; ?>
-								</select>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<p><label for="llms_currency"><?php _e( 'Which currency should be used for payment processing?', 'lifterlms' ); ?></label></p>
-							<p>
-								<select id="llms_currency" name="currency" class="llms-select2">
-								<?php foreach ( get_lifterlms_currencies() as $code => $name ) : ?>
-									<option value="<?php echo $code; ?>"<?php selected( $code, $currency ); ?>><?php echo $name; ?> (<?php echo get_lifterlms_currency_symbol( $code ); ?>)</option>
-								<?php endforeach; ?>
-								</select>
-								<i><?php printf( __( 'If you currency is not listed you can %1$sadd it later%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/how-can-i-add-my-currency-to-lifterlms" target="_blank">', '</a>' ); ?></i>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<p><?php printf( __( 'With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%2$s to accept online payments.', 'lifterlms' ), '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' ); ?></p>
-							<p><label for="llms_manual"><input id="llms_manual" name="manual_payments" type="checkbox" value="yes"<?php checked( 'yes', $payments ); ?>> <?php _e( 'Enable Offline Payments', 'lifterlms' ); ?></label></p>
-						</td>
-					</tr>
-				</table>
-
-				<?php
-				break;
-
-		}// End switch().
+		include LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/main.php';
 
 	}
 
@@ -526,19 +369,6 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Quick and dirty JS "file"...
-	 *
-	 * @since 3.0.0
-	 *
-	 * @return void
-	 */
-	public function scripts() {
-		?>
-		jQuery( '.llms-select2' ).llmsSelect2();
-		<?php
-	}
-
-	/**
 	 * Callback function to store imported course information
 	 *
 	 * Uses this to handle redirect after import and generation is completed.
@@ -554,6 +384,32 @@ class LLMS_Admin_Setup_Wizard {
 			$this->generated_course_id = $course->get( 'id' );
 		}
 
+	}
+
+	/**
+	 * Outputs the HTML "body" for the requested step
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.3 Fixed spelling error.
+	 * @deprecated [version]
+	 *
+	 * @param string $step Step slug.
+	 * @return void
+	 */
+	public function output_step_html( $step ) {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '[version]' );
+	}
+
+	/**
+	 * Quick and dirty JS "file"
+	 *
+	 * @since 3.0.0
+	 * @deprecated [version]
+	 *
+	 * @return void
+	 */
+	public function scripts() {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '[version]' );
 	}
 
 }
