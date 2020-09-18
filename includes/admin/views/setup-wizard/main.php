@@ -5,7 +5,7 @@
  * @since [version]
  * @version [version]
  *
- * @property string[]                $steps     Array of setup wizard steps
+ * @property string[]                $steps     Array of setup wizard steps.
  * @property string                  $current   Slug of the current step.
  * @property string|boolean          $prev      Slug of the previous step or `false` if no previous step found.
  * @property string|boolean          $next      Slug of the next step or `false` if no next step found.
