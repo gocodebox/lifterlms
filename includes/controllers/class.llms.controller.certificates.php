@@ -124,12 +124,12 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Change shareable settings of a certificate
+	 * Change shareable settings of a certificate.
 	 *
 	 * @since [version]
 	 *
-	 * @param int  $cert_id WP Post ID of the llms_my_certificate
-	 * @param bool $is_allowed Allow share the certificate or not
+	 * @param int  $cert_id WP Post ID of the llms_my_certificate.
+	 * @param bool $is_allowed Allow share the certificate or not.
 	 * @return void
 	 */
 	private function change_sharing_settings( $cert_id, $is_allowed ) {
@@ -140,7 +140,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		update_post_meta( $cert_id, '_llms_allow_sharing', $is_allowed ? 'yes' : 'no' );
+		$cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
 
 	}
 

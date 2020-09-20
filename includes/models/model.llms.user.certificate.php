@@ -26,6 +26,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		'certificate_image'    => 'absint',
 		// 'certificate_content' => 'html', // use get( 'content' )
 		'certificate_template' => 'absint',
+		'allow_sharing'        => 'yesno',
 	);
 
 	/**
@@ -121,10 +122,19 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 */
 	public function can_user_manage( $user_id = null ) {
 
-		$user_id = $user_id ?? get_current_user_id();
+		$user_id = $user_id ? $user_id : get_current_user_id();
 		$result  = ( $user_id == $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) );
 
-		return apply_filters( 'llms_certificate_can_user_manage', $result, $this );
+		/**
+		 * Filter whether or not a user can manage a given certificate.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean               $result      Whether or not the user can manage certificate.
+		 * @param int                   $user_id     WP_User ID of the user viewing the certificate.
+		 * @param LLMS_User_Certificate $certificate Certificate class instance.
+		 */
+		return apply_filters( 'llms_certificate_can_user_manage', $result, $user_id, $this );
 
 	}
 
@@ -138,22 +148,41 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 */
 	public function can_user_view( $user_id = null ) {
 
-		$user_id = $user_id ?? get_current_user_id();
-		$result  = $this->can_user_manage( $user_id ) || $this->is_sharing_allowed();
+		$user_id = $user_id ? $user_id : get_current_user_id();
+		$result  = $this->can_user_manage( $user_id ) || $this->is_sharing_enabled();
 
-		return apply_filters( 'llms_certificate_can_user_view', $result, $this );
+		/**
+		 * Filter whether or not a user can view a user's certificate.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean               $result      Whether or not the user can view the certificate.
+		 * @param int                   $user_id     WP_User ID of the user viewing the certificate.
+		 * @param LLMS_User_Certificate $certificate Certificate class instance.
+		 */
+		return apply_filters( 'llms_certificate_can_user_view', $result, $user_id, $this );
 
 	}
 
 	/**
-	 * Is sharing settings allowed
+	 * Is sharing enabled
 	 *
 	 * @since [version]
 	 *
 	 * @return bool
 	 */
-	public function is_sharing_allowed() {
-		return llms_parse_bool( $this->get( 'allow_sharing' ) );
+	public function is_sharing_enabled() {
+
+		/**
+		 * Filter whether or not sharing is enabled for a certificate.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean               $enabled     Whether or not sharing is enabled.
+		 * @param LLMS_User_Certificate $certificate Certificate class instance.
+		 */
+		return apply_filters( 'llms_certificate_is_sharing_enabled', llms_parse_bool( $this->get( 'allow_sharing' ) ), $this );
+
 	}
 
 }

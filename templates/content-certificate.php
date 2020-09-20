@@ -39,7 +39,7 @@ $image = llms_get_certificate_image();
 
 <?php
 if ( $cert->can_user_manage() ) {
-	$is_sharing_allowed = $cert->is_sharing_allowed();
+	$is_sharing_enabled = $cert->is_sharing_enabled();
 	?>
 	<div class="llms-print-certificate no-print" id="llms-print-certificate">
 		<button class="llms-button-secondary" onClick="window.print()" type="button">
@@ -53,8 +53,8 @@ if ( $cert->can_user_manage() ) {
 				<i class="fa fa-cloud-download" aria-hidden="true"></i>
 			</button>
 
-			<button class="llms-button-secondary" type="submit" name="<?php echo $is_sharing_allowed ? 'llms_disable_cert_sharing' : 'llms_enable_cert_sharing'; ?>">
-		  <?php echo ( $is_sharing_allowed ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
+			<button class="llms-button-secondary" type="submit" name="<?php echo $is_sharing_enabled ? 'llms_disable_cert_sharing' : 'llms_enable_cert_sharing'; ?>">
+		  <?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
 				<i class="fa fa-share-alt" aria-hidden="true"></i>
 			</button>
 
