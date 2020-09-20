@@ -807,6 +807,20 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		/**
+		 * Retrieve the date to remind user before actual payment
+		 *
+		 * @return string
+		 */
+		public function get_upcoming_payment_reminder_date()
+		{
+			
+			$next_payment_date = $this->get_next_payment_due_date();
+			
+			return date_i18n( 'Y-m-d H:i:s', strtotime('-1 day', strtotime($next_payment_date) ) );
+
+		}
+
+		/**
 		 * Filter the next payment due date.
 		 *
 		 * A timestamp should always be returned as the conversion to the requested format
@@ -1429,6 +1443,8 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		$date = $this->get_next_payment_due_date();
+
+		$reminder_date = $this->get_upcoming_payment_reminder_date();
 
 		// Unschedule and reschedule.
 		if ( $date && ! is_wp_error( $date ) ) {
