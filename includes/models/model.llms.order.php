@@ -1436,6 +1436,9 @@ class LLMS_Order extends LLMS_Post_Model {
 			// Unschedule the next action (does nothing if no action scheduled).
 			$this->unschedule_recurring_payment();
 
+			// Unschedule upcoming payment reminder (does nothing if no action scheduled).
+			$this->unschedule_upcoming_payment_reminder();
+
 			// Convert our date to UTC before passing to the scheduler.
 			$date = get_gmt_from_date( $date, 'U' );
 
@@ -1454,6 +1457,9 @@ class LLMS_Order extends LLMS_Post_Model {
 
 				// Unschedule the next action (does nothing if no action scheduled).
 				$this->unschedule_recurring_payment();
+
+				// Unschedule upcoming payment reminder (does nothing if no action scheduled).
+				$this->unschedule_upcoming_payment_reminder();
 
 				// Add a note that the plan has completed.
 				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
@@ -1701,6 +1707,21 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		if ( $this->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) ) {
 			as_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
+		}
+
+	}
+
+	/**
+	 * Cancels a scheduled upcoming payment reminder notification
+	 *
+	 * Does nothing if no payments are scheduled
+	 *
+	 * @return void
+	 */
+	public function unschedule_upcoming_payment_reminder() {
+
+		if ( as_next_scheduled_action( 'llms_send_upcoming_payment_reminder_notification', $this->get_action_args() ) ) {
+			as_unschedule_action( 'llms_send_upcoming_payment_reminder_notification', $this->get_action_args() );
 		}
 
 	}
