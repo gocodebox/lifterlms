@@ -13,6 +13,82 @@
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
 	/**
+	 * Test create_reusable_block() when the block already exists
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_reusable_block_already_exists() {
+
+		$gen = new LLMS_Generator( array() );
+
+		$title   = 'Dupcheck reuse block';
+		$content = 'Block content';
+
+		$dup = $this->factory->post->create( array(
+			'post_type' => 'wp-block',
+			'post_title' => $title,
+			'post_content' => $content,
+		) );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $dup, compact( 'title', 'content' ) ) ) );
+
+	}
+
+	/**
+	 * Test create_reusable_block() when there's an error creating the block
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_reusable_block_error() {
+
+		$gen = new LLMS_Generator( array() );
+
+		// Force an error response.
+		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $this->factory->post->create(), array(
+			'title' => '',
+			'content' => '',
+		) ) ) );
+
+		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+	}
+
+	/**
+	 * Test create_reusable_block() for success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_reusable_block_success() {
+
+		$gen = new LLMS_Generator( array() );
+
+		$orig_id = $this->factory->post->create();
+
+		$title   = 'Reusable block title';
+		$content = 'Reusable block content';
+
+		$id = LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $orig_id,  compact( 'title', 'content' ) ) );
+		$post = get_post( $id );
+
+		$this->assertTrue( is_numeric( $id ) );
+		$this->assertEquals( 'wp-block', $post->post_type );
+		$this->assertEquals( $title, $post->post_title );
+		$this->assertEquals( $content, $post->post_content );
+
+		$blocks = LLMS_Unit_Test_Util::get_private_property_value( $gen, 'reusable_blocks' );
+		$this->assertEquals( $id, $blocks[ $orig_id ] );
+
+	}
+
+	/**
 	 * Test generate method.
 	 *
 	 * @since Unknown.
@@ -164,6 +240,34 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$gen = new LLMS_Generator( array() );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'is_generator_valid', array( 'fake' ) ) );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'is_generator_valid', array( 'LifterLMS/SingleFakeExporter' ) ) );
+
+	}
+
+	/**
+	 * Test is_image_sideloading_enabled()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_image_sideloading_enabled() {
+
+		$gen = new LLMS_Generator( array() );
+		$this->assertTrue( $gen->is_image_sideloading_enabled() );
+
+	}
+
+	/**
+	 * Test is_reusable_block_importing_enabled()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_reusable_block_importing_enabled() {
+
+		$gen = new LLMS_Generator( array() );
+		$this->assertTrue( $gen->is_reusable_block_importing_enabled() );
 
 	}
 

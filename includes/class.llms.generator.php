@@ -71,6 +71,19 @@ class LLMS_Generator {
 	private $raw = array();
 
 	/**
+	 * Array of reusable blocks that have been imported during generation
+	 *
+	 * Each array key will be the original block ID and the array value will be the new
+	 * block ID.
+	 *
+	 * This array is checked prior to importing a reusable block to ensure that if the same
+	 * block is used multiple times throughout an import, it will only be imported once.
+	 *
+	 * @var array
+	 */
+	private $reusable_blocks = array();
+
+	/**
 	 * Type of data to work from
 	 * bulk|single
 	 *
@@ -486,7 +499,7 @@ class LLMS_Generator {
 		}
 
 		$this->sideload_images( $course, $raw );
-		$this->handle_reusable_blocks( $couse, $raw );
+		$this->handle_reusable_blocks( $course, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new course
@@ -771,6 +784,53 @@ class LLMS_Generator {
 		do_action( 'llms_generator_new_question', $question, $raw, $manager, $this );
 
 		return $question->get( 'id' );
+
+	}
+
+	/**
+	 * Creates a reusable block
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $block_id WP_Post ID of the block being imported. This will be the ID as found on the original site.
+	 * @param array $block    {
+	 *     Array of block data.
+	 *
+	 *     @type string $title   Title of the reusable block.
+	 *     @type string $content Content of the reusable block.
+	 * }
+	 * @return false|WP_Error|int Returns `false` when the block already exists, an error object if an error is encountered creating the block, or
+	 *                            the new block's WP_Post ID as an integer on success.
+	 */
+	protected function create_reusable_block( $block_id, $block ) {
+
+		$block_id = absint( $block_id );
+
+		// If the block already exists, don't create it again.
+		$existing = get_post( $block_id );
+		if ( $existing && 'wp-block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
+			return false;
+		}
+
+		// Check if the block was previously imported.
+		$id = empty( $this->reusable_blocks[ $block_id ] ) ? false : $this->reusable_blocks[ $block_id ];
+		if ( ! $id ) {
+
+			$id = wp_insert_post( array(
+				'post_content' => $block['content'],
+				'post_title' => $block['title'],
+				'post_type' => 'wp-block',
+			) );
+
+			if ( $id ) {
+				$this->reusable_blocks[ $block_id ] = $id;
+			}
+
+
+		}
+
+		// Don't return 0 if `wp_insert_post()` fails.
+		return $id ? $id : false;
 
 	}
 
@@ -1203,6 +1263,15 @@ class LLMS_Generator {
 
 	}
 
+	/**
+	 * Handle importing of reusable blocks stored in post content
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model $post Instance of a post model.
+	 * @param array           $raw  Array of raw data.
+	 * @return null|bool Returns `null` when importing is disabled, `false` when there are no blocks to import, and `true` on success.
+	 */
 	protected function handle_reusable_blocks( $post, $raw ) {
 
 		// Importing blocks is disabled.
@@ -1232,38 +1301,6 @@ class LLMS_Generator {
 		}
 
 		return false;
-
-	}
-
-	protected function create_reusable_block( $block_id, $block ) {
-
-		$block_id = absint( $block_id );
-
-		// If the block already exists, don't create it again.
-		$existing = get_post( $block_id );
-		if ( $existing && 'wp-block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
-			return false;
-		}
-
-		// Check if the block was previously imported.
-		$id = empty( $this->reusable_blocks[ $block_id ] ) ? false : $this->reusable_blocks[ $block_id ];
-		if ( ! $id ) {
-
-			$id = wp_insert_post( array(
-				'post_content' => $block['content'],
-				'post_title' => $block['title'],
-				'post_type' => 'wp-block',
-			) );
-
-			if ( is_wp_error( $id ) ) {
-				return $id;
-			}
-
-			$this->reusable_blocks[ $block_id ] = $id;
-
-		}
-
-		return $id;
 
 	}
 
@@ -1335,7 +1372,7 @@ class LLMS_Generator {
 	 *
 	 * @since [version]
 	 *
-	 * @return boolean If `true`, sideloading is enabled, otherwise sideloading is disabled.
+	 * @return boolean If `true`, importing is enabled, otherwise importing is disabled.
 	 */
 	public function is_reusable_block_importing_enabled() {
 
