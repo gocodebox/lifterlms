@@ -785,20 +785,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		/**
-		 * Retrieve the date to remind user before actual payment
-		 *
-		 * @return string
-		 */
-		public function get_upcoming_payment_reminder_date()
-		{
-			
-			$next_payment_date = $this->get_next_payment_due_date();
-			
-			return date_i18n( 'Y-m-d H:i:s', strtotime('-1 day', strtotime($next_payment_date) ) );
-
-		}
-
-		/**
 		 * Filter the next payment due date.
 		 *
 		 * A timestamp should always be returned as the conversion to the requested format
@@ -813,6 +799,20 @@ class LLMS_Order extends LLMS_Post_Model {
 		$next_payment_time = apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_time, $this, $format );
 
 		return date_i18n( $format, $next_payment_time );
+
+	}
+
+	/**
+	 * Retrieve the date to remind user before actual payment
+	 *
+	 * @return string
+	 */
+	public function get_upcoming_payment_reminder_date()
+	{
+		
+		$next_payment_date = $this->get_next_payment_due_date();
+		
+		return date_i18n( 'Y-m-d H:i:s', strtotime('-1 day', strtotime($next_payment_date) ) );
 
 	}
 
@@ -1423,10 +1423,22 @@ class LLMS_Order extends LLMS_Post_Model {
 			// Convert our date to UTC before passing to the scheduler.
 			$date = get_gmt_from_date( $date, 'U' );
 
+			// Convert our date to UTC before passing to the scheduler.
+			$reminder_date = get_gmt_from_date( $reminder_date, 'U' );
+
 			// schedule the payment
 			as_schedule_single_action(
 				$date,
 				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $this->get( 'id' ),
+				)
+			);
+
+			// schedule upcoming payment reminder
+			as_schedule_single_action(
+				$reminder_date,
+				'llms_send_upcoming_payment_reminder_notification',
 				array(
 					'order_id' => $this->get( 'id' ),
 				)
