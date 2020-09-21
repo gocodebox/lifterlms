@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.4.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling error.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
- * @since [version] Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
+ * @since 4.4.4 Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -68,7 +68,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Register wizard setup page
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added dashboard page title.
+	 * @since 4.4.4 Added dashboard page title.
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.17.8 Unknown.
-	 * @since [version] Use `LLMS_Assets` for asset registration and queuing.
+	 * @since 4.4.4 Use `LLMS_Assets` for asset registration and queuing.
 	 *
 	 * @return void
 	 */
@@ -391,25 +391,25 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Fixed spelling error.
-	 * @deprecated [version]
+	 * @deprecated 4.4.4
 	 *
 	 * @param string $step Step slug.
 	 * @return void
 	 */
 	public function output_step_html( $step ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '[version]' );
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '4.4.4' );
 	}
 
 	/**
 	 * Quick and dirty JS "file"
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version]
+	 * @deprecated 4.4.4
 	 *
 	 * @return void
 	 */
 	public function scripts() {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '[version]' );
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '4.4.4' );
 	}
 
 }

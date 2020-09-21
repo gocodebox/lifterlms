@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 4.4.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -221,7 +221,7 @@ class LLMS_Grades {
 	 * Uses caching by default and can bypass cache when requested
 	 *
 	 * @since 3.24.0
-	 * @since [version] Don't pass the `$use_cache` parameter to the `calculate_grade()` method.
+	 * @since 4.4.4 Don't pass the `$use_cache` parameter to the `calculate_grade()` method.
 	 *
 	 * @param    WP_Post|int  $post_id   An instance of WP_Post or a WP Post ID.
 	 * @param    LLMS_Student $student   A LLMS_Student object.

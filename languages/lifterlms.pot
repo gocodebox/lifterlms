@@ -285,11 +285,11 @@ msgstr ""
 msgid "The supplied generator is invalid."
 msgstr ""
 
-#: includes/class.llms.install.php:289, includes/admin/class.llms.admin.setup.wizard.php:362, includes/admin/settings/class.llms.settings.courses.php:100
+#: includes/class.llms.install.php:289, includes/admin/settings/class.llms.settings.courses.php:100, includes/admin/views/setup-wizard/step-pages.php:19
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:295, includes/admin/class.llms.admin.setup.wizard.php:366
+#: includes/class.llms.install.php:295, includes/admin/views/setup-wizard/step-pages.php:23
 msgid "Membership Catalog"
 msgstr ""
 
@@ -1821,7 +1821,7 @@ msgstr ""
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:884, includes/admin/class.llms.admin.setup.wizard.php:223
+#: includes/class.llms.post-types.php:884, includes/admin/class.llms.admin.setup.wizard.php:242
 msgid "Coupon"
 msgstr ""
 
@@ -3465,163 +3465,47 @@ msgstr ""
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:167
+#: includes/admin/class.llms.admin.setup.wizard.php:86
+msgid "LifterLMS Setup Wizard"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:188
 msgid "Allow"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:169
+#: includes/admin/class.llms.admin.setup.wizard.php:190
 msgid "Install a Sample Course"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:171
+#: includes/admin/class.llms.admin.setup.wizard.php:192
 msgid "Save & Continue"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:185
+#: includes/admin/class.llms.admin.setup.wizard.php:206
 msgid "No thanks"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:187
+#: includes/admin/class.llms.admin.setup.wizard.php:208
 msgid "Skip this step"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:220
+#: includes/admin/class.llms.admin.setup.wizard.php:239
 msgid "Welcome!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:221, includes/admin/class.llms.admin.setup.wizard.php:356
+#: includes/admin/class.llms.admin.setup.wizard.php:240, includes/admin/views/setup-wizard/step-pages.php:13
 msgid "Page Setup"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:222, includes/admin/class.llms.admin.setup.wizard.php:389
+#: includes/admin/class.llms.admin.setup.wizard.php:241, includes/admin/views/setup-wizard/step-payments.php:18
 msgid "Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:224
+#: includes/admin/class.llms.admin.setup.wizard.php:243
 msgid "Finish!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:270
-msgid "Skip setup"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:271
-msgid "Get Started Now"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:277
-msgid "Go back"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:287
-msgid "Start from Scratch"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:300
-msgid "Return to the WordPress Dashboard"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:325
-msgid "Help Improve LifterLMS & Get a Coupon"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:326
-msgid "By allowing us to collect non-sensitive usage information and diagnostic data, you'll be providing us with information we can use to make the future of LifterLMS stronger and more powerful with every update!"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:327
-msgid "Click \"Allow\" to and we'll send you a coupon immediately."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:328
-msgid "Find out more information"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:334
-msgid "Setup Complete!"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:335
-msgid "Here's some resources to help you get familiar with LifterLMS:"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:337
-msgid "Watch the LifterLMS video tutorials"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:338
-msgid "Read the LifterLMS Getting Started Guide"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:341
-msgid "Get started with your first course"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:347
-msgid "Welcome to LifterLMS!"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:349
-msgid "Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS so you can get started creating courses faster!"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:350
-msgid "It will only take a few minutes and it is completely optional. If you don't have the time now, come back later."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:358
-msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:363
-msgid "This page is where your visitors will find a list of all your available courses."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:367, includes/admin/settings/class.llms.settings.memberships.php:105
-msgid "This page is where your visitors will find a list of all your available memberships."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:370, includes/admin/settings/class.llms.settings.checkout.php:41
-msgid "Checkout"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:371
-msgid "This is the page where visitors will be directed in order to pay for courses and memberships."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:374, includes/admin/settings/class.llms.settings.accounts.php:68
-msgid "Student Dashboard"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:375, includes/admin/settings/class.llms.settings.accounts.php:74
-msgid "Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:379
-msgid "After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:394
-msgid "Which country should be used as the default for student registrations?"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:406
-msgid "Which currency should be used for payment processing?"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:413
-msgid "If you currency is not listed you can %1$sadd it later%2$s."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:419
-msgid "With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%2$s to accept online payments."
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:420
-msgid "Enable Offline Payments"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:516
+#: includes/admin/class.llms.admin.setup.wizard.php:359
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
@@ -7062,8 +6946,16 @@ msgstr ""
 msgid "Optional"
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.accounts.php:68, includes/admin/views/setup-wizard/step-pages.php:31
+msgid "Student Dashboard"
+msgstr ""
+
 #: includes/admin/settings/class.llms.settings.accounts.php:73
 msgid "Dashboard Page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:74, includes/admin/views/setup-wizard/step-pages.php:32
+msgid "Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:87
@@ -7352,6 +7244,10 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:499
 msgid "Accounts"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.checkout.php:41, includes/admin/views/setup-wizard/step-pages.php:27
+msgid "Checkout"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:70, templates/admin/post-types/order-transactions.php:30
@@ -7729,6 +7625,10 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.memberships.php:93
 msgid "Memberships Catalog"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.memberships.php:105, includes/admin/views/setup-wizard/step-pages.php:24
+msgid "This page is where your visitors will find a list of all your available memberships."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.memberships.php:108
@@ -10344,6 +10244,110 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
+#: includes/admin/views/setup-wizard/main.php:46
+msgid "Skip setup"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/main.php:47
+msgid "Get Started Now"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/main.php:50
+msgid "Go back"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/main.php:57
+msgid "Start from Scratch"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/main.php:70
+msgid "Return to the WordPress Dashboard"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-coupon.php:14
+msgid "Help Improve LifterLMS & Get a Coupon"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-coupon.php:15
+msgid "By allowing us to collect non-sensitive usage information and diagnostic data, you'll be providing us with information we can use to make the future of LifterLMS stronger and more powerful with every update!"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-coupon.php:16
+msgid "Click \"Allow\" to and we'll send you a coupon immediately."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-coupon.php:17
+msgid "Find out more information"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:13
+msgid "Setup Complete!"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:14
+msgid "Here's some resources to help you get familiar with LifterLMS:"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:16
+msgid "Watch the LifterLMS video tutorials"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:17
+msgid "Read the LifterLMS Getting Started Guide"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:20
+msgid "Get started with your first course"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-intro.php:14
+msgid "Welcome to LifterLMS!"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-intro.php:15
+msgid "Thanks for choosing LifterLMS to power your online courses! This short setup wizard will guide you through the basic settings and configure LifterLMS so you can get started creating courses faster!"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-intro.php:16
+msgid "It will only take a few minutes and it is completely optional. If you don't have the time now, come back later."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-pages.php:15
+msgid "LifterLMS has a few essential pages. The following will be created automatically if they don't already exist."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-pages.php:20
+msgid "This page is where your visitors will find a list of all your available courses."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-pages.php:28
+msgid "This is the page where visitors will be directed in order to pay for courses and memberships."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-pages.php:36
+msgid "After setup, you can manage these pages from the admin dashboard on the %1$sPages screen%2$s and you can control which pages display on your menu(s) via %3$sAppearance > Menus%4$s."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-payments.php:23
+msgid "Which country should be used as the default for student registrations?"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-payments.php:35
+msgid "Which currency should be used for payment processing?"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-payments.php:42
+msgid "If you currency is not listed you can %1$sadd it later%2$s."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-payments.php:48
+msgid "With LifterLMS you can accept both online and offline payments. Be sure to install a %1$spayment gateway%2$s to accept online payments."
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-payments.php:49
+msgid "Enable Offline Payments"
+msgstr ""
+
 #: includes/admin/views/status/view-log.php:30
 msgid "View Log"
 msgstr ""
@@ -11382,11 +11386,11 @@ msgstr ""
 msgid "List of course instructors. Defaults to current user when creating a new post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:227, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:345
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:227, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:370
 msgid "URL to an oEmbed enable audio URL."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:236, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:354
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:236, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:379
 msgid "URL to an oEmbed enable video URL."
 msgstr ""
 
@@ -11614,47 +11618,47 @@ msgstr ""
 msgid "You are not allowed to edit this instructor."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:138
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:161
 msgid "Invalid course_id param. It must be a valid Course ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:149, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:216
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:172, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:216
 msgid "Invalid order param. It must be greater than 0."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:170
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:193
 msgid "Invalid drip_days param. It must be greater than 0."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:302
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:326
 msgid "WordPress post ID of the parent item. Must be a Section ID. 0 indicates an \"orphaned\" lesson which can be edited and viewed by instructors and admins but cannot be read by students."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:310
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:334
 msgid "WordPress post ID of the lesson's parent course."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:318
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:343
 msgid "Order of the lesson within its immediate parent."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:328
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:353
 msgid "Lesson ID of the prerequisite lesson."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:336
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:361
 msgid "Determines the weight of the lesson when grading the course."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:363
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:388
 msgid "The date and time when the lesson becomes available. Applicable only when drip_method is date. Format: Y-m-d H:i:s."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:371
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:396
 msgid "Number of days to wait before allowing access to the lesson. Applicable only when drip_method is enrollment, start, or prerequisite."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:380
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:405
 msgid ""
 "Determine the method with which to make the lesson content available.\n"
 "					<ul>\n"
@@ -11666,23 +11670,23 @@ msgid ""
 "					</ul>"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:397
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:422
 msgid "Denotes a lesson that's publicly accessible regardless of course enrollment."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:403
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:428
 msgid "Associate a quiz with this lesson."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:412
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:437
 msgid "Determines if a quiz is enabled for the lesson."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:418
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:443
 msgid "The post ID of the associated quiz."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:427
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:452
 msgid ""
 "Determines lesson progression requirements related to the quiz.\n"
 "							<ul>\n"
@@ -11691,7 +11695,7 @@ msgid ""
 "							</ul>"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:492
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:517
 msgid "Filter lessons by the parent post (section) ID."
 msgstr ""
 

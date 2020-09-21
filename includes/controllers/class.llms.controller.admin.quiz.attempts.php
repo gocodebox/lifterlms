@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.4.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.0
 	 * @since 3.16.9 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Made sure to exit after redirecting on attempt deletion.
+	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.0
 	 * @since 3.30.3 Strip slashes on remarks.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Use strict type comparisons where needed.
+	 * @since 4.4.4 Use strict type comparisons where needed.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void

@@ -2,8 +2,8 @@
 /**
  * Setup Wizard step: Page Setup
  *
- * @since [version]
- * @version [version]
+ * @since 4.4.4
+ * @version 4.4.4
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */

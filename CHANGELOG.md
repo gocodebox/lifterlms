@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v4.4.4 - 2020-09-21
+-------------------
+
+##### Bug fixes
+
++ Don't pass unsupported parameter `$use_cache` to the `calculate_grade()` method, thanks [@pondermatic](https://github.com/pondermatic)!
++ Add an HTML title attribute to the admin setup wizard page.
++ Fix issue causing notices to be logged during quiz attempt deletion on the admin panel.
+
+##### Deprecations
+
++ Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
+
+##### LifterLMS REST API version 1.0.0-beta.15
+
++ Bugfix: Created lessons will now have the derivative `course_id` property set according to the ID of the lesson's parent section.
++ Bugfix: The `course_id` property of lessons is now properly marked as read-only.
+
+
 v4.4.3 - 2020-09-16
 -------------------
 
