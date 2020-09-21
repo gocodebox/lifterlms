@@ -75,7 +75,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 *
 	 * @since 3.16.0
 	 *
-	 * @return array
+	 * @return LLMS_Quiz_Attempt[]
 	 */
 	public function get_attempts() {
 

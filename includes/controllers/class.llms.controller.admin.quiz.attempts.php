@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
- * @version 3.35.0
+ * @version 4.4.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,6 +33,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.0
 	 * @since 3.16.9 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
 	 *
 	 * @return void
 	 */
@@ -63,6 +64,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				);
 				$attempt->delete();
 				wp_safe_redirect( $url );
+				exit();
 			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] ) ) ) {
 				$this->save_grade( $attempt );
 			}
@@ -76,6 +78,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.0
 	 * @since 3.30.3 Strip slashes on remarks.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 4.4.4 Use strict type comparisons where needed.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void
@@ -112,7 +115,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		$attempt->calculate_grade()->save();
 
 		// If all questions were graded the grade will have been calculated and we can trigger completion actions.
-		if ( in_array( $attempt->get( 'status' ), array( 'fail', 'pass' ) ) ) {
+		if ( in_array( $attempt->get( 'status' ), array( 'fail', 'pass' ), true ) ) {
 			$attempt->do_completion_actions();
 		}
 

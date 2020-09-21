@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.4.3
+Stable tag: 4.4.4
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -514,6 +514,24 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.4.4 - 2020-09-21 =
+
+##### Bug fixes
+
++ Don't pass unsupported parameter `$use_cache` to the `calculate_grade()` method, thanks [@pondermatic](https://github.com/pondermatic)!
++ Add an HTML title attribute to the admin setup wizard page.
++ Fix issue causing notices to be logged during quiz attempt deletion on the admin panel.
+
+##### Deprecations
+
++ Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
+
+##### LifterLMS REST API version 1.0.0-beta.15
+
++ Bugfix: Created lessons will now have the derivative `course_id` property set according to the ID of the lesson's parent section.
++ Bugfix: The `course_id` property of lessons is now properly marked as read-only.
+
+
 = v4.4.3 - 2020-09-16 =
 
 + Bugfix: Fix engagement email duplicate check issue.
@@ -629,14 +647,6 @@ The following filter hooks have been deprecated. These hooks were being called a
 + `LLMS_Abstract_User_Data::get_id()` now always returns an integer.
 + Fixed a 404 error resulting from settings tooltips referencing a missing icon asset.
 + Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
-
-
-= v4.1.0 - 2020-07-06 =
-
-##### LifterLMS REST 1.0.0-beta.14
-
-+ **Breaking**: `LLMS_REST_Controller::prepare_links()` now requires a second parameter, the `WP_REST_Request` for the current request. Any classes extending and overwriting this method must adjust their method signature to accommodate this change.
-+ Bugfix: Fixed issue causing response objects to unintentionally include keys of remapped fields. This error occurs only when extending core controllers and attempting to exclude core fields.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
