@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 4.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
+ * @since [version] Add sideloading of images found in imported post content.
  */
 class LLMS_Generator {
 
@@ -40,6 +41,20 @@ class LLMS_Generator {
 	 * @var string
 	 */
 	private $generator = '';
+
+	/**
+	 * Array of images that have been sideloaded during generation
+	 *
+	 * Each array key will be the original source URL and the array value will be the new
+	 * URL of the image that has been sideloaded into the current site.
+	 *
+	 * This array is checked prior to sideloading an image to ensure that if the same image is
+	 * used multiple times throughout an import, the image is only sideloaded a single time.
+	 *
+	 * @var string[]
+	 */
+	private $images = array();
+
 
 	/**
 	 * Array of generated posts
@@ -206,6 +221,13 @@ class LLMS_Generator {
 
 			$wpdb->query( 'START TRANSACTION' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
+			/**
+			 * Action run immediately prior to a LifterLMS Generator running.
+			 *
+			 * @since 3.30.2
+			 *
+			 * @param LLMS_Generator $generator The generator instance.
+			 */
 			do_action( 'llms_generator_before_generate', $this );
 
 			try {
@@ -218,6 +240,13 @@ class LLMS_Generator {
 
 			}
 
+			/**
+			 * Action run immediately after a LifterLMS Generator running.
+			 *
+			 * @since 3.30.2
+			 *
+			 * @param LLMS_Generator $generator The generator instance.
+			 */
 			do_action( 'llms_generator_after_generate', $this );
 
 			if ( $this->is_error() ) {
@@ -313,6 +342,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since [version] Attempt to sideload images found in the imported post's content.
 	 *
 	 * @param array $raw                Raw Access Plan Data
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
@@ -356,6 +386,8 @@ class LLMS_Generator {
 			$plan->set( $key, $val );
 		}
 
+		$this->sideload_images( $plan );
+
 		return $plan->get( 'id' );
 
 	}
@@ -366,12 +398,21 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since [version] Attempt to sideload images found in the imported post's content.
 	 *
 	 * @param array $raw Raw course data.
 	 * @return void|int
 	 */
 	private function create_course( $raw ) {
 
+		/**
+		 * Filter raw course import data prior to generation
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param array          $raw       Raw course data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		$raw = apply_filters( 'llms_generator_before_new_course', $raw, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw );
@@ -444,6 +485,17 @@ class LLMS_Generator {
 			}
 		}
 
+		$this->sideload_images( $course );
+
+		/**
+		 * Action triggered immediately following generation of a new course
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Course    $course    Generated course object.
+		 * @param array          $raw       Original raw course data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		do_action( 'llms_generator_new_course', $course, $raw, $this );
 
 		return $course->get( 'id' );
@@ -456,6 +508,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
+	 * @since [version] Attempt to sideload images found in the imported post's content.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -466,6 +519,18 @@ class LLMS_Generator {
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
+		/**
+		 * Filter raw lesson import data prior to generation
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param array          $raw                Raw lesson data array.
+		 * @param int            $order              Lesson order within the section (starts at 1).
+		 * @param int            $section_id         WP Post ID of the lesson's parent section.
+		 * @param int            $course_id          WP Post ID of the lesson's parent course.
+		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param LLMS_Generator $generator          Generator instance.
+		 */
 		$raw = apply_filters( 'llms_generator_before_new_lesson', $raw, $order, $section_id, $course_id, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
@@ -529,6 +594,17 @@ class LLMS_Generator {
 		// Add custom meta.
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
+		$this->sideload_images( $lesson );
+
+		/**
+		 * Action triggered immediately following generation of a new lesson
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Lesson    $lesson    Generated lesson object.
+		 * @param array          $raw       Original raw lesson data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		do_action( 'llms_generator_new_lesson', $lesson, $raw, $this );
 
 		return $lesson->get( 'id' );
@@ -542,6 +618,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
+	 * @since [version] Attempt to sideload images found in the imported post's content.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
@@ -549,6 +626,15 @@ class LLMS_Generator {
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
+		/**
+		 * Filter raw quiz import data prior to generation
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param array          $raw                Raw quiz data array.
+		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param LLMS_Generator $generator          Generator instance.
+		 */
 		$raw = apply_filters( 'llms_generator_before_new_quiz', $raw, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
@@ -592,6 +678,17 @@ class LLMS_Generator {
 		// Add custom meta.
 		$this->add_custom_values( $quiz->get( 'id' ), $raw );
 
+		$this->sideload_images( $quiz );
+
+		/**
+		 * Action triggered immediately following generation of a new quiz
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Quiz      $quiz      Generated quiz object.
+		 * @param array          $raw       Original raw quiz data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		do_action( 'llms_generator_new_quiz', $quiz, $raw, $this );
 
 		return $quiz->get( 'id' );
@@ -603,6 +700,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
+	 * @since [version] Attempt to sideload images found in the imported post's content and image choices.
 	 *
 	 * @param array $raw       Raw question data.
 	 * @param obj   $manager   Question manager instance.
@@ -611,6 +709,16 @@ class LLMS_Generator {
 	 */
 	private function create_question( $raw, $manager, $author_id ) {
 
+		/**
+		 * Filter raw question import data prior to generation
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param array          $raw       Raw quiz data array.
+		 * @param obj            $manager   Question manager instance.
+		 * @param int            $author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		$raw = apply_filters( 'llms_generator_before_new_question', $raw, $manager, $author_id, $this );
 
 		unset( $raw['parent_id'] );
@@ -636,7 +744,7 @@ class LLMS_Generator {
 		if ( isset( $raw['choices'] ) ) {
 			foreach ( $raw['choices'] as $choice ) {
 				unset( $choice['question_id'] );
-				$question->create_choice( $choice );
+				$question->create_choice( $this->maybe_sideload_choice_image( $choice, $question_id ) );
 			}
 		}
 
@@ -647,6 +755,18 @@ class LLMS_Generator {
 			}
 		}
 
+		$this->sideload_images( $question );
+
+		/**
+		 * Action triggered immediately following generation of a new question
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Question  $question  Generated question object.
+		 * @param array          $raw       Original raw question data array.
+		 * @param obj            $manager   Question manager instance.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		do_action( 'llms_generator_new_question', $question, $raw, $manager, $this );
 
 		return $question->get( 'id' );
@@ -669,6 +789,17 @@ class LLMS_Generator {
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
+		/**
+		 * Filter raw section import data prior to generation
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param array          $raw                Raw quiz data array.
+		 * @param int            $order              Order within the course (starts at 1).
+		 * @param int            $course_id          WP Post ID of the parent course.
+		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param LLMS_Generator $generator          Generator instance.
+		 */
 		$raw = apply_filters( 'llms_generator_before_new_section', $raw, $order, $course_id, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
@@ -700,6 +831,15 @@ class LLMS_Generator {
 			}
 		}
 
+		/**
+		 * Action triggered immediately following generation of a new section
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Section   $section   Generated section object.
+		 * @param array          $raw       Original raw section data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
 		do_action( 'llms_generator_new_section', $section, $raw, $this );
 
 		return $section->get( 'id' );
@@ -819,6 +959,14 @@ class LLMS_Generator {
 			return $this->error->add( $author_id->get_error_code(), $author_id->get_error_message() );
 		}
 
+		/**
+		 * Filter the author ID prior to it being used for the generation of new posts
+		 *
+		 * @since [version]
+		 *
+		 * @param int   $author_id WP_User ID of the author.
+		 * @param array $raw       Original raw author data.
+		 */
 		return apply_filters( 'llms_generator_get_author_id', $author_id, $raw );
 
 	}
@@ -860,7 +1008,17 @@ class LLMS_Generator {
 	 * @return string
 	 */
 	public function get_default_post_status() {
+
+		/**
+		 * Filter the default status used for generating posts
+		 *
+		 * @since 3.7.3
+		 *
+		 * @param string         $post_status The default post status
+		 * @param LLMS_Generator $generator   Generator instance.
+		 */
 		return apply_filters( 'llms_generator_default_post_status', $this->default_post_status, $this );
+
 	}
 
 	/**
@@ -898,6 +1056,13 @@ class LLMS_Generator {
 	 * @return array
 	 */
 	private function get_generators() {
+		/**
+		 * Filter the list of available generators.
+		 *
+		 * @since Unknown
+		 *
+		 * @param array[] $generators Array of generators. Array key is the generator name and the array value is a callable function.
+		 */
 		return apply_filters(
 			'llms_generators',
 			array(
@@ -1080,6 +1245,53 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Determines if image sideloading is enabled for the generator
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean If `true`, sideloading is enabled, otherwise sideloading is disabled.
+	 */
+	public function is_image_sideloading_enabled() {
+
+		/**
+		 * Filter the status of image sideloading for the generator.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $enabled Whether or not sideloading is enabled.
+		 */
+		return apply_filters( 'llms_generator_is_image_sideloading_enabled', true, $this );
+
+	}
+
+	/**
+	 * Determines if a raw question choice object contains image data that should be sideloaded
+	 *
+	 * @since [version]
+	 *
+	 * @param array $choice      Raw choice data array.
+	 * @param int   $question_id WP_Post ID of the parent question.
+	 * @return array Choice data array.
+	 */
+	protected function maybe_sideload_choice_image( $choice, $question_id ) {
+
+		if ( empty( $choice['choice_type'] ) || 'image' !== $choice['choice_type'] || ! $this->is_image_sideloading_enabled() ) {
+			return $choice;
+		}
+
+		$id = $this->sideload_image( $question_id, $choice['choice']['src'], 'id' );
+		if ( is_wp_error( $id ) ) {
+			return $choice;
+		}
+
+		$choice['choice']['id']  = $id;
+		$choice['choice']['src'] = wp_get_attachment_url( $id );
+
+		return $choice;
+
+	}
+
+	/**
 	 * Records a generated post id
 	 *
 	 * @since 3.14.8
@@ -1096,6 +1308,41 @@ class LLMS_Generator {
 		}
 
 		array_push( $this->posts[ $type ], $id );
+
+	}
+
+	/**
+	 * Retrieve an array of images in a string
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string An HTML string, usually a post's `post_content` value.
+	 * @return string[] An array of image URLs retrieved from <img> `src` attributes.
+	 */
+	protected function retrieve_images_from_string( $string ) {
+
+		$images = array();
+
+		if ( ! empty( $string ) && class_exists( 'DOMDocument' ) ) {
+
+			// Don't throw or log warnings.
+			$libxml_state = libxml_use_internal_errors( true );
+
+			$dom = new DOMDocument();
+			if ( $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+
+				foreach ( $dom->getElementsByTagName( 'img' ) as $img ) {
+					$images[] = $img->getAttribute( 'src' );
+				}
+			}
+
+			// Clear and restore errors.
+			libxml_clear_errors();
+			libxml_use_internal_errors( $libxml_state );
+
+		}
+
+		return array_unique( $images );
 
 	}
 
@@ -1185,6 +1432,83 @@ class LLMS_Generator {
 
 		// Return the generator name.
 		return $generator;
+
+	}
+
+	/**
+	 * Sideload an image from a url
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id WP_Post ID of the post where the image will be attached.
+	 * @param string $url     The image's URL.
+	 * @return string|int|WP_Error Returns a WP_Error on failure, the image's new URL when `$return` is "src", otherwise returns the image's attachement ID.
+	 */
+	protected function sideload_image( $post_id, $url, $return = 'src' ) {
+
+		// Check if the image was previously sideloaded.
+		$id = empty( $this->images[ $url ] ) ? false : $this->images[ $url ];
+
+		// Image was not previously sideloaded.
+		if ( ! $id ) {
+
+			$id = media_sideload_image( $url, $post_id, null, 'id' );
+			if ( is_wp_error( $id ) ) {
+				return $id;
+			}
+
+			// Store the ID for future usage.
+			$this->images[ $url ] = $id;
+
+		}
+
+		return 'src' === $return ? wp_get_attachment_url( $id ) : $id;
+
+	}
+
+	/**
+	 * Sideload images found in a given post
+	 *
+	 * This attempts to sideload the `src` attribute of every <img> element
+	 * found in the `post_content` of the supplied post.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model $post Post object.
+	 * @return null|boolean Returns `true` on success, `false` if there were no images to update, or `null` if sideloading is disabled.
+	 */
+	protected function sideload_images( $post ) {
+
+		// Sideloading is disabled.
+		if ( ! $this->is_image_sideloading_enabled() ) {
+			return null;
+		}
+
+		$content  = $post->post->post_content;
+		$find     = array();
+		$replace  = array();
+		$curr_url = get_site_url();
+
+		foreach ( $this->retrieve_images_from_string( $content ) as $src ) {
+
+			// Don't sideload images from this site.
+			if ( 0 === strpos( $src, $curr_url ) ) {
+				continue;
+			}
+
+			$new_src = $this->sideload_image( $post->get( 'id' ), $src );
+			if ( ! is_wp_error( $new_src ) ) {
+				$find[]    = $src;
+				$replace[] = $new_src;
+			}
+		}
+
+		if ( $find && $replace ) {
+			$content = str_replace( $find, $replace, $content );
+			return $post->set( 'content', $content );
+		}
+
+		return false;
 
 	}
 
