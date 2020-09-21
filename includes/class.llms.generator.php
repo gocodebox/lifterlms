@@ -486,6 +486,7 @@ class LLMS_Generator {
 		}
 
 		$this->sideload_images( $course, $raw );
+		$this->handle_reusable_blocks( $couse, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new course
@@ -1202,6 +1203,70 @@ class LLMS_Generator {
 
 	}
 
+	protected function handle_reusable_blocks( $post, $raw ) {
+
+		// Importing blocks is disabled.
+		if ( ! $this->is_reusable_block_importing_enabled() ) {
+			return null;
+		}
+
+		if ( ! empty( $raw['_extras']['blocks'] ) ) {
+
+			$find     = array();
+			$replace  = array();
+			$post_id  = $post->get( 'id' );
+			foreach ( $raw['_extras']['blocks'] as $block_id => $block ) {
+
+				$new_src = $this->create_reusable_block( $block_id, $block );
+				if ( ! is_wp_error( $new_src ) ) {
+					$find[]    = $src;
+					$replace[] = $new_src;
+				}
+
+			}
+
+			if ( $find && $replace ) {
+				$content = str_replace( $find, $replace, $post->get( 'post_content', true ) );
+				return $post->set( 'content', $content );
+			}
+		}
+
+		return false;
+
+	}
+
+	protected function create_reusable_block( $block_id, $block ) {
+
+		$block_id = absint( $block_id );
+
+		// If the block already exists, don't create it again.
+		$existing = get_post( $block_id );
+		if ( $existing && 'wp-block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
+			return false;
+		}
+
+		// Check if the block was previously imported.
+		$id = empty( $this->reusable_blocks[ $block_id ] ) ? false : $this->reusable_blocks[ $block_id ];
+		if ( ! $id ) {
+
+			$id = wp_insert_post( array(
+				'post_content' => $block['content'],
+				'post_title' => $block['title'],
+				'post_type' => 'wp-block',
+			) );
+
+			if ( is_wp_error( $id ) ) {
+				return $id;
+			}
+
+			$this->reusable_blocks[ $block_id ] = $id;
+
+		}
+
+		return $id;
+
+	}
+
 	/**
 	 * Increments a stat in the stats object
 	 *
@@ -1262,6 +1327,27 @@ class LLMS_Generator {
 		 * @param LLMS_Generator $generator Generator instance.
 		 */
 		return apply_filters( 'llms_generator_is_image_sideloading_enabled', true, $this );
+
+	}
+
+	/**
+	 * Determines if reusable block importing is enabled generator
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean If `true`, sideloading is enabled, otherwise sideloading is disabled.
+	 */
+	public function is_reusable_block_importing_enabled() {
+
+		/**
+		 * Filter the status of reusable block importing for the generator.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean        $enabled   Whether or not block importing is enabled.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
+		return apply_filters( 'llms_generator_is_reusable_block_importing_enabled', true, $this );
 
 	}
 
