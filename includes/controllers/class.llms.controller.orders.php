@@ -332,6 +332,8 @@ class LLMS_Controller_Orders {
 
 		$order->unschedule_recurring_payment();
 
+		$order->unschedule_upcoming_payment_reminder();
+
 		/**
 		 * Determine if student should be unenrolled on order error.
 		 *
@@ -444,6 +446,7 @@ class LLMS_Controller_Orders {
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 		$order->add_note( $note );
 		$order->unschedule_recurring_payment();
+		$order->unschedule_upcoming_payment_reminder();
 
 		if ( $new_order_status ) {
 			$order->set_status( $new_order_status );
@@ -465,6 +468,7 @@ class LLMS_Controller_Orders {
 		$order->set( 'date_access_expires', $date );
 
 		$order->unschedule_recurring_payment();
+		$order->unschedule_upcoming_payment_reminder();
 		$order->maybe_schedule_expiration();
 
 	}
