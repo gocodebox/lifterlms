@@ -1181,7 +1181,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		/**
 		 * Filter whether or not "extra" content should be included in the post array
 		 *
-		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course"m
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
 		 *
 		 * @since [version]
