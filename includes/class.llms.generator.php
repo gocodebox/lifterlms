@@ -816,17 +816,17 @@ class LLMS_Generator {
 		$id = empty( $this->reusable_blocks[ $block_id ] ) ? false : $this->reusable_blocks[ $block_id ];
 		if ( ! $id ) {
 
-			$id = wp_insert_post( array(
-				'post_content' => $block['content'],
-				'post_title' => $block['title'],
-				'post_type' => 'wp-block',
-			) );
+			$id = wp_insert_post(
+				array(
+					'post_content' => $block['content'],
+					'post_title'   => $block['title'],
+					'post_type'    => 'wp-block',
+				)
+			);
 
 			if ( $id ) {
 				$this->reusable_blocks[ $block_id ] = $id;
 			}
-
-
 		}
 
 		// Don't return 0 if `wp_insert_post()` fails.
@@ -1281,9 +1281,9 @@ class LLMS_Generator {
 
 		if ( ! empty( $raw['_extras']['blocks'] ) ) {
 
-			$find     = array();
-			$replace  = array();
-			$post_id  = $post->get( 'id' );
+			$find    = array();
+			$replace = array();
+			$post_id = $post->get( 'id' );
 			foreach ( $raw['_extras']['blocks'] as $block_id => $block ) {
 
 				$new_src = $this->create_reusable_block( $block_id, $block );
@@ -1291,7 +1291,6 @@ class LLMS_Generator {
 					$find[]    = $src;
 					$replace[] = $new_src;
 				}
-
 			}
 
 			if ( $find && $replace ) {
@@ -1592,7 +1591,6 @@ class LLMS_Generator {
 					$find[]    = $src;
 					$replace[] = $new_src;
 				}
-
 			}
 
 			if ( $find && $replace ) {
