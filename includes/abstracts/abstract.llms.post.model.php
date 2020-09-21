@@ -1280,25 +1280,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$blocks = array();
 
-		if ( has_block( 'block', $content ) ) {
+		foreach ( parse_blocks( $content ) as $block ) {
 
-			foreach ( parse_blocks( $content ) as $block ) {
-
-				if ( 'core/block' !== $block['blockName'] ) {
-					continue;
-				}
-
-				$post = get_post( $block['attrs']['ref'] );
-				if ( ! $post ) {
-					continue;
-				}
-
-				$blocks[ $post->ID ] = array(
-					'title'   => $post->post_title,
-					'content' => $post->post_content,
-				);
-
+			if ( 'core/block' !== $block['blockName'] ) {
+				continue;
 			}
+
+			$post = get_post( $block['attrs']['ref'] );
+			if ( ! $post ) {
+				continue;
+			}
+
+			$blocks[ $post->ID ] = array(
+				'title'   => $post->post_title,
+				'content' => $post->post_content,
+			);
 		}
 
 		return $blocks;
