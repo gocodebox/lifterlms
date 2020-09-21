@@ -352,6 +352,7 @@ class LLMS_Notifications {
 			'section_complete',
 			'student_welcome',
 			'subscription_cancelled',
+			'upcoming_payment_reminder',
 		);
 
 		foreach ( $triggers as $name ) {
