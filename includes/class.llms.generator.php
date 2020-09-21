@@ -46,12 +46,12 @@ class LLMS_Generator {
 	 * Array of images that have been sideloaded during generation
 	 *
 	 * Each array key will be the original source URL and the array value will be the new
-	 * URL of the image that has been sideloaded into the current site.
+	 * attachment post ID of the image that has been sideloaded into the current site.
 	 *
 	 * This array is checked prior to sideloading an image to ensure that if the same image is
 	 * used multiple times throughout an import, the image is only sideloaded a single time.
 	 *
-	 * @var string[]
+	 * @var array
 	 */
 	private $images = array();
 
@@ -386,7 +386,7 @@ class LLMS_Generator {
 			$plan->set( $key, $val );
 		}
 
-		$this->sideload_images( $plan );
+		$this->sideload_images( $plan, $raw );
 
 		return $plan->get( 'id' );
 
@@ -485,7 +485,7 @@ class LLMS_Generator {
 			}
 		}
 
-		$this->sideload_images( $course );
+		$this->sideload_images( $course, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new course
@@ -594,7 +594,7 @@ class LLMS_Generator {
 		// Add custom meta.
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
-		$this->sideload_images( $lesson );
+		$this->sideload_images( $lesson, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new lesson
@@ -678,7 +678,7 @@ class LLMS_Generator {
 		// Add custom meta.
 		$this->add_custom_values( $quiz->get( 'id' ), $raw );
 
-		$this->sideload_images( $quiz );
+		$this->sideload_images( $quiz, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new quiz
@@ -755,7 +755,7 @@ class LLMS_Generator {
 			}
 		}
 
-		$this->sideload_images( $question );
+		$this->sideload_images( $question, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new question
@@ -1014,7 +1014,7 @@ class LLMS_Generator {
 		 *
 		 * @since 3.7.3
 		 *
-		 * @param string         $post_status The default post status
+		 * @param string         $post_status The default post status.
 		 * @param LLMS_Generator $generator   Generator instance.
 		 */
 		return apply_filters( 'llms_generator_default_post_status', $this->default_post_status, $this );
@@ -1258,7 +1258,8 @@ class LLMS_Generator {
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean $enabled Whether or not sideloading is enabled.
+		 * @param boolean        $enabled   Whether or not sideloading is enabled.
+		 * @param LLMS_Generator $generator Generator instance.
 		 */
 		return apply_filters( 'llms_generator_is_image_sideloading_enabled', true, $this );
 
@@ -1308,41 +1309,6 @@ class LLMS_Generator {
 		}
 
 		array_push( $this->posts[ $type ], $id );
-
-	}
-
-	/**
-	 * Retrieve an array of images in a string
-	 *
-	 * @since [version]
-	 *
-	 * @param string $string An HTML string, usually a post's `post_content` value.
-	 * @return string[] An array of image URLs retrieved from <img> `src` attributes.
-	 */
-	protected function retrieve_images_from_string( $string ) {
-
-		$images = array();
-
-		if ( ! empty( $string ) && class_exists( 'DOMDocument' ) ) {
-
-			// Don't throw or log warnings.
-			$libxml_state = libxml_use_internal_errors( true );
-
-			$dom = new DOMDocument();
-			if ( $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
-
-				foreach ( $dom->getElementsByTagName( 'img' ) as $img ) {
-					$images[] = $img->getAttribute( 'src' );
-				}
-			}
-
-			// Clear and restore errors.
-			libxml_clear_errors();
-			libxml_use_internal_errors( $libxml_state );
-
-		}
-
-		return array_unique( $images );
 
 	}
 
@@ -1475,37 +1441,41 @@ class LLMS_Generator {
 	 * @since [version]
 	 *
 	 * @param LLMS_Post_Model $post Post object.
+	 * @param array           $raw  Array of raw data
 	 * @return null|boolean Returns `true` on success, `false` if there were no images to update, or `null` if sideloading is disabled.
 	 */
-	protected function sideload_images( $post ) {
+	protected function sideload_images( $post, $raw ) {
 
 		// Sideloading is disabled.
 		if ( ! $this->is_image_sideloading_enabled() ) {
 			return null;
 		}
 
-		$content  = $post->post->post_content;
-		$find     = array();
-		$replace  = array();
-		$curr_url = get_site_url();
+		if ( ! empty( $raw['_extras']['images'] ) ) {
 
-		foreach ( $this->retrieve_images_from_string( $content ) as $src ) {
+			$find     = array();
+			$replace  = array();
+			$curr_url = get_site_url();
+			$post_id  = $post->get( 'id' );
+			foreach ( $raw['_extras']['images'] as $src ) {
 
-			// Don't sideload images from this site.
-			if ( 0 === strpos( $src, $curr_url ) ) {
-				continue;
+				// Don't sideload images from this site.
+				if ( 0 === strpos( $src, $curr_url ) ) {
+					continue;
+				}
+
+				$new_src = $this->sideload_image( $post_id, $src );
+				if ( ! is_wp_error( $new_src ) ) {
+					$find[]    = $src;
+					$replace[] = $new_src;
+				}
+
 			}
 
-			$new_src = $this->sideload_image( $post->get( 'id' ), $src );
-			if ( ! is_wp_error( $new_src ) ) {
-				$find[]    = $src;
-				$replace[] = $new_src;
+			if ( $find && $replace ) {
+				$content = str_replace( $find, $replace, $post->get( 'post_content', true ) );
+				return $post->set( 'content', $content );
 			}
-		}
-
-		if ( $find && $replace ) {
-			$content = str_replace( $find, $replace, $content );
-			return $post->set( 'content', $content );
 		}
 
 		return false;

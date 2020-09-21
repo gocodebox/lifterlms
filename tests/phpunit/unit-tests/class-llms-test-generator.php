@@ -400,7 +400,16 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 <img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" alt="" class="wp-image-552"/>'
 		) ) );
 
-		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course ) ) );
+		$raw = array(
+			'_extras' => array(
+				'images' => array(
+					'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg',
+					'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/richard-i49WGMPd5aA-unsplash.jpg',
+				),
+			),
+		);
+
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, $raw ) ) );
 		$this->assertStringNotContains( 'raw.githubusercontent', $course->post->post_content );
 
 	}
@@ -420,7 +429,15 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 			'post_content' => '<img src="https://example.org/fake-image.png" />',
 		) ) );
 
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course ) ) );
+		$raw = array(
+			'_extras' => array(
+				'images' => array(
+					'https://example.org/fake-image.png',
+				),
+			),
+		);
+
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, $raw ) ) );
 		$this->assertEquals( '<img src="https://example.org/fake-image.png" />', $course->post->post_content );
 
 
@@ -438,7 +455,9 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$gen    = new LLMS_Generator( array() );
 		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
 
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course ) ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array() ) ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array( '_extras' => array() ) ) ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array( '_extras' => array( 'images' => array() ) ) ) ) );
 
 	}
 
@@ -455,7 +474,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
 
 		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
-		$this->assertNull( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course ) ) );
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array() ) ) );
 		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 
 	}
