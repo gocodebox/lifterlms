@@ -117,8 +117,8 @@ class LLMS_Controller_Certificates {
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
 			$this->delete( $cert_id );
-		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) || isset( $_POST['llms_disable_cert_sharing'] ) ) {
-			$this->change_sharing_settings( $cert_id, isset( $_POST['llms_enable_cert_sharing'] ) );
+		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) ) {
+			$this->change_sharing_settings( $cert_id, (bool) $_POST['llms_enable_cert_sharing'] );
 		}
 
 	}
@@ -128,7 +128,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since [version]
 	 *
-	 * @param int  $cert_id WP Post ID of the llms_my_certificate.
+	 * @param int  $cert_id    WP Post ID of the llms_my_certificate.
 	 * @param bool $is_allowed Allow share the certificate or not.
 	 * @return void
 	 */
