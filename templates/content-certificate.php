@@ -52,11 +52,12 @@ if ( $cert->can_user_manage() ) {
 			<?php echo _e( 'Save', 'lifterlms' ); ?>
 				<i class="fa fa-cloud-download" aria-hidden="true"></i>
 			</button>
-
-			<button class="llms-button-secondary" type="submit" name="<?php echo $is_sharing_enabled ? 'llms_disable_cert_sharing' : 'llms_enable_cert_sharing'; ?>">
-		  <?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
-				<i class="fa fa-share-alt" aria-hidden="true"></i>
-			</button>
+			<?php if ( get_post_type( $cert->get( 'id' ) ) === $cert->get( 'db_post_type' ) ) : ?>
+				<button class="llms-button-secondary" type="submit" name="<?php echo $is_sharing_enabled ? 'llms_disable_cert_sharing' : 'llms_enable_cert_sharing'; ?>">
+				<?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
+					<i class="fa fa-share-alt" aria-hidden="true"></i>
+				</button>
+			<?php endif; ?>
 
 			<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
 			<?php wp_nonce_field( 'llms-cert-actions', '_llms_cert_actions_nonce' ); ?>
