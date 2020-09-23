@@ -182,7 +182,7 @@ class LLMS_Events {
 	 *     @type string $event_type Type of event (account, page, course, etc...).
 	 *     @type string $event_action The event action or verb (signon,viewed,launched,etc...).
 	 * }
-	 * @return [type]
+	 * @return LLMS_Event|WP_Error
 	 */
 	public function record( $args = array() ) {
 

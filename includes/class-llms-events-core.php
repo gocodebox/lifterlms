@@ -37,7 +37,7 @@ class LLMS_Events_Core {
 	 * @since 3.36.0
 	 *
 	 * @param string  $username WP_Users's user_login.
-	 * @param WP_User $user User object.
+	 * @param WP_User $user     User object.
 	 * @return LLMS_Event
 	 */
 	public function on_signon( $username, $user ) {

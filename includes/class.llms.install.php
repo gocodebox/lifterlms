@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,10 +16,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
- * @since 3.36.0 Add `wp_lifterlms_events` table.
- * @since 4.0.0 Add `wp_lifterlms_sessions` table.
- *              Add session cleanup cron.
- *              Add db update functions for session manage library cleanup.
+ * @since 3.36.0 Added `wp_lifterlms_events` table.
+ * @since 4.0.0 Added `wp_lifterlms_sessions` table.
+ *              Added session cleanup cron.
+ *              Added db update functions for session manager library cleanup.
  */
 class LLMS_Install {
 
@@ -431,8 +431,9 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
-	 * @since 3.36.0 Add `wp_lifterlms_events` table.
-	 * @since 4.0.0 Add `wp_lifterlms_sessions` table.
+	 * @since 3.36.0 Added `wp_lifterlms_events` table.
+	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
+	 * @since [version] Added `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @return string
 	 */
@@ -534,6 +535,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
   PRIMARY KEY (`id`),
   KEY actor_id (`actor_id`),
   KEY object_id (`object_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_events_open_sessions` (
+	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`event_id` bigint(20) unsigned NOT NULL,
+	PRIMARY KEY (`id`)
 ) $collate;
 CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
