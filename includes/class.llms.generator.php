@@ -355,7 +355,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Attempt to sideload images found in the imported post's content.
+	 * @since [version] Sideload images attached to the post.
 	 *
 	 * @param array $raw                Raw Access Plan Data
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
@@ -411,7 +411,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Attempt to sideload images found in the imported post's content.
+	 * @since [version] Import images and reusable blocks found in the post's content.
 	 *
 	 * @param array $raw Raw course data.
 	 * @return void|int
@@ -522,7 +522,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Attempt to sideload images found in the imported post's content.
+	 * @since [version] Import images and reusable blocks found in the post's content.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -609,6 +609,7 @@ class LLMS_Generator {
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
 		$this->sideload_images( $lesson, $raw );
+		$this->handle_reusable_blocks( $lesson, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new lesson
@@ -632,7 +633,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Attempt to sideload images found in the imported post's content.
+	 * @since [version] Sideload images attached to the post.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
@@ -808,7 +809,7 @@ class LLMS_Generator {
 
 		// If the block already exists, don't create it again.
 		$existing = get_post( $block_id );
-		if ( $existing && 'wp-block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
+		if ( $existing && 'wp_block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
 			return false;
 		}
 
@@ -820,7 +821,7 @@ class LLMS_Generator {
 				array(
 					'post_content' => $block['content'],
 					'post_title'   => $block['title'],
-					'post_type'    => 'wp-block',
+					'post_type'    => 'wp_block',
 				)
 			);
 

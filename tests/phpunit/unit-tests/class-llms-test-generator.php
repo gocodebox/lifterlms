@@ -27,7 +27,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$content = 'Block content';
 
 		$dup = $this->factory->post->create( array(
-			'post_type' => 'wp-block',
+			'post_type' => 'wp_block',
 			'post_title' => $title,
 			'post_content' => $content,
 		) );
@@ -79,7 +79,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$post = get_post( $id );
 
 		$this->assertTrue( is_numeric( $id ) );
-		$this->assertEquals( 'wp-block', $post->post_type );
+		$this->assertEquals( 'wp_block', $post->post_type );
 		$this->assertEquals( $title, $post->post_title );
 		$this->assertEquals( $content, $post->post_content );
 
