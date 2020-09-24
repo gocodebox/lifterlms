@@ -172,6 +172,7 @@ class LLMS_Events {
 	 * Store an event in the database.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Fixed event session end not recorded on sign-out.
 	 *
 	 * @param array $args {
 	 *     Event data
@@ -213,18 +214,20 @@ class LLMS_Events {
 
 			// Start a session if one isn't open.
 			$sessions = LLMS_Sessions::instance();
-			if ( false === $sessions->get_current() ) {
-				$sessions->start();
+			$user_id  = 'account.signon' === $event && isset( $args['actor_id'] ) ? $args['actor_id'] : null;
+
+			if ( false === $sessions->get_current( $user_id ) ) {
+				$sessions->start( $user_id );
 			}
 		}
 
-		$event = new LLMS_Event();
-		if ( ! $event->setup( $args )->save() ) {
+		$llms_event = new LLMS_Event();
+		if ( ! $llms_event->setup( $args )->save() ) {
 			$err->add( 'llms_event_recored_unknown_error', __( 'An unknown error occurred during event creation.', 'lifterlms' ) );
 			return $err;
 		}
 		if ( $meta && ! empty( $meta ) ) {
-			$event->set_metas( $meta, true );
+			$llms_event->set_metas( $meta, true );
 		}
 
 		// End the current session on signout.
@@ -232,7 +235,7 @@ class LLMS_Events {
 			LLMS_Sessions::instance()->end_current();
 		}
 
-		return $event;
+		return $llms_event;
 
 	}
 

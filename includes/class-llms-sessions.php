@@ -170,17 +170,20 @@ class LLMS_Sessions {
 	 * Retrieve the current session start event record for a given user.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return LLMS_Event|false
 	 */
-	public function get_current() {
+	public function get_current( $user_id = null ) {
 
-		$user_id = get_current_user_id();
+		$user_id = $user_id ? $user_id : get_current_user_id();
 		if ( ! $user_id ) {
 			return false;
 		}
 
-		$session = $this->get_last_session();
+		$session = $this->get_last_session( $user_id );
 		if ( ! $session ) {
 			return false;
 		}
@@ -266,10 +269,14 @@ class LLMS_Sessions {
 	 * Retrieve the last session object for the current user.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return obj|null
 	 */
-	protected function get_last_session() {
+	protected function get_last_session( $user_id = null ) {
+		$user_id = $user_id ? $user_id : get_current_user_id();
 
 		global $wpdb;
 		return $wpdb->get_row(
@@ -282,7 +289,7 @@ class LLMS_Sessions {
 			    AND event_action = 'start'
 		   ORDER BY date DESC
 			  LIMIT 1;",
-				get_current_user_id()
+				$user_id
 			)
 		);
 
@@ -400,12 +407,17 @@ class LLMS_Sessions {
 	 * Retrieve a new session ID.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return int
 	 */
-	protected function get_new_id() {
+	protected function get_new_id( $user_id = null ) {
 
-		$last = $this->get_last_session();
+		$user_id = $user_id ? $user_id : get_current_user_id();
+
+		$last = $this->get_last_session( $user_id );
 		if ( ! $last ) {
 			return 1;
 		}
@@ -419,12 +431,15 @@ class LLMS_Sessions {
 	 *
 	 * @since 3.36.0
 	 * @since [version] Create open session entry in the `wp_lifterlms_events_open_sessions` table.
+	 *                  Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return false|LLMS_Event|WP_Error
 	 */
-	public function start() {
+	public function start( $user_id = null ) {
 
-		$user_id = get_current_user_id();
+		$user_id = $user_id ? $user_id : get_current_user_id();
 		if ( ! $user_id ) {
 			return false;
 		}
@@ -433,7 +448,7 @@ class LLMS_Sessions {
 			array(
 				'actor_id'     => $user_id,
 				'object_type'  => 'session',
-				'object_id'    => $this->get_new_id(),
+				'object_id'    => $this->get_new_id( $user_id ),
 				'event_type'   => 'session',
 				'event_action' => 'start',
 			)

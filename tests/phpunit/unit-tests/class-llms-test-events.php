@@ -7,7 +7,7 @@
  * @group events
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version [version]
  */
 class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
@@ -27,6 +27,7 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 	 * Teardown the test case.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Truncate open sessions table.
 	 *
 	 * @return void
 	 */
@@ -34,10 +35,11 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 		parent::tearDown();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );
 	}
 
 	/**
-	 * Test something
+	 * Test missing fields error when recording
 	 *
 	 * @since 3.36.0
 	 *
@@ -78,6 +80,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test recording an invalid event
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_record_invalid_event() {
 
 		$args = array(
@@ -93,6 +102,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test success recording event
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_record_success() {
 
 		$args = array(
@@ -111,6 +127,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test success recording event with meta
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_record_success_with_metas() {
 
 		$args = array(
@@ -138,6 +161,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test errors when recording many events
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_record_many_with_errors() {
 
 		// All errors.
@@ -180,6 +210,13 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test success recording many events
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_record_many_success() {
 
 		$events = array(
@@ -199,7 +236,6 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 			),
 		);
 
-		// One error with one success.
 		$ret = $this->events->record_many( $events );
 
 		foreach ( $ret as $event ) {
@@ -208,7 +244,8 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
 		// Query committed.
 		global $wpdb;
-		$this->assertEquals( 2, $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_events" ) );
+		// 3 = the two events created above plus 1 for the session opened.
+		$this->assertEquals( 3, $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_events" ) );
 
 	}
 
