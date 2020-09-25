@@ -308,7 +308,7 @@ class LLMS_Sessions {
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col( // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$sessions = $wpdb->get_col( // db call ok; no-cache ok.
 			$wpdb->prepare(
 				"
 			   SELECT event_id
