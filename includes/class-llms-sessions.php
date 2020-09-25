@@ -456,7 +456,7 @@ class LLMS_Sessions {
 
 		if ( ! is_wp_error( $start ) ) {
 			global $wpdb;
-			$wpdb->query( // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->query( // db call ok; no-cache ok.
 				$wpdb->prepare(
 					"
 					INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES ( %d )
