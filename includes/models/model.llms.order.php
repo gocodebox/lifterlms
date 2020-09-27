@@ -841,12 +841,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 */
-	public function get_upcoming_payment_reminder_date()
-	{
+	public function get_upcoming_payment_reminder_date() {
 
 		$next_payment_date = $this->get_next_payment_due_date();
 
-		return date_i18n( 'Y-m-d H:i:s', strtotime('-1 day', strtotime($next_payment_date) ) );
+		return date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day', strtotime( $next_payment_date ) ) );
 
 	}
 
