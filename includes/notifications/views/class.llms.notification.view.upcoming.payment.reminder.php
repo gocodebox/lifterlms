@@ -3,7 +3,6 @@
  * Notification View: Upcoming Payment Reminder
  *
  * @package LifterLMS/Notifications/Views/Classes
- *
  */
 
 defined( 'ABSPATH' ) || exit;
