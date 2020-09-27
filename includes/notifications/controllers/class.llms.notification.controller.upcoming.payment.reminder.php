@@ -43,7 +43,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Notifi
 	 */
 	public function action_callback( $order = null ) {
 
-		$order = llms_get_post($order);
+		$order = llms_get_post( $order );
 
 		$this->user_id = $order->get( 'user_id' );
 		$this->post_id = $order->get( 'id' );
