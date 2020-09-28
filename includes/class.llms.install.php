@@ -93,6 +93,10 @@ class LLMS_Install {
 			'llms_update_400_clear_session_cron',
 			'llms_update_400_update_db_version',
 		),
+		'4.4.5'  => array(
+			'llms_update_445_migrate_events_open_sessions',
+			'llms_update_445_update_db_version',
+		),
 	);
 
 	/**

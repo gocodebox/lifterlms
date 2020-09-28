@@ -254,7 +254,6 @@ class LLMS_Sessions {
 	 * Determines if the given session is open (has not ended)
 	 *
 	 * @since 3.36.0
-	 * @since [version] Retrieve open sessions from the `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @param LLMS_Event Event record for the start of the session.
 	 * @return bool
