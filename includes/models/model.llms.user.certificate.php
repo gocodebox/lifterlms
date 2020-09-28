@@ -39,7 +39,6 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	protected $properties = array(
 		'certificate_title'    => 'string',
 		'certificate_image'    => 'absint',
-		// 'certificate_content' => 'html', // use get( 'content' )
 		'certificate_template' => 'absint',
 		'allow_sharing'        => 'yesno',
 	);
@@ -53,21 +52,35 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 */
 	public function delete() {
 
+		/**
+		 * Action fired immediately prior to the deletion of a user's earned certificate
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param LLMS_User_Certificate $certificate Certificate class object.
+		 */
 		do_action( 'llms_before_delete_certificate', $this );
 
 		global $wpdb;
 		$id = $this->get( 'id' );
-		$wpdb->delete(
+		$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			"{$wpdb->prefix}lifterlms_user_postmeta",
 			array(
 				'user_id'    => $this->get_user_id(),
-				'meta_key'   => '_certificate_earned',
-				'meta_value' => $id,
+				'meta_key'   => '_certificate_earned', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_value' => $id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			),
 			array( '%d', '%s', '%d' )
 		);
 		wp_delete_post( $id, true );
 
+		/**
+		 * Action fired immediately after the deletion of a user's earned certificate
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param LLMS_User_Certificate $certificate Certificate class object.
+		 */
 		do_action( 'llms_delete_certificate', $this );
 
 	}
@@ -121,7 +134,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 */
 	public function get_user_postmeta() {
 		global $wpdb;
-		return $wpdb->get_row(
+		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = '_certificate_earned'",
 				$this->get( 'id' )
@@ -140,7 +153,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	public function can_user_manage( $user_id = null ) {
 
 		$user_id = $user_id ? $user_id : get_current_user_id();
-		$result  = ( $user_id == $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) );
+		$result  = ( $user_id === $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) );
 
 		/**
 		 * Filter whether or not a user can manage a given certificate.
