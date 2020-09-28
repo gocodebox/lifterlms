@@ -219,7 +219,7 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Advanced Video][av]
 + [LifterLMS Custom Fields][cf]
 + [LifterLMS Groups][gr]
-+ [LifterLMS PDFs] [pdf]
++ [LifterLMS PDFs][pdf]
 
 #### **Integrations**
 
