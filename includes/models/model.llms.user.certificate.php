@@ -77,8 +77,8 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 *
 	 * @since 3.14.0
 	 *
-	 * @param    string $format  date format string
-	 * @return   string
+	 * @param string $format Date format string.
+	 * @return string
 	 */
 	public function get_earned_date( $format = null ) {
 		$format = $format ? $format : get_option( 'date_format' );
@@ -105,7 +105,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 * @since 3.8.0
 	 * @since 3.9.0 Unknown.
 	 *
-	 * @return   int
+	 * @return int
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
