@@ -99,10 +99,17 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
+	 * Handle certificate form actions
+	 *
+	 * Manages frontend actions to download and manage certificate sharing settings and reporting (admin)
+	 * actions to download and delete.
+	 *
+	 * The method name is a misnomer as this method handles actions on reporting screens as well as
+	 * on the site's frontend when actually viewing a certificate
 	 *
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since [version] Add handler for changing certificate sharing settings.
 	 *
 	 * @return void
 	 */
@@ -130,17 +137,17 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @param int  $cert_id    WP Post ID of the llms_my_certificate.
 	 * @param bool $is_allowed Allow share the certificate or not.
-	 * @return void
+	 * @return WP_Error|boolean Returns `true` on success and `false` on failure or an error object when the user does not have sufficient privileges.
 	 */
 	private function change_sharing_settings( $cert_id, $is_allowed ) {
 
 		$cert = new LLMS_User_Certificate( $cert_id );
 
 		if ( ! $cert->can_user_manage() ) {
-			return;
+			return new WP_Error( 'invalid-permissions', __( 'You are not allowed to manage this certificate.', 'lifterlms' ) );
 		}
 
-		$cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
+		return $cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
 
 	}
 
