@@ -104,12 +104,13 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 * This would be a lesson, course, section, track, etc...
 	 *
 	 * @since 3.8.0
+	 * @since [version] Force return to an integer.
 	 *
 	 * @return int
 	 */
 	public function get_related_post_id() {
 		$meta = $this->get_user_postmeta();
-		return $meta->post_id;
+		return absint( $meta->post_id );
 	}
 
 	/**
@@ -117,12 +118,13 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.0 Unknown.
+	 * @since [version] Force return to an integer.
 	 *
 	 * @return int
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
-		return isset( $meta->user_id ) ? $meta->user_id : null;
+		return isset( $meta->user_id ) ? absint( $meta->user_id ) : null;
 	}
 
 	/**
