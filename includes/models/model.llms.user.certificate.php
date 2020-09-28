@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,13 +14,28 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_User_Certificate model class
  *
  * @since 3.8.0
- * @since 3.18.0 Unknown.
  */
 class LLMS_User_Certificate extends LLMS_Post_Model {
 
-	protected $db_post_type    = 'llms_my_certificate';
+	/**
+	 * Database (WP) post type name
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'llms_my_certificate';
+
+	/**
+	 * Post type model name
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'certificate';
 
+	/**
+	 * Object properties
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
 		'certificate_title'    => 'string',
 		'certificate_image'    => 'absint',
@@ -32,9 +47,9 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Delete the certificate
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @return void
 	 */
 	public function delete() {
 
@@ -60,10 +75,10 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Retrieve the date the achievement was earned (created)
 	 *
+	 * @since 3.14.0
+	 *
 	 * @param    string $format  date format string
 	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
 	 */
 	public function get_earned_date( $format = null ) {
 		$format = $format ? $format : get_option( 'date_format' );
@@ -72,11 +87,12 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 
 	/**
 	 * Get the WP Post ID of the post which triggered the earning of the certificate
+	 *
 	 * This would be a lesson, course, section, track, etc...
 	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return int
 	 */
 	public function get_related_post_id() {
 		$meta = $this->get_user_postmeta();
@@ -86,9 +102,10 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Retrieve the user id of the user who earned the certificate
 	 *
+	 * @since 3.8.0
+	 * @since 3.9.0 Unknown.
+	 *
 	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.9.0
 	 */
 	public function get_user_id() {
 		$meta = $this->get_user_postmeta();
@@ -98,9 +115,9 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Retrieve user postmeta data for the certificate
 	 *
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return obj
 	 */
 	public function get_user_postmeta() {
 		global $wpdb;
