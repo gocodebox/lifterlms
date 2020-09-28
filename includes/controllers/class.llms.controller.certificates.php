@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 4.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -144,7 +144,7 @@ class LLMS_Controller_Certificates {
 		$cert = new LLMS_User_Certificate( $cert_id );
 
 		if ( ! $cert->can_user_manage() ) {
-			return new WP_Error( 'invalid-permissions', __( 'You are not allowed to manage this certificate.', 'lifterlms' ) );
+			return new WP_Error( 'insufficient-permissions', __( 'You are not allowed to manage this certificate.', 'lifterlms' ) );
 		}
 
 		return $cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
