@@ -13,82 +13,6 @@
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
 	/**
-	 * Test create_reusable_block() when the block already exists
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_create_reusable_block_already_exists() {
-
-		$gen = new LLMS_Generator( array() );
-
-		$title   = 'Dupcheck reuse block';
-		$content = 'Block content';
-
-		$dup = $this->factory->post->create( array(
-			'post_type' => 'wp_block',
-			'post_title' => $title,
-			'post_content' => $content,
-		) );
-
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $dup, compact( 'title', 'content' ) ) ) );
-
-	}
-
-	/**
-	 * Test create_reusable_block() when there's an error creating the block
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_create_reusable_block_error() {
-
-		$gen = new LLMS_Generator( array() );
-
-		// Force an error response.
-		add_filter( 'wp_insert_post_empty_content', '__return_true' );
-
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $this->factory->post->create(), array(
-			'title' => '',
-			'content' => '',
-		) ) ) );
-
-		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
-
-	}
-
-	/**
-	 * Test create_reusable_block() for success
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_create_reusable_block_success() {
-
-		$gen = new LLMS_Generator( array() );
-
-		$orig_id = $this->factory->post->create();
-
-		$title   = 'Reusable block title';
-		$content = 'Reusable block content';
-
-		$id = LLMS_Unit_Test_Util::call_method( $gen, 'create_reusable_block', array( $orig_id,  compact( 'title', 'content' ) ) );
-		$post = get_post( $id );
-
-		$this->assertTrue( is_numeric( $id ) );
-		$this->assertEquals( 'wp_block', $post->post_type );
-		$this->assertEquals( $title, $post->post_title );
-		$this->assertEquals( $content, $post->post_content );
-
-		$blocks = LLMS_Unit_Test_Util::get_private_property_value( $gen, 'reusable_blocks' );
-		$this->assertEquals( $id, $blocks[ $orig_id ] );
-
-	}
-
-	/**
 	 * Test generate method.
 	 *
 	 * @since Unknown.
@@ -145,6 +69,25 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		unset( $custom['_llms_instructors'] ); // remove core meta data.
 		$this->assertEquals( $course['custom'], $custom );
 
+	}
+
+	/**
+	 * Test get_generated_posts()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_generated_posts() {
+
+		$gen = new LLMS_Generator( array() );
+
+		// Default.
+		$this->assertEquals( array(), $gen->get_generated_posts() );
+
+		// Modified.
+		LLMS_Unit_Test_Util::set_private_property( $gen, 'posts', array( 1, 2 , 3 ) );
+		$this->assertEquals( array( 1, 2 , 3 ), $gen->get_generated_posts() );
 
 	}
 
@@ -244,114 +187,6 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test is_image_sideloading_enabled()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_is_image_sideloading_enabled() {
-
-		$gen = new LLMS_Generator( array() );
-		$this->assertTrue( $gen->is_image_sideloading_enabled() );
-
-	}
-
-	/**
-	 * Test is_reusable_block_importing_enabled()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_is_reusable_block_importing_enabled() {
-
-		$gen = new LLMS_Generator( array() );
-		$this->assertTrue( $gen->is_reusable_block_importing_enabled() );
-
-	}
-
-	/**
-	 * Test maybe_sideload_choice_image() for various conditions where the choice can't be sideloaded.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_maybe_sideload_choice_image_disabled() {
-
-		$gen    = new LLMS_Generator( array() );
-		$choice = array(
-			'id'     => 'mock',
-			'choice' => 'string',
-		);
-
-		// The 'choice_type' prop is missing.
-		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
-
-		$choice['choice_type'] = 'text';
-
-		// The 'choice_type' prop is not "image".
-		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
-
-		// Sideloading is disabled.
-		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
-		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
-		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
-
-	}
-
-	/**
-	 * Test maybe_sideload_choice_image()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_maybe_sideload_choice_image() {
-
-		$gen    = new LLMS_Generator( array() );
-		$choice = array(
-			'id'          => 'mock',
-			'choice_type' => 'image',
-			'choice'      => array(
-				'id'  => 123,
-				'src' => 'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg',
-			),
-		);
-
-		$res = LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) );
-
-		$this->assertTrue( 123 !== $res['choice']['id'] );
-		$this->assertTrue( $choice['choice']['src'] !== $res['choice']['src'] );
-		$this->assertEquals( wp_get_attachment_url( $res['choice']['id'] ),  $res['choice']['src'] );
-
-	}
-
-	/**
-	 * Test maybe_sideload_choice_image() when an error is encountered during sideloading
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_maybe_sideload_choice_image_error() {
-
-		$gen    = new LLMS_Generator( array() );
-		$choice = array(
-			'id'          => 'mock',
-			'choice_type' => 'image',
-			'choice'      => array(
-				'id'  => 123,
-				'src' => 'fake.jpg',
-			),
-		);
-
-		$this->assertEquals( $choice, LLMS_Unit_Test_Util::call_method( $gen, 'maybe_sideload_choice_image', array( $choice, 123 ) ) );
-
-	}
-
-	/**
 	 * Test set_generator(): interpret from raw missing generator.
 	 *
 	 * @since 3.36.3
@@ -428,158 +263,6 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
 		$gen = new LLMS_Generator( array() );
 		$this->assertEquals( 'LifterLMS/SingleCourseExporter', $gen->set_generator( 'LifterLMS/SingleCourseExporter' ) );
-
-	}
-
-	/**
-	 * Test sideload_image()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_image() {
-
-		$gen  = new LLMS_Generator( array() );
-		$post = $this->factory->post->create();
-		$url  = 'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg';
-
-		$res = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url ) );
-
-		$this->assertStringNotContains( 'raw.githubusercontent', $res );
-		$this->assertStringContains( 'christian-fregnan-unsplash', $res );
-
-		// Image already sideloaded so it's not sideloaded again.
-		$res2 = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url ) );
-		$this->assertEquals( $res, $res2 );
-
-		// Test ID return.
-		$id = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url, 'id' ) );
-		$this->assertTrue( is_numeric( $id ) );
-		$this->assertEquals( $res2, wp_get_attachment_url( $id ) );
-
-	}
-
-	/**
-	 * Test sideload_image() error
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_image_error() {
-
-		$gen  = new LLMS_Generator( array() );
-		$post = $this->factory->post->create();
-		$url  = 'fake.jpg';
-
-		$res = LLMS_Unit_Test_Util::call_method( $gen, 'sideload_image', array( $post, $url ) );
-		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( 'http_request_failed', $res );
-
-	}
-
-	/**
-	 * Test sideload_images()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_images() {
-
-		$gen    = new LLMS_Generator( array() );
-		$course = llms_get_post( $this->factory->post->create( array(
-			'post_type'    => 'course',
-			'post_content' => '<!-- wp:image {"id":552,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" alt="" class="wp-image-552"/></figure>
-<!-- /wp:image -->
-
-<!-- wp:gallery {"ids":[552,11]} -->
-<figure class="wp-block-gallery columns-2 is-cropped"><ul class="blocks-gallery-grid">
-<li class="blocks-gallery-item"><figure><img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" alt="" data-id="552" data-full-url="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" data-link="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" class="wp-image-552"/></figure></li>
-<li class="blocks-gallery-item"><figure><img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/richard-i49WGMPd5aA-unsplash.jpg" alt="" data-id="11" data-full-url="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/richard-i49WGMPd5aA-unsplash.jpg" data-link="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/richard-i49WGMPd5aA-unsplash.jpg" class="wp-image-11"/></figure></li></ul></figure>
-<!-- /wp:gallery -->
-
-<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg" alt="" class="wp-image-552"/>'
-		) ) );
-
-		$raw = array(
-			'_extras' => array(
-				'images' => array(
-					'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg',
-					'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/richard-i49WGMPd5aA-unsplash.jpg',
-				),
-			),
-		);
-
-		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, $raw ) ) );
-		$this->assertStringNotContains( 'raw.githubusercontent', $course->post->post_content );
-
-	}
-
-	/**
-	 * Test sideload_images(): skip sideloading of images from the same site.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_images_from_same_site() {
-
-		$gen    = new LLMS_Generator( array() );
-		$course = llms_get_post( $this->factory->post->create( array(
-			'post_type'    => 'course',
-			'post_content' => '<img src="https://example.org/fake-image.png" />',
-		) ) );
-
-		$raw = array(
-			'_extras' => array(
-				'images' => array(
-					'https://example.org/fake-image.png',
-				),
-			),
-		);
-
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, $raw ) ) );
-		$this->assertEquals( '<img src="https://example.org/fake-image.png" />', $course->post->post_content );
-
-
-	}
-
-	/**
-	 * Test sideload_images() with no images in post content
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_images_none() {
-
-		$gen    = new LLMS_Generator( array() );
-		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
-
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array() ) ) );
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array( '_extras' => array() ) ) ) );
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array( '_extras' => array( 'images' => array() ) ) ) ) );
-
-	}
-
-	/**
-	 * Test sideload_images() with sideloading disabled
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_sideload_images_disabled() {
-
-		$gen    = new LLMS_Generator( array() );
-		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
-
-		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
-		$this->assertNull( LLMS_Unit_Test_Util::call_method( $gen, 'sideload_images', array( $course, array() ) ) );
-		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 
 	}
 
