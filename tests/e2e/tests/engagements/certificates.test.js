@@ -55,7 +55,6 @@ describe( 'Engagements/Certificates', () => {
 
 		it ( 'should be able to view a student certificate from reporting screens', async () => {
 
-			await logoutUser();
 			// Create a user who will earn the certificate.
 			const
 				first     = 'Student',
