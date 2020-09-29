@@ -72,8 +72,8 @@ function llms_split_log( $handle ) {
 		unlink( $file );
 
 		return $copy;
- 	}
+	}
 
- 	return false;
+	return false;
 
 }
