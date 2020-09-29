@@ -48,7 +48,7 @@ class LLMS_Test_Events_Core extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test on_signon() method
+	 * Test on_signout() method
 	 *
 	 * @since 3.36.0
 	 * @since [version] Added test on the method returning `false` when no user was logged in.

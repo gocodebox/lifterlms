@@ -27,7 +27,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test get_idle_sessions()
+	 * Test get_open_sessions()
 	 *
 	 * @since 3.36.0
 	 *

@@ -31,8 +31,8 @@ function llms_update_445_migrate_events_open_sessions() {
 		$wpdb->prepare(
 			"SELECT id, actor_id, object_id
 			FROM {$wpdb->prefix}lifterlms_events
-			WHERE `event_type`='session'
-			AND `event_action`='start'
+			WHERE event_type='session'
+			AND event_action='start'
 			ORDER BY id ASC
 			LIMIT %d, %d
 		",
@@ -51,11 +51,15 @@ function llms_update_445_migrate_events_open_sessions() {
 	foreach ( $maybe_open_sessions as $maybe_open_session ) {
 		// Create an event instance so to pass it to the `LLMS_Sessions::instance()->is_session_open()` util.
 		$start = new LLMS_Event( $maybe_open_session->id );
+
 		// Set the only useful properties, without the need to save them from the db.
 		$start->set( 'actor_id', $maybe_open_session->actor_id, false );
 		$start->set( 'object_id', $maybe_open_session->object_id, false );
 
 		if ( LLMS_Sessions::instance()->is_session_open( $start ) ) {
+			if ( ! empty( $insert ) ) {
+				$insert .= ', ';
+			}
 			$insert .= $wpdb->prepare( '(%s)', $maybe_open_session->id );
 		}
 	}
@@ -63,7 +67,7 @@ function llms_update_445_migrate_events_open_sessions() {
 	// Add the open sessions to the new table.
 	if ( ! empty( $insert ) ) {
 		$wpdb->query( // db call ok; no-cache ok.
-			"INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES " . $insert
+			"INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES " . $insert . ';'
 		);
 	}
 
