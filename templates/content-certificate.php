@@ -5,17 +5,12 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$cert = new LLMS_User_Certificate( get_the_ID() );
-
-if ( ! $cert->can_user_view() ) {
-	return _e( 'Certificate not found.', 'lifterlms' );
-}
-
+$cert  = new LLMS_User_Certificate( get_the_ID() );
 $image = llms_get_certificate_image();
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
