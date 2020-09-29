@@ -27,7 +27,13 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_404_certificate()
 	 *
+	 * This test runs in a separate process because something before it is making it hard
+	 * to mock the `$wp_query` and `$post` globals.
+	 *
 	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 *
 	 * @return void
 	 */
@@ -58,7 +64,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 			// Logged out user.
 			$this->main->maybe_404_certificate();
-			$this->assertEquals( $expect, $wp_query->is_404() );
+			$this->assertEquals( $expect, $wp_query->is_404(), $post_type );
 
 			// Logged in admin can always see.
 			$wp_query->init();
