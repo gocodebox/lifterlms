@@ -17,14 +17,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool True if it needs to run again, false otherwise.
  */
-function llms_update_445_migrate_events_open_sessions() {
+function llms_update_450_migrate_events_open_sessions() {
 
 	$limit = 200;
-	$skip  = get_transient( 'llms_445_skipper_events_open_sessions' );
+	$skip  = get_transient( 'llms_450_skipper_events_open_sessions' );
 	if ( ! $skip ) {
 		$skip = 0;
 	}
-	set_transient( 'llms_445_skipper_events_open_sessions', $skip + $limit, DAY_IN_SECONDS );
+	set_transient( 'llms_450_skipper_events_open_sessions', $skip + $limit, DAY_IN_SECONDS );
 
 	global $wpdb;
 	$maybe_open_sessions = $wpdb->get_results( // db call ok; no-cache ok.
@@ -43,7 +43,7 @@ function llms_update_445_migrate_events_open_sessions() {
 
 	// Finished.
 	if ( empty( $maybe_open_sessions ) ) {
-		set_transient( 'llms_update_445_migrate_events_open_sessions', 'complete', DAY_IN_SECONDS );
+		set_transient( 'llms_update_450_migrate_events_open_sessions', 'complete', DAY_IN_SECONDS );
 		return false;
 	}
 
@@ -82,11 +82,10 @@ function llms_update_445_migrate_events_open_sessions() {
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
-function llms_update_445_update_db_version() {
-	if ( 'complete' !== get_transient( 'llms_update_445_migrate_events_open_sessions' ) ) {
+function llms_update_450_update_db_version() {
+	if ( 'complete' !== get_transient( 'llms_update_450_migrate_events_open_sessions' ) ) {
 		// Needs to run again.
 		return true;
 	}
-
-	LLMS_Install::update_db_version( '4.4.5' );
+	LLMS_Install::update_db_version( '4.5.0' );
 }

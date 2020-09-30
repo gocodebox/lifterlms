@@ -6,11 +6,11 @@
  *
  * @group functions
  * @group updates
- * @group updates_445
+ * @group updates_450
  *
  * @since [version]
  */
-class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
+class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class
@@ -23,7 +23,7 @@ class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
 	 */
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-445.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-450.php';
 	}
 
 	/**
@@ -39,12 +39,12 @@ class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );
 		// Delete transients.
-		delete_transient( 'llms_update_445_migrate_events_open_sessions' );
-		delete_transient( 'llms_445_skipper_events_open_sessions' );
+		delete_transient( 'llms_update_450_migrate_events_open_sessions' );
+		delete_transient( 'llms_450_skipper_events_open_sessions' );
 	}
 
 	/**
-	 * Test llms_update_445_migrate_events_open_sessions()
+	 * Test llms_update_450_migrate_events_open_sessions()
 	 *
 	 * @since [version]
 	 *
@@ -99,7 +99,7 @@ class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
 		}
 
 		// Fire the session update
-		llms_update_445_migrate_events_open_sessions();
+		llms_update_450_migrate_events_open_sessions();
 
 		$open_sessions = LLMS_Unit_Test_Util::call_method( $sessions, 'get_open_sessions' );
 
@@ -117,7 +117,7 @@ class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
 	// TODO: test query pagination
 
 	/**
-	 * Test llms_update_445_update_db_version()
+	 * Test llms_update_450_update_db_version()
 	 *
 	 * @since [version]
 	 *
@@ -127,16 +127,16 @@ class LLMS_Test_Functions_Updates_445 extends LLMS_UnitTestCase {
 
 		$orig = get_option( 'lifterlms_db_version' );
 
-		llms_update_445_update_db_version();
+		llms_update_450_update_db_version();
 
-		$this->assertNotEquals( '4.4.5', get_option( 'lifterlms_db_version' ) );
+		$this->assertNotEquals( '4.5.0', get_option( 'lifterlms_db_version' ) );
 
 		// Unlock the db version update.
-		set_transient( 'llms_update_445_migrate_events_open_sessions', 'complete', DAY_IN_SECONDS );
+		set_transient( 'llms_update_450_migrate_events_open_sessions', 'complete', DAY_IN_SECONDS );
 
-		llms_update_445_update_db_version();
+		llms_update_450_update_db_version();
 
-		$this->assertEquals( '4.4.5', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '4.5.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
