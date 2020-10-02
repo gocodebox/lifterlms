@@ -155,7 +155,7 @@ class LLMS_Install {
 				 *
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
 				 */
-				'hook' => 'llms_backup_logs',
+				'hook'     => 'llms_backup_logs',
 				'interval' => apply_filters( 'llms_backup_logs_interval', 'daily' ),
 			),
 			array(
@@ -168,11 +168,11 @@ class LLMS_Install {
 				 *
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
 				 */
-				'hook' => 'llms_cleanup_tmp',
+				'hook'     => 'llms_cleanup_tmp',
 				'interval' => apply_filters( 'llms_cleanup_tmp_interval', 'daily' ),
 			),
 			array(
-				'hook' => 'llms_send_tracking_data',
+				'hook'     => 'llms_send_tracking_data',
 				/**
 				 * Filter the recurrence interval at which tracking data is gathered and sent.
 				 *
@@ -185,7 +185,7 @@ class LLMS_Install {
 				'interval' => apply_filters( 'llms_tracker_schedule_interval', 'daily' ),
 			),
 			array(
-				'hook' => 'llms_delete_expired_session_data',
+				'hook'     => 'llms_delete_expired_session_data',
 				/**
 				 * Filter the recurrence interval at which expired session are removed from the database.
 				 *
@@ -195,7 +195,7 @@ class LLMS_Install {
 				 *
 				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
 				 */
-				'interval' =>  apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' ),
+				'interval' => apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' ),
 			),
 		);
 
