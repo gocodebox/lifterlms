@@ -91,7 +91,6 @@
 		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
 
 		<!-- To be fixed -->
-		<exclude-pattern>includes/certificates/class.llms.certificate.user.php</exclude-pattern>
 		<exclude-pattern>includes/emails/class.llms.email.engagement.php</exclude-pattern>
 		<exclude-pattern>includes/forms/controllers/class.llms.controller.login.php</exclude-pattern>
 		<exclude-pattern>includes/forms/controllers/class.llms.controller.registration.php</exclude-pattern>

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,6 +43,7 @@ class LLMS_Query {
 	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
+	 * @since [version] Added action to serve 404s on unviewable certificates.
 	 */
 	public function __construct() {
 
@@ -52,6 +53,7 @@ class LLMS_Query {
 
 			add_filter( 'query_vars', array( $this, 'set_query_vars' ), 0 );
 			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
+			add_action( 'wp', array( $this, 'maybe_404_certificate' ), 50 );
 
 		}
 
@@ -258,6 +260,29 @@ class LLMS_Query {
 
 			$query->set( 'tax_query', $this->get_tax_query( $query->get( 'tax_query' ) ) );
 
+		}
+
+	}
+
+	/**
+	 * Serve a 404 for certificates that are not viewable by the current user
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_404_certificate() {
+
+		if ( 'llms_my_certificate' === get_post_type() ) {
+			$cert = new LLMS_User_Certificate( get_the_ID() );
+			if ( ! $cert->can_user_view() ) {
+
+				global $wp_query;
+				$wp_query->set_404();
+				status_header( 404 );
+				nocache_headers();
+
+			}
 		}
 
 	}

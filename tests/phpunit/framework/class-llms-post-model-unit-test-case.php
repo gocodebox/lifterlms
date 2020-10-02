@@ -5,7 +5,6 @@
  *
  * @since 3.4.0
  * @since 3.34.0 Add tests for new `set_bulk()` method and other recently added properties.
- * @version 3.34.0
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -26,13 +25,16 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
 	/**
 	 * Get properties, used by test_getters_setters
+	 *
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 *
+	 * @since 3.4.0
+	 * @since [version] Use unit test utils to retrieve `properties` array automatically.
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
-		return array();
+		return LLMS_Unit_Test_Util::get_private_property_value( new $this->class_name( 'new' ), 'properties' );
 	}
 
 	/**
