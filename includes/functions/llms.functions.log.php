@@ -11,54 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve the full path to the log file for a given log handle
- *
- * @since 3.0.0
- *
- * @param string $handle Log handle.
- * @return string
- */
-function llms_get_log_path( $handle ) {
-
-	return trailingslashit( LLMS_LOG_DIR ) . $handle . '-' . sanitize_file_name( wp_hash( $handle ) ) . '.log';
-
-}
-
-/**
- * Log arbitrary messages to a log file
- *
- * @since 1.0.0
- * @since 3.7.5 Unknown.
- *
- * @param mixed  $message Data to log.
- * @param string $handle  Allow creation of multiple log files by handle.
- * @return boolean
- */
-function llms_log( $message, $handle = 'llms' ) {
-
-	$ret = false;
-
-	$fh = fopen( llms_get_log_path( $handle ), 'a' );
-
-	// Open the file (creates it if it doesn't already exist).
-	if ( $fh ) {
-
-		// Print array or objects with `print_r`.
-		if ( is_array( $message ) || is_object( $message ) ) {
-			$message = print_r( $message, true );
-		}
-
-		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" );
-
-		fclose( $fh );
-
-	}
-
-	return $ret ? true : false;
-
-}
-
-/**
  * Copy a log file that is greater than or equal to the max allowed log file size
  *
  * If the log file's size is larger than the maximum allowed log file size (5MB) it will rename the log, adding
@@ -68,6 +20,8 @@ function llms_log( $message, $handle = 'llms' ) {
  * too large which could cause performance issues during reads and writes.
  *
  * @since [version]
+ *
+ * @see llms_backup_logs()
  *
  * @param string $handle Log file handle.
  * @return null|boolean|string Returns `null` if the log file is not larger than the max size, `false` if an error is encountered,
@@ -140,7 +94,7 @@ function llms_backup_log( $handle ) {
  *
  * @since [version]
  *
- * @see llms_backup_logs()
+ * @see llms_backup_log()
  *
  * @return void
  */
@@ -154,5 +108,55 @@ function llms_backup_logs() {
 			llms_backup_log( $parts[0] );
 		}
 	}
+
+}
+add_action( 'llms_backup_logs', 'llms_backup_logs' );
+
+
+/**
+ * Retrieve the full path to the log file for a given log handle
+ *
+ * @since 3.0.0
+ *
+ * @param string $handle Log handle.
+ * @return string
+ */
+function llms_get_log_path( $handle ) {
+
+	return trailingslashit( LLMS_LOG_DIR ) . $handle . '-' . sanitize_file_name( wp_hash( $handle ) ) . '.log';
+
+}
+
+/**
+ * Log arbitrary messages to a log file
+ *
+ * @since 1.0.0
+ * @since 3.7.5 Unknown.
+ *
+ * @param mixed  $message Data to log.
+ * @param string $handle  Allow creation of multiple log files by handle.
+ * @return boolean
+ */
+function llms_log( $message, $handle = 'llms' ) {
+
+	$ret = false;
+
+	$fh = fopen( llms_get_log_path( $handle ), 'a' );
+
+	// Open the file (creates it if it doesn't already exist).
+	if ( $fh ) {
+
+		// Print array or objects with `print_r`.
+		if ( is_array( $message ) || is_object( $message ) ) {
+			$message = print_r( $message, true );
+		}
+
+		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" );
+
+		fclose( $fh );
+
+	}
+
+	return $ret ? true : false;
 
 }

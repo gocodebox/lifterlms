@@ -240,7 +240,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
 		llms_backup_logs();
 
-		$this->assertEquals( $actions + 2, did_action( 'llms_log_file_backup_created' ) );r
+		$this->assertEquals( $actions + 2, did_action( 'llms_log_file_backup_created' ) );
 
 	}
 
