@@ -123,7 +123,6 @@ function llms_backup_log( $handle ) {
 
 			return $copy;
 		}
-
 	}
 
 	return null;
@@ -154,7 +153,6 @@ function llms_backup_logs() {
 		if ( $parts ) {
 			llms_backup_log( $parts[0] );
 		}
-
 	}
 
 }
