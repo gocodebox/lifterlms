@@ -50,7 +50,6 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		$this->assertFalse( $wp_query->is_404() );
 
 		$tests = array(
-			'llms_certificate'    => true,
 			'llms_my_certificate' => true,
 			'post'                => false,
 			'page'                => false,

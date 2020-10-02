@@ -273,7 +273,7 @@ class LLMS_Query {
 	 */
 	public function maybe_404_certificate() {
 
-		if ( in_array( get_post_type(), array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+		if ( 'llms_my_certificate' === get_post_type() ) {
 			$cert = new LLMS_User_Certificate( get_the_ID() );
 			if ( ! $cert->can_user_view() ) {
 
