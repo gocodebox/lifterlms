@@ -58,22 +58,103 @@ function llms_log( $message, $handle = 'llms' ) {
 
 }
 
-function llms_split_log( $handle ) {
+/**
+ * Copy a log file that is greater than or equal to the max allowed log file size
+ *
+ * If the log file's size is larger than the maximum allowed log file size (5MB) it will rename the log, adding
+ * the current timestamp as a suffix and `.bk` to the extension.
+ *
+ * Future logs to the same file will result in a new logfile being created, ensuring that log files never grow
+ * too large which could cause performance issues during reads and writes.
+ *
+ * @since [version]
+ *
+ * @param string $handle Log file handle.
+ * @return null|boolean|string Returns `null` if the log file is not larger than the max size, `false` if an error is encountered,
+ *                             and the new log file path on success.
+ */
+function llms_backup_log( $handle ) {
 
 	$file = llms_get_log_path( $handle );
 	$size = file_exists( $file ) ? filesize( $file ) : 0;
 
+	/**
+	 * Filter the max filesize of a log file before the log is backed up
+	 *
+	 * The value of this filter, `$maxsize` is an integer representing the maximum number of megabytes
+	 * a file can be before it is split.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $maxsize Maximum file size (in MB). The default value is `5` (5MB).
+	 */
 	$maxsize = absint( apply_filters( 'llms_log_max_filesize', 5 ) ) * 1000 * 1000;
 
 	if ( $size >= $maxsize ) {
 
-		$copy = str_replace( '.log', sprintf( '-%d.log', time() ), $file );
-		copy( $file, $copy );
-		unlink( $file );
+		$copy = str_replace( '.log', sprintf( '-%d.log.bk', time() ), $file );
 
-		return $copy;
+		/**
+		 * Filter the name of a log file copy that's being backed up because it's reached the maximum allowed size
+		 *
+		 * While it is possible to change the extension of the log file (`.log.bk`), it is not recommended. The cron
+		 * which creates copies filters out `.log.bk` so that it doesn't scan backups and attempt to split them
+		 * again (infinitely).
+		 *
+		 * @since [version]
+		 *
+		 * @param string $copy   Full path for the copy log file (the backup).
+		 * @param string $file   Full path for the original log file.
+		 * @param string $handle Log file handle.
+		 */
+		$copy = apply_filters( 'llms_log_split_file_name', $copy, $file, $handle );
+		if ( rename( $file, $copy ) ) {
+
+			/**
+			 * Action triggered immediately following the creation of a logfile backup.
+			 *
+			 * @since [version]
+			 *
+			 * @param string $copy   Full path for the copy log file (the backup).
+			 * @param string $file   Full path for the original log file.
+			 * @param string $handle Log file handle.
+			 */
+			do_action( 'llms_log_file_backup_created', $copy, $file, $handle );
+
+			return $copy;
+		}
+
 	}
 
-	return false;
+	return null;
+
+}
+
+/**
+ * Backup all log files in the LifterLMS log directory
+ *
+ * This function scans the `LLMS_LOG_DIR` and passes each log file to `llms_backup_log()` to
+ * create backups of each log file.
+ *
+ * It does not include logs with the `.log.bk` extension as those logs are logs created by this process
+ * and don't need to be scanned again.
+ *
+ * @since [version]
+ *
+ * @see llms_backup_logs()
+ *
+ * @return void
+ */
+function llms_backup_logs() {
+
+	foreach ( glob( LLMS_LOG_DIR . '*.log' ) as $file ) {
+
+		// Get the handle from the file path.
+		$parts = explode( '-', basename( $file, '.log' ) );
+		if ( $parts ) {
+			llms_backup_log( $parts[0] );
+		}
+
+	}
 
 }

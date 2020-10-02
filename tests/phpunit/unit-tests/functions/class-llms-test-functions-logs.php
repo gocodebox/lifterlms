@@ -11,6 +11,77 @@
  */
 class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
+	public function setUp() {
+		parent::setUp();
+		add_filter( 'llms_log_max_filesize', array( $this, 'shrink_max_log_size' ) );
+	}
+
+	/**
+	 * Teardown
+	 *
+	 * Clean log files from the log directory.
+	 *
+	 * This isn't strictly necessary when running tests in a CI but if you run tests
+	 * locally without regular manual cleanup you'll see a lot of trash logs generated as a result
+	 * and this teardown prevents that.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+		foreach ( glob( LLMS_LOG_DIR . '*.log*' ) as $file ) {
+			unlink( $file );
+		}
+
+		remove_filter( 'llms_log_max_filesize', array( $this, 'shrink_max_log_size' ) );
+
+	}
+
+	/**
+	 * Create a mock log file with a target size
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $handle      Log file's handle.
+	 * @param integer $target_size Target logfile size (in MB). The created file will be at least this big and more than likely a little bigger.
+	 * @return void
+	 */
+	protected function create_mock_log_file( $handle, $target_size = 1 ) {
+
+		// Convert target size to MB.
+		$target_size = 1 * 1000 * 1000;
+		$file        = llms_get_log_path( $handle );
+
+		$size = 0;
+		while ( $size < $target_size ) {
+
+			$i = 0;
+			while ( $i <= 20 ) {
+				llms_log( str_repeat( '01', 999 ), $handle );
+				++$i;
+			}
+
+			clearstatcache( true, $file );
+			$size = filesize( $file );
+		}
+
+	}
+
+	/**
+	 * Mock the max allowed file size to be 1MB (instead of default 5MB)
+	 *
+	 * @since [version]
+	 *
+	 * @param int $size Default max file size.
+	 * @return int
+	 */
+	public function shrink_max_log_size( $size ) {
+		return 1;
+	}
+
 	/**
 	 * Test llms_get_log_path()
 	 *
@@ -102,45 +173,34 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_split_log
+	 * Test llms_backup_log
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_llms_split_log() {
+	public function test_llms_backup_log() {
 
-		// Reduce the max filesize to 1MB to make testing easier.
-		$handler = function( $max ) {
-			return 1;
-		};
-		add_filter( 'llms_log_max_filesize', $handler );
+		$actions = did_action( 'llms_log_file_backup_created' );
 
-		$handle = 'logtosplit';
+		$handle = 'logtobackup';
 		$file   = llms_get_log_path( $handle );
 
-		// File doesn't exist, no need to split.
-		$this->assertFalse( llms_split_log( $handle ) );
+		// File doesn't exist, no need to backup.
+		$this->assertNull( llms_backup_log( $handle ) );
 
 		llms_log( str_repeat( '01', 999 ), $handle );
 
-		// File does exist but doesn't need to be split yet.
-		$this->assertFalse( llms_split_log( $handle ) );
+		// File does exist but doesn't need to be backup yet.
+		$this->assertNull( llms_backup_log( $handle ) );
 
-		clearstatcache( true, $file );
-
-		// Create a file that exceeds 1MB.
-		$i = 0;
-		while ( $i <= 501 ) {
-			llms_log( str_repeat( '01', 999 ), $handle );
-			++$i;
-		}
+		$this->create_mock_log_file( $handle );
 
 		// Get the contents of the original to compare later.
 		$original = file_get_contents( $file );
 
 		// Split the file.
-		$copy = llms_split_log( $handle );
+		$copy = llms_backup_log( $handle );
 
 		// We made a copy.
 		$this->assertTrue( false !== $copy );
@@ -157,8 +217,30 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 		// Compare copy contents to the original.
 		$this->assertEquals( $original, file_get_contents( $copy ) );
 
-		// Remove small max size.
-		remove_filter( 'llms_log_max_filesize', $handler );
+		// Action ran.
+		$this->assertEquals( ++$actions, did_action( 'llms_log_file_backup_created' ) );
+
+	}
+
+	/**
+	 * Test llms_backup_logs()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_backup_logs() {
+
+		$actions = did_action( 'llms_log_file_backup_created' );
+
+		llms_log( 'message', 'notbackedup1' );
+		llms_log( 'message', 'notbackedup2' );
+		$this->create_mock_log_file( 'tobackup1' );
+		$this->create_mock_log_file( 'tobackup2' );
+
+		llms_backup_logs();
+
+		$this->assertEquals( $actions + 2, did_action( 'llms_log_file_backup_created' ) );r
 
 	}
 
