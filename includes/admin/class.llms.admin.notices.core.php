@@ -126,7 +126,7 @@ class LLMS_Admin_Notices_Core {
 				$html,
 				array(
 					'type'             => 'warning',
-					'dismiss_for_days' => 7,
+					'dismiss_for_days' => 730, // @todo there should be a "forever" setting
 					'remindable'       => true,
 				)
 			);
