@@ -233,14 +233,25 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
 		$actions = did_action( 'llms_log_file_backup_created' );
 
+		// Make sure the created files are the right ones.
+		$handler = function( $copy, $file, $handle ) {
+			$this->assertTrue( in_array( $handle, array( 'tobackup1', 'tobackup2', 'tobackup-withonehyphen', 'tobackup-with-mutli-hyphens' ), true ) );
+		};
+		add_action( 'llms_log_file_backup_created', $handler, 10, 3 );
+
 		llms_log( 'message', 'notbackedup1' );
 		llms_log( 'message', 'notbackedup2' );
+
 		$this->create_mock_log_file( 'tobackup1' );
 		$this->create_mock_log_file( 'tobackup2' );
+		$this->create_mock_log_file( 'tobackup-withonehyphen' );
+		$this->create_mock_log_file( 'tobackup-with-mutli-hyphens' );
 
 		llms_backup_logs();
 
-		$this->assertEquals( $actions + 2, did_action( 'llms_log_file_backup_created' ) );
+		$this->assertEquals( $actions + 4, did_action( 'llms_log_file_backup_created' ) );
+
+		remove_action( 'llms_log_file_backup_created', $handler, 10 );
 
 	}
 
