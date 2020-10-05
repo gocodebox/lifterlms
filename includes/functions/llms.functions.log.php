@@ -105,7 +105,7 @@ function llms_backup_logs() {
 		// Get the handle from the file path.
 		$parts = explode( '-', basename( $file, '.log' ) );
 		if ( $parts ) {
-			llms_backup_log( $parts[0] );
+			llms_backup_log( implode( '-', array_slice( $parts, 0, -1 ) ) );
 		}
 	}
 
