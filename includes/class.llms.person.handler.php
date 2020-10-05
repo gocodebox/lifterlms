@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,34 +21,31 @@ class LLMS_Person_Handler {
 	/**
 	 * Prefix for all user meta field keys
 	 *
-	 * @var  string
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @var string
 	 */
 	private static $meta_prefix = 'llms_';
 
 	/**
 	 * Prevents the hacky voucher script from being output multiple times
 	 *
-	 * @var      boolean
-	 * @since    3.0.2
-	 * @version  3.0.2
+	 * @since 3.0.2
+	 * @var boolean
 	 */
 	private static $voucher_script_output = false;
 
 	/**
 	 * Generate a unique login based on the user's email address
 	 *
-	 * @param    string $email user's email address
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.19.4
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 *
+	 * @param string $email User's email address.
+	 * @return string
 	 */
 	public static function generate_username( $email ) {
 
-		/**
-		 * Allow custom username generation
-		 */
+		// Allow custom username generation.
 		$custom_username = apply_filters( 'lifterlms_generate_username', null, $email );
 		if ( $custom_username ) {
 			return $custom_username;
@@ -71,15 +68,16 @@ class LLMS_Person_Handler {
 	/**
 	 * Retrieve an array of fields for a specific screen
 	 *
-	 * Each array represents a form field that can be passed to llms_form_field()
+	 * Each array represents a form field that can be passed to llms_form_field().
 	 *
-	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
+	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields().
 	 *
-	 * @param    string    $screen  name os the screen [account|checkout|registration]
-	 * @param    array|int $data    array of data to fill fields with or a WP User ID
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 *
+	 * @param string    $screen Name os the screen [account|checkout|registration].
+	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
+	 * @return array
 	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
 
@@ -100,7 +98,7 @@ class LLMS_Person_Handler {
 			);
 		}
 
-		// On the checkout screen, if we already have a user we can remove these fields:.
+		// On the checkout screen, if we already have a user we can remove these fields:
 		// Username, email, email confirm, password, password confirm, password meter.
 		if ( 'checkout' !== $screen || ! $uid ) {
 			$email_con = get_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility' );
@@ -262,10 +260,11 @@ class LLMS_Person_Handler {
 	/**
 	 * Get the fields for the login form
 	 *
-	 * @param    string $layout  form layout [columns|stacked]
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.4
+	 * @since 3.0.0
+	 * @since 3.0.4 Unknown.
+	 *
+	 * @param string $layout Form layout [columns|stacked].
+	 * @return array
 	 */
 	public static function get_login_fields( $layout = 'columns' ) {
 
@@ -406,11 +405,12 @@ class LLMS_Person_Handler {
 
 	/**
 	 * Retrieve fields for password recovery
-	 * This is for the form that sends a password reset email
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * This is for the form that sends a password reset email.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	public static function get_lost_password_fields() {
 
@@ -482,14 +482,15 @@ class LLMS_Person_Handler {
 
 	/**
 	 * Field an array of user fields retrieved from self::get_available_fields() with data
-	 * the resulting array will be the data retrieved from self::get_available_fields() with "value" keys filled for each field
+	 *
+	 * The resulting array will be the data retrieved from self::get_available_fields() with "value" keys filled for each field.
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
 	 *
-	 * @param    array $fields array of fields from self::get_available_fields()
-	 * @param    array $data   array of data (from a $_POST or function)
-	 * @return   array
+	 * @param array $fields Array of fields from self::get_available_fields().
+	 * @param array $data   Array of data (from a $_POST or function).
+	 * @return array
 	 */
 	private static function fill_fields( $fields, $data ) {
 
@@ -538,11 +539,12 @@ class LLMS_Person_Handler {
 	/**
 	 * Insert user data during registrations and updates
 	 *
-	 * @param    array  $data    array of user data to be passed to WP core functions
-	 * @param    string $action  either registration or update
-	 * @return   WP_Error|int        WP_Error on error or the WP User ID
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0
+	 *
+	 * @param array  $data   Array of user data to be passed to WP core functions.
+	 * @param string $action Either registration or update.
+	 * @return WP_Error|int  WP_Error on error or the WP User ID
 	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 
@@ -651,19 +653,20 @@ class LLMS_Person_Handler {
 	/**
 	 * Login a user
 	 *
-	 * @param    array $data array of login data.
-	 * @return   WP_Error|int WP_Error on error or the WP_User ID.
-	 * @since    3.0.0
-	 * @version  3.29.4
+	 * @since 3.0.0
+	 * @since 3.29.4 Unknown.
+	 *
+	 * @param array $data array of login data.
+	 * @return WP_Error|int WP_Error on error or the WP_User ID.
 	 */
 	public static function login( $data ) {
 
 		do_action( 'lifterlms_before_user_login', $data );
 
-		// Validate the fields & allow custom validation to occur..
+		// Validate the fields & allow custom validation to occur.
 		$valid = self::validate_fields( apply_filters( 'lifterlms_user_login_data', $data ), 'login' );
 
-		// If errors found, return them..
+		// If errors found, return them.
 		if ( is_wp_error( $valid ) ) {
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data, false );
 		}
@@ -702,10 +705,14 @@ class LLMS_Person_Handler {
 	/**
 	 * Perform validations according to the registration screen and registers a user
 	 *
-	 * @see  llms_register_user() for a classless wrapper for this function
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 * @since [version] Record account.signon event after signing on the new user.
 	 *
-	 * @param  array  $data   array of user data
-	 *                        array(
+	 * @see llms_register_user() for a classless wrapper for this function.
+	 *
+	 * @param array  $data   Array of user data.
+	 *                       array(
 	 *                          'user_login' => '',
 	 *                          'email_address' => '',
 	 *                          'email_address_confirm' => '',
@@ -720,12 +727,10 @@ class LLMS_Person_Handler {
 	 *                          'llms_billing_zip' => '',
 	 *                          'llms_billing_country' => '',
 	 *                          'llms_phone' => '',
-	 *                        )
-	 * @param    string $screen  screen to perform validations for, accepts "registration" or "checkout"
-	 * @param    bool   $signon  if true, also signon the newly created user
-	 * @return   int|WP_Error
-	 * @since    3.0.0
-	 * @version  3.19.4
+	 *                       ).
+	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
+	 * @param bool   $signon If true, also signon the newly created user.
+	 * @return int|WP_Error
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
@@ -759,6 +764,15 @@ class LLMS_Person_Handler {
 			// Signon.
 			if ( $signon ) {
 				llms_set_person_auth_cookie( $person_id, false );
+				LLMS()->events()->record(
+					array(
+						'actor_id'     => $person_id,
+						'object_type'  => 'user',
+						'object_id'    => $person_id,
+						'event_type'   => 'account',
+						'event_action' => 'signon',
+					)
+				);
 			}
 
 			// Fire actions.
@@ -775,11 +789,11 @@ class LLMS_Person_Handler {
 	/**
 	 * Sanitize posted fields
 	 *
-	 * @param    string $val         unsanitized user data
-	 * @param    string $field_type  field type, allows additional sanitization to run based on field type
-	 * @return   string
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 * @since 3.19.4
+	 *
+	 * @param string $val        Unsanitized user data.
+	 * @param string $field_type Field type, allows additional sanitization to run based on field type.
+	 * @return string
 	 */
 	private static function sanitize_field( $val, $field_type = '' ) {
 
@@ -796,10 +810,13 @@ class LLMS_Person_Handler {
 	/**
 	 * Perform validations according to $screen and update the user
 	 *
-	 * @see    llms_update_user() for a classless wrapper for this function
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
 	 *
-	 * @param  array  $data   array of user data
-	 *                        array(
+	 * @see llms_update_user() for a classless wrapper for this function.
+	 *
+	 * @param array  $data   Array of user data.
+	 *                       array(
 	 *                          'user_id' => '',
 	 *                          'user_login' => '',
 	 *                          'email_address' => '',
@@ -816,11 +833,9 @@ class LLMS_Person_Handler {
 	 *                          'llms_billing_zip' => '',
 	 *                          'llms_billing_country' => '',
 	 *                          'llms_phone' => '',
-	 *                        )
-	 * @param    string $screen  screen to perform validations for, accepts "account", update" or "checkout"
+	 *                       ).
+	 * @param string $screen Screen to perform validations for, accepts "account", update" or "checkout".
 	 * @return   int|WP_Error
-	 * @since    3.0.0
-	 * @version  3.7.0
 	 */
 	public static function update( $data = array(), $screen = 'update' ) {
 
@@ -867,10 +882,13 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Validate submitted user data for registration or profile updates
+	 * Validate submitted user data for registration or profile update
 	 *
-	 * @param  array  $data   user data array
-	 *                        array(
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 *
+	 * @param array  $data   User data array.
+	 *                       array(
 	 *                          'user_login' => '',
 	 *                          'email_address' => '',
 	 *                          'email_address_confirm' => '',
@@ -885,11 +903,9 @@ class LLMS_Person_Handler {
 	 *                          'llms_billing_zip' => '',
 	 *                          'llms_billing_country' => '',
 	 *                          'llms_phone' => '',
-	 *                        )
-	 * @param    string $screen screen to validate fields against, accepts "account", "checkout", "registration", or "update"
-	 * @return   true|WP_Error
-	 * @since    3.0.0
-	 * @version  3.19.4
+	 *                       ).
+	 * @param string $screen Screen to validate fields against, accepts "account", "checkout", "registration", or "update".
+	 * @return true|WP_Error
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -1042,11 +1058,11 @@ class LLMS_Person_Handler {
 
 
 	/**
-	 * Output Voucher toggle JS in a quick and shameful manner...
+	 * Output Voucher toggle JS in a quick and shameful manner
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	public static function voucher_toggle_script() {
 
