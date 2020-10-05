@@ -51,15 +51,16 @@ class LLMS_Events {
 	}
 
 	/**
-	 * Private Constructor.
+	 * Private Constructor
 	 *
 	 * @since 3.36.0
+	 * @since [version] Register events at `init` hook with priority 9 in place of 10.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
-		add_action( 'init', array( $this, 'register_events' ) );
+		add_action( 'init', array( $this, 'register_events' ), 9 );
 		add_action( 'init', array( $this, 'store_cookie' ) );
 
 	}
@@ -201,6 +202,7 @@ class LLMS_Events {
 		}
 
 		$event = sprintf( '%1$s.%2$s', $args['event_type'], $args['event_action'] );
+
 		if ( ! $this->is_event_valid( $event ) ) {
 			// Translators: %s = Submitted event string.
 			return new WP_Error( 'llms_event_record_invalid_event', sprintf( __( 'The event "%s" is invalid.', 'lifterlms' ), $event ) );
