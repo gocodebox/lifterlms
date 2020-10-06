@@ -3,7 +3,7 @@
  *
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
- * @since [version] Use package functions.
+ * @since 4.5.0 Use package functions.
  */
 
 import {
@@ -23,7 +23,7 @@ let openRegStatus = null;
  * Toggles the open registration setting on or off
  *
  * @since 3.37.8
- * @since [version] Use toggleOpenRegistration function from utils pacakage.
+ * @since 4.5.0 Use toggleOpenRegistration function from utils pacakage.
  *
  * @param  {Boolean} status Whether to toggle on (`true`) or off (`false`).
  * @return {void}

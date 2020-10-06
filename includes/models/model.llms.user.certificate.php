@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -104,7 +104,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 * This would be a lesson, course, section, track, etc...
 	 *
 	 * @since 3.8.0
-	 * @since [version] Force return to an integer.
+	 * @since 4.5.0 Force return to an integer.
 	 *
 	 * @return int
 	 */
@@ -118,7 +118,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.0 Unknown.
-	 * @since [version] Force return to an integer.
+	 * @since 4.5.0 Force return to an integer.
 	 *
 	 * @return int
 	 */
@@ -147,7 +147,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Can user manage and make some actions on the certificate
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
 	 * @return bool
@@ -160,7 +160,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		/**
 		 * Filter whether or not a user can manage a given certificate.
 		 *
-		 * @since [version]
+		 * @since 4.5.0
 		 *
 		 * @param boolean               $result      Whether or not the user can manage certificate.
 		 * @param int                   $user_id     WP_User ID of the user viewing the certificate.
@@ -173,7 +173,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Can user view the certificate
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
 	 * @return bool
@@ -186,7 +186,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		/**
 		 * Filter whether or not a user can view a user's certificate.
 		 *
-		 * @since [version]
+		 * @since 4.5.0
 		 *
 		 * @param boolean               $result      Whether or not the user can view the certificate.
 		 * @param int                   $user_id     WP_User ID of the user viewing the certificate.
@@ -199,7 +199,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	/**
 	 * Is sharing enabled
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return bool
 	 */
@@ -208,7 +208,7 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		/**
 		 * Filter whether or not sharing is enabled for a certificate.
 		 *
-		 * @since [version]
+		 * @since 4.5.0
 		 *
 		 * @param boolean               $enabled     Whether or not sharing is enabled.
 		 * @param LLMS_User_Certificate $certificate Certificate class instance.

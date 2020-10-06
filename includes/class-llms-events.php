@@ -54,7 +54,7 @@ class LLMS_Events {
 	 * Private Constructor
 	 *
 	 * @since 3.36.0
-	 * @since [version] Register events at `init` hook with priority 9 in place of 10.
+	 * @since 4.5.0 Register events at `init` hook with priority 9 in place of 10.
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Events {
 	 * Store an event in the database.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Fixed event session end not recorded on sign-out.
+	 * @since 4.5.0 Fixed event session end not recorded on sign-out.
 	 *
 	 * @param array $args {
 	 *     Event data

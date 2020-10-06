@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_450
  *
- * @since [version]
+ * @since 4.5.0
  */
 class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
@@ -19,7 +19,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_450_migrate_events_open_sessions()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -88,7 +88,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Test "pagination" in llms_update_450_migrate_events_open_sessions()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_450_update_db_version()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -158,7 +158,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	/**
 	 * Util to create open sessions in the lifterlms_events table
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int $num_open_sessions   Number of sessions to open.
 	 * @param int $num_closed_sessions Optional. Number of sessions to close. Default 0.

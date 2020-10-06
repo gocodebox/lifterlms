@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,7 +102,7 @@ class LLMS_Admin_Notices_Core {
 	 *
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Dismiss notice for 2 years instead of 7 days.
+	 * @since 4.5.0 Dismiss notice for 2 years instead of 7 days.
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Admin_Notices_Core {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 4.5.0 Use strict comparison for `in_array()`.
 	 *
 	 * @return void
 	 */

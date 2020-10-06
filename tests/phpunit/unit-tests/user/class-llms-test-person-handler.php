@@ -8,7 +8,7 @@
  * @since 3.19.4
  * @since 3.29.4 Unknown.
  * @since 3.37.17 Add voucher-related tests.
- * @since [version] Added tests on account.signon event recorded on user registration.
+ * @since 4.5.0 Added tests on account.signon event recorded on user registration.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -208,7 +208,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test account.signon event recorded on user registration
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 */
 	public function test_account_signon_event_recorded_on_registration_signon() {
 		global $wpdb;

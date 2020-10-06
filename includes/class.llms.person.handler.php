@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -717,7 +717,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
-	 * @since [version] Use `wp_signon()` in favor of `llms_set_person_auth_cookie()` to sign on upon registration.
+	 * @since 4.5.0 Use `wp_signon()` in favor of `llms_set_person_auth_cookie()` to sign on upon registration.
 	 *
 	 * @see llms_register_user() for a classless wrapper for this function.
 	 *

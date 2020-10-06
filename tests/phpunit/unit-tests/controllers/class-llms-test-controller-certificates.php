@@ -9,7 +9,7 @@
  * @group controller_certificates
  *
  * @since 3.37.4
- * @since [version] Add tests for managing certificate sharing settings.
+ * @since 4.5.0 Add tests for managing certificate sharing settings.
  */
 class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
@@ -259,7 +259,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test change_sharing_settings() when user has insufficient permissions
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test change_sharing_settings()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */

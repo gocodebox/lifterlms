@@ -7,7 +7,7 @@
  * @group sessions
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.5.0
  */
 class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
@@ -518,7 +518,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test session starts on user login
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -564,7 +564,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test session ends on user logout
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */

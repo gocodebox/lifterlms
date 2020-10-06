@@ -9,7 +9,7 @@
  * @since 3.3.1
  * @since 3.37.8 Fix directory path to uninstall.php
  * @since 4.0.0 Test creation of all tables; fix caching issue when testing full install; add new cron test.
- * @since [version] Test log backup cron.
+ * @since 4.5.0 Test log backup cron.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -41,7 +41,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * @since 3.3.1
 	 * @since 3.28.0 Unknown.
 	 * @since 4.0.0 Test session cleanup cron.
-	 * @since [version] Test log backup cron.
+	 * @since 4.5.0 Test log backup cron.
 	 *
 	 * @return void
 	 */

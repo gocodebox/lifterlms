@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -115,7 +115,7 @@ class LLMS_Sessions {
 	 * End a session.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Delete open session entry from the `wp_lifterlms_events_open_sessions` table.
+	 * @since 4.5.0 Delete open session entry from the `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @param LLMS_Event $start Event object for a session start.
 	 * @return LLMS_Event|WP_Error
@@ -170,7 +170,7 @@ class LLMS_Sessions {
 	 * Retrieve the current session start event record for a given user.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Added optional `$user_id` parameter.
+	 * @since 4.5.0 Added optional `$user_id` parameter.
 	 *
 	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
 	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
@@ -268,7 +268,7 @@ class LLMS_Sessions {
 	 * Retrieve the last session object for the current user.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Added optional `$user_id` parameter.
+	 * @since 4.5.0 Added optional `$user_id` parameter.
 	 *
 	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
 	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
@@ -298,7 +298,7 @@ class LLMS_Sessions {
 	 * Retrieve open sessions.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Retrieve open sessions from the `wp_lifterlms_events_open_sessions` table.
+	 * @since 4.5.0 Retrieve open sessions from the `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @param int $limit Number of sessions to return.
 	 * @param int $skip  Number of sessions to skip.
@@ -406,7 +406,7 @@ class LLMS_Sessions {
 	 * Retrieve a new session ID.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Added optional `$user_id` parameter.
+	 * @since 4.5.0 Added optional `$user_id` parameter.
 	 *
 	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
 	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
@@ -429,7 +429,7 @@ class LLMS_Sessions {
 	 * Start a new session for the current user.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Create open session entry in the `wp_lifterlms_events_open_sessions` table.
+	 * @since 4.5.0 Create open session entry in the `wp_lifterlms_events_open_sessions` table.
 	 *                  Added optional `$user_id` parameter.
 	 *
 	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
