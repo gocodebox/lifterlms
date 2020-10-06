@@ -303,13 +303,15 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  *
  * @since  Unknown
  * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
- * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`
+ * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`.
+ * @deprecated [version] Use WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
  *
  * @param  int  $user_id  WP_User ID.
  * @param  bool $remember Whether to remember the user.
  * @return void
  */
 function llms_set_person_auth_cookie( $user_id, $remember = false ) {
+	llms_deprecated_function( 'llms_set_person_auth_cookie', '[version]' );
 	wp_set_current_user( $user_id );
 	wp_set_auth_cookie( $user_id, $remember );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
