@@ -1,6 +1,28 @@
 LifterLMS Changelog
 ===================
 
+v4.5.0 - 2020-10-06
+-------------------
+
+##### Updates
+
++ Students can now choose to make their certificates publicly accessible. Huge thanks to [@alaa-alshamy](https://github.com/alaa-alshamy) for contributing this awesome new feature!
++ When accessing a certificate that does not have sharing enabled, a 404 will be served in favor of an error message.
++ Admin payment gateway notices will no longer redisplay a week after being dismissed.
++ Log files will be automatically split when a file is 5MB or larger, ensuring that log files never grow too large.
++ During student registration, `wp_signon()` is used to login the newly created user.
++ Improved slow background process database queries run during the automatic "closing" of idle user sessions.
+
+##### Bug fixes
+
++ `LLMS_User_Certificate::get_related_post_id()` and `LLMS_User_Certificate::get_user_id()` will now always return an integer.
++ Fixes issues related to account sign on/out and session start/end events being recorded incorrectly.
+
+##### Deprecations
+
++ `llms_set_person_auth_cookie()` is deprecated in favor of WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
+
+
 v4.4.4 - 2020-09-21
 -------------------
 
