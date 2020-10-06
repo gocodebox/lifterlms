@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Checks LifterLMS user capabilities against an object
  *
  * @since 3.13.0
+ * @since [version] Use strict array comparison.
  *
  * @param string $cap    Capability name.
  * @param int    $obj_id WP_Post or WP_User ID.
@@ -26,7 +27,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 	$caps  = LLMS_Roles::get_all_core_caps();
 	$grant = false;
 
-	if ( in_array( $cap, $caps ) ) {
+	if ( in_array( $cap, $caps, true ) ) {
 
 		// If the user has the cap, maybe do some additional checks.
 		if ( current_user_can( $cap ) ) {
@@ -34,11 +35,11 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 			switch ( $cap ) {
 
 				case 'view_lifterlms_reports':
-					// can view others reports so its okay
+					// Can view others reports so its okay.
 					if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 						$grant = true;
 
-						// can only view their own reports check if the student is their instructor
+						// Can only view their own reports check if the student is their instructor.
 					} elseif ( $obj_id ) {
 
 						$instructor = llms_get_instructor();
@@ -60,7 +61,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 
 					break;
 
-				// no other checks needed
+				// No other checks needed.
 				default:
 					$grant = true;
 
