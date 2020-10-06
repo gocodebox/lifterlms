@@ -13,6 +13,36 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ *
+ * @since 3.7.0
+ * @since 3.9.0
+ *
+ * @param LLMS_Student|WP_User|int $user LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
+ * @return boolean
+ */
+function llms_can_user_bypass_restrictions( $user = null ) {
+
+	$user = llms_get_student( $user );
+
+	if ( ! $user ) {
+		return false;
+	}
+
+	$roles = get_option( 'llms_grant_site_access', '' );
+	if ( ! $roles ) {
+		$roles = array();
+	}
+
+	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
+		return true;
+	}
+
+	return false;
+
+}
+
+/**
  * Checks LifterLMS user capabilities against an object
  *
  * @since 3.13.0
@@ -74,33 +104,21 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 }
 
 /**
- * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ * Delete LifterLMS Student's Enrollment record related to a given product.
  *
- * @since 3.7.0
- * @since 3.9.0
+ * @since 3.33.0
  *
- * @param LLMS_Student|WP_User|int $user LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
- * @return boolean
+ * @see `LLMS_Student->delete_enrollment()` the class method wrapped by this function.
+ *
+ * @param int    $user_id    WP User ID.
+ * @param int    $product_id WP Post ID of the Course or Membership.
+ * @param string $trigger    Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value.
+ *                           Passing "any" will remove regardless of enrollment trigger.
+ * @return boolean Whether or not the enrollment records have been successfully removed.
  */
-function llms_can_user_bypass_restrictions( $user = null ) {
-
-	$user = llms_get_student( $user );
-
-	if ( ! $user ) {
-		return false;
-	}
-
-	$roles = get_option( 'llms_grant_site_access', '' );
-	if ( ! $roles ) {
-		$roles = array();
-	}
-
-	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
-		return true;
-	}
-
-	return false;
-
+function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->delete_enrollment( $product_id, $trigger );
 }
 
 /**
@@ -211,6 +229,24 @@ function llms_get_student( $user = null ) {
 }
 
 /**
+ * Checks if the given object is complete for the given student
+ *
+ * @since Unknown
+ * @since 3.3.1 Updated to use `LLMS_Student->is_enrolled()`.
+ *
+ * @see LLMS_Student->is_complete()
+ *
+ * @param int $user_id      WP User ID of the user.
+ * @param int $object_id    WP Post ID of a Course, Section, or Lesson.
+ * @param int $object_type  Type, either Course, Section, or Lesson.
+ * @return boolean Returns `true` if complete, otherwise `false`.
+ */
+function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
+	$s = new LLMS_Student( $user_id );
+	return $s->is_complete( $object_id, $object_type );
+}
+
+/**
  * Checks if user is currently enrolled in course
  *
  * @since Unknown
@@ -229,24 +265,6 @@ function llms_get_student( $user = null ) {
 function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->is_enrolled( $product_id, $relation, $use_cache );
-}
-
-/**
- * Checks if the given object is complete for the given student
- *
- * @since Unknown
- * @since 3.3.1 Updated to use `LLMS_Student->is_enrolled()`.
- *
- * @see LLMS_Student->is_complete()
- *
- * @param int $user_id      WP User ID of the user.
- * @param int $object_id    WP Post ID of a Course, Section, or Lesson.
- * @param int $object_type  Type, either Course, Section, or Lesson.
- * @return boolean Returns `true` if complete, otherwise `false`.
- */
-function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
-	$s = new LLMS_Student( $user_id );
-	return $s->is_complete( $object_id, $object_type );
 }
 
 /**
@@ -322,6 +340,20 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 }
 
 /**
+ * Set/Update user login time
+ *
+ * @since [version]
+ *
+ * @param string  $user_login Username.
+ * @param WP_User $user       WP_User object of the logged-in user.
+ * @return void
+ */
+function llms_set_user_login_time( $user_login, $user ) {
+	update_user_meta( $user->ID, 'llms_last_login', llms_current_time( 'mysql' ) );
+}
+add_action( 'wp_login', 'llms_set_user_login_time', 10, 2 );
+
+/**
  * Remove a LifterLMS Student from a course or membership
  *
  * @since 3.0.0
@@ -341,24 +373,6 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 }
 
 /**
- * Delete LifterLMS Student's Enrollment record related to a given product.
- *
- * @since 3.33.0
- *
- * @see `LLMS_Student->delete_enrollment()` the class method wrapped by this function.
- *
- * @param int    $user_id    WP User ID.
- * @param int    $product_id WP Post ID of the Course or Membership.
- * @param string $trigger    Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value.
- *                           Passing "any" will remove regardless of enrollment trigger.
- * @return boolean Whether or not the enrollment records have been successfully removed.
- */
-function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
-	$student = new LLMS_Student( $user_id );
-	return $student->delete_enrollment( $product_id, $trigger );
-}
-
-/**
  * Perform validations according to $screen and updates the user
  *
  * @since 3.0.0
@@ -373,17 +387,3 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
 function llms_update_user( $data = array(), $screen = 'account' ) {
 	return LLMS_Person_Handler::update( $data, $screen );
 }
-
-/**
- * Set/Update user login time
- *
- * @since [version]
- *
- * @param string  $user_login Username.
- * @param WP_User $user       WP_User object of the logged-in user.
- * @return void
- */
-function llms_set_user_login_time( $user_login, $user ) {
-	update_user_meta( $user->ID, 'llms_last_login', llms_current_time( 'mysql' ) );
-}
-add_action( 'wp_login', 'llms_set_user_login_time', 10, 2 );
