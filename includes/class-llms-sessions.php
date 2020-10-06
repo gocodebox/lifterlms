@@ -1,17 +1,17 @@
 <?php
 /**
- * User event session management.
+ * User event session management
  *
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.37.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Sessions class..
+ * LLMS_Sessions class.
  *
  * @since 3.36.0
  * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
@@ -21,7 +21,7 @@ class LLMS_Sessions {
 	/**
 	 * Singleton instance
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected static $_instance = null;
 
@@ -80,8 +80,8 @@ class LLMS_Sessions {
 	 *
 	 * @since 3.36.0
 	 *
-	 * @param array $schedules Array of cron schedules
-	 * @return  array
+	 * @param array $schedules Array of cron schedules.
+	 * @return array
 	 */
 	public function add_cron_schedule( $schedules ) {
 
@@ -115,13 +115,14 @@ class LLMS_Sessions {
 	 * End a session.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Delete open session entry from the `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @param LLMS_Event $start Event object for a session start.
-	 * @return LLMS_EVent
+	 * @return LLMS_Event|WP_Error
 	 */
 	protected function end( $start ) {
 
-		return LLMS()->events()->record(
+		$end = LLMS()->events()->record(
 			array(
 				'actor_id'     => $start->get( 'actor_id' ),
 				'object_type'  => 'session',
@@ -131,6 +132,20 @@ class LLMS_Sessions {
 			)
 		);
 
+		if ( ! is_wp_error( $end ) ) {
+			global $wpdb;
+			$wpdb->query( // db call ok; no-cache ok.
+				$wpdb->prepare(
+					"
+					DELETE FROM {$wpdb->prefix}lifterlms_events_open_sessions
+					WHERE `event_id` = %d
+					",
+					$start->get( 'id' )
+				)
+			);
+		}
+
+		return $end;
 	}
 
 	/**
@@ -138,7 +153,7 @@ class LLMS_Sessions {
 	 *
 	 * @since 3.36.0
 	 *
-	 * @return LLMS_Event|false
+	 * @return LLMS_Event|WP_Error|false
 	 */
 	public function end_current() {
 
@@ -155,17 +170,20 @@ class LLMS_Sessions {
 	 * Retrieve the current session start event record for a given user.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return LLMS_Event|false
 	 */
-	public function get_current() {
+	public function get_current( $user_id = null ) {
 
-		$user_id = get_current_user_id();
+		$user_id = $user_id ? $user_id : get_current_user_id();
 		if ( ! $user_id ) {
 			return false;
 		}
 
-		$session = $this->get_last_session();
+		$session = $this->get_last_session( $user_id );
 		if ( ! $session ) {
 			return false;
 		}
@@ -233,7 +251,7 @@ class LLMS_Sessions {
 	}
 
 	/**
-	 * Determines if the given session is open (has not ended).
+	 * Determines if the given session is open (has not ended)
 	 *
 	 * @since 3.36.0
 	 *
@@ -250,10 +268,14 @@ class LLMS_Sessions {
 	 * Retrieve the last session object for the current user.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return obj|null
 	 */
-	protected function get_last_session() {
+	protected function get_last_session( $user_id = null ) {
+		$user_id = $user_id ? $user_id : get_current_user_id();
 
 		global $wpdb;
 		return $wpdb->get_row(
@@ -266,7 +288,7 @@ class LLMS_Sessions {
 			    AND event_action = 'start'
 		   ORDER BY date DESC
 			  LIMIT 1;",
-				get_current_user_id()
+				$user_id
 			)
 		);
 
@@ -276,29 +298,22 @@ class LLMS_Sessions {
 	 * Retrieve open sessions.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Retrieve open sessions from the `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @param int $limit Number of sessions to return.
-	 * @param int $skip Number of sessions to skip.
+	 * @param int $skip  Number of sessions to skip.
 	 * @return LLMS_Event[]
 	 */
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col(
+		$sessions = $wpdb->get_col( // db call ok; no-cache ok.
 			$wpdb->prepare(
 				"
-			   SELECT e1.id
-			     FROM {$wpdb->prefix}lifterlms_events AS e1
-			LEFT JOIN {$wpdb->prefix}lifterlms_events AS e2
-			       ON e1.object_id = e2.object_id
-			      AND e1.actor_id = e2.actor_id
-			      AND e2.event_type = 'session'
-			      AND e2.event_action = 'end'
-			    WHERE e1.event_type = 'session'
-			      AND e1.event_action = 'start'
-			      AND e2.date IS NULL
-			 ORDER BY e1.date ASC
-			    LIMIT %d, %d
+			   SELECT event_id
+			   FROM {$wpdb->prefix}lifterlms_events_open_sessions
+			   ORDER BY event_id ASC
+			   LIMIT %d, %d
 		",
 				$skip,
 				$limit
@@ -306,8 +321,10 @@ class LLMS_Sessions {
 		);
 
 		$ret = array();
-		foreach ( $sessions as $id ) {
-			$ret[] = new LLMS_Event( $id );
+		if ( count( $sessions ) ) {
+			foreach ( $sessions as $id ) {
+				$ret[] = new LLMS_Event( $id );
+			}
 		}
 
 		return $ret;
@@ -320,7 +337,7 @@ class LLMS_Sessions {
 	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event $start Event record for the session.start event.
-	 * @param array      $args Array of additional arguments to pass to the LLMS_Events_Query.
+	 * @param array      $args  Array of additional arguments to pass to the LLMS_Events_Query.
 	 * @return LLMS_Event[]
 	 */
 	public function get_session_events( $start, $args = array() ) {
@@ -389,12 +406,17 @@ class LLMS_Sessions {
 	 * Retrieve a new session ID.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Added optional `$user_id` parameter.
 	 *
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return int
 	 */
-	protected function get_new_id() {
+	protected function get_new_id( $user_id = null ) {
 
-		$last = $this->get_last_session();
+		$user_id = $user_id ? $user_id : get_current_user_id();
+
+		$last = $this->get_last_session( $user_id );
 		if ( ! $last ) {
 			return 1;
 		}
@@ -407,25 +429,43 @@ class LLMS_Sessions {
 	 * Start a new session for the current user.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Create open session entry in the `wp_lifterlms_events_open_sessions` table.
+	 *                  Added optional `$user_id` parameter.
 	 *
-	 * @return false|LLMS_Event
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
+	 * @return false|LLMS_Event|WP_Error
 	 */
-	public function start() {
+	public function start( $user_id = null ) {
 
-		$user_id = get_current_user_id();
+		$user_id = $user_id ? $user_id : get_current_user_id();
 		if ( ! $user_id ) {
 			return false;
 		}
 
-		return LLMS()->events()->record(
+		$start = LLMS()->events()->record(
 			array(
 				'actor_id'     => $user_id,
 				'object_type'  => 'session',
-				'object_id'    => $this->get_new_id(),
+				'object_id'    => $this->get_new_id( $user_id ),
 				'event_type'   => 'session',
 				'event_action' => 'start',
 			)
 		);
+
+		if ( ! is_wp_error( $start ) ) {
+			global $wpdb;
+			$wpdb->query( // db call ok; no-cache ok.
+				$wpdb->prepare(
+					"
+					INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES ( %d )
+					",
+					$start->get( 'id' )
+				)
+			);
+		}
+
+		return $start;
 
 	}
 

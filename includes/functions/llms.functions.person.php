@@ -366,3 +366,17 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
 function llms_update_user( $data = array(), $screen = 'account' ) {
 	return LLMS_Person_Handler::update( $data, $screen );
 }
+
+/**
+ * Set/Update user login time
+ *
+ * @since [version]
+ *
+ * @param string  $user_login Username.
+ * @param WP_User $user       WP_User object of the logged-in user.
+ * @return void
+ */
+function llms_set_user_login_time( $user_login, $user ) {
+	update_user_meta( $user->ID, 'llms_last_login', llms_current_time( 'mysql' ) );
+}
+add_action( 'wp_login', 'llms_set_user_login_time', 10, 2 );

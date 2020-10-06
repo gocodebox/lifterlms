@@ -7,7 +7,7 @@
  * @group sessions
  *
  * @since 3.36.0
- * @version 3.37.15
+ * @version [version]
  */
 class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
@@ -27,7 +27,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test get_idle_sessions()
+	 * Test get_open_sessions()
 	 *
 	 * @since 3.36.0
 	 *
@@ -68,6 +68,13 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Setup end_idle_sessions()
+	 *
+	 * @since 3.36.0
+	 *
+	 * @return void
+	 */
 	public function test_end_idle_sessions() {
 
 		$time = time();
@@ -505,6 +512,86 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'start', $event->get( 'event_action' ) );
 		$this->assertEquals( 'session', $event->get( 'object_type' ) );
 		$this->assertTrue( is_numeric( $event->get( 'object_id' ) ) );
+
+	}
+
+	/**
+	 * Test session starts on user login
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_wp_login_action() {
+
+		$user = $this->factory->user->create_and_get(
+			array(
+				'user_pass' => 'user_pass',
+			)
+		);
+		$wp_login_count = did_action( 'wp_login' );
+
+		// Test there's no current session.
+		$this->assertFalse( $this->sessions->get_current() );
+
+		// Simulate wp login that will trigger the `wp_login` action without setting the current user though.
+		wp_signon(
+			array(
+				'user_login'    => $user->user_login,
+				'user_password' => 'user_pass',
+			)
+		);
+		$this->assertEquals( $wp_login_count + 1, did_action( 'wp_login' ) );
+
+		// Set the current user.
+		wp_set_current_user( $user->ID );
+
+		$start_session = $this->sessions->get_current();
+
+		// A new session has been created.
+		$this->assertTrue( is_a( $start_session, 'LLMS_Event' ) );
+
+		// And it's the correct one.
+		$this->assertEquals( $user->ID, $start_session->get( 'actor_id' ) );
+		$this->assertEquals( 'session', $start_session->get( 'object_type' ) );
+		$this->assertEquals( 'session', $start_session->get( 'event_type' ) );
+		$this->assertEquals( 'start', $start_session->get( 'event_action' ) );
+
+		// Clean the opened session.
+		$this->sessions->end_current();
+	}
+
+	/**
+	 * Test session ends on user logout
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_signout() {
+
+		$user = $this->factory->user->create_and_get(
+			array(
+				'user_pass' => 'user_pass',
+			)
+		);
+
+		wp_set_current_user( $user->ID );
+		$start_session = $this->sessions->start();
+		// A new session has been created and it's the current one.
+		$this->assertTrue( is_a( $start_session, 'LLMS_Event' ) );
+		$this->assertTrue( $this->sessions->is_session_open( $start_session ) );
+
+		$current_session = $this->sessions->get_current();
+		$this->assertEquals( $current_session->get( 'id' ), $start_session->get( 'id' ) );
+
+		// Simulate sign out.
+		do_action( 'clear_auth_cookie' );
+		// No current session.
+		$current_session = $this->sessions->get_current();
+		$this->assertFalse( $current_session );
+		// Previously started session correctly ended.
+		$this->assertFalse( $this->sessions->is_session_open( $start_session ) );
 
 	}
 

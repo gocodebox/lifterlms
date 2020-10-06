@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Main
  *
- * @since    1.0.0
- * @version  3.28.0
+ * @since 1.0.0
+ * @version [version]
  */
 
 // If uninstall not called from WordPress exit.
@@ -19,6 +19,7 @@ wp_clear_scheduled_hook( 'llms_send_tracking_data' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_award_achievement' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_award_certificate' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_send_email' );
+wp_clear_scheduled_hook( 'llms_end_idle_sessions' );
 
 /**
  * Only actually delete LifterLMS and Related Data when constant is defined.
@@ -31,28 +32,30 @@ if ( defined( 'LLMS_REMOVE_ALL_DATA' ) && true === LLMS_REMOVE_ALL_DATA ) {
 
 	global $wpdb, $wp_version;
 
-	// delete posts.
+	// Delete posts.
 	wp_trash_post( get_option( 'lifterlms_shop_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_memberships_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_checkout_page_id' ) );
 	wp_trash_post( get_option( 'lifterlms_myaccount_page_id' ) );
 
-	// remove roles.
+	// Remove roles.
 	LLMS_Roles::remove_roles();
 
-	// delete options.
+	// Delete options.
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'lifterlms\_%';" );
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'llms\_%';" );
 
-	// delete custom usermeta.
+	// Delete custom usermeta.
 	$wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE 'llms\_%';" );
 
-	// drop tables.
+	// Drop tables.
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_user_postmeta" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_product_to_voucher" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_voucher_code_redemptions" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_vouchers_codes" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_notifications" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_events" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}lifterlms_events_open_sessions" );
 
 	// delete all post types & related meta data.
 	$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'course', 'section', 'lesson', 'llms_quiz', 'llms_question', 'llms_membership', 'llms_engagement', 'llms_order', 'llms_transaction', 'llms_achievement', 'llms_certificate', 'llms_my_certificate', 'llms_email', 'llms_coupon', 'llms_voucher', 'llms_review', 'llms_access_plan' );" );

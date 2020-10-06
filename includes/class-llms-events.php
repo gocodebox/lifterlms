@@ -51,15 +51,16 @@ class LLMS_Events {
 	}
 
 	/**
-	 * Private Constructor.
+	 * Private Constructor
 	 *
 	 * @since 3.36.0
+	 * @since [version] Register events at `init` hook with priority 9 in place of 10.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
-		add_action( 'init', array( $this, 'register_events' ) );
+		add_action( 'init', array( $this, 'register_events' ), 9 );
 		add_action( 'init', array( $this, 'store_cookie' ) );
 
 	}
@@ -172,6 +173,7 @@ class LLMS_Events {
 	 * Store an event in the database.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Fixed event session end not recorded on sign-out.
 	 *
 	 * @param array $args {
 	 *     Event data
@@ -182,7 +184,7 @@ class LLMS_Events {
 	 *     @type string $event_type Type of event (account, page, course, etc...).
 	 *     @type string $event_action The event action or verb (signon,viewed,launched,etc...).
 	 * }
-	 * @return [type]
+	 * @return LLMS_Event|WP_Error
 	 */
 	public function record( $args = array() ) {
 
@@ -200,6 +202,7 @@ class LLMS_Events {
 		}
 
 		$event = sprintf( '%1$s.%2$s', $args['event_type'], $args['event_action'] );
+
 		if ( ! $this->is_event_valid( $event ) ) {
 			// Translators: %s = Submitted event string.
 			return new WP_Error( 'llms_event_record_invalid_event', sprintf( __( 'The event "%s" is invalid.', 'lifterlms' ), $event ) );
@@ -213,18 +216,20 @@ class LLMS_Events {
 
 			// Start a session if one isn't open.
 			$sessions = LLMS_Sessions::instance();
-			if ( false === $sessions->get_current() ) {
-				$sessions->start();
+			$user_id  = 'account.signon' === $event && isset( $args['actor_id'] ) ? $args['actor_id'] : null;
+
+			if ( false === $sessions->get_current( $user_id ) ) {
+				$sessions->start( $user_id );
 			}
 		}
 
-		$event = new LLMS_Event();
-		if ( ! $event->setup( $args )->save() ) {
+		$llms_event = new LLMS_Event();
+		if ( ! $llms_event->setup( $args )->save() ) {
 			$err->add( 'llms_event_recored_unknown_error', __( 'An unknown error occurred during event creation.', 'lifterlms' ) );
 			return $err;
 		}
 		if ( $meta && ! empty( $meta ) ) {
-			$event->set_metas( $meta, true );
+			$llms_event->set_metas( $meta, true );
 		}
 
 		// End the current session on signout.
@@ -232,7 +237,7 @@ class LLMS_Events {
 			LLMS_Sessions::instance()->end_current();
 		}
 
-		return $event;
+		return $llms_event;
 
 	}
 
