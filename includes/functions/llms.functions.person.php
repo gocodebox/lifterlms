@@ -99,7 +99,17 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 		}
 	}
 
-	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
+	/**
+	 * Filters whether or not the current user can perform the requested action
+	 *
+	 * The dynamic portion of this hook, `$cap`, refers to the requested user capability.
+	 *
+	 * @since 3.13.0
+	 *
+	 * @param boolean $grant Whether or not the requested capability is granted to the user.
+	 * @param int     $obj_id WP_Post or WP_User ID.
+	 */
+	return apply_filters( "llms_current_user_can_{$cap}", $grant, $obj_id );
 
 }
 
@@ -131,6 +141,15 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
  * @return bool
  */
 function llms_disable_admin_bar( $show_admin_bar ) {
+	/**
+	 * Filter whether or not the WP Admin Bar is disabled for users
+	 *
+	 * By default, the admin bar is disabled for all users except those with the `edit_posts` or `manage_lifterlms` capabilities.
+	 *
+	 * @since Unknown
+	 *
+	 * @param boolean $disabled Whether or not the admin bar should be disabled.
+	 */
 	if ( apply_filters( 'lifterlms_disable_admin_bar', true ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
 		$show_admin_bar = false;
 	}
@@ -178,6 +197,13 @@ function llms_get_instructor( $user = null ) {
  * @return string
  */
 function llms_get_minimum_password_strength() {
+	/**
+	 * Filter  the minimum accepted password strength for student passwords
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $strength Minimum required password strength setting.
+	 */
 	return apply_filters( 'llms_get_minimum_password_strength', get_option( 'lifterlms_registration_password_min_strength' ) );
 }
 
