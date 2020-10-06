@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,10 +16,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
- * @since 3.36.0 Add `wp_lifterlms_events` table.
- * @since 4.0.0 Add `wp_lifterlms_sessions` table.
- *              Add session cleanup cron.
- *              Add db update functions for session manage library cleanup.
+ * @since 3.36.0 Added `wp_lifterlms_events` table.
+ * @since 4.0.0 Added `wp_lifterlms_sessions` table.
+ *              Added session cleanup cron.
+ *              Added db update functions for session manager library cleanup.
  */
 class LLMS_Install {
 
@@ -93,6 +93,10 @@ class LLMS_Install {
 			'llms_update_400_clear_session_cron',
 			'llms_update_400_update_db_version',
 		),
+		'4.5.0'  => array(
+			'llms_update_450_migrate_events_open_sessions',
+			'llms_update_450_update_db_version',
+		),
 	);
 
 	/**
@@ -138,41 +142,71 @@ class LLMS_Install {
 	 * @since 1.0.0
 	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
 	 * @since 4.0.0 Add expired session cleanup.
+	 * @since 4.5.0 Add log backup cron.
 	 *
 	 * @return void
 	 */
 	public static function create_cron_jobs() {
 
-		if ( ! wp_next_scheduled( 'llms_cleanup_tmp' ) ) {
-			wp_schedule_event( time(), 'daily', 'llms_cleanup_tmp' );
-		}
+		$crons = array(
+			array(
+				/**
+				 * Filter the recurrence interval at which files in the LifterLMS logs are scanned and backed up.
+				 *
+				 * @since 4.5.0
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'hook'     => 'llms_backup_logs',
+				'interval' => apply_filters( 'llms_backup_logs_interval', 'daily' ),
+			),
+			array(
+				/**
+				 * Filter the recurrence interval at which files in the LifterLMS tmp directory are cleaned.
+				 *
+				 * @since 4.5.0
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'hook'     => 'llms_cleanup_tmp',
+				'interval' => apply_filters( 'llms_cleanup_tmp_interval', 'daily' ),
+			),
+			array(
+				'hook'     => 'llms_send_tracking_data',
+				/**
+				 * Filter the recurrence interval at which tracking data is gathered and sent.
+				 *
+				 * @since Unknown
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+				 */
+				'interval' => apply_filters( 'llms_tracker_schedule_interval', 'daily' ),
+			),
+			array(
+				'hook'     => 'llms_delete_expired_session_data',
+				/**
+				 * Filter the recurrence interval at which expired session are removed from the database.
+				 *
+				 * @since 4.0.0
+				 *
+				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+				 *
+				 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
+				 */
+				'interval' => apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' ),
+			),
+		);
 
-		/**
-		 * Filter the recurrence interval at which tracking data is gathered and sent.
-		 *
-		 * @since Unknown
-		 *
-		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
-		 *
-		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
-		 */
-		$tracking_recurrence = apply_filters( 'llms_tracker_schedule_interval', 'daily' );
-		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
-			wp_schedule_event( time(), $tracking_recurrence, 'llms_send_tracking_data' );
-		}
-
-		/**
-		 * Filter the recurrence interval at which expired session are removed from the database.
-		 *
-		 * @since 4.0.0
-		 *
-		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
-		 *
-		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
-		 */
-		$session_recurrence = apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' );
-		if ( ! wp_next_scheduled( 'llms_delete_expired_session_data' ) ) {
-			wp_schedule_event( time(), $session_recurrence, 'llms_delete_expired_session_data' );
+		foreach ( $crons as $data ) {
+			if ( ! wp_next_scheduled( $data['hook'] ) ) {
+				wp_schedule_event( time(), $data['interval'], $data['hook'] );
+			}
 		}
 
 	}
@@ -431,8 +465,9 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
-	 * @since 3.36.0 Add `wp_lifterlms_events` table.
-	 * @since 4.0.0 Add `wp_lifterlms_sessions` table.
+	 * @since 3.36.0 Added `wp_lifterlms_events` table.
+	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
+	 * @since 4.5.0 Added `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @return string
 	 */
@@ -534,6 +569,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
   PRIMARY KEY (`id`),
   KEY actor_id (`actor_id`),
   KEY object_id (`object_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_events_open_sessions` (
+	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`event_id` bigint(20) unsigned NOT NULL,
+	PRIMARY KEY (`id`)
 ) $collate;
 CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

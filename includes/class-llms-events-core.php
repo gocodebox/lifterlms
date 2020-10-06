@@ -37,7 +37,7 @@ class LLMS_Events_Core {
 	 * @since 3.36.0
 	 *
 	 * @param string  $username WP_Users's user_login.
-	 * @param WP_User $user User object.
+	 * @param WP_User $user     User object.
 	 * @return LLMS_Event
 	 */
 	public function on_signon( $username, $user ) {
@@ -58,12 +58,17 @@ class LLMS_Events_Core {
 	 * Record an account.signout event via `wp_logout()`
 	 *
 	 * @since 3.36.0
+	 * @since 4.5.0 Return `false` without recording any event if no user was logged in.
 	 *
-	 * @return LLMS_Event
+	 * @return LLMS_Event|false The instance of the `LLMS_Event` recorded or `false` when no user was logged in.
 	 */
 	public function on_signout() {
 
 		$uid = get_current_user_id();
+
+		if ( ! $uid ) {
+			return false;
+		}
 
 		return LLMS()->events()->record(
 			array(
