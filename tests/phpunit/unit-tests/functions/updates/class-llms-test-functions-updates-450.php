@@ -138,6 +138,9 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 */
 	public function test_update_db_version() {
 
+		// Remove existing db version.
+		delete_option( 'lifterlms_db_version' );
+
 		$orig = get_option( 'lifterlms_db_version' );
 
 		llms_update_450_update_db_version();
