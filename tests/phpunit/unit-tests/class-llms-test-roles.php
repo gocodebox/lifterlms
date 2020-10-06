@@ -69,7 +69,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 		// Remove first.
 		LLMS_Roles::remove_roles();
-		add_filter( 'do_print', '__return_true' );
+
 		// Install them.
 		LLMS_Roles::install();
 		remove_filter( 'do_print', '__return_true' );
