@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 // If uninstall not called from WordPress exit.

@@ -9,7 +9,7 @@
  * @since 3.7.0
  * @since 3.8.0 Added tests for `llms_can_user_bypasse_restrictions()`.
  * @since 3.9.0 Added tests for `llms_get_student()`.
- * @since [version] Added tests for `llms_set_person_auth_cookie()` and `llms_set_user_login_time()`.
+ * @since 4.5.0 Added tests for `llms_set_person_auth_cookie()` and `llms_set_user_login_time()`.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
@@ -63,7 +63,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_set_person_auth_cookie()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @expectedDeprecated llms_set_person_auth_cookie
 	 *
@@ -76,7 +76,7 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_set_user_login_time()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */

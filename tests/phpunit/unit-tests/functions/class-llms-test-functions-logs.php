@@ -7,7 +7,7 @@
  * @group functions
  * @group functions_logs
  *
- * @since [version]
+ * @since 4.5.0
  */
 class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
@@ -25,7 +25,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	 * locally without regular manual cleanup you'll see a lot of trash logs generated as a result
 	 * and this teardown prevents that.
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Create a mock log file with a target size
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param string  $handle      Log file's handle.
 	 * @param integer $target_size Target logfile size (in MB). The created file will be at least this big and more than likely a little bigger.
@@ -73,7 +73,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Mock the max allowed file size to be 1MB (instead of default 5MB)
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int $size Default max file size.
 	 * @return int
@@ -85,7 +85,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_log_path()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_log() when logging a string
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_log() when logging an array
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -151,7 +151,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_log() when logging an object
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_backup_log
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_backup_logs()
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */

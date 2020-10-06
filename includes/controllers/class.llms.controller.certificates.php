@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -109,7 +109,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Add handler for changing certificate sharing settings.
+	 * @since 4.5.0 Add handler for changing certificate sharing settings.
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Change shareable settings of a certificate.
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int  $cert_id    WP Post ID of the llms_my_certificate.
 	 * @param bool $is_allowed Allow share the certificate or not.

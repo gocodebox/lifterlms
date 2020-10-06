@@ -7,7 +7,7 @@
  * @group events
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.5.0
  */
 class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 
@@ -27,7 +27,7 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 	 * Teardown the test case.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Truncate open sessions table.
+	 * @since 4.5.0 Truncate open sessions table.
 	 *
 	 * @return void
 	 */

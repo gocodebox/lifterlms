@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,7 +142,7 @@ class LLMS_Install {
 	 * @since 1.0.0
 	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
 	 * @since 4.0.0 Add expired session cleanup.
-	 * @since [version] Add log backup cron.
+	 * @since 4.5.0 Add log backup cron.
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Install {
 				/**
 				 * Filter the recurrence interval at which files in the LifterLMS logs are scanned and backed up.
 				 *
-				 * @since [version]
+				 * @since 4.5.0
 				 *
 				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
 				 *
@@ -166,7 +166,7 @@ class LLMS_Install {
 				/**
 				 * Filter the recurrence interval at which files in the LifterLMS tmp directory are cleaned.
 				 *
-				 * @since [version]
+				 * @since 4.5.0
 				 *
 				 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
 				 *
@@ -467,7 +467,7 @@ class LLMS_Install {
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
 	 * @since 3.36.0 Added `wp_lifterlms_events` table.
 	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
-	 * @since [version] Added `wp_lifterlms_events_open_sessions` table.
+	 * @since 4.5.0 Added `wp_lifterlms_events_open_sessions` table.
 	 *
 	 * @return string
 	 */

@@ -6,14 +6,14 @@
  *
  * @group query
  *
- * @since [version]
+ * @since 4.5.0
  */
 class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up test case
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 * This test runs in a separate process because something before it is making it hard
 	 * to mock the `$wp_query` and `$post` globals.
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

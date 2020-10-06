@@ -12,7 +12,7 @@ const { clickAndWait } = require( './click-and-wait' );
  * Logout the current user.
  *
  * @since 3.37.8
- * @since [version] Wait 1 second before navigating to logout page.
+ * @since 2.1.2 Wait 1 second before navigating to logout page.
  *
  * @return {void}
  */

@@ -7,7 +7,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
 /**
  * Create and publish a new certificate
  *
- * @since [version]
+ * @since 2.1.2
  *
  * @param {Integer} engagementId WP_Post ID of the a certificate, email, or achievement post.
  * @param {Object}  args         {

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 4.5.0
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Record open sessions in wp_lifterlms_events_open_sessions
  *
- * @since [version]
+ * @since 4.5.0
  *
  * @return bool True if it needs to run again, false otherwise.
  */
@@ -78,7 +78,7 @@ function llms_update_450_migrate_events_open_sessions() {
 /**
  * Update db version to [version]
  *
- * @since [version]
+ * @since 4.5.0
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */

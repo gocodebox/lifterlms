@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.4.4
+Stable tag: 4.5.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,27 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.5.0 - 2020-10-06 =
+
+##### Updates
+
++ Students can now choose to make their certificates publicly accessible. Huge thanks to [@alaa-alshamy](https://github.com/alaa-alshamy) for contributing this awesome new feature!
++ When accessing a certificate that does not have sharing enabled, a 404 will be served in favor of an error message.
++ Admin payment gateway notices will no longer redisplay a week after being dismissed.
++ Log files will be automatically split when a file is 5MB or larger, ensuring that log files never grow too large.
++ During student registration, `wp_signon()` is used to login the newly created user.
++ Improved slow background process database queries run during the automatic "closing" of idle user sessions.
+
+##### Bug fixes
+
++ `LLMS_User_Certificate::get_related_post_id()` and `LLMS_User_Certificate::get_user_id()` will now always return an integer.
++ Fixes issues related to account sign on/out and session start/end events being recorded incorrectly.
+
+##### Deprecations
+
++ `llms_set_person_auth_cookie()` is deprecated in favor of WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
+
+
 = v4.4.4 - 2020-09-21 =
 
 ##### Bug fixes
@@ -630,25 +651,6 @@ The following filter hooks have been deprecated. These hooks were being called a
 + `llms__created` has been deprecated, use `llms_{$type}_created` where `{$type}` is the database record type defined by the class property.
 + `llms__deleted` has been deprecated, use `llms_{$type}_deleted` where `{$type}` is the database record type defined by the class property.
 + `llms__updated` has been deprecated, use `llms_{$type}_updated` where `{$type}` is the database record type defined by the class property.
-
-
-= v4.2.0 - 2020-07-21 =
-
-##### Updates
-
-+ Admins can now preview the checkout screen as visitors or students using the "View As" function from the WP Admin bar
-+ Javascript cookies now set cookies with `sameSite` set to `strict` as recommended by Firefox/Mozilla.
-+ Added filters to allow 3rd parties to use LifterLMS completion tracking APIs to "complete" external or non-LMS content.
-+ Added "deep" orphan checks when checking the relationship between a quiz and a lesson.
-+ Normalized the return structure in `LLMS_Post_Instructors::get_instructors()` when no instructor set, thanks [@nicolas-jaussaud](https://github.com/nicolas-jaussaud)!
-+ Update LifterLMS rocket icon used in the WP Admin Bar in the "View As" area.
-
-##### Bug fixes
-
-+ When deleting a quiz attempt the related lesson will now be automatically marked as "Incomplete" when appropriate.
-+ `LLMS_Abstract_User_Data::get_id()` now always returns an integer.
-+ Fixed a 404 error resulting from settings tooltips referencing a missing icon asset.
-+ Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

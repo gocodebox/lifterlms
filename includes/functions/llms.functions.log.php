@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * Future logs to the same file will result in a new logfile being created, ensuring that log files never grow
  * too large which could cause performance issues during reads and writes.
  *
- * @since [version]
+ * @since 4.5.0
  *
  * @see llms_backup_logs()
  *
@@ -38,7 +38,7 @@ function llms_backup_log( $handle ) {
 	 * The value of this filter, `$maxsize` is an integer representing the maximum number of megabytes
 	 * a file can be before it is split.
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @param int $maxsize Maximum file size (in MB). The default value is `5` (5MB).
 	 */
@@ -55,7 +55,7 @@ function llms_backup_log( $handle ) {
 		 * which creates copies filters out `.log.bk` so that it doesn't scan backups and attempt to split them
 		 * again (infinitely).
 		 *
-		 * @since [version]
+		 * @since 4.5.0
 		 *
 		 * @param string $copy   Full path for the copy log file (the backup).
 		 * @param string $file   Full path for the original log file.
@@ -67,7 +67,7 @@ function llms_backup_log( $handle ) {
 			/**
 			 * Action triggered immediately following the creation of a logfile backup.
 			 *
-			 * @since [version]
+			 * @since 4.5.0
 			 *
 			 * @param string $copy   Full path for the copy log file (the backup).
 			 * @param string $file   Full path for the original log file.
@@ -92,7 +92,7 @@ function llms_backup_log( $handle ) {
  * It does not include logs with the `.log.bk` extension as those logs are logs created by this process
  * and don't need to be scanned again.
  *
- * @since [version]
+ * @since 4.5.0
  *
  * @see llms_backup_log()
  *

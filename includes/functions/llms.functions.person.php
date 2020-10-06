@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +46,7 @@ function llms_can_user_bypass_restrictions( $user = null ) {
  * Checks LifterLMS user capabilities against an object
  *
  * @since 3.13.0
- * @since [version] Use strict array comparison.
+ * @since 4.5.0 Use strict array comparison.
  *
  * @param string $cap    Capability name.
  * @param int    $obj_id WP_Post or WP_User ID.
@@ -352,14 +352,14 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * @since  Unknown
  * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
  * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`.
- * @deprecated [version] Use WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
+ * @deprecated 4.5.0 Use WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
  *
  * @param int  $user_id  WP_User ID.
  * @param bool $remember Whether to remember the user.
  * @return void
  */
 function llms_set_person_auth_cookie( $user_id, $remember = false ) {
-	llms_deprecated_function( 'llms_set_person_auth_cookie', '[version]' );
+	llms_deprecated_function( 'llms_set_person_auth_cookie', '4.5.0' );
 	wp_set_current_user( $user_id );
 	wp_set_auth_cookie( $user_id, $remember );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
@@ -368,7 +368,7 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 /**
  * Set/Update user login time
  *
- * @since [version]
+ * @since 4.5.0
  *
  * @param string  $user_login Username.
  * @param WP_User $user       WP_User object of the logged-in user.

@@ -1,7 +1,7 @@
 /**
  * Test certificates
  *
- * @since [version]
+ * @since 4.5.0
  */
 
 import { visitAdminPage } from '@wordpress/e2e-test-utils';

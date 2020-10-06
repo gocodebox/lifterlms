@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,7 +43,7 @@ class LLMS_Query {
 	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
-	 * @since [version] Added action to serve 404s on unviewable certificates.
+	 * @since 4.5.0 Added action to serve 404s on unviewable certificates.
 	 */
 	public function __construct() {
 
@@ -267,7 +267,7 @@ class LLMS_Query {
 	/**
 	 * Serve a 404 for certificates that are not viewable by the current user
 	 *
-	 * @since [version]
+	 * @since 4.5.0
 	 *
 	 * @return void
 	 */

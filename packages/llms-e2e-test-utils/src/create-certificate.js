@@ -8,7 +8,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
 /**
  * Create and publish a new certificate
  *
- * @since [version]
+ * @since 2.1.2
  *
  * @param {Object} args {
  *     Creation arguments.

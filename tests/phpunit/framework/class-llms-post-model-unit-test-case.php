@@ -29,7 +29,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	 * This should match, exactly, the object's $properties array
 	 *
 	 * @since 3.4.0
-	 * @since [version] Use unit test utils to retrieve `properties` array automatically.
+	 * @since 4.5.0 Use unit test utils to retrieve `properties` array automatically.
 	 *
 	 * @return array
 	 */
