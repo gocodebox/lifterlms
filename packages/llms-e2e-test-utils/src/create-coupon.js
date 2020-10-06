@@ -34,5 +34,3 @@ export async function createCoupon( { code = null, discount = '10%' } ) {
 	return code;
 
 }
-
-

@@ -9,7 +9,7 @@
  * @group controller_certificates
  *
  * @since 3.37.4
- * @version 3.37.4
+ * @since 4.5.0 Add tests for managing certificate sharing settings.
  */
 class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
@@ -253,6 +253,53 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
 		// Reset post.
 		$post = $temp;
+
+	}
+
+	/**
+	 * Test change_sharing_settings() when user has insufficient permissions
+	 *
+	 * @since 4.5.0
+	 *
+	 * @return void
+	 */
+	public function test_change_sharing_settings_invalid_permissions() {
+
+		$earned = $this->earn_certificate( $this->factory->student->create(), $this->create_certificate_template(), $this->factory->post->create() );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $earned[1], true ) );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'insufficient-permissions', $res );
+
+	}
+
+	/**
+	 * Test change_sharing_settings()
+	 *
+	 * @since 4.5.0
+	 *
+	 * @return void
+	 */
+	public function test_change_sharing_settings() {
+
+		$uid      = $this->factory->student->create();
+		$earned   = $this->earn_certificate( $uid, $this->create_certificate_template(), $this->factory->post->create() );
+		$cert_id  = $earned[1];
+		$cert = new LLMS_User_Certificate( $cert_id );
+
+		wp_set_current_user( $uid );
+
+		// Enable Sharing
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $cert_id, true ) ) );
+		$this->assertEquals( 'yes', $cert->get( 'allow_sharing' ) );
+
+		// Already enabled.
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $cert_id, true ) ) );
+		$this->assertEquals( 'yes', $cert->get( 'allow_sharing' ) );
+
+		// Disable sharing.
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $cert_id, false ) ) );
+		$this->assertEquals( 'no', $cert->get( 'allow_sharing' ) );
 
 	}
 

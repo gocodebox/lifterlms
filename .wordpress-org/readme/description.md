@@ -218,7 +218,8 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Social Learning][sl]
 + [LifterLMS Advanced Video][av]
 + [LifterLMS Custom Fields][cf]
-+ [LifterLMS Groups][gr] (Scheduled to Release: 2/10/20)
++ [LifterLMS Groups][gr]
++ [LifterLMS PDFs][pdf]
 
 #### **Integrations**
 
@@ -351,6 +352,7 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [oh]: https://lifterlms.com/product/office-hours/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pa]: https://lifterlms.com/product/private-areas/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[pdf]: https://lifterlms.com/product/lifterlms-pdfs/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pp]: https://lifterlms.com/product/paypal-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [pro]: https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [sl]: https://lifterlms.com/product/social-learning/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale

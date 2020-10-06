@@ -8,6 +8,7 @@
  * @since 3.19.4
  * @since 3.29.4 Unknown.
  * @since 3.37.17 Add voucher-related tests.
+ * @since 4.5.0 Added tests on account.signon event recorded on user registration.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -204,6 +205,38 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	// public function test_register() {}
 
+	/**
+	 * Test account.signon event recorded on user registration
+	 *
+	 * @since 4.5.0
+	 */
+	public function test_account_signon_event_recorded_on_registration_signon() {
+		global $wpdb;
+
+		$data = $this->get_mock_registration_data();
+		$data['email_address'] = "new_{$data['email_address']}";
+
+		$query_signon_event = "
+			SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_events
+			WHERE event_type='account'
+			AND event_action='signon'
+			AND object_type='user'
+			AND actor_id='%d'
+			";
+
+		// Test no event registered, if no signon.
+		$user_id = LLMS_Person_Handler::register( $data, $screen = 'registration', false );
+		$this->assertEquals( 0, $wpdb->get_var( $wpdb->prepare( $query_signon_event, $user_id ) ) );
+
+		// Test event registered when signing on registration (defaults).
+		$data['email_address'] = "new1_{$data['email_address']}";
+		$user_id = LLMS_Person_Handler::register( $data );
+		$this->assertEquals( 1, $wpdb->get_var( $wpdb->prepare( $query_signon_event, $user_id ) ) );
+
+		// Clean up tables.
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );
+	}
 
 	/**
 	 * @todo    this is an incomplete test

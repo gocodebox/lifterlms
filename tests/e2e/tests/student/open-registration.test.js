@@ -3,12 +3,15 @@
  *
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
+ * @since 4.5.0 Use package functions.
  */
 
 import {
 	clickAndWait,
 	fillField,
 	logoutUser,
+	registerStudent,
+	toggleOpenRegistration,
 	visitPage,
 } from '@lifterlms/llms-e2e-test-utils';
 
@@ -19,7 +22,8 @@ let openRegStatus = null;
 /**
  * Toggles the open registration setting on or off
  *
- * @since  3.37.8
+ * @since 3.37.8
+ * @since 4.5.0 Use toggleOpenRegistration function from utils pacakage.
  *
  * @param  {Boolean} status Whether to toggle on (`true`) or off (`false`).
  * @return {void}
@@ -29,17 +33,7 @@ const toggleOpenReg = async function( status ) {
 	if ( openRegStatus === status ) {
 		return;
 	}
-
-	// Launch the Setup Wizard.
-	await visitAdminPage( 'admin.php', 'page=llms-settings&tab=account' );
-
-	const curr_status = await page.$eval( '#lifterlms_enable_myaccount_registration', el => el.checked );
-
-	if ( status && ! curr_status || ! status && curr_status ) {
-		await page.click( '#lifterlms_enable_myaccount_registration' );
-		await clickAndWait( '.llms-save .llms-button-primary' );
-		openRegStatus = status;
-	}
+	await toggleOpenRegistration( status );
 
 }
 
@@ -69,23 +63,7 @@ describe( 'OpenRegistration', () => {
 	it ( 'should register a new user.', async () => {
 
 		await toggleOpenReg( true );
-		await logoutUser();
-
-		await visitPage( 'dashboard' );
-
-		const
-			the_int = Math.floor( Math.random() * ( 99990 - 10000 + 1 ) ) + 10000,
-			email   = 'help+e2e' + the_int + '@lifterlms.com',
-			pass    = Math.random().toString( 36 ).slice( 2 ) + Math.random().toString( 36 ).slice( 2 );
-
-		await fillField( '#email_address', email );
-		await fillField( '#password', pass );
-		await fillField( '#password_confirm', pass );
-		await fillField( '#first_name', 'Jeffrey' );
-		await fillField( '#last_name', 'Lebowski' );
-
-		await clickAndWait( '#llms_register_person' );
-
+		await registerStudent();
 		expect( await page.$eval( 'h2.llms-sd-title', el => el.textContent ) ).toBe( 'Dashboard' );
 
 	} );
