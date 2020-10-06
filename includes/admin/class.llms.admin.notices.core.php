@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,9 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices class
  *
  * @since 3.0.0
- * @since 3.13.0 Unknown.
- * @since 3.14.8 Unknown.
- * @since 3.16.14 Unknown.
  * @since 3.32.0 Moved staging notice logic to `LLMS_Staging::handle_staging_notice_actions()`.
  */
 class LLMS_Admin_Notices_Core {
@@ -24,8 +21,10 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.0.0
-	 * @version  3.14.8
+	 * @since 3.0.0
+	 * @since 3.14.8 Add handler for removing dismissed notices.
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -39,10 +38,11 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Add actions on different hooks depending on the current screen
-	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
+	 *
+	 * @version 3.0.0
+	 * @return void
 	 */
 	public static function add_init_actions() {
 
@@ -63,13 +63,14 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Outputs a notice that allows users to enable or disable automated recurring payments
-	 * appears when we identify that the url has changed or when an admin resets the settings
-	 * from the button on the general settings tab
+	 *
+	 * Appears when we identify that the url has changed or when an admin resets the settings
+	 * from the button on the general settings tab.
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public static function check_staging() {
 
@@ -79,7 +80,7 @@ class LLMS_Admin_Notices_Core {
 
 			do_action( 'llms_site_clone_detected' );
 
-			// disable recurring payments immediately.
+			// Disable recurring payments immediately.
 			LLMS_Site::update_feature( 'recurring_payments', false );
 
 			LLMS_Admin_Notices::add_notice(
@@ -99,9 +100,11 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Check for gateways and output gateway notice
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.13.0
+	 * @since 3.0.0
+	 * @since 3.13.0 Unknown.
+	 * @since [version] Dismiss notice for 2 years instead of 7 days.
+	 *
+	 * @return void
 	 */
 	public static function gateways() {
 		$id = 'no-gateways';
@@ -126,7 +129,7 @@ class LLMS_Admin_Notices_Core {
 				$html,
 				array(
 					'type'             => 'warning',
-					'dismiss_for_days' => 7,
+					'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
 					'remindable'       => true,
 				)
 			);
@@ -138,9 +141,10 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Don't display notices on specific pages
 	 *
-	 * @return   void
-	 * @since    3.14.8
-	 * @version  3.16.14
+	 * @since 3.14.8
+	 * @since 3.16.14 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function maybe_hide_notices() {
 
@@ -158,9 +162,11 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Check theme support for LifterLMS Sidebars
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.7.4
+	 * @since 3.0.0
+	 * @since 3.7.4 Unknown.
+	 * @since [version] Use strict comparison for `in_array()`.
+	 *
+	 * @return void
 	 */
 	public static function sidebar_support() {
 
@@ -168,7 +174,7 @@ class LLMS_Admin_Notices_Core {
 
 		$id = 'sidebars';
 
-		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $theme->get_template(), llms_get_core_supported_themes() ) ) {
+		if ( ! current_theme_supports( 'lifterlms-sidebars' ) && ! in_array( $theme->get_template(), llms_get_core_supported_themes(), true ) ) {
 
 			$msg = sprintf(
 				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
@@ -184,7 +190,7 @@ class LLMS_Admin_Notices_Core {
 				$msg,
 				array(
 					'dismissible'      => true,
-					'dismiss_for_days' => 730, // @todo there should be a "forever" setting
+					'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
 					'remindable'       => false,
 					'type'             => 'warning',
 				)
@@ -200,11 +206,12 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Removes the current sidebar notice (if present) and clears notice delay transients
-	 * Called when theme is switched
 	 *
-	 * @return   void
-	 * @since    3.14.7
-	 * @version  3.14.7
+	 * Called when theme is switched.
+	 *
+	 * @since 3.14.7
+	 *
+	 * @return void
 	 */
 	public static function clear_sidebar_notice() {
 		if ( LLMS_Admin_Notices::has_notice( 'sidebars' ) ) {
