@@ -475,7 +475,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.0.0 Refactored to utilize LLMS_Student->is_complete().
 	 *              Added $user_id param.
 	 *
-	 * @param int $user_id Optional. WP_User ID of a student. Default `null`
+	 * @param int $user_id Optional. WP_User ID of a student. Default `null`.
 	 *                     If not provided, or a falsy is provided, will fall back on the current user id.
 	 * @return bool
 	 */

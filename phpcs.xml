@@ -91,7 +91,6 @@
 		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
 
 		<!-- To be fixed -->
-		<exclude-pattern>includes/certificates/class.llms.certificate.user.php</exclude-pattern>
 		<exclude-pattern>includes/emails/class.llms.email.engagement.php</exclude-pattern>
 		<exclude-pattern>includes/forms/controllers/class.llms.controller.login.php</exclude-pattern>
 		<exclude-pattern>includes/forms/controllers/class.llms.controller.registration.php</exclude-pattern>
@@ -103,7 +102,6 @@
 		<exclude-pattern>includes/functions/llms.functions.log.php</exclude-pattern>
 		<exclude-pattern>includes/functions/llms.functions.notice.php</exclude-pattern>
 		<exclude-pattern>includes/functions/llms.functions.order.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.person.php</exclude-pattern>
 		<exclude-pattern>includes/functions/llms.functions.privacy.php</exclude-pattern>
 		<exclude-pattern>includes/functions/llms.functions.quiz.php</exclude-pattern>
 		<exclude-pattern>includes/functions/llms.functions.template.php</exclude-pattern>

@@ -182,7 +182,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 		$this->init( $email_id, $user_id, $lesson_id );
 
-		// only award cert if the user hasn't already earned it
+		// Only award cert if the user hasn't already earned it.
 		if ( $this->has_user_earned() ) {
 			return;
 		}

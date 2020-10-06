@@ -1,7 +1,12 @@
-@lifterlms/llms-e2e-test-utils CHANGELOG
-========================================
+LifterLMS E2E Test Utils CHANGELOG
+==================================
 
-v2.2.0 - 2020-08-06
+v2.1.3 - 2020-08-06
+-------------------
++ `logoutUser()`: Wait 1 second before navigating to logout page.
++ `visitSettingsPage()`: Don't add null values to the query string.
+
+v2.1.1 - 2020-08-06
 -------------------
 
 + `createCourse()` now uses `createPost()`.
