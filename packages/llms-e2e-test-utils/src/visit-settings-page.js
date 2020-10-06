@@ -8,7 +8,7 @@ import { pickBy } from 'lodash';
  * Visit a LifterLMS Settings Page on the admin panel
  *
  * @since 2.1.0
- * @since [version] Don't add null values to the query string.
+ * @since 2.1.2 Don't add null values to the query string.
  *
  * @param {Object} args {
  *     Settings page options.

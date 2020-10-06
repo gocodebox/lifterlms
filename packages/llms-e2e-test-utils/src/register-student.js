@@ -6,7 +6,7 @@ import { visitPage }    from './visit-page';
 /**
  * Register a new student via the LifterLMS Open Registration Page
  *
- * @since [version]
+ * @since 2.1.2
  *
  * @param {String} args.email Optional. Email address. If not supplied one will be created from the first name and last name.
  * @param {String} args.pass  Optional. User password. If not supplied one will be automatically generated.
