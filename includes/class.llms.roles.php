@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since 3.14.0 Add the `lifterlms_instructor` capability.
  * @since 3.34.0 Added the `list_users` capability to instructors.
- *                  Added capabilities for student management.
+ *               Added capabilities for student management.
  */
 class LLMS_Roles {
 
@@ -24,6 +24,7 @@ class LLMS_Roles {
 	 * Retrieve an array of all capabilities for a role
 	 *
 	 * @since 3.13.0
+	 *
 	 * @param string $role Name of the role.
 	 * @return array
 	 */
@@ -387,7 +388,7 @@ class LLMS_Roles {
 		}
 
 		// Remove custom caps from the WP core admin role.
-		self::update_caps( $wp_roles->get_role( 'administrator' ), 'remove' );
+		self::update_caps( $wp_roles->get_role( 'administrator' ), 'remove', array( 'wp' ) );
 
 	}
 
@@ -395,14 +396,23 @@ class LLMS_Roles {
 	 * Update the capabilities for a given role
 	 *
 	 * @since 3.13.0
+	 * @since [version] Added `$exclude_group` parameter that allows excluding groups of caps from the update.
 	 *
-	 * @param WP_Role $role Role object.
-	 * @param string  $type Update type [add|remove].
+	 * @param WP_Role  $role           Role object.
+	 * @param string   $type           Update type [add|remove].
+	 * @param string[] $exclude_groups Array of groups to exclude.
 	 * @return void
 	 */
-	private static function update_caps( $role, $type = 'add' ) {
+	private static function update_caps( $role, $type = 'add', $exclude_groups = array() ) {
 
-		foreach ( self::get_all_caps( $role->name ) as $group => $caps ) {
+		$role_caps = self::get_all_caps( $role->name );
+		if ( ! empty( $exclude_groups ) ) {
+			foreach ( $exclude_groups as $exclude_group ) {
+				unset( $role_caps[ $exclude_group ] );
+			}
+		}
+
+		foreach ( $role_caps as $group => $caps ) {
 
 			foreach ( array_keys( $caps ) as $cap ) {
 
