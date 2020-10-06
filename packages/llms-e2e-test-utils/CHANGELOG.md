@@ -1,7 +1,7 @@
 LifterLMS E2E Test Utils CHANGELOG
 ==================================
 
-v2.1.2 - 2020-08-06
+v2.1.3 - 2020-08-06
 -------------------
 + `logoutUser()`: Wait 1 second before navigating to logout page.
 + `visitSettingsPage()`: Don't add null values to the query string.
