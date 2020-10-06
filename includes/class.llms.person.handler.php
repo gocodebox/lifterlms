@@ -773,16 +773,16 @@ class LLMS_Person_Handler {
 
 			// Signon.
 			if ( $signon ) {
-				llms_set_person_auth_cookie( $person_id, false );
-				LLMS()->events()->record(
+			// Signon.
+			if ( $signon ) {
+				wp_signon(
 					array(
-						'actor_id'     => $person_id,
-						'object_type'  => 'user',
-						'object_id'    => $person_id,
-						'event_type'   => 'account',
-						'event_action' => 'signon',
-					)
+						'user_login'    => $data['user_login'],
+						'user_password' => $data['password'],
+					),
+					is_ssl()
 				);
+			}
 			}
 
 			// Fire actions.
