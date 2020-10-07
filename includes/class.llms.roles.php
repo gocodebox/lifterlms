@@ -406,11 +406,7 @@ class LLMS_Roles {
 	private static function update_caps( $role, $type = 'add', $exclude_groups = array() ) {
 
 		$role_caps = self::get_all_caps( $role->name );
-		if ( ! empty( $exclude_groups ) ) {
-			foreach ( $exclude_groups as $exclude_group ) {
-				unset( $role_caps[ $exclude_group ] );
-			}
-		}
+		$role_caps = empty( $exclude_groups ) ? $role_caps : array_diff_key( $role_caps, array_flip( $exclude_groups ) );
 
 		foreach ( $role_caps as $group => $caps ) {
 
