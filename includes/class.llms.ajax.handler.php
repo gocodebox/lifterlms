@@ -292,10 +292,10 @@ class LLMS_AJAX_Handler {
 
 		$query = new LLMS_Notifications_Query(
 			array(
-				'per_page'   => 5,
-				'statuses'   => 'new',
-				'types'      => 'basic',
-				'subscriber' => get_current_user_id(),
+				'per_page'      => 5,
+				'statuses'      => 'new',
+				'types'         => 'basic',
+				'subscriber'    => get_current_user_id(),
 				'no_found_rows' => true,
 			)
 		);

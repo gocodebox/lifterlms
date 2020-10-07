@@ -80,7 +80,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get an array of LifterLMS Admin Page settings to send test notifications-
+	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
 	 * @since 3.24.0
 	 * @since [version] Instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.

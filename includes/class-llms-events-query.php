@@ -1,6 +1,6 @@
 <?php
 /**
- * Perform db queries for events.
+ * Perform db queries for events
  *
  * @package LifterLMS/Classes
  *
@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Events_Query class.
  *
  * @since 3.36.0
- * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  */
 class LLMS_Events_Query extends LLMS_Database_Query {
 

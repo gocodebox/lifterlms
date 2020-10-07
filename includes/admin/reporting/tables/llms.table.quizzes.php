@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,6 +147,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since [version] Use `LLMS_Query_Quiz_Attempt->number_results` in place of `count(LLMS_Query_Quiz_Attempt->results)`.
 	 *              Also, when calculating the 'average' on 1000 attempts, instantiate the quiz attempt query passing `no_found_rows` arg as `true`,
 	 *              to improve performance.
+	 *
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.
 	 * @return mixed

@@ -1,6 +1,6 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership.
+ * Query LifterLMS Students for a given course / membership
  *
  * @package LifterLMS/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Student_Query
+ * LLMS_Student_Query class
  *
  * @since 3.4.0
  * @since 3.13.0 Unknown.
@@ -21,16 +21,17 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Identify the extending query
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'student';
 
 	/**
 	 * Retrieve default arguments for a student query
 	 *
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -57,12 +58,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve an array of LLMS_Students for the given set of students
-	 * returned by the query
+	 * Retrieve an array of LLMS_Students for the given set of students returned by the query
 	 *
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.8.0
+	 * @since 3.4.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function get_students() {
 
@@ -86,12 +87,14 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Parses data passed to $statuses
-	 * Convert strings to array and ensure resulting array contains only valid statuses
-	 * If no valid statuses, returns to the default
 	 *
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * Convert strings to array and ensure resulting array contains only valid statuses
+	 * If no valid statuses, returns to the default.
+	 *
+	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return void
 	 */
 	protected function parse_args() {
 
@@ -175,10 +178,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Determines if a field should be selected/joined based on searching and sorting arguments
 	 *
-	 * @param    string $field  field name/key
-	 * @return   bool
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $field Field name/key.
+	 * @return bool
 	 */
 	private function requires_field( $field ) {
 
@@ -203,9 +206,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve prepared SQL for the HAVING clause
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since 3.13.0
+	 *
+	 * @return string
 	 */
 	private function sql_having() {
 
@@ -224,9 +228,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Setup joins based on submitted sort and search args
 	 *
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @return string
 	 */
 	private function sql_joins() {
 
@@ -261,9 +265,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve the prepared SEARCH query for the WHERE clause
 	 *
-	 * @return   string
-	 * @since    3.4.0
-	 * @version  3.8.0
+	 * @return string
+	 *
+	 * @since 3.4.0
+	 * @since 3.8.0 Unknown.
 	 */
 	private function sql_search() {
 
@@ -294,7 +299,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * @since 3.13.0
 	 * @since [version] Use `$this->sql_select_columns({columns})` to determine additional columns to select.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	private function sql_select() {
 
@@ -337,11 +342,11 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL IN clause based on submitted status arguments.
+	 * Generate an SQL IN clause based on submitted status arguments
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param  string $column  Optional. Name of the column. Default 'status'.
+	 * @param string $column Optional. Name of the column. Default 'status'.
 	 * @return string
 	 */
 	private function sql_status_in( $column = 'status' ) {
@@ -363,10 +368,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Generate an SQL subquery for the dynamic status or date values in the main query
 	 *
-	 * @param    string $column  column name
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $column Column name.
+	 * @return string
 	 */
 	private function sql_subquery( $column ) {
 

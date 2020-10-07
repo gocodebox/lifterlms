@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties & fixed typo in output string.
- * @since [version] Instantiate the notification query passing `no_found_rows` arg as `true`.
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 

@@ -55,7 +55,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$this->log( sprintf( 'membership bulk enrollment dispatched for membership %1$d into course %2$d', $membership_id, $course_id ) );
 
-		// cancel process in case it's currently running
+		// Cancel process in case it's currently running.
 		$this->cancel_process();
 
 		$args = array(
@@ -94,16 +94,16 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Initializer
 	 *
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return void
 	 */
 	protected function init() {
 
-		// for the cron
+		// For the cron.
 		add_action( $this->schedule_hook, array( $this, 'dispatch_enrollment' ), 10, 2 );
 
-		// for LifterLMS actions which trigger bulk enrollment
+		// For LifterLMS actions which trigger bulk enrollment.
 		$this->actions = array(
 			'llms_membership_do_bulk_course_enrollment' => array(
 				'arguments' => 2,
@@ -116,13 +116,14 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 	/**
 	 * Schedule bulk enrollment
-	 * This will schedule an event that will setup the queue of items for the background process
 	 *
-	 * @param    int $membership_id  WP Post ID of the membership
-	 * @param    int $course_id      WP Post ID of the course to enroll members into
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * This will schedule an event that will setup the queue of items for the background process.
+	 *
+	 * @since 3.15.0
+	 *
+	 * @param int $membership_id WP Post ID of the membership.
+	 * @param int $course_id     WP Post ID of the course to enroll members into.
+	 * @return void
 	 */
 	public function schedule_enrollment( $membership_id, $course_id ) {
 
@@ -140,15 +141,15 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	}
 
 	/**
-	 * Execute calculation for each item in the queue until all students
-	 * in the course have been polled.
+	 * Execute calculation for each item in the queue until all students in the course have been polled
+	 *
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
 	 *
 	 * @since 3.15.0
 	 * @since 3.26.1 Unknown.
 	 * @since [version] Use query method `has_results()` in place of a check on query property `found_results`.
 	 *
-	 * @param  array $item  Array of processing data
+	 * @param array $item Array of processing data.
 	 * @return boolean True to keep the item in the queue and process again.
 	 *                 False to remove the item from the queue.
 	 */
@@ -157,12 +158,12 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		$this->log( sprintf( 'membership bulk enrollment task started for membership %1$d into course %2$d', $item['query_args']['post_id'], $item['course_id'] ) );
 		$this->log( $item );
 
-		// ensure the item has all the data we need to process it
+		// Ensure the item has all the data we need to process it.
 		if ( ! is_array( $item ) || ! isset( $item['course_id'] ) || ! isset( $item['query_args'] ) || ! isset( $item['trigger'] ) ) {
 			return false;
 		}
 
-		// turn the course data processor off
+		// Turn the course data processor off.
 		$course_data_processor = LLMS()->processors()->get( 'course_data' );
 		if ( $course_data_processor ) {
 			$course_data_processor->disable();
@@ -180,12 +181,12 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 			$this->log( sprintf( 'membership bulk enrollment completed for membership %1$d into course %2$d', $item['query_args']['post_id'], $item['course_id'] ) );
 
-			// turn the course data processor back on
+			// Turn the course data processor back on.
 			if ( $course_data_processor ) {
 				$course_data_processor->add_actions();
 			}
 
-			// process the course data
+			// Process the course data.
 			do_action( 'llms_course_calculate_data', $item['course_id'] );
 
 		}

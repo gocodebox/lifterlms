@@ -31,9 +31,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
 	 *
-	 * @return   LLMS_Instructor|false
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return LLMS_Instructor|false
 	 */
 	public function instructor() {
 		if ( $this->is_instructor() ) {
@@ -45,9 +45,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an instance of the student quiz data model
 	 *
-	 * @return   LLMS_Student_Quizzes
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @return LLMS_Student_Quizzes
 	 */
 	public function quizzes() {
 		return new LLMS_Student_Quizzes( $this->get_id() );
@@ -56,19 +56,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Add the student to a LifterLMS Membership
 	 *
-	 * @param int $membership_id   WP Post ID of the membership
-	 * @return  void
+	 * @since 2.2.3
 	 *
-	 * @since  2.2.3
+	 * @param int $membership_id WP Post ID of the membership.
+	 * @return void
 	 */
 	private function add_membership_level( $membership_id ) {
 
-		// add the user to the membership level
+		// Add the user to the membership level.
 		$membership_levels = $this->get_membership_levels();
 		array_push( $membership_levels, $membership_id );
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
 
-		// if there's auto-enroll courses, enroll the user in those courses
+		// If there's auto-enroll courses, enroll the user in those courses.
 		$autoenroll_courses = get_post_meta( $membership_id, '_llms_auto_enroll', true );
 		if ( $autoenroll_courses ) {
 
@@ -92,14 +92,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see llms_enroll_student()
 	 *
-	 * @param  int    $product_id WP Post ID of the course or membership
-	 * @param  string $trigger    String describing the reason for enrollment
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    String describing the reason for enrollment.
 	 * @return boolean
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
 		/**
 		 * Fires before a user is enrolled into a course or membership.
+		 *
+		 * @since unknown
 		 *
 		 * @param int $user_id WP User ID.
 		 * @param int $product_id WP Post ID of the course or membership.
@@ -140,6 +142,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				/**
 				 * Fires after a user is enrolled in course
 				 *
+				 * @since unknown
+				 *
 				 * @param int $user_id    WP User ID.
 				 * @param int $product_id WP Post ID of the course or membership.
 				 */
@@ -151,6 +155,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				/**
 				 * Fires after a user is enrolled in membership
+				 *
+				 * @since unknown
 				 *
 				 * @param int $user_id    WP User ID.
 				 * @param int $product_id WP Post ID of the course or membership.
@@ -164,6 +170,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			 *
 			 * `$post_type` refers to the type of item the user is enrolled in, either 'course' or 'membership'
 			 * `$action_type` refers to the type of action taking place, either "created" or "updated".
+			 *
+			 * @since unknown
 			 *
 			 * @param int $user_id WP User ID.
 			 * @param int $product_id WP Post ID of the course or membership.

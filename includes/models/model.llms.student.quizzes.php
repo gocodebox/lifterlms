@@ -23,9 +23,9 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve # of quiz attempts for a quiz
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param  int $quiz_id WP Post ID of the quiz.
+	 * @param int $quiz_id WP Post ID of the quiz.
 	 * @return int
 	 */
 	public function count_attempts_by_quiz( $quiz_id ) {
@@ -48,7 +48,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
 	 *
-	 * @param  int $attempt_id Attempt ID.
+	 * @param int $attempt_id Attempt ID.
 	 * @return boolean True on success, false on error.
 	 */
 	public function delete_attempt( $attempt_id ) {

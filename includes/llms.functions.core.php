@@ -1,6 +1,6 @@
 <?php
 /**
- * Core LifterLMS functions file.
+ * Core LifterLMS functions file
  *
  * @package LifterLMS/Functions
  *
@@ -39,16 +39,17 @@ require_once 'functions/llms.functions.user.postmeta.php';
 
 /**
  * Insert elements into an associative array after a specific array key
+ *
  * If the requested key doesn't exit, the new item will be added to the end of the array
  * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item );
  *
- * @param    array  $array        original associative array
- * @param    string $after_key    key name in original array to insert new item after
- * @param    string $insert_key   key name of the item to be inserted
- * @param    mixed  $insert_item  value to be inserted
- * @return   array
- * @since    3.21.0
- * @version  3.21.0
+ * @since 3.21.0
+ *
+ * @param array  $array       Original associative array.
+ * @param string $after_key   Key name in original array to insert new item after.
+ * @param string $insert_key  Key name of the item to be inserted.
+ * @param mixed  $insert_item Value to be inserted.
+ * @return array
  */
 function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
 
@@ -88,12 +89,11 @@ function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item 
  * If $gmt is set to either '1' or 'true', then both types will use GMT time.
  * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
  *
- * @param  string       $type   Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
- * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
- * @return int|string           Integer if $type is 'timestamp', string otherwise.
+ * @since 3.4.0
  *
- * @since    3.4.0
- * @version  3.4.0
+ * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
+ * @param int|bool $gmt  Optional. Whether to use GMT timezone. Default false.
+ * @return int|string Integer if $type is 'timestamp', string otherwise.
  */
 if ( ! function_exists( 'llms_current_time' ) ) {
 	function llms_current_time( $type, $gmt = 0 ) {
@@ -143,11 +143,12 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 
 /**
  * Cron function to cleanup files in the LLMS_TMP_DIR
- * Removes any files that are more than a day old
  *
- * @return   void
- * @since    3.18.0
- * @version  3.18.0
+ * Removes any files that are more than a day old.
+ *
+ * @since 3.18.0
+ *
+ * @return void
  */
 function llms_cleanup_tmp() {
 
@@ -178,15 +179,15 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	 * This is a pluggable wrapper around native `filter_input` which is plugged in the testing framework
 	 * to allow easy mocking of form variables when testing form controller functions and methods
 	 *
-	 * @param   int    $type           One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
-	 * @param   string $variable_name  Name of a variable to get.
-	 * @param   int    $filter         The ID of the filter to apply.
-	 * @param   mixed  $options        Associative array of options or bitwise disjunction of flags. If filter accepts options, flags can be provided in "flags" field of array.
-	 * @return  mixed  Value of the requested variable on success, FALSE if the filter fails, or NULL if
-	 *                 the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used,
-	 *                 it returns FALSE if the variable is not set and NULL if the filter fails.
-	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @since 3.29.0
+	 *
+	 * @param int    $type          One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
+	 * @param string $variable_name Name of a variable to get.
+	 * @param int    $filter        The ID of the filter to apply.
+	 * @param mixed  $options       Associative array of options or bitwise disjunction of flags. If filter accepts options, flags can be provided in "flags" field of array.
+	 * @return mixed Value of the requested variable on success, FALSE if the filter fails, or NULL if
+	 *               the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used,
+	 *               it returns FALSE if the variable is not set and NULL if the filter fails.
 	 */
 	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
 		return filter_input( $type, $variable_name, $filter, $options );
@@ -236,9 +237,10 @@ function llms_get_completable_taxonomies() {
 /**
  * Get themes natively supported by LifterLMS
  *
- * @return array
  * @since 3.0.0
- * @version 3.0.1
+ * @since 3.0.1 Unknown.
+ *
+ * @return array
  */
 function llms_get_core_supported_themes() {
 	return array(
@@ -533,8 +535,8 @@ function llms_get_product_visibility_options() {
  * @param int          $post_id  WP_Post id of a course or membership.
  * @param string|array $statuses List of enrollment statuses to query by
  *                               status query is an OR relationship.
- * @param integer      $limit    Number of results.
- * @param integer      $skip     Number of results to skip (for pagination).
+ * @param int          $limit    Number of results.
+ * @param int          $skip     Number of results to skip (for pagination).
  * @return array
  */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
