@@ -72,7 +72,6 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 		// Install them.
 		LLMS_Roles::install();
-		remove_filter( 'do_print', '__return_true' );
 
 		// Ensure all the roles were installed.
 		foreach ( array_keys( LLMS_Roles::get_roles() ) as $role ) {
