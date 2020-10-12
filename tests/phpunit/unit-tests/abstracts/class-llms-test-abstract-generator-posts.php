@@ -231,6 +231,13 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_author_id() when an error creating the user is encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_get_author_id_error() {
 
 		// Error during creation.
@@ -239,11 +246,9 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 			return $data;
 		};
 		add_filter( 'llms_generator_new_author_data', $handler );
-		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->stub, 'get_author_id', array( array( 'email' => 'fake@test.tld' ) ) ) );
+		$this->setExpectedException( Exception::class, 'Cannot create a user with an empty login name.', 1002 );
+		LLMS_Unit_Test_Util::call_method( $this->stub, 'get_author_id', array( array( 'email' => 'fake@test.tld' ) ) );
 		remove_filter( 'llms_generator_new_author_data', $handler );
-
-		$this->assertIsWPError( $this->stub->error );
-		$this->assertWPErrorCodeEquals( 'empty_user_login', $this->stub->error );
 
 	}
 
@@ -325,12 +330,9 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 			return new WP_Error( 'mock-term-insert-err', 'Error' );
 		};
 		add_filter( 'pre_insert_term', $handler );
-		$res = LLMS_Unit_Test_Util::call_method( $this->stub, 'get_term_id', array( 'mock gen term', 'course_cat' ) );
+		$this->setExpectedException( Exception::class, 'Error creating new term "mock gen term".', 1001 );
+		LLMS_Unit_Test_Util::call_method( $this->stub, 'get_term_id', array( 'mock gen term', 'course_cat' ) );
 		remove_filter( 'pre_insert_term', $handler );
-
-		$this->assertNull( $res );
-		$this->assertIsWPError( $this->stub->error );
-		$this->assertWPErrorCodeEquals( 'term-creation', $this->stub->error );
 
 	}
 

@@ -90,9 +90,76 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_generate_course() {}
+	/**
+	 * Test generate_course()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_course() {
 
-	public function test_generate_courses() {}
+		$raw = $this->get_raw();
+		$res = $this->main->generate_course( $raw );
+		$this->assertTrue( is_numeric( $res ) );
+		$this->assertEquals( 'course', get_post_type( $res ) );
+
+	}
+
+	/**
+	 * Test generate_courses() when with missing raw course data
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_courses_missing_courses() {
+
+		$this->setExpectedException( Exception::class, 'Raw data is missing the required "courses" array.', 2000 );
+		$this->main->generate_courses( array() );
+
+	}
+
+	/**
+	 * Test generate_courses() when with invalid raw course data
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_courses_invalid_courses() {
+
+		$this->setExpectedException( Exception::class, 'The raw "courses" item must be an array.', 2001 );
+		$this->main->generate_courses( array( 'courses' => 'invalid' ) );
+
+	}
+
+	/**
+	 * Test generate_courses()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_courses() {
+
+		$res = $this->main->generate_courses( array(
+			'courses' => array(
+				array(
+					'title' => 'Course 0',
+				),
+				array(
+					'title' => 'Course 1',
+				),
+			),
+		) );
+
+		foreach ( $res as $i => $id ) {
+			$this->assertEquals( 'course', get_post_type( $id ) );
+			$this->assertEquals( sprintf( 'Course %d', $i ), get_the_title( $id ) );
+		}
+
+	}
 
 	/**
 	 * Test create_access_plan()
@@ -145,10 +212,12 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 */
 	public function test_create_course() {
 
-		$course_actions  = did_action( 'llms_generator_new_course' );
-		$section_actions = did_action( 'llms_generator_new_section' );
-		$lesson_actions  = did_action( 'llms_generator_new_lesson' );
-		$quiz_actions    = did_action( 'llms_generator_new_quiz' );
+		$course_actions   = did_action( 'llms_generator_new_course' );
+		$plan_actions     = did_action( 'llms_generator_new_access_plan' );
+		$section_actions  = did_action( 'llms_generator_new_section' );
+		$lesson_actions   = did_action( 'llms_generator_new_lesson' );
+		$quiz_actions     = did_action( 'llms_generator_new_quiz' );
+		$question_actions = did_action( 'llms_generator_new_question' );
 
 		$raw    = $this->get_raw();
 		$id     = LLMS_Unit_Test_Util::call_method( $this->main, 'create_course', array( $raw ) );
@@ -156,12 +225,36 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 		$this->assertTrue( $course instanceof LLMS_Course );
 
+		// Default post properties.
 		$this->assertEquals( $raw['title'], $course->get( 'title' ) );
+		$this->assertEquals( $raw['content'], $course->get( 'content', true ) );
+
+		// Store the original ID.
 		$this->assertEquals( $raw['id'], $course->get( 'generated_from_id' ) );
 
-		$this->assertEquals( ++$course_actions,  did_action( 'llms_generator_new_course' ) );
-		$this->assertEquals( ++$section_actions,  did_action( 'llms_generator_new_section' ) );
-		$this->assertEquals( ++$quiz_actions,  did_action( 'llms_generator_new_quiz' ) );
+		// Test meta props are set.
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $course, 'properties' ) ) as $prop ) {
+			$this->assertEquals( $raw[ $prop ], $course->get( $prop ) );
+		}
+
+		// Test custom values.
+		foreach ( $raw['custom'] as $key => $vals ) {
+			$this->assertEquals( $vals, get_post_meta( $course->get( 'id' ), $key ) );
+		}
+
+		// Check taxonomies.
+		$this->assertEquals( $raw['difficulty'], $course->get_difficulty() );
+		$this->assertEquals( $raw['categories'], $course->get_categories() );
+		$this->assertEquals( $raw['tags'], $course->get_tags() );
+		$this->assertEquals( $raw['tracks'], $course->get_tracks() );
+
+		// Calls actions (noting that children have been created).
+		$this->assertEquals( ++$course_actions, did_action( 'llms_generator_new_course' ) );
+		$this->assertEquals( ++$plan_actions, did_action( 'llms_generator_new_access_plan' ) );
+		$this->assertEquals( ++$section_actions, did_action( 'llms_generator_new_section' ) );
+		$this->assertEquals( ++$lesson_actions, did_action( 'llms_generator_new_lesson' ) );
+		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
+		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
 
 		// Test course structure of generated course is preserved via `handle_prerequisites()`.
 		foreach ( $course->get_sections() as $section ) {
@@ -181,15 +274,216 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_create_lesson() {}
+	/**
+	 * Test create_lesson()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_lesson() {
 
-	public function test_create_quiz() {}
+		$lesson_actions   = did_action( 'llms_generator_new_lesson' );
+		$quiz_actions     = did_action( 'llms_generator_new_quiz' );
+		$question_actions = did_action( 'llms_generator_new_question' );
 
-	public function test_create_question() {}
+		$raw     = $this->get_raw()['sections'][0]['lessons'][0];
+		$order   = 3;
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 0 ) );
+		$section = $course->get_sections()[0];
+		$id      = LLMS_Unit_Test_Util::call_method( $this->main, 'create_lesson', array( $raw, $order, $section->get( 'id' ), $course->get( 'id' ) ) );
+		$lesson  = llms_get_post( $id );
 
-	public function test_create_section() {}
+		$this->assertTrue( $lesson instanceof LLMS_Lesson );
 
-	public function test_get_generated_courses() {}
+		// Default post properties.
+		$this->assertEquals( $raw['title'], $lesson->get( 'title' ) );
+		$this->assertEquals( $raw['content'], $lesson->get( 'content', true ) );
+
+		// Test meta props are set.
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $lesson, 'properties' ) ) as $prop ) {
+			// This data is not based off raw.
+			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz' ), true ) ) {
+				continue;
+			}
+			$this->assertEquals( $raw[ $prop ], $lesson->get( $prop ), $prop );
+		}
+
+		// Test custom values.
+		foreach ( $raw['custom'] as $key => $vals ) {
+			$this->assertEquals( $vals, get_post_meta( $lesson->get( 'id' ), $key ) );
+		}
+
+		// Order.
+		$this->assertEquals( $order, $lesson->get( 'order' ) );
+
+		// Store the original ID.
+		$this->assertEquals( $raw['id'], $lesson->get( 'generated_from_id' ) );
+
+		// Calls actions (noting that children have been created).
+		$this->assertEquals( ++$lesson_actions, did_action( 'llms_generator_new_lesson' ) );
+		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
+		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
+
+		// Relationships.
+		$this->assertEquals( $course->get( 'id' ), $lesson->get( 'parent_course' ) );
+		$this->assertEquals( $section->get( 'id' ), $lesson->get( 'parent_section' ) );
+
+		$quiz = $lesson->get_quiz();
+		$this->assertEquals( $id, $quiz->get( 'lesson_id' ) );
+
+	}
+
+	public function test_create_quiz() {
+
+		$quiz_actions     = did_action( 'llms_generator_new_quiz' );
+		$question_actions = did_action( 'llms_generator_new_question' );
+
+		$raw              = $this->get_raw()['sections'][0]['lessons'][0]['quiz'];
+		$lesson_id        = $this->factory->post->create( array( 'post_type' => 'lesson' ) );
+		$raw['lesson_id'] = $lesson_id;
+
+		$id   = LLMS_Unit_Test_Util::call_method( $this->main, 'create_quiz', array( $raw ) );
+		$quiz = llms_get_post( $id );
+
+		$this->assertTrue( $quiz instanceof LLMS_Quiz );
+
+		// Default post properties.
+		$this->assertEquals( $raw['title'], $quiz->get( 'title' ) );
+		$this->assertEquals( $raw['content'], $quiz->get( 'content', true ) );
+
+		// Test meta props are set.
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $quiz, 'properties' ) ) as $prop ) {
+			// This data is not based off raw.
+			if ( in_array( $prop, array( 'order', 'parent_course', 'parent_section', 'quiz' ), true ) ) {
+				continue;
+			}
+			$this->assertEquals( $raw[ $prop ], $quiz->get( $prop ), $prop );
+		}
+
+		// Test custom values.
+		foreach ( $raw['custom'] as $key => $vals ) {
+			$this->assertEquals( $vals, get_post_meta( $quiz->get( 'id' ), $key ) );
+		}
+
+		// Store the original ID.
+		$this->assertEquals( $raw['id'], $quiz->get( 'generated_from_id' ) );
+
+		// Calls actions (noting that children have been created).
+		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
+		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
+
+		// Relationships.
+		$this->assertEquals( $lesson_id, $quiz->get( 'lesson_id' ) );
+
+	}
+
+	/**
+	 * Test create_question()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_question() {
+
+		$question_actions = did_action( 'llms_generator_new_question' );
+
+		$raw     = $this->get_raw()['sections'][0]['lessons'][0]['quiz']['questions'][0];
+		$quiz_id = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$quiz    = llms_get_post( $quiz_id );
+
+		$id       = LLMS_Unit_Test_Util::call_method( $this->main, 'create_question', array( $raw, $quiz->questions(), $this->factory->user->create() ) );
+		$question = llms_get_post( $id );
+
+		$this->assertTrue( $question instanceof LLMS_Question );
+
+		// Default post properties.
+		$this->assertEquals( $raw['title'], $question->get( 'title' ) );
+		$this->assertEquals( $raw['content'], $question->get( 'content', true ) );
+
+		// Test meta props are set.
+		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $question, 'properties' ) ) as $prop ) {
+			// This data is not based off raw.
+			if ( in_array( $prop, array( 'parent_id' ), true ) ) {
+				continue;
+			}
+			$this->assertEquals( $raw[ $prop ], $question->get( $prop ), $prop );
+		}
+
+		// Store the original ID.
+		$this->assertEquals( $raw['id'], $question->get( 'generated_from_id' ) );
+
+		// Calls actions (noting that children have been created).
+		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
+
+		// Relationships.
+		$this->assertEquals( $quiz_id, $question->get( 'parent_id' ) );
+
+		// Check choices.
+		foreach ( $question->get_choices() as $i => $choice ) {
+
+			$this->assertEquals( $id, $choice->get_question_id() );
+
+			$this->assertEquals( $raw['choices'][ $i ]['choice'], $choice->get_choice() );
+			$this->assertEquals( $raw['choices'][ $i ]['choice_type'], $choice->get( 'choice_type' ) );
+			$this->assertEquals( $raw['choices'][ $i ]['correct'], $choice->get( 'correct' ) );
+			$this->assertEquals( $raw['choices'][ $i ]['marker'], $choice->get( 'marker' ) );
+
+		}
+
+	}
+
+	/**
+	 * Test create_section()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_section() {
+
+		$section_actions  = did_action( 'llms_generator_new_section' );
+		$lesson_actions   = did_action( 'llms_generator_new_lesson' );
+		$quiz_actions     = did_action( 'llms_generator_new_quiz' );
+		$question_actions = did_action( 'llms_generator_new_question' );
+
+		$raw     = $this->get_raw()['sections'][0];
+		$order   = 20;
+		$course  = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$id      = LLMS_Unit_Test_Util::call_method( $this->main, 'create_section', array( $raw, $order, $course ) );
+		$section = llms_get_post( $id );
+
+		$this->assertTrue( $section instanceof LLMS_Section );
+
+		// Default post properties.
+		$this->assertEquals( $raw['title'], $section->get( 'title' ) );
+
+		// These are the only important pieces of meta data.
+		$this->assertEquals( $course, $section->get( 'parent_course' ) );
+		$this->assertEquals( $order, $section->get( 'order' ) );
+
+		// Store the original ID.
+		$this->assertEquals( $raw['id'], $section->get( 'generated_from_id' ) );
+
+		// Calls actions (noting that children have been created).
+		$this->assertEquals( ++$section_actions, did_action( 'llms_generator_new_section' ) );
+		$this->assertEquals( ++$lesson_actions, did_action( 'llms_generator_new_lesson' ) );
+		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
+		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
+
+		// Test course structure of generated course is preserved via `handle_prerequisites()`.
+		foreach ( $section->get_lessons() as $lesson ) {
+
+			$this->assertEquals( $course, $lesson->get( 'parent_course' ) );
+			$this->assertEquals( $section->get( 'id' ), $lesson->get( 'parent_section' ) );
+
+			$quiz = $lesson->get_quiz();
+			$this->assertEquals( $lesson->get( 'id' ), $quiz->get( 'lesson_id' ) );
+
+		}
+
+	}
 
 	public function test_handle_prerequisites() {}
 

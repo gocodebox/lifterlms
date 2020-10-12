@@ -17,6 +17,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.4 Don't test against core metadata.
+	 * @since [version] Update to accommodate changes in results data (and test to maintain backwards compat).
 	 *
 	 * @return void
 	 */
@@ -52,42 +53,34 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 		$gen->set_default_post_status( 'publish' );
 		$gen->generate();
 
-		$this->assertEquals( array(
-			'authors' => 1,
-			'courses' => 1,
-			'sections' => 3,
-			'lessons' => 15,
-			'quizzes' => 3,
-			'questions' => 15,
-			'terms' => 5,
-			'plans' => 2,
-		), $gen->get_results() );
+		$results = $gen->get_results();
 
-		// ensure custom data is properly added
+		// Backwards compat keys.
+		$this->assertEquals( 1, $results['authors'] );
+		$this->assertEquals( 1, $results['courses'] );
+		$this->assertEquals( 3, $results['sections'] );
+		$this->assertEquals( 15, $results['lessons'] );
+		$this->assertEquals( 3, $results['quizzes'] );
+		$this->assertEquals( 15, $results['questions'] );
+		$this->assertEquals( 5, $results['terms'] );
+		$this->assertEquals( 2, $results['plans'] );
+
+		// Everything else.
+		$this->assertEquals( 1, $results['user'] );
+		$this->assertEquals( 1, $results['course'] );
+		$this->assertEquals( 3, $results['section'] );
+		$this->assertEquals( 15, $results['lesson'] );
+		$this->assertEquals( 3, $results['quiz'] );
+		$this->assertEquals( 15, $results['question'] );
+		$this->assertEquals( 5, $results['term'] );
+		$this->assertEquals( 2, $results['access_plan'] );
+		$this->assertEquals( 1, $results['user'] );
+
+		// Ensure custom data is properly added
 		$courses = $gen->get_generated_courses();
 		$custom  = get_post_custom( $courses[0] );
 		unset( $custom['_llms_instructors'] ); // remove core meta data.
 		$this->assertEquals( $course['custom'], $custom );
-
-	}
-
-	/**
-	 * Test get_generated_posts()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_generated_posts() {
-
-		$gen = new LLMS_Generator( array() );
-
-		// Default.
-		$this->assertEquals( array(), $gen->get_generated_posts() );
-
-		// Modified.
-		LLMS_Unit_Test_Util::set_private_property( $gen, 'posts', array( 1, 2 , 3 ) );
-		$this->assertEquals( array( 1, 2 , 3 ), $gen->get_generated_posts() );
 
 	}
 

@@ -21,6 +21,10 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class LLMS_Abstract_Generator_Posts {
 
+	const ERROR_CREATE_POST = 1000;
+	const ERROR_CREATE_TERM = 1001;
+	const ERROR_CREATE_USER = 1002;
+
 	/**
 	 * Default post status when status isn't set in $raw for a given post
 	 *
@@ -60,6 +64,13 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @var array
 	 */
 	protected $reusable_blocks = array();
+
+	/**
+	 * Associate raw tempids with actual created ids
+	 *
+	 * @var array
+	 */
+	protected $tempids = array();
 
 	/**
 	 * Construct a new generator instance with data
@@ -107,25 +118,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
 
-		/**
-		 * Filter raw post import data prior to generation
-		 *
-		 * The dynamic portion of this hook, `$type`, refers to the post's post type without the `llms_` prefix.
-		 *
-		 * @since 3.30.2
-		 * @since [version] Converted into a dynamic filter shared by all generated posts.
-		 *
-		 * @param array          $raw       Raw post data array.
-		 * @param LLMS_Generator $generator Generator instance.
-		 */
-		$raw = apply_filters( "llms_generator_before_new_{$type}", $raw, $this );
-
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 		if ( isset( $raw['author'] ) ) {
 			unset( $raw['author'] );
 		}
 
-		// Insert the plan.
+		// Insert the object.
 		$post = new $class_name(
 			'new',
 			array(
@@ -138,21 +136,32 @@ abstract class LLMS_Abstract_Generator_Posts {
 			)
 		);
 
-		unset( $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
-
-		// unset( $raw['product_id'] );
-		// $plan->set( 'product_id', $course_id );
-
-		// Store the id from the import if there is one.
-		if ( isset( $raw['id'] ) ) {
-			$post->set( 'generated_from_id', $raw['id'] );
-			unset( $raw['id'] );
+		if ( ! $post->get( 'id' ) ) {
+			throw new Exception( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ), $type ), self::ERROR_CREATE_POST );
 		}
 
-		foreach ( $raw as $key => $val ) {
-			$post->set( $key, $val );
+		// Store the temp id if it exists.
+		$this->store_temp_id( $raw, $post );
+
+		// Don't set these values again.
+		unset( $raw['id'], $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
+
+		// Set featured image.
+		if ( isset( $raw['featured_image'] ) ) {
+			$this->set_featured_image( $raw['featured_image'], $post->get( 'id' ) );
 		}
 
+		// Set all metadata.
+		foreach ( array_keys( $post->get_properties() ) as $key ) {
+			if ( isset( $raw[ $key ] ) ) {
+				$post->set( $key, $raw[ $key ] );
+			}
+		}
+
+		// Add custom meta.
+		$this->add_custom_values( $post->get( 'id' ), $raw );
+
+		// Handle "extras".
 		$this->sideload_images( $post, $raw );
 		$this->handle_reusable_blocks( $post, $raw );
 
@@ -278,7 +287,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			 * @param array $data      User creation data passed to `wp_insert_user()`.
 			 * @param array $raw       Original raw author data.
 			 */
-			do_action( 'llms_generator_new_author_created', $author_id, $data, $raw );
+			do_action( 'llms_generator_new_user', $author_id, $data, $raw );
 		}
 
 		return $author_id;
@@ -321,7 +330,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *                   Falls back to current user id.
 	 *                   First_name, last_name, and description can be optionally provided.
 	 *                   When provided will be used only when creating a new user.
-	 * @return int|null A WP_User ID or null when error encountered.
+	 * @return int WP_User ID
 	 */
 	protected function get_author_id( $raw ) {
 
@@ -373,7 +382,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 				$author_id = $this->create_user( $raw );
 
 				if ( is_wp_error( $author_id ) ) {
-					return $this->error->add( $author_id->get_error_code(), $author_id->get_error_message(), $author_id->get_error_data() );
+					throw new Exception( $author_id->get_error_message(), self::ERROR_CREATE_USER );
 				}
 			}
 		}
@@ -441,26 +450,19 @@ abstract class LLMS_Abstract_Generator_Posts {
 	}
 
 	/**
-	 * Retrieve the array of generated post ids
-	 *
-	 * @since 3.14.8
-	 *
-	 * @return array
-	 */
-	public function get_generated_posts() {
-		return $this->posts;
-	}
-
-	/**
 	 * Get a WP Term ID for a term by taxonomy and term name
 	 *
 	 * Attempts to find a given term by name first to prevent duplicates during imports.
 	 *
 	 * @since 3.3.0
+	 * @since [version] Moved from `LLMS_Generator` to `LLMS_Abstract_Generator_Posts`.
+	 *               Updated method access from `private` to `protected`.
+	 *               Throws an exception in favor of returning `null` when an error is encountered.
 	 *
 	 * @param string $term_name Term name.
 	 * @param string $tax       Taxonomy slug.
-	 * @return int|null
+	 * @throws Exception When an error is encountered during taxonomy term creation.
+	 * @return int The created WP_Term `term_id`.
 	 */
 	protected function get_term_id( $term_name, $tax ) {
 
@@ -472,7 +474,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			$term = wp_insert_term( $term_name, $tax );
 
 			if ( is_wp_error( $term ) ) {
-				return $this->error->add( 'term-creation', sprintf( __( 'Error creating new term "%s"', 'lifterlms' ), $term_name ), $term );
+				throw new Exception( sprintf( __( 'Error creating new term "%s".', 'lifterlms' ), $term_name ), self::ERROR_CREATE_TERM );
 			}
 
 			/**
@@ -713,6 +715,36 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Accepts a raw object, finds the raw id and stores it
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param array           $raw Array of raw data.
+	 * @param LLMS_Post_Model $obj The LLMS Post Object generated from the raw data.
+	 * @return int|false Raw id when present or `false` if no raw id was found.
+	 */
+	protected function store_temp_id( $raw, $obj ) {
+
+		if ( empty( $raw['id'] ) ) {
+			return false;
+		}
+
+		// Ensure the object post type array exists.
+		if ( ! isset( $this->tempids[ $obj->get( 'type' ) ] ) ) {
+			$this->tempids[ $obj->get( 'type' ) ] = array();
+		}
+
+		// Store the id on the meta table.
+		$obj->set( 'generated_from_id', $raw['id'] );
+
+		// Store it in the object for prereq handling later.
+		$this->tempids[ $obj->get( 'type' ) ][ $raw['id'] ] = $obj->get( 'id' );
+
+		return $raw['id'];
 
 	}
 

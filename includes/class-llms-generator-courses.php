@@ -21,15 +21,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
-	/**
-	 * Associate raw tempids with actual created ids
-	 *
-	 * @var array
-	 */
-	protected $tempids = array(
-		'course' => array(),
-		'lesson' => array(),
-	);
+	const ERROR_GEN_MISSING_REQUIRED = 2000;
+	const ERROR_GEN_INVALID_FORMAT   = 2001;
 
 	/**
 	 * Add taxonomy terms to a course
@@ -115,7 +108,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		}
 
 		$new_raw['courses'] = array( $raw );
-		$this->generate_courses( $new_raw );
+		$courses            = $this->generate_courses( $new_raw );
+
+		return is_array( $courses ) ? $courses[0] : null;
 
 	}
 
@@ -123,27 +118,32 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * Generator called for bulk course imports
 	 *
 	 * @since 3.3.0
+	 * @since [version] Moved from `LLMS_Generator` to `LLMS_Abstract_Generator_Courses`.
+	 *               Updated method access from `private` to `public`.
+	 *               Throws an exception in favor of returning `null` when an error is encountered.
+	 *               Returns an array of generated course IDs on success.
 	 *
+	 * @throws Exception When invalid `$raw` data is submitted.
 	 * @return void
 	 */
-	protected function generate_courses( $raw ) {
+	public function generate_courses( $raw ) {
 
 		if ( empty( $raw['courses'] ) ) {
-			$this->error->add( 'required', __( 'Missing required "courses" array', 'lifterlms' ) );
+			throw new Exception( __( 'Raw data is missing the required "courses" array.', 'lifterlms' ), self::ERROR_GEN_MISSING_REQUIRED );
 		} elseif ( ! is_array( $raw['courses'] ) ) {
-			$this->error->add( 'format', __( '"courses" must be an array', 'lifterlms' ) );
-		} else {
+			throw new Exception( __( 'The raw "courses" item must be an array.', 'lifterlms' ), self::ERROR_GEN_INVALID_FORMAT );
+		}
 
-			foreach ( $raw['courses'] as $raw_course ) {
+		$courses = array();
 
-				unset( $raw_course['_generator'], $raw_course['_version'] );
-
-				$this->create_course( $raw_course );
-
-			}
+		foreach ( $raw['courses'] as $raw_course ) {
+			unset( $raw_course['_generator'], $raw_course['_version'] );
+			$courses[] = $this->create_course( $raw_course );
 		}
 
 		$this->handle_prerequisites();
+
+		return $courses;
 
 	}
 
@@ -162,42 +162,34 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 */
 	protected function create_access_plan( $raw, $course_id, $fallback_author_id = null ) {
 
-		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
-		if ( isset( $raw['author'] ) ) {
-			unset( $raw['author'] );
+		/**
+		 * Filter raw course import data prior to generation
+		 *
+		 * @since [version]
+		 *
+		 * @param array          $raw       Raw course data array.
+		 * @param LLMS_Generator $generator Generator instance.
+		 */
+		$raw = apply_filters( 'llms_generator_before_new_access_plan', $raw, $this );
+
+		// Force course relationship.
+		$raw['product_id'] = $course_id;
+
+		$plan = $this->create_post( 'access_plan', $raw, get_current_user_id() );
+		if ( ! $plan ) {
+			return null;
 		}
 
-		// Insert the plan.
-		$plan = new LLMS_Access_Plan(
-			'new',
-			array(
-				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
-			)
-		);
-
-		// $this->increment( 'plans' );
-
-		unset( $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
-
-		unset( $raw['product_id'] );
-		$plan->set( 'product_id', $course_id );
-
-		// Store the id from the import if there is one.
-		if ( isset( $raw['id'] ) ) {
-			$plan->set( 'generated_from_id', $raw['id'] );
-			unset( $raw['id'] );
-		}
-
-		foreach ( $raw as $key => $val ) {
-			$plan->set( $key, $val );
-		}
-
-		$this->sideload_images( $plan, $raw );
+		/**
+		 * Action triggered immediately following generation of a new acess plan
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Access_Plan $plan      Generated access plan object.
+		 * @param array            $raw       Original raw course data array.
+		 * @param LLMS_Generator   $generator Generator instance.
+		 */
+		do_action( 'llms_generator_new_access_plan', $plan, $raw, $this );
 
 		return $plan->get( 'id' );
 
@@ -212,7 +204,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since [version] Import images and reusable blocks found in the post's content.
 	 *
 	 * @param array $raw Raw course data.
-	 * @return void|int
+	 * @return null|int
 	 */
 	protected function create_course( $raw ) {
 
@@ -226,48 +218,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_course', $raw, $this );
 
-		$author_id = $this->get_author_id_from_raw( $raw );
-		if ( isset( $raw['author'] ) ) {
-			unset( $raw['author'] );
-		}
-
-		// Insert the course.
-		$course = new LLMS_Course(
-			'new',
-			array(
-				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => apply_filters( 'llms_generator_course_status', $this->get_default_post_status(), $raw, $this ),
-				'post_title'    => $raw['title'],
-			)
-		);
-
-		if ( ! $course->get( 'id' ) ) {
-			return $this->error->add( 'course_creation', __( 'Error creating course', 'lifterlms' ) );
-		}
-
-		// $this->increment( 'courses' );
-		// $this->record_generation( $course->get( 'id' ), 'course' );
-
-		// Save the tempid.
-		$this->store_temp_id( $raw, $course );
-
-		// Set all metadata.
-		foreach ( array_keys( $course->get_properties() ) as $key ) {
-			if ( isset( $raw[ $key ] ) ) {
-				$course->set( $key, $raw[ $key ] );
-			}
-		}
-
-		// Add custom meta.
-		$this->add_custom_values( $course->get( 'id' ), $raw );
-
-		// Set featured image.
-		if ( isset( $raw['featured_image'] ) ) {
-			$this->set_featured_image( $raw['featured_image'], $course->get( 'id' ) );
+		$course = $this->create_post( 'course', $raw, get_current_user_id() );
+		if ( ! $course ) {
+			return null;
 		}
 
 		// Add terms to our course.
@@ -275,9 +228,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		if ( isset( $raw['difficulty'] ) ) {
 			$terms['difficulty'] = array( $raw['difficulty'] );
 		}
-		foreach ( array( 'categories', 'tags', 'tracks' ) as $t ) {
-			if ( isset( $raw[ $t ] ) ) {
-				$terms[ $t ] = $raw[ $t ];
+		foreach ( array( 'categories', 'tags', 'tracks' ) as $tax ) {
+			if ( isset( $raw[ $tax ] ) ) {
+				$terms[ $tax ] = $raw[ $tax ];
 			}
 		}
 		$this->add_course_terms( $course->get( 'id' ), $terms );
@@ -285,19 +238,16 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		// Create all access plans.
 		if ( isset( $raw['access_plans'] ) ) {
 			foreach ( $raw['access_plans'] as $plan ) {
-				$this->create_access_plan( $plan, $course->get( 'id' ), $author_id );
+				$this->create_access_plan( $plan, $course->get( 'id' ), $course->get( 'author' ) );
 			}
 		}
 
 		// Create all sections.
 		if ( isset( $raw['sections'] ) ) {
 			foreach ( $raw['sections'] as $order => $section ) {
-				$this->create_section( $section, $order + 1, $course->get( 'id' ), $author_id );
+				$this->create_section( $section, ++$order, $course->get( 'id' ), $course->get( 'author' ) );
 			}
 		}
-
-		$this->sideload_images( $course, $raw );
-		$this->handle_reusable_blocks( $course, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new course
@@ -345,69 +295,23 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_lesson', $raw, $order, $section_id, $course_id, $fallback_author_id, $this );
 
-		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
-		if ( isset( $raw['author'] ) ) {
-			unset( $raw['author'] );
+		// Force some data.
+		$raw['parent_course']  = $course_id;
+		$raw['parent_section'] = $section_id;
+		$raw['order']          = $order;
+
+		$raw_quiz = ! empty( $raw['quiz'] ) ? $raw['quiz'] : false;
+		unset( $raw['quiz'] );
+
+		$lesson = $this->create_post( 'lesson', $raw, $fallback_author_id );
+		if ( ! $lesson ) {
+			return null;
 		}
 
-		// Insert the course.
-		$lesson = new LLMS_lesson(
-			'new',
-			array(
-				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
-			)
-		);
-
-		if ( ! $lesson->get( 'id' ) ) {
-			return $this->error->add( 'lesson_creation', __( 'Error creating lesson', 'lifterlms' ) );
+		if ( $raw_quiz ) {
+			$raw_quiz['lesson_id'] = $lesson->get( 'id' );
+			$lesson->set( 'quiz', $this->create_quiz( $raw_quiz, $lesson->get( 'author' ) ) );
 		}
-
-		// $this->increment( 'lessons' );
-		// $this->record_generation( $lesson->get( 'id' ), 'lesson' );
-
-		// Save the tempid.
-		$tempid = $this->store_temp_id( $raw, $lesson );
-
-		// Set featured image.
-		if ( isset( $raw['featured_image'] ) ) {
-			$this->set_featured_image( $raw['featured_image'], $lesson->get( 'id' ) );
-		}
-
-		$lesson->set( 'parent_course', $course_id );
-		$lesson->set( 'parent_section', $section_id );
-		$lesson->set( 'order', $order );
-
-		// Can't trust these if they exist.
-		if ( isset( $raw['parent_course'] ) ) {
-			unset( $raw['parent_course'] );
-		}
-		if ( isset( $raw['parent_section'] ) ) {
-			unset( $raw['parent_section'] );
-		}
-
-		if ( ! empty( $raw['quiz'] ) ) {
-			$raw['quiz']['lesson_id'] = $lesson->get( 'id' );
-			$raw['quiz']              = $this->create_quiz( $raw['quiz'], $author_id );
-		}
-
-		// Set all metadata.
-		foreach ( array_keys( $lesson->get_properties() ) as $key ) {
-			if ( isset( $raw[ $key ] ) ) {
-				$lesson->set( $key, $raw[ $key ] );
-			}
-		}
-
-		// Add custom meta.
-		$this->add_custom_values( $lesson->get( 'id' ), $raw );
-
-		$this->sideload_images( $lesson, $raw );
-		$this->handle_reusable_blocks( $lesson, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new lesson
@@ -450,48 +354,17 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_quiz', $raw, $fallback_author_id, $this );
 
-		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
-		if ( isset( $raw['author'] ) ) {
-			unset( $raw['author'] );
-		}
-
-		// Insert the course.
-		$quiz = new LLMS_Quiz(
-			'new',
-			array(
-				'post_author'   => $author_id,
-				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
-			)
-		);
-
-		if ( ! $quiz->get( 'id' ) ) {
-			return $this->error->add( 'quiz_creation', __( 'Error creating quiz', 'lifterlms' ) );
-		}
-
-		// $this->increment( 'quizzes' );
-
-		// Set all metadata.
-		foreach ( array_keys( $quiz->get_properties() ) as $key ) {
-			if ( isset( $raw[ $key ] ) ) {
-				$quiz->set( $key, $raw[ $key ] );
-			}
+		$quiz = $this->create_post( 'quiz', $raw, $fallback_author_id );
+		if ( ! $quiz ) {
+			return null;
 		}
 
 		if ( isset( $raw['questions'] ) ) {
 			$manager = $quiz->questions();
 			foreach ( $raw['questions'] as $question ) {
-				$this->create_question( $question, $manager, $author_id );
+				$this->create_question( $question, $manager, $quiz->get( 'author' ) );
 			}
 		}
-
-		// Add custom meta.
-		$this->add_custom_values( $quiz->get( 'id' ), $raw );
-
-		$this->sideload_images( $quiz, $raw );
 
 		/**
 		 * Action triggered immediately following generation of a new quiz
@@ -547,12 +420,12 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		);
 
 		if ( ! $question_id ) {
-			return $this->error->add( 'question_creation', __( 'Error creating question', 'lifterlms' ) );
+			throw new Exception( __( 'Error creating question', 'lifterlms' ), ERROR_CREATE_QUESTION );
 		}
 
-		// $this->increment( 'questions' );
-
 		$question = llms_get_post( $question_id );
+
+		$this->store_temp_id( $raw, $question );
 
 		if ( isset( $raw['choices'] ) ) {
 			foreach ( $raw['choices'] as $choice ) {
@@ -615,32 +488,17 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_section', $raw, $order, $course_id, $fallback_author_id, $this );
 
-		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
+		$raw['parent_course'] = $course_id;
+		$raw['order']         = $order;
 
-		// Insert the course.
-		$section = new LLMS_Section(
-			'new',
-			array(
-				'post_author'   => $author_id,
-				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-				'post_title'    => $raw['title'],
-			)
-		);
-
-		if ( ! $section->get( 'id' ) ) {
-			return $this->error->add( 'section_creation', __( 'Error creating section', 'lifterlms' ) );
+		$section = $this->create_post( 'section', $raw, $fallback_author_id );
+		if ( ! $section ) {
+			return null;
 		}
-
-		// $this->increment( 'sections' );
-
-		$section->set( 'parent_course', $course_id );
-		$section->set( 'order', $order );
 
 		if ( isset( $raw['lessons'] ) ) {
 			foreach ( $raw['lessons'] as $lesson_order => $lesson ) {
-				$this->create_lesson( $lesson, $lesson_order + 1, $section->get( 'id' ), $course_id, $author_id );
+				$this->create_lesson( $lesson, ++$lesson_order, $section->get( 'id' ), $course_id, $section->get( 'author' ) );
 			}
 		}
 
@@ -657,21 +515,6 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
 		return $section->get( 'id' );
 
-	}
-
-	/**
-	 * Retrieve the array of generated course ids
-	 *
-	 * @since 3.7.3
-	 * @since 3.14.8 Unknown.
-	 *
-	 * @return array
-	 */
-	public function get_generated_courses() {
-		if ( isset( $this->posts['course'] ) ) {
-			return $this->posts['course'];
-		}
-		return array();
 	}
 
 	/**
@@ -695,7 +538,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
 		foreach ( array( 'course', 'lesson' ) as $obj_type ) {
 
-			$ids = $this->tempids[ $obj_type ];
+			$ids = ! empty( $this->tempids[ $obj_type ] ) ? $this->tempids[ $obj_type ] : array();
 
 			// Courses have two kinds of prereqs.
 			$has_prereq_param = ( 'course' === $obj_type ) ? 'course' : null;
@@ -776,33 +619,6 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$choice['choice']['src'] = wp_get_attachment_url( $id );
 
 		return $choice;
-
-	}
-
-	/**
-	 * Accepts a raw object, finds the raw id and stores it
-	 *
-	 * @since 3.3.0
-	 *
-	 * @param array $raw Array of raw data.
-	 * @param obj   $obj The LLMS Post Object generated from the raw data.
-	 * @return int|false Raw id when present or `false` if no raw id was found.
-	 */
-	protected function store_temp_id( $raw, $obj ) {
-
-		if ( isset( $raw['id'] ) ) {
-
-			// Store the id on the meta table.
-			$obj->set( 'generated_from_id', $raw['id'] );
-
-			// Store it in the object for prereq handling later.
-			$this->tempids[ $obj->get( 'type' ) ][ $raw['id'] ] = $obj->get( 'id' );
-
-			return $raw['id'];
-
-		}
-
-		return false;
 
 	}
 
