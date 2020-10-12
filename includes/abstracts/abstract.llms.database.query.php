@@ -174,7 +174,7 @@ abstract class LLMS_Database_Query {
 		/**
 		 * Filters the query default args
 		 *
-		 * @since unknown
+		 * @since 3.8.0
 		 *
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
@@ -215,7 +215,7 @@ abstract class LLMS_Database_Query {
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
-		 * @since unknown
+		 * @since 3.8.0
 		 *
 		 * @param array $results Array of results retrieved by the query.
 		 */
@@ -306,7 +306,7 @@ abstract class LLMS_Database_Query {
 			 *
 			 * The dynamic part of the filter `$this->id` identifies the extending query.
 			 *
-			 * @since unknown
+			 * @since 3.8.0
 			 *
 			 * @param string              $sql      The SQL query.
 			 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
@@ -503,7 +503,7 @@ abstract class LLMS_Database_Query {
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
-		 * @since unknown
+		 * @since 3.16.0
 		 *
 		 * @param string              $sql      The LIMIT clause of the query.
 		 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
@@ -547,7 +547,7 @@ abstract class LLMS_Database_Query {
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
-		 * @since unknown
+		 * @since 3.8.0
 		 *
 		 * @param string              $sql      The ORDER BY clause of the query.
 		 * @param LLMS_Database_Query $db_query The LLMS_Database_Query instance.
