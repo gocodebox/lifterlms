@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version 4.4.0
+ * @version [version]
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -13,39 +13,46 @@
 
 	window.llms.widgets = function() {
 
-		this.$widgets = $( '.llms-widget' );
+		this.$widgets      = $( '.llms-widget' );
 		this.$info_toggles = $( '.llms-widget-info-toggle' );
 
+		/**
+		 * Toggle display of info widget description tips
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $toggle The jQuery selector for the toggle element.
+		 * @param {String} action  Requested action, either "hide" or "show".
+		 * @return {void}
+		 */
+		function toggleWidgetInfo( $toggle, action ) {
+
+			var $widget = $toggle.closest( '.llms-widget' ),
+				$info   = $widget.find( '.llms-widget-info' );
+
+			if ( 'show' === action ) {
+				$widget.addClass( 'info-showing' );
+			} else if ( 'hide' === action ) {
+				$widget.removeClass( 'info-showing' );
+			}
+
+		};
+
 		this.init = function() {
-
 			this.bind();
-
 		};
 
 		this.bind = function() {
 
-			var self = this;
-
-			this.$info_toggles.on( 'hover', function() {
-
-				var $toggle = $( this ),
-					$widget = $toggle.closest( '.llms-widget' ),
-					$info = $widget.find( '.llms-widget-info' ),
-					action = ( $widget.hasClass( 'info-showing' ) ) ? 'hide' : 'show';
-
-				self.$widgets.removeClass( 'info-showing' );
-
-				if ( 'show' === action ) {
-
-					$widget.addClass( 'info-showing' );
-
-				}
-
+			this.$info_toggles.on( 'mouseenter', function() {
+				toggleWidgetInfo( $( this ), 'show' );
+			} ).on( 'mouseleave', function() {
+				toggleWidgetInfo( $( this ), 'hide' );
 			} );
 
-		}
+		};
 
-		// go
+		// Go.
 		this.init();
 
 		return this;
