@@ -1,12 +1,15 @@
 <?php
 /**
  * Tests for LifterLMS User Postmeta functions
+ *
+ * @package LifterLMS/Tests
+ *
  * @group functions
  * @group user_postmeta
  *
  * @since 3.21.0
  * @since 3.33.0 Add test for the `llms_bulk_delete_user_postmeta` function.
- * @version 3.33.0
+ * @since [version] Fix failing `test_delete_user_postmeta()` which was comparing based on array order when that doesn't strictly matter.
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
@@ -46,6 +49,14 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_delete_user_postmeta()
+	 *
+	 * @since Unknown
+	 * @since [version] Compare data as equal sets in favor of strict order comparison.
+	 *
+	 * @return void
+	 */
 	public function test_delete_user_postmeta() {
 
 		// with a value
@@ -74,7 +85,7 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 			$i++;
 		}
 		$this->assertTrue( llms_delete_user_postmeta( $this->student_id, $this->course_id, '_test_data_to_erase', 'eraseme3' ) );
-		$this->assertEquals( array( 'eraseme1', 'eraseme2' ), llms_get_user_postmeta( $this->student_id, $this->course_id, '_test_data_to_erase', false ) );
+		$this->assertEqualSets( array( 'eraseme1', 'eraseme2' ), llms_get_user_postmeta( $this->student_id, $this->course_id, '_test_data_to_erase', false ) );
 
 		// delete all user post meta for student & post
 		$i = 1;
