@@ -133,6 +133,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 		set_current_screen( 'users.php' );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
+		set_current_screen( 'front' ); // Reset for later tests.
 
 	}
 
