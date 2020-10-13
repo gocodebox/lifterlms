@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 4.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -258,6 +258,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.7.5 Unknown.
 	 * @since 4.4.0 Add `ajax_nonce`.
+	 * @since [version] Add an analytics localization object.
 	 *
 	 * @return void
 	 */
@@ -283,11 +284,42 @@ class LLMS_Admin_Assets {
 				window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";
 				window.llms.admin_url = "' . admin_url() . '";
 				window.llms.post = ' . json_encode( $postdata ) . ';
+				window.llms.analytics = ' . json_encode( $this->get_analytics_options() ) . ';
 			</script>
 		';
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
+
+	}
+
+	/**
+	 * Retrieve an array of options used to localize the `llms.analytics` JS instance.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_analytics_options() {
+
+		/**
+		 * Create a number format string readable by google charts
+		 *
+		 * Replacing `9.9` with `9,9` and `0,0` with `0.0` to prevent loading errors encountered
+		 * as a result of the chart pattern not allowing usage of a comma for the decimal separator.
+		 *
+		 * @see https://stackoverflow.com/a/18204679/400568
+		 */
+		$currency_format = str_replace( array( '9.9', '0,0', '9' ), array( '9,9', '0.0', '#' ), llms_price_raw( 9990.00 ) );
+
+		/**
+		 * Customize Javascript localization options passed to the `llms.analytics` JS instance.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $opts Associative array of option data.
+		 */
+		return apply_filters( 'llms_get_analytics_js_options', compact( 'currency_format' ) );
 
 	}
 
