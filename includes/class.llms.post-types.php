@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 4.3.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,6 +343,7 @@ class LLMS_Post_Types {
 	 * @since 1.0.0
 	 * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
 	 * @since 3.37.12 Added 'revisions' support to course, lesson, and llms_mebership post types.
+	 * @since [version] Removed "excerpt" support for the course post type.
 	 *
 	 * @return void
 	 */
@@ -384,7 +385,7 @@ class LLMS_Post_Types {
 					'feeds'      => true,
 				),
 				'query_var'           => true,
-				'supports'            => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post' ),
+				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post' ),
 				'has_archive'         => ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
