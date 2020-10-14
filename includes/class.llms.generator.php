@@ -31,6 +31,13 @@ class LLMS_Generator {
 	protected $generators = array();
 
 	/**
+	 * Instance of WP_Error
+	 *
+	 * @var obj
+	 */
+	public $error;
+
+	/**
 	 * Array of generated content
 	 *
 	 * @deprecated [version] Use `$generated` instead.
