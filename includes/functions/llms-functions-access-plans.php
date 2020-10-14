@@ -52,7 +52,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $trial_period Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day].
  *     @type float $trial_price Price for the trial period. Can be 0 for a free trial period.
  * }
- * @return obj `LLMS_Access_Plan` on success, `WP_Error` on failure.
+ * @return LLMS_Access_Plan|WP_Error `LLMS_Access_Plan` on success, `WP_Error` on failure.
  */
 function llms_insert_access_plan( $props = array() ) {
 
@@ -104,10 +104,9 @@ function llms_insert_access_plan( $props = array() ) {
 	 *
 	 * Either `llms_access_plan_before_create` for new plans or `llms_access_plan_before_update` for updates.
 	 *
-	 * @since    3.29.0
-	 * @version  3.29.0
+	 * @since 3.29.0
 	 *
-	 * @param  array $props Properties used to create/update the access plan.
+	 * @param array $props Properties used to create/update the access plan.
 	 */
 	$props = apply_filters( 'llms_access_plan_before_' . $action, $props );
 
@@ -122,7 +121,7 @@ function llms_insert_access_plan( $props = array() ) {
 
 		$props['is_free'] = 'no';
 
-		// One-time (no trial)
+		// One-time (no trial).
 		if ( 0 === $props['frequency'] ) {
 			$props['trial_offer'] = 'no';
 		}
@@ -213,13 +212,12 @@ function llms_insert_access_plan( $props = array() ) {
 	/**
 	 * Do something with an access plan immediately after the access plan is created/updated.
 	 *
-	 * Either  `llms_access_plan_after_create` during creation or  `llms_access_plan_after_update` during an update.
+	 * Either `llms_access_plan_after_create` during creation or  `llms_access_plan_after_update` during an update.
 	 *
-	 * @since    3.29.0
-	 * @version  3.29.0
+	 * @since 3.29.0
 	 *
-	 * @param  LLMS_Access_Plan $props Access plan instance.
-	 * @param  array $props Properties used to create/update the access plan.
+	 * @param LLMS_Access_Plan $plan  Access plan instance.
+	 * @param array            $props Properties used to create/update the access plan.
 	 */
 	do_action( 'llms_access_plan_after_' . $action, $plan, $props );
 
@@ -230,9 +228,9 @@ function llms_insert_access_plan( $props = array() ) {
 /**
  * Retrieve available options for access plan periods
  *
- * @return  array
- * @since   3.29.0
- * @version 3.29.0
+ * @since 3.29.0
+ *
+ * @return array
  */
 function llms_get_access_plan_period_options() {
 	return apply_filters(
@@ -249,9 +247,9 @@ function llms_get_access_plan_period_options() {
 /**
  * Get a list of available access plan visibility options
  *
- * @return   array
- * @since    3.8.0
- * @version  3.8.0
+ * @since 3.8.0
+ *
+ * @return array
  */
 function llms_get_access_plan_visibility_options() {
 	return apply_filters(

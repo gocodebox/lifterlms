@@ -54,7 +54,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_analytics_options()
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */

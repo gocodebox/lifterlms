@@ -27,7 +27,7 @@ function llms_update_450_migrate_events_open_sessions() {
 	set_transient( 'llms_450_skipper_events_open_sessions', $skip + $limit, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$maybe_open_sessions = $wpdb->get_results( // db call ok; no-cache ok.
+	$maybe_open_sessions = $wpdb->get_results(
 		$wpdb->prepare(
 			"SELECT id, actor_id, object_id
 			FROM {$wpdb->prefix}lifterlms_events
@@ -39,7 +39,7 @@ function llms_update_450_migrate_events_open_sessions() {
 			$skip,
 			$limit
 		)
-	);
+	); // db call ok; no-cache ok.
 
 	// Finished.
 	if ( empty( $maybe_open_sessions ) ) {
@@ -66,9 +66,9 @@ function llms_update_450_migrate_events_open_sessions() {
 
 	// Add the open sessions to the new table.
 	if ( ! empty( $insert ) ) {
-		$wpdb->query( // db call ok; no-cache ok.
+		$wpdb->query(
 			"INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES " . $insert . ';'
-		);
+		); // db call ok; no-cache ok.
 	}
 
 	// Needs to run again.

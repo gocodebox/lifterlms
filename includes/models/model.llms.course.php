@@ -54,7 +54,7 @@ implements LLMS_Interface_Post_Audio
 
 	protected $properties = array(
 
-		// public
+		// Public.
 		'audio_embed'                => 'text',
 		'average_grade'              => 'float',
 		'average_progress'           => 'float',
@@ -83,7 +83,7 @@ implements LLMS_Interface_Post_Audio
 		'start_date'                 => 'text',
 		'video_embed'                => 'text',
 
-		// private
+		// Private.
 		'temp_calc_data'             => 'array',
 	);
 
@@ -478,11 +478,12 @@ implements LLMS_Interface_Post_Audio
 		$now  = current_time( 'timestamp' );
 		$date = $this->get_date( $date_key, 'U' );
 
-		// if there's no date, we can't make a comparison
-		// so assume it's unset and unnecessary
-		// so return 'false'
+		/**
+		 * If there's no date, we can't make a comparison
+		 * so assume it's unset and unnecessary
+		 * so return 'false'.
+		 */
 		if ( ! $date ) {
-
 			return false;
 
 		} else {
@@ -502,18 +503,18 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function has_capacity() {
 
-		// capacity disabled, so there is capacity
+		// Capacity disabled, so there is capacity.
 		if ( 'yes' !== $this->get( 'enable_capacity' ) ) {
 			return true;
 		}
 
 		$capacity = $this->get( 'capacity' );
-		// no capacity restriction set, so it has capacity
+		// No capacity restriction set, so it has capacity.
 		if ( ! $capacity ) {
 			return true;
 		}
 
-		// compare results
+		// Compare results.
 		return ( $this->get_student_count() < $capacity );
 
 	}
@@ -521,10 +522,11 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if prerequisites are enabled and there are prereqs configured
 	 *
-	 * @param    string $type  determine if a specific type of prereq exists [any|course|track]
-	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
-	 * @since    3.0.0
-	 * @version  3.7.5
+	 * @since 3.0.0
+	 * @since 3.7.5 Unknown.
+	 *
+	 * @param string $type Determine if a specific type of prereq exists [any|course|track].
+	 * @return boolean Returns true if prereq is enabled and there is a prerequisite course or track.
 	 */
 	public function has_prerequisite( $type = 'any' ) {
 
@@ -570,7 +572,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function is_enrollment_open() {
 
-		// if no period is set, enrollment is automatically open
+		// If no period is set, enrollment is automatically open.
 		if ( 'yes' !== $this->get( 'enrollment_period' ) ) {
 
 			$ret = true;
@@ -597,7 +599,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function is_open() {
 
-		// if a course time period is not enabled, just return true (content is accessible)
+		// If a course time period is not enabled, just return true (content is accessible).
 		if ( 'yes' !== $this->get( 'time_period' ) ) {
 
 			$ret = true;
@@ -626,19 +628,19 @@ implements LLMS_Interface_Post_Audio
 			$student_id = get_current_user_id();
 		}
 
-		// no user or no prereqs so no reason to proceed
+		// No user or no prereqs so no reason to proceed.
 		if ( ! $student_id || ! $this->has_prerequisite( $type ) ) {
 			return false;
 		}
 
 		$prereq_id = $this->get_prerequisite_id( $type );
 
-		// no prereq id of this type, no need to proceed
+		// No prereq id of this type, no need to proceed.
 		if ( ! $prereq_id ) {
 			return false;
 		}
 
-		// setup student
+		// Setup student.
 		$student = new LLMS_Student( $student_id );
 
 		return $student->is_complete( $prereq_id, $type );

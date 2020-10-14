@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version 4.3.1
+ * @version 4.5.1
  */
 
 LLMS.Achievements = {
@@ -13,12 +13,13 @@ LLMS.Achievements = {
 	 * Init
 	 *
 	 * @since 3.14.0
+	 * @since 4.5.1 Fix conditional loading check.
 	 *
 	 * @return void
 	 */
 	init: function() {
 
-		if ( $( '.llms-achievement' ) ) {
+		if ( $( '.llms-achievement' ).length ) {
 
 			var self = this;
 

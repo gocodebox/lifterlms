@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v4.5.1 - 2020-10-14
+-------------------
+
+##### Updates
+
++ Added logic in `LLMS_Database_Query` to reduce unnecessary DB reads when total results are not required.
+
+##### Bug fixes
+
++ Removed the course "Excerpt" area in favor of utilization of the course sales page content.
++ Show sales reporting currency symbol based on LifterLMS site options in favor of the browser's locale settings.
++ Fixed an issue causing achievement-related JS DOM events to be bound unnecessarily. Thanks to [@imknight](https://github.com/imknight)!
++ Fixed an issue causing site administrator capabilities to be removed during LifterLMS data removal.
++ Fixed an issue causing an instructors course post count to display 0 on the admin panel courses post table. Thanks to [nhandl3](https://github.com/nhandl3)!
++ Only display the admin bar "View Manager" to users who can bypass content restrictions.
++ Updated jQuery code to stop using deprecated events and methods in preparation for jQuery upgrades in the WordPress core.
++ Fixed PHP notice encountered on the admin panel when using Yoast SEO.
+
+
 v4.5.0 - 2020-10-06
 -------------------
 

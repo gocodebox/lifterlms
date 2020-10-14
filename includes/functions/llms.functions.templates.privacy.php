@@ -13,16 +13,17 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get the HTML for the Terms field displayed on reg forms
  *
- * @param    boolean    $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.18.1
+ * @since 3.0.0
+ * @since 3.18.1
+ *
+ * @param boolean $echo Echo the data if true, return otherwise.
+ * @return void|string
  */
 if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 	function llms_agree_to_terms_form_field( $echo = true ) {
 
-		// do_action passes empty string
+		// Because `do_action()` passes empty string.
 		if ( '' === $echo ) {
 			$echo = true;
 		}
@@ -60,23 +61,24 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 		return $ret;
 
 	}
-}// End if().
+}
 
 
 
 /**
  * Get the HTML for the Privacy Policy section on checkout / registration forms
  *
- * @param    boolean    $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.18.1
+ * @since 3.0.0
+ * @since 3.18.1
+ *
+ * @param boolean $echo Echo the data if true, return otherwise.
+ * @return void|string
  */
 if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 
 	function llms_privacy_policy_form_field( $echo = true ) {
 
-		// do_action passes empty string
+		// Because `do_action()` passes empty string.
 		if ( '' === $echo ) {
 			$echo = true;
 		}

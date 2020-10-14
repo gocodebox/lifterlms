@@ -60,7 +60,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 */
 	public function can_be_refunded() {
 		$status = $this->get( 'status' );
-		// can't refund failed or pending transactions
+		// Can't refund failed or pending transactions.
 		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
 			return false;
 		} elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
@@ -225,29 +225,29 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 */
 	public function process_refund( $amount, $note = '', $method = 'manual' ) {
 
-		// ensure the transaction is still eligible for a refund
+		// Ensure the transaction is still eligible for a refund.
 		if ( ! $this->can_be_refunded() ) {
 			return new WP_Error( 'error', __( 'The selected transaction is not eligible for a refund.', 'lifterlms' ) );
 		}
 
 		$amount = floatval( $amount );
 
-		// ensure we can refund the requested amount
+		// Ensure we can refund the requested amount.
 		$refundable = $this->get_refundable_amount();
 		if ( $amount > $refundable ) {
 			return new WP_Error( 'error', sprintf( __( 'Requested refund amount was %1$s, the maximum possible refund for this transaction is %2$s.', 'lifterlms' ), llms_price( $amount ), llms_price( $refundable ) ) );
 		}
 
-		// validate the method & process the refund
+		// Validate the method & process the refund.
 		switch ( $method ) {
 
-			// we're okay here
+			// We're okay here.
 			case 'manual':
 				$refund_id    = apply_filters( 'llms_manual_refund_id', uniqid() );
 				$method_title = __( 'manual refund', 'lifterlms' );
 				break;
 
-			// check gateway to ensure it's valid and supports refunds
+			// Check gateway to ensure it's valid and supports refunds.
 			case 'gateway':
 				$gateway = $this->get_gateway();
 				if ( is_wp_error( $gateway ) ) {
@@ -272,14 +272,14 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		}
 
-		// output an error
+		// Output an error.
 		if ( is_wp_error( $refund_id ) ) {
 
 			return $refund_id;
 
 		} elseif ( is_string( $refund_id ) ) {
 
-			// filter the note before recording it
+			// Filter the note before recording it.
 			$orig_note = apply_filters( 'llms_transaction_refund_note', $note, $this, $amount, $method );
 
 			$order = $this->get_order();
@@ -293,14 +293,14 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				$note .= $orig_note;
 			}
 
-			// record the note
+			// Record the note.
 			$order->add_note( $note, true );
 
-			// update the refunded amount
+			// Update the refunded amount.
 			$new_amount = ! $this->get( 'refund_amount' ) ? $amount : $this->get( 'refund_amount' ) + $amount;
 			$this->set( 'refund_amount', $new_amount );
 
-			// record refund metadata
+			// Record refund metadata.
 			$refund_data               = $this->get_array( 'refund_data' );
 			$refund_data[ $refund_id ] = apply_filters(
 				'llms_transaction_refund_data',
@@ -316,7 +316,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			);
 			$this->set( 'refund_data', $refund_data );
 
-			// update status
+			// Update status.
 			$this->set( 'status', 'llms-txn-refunded' );
 
 			return $refund_id;

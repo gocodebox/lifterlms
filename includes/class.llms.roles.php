@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -396,7 +396,7 @@ class LLMS_Roles {
 	 * Update the capabilities for a given role
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added `$exclude_group` parameter that allows excluding groups of caps from the update.
+	 * @since 4.5.1 Added `$exclude_group` parameter that allows excluding groups of caps from the update.
 	 *
 	 * @param WP_Role  $role           Role object.
 	 * @param string   $type           Update type [add|remove].

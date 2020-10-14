@@ -47,7 +47,7 @@ class LLMS_Frontend_Forms {
 			return;
 		}
 
-		// process lost password form
+		// Process lost password form.
 		if ( isset( $_POST['user_login'] ) && isset( $_POST['_wpnonce'] ) ) {
 
 			if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-lost_password' ) ) {
@@ -58,7 +58,7 @@ class LLMS_Frontend_Forms {
 
 		}
 
-		// process reset password form
+		// Process reset password form.
 		if ( isset( $_POST['password_1'] )
 			&& isset( $_POST['password_2'] )
 			&& isset( $_POST['reset_key'] )
@@ -69,12 +69,12 @@ class LLMS_Frontend_Forms {
 			$key   = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
 			$login = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
 
-			// verify reset key again
+			// Verify reset key again.
 			$user = LLMS_Shortcode_My_Account::check_password_reset_key( $key, $login );
 
 			if ( is_object( $user ) ) {
 
-				// save these values into the form again in case of errors
+				// Save these values into the form again in case of errors.
 				$args['key']   = $key;
 				$args['login'] = $login;
 
@@ -117,8 +117,8 @@ class LLMS_Frontend_Forms {
 
 					exit;
 				}
-			}// End if().
-		}// End if().
+			}
+		}
 
 	}
 

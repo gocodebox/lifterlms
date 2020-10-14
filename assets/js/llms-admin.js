@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version 4.4.0
+ * @version 4.5.1
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -13,39 +13,27 @@
 
 	window.llms.widgets = function() {
 
-		this.$widgets = $( '.llms-widget' );
+		this.$widgets      = $( '.llms-widget' );
 		this.$info_toggles = $( '.llms-widget-info-toggle' );
 
+
+
+
+
 		this.init = function() {
-
 			this.bind();
-
 		};
 
 		this.bind = function() {
 
-			var self = this;
-
-			this.$info_toggles.on( 'hover', function() {
-
-				var $toggle = $( this ),
-					$widget = $toggle.closest( '.llms-widget' ),
-					$info = $widget.find( '.llms-widget-info' ),
-					action = ( $widget.hasClass( 'info-showing' ) ) ? 'hide' : 'show';
-
-				self.$widgets.removeClass( 'info-showing' );
-
-				if ( 'show' === action ) {
-
-					$widget.addClass( 'info-showing' );
-
-				}
-
+			this.$info_toggles.on( 'mouseenter mouseleave', function( evt ) {
+				$(this).closest( '.llms-widget' )
+					.toggleClass( 'info-showing', 'mouseenter' === evt.type );
 			} );
 
-		}
+		};
 
-		// go
+		// Go.
 		this.init();
 
 		return this;

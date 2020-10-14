@@ -56,7 +56,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		if ( $this->get( 'points' ) >= 1 ) {
 
-			// the question is auto-gradable so it cannot be manually graded
+			// The question is auto-gradable so it cannot be manually graded.
 			if ( $question->get_auto_grade_type() ) {
 				return false;
 			} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {

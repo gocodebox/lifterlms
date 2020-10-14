@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -83,7 +83,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Updated icon.
-	 * @since [version] Use `should_display()` method to determine if the view manager should be added to the admin bar.
+	 * @since 4.5.1 Use `should_display()` method to determine if the view manager should be added to the admin bar.
 	 *
 	 * @return void
 	 */
@@ -354,7 +354,7 @@ class LLMS_View_Manager {
 	 * + The current user must have a role that is allowed to bypass LifterLMS restrictions
 	 * + Must be viewing a single course, lesson, membership, or quiz or the LifterLMS checkout page.
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return boolean
 	 */
@@ -370,7 +370,7 @@ class LLMS_View_Manager {
 		/**
 		 * Filters whether or not the "View As..." menu item should be displayed in the WP Admin Bar
 		 *
-		 * @since [version]
+		 * @since 4.5.1
 		 *
 		 * @param boolean $display Whether or not the menu item should be displayed.
 		 */
