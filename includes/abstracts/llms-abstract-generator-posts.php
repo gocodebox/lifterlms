@@ -22,25 +22,32 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Abstract_Generator_Posts {
 
 	/**
-	 * Error during WP_Post creation
+	 * Exception code: WP_Post creation error
 	 *
 	 * @var int
 	 */
 	const ERROR_CREATE_POST = 1000;
 
 	/**
-	 * Error during WP_Term creation
+	 * Exception code: WP_Term creation error
 	 *
 	 * @var int
 	 */
 	const ERROR_CREATE_TERM = 1001;
 
 	/**
-	 * Error during WP_User creation
+	 * Exception code: WP_User creation error
 	 *
 	 * @var int
 	 */
 	const ERROR_CREATE_USER = 1002;
+
+	/**
+	 * Exception code: Requested LLMS_Post_Model subclass does not exist.
+	 *
+	 * @var int
+	 */
+	const ERROR_INVALID_POST = 1100;
 
 	/**
 	 * Default post status when status isn't set in $raw for a given post
@@ -48,13 +55,6 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @var string
 	 */
 	private $default_post_status = 'draft';
-
-	/**
-	 * Instance of WP_Error
-	 *
-	 * @var obj
-	 */
-	public $error;
 
 	/**
 	 * Array of images that have been sideloaded during generation
@@ -98,9 +98,6 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 */
 	public function __construct() {
 
-		// Instantiate an empty error object.
-		$this->error = new WP_Error();
-
 		// Load deps.
 		$this->load_dependencies();
 
@@ -138,18 +135,19 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
-	 * @param [type] $author_id Fallback author ID, used when now author data can be found in `$raw`.
-	 * @throws Exception When an error is encountered during post creation.
+	 * @param int    $author_id Fallback author ID, used when now author data can be found in `$raw`.
+	 * @throws Exception When the class identified by `$type` is not found or when an error is encountered during post creation.
 	 * @return LLMS_Post_Model
 	 */
 	protected function create_post( $type, $raw = array(), $author_id = null ) {
 
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
-
-		$author_id = $this->get_author_id_from_raw( $raw, $author_id );
-		if ( isset( $raw['author'] ) ) {
-			unset( $raw['author'] );
+		if ( ! class_exists( $class_name ) ) {
+			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
 		}
+
+		// Retrieve author ID from raw.
+		$author_id = $this->get_author_id_from_raw( $raw, $author_id );
 
 		// Insert the object.
 		$post = new $class_name(
@@ -172,7 +170,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$this->store_temp_id( $raw, $post );
 
 		// Don't set these values again.
-		unset( $raw['id'], $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
+		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
 
 		// Set featured image.
 		if ( isset( $raw['featured_image'] ) ) {
