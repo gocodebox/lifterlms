@@ -18,7 +18,7 @@ LLMS.Achievements = {
 	 */
 	init: function() {
 
-		if ( $( '.llms-achievement' ) ) {
+		if ( $( '.llms-achievement' ).length ) {
 
 			var self = this;
 
