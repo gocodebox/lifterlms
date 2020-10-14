@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -258,7 +258,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.7.5 Unknown.
 	 * @since 4.4.0 Add `ajax_nonce`.
-	 * @since [version] Add an analytics localization object.
+	 * @since 4.5.1 Add an analytics localization object.
 	 *
 	 * @return void
 	 */
@@ -296,7 +296,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Retrieve an array of options used to localize the `llms.analytics` JS instance.
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return array
 	 */
@@ -315,7 +315,7 @@ class LLMS_Admin_Assets {
 		/**
 		 * Customize Javascript localization options passed to the `llms.analytics` JS instance.
 		 *
-		 * @since [version]
+		 * @since 4.5.1
 		 *
 		 * @param array $opts Associative array of option data.
 		 */

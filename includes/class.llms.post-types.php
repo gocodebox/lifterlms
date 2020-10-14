@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,7 +343,7 @@ class LLMS_Post_Types {
 	 * @since 1.0.0
 	 * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
 	 * @since 3.37.12 Added 'revisions' support to course, lesson, and llms_mebership post types.
-	 * @since [version] Removed "excerpt" support for the course post type.
+	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 *
 	 * @return void
 	 */

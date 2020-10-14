@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version [version]
+ * @version 4.5.1
  *
  * @param obj $ Traditional jQuery reference.
  * @return void

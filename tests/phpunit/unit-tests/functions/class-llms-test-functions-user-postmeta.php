@@ -9,7 +9,7 @@
  *
  * @since 3.21.0
  * @since 3.33.0 Add test for the `llms_bulk_delete_user_postmeta` function.
- * @since [version] Fix failing `test_delete_user_postmeta()` which was comparing based on array order when that doesn't strictly matter.
+ * @since 4.5.1 Fix failing `test_delete_user_postmeta()` which was comparing based on array order when that doesn't strictly matter.
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
@@ -53,7 +53,7 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 	 * Test llms_delete_user_postmeta()
 	 *
 	 * @since Unknown
-	 * @since [version] Compare data as equal sets in favor of strict order comparison.
+	 * @since 4.5.1 Compare data as equal sets in favor of strict order comparison.
 	 *
 	 * @return void
 	 */
