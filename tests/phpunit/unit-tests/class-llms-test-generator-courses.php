@@ -457,6 +457,31 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_question() during a post creation error
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_question_error() {
+
+		$quiz_id = $this->factory->post->create( array( 'post_type' => 'llms_quiz' ) );
+		$quiz    = llms_get_post( $quiz_id );
+
+		// Force post creation to fail.
+		$handler = function( $args ) {
+			return array();
+		};
+		add_filter( 'llms_new_question', $handler );
+
+		$this->setExpectedException( Exception::class, 'Error creating the question post object.', 1000 );
+		LLMS_Unit_Test_Util::call_method( $this->main, 'create_question', array( array( 'title' => '' ), $quiz->questions(), $this->factory->user->create() ) );
+
+		remove_filter( 'llms_new_question', $handler );
+
+	}
+
+	/**
 	 * Test create_section()
 	 *
 	 * @since [version]
