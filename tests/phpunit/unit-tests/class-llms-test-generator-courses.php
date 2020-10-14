@@ -26,10 +26,10 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	}
 
-	protected function get_raw() {
+	protected function get_raw( $file = 'import-with-quiz.json' ) {
 
 		global $lifterlms_tests;
-		return json_decode( file_get_contents( $lifterlms_tests->assets_dir . 'import-with-quiz.json' ), true );
+		return json_decode( file_get_contents( $lifterlms_tests->assets_dir . $file ), true );
 
 
 	}
@@ -256,7 +256,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
 		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
 
-		// Test course structure of generated course is preserved via `handle_prerequisites()`.
+		// Test course structure of generated course is preserved.
 		foreach ( $course->get_sections() as $section ) {
 
 			$this->assertEquals( $id, $section->get( 'parent_course' ) );
@@ -519,7 +519,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		$this->assertEquals( ++$quiz_actions, did_action( 'llms_generator_new_quiz' ) );
 		$this->assertEquals( ++$question_actions, did_action( 'llms_generator_new_question' ) );
 
-		// Test course structure of generated course is preserved via `handle_prerequisites()`.
+		// Test course structure of generated course is preserved.
 		foreach ( $section->get_lessons() as $lesson ) {
 
 			$this->assertEquals( $course, $lesson->get( 'parent_course' ) );
@@ -532,7 +532,31 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_handle_prerequisites() {}
+	/**
+	 * Test handle_prerequisites()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_prerequisites() {
+
+		$raw = $this->get_raw( 'import-with-prerequisites.json' );
+		$courses = $this->main->generate_courses( $raw );
+
+		$course = llms_get_post( $courses[0] );
+
+		$this->assertTrue( $course->has_prerequisite( 'course' ) );
+		$this->assertEquals( $courses[1], $course->get_prerequisite_id( 'course' ) );
+
+		// Tracks aren't preserved.
+		$this->assertFalse( $course->has_prerequisite( 'course_track' ) );
+
+		$lessons = $course->get_lessons();
+		$this->assertTrue( $lessons[1]->has_prerequisite() );
+		$this->assertEquals( $lessons[0]->get( 'id' ), $lessons[1]->get_prerequisite() );
+
+	}
 
 
 	/**
