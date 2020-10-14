@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.14.0
- * @version 4.3.1
+ * @version [version]
  */
 
 LLMS.Achievements = {
@@ -13,6 +13,7 @@ LLMS.Achievements = {
 	 * Init
 	 *
 	 * @since 3.14.0
+	 * @since [version] Fix conditional loading check.
 	 *
 	 * @return void
 	 */
