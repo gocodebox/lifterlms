@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.2.3
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,9 +21,10 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Constructor
 	 *
-	 * @return  void
-	 * @since    3.2.3
-	 * @version  3.12.0
+	 * @since 3.2.3
+	 * @since 3.12.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -38,10 +39,11 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Add Custom lesson Columns
 	 *
-	 * @param   array $columns  array of default columns
-	 * @return  array
-	 * @since    3.2.3
-	 * @version  3.12.0
+	 * @since 3.2.3
+	 * @since 3.12.0 Unknown.
+	 *
+	 * @param array $columns Array of default columns.
+	 * @return array
 	 */
 	public function add_columns( $columns ) {
 
@@ -61,10 +63,11 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Add filters to the top of the post table
 	 *
-	 * @param    string $post_type  Post Type of the current posts table
-	 * @param    string $which      positioning of the filters [top|bottom]
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param string $post_type Post Type of the current posts table.
+	 * @param string $which     Positioning of the filters [top|bottom].
+	 * @return void
 	 */
 	public function add_filters( $post_type, $which ) {
 
@@ -81,11 +84,12 @@ class LLMS_Admin_Post_Table_Lessons {
 	/**
 	 * Manage content of custom lesson columns
 	 *
-	 * @param    string $column   column key/name
-	 * @param    int    $post_id  WP Post ID of the lesson for the row
-	 * @return   void
-	 * @since    3.2.3
-	 * @version  3.24.0
+	 * @since 3.2.3
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $column  Column key/name.
+	 * @param int    $post_id WP Post ID of the lesson for the row.
+	 * @return void
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -137,17 +141,18 @@ class LLMS_Admin_Post_Table_Lessons {
 
 				break;
 
-		}// End switch().
+		}
 
 	}
 
 	/**
 	 * Modify the main WP Query
 	 *
-	 * @param    obj $query  WP_Query
-	 * @return   obj
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 * @since [version] Bail early if the query has no `post_type` property set.
+	 *
+	 * @param WP_Query $query The WordPress Query.
+	 * @return WP_Query
 	 */
 	public function parse_query_filters( $query ) {
 
@@ -157,7 +162,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		}
 
 		// Don't proceed if it's not our post type.
-		if ( 'lesson' !== $query->query['post_type'] ) {
+		if ( ! isset( $query->query['post_type'] ) || 'lesson' !== $query->query['post_type'] ) {
 			return $query;
 		}
 
