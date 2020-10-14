@@ -6,14 +6,14 @@
  *
  * @group view_manager
  *
- * @since [version]
+ * @since 4.5.1
  */
 class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor when a pending order is being created.
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -67,7 +67,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when viewing valid post types with a valid user
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when viewing checkout valid with a valid user
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when no user is present
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when an invalid user is logged in
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -124,7 +124,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() on the admin panel
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() on a post type archive
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when a valid using is viewing an invalid post type
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */

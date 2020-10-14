@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -150,7 +150,7 @@ abstract class LLMS_Database_Query {
 	 * Retrieve default arguments for the query
 	 *
 	 * @since 3.8.0
-	 * @since [version] Added new default arg `no_found_rows` set to false.
+	 * @since 4.5.1 Added new default arg `no_found_rows` set to false.
 	 *
 	 * @return array
 	 */
@@ -200,7 +200,7 @@ abstract class LLMS_Database_Query {
 	 * Retrieve an array of results for the given query
 	 *
 	 * @since 3.8.0
-	 * @since [version] Drop use of `this->get_filter('get_results')` in favor of `"llms_{$this->id}_query_get_results"`.
+	 * @since 4.5.1 Drop use of `this->get_filter('get_results')` in favor of `"llms_{$this->id}_query_get_results"`.
 	 *
 	 * @return array
 	 */
@@ -291,7 +291,7 @@ abstract class LLMS_Database_Query {
 	 * Execute a query
 	 *
 	 * @since 3.8.0
-	 * @since [version] Drop use of `$this->get_filter('prepare_query')` in favor of `"llms_{$this->id}_query_prepare_query"`.
+	 * @since 4.5.1 Drop use of `$this->get_filter('prepare_query')` in favor of `"llms_{$this->id}_query_prepare_query"`.
 	 *
 	 * @return void
 	 */
@@ -393,7 +393,7 @@ abstract class LLMS_Database_Query {
 	 * Set variables related to total number of results and pages possible with supplied arguments
 	 *
 	 * @since 3.8.0
-	 * @since [version] Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
+	 * @since 4.5.1 Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
 	 *
 	 * @return void
 	 */
@@ -416,7 +416,7 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.34.0 Sanitizes sort parameters.
-	 * @since [version] Added filter `"llms_{$this->id}_query_parse_args"`.
+	 * @since 4.5.1 Added filter `"llms_{$this->id}_query_parse_args"`.
 	 *
 	 * @return void
 	 */
@@ -432,7 +432,7 @@ abstract class LLMS_Database_Query {
 			 *
 			 * The dynamic part of the filter `$this->id` identifies the extending query.
 			 *
-			 * @since [version]
+			 * @since 4.5.1
 			 *
 			 * @param array               $ars           The query parse arguents.
 			 * @param LLMS_Database_Query $db_query      The LLMS_Database_Query instance.
@@ -455,7 +455,7 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Retrieve the prepared SQL for the SELECT clause
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @param string $select_columns Optional. Columns to select. Default '*'.
 	 * @return string
@@ -475,7 +475,7 @@ abstract class LLMS_Database_Query {
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
-		 * @since [version]
+		 * @since 4.5.1
 		 *
 		 * @param string              $select_columns Columns to select.
 		 * @param LLMS_Database_Query $db_query       Instance of LLMS_Database_Query.
@@ -488,7 +488,7 @@ abstract class LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the LIMIT clause
 	 *
 	 * @since 3.16.0
-	 * @since [version] Drop use of `$this->get_filter('limit')` in favor of `"llms_{$this->id}_query_limit"`.
+	 * @since 4.5.1 Drop use of `$this->get_filter('limit')` in favor of `"llms_{$this->id}_query_limit"`.
 	 *
 	 * @return string
 	 */
@@ -516,7 +516,7 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.34.0 Returns an empty string if no sort fields are available.
-	 * @since [version] Drop use of `$this->get_filter('orderby')` in favor of `"llms_{$this->id}_query_orderby"`.
+	 * @since 4.5.1 Drop use of `$this->get_filter('orderby')` in favor of `"llms_{$this->id}_query_orderby"`.
 	 *
 	 * @return string
 	 */

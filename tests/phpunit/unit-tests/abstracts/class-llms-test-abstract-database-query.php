@@ -8,7 +8,7 @@
  * @group query
  * @group dbquery
  *
- * @since [version]
+ * @since 4.5.1
  */
 class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Cleanup on tearDown
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test that by default the query args has no_found_rows set to false
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 *
 	 * This is because no_found_rows by default is false.
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test when found rows and max pages are not set
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test sql_select_columns() method
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return void
 	 */
@@ -113,7 +113,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Build query
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @param array $args Optional. Query arguments. Default empty array.
 	 *                    When not provided the default arguments will be used.
@@ -141,7 +141,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Prepare query to build a testable SQL
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return string
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Parse args
 	 *
-	 * @since [version]
+	 * @since 4.5.1
 	 *
 	 * @return string
 	 */

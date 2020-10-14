@@ -5,7 +5,7 @@
  * @group LLMS_Roles
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.5.1
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
@@ -103,7 +103,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.13.0
 	 * @since 3.28.0 Unknown.
-	 * @since [version] Make sure only custom roles are removed from the 'adminitrator' role.
+	 * @since 4.5.1 Make sure only custom roles are removed from the 'adminitrator' role.
 	 *
 	 * @return void
 	 */
