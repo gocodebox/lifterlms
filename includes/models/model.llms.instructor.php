@@ -33,10 +33,10 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 */
 	public function add_parent( $parent_ids ) {
 
-		// get existing parents
+		// Get existing parents.
 		$parents = $this->get( 'parent_instructors' );
 
-		// no existing, use an empty array as the default
+		// No existing, use an empty array as the default.
 		if ( ! $parents ) {
 			$parents = array();
 		}
@@ -45,13 +45,13 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			$parent_ids = array( $parent_ids );
 		}
 
-		// make ints
+		// Make ints.
 		$parent_ids = array_map( 'absint', $parent_ids );
 
-		// add the new parents
+		// Add the new parents.
 		$parents = array_unique( array_merge( $parents, $parent_ids ) );
 
-		// remove duplicates and save
+		// Remove duplicates and save.
 		return $this->set( 'parent_instructors', array_unique( $parents ) );
 
 	}
@@ -74,7 +74,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			   AND meta_value LIKE %s;",
 				'%i:' . $this->get_id() . ';%'
 			)
-		);
+		); // db call ok; no-cache ok.
 
 		return $results;
 
@@ -171,7 +171,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			return $query->posts;
 		}
 
-		// if 'query' === $return
+		// If 'query' === $return.
 		return $query;
 
 	}
@@ -197,21 +197,21 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			'ids'
 		);
 
-		// if post IDs were passed we need to verify they're IDs that the instructor has access to.
+		// If post IDs were passed we need to verify they're IDs that the instructor has access to.
 		if ( $args['post_id'] ) {
 			$args['post_id'] = ! is_array( $args['post_id'] ) ? array( $args['post_id'] ) : $args['post_id'];
 			$args['post_id'] = array_intersect( $args['post_id'], $ids );
 		}
 
-		// not post IDs were passed OR there was no intersections during validation above.
+		// Not post IDs were passed OR there was no intersections during validation above.
 		if ( empty( $args['post_id'] ) ) {
 			$args['post_id'] = $ids;
 		}
 
 		$query = new LLMS_Student_Query( $args );
 
-		// if there's no post ids "hack" the response
-		// @todo add an instructor query parameter to the student query
+		// If there's no post ids "hack" the response.
+		// @todo add an instructor query parameter to the student query.
 		if ( ! $ids ) {
 			$query->results = array();
 		}
@@ -262,7 +262,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 		$ret = false;
 
-		// use current post if no post is set
+		// Use current post if no post is set.
 		if ( ! $post_id ) {
 			global $post;
 			if ( ! $post ) {

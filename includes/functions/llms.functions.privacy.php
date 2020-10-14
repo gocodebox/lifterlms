@@ -11,12 +11,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Determine if Terms & Conditions agreement is required during registration
- * according to global settings
+ * Determine if Terms & Conditions agreement is required during registration according to global settings
  *
- * @return   boolean
- * @since    3.0.0
- * @version  3.3.1
+ * @since 3.0.0
+ * @since 3.3.1 Unknown.
+ *
+ * @return boolean
  */
 function llms_are_terms_and_conditions_required() {
 
@@ -30,11 +30,11 @@ function llms_are_terms_and_conditions_required() {
 /**
  * Retrieve the text/html for the custom privacy policy notice
  *
- * @param    bool $merge  if true, will merge {{policy}} to an HTML anchor
- *                        uses `wp_page_for_privacy_policy` for page ID & title
- * @return   string
- * @since    3.18.0
- * @version  3.18.0
+ * @since 3.18.0
+ *
+ * @param bool $merge If true, will merge {{policy}} to an HTML anchor.
+ *                    Uses `wp_page_for_privacy_policy` for page ID & title.
+ * @return string
  */
 function llms_get_privacy_notice( $merge = false ) {
 
@@ -42,18 +42,17 @@ function llms_get_privacy_notice( $merge = false ) {
 
 	$ret = $text;
 
-	// merge the {{policy}} code
+	// Merge the {{policy}} code.
 	if ( $merge ) {
 
-		// only merge if we some text saved & a page set
+		// Only merge if we some text saved & a page set.
 		if ( $text && get_option( 'wp_page_for_privacy_policy', false ) ) {
 			$ret = str_replace( '{{policy}}', llms_get_option_page_anchor( 'wp_page_for_privacy_policy' ), $ret );
-			// otherwise return empty string
+			// Otherwise return empty string.
 		} else {
 			$ret = '';
 		}
 
-		// kisses
 		$ret = wp_kses(
 			$ret,
 			array(
@@ -76,36 +75,35 @@ function llms_get_privacy_notice( $merge = false ) {
 /**
  * Retrieve the text/html for the custom t&c notice
  *
- * @param    bool $merge  if true, will merge {{terms}} to an HTML anchor
- *                        uses `lifterlms_terms_page_id` for page ID & title
- * @return   string
- * @since    3.18.0
- * @version  3.18.0
+ * @since 3.18.0
+ *
+ * @param bool $merge If true, will merge {{terms}} to an HTML anchor.
+ *                    Uses `lifterlms_terms_page_id` for page ID & title
+ * @return string
  */
 function llms_get_terms_notice( $merge = false ) {
 
-	// get the option
+	// Get the option.
 	$text = get_option( 'llms_terms_notice' );
 
-	// fallback to default if no option set
+	// Fallback to default if no option set.
 	if ( ! $text ) {
 		$text = esc_html__( 'I have read and agree to the {{terms}}.', 'lifterlms' );
 	}
 
 	$ret = $text;
 
-	// merge the {{terms}} code
+	// Merge the {{terms}} code.
 	if ( $merge ) {
 
-		// only merge if we have a page set
+		// Only merge if we have a page set.
 		if ( get_option( 'lifterlms_terms_page_id', false ) ) {
 			$ret = str_replace( '{{terms}}', llms_get_option_page_anchor( 'lifterlms_terms_page_id' ), $ret );
-			// otherwise return empty string
+			// Otherwise return empty string.
 		} else {
 			$ret = '';
 		}
 
-		// kisses
 		$ret = wp_kses(
 			$ret,
 			array(

@@ -13,10 +13,10 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve the number of columns needed for a picture choice question
  *
- * @param    int $num_choices  number of choices
- * @return   int
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ *
+ * @param int $num_choices Number of choices.
+ * @return int
  */
 function llms_get_picture_choice_question_cols( $num_choices ) {
 
@@ -61,10 +61,10 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 /**
  * Retrieve data for a single question type
  *
- * @param    string $type  id of the question type
- * @return   array|false
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ *
+ * @param string $type Id of the question type.
+ * @return array|false
  */
 function llms_get_question_type( $type ) {
 
@@ -76,11 +76,11 @@ function llms_get_question_type( $type ) {
 
 /**
  * Retrieve question types
- * see LLMS_Question_Types class for actual loading of core question types
  *
- * @return   array
- * @since    3.16.0
- * @version  3.16.0
+ * See `LLMS_Question_Types` class for actual loading of core question types.
+ *
+ * @since 3.16.0
+ * @return array
  */
 function llms_get_question_types() {
 	return apply_filters( 'llms_get_question_types', array() );
@@ -89,9 +89,9 @@ function llms_get_question_types() {
 /**
  * Retrieve statuses for quiz attempts
  *
- * @return   array
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ *
+ * @return array
  */
 function llms_get_quiz_attempt_statuses() {
 	return apply_filters(
@@ -151,26 +151,27 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 
 /**
  * Shuffles choices until the choice order has changed from the original
- * The smaller the list of choices the greater the chance of shuffling not changing the array
  *
- * @param    array $choices  choices from an LLMS_Question
- * @return   array
- * @since    3.16.12
- * @version  3.16.12
+ * The smaller the list of choices the greater the chance of shuffling not changing the array.
+ *
+ * @since 3.16.12
+ *
+ * @param array $choices Choices from an LLMS_Question
+ * @return array
  */
 function llms_shuffle_choices( $choices ) {
 
 	$count = count( $choices );
 
-	// if we only have one choice there's not much to shuffle with
+	// If we only have one choice there's not much to shuffle with.
 	if ( $count <= 1 ) {
 		return $choices;
 
-		// reverse the array when we only have two
+		// Reverse the array when we only have two.
 	} elseif ( 2 === $count ) {
 		$shuffled = array_reverse( $choices );
 
-		// shuffle until the order has changed
+		// Shuffle until the order has changed.
 	} else {
 
 		$shuffled = $choices;

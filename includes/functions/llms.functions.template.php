@@ -25,7 +25,7 @@ function llms_get_template_part( $slug, $name = '' ) {
 		$template = llms_locate_template( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" );
 	}
 
-	// Get default slug-name.php
+	// Get default slug-name.php.
 	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
 		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
 	}
@@ -34,7 +34,7 @@ function llms_get_template_part( $slug, $name = '' ) {
 		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
 	}
 
-	// Allow 3rd party plugin filter template file from their plugin
+	// Allow 3rd party plugin filter template file from their plugin.
 	$template = apply_filters( 'llms_get_template_part', $template, $slug, $name );
 
 	if ( $template ) {
@@ -51,13 +51,13 @@ function llms_get_template_part( $slug, $name = '' ) {
  * @return string [name of file]
  */
 function llms_get_template_part_contents( $slug, $name = '' ) {
-	  $template = '';
+	$template = '';
 
 	if ( $name ) {
 		$template = llms_locate_template( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" );
 	}
 
-	// Get default slug-name.php
+	// Get default slug-name.php.
 	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
 		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
 	}
@@ -66,7 +66,7 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
 	}
 
-	// Allow 3rd party plugin filter template file from their plugin
+	// Allow 3rd party plugin filter template file from their plugin.
 	if ( $template ) {
 		return $template;
 	}
@@ -85,18 +85,18 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
-		  extract( $args );
+		extract( $args );
 	}
 
-	  $located = llms_locate_template( $template_name, $template_path, $default_path );
+	$located = llms_locate_template( $template_name, $template_path, $default_path );
 
-	  do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
+	do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
 	if ( file_exists( $located ) ) {
 		include $located;
 	}
 
-	  do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
+	do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
 
@@ -127,10 +127,10 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 		$default_path = LLMS()->plugin_path() . '/templates/';
 	}
 
-	// check theme and template directories for the template
+	// Check theme and template directories for the template.
 	$override_path = llms_get_template_override( $template_name );
 
-	// Get default template
+	// Get default template.
 	$path = ( $override_path ) ? $override_path : $default_path;
 
 	$template = $path . $template_name;
@@ -141,7 +141,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 
 	}
 
-	// Return template
+	// Return template.
 	return apply_filters( 'lifterlms_locate_template', $template, $template_name, $template_path );
 }
 

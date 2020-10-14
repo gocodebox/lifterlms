@@ -94,7 +94,7 @@ class LLMS_Frontend_Password {
 
 			do_action( 'retrieve_password_key', $user_login, $key );
 
-			// Now insert the new md5 key into the db
+			// Now insert the new md5 key into the db.
 			$wpdb->update(
 				$wpdb->users,
 				array(

@@ -163,7 +163,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			return;
 		}
 
-		// added by a user from the admin panel
+		// Added by a user from the admin panel.
 		if ( $added_by_user && is_user_logged_in() && current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) {
 
 			$user_id      = get_current_user_id();
@@ -214,7 +214,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version 3.0.0
 	 */
 	protected function after_create() {
-		// add a random key that can be passed in the URL and whatever
+		// Add a random key that can be passed in the URL and whatever.
 		$this->set( 'order_key', $this->generate_order_key() );
 	}
 
@@ -363,7 +363,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	private function calculate_trial_end_date( $format = 'Y-m-d H:i:s' ) {
 
-		$start = $this->get_date( 'date', 'U' ); // start with the date the order was initially created
+		$start = $this->get_date( 'date', 'U' ); // Start with the date the order was initially created.
 
 		$length = $this->get( 'trial_length' );
 		$period = $this->get( 'trial_period' );
@@ -385,7 +385,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function can_be_retried() {
 
-		// only recurring orders can be retried
+		// Only recurring orders can be retried.
 		if ( ! $this->is_recurring() ) {
 			return false;
 		}
@@ -394,18 +394,18 @@ class LLMS_Order extends LLMS_Post_Model {
 			return false;
 		}
 
-		// only active & on-hold orders qualify for a retry
+		// Only active & on-hold orders qualify for a retry.
 		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) {
 			return false;
 		}
 
-		// if the gateway isn't active or the gateway doesn't support recurring retries
+		// If the gateway isn't active or the gateway doesn't support recurring retries.
 		$gateway = $this->get_gateway();
 		if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_retry' ) ) {
 			return false;
 		}
 
-		// if we're here, we can retry
+		// If we're here, we can retry.
 		return true;
 
 	}
@@ -515,34 +515,38 @@ class LLMS_Order extends LLMS_Post_Model {
 				'llms-active',
 				'llms-completed',
 				'llms-pending-cancel',
-				// recurring orders can expire but still grant access
-				// eg: 3monthly payments grants 1 year of access
-				// on the 4th month the order will be marked as expired
-				// but the access has not yet expired based on the data below
+				/**
+				 * Recurring orders can expire but still grant access
+				 * eg: 3monthly payments grants 1 year of access
+				 * on the 4th month the order will be marked as expired
+				 * but the access has not yet expired based on the data below.
+				 */
 				'llms-expired',
 			)
 		);
 
-		// if the order doesn't have one of the allowed statuses
-		// return 'inactive' and don't bother checking expiration data
+		// If the order doesn't have one of the allowed statuses.
+		// Return 'inactive' and don't bother checking expiration data.
 		if ( ! in_array( $this->get( 'status' ), $statuses ) ) {
 
 			return 'inactive';
 
 		}
 
-		// get the expiration date as a timestamp
+		// Get the expiration date as a timestamp.
 		$expires = $this->get_access_expiration_date( 'U' );
 
-		// a translated non-numeric string will be returned for lifetime access
-		// so if we have a timestamp we should compare it against the current time
-		// to determine if access has expired
+		/**
+		 * A translated non-numeric string will be returned for lifetime access
+		 * so if we have a timestamp we should compare it against the current time
+		 * to determine if access has expired.
+		 */
 		if ( is_numeric( $expires ) ) {
 
 			$now = llms_current_time( 'timestamp' );
 
-			// expiration date is in the past
-			// eg: the access has already expired
+			// Expiration date is in the past
+			// eg: the access has already expired.
 			if ( $expires < $now ) {
 
 				return 'expired';
@@ -550,7 +554,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
-		// we're active
+		// We're active.
 		return 'active';
 
 	}
@@ -869,8 +873,8 @@ class LLMS_Order extends LLMS_Post_Model {
 			$wpdb->prepare(
 				"SELECT SUM( m2.meta_value )
 			 FROM $wpdb->posts AS p
-			 LEFT JOIN $wpdb->postmeta AS m1 ON m1.post_id = p.ID -- join for the ID
-			 LEFT JOIN $wpdb->postmeta AS m2 ON m2.post_id = p.ID -- get the actual amounts
+			 LEFT JOIN $wpdb->postmeta AS m1 ON m1.post_id = p.ID -- Join for the ID.
+			 LEFT JOIN $wpdb->postmeta AS m2 ON m2.post_id = p.ID -- Get the actual amounts.
 			 WHERE p.post_type = 'llms_transaction'
 			   AND ( $post_statuses )
 			   AND m1.meta_key = %s
@@ -883,7 +887,7 @@ class LLMS_Order extends LLMS_Post_Model {
 					"{$this->meta_prefix}{$type}",
 				)
 			)
-		);
+		); // db call ok; no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return floatval( $grosse );
@@ -900,8 +904,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version  3.0.0
 	 */
 	public function get_start_date( $format = 'Y-m-d H:i:s' ) {
-		// get the first recorded transaction
-		// refunds are okay b/c that would have initially given the user access
+		// Get the first recorded transaction.
+		// Refunds are okay b/c that would have initially given the user access.
 		$txns = $this->get_transactions(
 			array(
 				'order'    => 'ASC',
@@ -946,23 +950,23 @@ class LLMS_Order extends LLMS_Post_Model {
 			wp_parse_args(
 				$args,
 				array(
-					'status'   => 'any', // string or array or post statuses
-					'type'     => 'any',   // string or array of transaction types [recurring|single|trial]
-					'per_page' => 50,  // int, number of transactions to return
-					'paged'    => 1,      // int, page number of transactions to return
+					'status'   => 'any', // String or array or post statuses.
+					'type'     => 'any',   // String or array of transaction types [recurring|single|trial].
+					'per_page' => 50,  // Int, number of transactions to return.
+					'paged'    => 1,      // Int, page number of transactions to return.
 					'order'    => 'DESC',
-					'orderby'  => 'date',  // field to order results by
+					'orderby'  => 'date',  // Field to order results by.
 				)
 			)
 		);
 
-		// assume any and use this to check for valid statuses
+		// Assume any and use this to check for valid statuses.
 		$statuses = llms_get_transaction_statuses();
 
-		// check statuses
+		// Check statuses.
 		if ( 'any' !== $statuses ) {
 
-			// if status is a string, ensure it's a valid status
+			// If status is a string, ensure it's a valid status.
 			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
 				$statuses = array( $status );
 			} elseif ( is_array( $status ) ) {
@@ -976,7 +980,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
-		// setup type meta query
+		// Setup type meta query.
 		$types = array(
 			'relation' => 'OR',
 		);
@@ -1008,7 +1012,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
-		// execute the query
+		// Execute the query.
 		$query = new WP_Query(
 			apply_filters(
 				'llms_order_get_transactions_query',
@@ -1065,10 +1069,10 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		} else {
 
-			// retrieve the saved end date
+			// Retrieve the saved end date.
 			$trial_end_date = $this->get_date( 'date_trial_end', $format );
 
-			// if not saved, calculate it
+			// If not saved, calculate it.
 			if ( ! $trial_end_date ) {
 
 				$trial_end_date = $this->calculate_trial_end_date( $format );
@@ -1219,7 +1223,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function init( $person, $plan, $gateway, $coupon = false ) {
 
-		// user related information
+		// User related information.
 		$this->set( 'user_id', $person->get_id() );
 		$this->set( 'user_ip_address', llms_get_ip_address() );
 		$this->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
@@ -1233,12 +1237,12 @@ class LLMS_Order extends LLMS_Post_Model {
 		$this->set( 'billing_zip', $person->get( 'billing_zip' ) );
 		$this->set( 'billing_phone', $person->get( 'phone' ) );
 
-		// access plan data
+		// Access plan data.
 		$this->set( 'plan_id', $plan->get( 'id' ) );
 		$this->set( 'plan_title', $plan->get( 'title' ) );
 		$this->set( 'plan_sku', $plan->get( 'sku' ) );
 
-		// product data
+		// Product data.
 		$product = $plan->get_product();
 		$this->set( 'product_id', $product->get( 'id' ) );
 		$this->set( 'product_title', $product->get( 'title' ) );
@@ -1248,7 +1252,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$this->set( 'payment_gateway', $gateway->get_id() );
 		$this->set( 'gateway_api_mode', $gateway->get_api_mode() );
 
-		// trial data
+		// Trial data.
 		if ( $plan->has_trial() ) {
 			$this->set( 'trial_offer', 'yes' );
 			$this->set( 'trial_length', $plan->get( 'trial_length' ) );
@@ -1265,7 +1269,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$price = $plan->get_price( 'price', array(), 'float' );
 		$this->set( 'currency', get_lifterlms_currency() );
 
-		// price data
+		// Price data.
 		if ( $plan->is_on_sale() ) {
 			$price_key = 'sale_price';
 			$this->set( 'on_sale', 'yes' );
@@ -1277,14 +1281,14 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'on_sale', 'no' );
 		}
 
-		// store original total before any discounts
+		// Store original total before any discounts.
 		$this->set( 'original_total', $price );
 
-		// get the actual total due after discounts if any are applicable
+		// Get the actual total due after discounts if any are applicable.
 		$total = $coupon ? $plan->get_price_with_coupon( $price_key, $coupon, array(), 'float' ) : $$price_key;
 		$this->set( 'total', $total );
 
-		// coupon data
+		// Coupon data.
 		if ( $coupon ) {
 			$this->set( 'coupon_id', $coupon->get( 'id' ) );
 			$this->set( 'coupon_amount', $coupon->get( 'coupon_amount' ) );
@@ -1300,7 +1304,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'coupon_used', 'no' );
 		}
 
-		// get all billing schedule related information
+		// Get all billing schedule related information.
 		$this->set( 'billing_frequency', $plan->get( 'frequency' ) );
 		if ( $plan->is_recurring() ) {
 			$this->set( 'billing_length', $plan->get( 'length' ) );
@@ -1316,7 +1320,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$this->set( 'access_expiration', $plan->get( 'access_expiration' ) );
 
-		// get access related data so when payment is complete we can calculate the actual expiration date
+		// Get access related data so when payment is complete we can calculate the actual expiration date.
 		if ( $plan->can_expire() ) {
 			$this->set( 'access_expires', $plan->get( 'access_expires' ) );
 			$this->set( 'access_length', $plan->get( 'access_length' ) );
@@ -1361,10 +1365,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function maybe_schedule_expiration() {
 
-		// get expiration date based on setting.
+		// Get expiration date based on setting.
 		$expires = $this->get_access_expiration_date( 'U' );
 
-		// will return a timestamp or "Lifetime Access as a string".
+		// Will return a timestamp or "Lifetime Access as a string".
 		if ( is_numeric( $expires ) ) {
 			$this->unschedule_expiration();
 			as_schedule_single_action( $expires, 'llms_access_plan_expiration', $this->get_action_args() );
@@ -1404,7 +1408,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			// Convert our date to UTC before passing to the scheduler.
 			$date = get_gmt_from_date( $date, 'U' );
 
-			// schedule the payment
+			// Schedule the payment.
 			as_schedule_single_action(
 				$date,
 				'llms_charge_recurring_payment',
@@ -1417,10 +1421,10 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			if ( 'plan-ended' === $date->get_error_code() ) {
 
-				// unschedule the next action (does nothing if no action scheduled)
+				// Unschedule the next action (does nothing if no action scheduled).
 				$this->unschedule_recurring_payment();
 
-				// add a note that the plan has completed
+				// Add a note that the plan has completed.
 				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
 
 			}
@@ -1455,26 +1459,26 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			$next_payment_time = current_time( 'timestamp' ) + $rule['delay'];
 
-			// update the status
+			// Update the status.
 			$this->set_status( $rule['status'] );
 
-			// set the next payment date based on the rule's delay
+			// Set the next payment date based on the rule's delay.
 			$this->set_date( 'next_payment', date_i18n( 'Y-m-d H:i:s', $next_payment_time ) );
 
-			// save the rule for reference on potential future retries
+			// Save the rule for reference on potential future retries.
 			$this->set( 'last_retry_rule', $current_rule );
 
-			// if notifications should be sent, trigger them
+			// If notifications should be sent, trigger them.
 			if ( $rule['notifications'] ) {
 				do_action( 'llms_send_automatic_payment_retry_notification', $this );
 			}
 
 			$this->add_note( sprintf( esc_html__( 'Automatic retry attempt scheduled for %s', 'lifterlms' ), date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_payment_time ) ) );
 
-			// generic action
+			// Generic action.
 			do_action( 'llms_automatic_payment_retry_scheduled', $this );
 
-			// we are out of rules, fail the order, move on with our lives
+			// We are out of rules, fail the order, move on with our lives.
 		} else {
 
 			$this->set_status( 'failed' );
@@ -1484,7 +1488,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			do_action( 'llms_automatic_payment_maximum_retries_reached', $this );
 
-		}// End if().
+		}
 
 	}
 
@@ -1550,7 +1554,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function set_date( $date_key, $date_val ) {
 
-		// convert to timestamp if not already a timestamp
+		// Convert to timestamp if not already a timestamp.
 		if ( ! is_numeric( $date_val ) ) {
 			$date_val = strtotime( $date_val );
 		}
@@ -1559,17 +1563,16 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		switch ( $date_key ) {
 
-			// reschedule access expiration
+			// Reschedule access expiration.
 			case 'access_expires':
 				$this->maybe_schedule_expiration();
 				break;
 
-			// additionally update the next payment date
-			// & don't break because we want to reschedule payments too
+			// Additionally update the next payment date & don't break because we want to reschedule payments too.
 			case 'trial_end':
 				$this->set_date( 'next_payment', $this->calculate_next_payment_date( 'U' ) );
 
-				// everything else reschedule's payments
+				// Everything else reschedule's payments.
 			default:
 				$this->maybe_schedule_payment( false );
 
@@ -1609,11 +1612,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function start_access() {
 
-		// only start access if access isn't already started
+		// Only start access if access isn't already started.
 		$date = $this->get( 'start_date' );
 		if ( ! $date ) {
 
-			// set the start date to now
+			// Set the start date to now.
 			$date = llms_current_time( 'mysql' );
 			$this->set( 'start_date', $date );
 
@@ -1621,7 +1624,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$this->unschedule_expiration();
 
-		// setup expiration
+		// Setup expiration.
 		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
 
 			$expires_date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );

@@ -91,38 +91,6 @@
 		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
 
 		<!-- To be fixed -->
-		<exclude-pattern>includes/emails/class.llms.email.engagement.php</exclude-pattern>
-		<exclude-pattern>includes/forms/controllers/class.llms.controller.login.php</exclude-pattern>
-		<exclude-pattern>includes/forms/controllers/class.llms.controller.registration.php</exclude-pattern>
-		<exclude-pattern>includes/forms/frontend/class.llms.frontend.forms.php</exclude-pattern>
-		<exclude-pattern>includes/forms/frontend/class.llms.frontend.password.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms-functions-access-plans.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.certificate.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.currency.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.log.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.notice.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.order.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.privacy.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.quiz.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.template.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.achievements.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.certificates.php</exclude-pattern>
-		<exclude-pattern>includes/functions/llms.functions.templates.privacy.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-300.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-303.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-3160.php</exclude-pattern>
-		<exclude-pattern>includes/functions/updates/llms-functions-updates-343.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.access.plan.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.coupon.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.course.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.instructor.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.notification.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.order.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.question.choice.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.quiz.attempt.question.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.section.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.student.php</exclude-pattern>
-		<exclude-pattern>includes/models/model.llms.transaction.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/class.llms.notifications.query.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy-exporters.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy.php</exclude-pattern>
@@ -132,7 +100,6 @@
 		<exclude-pattern>includes/processors/class.llms.processors.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.course.outline.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.hide.content.php</exclude-pattern>
-		<exclude-pattern>includes/widgets/class.llms.widget.course.syllabus.php</exclude-pattern>
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">

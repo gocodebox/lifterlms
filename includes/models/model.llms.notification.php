@@ -159,20 +159,21 @@ class LLMS_Notification implements JsonSerializable {
 			)
 		);
 
-		ksort( $data ); // maintain alpha sort you savages
+		ksort( $data ); // Maintain alpha sort you savages.
 
 		$format = array(
-			'%s', // created
-			'%d', // post_id
-			'%s', // status
-			'%s', // subscriber
-			'%s', // trigger_id
-			'%s', // type
-			'%s', // updated
-			'%d', // user_id
+			'%s', // For created.
+			'%d', // For post_id.
+			'%s', // For status.
+			'%s', // For subscriber.
+			'%s', // For trigger_id.
+			'%s', // For type.
+			'%s', // For updated.
+			'%d', // For user_id.
 		);
 
 		global $wpdb;
+
 		if ( 1 !== $wpdb->insert( $this->get_table(), $data, $format ) ) {
 			return false;
 		}
@@ -204,19 +205,20 @@ class LLMS_Notification implements JsonSerializable {
 	 */
 	public function get( $key, $skip_cache = false ) {
 
-		// id will always be accessed from the object
+		// Id will always be accessed from the object.
 		if ( 'id' === $key ) {
 			return $this->id;
 		}
 
-		// return cached values if they exist
+		// Return cached values if they exist.
 		if ( ! is_null( $this->$key ) && ! $skip_cache ) {
 			return $this->$key;
 		}
 
-		// get the value from the database
+		// get the value from the database.
 		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );  // db call ok; no-cache ok.
 
 	}
 
@@ -283,7 +285,7 @@ class LLMS_Notification implements JsonSerializable {
 		$notification = $wpdb->get_row(
 			$wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
-		);
+		); // db call ok; no-cache ok.
 
 		if ( $notification ) {
 
@@ -330,7 +332,7 @@ class LLMS_Notification implements JsonSerializable {
 							current_time( 'mysql' ),
 							$this->id
 						)
-					);
+					); // db call ok; no-cache ok.
 					// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				}
 				return true;

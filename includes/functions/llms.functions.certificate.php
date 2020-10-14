@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 2.2.0
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,10 +13,11 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve the content of a certificate
  *
- * @param  integer $id WP Post ID of the cert (optional if used within a loop)
+ * @since 2.2.0
+ * @since 3.18.0 Unknown.
+ *
+ * @param integer $id WP Post ID of the cert (optional if used within a loop).
  * @return string
- * @since    2.2.0
- * @version  3.18.0
  */
 function llms_get_certificate_content( $id = 0 ) {
 
@@ -45,12 +46,13 @@ function llms_get_certificate_content( $id = 0 ) {
 /**
  * Retrieve an array of image data for a certificate background image
  *
- * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder)
+ * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).
  *
- * @param  integer $id  WP Certificate Post ID
- * @return array        associative array of certificate image details
- * @since    2.2.0
- * @version  2.2.0
+ * @since 2.2.0
+ *
+ * @param int $id Optional. WP Certificate Post ID. Default is 0.
+ *                When not provide the current post id will be used.
+ * @return array Associative array of certificate image details
  */
 function llms_get_certificate_image( $id = 0 ) {
 
@@ -58,7 +60,7 @@ function llms_get_certificate_image( $id = 0 ) {
 
 	$img_id = get_post_meta( $id, '_llms_certificate_image', true );
 
-	// don't retrieve a size if legacy mode is enabled
+	// Don't retrieve a size if legacy mode is enabled.
 	$size = ( 'yes' === get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? '' : 'lifterlms_certificate_background';
 
 	$src = wp_get_attachment_image_src( $img_id, $size );
@@ -89,10 +91,11 @@ function llms_get_certificate_image( $id = 0 ) {
 /**
  * Retrieve the title of a certificate
  *
- * @param  int $id WP post id of the cert (optional if used within a loop)
- * @return string     title of the cert
- * @since    2.2.0
- * @version  2.2.0
+ * @since 2.2.0
+ *
+ * @param int $id Optional. WP Certificate Post ID. Default is 0.
+ *                When not provide the current post id will be used.
+ * @return string The title of the certificate.
  */
 function llms_get_certificate_title( $id = 0 ) {
 
@@ -106,9 +109,9 @@ function llms_get_certificate_title( $id = 0 ) {
 /**
  * Register the custom "print_certificate" image size
  *
+ * @since 2.2.0
+ *
  * @return void
- * @since    2.2.0
- * @version  2.2.0
  */
 function llms_register_certificate_image_size() {
 

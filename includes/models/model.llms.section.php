@@ -62,12 +62,12 @@ class LLMS_Section extends LLMS_Post_Model {
 	 */
 	protected function get_creation_args( $args = null ) {
 
-		// allow nothing to be passed in
+		// Allow nothing to be passed in.
 		if ( empty( $args ) ) {
 			$args = array();
 		}
 
-		// backwards compat to original 3.0.0 format when just a title was passed in
+		// Backwards compat to original 3.0.0 format when just a title was passed in.
 		if ( is_string( $args ) ) {
 			$args = array(
 				'post_title' => $args,

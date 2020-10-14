@@ -25,22 +25,22 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
 	$err     = new WP_Error();
 
-	// valid gateway
+	// Valid gateway.
 	if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
 
-		// gateway not enabled
+		// Gateway not enabled.
 		if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
 
 			$err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
 			return $err;
 
-			// it's a recurring plan and the gateway doesn't support recurring
+			// It's a recurring plan and the gateway doesn't support recurring.
 		} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
 
 			$err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 			return $err;
 
-			// not recurring and the gateway doesn't support single payments
+			// Not recurring and the gateway doesn't support single payments.
 		} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
 
 			$err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
@@ -114,7 +114,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 
 	$statuses = wp_list_pluck( LLMS_Post_Types::get_order_statuses(), 'label' );
 
-	// remove types depending on order type
+	// Remove types depending on order type.
 	switch ( $order_type ) {
 		case 'recurring':
 			unset( $statuses['llms-completed'] );
@@ -206,7 +206,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	$err = new WP_Error();
 
-	// check t & c if configured.
+	// Check t & c if configured.
 	if ( llms_are_terms_and_conditions_required() ) {
 		if ( ! isset( $data['agree_to_terms'] ) || ! llms_parse_bool( $data['agree_to_terms'] ) ) {
 			$err->add( 'terms-violation', sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id' ) ) ) );
@@ -214,46 +214,46 @@ function llms_setup_pending_order( $data = array() ) {
 		}
 	}
 
-	// we must have a plan_id to proceed.
+	// We must have a plan_id to proceed.
 	if ( empty( $data['plan_id'] ) ) {
 		$err->add( 'missing-plan-id', __( 'Missing an Access Plan ID.', 'lifterlms' ) );
 		return $err;
 	}
 
-	// validate the plan is a real plan.
+	// Validate the plan is a real plan.
 	$plan = llms_get_post( absint( $data['plan_id'] ) );
 	if ( ! $plan || 'llms_access_plan' !== $plan->get( 'type' ) ) {
 		$err->add( 'invalid-plan-id', __( 'Invalid Access Plan ID.', 'lifterlms' ) );
 		return $err;
 	}
 
-	// used later.
+	// Used later.
 	$coupon_id = null;
 	$coupon    = false;
 
-	// if a coupon is being used, validate it.
+	// If a coupon is being used, validate it.
 	if ( ! empty( $data['coupon_code'] ) ) {
 
 		$coupon_id = llms_find_coupon( $data['coupon_code'] );
 
-		// coupon couldn't be found
+		// Coupon couldn't be found.
 		if ( ! $coupon_id ) {
 			$err->add( 'coupon-not-found', sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $data['coupon_code'] ) );
 			return $err;
 		}
 
-		// coupon is real, make sure it's valid for the current plan.
+		// Coupon is real, make sure it's valid for the current plan.
 		$coupon = llms_get_post( $coupon_id );
 		$valid  = $coupon->is_valid( $data['plan_id'] );
 
-		// if the coupon has a validation error, return an error message.
+		// If the coupon has a validation error, return an error message.
 		if ( is_wp_error( $valid ) ) {
 			$err->add( 'invalid-coupon', $valid->get_error_message() );
 			return $err;
 		}
 	}
 
-	// if payment is required, verify we have a gateway.
+	// If payment is required, verify we have a gateway.
 	if ( $plan->requires_payment( $coupon_id ) && empty( $data['payment_gateway'] ) ) {
 		$err->add( 'missing-gateway-id', __( 'No payment method selected.', 'lifterlms' ) );
 		return $err;
@@ -270,19 +270,19 @@ function llms_setup_pending_order( $data = array() ) {
 		return $err;
 	}
 
-	// update the customer.
+	// Update the customer.
 	if ( ! empty( $data['customer']['user_id'] ) ) {
 		$person_id = LLMS_Person_Handler::update( $data['customer'], 'checkout' );
 	} else {
 		$person_id = llms_register_user( $data['customer'], 'checkout', true );
 	}
 
-	// validation or registration issues.
+	// Validation or registration issues.
 	if ( is_wp_error( $person_id ) ) {
 		return $person_id;
 	}
 
-	// this will likely never actually happen unless there's something very strange afoot.
+	// This will likely never actually happen unless there's something very strange afoot.
 	if ( ! is_numeric( $person_id ) ) {
 
 		$err->add( 'account-creation', __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ) );
@@ -290,7 +290,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	}
 
-	// ensure the new user isn't enrolled in the product being purchased.
+	// Ensure the new user isn't enrolled in the product being purchased.
 	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) ) {
 
 		$product = $plan->get_product();
@@ -316,7 +316,6 @@ function llms_setup_pending_order( $data = array() ) {
 	 * Filter the return of pending order setup data.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
 	 *
 	 * @param $setup {
 		 *     Data used to create the pending order.

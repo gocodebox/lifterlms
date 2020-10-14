@@ -13,10 +13,10 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get the content of a single achievement
  *
- * @param    obj $achievement  instance of an LLMS_User_Achievement
- * @return   void
- * @since    3.14.0
- * @version  3.14.0
+ * @since 3.14.0
+ *
+ * @param LLMS_User_Achievement $achievement Instance of an LLMS_User_Achievement.
+ * @return void
  */
 function llms_get_achievement( $achievement ) {
 
@@ -32,14 +32,15 @@ function llms_get_achievement( $achievement ) {
 	return ob_get_clean();
 
 }
-	/**
-	 * Output the content of a single achievement
-	 *
-	 * @param    obj $achievement  instance of an LLMS_User_Achievement
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
-	 */
+
+/**
+ * Output the content of a single achievement
+ *
+ * @since 3.14.0
+ *
+ * @param LLMS_Achievement $achievement Instance of an LLMS_User_Achievement.
+ * @return void
+ */
 function llms_the_achievement( $achievement ) {
 	echo llms_get_achievement( $achievement );
 }
@@ -47,9 +48,9 @@ function llms_the_achievement( $achievement ) {
 /**
  * Retrieve the number of columns used in achievement loops
  *
- * @return   int
- * @since    3.14.0
- * @version  3.14.0
+ * @since 3.14.0
+ *
+ * @return int
  */
 function llms_get_achievement_loop_columns() {
 	return apply_filters( 'llms_achievement_loop_columns', 4 );
@@ -59,28 +60,31 @@ function llms_get_achievement_loop_columns() {
 /**
  * Get template for achievements loop
  *
- * @param    obj       $student  LLMS_Student (uses current if none supplied)
- * @param    bool|int  $limit    number of achievements to show (defaults to all)
- * @param    int       $columns  number of achievements columns
- * @return   void
- * @since    3.14.0
- * @version  3.14.1
+ * @since 3.14.0
+ * @since 3.14.1 Unknown.
+ *
+ * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
+ *                              The current student will be used if none supplied.
+ * @param bool|int     $limit   Optional. Number of achievements to show (defaults to all). Default is `false`.
+ * @param int          $columns Optional. Number of achievements columns. Default is `null`.
+ *                              The default achievement loop columns will be used if none supplied. See `llms_get_achievement_loop_columns()`.
+ * @return void
  */
 if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 	function lifterlms_template_achievements_loop( $student = null, $limit = false, $columns = null ) {
 
-		// get the current student if none supplied
+		// Get the current student if none supplied.
 		if ( ! $student ) {
 			$student = llms_get_student();
 		}
 
-		// don't proceed without a student
+		// Don't proceed without a student.
 		if ( ! $student ) {
 			return;
 		}
 
 		$cols = $columns ? $columns : llms_get_achievement_loop_columns();
-		// get achievements
+		// Get achievements.
 		$achievements = $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
 		if ( $limit && $achievements ) {
 			$achievements = array_slice( $achievements, 0, $limit );
