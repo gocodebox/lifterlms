@@ -21,8 +21,25 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class LLMS_Abstract_Generator_Posts {
 
+	/**
+	 * Error during WP_Post creation
+	 *
+	 * @var int
+	 */
 	const ERROR_CREATE_POST = 1000;
+
+	/**
+	 * Error during WP_Term creation
+	 *
+	 * @var int
+	 */
 	const ERROR_CREATE_TERM = 1001;
+
+	/**
+	 * Error during WP_User creation
+	 *
+	 * @var int
+	 */
 	const ERROR_CREATE_USER = 1002;
 
 	/**
@@ -114,11 +131,22 @@ abstract class LLMS_Abstract_Generator_Posts {
 		}
 	}
 
-	protected function create_post( $type, $raw = array(), $fallback_author_id = null ) {
+	/**
+	 * Generate a new LLMS_Post_Mdel
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
+	 * @param array  $raw       Array of raw, used to create the post.
+	 * @param [type] $author_id Fallback author ID, used when now author data can be found in `$raw`.
+	 * @throws Exception When an error is encountered during post creation.
+	 * @return LLMS_Post_Model
+	 */
+	protected function create_post( $type, $raw = array(), $author_id = null ) {
 
 		$class_name = sprintf( 'LLMS_%s', implode( '_', array_map( 'ucfirst', explode( '_', $type ) ) ) );
 
-		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
+		$author_id = $this->get_author_id_from_raw( $raw, $author_id );
 		if ( isset( $raw['author'] ) ) {
 			unset( $raw['author'] );
 		}
