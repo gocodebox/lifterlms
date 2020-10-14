@@ -204,7 +204,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since [version] Import images and reusable blocks found in the post's content.
 	 *
 	 * @param array $raw Raw course data.
-	 * @return null|int
+	 * @throws Exception When an error is encountered during course creation.
+	 * @return int
 	 */
 	protected function create_course( $raw ) {
 
@@ -218,10 +219,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_course', $raw, $this );
 
+		// Create the course.
 		$course = $this->create_post( 'course', $raw, get_current_user_id() );
-		if ( ! $course ) {
-			return null;
-		}
 
 		// Add terms to our course.
 		$terms = array();
@@ -277,7 +276,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param int   $section_id         WP Post ID of the lesson's parent section.
 	 * @param int   $course_id          WP Post ID of the lesson's parent course.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
-	 * @return int|WP_Error WP_Post ID of the created lesson on success and an error object on failure.
+	 * @throws Exception When an error is encountered during post creation.
+	 * @return int
 	 */
 	protected function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -304,9 +304,6 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		unset( $raw['quiz'] );
 
 		$lesson = $this->create_post( 'lesson', $raw, $fallback_author_id );
-		if ( ! $lesson ) {
-			return null;
-		}
 
 		if ( $raw_quiz ) {
 			$raw_quiz['lesson_id'] = $lesson->get( 'id' );
@@ -339,7 +336,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
-	 * @return int WP_Post ID of the Quiz.
+	 * @throws Exception When an error is encountered during post creation.
+	 * @return int
 	 */
 	protected function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -355,9 +353,6 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$raw = apply_filters( 'llms_generator_before_new_quiz', $raw, $fallback_author_id, $this );
 
 		$quiz = $this->create_post( 'quiz', $raw, $fallback_author_id );
-		if ( ! $quiz ) {
-			return null;
-		}
 
 		if ( isset( $raw['questions'] ) ) {
 			$manager = $quiz->questions();
@@ -391,7 +386,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param array $raw       Raw question data.
 	 * @param obj   $manager   Question manager instance.
 	 * @param int   $author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
-	 * @return int The WP_Post ID of the generated question.
+	 * @throws Exception When an error is encountered during course creation.
+	 * @return int
 	 */
 	protected function create_question( $raw, $manager, $author_id ) {
 
@@ -471,7 +467,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param int   $order              Order within the course (starts at 1).
 	 * @param int   $course_id          WP Post ID of the parent course.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
-	 * @return int The WP_Post ID of the generated section.
+	 * @throws Exception When an error is encountered during course creation.
+	 * @return int
 	 */
 	protected function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
@@ -492,9 +489,6 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		$raw['order']         = $order;
 
 		$section = $this->create_post( 'section', $raw, $fallback_author_id );
-		if ( ! $section ) {
-			return null;
-		}
 
 		if ( isset( $raw['lessons'] ) ) {
 			foreach ( $raw['lessons'] as $lesson_order => $lesson ) {
