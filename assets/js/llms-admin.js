@@ -16,27 +16,9 @@
 		this.$widgets      = $( '.llms-widget' );
 		this.$info_toggles = $( '.llms-widget-info-toggle' );
 
-		/**
-		 * Toggle display of info widget description tips
-		 *
-		 * @since [version]
-		 *
-		 * @param {Object} $toggle The jQuery selector for the toggle element.
-		 * @param {String} action  Requested action, either "hide" or "show".
-		 * @return {void}
-		 */
-		function toggleWidgetInfo( $toggle, action ) {
 
-			var $widget = $toggle.closest( '.llms-widget' ),
-				$info   = $widget.find( '.llms-widget-info' );
 
-			if ( 'show' === action ) {
-				$widget.addClass( 'info-showing' );
-			} else if ( 'hide' === action ) {
-				$widget.removeClass( 'info-showing' );
-			}
 
-		};
 
 		this.init = function() {
 			this.bind();
@@ -44,10 +26,9 @@
 
 		this.bind = function() {
 
-			this.$info_toggles.on( 'mouseenter', function() {
-				toggleWidgetInfo( $( this ), 'show' );
-			} ).on( 'mouseleave', function() {
-				toggleWidgetInfo( $( this ), 'hide' );
+			this.$info_toggles.on( 'mouseenter mouseleave', function( evt ) {
+				$(this).closest( '.llms-widget' )
+					.toggleClass( 'info-showing', 'mouseenter' === evt.type );
 			} );
 
 		};
