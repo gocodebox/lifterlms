@@ -149,7 +149,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * Modify the main WP Query
 	 *
 	 * @since 3.12.0
-	 * @since [version] Bail early if the query has not `post_type` property set.
+	 * @since [version] Bail early if the query has no `post_type` property set.
 	 *
 	 * @param WP_Query $query The WordPress Query.
 	 * @return WP_Query
