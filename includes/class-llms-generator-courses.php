@@ -416,7 +416,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		);
 
 		if ( ! $question_id ) {
-			throw new Exception( __( 'Error creating question', 'lifterlms' ), ERROR_CREATE_QUESTION );
+			throw new Exception( __( 'Error creating the question post object.', 'lifterlms' ), self::ERROR_CREATE_POST );
 		}
 
 		$question = llms_get_post( $question_id );
