@@ -84,7 +84,7 @@ function llms_get_notices() {
 		}
 	}
 
-	add_action( 'shutdown', 'llms_clear_notices', 1 ); // prior to shutdown functions executed by session manager
+	add_action( 'shutdown', 'llms_clear_notices', 1 ); // Prior to shutdown functions executed by session manager.
 
 	return ob_get_clean();
 

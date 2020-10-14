@@ -134,7 +134,7 @@ class LLMS_Sessions {
 
 		if ( ! is_wp_error( $end ) ) {
 			global $wpdb;
-			$wpdb->query( // db call ok; no-cache ok.
+			$wpdb->query(
 				$wpdb->prepare(
 					"
 					DELETE FROM {$wpdb->prefix}lifterlms_events_open_sessions
@@ -142,7 +142,7 @@ class LLMS_Sessions {
 					",
 					$start->get( 'id' )
 				)
-			);
+			); // db call ok; no-cache ok.
 		}
 
 		return $end;
@@ -290,7 +290,7 @@ class LLMS_Sessions {
 			  LIMIT 1;",
 				$user_id
 			)
-		);
+		); // db call ok; no-cache ok.
 
 	}
 
@@ -307,7 +307,7 @@ class LLMS_Sessions {
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col( // db call ok; no-cache ok.
+		$sessions = $wpdb->get_col(
 			$wpdb->prepare(
 				"
 			   SELECT event_id
@@ -318,7 +318,7 @@ class LLMS_Sessions {
 				$skip,
 				$limit
 			)
-		);
+		); // db call ok; no-cache ok.
 
 		$ret = array();
 		if ( count( $sessions ) ) {
@@ -392,7 +392,7 @@ class LLMS_Sessions {
 				$start->get( 'actor_id' ),
 				$start->get( 'object_id' )
 			)
-		);
+		); // db call ok; no-cache ok.
 
 		if ( ! $end ) {
 			return null;

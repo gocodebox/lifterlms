@@ -466,7 +466,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
-		// allow id or instance to be passed for $coupon_id
+		// Allow id or instance to be passed for $coupon_id.
 		if ( $coupon_id instanceof LLMS_Coupon ) {
 			$coupon = $coupon_id;
 		} else {
@@ -475,14 +475,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$price = $this->get( $key );
 
-		// ensure the coupon *can* be applied to this plan
+		// Ensure the coupon *can* be applied to this plan.
 		if ( ! $coupon->is_valid( $this ) ) {
 			return $price;
 		}
 
 		$discount_type = $coupon->get( 'discount_type' );
 
-		// price and sale price are calculated of coupon amount
+		// Price and sale price are calculated of coupon amount.
 		if ( 'price' === $key || 'sale_price' === $key ) {
 
 			$coupon_amount = $coupon->get( 'coupon_amount' );
@@ -499,7 +499,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		if ( $coupon_amount ) {
 
-			// simple subtraction
+			// Simple subtraction.
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
 			} elseif ( 'percent' === $discount_type ) {
@@ -507,7 +507,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
-		// if price is less than 0 return the pricing text
+		// If price is less than 0 return the pricing text.
 		if ( $price <= 0 ) {
 
 			$price = $this->get_free_pricing_text( $format );
@@ -563,7 +563,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function get_enroll_text() {
 
-		// user custom text option
+		// User custom text option.
 		$text = $this->get( 'enroll_text' );
 
 		if ( ! $text ) {
@@ -621,7 +621,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$frequency = $this->get( 'frequency' );
 		$length    = $this->get( 'length' );
 
-		// one-time payments don't display anything here unless filtered
+		// One-time payments don't display anything here unless filtered.
 		if ( $frequency > 0 ) {
 
 			if ( 1 === $frequency ) {
@@ -630,7 +630,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$ret = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 			}
 
-			// add length sentence if applicable
+			// Add length sentence if applicable.
 			if ( $length > 0 ) {
 
 				$ret .= ' ' . sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
@@ -679,12 +679,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the plan has availability restrictions
-	 * Related product must be a COURSE
-	 * Availability must be set to "members" and at least one membership must be selected
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Related product must be a COURSE.
+	 * Availability must be set to "members" and at least one membership must be selected.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_availability_restrictions() {
 		return ( 'course' === $this->get_product_type() && 'members' === $this->get( 'availability' ) && $this->get_array( 'availability_restrictions' ) );
@@ -731,12 +732,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$access = true;
 
-		// if there are membership restrictions, check the user is in at least one membership
+		// If there are membership restrictions, check the user is in at least one membership.
 		if ( $this->has_availability_restrictions() ) {
 			$access = false;
 			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
 
-				// once we find a membership, exit
+				// Once we find a membership, exit.
 				if ( llms_is_user_enrolled( $user_id, $mid ) ) {
 					$access = true;
 					break;
@@ -790,26 +791,26 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$start = $this->get( 'sale_start' );
 			$end   = $this->get( 'sale_end' );
 
-			// add times if the values exist (start of day & end of day)
+			// Add times if the values exist (start of day & end of day).
 			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
 			$end   = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
 
-			// no dates, the product is indefinitely on sale
+			// No dates, the product is indefinitely on sale.
 			if ( ! $start && ! $end ) {
 
 				$ret = true;
 
-				// start and end
+				// Start and end.
 			} elseif ( $start && $end ) {
 
 				$ret = ( $now < $end && $now > $start );
 
-				// only start
+				// Only start.
 			} elseif ( $start && ! $end ) {
 
 				$ret = ( $now > $start );
 
-				// only end
+				// Only end.
 			} elseif ( ! $start && $end ) {
 
 				$ret = ( $now < $end );

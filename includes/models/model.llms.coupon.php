@@ -62,12 +62,12 @@ class LLMS_Coupon extends LLMS_Post_Model {
 			$plan = new LLMS_Access_Plan( $plan_id );
 		}
 
-		// check if it can be applied to the plan's product first
+		// Check if it can be applied to the plan's product first.
 		if ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
 			return false;
 		}
 
-		// if the coupon can only be used with one-time plans and the plan is recurring
+		// If the coupon can only be used with one-time plans and the plan is recurring.
 		if ( 'one-time' === $this->get( 'plan_type' ) && $plan->is_recurring() ) {
 			return false;
 		}
@@ -85,7 +85,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 */
 	public function applies_to_product( $product_id ) {
 		$products = $this->get_products();
-		// no product restrictions
+		// No product restrictions.
 		if ( empty( $products ) ) {
 			return true;
 		} else {
@@ -173,7 +173,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 		$limit = $this->get( 'usage_limit' );
 
-		// if usage is unlimited
+		// If usage is unlimited.
 		if ( ! $limit ) {
 
 			return _x( 'Unlimited', 'Remaining coupon uses', 'lifterlms' );
@@ -257,7 +257,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 */
 	public function is_expired() {
 		$expires = $this->get_expiration_time();
-		// no expiration date, can't expire
+		// No expiration date, can't expire.
 		if ( ! $expires ) {
 			return false;
 		} else {
@@ -297,7 +297,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 		}
 
-		// error encountered
+		// Error encountered.
 		if ( $msg ) {
 
 			$ret = new WP_Error();
