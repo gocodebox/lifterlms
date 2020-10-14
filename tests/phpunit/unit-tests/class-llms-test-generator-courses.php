@@ -275,6 +275,28 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test create_course() error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_course_error() {
+
+		// Force post creation to fail.
+		$handler = function( $args ) {
+			return array();
+		};
+		add_filter( 'llms_new_course', $handler );
+
+		$this->setExpectedException( Exception::class, 'Error creating the course post object.', 1000 );
+		LLMS_Unit_Test_Util::call_method( $this->main, 'create_course', array( array( 'title' => '' ) ) );
+
+		remove_filter( 'llms_new_course', $handler );
+
+	}
+
+	/**
 	 * Test create_lesson()
 	 *
 	 * @since [version]
