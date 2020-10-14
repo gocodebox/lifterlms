@@ -35,12 +35,13 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 		return $this->getMockForAbstractClass( 'LLMS_Abstract_Generator_Posts', array( $raw ) );
 	}
 
-	public function test_constructor() {
-
-		$this->assertIsWPError( $this->stub->error );
-
-	}
-
+	/**
+	 * Test add_custom_values()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_add_custom_values() {
 
 		$post_id = $this->factory->post->create();
@@ -62,6 +63,57 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 		$this->assertEquals( '', get_post_meta( $post_id, '_mock_empty', true ) );
 		$this->assertEquals( array( 'data' => true ), get_post_meta( $post_id, '_mock_serialized', true ) );
 		$this->assertEquals( '{"data":"string"}', get_post_meta( $post_id, '_mock_json', true ) );
+	}
+
+	/**
+	 * Test create_post() success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_post() {
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->stub, 'create_post', array( 'course', array( 'title' => 'test' ) ) );
+		$this->assertInstanceOf( 'LLMS_Course', $res );
+		$this->assertEquals( 'test', $res->get( 'title' ) );
+
+	}
+
+	/**
+	 * Test create_post() for invalid post type classes
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_post_invalid_type() {
+
+		$this->setExpectedException( Exception::class, 'The class "LLMS_Fake_Type" does not exist.', 1100 );
+		LLMS_Unit_Test_Util::call_method( $this->stub, 'create_post', array( 'fake_type' ) );
+
+	}
+
+	/**
+	 * Test create_post() when an error is encountered during creation
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_post_error() {
+
+		// Force post creation to fail.
+		$handler = function( $args ) {
+			return array();
+		};
+		add_filter( 'llms_new_course', $handler );
+
+		$this->setExpectedException( Exception::class, 'Error creating the course post object.', 1000 );
+		LLMS_Unit_Test_Util::call_method( $this->stub, 'create_post', array( 'course', array( 'title' => '' ) ) );
+
+		remove_filter( 'llms_new_course', $handler );
+
 	}
 
 	/**
