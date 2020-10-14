@@ -163,6 +163,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		);
 
 		if ( ! $post->get( 'id' ) ) {
+			// Translators: %s = post type name.
 			throw new Exception( sprintf( __( 'Error creating the %s post object.', 'lifterlms' ), $type ), self::ERROR_CREATE_POST );
 		}
 
