@@ -378,18 +378,6 @@ class LLMS_Generator {
 	}
 
 	/**
-	 * Configure the default post status for generated posts at runtime
-	 *
-	 * @since 3.7.3
-	 *
-	 * @param string $status Any valid WP Post Status.
-	 * @return void
-	 */
-	public function set_default_post_status( $status ) {
-		call_user_func( array( $this->generator[0], 'set_default_post_status' ), $status );
-	}
-
-	/**
 	 * Sets the generator to use for the current instance
 	 *
 	 * @since 3.3.0
