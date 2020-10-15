@@ -12,6 +12,20 @@
 class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	/**
+	 * Load required class
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass() {
+
+		parent::setUpBeforeClass();
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
+
+	}
+
+	/**
 	 * Setup the test case
 	 *
 	 * @since [version]
@@ -21,16 +35,21 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	public function setUp() {
 
 		parent::setUp();
-		$gen = new LLMS_Generator( array() );
-		$this->main = $gen->get_generator( 'courses' );
+		$this->main = new LLMS_Generator_Courses();
 
 	}
 
+	/**
+	 * Get raw data as an array
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	protected function get_raw( $file = 'import-with-quiz.json' ) {
 
 		global $lifterlms_tests;
 		return json_decode( file_get_contents( $lifterlms_tests->assets_dir . $file ), true );
-
 
 	}
 

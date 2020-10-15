@@ -21,8 +21,19 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
+	/**
+	 * Exception code: Raw data missing required data.
+	 *
+	 * @var int
+	 */
 	const ERROR_GEN_MISSING_REQUIRED = 2000;
-	const ERROR_GEN_INVALID_FORMAT   = 2001;
+
+	/**
+	 * Exception code: Raw data in an invalid format.
+	 *
+	 * @var int
+	 */
+	const ERROR_GEN_INVALID_FORMAT = 2001;
 
 	/**
 	 * Add taxonomy terms to a course

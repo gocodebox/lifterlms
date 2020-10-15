@@ -17,18 +17,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
- * @since [version] Major refactor: moved almost post related methods into abstract classes.
+ * @since [version] TODO
  */
 class LLMS_Generator {
-
-	/**
-	 * Name of the Generator to use for generation
-	 *
-	 * @var string
-	 */
-	private $generator = '';
-
-	protected $generators = array();
 
 	/**
 	 * Instance of WP_Error
@@ -38,20 +29,18 @@ class LLMS_Generator {
 	public $error;
 
 	/**
-	 * Array of generated content
-	 *
-	 * @deprecated [version] Use `$generated` instead.
-	 *
-	 * @var array
-	 */
-	protected $posts = array();
-
-	/**
 	 * Array of generated objects.
 	 *
 	 * @var array
 	 */
 	protected $generated = array();
+
+	/**
+	 * Name of the Generator to use for generation
+	 *
+	 * @var string
+	 */
+	protected $generator = '';
 
 	/**
 	 * Raw contents passed into the generator's constructor
@@ -70,32 +59,30 @@ class LLMS_Generator {
 	 */
 	public function __construct( $raw ) {
 
-		// Setup raw data.
-		if ( ! is_array( $raw ) ) {
-			$raw = json_decode( $raw, true );
-		}
-		$this->raw = $raw;
+		// Parse raw data.
+		$this->raw = $this->parse_raw( $raw );
 
 		// Instantiate an empty error object.
 		$this->error = new WP_Error();
 
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
-		$this->generators['courses'] = new LLMS_Generator_Courses();
-
-		// Record generation.
-		foreach ( array( 'access_plan', 'course', 'section', 'lesson', 'quiz', 'question', 'term', 'user' ) as $type ) {
-			add_action( 'llms_generator_new_' . $type, array( $this, 'object_created' ) );
-		}
+		// Add hooks.
+		$this->add_hooks();
 
 	}
 
-	public function __get( $key ) {
+	/**
+	 * Add actions and filters used by the class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function add_hooks() {
 
-		if ( 'stats' === $key ) {
-			return $this->get_stats();
+		// Watch creation of things, used on generation completion to return results of created objects.
+		foreach ( array( 'access_plan', 'course', 'section', 'lesson', 'quiz', 'question', 'term', 'user' ) as $type ) {
+			add_action( 'llms_generator_new_' . $type, array( $this, 'object_created' ) );
 		}
-
-		return null;
 
 	}
 
@@ -127,9 +114,7 @@ class LLMS_Generator {
 			do_action( 'llms_generator_before_generate', $this );
 
 			try {
-
 				call_user_func( $this->generator, $this->raw );
-
 			} catch ( Exception $exception ) {
 				$this->error->add( $this->get_error_code( $exception->getCode(), $this->generator[0] ), $exception->getMessage(), $exception->getTrace() );
 			}
@@ -156,89 +141,20 @@ class LLMS_Generator {
 
 	}
 
+	/**
+	 * Retrieve a human-readable error code from a machine-readable error number
+	 *
+	 * @since [version]
+	 *
+	 * @param int $code  Error number.
+	 * @param obj $class Generator class instance.
+	 * @return string A human-readable error code.
+	 */
 	protected function get_error_code( $code, $class ) {
 
 		$reflect   = new ReflectionClass( $class );
 		$constants = array_flip( $reflect->getConstants() );
 		return isset( $constants[ $code ] ) ? $constants[ $code ] : $code;
-
-	}
-
-	public function get_generator( $id ) {
-
-		return isset( $this->generators[ $id ] ) ? $this->generators[ $id ] : false;
-
-	}
-
-	/**
-	 * Get an array of valid LifterLMS generators
-	 *
-	 * @since 3.3.0
-	 * @since 3.14.8 Unknown.
-	 *
-	 * @return array
-	 */
-	private function get_generators() {
-		/**
-		 * Filter the list of available generators.
-		 *
-		 * @since Unknown
-		 *
-		 * @param array[] $generators Array of generators. Array key is the generator name and the array value is a callable function.
-		 */
-		return apply_filters(
-			'llms_generators',
-			array(
-				'LifterLMS/BulkCourseExporter'    => array( $this->generators['courses'], 'generate_courses' ),
-				'LifterLMS/BulkCourseGenerator'   => array( $this->generators['courses'], 'generate_courses' ),
-				'LifterLMS/SingleCourseCloner'    => array( $this->generators['courses'], 'generate_course' ),
-				'LifterLMS/SingleCourseExporter'  => array( $this->generators['courses'], 'generate_course' ),
-				'LifterLMS/SingleCourseGenerator' => array( $this->generators['courses'], 'generate_course' ),
-				'LifterLMS/SingleLessonCloner'    => array( $this->generators['courses'], 'clone_lesson' ),
-			)
-		);
-	}
-
-	/**
-	 * Get the results of the generate function
-	 *
-	 * @since 3.3.0
-	 *
-	 * @return int[]|WP_Error Array of stats on success and an error object on failure.
-	 */
-	public function get_results() {
-
-		if ( $this->is_error() ) {
-			return $this->error;
-		}
-
-		return $this->get_stats();
-
-	}
-
-	public function get_stats() {
-
-		$stats = array();
-		foreach ( $this->generated as $type => $ids ) {
-			$stats[ $type ] = count( $ids );
-		}
-
-		// Add old plural keys that were guaranteed to exist.
-		$backwards_compat = array(
-			'course'      => 'courses',
-			'section'     => 'sections',
-			'lesson'      => 'lessons',
-			'access_plan' => 'plans',
-			'quiz'        => 'quizzes',
-			'question'    => 'questions',
-			'term'        => 'terms',
-			'user'        => 'authors',
-		);
-		foreach ( $backwards_compat as $curr => $old ) {
-			$stats[ $old ] = isset( $stats[ $curr ] ) ? $stats[ $curr ] : 0;
-		}
-
-		return $stats;
 
 	}
 
@@ -282,6 +198,90 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Get an array of valid LifterLMS generators
+	 *
+	 * @since 3.3.0
+	 * @since 3.14.8 Unknown.
+	 *
+	 * @return array
+	 */
+	protected function get_generators() {
+
+		// Load generator class.
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
+		$courses = new LLMS_Generator_Courses();
+
+		/**
+		 * Filter the list of available generators.
+		 *
+		 * @since Unknown
+		 *
+		 * @param array[] $generators Array of generators. Array key is the generator name and the array value is a callable function.
+		 */
+		return apply_filters(
+			'llms_generators',
+			array(
+				'LifterLMS/BulkCourseExporter'    => array( $courses, 'generate_courses' ),
+				'LifterLMS/BulkCourseGenerator'   => array( $courses, 'generate_courses' ),
+				'LifterLMS/SingleCourseCloner'    => array( $courses, 'generate_course' ),
+				'LifterLMS/SingleCourseExporter'  => array( $courses, 'generate_course' ),
+				'LifterLMS/SingleCourseGenerator' => array( $courses, 'generate_course' ),
+				'LifterLMS/SingleLessonCloner'    => array( $courses, 'clone_lesson' ),
+			)
+		);
+	}
+
+	/**
+	 * Get the results of the generate function
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return int[]|WP_Error Array of stats on success and an error object on failure.
+	 */
+	public function get_results() {
+
+		if ( $this->is_error() ) {
+			return $this->error;
+		}
+
+		return $this->get_stats();
+
+	}
+
+	/**
+	 * Get "stats" about the generated content.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public function get_stats() {
+
+		$stats = array();
+		foreach ( $this->generated as $type => $ids ) {
+			$stats[ $type ] = count( $ids );
+		}
+
+		// Add old plural keys that were guaranteed to exist.
+		$backwards_compat = array(
+			'course'      => 'courses',
+			'section'     => 'sections',
+			'lesson'      => 'lessons',
+			'access_plan' => 'plans',
+			'quiz'        => 'quizzes',
+			'question'    => 'questions',
+			'term'        => 'terms',
+			'user'        => 'authors',
+		);
+		foreach ( $backwards_compat as $curr => $old ) {
+			$stats[ $old ] = isset( $stats[ $curr ] ) ? $stats[ $curr ] : 0;
+		}
+
+		return $stats;
+
+	}
+
+	/**
 	 * Determines if there was an error during the running of the generator
 	 *
 	 * @since 3.3.0
@@ -307,6 +307,14 @@ class LLMS_Generator {
 
 	}
 
+	/**
+	 * Record the generation of an object
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model|array|WP_User $object Created object or array.
+	 * @return void
+	 */
 	public function object_created( $object ) {
 
 		switch ( current_action() ) {
@@ -328,10 +336,25 @@ class LLMS_Generator {
 				$this->record_generation( $object['term_id'], 'term' );
 				break;
 
-			default:
-				var_dump( current_action() );
-
 		}
+
+	}
+
+	/**
+	 * Parse raw data
+	 *
+	 * @since [version]
+	 *
+	 * @param string|array|obj $raw Accepts a JSON string, array, or object of raw data to pass to a generator.
+	 * @return array
+	 */
+	protected function parse_raw( $raw ) {
+
+		if ( is_string( $raw ) ) {
+			$raw = json_decode( $raw, true );
+		}
+
+		return (array) $raw;
 
 	}
 
@@ -370,15 +393,13 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
+	 * @deprecated [version] LLMS_Generator::increment() is deprecated with no replacement.
 	 *
-	 * @param string $type key of the stat to increment.
+	 * @param string $deprecated Deprecated.
 	 * @return void
 	 */
-	public function increment( $type ) {
-		if ( ! isset( $this->stats[ $type ] ) ) {
-			$this->stats[ $type ] = 0;
-		}
-		$this->stats[ $type ]++;
+	public function increment( $deprecated ) {
+		llms_deprecated_function( 'LLMS_Generator::increment()', '[version]' );
 	}
 
 	/**
