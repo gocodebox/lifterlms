@@ -189,19 +189,6 @@ class LLMS_Generator {
 	}
 
 	/**
-	 * Retrieve the array of generated post ids
-	 *
-	 * @since 3.14.8
-	 * @deprecated [version] `LLMS_Generator::get_generated_posts()` is deprecated in favor of `LLMS_Generator::get_generated_content()`.
-	 *
-	 * @return array
-	 */
-	public function get_generated_posts() {
-		llms_deprecated_function( 'LLMS_Generator::get_generated_posts()', '[version]', 'LLMS_Generator::get_generated_content()' );
-		return $this->get_generated_content();
-	}
-
-	/**
 	 * Get an array of valid LifterLMS generators
 	 *
 	 * @since 3.3.0
@@ -390,21 +377,6 @@ class LLMS_Generator {
 
 	}
 
-
-	/**
-	 * Increments a stat in the stats object
-	 *
-	 * @since 3.3.0
-	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
-	 * @deprecated [version] LLMS_Generator::increment() is deprecated with no replacement.
-	 *
-	 * @param string $deprecated Deprecated.
-	 * @return void
-	 */
-	public function increment( $deprecated ) {
-		llms_deprecated_function( 'LLMS_Generator::increment()', '[version]' );
-	}
-
 	/**
 	 * Configure the default post status for generated posts at runtime
 	 *
@@ -458,6 +430,118 @@ class LLMS_Generator {
 		// Return the generator name.
 		return $generator;
 
+	}
+
+	/**
+	 * Add custom data to a post based on the 'custom' array
+	 *
+	 * @since 3.16.11
+	 * @since 3.28.3 Add extra slashes around JSON strings.
+	 * @since 3.30.2 Skip JSON evaluation for non-string values; make publicly accessible.
+	 * @deprecated [version] `LLMS_Generator::add_custom_values()` is deprecated in favor of `LLMS_Generator_Courses::add_custom_values`.
+	 *
+	 * @param int   $post_id WP Post ID.
+	 * @param array $raw raw data.
+	 * @return void
+	 */
+	public function add_custom_values( $post_id, $raw ) {
+		llms_deprecated_function( 'LLMS_Generator::add_custom_values()', '[version]', 'LLMS_Generator_Courses::add_custom_values()' );
+		$generators = $this->get_generators();
+		$generators['LifterLMS/BulkCourseExporter'][0]->add_custom_values( $post_id, $raw );
+	}
+
+	/**
+	 * Ensure raw dates are correctly formatted to create a post date
+	 *
+	 * Falls back to current date if no date is supplied.
+	 *
+	 * @since 3.3.0
+	 * @since 3.30.2 Made publicly accessible.
+	 * @deprecated [version] `LLMS_Generator::format_date()` is deprecated in favor of `LLMS_Generator_Courses::format_date()`.
+	 *
+	 * @param string $raw_date Raw date from raw object.
+	 * @return string
+	 */
+	public function format_date( $raw_date = null ) {
+		llms_deprecated_function( 'LLMS_Generator::format_date()', '[version]', 'LLMS_Generator_Courses::format_date()' );
+		$generators = $this->get_generators();
+		return $generators['LifterLMS/BulkCourseExporter'][0]->format_date( $raw_date );
+	}
+
+	/**
+	 * Receives a raw array of course, plan, section, lesson, etc data and gets an author id
+	 * falls back to optionally supplied fallback id
+	 * falls back to current user id
+	 *
+	 * @since 3.3.0
+	 * @since 3.30.2 Made publicly accessible.
+	 * @deprecated [version] `LLMS_Generator::get_author_id_from_raw()` is deprecated in favor of `LLMS_Generator_Courses::get_author_id_from_raw()`.
+	 *
+	 * @param array $raw raw data
+	 * @param int   $fallback_author_id WP User ID
+	 * @return int|WP_Error
+	 */
+	public function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
+		llms_deprecated_function( 'LLMS_Generator::get_author_id_from_raw()', '[version]', 'LLMS_Generator_Courses::get_author_id_from_raw()' );
+		$generators = $this->get_generators();
+		return $generators['LifterLMS/BulkCourseExporter'][0]->get_author_id_from_raw( $raw, $fallback_author_id );
+	}
+
+	/**
+	 * Retrieve the default post status for the generated set of posts
+	 *
+	 * @since 3.7.3
+	 * @since 3.30.2 Made publicly accessible.
+	 * @deprecated [version] `LLMS_Generator::get_default_post_status()` is deprecated in favor of `LLMS_Generator_Courses::get_default_post_status()`.
+	 *
+	 * @return string
+	 */
+	public function get_default_post_status() {
+		llms_deprecated_function( 'LLMS_Generator::get_default_post_status()', '[version]', 'LLMS_Generator_Courses::get_default_post_status()' );
+		$generators = $this->get_generators();
+		return $generators['LifterLMS/BulkCourseExporter'][0]->get_default_post_status();
+	}
+
+	/**
+	 * Retrieve the array of generated post ids
+	 *
+	 * @since 3.14.8
+	 * @deprecated [version] `LLMS_Generator::get_generated_posts()` is deprecated in favor of `LLMS_Generator::get_generated_content()`.
+	 *
+	 * @return array
+	 */
+	public function get_generated_posts() {
+		llms_deprecated_function( 'LLMS_Generator::get_generated_posts()', '[version]', 'LLMS_Generator::get_generated_content()' );
+		return $this->get_generated_content();
+	}
+
+	/**
+	 * Increments a stat in the stats object
+	 *
+	 * @since 3.3.0
+	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
+	 * @deprecated [version] LLMS_Generator::increment() is deprecated with no replacement.
+	 *
+	 * @param string $deprecated Deprecated.
+	 * @return void
+	 */
+	public function increment( $deprecated ) {
+		llms_deprecated_function( 'LLMS_Generator::increment()', '[version]' );
+	}
+
+	/**
+	 * Configure the default post status for generated posts at runtime
+	 *
+	 * @since 3.7.3
+	 * @deprecated [version] `LLMS_Generator::set_default_post_status()` is deprecated in favor of `LLMS_Generator_Courses::set_default_post_status()`.
+	 *
+	 * @param string $status Any valid WP Post Status.
+	 * @return void
+	 */
+	public function set_default_post_status( $status ) {
+		llms_deprecated_function( 'LLMS_Generator::set_default_post_status()', '[version]', 'LLMS_Generator_Courses::set_default_post_status()' );
+		$generators = $this->get_generators();
+		return $generators['LifterLMS/BulkCourseExporter'][0]->set_default_post_status();
 	}
 
 }

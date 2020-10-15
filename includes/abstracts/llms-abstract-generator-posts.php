@@ -109,6 +109,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @since 3.16.11
 	 * @since 3.28.3 Add extra slashes around JSON strings.
 	 * @since 3.30.2 Skip JSON evaluation for non-string values; make publicly accessible.
+	 * @since [version] Moved from `LLMS_Generator`.
 	 *
 	 * @param int   $post_id WP Post ID.
 	 * @param array $raw raw data.
@@ -274,7 +275,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		 * @param string $role WP_User role. Default role is 'administrator'.
 		 * @param array  $raw  Original raw author data.
 		 */
-		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_author_default_role', 'administrator', $raw ) : $raw['role'];
+		$raw['role'] = empty( $raw['role'] ) ? apply_filters( 'llms_generator_new_user_default_role', 'administrator', $raw ) : $raw['role'];
 
 		$data = array(
 			'role'       => $raw['role'],
@@ -296,7 +297,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		/**
 		 * Filter user data used to create a new user during generator imports
 		 *
-		 * @since [version]
+		 * @since Unknown
 		 *
 		 * @param array $data Prepared user data to be passed to `wp_insert_user()`.
 		 * @param array $raw  Original raw author data.
@@ -348,7 +349,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 4.3.3 Use strict string comparator.
-	 * @since [version] Modified method access from `private` to `protected`.
+	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
 	 *
 	 * @param array $raw Author data.
 	 *                   If id and email are provided will use id only if it matches the email for user matching that id in the database.
@@ -434,6 +435,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Made publicly accessible.
+	 * @since [version] Moved from `LLMS_Generators`.
 	 *
 	 * @param array $raw raw data
 	 * @param int   $fallback_author_id WP User ID
@@ -460,6 +462,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.7.3
 	 * @since 3.30.2 Made publicly accessible.
+	 * @since [version] Moved from `LLMS_Generators`.
 	 *
 	 * @return string
 	 */
@@ -483,8 +486,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * Attempts to find a given term by name first to prevent duplicates during imports.
 	 *
 	 * @since 3.3.0
-	 * @since [version] Moved from `LLMS_Generator` to `LLMS_Abstract_Generator_Posts`.
-	 *               Updated method access from `private` to `protected`.
+	 * @since [version] Moved from `LLMS_Generator` and updated method access from `private` to `protected`.
 	 *               Throws an exception in favor of returning `null` when an error is encountered.
 	 *
 	 * @param string $term_name Term name.
@@ -626,7 +628,8 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * Saves an image (from URL) to the media library and sets it as the featured image for a given post
 	 *
 	 * @since 3.3.0
-	 * @since [version] Add a return instead of `void`; Don't import if sideloading is disabled; Use `$this->sideload_image()` sideloading.
+	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
+	 *               Add a return instead of `void`; Don't import if sideloading is disabled; Use `$this->sideload_image()` sideloading.
 	 *
 	 * @param string $url_or_raw Array of raw data or URL to an image.
 	 * @param int    $post_id    WP Post ID.

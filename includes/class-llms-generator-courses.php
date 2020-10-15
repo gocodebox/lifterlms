@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Classes
  *
- * @since 3.3.0
+ * @since [version]
  * @version [version]
  */
 
@@ -13,11 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Generator class.
  *
- * @since 3.3.0
- * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
- * @since 3.36.3 New method: is_generator_valid()
- *               Bugfix: Fix return of `set_generator()`.
- * @since [version] Add sideloading of images found in imported post content.
+ * @since [version]
  */
 class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
@@ -40,6 +36,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.7.5 Unknown.
+	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
 	 *
 	 * @param obj   $course_id WP_Post ID of a Course.
 	 * @param array $raw_terms Array of raw term arrays.
@@ -87,7 +84,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * Generator called when cloning a lesson
 	 *
 	 * @since 3.14.8
+	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
 	 *
+	 * @param array $raw Raw data array.
 	 * @return int|WP_Error WP_Post ID of the created lesson on success and an error object on failure.
 	 */
 	public function clone_lesson( $raw ) {
@@ -104,8 +103,10 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * and invokes that generator.
 	 *
 	 * @since 3.3.0
-	 *
-	 * @return void
+	 * @since [version] Moved from `LLMS_Generator` and made `public` instead of `private`.
+	 *              Returns an int on success
+	 * @param array $raw Raw data array.
+	 * @return int|null WP_Post ID of the generated course or `null` on failure.
 	 */
 	public function generate_course( $raw ) {
 
@@ -134,6 +135,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *               Throws an exception in favor of returning `null` when an error is encountered.
 	 *               Returns an array of generated course IDs on success.
 	 *
+	 * @param array $raw Raw data array.
 	 * @throws Exception When invalid `$raw` data is submitted.
 	 * @return void
 	 */
@@ -164,7 +166,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Sideload images attached to the post.
+	 * @since [version] Sideload images attached to the post, use `create_post()` from abstract, add hooks.
 	 *
 	 * @param array $raw                Raw Access Plan Data
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
@@ -212,7 +214,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Import images and reusable blocks found in the post's content.
+	 * @since [version] Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
 	 *
 	 * @param array $raw Raw course data.
 	 * @throws Exception When an error is encountered during course creation.
@@ -280,7 +282,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Import images and reusable blocks found in the post's content.
+	 * @since [version] Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -343,7 +345,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Sideload images attached to the post.
+	 * @since [version] Sideload images attached to the post  and use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
@@ -473,6 +475,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
+	 * @since [version] Use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw section data.
 	 * @param int   $order              Order within the course (starts at 1).
