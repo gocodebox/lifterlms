@@ -357,6 +357,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *                   Falls back to current user id.
 	 *                   First_name, last_name, and description can be optionally provided.
 	 *                   When provided will be used only when creating a new user.
+	 * @throws Exception When an error is encountered creating a new user.
 	 * @return int WP_User ID
 	 */
 	protected function get_author_id( $raw ) {
