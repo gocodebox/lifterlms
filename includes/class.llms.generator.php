@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
- * @since [version] TODO
  */
 class LLMS_Generator {
 
@@ -53,6 +52,7 @@ class LLMS_Generator {
 	 * Construct a new generator instance with data
 	 *
 	 * @since 3.3.0
+	 * @since [version] Move most logic into helper functions.
 	 *
 	 * @param array|string $raw Array or a JSON string of raw content.
 	 * @return void
@@ -96,47 +96,44 @@ class LLMS_Generator {
 	 */
 	public function generate() {
 
-		if ( ! empty( $this->generator ) ) {
-
-			global $wpdb;
-
-			$wpdb->hide_errors();
-
-			$wpdb->query( 'START TRANSACTION' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-
-			/**
-			 * Action run immediately prior to a LifterLMS Generator running.
-			 *
-			 * @since 3.30.2
-			 *
-			 * @param LLMS_Generator $generator The generator instance.
-			 */
-			do_action( 'llms_generator_before_generate', $this );
-
-			try {
-				call_user_func( $this->generator, $this->raw );
-			} catch ( Exception $exception ) {
-				$this->error->add( $this->get_error_code( $exception->getCode(), $this->generator[0] ), $exception->getMessage(), $exception->getTrace() );
-			}
-
-			/**
-			 * Action run immediately after a LifterLMS Generator running.
-			 *
-			 * @since 3.30.2
-			 *
-			 * @param LLMS_Generator $generator The generator instance.
-			 */
-			do_action( 'llms_generator_after_generate', $this );
-
-			if ( $this->is_error() ) {
-				$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			} else {
-				$wpdb->query( 'COMMIT' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			}
-		} else {
-
+		if ( empty( $this->generator ) ) {
 			return $this->error->add( 'missing-generator', __( 'No generator supplied.', 'lifterlms' ) );
+		}
 
+		global $wpdb;
+
+		$wpdb->hide_errors();
+
+		$wpdb->query( 'START TRANSACTION' ); // db call ok; no-cache ok.
+
+		/**
+		 * Action run immediately prior to a LifterLMS Generator running.
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Generator $generator The generator instance.
+		 */
+		do_action( 'llms_generator_before_generate', $this );
+
+		try {
+			call_user_func( $this->generator, $this->raw );
+		} catch ( Exception $exception ) {
+			$this->error->add( $this->get_error_code( $exception->getCode(), $this->generator[0] ), $exception->getMessage(), $exception->getTrace() );
+		}
+
+		/**
+		 * Action run immediately after a LifterLMS Generator running.
+		 *
+		 * @since 3.30.2
+		 *
+		 * @param LLMS_Generator $generator The generator instance.
+		 */
+		do_action( 'llms_generator_after_generate', $this );
+
+		if ( $this->is_error() ) {
+			$wpdb->query( 'ROLLBACK' ); // db call ok; no-cache ok.
+		} else {
+			$wpdb->query( 'COMMIT' ); // db call ok; no-cache ok.
 		}
 
 	}
