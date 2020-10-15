@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Generator {
 
 	/**
+	 * Courses generator subclass instance
+	 *
+	 * @var LLMS_Generator_Courses
+	 */
+	protected $courses_generator;
+
+	/**
 	 * Instance of WP_Error
 	 *
 	 * @var obj
@@ -58,6 +65,10 @@ class LLMS_Generator {
 	 * @return void
 	 */
 	public function __construct( $raw ) {
+
+		// Load generator class.
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
+		$this->courses_generator = new LLMS_Generator_Courses();
 
 		// Parse raw data.
 		$this->raw = $this->parse_raw( $raw );
@@ -199,10 +210,6 @@ class LLMS_Generator {
 	 */
 	protected function get_generators() {
 
-		// Load generator class.
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
-		$courses = new LLMS_Generator_Courses();
-
 		/**
 		 * Filter the list of available generators.
 		 *
@@ -213,12 +220,12 @@ class LLMS_Generator {
 		return apply_filters(
 			'llms_generators',
 			array(
-				'LifterLMS/BulkCourseExporter'    => array( $courses, 'generate_courses' ),
-				'LifterLMS/BulkCourseGenerator'   => array( $courses, 'generate_courses' ),
-				'LifterLMS/SingleCourseCloner'    => array( $courses, 'generate_course' ),
-				'LifterLMS/SingleCourseExporter'  => array( $courses, 'generate_course' ),
-				'LifterLMS/SingleCourseGenerator' => array( $courses, 'generate_course' ),
-				'LifterLMS/SingleLessonCloner'    => array( $courses, 'clone_lesson' ),
+				'LifterLMS/BulkCourseExporter'    => array( $this->courses_generator, 'generate_courses' ),
+				'LifterLMS/BulkCourseGenerator'   => array( $this->courses_generator, 'generate_courses' ),
+				'LifterLMS/SingleCourseCloner'    => array( $this->courses_generator, 'generate_course' ),
+				'LifterLMS/SingleCourseExporter'  => array( $this->courses_generator, 'generate_course' ),
+				'LifterLMS/SingleCourseGenerator' => array( $this->courses_generator, 'generate_course' ),
+				'LifterLMS/SingleLessonCloner'    => array( $this->courses_generator, 'clone_lesson' ),
 			)
 		);
 	}
@@ -378,6 +385,19 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Configure the default post status for generated posts at runtime
+	 *
+	 * @since 3.7.3
+	 * @since [version] Call `set_default_post_status()` from the configured generator.
+	 *
+	 * @param string $status Any valid WP Post Status.
+	 * @return void
+	 */
+	public function set_default_post_status( $status ) {
+		call_user_func( array( $this->generator[0], 'set_default_post_status' ), $status );
+	}
+
+	/**
 	 * Sets the generator to use for the current instance
 	 *
 	 * @since 3.3.0
@@ -434,8 +454,7 @@ class LLMS_Generator {
 	 */
 	public function add_custom_values( $post_id, $raw ) {
 		llms_deprecated_function( 'LLMS_Generator::add_custom_values()', '[version]', 'LLMS_Generator_Courses::add_custom_values()' );
-		$generators = $this->get_generators();
-		$generators['LifterLMS/BulkCourseExporter'][0]->add_custom_values( $post_id, $raw );
+		$this->courses_generator->add_custom_values( $post_id, $raw );
 	}
 
 	/**
@@ -452,8 +471,7 @@ class LLMS_Generator {
 	 */
 	public function format_date( $raw_date = null ) {
 		llms_deprecated_function( 'LLMS_Generator::format_date()', '[version]', 'LLMS_Generator_Courses::format_date()' );
-		$generators = $this->get_generators();
-		return $generators['LifterLMS/BulkCourseExporter'][0]->format_date( $raw_date );
+		return $this->courses_generator->format_date( $raw_date );
 	}
 
 	/**
@@ -471,8 +489,7 @@ class LLMS_Generator {
 	 */
 	public function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
 		llms_deprecated_function( 'LLMS_Generator::get_author_id_from_raw()', '[version]', 'LLMS_Generator_Courses::get_author_id_from_raw()' );
-		$generators = $this->get_generators();
-		return $generators['LifterLMS/BulkCourseExporter'][0]->get_author_id_from_raw( $raw, $fallback_author_id );
+		return $this->courses_generator->get_author_id_from_raw( $raw, $fallback_author_id );
 	}
 
 	/**
@@ -486,8 +503,7 @@ class LLMS_Generator {
 	 */
 	public function get_default_post_status() {
 		llms_deprecated_function( 'LLMS_Generator::get_default_post_status()', '[version]', 'LLMS_Generator_Courses::get_default_post_status()' );
-		$generators = $this->get_generators();
-		return $generators['LifterLMS/BulkCourseExporter'][0]->get_default_post_status();
+		return $this->courses_generator->get_default_post_status();
 	}
 
 	/**
@@ -515,21 +531,6 @@ class LLMS_Generator {
 	 */
 	public function increment( $deprecated ) {
 		llms_deprecated_function( 'LLMS_Generator::increment()', '[version]' );
-	}
-
-	/**
-	 * Configure the default post status for generated posts at runtime
-	 *
-	 * @since 3.7.3
-	 * @deprecated [version] `LLMS_Generator::set_default_post_status()` is deprecated in favor of `LLMS_Generator_Courses::set_default_post_status()`.
-	 *
-	 * @param string $status Any valid WP Post Status.
-	 * @return void
-	 */
-	public function set_default_post_status( $status ) {
-		llms_deprecated_function( 'LLMS_Generator::set_default_post_status()', '[version]', 'LLMS_Generator_Courses::set_default_post_status()' );
-		$generators = $this->get_generators();
-		return $generators['LifterLMS/BulkCourseExporter'][0]->set_default_post_status();
 	}
 
 }
