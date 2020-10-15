@@ -1,6 +1,7 @@
 os: linux
 dist: bionic
-arch: arm64-graviton2
+# arch: arm64-graviton2
+virt: lxd
 language: php
 
 addons:
