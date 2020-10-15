@@ -388,9 +388,6 @@ class LLMS_Generator {
 		// Record the ID.
 		$this->generated[ $key ][] = $id;
 
-		// Copy to posts for backwards compat.
-		$this->posts = $this->generated;
-
 	}
 
 
