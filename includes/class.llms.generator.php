@@ -152,6 +152,11 @@ class LLMS_Generator {
 	 */
 	protected function get_error_code( $code, $class ) {
 
+		// PHP error / warning thrown.
+		if ( 8 === $code ) {
+			return 'exception';
+		}
+
 		$reflect   = new ReflectionClass( $class );
 		$constants = array_flip( $reflect->getConstants() );
 		return isset( $constants[ $code ] ) ? $constants[ $code ] : $code;
