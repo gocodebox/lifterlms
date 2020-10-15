@@ -91,6 +91,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Add before and after generation hooks.
+	 * @since [version] Return early if not generator is set.
 	 *
 	 * @return void
 	 */
@@ -176,6 +177,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.7.3
 	 * @since 3.14.8 Unknown.
+	 * @since [version] Access generated posts from the `$generated` property in favor of the removed `$posts` property.
 	 *
 	 * @return array
 	 */
@@ -204,6 +206,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 3.14.8 Unknown.
+	 * @since [version] Load generators from `LLMS_Generator_Courses()`.
 	 *
 	 * @return array
 	 */
@@ -237,6 +240,7 @@ class LLMS_Generator {
 	 * Get the results of the generate function
 	 *
 	 * @since 3.3.0
+	 * @since [version] Return generated stats from `$this->stats()` instead of from removed `$stats` property.
 	 *
 	 * @return int[]|WP_Error Array of stats on success and an error object on failure.
 	 */
