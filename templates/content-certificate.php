@@ -44,7 +44,7 @@ if ( $cert->can_user_manage() ) {
 
 		<form action="" method="POST">
 			<button class="llms-button-secondary" type="submit" name="llms_generate_cert">
-			<?php echo _e( 'Save', 'lifterlms' ); ?>
+			<?php echo _e( 'Download', 'lifterlms' ); ?>
 				<i class="fa fa-cloud-download" aria-hidden="true"></i>
 			</button>
 			<?php if ( get_post_type( $cert->get( 'id' ) ) === $cert->get( 'db_post_type' ) ) : ?>
@@ -52,6 +52,13 @@ if ( $cert->can_user_manage() ) {
 				<?php echo ( $is_sharing_enabled ? _e( 'Disable sharing', 'lifterlms' ) : _e( 'Enable sharing', 'lifterlms' ) ); ?>
 					<i class="fa fa-share-alt" aria-hidden="true"></i>
 				</button>
+			<?php endif; ?>
+
+			<?php if ($is_sharing_enabled) : ?>
+			<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing" value="<?php echo ! $is_sharing_enabled; ?>">
+			<?php echo esc_url( get_permalink(get_the_ID() ) ); ?>
+				<i class="fa fa-link" aria-hidden="true"></i>
+			</button>
 			<?php endif; ?>
 
 			<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
