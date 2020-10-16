@@ -14,6 +14,7 @@
  * @since 3.37.6 Adjusted date delta for recurring payment next date assertions.
  *               Added default test override for test_edit_date() test to prevent output
  *               of skipped test that doesn't apply to the order model.
+ * @since [version] Add coverage for `get_next_scheduled_action_time()`, `unschedule_expiration()`, and `unschedule_recurring_payment()`.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -923,8 +924,9 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Add coverage for `get_next_scheduled_action_time()`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_maybe_schedule_expiration() {
 
@@ -937,6 +939,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ) );
+		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_access_plan_expiration' ) );
 
 		// limited access will schedule expiration
 		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
@@ -945,9 +948,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->set_status( 'llms-active' );
 		$order->maybe_schedule_expiration();
 
-		$this->assertEquals( $order->get_access_expiration_date( 'U' ), as_next_scheduled_action( 'llms_access_plan_expiration', array(
+		$action_time = as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
-		) ) );
+		) );
+		$this->assertEquals( $order->get_access_expiration_date( 'U' ), $action_time );
+		$this->assertEquals( $action_time, $order->get_next_scheduled_action_time( 'llms_access_plan_expiration' ) );
 
 	}
 
@@ -956,23 +961,32 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Add coverage for `get_next_scheduled_action_time()`.
 	 *
 	 * @return void
 	 */
 	public function test_maybe_schedule_payment() {
 
-		// does nothing for a one-time order
+		// Does nothing for a one-time order.
 		$plan = $this->get_mock_plan( '25.99', 0 );
 		$order = $this->get_mock_order( $plan );
 		$order->maybe_schedule_payment();
 		$this->assertEmpty( $order->get( 'date_next_payment' ) );
 
-		// schedules for recurring
+		// Schedules for recurring.
 		$order = $this->get_mock_order();
+
+		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
+			'order_id' => $order->get( 'id' ),
+		) ) );
+		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) );
+
 		$order->maybe_schedule_payment();
 		$this->assertTrue( ! empty( $order->get( 'date_next_payment' ) ) );
 
-		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) ) );
+		$action_time = as_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) );
+		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), $action_time );
+		$this->assertEquals( $action_time, $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) );
 
 	}
 
@@ -1036,9 +1050,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * test the set_date() method
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_set_date() {
 
@@ -1117,6 +1132,43 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_unschedule_recurring_payment() {}
+	/**
+	 * Test unschedule_expiration().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_expiration() {
+
+		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
+		$order = $this->get_mock_order( $plan );
+
+		$order->set_status( 'llms-active' );
+		$order->maybe_schedule_expiration();
+
+		$order->unschedule_expiration();
+
+		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_access_plan_expiration' ) );
+
+	}
+
+	/**
+	 * Test unschedule_recurring_payment()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_recurring_payment() {
+
+		$order = $this->get_mock_order();
+		$order->maybe_schedule_payment();
+
+		$order->unschedule_recurring_payment();
+
+		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) );
+
+	}
 
 }
