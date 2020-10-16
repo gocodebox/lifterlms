@@ -1,9 +1,11 @@
 <?php
 /**
  * Tests for LifterLMS Custom Post Types
- * @group    LLMS_Roles
- * @since   3.13.0
- * @version 3.28.0
+ *
+ * @group LLMS_Roles
+ *
+ * @since 3.13.0
+ * @version 4.5.1
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
@@ -12,7 +14,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.28.0
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -23,9 +25,9 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	/**
 	 * test get_all_core_caps() method
 	 *
-	 * @return  void
-	 * @since   3.13.0
-	 * @version 3.13.0
+	 * @since 3.13.0
+	 *
+	 * @return void
 	 */
 	public function test_get_all_core_caps() {
 
@@ -37,9 +39,9 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	/**
 	 * Test get_roles() method.
 	 *
-	 * @return  void
-	 * @since   3.13.0
-	 * @version 3.13.0
+	 * @since 3.13.0
+	 *
+	 * @return void
 	 */
 	public function test_get_roles() {
 
@@ -65,24 +67,25 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 		$wp_roles = wp_roles();
 
-		// remove first
+		// Remove first.
 		LLMS_Roles::remove_roles();
 
-		// install them
+		// Install them.
 		LLMS_Roles::install();
 
-		// ensure all the roles were installed
+		// Ensure all the roles were installed.
 		foreach ( array_keys( LLMS_Roles::get_roles() ) as $role ) {
 			$this->assertTrue( $wp_roles->is_role( $role ) );
 		}
 
-		// test admin caps were installed
+		// Test admin caps were installed.
 		$admin = $wp_roles->get_role( 'administrator' );
+
 		foreach ( LLMS_Roles::get_all_core_caps() as $cap ) {
 			$this->assertTrue( $admin->has_cap( $cap ) );
 		}
 
-		// test instructor caps
+		// Test instructor caps.
 		$instructor = $wp_roles->get_role( 'instructor' );
 		foreach ( LLMS_Roles::get_all_core_caps() as $cap ) {
 			$has = $instructor->has_cap( $cap );
@@ -98,29 +101,38 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	/**
 	 * Test remove_roles() method.
 	 *
-	 * @return  void
-	 * @since   3.13.0
-	 * @version 3.28.0
+	 * @since 3.13.0
+	 * @since 3.28.0 Unknown.
+	 * @since 4.5.1 Make sure only custom roles are removed from the 'adminitrator' role.
+	 *
+	 * @return void
 	 */
 	public function test_remove_roles() {
 
 		$wp_roles = wp_roles();
 
-		// remove them
+		// Remove them.
 		LLMS_Roles::remove_roles();
 
-		// make sure roles are gone
+		// Make sure roles are gone.
 		foreach ( array_keys( LLMS_Roles::get_roles() ) as $role ) {
 			$this->assertFalse( $wp_roles->is_role( $role ) );
 		}
 
-		// test admin caps were removed
+		// Test admin custom caps were removed.
 		$admin = $wp_roles->get_role( 'administrator' );
-		foreach ( LLMS_Roles::get_all_core_caps() as $cap ) {
+		$admin_caps = LLMS_Unit_Test_Util::call_method( 'LLMS_Roles', 'get_all_caps', array( 'administrator') );
+		$wp_caps = $admin_caps['wp'];
 
-			$this->assertFalse( $admin->has_cap( $cap ) );
+		foreach ( $admin_caps as $group => $caps ) {
+			foreach ( array_keys( $caps ) as $cap ) {
+				if ( 'wp' === $group  ) {
+					$this->assertTrue( $admin->has_cap( $cap ) );
+				} else {
+					$this->assertFalse( $admin->has_cap( $cap ) );
+				}
+			}
 		}
-
 
 	}
 

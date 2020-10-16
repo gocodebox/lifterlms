@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 4.2.0
+ * @version 4.5.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,11 +34,9 @@ class LLMS_View_Manager {
 	public function __construct() {
 
 		// Do nothing if we're creating a pending order.
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		if ( ! empty( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
+		if ( ! empty( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			return;
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		add_action( 'init', array( $this, 'add_actions' ) );
 
@@ -63,7 +61,7 @@ class LLMS_View_Manager {
 		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 1 );
 
 		// Filters we'll only run when view as links are called.
-		if ( isset( $_GET['llms-view-as'] ) ) {
+		if ( isset( $_GET['llms-view-as'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 			add_filter( 'llms_is_course_complete', array( $this, 'modify_completion' ), 10, 1 );
 			add_filter( 'llms_is_lesson_complete', array( $this, 'modify_completion' ), 10, 1 );
@@ -85,33 +83,20 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Updated icon.
+	 * @since 4.5.1 Use `should_display()` method to determine if the view manager should be added to the admin bar.
 	 *
 	 * @return void
 	 */
 	public function add_menu_items() {
 
-		// Don't display on admin panel.
-		if ( is_admin() ) {
-			return;
-		}
-
-		// Check this to prevent leaked globals creating a false positive below.
-		if ( is_post_type_archive() ) {
-			return;
-		}
-
-		// Don't need to do anything for most post types.
-		global $post;
-		if ( ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ) {
+		if ( ! $this->should_display() ) {
 			return;
 		}
 
 		global $wp_admin_bar;
 
-		$view = $this->get_view();
-
+		$view  = $this->get_view();
 		$views = $this->get_views();
-
 		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
 
 		$wp_admin_bar->add_node(
@@ -124,6 +109,7 @@ class LLMS_View_Manager {
 
 		foreach ( $views as $slug => $title ) {
 
+			// Exclude the current view.
 			if ( $slug === $view ) {
 				continue;
 			}
@@ -359,6 +345,39 @@ class LLMS_View_Manager {
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}
+
+
+	/**
+	 * Determine whether or not the view manager should be added to the WP Admin Bar
+	 *
+	 * The view manager is only displayed when the following criteria is met:
+	 * + The current user must have a role that is allowed to bypass LifterLMS restrictions
+	 * + Must be viewing a single course, lesson, membership, or quiz or the LifterLMS checkout page.
+	 *
+	 * @since 4.5.1
+	 *
+	 * @return boolean
+	 */
+	protected function should_display() {
+
+		$display = false;
+
+		if ( llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
+			global $post;
+			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
+		}
+
+		/**
+		 * Filters whether or not the "View As..." menu item should be displayed in the WP Admin Bar
+		 *
+		 * @since 4.5.1
+		 *
+		 * @param boolean $display Whether or not the menu item should be displayed.
+		 */
+		return apply_filters( 'llms_view_manager_should_display', $display );
+
+	}
+
 
 }
 

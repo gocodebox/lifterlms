@@ -6,6 +6,7 @@
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
  * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
  * @since 4.3.3 Legends will automatically display on top of the chart.
+ * @since 4.5.1 Show sales reporting currency symbol based on LifterLMS site options.
  *
  */( function( $, undefined ) {
 
@@ -14,15 +15,20 @@
 	/**
 	 * LifterLMS Admin Analytics
 	 *
-	 * @since    3.0.0
-	 * @version  3.5.0
+	 * @since 3.0.0
+	 * @since 3.5.0 Unknown
+	 * @since 4.5.1 Added `opts` parameter.
+	 *
+	 * @param {Object} options Options object.
+	 * @return {Object} Class instance.
 	 */
-	var Analytics = function() {
+	var Analytics = function( opts ) {
 
 		this.charts_loaded = false;
 		this.data          = {};
 		this.query         = $.parseJSON( $( '#llms-analytics-json' ).text() );
 		this.timeout       = 8000;
+		this.options       = opts;
 
 		this.$widgets = $( '.llms-widget[data-method]' );
 
@@ -108,8 +114,9 @@
 		 * @since 3.0.0
 		 * @since 3.17.6 Unknown
 		 * @since 4.3.3 Force the legend to appear on top of the chart.
+		 * @since 4.5.1 Display sales numbers according to the site's currency settings instead of the browser's locale.
 		 *
-		 * @return   void
+		 * @return {void}
 		 */
 		this.draw_chart = function() {
 
@@ -139,7 +146,7 @@
 					series: self.get_chart_series_options(),
 					vAxes: {
 						0: {
-							format: 'currency',
+							format: this.options.currency_format || 'currency',
 						},
 						1: {
 							format: '',
@@ -561,6 +568,6 @@
 
 	};
 
-	window.llms.analytics = new Analytics();
+	window.llms.analytics = new Analytics( window.llms.analytics || {} );
 
 } )( jQuery );

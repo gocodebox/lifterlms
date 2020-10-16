@@ -52,6 +52,37 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get_analytics_options()
+	 *
+	 * @since 4.5.1
+	 *
+	 * @return void
+	 */
+	public function test_get_analytics_options() {
+
+		$this->assertEquals( array( 'currency_format' => '$#,##0.00' ), LLMS_Unit_Test_Util::call_method( $this->main, 'get_analytics_options' ) );
+
+		// Simulate comma decimal separator that's forced back to decimals.
+		add_filter( 'lifterlms_thousand_separator', function( $sep ) { return '.'; } );
+		add_filter( 'lifterlms_decimal_separator', function( $sep ) { return ','; } );
+
+		$this->assertEquals( array( 'currency_format' => '$#,##0.00' ), LLMS_Unit_Test_Util::call_method( $this->main, 'get_analytics_options' ) );
+
+		remove_all_filters( 'lifterlms_thousand_separator' );
+		remove_all_filters( 'lifterlms_decimal_separator' );
+
+		// Simulate non US symbol on the right with a space.
+		add_filter( 'lifterlms_currency_symbol', function( $sym ) { return 'A'; } );
+		add_filter( 'lifterlms_price_format', function( $format ) { return '%2$s %1$s'; } );
+
+		$this->assertEquals( array( 'currency_format' => '#,##0.00 A' ), LLMS_Unit_Test_Util::call_method( $this->main, 'get_analytics_options' ) );
+
+		remove_all_filters( 'lifterlms_currency_symbol' );
+		remove_all_filters( 'lifterlms_price_format' );
+
+	}
+
+	/**
 	 * Test maybe_enqueue_reporting() on a screen where it shouldn't be registered.
 	 *
 	 * @since 4.3.3
