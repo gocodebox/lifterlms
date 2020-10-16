@@ -107,7 +107,10 @@ defined( 'ABSPATH' ) || exit;
 									<# if ( field.hasOwnProperty( 'max' ) ) { #> max="{{{ field.max }}}" <# } #>
 									name="{{{ field.attribute }}}"
 									<# if ( field.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
+									<# if ( 'switch-number' === field.type ) { #> type="number"
+									<# } else { #>
 									type="{{{ field.input_type }}}"
+									<# } #>
 									value="{{{ data.model.get( field.attribute ) }}}"
 								>
 							</div>
