@@ -54,9 +54,9 @@ if ( $cert->can_user_manage() ) {
 				</button>
 			<?php endif; ?>
 
-			<?php if ($is_sharing_enabled) : ?>
+			<?php if ( $is_sharing_enabled ) : ?>
 			<span class="llms-button-secondary">
-			<?php echo esc_url( get_permalink(get_the_ID() ) ); ?>
+				<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>
 				<i class="fa fa-link" aria-hidden="true"></i>
 			</span>
 			<?php endif; ?>
