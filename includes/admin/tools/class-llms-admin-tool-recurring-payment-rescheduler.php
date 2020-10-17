@@ -113,7 +113,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		foreach ( $this->get_orders() as $id ) {
 			$order = llms_get_post( $id );
- 			$order->maybe_schedule_payment( false );
+			$order->maybe_schedule_payment( false );
 			$order->maybe_schedule_expiration();
 			if ( $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) ) {
 				$orders[] = $id;
@@ -137,7 +137,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		global $wpdb;
 
-		return $wpdb->get_results(
+		return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Caching implemented in `get_orders()`.
 			"SELECT p.ID
 			   FROM {$wpdb->posts} AS p
 	      LEFT JOIN {$wpdb->prefix}actionscheduler_actions AS a
