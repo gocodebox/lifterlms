@@ -118,9 +118,6 @@ function llms_get_quiz_attempt_statuses() {
  */
 function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 
-	// Deprecation notice for filter (and function).
-	llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
-
 	/**
 	 * Deprecated.
 	 *
@@ -129,7 +126,7 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 	 *
 	 * @param array[] $settings Array of quiz theme settings.
 	 */
-	$settings = apply_filters(
+	$settings = apply_filters_deprecated(
 		'llms_get_quiz_theme_settings',
 		array(
 			'layout' => array(
@@ -138,7 +135,8 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 				'options' => array(),
 				'type'    => 'select', // Either: select or image_select.
 			),
-		)
+		),
+		'3.17.6'
 	);
 
 	if ( $setting ) {
