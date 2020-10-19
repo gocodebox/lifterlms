@@ -2671,7 +2671,7 @@ msgstr ""
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:512, includes/functions/llms-functions-access-plans.php:261, includes/admin/settings/class.llms.settings.accounts.php:53, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
+#: includes/llms.functions.core.php:512, includes/functions/llms-functions-access-plans.php:259, includes/admin/settings/class.llms.settings.accounts.php:53, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 msgid "Hidden"
 msgstr ""
 
@@ -3782,60 +3782,60 @@ msgid "Access Plan ID \"%s\" is not valid."
 msgstr ""
 
 #. translators: %s = property key ('product_id').
-#: includes/functions/llms-functions-access-plans.php:117
+#: includes/functions/llms-functions-access-plans.php:116
 msgid "Missing required property: \"%s\"."
 msgstr ""
 
 #. translators: %s = supplied visibility setting.
-#: includes/functions/llms-functions-access-plans.php:166
+#: includes/functions/llms-functions-access-plans.php:165
 msgid "Invalid access plan visibility: \"%s\""
 msgstr ""
 
 #. translators: %1$s = plan period key name; %2$s = the invalid period.
-#: includes/functions/llms-functions-access-plans.php:174
+#: includes/functions/llms-functions-access-plans.php:173
 msgid "Invalid access plan %1$s: \"%2$s\""
 msgstr ""
 
 #. translators: %s = supplied checkout redirect type.
-#: includes/functions/llms-functions-access-plans.php:183
+#: includes/functions/llms-functions-access-plans.php:182
 msgid "Invalid checkout redirect type: \"%s\""
 msgstr ""
 
 #. translators: %d = supplied checkout redirect page ID.
-#: includes/functions/llms-functions-access-plans.php:187
+#: includes/functions/llms-functions-access-plans.php:186
 msgid "Invalid checkout redirect page ID: \"%d\""
 msgstr ""
 
 #. translators: %s = supplied checkout redirect page URL.
-#: includes/functions/llms-functions-access-plans.php:191
+#: includes/functions/llms-functions-access-plans.php:190
 msgid "Invalid checkout redirect URL: \"%s\""
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:198
+#: includes/functions/llms-functions-access-plans.php:197
 msgid "An error was encountered while creating the access plan"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:241
+#: includes/functions/llms-functions-access-plans.php:239
 msgid "Year"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:242
+#: includes/functions/llms-functions-access-plans.php:240
 msgid "Month"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:243
+#: includes/functions/llms-functions-access-plans.php:241
 msgid "Week"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:244
+#: includes/functions/llms-functions-access-plans.php:242
 msgid "Day"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:260, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:94
+#: includes/functions/llms-functions-access-plans.php:258, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:94
 msgid "Visible"
 msgstr ""
 
-#: includes/functions/llms-functions-access-plans.php:262
+#: includes/functions/llms-functions-access-plans.php:260
 msgid "Featured"
 msgstr ""
 
@@ -5519,7 +5519,7 @@ msgstr ""
 msgid "Missing customer information."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:288, includes/forms/controllers/class.llms.controller.account.php:116, includes/forms/controllers/class.llms.controller.registration.php:95
+#: includes/functions/llms.functions.order.php:288, includes/forms/controllers/class.llms.controller.account.php:116, includes/forms/controllers/class.llms.controller.registration.php:96
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
@@ -5549,7 +5549,7 @@ msgstr ""
 msgid "Your personal data will be used to process your enrollment, support your experience on this website, and for other purposes described in our {{policy}}."
 msgstr ""
 
-#: includes/functions/llms.functions.privacy.php:92
+#: includes/functions/llms.functions.privacy.php:91
 msgid "I have read and agree to the {{terms}}."
 msgstr ""
 
@@ -5569,7 +5569,7 @@ msgstr ""
 msgid "Pass"
 msgstr ""
 
-#: includes/functions/llms.functions.quiz.php:137
+#: includes/functions/llms.functions.quiz.php:135
 msgid "Layout"
 msgstr ""
 
@@ -5815,44 +5815,44 @@ msgstr ""
 msgid "To be Determined"
 msgstr ""
 
-#: includes/models/model.llms.order.php:606
+#: includes/models/model.llms.order.php:610
 msgid "Anonymous"
 msgstr ""
 
-#: includes/models/model.llms.order.php:623
+#: includes/models/model.llms.order.php:627
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:623
+#: includes/models/model.llms.order.php:627
 msgctxt "Order date parsed by strftime"
 msgid "%1$b %2$d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.order.php:656, includes/models/model.llms.transaction.php:165
+#: includes/models/model.llms.order.php:660, includes/models/model.llms.transaction.php:165
 msgid "Payment gateway %s could not be located or is no longer enabled"
 msgstr ""
 
-#: includes/models/model.llms.order.php:771
+#: includes/models/model.llms.order.php:775
 msgid "Order is not recurring"
 msgstr ""
 
-#: includes/models/model.llms.order.php:773
+#: includes/models/model.llms.order.php:777
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:783
+#: includes/models/model.llms.order.php:787
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1424
+#: includes/models/model.llms.order.php:1440
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1472
+#: includes/models/model.llms.order.php:1488
 msgid "Automatic retry attempt scheduled for %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1483
+#: includes/models/model.llms.order.php:1499
 msgid "Maximum retry attempts reached."
 msgstr ""
 
@@ -5885,12 +5885,12 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:755
+#: includes/models/model.llms.student.php:754
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:858
+#: includes/models/model.llms.student.php:857
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -5985,12 +5985,12 @@ msgstr ""
 
 #. translators: %s = Processor ID.
 #. translators: %s = Processor ID.
-#: includes/notifications/class.llms.notifications.php:161, includes/notifications/class.llms.notifications.php:530
+#: includes/notifications/class.llms.notifications.php:162, includes/notifications/class.llms.notifications.php:531
 msgid "The processor \"%s\" does not exist."
 msgstr ""
 
 #. translators: %s = Processor ID.
-#: includes/notifications/class.llms.notifications.php:570
+#: includes/notifications/class.llms.notifications.php:571
 msgid "There was an error dispatching the \"%s\" processor."
 msgstr ""
 
@@ -7706,6 +7706,25 @@ msgstr ""
 msgid "Clear All User Sessions"
 msgstr ""
 
+#: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:40
+msgid "Schedule recurring payment actions for orders which have not had a recurring payment action scheduled."
+msgstr ""
+
+#. translators: %d = the number of pending batches.
+#: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:44
+msgid "There is currently %d order that will have a payment rescheduled."
+msgid_plural "There are currently %d orders that will have their payments rescheduled."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:67
+msgid "Reschedule Recurring Payments"
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:78
+msgid "Reschedule Payments"
+msgstr ""
+
 #: includes/admin/views/import.php:17
 msgid "LifterLMS Importer"
 msgstr ""
@@ -7767,7 +7786,7 @@ msgstr ""
 msgid "Your password has been updated. %1$sClick here to login%2$s."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.registration.php:79
+#: includes/forms/controllers/class.llms.controller.registration.php:80
 msgid "Already logged in! Please log out and try again."
 msgstr ""
 
@@ -7835,7 +7854,7 @@ msgstr ""
 msgid "Welcome to LifterLMS 3.13.0! We've packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s."
 msgstr ""
 
-#: includes/functions/updates/llms-functions-updates-3160.php:647
+#: includes/functions/updates/llms-functions-updates-3160.php:650
 msgid "Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under \"Courses\" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s."
 msgstr ""
 
