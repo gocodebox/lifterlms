@@ -91,7 +91,7 @@ class LLMS_Admin_Post_Types {
 
 			$link_format = ' <a href="%1$s">%2$s</a>.';
 
-			$permalink_html    = sprintf( $link_format, $permalink, sprintf( __( 'View %s', 'lifterlms' ), $name ) );
+			$permalink_html    = $obj->publicly_queryable ? sprintf( $link_format, $permalink, sprintf( __( 'View %s', 'lifterlms' ), $name ) ) : '';
 			$preview_link_html = sprintf( $link_format, $permalink, sprintf( __( 'Preview %s', 'lifterlms' ), $name ) );
 
 			$messages[ $type ] = array(
