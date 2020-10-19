@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -809,7 +809,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the timestamp of the next scheduled event for a given action
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment" and "llms_access_plan_expiration".
 	 * @return int|false Returns the timestamp of the next action as an integer or `false` when no action exist.
@@ -1654,7 +1654,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Use `$this->get_next_scheduled_action_time()` to determine if the action is currently scheduled.
+	 * @since 4.6.0 Use `$this->get_next_scheduled_action_time()` to determine if the action is currently scheduled.
 	 *
 	 * @return void
 	 */
@@ -1673,7 +1673,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Use `$this->get_next_scheduled_action_time()` to determine if the action is currently scheduled.
+	 * @since 4.6.0 Use `$this->get_next_scheduled_action_time()` to determine if the action is currently scheduled.
 	 *
 	 * @return void
 	 */

@@ -14,7 +14,7 @@
  * @since 3.37.6 Adjusted date delta for recurring payment next date assertions.
  *               Added default test override for test_edit_date() test to prevent output
  *               of skipped test that doesn't apply to the order model.
- * @since [version] Add coverage for `get_next_scheduled_action_time()`, `unschedule_expiration()`, and `unschedule_recurring_payment()`.
+ * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`, `unschedule_expiration()`, and `unschedule_recurring_payment()`.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -924,7 +924,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Add coverage for `get_next_scheduled_action_time()`.
+	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
 	 *
 	 * @return void
 	 */
@@ -961,7 +961,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Add coverage for `get_next_scheduled_action_time()`.
+	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
 	 *
 	 * @return void
 	 */
@@ -1135,7 +1135,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test unschedule_expiration().
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -1156,7 +1156,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test unschedule_recurring_payment()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */

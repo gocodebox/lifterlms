@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,7 +110,7 @@ function llms_get_quiz_attempt_statuses() {
  *
  * @since 3.16.8
  * @since 3.38.0 Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
- * @since [version] Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
+ * @since 4.6.0 Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
  * @deprecated 3.38.0 See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
  *
  * @param string $setting Name of setting, if omitted returns all settings.
