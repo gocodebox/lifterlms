@@ -449,7 +449,7 @@ class LLMS_Generator {
 	 * @deprecated [version] `LLMS_Generator::add_custom_values()` is deprecated in favor of `LLMS_Generator_Courses::add_custom_values`.
 	 *
 	 * @param int   $post_id WP Post ID.
-	 * @param array $raw raw data.
+	 * @param array $raw     Raw data.
 	 * @return void
 	 */
 	public function add_custom_values( $post_id, $raw ) {
@@ -476,8 +476,9 @@ class LLMS_Generator {
 
 	/**
 	 * Receives a raw array of course, plan, section, lesson, etc data and gets an author id
-	 * falls back to optionally supplied fallback id
-	 * falls back to current user id
+	 *
+	 * Falls back to optionally supplied fallback id.
+	 * Falls back to current user id.
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Made publicly accessible.

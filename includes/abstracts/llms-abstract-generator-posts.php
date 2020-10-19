@@ -2,7 +2,7 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  *
- * @package LifterLMS/Classes
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.3.0
  * @version [version]
@@ -112,7 +112,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @since [version] Moved from `LLMS_Generator`.
 	 *
 	 * @param int   $post_id WP Post ID.
-	 * @param array $raw raw data.
+	 * @param array $raw     Raw data.
 	 * @return void
 	 */
 	public function add_custom_values( $post_id, $raw ) {
@@ -231,6 +231,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 					'post_content' => $block['content'],
 					'post_title'   => $block['title'],
 					'post_type'    => 'wp_block',
+					'post_status'  => 'publish',
 				)
 			);
 
@@ -430,15 +431,17 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 	/**
 	 * Receives a raw array of course, plan, section, lesson, etc data and gets an author id
-	 * falls back to optionally supplied fallback id
-	 * falls back to current user id
+	 *
+	 * Falls back to optionally supplied fallback id.
+	 * Falls back to current user id.
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Made publicly accessible.
 	 * @since [version] Moved from `LLMS_Generators`.
 	 *
-	 * @param array $raw raw data
-	 * @param int   $fallback_author_id WP User ID
+	 * @param array $raw                Raw data.
+	 * @param int   $fallback_author_id Optional. WP User ID. Default is `null`.
+	 *                                  If not supplied, if no author is set, the current user ID will be used.
 	 * @return int|WP_Error
 	 */
 	public function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
@@ -633,7 +636,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param string $url_or_raw Array of raw data or URL to an image.
 	 * @param int    $post_id    WP Post ID.
-	 * @return null|false|int Returns `null` if sideloading is disabled, WP Post ID of the attachement on success, `false` on error.
+	 * @return null|false|int Returns `null` if sideloading is disabled, WP Post ID of the attachment on success, `false` on error.
 	 */
 	protected function set_featured_image( $url_or_raw, $post_id ) {
 
@@ -676,7 +679,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param int    $post_id WP_Post ID of the post where the image will be attached.
 	 * @param string $url     The image's URL.
-	 * @return string|int|WP_Error Returns a WP_Error on failure, the image's new URL when `$return` is "src", otherwise returns the image's attachement ID.
+	 * @return string|int|WP_Error Returns a WP_Error on failure, the image's new URL when `$return` is "src", otherwise returns the image's attachment ID.
 	 */
 	protected function sideload_image( $post_id, $url, $return = 'src' ) {
 
@@ -709,7 +712,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @since [version]
 	 *
 	 * @param LLMS_Post_Model $post Post object.
-	 * @param array           $raw  Array of raw data
+	 * @param array           $raw  Array of raw data.
 	 * @return null|boolean Returns `true` on success, `false` if there were no images to update, or `null` if sideloading is disabled.
 	 */
 	protected function sideload_images( $post, $raw ) {

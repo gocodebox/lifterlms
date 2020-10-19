@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Generator class.
+ * LLMS_Generator_Courses class
  *
  * @since [version]
  */
@@ -104,7 +104,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since [version] Moved from `LLMS_Generator` and made `public` instead of `private`.
-	 *              Returns an int on success
+	 *              Returns an int on success.
 	 * @param array $raw Raw data array.
 	 * @return int|null WP_Post ID of the generated course or `null` on failure.
 	 */
@@ -168,9 +168,10 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
 	 * @since [version] Sideload images attached to the post, use `create_post()` from abstract, add hooks.
 	 *
-	 * @param array $raw                Raw Access Plan Data
-	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to
-	 * @param int   $fallback_author_id WP User ID to use for the access plan author if no author is supplied in the raw data
+	 * @param array $raw                Raw Access Plan Data.
+	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to.
+	 * @param int   $fallback_author_id Optional. WP User ID to use for the access plan author if no author is supplied in the raw data. Default is `null`.
+	 *                                  When not supplied the fall back will be on the current user ID.
 	 * @return int
 	 */
 	protected function create_access_plan( $raw, $course_id, $fallback_author_id = null ) {
@@ -188,7 +189,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		// Force course relationship.
 		$raw['product_id'] = $course_id;
 
-		$plan = $this->create_post( 'access_plan', $raw, get_current_user_id() );
+		$plan = $this->create_post( 'access_plan', $raw, $fallback_author_id );
 		if ( ! $plan ) {
 			return null;
 		}
@@ -288,7 +289,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param int   $order              Lesson order within the section (starts at 1).
 	 * @param int   $section_id         WP Post ID of the lesson's parent section.
 	 * @param int   $course_id          WP Post ID of the lesson's parent course.
-	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the lesson. Default is `null`.
+	 *                                  When not supplied the fall back will be on the current user ID.
+
 	 * @throws Exception When an error is encountered during post creation.
 	 * @return int
 	 */
@@ -348,7 +351,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since [version] Sideload images attached to the post  and use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw quiz data.
-	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the quiz. Default is `null`.
+	 *                                  When not supplied the fall back will be on the current user ID.
+
 	 * @throws Exception When an error is encountered during post creation.
 	 * @return int
 	 */
@@ -360,7 +365,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 * @since 3.30.2
 		 *
 		 * @param array          $raw                Raw quiz data array.
-		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the quiz.
 		 * @param LLMS_Generator $generator          Generator instance.
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_quiz', $raw, $fallback_author_id, $this );
@@ -398,7 +403,8 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param array $raw       Raw question data.
 	 * @param obj   $manager   Question manager instance.
-	 * @param int   $author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @param int   $author_id Optional. Author ID to use as a fallback if no raw author data supplied for the question. Default is `null`.
+	 *                         When not supplied the fall back will be on the current user ID.
 	 * @throws Exception When an error is encountered during course creation.
 	 * @return int
 	 */
@@ -411,7 +417,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 *
 		 * @param array          $raw       Raw quiz data array.
 		 * @param obj            $manager   Question manager instance.
-		 * @param int            $author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param int            $author_id Optional author ID to use as a fallback if no raw author data supplied for the question.
 		 * @param LLMS_Generator $generator Generator instance.
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_question', $raw, $manager, $author_id, $this );
@@ -480,7 +486,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param array $raw                Raw section data.
 	 * @param int   $order              Order within the course (starts at 1).
 	 * @param int   $course_id          WP Post ID of the parent course.
-	 * @param int   $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the section.
+	 *                                  When not supplied the fall back will be on the current user ID.
+
 	 * @throws Exception When an error is encountered during course creation.
 	 * @return int
 	 */
@@ -494,7 +502,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		 * @param array          $raw                Raw quiz data array.
 		 * @param int            $order              Order within the course (starts at 1).
 		 * @param int            $course_id          WP Post ID of the parent course.
-		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the lesson.
+		 * @param int            $fallback_author_id Optional author ID to use as a fallback if no raw author data supplied for the section.
 		 * @param LLMS_Generator $generator          Generator instance.
 		 */
 		$raw = apply_filters( 'llms_generator_before_new_section', $raw, $order, $course_id, $fallback_author_id, $this );

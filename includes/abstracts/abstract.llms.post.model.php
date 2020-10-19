@@ -1254,7 +1254,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected function to_array_extra( $arr ) {
 
-		$arr['_extra'] = array(
+		$arr['_extras'] = array(
 			'blocks' => empty( $arr['content'] ) ? array() : $this->to_array_extra_blocks( $arr['content'] ),
 			'images' => empty( $arr['content'] ) ? array() : $this->to_array_extra_images( $arr['content'] ),
 		);
