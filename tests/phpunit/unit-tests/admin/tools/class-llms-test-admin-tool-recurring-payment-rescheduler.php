@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 4.6.0
  */
 class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 *
 	 * Include abstract class.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Create N number of orders in the DB
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @param integer $count         Number of orders to create.
 	 * @param boolean $remove_action Whether or not to remove a scheduled payment action.
@@ -81,7 +81,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Clear cached batch count data.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -92,7 +92,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test get_orders() during a cache hit
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test get_orders() during a cache miss
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test query_orders()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test should_load()
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */

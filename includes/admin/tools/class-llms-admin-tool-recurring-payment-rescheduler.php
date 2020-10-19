@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.6.0
+ * @version 4.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Tool_Recurring_Payment_Rescheduler class
  *
- * @since [version]
+ * @since 4.6.0
  */
 class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_Tool {
 
@@ -29,7 +29,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return string
 	 */
@@ -59,7 +59,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return string
 	 */
@@ -70,7 +70,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return string
 	 */
@@ -81,7 +81,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	/**
 	 * Retrieve a list of orders
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return int[]
 	 */
@@ -103,7 +103,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * Retrieves orders from the `get_orders()` method and schedules a recurring payment
 	 * and expiration action based on its existing calculated order data.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return int[] Returns an array of WP_Post IDs for orders successfully rescheduled by the method.
 	 */
@@ -129,7 +129,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	/**
 	 * Perform a DB query for orders to be handled by the tool
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return object[]
 	 */
@@ -159,7 +159,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 *
 	 * This tool should only load if there are orders that can be handled by the tool.
 	 *
-	 * @since [version]
+	 * @since 4.6.0
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */
