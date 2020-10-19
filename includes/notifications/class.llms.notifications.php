@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -118,6 +118,7 @@ class LLMS_Notifications {
 	 * Saves & dispatches those processors.
 	 *
 	 * @since 3.8.0
+	 * @since [version] Use `llms_deprecated_function()` in favor of `llms_log()`.
 	 * @deprecated 3.38.0 Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
 	 *
 	 * @return void
