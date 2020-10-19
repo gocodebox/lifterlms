@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v4.6.0 - 2020-10-19
+-------------------
+
++ Added an admin tool to help automatically identify and schedule missed recurring payments
++ Use `llms_deprecated_function()` in favor of `llms_log()`.
++ Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
+
+
 v4.5.1 - 2020-10-14
 -------------------
 

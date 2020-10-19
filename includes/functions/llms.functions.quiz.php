@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.16.0
- * @version 3.38.0
+ * @version 4.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,6 +110,7 @@ function llms_get_quiz_attempt_statuses() {
  *
  * @since 3.16.8
  * @since 3.38.0 Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
+ * @since 4.6.0 Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
  * @deprecated 3.38.0 See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
  *
  * @param string $setting Name of setting, if omitted returns all settings.
@@ -117,9 +118,6 @@ function llms_get_quiz_attempt_statuses() {
  * @return array
  */
 function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
-
-	// Deprecation notice for filter (and function).
-	llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
 
 	/**
 	 * Deprecated.
@@ -129,7 +127,7 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 	 *
 	 * @param array[] $settings Array of quiz theme settings.
 	 */
-	$settings = apply_filters(
+	$settings = apply_filters_deprecated(
 		'llms_get_quiz_theme_settings',
 		array(
 			'layout' => array(
@@ -138,7 +136,8 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 				'options' => array(),
 				'type'    => 'select', // Either: select or image_select.
 			),
-		)
+		),
+		'3.17.6'
 	);
 
 	if ( $setting ) {
