@@ -341,6 +341,10 @@ define( [], function() {
 					defaults.input_type = 'number';
 				break;
 
+				case 'switch-number':
+					defaults.input_type = 'number';
+				break;
+
 				case 'permalink':
 					defaults.label = LLMS.l10n.translate( 'Permalink' );
 				break;
