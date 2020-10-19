@@ -20,11 +20,8 @@
 	max-width: 640px;
 }
 
-a.dashboard-return {
-	color: #aaa;
-	display: block;
-	margin-top: 10px;
-	text-align: center;
+.llms-setup-footer {
+	margin: 0 10px;
 }
 
 #llms-logo {
@@ -67,7 +64,8 @@ a.dashboard-return {
 		text-align: right;
 	}
 
-	.back-link {
+	.llms-exit-setup {
+		color: inherit !important;
 		margin-right: 10px;
 	}
 
@@ -153,13 +151,17 @@ a.dashboard-return {
 
 	li {
 		border-bottom: 4px solid $color-brand-blue;
-		color: $color-brand-blue;
 		display: inline-block;
 		font-size: 14px;
 		padding-bottom: 10px;
 		position: relative;
 		text-align: center;
 		flex: 1;
+
+		a {
+			color: $color-brand-blue;
+			text-decoration: none;
+		}
 
 		&:after {
 			background: $color-brand-blue;
@@ -176,6 +178,7 @@ a.dashboard-return {
 		}
 
 		&.current {
+			font-weight: 700;
 			&:after {
 				background: #fff;
 			}

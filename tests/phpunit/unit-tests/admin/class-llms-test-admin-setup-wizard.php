@@ -412,7 +412,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
 		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'save_finish' );
 		$this->assertTrue( is_numeric( $res ) );
-		$this->assertEquals( 'course', get_post_Type( $res ) );
+		$this->assertEquals( 'course', get_post_type( $res ) );
 
 	}
 

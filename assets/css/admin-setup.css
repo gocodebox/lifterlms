@@ -14,11 +14,8 @@
   margin: 60px auto;
   max-width: 640px; }
 
-a.dashboard-return {
-  color: #aaa;
-  display: block;
-  margin-top: 10px;
-  text-align: center; }
+.llms-setup-footer {
+  margin: 0 10px; }
 
 #llms-logo {
   text-align: center; }
@@ -45,7 +42,8 @@ a.dashboard-return {
   .llms-setup-content .llms-setup-actions {
     margin-top: 40px;
     text-align: right; }
-  .llms-setup-content .back-link {
+  .llms-setup-content .llms-exit-setup {
+    color: inherit !important;
     margin-right: 10px; }
   .llms-setup-content table {
     border-bottom: 1px solid #f1f1f1;
@@ -92,7 +90,6 @@ a.dashboard-return {
   margin: 20px 0; }
   .llms-setup-progress li {
     border-bottom: 4px solid #2295ff;
-    color: #2295ff;
     display: inline-block;
     font-size: 14px;
     padding-bottom: 10px;
@@ -101,6 +98,9 @@ a.dashboard-return {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
+    .llms-setup-progress li a {
+      color: #2295ff;
+      text-decoration: none; }
     .llms-setup-progress li:after {
       background: #2295ff;
       bottom: 0;
@@ -113,8 +113,10 @@ a.dashboard-return {
       margin-left: -6px;
       margin-bottom: -8px;
       width: 4px; }
-    .llms-setup-progress li.current:after {
-      background: #fff; }
+    .llms-setup-progress li.current {
+      font-weight: 700; }
+      .llms-setup-progress li.current:after {
+        background: #fff; }
     .llms-setup-progress li.current ~ li {
       border-bottom-color: #ccc;
       color: #ccc; }

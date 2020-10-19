@@ -34,7 +34,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Constructor
 	 *
 	 * @since 3.0.0
-	 * @since [verison] Remove output of inline scripts.
+	 * @since 4.4.4 Remove output of inline scripts.
 	 *
 	 * @return void
 	 */
@@ -104,10 +104,15 @@ class LLMS_Admin_Setup_Wizard {
 	 * @return boolean
 	 */
 	public function enqueue() {
+
+		$extra = true;
+
 		if ( 'finish' === $this->get_current_step() ) {
-			llms()->assets->enqueue_style( 'llms-admin-importer' );
+			$extra = llms()->assets->enqueue_style( 'llms-admin-importer' );
 		}
-		return llms()->assets->enqueue_style( 'llms-admin-setup' );
+
+		return llms()->assets->enqueue_script( 'llms-admin-setup' ) && llms()->assets->enqueue_style( 'llms-admin-setup' ) && $extra;
+
 	}
 
 	/**
@@ -196,7 +201,7 @@ class LLMS_Admin_Setup_Wizard {
 		if ( 'coupon' === $step ) {
 			$text = __( 'Allow', 'lifterlms' );
 		} elseif ( 'finish' === $step ) {
-			$text = __( 'Install a Sample Course', 'lifterlms' );
+			$text = __( 'Import Courses', 'lifterlms' );
 		}
 
 		/**

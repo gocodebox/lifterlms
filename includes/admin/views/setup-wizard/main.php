@@ -28,7 +28,9 @@ defined( 'ABSPATH' ) || exit;
 
 		<ul class="llms-setup-progress">
 			<?php foreach ( $steps as $slug => $name ) : ?>
-				<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>><?php echo $name; ?></li>
+				<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>>
+					<a href="<?php echo $this->get_step_url( $slug ); ?>"><?php echo $name; ?></a>
+				</li>
 			<?php endforeach; ?>
 		</ul>
 
@@ -46,9 +48,9 @@ defined( 'ABSPATH' ) || exit;
 						<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
 						<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
 					<?php else : ?>
-						<?php if ( $prev ) : ?>
-							<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
-						<?php endif; ?>
+
+						<a class="llms-exit-setup" data-confirm="<?php esc_attr_e( 'The site setup is incomplete! Are you sure you wish to exit?', 'lifterlms' ); ?>" href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Exit Setup', 'lifterlms' ); ?></a>
+
 						<?php if ( $next ) : ?>
 							<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
 						<?php endif; ?>
@@ -57,8 +59,8 @@ defined( 'ABSPATH' ) || exit;
 							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large"><?php _e( 'Start from Scratch', 'lifterlms' ); ?></a>
 						<?php endif; ?>
 
-						<button class="llms-button-primary large" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
-						<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
+						<button class="llms-button-primary large" type="submit" id="llms-setup-submit"><?php echo $this->get_save_text( $current ); ?></button>
+						<input id="llms-setup-current-step" name="llms_setup_save" type="hidden" value="<?php echo $current; ?>">
 						<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
 					<?php endif; ?>
 				</p>
@@ -67,7 +69,9 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 
 		<?php if ( 'finish' === $current ) : ?>
-			<a class="dashboard-return" href="<?php echo admin_url(); ?>"><?php _e( 'Return to the WordPress Dashboard', 'lifterlms' ); ?></a>
+			<footer class="llms-setup-footer">
+				<p><em><?php _e( 'Imported course content and images will be downloaded and imported into this site from lifterlms.com.', 'lifterlms' ); ?></em></p>
+			</footer>
 		<?php endif; ?>
 
 	</div>
