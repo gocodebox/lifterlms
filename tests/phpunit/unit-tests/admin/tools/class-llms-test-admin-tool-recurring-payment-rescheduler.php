@@ -240,7 +240,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 *
 	 * @return void
 	 */
-	protected function test_should_load() {
+	public function test_should_load() {
 
 		// No orders to handle.
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );

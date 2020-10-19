@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Tool_Batch_Eraser
+ * LLMS_Admin_Tool_Recurring_Payment_Rescheduler class
  *
  * @since [version]
  */
@@ -101,7 +101,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * Schedules payments and expiration for an order
 	 *
 	 * Retrieves orders from the `get_orders()` method and schedules a recurring payment
-	 * and expiration action based on it's existing calculated order data.
+	 * and expiration action based on its existing calculated order data.
 	 *
 	 * @since [version]
 	 *
@@ -137,7 +137,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		global $wpdb;
 
-		return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Caching implemented in `get_orders()`.
+		return $wpdb->get_results(
 			"SELECT p.ID
 			   FROM {$wpdb->posts} AS p
 	      LEFT JOIN {$wpdb->prefix}actionscheduler_actions AS a
@@ -150,7 +150,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			    AND a.action_id IS NULL
 			  LIMIT 100
 			;"
-		);
+		); // no-cache ok -- Caching implemented in `get_orders()`.
 
 	}
 
