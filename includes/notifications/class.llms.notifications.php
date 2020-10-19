@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 4.4.0
+ * @version 4.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -118,13 +118,14 @@ class LLMS_Notifications {
 	 * Saves & dispatches those processors.
 	 *
 	 * @since 3.8.0
+	 * @since 4.6.0 Use `llms_deprecated_function()` in favor of `llms_log()`.
 	 * @deprecated 3.38.0 Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
 	 *
 	 * @return void
 	 */
 	public function dispatch_processors() {
 
-		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_processors_dispatch() instead.' );
+		llms_deprecated_function( 'LLMS_Notifications::dispatch_processors()', '3.38.0', 'LLMS_Notifications::schedule_processors_dispatch()' );
 
 		foreach ( $this->processors_to_dispatch as $key => $name ) {
 			$processor = $this->get_processor( $name );

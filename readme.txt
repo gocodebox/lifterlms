@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.5.1
+Stable tag: 4.6.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,13 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.6.0 - 2020-10-19 =
+
++ Added an admin tool to help automatically identify and schedule missed recurring payments
++ Use `llms_deprecated_function()` in favor of `llms_log()`.
++ Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
+
+
 = v4.5.1 - 2020-10-14 =
 
 ##### Updates
@@ -635,13 +642,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 = v4.3.2 - 2020-08-10 =
 
 + WP 5.5 compatibility: Automatically deregister "protected" post types from wp-sitemap.xml.
-
-
-= v4.3.1 - 2020-08-06 =
-
-+ When resetting tracking data cookies, set a "secure" cookie where possible.
-+ Catch an unhandled error encountered when generating certificate exports.
-+ When an error is encountered during certificate export generation, display an error notice instead of a general notice.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

@@ -37,7 +37,7 @@ class LLMS_Controller_Login {
 	 * @since 3.19.4
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function login() {
 
@@ -47,7 +47,7 @@ class LLMS_Controller_Login {
 
 		$login = LLMS_Person_Handler::login( $_POST );
 
-		// validation or login issues
+		// Validation or login issues.
 		if ( is_wp_error( $login ) ) {
 			foreach ( $login->get_error_messages() as $msg ) {
 				llms_add_notice( $msg, 'error' );

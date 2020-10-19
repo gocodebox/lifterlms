@@ -36,16 +36,16 @@ class LLMS_Question_Choice {
 	 */
 	public function __construct( $question_id, $data_or_id = array() ) {
 
-		// ensure the question is valid
+		// Ensure the question is valid.
 		if ( $this->set_question( $question_id ) ) {
 
-			// if an ID is passed in, load the question data from post meta
+			// If an ID is passed in, load the question data from post meta.
 			if ( ! is_array( $data_or_id ) ) {
 				$data_or_id = str_replace( $this->prefix, '', $data_or_id );
 				$data_or_id = get_post_meta( $this->question_id, $this->prefix . $data_or_id, true );
 			}
 
-			// hydrate with postmeta data or array of data passed in
+			// Hydrate with postmeta data or array of data passed in.
 			if ( is_array( $data_or_id ) && isset( $data_or_id['id'] ) ) {
 				$this->hydrate( $data_or_id );
 			}
@@ -208,7 +208,7 @@ class LLMS_Question_Choice {
 	 */
 	public function save() {
 
-		$this->data['id'] = $this->id; // always ensure the ID is set when saving data
+		$this->data['id'] = $this->id; // Always ensure the ID is set when saving data.
 		$update           = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
 
 		return ( $update );
@@ -226,7 +226,7 @@ class LLMS_Question_Choice {
 	 */
 	public function set( $key, $val ) {
 
-		// dont set the ID
+		// Don't set the ID.
 		if ( 'id' === $key ) {
 			return $this;
 		}

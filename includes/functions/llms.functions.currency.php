@@ -29,7 +29,7 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 		$number   = llms_clean( str_replace( $decimals, '.', $number ) );
 	}
 
-	// DP is false - don't use number format, just return a string in our format
+	// DP is false - don't use number format, just return a string in our format.
 	if ( false !== $dp ) {
 		$dp     = 2;     // = intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
 		$number = number_format( floatval( $number ), $dp, '.', ',' );

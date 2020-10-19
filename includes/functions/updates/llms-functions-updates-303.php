@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Fix students with the bugged role "studnets"
+ * Fix students with the bugged role "students"
  *
  * @since 3.0.3
  *
@@ -19,8 +19,8 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_update_303_update_students_role() {
 
-	// add the bugged role so we can remove it
-	// we delete it at the conclusion of the function
+	// Add the bugged role so we can remove it.
+	// We delete it at the conclusion of the function.
 	if ( ! get_role( 'studnet' ) ) {
 
 		add_role(
@@ -47,7 +47,7 @@ function llms_update_303_update_students_role() {
 		}
 	}
 
-	// remove the bugged role when finished
+	// Remove the bugged role when finished.
 	remove_role( 'studnet' );
 
 }
