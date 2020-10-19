@@ -4,20 +4,19 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since 3.3.0
+ * @since [version]
  * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Generator class.
+ * LLMS_Abstract_Generator_Posts class.
  *
- * @since 3.3.0
- * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
- * @since 3.36.3 New method: is_generator_valid()
- *               Bugfix: Fix return of `set_generator()`.
- * @since [version] Add sideloading of images found in imported post content.
+ * Many methods in this class were moved from `LLMS_Generator`. The move has been
+ * noted on these methods and their preexisting changelogs have been preserved.
+ *
+ * @since [version]
  */
 abstract class LLMS_Abstract_Generator_Posts {
 
@@ -137,8 +136,9 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
 	 * @param int    $author_id Fallback author ID, used when now author data can be found in `$raw`.
-	 * @throws Exception When the class identified by `$type` is not found or when an error is encountered during post creation.
 	 * @return LLMS_Post_Model
+	 *
+	 * @throws Exception When the class identified by `$type` is not found or when an error is encountered during post creation.
 	 */
 	protected function create_post( $type, $raw = array(), $author_id = null ) {
 
@@ -216,15 +216,15 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$block_id = absint( $block_id );
 
-		// If the block already exists, don't create it again.
-		$existing = get_post( $block_id );
-		if ( $existing && 'wp_block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
-			return false;
-		}
-
 		// Check if the block was previously imported.
 		$id = empty( $this->reusable_blocks[ $block_id ] ) ? false : $this->reusable_blocks[ $block_id ];
 		if ( ! $id ) {
+
+			// If the block already exists, don't create it again.
+			$existing = get_post( $block_id );
+			if ( $existing && 'wp_block' === $existing->post_type && $block['title'] === $existing->post_title && $block['content'] === $existing->post_content ) {
+				return false;
+			}
 
 			$id = wp_insert_post(
 				array(
@@ -359,8 +359,9 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *                   Falls back to current user id.
 	 *                   First_name, last_name, and description can be optionally provided.
 	 *                   When provided will be used only when creating a new user.
-	 * @throws Exception When an error is encountered creating a new user.
 	 * @return int WP_User ID
+	 *
+	 * @throws Exception When an error is encountered creating a new user.
 	 */
 	protected function get_author_id( $raw ) {
 
@@ -494,8 +495,9 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @param string $term_name Term name.
 	 * @param string $tax       Taxonomy slug.
-	 * @throws Exception When an error is encountered during taxonomy term creation.
 	 * @return int The created WP_Term `term_id`.
+	 *
+	 * @throws Exception When an error is encountered during taxonomy term creation.
 	 */
 	protected function get_term_id( $term_name, $tax ) {
 

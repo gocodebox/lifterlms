@@ -136,8 +136,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *               Returns an array of generated course IDs on success.
 	 *
 	 * @param array $raw Raw data array.
-	 * @throws Exception When invalid `$raw` data is submitted.
 	 * @return void
+	 *
+	 * @throws Exception When invalid `$raw` data is submitted.
 	 */
 	public function generate_courses( $raw ) {
 
@@ -218,8 +219,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since [version] Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
 	 *
 	 * @param array $raw Raw course data.
-	 * @throws Exception When an error is encountered during course creation.
 	 * @return int
+	 *
+	 * @throws Exception When an error is encountered during course creation.
 	 */
 	protected function create_course( $raw ) {
 
@@ -291,9 +293,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param int   $course_id          WP Post ID of the lesson's parent course.
 	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the lesson. Default is `null`.
 	 *                                  When not supplied the fall back will be on the current user ID.
-
-	 * @throws Exception When an error is encountered during post creation.
 	 * @return int
+	 *
+	 * @throws Exception When an error is encountered during post creation.
 	 */
 	protected function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -353,9 +355,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the quiz. Default is `null`.
 	 *                                  When not supplied the fall back will be on the current user ID.
-
-	 * @throws Exception When an error is encountered during post creation.
 	 * @return int
+	 *
+	 * @throws Exception When an error is encountered during post creation.
 	 */
 	protected function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -405,8 +407,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param obj   $manager   Question manager instance.
 	 * @param int   $author_id Optional. Author ID to use as a fallback if no raw author data supplied for the question. Default is `null`.
 	 *                         When not supplied the fall back will be on the current user ID.
-	 * @throws Exception When an error is encountered during course creation.
 	 * @return int
+	 *
+	 * @throws Exception When an error is encountered during course creation.
 	 */
 	protected function create_question( $raw, $manager, $author_id ) {
 
@@ -488,9 +491,9 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @param int   $course_id          WP Post ID of the parent course.
 	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the section.
 	 *                                  When not supplied the fall back will be on the current user ID.
-
-	 * @throws Exception When an error is encountered during course creation.
 	 * @return int
+	 *
+	 * @throws Exception When an error is encountered during course creation.
 	 */
 	protected function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
