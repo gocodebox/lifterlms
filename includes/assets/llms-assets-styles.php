@@ -41,6 +41,9 @@ return array(
 	'llms-admin-setup' => array(
 		'file_name' => 'admin-setup',
 	),
+	'llms-admin-importer' => array(
+		'file_name' => 'admin-importer',
+	),
 
 	// Vendor.
 	'llms-iziModal'    => array(

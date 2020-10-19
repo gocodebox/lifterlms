@@ -1,3 +1,6 @@
+#wpadminbar, #adminmenumain, #wpfooter {
+  display: none; }
+
 #llms-setup-wizard {
   background-color: #f1f1f1;
   height: 100%;
@@ -5,11 +8,7 @@
   overflow: scroll;
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 777777; }
-
-.select2-container {
-  z-index: 7777777; }
+  width: 100%; }
 
 .llms-setup-wrapper {
   margin: 60px auto;
@@ -24,7 +23,7 @@ a.dashboard-return {
 #llms-logo {
   text-align: center; }
   #llms-logo img {
-    max-width: 400px; }
+    max-width: 260px; }
 
 .llms-setup-content {
   background-color: #fff;
@@ -60,6 +59,31 @@ a.dashboard-return {
       .llms-setup-content td:first-child a {
         font-size: 16px;
         font-weight: 500; }
+  .llms-setup-content ul.llms-importable-courses li.llms-importable-course {
+    position: relative; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course input {
+      display: none; }
+      .llms-setup-content ul.llms-importable-courses li.llms-importable-course input ~ * {
+        opacity: 0.8;
+        -webkit-transition: opacity 0.1s linear;
+        transition: opacity 0.1s linear; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course input:checked ~ * {
+      opacity: 1; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course input:checked ~ .dashicons-yes-alt {
+      opacity: 1; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course .dashicons-yes-alt {
+      color: #fff;
+      font-size: 30px;
+      opacity: 0;
+      position: absolute;
+      right: 20px;
+      top: 5px;
+      z-index: 1; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course h3 {
+      font-size: 1em;
+      margin: 10px 0 5px; }
+    .llms-setup-content ul.llms-importable-courses li.llms-importable-course p {
+      margin: 0; }
 
 .llms-setup-progress {
   display: -webkit-box;

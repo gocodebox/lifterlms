@@ -33,6 +33,18 @@ class LLMS_Admin_Import {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'upload_import' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+	}
+
+	public function enqueue() {
+
+		$screen = get_current_screen();
+		if ( ! $screen || 'lifterlms_page_llms-import' !== $screen->base ) {
+			return;
+		}
+
+		llms()->assets->enqueue_style( 'llms-admin-importer' );
+
 	}
 
 	/**
