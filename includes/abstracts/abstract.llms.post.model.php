@@ -306,8 +306,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Clones the Post if the post is cloneable
 	 *
-	 * @return   WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
-	 * @since    3.3.0
+	 * @since 3.3.0
+	 * @since [version] Use `LLMS_Generator::get_generated_content()` in favor of deprecated `LLMS_Generator::get_generated_posts()`..
+	 *
+	 * @return WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
 	 */
 	public function clone_post() {
 
@@ -326,7 +328,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$this->allowed_post_tags_unset();
 
-		$generated = $generator->get_generated_posts();
+		$generated = $generator->get_generated_content();
 		if ( isset( $generated[ $this->db_post_type ] ) ) {
 			return $generated[ $this->db_post_type ][0];
 		}
