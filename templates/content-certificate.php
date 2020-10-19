@@ -55,10 +55,7 @@ if ( $cert->can_user_manage() ) {
 			<?php endif; ?>
 
 			<?php if ( $is_sharing_enabled ) : ?>
-			<span class="llms-button-secondary">
-				<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>
-				<i class="fa fa-link" aria-hidden="true"></i>
-			</span>
+				<input disabled="disabled" name="llms_sharing_permalink" value="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
 			<?php endif; ?>
 
 			<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
