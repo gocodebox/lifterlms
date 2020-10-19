@@ -124,7 +124,7 @@ class LLMS_Notifications {
 	 */
 	public function dispatch_processors() {
 
-		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_processors_dispatch() instead.' );
+		llms_deprecated_function( 'LLMS_Notifications::dispatch_processors()', '3.38.0', 'LLMS_Notifications::schedule_processors_dispatch()' );
 
 		foreach ( $this->processors_to_dispatch as $key => $name ) {
 			$processor = $this->get_processor( $name );
