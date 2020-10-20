@@ -105,7 +105,7 @@ All descriptions for any of these tags should be a full sentence ending with a f
 Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
 
 + **Classes**: Any breaking changes, deprecations, or the introduction of new class elements (elements which do not have their own changelog, such as class properties) require an accompanying `@since` tag entry. Changes to a class method should be recorded on the method's changelog, not on the class changelog.
-+ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry 
++ **Functions and class methods**: Any change made requires an accompanying `@since` tag entry
 
 Changes which do not affect the functionality or execution of the element *should not* be recorded on the element's changelog. For example, a coding standards change such as alignment or spacing should not be recorded.
 
@@ -230,7 +230,6 @@ A full array parameter would look like this:
  * }
 ```
 
-
 #### 2. Types
 
 Variables, constants, and class members should use the `@var` tag to describe the member's type.
@@ -244,6 +243,19 @@ public $var = 'text';
 #### 3. Relations and References
 
 Use `@see` to perform automatic links to other areas of the codebase. For example `{@see 'is_lifterlms'}` to link to the filter `is_lifterlms`.
+
+
+#### 4. Thrown Exceptions
+
+A function or method which throws an exception should document the thrown exception using an `@throws` tag.
+
+When present, the `@throws` tag should be added to the end of the docblock below the `@return` tag. An empty line should separate the `@return` and `@throws` tag.
+
+```
+ * @return string
+ *
+ * @throws Exception A description of the raised exception.
+ */
 
 
 ## DocBlock Examples
