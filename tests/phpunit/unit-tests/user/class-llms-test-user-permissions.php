@@ -167,6 +167,8 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the editable_roles() filter for users with multiple roles.
 	 *
+	 * @since [version]
+	 *
 	 * @return void
 	 */
 	public function test_editable_roles_multiple_roles() {

@@ -47,6 +47,7 @@ class LLMS_User_Permissions {
 	 * @since 3.13.0
 	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
 	 * @since 3.37.14 Use strict comparison.
+	 * @since [version] Better handling of users with multiple roles.
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
