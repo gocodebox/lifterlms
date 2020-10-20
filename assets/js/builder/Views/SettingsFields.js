@@ -338,6 +338,7 @@ define( [], function() {
 				break;
 
 				case 'number':
+				case 'switch-number':
 					defaults.input_type = 'number';
 				break;
 
