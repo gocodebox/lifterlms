@@ -55,8 +55,6 @@ class LLMS_User_Permissions {
 	 */
 	public function editable_roles( $all_roles ) {
 
-		$roles = array();
-
 		$user = wp_get_current_user();
 
 		$lms_roles = self::get_editable_roles();
@@ -65,15 +63,11 @@ class LLMS_User_Permissions {
 
 			if ( in_array( $role, $user->roles, true ) ) {
 
-				$roles = array_merge( $roles, $allowed_roles );
-			}
-		}
-
-		$roles = array_unique( $roles );
-
-		foreach ( $all_roles as $role ) {
-			if ( ! in_array( $role, $roles, true ) ) {
-				unset( $all_roles[ $role ] );
+				foreach ( $all_roles as $the_role => $caps ) {
+					if ( ! in_array( $the_role, $allowed_roles, true ) ) {
+						unset( $all_roles[ $the_role ] );
+					}
+				}
 			}
 		}
 
