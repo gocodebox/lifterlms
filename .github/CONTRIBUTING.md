@@ -41,6 +41,7 @@ LifterLMS is a project that services a great many users. A feature which is attr
 + Ensure you stick to the [coding standards](https://github.com/gocodebox/lifterlms/blob/trunk/docs/coding-standards.md) and have properly documented any new functions, actions and filters following the documentation standards.
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
 + Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/trunk/tests/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
++ When making changes to (S)CSS and Javascript files, you should only modify the source files. The compiled and minified files *should not be committed* or included in your PR.
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork
 + Submit a pull request to the 'dev' branch of the LifterLMS repo.
