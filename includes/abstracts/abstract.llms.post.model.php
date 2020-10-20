@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -306,8 +306,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Clones the Post if the post is cloneable
 	 *
-	 * @return   WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
-	 * @since    3.3.0
+	 * @since 3.3.0
+	 * @since [version] Use `LLMS_Generator::get_generated_content()` in favor of deprecated `LLMS_Generator::get_generated_posts()`.
+	 *
+	 * @return WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
 	 */
 	public function clone_post() {
 
@@ -326,7 +328,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$this->allowed_post_tags_unset();
 
-		$generated = $generator->get_generated_posts();
+		$generated = $generator->get_generated_content();
 		if ( isset( $generated[ $this->db_post_type ] ) ) {
 			return $generated[ $this->db_post_type ][0];
 		}
@@ -1124,17 +1126,20 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Coverts the object to an associative array
+	 *
 	 * Any property returned by $this->get_properties() will be retrieved
-	 * via $this->get() and added to the array
+	 * via $this->get() and added to the array.
 	 *
 	 * Extending classes can add additional properties to the array
-	 * by overriding $this->toArrayAfter()
+	 * by overriding $this->toArrayAfter().
 	 *
-	 * This function is also utilized to serialize the object to json
+	 * This function is also utilized to serialize the object to JSON.
 	 *
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.17.0
+	 * @since 3.3.0
+	 * @since 3.17.0 Unknown.
+	 * @since [version] Add exporting of extra data (images and blocks).
+	 *
+	 * @return array
 	 */
 	public function toArray() {
 
@@ -1175,6 +1180,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			}
 		}
 
+		/**
+		 * Filter whether or not "extra" content should be included in the post array
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean         $include Whether or not to include extra data.
+		 * @param LLMS_Post_Model $model   Post model instance.
+		 */
+		if ( apply_filters( "llms_{$this->model_post_type}_to_array_add_extras", true, $this ) ) {
+			$arr = $this->to_array_extra( $arr );
+		}
+
 		// Add custom fields.
 		$arr = $this->toArrayCustom( $arr );
 
@@ -1188,22 +1208,129 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		ksort( $arr ); // Because i'm anal...
 
-		return apply_filters( 'llms_' . $this->model_post_type . '_to_array', $arr, $this );
+		/**
+		 * Filter the final post array created when converting the object to an array
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since [version]
+		 *
+		 * @param array           $arr   Associative array of the model.
+		 * @param LLMS_Post_Model $model Post model instance.
+		 */
+		return apply_filters( "llms_{$this->model_post_type}_to_array", $arr, $this );
 
 	}
 
 	/**
 	 * Called before data is sorted and returned by $this->toArray()
-	 * Extending classes should override this data if custom data should
-	 * be added when object is converted to an array or json
 	 *
-	 * @param    array $arr   array of data to be serialized
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * Extending classes should override this data if custom data should
+	 * be added when object is converted to an array or json.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param array $arr Array of data to be serialized.
+	 * @return array
 	 */
 	protected function toArrayAfter( $arr ) {
 		return $arr;
+	}
+
+	/**
+	 * Add "extra" data to the post array during export/serialization
+	 *
+	 * This method adds two arrays of data, "blocks" and "images".
+	 *
+	 * The "blocks" array is an array of reusable blocks used in the post's content. During
+	 * an import these blocks will be imported into the site.
+	 *
+	 * The "images" array is an array of image element source URLs found in the post's content. During
+	 * an import these images will be imported into the new site via media sideloading.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $arr Post array from `toArray()`.
+	 * @return array[]
+	 */
+	protected function to_array_extra( $arr ) {
+
+		$arr['_extras'] = array(
+			'blocks' => empty( $arr['content'] ) ? array() : $this->to_array_extra_blocks( $arr['content'] ),
+			'images' => empty( $arr['content'] ) ? array() : $this->to_array_extra_images( $arr['content'] ),
+		);
+
+		return $arr;
+
+	}
+
+	/**
+	 * Add reusable blocks found in the post's content to the post's array
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content Raw `post_content` string.
+	 * @return array[] {
+	 *     Array of reusable block information arrays. The array key is the WP_Post ID of the reusable block.
+	 *
+	 *     @type string $title   Reusable block title.
+	 *     @type string $content Reusable block content.
+	 * }
+	 */
+	protected function to_array_extra_blocks( $content ) {
+
+		$blocks = array();
+
+		foreach ( parse_blocks( $content ) as $block ) {
+
+			if ( 'core/block' !== $block['blockName'] ) {
+				continue;
+			}
+
+			$post = get_post( $block['attrs']['ref'] );
+			if ( ! $post ) {
+				continue;
+			}
+
+			$blocks[ $post->ID ] = array(
+				'title'   => $post->post_title,
+				'content' => $post->post_content,
+			);
+		}
+
+		return $blocks;
+
+	}
+
+	/**
+	 * Add images found in the post's content to the post's array
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content Raw `post_content` string.
+	 * @return string[] Array of image source URLs.
+	 */
+	protected function to_array_extra_images( $content ) {
+
+		$images = array();
+		$dom    = llms_get_dom_document( $content );
+		if ( is_wp_error( $dom ) ) {
+			return $images;
+		}
+
+		$site_url = get_site_url();
+		foreach ( $dom->getElementsByTagName( 'img' ) as $img ) {
+			$src = $img->getAttribute( 'src' );
+			// Only include images stored in this site's media library.
+			if ( 0 !== strpos( $src, $site_url ) ) {
+				continue;
+			}
+			$images[] = $src;
+		}
+
+		return array_values( array_unique( $images ) );
+
 	}
 
 	/**
@@ -1216,8 +1343,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
 	 * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
 	 *
-	 * @param    array $arr  existing post array
-	 * @return   array
+	 * @param array $arr Existing post array.
+	 * @return array
 	 */
 	protected function toArrayCustom( $arr ) {
 

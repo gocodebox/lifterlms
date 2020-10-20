@@ -9,6 +9,7 @@
  * @since 3.37.17 Added voucher creation method.
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
  * @since 4.0.0 Added create_mock_session-data() class.
+ * @since [version] Disabled image sideloading during mock course generation.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -248,6 +249,10 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Generates a set of mock courses
+	 *
+	 * @since 3.7.3
+	 * @since [version] Disabled image sideloading during mock course generation.
+	 *
 	 * @param    integer    $num_courses   number of courses to generate
 	 * @param    integer    $num_sections  number of sections to generate for each course
 	 * @param    integer    $num_lessons   number of lessons to generate for each section
@@ -256,8 +261,6 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *                                     if you generate 3 lessons / section and 1 quiz / section the quiz
 	 *                                     will always be the 3rd lesson
 	 * @return   array 					   indexed array of course ids
-	 * @since    3.7.3
-	 * @version  3.7.3
 	 */
 	protected function generate_mock_courses( $num_courses = 1, $num_sections = 5, $num_lessons = 5, $num_quizzes = 1, $num_questions = 5 ) {
 
@@ -268,10 +271,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			$i++;
 		}
 
+		add_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
+
 		$gen = new LLMS_Generator( array( 'courses' => $courses ) );
 		$gen->set_generator( 'LifterLMS/BulkCourseGenerator' );
 		$gen->set_default_post_status( 'publish' );
 		$gen->generate();
+
+		remove_filter( 'llms_generator_is_image_sideloading_enabled', '__return_false' );
 		if ( ! $gen->is_error() ) {
 			return $gen->get_generated_courses();
 		}

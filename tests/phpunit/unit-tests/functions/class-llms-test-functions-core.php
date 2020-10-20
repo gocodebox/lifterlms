@@ -15,6 +15,7 @@
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
+ * @since [version] Add test for `llms_get_dom_document()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -175,6 +176,19 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->assertEquals( '3 minutes, 59 seconds', llms_get_date_diff( '2016-05-12 01:01:01', '2016-05-12 01:05:00' ) );
 		$this->assertEquals( '44 minutes, 33 seconds', llms_get_date_diff( '2016-05-12 01:01:01', '2016-05-12 01:45:34' ) );
 		$this->assertEquals( '44 minutes, 33 seconds', llms_get_date_diff( '2016-05-12 01:45:34', '2016-05-12 01:01:01' ) );
+
+	}
+
+	/**
+	 * Test llms_get_dom_document()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_dom_document() {
+
+		$this->assertTrue( llms_get_dom_document( 'mock string' ) instanceof DOMDocument );
 
 	}
 
