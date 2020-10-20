@@ -164,6 +164,40 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test the editable_roles() filter for users with multiple roles.
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_multiple_roles() {
+
+		extract( $this->create_mock_users() );
+
+		$all_roles = LLMS_Roles::get_roles();
+
+		$lms_manager = new WP_User( $lms_manager );
+		wp_set_current_user( $lms_manager );
+		$lms_manager_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		$instructor = new WP_User( $instructor );
+		wp_set_current_user( $instructor );
+		$instructor_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		$lms_manager_with_instructor_role = new WP_User( $lms_manager );
+		$lms_manager_with_instructor_role->add_role( 'instructor' );
+		wp_set_current_user( $lms_manager_with_instructor_role );
+		$lms_manager_with_instructor_role_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		// assert that lms_manager with instructor role has editable roles from both roles
+		foreach ( $lms_manager_editable_roles as $lms_manager_editable_role ) {
+			$this->assertContains( $lms_manager_editable_role, $lms_manager_with_instructor_role_editable_roles );
+		}
+		foreach ( $instructor_editable_roles as $instructor_editable_role ) {
+			$this->assertContains( $instructor_editable_role, $lms_manager_with_instructor_role_editable_roles );
+		}
+
+	}
+
 	public function test_student_crud_caps() {
 
 		$users = $this->create_mock_users();
