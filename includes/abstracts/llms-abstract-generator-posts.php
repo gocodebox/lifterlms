@@ -679,6 +679,8 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since [version]
 	 *
+	 * @link https://developer.wordpress.org/reference/hooks/http_request_host_is_external/ If exporting from a local site and importing into another local site, images *will not* be side loaded as a result of this condition in the WP Core
+	 *
 	 * @param int    $post_id WP_Post ID of the post where the image will be attached.
 	 * @param string $url     The image's URL.
 	 * @return string|int|WP_Error Returns a WP_Error on failure, the image's new URL when `$return` is "src", otherwise returns the image's attachment ID.
