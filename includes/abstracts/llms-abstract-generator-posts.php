@@ -783,12 +783,12 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$find     = array();
 		$replace  = array();
-		$curr_url = get_site_url();
+		$curr_url = parse_url( get_site_url(), PHP_URL_HOST );
 		$post_id  = $post->get( 'id' );
 		foreach ( $raw['_extras']['images'] as $src ) {
 
 			// Don't sideload images from this site.
-			if ( parse_url( $src, PHP_URL_HOST ) === parse_url( $src, PHP_URL_HOST ) ) {
+			if ( parse_url( $src, PHP_URL_HOST ) === $curr_url ) {
 				continue;
 			}
 
