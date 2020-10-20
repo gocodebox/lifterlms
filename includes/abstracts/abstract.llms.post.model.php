@@ -1211,7 +1211,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		/**
 		 * Filter the final post array created when converting the object to an array
 		 *
-		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course"m
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
 		 *
 		 * @since [version]
