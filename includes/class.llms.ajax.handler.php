@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.39.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -112,13 +112,13 @@ class LLMS_AJAX_Handler {
 	 * Retrieve a new instance of admin table class from a handler string.
 	 *
 	 * @since 3.37.15
+	 * @since [version] Don't require `LLMS_Admin_Reporting`, it's loaded automatically.
 	 *
 	 * @param string $handler Unprefixed handler class string. For example "Students" or "Course_Students".
 	 * @return object|false Instance of the admin table class or false if the class can't be found.
 	 */
 	protected static function get_admin_table_instance( $handler ) {
 
-		require_once 'admin/reporting/class.llms.admin.reporting.php';
 		LLMS_Admin_Reporting::includes();
 
 		$handler = 'LLMS_Table_' . $handler;

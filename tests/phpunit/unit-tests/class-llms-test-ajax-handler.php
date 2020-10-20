@@ -13,6 +13,18 @@
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
+	/**
+	 * Setup before class
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function setupBeforeClass() {
+		parent::setupBeforeClass();
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
+	}
+
 	public function setUp() {
 		parent::setUp();
 		add_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
