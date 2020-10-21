@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,6 +59,7 @@ class LLMS_Admin_Post_Types {
 	 *
 	 * @since Unknown.
 	 * @version 3.35.0 Fix l10n calls.
+	 * @since [version] Added `publicly_queryable` check for permalink and preview.
 	 *
 	 * @return array $messages
 	 */
@@ -86,13 +87,19 @@ class LLMS_Admin_Post_Types {
 			$obj  = get_post_type_object( $type );
 			$name = $obj->labels->singular_name;
 
-			$permalink    = get_permalink( $post->ID );
-			$preview_link = add_query_arg( 'preview', 'true', $permalink );
+			$permalink_html    = '';
+			$preview_link_html = '';
 
-			$link_format = ' <a href="%1$s">%2$s</a>.';
+			if ( $obj->publicly_queryable ) {
 
-			$permalink_html    = sprintf( $link_format, $permalink, sprintf( __( 'View %s', 'lifterlms' ), $name ) );
-			$preview_link_html = sprintf( $link_format, $permalink, sprintf( __( 'Preview %s', 'lifterlms' ), $name ) );
+				$permalink    = get_permalink( $post->ID );
+				$preview_link = add_query_arg( 'preview', 'true', $permalink );
+
+				$link_format = ' <a href="%1$s">%2$s</a>.';
+
+				$permalink_html    = sprintf( $link_format, $permalink, sprintf( __( 'View %s', 'lifterlms' ), $name ) );
+				$preview_link_html = sprintf( $link_format, $permalink, sprintf( __( 'Preview %s', 'lifterlms' ), $name ) );
+			}
 
 			$messages[ $type ] = array(
 				0  => '',
