@@ -186,16 +186,25 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		wp_set_current_user( $users['lms_manager'] );
 		$user = wp_get_current_user();
 		$user->add_role( 'instructor' );
-		$editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+		$lms_manager_instructor_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
 
 		// assert that lms_manager with instructor role has editable roles from both roles
 		foreach ( $lms_manager_editable_roles as $lms_manager_editable_role ) {
-			$this->assertContains( $lms_manager_editable_role, $editable_roles );
+			$this->assertContains( $lms_manager_editable_role, $lms_manager_instructor_editable_roles );
 		}
 		foreach ( $instructor_editable_roles as $instructor_editable_role ) {
-			$this->assertContains( $instructor_editable_role, $editable_roles );
+			$this->assertContains( $instructor_editable_role, $lms_manager_instructor_editable_roles );
 		}
 
+		wp_set_current_user( $users['admin'] );
+		$user = wp_get_current_user();
+		$user->add_role( 'instructor' );
+		$administrator_instructor_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		// assert that administrator with instructor role can edit all roles
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_instructor_editable_roles );
+		}
 	}
 
 	public function test_student_crud_caps() {

@@ -62,10 +62,14 @@ class LLMS_User_Permissions {
 
 		$lms_roles = self::get_editable_roles();
 
-		foreach ( $lms_roles as $role => $allowed_roles ) {
+		foreach ( $user->roles as $user_role ) {
+			if ( 'administrator' === $user_role ) {
+				return array_keys( $all_roles );
+			}
 
-			if ( in_array( $role, $user->roles, true ) ) {
+			$allowed_roles = $lms_roles[ $user_role ];
 
+			if ( ! is_null( $allowed_roles ) ) {
 				$roles = array_merge( $roles, $allowed_roles );
 			}
 		}
