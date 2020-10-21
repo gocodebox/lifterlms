@@ -81,10 +81,10 @@ class LLMS_Admin_Import {
 		$generated = $generator->get_generated_content();
 
 		if ( ! empty( $generated['course'] ) ) {
-			$msg .= '<li>'. sprintf( __( 'Imported courses: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['course'], 'post' ) ) . '</li>';
+			$msg .= '<li>' . sprintf( __( 'Imported courses: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['course'], 'post' ) ) . '</li>';
 		}
 		if ( ! empty( $generated['user'] ) ) {
-			$msg .= '<li>'. sprintf( __( 'Imported users: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['user'], 'user' ) ) . '</li>';
+			$msg .= '<li>' . sprintf( __( 'Imported users: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['user'], 'user' ) ) . '</li>';
 		}
 
 		$msg .= '</ul>';
