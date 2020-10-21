@@ -108,7 +108,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @since 3.16.11
 	 * @since 3.28.3 Add extra slashes around JSON strings.
 	 * @since 3.30.2 Skip JSON evaluation for non-string values; make publicly accessible.
-	 * @since [version] Moved from `LLMS_Generator`,
+	 * @since [version] Moved from `LLMS_Generator`.
 	 *
 	 * @param int   $post_id WP Post ID.
 	 * @param array $raw     Raw data.
@@ -140,6 +140,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @param int    $post_id WP_Post ID.
 	 * @param string $key     Meta key.
 	 * @param mixed  $val     Meta value.
+	 * @return void
 	 */
 	protected function add_custom_value( $post_id, $key, $val ) {
 
@@ -705,15 +706,14 @@ abstract class LLMS_Abstract_Generator_Posts {
 	}
 
 	/**
-	 * Set all metadata for a give post object
+	 * Set all metadata for a given post object
 	 *
-	 * This method will only set metdata for registered LLMS_Post_Model properties.
+	 * This method will only set metadata for registered LLMS_Post_Model properties.
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Post_Model $post An LLMS post object
-	 * @param array           $raw  Array of raw data
-	 *
+	 * @param LLMS_Post_Model $post An LLMS post object.
+	 * @param array           $raw  Array of raw data.
 	 * @return void
 	 */
 	protected function set_metadata( $post, $raw ) {
