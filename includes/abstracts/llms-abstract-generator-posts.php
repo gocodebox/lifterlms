@@ -218,8 +218,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *     @type string $title   Title of the reusable block.
 	 *     @type string $content Content of the reusable block.
 	 * }
-	 * @return false|WP_Error|int Returns `false` when the block already exists, an error object if an error is encountered creating the block, or
-	 *                            the new block's WP_Post ID as an integer on success.
+	 * @return bool|int The WP_Post ID of the new block on success or `false` on error.
 	 */
 	protected function create_reusable_block( $block_id, $block ) {
 
@@ -568,8 +567,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *     @type string $title   Title of the reusable block.
 	 *     @type string $content Content of the reusable block.
 	 * }
-	 * @return WP_Error|int An error object if an error is encountered creating the block or
-	 *                      the new block's WP_Post ID as an integer on success.
+	 * @return int WP_Post ID on success or `0 on error.
 	 */
 	protected function insert_resuable_block( $block_id, $block ) {
 
@@ -582,7 +580,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 			)
 		);
 
-		if ( ! is_wp_error( $id ) ) {
+		if ( $id ) {
 
 			$this->reusable_blocks[ $block_id ] = $id;
 
