@@ -528,7 +528,10 @@ abstract class LLMS_Abstract_Generator_Posts {
 		// Importing blocks is disabled.
 		if ( ! $this->is_reusable_block_importing_enabled() ) {
 			return null;
-		} elseif ( empty( $raw['_extras']['blocks'] ) ) {
+		}
+
+		// No blocks to import.
+		if ( empty( $raw['_extras']['blocks'] ) ) {
 			return false;
 		}
 
@@ -775,7 +778,10 @@ abstract class LLMS_Abstract_Generator_Posts {
 		// Sideloading is disabled.
 		if ( ! $this->is_image_sideloading_enabled() ) {
 			return null;
-		} elseif ( empty( $raw['_extras']['images'] ) ) {
+		}
+
+		// No images to sideload.
+		if ( empty( $raw['_extras']['images'] ) ) {
 			return false;
 		}
 
