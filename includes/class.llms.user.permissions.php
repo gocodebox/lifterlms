@@ -72,7 +72,7 @@ class LLMS_User_Permissions {
 
 		$roles = array_unique( $roles );
 
-		foreach ( $all_roles as $role ) {
+		foreach ( array_keys( $all_roles ) as $role ) {
 			if ( ! in_array( $role, $roles, true ) ) {
 				unset( $all_roles[ $role ] );
 			}

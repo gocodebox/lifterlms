@@ -175,7 +175,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 		$users = $this->create_mock_users();
 
-		$all_roles = LLMS_Roles::get_roles();
+		$all_roles = wp_roles()->roles;
 
 		wp_set_current_user( $users['lms_manager'] );
 		$lms_manager_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
