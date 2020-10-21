@@ -55,7 +55,7 @@ if ( $cert->can_user_manage() ) {
 			<?php endif; ?>
 
 			<?php if ( $is_sharing_enabled ) : ?>
-				<input disabled="disabled" name="llms_sharing_permalink" value="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
+				<input readonly="readonly" id="llms_sharing_permalink" value="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
 			<?php endif; ?>
 
 			<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
@@ -65,3 +65,12 @@ if ( $cert->can_user_manage() ) {
 	<?php
 }
 ?>
+<script type="text/javascript">
+	window.onload = function() {
+		if (document.getElementById( 'llms_sharing_permalink' )){
+			document.getElementById( 'llms_sharing_permalink' ).addEventListener( 'focus', e => {
+				e.target.select();
+			} );
+		}
+	};
+</script>
