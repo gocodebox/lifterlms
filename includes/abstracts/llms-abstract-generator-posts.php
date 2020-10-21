@@ -779,14 +779,33 @@ abstract class LLMS_Abstract_Generator_Posts {
 			return false;
 		}
 
+		/**
+		 * List of hostnames from which sideloading is explicitly disabled
+		 *
+		 * If the source url of an image is from a host in this list, the image will not be sideloaded
+		 * during generation.
+		 *
+		 * By default the current site is included in the blocklist ensuring that images aren't
+		 * sideloaded into the same site.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $blocked_hosts Array of hostnames.
+		 */
+		$blocked_hosts = apply_filters(
+			'llms_generator_sideload_hosts_blocklist',
+			array(
+				parse_url( get_site_url(), PHP_URL_HOST ),
+			)
+		);
+
+		$post_id  = $post->get( 'id' );
 		$find     = array();
 		$replace  = array();
-		$curr_url = parse_url( get_site_url(), PHP_URL_HOST );
-		$post_id  = $post->get( 'id' );
 		foreach ( $raw['_extras']['images'] as $src ) {
 
-			// Don't sideload images from this site.
-			if ( parse_url( $src, PHP_URL_HOST ) === $curr_url ) {
+			// Don't sideload images from blocked hosts.
+			if ( in_array( parse_url( $src, PHP_URL_HOST ), $blocked_hosts, true ) ) {
 				continue;
 			}
 
