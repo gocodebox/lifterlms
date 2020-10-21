@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -212,6 +212,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the admin panel
 	 *
 	 * @since 4.0.0
+	 * @since [version] Always load `LLMS_Admin_Reporting`.
 	 *
 	 * @return void
 	 */
@@ -261,6 +262,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.admin.quiz.attempts.php';
 
 		// Reporting.
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
 
 		// Load setup wizard conditionally.

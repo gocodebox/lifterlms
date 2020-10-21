@@ -15,11 +15,13 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.0.0
+	 * @since [version] Add `LLMS_Admin_Reporting` class.
 	 *
 	 * @return void
 	 */
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 	}
 
