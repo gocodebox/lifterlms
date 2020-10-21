@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -59,6 +59,7 @@ class LLMS_Admin_Post_Types {
 	 *
 	 * @since Unknown.
 	 * @version 3.35.0 Fix l10n calls.
+	 * @since [version] added publicly_queryable check for permalink and perview.
 	 *
 	 * @return array $messages
 	 */
