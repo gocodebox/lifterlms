@@ -115,17 +115,42 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @return void
 	 */
 	public function add_custom_values( $post_id, $raw ) {
-		if ( isset( $raw['custom'] ) ) {
-			foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
-				foreach ( $custom_vals as $val ) {
-					// If $val is a JSON string, add slashes before saving.
-					if ( is_string( $val ) && null !== json_decode( $val, true ) ) {
-						$val = wp_slash( $val );
-					}
-					add_post_meta( $post_id, $custom_key, maybe_unserialize( $val ) );
-				}
+
+		// No custom data, return early.
+		if ( empty( $raw['custom'] ) ) {
+			return;
+		}
+
+		foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
+			foreach ( $custom_vals as $val ) {
+				$this->add_custom_value( $post_id, $custom_key, $val );
 			}
 		}
+	}
+
+	/**
+	 * Add a "custom" post meta data for a given post
+	 *
+	 * Automatically slashes JSON data when supplied.
+	 *
+	 * Automatically unserializes serialized data so `add_post_meta()` can re-serialize.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id WP_Post ID.
+	 * @param string $key     Meta key.
+	 * @param mixed  $val     Meta value.
+	 * @return void
+	 */
+	protected function add_custom_value( $post_id, $key, $val ) {
+
+		// If $val is a JSON string, add slashes before saving.
+		if ( is_string( $val ) && null !== json_decode( $val, true ) ) {
+			$val = wp_slash( $val );
+		}
+
+		add_post_meta( $post_id, $key, maybe_unserialize( $val ) );
+
 	}
 
 	/**
@@ -147,14 +172,11 @@ abstract class LLMS_Abstract_Generator_Posts {
 			throw new Exception( sprintf( __( 'The class "%s" does not exist.', 'lifterlms' ), $class_name ), self::ERROR_INVALID_POST );
 		}
 
-		// Retrieve author ID from raw.
-		$author_id = $this->get_author_id_from_raw( $raw, $author_id );
-
 		// Insert the object.
 		$post = new $class_name(
 			'new',
 			array(
-				'post_author'   => $author_id,
+				'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
 				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
@@ -174,22 +196,9 @@ abstract class LLMS_Abstract_Generator_Posts {
 		// Don't set these values again.
 		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
 
-		// Set featured image.
-		if ( isset( $raw['featured_image'] ) ) {
-			$this->set_featured_image( $raw['featured_image'], $post->get( 'id' ) );
-		}
-
-		// Set all metadata.
-		foreach ( array_keys( $post->get_properties() ) as $key ) {
-			if ( isset( $raw[ $key ] ) ) {
-				$post->set( $key, $raw[ $key ] );
-			}
-		}
-
-		// Add custom meta.
+		$this->set_metadata( $post, $raw );
+		$this->set_featured_image( $raw, $post->get( 'id' ) );
 		$this->add_custom_values( $post->get( 'id' ), $raw );
-
-		// Handle "extras".
 		$this->sideload_images( $post, $raw );
 		$this->handle_reusable_blocks( $post, $raw );
 
@@ -209,8 +218,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 *     @type string $title   Title of the reusable block.
 	 *     @type string $content Content of the reusable block.
 	 * }
-	 * @return false|WP_Error|int Returns `false` when the block already exists, an error object if an error is encountered creating the block, or
-	 *                            the new block's WP_Post ID as an integer on success.
+	 * @return bool|int The WP_Post ID of the new block on success or `false` on error.
 	 */
 	protected function create_reusable_block( $block_id, $block ) {
 
@@ -226,29 +234,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 				return false;
 			}
 
-			$id = wp_insert_post(
-				array(
-					'post_content' => $block['content'],
-					'post_title'   => $block['title'],
-					'post_type'    => 'wp_block',
-					'post_status'  => 'publish',
-				)
-			);
-
-			if ( $id ) {
-				$this->reusable_blocks[ $block_id ] = $id;
-
-				/**
-				 * Triggered when a new reusable block is created during an import
-				 *
-				 * @since [version]
-				 *
-				 * @param int   $id    WP_Post ID of the block.
-				 * @param array $block Array of block information from the import.
-				 */
-				do_action( 'llms_generator_new_reusable_block', $id, $block );
-
-			}
+			$id = $this->insert_resuable_block( $block_id, $block );
 		}
 
 		// Don't return 0 if `wp_insert_post()` fails.
@@ -544,30 +530,76 @@ abstract class LLMS_Abstract_Generator_Posts {
 			return null;
 		}
 
-		if ( ! empty( $raw['_extras']['blocks'] ) ) {
+		// No blocks to import.
+		if ( empty( $raw['_extras']['blocks'] ) ) {
+			return false;
+		}
 
-			$find    = array();
-			$replace = array();
-			$post_id = $post->get( 'id' );
-			foreach ( $raw['_extras']['blocks'] as $block_id => $block ) {
+		$find    = array();
+		$replace = array();
+		foreach ( $raw['_extras']['blocks'] as $block_id => $block ) {
 
-				$new_id = $this->create_reusable_block( $block_id, $block );
-				if ( ! is_wp_error( $new_id ) && is_numeric( $new_id ) ) {
-					$find[]    = sprintf( '<!-- wp:block {"ref":%d}', absint( $block_id ) );
-					$replace[] = sprintf( '<!-- wp:block {"ref":%d}', $new_id );
-				}
-			}
-
-			if ( $find && $replace ) {
-				$args = array(
-					'ID'           => $post->get( 'id' ),
-					'post_content' => str_replace( $find, $replace, $post->get( 'content', true ) ),
-				);
-				return wp_update_post( $args ) ? true : false;
+			$new_id = $this->create_reusable_block( $block_id, $block );
+			if ( ! is_wp_error( $new_id ) && is_numeric( $new_id ) ) {
+				$find[]    = sprintf( '<!-- wp:block {"ref":%d}', absint( $block_id ) );
+				$replace[] = sprintf( '<!-- wp:block {"ref":%d}', $new_id );
 			}
 		}
 
+		if ( $find && $replace ) {
+			$args = array(
+				'ID'           => $post->get( 'id' ),
+				'post_content' => str_replace( $find, $replace, $post->get( 'content', true ) ),
+			);
+			return wp_update_post( $args ) ? true : false;
+		}
+
 		return false;
+
+	}
+
+	/**
+	 * Insert a reusable block into the database
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $block_id WP_Post ID of the block being imported. This will be the ID as found on the original site.
+	 * @param array $block    {
+	 *     Array of block data.
+	 *
+	 *     @type string $title   Title of the reusable block.
+	 *     @type string $content Content of the reusable block.
+	 * }
+	 * @return int WP_Post ID on success or `0 on error.
+	 */
+	protected function insert_resuable_block( $block_id, $block ) {
+
+		$id = wp_insert_post(
+			array(
+				'post_content' => $block['content'],
+				'post_title'   => $block['title'],
+				'post_type'    => 'wp_block',
+				'post_status'  => 'publish',
+			)
+		);
+
+		if ( $id ) {
+
+			$this->reusable_blocks[ $block_id ] = $id;
+
+			/**
+			 * Triggered when a new reusable block is created during an import
+			 *
+			 * @since [version]
+			 *
+			 * @param int   $id    WP_Post ID of the block.
+			 * @param array $block Array of block information from the import.
+			 */
+			do_action( 'llms_generator_new_reusable_block', $id, $block );
+
+		}
+
+		return $id;
 
 	}
 
@@ -649,7 +681,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$image_url = ( is_array( $url_or_raw ) && ! empty( $url_or_raw['featured_image'] ) ) ? $url_or_raw['featured_image'] : $url_or_raw;
 
-		if ( $image_url ) {
+		if ( $image_url && is_string( $image_url ) ) {
 
 			$id = $this->sideload_image( $post_id, $image_url, 'id' );
 			if ( ! is_wp_error( $id ) ) {
@@ -672,6 +704,28 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 */
 	public function set_default_post_status( $status ) {
 		$this->default_post_status = $status;
+	}
+
+	/**
+	 * Set all metadata for a given post object
+	 *
+	 * This method will only set metadata for registered LLMS_Post_Model properties.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Post_Model $post An LLMS post object.
+	 * @param array           $raw  Array of raw data.
+	 * @return void
+	 */
+	protected function set_metadata( $post, $raw ) {
+
+		// Set all metadata.
+		foreach ( array_keys( $post->get_properties() ) as $key ) {
+			if ( isset( $raw[ $key ] ) ) {
+				$post->set( $key, $raw[ $key ] );
+			}
+		}
+
 	}
 
 	/**
@@ -726,30 +780,51 @@ abstract class LLMS_Abstract_Generator_Posts {
 			return null;
 		}
 
-		if ( ! empty( $raw['_extras']['images'] ) ) {
+		// No images to sideload.
+		if ( empty( $raw['_extras']['images'] ) ) {
+			return false;
+		}
 
-			$find     = array();
-			$replace  = array();
-			$curr_url = get_site_url();
-			$post_id  = $post->get( 'id' );
-			foreach ( $raw['_extras']['images'] as $src ) {
+		/**
+		 * List of hostnames from which sideloading is explicitly disabled
+		 *
+		 * If the source url of an image is from a host in this list, the image will not be sideloaded
+		 * during generation.
+		 *
+		 * By default the current site is included in the blocklist ensuring that images aren't
+		 * sideloaded into the same site.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $blocked_hosts Array of hostnames.
+		 */
+		$blocked_hosts = apply_filters(
+			'llms_generator_sideload_hosts_blocklist',
+			array(
+				parse_url( get_site_url(), PHP_URL_HOST ),
+			)
+		);
 
-				// Don't sideload images from this site.
-				if ( 0 === strpos( $src, $curr_url ) ) {
-					continue;
-				}
+		$post_id  = $post->get( 'id' );
+		$find     = array();
+		$replace  = array();
+		foreach ( $raw['_extras']['images'] as $src ) {
 
-				$new_src = $this->sideload_image( $post_id, $src );
-				if ( ! is_wp_error( $new_src ) ) {
-					$find[]    = $src;
-					$replace[] = $new_src;
-				}
+			// Don't sideload images from blocked hosts.
+			if ( in_array( parse_url( $src, PHP_URL_HOST ), $blocked_hosts, true ) ) {
+				continue;
 			}
 
-			if ( $find && $replace ) {
-				$content = str_replace( $find, $replace, $post->get( 'content', true ) );
-				return $post->set( 'content', $content );
+			$new_src = $this->sideload_image( $post_id, $src );
+			if ( ! is_wp_error( $new_src ) ) {
+				$find[]    = $src;
+				$replace[] = $new_src;
 			}
+		}
+
+		if ( $find && $replace ) {
+			$content = str_replace( $find, $replace, $post->get( 'content', true ) );
+			return $post->set( 'content', $content );
 		}
 
 		return false;
