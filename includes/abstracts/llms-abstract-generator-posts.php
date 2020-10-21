@@ -678,7 +678,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 
 		$image_url = ( is_array( $url_or_raw ) && ! empty( $url_or_raw['featured_image'] ) ) ? $url_or_raw['featured_image'] : $url_or_raw;
 
-		if ( is_string( $image_url ) ) {
+		if ( $image_url && is_string( $image_url ) ) {
 
 			$id = $this->sideload_image( $post_id, $image_url, 'id' );
 			if ( ! is_wp_error( $id ) ) {
