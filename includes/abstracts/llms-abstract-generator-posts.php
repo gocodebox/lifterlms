@@ -867,13 +867,13 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
 	 * @since [version] Moved from `LLMS_Generator` (and deprecated) for backwards compatibility.
-	 * @deprecated [version] LLMS_Generator_Courses::increment() is deprecated with no replacement.
+	 * @deprecated [version] LLMS_Abstract_Generator_Posts::increment() is deprecated with no replacement.
 	 *
 	 * @param string $deprecated Deprecated.
 	 * @return void
 	 */
 	public function increment( $deprecated ) {
-		llms_deprecated_function( 'LLMS_Generator::increment()', '[version]' );
+		llms_deprecated_function( 'LLMS_Abstract_Generator_Posts::increment()', '[version]' );
 	}
 
 }
