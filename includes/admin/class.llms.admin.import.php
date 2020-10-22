@@ -41,7 +41,7 @@ class LLMS_Admin_Import {
 	 * @since [version]
 	 *
 	 * @param int[]  $ids  Array of object IDs. Either WP_Post IDs or WP_User IDs.
-	 * @param string $type Object types. Either "post" or "user".
+	 * @param string $type Object's type. Either "post" or "user".
 	 * @return string A comma-separated list of HTML anchor tags.
 	 */
 	protected function get_generated_content_list( $ids, $type ) {
@@ -81,9 +81,11 @@ class LLMS_Admin_Import {
 		$generated = $generator->get_generated_content();
 
 		if ( ! empty( $generated['course'] ) ) {
+			// Translators: %s = comma-separated list of anchors to the imported courses.
 			$msg .= '<li>' . sprintf( __( 'Imported courses: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['course'], 'post' ) ) . '</li>';
 		}
 		if ( ! empty( $generated['user'] ) ) {
+			// Translators: %s = comma-separated list of anchors to the imported users.
 			$msg .= '<li>' . sprintf( __( 'Imported users: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['user'], 'user' ) ) . '</li>';
 		}
 
