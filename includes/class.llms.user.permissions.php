@@ -67,10 +67,8 @@ class LLMS_User_Permissions {
 				return array_keys( $all_roles );
 			}
 
-			$allowed_roles = $lms_roles[ $user_role ];
-
-			if ( ! is_null( $allowed_roles ) ) {
-				$roles = array_merge( $roles, $allowed_roles );
+			if ( isset( $lms_roles[ $user_role ] ) ) {
+				$roles = array_merge( $roles, $lms_roles[ $user_role ] );
 			}
 		}
 
