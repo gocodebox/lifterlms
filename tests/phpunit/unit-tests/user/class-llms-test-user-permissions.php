@@ -165,6 +165,34 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the editable_roles() filter for users with single roles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_single_role() {
+
+		$users = $this->create_mock_users();
+
+		$all_roles = wp_roles()->roles;
+
+		wp_set_current_user( $users['assistant'] );
+		$assistant_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		// assert that assistants cannot edit any roles
+		$this->assertEmpty( $assistant_editable_roles );
+
+		wp_set_current_user( $users['admin'] );
+		$administrator_editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) );
+
+		// assert that administrator can edit all roles
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_editable_roles );
+		}
+	}
+
+	/**
 	 * Test the editable_roles() filter for users with multiple roles.
 	 *
 	 * @since [version]
