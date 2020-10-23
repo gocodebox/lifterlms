@@ -60,22 +60,25 @@ class LLMS_User_Permissions {
 
 		$user = wp_get_current_user();
 
-		$lms_roles = self::get_editable_roles();
+		$editable_roles = self::get_editable_roles();
 
 		foreach ( $user->roles as $user_role ) {
 			if ( 'administrator' === $user_role ) {
 				return $all_roles;
 			}
 
-			if ( isset( $lms_roles[ $user_role ] ) ) {
-				$roles = array_merge( $roles, $lms_roles[ $user_role ] );
+			if ( isset( $editable_roles[ $user_role ] ) ) {
+				$roles = array_merge( $roles, $editable_roles[ $user_role ] );
 			}
 		}
 
 		$roles = array_unique( $roles );
 
+		$llms_roles = array_keys( LLMS_Roles::get_roles() );
+
 		foreach ( array_keys( $all_roles ) as $role ) {
-			if ( ! in_array( $role, $roles, true ) ) {
+			// only filter out LLMS roles.
+			if ( ! in_array( $role, $roles, true ) && in_array( $role, $llms_roles, true ) ) {
 				unset( $all_roles[ $role ] );
 			}
 		}
