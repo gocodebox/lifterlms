@@ -64,7 +64,7 @@ class LLMS_User_Permissions {
 
 		foreach ( $user->roles as $user_role ) {
 			if ( 'administrator' === $user_role ) {
-				return array_keys( $all_roles );
+				return $all_roles;
 			}
 
 			if ( isset( $lms_roles[ $user_role ] ) ) {
