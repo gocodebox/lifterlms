@@ -9,6 +9,7 @@
  *
  * @since 3.35.0
  * @since 3.37.8 Update path to assets directory.
+ * @since [version] Test success message generation.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -64,6 +65,37 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 			'error' => $err,
 			'size' => filesize( $file ),
 		);
+
+	}
+
+	/**
+	 * Test get_success_message()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_success_message() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$generator = new LLMS_Generator( array() );
+		$course = $this->factory->post->create_many( 2, array( 'post_type' => 'course' ) );
+		$user = $this->factory->user->create_many( 1 );
+		LLMS_Unit_Test_Util::set_private_property( $generator, 'generated', compact( 'course', 'user' ) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->import, 'get_success_message', array( $generator ) );
+
+		$this->assertStringContains( 'Import Successful!', $res );
+
+		foreach( $course as $id ) {
+			$this->assertStringContains( esc_url( get_edit_post_link( $id ) ), $res );
+			$this->assertStringContains( get_the_title( $id ), $res );
+		}
+
+		$user = new WP_User( $user[0] );
+		$this->assertStringContains( esc_url( get_edit_user_link( $user->ID ) ), $res );
+		$this->assertStringContains( $user->display_name, $res );
 
 	}
 
@@ -238,6 +270,19 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 		$this->mock_file_upload();
 
 		$this->assertTrue( $this->import->upload_import() );
+
+	}
+
+	/**
+	 * Test output() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output() {
+
+		$this->assertOutputContains( '<div class="wrap lifterlms llms-import-export">', array( $this->import, 'output' ) );
 
 	}
 
