@@ -73,6 +73,7 @@ class LLMS_Admin_Notices {
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.3.0 - added "flash" option
+	 * @version  [version] - added "dismiss_forever" option
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
@@ -95,6 +96,7 @@ class LLMS_Admin_Notices {
 			array(
 				'dismissible'      => true,
 				'dismiss_for_days' => 7,
+				'dismiss_forever'  => false, // If true, will delete the notice after hide it.
 				'flash'            => false, // If true, will delete the notice after displaying it.
 				'html'             => '',
 				'remind_in_days'   => 7,
@@ -126,7 +128,7 @@ class LLMS_Admin_Notices {
 		if ( $notice ) {
 			if ( 'remind' === $trigger && $notice['remindable'] ) {
 				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : 0;
-			} elseif ( 'hide' === $trigger && $notice['dismissible'] ) {
+			} elseif ( 'hide' === $trigger && $notice['dismissible'] && ! $notice['dismiss_forever'] ) {
 				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
 			} else {
 				$delay = 0;
