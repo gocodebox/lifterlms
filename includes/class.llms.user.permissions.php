@@ -56,6 +56,10 @@ class LLMS_User_Permissions {
 	 */
 	public function editable_roles( $all_roles ) {
 
+		if ( is_multisite() && is_super_admin() ) {
+			return $all_roles;
+		}
+
 		$roles = array();
 
 		$user = wp_get_current_user();
