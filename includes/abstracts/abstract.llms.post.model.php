@@ -446,7 +446,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// if we found a valid, apply default llms get get filter and return the value.
 		if ( isset( $val ) ) {
 
-			if ( ! $raw && 'content' !== $key ) {
+			if ( ! $raw && 'content' !== $key && 'name' !== $key ) {
 				$val = $this->scrub( $key, $val );
 			}
 
