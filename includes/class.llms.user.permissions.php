@@ -82,11 +82,8 @@ class LLMS_User_Permissions {
 
 		$roles = array_unique( $roles );
 
-		$llms_roles = array_keys( LLMS_Roles::get_roles() );
-
 		foreach ( array_keys( $all_roles ) as $role ) {
-			// Only filter out LLMS roles.
-			if ( ! in_array( $role, $roles, true ) && in_array( $role, $llms_roles, true ) ) {
+			if ( ! in_array( $role, $roles, true ) ) {
 				unset( $all_roles[ $role ] );
 			}
 		}
