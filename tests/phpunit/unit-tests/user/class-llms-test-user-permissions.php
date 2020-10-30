@@ -182,17 +182,17 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		wp_set_current_user( $users['assistant'] );
 		$assistant_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
 
-		// assert that assistants cannot edit any LLMS roles
+		// Assert that assistants cannot edit any LLMS roles
 		foreach ( array_keys( $llms_roles ) as $llms_role ) {
 			$this->assertNotContains( $llms_role, $assistant_editable_roles );
 		}
-		// assert that assistants can edit external roles
+		// Assert that assistants can edit external roles
 		$this->assertNotEmpty( $assistant_editable_roles );
 
 		wp_set_current_user( $users['admin'] );
 		$administrator_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
 
-		// assert that administrator can edit all roles
+		// Assert that administrator can edit all roles
 		foreach ( array_keys( $all_roles ) as $role ) {
 			$this->assertContains( $role, $administrator_editable_roles );
 		}
@@ -222,7 +222,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		$user->add_role( 'instructor' );
 		$lms_manager_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
 
-		// assert that lms_manager with instructor role has editable roles from both roles
+		// Assert that lms_manager with instructor role has editable roles from both roles
 		foreach ( $lms_manager_editable_roles as $lms_manager_editable_role ) {
 			$this->assertContains( $lms_manager_editable_role, $lms_manager_instructor_editable_roles );
 		}
@@ -235,7 +235,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		$user->add_role( 'instructor' );
 		$administrator_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
 
-		// assert that administrator with instructor role can edit all roles
+		// Assert that administrator with instructor role can edit all roles
 		foreach ( array_keys( $all_roles ) as $role ) {
 			$this->assertContains( $role, $administrator_instructor_editable_roles );
 		}
