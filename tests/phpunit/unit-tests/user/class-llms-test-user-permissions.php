@@ -177,17 +177,31 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 		$all_roles = wp_roles()->roles;
 
-		$llms_roles = LLMS_Roles::get_roles();
+		$editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'get_editable_roles');
+
+		wp_set_current_user( $users['lms_manager'] );
+		$lms_manager_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that lms_managers can edit mapped roles
+		foreach ( $editable_roles['lms_manager'] as $editable_role ) {
+			$this->assertContains( $editable_role, $lms_manager_editable_roles );
+		}
+
+		wp_set_current_user( $users['instructor'] );
+		$instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that instructor can edit mapped roles
+		foreach ( $editable_roles['instructor'] as $editable_role ) {
+			$this->assertContains( $editable_role, $instructor_editable_roles );
+		}
 
 		wp_set_current_user( $users['assistant'] );
 		$assistant_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
 
-		// Assert that assistants cannot edit any LLMS roles
-		foreach ( array_keys( $llms_roles ) as $llms_role ) {
-			$this->assertNotContains( $llms_role, $assistant_editable_roles );
+		// Assert that assistants can edit all roles
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $assistant_editable_roles );
 		}
-		// Assert that assistants can edit external roles
-		$this->assertNotEmpty( $assistant_editable_roles );
 
 		wp_set_current_user( $users['admin'] );
 		$administrator_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );

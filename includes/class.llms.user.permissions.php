@@ -69,6 +69,10 @@ class LLMS_User_Permissions {
 
 		$editable_roles = self::get_editable_roles();
 
+		if ( empty( array_intersect( $user_roles, array_keys( $editable_roles ) ) ) ) {
+			return $all_roles;
+		}
+
 		$roles = array();
 		foreach ( $user_roles as $user_role ) {
 			if ( isset( $editable_roles[ $user_role ] ) ) {
