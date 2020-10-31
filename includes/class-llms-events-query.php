@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * Identify the Query
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'events';
 
@@ -28,6 +28,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a query
 	 *
 	 * @since 3.36.0
+	 * @since [version] Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_events_query_default_args'`.
 	 *
 	 * @return array
 	 */
@@ -56,7 +57,15 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			return $args;
 		}
 
-		return apply_filters( $this->get_filter( 'default_args' ), $args, $this );
+		/**
+		 * Filters the events query default args
+		 *
+		 * @since 3.36.0
+		 *
+		 * @param array             $args         Array of default arguments to set up the query with.
+		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
+		 */
+		return apply_filters( 'llms_events_query_default_args', $args, $this );
 
 	}
 
@@ -64,6 +73,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Retrieve an array of LLMS_Event objects for the given result set returned by the query
 	 *
 	 * @since 3.36.0
+	 * @since [version] Drop usage of `$this->get_filter('get_events')` in favor of `'llms_events_query_get_events'`.
 	 *
 	 * @return array
 	 */
@@ -83,7 +93,15 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			return $events;
 		}
 
-		return apply_filters( $this->get_filter( 'get_events' ), $events, $this );
+		/**
+		 * Filters the list of events
+		 *
+		 * @since 3.36.0
+		 *
+		 * @param LLMS_Event[]      $events       Array of LLMS_Event instances.
+		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
+		 */
+		return apply_filters( 'llms_events_query_get_events', $events, $this );
 
 	}
 
@@ -96,7 +114,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 */
 	protected function parse_args() {
 
-		// sanitize post & user ids.
+		// Sanitize post & user ids.
 		foreach ( array( 'actor', 'actor_not_in', 'object', 'object_not_in', 'include', 'exclude' ) as $key ) {
 			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
 		}
@@ -117,6 +135,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 *
 	 * @since 3.36.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -124,7 +143,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		return "SELECT SQL_CALC_FOUND_ROWS id
+		return "SELECT {$this->sql_select_columns( 'id' )}
 				FROM {$wpdb->prefix}lifterlms_events
 				{$this->sql_where()}
 				{$this->sql_orderby()}
@@ -136,6 +155,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * SQL "where" clause for the query
 	 *
 	 * @since 3.36.0
+	 * @since [version] Drop usage of `$this->get_filter('where')` in favor of `'llms_events_query_where'`.
 	 *
 	 * @return string
 	 */
@@ -173,7 +193,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			}
 		}
 
-		// matching fields.
+		// Matching fields.
 		$matching = array( 'object_type', 'event_type', 'event_action' );
 		foreach ( $matching as $key ) {
 			$val = $this->get( $key );
@@ -182,7 +202,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			}
 		}
 
-		// date fields.
+		// Date fields.
 		$before = $this->get( 'date_before' );
 		if ( $before ) {
 			$sql .= $wpdb->prepare( ' AND date < %s', $before );
@@ -197,7 +217,15 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			return $sql;
 		}
 
-		return apply_filters( $this->get_filter( 'where' ), $sql, $this );
+		/**
+		 * Filters the query WHERE clause
+		 *
+		 * @since 3.36.0
+		 *
+		 * @param string            $sql          The WHERE clause of the query.
+		 * @param LLMS_Events_Query $events_query Instance of LLMS_Events_Query.
+		 */
+		return apply_filters( 'llms_events_query_where', $sql, $this );
 
 	}
 
