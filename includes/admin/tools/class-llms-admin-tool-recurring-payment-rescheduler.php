@@ -148,7 +148,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		global $wpdb;
 
 		$orders = $wpdb->get_results(
-		"SELECT SQL_CALC_FOUND_ROWS p.ID
+			"SELECT SQL_CALC_FOUND_ROWS p.ID
 			   FROM {$wpdb->posts} AS p
 		  LEFT JOIN {$wpdb->postmeta} AS m
 			     ON p.ID = m.post_ID
