@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Tools/Classes
  *
  * @since 4.6.0
- * @version 4.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,20 +30,22 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
 	 * @since 4.6.0
+	 * @since [version] Modified language and use count from `FOUND_ROWS()`.
 	 *
 	 * @return string
 	 */
 	protected function get_description() {
 
-		$count = count( $this->get_orders() );
+		$orders = $this->get_orders();
+		$count  = wp_cache_get( sprintf( '%s-total-results', $this->id ), 'llms_tool_data' );
 
-		$desc  = __( 'Schedule recurring payment actions for orders which have not had a recurring payment action scheduled.', 'lifterlms' );
+		$desc  = __( 'Check active recurring orders to ensure their recurring payment action is properly scheduled for the next payment. If a recurring payment is due and not scheduled it will be rescheduled.', 'lifterlms' );
 		$desc .= ' ';
 		// Translators: %d = the number of pending batches.
 		$desc .= sprintf(
 			_n(
-				'There is currently %d order that will have a payment rescheduled.',
-				'There are currently %d orders that will have their payments rescheduled.',
+				'There is %d order that will be checked.',
+				'There are %d orders that will be checked in batches of 50.',
 				$count,
 				'lifterlms'
 			),
@@ -104,6 +106,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * and expiration action based on its existing calculated order data.
 	 *
 	 * @since 4.6.0
+	 * @since [version] Set `plan_ended` metadata for orders with an ended plan and don't attempt to process them.
 	 *
 	 * @return int[] Returns an array of WP_Post IDs for orders successfully rescheduled by the method.
 	 */
@@ -113,6 +116,11 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		foreach ( $this->get_orders() as $id ) {
 			$order = llms_get_post( $id );
+			$next  = $order->get_next_payment_due_date();
+			if ( is_wp_error( $next ) && 'plan-ended' === $next->get_error_code() ) {
+				$order->set( 'plan_ended', 'yes' );
+				continue;
+			}
 			$order->maybe_schedule_payment( false );
 			$order->maybe_schedule_expiration();
 			if ( $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) ) {
@@ -121,6 +129,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		}
 
 		wp_cache_delete( $this->id, 'llms_tool_data' );
+		wp_cache_delete( sprintf( '%s-total-results', $this->id ), 'llms_tool_data' );
 
 		return $orders;
 
@@ -130,6 +139,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * Perform a DB query for orders to be handled by the tool
 	 *
 	 * @since 4.6.0
+	 * @since [version] Added `SQL_CALC_FOUND_ROWS` and improved query to exclude results with a completed payment plan.
 	 *
 	 * @return object[]
 	 */
@@ -137,10 +147,13 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 
 		global $wpdb;
 
-		return $wpdb->get_results(
-			"SELECT p.ID
+		$orders = $wpdb->get_results(
+		"SELECT SQL_CALC_FOUND_ROWS p.ID
 			   FROM {$wpdb->posts} AS p
-	      LEFT JOIN {$wpdb->prefix}actionscheduler_actions AS a
+		  LEFT JOIN {$wpdb->postmeta} AS m
+			     ON p.ID = m.post_ID
+			    AND m.meta_key = '_llms_plan_ended'
+		  LEFT JOIN {$wpdb->prefix}actionscheduler_actions AS a
 			     ON a.args   = CONCAT( '{\"order_id\":', p.ID, '}' )
 			    AND a.hook   = 'llms_charge_recurring_payment'
 			    AND a.status = 'pending'
@@ -148,9 +161,15 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 			    AND p.post_type   = 'llms_order'
 			    AND p.post_status = 'llms-active'
 			    AND a.action_id IS NULL
-			  LIMIT 100
+			    AND m.meta_value IS NULL
+		   ORDER BY p.ID ASC
+			  LIMIT 50
 			;"
 		); // no-cache ok -- Caching implemented in `get_orders()`.
+
+		wp_cache_set( sprintf( '%s-total-results', $this->id ), $wpdb->get_var( 'SELECT FOUND_ROWS()' ), 'llms_tool_data' );
+
+		return $orders;
 
 	}
 
