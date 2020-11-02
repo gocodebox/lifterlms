@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -205,7 +205,7 @@ class LLMS_Sessions {
 	 * in the last 30 minutes.
 	 *
 	 * @since 3.36.0
-	 * @since [version] When retrieving the last event, instantiate the events query passing `no_found_rows` arg as `true`,
+	 * @since 4.7.0 When retrieving the last event, instantiate the events query passing `no_found_rows` arg as `true`,
 	 *              to improve performance.
 	 *
 	 * @param LLMS_Event $start Event record for the start of the session.

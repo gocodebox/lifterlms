@@ -9,7 +9,7 @@
  *
  * @since 3.35.0
  * @since 3.37.8 Update path to assets directory.
- * @since [version] Test success message generation.
+ * @since 4.7.0 Test success message generation.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -71,7 +71,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test get_success_message()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test output() method
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

@@ -9,7 +9,7 @@
  * @since 3.37.17 Added voucher creation method.
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
  * @since 4.0.0 Added create_mock_session-data() class.
- * @since [version] Disabled image sideloading during mock course generation.
+ * @since 4.7.0 Disabled image sideloading during mock course generation.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -251,7 +251,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Generates a set of mock courses
 	 *
 	 * @since 3.7.3
-	 * @since [version] Disabled image sideloading during mock course generation.
+	 * @since 4.7.0 Disabled image sideloading during mock course generation.
 	 *
 	 * @param    integer    $num_courses   number of courses to generate
 	 * @param    integer    $num_sections  number of sections to generate for each course

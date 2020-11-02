@@ -7,14 +7,14 @@
  * @group generator
  * @group generator_courses
  *
- * @since [version]
+ * @since 4.7.0
  */
 class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 	/**
 	 * Load required class
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Get raw data as an array
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test add_course_terms()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test clone_lesson()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_course()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_courses() when with missing raw course data
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_courses() when with invalid raw course data
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_courses()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_access_plan()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_course()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -296,7 +296,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_course() error.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -318,7 +318,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_lesson()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -422,7 +422,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_question()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -478,7 +478,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_question() during a post creation error
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -503,7 +503,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test create_section()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -554,7 +554,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_prerequisites()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -581,7 +581,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_sideload_choice_image() for various conditions where the choice can't be sideloaded.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -610,7 +610,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_sideload_choice_image()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -637,7 +637,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_sideload_choice_image() when an error is encountered during sideloading
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -659,7 +659,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test store_temp_id()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

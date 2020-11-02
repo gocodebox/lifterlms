@@ -117,6 +117,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/wenchen"><img src="https://avatars1.githubusercontent.com/u/959457?v=4" title="wenchen" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars3.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars0.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
+<a href="https://github.com/daniel-shuy"><img src="https://avatars1.githubusercontent.com/u/17351764?v=4" title="daniel-shuy" width="80" height="80"></a>
 <a href="https://github.com/mrosati84"><img src="https://avatars0.githubusercontent.com/u/855068?v=4" title="mrosati84" width="80" height="80"></a>
 <a href="https://github.com/nicolas-jaussaud"><img src="https://avatars0.githubusercontent.com/u/33153717?v=4" title="nicolas-jaussaud" width="80" height="80"></a>
 <a href="https://github.com/ThePikJoker"><img src="https://avatars3.githubusercontent.com/u/16877156?v=4" title="ThePikJoker" width="80" height="80"></a>

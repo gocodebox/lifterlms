@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -38,7 +38,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Convert an array of generated content IDs to a list of anchor tags to edit the generated content
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param int[]  $ids  Array of object IDs. Either WP_Post IDs or WP_User IDs.
 	 * @param string $type Object's type. Either "post" or "user".
@@ -68,7 +68,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Retrieves a "Success" message providing information about the imported content.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param LLMS_Generator $generator Generator instance.
 	 * @return string
@@ -100,7 +100,7 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.35.0 Import template from the admin views directory instead of the frontend templates directory.
-	 * @since [version] Moved logic for generating success message into its own method.
+	 * @since 4.7.0 Moved logic for generating success message into its own method.
 	 *
 	 * @return void
 	 */
@@ -231,14 +231,14 @@ class LLMS_Admin_Import {
 	 * Localize statistic information for display on success.
 	 *
 	 * @since 3.35.0
-	 * @deprecated [version] `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
+	 * @deprecated 4.7.0 `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
 	 *
 	 * @param string $stat Statistic key name.
 	 * @return string
 	 */
 	protected function localize_stat( $stat ) {
 
-		llms_deprecated_function( 'LLMS_Admin_Import::localize_stat()', '[version]' );
+		llms_deprecated_function( 'LLMS_Admin_Import::localize_stat()', '4.7.0' );
 
 		switch ( $stat ) {
 

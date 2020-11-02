@@ -7,7 +7,7 @@
  *
  * @since 3.4.0
  * @since 3.24.0 Add tests for the `get_available_points()` method.
- * @since [version] Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
+ * @since 4.7.0 Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -445,7 +445,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test to_array_extra_blocks()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -495,7 +495,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test to_array_extra_images()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

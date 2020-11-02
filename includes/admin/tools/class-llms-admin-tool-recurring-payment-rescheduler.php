@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Tools/Classes
  *
  * @since 4.6.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
 	 * @since 4.6.0
-	 * @since [version] Modified language and use count from `FOUND_ROWS()`.
+	 * @since 4.7.0 Modified language and use count from `FOUND_ROWS()`.
 	 *
 	 * @return string
 	 */
@@ -106,7 +106,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * and expiration action based on its existing calculated order data.
 	 *
 	 * @since 4.6.0
-	 * @since [version] Set `plan_ended` metadata for orders with an ended plan and don't attempt to process them.
+	 * @since 4.7.0 Set `plan_ended` metadata for orders with an ended plan and don't attempt to process them.
 	 *
 	 * @return int[] Returns an array of WP_Post IDs for orders successfully rescheduled by the method.
 	 */
@@ -139,7 +139,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 	 * Perform a DB query for orders to be handled by the tool
 	 *
 	 * @since 4.6.0
-	 * @since [version] Added `SQL_CALC_FOUND_ROWS` and improved query to exclude results with a completed payment plan.
+	 * @since 4.7.0 Added `SQL_CALC_FOUND_ROWS` and improved query to exclude results with a completed payment plan.
 	 *
 	 * @return object[]
 	 */

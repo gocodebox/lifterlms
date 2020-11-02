@@ -8,7 +8,7 @@
  * @group query
  * @group dbquery
  *
- * @since [version]
+ * @since 4.7.0
  */
 class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 
@@ -26,7 +26,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that the events query, using default args, calculates found rows
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that the events query, passing no_found_rows as true doesn't calculate found rows
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

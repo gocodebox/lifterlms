@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -212,7 +212,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the admin panel
 	 *
 	 * @since 4.0.0
-	 * @since [version] Always load `LLMS_Admin_Reporting`.
+	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 *
 	 * @return void
 	 */
