@@ -44,7 +44,7 @@ class LLMS_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Abstract_Admin_
 		// Translators: %d = the number of pending batches.
 		$desc .= sprintf(
 			_n(
-				'There is %d order that will checked.',
+				'There is %d order that will be checked.',
 				'There are %d orders that will be checked in batches of 50.',
 				$count,
 				'lifterlms'

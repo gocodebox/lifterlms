@@ -84,7 +84,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Order extends LLMS_Post_Model {
 
 	/**
-	 * Datbase post type.
+	 * Database post type.
 	 *
 	 * @var string
 	 */
