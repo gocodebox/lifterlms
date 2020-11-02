@@ -132,7 +132,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 				break;
 
 			case '{{ACHIEVEMENT_TITLE}}':
-				$code = $achievement->get( 'title' );
+				$code = $achievement->get( 'achievement_title' );
 				break;
 
 			case '{{STUDENT_NAME}}':
