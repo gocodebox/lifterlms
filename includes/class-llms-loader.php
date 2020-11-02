@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.4.0
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -96,6 +96,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-generator-posts.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-data.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-database-handler.php';
 
@@ -211,6 +212,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the admin panel
 	 *
 	 * @since 4.0.0
+	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 *
 	 * @return void
 	 */
@@ -260,6 +262,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.admin.quiz.attempts.php';
 
 		// Reporting.
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
 
 		// Load setup wizard conditionally.

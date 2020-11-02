@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -335,6 +335,40 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	}
 	// Return string with times.
 	return implode( ', ', $times );
+}
+
+/**
+ * Instantiate an instance of DOMDocument with an HTML string
+ *
+ * This function suppresses PHP warnings that would be thrown by DOMDocument when
+ * loading a partial string or an HTML string with errors.
+ *
+ * @since 4.7.0
+ *
+ * @param string $string An HTML string, either a full HTML document or a partial string.
+ * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it
+ *                              or an error object when DOMDocument isn't available or an error is encountered during loading.
+ */
+function llms_get_dom_document( $string ) {
+
+	if ( ! class_exists( 'DOMDocument' ) ) {
+		return new WP_Error( 'llms-dom-document-missing', __( 'DOMDocument not available.', 'lifterlms' ) );
+	}
+
+	// Don't throw or log warnings.
+	$libxml_state = libxml_use_internal_errors( true );
+
+	$dom = new DOMDocument();
+	if ( ! $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+		$dom = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
+	}
+
+	// Clear and restore errors.
+	libxml_clear_errors();
+	libxml_use_internal_errors( $libxml_state );
+
+	return $dom;
+
 }
 
 /**

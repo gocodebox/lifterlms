@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.37.19
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -281,6 +281,7 @@ class LLMS_Admin_Menus {
 	 * @since 3.2.0
 	 * @since 3.13.0 Unknown.
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 4.7.0 Removed inclusion of `LLMS_Admin_Reporting` which is now loaded automatically.
 	 *
 	 * @return void
 	 */
@@ -290,9 +291,8 @@ class LLMS_Admin_Menus {
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 
-		require_once 'reporting/class.llms.admin.reporting.php';
-		$gb = new LLMS_Admin_Reporting();
-		$gb->output();
+		$reporting = new LLMS_Admin_Reporting();
+		$reporting->output();
 
 	}
 

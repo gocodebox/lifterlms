@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 3.37.3
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,55 +36,62 @@ class LLMS_Admin_Import {
 	}
 
 	/**
-	 * Localize statistic information for display on success.
+	 * Convert an array of generated content IDs to a list of anchor tags to edit the generated content
 	 *
-	 * @since 3.35.0
+	 * @since 4.7.0
 	 *
-	 * @param string $stat Statistic key name.
+	 * @param int[]  $ids  Array of object IDs. Either WP_Post IDs or WP_User IDs.
+	 * @param string $type Object's type. Either "post" or "user".
+	 * @return string A comma-separated list of HTML anchor tags.
+	 */
+	protected function get_generated_content_list( $ids, $type ) {
+
+		$list = array();
+		foreach ( $ids as $id ) {
+
+			if ( 'post' === $type ) {
+				$link = get_edit_post_link( $id );
+				$text = get_the_title( $id );
+			} elseif ( 'user' === $type ) {
+				$link = get_edit_user_link( $id );
+				$text = get_user_by( 'ID', $id )->display_name;
+			}
+
+			$list[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $link ), $text );
+
+		}
+
+		return implode( ', ', $list );
+
+	}
+
+	/**
+	 * Retrieves a "Success" message providing information about the imported content.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param LLMS_Generator $generator Generator instance.
 	 * @return string
 	 */
-	protected function localize_stat( $stat ) {
+	protected function get_success_message( $generator ) {
 
-		switch ( $stat ) {
+		$msg  = '<strong>' . __( 'Import Successful!', 'lifterlms' ) . '</strong><br>';
+		$msg .= '<ul>';
 
-			case 'authors':
-				$name = __( 'Authors', 'lifterlms' );
-				break;
+		$generated = $generator->get_generated_content();
 
-			case 'courses':
-				$name = __( 'Courses', 'lifterlms' );
-				break;
+		if ( ! empty( $generated['course'] ) ) {
+			// Translators: %s = comma-separated list of anchors to the imported courses.
+			$msg .= '<li>' . sprintf( __( 'Imported courses: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['course'], 'post' ) ) . '</li>';
+		}
+		if ( ! empty( $generated['user'] ) ) {
+			// Translators: %s = comma-separated list of anchors to the imported users.
+			$msg .= '<li>' . sprintf( __( 'Imported users: %s', 'lifterlms' ), $this->get_generated_content_list( $generated['user'], 'user' ) ) . '</li>';
+		}
 
-			case 'sections':
-				$name = __( 'Sections', 'lifterlms' );
-				break;
+		$msg .= '</ul>';
 
-			case 'lessons':
-				$name = __( 'Lessons', 'lifterlms' );
-				break;
-
-			case 'plans':
-				$name = __( 'Plans', 'lifterlms' );
-				break;
-
-			case 'quizzes':
-				$name = __( 'Quizzes', 'lifterlms' );
-				break;
-
-			case 'questions':
-				$name = __( 'Questions', 'lifterlms' );
-				break;
-
-			case 'terms':
-				$name = __( 'Terms', 'lifterlms' );
-				break;
-
-			default:
-				$name = $stat;
-
-		}// End switch().
-
-		return $name;
+		return $msg;
 
 	}
 
@@ -93,6 +100,7 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.35.0 Import template from the admin views directory instead of the frontend templates directory.
+	 * @since 4.7.0 Moved logic for generating success message into its own method.
 	 *
 	 * @return void
 	 */
@@ -115,11 +123,7 @@ class LLMS_Admin_Import {
 	 */
 	public function upload_import() {
 
-		if ( ! llms_verify_nonce( 'llms_importer_nonce', 'llms-importer' ) || empty( $_FILES['llms_import'] ) ) {
-			return false;
-		}
-
-		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+		if ( ! llms_verify_nonce( 'llms_importer_nonce', 'llms-importer' ) || ! current_user_can( 'manage_lifterlms' ) || empty( $_FILES['llms_import'] ) ) {
 			return false;
 		}
 
@@ -152,14 +156,7 @@ class LLMS_Admin_Import {
 			return $generator->error;
 		}
 
-		$msg  = '<strong>' . __( 'Import Successful', 'lifterlms' ) . '</strong><br>';
-		$msg .= '<ul>';
-		foreach ( $generator->get_results() as $stat => $count ) {
-			$msg .= '<li>' . sprintf( '%s: %d', $this->localize_stat( $stat ), $count ) . '</li>';
-		}
-		$msg .= '</ul>';
-
-		LLMS_Admin_Notices::flash_notice( $msg, 'success' );
+		LLMS_Admin_Notices::flash_notice( $this->get_success_message( $generator ), 'success' );
 		return true;
 
 	}
@@ -220,13 +217,69 @@ class LLMS_Admin_Import {
 			if ( 'json' !== strtolower( $info['extension'] ) ) {
 				$msg = __( 'Only valid JSON files can be imported.', 'lifterlms' );
 			}
-		}// End if().
+		}
 
 		if ( ! empty( $msg ) ) {
 			return new WP_Error( 'llms_import_file_error', $msg );
 		}
 
 		return true;
+
+	}
+
+	/**
+	 * Localize statistic information for display on success.
+	 *
+	 * @since 3.35.0
+	 * @deprecated 4.7.0 `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
+	 *
+	 * @param string $stat Statistic key name.
+	 * @return string
+	 */
+	protected function localize_stat( $stat ) {
+
+		llms_deprecated_function( 'LLMS_Admin_Import::localize_stat()', '4.7.0' );
+
+		switch ( $stat ) {
+
+			case 'authors':
+				$name = __( 'Authors', 'lifterlms' );
+				break;
+
+			case 'courses':
+				$name = __( 'Courses', 'lifterlms' );
+				break;
+
+			case 'sections':
+				$name = __( 'Sections', 'lifterlms' );
+				break;
+
+			case 'lessons':
+				$name = __( 'Lessons', 'lifterlms' );
+				break;
+
+			case 'plans':
+				$name = __( 'Plans', 'lifterlms' );
+				break;
+
+			case 'quizzes':
+				$name = __( 'Quizzes', 'lifterlms' );
+				break;
+
+			case 'questions':
+				$name = __( 'Questions', 'lifterlms' );
+				break;
+
+			case 'terms':
+				$name = __( 'Terms', 'lifterlms' );
+				break;
+
+			default:
+				$name = $stat;
+
+		}
+
+		return $name;
 
 	}
 
