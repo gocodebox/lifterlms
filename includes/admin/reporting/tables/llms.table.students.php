@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -107,7 +107,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
-	 * @since [version] Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
+	 * @since 4.7.0 Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
 	 *
 	 * @param string       $key     The column id / key.
 	 * @param LLMS_Student $student Instance of the LLMS_Student.

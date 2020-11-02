@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,7 +343,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * This function suppresses PHP warnings that would be thrown by DOMDocument when
  * loading a partial string or an HTML string with errors.
  *
- * @since [version]
+ * @since 4.7.0
  *
  * @param string $string An HTML string, either a full HTML document or a partial string.
  * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it

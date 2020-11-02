@@ -15,7 +15,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.0.0
-	 * @since [version] Add `LLMS_Admin_Reporting` class.
+	 * @since 4.7.0 Add `LLMS_Admin_Reporting` class.
 	 *
 	 * @return void
 	 */

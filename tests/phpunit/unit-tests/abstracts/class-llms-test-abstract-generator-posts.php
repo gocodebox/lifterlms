@@ -6,14 +6,14 @@
  * @group generator
  * @group generator_posts
  *
- * @since [version]
+ * @since 4.7.0
  */
 class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve the abstract class mock stub
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return LLMS_Abstract_Generator_Posts
 	 */
@@ -38,7 +38,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test add_custom_values()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_post() success
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_post() for invalid post type classes
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_post() when an error is encountered during creation
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_reusable_block() when the block already exists
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_reusable_block() when there's an error creating the block
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test create_reusable_block() for success
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test format_date()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -286,7 +286,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test get_author_id() when an error creating the user is encountered.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -307,7 +307,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test get_author_id_from_raw()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test default post status getter & setter
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -348,7 +348,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test get_term_id()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -372,7 +372,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test get_term_id() when an error is encountered during creation of a new term
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -391,7 +391,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_reusable_blocks() when importing is disabled
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -406,7 +406,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_reusable_blocks() when no blocks to import
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -421,7 +421,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_reusable_blocks() when no blocks to import
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -497,7 +497,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test is_image_sideloading_enabled()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -508,7 +508,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test is_reusable_block_importing_enabled()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -519,7 +519,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test set_featured_image()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -558,7 +558,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_image()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -586,7 +586,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_image() error
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -604,7 +604,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_images()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -642,7 +642,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_images(): skip sideloading of images from the same site.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -670,7 +670,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_images() with no images in post content
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -687,7 +687,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	/**
 	 * Test sideload_images() with sideloading disabled
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

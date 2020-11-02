@@ -15,7 +15,7 @@
  *               Added default test override for test_edit_date() test to prevent output
  *               of skipped test that doesn't apply to the order model.
  * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`, `unschedule_expiration()`, and `unschedule_recurring_payment()`.
- * @since [version] Update tests to handle new meta property `plan_ended`.
+ * @since 4.7.0 Update tests to handle new meta property `plan_ended`.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -963,7 +963,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test recurring payment scheduling for a one-time order
 	 *
-	 * @since [version] Split from test_maybe_schedule_payment_recurring()
+	 * @since 4.7.0 Split from test_maybe_schedule_payment_recurring()
 	 *
 	 * @return void
 	 */
@@ -983,7 +983,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
-	 * @since [version] Split into it's own method to prevent variable clashes.
+	 * @since 4.7.0 Split into it's own method to prevent variable clashes.
 	 *
 	 * @return void
 	 */

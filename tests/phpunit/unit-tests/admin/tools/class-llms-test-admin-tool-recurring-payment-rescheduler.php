@@ -213,7 +213,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	/**
 	 * Test handle() properly handles "legacy" orders that don't have `plan_ended()` meta data.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -240,7 +240,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 * Test query_orders()
 	 *
 	 * @since 4.6.0
-	 * @since [version] Add an order with `plan_ended` meta that should be ignored and add tests for `FOUND_ROWS()` cached data.
+	 * @since 4.7.0 Add an order with `plan_ended` meta that should be ignored and add tests for `FOUND_ROWS()` cached data.
 	 *
 	 * @return void
 	 */

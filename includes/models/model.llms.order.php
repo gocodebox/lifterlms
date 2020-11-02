@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -79,7 +79,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
- * @since [version] Added `plan_ended` meta property.
+ * @since 4.7.0 Added `plan_ended` meta property.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -1415,7 +1415,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Add `plan_ended` metadata when a plan ends.
+	 * @since 4.7.0 Add `plan_ended` metadata when a plan ends.
 	 *
 	 * @return void
 	 */

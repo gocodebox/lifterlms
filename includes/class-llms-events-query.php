@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a query
 	 *
 	 * @since 3.36.0
-	 * @since [version] Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_events_query_default_args'`.
+	 * @since 4.7.0 Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_events_query_default_args'`.
 	 *
 	 * @return array
 	 */
@@ -73,7 +73,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Retrieve an array of LLMS_Event objects for the given result set returned by the query
 	 *
 	 * @since 3.36.0
-	 * @since [version] Drop usage of `$this->get_filter('get_events')` in favor of `'llms_events_query_get_events'`.
+	 * @since 4.7.0 Drop usage of `$this->get_filter('get_events')` in favor of `'llms_events_query_get_events'`.
 	 *
 	 * @return array
 	 */
@@ -135,7 +135,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 *
 	 * @since 3.36.0
-	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 * @since 4.7.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -155,7 +155,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * SQL "where" clause for the query
 	 *
 	 * @since 3.36.0
-	 * @since [version] Drop usage of `$this->get_filter('where')` in favor of `'llms_events_query_where'`.
+	 * @since 4.7.0 Drop usage of `$this->get_filter('where')` in favor of `'llms_events_query_where'`.
 	 *
 	 * @return string
 	 */

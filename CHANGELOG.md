@@ -1,6 +1,41 @@
 LifterLMS Changelog
 ===================
 
+v4.7.0 - 2020-11-02
+-------------------
+
+##### Updates
+
++ Major refractor of the `LLMS_Generator` class.
++ Course export structure improved to include images and reusable blocks found in post content.
++ When importing courses images will be automatically sideloaded into the media library as new attachment posts
++ When importing courses reusable blocks will be imported
++ Improved the success message displayed following a course import
++ The class `LLMS_Admin_Reporting` is now always loaded on the admin panel.
++ Performance improvements have been made to the `LLMS_Events_Query` to support using the `no_found_rows` query argument.
++ When an order's billing plan "completes", a new meta property will be added to the order, `plan_ended`, which can be used to query orders with completed plans.
++ Made improvements to the admin payment rescheduler tool to have more accurate reporting information.
+
+##### Bug fixes
+
++ Replaced an instance of the LifterLMS (old) 1.0 rocket logo with the current rocket logo. Thanks [@imknight](https://github.com/imknight)!
++ Ensure builder `switch-number` fields are set with the `number` type attribute. Thanks [@imknight](https://github.com/imknight)!
++ Don't display a "View Post" link when updating post types that aren't publicly queryable. Thanks [@imknight](https://github.com/imknight)!
++ Fixed the incorrect output of an achievment's title in a popover notification when using the {{ACHIEVEMENT_TITLE}} merge code. Thanks [@CadenG150](https://github.com/@CadenG150)!
++ Fixed an error encountered when plugins utilize the `WP_Users_List_Table` class outside of the `users.php` screen.
+
+##### Deprecations
+
++ `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
++ `LLMS_Admin_Users_Table::load_dependencies()` is deprecated with no replacement. The included class, `LLMS_Admin_Reporting` is now always loaded.
++ `LLMS_Generator::add_custom_values()` is deprecated in favor of `LLMS_Generator_Courses::add_custom_values`.
++ `LLMS_Generator::get_author_id_from_raw()` is deprecated in favor of `LLMS_Generator_Courses::get_author_id_from_raw()`.
++ `LLMS_Generator::get_default_post_status()` is deprecated in favor of `LLMS_Generator_Courses::get_default_post_status()`.
++ `LLMS_Generator::get_generated_posts()` is deprecated in favor of `LLMS_Generator::get_generated_content()`.
++ `LLMS_Generator::format_date()` is deprecated in favor of `LLMS_Generator_Courses::format_date()`.
++ `LLMS_Generator::increment()` is deprecated with no replacement.
+
+
 v4.6.0 - 2020-10-19
 -------------------
 
