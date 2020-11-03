@@ -8,7 +8,7 @@
  * @since 3.36.3 Add tests for `is_generator_valid()` and `set_generator()` methods.
  *              Split `is_error()` method tests into multiple tests.
  * @since 3.37.4 Don't test against core metadata.
- * @since [version] Add tests for image sideloading methods.
+ * @since 4.7.0 Add tests for image sideloading methods.
  */
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.4 Don't test against core metadata.
-	 * @since [version] Update to accommodate changes in results data (and test to maintain backwards compat).
+	 * @since 4.7.0 Update to accommodate changes in results data (and test to maintain backwards compat).
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_results()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_results() when an error is encountered
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_generated_content()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -145,7 +145,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_generated_courses()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_generated_posts()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @expectedDeprecated LLMS_Generator::get_generated_posts()
 	 *
@@ -181,7 +181,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * Test is_error() method: no generator supplied.
 	 *
 	 * @since 3.36.3
-	 * @since [version] Added assertion for error code.
+	 * @since 4.7.0 Added assertion for error code.
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * Test is_error() method: valid generator but no data to generate.
 	 *
 	 * @since 3.36.3
-	 * @since [version] Added assertion for error code.
+	 * @since 4.7.0 Added assertion for error code.
 	 *
 	 * @return void
 	 */
@@ -216,7 +216,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * Test is_error() method: valid generator but data formatted improperly.
 	 *
 	 * @since 3.36.3
-	 * @since [version] Added assertion for error code.
+	 * @since 4.7.0 Added assertion for error code.
 	 *
 	 * @return void
 	 */
@@ -281,7 +281,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_raw() when passing in an array
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -295,7 +295,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_raw() when passing in a JSON string
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -309,7 +309,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_raw() when passing in an object
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -325,7 +325,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_raw() when passing in invalid data
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

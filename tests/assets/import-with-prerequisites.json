@@ -4,10 +4,6 @@
   "_version": "4.5.1",
   "courses": [
     {
-      "_extra": {
-        "blocks": [],
-        "images": []
-      },
       "access_plans": [],
       "audio_embed": "",
       "author": 1,
@@ -55,10 +51,6 @@
       "sales_page_content_url": "",
       "sections": [
         {
-          "_extra": {
-            "blocks": [],
-            "images": []
-          },
           "comment_status": "closed",
           "content": "",
           "custom": [],
@@ -68,10 +60,6 @@
           "id": 1106,
           "lessons": [
             {
-              "_extra": {
-                "blocks": [],
-                "images": []
-              },
               "assignment": 0,
               "assignment_enabled": "no",
               "audio_embed": "",
@@ -111,10 +99,6 @@
               "video_embed": ""
             },
             {
-              "_extra": {
-                "blocks": [],
-                "images": []
-              },
               "assignment": 0,
               "assignment_enabled": "no",
               "audio_embed": "",
@@ -179,10 +163,6 @@
       "video_embed": ""
     },
     {
-      "_extra": {
-        "blocks": [],
-        "images": []
-      },
       "access_plans": [],
       "audio_embed": "",
       "author": 1,

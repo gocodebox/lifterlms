@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -307,7 +307,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Clones the Post if the post is cloneable
 	 *
 	 * @since 3.3.0
-	 * @since [version] Use `LLMS_Generator::get_generated_content()` in favor of deprecated `LLMS_Generator::get_generated_posts()`..
+	 * @since 4.7.0 Use `LLMS_Generator::get_generated_content()` in favor of deprecated `LLMS_Generator::get_generated_posts()`.
 	 *
 	 * @return WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
 	 */
@@ -1137,7 +1137,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.3.0
 	 * @since 3.17.0 Unknown.
-	 * @since [version] Add exporting of extra data (images and blocks).
+	 * @since 4.7.0 Add exporting of extra data (images and blocks).
 	 *
 	 * @return array
 	 */
@@ -1186,7 +1186,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
 		 *
-		 * @since [version]
+		 * @since 4.7.0
 		 *
 		 * @param boolean         $include Whether or not to include extra data.
 		 * @param LLMS_Post_Model $model   Post model instance.
@@ -1211,10 +1211,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		/**
 		 * Filter the final post array created when converting the object to an array
 		 *
-		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course"m
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
 		 *
-		 * @since [version]
+		 * @since 4.7.0
 		 *
 		 * @param array           $arr   Associative array of the model.
 		 * @param LLMS_Post_Model $model Post model instance.
@@ -1249,7 +1249,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * The "images" array is an array of image element source URLs found in the post's content. During
 	 * an import these images will be imported into the new site via media sideloading.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param array $arr Post array from `toArray()`.
 	 * @return array[]
@@ -1268,7 +1268,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Add reusable blocks found in the post's content to the post's array
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param string $content Raw `post_content` string.
 	 * @return array[] {
@@ -1306,7 +1306,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Add images found in the post's content to the post's array
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param string $content Raw `post_content` string.
 	 * @return string[] Array of image source URLs.

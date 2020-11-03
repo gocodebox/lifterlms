@@ -87,6 +87,7 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 */
 	private function clear_cache() {
 		wp_cache_delete( 'recurring-payment-rescheduler', 'llms_tool_data' );
+		wp_cache_delete( 'recurring-payment-rescheduler-total-results', 'llms_tool_data' );
 	}
 
 	/**
@@ -210,9 +211,36 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	}
 
 	/**
+	 * Test handle() properly handles "legacy" orders that don't have `plan_ended()` meta data.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @return void
+	 */
+	public function test_handle_orders_with_no_meta() {
+
+		// Force a WP_Error to be returned by LLMS_Order::get_next_payment_due_date().
+		add_filter( 'llms_order_calculate_next_payment_date', '__return_empty_string' );
+
+		$orders = $this->create_orders_to_handle( 1 );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'handle' );
+
+		// No orders handled.
+		$this->assertEquals( array(), $res );
+
+		// The missing metadata has been added by the tool.
+		$this->assertEquals( 'yes', llms_get_post( $orders[0] )->get( 'plan_ended' ) );
+
+		remove_filter( 'llms_order_calculate_next_payment_date', '__return_empty_string' );
+
+	}
+
+	/**
 	 * Test query_orders()
 	 *
 	 * @since 4.6.0
+	 * @since 4.7.0 Add an order with `plan_ended` meta that should be ignored and add tests for `FOUND_ROWS()` cached data.
 	 *
 	 * @return void
 	 */
@@ -227,9 +255,16 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 		// This order should not be in the returned array.
 		$to_ignore = $this->create_orders_to_handle( 1, false );
 
+		// Ignored because of `plan_ended` meta data.
+		$to_ignore_2 = $this->create_orders_to_handle( 1 );
+		llms_get_post( $to_ignore_2[0] )->set( 'plan_ended', 'yes' );
+
 		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'query_orders' );
 
 		$this->assertEqualSets( $to_handle, wp_list_pluck( $res, 'ID' ) );
+
+		// Test FOUND_ROWS() cache data.
+		$this->assertEquals( 3, wp_cache_get( sprintf( 'recurring-payment-rescheduler-total-results', $this->id ), 'llms_tool_data' ) );
 
 	}
 

@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  4.5.1
+ * @version  4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  4.5.1
+	 * @version  4.7.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -262,7 +262,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/SettingsFields.js.
 			 *
 			 * @since    3.17.0
-			 * @version  3.37.11
+			 * @version  4.7.0
 			 */
 			'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 			'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),

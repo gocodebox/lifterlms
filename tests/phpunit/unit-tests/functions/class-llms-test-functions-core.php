@@ -15,7 +15,7 @@
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
- * @since [version] Add test for `llms_get_dom_document()`.
+ * @since 4.7.0 Add test for `llms_get_dom_document()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -182,7 +182,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_dom_document()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
