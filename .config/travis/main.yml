@@ -33,12 +33,14 @@ php:
   - 7.4
   - 7.3
   - 7.2
+  - nightly
 
 jobs:
   fast_finish: true
   allow_failures:
   - env: WP_VERSION=nightly
   - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
+  - php: nightly
   exclude:
   # These WP Versions don't work on PHP 7.4
   - php: 7.4
