@@ -446,7 +446,19 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// if we found a valid, apply default llms get get filter and return the value.
 		if ( isset( $val ) ) {
 
-			if ( ! $raw && 'content' !== $key && 'name' !== $key ) {
+			/**
+			 * Filters the list of properties which should be excluded from scrubbing during a property read.
+			 *
+			 * The dynamic portion of this hook, `{$this->model_post_type}`, refers to the post's model type,
+			 * for example "course" for an `LLMS_Course`, "membership" for an `LLMS_Membership`, etc...
+			 *
+			 * @since [version]
+			 *
+			 * @param string[]        $props An array of property keys to be excluded from scrubbing.
+			 * @param LLMS_Post_Model $this  Instance of the post object.
+			 */
+			$exclude = apply_filters( "llms_get_{$this->model_post_type}_no_scrub_props", array( 'content', 'name' ), $this );
+			if ( ! $raw && ! in_array( $key, $exclude, true ) ) {
 				$val = $this->scrub( $key, $val );
 			}
 
