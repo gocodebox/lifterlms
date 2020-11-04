@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -157,6 +157,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * Generate a new LLMS_Post_Mdel
 	 *
 	 * @since 4.7.0
+	 * @since [version] Set the post's excerpt during the initial insert instead of during metadata updates after creation.
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
@@ -179,6 +180,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 				'post_author'   => $this->get_author_id_from_raw( $raw, $author_id ),
 				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : '',
 				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : '',
 				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
 				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
 				'post_title'    => $raw['title'],
@@ -194,7 +196,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 		$this->store_temp_id( $raw, $post );
 
 		// Don't set these values again.
-		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
+		unset( $raw['id'], $raw['author'], $raw['content'], $raw['date'], $raw['excerpt'], $raw['modified'], $raw['name'], $raw['status'], $raw['title'] );
 
 		$this->set_metadata( $post, $raw );
 		$this->set_featured_image( $raw, $post->get( 'id' ) );
