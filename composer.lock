@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02297134257218229475a2f3dca006f2",
+    "content-hash": "70a341d9e1d6c3ee0a7b811d958b8d8e",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -43,21 +43,21 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.15",
+            "version": "1.0.0-beta.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "1b5279f92ff056981854e396c287884ce2812cd0"
+                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/1b5279f92ff056981854e396c287884ce2812cd0",
-                "reference": "1b5279f92ff056981854e396c287884ce2812cd0",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/714d17a6c997487214e8d3e94b64fbc8e8a1c253",
+                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253",
                 "shasum": ""
             },
             "require-dev": {
                 "lifterlms/lifterlms-cs": "dev-master",
-                "lifterlms/lifterlms-tests": "dev-master"
+                "lifterlms/lifterlms-tests": "dev-trunk"
             },
             "type": "wordpress-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -71,7 +71,11 @@
                 }
             ],
             "description": "REST API feature plugin for the LifterLMS Core.",
-            "time": "2020-09-21T18:07:23+00:00"
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.16"
+            },
+            "time": "2020-11-05T18:13:48+00:00"
         },
         {
             "name": "woocommerce/action-scheduler",
@@ -2751,5 +2755,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
