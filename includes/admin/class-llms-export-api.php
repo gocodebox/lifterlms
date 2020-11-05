@@ -29,8 +29,15 @@ class LLMS_Export_API {
 	 */
 	protected static function call_api( $args ) {
 
+		/**
+		 * Filter the url used to make requests to the LifterLMS.com "exports" api.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $url API request url.
+		 */
 		$base_url = apply_filters(
-			'llms_export_api_base_url',
+			'llms_export_api_url',
 			'https://academy.lifterlms.com/wp-json/llms-academy/v1/exports'
 		);
 
@@ -49,9 +56,6 @@ class LLMS_Export_API {
 	 * Retrieve an import array by export IDs.
 	 *
 	 * @since [version]
-	 *
-	 * @see [Reference]
-	 * @link [URL]
 	 *
 	 * @param int[] $ids Array of export IDs.
 	 * @return array|WP_Error
