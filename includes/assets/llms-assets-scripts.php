@@ -45,7 +45,7 @@ return array(
 		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
 	),
 
-	// Admin
+	// Admin.
 	'llms-admin-setup'        => array(
 		'dependencies' => array( 'jquery' ),
 	),
