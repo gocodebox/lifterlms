@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version [version]
+ * @version 4.7.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -157,7 +157,7 @@ abstract class LLMS_Abstract_Generator_Posts {
 	 * Generate a new LLMS_Post_Mdel
 	 *
 	 * @since 4.7.0
-	 * @since [version] Set the post's excerpt during the initial insert instead of during metadata updates after creation.
+	 * @since 4.7.1 Set the post's excerpt during the initial insert instead of during metadata updates after creation.
 	 *
 	 * @param string $type      The LLMS_Post_Model post type type. For example "course" for an `LLMS_Course` or `membership` for `LLMS_Membership`.
 	 * @param array  $raw       Array of raw, used to create the post.
