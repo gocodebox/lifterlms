@@ -1,3 +1,23 @@
+.llms-import-file-wrap {
+  background: #fafafa;
+  border: 1px solid #ccd0d4;
+  padding: 10px;
+  margin: 20px auto;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.llms-cloud-import-help.button-link {
+  color: inherit;
+  vertical-align: top;
+  text-decoration: none; }
+
 ul.llms-importable-courses {
   margin: 0 -10px; }
   ul.llms-importable-courses li.llms-importable-course {
@@ -13,7 +33,7 @@ ul.llms-importable-courses {
     ul.llms-importable-courses li.llms-importable-course.has-action-button {
       padding-bottom: 80px;
       position: relative; }
-      ul.llms-importable-courses li.llms-importable-course.has-action-button .llms-button-primary {
+      ul.llms-importable-courses li.llms-importable-course.has-action-button .button {
         bottom: 20px;
         right: 20px;
         position: absolute; }

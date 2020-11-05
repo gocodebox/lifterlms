@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$courses = llms_get_importable_courses( 1, 3 );
+$courses = LLMS_Export_API::list( 1, 3 );
 ?>
 <h1><?php _e( 'Setup Complete!', 'lifterlms' ); ?></h1>
 <p><?php _e( 'Here\'s some resources to help you get familiar with LifterLMS:', 'lifterlms' ); ?></p>

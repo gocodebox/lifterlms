@@ -438,14 +438,14 @@ class LLMS_Admin_Setup_Wizard {
 			return false;
 		}
 
-		$json = llms_get_course_imports( $ids );
-		if ( is_wp_error( $json ) ) {
-			return $json;
+		$res = LLMS_Export_API::get( $ids );
+		if ( is_wp_error( $res ) ) {
+			return $res;
 		}
 
 		add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
 
-		$gen = new LLMS_Generator( $json );
+		$gen = new LLMS_Generator( $res );
 		$gen->set_generator();
 		$gen->generate();
 

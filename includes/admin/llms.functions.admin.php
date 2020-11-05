@@ -174,41 +174,6 @@ function llms_get_checkout_redirection_types( $product_type = '' ) {
 	);
 }
 
-function llms_get_importable_courses( $page = 1, $per_page = 10 ) {
-
-	$url = add_query_arg(
-		compact( 'page', 'per_page' ),
-		'https://free-course-template.myliftersite.com/wp-json/llms-academy/v1/exports'
-	);
-
-	$req = wp_safe_remote_get( $url );
-
-	if ( 200 === wp_remote_retrieve_response_code( $req ) ) {
-		return json_decode( wp_remote_retrieve_body( $req ), true );
-	}
-
-	return array();
-
-}
-
-function llms_get_course_imports( $ids ) {
-
-	$ids = implode( ',', array_map( 'absint', $ids ) );
-
-	$url = add_query_arg(
-		compact( 'ids' ),
-		'https://free-course-template.myliftersite.com/wp-json/llms-academy/v1/exports'
-	);
-
-	$req = wp_safe_remote_get( $url );
-	if ( 200 === wp_remote_retrieve_response_code( $req ) ) {
-		return wp_remote_retrieve_body( $req );
-	}
-
-	return $req;
-
-}
-
 /**
  * Add a "merge code" button that to auto-add merge codes to email & etc...
  *
