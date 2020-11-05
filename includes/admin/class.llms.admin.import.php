@@ -57,11 +57,13 @@ class LLMS_Admin_Import {
 			return false;
 		}
 
-		$screen->add_help_tab( array(
-			'id'      => 'llms_import_overview',
-			'title'   => __( 'Overview', 'lifterlms' ),
-			'content' => $this->get_view( 'help-tab-overview' ),
-		) );
+		$screen->add_help_tab(
+			array(
+				'id'      => 'llms_import_overview',
+				'title'   => __( 'Overview', 'lifterlms' ),
+				'content' => $this->get_view( 'help-tab-overview' ),
+			)
+		);
 
 		$screen->set_help_sidebar( $this->get_view( 'help-sidebar' ) );
 

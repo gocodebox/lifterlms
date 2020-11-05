@@ -32,13 +32,13 @@ defined( 'ABSPATH' ) || exit;
 return array(
 
 	// Core.
-	'lifterlms-styles' => array(
+	'lifterlms-styles'    => array(
 		'file_name' => 'lifterlms',
 	),
-	'certificates'     => array(),
+	'certificates'        => array(),
 
 	// Admin.
-	'llms-admin-setup' => array(
+	'llms-admin-setup'    => array(
 		'file_name' => 'admin-setup',
 	),
 	'llms-admin-importer' => array(
@@ -46,13 +46,13 @@ return array(
 	),
 
 	// Vendor.
-	'llms-iziModal'    => array(
+	'llms-iziModal'       => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
 		'rtl'       => false,
 	),
-	'webui-popover'    => array(
+	'webui-popover'       => array(
 		'file_name' => 'jquery.webui-popover',
 		'path'      => 'assets/vendor/webui-popover',
 		'version'   => '1.2.15',

@@ -67,7 +67,7 @@ $courses = LLMS_Export_API::list();
 			</button>
 		</p>
 
-		<?php include LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
+		<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
 		<?php wp_nonce_field( 'llms-cloud-importer', 'llms_cloud_importer_nonce' ); ?>
 
 	</form>

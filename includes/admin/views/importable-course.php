@@ -53,7 +53,7 @@ $show_button = apply_filters( 'llms_importable_course_show_action', true, $cours
 		do_action( 'llms_after_importable_course', $course );
 	?>
 
-	<?php if ( $show_button ): ?>
+	<?php if ( $show_button ) : ?>
 		<button class="button" name="llms_cloud_import_course_id" type="submit" value="<?php echo absint( $course['id'] ); ?>"><?php _e( 'Download & Import', 'lifterlms' ); ?></button>
 	<?php endif; ?>
 

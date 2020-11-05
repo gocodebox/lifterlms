@@ -23,4 +23,4 @@ $courses = LLMS_Export_API::list( 1, 3 );
 <h1><?php _e( 'Install Sample Courses!', 'lifterlms' ); ?></h1>
 <p><?php _e( 'Accelerate your progress by installing a quick LifterLMS training course and useful course templates.', 'lifterlms' ); ?></p>
 
-<?php include LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
+<?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
