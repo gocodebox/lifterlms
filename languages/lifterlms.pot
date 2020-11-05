@@ -2851,16 +2851,16 @@ msgstr ""
 msgid "%s plugin not found. Please try again."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:172
+#: includes/abstracts/llms-abstract-generator-posts.php:173
 msgid "The class \"%s\" does not exist."
 msgstr ""
 
 #. translators: %s = post type name.
-#: includes/abstracts/llms-abstract-generator-posts.php:190
+#: includes/abstracts/llms-abstract-generator-posts.php:192
 msgid "Error creating the %s post object."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:498
+#: includes/abstracts/llms-abstract-generator-posts.php:500
 msgid "Error creating new term \"%s\"."
 msgstr ""
 
