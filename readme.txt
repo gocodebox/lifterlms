@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.7.0
+Stable tag: 4.7.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.7.1 - 2020-11-05 =
+
+##### Bug fixes
+
++ During import generation set the post excerpt during the initial post insert instead of during metadata updates after creation.
+
+##### LifterLMS REST API 1.0.0-beta.16
+
++ Improved performance of various database queries.
+
+
 = v4.7.0 - 2020-11-02 =
 
 ##### Updates
@@ -664,13 +675,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + templates/checkout/form-gateways.php
 + templates/course/lesson-preview.php
 + templates/course/syllabus.php
-
-
-= v4.3.3 - 2020-08-17 =
-
-+ Fixed an issue causing legends of reporting charts to be truncated and only readable after a mouse hover.
-+ Fixed an issue caused by passing `null` values to `wp_insert_post()`.
-+ Fixed a javascript error encountered on LifterLMS settings screens.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
