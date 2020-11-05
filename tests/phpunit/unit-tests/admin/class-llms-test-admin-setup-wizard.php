@@ -23,7 +23,8 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	public static function setupBeforeClass() {
 
 		parent::setupBeforeClass();
-		include LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
+		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
+		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
 
 	}
 
@@ -111,16 +112,24 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test generator_course_status()
+	 * Test get_completed_url().
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_generator_course_status() {
+	public function test_get_completed_url() {
 
-		$this->assertEquals( 'publish', $this->main->generator_course_status( 'fake' ) );
-		$this->assertEquals( 'publish', $this->main->generator_course_status( 'draft' ) );
+		$ids = $this->factory->course->create_many( 3, array( 'sections' => 0 ) );
+
+		// More than one course redirects to the course post table.
+		$this->assertEquals( 'http://example.org/wp-admin/edit.php?post_type=course&orderby=date&order=desc', LLMS_Unit_Test_Util::call_method( $this->main, 'get_completed_url', array( $ids ) ) );
+		unset( $ids[2] );
+		$this->assertEquals( 'http://example.org/wp-admin/edit.php?post_type=course&orderby=date&order=desc', LLMS_Unit_Test_Util::call_method( $this->main, 'get_completed_url', array( $ids ) ) );
+
+		// One course goes to the the course's edit page.
+		unset( $ids[1] );
+		$this->assertEquals( get_edit_post_link( $ids[0], 'not-display' ), LLMS_Unit_Test_Util::call_method( $this->main, 'get_completed_url', array( $ids ) ) );
 
 	}
 
@@ -195,7 +204,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	public function test_get_save_text() {
 
 		$this->assertEquals( 'Allow', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'coupon' ) ) );
-		$this->assertEquals( 'Install a Sample Course', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'finish' ) ) );
+		$this->assertEquals( 'Import Courses', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'finish' ) ) );
 
 		$this->assertEquals( 'Save & Continue', LLMS_Unit_Test_Util::call_method( $this->main, 'get_save_text', array( 'anything-else' )  ));
 
@@ -290,6 +299,60 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 		);
 		$this->mockPostRequest( $data );
 		$this->assertNull( $this->main->save() );
+
+	}
+
+	/**
+	 * Test save() for an invalid step
+	 *
+	 * This test also covers an error response from any valid step.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_invalid_step() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->mockPostRequest( array(
+			'llms_setup_nonce' => wp_create_nonce( 'llms_setup_save' ),
+			'llms_setup_save'  => 'fake-step',
+ 		) );
+
+		$res = $this->main->save();
+
+		$this->assertIsWpError( $res );
+		$this->assertWPErrorCodeEquals( 'llms-setup-save-invalid', $res );
+
+		$this->assertEquals( $res, $this->main->error );
+
+	}
+
+	/**
+	 * Test save() for success (and redirection)
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_success() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->mockGetRequest( array(
+			'step' => 'pages',
+		) );
+
+		$this->mockPostRequest( array(
+			'llms_setup_nonce' => wp_create_nonce( 'llms_setup_save' ),
+			'llms_setup_save'  => 'pages',
+ 		) );
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'http://example.org/wp-admin/?page=llms-setup&step=payments [302] YES' );
+
+		$this->main->save();
 
 	}
 
@@ -402,17 +465,92 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
 	}
 
-	public function test_save_finish_error() {
+	/**
+	 * Test save_finish() when no import ids are provided
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_finish_error_no_ids() {
 
-
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'save_finish' ) );
 
 	}
 
-	public function test_save_finish() {
+	/**
+	 * Test save_finish() when an export api error occurs
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_finish_error_api() {
+
+		$this->mockPostRequest( array(
+			'llms_setup_course_import_ids' => array( 1 ),
+		) );
+
+		$handler = function( $res ) {
+			return new WP_Error( 'mock', 'Mocked API response.' );
+		};
+		add_filter( 'pre_http_request', $handler );
 
 		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'save_finish' );
-		$this->assertTrue( is_numeric( $res ) );
-		$this->assertEquals( 'course', get_post_type( $res ) );
+		$this->assertIsWpError( $res );
+		$this->assertWPErrorCodeEquals( 'mock', $res );
+
+		remove_filter( 'pre_http_request', $handler );
+
+	}
+
+	/**
+	 * Test save_finish() when an error is encountered during generation
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_finish_error_generator() {
+
+		$this->mockPostRequest( array(
+			'llms_setup_course_import_ids' => array( 1 ),
+		) );
+
+		$handler = function( $res ) {
+			return array();
+		};
+		add_filter( 'pre_http_request', $handler );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'save_finish' );
+		$this->assertIsWpError( $res );
+		$this->assertWPErrorCodeEquals( 'missing-generator', $res );
+
+		remove_filter( 'pre_http_request', $handler );
+
+	}
+
+	/**
+	 * Test save_finish() for success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_finish_success() {
+
+		$this->mockPostRequest( array(
+			'llms_setup_course_import_ids' => array( 33579 ), // Free course template.
+		) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'save_finish' );
+
+		foreach ( $res as $id ) {
+
+			$this->assertTrue( is_numeric( $id ) );
+			$this->assertEquals( 'course', get_post_type( $id ) );
+
+		}
 
 	}
 

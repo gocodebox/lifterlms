@@ -292,7 +292,7 @@ class LLMS_Admin_Import {
 			return $this->show_error( $validate );
 		}
 
-		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( $_FILES['llms_import']['tmp_name'] ) ) : array();
+		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( $_FILES['llms_import']['tmp_name'] ) ) : array(); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitizedr
 

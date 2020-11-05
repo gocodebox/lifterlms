@@ -27,7 +27,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @var WP_Error
 	 */
-	private $error;
+	public $error;
 
 	/**
 	 * Constructor
@@ -115,15 +115,26 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Allow the Sample Content installed during the final step to be published rather than drafted
+	 * Retrieve the redirect URL to use after an import is complete at the conclusion of the wizard
 	 *
-	 * @since 3.3.0
+	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
+	 * to the course post table list sorted by created date with the most recent courses first.
 	 *
-	 * @param string $status Post status.
+	 * @since [version]
+	 *
+	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
 	 * @return string
 	 */
-	public function generator_course_status( $status ) {
-		return 'publish';
+	protected function get_completed_url( $course_ids ) {
+
+		$count = count( $course_ids );
+
+		if ( 1 === $count ) {
+			return get_edit_post_link( $course_ids[0], 'not-display' );
+		}
+
+		return admin_url( 'edit.php?post_type=course&orderby=date&order=desc' );
+
 	}
 
 	/**
@@ -135,14 +146,14 @@ class LLMS_Admin_Setup_Wizard {
 	 * @return string
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
+		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
 	 * Get slug if next step
 	 *
 	 * @since 3.0.0
-	 * @since [version] Combined combined if/elseif into a single condition.
+	 * @since [version] Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
 	 *
 	 * @param string $step Step to use as current.
 	 * @return string|false
@@ -151,7 +162,7 @@ class LLMS_Admin_Setup_Wizard {
 
 		$step = $step ? $step : $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
-		$i    = array_search( $step, $keys );
+		$i    = array_search( $step, $keys, true );
 
 		// Next step doesn't exist or the next step would be greater than the index of the last step.
 		if ( false === $i || $i++ >= count( $keys ) - 1 ) {
@@ -165,7 +176,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Get slug if prev step
 	 *
 	 * @since 3.0.0
-	 * @since [version] Combined combined if/elseif into a single condition.
+	 * @since [version] Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
 	 *
 	 * @param string $step Step to use as current.
 	 * @return string|false
@@ -174,7 +185,7 @@ class LLMS_Admin_Setup_Wizard {
 
 		$step = $step ? $step : $this->get_current_step();
 		$keys = array_keys( $this->get_steps() );
-		$i    = array_search( $step, $keys );
+		$i    = array_search( $step, $keys, true );
 
 		if ( false === $i || $i - 1 < 0 ) {
 			return false;
@@ -309,7 +320,7 @@ class LLMS_Admin_Setup_Wizard {
 		$prev      = $this->get_prev_step();
 		$next      = $this->get_next_step();
 
-		if ( in_array( $current, array_keys( $this->get_steps(), true ) ) ) {
+		if ( in_array( $current, array_keys( $this->get_steps() ), true ) ) {
 
 			ob_start();
 			include LLMS_PLUGIN_DIR . 'includes/admin/views/setup-wizard/step-' . $current . '.php';
@@ -335,6 +346,16 @@ class LLMS_Admin_Setup_Wizard {
 
 	}
 
+	/**
+	 * Output HTML prior to each importable course
+	 *
+	 * Adds an opening label wrapper and adds HTML data to turn the element into a checkbox.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $course Importable course data array.
+	 * @return void
+	 */
 	public function output_before_importable_course( $course ) {
 		?>
 		<label>
@@ -343,6 +364,16 @@ class LLMS_Admin_Setup_Wizard {
 		<?php
 	}
 
+	/**
+	 * Output HTML after to each importable course
+	 *
+	 * Closes the label element opened in `output_before_importable_course()`.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $course Importable course data array.
+	 * @return void
+	 */
 	public function output_after_importable_course( $course ) {
 		echo '</label>';
 	}
@@ -354,20 +385,17 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.3.0 Unknown.
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
+	 * @since [version] Moved logic for each wizard step into it's own method.
 	 *
-	 * @return void
+	 * @return null|WP_Error
 	 */
 	public function save() {
 
-		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! llms_verify_nonce( 'llms_setup_nonce', 'llms_setup_save' ) ) {
+		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! llms_verify_nonce( 'llms_setup_nonce', 'llms_setup_save' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			return null;
 		}
 
-		if ( ! current_user_can( 'manage_lifterlms' ) ) {
-			return null;
-		}
-
-		$res = new WP_Error( 'llms-setup-coupon-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
+		$res = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 		$step = llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING );
 		if ( method_exists( $this, 'save_' . $step ) ) {
@@ -379,16 +407,19 @@ class LLMS_Admin_Setup_Wizard {
 			return $res;
 		}
 
-		if ( 'finish' === $step ) {
-			$url = get_edit_post_link( $res, 'not-display' );
-		} else {
-			$url = $this->get_step_url( $this->get_next_step() );
-		}
+		$url = ( 'finish' === $step ) ? $this->get_completed_url( $res ) : $this->get_step_url( $this->get_next_step() );
 
 		return llms_redirect_and_exit( $url );
 
 	}
 
+	/**
+	 * Save the "Coupon" step
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Error|boolean Returns `true` on success otherwise returns a WP_Error.
+	 */
 	protected function save_coupon() {
 
 		update_option( 'llms_allow_tracking', 'yes' );
@@ -408,14 +439,29 @@ class LLMS_Admin_Setup_Wizard {
 
 	}
 
+	/**
+	 * Save the "Pages" creation step
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Error|boolean Returns `true` on success otherwise returns a WP_Error.
+	 */
 	protected function save_pages() {
 
 		return LLMS_Install::create_pages() ? true : new WP_Error( 'llms-setup-pages-save', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
 	}
 
+	/**
+	 * Save the "Payments" step.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean Always returns true
+	 */
 	protected function save_payments() {
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is verified in `save()`.
 		$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
 		update_option( 'lifterlms_country', $country );
 
@@ -424,11 +470,19 @@ class LLMS_Admin_Setup_Wizard {
 
 		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
 		update_option( 'llms_gateway_manual_enabled', $manual );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		return true;
 
 	}
 
+	/**
+	 * Save the "Finish" step.
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Error|int[]|boolaen Returns an array of generated WP_Post IDs on success, `false` when no import IDs are posted, otherwise returns a WP_Error.
+	 */
 	protected function save_finish() {
 
 		$ids = (array) llms_filter_input( INPUT_POST, 'llms_setup_course_import_ids', FILTER_DEFAULT, FILTER_FORCE_ARRAY );
@@ -442,13 +496,9 @@ class LLMS_Admin_Setup_Wizard {
 			return $res;
 		}
 
-		add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
-
 		$gen = new LLMS_Generator( $res );
 		$gen->set_generator();
 		$gen->generate();
-
-		remove_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
 
 		if ( $gen->is_error() ) {
 			return $gen->get_results();
@@ -456,6 +506,20 @@ class LLMS_Admin_Setup_Wizard {
 
 		return $gen->get_generated_courses();
 
+	}
+
+	/**
+	 * Allow the Sample Content installed during the final step to be published rather than drafted
+	 *
+	 * @since 3.3.0
+	 * @deprecated [version] LLMS_Admin_Setup_Wizard::generator_course_status() is deprecated with no replacement.
+	 *
+	 * @param string $status Post status.
+	 * @return string
+	 */
+	public function generator_course_status( $status ) {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::generator_course_status()', '[version]' );
+		return 'publish';
 	}
 
 	/**
@@ -490,7 +554,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Uses this to handle redirect after import and generation is completed.
 	 *
 	 * @since 3.37.14
-	 * @deprecated [version]
+	 * @deprecated [version] LLMS_Admin_Setup_Wizard::watch_course_generation() is deprecated with no replacement.
 	 *
 	 * @param LLMS_Course $course Course object.
 	 * @return void

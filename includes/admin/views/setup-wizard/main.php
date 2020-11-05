@@ -70,7 +70,15 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php if ( 'finish' === $current ) : ?>
 			<footer class="llms-setup-footer">
-				<p><em><?php _e( 'Imported course content and images will be downloaded and imported into this site from lifterlms.com.', 'lifterlms' ); ?></em></p>
+				<p><em>
+					<?php
+					printf(
+						// Translators: %s = anchor link to LifterLMS.com.
+						__( 'Imported course content and images will be downloaded and imported into this site from %s.', 'lifterlms' ),
+						'<a href="https://lifterlms.com" target="_blank">LifterLMS.com</a>'
+					);
+					?>
+				</em></p>
 			</footer>
 		<?php endif; ?>
 
