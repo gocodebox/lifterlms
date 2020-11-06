@@ -2,9 +2,7 @@
 /**
  * Manage imports from lifterlms.com export API
  *
- * File description.
- *
- * @package LifterLMS/Classes
+ * @package LifterLMS/Admin/Classes
  *
  * @since [version]
  * @version [version]
@@ -73,7 +71,7 @@ class LLMS_Export_API {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $page     Results page
+	 * @param int $page     Results page.
 	 * @param int $per_page Results per page.
 	 * @return array[]|WP_Error
 	 */

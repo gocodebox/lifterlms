@@ -23,9 +23,9 @@ defined( 'ABSPATH' ) || exit;
 	 */
 	do_action( 'llms_before_importable_courses', $courses );
 
-foreach ( $courses as $course ) {
-	include LLMS_PLUGIN_DIR . 'includes/admin/views/importable-course.php';
-}
+	foreach ( $courses as $course ) {
+		include LLMS_PLUGIN_DIR . 'includes/admin/views/importable-course.php';
+	}
 
 	/**
 	 * Action run after the output of an importable course list
