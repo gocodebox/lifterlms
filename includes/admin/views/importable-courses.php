@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <ul class="llms-importable-courses">
-<?php
+	<?php
 	/**
 	 * Action run prior to the output of an importable course list
 	 *
@@ -35,5 +35,5 @@ defined( 'ABSPATH' ) || exit;
 	 * @param array[] $courses List of importable course data.
 	 */
 	do_action( 'llms_after_importable_courses', $courses );
-?>
+	?>
 </ul>
