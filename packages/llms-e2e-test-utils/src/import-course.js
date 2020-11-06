@@ -9,6 +9,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * Import a course JSON file
  *
  * @since 2.2.0
+ * @since [version] Update to accommodate changes in the LifterLMS core.
  *
  * @param {String}  importFile Filename of the import.
  * @param {String}  importPath Local path where the file is located. By default uses `tests/assets/`.
@@ -23,6 +24,8 @@ export async function importCourse( importFile, importPath = '', navigate = true
 
 	await visitAdminPage( 'admin.php', 'page=llms-import' );
 
+	await page.click( 'button.page-title-action' );
+
 	const inputSelector = 'input[name="llms_import"]'
 	await page.waitForSelector( inputSelector );
 	const fileUpload = await page.$( inputSelector );
@@ -30,16 +33,11 @@ export async function importCourse( importFile, importPath = '', navigate = true
 	fileUpload.uploadFile( file );
 	await page.waitFor( 1000 );
 
-	await clickAndWait( 'button.llms-button-primary[type="submit"]' );
+	await clickAndWait( '#llms-import-file-submit' );
 
 	if ( navigate ) {
 
-		// Search for the imported course by name.
-		const { title } = JSON.parse( fs.readFileSync( file ) );
-		await visitAdminPage( 'edit.php', new URLSearchParams( { s: title, post_type: 'course' } ).toString() );
-
-		// Go to that course.
-		await clickAndWait( '.wp-list-table.posts tbody tr:first-child a.row-title' );
+		await clickAndWait( '.llms-admin-notice.notice-success a' );
 
 	}
 
