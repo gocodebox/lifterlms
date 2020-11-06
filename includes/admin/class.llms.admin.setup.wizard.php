@@ -165,11 +165,11 @@ class LLMS_Admin_Setup_Wizard {
 		$i    = array_search( $step, $keys, true );
 
 		// Next step doesn't exist or the next step would be greater than the index of the last step.
-		if ( false === $i || $i++ >= count( $keys ) - 1 ) {
+		if ( false === $i || $i + 1 >= count( $keys ) ) {
 			return false;
 		}
 
-		return $keys[ $i++ ];
+		return $keys[ ++$i ];
 	}
 
 	/**
