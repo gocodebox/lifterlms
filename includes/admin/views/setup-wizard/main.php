@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
 						<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
 					<?php else : ?>
 
-						<a class="llms-exit-setup" data-confirm="<?php esc_attr_e( 'The site setup is incomplete! Are you sure you wish to exit?', 'lifterlms' ); ?>" href="<?php echo esc_url( admin_url() ); ?>"><?php _e( 'Exit Setup', 'lifterlms' ); ?></a>
+						<a class="llms-exit-setup" data-confirm="<?php esc_attr_e( 'The site setup is incomplete! Are you sure you wish to exit?', 'lifterlms' ); ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings' ) ); ?>"><?php _e( 'Exit Setup', 'lifterlms' ); ?></a>
 
 						<?php if ( $next ) : ?>
 							<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
