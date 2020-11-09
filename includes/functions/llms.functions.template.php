@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions
  *
- * @since unknown
+ * @since Unknown
  * @version [version]
  */
 
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get template part
  *
- * @since unknown
+ * @since Unknown
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name Optional. The name of the specialised template. Default is empty string.
@@ -40,7 +40,7 @@ function llms_get_template_part( $slug, $name = '' ) {
 	 *
 	 * Allow 3rd party plugin filter template file from their plugin.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param string $template The path to the template file.
 	 * @param string $slug     The slug name for the generic template.
@@ -56,7 +56,7 @@ function llms_get_template_part( $slug, $name = '' ) {
 /**
  * Get Template part contents
  *
- * @since unknown
+ * @since Unknown
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name Optional. The name of the specialised template. Default is empty string.
@@ -107,7 +107,7 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	/**
 	 * Fired before a template part is included
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param string $template_name Name of template.
 	 * @param string $template_path Dir path to template as passed to the `llms_get_template()` function.
@@ -123,7 +123,7 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	/**
 	 * Fired after a template part is included
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param string $template_name Name of template.
 	 * @param string $template_path Dir path to template as passed to the `llms_get_template()` function.
@@ -183,7 +183,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 	 *
 	 * Allow 3rd party plugin filter template file from their plugin.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param string $template      The path to the template file. Empty string if no template found.
 	 * @param string $template_name Name of template.
@@ -195,7 +195,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 /**
  * Get template override
  *
- * @since unknown
+ * @since Unknown
  * @since [version] Move template override directories logic into llms_get_template_override_directories.
  *
  * @param string $template Template file.
@@ -247,7 +247,7 @@ function llms_get_template_override_directories() {
 	 *
 	 * Allow themes and plugins to determine which folders to look in for theme overrides.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param string[] $theme_override_directories List of theme override directory paths.
 	 */
