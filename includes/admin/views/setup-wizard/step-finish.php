@@ -24,3 +24,25 @@ $courses = LLMS_Export_API::list( 1, 3 );
 <p><?php _e( 'Accelerate your progress by installing a quick LifterLMS training course and useful course templates.', 'lifterlms' ); ?></p>
 
 <?php require LLMS_PLUGIN_DIR . 'includes/admin/views/importable-courses.php'; ?>
+
+<div class="llms-importing-msgs">
+	<p class="llms-importing-msg single">
+		<?php
+		printf(
+			// Translators: %s = anchor link to LifterLMS.com.
+			__( 'The selected course will be downloaded and imported into this site from %s.', 'lifterlms' ),
+			'<a href="https://lifterlms.com" target="_blank">LifterLMS.com</a>'
+		);
+		?>
+	</p>
+	<p class="llms-importing-msg multiple">
+		<?php
+		printf(
+			// Translators: %1$s = The number of selected courses; %2$s = anchor link to LifterLMS.com.
+			__( 'The %1$s selected courses will be downloaded and imported into this site from %2$s.', 'lifterlms' ),
+			'<span id="llms-importing-number">2</span>',
+			'<a href="https://lifterlms.com" target="_blank">LifterLMS.com</a>'
+		);
+		?>
+	</p>
+</div>
