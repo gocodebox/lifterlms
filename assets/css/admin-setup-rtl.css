@@ -14,13 +14,6 @@
   margin: 20px auto;
   max-width: 640px; }
 
-.llms-setup-footer {
-  margin: 0 10px; }
-  .llms-setup-footer a {
-    color: #2295ff; }
-  .llms-setup-footer .llms-importing-msg {
-    display: none; }
-
 #llms-logo {
   text-align: center; }
   #llms-logo img {
@@ -77,6 +70,13 @@
         .llms-setup-content ul.llms-importable-courses li.llms-importable-course .llms-switch input.llms-toggle-round:checked + label {
           border-color: #2295ff;
           background-color: #2295ff; }
+  .llms-setup-content .llms-importing-msgs a {
+    color: #2295ff; }
+  .llms-setup-content .llms-importing-msgs .llms-importing-msg {
+    display: none;
+    font-size: 14px;
+    font-style: italic;
+    text-align: left; }
 
 .llms-setup-progress {
   display: -webkit-box;
