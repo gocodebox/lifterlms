@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since unknown
- * @version unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,9 +13,10 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Get template part
  *
- * @param  string $slug [url slug of template]
- * @param  string $name [name of template]
+ * @since unknown
  *
+ * @param string $slug The slug name for the generic template.
+ * @param string $name Optional. The name of the specialised template. Default is empty string.
  * @return void
  */
 function llms_get_template_part( $slug, $name = '' ) {
@@ -34,7 +35,17 @@ function llms_get_template_part( $slug, $name = '' ) {
 		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
 	}
 
-	// Allow 3rd party plugin filter template file from their plugin.
+	/**
+	 * Filters the template file path
+	 *
+	 * Allow 3rd party plugin filter template file from their plugin.
+	 *
+	 * @since unknown
+	 *
+	 * @param string $template The path to the template file.
+	 * @param string $slug     The slug name for the generic template.
+	 * @param stirng $name     The name of the specialised template.
+	 */
 	$template = apply_filters( 'llms_get_template_part', $template, $slug, $name );
 
 	if ( $template ) {
@@ -45,10 +56,11 @@ function llms_get_template_part( $slug, $name = '' ) {
 /**
  * Get Template part contents
  *
- * @param  string $slug [url slug]
- * @param  string $name [name of template]
+ * @since unknown
  *
- * @return string [name of file]
+ * @param string $slug The slug name for the generic template.
+ * @param string $name Optional. The name of the specialised template. Default is empty string.
+ * @return string
  */
 function llms_get_template_part_contents( $slug, $name = '' ) {
 	$template = '';
@@ -66,7 +78,6 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
 	}
 
-	// Allow 3rd party plugin filter template file from their plugin.
 	if ( $template ) {
 		return $template;
 	}
@@ -75,13 +86,16 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 /**
  * Get Template Part
  *
- * @param    string $template_name [name of template]
- * @param    array  $args          [array of pst args]
- * @param    string $template_path [file path to template]
- * @param    string $default_path  [default file path]
- * @return   void
- * @since    1.0.0
- * @version  3.16.0
+ * @since 1.0.0
+ * @since 3.16.0 Unknown
+ *
+ * @param string $template_name Name of template.
+ * @param array  $args          Array of arguments accessible from the template.
+ * @param string $template_path Optional. Dir path to template. Default is empty string.
+ *                              If not supplied the one retrived from `LLMS()->template_path()` will be used.
+ * @param string $default_path  Optional. Default path is empty string.
+ *                              If not supplied the template path is `LLMS()->plugin_path() . '/templates/'`.
+ * @return void
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 	if ( $args && is_array( $args ) ) {
@@ -90,12 +104,32 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 
 	$located = llms_locate_template( $template_name, $template_path, $default_path );
 
+	/**
+	 * Fired before a template part is included
+	 *
+	 * @since unknown
+	 *
+	 * @param string $template_name Name of template.
+	 * @param string $template_path Dir path to template as passed to the `llms_get_template()` function.
+	 * @param string $located       The full path of the template file to load.
+	 * @param array  $args          Array of arguments accessible from the template.
+	 */
 	do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
 	if ( file_exists( $located ) ) {
 		include $located;
 	}
 
+	/**
+	 * Fired after a template part is included
+	 *
+	 * @since unknown
+	 *
+	 * @param string $template_name Name of template.
+	 * @param string $template_path Dir path to template as passed to the `llms_get_template()` function.
+	 * @param string $located       The full path of the (maybe) loaded template file.
+	 * @param array  $args          Array of arguments accessible from the template.
+	 */
 	do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
 }
 
@@ -111,12 +145,15 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
 /**
  * Locate Template
  *
- * @param   string $template_name name of template
- * @param   string $template_path dir path to template
- * @param   string $default_path  default path
- * @return  string
- * @since   1.0.0
- * @version 3.0.0 - only returns path if template exists
+ * @param string $template_name Name of template.
+ * @param string $template_path Optional. Dir path to template. Default is empty string.
+ *                              If not supplied the one retrived from `LLMS()->template_path()` will be used.
+ * @param string $default_path  Optional. Default path is empty string.
+ *                              If not supplied the template path is `LLMS()->plugin_path() . '/templates/'`.
+ * @return string
+ *
+ * @since 1.0.0
+ * @since 3.0.0 Only returns path if template exists.
  */
 function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
 	if ( ! $template_path ) {
@@ -141,28 +178,32 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 
 	}
 
-	// Return template.
+	/**
+	 * Filters the maybe located template file path
+	 *
+	 * Allow 3rd party plugin filter template file from their plugin.
+	 *
+	 * @since unknown
+	 *
+	 * @param string $template      The path to the template file. Empty string if no template found.
+	 * @param string $template_name Name of template.
+	 * @param string $template_path Dir path to template.
+	 */
 	return apply_filters( 'lifterlms_locate_template', $template, $template_name, $template_path );
 }
 
 /**
- * Get Template Override
+ * Get template override
  *
- * @param  string $template [template file]
- * @return mixed [template file or false if none exists.]
+ * @since unknown
+ * @since [version] Move template override directories logic into llms_get_template_override_directories.
+ *
+ * @param string $template Template file.
+ * @return mixed Template file or false if none exists.
  */
 function llms_get_template_override( $template = '' ) {
 
-	/**
-	* Allow themes and plugins to determine which folders to look in for theme overrides
-	*/
-	$dirs = apply_filters(
-		'lifterlms_theme_override_directories',
-		array(
-			get_stylesheet_directory() . '/lifterlms',
-			get_template_directory() . '/lifterlms',
-		)
-	);
+	$dirs = llms_get_template_override_directories();
 
 	foreach ( $dirs as $dir ) {
 
@@ -176,3 +217,40 @@ function llms_get_template_override( $template = '' ) {
 	return false;
 }
 
+/**
+ * Get template override directories.
+ *
+ * Moved from `llms_get_template_override()`.
+ *
+ * @since [version]
+ *
+ * @return string[]
+ */
+function llms_get_template_override_directories() {
+
+	$dirs = wp_cache_get( 'theme-override-directories', 'llms_template_functions' );
+	if ( false === $dirs ) {
+		$dirs = array_filter(
+			array_unique(
+				array(
+					get_stylesheet_directory() . '/lifterlms',
+					get_template_directory() . '/lifterlms',
+				)
+			),
+			'is_dir'
+		);
+		wp_cache_set( 'theme-override-directories', $dirs, 'llms_template_functions' );
+	}
+
+	/**
+	 * Filters the theme override directories
+	 *
+	 * Allow themes and plugins to determine which folders to look in for theme overrides.
+	 *
+	 * @since unknown
+	 *
+	 * @param string[] $theme_override_directories List of theme override directory paths.
+	 */
+	return apply_filters( 'lifterlms_theme_override_directories', $dirs );
+
+}
