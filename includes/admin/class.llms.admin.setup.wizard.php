@@ -362,7 +362,7 @@ class LLMS_Admin_Setup_Wizard {
 		?>
 		<label>
 			<div class="llms-switch">
-				<input class="llms-toggle llms-toggle-round" id="llms-setup-import-course-<?php echo $id; ?>" name="llms_setup_course_import_ids[]" value="<?php echo $id; ?>" type="checkbox" checked>
+				<input class="llms-toggle llms-toggle-round" id="llms-setup-import-course-<?php echo $id; ?>" name="llms_setup_course_import_ids[]" value="<?php echo $id; ?>" type="checkbox">
 				<label for="llms-setup-import-course-<?php echo $id; ?>"><span class="screen-reader-text"><?php _e( 'Toggle to import course', 'lifterlms' ); ?></label>
 			</div>
 		<?php
