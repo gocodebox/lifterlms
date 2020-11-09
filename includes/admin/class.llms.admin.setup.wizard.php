@@ -349,7 +349,7 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Output HTML prior to each importable course
 	 *
-	 * Adds an opening label wrapper and adds HTML data to turn the element into a checkbox.
+	 * Adds an opening label wrapper and adds HTML data to turn the element into a toggleable form element.
 	 *
 	 * @since [version]
 	 *
@@ -357,11 +357,16 @@ class LLMS_Admin_Setup_Wizard {
 	 * @return void
 	 */
 	public function output_before_importable_course( $course ) {
+
+		$id = absint( $course['id'] );
 		?>
 		<label>
-			<input name="llms_setup_course_import_ids[]" value="<?php echo absint( $course['id'] ); ?>" type="checkbox" checked>
-			<span class="dashicons dashicons-yes-alt"></span>
+			<div class="llms-switch">
+				<input class="llms-toggle llms-toggle-round" id="llms-setup-import-course-<?php echo $id; ?>" name="llms_setup_course_import_ids[]" value="<?php echo $id; ?>" type="checkbox" checked>
+				<label for="llms-setup-import-course-<?php echo $id; ?>"><span class="screen-reader-text"><?php _e( 'Toggle to import course', 'lifterlms' ); ?></label>
+			</div>
 		<?php
+
 	}
 
 	/**
