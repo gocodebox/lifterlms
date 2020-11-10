@@ -49,9 +49,6 @@ export async function runSetupWizard( { coursesToImport = [ 'LifterLMS Quickstar
 	await clickAndWait( '.llms-setup-actions .llms-button-secondary' ); // Skip the coupon.
 	expect( await getTitle() ).toBe( 'Setup Complete!' );
 
-	// Import button should be available.
-	expect( await page.$eval( '#llms-setup-submit', el => el.disabled ) ).toBe( false );
-
 	// Import button should be disabled.
 	expect( await page.$eval( '#llms-setup-submit', el => el.disabled ) ).toBe( true );
 
