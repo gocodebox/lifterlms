@@ -39,7 +39,12 @@ class LLMS_Export_API {
 			'https://academy.lifterlms.com/wp-json/llms-academy/v1/exports'
 		);
 
-		$req  = wp_safe_remote_get( add_query_arg( $args, $base_url ) );
+		$req  = wp_safe_remote_get(
+			add_query_arg( $args, $base_url ),
+			array(
+				'timeout' => 15,
+			)
+		);
 		$body = json_decode( wp_remote_retrieve_body( $req ), true );
 		if ( 200 === wp_remote_retrieve_response_code( $req ) ) {
 			return $body;
