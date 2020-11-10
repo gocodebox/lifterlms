@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v4.7.1 - 2020-11-05
+-------------------
+
+##### Bug fixes
+
++ During import generation set the post excerpt during the initial post insert instead of during metadata updates after creation.
+
+##### LifterLMS REST API 1.0.0-beta.16
+
++ Improved performance of various database queries.
+
+
 v4.7.0 - 2020-11-02
 -------------------
 

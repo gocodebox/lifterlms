@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b649eebff55bdb113013662be56adcb",
+    "content-hash": "77e29d2d340f88616586342817be6fb0",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -47,21 +47,21 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.15",
+            "version": "1.0.0-beta.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "1b5279f92ff056981854e396c287884ce2812cd0"
+                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/1b5279f92ff056981854e396c287884ce2812cd0",
-                "reference": "1b5279f92ff056981854e396c287884ce2812cd0",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/714d17a6c997487214e8d3e94b64fbc8e8a1c253",
+                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253",
                 "shasum": ""
             },
             "require-dev": {
                 "lifterlms/lifterlms-cs": "dev-master",
-                "lifterlms/lifterlms-tests": "dev-master"
+                "lifterlms/lifterlms-tests": "dev-trunk"
             },
             "type": "wordpress-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -77,9 +77,9 @@
             "description": "REST API feature plugin for the LifterLMS Core.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
-                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.15"
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.16"
             },
-            "time": "2020-09-21T18:07:23+00:00"
+            "time": "2020-11-05T18:13:48+00:00"
         },
         {
             "name": "woocommerce/action-scheduler",
@@ -200,37 +200,31 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "dev-master",
+            "version": "1.5.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "3e7a22aed197e9333cc929e7f6b4300bdae91fcc"
+                "reference": "6410c4b8352cb64218641457cef64997e6b784fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/3e7a22aed197e9333cc929e7f6b4300bdae91fcc",
-                "reference": "3e7a22aed197e9333cc929e7f6b4300bdae91fcc",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/6410c4b8352cb64218641457cef64997e6b784fb",
+                "reference": "6410c4b8352cb64218641457cef64997e6b784fb",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^6.0",
+                "doctrine/coding-standard": "^8.0",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpbench/phpbench": "^0.13",
-                "phpstan/phpstan-phpunit": "^0.11",
-                "phpstan/phpstan-shim": "^0.11",
-                "phpunit/phpunit": "^7.0"
+                "phpbench/phpbench": "^0.13 || 1.0.0-alpha2",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
             },
-            "default-branch": true,
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
@@ -244,7 +238,7 @@
                 {
                     "name": "Marco Pivetta",
                     "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
+                    "homepage": "https://ocramius.github.io/"
                 }
             ],
             "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
@@ -255,7 +249,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/master"
+                "source": "https://github.com/doctrine/instantiator/tree/1.4.x"
             },
             "funding": [
                 {
@@ -271,7 +265,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-15T18:51:04+00:00"
+            "time": "2020-11-10T19:05:51+00:00"
         },
         {
             "name": "lifterlms/lifterlms-cs",
@@ -323,18 +317,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "ead681bc3047aceab608b160122aeb5749138bb5"
+                "reference": "ed4619ef210e7b2bc7d83cdaaf172baca31ae64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/ead681bc3047aceab608b160122aeb5749138bb5",
-                "reference": "ead681bc3047aceab608b160122aeb5749138bb5",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/ed4619ef210e7b2bc7d83cdaaf172baca31ae64b",
+                "reference": "ed4619ef210e7b2bc7d83cdaaf172baca31ae64b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
                 "phpunit/phpunit": "^7.5"
             },
+            "default-branch": true,
             "bin": [
                 "bin/llms-tests",
                 "bin/llms-env"
@@ -353,9 +348,9 @@
             "description": "Testing framework for LifterLMS projects",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
-                "source": "https://github.com/gocodebox/lifterlms-tests/tree/master"
+                "source": "https://github.com/gocodebox/lifterlms-tests/tree/trunk"
             },
-            "time": "2020-11-03T20:38:17+00:00"
+            "time": "2020-11-05T23:45:31+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2149,12 +2144,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "dbfd9e6ae07c0ee3a65e5adc3a1dbf9faddcfed0"
+                "reference": "99b0339bce7eaae8b5285398d5f1492da734d1ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dbfd9e6ae07c0ee3a65e5adc3a1dbf9faddcfed0",
-                "reference": "dbfd9e6ae07c0ee3a65e5adc3a1dbf9faddcfed0",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/99b0339bce7eaae8b5285398d5f1492da734d1ac",
+                "reference": "99b0339bce7eaae8b5285398d5f1492da734d1ac",
                 "shasum": ""
             },
             "require": {
@@ -2198,7 +2193,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2020-11-02T21:27:24+00:00"
+            "time": "2020-11-03T22:22:47+00:00"
         },
         {
             "name": "symfony/config",
@@ -2206,12 +2201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "5948e9f60e7618f6d3507a25ee8c79cefb34f870"
+                "reference": "e90f717c34788c11644478414c93fb766b669dc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/5948e9f60e7618f6d3507a25ee8c79cefb34f870",
-                "reference": "5948e9f60e7618f6d3507a25ee8c79cefb34f870",
+                "url": "https://api.github.com/repos/symfony/config/zipball/e90f717c34788c11644478414c93fb766b669dc4",
+                "reference": "e90f717c34788c11644478414c93fb766b669dc4",
                 "shasum": ""
             },
             "require": {
@@ -2261,7 +2256,7 @@
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v5.2.0-BETA3"
+                "source": "https://github.com/symfony/config/tree/v5.2.0-RC1"
             },
             "funding": [
                 {
@@ -2277,7 +2272,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T12:08:07+00:00"
+            "time": "2020-10-28T21:46:03+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2285,12 +2280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "6f284b0f709dbc2fdd2ce32b120a5724db7410c7"
+                "reference": "ff71914efb285cfe375dbfa12b79a779b89be1dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/6f284b0f709dbc2fdd2ce32b120a5724db7410c7",
-                "reference": "6f284b0f709dbc2fdd2ce32b120a5724db7410c7",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/ff71914efb285cfe375dbfa12b79a779b89be1dc",
+                "reference": "ff71914efb285cfe375dbfa12b79a779b89be1dc",
                 "shasum": ""
             },
             "require": {
@@ -2349,7 +2344,7 @@
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/5.x"
+                "source": "https://github.com/symfony/dependency-injection/tree/v5.2.0-RC1"
             },
             "funding": [
                 {
@@ -2365,7 +2360,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-02T15:47:15+00:00"
+            "time": "2020-11-09T12:21:52+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2442,12 +2437,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "df08650ea7aee2d925380069c131a66124d79177"
+                "reference": "4326782dcccf8aa873b26999e36c6c71c8d3404b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/df08650ea7aee2d925380069c131a66124d79177",
-                "reference": "df08650ea7aee2d925380069c131a66124d79177",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/4326782dcccf8aa873b26999e36c6c71c8d3404b",
+                "reference": "4326782dcccf8aa873b26999e36c6c71c8d3404b",
                 "shasum": ""
             },
             "require": {
@@ -2481,7 +2476,7 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.2.0-BETA3"
+                "source": "https://github.com/symfony/filesystem/tree/v5.2.0-RC1"
             },
             "funding": [
                 {
@@ -2497,7 +2492,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T12:01:57+00:00"
+            "time": "2020-10-28T21:33:29+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

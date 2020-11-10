@@ -1,5 +1,8 @@
 @import "_includes/vars";
 
+#wpadminbar, #adminmenumain, #wpfooter {
+	display: none;
+}
 
 #llms-setup-wizard {
 
@@ -10,31 +13,18 @@
 	position: fixed;
 	top: 0;
 	width: 100%;
-	z-index: 777777;
-
-}
-
-.select2-container {
-	z-index: 7777777;
 }
 
 .llms-setup-wrapper {
-	margin: 60px auto;
+	margin: 20px auto;
 	max-width: 640px;
-}
-
-a.dashboard-return {
-	color: #aaa;
-	display: block;
-	margin-top: 10px;
-	text-align: center;
 }
 
 #llms-logo {
 	text-align: center;
 
 	img {
-		max-width: 400px;
+		max-width: 200px;
 	}
 }
 
@@ -70,7 +60,8 @@ a.dashboard-return {
 		text-align: right;
 	}
 
-	.back-link {
+	.llms-exit-setup {
+		color: inherit !important;
 		margin-right: 10px;
 	}
 
@@ -87,10 +78,46 @@ a.dashboard-return {
 			padding-right: 10px;
 			width: 33%;
 			a {
-				// text-decoration: none;
 				font-size: 16px;
 				font-weight: 500;
 			}
+		}
+	}
+
+	ul.llms-importable-courses {
+		display: block;
+		li.llms-importable-course {
+			border-bottom: 1px solid #f1f1f1;
+			display: block;
+			max-width: 100%;
+			padding-bottom: 15px;
+
+			img {
+				float: left;
+				margin-right: 15px;
+				width: 20%;
+			}
+
+			.llms-switch {
+				float: right;
+
+				input.llms-toggle-round:checked + label {
+					border-color: $color-brand-blue;
+				 	background-color: $color-brand-blue;
+				}
+
+			}
+		}
+	}
+
+
+	.llms-importing-msgs {
+		a { color: $color-brand-blue; }
+		.llms-importing-msg {
+			display: none;
+			font-size: 14px;
+			font-style: italic;
+			text-align: right;
 		}
 	}
 
@@ -102,13 +129,17 @@ a.dashboard-return {
 
 	li {
 		border-bottom: 4px solid $color-brand-blue;
-		color: $color-brand-blue;
 		display: inline-block;
 		font-size: 14px;
 		padding-bottom: 10px;
 		position: relative;
 		text-align: center;
 		flex: 1;
+
+		a {
+			color: $color-brand-blue;
+			text-decoration: none;
+		}
 
 		&:after {
 			background: $color-brand-blue;
@@ -125,6 +156,7 @@ a.dashboard-return {
 		}
 
 		&.current {
+			font-weight: 700;
 			&:after {
 				background: #fff;
 			}
@@ -132,10 +164,12 @@ a.dashboard-return {
 
 		&.current ~ li {
 			border-bottom-color: #ccc;
-			color: #ccc;
 			&:after {
 				background: #ccc;
 				border-color: #ccc;
+			}
+			a {
+				color: #bbb;
 			}
 		}
 

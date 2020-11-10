@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,11 +28,91 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.35.0 Initialize at `admin_init` instead of `init`.
+	 * @since [version] Added hooks handling cloud imports and outputting WP help tabs.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+
+		add_action( 'admin_init', array( $this, 'cloud_import' ) );
 		add_action( 'admin_init', array( $this, 'upload_import' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+
+		add_action( 'current_screen', array( $this, 'add_help_tabs' ) );
+
+	}
+
+	/**
+	 * Add WP_Screen help tabs
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Screen|boolean Returns the WP_Screen on success or false if called outside of the intended screen context.
+	 */
+	public function add_help_tabs() {
+
+		$screen = $this->get_screen();
+		if ( ! $screen ) {
+			return false;
+		}
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'llms_import_overview',
+				'title'   => __( 'Overview', 'lifterlms' ),
+				'content' => $this->get_view( 'help-tab-overview' ),
+			)
+		);
+
+		$screen->set_help_sidebar( $this->get_view( 'help-sidebar' ) );
+
+		return $screen;
+
+	}
+
+	/**
+	 * Handle form submission of a cloud import file
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Error|boolean Returns `false` for nonce or user permission errors, `true` on success, or an error object.
+	 */
+	public function cloud_import() {
+
+		if ( ! llms_verify_nonce( 'llms_cloud_importer_nonce', 'llms-cloud-importer' ) || ! current_user_can( 'manage_lifterlms' ) ) {
+			return false;
+		}
+
+		$course_id = llms_filter_input( INPUT_POST, 'llms_cloud_import_course_id', FILTER_SANITIZE_NUMBER_INT );
+		if ( ! $course_id ) {
+			return $this->show_error( new WP_Error( 'llms-cloud-import-missing-id', __( 'Error: Missing course ID.', 'lifterlms' ) ) );
+		}
+
+		$res = LLMS_Export_API::get( array( $course_id ) );
+		if ( is_wp_error( $res ) ) {
+			return $this->show_error( $res );
+		}
+
+		return $this->handle_generation( $res );
+
+	}
+
+	/**
+	 * Enqueue static assets used on the screen
+	 *
+	 * @since [version]
+	 *
+	 * @return null|boolean Returns `null` when called outside of the intended screen context, `true` on success, or `false` on error.
+	 */
+	public function enqueue() {
+
+		if ( ! $this->get_screen() ) {
+			return null;
+		}
+
+		return llms()->assets->enqueue_style( 'llms-admin-importer' );
+
 	}
 
 	/**
@@ -62,6 +142,40 @@ class LLMS_Admin_Import {
 		}
 
 		return implode( ', ', $list );
+
+	}
+
+	/**
+	 * Retrieve an instance of the WP_Screen for the import screen
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the import screen, otherwise returns `false`.
+	 */
+	protected function get_screen() {
+
+		$screen = get_current_screen();
+		if ( $screen instanceof WP_Screen && 'lifterlms_page_llms-import' === $screen->id ) {
+			return $screen;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Retrieves the HTML of a view from the views/import directory.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $file The file basename of the view to retrieve.
+	 * @return string The HTML content of the view.
+	 */
+	protected function get_view( $file ) {
+
+		ob_start();
+		include 'views/import/' . $file . '.php';
+		return ob_get_clean();
 
 	}
 
@@ -96,6 +210,31 @@ class LLMS_Admin_Import {
 	}
 
 	/**
+	 * Instantiate and generate raw data via LLMS_Generator
+	 *
+	 * @since [version]
+	 *
+	 * @param string|array $raw A JSON string or array or raw data which can be parsed by an LLMS_Generator instance.
+	 * @return WP_Error|boolean On success, returns true or an error object on failure.
+	 */
+	protected function handle_generation( $raw ) {
+
+		$generator = new LLMS_Generator( $raw );
+		if ( is_wp_error( $generator->set_generator() ) ) {
+			return $this->show_error( $generator->error );
+		}
+
+		$generator->generate();
+		if ( $generator->is_error() ) {
+			return $this->show_error( $generator->error );
+		}
+
+		LLMS_Admin_Notices::flash_notice( $this->get_success_message( $generator ), 'success' );
+		return true;
+
+	}
+
+	/**
 	 * Handle HTML output on the screen
 	 *
 	 * @since 3.3.0
@@ -109,6 +248,19 @@ class LLMS_Admin_Import {
 	}
 
 	/**
+	 * Output an admin notice from a WP_Error object
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Error $error WP_Error object.
+	 * @return WP_Error Returns the same error passed into the object.
+	 */
+	protected function show_error( $error ) {
+		LLMS_Admin_Notices::flash_notice( $error->get_error_message(), 'error' );
+		return $error;
+	}
+
+	/**
 	 * Handle form submission
 	 *
 	 * @since 3.3.0
@@ -118,6 +270,7 @@ class LLMS_Admin_Import {
 	 *               Updated return signature.
 	 * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
 	 * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
+	 * @since [version] Use helper methods `show_error()` and `handle_generation()`.
 	 *
 	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */
@@ -136,28 +289,14 @@ class LLMS_Admin_Import {
 
 		// File upload error.
 		if ( is_wp_error( $validate ) ) {
-			LLMS_Admin_Notices::flash_notice( $validate->get_error_message(), 'error' );
-			return $validate;
+			return $this->show_error( $validate );
 		}
 
-		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( $_FILES['llms_import']['tmp_name'] ) ) : array();
+		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( $_FILES['llms_import']['tmp_name'] ) ) : array(); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitizedr
 
-		$generator = new LLMS_Generator( $raw );
-		if ( is_wp_error( $generator->set_generator() ) ) {
-			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-			return $generator->error;
-		}
-
-		$generator->generate();
-		if ( $generator->is_error() ) {
-			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-			return $generator->error;
-		}
-
-		LLMS_Admin_Notices::flash_notice( $this->get_success_message( $generator ), 'success' );
-		return true;
+		return $this->handle_generation( $raw );
 
 	}
 

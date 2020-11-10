@@ -1085,7 +1085,7 @@ msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:358, includes/admin/class-llms-admin-users-table.php:118, includes/admin/class.llms.admin.builder.php:60, includes/admin/class.llms.admin.import.php:250, includes/integrations/class.llms.integration.buddypress.php:69, includes/integrations/class.llms.integration.buddypress.php:84, includes/admin/reporting/class.llms.admin.reporting.php:291, includes/admin/settings/class.llms.settings.courses.php:32, templates/admin/analytics/analytics.php:97, templates/admin/reporting/nav-filters.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:69, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72, includes/admin/reporting/tables/llms.table.courses.php:181, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108, templates/admin/reporting/tabs/courses/course.php:21
+#: includes/class.llms.post-types.php:358, includes/admin/class-llms-admin-users-table.php:118, includes/admin/class.llms.admin.builder.php:60, includes/admin/class.llms.admin.import.php:389, includes/integrations/class.llms.integration.buddypress.php:69, includes/integrations/class.llms.integration.buddypress.php:84, includes/admin/reporting/class.llms.admin.reporting.php:291, includes/admin/settings/class.llms.settings.courses.php:32, templates/admin/analytics/analytics.php:97, templates/admin/reporting/nav-filters.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:69, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72, includes/admin/reporting/tables/llms.table.courses.php:181, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108, templates/admin/reporting/tabs/courses/course.php:21
 msgid "Courses"
 msgstr ""
 
@@ -1152,7 +1152,7 @@ msgctxt "course archive url slug"
 msgid "courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:400, includes/admin/class.llms.admin.import.php:254
+#: includes/class.llms.post-types.php:400, includes/admin/class.llms.admin.import.php:393
 msgid "Sections"
 msgstr ""
 
@@ -1201,7 +1201,7 @@ msgstr ""
 msgid "This is where sections are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:435, includes/admin/class.llms.admin.import.php:258
+#: includes/class.llms.post-types.php:435, includes/admin/class.llms.admin.import.php:397
 msgid "Lessons"
 msgstr ""
 
@@ -1255,7 +1255,7 @@ msgctxt "lesson url slug"
 msgid "lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:475, includes/admin/class.llms.admin.import.php:266, includes/admin/reporting/class.llms.admin.reporting.php:293, includes/admin/reporting/tables/llms.table.quizzes.php:304, templates/admin/reporting/tabs/quizzes/quiz.php:20
+#: includes/class.llms.post-types.php:475, includes/admin/class.llms.admin.import.php:405, includes/admin/reporting/class.llms.admin.reporting.php:293, includes/admin/reporting/tables/llms.table.quizzes.php:304, templates/admin/reporting/tabs/quizzes/quiz.php:20
 msgid "Quizzes"
 msgstr ""
 
@@ -1309,7 +1309,7 @@ msgctxt "quiz url slug"
 msgid "quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:515, includes/admin/class.llms.admin.import.php:270
+#: includes/class.llms.post-types.php:515, includes/admin/class.llms.admin.import.php:409
 msgid "Questions"
 msgstr ""
 
@@ -1801,7 +1801,7 @@ msgstr ""
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:885, includes/admin/class.llms.admin.setup.wizard.php:242
+#: includes/class.llms.post-types.php:885, includes/admin/class.llms.admin.setup.wizard.php:290
 msgid "Coupon"
 msgstr ""
 
@@ -2851,16 +2851,16 @@ msgstr ""
 msgid "%s plugin not found. Please try again."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:172
+#: includes/abstracts/llms-abstract-generator-posts.php:173
 msgid "The class \"%s\" does not exist."
 msgstr ""
 
 #. translators: %s = post type name.
-#: includes/abstracts/llms-abstract-generator-posts.php:190
+#: includes/abstracts/llms-abstract-generator-posts.php:192
 msgid "Error creating the %s post object."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:498
+#: includes/abstracts/llms-abstract-generator-posts.php:500
 msgid "Error creating new term \"%s\"."
 msgstr ""
 
@@ -3182,65 +3182,73 @@ msgstr ""
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:78
+#: includes/admin/class.llms.admin.import.php:63, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:105, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:80, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:87
+msgid "Overview"
+msgstr ""
+
+#: includes/admin/class.llms.admin.import.php:89
+msgid "Error: Missing course ID."
+msgstr ""
+
+#: includes/admin/class.llms.admin.import.php:192
 msgid "Import Successful!"
 msgstr ""
 
 #. translators: %s = comma-separated list of anchors to the imported courses.
-#: includes/admin/class.llms.admin.import.php:85
+#: includes/admin/class.llms.admin.import.php:199
 msgid "Imported courses: %s"
 msgstr ""
 
 #. translators: %s = comma-separated list of anchors to the imported users.
-#: includes/admin/class.llms.admin.import.php:89
+#: includes/admin/class.llms.admin.import.php:203
 msgid "Imported users: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:182
+#: includes/admin/class.llms.admin.import.php:321
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:186
+#: includes/admin/class.llms.admin.import.php:325
 msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:190
+#: includes/admin/class.llms.admin.import.php:329
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:194
+#: includes/admin/class.llms.admin.import.php:333
 msgid "No file was uploaded."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:198
+#: includes/admin/class.llms.admin.import.php:337
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:202
+#: includes/admin/class.llms.admin.import.php:341
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:206
+#: includes/admin/class.llms.admin.import.php:345
 msgid "File upload stopped by extension."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:210
+#: includes/admin/class.llms.admin.import.php:349
 msgid "Unknown upload error."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:218
+#: includes/admin/class.llms.admin.import.php:357
 msgid "Only valid JSON files can be imported."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:246
+#: includes/admin/class.llms.admin.import.php:385
 msgid "Authors"
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:262
+#: includes/admin/class.llms.admin.import.php:401
 msgid "Plans"
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:274, templates/checkout/form-summary.php:24
+#: includes/admin/class.llms.admin.import.php:413, templates/checkout/form-summary.php:24
 msgid "Terms"
 msgstr ""
 
@@ -3264,7 +3272,7 @@ msgstr ""
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:171, includes/admin/views/import.php:31
+#: includes/admin/class.llms.admin.menus.php:171, includes/admin/views/import.php:33
 msgid "Import"
 msgstr ""
 
@@ -3472,7 +3480,7 @@ msgstr ""
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:632
+#: includes/admin/class.llms.admin.settings.php:632, includes/admin/views/import.php:17
 msgid "Upload"
 msgstr ""
 
@@ -3480,47 +3488,51 @@ msgstr ""
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:86
+#: includes/admin/class.llms.admin.setup.wizard.php:87
 msgid "LifterLMS Setup Wizard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:188
-msgid "Allow"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:190
-msgid "Install a Sample Course"
-msgstr ""
-
-#: includes/admin/class.llms.admin.setup.wizard.php:192
+#: includes/admin/class.llms.admin.setup.wizard.php:209
 msgid "Save & Continue"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:206
-msgid "No thanks"
+#: includes/admin/class.llms.admin.setup.wizard.php:212
+msgid "Allow"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:208
+#: includes/admin/class.llms.admin.setup.wizard.php:214, includes/admin/views/import.php:16
+msgid "Import Courses"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:240
 msgid "Skip this step"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:239
+#: includes/admin/class.llms.admin.setup.wizard.php:243
+msgid "No thanks"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:287
 msgid "Welcome!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:240, includes/admin/views/setup-wizard/step-pages.php:13
+#: includes/admin/class.llms.admin.setup.wizard.php:288, includes/admin/views/setup-wizard/step-pages.php:13
 msgid "Page Setup"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:241, includes/admin/views/setup-wizard/step-payments.php:18
+#: includes/admin/class.llms.admin.setup.wizard.php:289, includes/admin/views/setup-wizard/step-payments.php:18
 msgid "Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:243
+#: includes/admin/class.llms.admin.setup.wizard.php:291
 msgid "Finish!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:359
+#: includes/admin/class.llms.admin.setup.wizard.php:366
+msgid "Toggle to import course"
+msgstr ""
+
+#: includes/admin/class.llms.admin.setup.wizard.php:403, includes/admin/class.llms.admin.setup.wizard.php:433, includes/admin/class.llms.admin.setup.wizard.php:456
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
@@ -7736,16 +7748,25 @@ msgstr ""
 msgid "Reschedule Payments"
 msgstr ""
 
-#: includes/admin/views/import.php:17
-msgid "LifterLMS Importer"
-msgstr ""
-
-#: includes/admin/views/import.php:26
+#: includes/admin/views/import.php:28
 msgid "Import Course(s)"
 msgstr ""
 
-#: includes/admin/views/import.php:29
+#: includes/admin/views/import.php:30
 msgid "Upload export files generated by LifterLMS. Must be a \".json\" file."
+msgstr ""
+
+#. translators: %s = anchor link HTML to LifterLMS.com.
+#: includes/admin/views/import.php:62
+msgid "Download and import courses, templates, and more from %s."
+msgstr ""
+
+#: includes/admin/views/import.php:64, includes/admin/views/import.php:65
+msgid "Help"
+msgstr ""
+
+#: includes/admin/views/importable-course.php:57
+msgid "Download & Import"
 msgstr ""
 
 #: includes/admin/views/settings.php:17, templates/admin/reporting/reporting.php:18
@@ -9638,10 +9659,6 @@ msgstr ""
 msgid "Memberships (Expired)"
 msgstr ""
 
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:105, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:80, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:87
-msgid "Overview"
-msgstr ""
-
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:81
 msgid "Courses Completed"
 msgstr ""
@@ -10245,6 +10262,30 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#: includes/admin/views/import/help-sidebar.php:13
+msgid "For more information:"
+msgstr ""
+
+#: includes/admin/views/import/help-sidebar.php:16
+msgid "Import Documentation"
+msgstr ""
+
+#: includes/admin/views/import/help-tab-overview.php:13
+msgid "Importing into LifterLMS"
+msgstr ""
+
+#: includes/admin/views/import/help-tab-overview.php:15
+msgid "Importing allows you to copy courses from one LifterLMS site to another."
+msgstr ""
+
+#: includes/admin/views/import/help-tab-overview.php:17
+msgid "You can upload <code>.json</code> files exported from another LifterLMS site using the \"Upload\" button."
+msgstr ""
+
+#: includes/admin/views/import/help-tab-overview.php:19
+msgid "The courses listed below are samples and templates you can import into your site directly from LifterLMS.com. When importing these courses the content (including images) will be downloaded from LifterLMS.com and imported into your site."
+msgstr ""
+
 #: includes/admin/views/metaboxes/view-order-submit.php:23
 msgid "Update Order Status:"
 msgstr ""
@@ -10282,24 +10323,34 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:46
+#: includes/admin/views/setup-wizard/main.php:48
 msgid "Skip setup"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:47
+#: includes/admin/views/setup-wizard/main.php:49
 msgid "Get Started Now"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:50
-msgid "Go back"
+#: includes/admin/views/setup-wizard/main.php:52
+msgid "The site setup is incomplete! Are you sure you wish to exit?"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:57
+#: includes/admin/views/setup-wizard/main.php:52
+msgid "Exit Setup"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/main.php:59
 msgid "Start from Scratch"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/main.php:70
-msgid "Return to the WordPress Dashboard"
+#. translators: %s = anchor link to LifterLMS.com.
+#: includes/admin/views/setup-wizard/main.php:79
+msgid "The selected course will be downloaded and imported into this site from %s."
+msgstr ""
+
+#. translators: %1$s = The number of selected courses; %2$s = anchor link to LifterLMS.com.
+#: includes/admin/views/setup-wizard/main.php:88
+msgid "The %1$s selected courses will be downloaded and imported into this site from %2$s."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-coupon.php:14
@@ -10318,24 +10369,28 @@ msgstr ""
 msgid "Find out more information"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:13
+#: includes/admin/views/setup-wizard/step-finish.php:15
 msgid "Setup Complete!"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:14
+#: includes/admin/views/setup-wizard/step-finish.php:16
 msgid "Here's some resources to help you get familiar with LifterLMS:"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:16
+#: includes/admin/views/setup-wizard/step-finish.php:18
 msgid "Watch the LifterLMS video tutorials"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:17
+#: includes/admin/views/setup-wizard/step-finish.php:19
 msgid "Read the LifterLMS Getting Started Guide"
 msgstr ""
 
-#: includes/admin/views/setup-wizard/step-finish.php:20
-msgid "Get started with your first course"
+#: includes/admin/views/setup-wizard/step-finish.php:23
+msgid "Import Sample Courses and Templates!"
+msgstr ""
+
+#: includes/admin/views/setup-wizard/step-finish.php:24
+msgid "Accelerate your progress by installing a quick LifterLMS training course and useful course templates."
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-intro.php:14

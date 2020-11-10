@@ -21,7 +21,8 @@
   },
   "main": "src/index.js",
   "dependencies": {
-    "@wordpress/e2e-test-utils": ">=4.1.0"
+    "@wordpress/e2e-test-utils": ">=4.1.0",
+    "css-xpath": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"
