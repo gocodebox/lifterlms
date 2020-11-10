@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.33.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,6 @@ class LLMS_Admin_Post_Tables {
 	 * @since 3.3.0
 	 * @since 3.33.1 Use `llms_filter_input` to access `$_GET` and `$_POST` data.
 	 * @since 3.33.1 Use `edit_course` cap instead of `edit_post` cap.
-	 * @since [version] Make sure extra data are added to the post model array representation during export.
 	 *
 	 * @return void
 	 */
@@ -132,9 +131,7 @@ class LLMS_Admin_Post_Tables {
 		switch ( $action ) {
 
 			case 'llms-export-post':
-				add_filter( 'llms_post_model_to_array_add_extras', '__return_true', 99 );
 				$post->export();
-				remove_filter( 'llms_post_model_to_array_add_extras', '__return_true', 99 );
 				break;
 
 			case 'llms-clone-post':

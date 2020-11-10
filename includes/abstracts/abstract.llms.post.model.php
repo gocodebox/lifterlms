@@ -349,7 +349,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.3.0
 	 * @since 3.19.2 Unknown.
-	 *
+	 * @since [version] Made sure extra data are added to the posts model array representation during export.
 	 * @return void
 	 */
 	public function export() {
@@ -378,7 +378,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$this->allowed_post_tags_set();
 
+		add_filter( 'llms_post_model_to_array_add_extras', '__return_true', 99 );
 		$arr = $this->toArray();
+		remove_filter( 'llms_post_model_to_array_add_extras', '__return_true', 99 );
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
 		$arr['_source']    = get_site_url();
@@ -1420,9 +1422,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		/**
 		 * Filter whether or not "extra" content should be included in the post array
 		 *
+		 * `__return_true` (with priority 99) is used to force the filter on during exports.
+		 *
 		 * @since [version]
 		 *
-		 * @param boolean         $include Whether or not to include extra data.
+		 * @param boolean         $include Whether or not to include extra data. Default is `false`, except on during exports.
 		 * @param LLMS_Post_Model $model   Post model instance.
 		 */
 		$add_array_extra = apply_filters( 'llms_post_model_to_array_add_extras', false, $this );
