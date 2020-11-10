@@ -183,12 +183,49 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_get_dom_document()
 	 *
 	 * @since 4.7.0
+	 * @since [version] Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_dom_document() {
 
-		$this->assertTrue( llms_get_dom_document( 'mock string' ) instanceof DOMDocument );
+		/**
+		 * Array of test strings
+		 *
+		 * First value is the input string & the second value is the expected output string.
+		 *
+		 * @var array[]
+		 */
+		$tests = array(
+			array(
+				'simple text string',
+				'<p>simple text string</p>',
+			),
+			array(
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+			),
+			array(
+				'Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.',
+				'<p>Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.</p>',
+			),
+			array(
+				'Contains &mdash; Char &ndash; Codes!',
+				'<p>Contains — Char – Codes!</p>',
+			),
+			array(
+				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>Full HTML Doc.</body></html>',
+				'Full HTML Doc.',
+			),
+		);
+
+		foreach ( $tests as $test ) {
+
+			$dom = llms_get_dom_document( $test[0] );
+			$this->assertTrue( $dom instanceof DOMDocument );
+			$this->assertStringContains( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+
+		}
 
 	}
 

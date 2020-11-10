@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -344,6 +344,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * loading a partial string or an HTML string with errors.
  *
  * @since 4.7.0
+ * @since [version] Remove reliance on `mb_convert_encoding()`.
  *
  * @param string $string An HTML string, either a full HTML document or a partial string.
  * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it
@@ -359,7 +360,7 @@ function llms_get_dom_document( $string ) {
 	$libxml_state = libxml_use_internal_errors( true );
 
 	$dom = new DOMDocument();
-	if ( ! $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+	if ( ! $dom->loadHTML( '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $string ) ) {
 		$dom = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
 	}
 
