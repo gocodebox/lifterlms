@@ -70,9 +70,8 @@ before_install:
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
     fi
-  - |
-    # Raise PHP memory limit to 2048MB
-    echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Raise PHP memory limit to 2048MB
+  - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Install composer deps.
   - |
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
