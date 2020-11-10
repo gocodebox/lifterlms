@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 		?>
 	</p>
 
-<?php else: ?>
+<?php else : ?>
 	<ul class="llms-importable-courses">
 		<?php
 		/**
