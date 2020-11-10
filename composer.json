@@ -102,10 +102,7 @@
       "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1"
     ],
     "tests": "\"vendor/bin/phpunit\"",
-    "tests-run": [
-      "\n\nWARNING: This command is deprecated, use `composer run tests` instead!\n\n",
-      "composer run tests"
-    ],
+    "tests-run": "\"vendor/bin/phpunit\"",
     "phpcs": [
       "\n\nWARNING: This command is deprecated, use `composer run check-cs` instead!\n\n",
       "composer run check-cs"
