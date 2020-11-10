@@ -12,7 +12,7 @@
 		exitLink = document.querySelector( '.llms-exit-setup' ),
 		imports  = document.querySelectorAll( 'input[name="llms_setup_course_import_ids[]"]' );
 
-	if ( imports ) {
+	if ( imports.length ) {
 
 		var
 			submit = document.getElementById( 'llms-setup-submit' ),
