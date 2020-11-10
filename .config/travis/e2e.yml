@@ -11,6 +11,7 @@ jobs:
   allow_failures:
   - php: nightly
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
+
   include:
   - name: "E2E Latest"
     php: 7.4
@@ -33,6 +34,7 @@ jobs:
       - npm run test
     after_script:
       - ./vendor/bin/llms-env down
+
   - name: "E2E Nightly"
     php: nightly
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0

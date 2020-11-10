@@ -2,11 +2,6 @@ os: linux
 dist: bionic
 language: php
 
-addons:
-  artifacts:
-    paths:
-      - ./tmp/e2e-screenshots
-
 services:
   - mysql
 
@@ -37,16 +32,24 @@ php:
 
 jobs:
   fast_finish: true
+
   allow_failures:
   - env: WP_VERSION=nightly
   - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
   - php: nightly
+
   exclude:
   # These WP Versions don't work on PHP 7.4
   - php: 7.4
     env: WP_VERSION="5.2"
   - php: 7.4
     env: WP_VERSION="5.1"
+  # These WP Versions don't work on PHP 8.0
+  - php: nigthly
+    env: WP_VERSION="5.2"
+  - php: nigthly
+    env: WP_VERSION="5.1"
+
   include:
   - name: "PHP Unit Test Coverage"
     php: 7.4
@@ -62,7 +65,6 @@ jobs:
       - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
 
 before_install:
-  - echo $TRAVIS_PHP_VERSION
   # Disable xDebug for faster builds
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
