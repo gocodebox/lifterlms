@@ -62,6 +62,7 @@ jobs:
       - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
 
 before_install:
+  - echo $TRAVIS_PHP_VERSION
   # Disable xDebug for faster builds
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -71,7 +72,12 @@ before_install:
     # Raise PHP memory limit to 2048MB
     echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Install composer deps.
-  - composer install
+  - |
+    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      composer install
+    else
+      composer install --ignore-platform-reqs
+    fi
 
 install:
   # Install Tests.
