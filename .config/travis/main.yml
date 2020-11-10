@@ -45,9 +45,9 @@ jobs:
   - php: 7.4
     env: WP_VERSION="5.1"
   # These WP Versions don't work on PHP 8.0
-  - php: nigthly
+  - php: nightly
     env: WP_VERSION="5.2"
-  - php: nigthly
+  - php: nightly
     env: WP_VERSION="5.1"
 
   include:
