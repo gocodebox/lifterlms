@@ -350,6 +350,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.3.0
 	 * @since 3.19.2 Unknown.
 	 * @since [version] Made sure extra data are added to the posts model array representation during export.
+	 *
 	 * @return void
 	 */
 	public function export() {
