@@ -75,6 +75,8 @@ before_install:
   # Install composer deps.
   - |
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      rm composer.json
+      cp .config/composer/php8.json composer.json
       composer install
     else
       composer install --ignore-platform-reqs
