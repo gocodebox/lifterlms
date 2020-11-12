@@ -82,7 +82,12 @@ before_install:
 
 install:
   # Install Tests.
-  - ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' localhost ${WP_VERSION}
+  - |
+    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' localhost ${WP_VERSION}
+    else
+      ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' localhost ${WP_VERSION} false trunk
+    fi
 
 script:
   # Check coding standards.
