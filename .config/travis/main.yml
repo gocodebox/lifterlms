@@ -65,7 +65,7 @@ jobs:
       - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
 
 before_install:
-  _ echo $TRAVIS_PULL_REQUEST_BRANCH
+  - echo $TRAVIS_PULL_REQUEST_BRANCH
   # Disable xDebug for faster builds
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
