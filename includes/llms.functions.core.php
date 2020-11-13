@@ -370,7 +370,7 @@ function llms_get_dom_document( $string ) {
 	// Remove the fixer meta element, if it's not removed it creates invalid HTML5 Markup.
 	$meta = $dom->getElementById( 'llms-get-dom-doc-utf-fixer' );
 	if ( $dom ) {
-		$meta->parentNode->removeChild( $meta );
+		$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 
 	// Clear and restore errors.
