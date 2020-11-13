@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77e29d2d340f88616586342817be6fb0",
+    "content-hash": "f96d9d87344b38584217c7d774de8638",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -2903,7 +2903,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3 || ^8.0"
+        "php": ">=7.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
