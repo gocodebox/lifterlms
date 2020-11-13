@@ -49,7 +49,6 @@
       "*.xml",
       "*.xml.dist",
       "*.config.js",
-
       "CHANGELOG.md",
       "composer.json",
       "docker-compose.yml",
@@ -57,9 +56,7 @@
       "package.json",
       "package-lock.json",
       "README.md",
-
       "/assets/scss",
-
       "_private",
       "dist",
       "docs",
@@ -69,14 +66,11 @@
       "tests",
       "tmp",
       "wordpress",
-
       "!/vendor",
-
       "/vendor/bin",
       "/vendor/**/**/composer.*",
       "/vendor/**/**/*.md",
       "/vendor/**/**/.*",
-
       "!/assets/maps/js/vendor",
       "!/assets/vendor",
       "!/assets/js/vendor",
@@ -110,5 +104,19 @@
     ],
     "tests": "\"vendor/bin/phpunit\"",
     "tests-run": "\"vendor/bin/phpunit\""
+  },
+  "autoload-dev": {
+    "files": [
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/Builder/NamespaceMatch.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/Builder/ParametersMatch.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/InvocationMocker.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/MockMethod.php"
+    ],
+    "exclude-from-classmap": [
+      "vendor/phpunit/phpunit/src/Framework/MockObject/Builder/NamespaceMatch.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/Builder/ParametersMatch.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/InvocationMocker.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/MockMethod.php"
+    ]
   }
 }
