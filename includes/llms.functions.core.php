@@ -359,9 +359,18 @@ function llms_get_dom_document( $string ) {
 	// Don't throw or log warnings.
 	$libxml_state = libxml_use_internal_errors( true );
 
+	// This forces DOMDocument to convert non-utf8 characters into HTML entities and without relying on `mb_convert_encoding()`.
+	$utf8_fixer = '<meta id="llms-get-dom-doc-utf-fixer" http-equiv="Content-Type" content="text/html; charset=utf-8">';
+
 	$dom = new DOMDocument();
-	if ( ! $dom->loadHTML( '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $string ) ) {
+	if ( ! $dom->loadHTML( $utf8_fixer . $string ) ) {
 		$dom = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
+	}
+
+	// Remove the fixer meta element, if it's not removed it creates invalid HTML5 Markup.
+	$meta = $dom->getElementById( 'llms-get-dom-doc-utf-fixer' );
+	if ( $dom ) {
+		$meta->parentNode->removeChild( $meta );
 	}
 
 	// Clear and restore errors.

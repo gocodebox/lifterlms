@@ -207,15 +207,15 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			),
 			array(
 				'Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.',
-				'<p>Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.</p>',
+				'<p>&#7734;&#120644;&#120111;&#120462;&#625; &#301;&#120057;&#7540;&#472;&#625; &#1386;&#1257;&#7739;&#120648;&#589; &#120320;&#120258;&#7451;.</p>',
 			),
 			array(
-				'Contains &mdash; Char &ndash; Codes!',
-				'<p>Contains — Char – Codes!</p>',
+				'Contains &mdash; Char Codes and special – !',
+				'<p>Contains &mdash; Char Codes and special &ndash; !</p>',
 			),
 			array(
-				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>Full HTML Doc.</body></html>',
-				'Full HTML Doc.',
+				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>And &gt;>&gt; a <b>full</b> HTML docum𝞔nt!</body></html>',
+				'And &gt;&gt;&gt; a <b>full</b> HTML docum&#120724;nt!',
 			),
 		);
 
