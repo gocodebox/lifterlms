@@ -65,7 +65,6 @@ jobs:
       - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
 
 before_install:
-  - echo "TESTS_DB_NAME ${TESTS_DB_NAME} TESTS_DB_USER ${TESTS_DB_NAME} TESTS_DB_PASS ${TESTS_DB_PASS} TESTS_DB_HOST ${TESTS_DB_HOST} WP_VERSION ${WP_VERSION} WP_TESTS_VERSION ${WP_TESTS_VERSION}"
   # Disable xDebug for faster builds
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
