@@ -78,7 +78,7 @@ before_install:
       composer install
     else
       cp ./config/composer/php8/composer.json composer.json
-      composer install --ignore-platform-reqs
+      WP_TESTS_VERSION=trunk composer install --ignore-platform-reqs
     fi
 
 # install:
@@ -87,7 +87,7 @@ before_install:
 
 script:
   # Check coding standards.
-  - composer run-script check-cs-errors -- git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE | awk '{print}' ORS=' '
+  - composer run-script check-cs-errors -- $( git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE )
   # Run phpunit tests.
   - composer run-script tests-run
 
