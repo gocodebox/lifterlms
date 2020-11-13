@@ -77,7 +77,7 @@ before_install:
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
       composer install
     else
-      cp ./config/composer/php8/composer.json composer.json
+      cp .config/composer/php8/composer.json composer.json
       WP_TESTS_VERSION=trunk composer install --ignore-platform-reqs
     fi
 
