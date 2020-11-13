@@ -13,7 +13,7 @@ jobs:
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
 
   include:
-  - name: "E2E Latest"
+  - name: "E2E PHP 7.4 & WP Latest"
     php: 7.4
     env: WP_VERSION=latest DOCKER_COMPOSE_VERSION=1.25.0
     install:
@@ -35,7 +35,7 @@ jobs:
     after_script:
       - ./vendor/bin/llms-env down
 
-  - name: "E2E Nightly"
+  - name: "E2E PHP Nightly & WP Nightly"
     php: nightly
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
     install:
