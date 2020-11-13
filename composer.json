@@ -25,6 +25,20 @@
       "LLMS\\": "includes"
     }
   },
+  "autoload-dev": {
+    "files": [
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/Builder/NamespaceMatch.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/Builder/ParametersMatch.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/InvocationMocker.php",
+      "tmp/tests/wordpress-tests-lib/includes/phpunit7/MockObject/MockMethod.php"
+    ],
+    "exclude-from-classmap": [
+      "vendor/phpunit/phpunit/src/Framework/MockObject/Builder/NamespaceMatch.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/Builder/ParametersMatch.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/InvocationMocker.php",
+      "vendor/phpunit/phpunit/src/Framework/MockObject/MockMethod.php"
+    ]
+  },
   "minimum-stability": "dev",
   "repositories": [
     {
@@ -99,11 +113,7 @@
     "post-update-cmd": "composer config-cs",
     "tests-install": [
       "\"vendor/bin/llms-tests\" teardown llms_tests root password 127.0.0.1",
-      "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1 latest"
-    ],
-    "tests-install-nightly": [
-      "\"vendor/bin/llms-tests\" teardown llms_tests root password 127.0.0.1",
-      "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1 latest false trunk"
+      "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1 latest false nightly"
     ],
     "tests": "\"vendor/bin/phpunit\"",
     "tests-run": "\"vendor/bin/phpunit\"",
