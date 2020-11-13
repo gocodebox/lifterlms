@@ -80,6 +80,7 @@ before_install:
     else
       composer install --ignore-platform-reqs
     fi
+  - echo "TESTS_DB_NAME ${TESTS_DB_NAME} TESTS_DB_USER ${TESTS_DB_NAME} TESTS_DB_PASS ${TESTS_DB_PASS} TESTS_DB_HOST ${TESTS_DB_HOST} WP_VERSION ${WP_VERSION} WP_TESTS_VERSION ${WP_TESTS_VERSION}""
 
 # install:
   # Install Tests.
