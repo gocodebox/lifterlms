@@ -87,7 +87,7 @@ before_install:
 
 script:
   # Check coding standards.
-  - composer run-script check-cs-errors
+  - composer run-script check-cs-errors -- git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE | awk '{print}' ORS=' '
   # Run phpunit tests.
   - composer run-script tests-run
 
