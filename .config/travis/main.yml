@@ -65,6 +65,7 @@ jobs:
       - ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT
 
 before_install:
+  _ echo $TRAVIS_PULL_REQUEST_BRANCH
   # Disable xDebug for faster builds
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -80,9 +81,9 @@ before_install:
       composer install --ignore-platform-reqs
     fi
 
-install:
+# install:
   # Install Tests.
-  - ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' localhost ${WP_VERSION} false trunk
+  # - ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' ${TESTS_DB_HOST} ${WP_VERSION} false trunk
 
 script:
   # Check coding standards.
