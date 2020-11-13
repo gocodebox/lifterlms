@@ -47,7 +47,7 @@
     }
   ],
   "require": {
-    "php": "^7.3 || ^8.0",
+    "php": ">=7.2",
     "lifterlms/lifterlms-blocks": "^1.1",
     "lifterlms/lifterlms-rest": "1.0.0-beta.16",
     "woocommerce/action-scheduler": "3.1.6"
@@ -117,7 +117,7 @@
       "@config-cs"
     ],
     "tests-remove": "\"vendor/bin/llms-tests\" teardown ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1}",
-    "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false ${WP_TESTS_VERSION:-trunk}",
+    "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false \"${WP_TESTS_VERSION}\"",
     "tests-reinstall": [
       "@tests-remove",
       "@tests-install"
