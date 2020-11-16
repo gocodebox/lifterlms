@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.7.0
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -213,6 +213,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
+	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 *
 	 * @return void
 	 */
@@ -236,6 +237,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 

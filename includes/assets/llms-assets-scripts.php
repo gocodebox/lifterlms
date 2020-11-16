@@ -18,11 +18,17 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.4.0
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Stylesheets assets list
+ *
+ * @since 4.4.0
+ * @since 4.8.0 Added llms-admin-setup.
+ */
 return array(
 
 	// Core.
@@ -37,6 +43,11 @@ return array(
 	),
 	'llms-quiz'               => array(
 		'dependencies' => array( 'jquery', 'llms', 'wp-mediaelement' ),
+	),
+
+	// Admin.
+	'llms-admin-setup'        => array(
+		'dependencies' => array( 'jquery' ),
 	),
 
 	// Vendor.

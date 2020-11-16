@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.4.4
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,28 +28,32 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.4.4 Added llms-admin-setup.
+ * @since 4.8.0 Added llms-admin-importer.
  */
 return array(
 
 	// Core.
-	'lifterlms-styles' => array(
+	'lifterlms-styles'    => array(
 		'file_name' => 'lifterlms',
 	),
-	'certificates'     => array(),
+	'certificates'        => array(),
 
 	// Admin.
-	'llms-admin-setup' => array(
+	'llms-admin-setup'    => array(
 		'file_name' => 'admin-setup',
+	),
+	'llms-admin-importer' => array(
+		'file_name' => 'admin-importer',
 	),
 
 	// Vendor.
-	'llms-iziModal'    => array(
+	'llms-iziModal'       => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
 		'rtl'       => false,
 	),
-	'webui-popover'    => array(
+	'webui-popover'       => array(
 		'file_name' => 'jquery.webui-popover',
 		'path'      => 'assets/vendor/webui-popover',
 		'version'   => '1.2.15',

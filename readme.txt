@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.8
 Tested up to: 5.5
 Requires PHP: 7.2
-Stable tag: 4.7.1
+Stable tag: 4.8.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,26 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.8.0 - 2020-11-16 =
+
+##### Updates
+
++ Added additional course imports and templates at the end of the setup wizard
++ Added a cloud importer enabling 1-click importing of courses and course templates via the importer at LifterLMS -> Import
++ Added strict comparisons in several places.
++ Course "extra" data is only added to course arrays during exports to improve performance on the course builder.
++ Improved template override loading performance on sites with no child theme.
+
+##### Bug fixes
+
++ Fixed issues related to reliance on methods provided by the `mb_string` PHP module.
+
+##### Deprecations
+
++ `LLMS_Admin_Setup_Wizard::generator_course_status()` is deprecated with no replacement.
++ `LLMS_Admin_Setup_Wizard::watch_course_generation()` is deprecated with no replacement.
+
+
 = v4.7.1 - 2020-11-05 =
 
 ##### Bug fixes
@@ -641,40 +661,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Bugfix: Delayed engagement emails will not be sent to students who's enrollment is not active in the related course or membership which triggered the email.
 + Bugfix: Fixed regression introduced in 4.4.0 preventing the `certificates.css` stylesheet from loading on certificate screens.
 + Update: Engagement email related logs will be logged to a separate logfile, `engagement-emails` in favor of the main `llms` log.
-
-
-= v4.4.0 - 2020-09-02 =
-
-##### Updates
-
-+ Improved LifterLMS static asset registration, queuing, definitions, and management.
-+ Added strict comparators in various areas of the codebase.
-
-##### Changes to deprecated function logs and warnings
-
-+ The `llms_deprecated_function()` method now uses `_deprecated_function()` (from the WP core) under the hood.
-+ LifterLMS deprecation warnings are logged to the WP core `debug.log` file in favor of the LifterLMS log file.
-+ LifterLMS deprecation warnings will now trigger a `E_USER_DEPRECATED` error when `WP_DEBUG` is enabled.
-
-##### Bugfixes
-
-+ Fixed a lesson navigation issue encountered when sections contain unpublished lessons.
-+ Fixed an undefined variable notice encountered on the student dashboard.
-+ Fixed an issue encountered when the `wp_login_url()` function returns an empty string.
-+ Fixed a double slash found in an asset URI.
-
-##### Deprecations
-
-+ `LLMS_Frontend_Assets::is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
-+ `LLMS_Ajax::register_script()` is deprecated with no replacement.
-+ `LLMS_Ajax::get_ajax_data()` is deprecated with no replacement.
-+ Javascript AJAX nonce variable is moved from `wp_ajax_data.nonce` to `window.llms.ajax-nonce`.
-
-##### Templates Updated
-
-+ templates/checkout/form-gateways.php
-+ templates/course/lesson-preview.php
-+ templates/course/syllabus.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
