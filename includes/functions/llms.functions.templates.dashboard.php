@@ -166,7 +166,8 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			apply_filters(
 				'llms_my_courses_loop_courses_query_args',
 				array(
-					'limit' => 500,
+					'limit'  => 500,
+					'status' => 'enrolled',
 				),
 				$student
 			)
