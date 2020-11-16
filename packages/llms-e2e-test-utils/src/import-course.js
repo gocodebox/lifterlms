@@ -9,7 +9,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * Import a course JSON file
  *
  * @since 2.2.0
- * @since [version] Update to accommodate changes in the LifterLMS core.
+ * @since 2.2.0 Update to accommodate changes in the LifterLMS core.
  *
  * @param {String}  importFile Filename of the import.
  * @param {String}  importPath Local path where the file is located. By default uses `tests/assets/`.

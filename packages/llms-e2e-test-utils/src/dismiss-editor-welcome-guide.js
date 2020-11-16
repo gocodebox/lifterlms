@@ -1,7 +1,7 @@
 /**
  * Dismiss the "Welcome Guide" in the block editor (if it's active)
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @return {Void}
  */

@@ -3,7 +3,7 @@ const cssXPath = require( 'css-xpath' );
 /**
  * Find an element by Text
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @link https://stackoverflow.com/a/47829000/400568
  *
