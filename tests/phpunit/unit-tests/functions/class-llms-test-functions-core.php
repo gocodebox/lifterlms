@@ -183,7 +183,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_get_dom_document()
 	 *
 	 * @since 4.7.0
-	 * @since [version] Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
+	 * @since 4.8.0 Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
 	 *
 	 * @return void
 	 */

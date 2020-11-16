@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.8.0
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Export API Class
  *
- * @since [version]
+ * @since 4.8.0
  */
 class LLMS_Export_API {
 
 	/**
 	 * Make an GET request to the exports API
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param array $args Array of query string arguments formatted as an associative array.
 	 * @return array|WP_Error
@@ -30,7 +30,7 @@ class LLMS_Export_API {
 		/**
 		 * Filter the url used to make requests to the LifterLMS.com "exports" api.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param string $url API request url.
 		 */
@@ -58,7 +58,7 @@ class LLMS_Export_API {
 	/**
 	 * Retrieve an import array by export IDs.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param int[] $ids Array of export IDs.
 	 * @return array|WP_Error
@@ -74,7 +74,7 @@ class LLMS_Export_API {
 	/**
 	 * Retrieve a list of available exports
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param int $page     Results page.
 	 * @param int $per_page Results per page.

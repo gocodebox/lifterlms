@@ -7,14 +7,14 @@
  * @group admin
  * @group export_api
  *
- * @since [version]
+ * @since 4.8.0
  */
 class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 */
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -24,7 +24,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() when a request error is encountered.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() when an API error is encountered (404)
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() for success response
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test list() when a request error is encountered.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	/**
 	 * Test list() for success response
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */

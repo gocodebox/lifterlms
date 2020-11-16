@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -349,7 +349,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.3.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Made sure extra data are added to the posts model array representation during export.
+	 * @since 4.8.0 Made sure extra data are added to the posts model array representation during export.
 	 *
 	 * @return void
 	 */
@@ -665,7 +665,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown.
-	 * @since [version] Use strict type comparision where possibile.
+	 * @since 4.8.0 Use strict type comparision where possibile.
 	 *
 	 * @param string $key        Property key.
 	 * @param array  $price_args Optional. Array of arguments that can be passed to llms_price(). Default is empty array.
@@ -1365,7 +1365,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.3.0
 	 * @since 3.17.0 Unknown.
 	 * @since 4.7.0 Add exporting of extra data (images and blocks).
-	 * @since [version] Exclude extra data by default. Added `'llms_post_model_to_array_add_extras'` filter.
+	 * @since 4.8.0 Exclude extra data by default. Added `'llms_post_model_to_array_add_extras'` filter.
 	 *
 	 * @return array
 	 */
@@ -1425,7 +1425,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 *
 		 * `__return_true` (with priority 99) is used to force the filter on during exports.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param boolean         $include Whether or not to include extra data. Default is `false`, except on during exports.
 		 * @param LLMS_Post_Model $model   Post model instance.

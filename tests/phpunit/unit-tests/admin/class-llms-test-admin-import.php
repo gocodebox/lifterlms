@@ -10,14 +10,14 @@
  * @since 3.35.0
  * @since 3.37.8 Update path to assets directory.
  * @since 4.7.0 Test success message generation.
- * @since [version] Move includes to `setUpBeforeClass()` method.
+ * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Setup test case.
 	 *
 	 * @since 3.35.0
-	 * @since [version] Move includes to `setUpBeforeClass()` method.
+	 * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test the add_help_tabs() method.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() errors from nonce
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() user permission errors
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() missing necessary data
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() with an api errors
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() with a real API error from submitting invalid ids
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() with a generator error
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -256,7 +256,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test cloud_import() success
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test enqueue() method
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -302,7 +302,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Test get_screen()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */

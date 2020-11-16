@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -196,7 +196,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
  * Get template override
  *
  * @since Unknown
- * @since [version] Move template override directories logic into llms_get_template_override_directories.
+ * @since 4.8.0 Move template override directories logic into llms_get_template_override_directories.
  *
  * @param string $template Template file.
  * @return mixed Template file or false if none exists.
@@ -222,7 +222,7 @@ function llms_get_template_override( $template = '' ) {
  *
  * Moved from `llms_get_template_override()`.
  *
- * @since [version]
+ * @since 4.8.0
  *
  * @return string[]
  */

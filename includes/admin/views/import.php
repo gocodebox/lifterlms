@@ -3,7 +3,7 @@
  * Import & Export LLMS Content
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
