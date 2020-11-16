@@ -7,7 +7,7 @@
  * @group admin
  * @group setup_wizard
  *
- * @since [version]
+ * @since 4.8.0
  */
 class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 *
 	 * Include required class files
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test constructor
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test admin_menu()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test enqueue()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_completed_url().
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_current_step()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -152,7 +152,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_next_step()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_prev_step()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -197,7 +197,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_save_text()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -213,7 +213,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_save_text()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_step_url()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -240,7 +240,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_steps()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -277,7 +277,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save() when there are nonce or user permission issues
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -307,7 +307,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 *
 	 * This test also covers an error response from any valid step.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -332,7 +332,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save() for success (and redirection)
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -359,7 +359,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_coupon() when an http error is encountered
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -386,7 +386,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_coupon() when the tracking data api returns an error
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -413,7 +413,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_coupon() when the tracking data api returns data in an unexpected format
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -440,7 +440,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_coupon() success
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -468,7 +468,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_finish() when no import ids are provided
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -481,7 +481,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_finish() when an export api error occurs
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -507,7 +507,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_finish() when an error is encountered during generation
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -533,7 +533,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_finish() for success
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -557,7 +557,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_pages()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -570,7 +570,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_payments()
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */

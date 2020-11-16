@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.35.0 Initialize at `admin_init` instead of `init`.
-	 * @since [version] Added hooks handling cloud imports and outputting WP help tabs.
+	 * @since 4.8.0 Added hooks handling cloud imports and outputting WP help tabs.
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Add WP_Screen help tabs
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Screen|boolean Returns the WP_Screen on success or false if called outside of the intended screen context.
 	 */
@@ -74,7 +74,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Handle form submission of a cloud import file
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Error|boolean Returns `false` for nonce or user permission errors, `true` on success, or an error object.
 	 */
@@ -101,7 +101,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Enqueue static assets used on the screen
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return null|boolean Returns `null` when called outside of the intended screen context, `true` on success, or `false` on error.
 	 */
@@ -148,7 +148,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Retrieve an instance of the WP_Screen for the import screen
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Screen|boolean Returns a `WP_Screen` object when on the import screen, otherwise returns `false`.
 	 */
@@ -166,7 +166,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Retrieves the HTML of a view from the views/import directory.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param string $file The file basename of the view to retrieve.
 	 * @return string The HTML content of the view.
@@ -212,7 +212,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Instantiate and generate raw data via LLMS_Generator
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param string|array $raw A JSON string or array or raw data which can be parsed by an LLMS_Generator instance.
 	 * @return WP_Error|boolean On success, returns true or an error object on failure.
@@ -250,7 +250,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Output an admin notice from a WP_Error object
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param WP_Error $error WP_Error object.
 	 * @return WP_Error Returns the same error passed into the object.
@@ -270,7 +270,7 @@ class LLMS_Admin_Import {
 	 *               Updated return signature.
 	 * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
 	 * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
-	 * @since [version] Use helper methods `show_error()` and `handle_generation()`.
+	 * @since 4.8.0 Use helper methods `show_error()` and `handle_generation()`.
 	 *
 	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */

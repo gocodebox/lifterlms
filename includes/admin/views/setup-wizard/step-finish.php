@@ -3,7 +3,7 @@
  * Setup Wizard step: Finish
  *
  * @since 4.4.4
- * @version [version]
+ * @version 4.8.0
  *
  * @property LLMS_Admin_Setup_Wizard $this Setup wizard class instance.
  */

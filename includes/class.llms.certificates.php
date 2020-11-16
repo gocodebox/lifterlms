@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -178,7 +178,7 @@ class LLMS_Certificates {
 	 * @since 3.24.3 Unknown.
 	 * @since 3.37.3 Refactored method into multiple functions.
 	 * @since 4.3.1 If `$this->scrape_certificate()` generates a `WP_Error` early return it.
-	 * @since [version] Remove redundant check for the presence of `DOMDocument`.
+	 * @since 4.8.0 Remove redundant check for the presence of `DOMDocument`.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
 	 * @return WP_Error|string HTML of the certificate on success, otherwise an error object.
@@ -220,7 +220,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
-	 * @since [version] Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
+	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string

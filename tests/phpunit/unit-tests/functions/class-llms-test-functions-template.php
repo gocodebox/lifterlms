@@ -7,7 +7,7 @@
  * @group functions
  * @group functions_template
  *
- * @since [version]
+ * @since 4.8.0
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -31,7 +31,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template_override_directories() when only parent theme override dir is present
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -55,7 +55,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template_override_directories() when parent and child theme override dir are present
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template_override_directories() when parent and child theme are present but only parent overrides
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template_override_directories() when parent and child theme are present but only child overrides
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_template_override_directories() when parent and child theme are present but none of them overrides
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return void
 	 */
@@ -177,7 +177,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Creates a theme and override lifterlms template diretoris
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param string $theme_dir_name Theme directory name.
 	 * @return void
@@ -190,7 +190,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Deletes a theme and override lifterlms template diretoris
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param string $theme_dir_name Theme directory name.
 	 * @return void

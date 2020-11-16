@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * Stylesheets assets list
  *
  * @since 4.4.0
- * @since [version] Added llms-admin-setup.
+ * @since 4.8.0 Added llms-admin-setup.
  */
 return array(
 

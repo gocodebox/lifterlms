@@ -3,7 +3,7 @@
  * Setup Wizard main view
  *
  * @since 4.4.4
- * @version [version]
+ * @version 4.8.0
  *
  * @property string[]                $steps     Array of setup wizard steps.
  * @property string                  $current   Slug of the current step.

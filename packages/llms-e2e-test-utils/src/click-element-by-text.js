@@ -4,7 +4,7 @@ const { findElementByText } = require( './find-element-by-text' );
 /**
  * Click an element by Text
  *
- * @since [version]
+ * @since 2.2.0
  *
  * @param {String} string   Case-insensitive string to search.
  * @param {String} selector Selector to search. Default "*".
