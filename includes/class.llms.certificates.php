@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -178,6 +178,7 @@ class LLMS_Certificates {
 	 * @since 3.24.3 Unknown.
 	 * @since 3.37.3 Refactored method into multiple functions.
 	 * @since 4.3.1 If `$this->scrape_certificate()` generates a `WP_Error` early return it.
+	 * @since [version] Remove redundant check for the presence of `DOMDocument`.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
 	 * @return WP_Error|string HTML of the certificate on success, otherwise an error object.
@@ -186,15 +187,12 @@ class LLMS_Certificates {
 
 		// Retrieve the raw HTML of the page.
 		$html = $this->scrape_certificate( $certificate_id );
-
 		if ( is_wp_error( $html ) ) {
 			return $html;
 		}
 
-		// If DOMDocument exists, modify the DOM before exporting.
-		if ( class_exists( 'DOMDocument' ) ) {
-			$html = $this->modify_dom( $html );
-		}
+		// Modify the DOM.
+		$html = $this->modify_dom( $html );
 
 		/**
 		 * Modify the HTML of a certificate export.
@@ -222,21 +220,20 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
+	 * @since [version] Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string
 	 */
 	private function modify_dom( $html ) {
 
-		// Don't throw or log warnings.
-		$libxml_state = libxml_use_internal_errors( true );
-
-		$dom = new DOMDocument();
-
-		// Error loading the dom, return the original HTML.
-		if ( ! $dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+		$dom = llms_get_dom_document( $html );
+		if ( is_wp_error( $dom ) ) {
 			return $html;
 		}
+
+		// Don't throw or log warnings.
+		$libxml_state = libxml_use_internal_errors( true );
 
 		// Remove all <scripts>.
 		$scripts = $dom->getElementsByTagName( 'script' );
