@@ -163,7 +163,7 @@ class LLMS_Generator {
 	protected function get_error_code( $code, $class ) {
 
 		// PHP Warnings, notices, exceptions.
-		switch( $code ) {
+		switch ( $code ) {
 			case E_ERROR: // 1.
 				return 'E_ERROR';
 			case E_WARNING: // 2.
