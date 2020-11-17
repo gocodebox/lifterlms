@@ -1,6 +1,15 @@
 LifterLMS E2E Test Utils CHANGELOG
 ==================================
 
+v2.2.0 - 2020-11-16
+-------------------
+
++ `createCourse()` now uses generic `createPost()` for course creation.
++ `createUser()` now returns the WP_User ID in the return object.
++ `importCourse()` has been updated to accommodate changes in LifterLMS core version 4.8.0.
++ `runSetupWizard()` has been updated to accommodate setup wizard changes in LifterLMS core version 4.8.0.
+
+
 v2.1.3 - 2020-08-06
 -------------------
 + `logoutUser()`: Wait 1 second before navigating to logout page.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
  * @since 4.4.4 Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
- * @since [version] Removed private class property "generated_course_id".
+ * @since 4.8.0 Removed private class property "generated_course_id".
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -98,7 +98,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.0.0
 	 * @since 3.17.8 Unknown.
 	 * @since 4.4.4 Use `LLMS_Assets` for asset registration and queuing.
-	 * @since [version] Add return boolean based on enqueue return instead of void.
+	 * @since 4.8.0 Add return boolean based on enqueue return instead of void.
 	 *
 	 * @return boolean
 	 */
@@ -120,7 +120,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * If a single course is imported, redirects to that course's edit page, otherwise redirects
 	 * to the course post table list sorted by created date with the most recent courses first.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param int[] $course_ids WP_Post IDs of the course(s) generated during the import.
 	 * @return string
@@ -153,7 +153,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Get slug if next step
 	 *
 	 * @since 3.0.0
-	 * @since [version] Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
+	 * @since 4.8.0 Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
 	 *
 	 * @param string $step Step to use as current.
 	 * @return string|false
@@ -176,7 +176,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Get slug if prev step
 	 *
 	 * @since 3.0.0
-	 * @since [version] Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
+	 * @since 4.8.0 Combined combined if/elseif into a single condition & use strict `array_search()` comparison.
 	 *
 	 * @param string $step Step to use as current.
 	 * @return string|false
@@ -199,7 +199,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Unknown.
-	 * @since [version] Added a filter on the return value.
+	 * @since 4.8.0 Added a filter on the return value.
 	 *
 	 * @param string $step Step to get text for.
 	 * @return string The translated text.
@@ -219,7 +219,7 @@ class LLMS_Admin_Setup_Wizard {
 		 *
 		 * The dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param string $text Button text string.
 		 */
@@ -230,7 +230,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Get the text to display on the "skip" buttons
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added a filter on the return value.
+	 * @since 4.8.0 Added a filter on the return value.
 	 *
 	 * @param string $step Step to get text for.
 	 * @return string Translated text.
@@ -248,7 +248,7 @@ class LLMS_Admin_Setup_Wizard {
 		 *
 		 * The dynamic portion of this hook, `$step`, refers to the slug of the current step.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param string $text Button text string.
 		 */
@@ -294,7 +294,7 @@ class LLMS_Admin_Setup_Wizard {
 		/**
 		 * Filter the steps included in the setup wizard
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param string[] $steps Array of setup wizard steps. The array key is the slug/id of the step and the array value
 		 *                        is the step's title displayed in the wizard's navigation.
@@ -308,7 +308,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
-	 * @since [version] Refactored to include HTML from a view file instead of hardcoded HTML into the method.
+	 * @since 4.8.0 Refactored to include HTML from a view file instead of hardcoded HTML into the method.
 	 *
 	 * @return void
 	 */
@@ -335,7 +335,7 @@ class LLMS_Admin_Setup_Wizard {
 		 *
 		 * This filter can be used to output the HTML for a custom step in the setup wizard.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param string                  $step_html HTML of the step.
 		 * @param LLMS_Admin_Setup_Wizard $wizard    Setup wizard class instance.
@@ -351,7 +351,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * Adds an opening label wrapper and adds HTML data to turn the element into a toggleable form element.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param array $course Importable course data array.
 	 * @return void
@@ -374,7 +374,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * Closes the label element opened in `output_before_importable_course()`.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @param array $course Importable course data array.
 	 * @return void
@@ -390,7 +390,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.3.0 Unknown.
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
-	 * @since [version] Moved logic for each wizard step into it's own method.
+	 * @since 4.8.0 Moved logic for each wizard step into it's own method.
 	 *
 	 * @return null|WP_Error
 	 */
@@ -421,7 +421,7 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Save the "Coupon" step
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Error|boolean Returns `true` on success otherwise returns a WP_Error.
 	 */
@@ -447,7 +447,7 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Save the "Pages" creation step
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Error|boolean Returns `true` on success otherwise returns a WP_Error.
 	 */
@@ -460,7 +460,7 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Save the "Payments" step.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return boolean Always returns true
 	 */
@@ -484,7 +484,7 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Save the "Finish" step.
 	 *
-	 * @since [version]
+	 * @since 4.8.0
 	 *
 	 * @return WP_Error|int[]|boolaen Returns an array of generated WP_Post IDs on success, `false` when no import IDs are posted, otherwise returns a WP_Error.
 	 */
@@ -517,13 +517,13 @@ class LLMS_Admin_Setup_Wizard {
 	 * Allow the Sample Content installed during the final step to be published rather than drafted
 	 *
 	 * @since 3.3.0
-	 * @deprecated [version] LLMS_Admin_Setup_Wizard::generator_course_status() is deprecated with no replacement.
+	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::generator_course_status() is deprecated with no replacement.
 	 *
 	 * @param string $status Post status.
 	 * @return string
 	 */
 	public function generator_course_status( $status ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::generator_course_status()', '[version]' );
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::generator_course_status()', '4.8.0' );
 		return 'publish';
 	}
 
@@ -559,13 +559,13 @@ class LLMS_Admin_Setup_Wizard {
 	 * Uses this to handle redirect after import and generation is completed.
 	 *
 	 * @since 3.37.14
-	 * @deprecated [version] LLMS_Admin_Setup_Wizard::watch_course_generation() is deprecated with no replacement.
+	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::watch_course_generation() is deprecated with no replacement.
 	 *
 	 * @param LLMS_Course $course Course object.
 	 * @return void
 	 */
 	public function watch_course_generation( $course ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::watch_course_generation()', '[version]' );
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::watch_course_generation()', '4.8.0' );
 	}
 
 }

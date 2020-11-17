@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version [version]
+ * @version 4.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.4.4 Added llms-admin-setup.
- * @since [version] Added llms-admin-importer.
+ * @since 4.8.0 Added llms-admin-importer.
  */
 return array(
 

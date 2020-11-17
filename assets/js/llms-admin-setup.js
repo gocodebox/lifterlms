@@ -1,8 +1,8 @@
 /**
  * JS from the admin setup wizard
  *
- * @since [version]
- * @version [version]
+ * @since 4.8.0
+ * @version 4.8.0
  */
 
 ( function() {
@@ -21,7 +21,7 @@
 		/**
 		 * Retrieve the number of courses to be imported
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @return {Integer}
 		 */
@@ -42,7 +42,7 @@
 		/**
 		 * Update UI when a user toggles an import on or off.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 */
 		imports.forEach( function( el ) {
 
@@ -76,7 +76,7 @@
 		/**
 		 * Start a spinner when the "Import Courses" button is clicked.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 */
 		submit.addEventListener( 'click', function( e ) {
 			LLMS.Spinner.start( jQuery( submit ), 'small' );
@@ -90,7 +90,7 @@
 		/**
 		 * When users click "Exit Setup" prior to setup completion, open a confirmation dialog
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 */
 		exitLink.addEventListener( 'click', function( e ) {
 			if ( ! window.confirm( exitLink.dataset.confirm ) ) {

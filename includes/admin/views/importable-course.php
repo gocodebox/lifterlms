@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 4.8.0
+ * @version 4.8.0
  *
  * @property array $course A hash of importable course data.
  */
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Filters whether or not an action button should be displayed for an importable course.
  *
- * @since [version]
+ * @since 4.8.0
  *
  * @param boolean $show_button Whether or not to show the button.
  * @param array   $course      Hash of the importable course data.
@@ -28,7 +28,7 @@ $show_button = apply_filters( 'llms_importable_course_show_action', true, $cours
 		/**
 		 * Action run prior to the output of an importable course item
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param array $course Hash of the importable course data.
 		 */
@@ -46,7 +46,7 @@ $show_button = apply_filters( 'llms_importable_course_show_action', true, $cours
 		 *
 		 * This runs after the item's content but before the item's action button.
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param array $course Hash of the importable course data.
 		 */

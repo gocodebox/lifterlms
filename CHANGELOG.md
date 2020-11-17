@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v4.8.0 - 2020-11-16
+-------------------
+
+##### Updates
+
++ Added additional course imports and templates at the end of the setup wizard
++ Added a cloud importer enabling 1-click importing of courses and course templates via the importer at LifterLMS -> Import
++ Added strict comparisons in several places.
++ Course "extra" data is only added to course arrays during exports to improve performance on the course builder.
++ Improved template override loading performance on sites with no child theme.
+
+##### Bug fixes
+
++ Fixed issues related to reliance on methods provided by the `mb_string` PHP module.
+
+##### Deprecations
+
++ `LLMS_Admin_Setup_Wizard::generator_course_status()` is deprecated with no replacement.
++ `LLMS_Admin_Setup_Wizard::watch_course_generation()` is deprecated with no replacement.
+
+
 v4.7.1 - 2020-11-05
 -------------------
 

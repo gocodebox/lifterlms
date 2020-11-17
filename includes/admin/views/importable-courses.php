@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 4.8.0
+ * @version 4.8.0
  *
  * @property array[] $courses List of importable course data.
  */
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Action run prior to the output of an importable course list
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param array[] $courses List of importable course data.
 		 */
@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Action run after the output of an importable course list
 		 *
-		 * @since [version]
+		 * @since 4.8.0
 		 *
 		 * @param array[] $courses List of importable course data.
 		 */
