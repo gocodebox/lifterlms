@@ -36,6 +36,8 @@ jobs:
   allow_failures:
   - env: WP_VERSION=nightly
   - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
+  - php: nightly
+    env: WP_VERSION=latest
 
   exclude:
   # These WP Versions don't work on PHP 7.4
