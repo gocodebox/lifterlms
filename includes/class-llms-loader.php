@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -278,6 +278,7 @@ class LLMS_Loader {
 	 * Include libraries
 	 *
 	 * @since 4.0.0
+	 * @since [version] Adds constants which can be used to identify when included libraries have been loaded.
 	 *
 	 * @return void
 	 */
@@ -285,11 +286,13 @@ class LLMS_Loader {
 
 		// Block library.
 		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
+			define( 'LLMS_BLOCKS_LIB', true );
 			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
 		}
 
 		// Rest API.
 		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
+			define( 'LLMS_REST_API_LIB', true );
 			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
 
