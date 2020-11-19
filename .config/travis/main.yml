@@ -86,7 +86,7 @@ before_install:
     fi
 
 install:
-  Install Tests.
+  # Install Tests.
   - |
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
       composer run tests-install
