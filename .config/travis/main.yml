@@ -82,7 +82,7 @@ before_install:
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
       composer install
     else
-      composer install php8
+      composer run install-php8
     fi
 
 install:
