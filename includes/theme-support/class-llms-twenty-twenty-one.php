@@ -127,7 +127,7 @@ class LLMS_Twenty_Twenty_One {
 			// Fix checkboxes.
 			$styles[] = '.llms-form-field.type-checkbox input { width: 25px; display: inline-block; }';
 
-			// Donuts
+			// Donuts.
 			$styles[] = '.llms-donut svg path { stroke: var( --global--color-secondary ); }';
 
 			// Hide header/footer on certificate pages.

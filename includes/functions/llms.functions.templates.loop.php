@@ -20,7 +20,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 	 *
 	 * @see lifterlms_get_archive_description()
 	 *
-	 * @return string
+	 * @return void
 	 */
 	function lifterlms_archive_description() {
 		echo lifterlms_get_archive_description();
