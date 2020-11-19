@@ -39,7 +39,6 @@
   },
   "scripts": {
     "build": "gulp build && llms-dev readme && npm run contributors",
-    "build:composer": "node .bin/composer.js",
     "contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive"
