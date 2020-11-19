@@ -77,44 +77,47 @@ class LLMS_Theme_Support {
 		 *
 		 * @param string[] $selectors A list of css selectors.
 		 */
-		return apply_filters( 'llms_theme_support_get_selectors_primary_color_background', array(
+		return apply_filters(
+			'llms_theme_support_get_selectors_primary_color_background',
+			array(
 
-			// Buttons.
-			'.llms-button-primary',
-			'.llms-button-primary:hover',
-			'.llms-button-primary.clicked',
-			'.llms-button-primary:focus',
-			'.llms-button-primary:active',
-			'.llms-button-action',
-			'.llms-button-action:hover',
-			'.llms-button-action.clicked',
-			'.llms-button-action:focus',
-			'.llms-button-action:active',
+				// Buttons.
+				'.llms-button-primary',
+				'.llms-button-primary:hover',
+				'.llms-button-primary.clicked',
+				'.llms-button-primary:focus',
+				'.llms-button-primary:active',
+				'.llms-button-action',
+				'.llms-button-action:hover',
+				'.llms-button-action.clicked',
+				'.llms-button-action:focus',
+				'.llms-button-action:active',
 
-			// Pricing Tables.
-			'.llms-access-plan-title',
-			'.llms-access-plan .stamp',
-			'.llms-access-plan.featured .llms-access-plan-featured',
+				// Pricing Tables.
+				'.llms-access-plan-title',
+				'.llms-access-plan .stamp',
+				'.llms-access-plan.featured .llms-access-plan-featured',
 
-			// Checkout.
-			'.llms-checkout-wrapper .llms-form-heading',
+				// Checkout.
+				'.llms-checkout-wrapper .llms-form-heading',
 
-			// Notices.
-			'.llms-notice:not(.llms-debug)',
+				// Notices.
+				'.llms-notice:not(.llms-debug)',
 
-			// Progress Bar.
-			'.llms-progress .progress-bar-complete',
+				// Progress Bar.
+				'.llms-progress .progress-bar-complete',
 
-			// My Grades.
-			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
+				// My Grades.
+				'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
 
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+				// Instructor.
+				'.llms-instructor-info .llms-instructors .llms-author .avatar',
 
-			// Quizzes.
-			'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
+				// Quizzes.
+				'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
 
-		) );
+			)
+		);
 
 	}
 
@@ -136,27 +139,30 @@ class LLMS_Theme_Support {
 		 *
 		 * @param string[] $selectors A list of css selectors.
 		 */
-		return apply_filters( 'llms_theme_support_get_selectors_primary_color_background', array(
+		return apply_filters(
+			'llms_theme_support_get_selectors_primary_color_background',
+			array(
 
-			// Notifications.
-			'.llms-notification',
+				// Notifications.
+				'.llms-notification',
 
-			// Featured access plan.
-			'.llms-access-plan.featured .llms-access-plan-content',
-			'.llms-access-plan.featured .llms-access-plan-footer',
+				// Featured access plan.
+				'.llms-access-plan.featured .llms-access-plan-content',
+				'.llms-access-plan.featured .llms-access-plan-footer',
 
-			// Checkout.
-			'.llms-checkout-section',
-			'.llms-checkout-wrapper form.llms-login',
+				// Checkout.
+				'.llms-checkout-section',
+				'.llms-checkout-wrapper form.llms-login',
 
-			// Notices.
-			'.llms-notice:not(.llms-debug)',
+				// Notices.
+				'.llms-notice:not(.llms-debug)',
 
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author',
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+				// Instructor.
+				'.llms-instructor-info .llms-instructors .llms-author',
+				'.llms-instructor-info .llms-instructors .llms-author .avatar',
 
-		) );
+			)
+		);
 
 	}
 
@@ -179,23 +185,26 @@ class LLMS_Theme_Support {
 		 *
 		 * @param string[] $selectors A list of css selectors.
 		 */
-		return apply_filters( 'llms_theme_support_get_selectors_primary_color_background', array(
+		return apply_filters(
+			'llms_theme_support_get_selectors_primary_color_background',
+			array(
 
-			// Pricing Tables.
-			'.llms-access-plan-restrictions a',
-			'.llms-access-plan-restrictions a:hover',
+				// Pricing Tables.
+				'.llms-access-plan-restrictions a',
+				'.llms-access-plan-restrictions a:hover',
 
-			// Loop.
-			'.llms-loop-item-content .llms-loop-title:hover',
+				// Loop.
+				'.llms-loop-item-content .llms-loop-title:hover',
 
-			// Donuts.
-			'.llms-donut',
+				// Donuts.
+				'.llms-donut',
 
-			// Checks on Syllabus.
-			'.llms-lesson-preview.is-free .llms-lesson-complete',
-			'.llms-lesson-preview.is-complete .llms-lesson-complete',
+				// Checks on Syllabus.
+				'.llms-lesson-preview.is-free .llms-lesson-complete',
+				'.llms-lesson-preview.is-complete .llms-lesson-complete',
 
-		) );
+			)
+		);
 
 	}
 

@@ -807,9 +807,9 @@ abstract class LLMS_Abstract_Generator_Posts {
 			)
 		);
 
-		$post_id  = $post->get( 'id' );
-		$find     = array();
-		$replace  = array();
+		$post_id = $post->get( 'id' );
+		$find    = array();
+		$replace = array();
 		foreach ( $raw['_extras']['images'] as $src ) {
 
 			// Don't sideload images from blocked hosts.

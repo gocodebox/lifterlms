@@ -183,7 +183,7 @@ class LLMS_Twenty_Twenty_One {
 		$styles[] = LLMS_Theme_Support::get_css(
 			LLMS_Theme_Support::get_selectors_primary_color_background(),
 			array(
-				'color' => 'var( --global--color-background )',
+				'color'            => 'var( --global--color-background )',
 				'background-color' => 'var( --global--color-secondary )',
 			),
 			$selector_prefix
