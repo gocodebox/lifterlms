@@ -4,7 +4,7 @@
 
 	<file>.</file>
 
-	<!-- Exclude project directories -->
+    <!-- Exclude project directories -->
     <exclude-pattern>.bin/</exclude-pattern>
     <exclude-pattern>.config/</exclude-pattern>
     <exclude-pattern>.github/</exclude-pattern>
