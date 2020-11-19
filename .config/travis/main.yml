@@ -82,13 +82,17 @@ before_install:
     if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
       composer install
     else
-      cp .config/composer/php8/composer.json composer.json
-      WP_TESTS_VERSION=trunk composer install --ignore-platform-reqs
+      composer install php8
     fi
 
-# install:
-  # Install Tests.
-  # - ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' ${TESTS_DB_HOST} ${WP_VERSION} false trunk
+install:
+  Install Tests.
+  - |
+    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      composer run tests-install
+    else
+      composer run tests-install-php8
+    fi
 
 script:
   # Check coding standards.
