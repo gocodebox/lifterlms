@@ -183,13 +183,10 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 
 		$tests = array(
 			'post'            => 'default html',
-			// 'product'         => 'default html',
 			'course'          => '',
 			'llms_membership' => '',
 			'lesson'          => '',
 			'llms_quiz'       => '',
-			// 'llms_assignment' => '',
-			// 'llms_group'      => '',
 		);
 
 		foreach ( $tests as $post_type => $expected ) {
