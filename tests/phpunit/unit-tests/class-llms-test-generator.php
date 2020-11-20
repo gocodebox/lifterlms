@@ -85,6 +85,45 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_error_code().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_error_code() {
+
+		$gen   = new LLMS_Generator( array() );
+		$class = new LLMS_Generator_Courses();
+
+		$errors = array(
+
+			// Native errors.
+			E_ERROR         => 'E_ERROR',
+			E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+
+			// From Courses generator class.
+			2000 => 'ERROR_GEN_MISSING_REQUIRED',
+			2001 => 'ERROR_GEN_INVALID_FORMAT',
+
+			// From posts generator abstract.
+			1000 => 'ERROR_CREATE_POST',
+			1001 => 'ERROR_CREATE_TERM',
+			1002 => 'ERROR_CREATE_USER',
+			1100 => 'ERROR_INVALID_POST',
+
+			// Undefined error.
+			9999 => 'ERROR_UNKNOWN',
+
+		);
+
+		foreach ( $errors as $in => $out ) {
+			$this->assertEquals( $out, LLMS_Unit_Test_Util::call_method( $gen, 'get_error_code', array( $in, $class ) ) );
+		}
+
+	}
+
+	/**
 	 * Test get_results()
 	 *
 	 * @since 4.7.0
