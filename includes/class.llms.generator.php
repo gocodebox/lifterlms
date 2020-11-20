@@ -163,7 +163,7 @@ class LLMS_Generator {
 	protected function get_error_code( $code, $class ) {
 
 		// See if the error code is a native php exception code constant.
-		$ret = llms_error_constant_to_code( $code );
+		$ret = llms_php_error_constant_to_code( $code );
 
 		// Code is not a native PHP exception code.
 		if ( is_numeric( $ret ) ) {
