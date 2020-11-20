@@ -120,48 +120,36 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test plugin localization
 	 *
 	 * @since 3.21.1
+	 * @since [version] Improve tests.
 	 *
 	 * @return void
 	 */
 	public function test_localize() {
 
-		/**
-		 * custom-lifterlms-en_US.po/mo
-		 * Original  | Translation
-		 * -----------------------
-		 * LifterLMS | BetterLMS
-		 * Course    | Module
-		 */
+		$dirs = array(
+			WP_LANG_DIR . '/lifterlms', // "Safe" directory.
+			WP_LANG_DIR . '/plugins', // Default language directory.
+			WP_PLUGIN_DIR . '/lifterlms/languages', // Plugin language directory.
+		);
 
-		/**
-		 * lifterlms-en_US.po/mo
-		 * Original  | Translation
-		 * -----------------------
-		 * LifterLMS | MyLMS
-		 * Settings  | Options
-		 */
+		foreach ( $dirs as $dir ) {
 
+			// Make sure the initial strings work.
+			$this->assertEquals( 'LifterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
+			$this->assertEquals( 'Course', __( 'Course', 'lifterlms' ), $dir );
 
-		/**
-		 * Default order during initialization
-		 * Custom safe location
-		 * Default location (from community)
-		 */
+			// Load a language file.
+			$file = LLMS_Unit_Test_Files::copy_asset( 'lifterlms-en_US.mo', $dir );
+			$this->llms->localize();
 
-		// this is translated in both but should use the translation from the custom file
-		$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ) );
+			$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ), $dir );
+			$this->assertEquals( 'Module', __( 'Module', 'lifterlms' ), $dir );
 
-		// translated in only the custom file
-		$this->assertEquals( 'Module', __( 'Course', 'lifterlms' ) );
+			// Clean up.
+			LLMS_Unit_Test_Files::remove( $file );
+			unload_textdomain( 'lifterlms' );
 
-		// translated only in the default file
-		$this->assertEquals( 'Options', __( 'Settings', 'lifterlms' ) );
-
-		// not translated in either
-		$this->assertEquals( 'Lesson', __( 'Lesson', 'lifterlms' ) );
-
-		// fake string
-		$this->assertEquals( 'arstienarstyularst', __( 'arstienarstyularst', 'lifterlms' ) );
+		}
 
 	}
 
