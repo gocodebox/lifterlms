@@ -70,19 +70,19 @@ function llms_l10n_get_safe_directory() {
  *
  *   1. wp-content/languages/{$domain}/{$domain}-{$locale}.mo
  *
- *   	This is recommended "safe" location where custom language files can be stored. A file
- *   	stored in this directory will never be automatically overwritten.
+ *      This is recommended "safe" location where custom language files can be stored. A file
+ *      stored in this directory will never be automatically overwritten.
  *
  *   2. wp-content/languages/plugins/{$domain}-{$locale}.mo
  *
- * 		This is the default directory where WordPress will download language files from the
- * 		WordPress GlotPress server during updates. If you store a custom language file in this
- * 		directory it will be overwritten during updates.
+ *      This is the default directory where WordPress will download language files from the
+ *      WordPress GlotPress server during updates. If you store a custom language file in this
+ *      directory it will be overwritten during updates.
  *
  *   3. wp-content/plugins/{$domain}/languages/{$domain}-{$locale}.mo
  *
- * 		This is the the LifterLMS plugin directory. A language file stored in this directory will
- * 		be removed from the server during a LifterLMS plugin update.
+ *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+ *      be removed from the server during a LifterLMS plugin update.
  *
  * @since [version]
  *
@@ -123,19 +123,19 @@ function llms_load_textdomain( $domain, $plugin_dir = null, $language_dir = null
  *
  *   1. wp-content/languages/{$domain}/{$domain}-{$locale}-{md5($handle)}.json
  *
- *   	This is recommended "safe" location where custom language files can be stored. A file
- *   	stored in this directory will never be automatically overwritten.
+ *      This is recommended "safe" location where custom language files can be stored. A file
+ *      stored in this directory will never be automatically overwritten.
  *
  *   2. wp-content/languages/plugins/{$domain}-{$locale}-{md5($handle)}.json
  *
- * 		This is the default directory where WordPress will download language files from the
- * 		WordPress GlotPress server during updates. If you store a custom language file in this
- * 		directory it will be overwritten during updates.
+ *      This is the default directory where WordPress will download language files from the
+ *      WordPress GlotPress server during updates. If you store a custom language file in this
+ *      directory it will be overwritten during updates.
  *
  *   3. wp-content/plugins/{$domain}/languages/{$domain}-{$locale}-{md5($handle)}.json
  *
- * 		This is the the LifterLMS plugin directory. A language file stored in this directory will
- * 		be removed from the server during a LifterLMS plugin update.
+ *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+ *      be removed from the server during a LifterLMS plugin update.
  *
  * @since [version]
  *
