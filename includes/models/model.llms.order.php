@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -277,6 +277,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.12.0 Unknown.
 	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
+	 * @since [version] Fix comparison for PHP8 compat.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.
@@ -353,7 +354,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		// If the next payment is after the end time (where applicable).
-		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
+		if ( $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
 			$ret = '';
 		} elseif ( $next_payment_time > 0 ) {
 			$ret = date( $format, $next_payment_time );
@@ -487,7 +488,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$ret = $this->get_date( 'date_access_expires', $format );
 		if ( ! $ret ) {
-
 			switch ( $type ) {
 				case 'lifetime':
 					$ret = __( 'Lifetime Access', 'lifterlms' );
@@ -798,7 +798,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Retrieve the saved due date.
 		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
-
 		// Calculate it if not saved.
 		if ( ! $next_payment_time ) {
 			$next_payment_time = $this->calculate_next_payment_date( 'U' );

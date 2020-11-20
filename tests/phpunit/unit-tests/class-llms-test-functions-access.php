@@ -7,7 +7,6 @@
  * @since 3.7.3
  * @since 3.16.0 Unknown.
  * @since 3.37.10 Added tests on sitewide membership restriction.
- * @version 3.37.10
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
@@ -272,6 +271,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.7.3
 	 * @since 3.12.0 Unknown.
+	 * @since [version] Remove default value of `$test_ids` parameter for php8 compatibility.
 	 *
 	 * @param array $test_ids         Array of post ids to test the llms_is_post_restricted_by_prerequisite() against.
 	 * @param obj   $course           Course object.
@@ -280,7 +280,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * @param int   $user_id          Wp user id of a student.
 	 * @return void
 	 */
-	private function prereq_tests( $test_ids = array(), $course, $prereq_course_id, $track_id, $user_id = null ) {
+	private function prereq_tests( $test_ids, $course, $prereq_course_id, $track_id, $user_id = null ) {
 
 		$student = $user_id ? new LLMS_Student( $user_id ) : null;
 
