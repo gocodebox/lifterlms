@@ -1138,7 +1138,7 @@ function llms_php_error_constant_to_code( $code ) {
 		E_STRICT            => 'E_STRICT', // 2048.
 		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR', // 4096.
 		E_DEPRECATED        => 'E_DEPRECATED', // 8192.
-		E_USER_DEPRECATED   => 'E_USER_DEPRECATED',   // 16384.
+		E_USER_DEPRECATED   => 'E_USER_DEPRECATED', // 16384.
 	);
 
 	return isset( $codes[ $code ] ) ? $codes[ $code ] : $code;
