@@ -50,7 +50,7 @@ class LLMS_Test_Functions_L10n extends LLMS_UnitTestCase {
 			llms_load_textdomain( 'lifterlms-test', WP_PLUGIN_DIR . '/lifterlms-test', 'i18n' );
 
 			$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms-test' ), $dir );
-			$this->assertEquals( 'Module', __( 'Module', 'lifterlms-test' ), $dir );
+			$this->assertEquals( 'Module', __( 'Course', 'lifterlms-test' ), $dir );
 
 			// Clean up.
 			LLMS_Unit_Test_Files::remove( $file );
