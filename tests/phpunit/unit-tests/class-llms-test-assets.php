@@ -1,6 +1,6 @@
 <?php
 /**
- * Test AJAX Handler
+ * Test LLMS_Assets
  *
  * @package LifterLMS/Tests
  *
@@ -217,7 +217,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test get() method for an undefined asset.
-	 *
+	 *F
 	 * @since 4.4.0
 	 *
 	 * @return void
@@ -324,6 +324,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_get_defaults_for_scripts() {
 
 		$expect = array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
@@ -331,6 +332,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'extension'    => '.js',
 			'in_footer'    => true,
 			'path'         => 'assets/js',
+			'translate'    => false,
 		);
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'script' ) ) );
 
@@ -346,6 +348,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_get_defaults_for_styles() {
 
 		$expect = array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
@@ -597,6 +600,57 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 		$this->assertFalse( $this->main->register_script( 'fake-script' ) );
 		$this->assertAssetNotRegistered( 'script', 'fake-script' );
+
+	}
+
+	public function test_register_script_with_translations() {
+
+		// LLMS_PLUGIN_URL gets messed up in the testing environment
+		$handler = function( $defaults ) {
+			$defaults['base_url'] = plugins_url() . '/lifterlms';
+			return $defaults;
+		};
+		add_filter( 'llms_get_script_asset_defaults', $handler );
+
+
+		$handle = 'llms-test-messages';
+		$file   = 'assets/js/llms-test-messages.js';
+		$md5    = md5( $file );
+		$json   = file_get_contents( LLMS_Unit_Test_Files::get_asset_path( sprintf( 'lifterlms-en_US-%s.json', $md5 ) ) );
+
+		$scripts = array( $handle => array( 'translate' => true ) );
+		$this->main->define( 'scripts', $scripts );
+
+		$dirs = array(
+			WP_LANG_DIR . '/lifterlms', // "Safe" directory.
+			WP_LANG_DIR . '/plugins', // Default language directory.
+			plugin_dir_path( LLMS_PLUGIN_FILE ) . 'languages', // Plugin language directory.
+		);
+
+		foreach ( $dirs as $dir ) {
+
+			// Load a language file.
+			$file = LLMS_Unit_Test_Files::copy_asset( sprintf( 'lifterlms-en_US-%s.json', $md5 ), $dir );
+			$this->main->register_script( $handle );
+
+			// The script's translation path should be the intended directory.
+			$this->assertEquals( $dir, wp_scripts()->registered[ $handle ]->translations_path, $dir );
+
+			// If we load the script's textdomain we'll see JSON matching the mock file.
+			$this->assertEquals( $json, load_script_textdomain( $handle, 'lifterlms', $dir ), $dir );
+
+			// Clean up.
+			LLMS_Unit_Test_Files::remove( $file );
+			wp_deregister_script( $handle );
+
+		}
+
+		// No files found.
+		$this->main->register_script( $handle );
+		$this->assertNull( wp_scripts()->registered[ $handle ]->translations_path );
+		$this->assertFalse( load_script_textdomain( $handle, 'lifterlms' ) );
+
+		remove_filter( 'llms_get_script_asset_defaults', $handler );
 
 	}
 
