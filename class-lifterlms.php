@@ -390,7 +390,7 @@ final class LifterLMS {
 	/**
 	 * Localize the plugin
 	 *
-	 * Language files files can be found in the following locations (The first loaded file takes priority):
+	 * Language files can be found in the following locations (The first loaded file takes priority):
 	 *
 	 *   1. wp-content/languages/lifterlms/lifterlms-{LOCALE}.mo
 	 *
