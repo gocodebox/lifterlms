@@ -636,7 +636,7 @@ class LLMS_Assets {
 		$plugin_data = get_plugin_data( $script['base_file'], false, false );
 		$domain      = $plugin_data['TextDomain'];
 
-		// Setup the script's filename based on the md5 of it's relative path
+		// Setup the script's filename based on the md5 of it's relative path.
 		$relative_path = sprintf( '%1$s/%2$s%3$s', $script['path'], $script['file_name'], $script['extension'] );
 		$file          = sprintf( '%1$s-%2$s-%3$s.json', $domain, llms_get_locale(), md5( $relative_path ) );
 
