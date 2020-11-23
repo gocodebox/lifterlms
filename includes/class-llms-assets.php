@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 4.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Assets Class
  *
  * @since 4.4.0
+ * @since [version] Added new default values related to script localization.
  */
 class LLMS_Assets {
 
@@ -49,6 +50,7 @@ class LLMS_Assets {
 	protected $defaults = array(
 		// Base defaults shared by all asset types.
 		'base'   => array(
+			'base_file'    => LLMS_PLUGIN_FILE,
 			'base_url'     => LLMS_PLUGIN_URL,
 			'suffix'       => LLMS_ASSETS_SUFFIX,
 			'dependencies' => array(),
@@ -59,6 +61,7 @@ class LLMS_Assets {
 			'path'      => 'assets/js',
 			'extension' => '.js',
 			'in_footer' => true,
+			'translate' => false,
 		),
 		// Stylesheet specific defaults.
 		'style'  => array(
@@ -257,6 +260,7 @@ class LLMS_Assets {
 	 *     @type string   $version      The asset version. Defaults to `LLMS_VERSION`.
 	 *     @type string   $package_id   An ID used to identify the originating plugin or theme that defined the asset.
 	 *     @type boolean  $in_footer    (For `script` assets only) Whether or not the script should be output in the footer. Defaults to `true`.
+	 *     @type boolean  $translate    (For `script` assets only) Whether or not script translations should be set. Defaults to `false`.
 	 *     @type boolean  $rtl          (For `style` assets only) Whether or not to automatically add RTL style data for the stylesheet. Defaults to `true`.
 	 *     @type boolean  $media        (For `style` assets only) The stylesheet's media type. Defaults to `all`.
 	 * }
@@ -533,6 +537,7 @@ class LLMS_Assets {
 	 * If the script is *not defined* this function will return `false`.
 	 *
 	 * @since 4.4.0
+	 * @since [version] Automatically set script translations when `translate=true`.
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -541,7 +546,14 @@ class LLMS_Assets {
 
 		$script = $this->get( 'script', $handle );
 		if ( $script ) {
-			return wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
+
+			$reg = wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
+			if ( $reg && $script['translate'] ) {
+				$this->set_script_translations( $script );
+			}
+
+			return $reg;
+
 		}
 
 		return false;
@@ -588,6 +600,60 @@ class LLMS_Assets {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Load JSON format localization files for a registered script
+	 *
+	 * This method mimics the behavior of PO/MO pot files loaded for PHP localization.
+	 *
+	 * Language files can be found in the following locations (The first loaded file takes priority):
+	 *
+	 *   1. wp-content/languages/{$textdomain}/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is recommended "safe" location where custom language files can be stored. A file
+	 *      stored in this directory will never be automatically overwritten.
+	 *
+	 *   2. wp-content/languages/plugins/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is the default directory where WordPress will download language files from the
+	 *      WordPress GlotPress server during updates. If you store a custom language file in this
+	 *      directory it will be overwritten during updates.
+	 *
+	 *   3. wp-content/plugins/{$textdomain}/languages/{$textdomain}-{$locale}-{$file_md5_hash}.json
+	 *
+	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+	 *      be removed from the server during a LifterLMS plugin update.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $script An asset definition array from the return of `LLMS_Assets::get()`.
+	 * @return void
+	 */
+	protected function set_script_translations( $script ) {
+
+		$plugin_data = get_plugin_data( $script['base_file'], false, false );
+		$domain      = $plugin_data['TextDomain'];
+
+		// Setup the script's filename based on the md5 of it's relative path
+		$relative_path = sprintf( '%1$s/%2$s%3$s', $script['path'], $script['file_name'], $script['extension'] );
+		$file          = sprintf( '%1$s-%2$s-%3$s.json', $domain, llms_get_locale(), md5( $relative_path ) );
+
+		// Possible directories where the language files may be found.
+		$dirs = array(
+			llms_l10n_get_safe_directory(),
+			WP_LANG_DIR . '/plugins', // Default language directory.
+			trailingslashit( plugin_dir_path( $script['base_file'] ) ) . untrailingslashit( ltrim( $plugin_data['DomainPath'], '/' ) ), // Language directory within the plugin.
+		);
+
+		foreach ( $dirs as $dir ) {
+			// If the file exists, set the script translations.
+			if ( file_exists( sprintf( '%1$s/%2$s', $dir, $file ) ) ) {
+				wp_set_script_translations( $script['handle'], $domain, $dir );
+				break;
+			}
+		}
 
 	}
 
