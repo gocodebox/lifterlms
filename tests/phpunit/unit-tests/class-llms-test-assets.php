@@ -268,7 +268,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test get() method for an undefined asset.
-	 *F
+	 *
 	 * @since 4.4.0
 	 *
 	 * @return void
@@ -656,7 +656,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	public function test_register_script_with_translations() {
 
-		// LLMS_PLUGIN_URL gets messed up in the testing environment
+		// LLMS_PLUGIN_URL gets messed up in the testing environment.
 		$handler = function( $defaults ) {
 			$defaults['base_url'] = plugins_url() . '/lifterlms';
 			return $defaults;
