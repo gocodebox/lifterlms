@@ -120,7 +120,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test plugin localization
 	 *
 	 * @since 3.21.1
-	 * @since [version] Improve tests.
+	 * @since 4.9.0 Improve tests.
 	 *
 	 * @return void
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 4.9.0
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve the current plugin locale.
  *
- * @since [version]
+ * @since 4.9.0
  *
  * @param string $domain Text domain.
  * @return string
@@ -52,7 +52,7 @@ function llms_l10n_get_safe_directory() {
 	 *
 	 * By default the safe directory is `wp-content/languages/lifterlms`.
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @param string $path Full server path to the safe directory.
 	 */
@@ -84,7 +84,7 @@ function llms_l10n_get_safe_directory() {
  *      This is the the LifterLMS plugin directory. A language file stored in this directory will
  *      be removed from the server during a LifterLMS plugin update.
  *
- * @since [version]
+ * @since 4.9.0
  *
  * @param string      $domain       Textdomain being loaded.
  * @param string|null $plugin_dir   Full path to the plugin directory, if none supplied `LLMS_PLUGIN_DIR` is used.

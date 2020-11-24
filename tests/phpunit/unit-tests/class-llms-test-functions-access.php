@@ -271,7 +271,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.7.3
 	 * @since 3.12.0 Unknown.
-	 * @since [version] Remove default value of `$test_ids` parameter for php8 compatibility.
+	 * @since 4.9.0 Remove default value of `$test_ids` parameter for php8 compatibility.
 	 *
 	 * @param array $test_ids         Array of post ids to test the llms_is_post_restricted_by_prerequisite() against.
 	 * @param obj   $course           Course object.

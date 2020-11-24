@@ -489,7 +489,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.35.0
 	 * @since 3.37.8 Update path to assets directory.
-	 * @since [version] PHP8 upgrades from notice to warning.
+	 * @since 4.9.0 PHP8 upgrades from notice to warning.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1114,7 +1114,7 @@ function llms_parse_bool( $val ) {
 /**
  * Convert a PHP error constant to a human readable error code
  *
- * @since [version]
+ * @since 4.9.0
  *
  * @link https://www.php.net/manual/en/errorfunc.constants.php
  *

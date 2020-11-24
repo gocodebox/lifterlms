@@ -52,7 +52,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test merging of defaults during construction
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @return void
 	 */
