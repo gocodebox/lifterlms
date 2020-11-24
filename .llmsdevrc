@@ -17,5 +17,9 @@
 			"Frequently Asked Questions": "file:./.wordpress-org/readme/faqs.md",
 			"Screenshots": "file:./.wordpress-org/readme/screenshots.md"
 		}
+	},
+	"i18n": {
+		"dir": "./languages/",
+		"merge": "vendor/lifterlms/lifterlms-rest/i18n/lifterlms-rest.pot,vendor/lifterlms/lifterlms-blocks/i18n/lifterlms-blocks.pot"
 	}
 }

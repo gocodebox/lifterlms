@@ -257,11 +257,11 @@ msgstr ""
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:418
+#: includes/class.llms.generator.php:433
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:430
+#: includes/class.llms.generator.php:445
 msgid "The supplied generator is invalid."
 msgstr ""
 
@@ -5766,7 +5766,7 @@ msgstr ""
 msgid "Could not deactivate %s."
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:219, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:165
+#: includes/models/model.llms.add-on.php:219, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:166
 msgid "Active"
 msgstr ""
 
@@ -5863,19 +5863,19 @@ msgstr ""
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:806
+#: includes/models/model.llms.order.php:805
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1460
+#: includes/models/model.llms.order.php:1459
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1509
+#: includes/models/model.llms.order.php:1508
 msgid "Automatic retry attempt scheduled for %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1520
+#: includes/models/model.llms.order.php:1519
 msgid "Maximum retry attempts reached."
 msgstr ""
 
@@ -7566,7 +7566,7 @@ msgstr ""
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:107, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:167
+#: includes/admin/settings/class.llms.settings.general.php:107, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:168
 msgid "Disabled"
 msgstr ""
 
@@ -10504,11 +10504,11 @@ msgstr ""
 msgid "Remove Block Code"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:52
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:62
 msgid "LifterLMS Blocks"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:56
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:66
 msgid "LifterLMS Form Fields"
 msgstr ""
 
@@ -10547,188 +10547,188 @@ msgid "LifterLMS REST API"
 msgstr ""
 
 #. translators: %s = created date.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:125
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:126
 msgid "Webhook created on %s"
 msgstr ""
 
 #. translators: Date format.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:127
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:128
 msgctxt "Webhook created on date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:143
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:144
 msgid "Webhook"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:166
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:167
 msgid "Paused"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:193
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
 msgid "Course created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
 msgid "Course updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
 msgid "Course deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
 msgid "Course restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
 msgid "Section created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
 msgid "Section updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
 msgid "Section deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
 msgid "Lesson created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
 msgid "Lesson updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
 msgid "Lesson deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
 msgid "Lesson restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
 msgid "Membership created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
 msgid "Membership updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
 msgid "Membership deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
 msgid "Membership restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
 msgid "Access Plan created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
 msgid "Access Plan updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
 msgid "Access Plan deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
 msgid "Access Plan restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
 msgid "Order created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
 msgid "Order updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
 msgid "Order deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
 msgid "Order restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
 msgid "Transaction created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
 msgid "Transaction updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
 msgid "Transaction deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
 msgid "Student created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
 msgid "Student updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
 msgid "Student deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
 msgid "Enrollment created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
 msgid "Enrollment updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
 msgid "Enrollment deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
 msgid "Progress updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
 msgid "Progress deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
 msgid "Instructor created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:229
 msgid "Instructor updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:229
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:230
 msgid "Instructor deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:230, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:231, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
 msgid "Action"
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:434
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:435
 msgid "\"%s\" is not a valid status."
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:440
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:441
 msgid "\"%s\" is not a valid topic."
 msgstr ""
 
 #. translators: %s = field name.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:447
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:448
 msgid "\"%s\" is required."
 msgstr ""
 
@@ -11414,17 +11414,17 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:126
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:136
 msgid "M j, Y @ H:i"
 msgstr ""
 
 #. translators: %s = Error message.
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:398
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:409
 msgid "Could not reach the delivery url: \"%s\"."
 msgstr ""
 
 #. translators: %d = Response code.
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:403
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:414
 msgid "The delivery url returned the response code \"%d\"."
 msgstr ""
 
