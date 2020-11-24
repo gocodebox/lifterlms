@@ -4,28 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5b417fae8819e542c85c22b4bb09ed7",
+    "content-hash": "db85cb20db2146e307326bca5cbb9d6b",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.9.1",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "59f2bf6ffb103f534f817ddb861d3fd80cba65de"
+                "reference": "01a826fd486e4d2cd36aa46d96c82c070eac2f80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/59f2bf6ffb103f534f817ddb861d3fd80cba65de",
-                "reference": "59f2bf6ffb103f534f817ddb861d3fd80cba65de",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/01a826fd486e4d2cd36aa46d96c82c070eac2f80",
+                "reference": "01a826fd486e4d2cd36aa46d96c82c070eac2f80",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
                 "lifterlms/lifterlms-cs": "dev-master",
-                "lifterlms/lifterlms-tests": "dev-master"
+                "lifterlms/lifterlms-tests": "dev-trunk"
             },
             "type": "wordpress-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -41,9 +41,9 @@
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
-                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.9.1"
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.10.0"
             },
-            "time": "2020-04-29T21:40:43+00:00"
+            "time": "2020-11-24T21:25:10+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
