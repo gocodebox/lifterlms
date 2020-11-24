@@ -7,14 +7,14 @@
  * @group functions
  * @group functions_l10n
  *
- * @since [version]
+ * @since 4.9.0
  */
 class LLMS_Test_Functions_L10n extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_locale()
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @return void
 	 */
@@ -25,7 +25,7 @@ class LLMS_Test_Functions_L10n extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_load_textdomain() as it would be used by a 3rd party.
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @see LLMS_Test_Main_Class::test_localize() for coverage with default args against the LifterLMS core plugin.
 	 *

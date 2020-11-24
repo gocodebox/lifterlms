@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -154,7 +154,7 @@ class LLMS_Generator {
 	 * Retrieve a human-readable error code from a machine-readable error number
 	 *
 	 * @since 4.7.0
-	 * @since [version] Handle PHP core errors, warnings, notices, etc... with a human-readable error code.
+	 * @since 4.9.0 Handle PHP core errors, warnings, notices, etc... with a human-readable error code.
 	 *
 	 * @param int $code  Error number.
 	 * @param obj $class Generator class instance.
@@ -177,7 +177,7 @@ class LLMS_Generator {
 		/**
 		 * Filter the human-readable error retrieved from a given error code
 		 *
-		 * @since [version]
+		 * @since 4.9.0
 		 *
 		 * @param string $ret   The human-readable error code.
 		 * @param int    $code  The initial error code as an integer.

@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Assets Class
  *
  * @since 4.4.0
- * @since [version] Added new default values related to script localization.
+ * @since 4.9.0 Added new default values related to script localization.
  */
 class LLMS_Assets {
 
@@ -96,7 +96,7 @@ class LLMS_Assets {
 	 * Constructor
 	 *
 	 * @since 4.4.0
-	 * @since [version] Replace defaults instead of merging them.
+	 * @since 4.9.0 Replace defaults instead of merging them.
 	 *
 	 * @param string  $package_id An ID used to identify the originating package (plugin or theme) of the asset handler instance.
 	 * @param array[] $defaults   Array of asset definitions values. Accepts a partial list of values that is merged with the default defaults.
@@ -538,7 +538,7 @@ class LLMS_Assets {
 	 * If the script is *not defined* this function will return `false`.
 	 *
 	 * @since 4.4.0
-	 * @since [version] Automatically set script translations when `translate=true`.
+	 * @since 4.9.0 Automatically set script translations when `translate=true`.
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -627,7 +627,7 @@ class LLMS_Assets {
 	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
 	 *      be removed from the server during a LifterLMS plugin update.
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @param array $script An asset definition array from the return of `LLMS_Assets::get()`.
 	 * @return void

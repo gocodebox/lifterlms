@@ -87,7 +87,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test get_error_code().
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @return void
 	 */

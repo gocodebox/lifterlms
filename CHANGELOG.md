@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v4.9.0 - 2020-11-24
+-------------------
+
++ Tested up to WordPress core 5.6 (RC.1).
++ Raised the minimum required WordPress core version to 5.1.
++ Add new localization utilities for developers.
++ Fixed various issues found on PHP 8.
++ Added script localization for block editor scripts.
++ Updated LifterLMS Rest to [Version 1.0.0-beta.17](https://make.lifterlms.com/2020/11/24/lifterlms-rest-api-version-1-0-0-beta-17/).
++ Updated LifterLMS Blocks to [Version 1.10.0](https://make.lifterlms.com/2020/11/24/lifterlms-blocks-version-1-10-0/).
+
+
 v4.8.0 - 2020-11-16
 -------------------
 

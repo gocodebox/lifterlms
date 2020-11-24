@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -278,7 +278,7 @@ class LLMS_Loader {
 	 * Include libraries
 	 *
 	 * @since 4.0.0
-	 * @since [version] Adds constants which can be used to identify when included libraries have been loaded.
+	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.8.0';
+	public $version = '4.9.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -409,7 +409,7 @@ final class LifterLMS {
 	 *      be removed from the server during a LifterLMS plugin update.
 	 *
 	 * @since Unknown
-	 * @since [version] Use `llms_load_textdomain()`.
+	 * @since 4.9.0 Use `llms_load_textdomain()`.
 	 *
 	 * @return void
 	 */

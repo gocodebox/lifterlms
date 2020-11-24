@@ -622,7 +622,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_php_error_constant_to_code()
 	 *
-	 * @since [version]
+	 * @since 4.9.0
 	 *
 	 * @return void
 	 */

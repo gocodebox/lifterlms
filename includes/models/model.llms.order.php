@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -277,7 +277,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.12.0 Unknown.
 	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
-	 * @since [version] Fix comparison for PHP8 compat.
+	 * @since 4.9.0 Fix comparison for PHP8 compat.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.

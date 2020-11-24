@@ -256,7 +256,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 * Test llms_setup_pending_order() failure
 	 *
 	 * @since 3.27.0
-	 * @since [version] Remove default optional value from `$order_data` arg for php8 compat.
+	 * @since 4.9.0 Remove default optional value from `$order_data` arg for php8 compat.
 	 *
 	 * @param array  $order_data    Array of order data to pass to `llms_setup_pending_order()`.
 	 * @param string $expected_code Expected error code.
