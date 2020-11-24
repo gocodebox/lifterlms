@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db85cb20db2146e307326bca5cbb9d6b",
+    "content-hash": "035b449c3e0b7a30a886cca72a6b50cf",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -269,7 +269,7 @@
         },
         {
             "name": "lifterlms/lifterlms-cs",
-            "version": "dev-master",
+            "version": "dev-trunk",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-cs.git",
@@ -292,7 +292,6 @@
                 "phpcompatibility/php-compatibility": "^9.0.0",
                 "roave/security-advisories": "dev-master"
             },
-            "default-branch": true,
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "license": [

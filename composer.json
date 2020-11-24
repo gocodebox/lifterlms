@@ -40,7 +40,7 @@
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "dev-trunk",
-    "lifterlms/lifterlms-cs": "dev-master"
+    "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {
     "exclude": [
