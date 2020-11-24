@@ -96,6 +96,7 @@ class LLMS_Assets {
 	 * Constructor
 	 *
 	 * @since 4.4.0
+	 * @since [version] Replace defaults instead of merging them.
 	 *
 	 * @param string  $package_id An ID used to identify the originating package (plugin or theme) of the asset handler instance.
 	 * @param array[] $defaults   Array of asset definitions values. Accepts a partial list of values that is merged with the default defaults.
@@ -103,7 +104,7 @@ class LLMS_Assets {
 	public function __construct( $package_id, $defaults = array() ) {
 
 		$this->package_id = $package_id;
-		$this->defaults   = array_merge_recursive( $defaults, $this->defaults );
+		$this->defaults   = array_replace_recursive( $this->defaults, $defaults );
 
 		/**
 		 * Filter asset debug mode.

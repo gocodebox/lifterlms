@@ -50,6 +50,57 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test merging of defaults during construction
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_default_merge() {
+
+		$defaults = array(
+			// Base defaults shared by all asset types.
+			'base'   => array(
+				'base_file' => 'Some/Custom/Plugin/File.php',
+				'base_url'  => 'https://mock.tld/wp-content/plugins/custom-plugin',
+				'version'   => '93.29.107',
+				'suffix'    => '.custom',
+			),
+			// Script specific defaults.
+			'script' => array(
+				'translate' => true, // All scripts in this plugin are translated.
+			),
+		);
+
+		$expected = array(
+			'base' => array(
+				'base_file' => 'Some/Custom/Plugin/File.php',
+				'base_url' => 'https://mock.tld/wp-content/plugins/custom-plugin',
+				'suffix' => '.custom',
+				'dependencies' => array(),
+				'version' => '93.29.107',
+			),
+			'script' => array(
+				'path' => 'assets/js',
+				'extension' => '.js',
+				'in_footer' => true,
+				'translate' => true,
+			),
+			'style' => array(
+				'path' => 'assets/css',
+				'extension' => '.css',
+				'media' => 'all',
+				'rtl' => true,
+			),
+		);
+
+
+		$assets = new LLMS_Assets( 'mock-package-id', $defaults );
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::get_private_property_value( $assets, 'defaults' ) );
+
+	}
+
+	/**
 	 * Test define() with script assets.
 	 *
 	 * @since 4.4.0
