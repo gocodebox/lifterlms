@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 4.7.0
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -154,6 +154,7 @@ class LLMS_Generator {
 	 * Retrieve a human-readable error code from a machine-readable error number
 	 *
 	 * @since 4.7.0
+	 * @since 4.9.0 Handle PHP core errors, warnings, notices, etc... with a human-readable error code.
 	 *
 	 * @param int $code  Error number.
 	 * @param obj $class Generator class instance.
@@ -161,14 +162,28 @@ class LLMS_Generator {
 	 */
 	protected function get_error_code( $code, $class ) {
 
-		// PHP error / warning thrown.
-		if ( 8 === $code ) {
-			return 'exception';
+		// See if the error code is a native php exception code constant.
+		$ret = llms_php_error_constant_to_code( $code );
+
+		// Code is not a native PHP exception code.
+		if ( is_numeric( $ret ) ) {
+
+			$reflect   = new ReflectionClass( $class );
+			$constants = array_flip( $reflect->getConstants() );
+			$ret       = isset( $constants[ $code ] ) ? $constants[ $code ] : 'ERROR_UNKNOWN';
+
 		}
 
-		$reflect   = new ReflectionClass( $class );
-		$constants = array_flip( $reflect->getConstants() );
-		return isset( $constants[ $code ] ) ? $constants[ $code ] : $code;
+		/**
+		 * Filter the human-readable error retrieved from a given error code
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string $ret   The human-readable error code.
+		 * @param int    $code  The initial error code as an integer.
+		 * @param obj    $class Generator class instance.
+		 */
+		return apply_filters( 'llms_generator_get_error_code', $ret, $code, $class );
 
 	}
 
