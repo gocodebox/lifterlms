@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 4.8
-Tested up to: 5.5
+Requires at least: 5.1
+Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.8.0
+Stable tag: 4.9.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.9.0 - 2020-11-24 =
+
++ Tested up to WordPress core 5.6 (RC.1).
++ Raised the minimum required WordPress core version to 5.1.
++ Add new localization utilities for developers.
++ Fixed various issues found on PHP 8.
++ Added script localization for block editor scripts.
++ Updated LifterLMS Rest to [Version 1.0.0-beta.17](https://make.lifterlms.com/2020/11/24/lifterlms-rest-api-version-1-0-0-beta-17/).
++ Updated LifterLMS Blocks to [Version 1.10.0](https://make.lifterlms.com/2020/11/24/lifterlms-blocks-version-1-10-0/).
+
+
 = v4.8.0 - 2020-11-16 =
 
 ##### Updates
@@ -654,13 +665,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 = v4.4.2 - 2020-09-08 =
 
 + Bugfix: Fix lesson navigation regression introduced in 4.4.0.
-
-
-= v4.4.1 - 2020-09-04 =
-
-+ Bugfix: Delayed engagement emails will not be sent to students who's enrollment is not active in the related course or membership which triggered the email.
-+ Bugfix: Fixed regression introduced in 4.4.0 preventing the `certificates.css` stylesheet from loading on certificate screens.
-+ Update: Engagement email related logs will be logged to a separate logfile, `engagement-emails` in favor of the main `llms` log.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
