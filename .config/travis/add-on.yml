@@ -10,7 +10,6 @@
 # Import main configs.
 import:
   - gocodebox/lifterlms:.config/travis/main.yml
-  - gocodebox/lifterlms:.config/travis/e2e.yml
 
 # Add-ons require the LifterLMS core.
 install:
