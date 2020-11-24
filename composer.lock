@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f96d9d87344b38584217c7d774de8638",
+    "content-hash": "a5b417fae8819e542c85c22b4bb09ed7",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -47,16 +47,16 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.16",
+            "version": "1.0.0-beta.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253"
+                "reference": "adaad2d770c1b4c4f0d3c4ff6781da6421da746c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/714d17a6c997487214e8d3e94b64fbc8e8a1c253",
-                "reference": "714d17a6c997487214e8d3e94b64fbc8e8a1c253",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/adaad2d770c1b4c4f0d3c4ff6781da6421da746c",
+                "reference": "adaad2d770c1b4c4f0d3c4ff6781da6421da746c",
                 "shasum": ""
             },
             "require-dev": {
@@ -77,9 +77,9 @@
             "description": "REST API feature plugin for the LifterLMS Core.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
-                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.16"
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.17"
             },
-            "time": "2020-11-05T18:13:48+00:00"
+            "time": "2020-11-24T20:52:36+00:00"
         },
         {
             "name": "woocommerce/action-scheduler",
