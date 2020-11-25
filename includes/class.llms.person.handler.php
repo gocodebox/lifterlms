@@ -964,7 +964,14 @@ class LLMS_Person_Handler {
 			// Check email field for uniqueness.
 			if ( 'email_address' === $name ) {
 
-				$skip_email = false;
+				/**
+				 * Allow for skipping of the emxail_exists check.
+				 *
+				 * @since x.x.x
+				 *
+				 * @param bool $skip_email A value of true will skip checking if the email exists.
+				 */
+				$skip_email = apply_filters( 'llms_skip_email', false );
 
 				// Only run this check when we're trying to change the email address for an account update.
 				if ( 'account' === $screen ) {
