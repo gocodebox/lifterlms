@@ -37,7 +37,7 @@ class LLMS_Theme_Support {
 	 * @param string[] $selectors       Array of CSS selectors.
 	 * @param string[] $rules           Associative array of CSS rules and properties. For example: `array( 'color' => '#fff' )`.
 	 * @param string   $selector_prefix A css selector to prefix each item in $selectors with.
-	 * @return [type] [description]
+	 * @return string
 	 */
 	public static function get_css( $selectors, $rules, $selector_prefix = '' ) {
 
