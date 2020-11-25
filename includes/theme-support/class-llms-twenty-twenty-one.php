@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Twenty_Twenty_One class..
+ * LLMS_Twenty_Twenty_One class.
  *
  * @since [version]
  */
