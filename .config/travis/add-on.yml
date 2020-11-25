@@ -15,9 +15,9 @@ import:
 install:
   - |
     if [ -z "$LLMS_BRANCH" ]; then
-      - ./vendor/bin/llms-tests plugin lifterlms
+      ./vendor/bin/llms-tests plugin lifterlms
     else
-      - ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${LLMS_BRANCH}
+      ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${LLMS_BRANCH}
     fi
 
 # Test against the "nightly" dev branch of the the LifterLMS core.
