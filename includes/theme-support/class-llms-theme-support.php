@@ -202,7 +202,6 @@ class LLMS_Theme_Support {
 				// Checks on Syllabus.
 				'.llms-lesson-preview.is-free .llms-lesson-complete',
 				'.llms-lesson-preview.is-complete .llms-lesson-complete',
-
 			)
 		);
 

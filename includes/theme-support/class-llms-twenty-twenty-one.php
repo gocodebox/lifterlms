@@ -147,20 +147,38 @@ class LLMS_Twenty_Twenty_One {
 
 		}
 
+		// Editor only.
+		if ( 'editor' === $context ) {
+
+			// Elements with a light background that become unreadable in darkmode in the block editor.
+			$styles[] = LLMS_Theme_Support::get_css(
+				array(
+					'.llms-lesson-link .llms-lesson-title',
+					'.llms-lesson-link .llms-main > *',
+				),
+				array(
+					'color' => 'var( --global--color-background )',
+				),
+				'.is-dark-theme ' . $selector_prefix,
+			);
+		}
+
 		// Fix anchor buttons.
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
 
 		// Elements with a light background that become unreadable in darkmode.
 		$styles[] = LLMS_Theme_Support::get_css(
 			array(
-				'.llms-notification',
-				'.llms-table tbody tr:nth-child(odd) td',
-				'.llms-table tbody tr:nth-child(odd) td a',
-				'.llms-certificate-container',
-				'a.llms-certificate',
-				'.llms-instructor-info',
-				'.llms-achievement-loop-item.achievement-item',
-				'.llms-achievement',
+				'.is-dark-theme .llms-notification',
+				'.is-dark-theme .llms-table tbody tr:nth-child(odd) td',
+				'.is-dark-theme .llms-table tbody tr:nth-child(odd) td a',
+				'.is-dark-theme .llms-certificate-container',
+				'.is-dark-theme a.llms-certificate',
+				'.is-dark-theme .llms-instructor-info .llms-instructors',
+				'.is-dark-theme .llms-achievement-loop-item.achievement-item',
+				'.is-dark-theme .llms-achievement',
+				'.is-dark-theme .llms-loop-item-content .llms-loop-title:hover',
+				'.llms-notice a'
 			),
 			array(
 				'color' => 'var( --global--color-background )',
