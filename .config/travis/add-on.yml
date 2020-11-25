@@ -13,7 +13,12 @@ import:
 
 # Add-ons require the LifterLMS core.
 install:
-  - ./vendor/bin/llms-tests plugin lifterlms
+  - |
+    if [ -z "$LLMS_BRANCH" ]; then
+      - ./vendor/bin/llms-tests plugin lifterlms
+    else
+      - ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${LLMS_BRANCH}
+    fi
 
 # Test against the "nightly" dev branch of the the LifterLMS core.
 jobs:
@@ -24,6 +29,3 @@ jobs:
   - name: "LLMS Nightly on PHP 7.4 and WP Latest"
     php: 7.4
     env:  LLMS_BRANCH=dev WP_VERSION=latest
-    install:
-      - ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${LLMS_BRANCH}
-
