@@ -4,6 +4,13 @@
 
 	<file>.</file>
 
+    <!-- Exclude project directories -->
+    <exclude-pattern>.bin/</exclude-pattern>
+    <exclude-pattern>.config/</exclude-pattern>
+    <exclude-pattern>.github/</exclude-pattern>
+    <exclude-pattern>.wordpress-org/</exclude-pattern>
+
+
     <!-- Exclude Compiled JS files -->
     <exclude-pattern>assets/js/llms.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-builder.js</exclude-pattern>

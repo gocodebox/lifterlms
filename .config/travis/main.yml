@@ -2,11 +2,6 @@ os: linux
 dist: bionic
 language: php
 
-addons:
-  artifacts:
-    paths:
-      - ./tmp/e2e-screenshots
-
 services:
   - mysql
 
@@ -33,18 +28,33 @@ php:
   - 7.4
   - 7.3
   - 7.2
+  - nightly
 
 jobs:
   fast_finish: true
+
   allow_failures:
   - env: WP_VERSION=nightly
   - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
+  - php: nightly
+    env: WP_VERSION=latest
+
   exclude:
   # These WP Versions don't work on PHP 7.4
   - php: 7.4
     env: WP_VERSION="5.2"
   - php: 7.4
     env: WP_VERSION="5.1"
+  # These WP Versions don't work on PHP 8.0
+  - php: nightly
+    env: WP_VERSION="5.4"
+  - php: nightly
+    env: WP_VERSION="5.3"
+  - php: nightly
+    env: WP_VERSION="5.2"
+  - php: nightly
+    env: WP_VERSION="5.1"
+
   include:
   - name: "PHP Unit Test Coverage"
     php: 7.4
@@ -65,19 +75,28 @@ before_install:
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
     fi
-  - |
-    # Raise PHP memory limit to 2048MB
-    echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Raise PHP memory limit to 2048MB
+  - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Install composer deps.
-  - composer install
+  - |
+    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      composer install
+    else
+      composer run install-php8
+    fi
 
 install:
   # Install Tests.
-  - ./vendor/bin/llms-tests install ${TESTS_DB_NAME} root '' localhost ${WP_VERSION}
+  - |
+    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+      composer run tests-install
+    else
+      composer run tests-install-php8
+    fi
 
 script:
   # Check coding standards.
-  - composer run-script check-cs-errors
+  - composer run-script check-cs-errors -- $( git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE )
   # Run phpunit tests.
   - composer run-script tests-run
 

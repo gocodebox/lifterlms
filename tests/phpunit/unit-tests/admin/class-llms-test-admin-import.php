@@ -489,6 +489,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.35.0
 	 * @since 3.37.8 Update path to assets directory.
+	 * @since 4.9.0 PHP8 upgrades from notice to warning.
 	 *
 	 * @return void
 	 */
@@ -504,7 +505,9 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
 		$err = $this->import->upload_import();
 		$this->assertIsWPError( $err );
-		$this->assertWPErrorCodeEquals( 'exception', $err );
+
+		$expected_code = 8 === PHP_MAJOR_VERSION ? 'E_WARNING' : 'E_NOTICE';
+		$this->assertWPErrorCodeEquals( $expected_code, $err );
 
 	}
 
