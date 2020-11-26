@@ -8,6 +8,7 @@
  *
  * @since 3.34.0
  * @since 3.41.0 Add new tests to better handle users with multiple roles.
+ * @since [version] Add new tests to test editable roles.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
