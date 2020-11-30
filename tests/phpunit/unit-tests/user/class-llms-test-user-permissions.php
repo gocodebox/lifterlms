@@ -8,6 +8,7 @@
  *
  * @since 3.34.0
  * @since 3.41.0 Add new tests to better handle users with multiple roles.
+ * @since [version] Add new tests to test editable roles.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
@@ -162,6 +163,97 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $lms_manager->ID, $student ) ) );
 
+	}
+
+	/**
+	 * Test the editable_roles() filter for users with single roles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_single_role() {
+
+		$users = $this->create_mock_users();
+
+		$all_roles = wp_roles()->roles;
+
+		$editable_roles = LLMS_Unit_Test_Util::call_method( $this->obj, 'get_editable_roles');
+
+		wp_set_current_user( $users['lms_manager'] );
+		$lms_manager_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that lms_managers can edit mapped roles.
+		foreach ( $editable_roles['lms_manager'] as $editable_role ) {
+			$this->assertContains( $editable_role, $lms_manager_editable_roles );
+		}
+
+		wp_set_current_user( $users['instructor'] );
+		$instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that instructor can edit mapped roles.
+		foreach ( $editable_roles['instructor'] as $editable_role ) {
+			$this->assertContains( $editable_role, $instructor_editable_roles );
+		}
+
+		wp_set_current_user( $users['assistant'] );
+		$assistant_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that assistants can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $assistant_editable_roles );
+		}
+
+		wp_set_current_user( $users['admin'] );
+		$administrator_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that administrator can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_editable_roles );
+		}
+	}
+
+	/**
+	 * Test the editable_roles() filter for users with multiple roles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_editable_roles_multiple_roles() {
+
+		$users = $this->create_mock_users();
+
+		$all_roles = wp_roles()->roles;
+
+		wp_set_current_user( $users['lms_manager'] );
+		$lms_manager_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		wp_set_current_user( $users['instructor'] );
+		$instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		wp_set_current_user( $users['lms_manager'] );
+		$user = wp_get_current_user();
+		$user->add_role( 'instructor' );
+		$lms_manager_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that lms_manager with instructor role has editable roles from both roles.
+		foreach ( $lms_manager_editable_roles as $lms_manager_editable_role ) {
+			$this->assertContains( $lms_manager_editable_role, $lms_manager_instructor_editable_roles );
+		}
+		foreach ( $instructor_editable_roles as $instructor_editable_role ) {
+			$this->assertContains( $instructor_editable_role, $lms_manager_instructor_editable_roles );
+		}
+
+		wp_set_current_user( $users['admin'] );
+		$user = wp_get_current_user();
+		$user->add_role( 'instructor' );
+		$administrator_instructor_editable_roles = array_keys ( LLMS_Unit_Test_Util::call_method( $this->obj, 'editable_roles', array( $all_roles ) ) );
+
+		// Assert that administrator with instructor role can edit all roles.
+		foreach ( array_keys( $all_roles ) as $role ) {
+			$this->assertContains( $role, $administrator_instructor_editable_roles );
+		}
 	}
 
 	public function test_student_crud_caps() {
