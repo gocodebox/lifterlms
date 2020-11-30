@@ -195,6 +195,7 @@ class LLMS_Twenty_Twenty_One {
 				'.is-dark-theme .llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-marker',
 				'.is-dark-theme .llms-table tbody tr:nth-child(odd) td',
 				'.is-dark-theme .llms-table tbody tr:nth-child(odd) th',
+				'.is-dark-theme .llms-lesson-preview.is-complete .llms-lesson-complete'
 			),
 			array(
 				'color' => 'var( --global--color-background )',
