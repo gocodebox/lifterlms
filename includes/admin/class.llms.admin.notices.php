@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -212,12 +212,13 @@ class LLMS_Admin_Notices {
 	 * Determine if a notice is already set
 	 *
 	 * @since 3.0.0
+	 * @since [version] Use a strict comparison.
 	 *
 	 * @param string $notice_id  Id of the notice.
 	 * @return boolean
 	 */
 	public static function has_notice( $notice_id ) {
-		return in_array( $notice_id, self::get_notices() );
+		return in_array( $notice_id, self::get_notices(), true );
 	}
 
 	/**
