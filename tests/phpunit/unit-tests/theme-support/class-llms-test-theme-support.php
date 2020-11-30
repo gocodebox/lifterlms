@@ -50,6 +50,27 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get_css() when passing in an array for a rule
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_css_with_array_of_rules() {
+
+		$css = array(
+			'background-image' => array(
+				'-webkit-radial-gradient(fake)',
+				'radial-gradient(fake)',
+			)
+		);
+
+		$expected = '#prefix body, #prefix .el { background-image: -webkit-radial-gradient(fake); background-image: radial-gradient(fake); }';
+
+		$this->assertEquals( $expected, LLMS_Theme_Support::get_css( array( 'body', '.el' ), $css, '#prefix' ) );
+	}
+
+	/**
 	 * Test get_selectors_primary_color_background()
 	 *
 	 * @since [version]
