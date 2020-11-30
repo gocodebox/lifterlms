@@ -967,7 +967,7 @@ class LLMS_Person_Handler {
 				/**
 				 * Allow for skipping of the emxail_exists check.
 				 *
-				 * @since x.x.x
+				 * @since [version]
 				 *
 				 * @param bool $skip_email A value of true will skip checking if the email exists.
 				 */
