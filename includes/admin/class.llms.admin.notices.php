@@ -63,6 +63,7 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Add a notice
+	 *
 	 * Saves options to the database to be output later
 	 *
 	 * @since 3.0.0
