@@ -44,7 +44,10 @@ class LLMS_Theme_Support {
 		// Convert the $rules array to a list of CSS strings.
 		$rules_list = array();
 		foreach ( $rules as $prop => $val ) {
-			$rules_list[] = sprintf( '%1$s: %2$s;', $prop, $val );
+			$val = is_array( $val ) ? $val : array( $val );
+			foreach ( $val as $value ) {
+				$rules_list[] = sprintf( '%1$s: %2$s;', $prop, $value );
+			}
 		}
 
 		// When supplied, prefix each selector.
