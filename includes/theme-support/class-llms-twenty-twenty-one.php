@@ -80,7 +80,7 @@ class LLMS_Twenty_Twenty_One {
 	 *
 	 * @since [version]
 	 *
-	 * @param string[] $classes List of css classes.
+	 * @param string[] $classes List of CSS classes.
 	 * @return string[]
 	 */
 	public static function add_max_width_class( $classes ) {
@@ -95,7 +95,7 @@ class LLMS_Twenty_Twenty_One {
 	 *
 	 * @since [version]
 	 *
-	 * @param string[] $classes List of css classes.
+	 * @param string[] $classes List of CSS classes.
 	 * @return string[]
 	 */
 	public static function add_pagination_classes( $classes ) {
@@ -144,7 +144,16 @@ class LLMS_Twenty_Twenty_One {
 					'background-image' => 'radial-gradient(ellipse at center,var( --global--color-secondary ) 0,var( --global--color-secondary ) 40%,#fafafa 45%)',
 				)
 			);
-
+			// Darkmode fix.
+			$styles[] = LLMS_Theme_Support::get_css(
+				array( '.is-dark-theme .llms-form-field.type-radio input[type=radio]:checked+label:before' ),
+				array(
+					'background-image' => array(
+						'-webkit-radial-gradient(center,ellipse,var( --global--color-background ) 0,var( --global--color-background ) 40%,#fafafa 45%)',
+						'radial-gradient(ellipse at center,var( --global--color-background ) 0,var( --global--color-background ) 40%,#fafafa 45%)',
+					),
+				)
+			);
 		}
 
 		// Editor only.
@@ -197,7 +206,7 @@ class LLMS_Twenty_Twenty_One {
 			$selector_prefix
 		);
 
-		// Add background color to qualifying elements.
+		// Add background color and color to qualifying elements.
 		$styles[] = LLMS_Theme_Support::get_css(
 			LLMS_Theme_Support::get_selectors_primary_color_background(),
 			array(
@@ -207,7 +216,7 @@ class LLMS_Twenty_Twenty_One {
 			$selector_prefix
 		);
 
-		// Add background color to qualifying elements.
+		// Add border color to qualifying elements.
 		$styles[] = LLMS_Theme_Support::get_css(
 			LLMS_Theme_Support::get_selectors_primary_color_border(),
 			array(
@@ -216,7 +225,7 @@ class LLMS_Twenty_Twenty_One {
 			$selector_prefix
 		);
 
-		// Add background color to qualifying elements.
+		// Add color to qualifying elements.
 		$styles[] = LLMS_Theme_Support::get_css(
 			LLMS_Theme_Support::get_selectors_primary_color_text(),
 			array(
@@ -241,6 +250,7 @@ class LLMS_Twenty_Twenty_One {
 	 */
 	public static function handle_page_header_wrappers() {
 
+		/** This filter is documented in templates/loop.php */
 		$show_title = apply_filters( 'lifterlms_show_page_title', true );
 
 		if ( $show_title ) {

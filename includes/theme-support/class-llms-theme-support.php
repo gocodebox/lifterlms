@@ -30,13 +30,13 @@ class LLMS_Theme_Support {
 	}
 
 	/**
-	 * Retrieve formatted inline CSS for a give list of selectors and rules
+	 * Retrieve formatted inline CSS for a given list of selectors and rules
 	 *
 	 * @since [version]
 	 *
 	 * @param string[] $selectors       Array of CSS selectors.
 	 * @param string[] $rules           Associative array of CSS rules and properties. For example: `array( 'color' => '#fff' )`.
-	 * @param string   $selector_prefix A css selector to prefix each item in $selectors with.
+	 * @param string   $selector_prefix A CSS selector to prefix each item in $selectors with.
 	 * @return string
 	 */
 	public static function get_css( $selectors, $rules, $selector_prefix = '' ) {
@@ -66,7 +66,7 @@ class LLMS_Theme_Support {
 	 *
 	 * @since [version]
 	 *
-	 * @return string[] A list of css selectors.
+	 * @return string[] A list of CSS selectors.
 	 */
 	public static function get_selectors_primary_color_background() {
 
@@ -75,7 +75,7 @@ class LLMS_Theme_Support {
 		 *
 		 * @since [version]
 		 *
-		 * @param string[] $selectors A list of css selectors.
+		 * @param string[] $selectors A list of CSS selectors.
 		 */
 		return apply_filters(
 			'llms_theme_support_get_selectors_primary_color_background',
@@ -128,7 +128,7 @@ class LLMS_Theme_Support {
 	 *
 	 * @since [version]
 	 *
-	 * @return string[] A list of css selectors.
+	 * @return string[] A list of CSS selectors.
 	 */
 	public static function get_selectors_primary_color_border() {
 
@@ -137,7 +137,7 @@ class LLMS_Theme_Support {
 		 *
 		 * @since [version]
 		 *
-		 * @param string[] $selectors A list of css selectors.
+		 * @param string[] $selectors A list of CSS selectors.
 		 */
 		return apply_filters(
 			'llms_theme_support_get_selectors_primary_color_background',
@@ -174,7 +174,7 @@ class LLMS_Theme_Support {
 	 *
 	 * @since [version]
 	 *
-	 * @return string[] A list of css selectors.
+	 * @return string[] A list of CSS selectors.
 	 */
 	public static function get_selectors_primary_color_text() {
 
@@ -183,7 +183,7 @@ class LLMS_Theme_Support {
 		 *
 		 * @since [version]
 		 *
-		 * @param string[] $selectors A list of css selectors.
+		 * @param string[] $selectors A list of CSS selectors.
 		 */
 		return apply_filters(
 			'llms_theme_support_get_selectors_primary_color_background',
