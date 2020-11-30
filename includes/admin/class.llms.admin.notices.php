@@ -71,9 +71,9 @@ class LLMS_Admin_Notices {
 	 * @param string $notice_id       Unique id of the notice.
 	 * @param string $html_or_options Html content of the notice for short notices that don't need a template
 	 *                                or an array of options, html of the notice will be in a template
-	 *                                passed as the "template" param of this array
+	 *                                passed as the "template" param of this array.
 	 * @param array  $options         Array of options, when passing html directly via $html_or_options.
-	 *                                Notice options should be passed in this array
+	 *                                Notice options should be passed in this array.
 	 * @return void
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
