@@ -127,9 +127,6 @@ class LLMS_Twenty_Twenty_One {
 			// Fix checkboxes.
 			$styles[] = '.llms-form-field.type-checkbox input { width: 25px; display: inline-block; }';
 
-			// Donuts.
-			$styles[] = '.llms-donut svg path { stroke: var( --global--color-secondary ); }';
-
 			// Hide header/footer on certificate pages.
 			$styles[] = '.single-llms_certificate .site-header, .single-llms_my_certificate .site-header, .single-llms_certificate .widget-area, .single-llms_my_certificate .widget-area { display: none; }';
 
@@ -154,6 +151,11 @@ class LLMS_Twenty_Twenty_One {
 					),
 				)
 			);
+
+			// Donuts.
+			$styles[] = '.llms-donut svg path { stroke: var( --global--color-secondary ); }';
+			$styles[] = '.is-dark-theme .llms-donut svg path { stroke: var( --global--color-background ); opacity: 0.5; }';
+			$styles[] = '.is-dark-theme .llms-donut { color: var( --global--color-background ); }';
 		}
 
 		// Editor only.
@@ -172,6 +174,8 @@ class LLMS_Twenty_Twenty_One {
 			);
 		}
 
+		$styles[] = '.llms-quiz-ui { background: transparent; }';
+
 		// Fix anchor buttons.
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
 
@@ -187,7 +191,8 @@ class LLMS_Twenty_Twenty_One {
 				'.is-dark-theme .llms-achievement-loop-item.achievement-item',
 				'.is-dark-theme .llms-achievement',
 				'.is-dark-theme .llms-loop-item-content .llms-loop-title:hover',
-				'.llms-notice a'
+				'.llms-notice a',
+				'.is-dark-theme .llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-marker',
 			),
 			array(
 				'color' => 'var( --global--color-background )',
@@ -199,6 +204,7 @@ class LLMS_Twenty_Twenty_One {
 				'.llms-checkout',
 				'.llms-access-plan .llms-access-plan-footer',
 				'.llms-access-plan .llms-access-plan-content',
+				'.is-dark-theme .llms-progress .progress-bar-complete'
 			),
 			array(
 				'background-color' => 'var( --global--color-background )',
@@ -233,6 +239,12 @@ class LLMS_Twenty_Twenty_One {
 			),
 			$selector_prefix
 		);
+
+		// Fix progress bars.
+		// $styles[] = '.llms-progress .llms-progress-bar { background: #fff; }';
+		$styles[] = '.llms-progress { color: var( --global--color-background ); }';
+		$styles[] = '.is-dark-theme .llms-progress .progress-bar-complete { opacity: 0.5; }';
+
 
 		return implode( "\r", $styles );
 
