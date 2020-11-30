@@ -18,7 +18,6 @@ if ( $wp_query->max_num_pages < 2 ) {
 /**
  * Filter the list of CSS classes on the pagination wrapper element.
  *
- *
  * @since [version]
  *
  * @param string[] $classes Array of CSS classes.

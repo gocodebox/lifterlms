@@ -170,7 +170,7 @@ class LLMS_Twenty_Twenty_One {
 				array(
 					'color' => 'var( --global--color-background )',
 				),
-				'.is-dark-theme ' . $selector_prefix,
+				'.is-dark-theme ' . $selector_prefix
 			);
 		}
 
@@ -195,7 +195,7 @@ class LLMS_Twenty_Twenty_One {
 				'.is-dark-theme .llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-marker',
 				'.is-dark-theme .llms-table tbody tr:nth-child(odd) td',
 				'.is-dark-theme .llms-table tbody tr:nth-child(odd) th',
-				'.is-dark-theme .llms-lesson-preview.is-complete .llms-lesson-complete'
+				'.is-dark-theme .llms-lesson-preview.is-complete .llms-lesson-complete',
 			),
 			array(
 				'color' => 'var( --global--color-background )',
@@ -207,7 +207,7 @@ class LLMS_Twenty_Twenty_One {
 				'.llms-checkout',
 				'.llms-access-plan .llms-access-plan-footer',
 				'.llms-access-plan .llms-access-plan-content',
-				'.is-dark-theme .llms-progress .progress-bar-complete'
+				'.is-dark-theme .llms-progress .progress-bar-complete',
 			),
 			array(
 				'background-color' => 'var( --global--color-background )',
