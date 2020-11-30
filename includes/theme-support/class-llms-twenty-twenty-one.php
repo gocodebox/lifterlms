@@ -193,6 +193,8 @@ class LLMS_Twenty_Twenty_One {
 				'.is-dark-theme .llms-loop-item-content .llms-loop-title:hover',
 				'.llms-notice a',
 				'.is-dark-theme .llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-marker',
+				'.is-dark-theme .llms-table tbody tr:nth-child(odd) td',
+				'.is-dark-theme .llms-table tbody tr:nth-child(odd) th',
 			),
 			array(
 				'color' => 'var( --global--color-background )',
@@ -241,10 +243,8 @@ class LLMS_Twenty_Twenty_One {
 		);
 
 		// Fix progress bars.
-		// $styles[] = '.llms-progress .llms-progress-bar { background: #fff; }';
 		$styles[] = '.llms-progress { color: var( --global--color-background ); }';
 		$styles[] = '.is-dark-theme .llms-progress .progress-bar-complete { opacity: 0.5; }';
-
 
 		return implode( "\r", $styles );
 
