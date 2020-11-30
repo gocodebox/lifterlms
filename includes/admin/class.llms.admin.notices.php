@@ -120,6 +120,7 @@ class LLMS_Admin_Notices {
 	 * @since 3.4.3 Unknown.
 	 *
 	 * @param string $notice_id Unique id of the notice.
+	 * @param string $trigger   Deletion action/trigger, accepts 'delete' (default), 'hide', or 'remind'.
 	 * @return void
 	 */
 	public static function delete_notice( $notice_id, $trigger = 'delete' ) {
@@ -137,7 +138,18 @@ class LLMS_Admin_Notices {
 			if ( $delay ) {
 				set_transient( 'llms_admin_notice_' . $notice_id . '_delay', 'yes', DAY_IN_SECONDS * $delay );
 			}
-			do_action( 'lifterlms_' . $trigger . '_' . $notice_id . '_notice' );
+
+			/**
+			 * Hook run when a notice is dismissed.
+			 *
+			 * The dynamic portion of this hook `{$trigger}` refers to the deletion trigger, either 'delete',
+			 * 'hide', or 'remind'.
+			 *
+			 * The dynamic portion of this hook, `{$notice_id}` refers to the ID of the notice being dismissed.
+			 *
+			 * @since [version]
+			 */
+			do_action( "lifterlms_{$trigger}_{$notice_id}_notice";
 		}
 	}
 
