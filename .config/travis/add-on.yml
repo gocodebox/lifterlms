@@ -11,12 +11,10 @@
 import:
   - gocodebox/lifterlms:.config/travis/main.yml
 
-# Add-ons require the LifterLMS core.
+# If $LLMS_BRANCH is specified, install the plugin from git.
 install:
   - |
-    if [ -z "$LLMS_BRANCH" ]; then
-      ./vendor/bin/llms-tests plugin lifterlms
-    else
+    if [ ! -z "$LLMS_BRANCH" ]; then
       ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${LLMS_BRANCH}
     fi
 
