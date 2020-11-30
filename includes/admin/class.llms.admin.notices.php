@@ -149,7 +149,7 @@ class LLMS_Admin_Notices {
 			 *
 			 * @since [version]
 			 */
-			do_action( "lifterlms_{$trigger}_{$notice_id}_notice";
+			do_action( "lifterlms_{$trigger}_{$notice_id}_notice" );
 		}
 	}
 
