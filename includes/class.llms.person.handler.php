@@ -965,7 +965,7 @@ class LLMS_Person_Handler {
 			if ( 'email_address' === $name ) {
 
 				/**
-				 * Allow for skipping of the emxail_exists check.
+				 * Allow for skipping of the email_exists check.
 				 *
 				 * @since [version]
 				 *
