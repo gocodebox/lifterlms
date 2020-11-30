@@ -200,15 +200,16 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test Audio and Video Embeds
 	 *
 	 * @since 3.14.8
+	 * @since [version] Fix faulty tests, use assertSame in favor of assertEquals.
 	 *
 	 * @return void
 	 */
 	public function test_get_embeds() {
 
+		$lesson = new LLMS_Lesson( 'new', 'Lesson With Embeds' );
+
 		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
 		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
-
-		$lesson = new LLMS_Lesson( 'new', 'Lesson With Embeds' );
 
 		// Empty string when none set.
 		$this->assertEmpty( $lesson->get_audio() );
@@ -220,19 +221,23 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$audio_embed = $lesson->get_audio();
 		$video_embed = $lesson->get_video();
 
-		// String.
-		$this->assertTrue( is_string( $audio_embed ) );
-		$this->assertTrue( is_string( $video_embed ) );
-
 		// Should be an iframe for valid embeds.
-		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
+		$this->assertSame( 0, strpos( $audio_embed, '<iframe' ) );
+		$this->assertSame( 0, strpos( $video_embed, '<iframe' ) );
 
 		// Fallbacks should be a link to the URL.
-		$lesson->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
-		$lesson->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
-		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+		$not_embeddable_url = 'http://lifterlms.com/not/embeddable';
+
+		$lesson->set( 'audio_embed', $not_embeddable_url );
+		$lesson->set( 'video_embed', $not_embeddable_url );
+		$audio_embed = $lesson->get_audio();
+		$video_embed = $lesson->get_video();
+
+		$this->assertSame( 0, strpos( $audio_embed, '<a' ) );
+		$this->assertSame( 0, strpos( $video_embed, '<a' ) );
+
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
 
 	}
 
