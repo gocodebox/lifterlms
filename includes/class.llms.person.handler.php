@@ -971,7 +971,7 @@ class LLMS_Person_Handler {
 				 *
 				 * @param bool $skip_email A value of true will skip checking if the email exists.
 				 */
-				$skip_email = apply_filters( 'llms_skip_email', false );
+				$skip_email = apply_filters( 'llms_skip_new_user_email_exists_check', false );
 
 				// Only run this check when we're trying to change the email address for an account update.
 				if ( 'account' === $screen ) {
