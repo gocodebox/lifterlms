@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Notices class
  *
  * @since 3.0.0
- * @since 3.35.0 Unslash input data.
  */
 class LLMS_Admin_Notices {
 
@@ -318,4 +317,5 @@ class LLMS_Admin_Notices {
 	}
 
 }
+
 LLMS_Admin_Notices::init();
