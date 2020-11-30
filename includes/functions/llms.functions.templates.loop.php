@@ -1,47 +1,77 @@
 <?php
 /**
- * Template functions for the student dashboard
+ * Template functions for loops (catalogs)
  *
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * If content added to the course/membership catalog page, output it as the archive description before the loop
- *
- * @return   void
- * @since    3.16.10
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_archive_description' ) ) {
+	/**
+	 * Output the archive description for LifterLMS catalogs pages and post type / tax archives.
+	 *
+	 * @since 3.16.10
+	 * @since 3.19.0 Unknown.
+	 * @since [version] Moved logic to `lifterlms_get_archive_description()` so the function can be called without outputting the content.
+	 *
+	 * @see lifterlms_get_archive_description()
+	 *
+	 * @return void
+	 */
 	function lifterlms_archive_description() {
+		echo lifterlms_get_archive_description();
+	}
+}
 
-		$page_id = false;
+if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
+	/**
+	 * Retrieve the archive description for LifterLMS catalogs pages and post type / tax archives.
+	 *
+	 * If content is added to the course/membership catalog page via the WP editor, output it as the archive description before the loop.
+	 *
+	 * @since [version] Moved from `lifterlms_archive_description()`.
+	 *              Adjusted filter `llms_archive_description` to always run instead of only running if content exists to display,
+	 *              this allows developers to filter the content even when an empty string is returned.
+	 *
+	 * @return string
+	 */
+	function lifterlms_get_archive_description() {
 
 		$content = '';
+		$page_id = false;
 
+		// Get the page id for the catalog page setup in LLMS settings.
 		if ( is_post_type_archive( 'course' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
 			$page_id = llms_get_page_id( 'courses' );
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 			$page_id = llms_get_page_id( 'memberships' );
 		}
 
+		// If a description is setup for the taxonomy term, use that description.
 		if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 			$content = get_the_archive_description();
 		}
 
+		// If we don't have a description, try to pull it from the page's content area.
 		if ( empty( $content ) && $page_id ) {
 			$page    = get_post( $page_id );
 			$content = $page->post_content;
 		}
 
-		if ( $content ) {
-			echo llms_content( apply_filters( 'llms_archive_description', $content ) );
-		}
+		/**
+		 * Filter the archive description
+		 *
+		 * @since Unknown
+		 * @since [version] Added `$page_id` parameter.
+		 *
+		 * @param string    $content HTML description string.
+		 * @param int|false $page_id WP_Post ID of the archive page being displayed.
+		 */
+		return apply_filters( 'llms_archive_description', llms_content( $content ), $page_id );
 
 	}
 }
