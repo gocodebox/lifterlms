@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v4.10.0 - 2020-12-01
+--------------------
+
+**PHP 7.2 has reached it's official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Adds native theme support for the WordPress default theme Twenty Twenty-One.
++ Improved the `llms_archive_description()` function and releated filter.
+
+##### Bug fixes
+
++ Fix issue encountered when using multiple role plugins to add the Instructor role to an Administrator user account. Thanks [@daniel-shuy](https://github.com/daniel-shuy)!
++ Fixed an issue encountered when using non-latin characters in a course post URL slug. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
+
+##### Templates Updated
+
++ templates/loop/pagination.php
+
+
 v4.9.0 - 2020-11-24
 -------------------
 

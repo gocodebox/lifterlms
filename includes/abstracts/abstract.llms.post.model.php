@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -401,7 +401,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Private getter.
 	 *
 	 * @since 3.34.0
-	 * @since [version] Add `post_name` as a property to skip scrubbing and add a filter on the list of properties to skip scrubbing.
+	 * @since 4.10.0 Add `post_name` as a property to skip scrubbing and add a filter on the list of properties to skip scrubbing.
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
@@ -473,7 +473,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			 * The dynamic portion of this hook, `{$this->model_post_type}`, refers to the post's model type,
 			 * for example "course" for an `LLMS_Course`, "membership" for an `LLMS_Membership`, etc...
 			 *
-			 * @since [version]
+			 * @since 4.10.0
 			 *
 			 * @param string[]        $props An array of property keys to be excluded from scrubbing.
 			 * @param LLMS_Post_Model $this  Instance of the post object.

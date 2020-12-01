@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/ThemeSupport/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.10.0
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Twenty_Twenty_One class.
  *
- * @since [version]
+ * @since 4.10.0
  */
 class LLMS_Twenty_Twenty_One {
 
 	/**
 	 * Static "constructor"
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Enqueue inline styles for the block editor.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Enqueue inline styles on the frontend
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Twenty_Twenty_One {
 	 *
 	 * This adds catalog theme support.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param string[] $classes List of CSS classes.
 	 * @return string[]
@@ -93,7 +93,7 @@ class LLMS_Twenty_Twenty_One {
 	 *
 	 * Makes the pagination on catalogs look like the 2021 pagination on post type archives
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param string[] $classes List of CSS classes.
 	 * @return string[]
@@ -107,7 +107,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Generate inline CSS for a given context
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param string|null $context Inline CSS context. Accepts "editor" to define styles loaded within the block editor or `null` for frontend styles.
 	 * @return string
@@ -257,7 +257,7 @@ class LLMS_Twenty_Twenty_One {
 	 * This method determines if the catalog title are to be displayed and adds additional actions
 	 * which will wrap the elements in 2021 theme elements depending on what is meant to be displayed.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -281,7 +281,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Modify the number of catalog & checkout columns.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param int $cols Number of columns.
 	 * @return int
@@ -293,7 +293,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Disable 2021 theme post navigation on LifterLMS post types
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param string $html Post navigation HTML.
 	 * @return string
@@ -310,7 +310,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Output the catalog archive description 2021 theme wrapper opener
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -321,7 +321,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Output the catalog archive description 2021 theme wrapper closer
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -332,7 +332,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Output the catalog page header 2021 theme wrapper opener
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -343,7 +343,7 @@ class LLMS_Twenty_Twenty_One {
 	/**
 	 * Output the catalog page header 2021 theme wrapper closer
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

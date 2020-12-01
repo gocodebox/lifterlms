@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 	 *
 	 * @since 3.16.10
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Moved logic to `lifterlms_get_archive_description()` so the function can be called without outputting the content.
+	 * @since 4.10.0 Moved logic to `lifterlms_get_archive_description()` so the function can be called without outputting the content.
 	 *
 	 * @see lifterlms_get_archive_description()
 	 *
@@ -33,7 +33,7 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 	 *
 	 * If content is added to the course/membership catalog page via the WP editor, output it as the archive description before the loop.
 	 *
-	 * @since [version] Moved from `lifterlms_archive_description()`.
+	 * @since 4.10.0 Moved from `lifterlms_archive_description()`.
 	 *              Adjusted filter `llms_archive_description` to always run instead of only running if content exists to display,
 	 *              this allows developers to filter the content even when an empty string is returned.
 	 *
@@ -66,7 +66,7 @@ if ( ! function_exists( 'lifterlms_get_archive_description' ) ) {
 		 * Filter the archive description
 		 *
 		 * @since Unknown
-		 * @since [version] Added `$page_id` parameter.
+		 * @since 4.10.0 Added `$page_id` parameter.
 		 *
 		 * @param string    $content HTML description string.
 		 * @param int|false $page_id WP_Post ID of the archive page being displayed.

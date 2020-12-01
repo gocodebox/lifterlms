@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Theme_Support {
 	/**
 	 * Retrieve formatted inline CSS for a given list of selectors and rules
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @param string[] $selectors       Array of CSS selectors.
 	 * @param string[] $rules           Associative array of CSS rules and properties. For example: `array( 'color' => '#fff' )`.
@@ -67,7 +67,7 @@ class LLMS_Theme_Support {
 	 *
 	 * The primary color is a bright blue (#2295ff).
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return string[] A list of CSS selectors.
 	 */
@@ -76,7 +76,7 @@ class LLMS_Theme_Support {
 		/**
 		 * Filter the list of CSS selectors for elements where the primary color is used as the background
 		 *
-		 * @since [version]
+		 * @since 4.10.0
 		 *
 		 * @param string[] $selectors A list of CSS selectors.
 		 */
@@ -129,7 +129,7 @@ class LLMS_Theme_Support {
 	 *
 	 * The primary color is a bright blue (#2295ff).
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return string[] A list of CSS selectors.
 	 */
@@ -138,7 +138,7 @@ class LLMS_Theme_Support {
 		/**
 		 * Filter the list of CSS selectors for elements where the primary color is used as the border
 		 *
-		 * @since [version]
+		 * @since 4.10.0
 		 *
 		 * @param string[] $selectors A list of CSS selectors.
 		 */
@@ -175,7 +175,7 @@ class LLMS_Theme_Support {
 	 *
 	 * The primary color is a bright blue (#2295ff).
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return string[] A list of CSS selectors.
 	 */
@@ -184,7 +184,7 @@ class LLMS_Theme_Support {
 		/**
 		 * Filter the list of CSS selectors for elements where the primary color is used as the text color
 		 *
-		 * @since [version]
+		 * @since 4.10.0
 		 *
 		 * @param string[] $selectors A list of CSS selectors.
 		 */

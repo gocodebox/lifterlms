@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_notices
  *
- * @since [version]
+ * @since 4.10.0
  */
 class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -26,7 +26,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init() properly initializes the `$notices` class variable
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init() properly adds action hooks
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

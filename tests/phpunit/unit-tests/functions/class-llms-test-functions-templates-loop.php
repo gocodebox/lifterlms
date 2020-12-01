@@ -14,7 +14,7 @@ class LLMS_Test_Functions_Loop extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_get_archive_description() and lifterlms_archive_description() on course and course taxonomy catalogs.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Test_Functions_Loop extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_get_archive_description() and lifterlms_archive_description() on membership and membership taxonomy catalogs.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

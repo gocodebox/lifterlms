@@ -123,7 +123,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Test Audio and Video Embeds
 	 *
 	 * @since 3.4.0
-	 * @since [version] Fix faulty tests, use assertSame in favor of assertEquals.
+	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
 	 *
 	 * @return void
 	 */
