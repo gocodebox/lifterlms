@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 3.41.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,6 +47,7 @@ class LLMS_User_Permissions {
 	 * @since 3.13.0
 	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
 	 * @since 3.37.14 Use strict comparison.
+	 * @since [version] Better handling of users with multiple roles.
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
@@ -55,19 +56,35 @@ class LLMS_User_Permissions {
 	 */
 	public function editable_roles( $all_roles ) {
 
-		$user = wp_get_current_user();
+		if ( is_multisite() && is_super_admin() ) {
+			return $all_roles;
+		}
 
-		$lms_roles = self::get_editable_roles();
+		$user       = wp_get_current_user();
+		$user_roles = $user->roles;
 
-		foreach ( $lms_roles as $role => $allowed_roles ) {
+		if ( in_array( 'administrator', $user_roles, true ) ) {
+			return $all_roles;
+		}
 
-			if ( in_array( $role, $user->roles, true ) ) {
+		$editable_roles = self::get_editable_roles();
 
-				foreach ( $all_roles as $the_role => $caps ) {
-					if ( ! in_array( $the_role, $allowed_roles, true ) ) {
-						unset( $all_roles[ $the_role ] );
-					}
-				}
+		if ( empty( array_intersect( $user_roles, array_keys( $editable_roles ) ) ) ) {
+			return $all_roles;
+		}
+
+		$roles = array();
+		foreach ( $user_roles as $user_role ) {
+			if ( isset( $editable_roles[ $user_role ] ) ) {
+				$roles = array_merge( $roles, $editable_roles[ $user_role ] );
+			}
+		}
+
+		$roles = array_unique( $roles );
+
+		foreach ( array_keys( $all_roles ) as $role ) {
+			if ( ! in_array( $role, $roles, true ) ) {
+				unset( $all_roles[ $role ] );
 			}
 		}
 

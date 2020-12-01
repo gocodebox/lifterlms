@@ -121,18 +121,20 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test Audio and Video Embeds
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.4.0
+	 *
+	 * @since 3.4.0
+	 * @since [version] Fix faulty tests, use assertSame in favor of assertEquals.
+	 *
+	 * @return void
 	 */
 	public function test_get_embeds() {
+
+		$course = new LLMS_Course( 'new', 'Course With Embeds' );
 
 		$audio_url = 'https://open.spotify.com/track/1rNUOtuCWv1qswqsMFvzvz';
 		$video_url = 'https://www.youtube.com/watch?v=MhQlNwxn5oo';
 
-		$course = new LLMS_Course( 'new', 'Course With Embeds' );
-
-		// empty string when none set
+		// Empty string when none set.
 		$this->assertEmpty( $course->get_audio() );
 		$this->assertEmpty( $course->get_video() );
 
@@ -142,19 +144,23 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$audio_embed = $course->get_audio();
 		$video_embed = $course->get_video();
 
-		// string
-		$this->assertTrue( is_string( $audio_embed ) );
-		$this->assertTrue( is_string( $video_embed ) );
+		// Should be an iframe for valid embeds.
+		$this->assertSame( 0, strpos( $audio_embed, '<iframe' ) );
+		$this->assertSame( 0, strpos( $video_embed, '<iframe' ) );
 
-		// should be an iframe for valid embeds
-		$this->assertEquals( 0, strpos( $audio_embed, '<iframe' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<iframe' ) );
+		// Fallbacks should be a link to the URL.
+		$not_embeddable_url = 'http://lifterlms.com/not/embeddable';
 
-		// fallbacks should be a link to the URL
-		$course->set( 'audio_embed', 'http://lifterlms.com/not/embeddable' );
-		$course->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
-		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
-		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+		$course->set( 'audio_embed', $not_embeddable_url );
+		$course->set( 'video_embed', $not_embeddable_url );
+		$audio_embed = $course->get_audio();
+		$video_embed = $course->get_video();
+
+		$this->assertSame( 0, strpos( $audio_embed, '<a' ) );
+		$this->assertSame( 0, strpos( $video_embed, '<a' ) );
+
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $audio_embed );
+		$this->assertStringContains( sprintf( 'href="%s"', $not_embeddable_url ), $video_embed );
 
 	}
 
