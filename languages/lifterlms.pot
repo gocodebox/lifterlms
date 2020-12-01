@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.9.0\n"
+"Project-Id-Version: LifterLMS 4.10.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-11-24T15:17:26-07:00\n"
+"POT-Creation-Date: 2020-12-01T13:06:45-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -1603,7 +1603,7 @@ msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:659
 #: includes/shortcodes/class.llms.shortcodes.php:367
-#: templates/loop/pagination.php:29
+#: templates/loop/pagination.php:38
 #: templates/myaccount/my-grades.php:55
 #: templates/myaccount/my-notifications.php:39
 #: templates/myaccount/my-orders.php:83
@@ -1694,15 +1694,15 @@ msgstr ""
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1210
+#: includes/abstracts/abstract.llms.post.model.php:1223
 msgid "Empty data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1295
+#: includes/abstracts/abstract.llms.post.model.php:1308
 msgid "Invalid data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1324
+#: includes/abstracts/abstract.llms.post.model.php:1337
 msgid "Cannot insert/update the %s meta"
 msgstr ""
 
@@ -1973,7 +1973,7 @@ msgstr ""
 #: includes/admin/class-llms-admin-export-download.php:48
 #: includes/admin/class-llms-admin-export-download.php:53
 #: includes/admin/class-llms-admin-export-download.php:58
-#: includes/admin/class.llms.admin.notices.php:224
+#: includes/admin/class.llms.admin.notices.php:242
 #: includes/class-llms-staging.php:53
 #: includes/class.llms.install.php:717
 #: includes/class.llms.install.php:737
@@ -2396,7 +2396,7 @@ msgstr ""
 msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:221
+#: includes/admin/class.llms.admin.notices.php:239
 #: includes/admin/class.llms.admin.page.status.php:40
 #: includes/admin/class.llms.admin.page.status.php:236
 #: includes/class-llms-staging.php:50
@@ -2405,11 +2405,11 @@ msgstr ""
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:264
+#: includes/admin/class.llms.admin.notices.php:283
 msgid "Dismiss"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:279
+#: includes/admin/class.llms.admin.notices.php:298
 msgid "Remind me later"
 msgstr ""
 
@@ -7171,35 +7171,35 @@ msgstr ""
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:978
+#: includes/class.llms.person.handler.php:985
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:987
+#: includes/class.llms.person.handler.php:994
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:991
+#: includes/class.llms.person.handler.php:998
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1004
+#: includes/class.llms.person.handler.php:1011
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1017
+#: includes/class.llms.person.handler.php:1024
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1024
+#: includes/class.llms.person.handler.php:1031
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1032
+#: includes/class.llms.person.handler.php:1039
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1052
+#: includes/class.llms.person.handler.php:1059
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -12034,7 +12034,7 @@ msgid "No courses found."
 msgstr ""
 
 #: includes/shortcodes/class.llms.shortcodes.php:366
-#: templates/loop/pagination.php:28
+#: templates/loop/pagination.php:37
 #: templates/myaccount/my-grades.php:54
 #: templates/myaccount/my-notifications.php:38
 msgid "Previous"

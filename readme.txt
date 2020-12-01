@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.9.0
+Stable tag: 4.10.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,25 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.10.0 - 2020-12-01 =
+
+**PHP 7.2 has reached it's official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Adds native theme support for the WordPress default theme Twenty Twenty-One.
++ Improved the `llms_archive_description()` function and releated filter.
+
+##### Bug fixes
+
++ Fix issue encountered when using multiple role plugins to add the Instructor role to an Administrator user account. Thanks [@daniel-shuy](https://github.com/daniel-shuy)!
++ Fixed an issue encountered when using non-latin characters in a course post URL slug. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
+
+##### Templates Updated
+
++ templates/loop/pagination.php
+
+
 = v4.9.0 - 2020-11-24 =
 
 + Tested up to WordPress core 5.6 (RC.1).
@@ -660,11 +679,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Bugfix: Fix engagement email duplicate check issue.
 + Bugfix: Fix transposition issue found in engagement email dupcheck debug log message.
-
-
-= v4.4.2 - 2020-09-08 =
-
-+ Bugfix: Fix lesson navigation regression introduced in 4.4.0.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
