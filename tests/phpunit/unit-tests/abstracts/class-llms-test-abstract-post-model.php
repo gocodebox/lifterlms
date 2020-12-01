@@ -15,6 +15,34 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	private $post_type = 'mock_post_type';
 
 	/**
+	 * Setup before class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass() {
+
+		parent::setUpBeforeClass();
+		register_post_type( 'mock_post_type' );
+
+	}
+
+	/**
+	 * Teradown after class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function tearDownAfterClass() {
+
+		parent::tearDownAfterClass();
+		unregister_post_type( 'mock_post_type' );
+
+	}
+
+	/**
 	 * Setup the test case
 	 *
 	 * @since [version]
