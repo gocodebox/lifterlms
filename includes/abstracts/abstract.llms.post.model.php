@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 4.8.0
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -401,6 +401,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Private getter.
 	 *
 	 * @since 3.34.0
+	 * @since 4.10.0 Add `post_name` as a property to skip scrubbing and add a filter on the list of properties to skip scrubbing.
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
@@ -428,7 +429,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 					break;
 
 				case 'excerpt':
-					/* This is a WordPress filter */
+					/* This is a WordPress filter. */
 					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
 					break;
 
@@ -439,7 +440,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 					break;
 
 				case 'title':
-					/* This is a WordPress filter */
+					/* This is a WordPress filter. */
 					$val = $raw ? $this->post->$post_key : apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
 					break;
 
@@ -466,7 +467,19 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// If we found a valid, apply default llms get get filter and return the value.
 		if ( isset( $val ) ) {
 
-			if ( ! $raw && 'content' !== $key ) {
+			/**
+			 * Filters the list of properties which should be excluded from scrubbing during a property read.
+			 *
+			 * The dynamic portion of this hook, `{$this->model_post_type}`, refers to the post's model type,
+			 * for example "course" for an `LLMS_Course`, "membership" for an `LLMS_Membership`, etc...
+			 *
+			 * @since 4.10.0
+			 *
+			 * @param string[]        $props An array of property keys to be excluded from scrubbing.
+			 * @param LLMS_Post_Model $this  Instance of the post object.
+			 */
+			$exclude = apply_filters( "llms_get_{$this->model_post_type}_no_scrub_props", array( 'content', 'name' ), $this );
+			if ( ! $raw && ! in_array( $key, $exclude, true ) ) {
 				$val = $this->scrub( $key, $val );
 			}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.5.0
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -964,7 +964,14 @@ class LLMS_Person_Handler {
 			// Check email field for uniqueness.
 			if ( 'email_address' === $name ) {
 
-				$skip_email = false;
+				/**
+				 * Allow for skipping of the email_exists check.
+				 *
+				 * @since 4.10.0
+				 *
+				 * @param bool $skip_email A value of true will skip checking if the email exists.
+				 */
+				$skip_email = apply_filters( 'llms_skip_new_user_email_exists_check', false );
 
 				// Only run this check when we're trying to change the email address for an account update.
 				if ( 'account' === $screen ) {

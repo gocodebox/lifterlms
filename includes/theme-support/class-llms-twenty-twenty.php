@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version 3.37.3
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,104 +186,36 @@ class LLMS_Twenty_Twenty {
 	 * Get an array of selectors for items that have the accent color as the background.
 	 *
 	 * @since 3.37.0
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */
 	protected static function add_elements_content_accent_background() {
-
-		return array(
-
-			// Buttons.
-			'.llms-button-primary',
-			'.llms-button-primary:hover',
-			'.llms-button-primary.clicked',
-			'.llms-button-primary:focus',
-			'.llms-button-primary:active',
-			'.llms-button-action',
-			'.llms-button-action:hover',
-			'.llms-button-action.clicked',
-			'.llms-button-action:focus',
-			'.llms-button-action:active',
-
-			// Pricing Tables.
-			'.llms-access-plan-title',
-			'.llms-access-plan .stamp',
-			'.llms-access-plan.featured .llms-access-plan-featured',
-
-			// Checkout.
-			'.llms-checkout-wrapper .llms-form-heading',
-
-			// Notices.
-			'.llms-notice',
-
-			// Progress Bar.
-			'.llms-progress .progress-bar-complete',
-
-			// My Grades.
-			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
-
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
-
-			// Quizzes.
-			'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
-
-		);
-
+		return LLMS_Theme_Support::get_selectors_primary_color_background();
 	}
 
 	/**
 	 * Get an array of selectors for items that have the accent color as the border.
 	 *
 	 * @since 3.37.0
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */
 	protected static function add_elements_content_accent_border() {
-
-		return array(
-
-			// Checkout.
-			'.llms-checkout-section',
-			'.llms-checkout-wrapper form.llms-login',
-
-			// Notices.
-			'.llms-notice',
-
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
-
-		);
-
+		return LLMS_Theme_Support::get_selectors_primary_color_border();
 	}
 
 	/**
 	 * Get an array of selectors for items that have the accent color as the text color.
 	 *
 	 * @since 3.37.0
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */
 	protected static function add_elements_content_accent_color() {
-
-		return array(
-
-			// Pricing Tables.
-			'.llms-access-plan-restrictions a',
-			'.llms-access-plan-restrictions a:hover',
-
-			// Loop.
-			'.llms-loop-item-content .llms-loop-title:hover',
-
-			// Donuts.
-			'.llms-donut',
-
-			// Checks on Syllabus.
-			'.llms-lesson-preview.is-free .llms-lesson-complete',
-			'.llms-lesson-preview.is-complete .llms-lesson-complete',
-
-		);
-
+		return LLMS_Theme_Support::get_selectors_primary_color_text();
 	}
 
 	/**
