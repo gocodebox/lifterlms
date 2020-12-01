@@ -44,7 +44,7 @@ class LLMS_Admin_Notices {
 	/**
 	 * Add output notice actions depending on the current screen
 	 *
-	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
+	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
 	 *
 	 * @since 3.0.0
 	 *
@@ -203,6 +203,7 @@ class LLMS_Admin_Notices {
 	 * Get notices
 	 *
 	 * @since 3.0.0
+	 *
 	 * @return array
 	 */
 	public static function get_notices() {
@@ -215,7 +216,7 @@ class LLMS_Admin_Notices {
 	 * @since 3.0.0
 	 * @since [version] Use a strict comparison.
 	 *
-	 * @param string $notice_id  Id of the notice.
+	 * @param string $notice_id Id of the notice.
 	 * @return boolean
 	 */
 	public static function has_notice( $notice_id ) {
