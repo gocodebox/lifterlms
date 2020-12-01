@@ -8,7 +8,7 @@
  * @group post_model_abstract
  * @group post_models
  *
- * @since [version]
+ * @since 4.10.0
  */
 class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Setup before class.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Teradown after class.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve the abstract class mock stub
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return LLMS_Abstract_Generator_Posts
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test get() to ensure properties that should not be scrubbed are not scrubbed.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

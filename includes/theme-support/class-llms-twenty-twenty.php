@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,7 +186,7 @@ class LLMS_Twenty_Twenty {
 	 * Get an array of selectors for items that have the accent color as the background.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Use LLMS_Theme_Support utility classes.
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */
@@ -198,7 +198,7 @@ class LLMS_Twenty_Twenty {
 	 * Get an array of selectors for items that have the accent color as the border.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Use LLMS_Theme_Support utility classes.
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */
@@ -210,7 +210,7 @@ class LLMS_Twenty_Twenty {
 	 * Get an array of selectors for items that have the accent color as the text color.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Use LLMS_Theme_Support utility classes.
+	 * @since 4.10.0 Use LLMS_Theme_Support utility classes.
 	 *
 	 * @return string[]
 	 */

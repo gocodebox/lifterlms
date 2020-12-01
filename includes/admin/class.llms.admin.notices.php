@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -148,7 +148,7 @@ class LLMS_Admin_Notices {
 			 *
 			 * The dynamic portion of this hook, `{$notice_id}` refers to the ID of the notice being dismissed.
 			 *
-			 * @since [version]
+			 * @since 4.10.0
 			 */
 			do_action( "lifterlms_{$trigger}_{$notice_id}_notice" );
 		}
@@ -214,7 +214,7 @@ class LLMS_Admin_Notices {
 	 * Determine if a notice is already set
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use a strict comparison.
+	 * @since 4.10.0 Use a strict comparison.
 	 *
 	 * @param string $notice_id Id of the notice.
 	 * @return boolean

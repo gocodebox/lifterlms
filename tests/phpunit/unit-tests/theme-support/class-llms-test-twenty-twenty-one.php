@@ -6,14 +6,14 @@
  *
  * @group theme_support
  *
- * @since [version]
+ * @since 4.10.0
  */
 class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the test case.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Remove all the header actions setup by `handle_page_header_wrappers()`.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_max_width_class()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_pagination_classes()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when the archive title is disabled.
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when there's no archive description
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -126,7 +126,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when there is an archived description
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test modify_columns_count()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -172,7 +172,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_disable_post_navigation()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

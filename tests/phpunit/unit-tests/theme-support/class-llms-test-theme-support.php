@@ -7,7 +7,7 @@
  * @group theme_support
  *
  * @since 3.37.0
- * @since [version] Added tests for Twenty Twenty-One theme.
+ * @since 4.10.0 Added tests for Twenty Twenty-One theme.
  */
 class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 
@@ -27,7 +27,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_css()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_css() with a prefix
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_css() when passing in an array for a rule
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_selectors_primary_color_background()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -88,7 +88,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_selectors_primary_color_border()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_selectors_primary_color_text()
 	 *
-	 * @since [version]
+	 * @since 4.10.0
 	 *
 	 * @return void
 	 */

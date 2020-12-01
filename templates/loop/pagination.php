@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Loop
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ if ( $wp_query->max_num_pages < 2 ) {
 /**
  * Filter the list of CSS classes on the pagination wrapper element.
  *
- * @since [version]
+ * @since 4.10.0
  *
  * @param string[] $classes Array of CSS classes.
  */

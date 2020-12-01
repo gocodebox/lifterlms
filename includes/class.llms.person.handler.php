@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -967,7 +967,7 @@ class LLMS_Person_Handler {
 				/**
 				 * Allow for skipping of the email_exists check.
 				 *
-				 * @since [version]
+				 * @since 4.10.0
 				 *
 				 * @param bool $skip_email A value of true will skip checking if the email exists.
 				 */
