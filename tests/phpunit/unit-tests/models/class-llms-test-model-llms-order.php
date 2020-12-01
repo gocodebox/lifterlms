@@ -15,6 +15,7 @@
  *               Added default test override for test_edit_date() test to prevent output
  *               of skipped test that doesn't apply to the order model.
  * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`, `unschedule_expiration()`, and `unschedule_recurring_payment()`.
+ * @since 4.7.0 Update tests to handle new meta property `plan_ended`.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -698,7 +699,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				// plan ends so func should return a WP_Error
 				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
 				$order->maybe_schedule_payment( true );
-				$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
+				$date = $order->get_next_payment_due_date();
+				$this->assertIsWPError( $date );
+				$this->assertWPErrorCodeEquals( 'plan-ended', $date );
+				$this->assertEquals( 'yes', $order->get( 'plan_ended' ) );
 				$order->set( 'date_billing_end', 0 );
 
 				$i++;
@@ -957,15 +961,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test recurring payment scheduling
+	 * Test recurring payment scheduling for a one-time order
 	 *
-	 * @since 3.19.0
-	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
+	 * @since 4.7.0 Split from test_maybe_schedule_payment_recurring()
 	 *
 	 * @return void
 	 */
-	public function test_maybe_schedule_payment() {
+	public function test_maybe_schedule_payment_one_time() {
 
 		// Does nothing for a one-time order.
 		$plan = $this->get_mock_plan( '25.99', 0 );
@@ -973,7 +975,20 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->maybe_schedule_payment();
 		$this->assertEmpty( $order->get( 'date_next_payment' ) );
 
-		// Schedules for recurring.
+	}
+
+	/**
+	 * Test recurring payment scheduling for a recurring order
+	 *
+	 * @since 3.19.0
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
+	 * @since 4.7.0 Split into it's own method to prevent variable clashes.
+	 *
+	 * @return void
+	 */
+	public function test_maybe_schedule_payment_recurring() {
+
 		$order = $this->get_mock_order();
 
 		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(

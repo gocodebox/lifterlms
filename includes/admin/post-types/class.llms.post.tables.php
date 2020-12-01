@@ -91,43 +91,43 @@ class LLMS_Admin_Post_Tables {
 
 		$action = llms_filter_input( INPUT_GET, 'action' );
 
-		// bail early if request doesn't concern us.
+		// Bail early if request doesn't concern us.
 		if ( empty( $action ) ) {
 			return;
 		}
 
-		// bail early if it isn't a clone/ export request.
+		// Bail early if it isn't a clone/ export request.
 		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action ) {
 			return;
 		}
 
 		$post_id = llms_filter_input( INPUT_GET, 'post' );
 
-		// bail if there's no post ID.
+		// Bail if there's no post ID.
 		if ( empty( $post_id ) ) {
 			wp_die( __( 'Missing post ID.', 'lifterlms' ) );
 		}
 
 		$post = get_post( $post_id );
 
-		// bail if post ID is invalid.
+		// Bail if post ID is invalid.
 		if ( ! $post ) {
 			wp_die( __( 'Invalid post ID.', 'lifterlms' ) );
 		}
 
-		// bail if the action isn't supported on post type.
+		// Bail if the action isn't supported on post type.
 		if ( ! post_type_supports( $post->post_type, $action ) ) {
 			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
 		}
 
-		// bail if user doesn't have permissions.
+		// Bail if user doesn't have permissions.
 		if ( ! current_user_can( 'edit_course', $post->ID ) ) {
 			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 		}
 
 		$post = llms_get_post( $post );
 
-		// run export or clone action as needed.
+		// Run export or clone action as needed.
 		switch ( $action ) {
 
 			case 'llms-export-post':
@@ -141,7 +141,6 @@ class LLMS_Admin_Post_Tables {
 				}
 				wp_redirect( admin_url( 'edit.php?post_type=' . $post->get( 'type' ) ) );
 				exit;
-			break;
 
 		}
 
@@ -152,9 +151,9 @@ class LLMS_Admin_Post_Tables {
 	 *
 	 * @since 3.12.0
 	 *
-	 * @param string $name Name of the select element.
+	 * @param string $name      Name of the select element.
 	 * @param string $post_type Post type to search by.
-	 * @param int[]  $selected Array of POST IDs to use for the pre-selected options on page load.
+	 * @param int[]  $selected  Array of POST IDs to use for the pre-selected options on page load.
 	 * @return string
 	 */
 	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {

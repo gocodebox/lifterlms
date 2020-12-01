@@ -16,7 +16,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

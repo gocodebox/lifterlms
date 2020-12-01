@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,7 +343,8 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * This function suppresses PHP warnings that would be thrown by DOMDocument when
  * loading a partial string or an HTML string with errors.
  *
- * @since [version]
+ * @since 4.7.0
+ * @since 4.8.0 Remove reliance on `mb_convert_encoding()`.
  *
  * @param string $string An HTML string, either a full HTML document or a partial string.
  * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it
@@ -358,9 +359,18 @@ function llms_get_dom_document( $string ) {
 	// Don't throw or log warnings.
 	$libxml_state = libxml_use_internal_errors( true );
 
+	// This forces DOMDocument to convert non-utf8 characters into HTML entities and without relying on `mb_convert_encoding()`.
+	$utf8_fixer = '<meta id="llms-get-dom-doc-utf-fixer" http-equiv="Content-Type" content="text/html; charset=utf-8">';
+
 	$dom = new DOMDocument();
-	if ( ! $dom->loadHTML( mb_convert_encoding( $string, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+	if ( ! $dom->loadHTML( $utf8_fixer . $string ) ) {
 		$dom = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
+	}
+
+	// Remove the fixer meta element, if it's not removed it creates invalid HTML5 Markup.
+	$meta = $dom->getElementById( 'llms-get-dom-doc-utf-fixer' );
+	if ( $dom ) {
+		$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 
 	// Clear and restore errors.
@@ -1099,6 +1109,40 @@ function llms_maybe_define_constant( $name, $value ) {
  */
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
+}
+
+/**
+ * Convert a PHP error constant to a human readable error code
+ *
+ * @since 4.9.0
+ *
+ * @link https://www.php.net/manual/en/errorfunc.constants.php
+ *
+ * @param int $code A predefined php error constant.
+ * @return string A human readable string version of the constant.
+ */
+function llms_php_error_constant_to_code( $code ) {
+
+	$codes = array(
+		E_ERROR             => 'E_ERROR', // 1.
+		E_WARNING           => 'E_WARNING', // 2.
+		E_PARSE             => 'E_PARSE', // 4.
+		E_NOTICE            => 'E_NOTICE', // 8.
+		E_CORE_ERROR        => 'E_CORE_ERROR', // 16.
+		E_CORE_WARNING      => 'E_CORE_WARNING', // 32.
+		E_COMPILE_ERROR     => 'E_COMPILE_ERROR', // 64.
+		E_COMPILE_WARNING   => 'E_COMPILE_WARNING', // 128.
+		E_USER_ERROR        => 'E_USER_ERROR', // 256.
+		E_USER_WARNING      => 'E_USER_WARNING', // 512.
+		E_USER_NOTICE       => 'E_USER_NOTICE', // 1024.
+		E_STRICT            => 'E_STRICT', // 2048.
+		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR', // 4096.
+		E_DEPRECATED        => 'E_DEPRECATED', // 8192.
+		E_USER_DEPRECATED   => 'E_USER_DEPRECATED', // 16384.
+	);
+
+	return isset( $codes[ $code ] ) ? $codes[ $code ] : $code;
+
 }
 
 /**

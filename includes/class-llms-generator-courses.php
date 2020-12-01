@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.7.0
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Generator_Courses class
  *
- * @since [version]
+ * @since 4.7.0
  */
 class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 
@@ -36,7 +36,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.7.5 Unknown.
-	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
+	 * @since 4.7.0 Moved from `LLMS_Generator` and made `protected` instead of `private`.
 	 *
 	 * @param obj   $course_id WP_Post ID of a Course.
 	 * @param array $raw_terms Array of raw term arrays.
@@ -84,7 +84,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * Generator called when cloning a lesson
 	 *
 	 * @since 3.14.8
-	 * @since [version] Moved from `LLMS_Generator` and made `protected` instead of `private`.
+	 * @since 4.7.0 Moved from `LLMS_Generator` and made `protected` instead of `private`.
 	 *
 	 * @param array $raw Raw data array.
 	 * @return int|WP_Error WP_Post ID of the created lesson on success and an error object on failure.
@@ -103,7 +103,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * and invokes that generator.
 	 *
 	 * @since 3.3.0
-	 * @since [version] Moved from `LLMS_Generator` and made `public` instead of `private`.
+	 * @since 4.7.0 Moved from `LLMS_Generator` and made `public` instead of `private`.
 	 *              Returns an int on success.
 	 * @param array $raw Raw data array.
 	 * @return int|null WP_Post ID of the generated course or `null` on failure.
@@ -130,7 +130,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * Generator called for bulk course imports
 	 *
 	 * @since 3.3.0
-	 * @since [version] Moved from `LLMS_Generator` to `LLMS_Abstract_Generator_Courses`.
+	 * @since 4.7.0 Moved from `LLMS_Generator` to `LLMS_Abstract_Generator_Courses`.
 	 *               Updated method access from `private` to `public`.
 	 *               Throws an exception in favor of returning `null` when an error is encountered.
 	 *               Returns an array of generated course IDs on success.
@@ -167,7 +167,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.7.3 Unknown.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Sideload images attached to the post, use `create_post()` from abstract, add hooks.
+	 * @since 4.7.0 Sideload images attached to the post, use `create_post()` from abstract, add hooks.
 	 *
 	 * @param array $raw                Raw Access Plan Data.
 	 * @param int   $course_id          WP Post ID of a LLMS Course to assign the access plan to.
@@ -180,7 +180,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		/**
 		 * Filter raw course import data prior to generation
 		 *
-		 * @since [version]
+		 * @since 4.7.0
 		 *
 		 * @param array          $raw       Raw course data array.
 		 * @param LLMS_Generator $generator Generator instance.
@@ -198,7 +198,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		/**
 		 * Action triggered immediately following generation of a new acess plan
 		 *
-		 * @since [version]
+		 * @since 4.7.0
 		 *
 		 * @param LLMS_Access_Plan $plan      Generated access plan object.
 		 * @param array            $raw       Original raw course data array.
@@ -216,7 +216,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
+	 * @since 4.7.0 Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
 	 *
 	 * @param array $raw Raw course data.
 	 * @return int
@@ -285,7 +285,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for empty `post_content` and `post_excerpt` fields.
-	 * @since [version] Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
+	 * @since 4.7.0 Import images and reusable blocks found in the post's content and use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw lesson data.
 	 * @param int   $order              Lesson order within the section (starts at 1).
@@ -350,7 +350,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 * @since 4.3.3 Use an empty string in favor of `null` for an empty `post_content` field.
-	 * @since [version] Sideload images attached to the post  and use `create_post()` from abstract.
+	 * @since 4.7.0 Sideload images attached to the post  and use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw quiz data.
 	 * @param int   $fallback_author_id Optional. Author ID to use as a fallback if no raw author data supplied for the quiz. Default is `null`.
@@ -401,7 +401,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
-	 * @since [version] Attempt to sideload images found in the imported post's content and image choices.
+	 * @since 4.7.0 Attempt to sideload images found in the imported post's content and image choices.
 	 *
 	 * @param array $raw       Raw question data.
 	 * @param obj   $manager   Question manager instance.
@@ -484,7 +484,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
-	 * @since [version] Use `create_post()` from abstract.
+	 * @since 4.7.0 Use `create_post()` from abstract.
 	 *
 	 * @param array $raw                Raw section data.
 	 * @param int   $order              Order within the course (starts at 1).
@@ -617,7 +617,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	/**
 	 * Determines if a raw question choice object contains image data that should be sideloaded
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @param array $choice      Raw choice data array.
 	 * @param int   $question_id WP_Post ID of the parent question.

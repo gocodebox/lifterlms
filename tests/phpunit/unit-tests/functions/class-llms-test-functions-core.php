@@ -15,7 +15,7 @@
  * @since 4.2.0 Add tests for llms_get_completable_post_types() & llms_get_completable_taxonomies().
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
- * @since [version] Add test for `llms_get_dom_document()`.
+ * @since 4.7.0 Add test for `llms_get_dom_document()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -182,13 +182,50 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_dom_document()
 	 *
-	 * @since [version]
+	 * @since 4.7.0
+	 * @since 4.8.0 Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_dom_document() {
 
-		$this->assertTrue( llms_get_dom_document( 'mock string' ) instanceof DOMDocument );
+		/**
+		 * Array of test strings
+		 *
+		 * First value is the input string & the second value is the expected output string.
+		 *
+		 * @var array[]
+		 */
+		$tests = array(
+			array(
+				'simple text string',
+				'<p>simple text string</p>',
+			),
+			array(
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+				'<h1>html text string</h1><br><div class="test"><em>wow!</em></div>',
+			),
+			array(
+				'Ḷ𝝄𝔯𝚎ɱ ĭ𝓹ᵴǘɱ ժөḻ𝝈ɍ 𝘀𝗂ᴛ.',
+				'<p>&#7734;&#120644;&#120111;&#120462;&#625; &#301;&#120057;&#7540;&#472;&#625; &#1386;&#1257;&#7739;&#120648;&#589; &#120320;&#120258;&#7451;.</p>',
+			),
+			array(
+				'Contains &mdash; Char Codes and special – !',
+				'<p>Contains &mdash; Char Codes and special &ndash; !</p>',
+			),
+			array(
+				'<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /></head><body>And &gt;>&gt; a <b>full</b> HTML docum𝞔nt!</body></html>',
+				'And &gt;&gt;&gt; a <b>full</b> HTML docum&#120724;nt!',
+			),
+		);
+
+		foreach ( $tests as $test ) {
+
+			$dom = llms_get_dom_document( $test[0] );
+			$this->assertTrue( $dom instanceof DOMDocument );
+			$this->assertStringContains( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+
+		}
 
 	}
 
@@ -578,6 +615,40 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		foreach ( $false as $val ) {
 			$this->assertFalse( llms_parse_bool( $val ) );
+		}
+
+	}
+
+	/**
+	 * Test llms_php_error_constant_to_code()
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_php_error_constant_to_code() {
+
+		$errors = array(
+			E_ERROR             => 'E_ERROR',
+			E_WARNING           => 'E_WARNING',
+			E_PARSE             => 'E_PARSE',
+			E_NOTICE            => 'E_NOTICE',
+			E_CORE_ERROR        => 'E_CORE_ERROR',
+			E_CORE_WARNING      => 'E_CORE_WARNING',
+			E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+			E_COMPILE_WARNING   => 'E_COMPILE_WARNING',
+			E_USER_ERROR        => 'E_USER_ERROR',
+			E_USER_WARNING      => 'E_USER_WARNING',
+			E_USER_NOTICE       => 'E_USER_NOTICE',
+			E_STRICT            => 'E_STRICT',
+			E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+			E_DEPRECATED        => 'E_DEPRECATED',
+			E_USER_DEPRECATED   => 'E_USER_DEPRECATED',
+			9999                => 9999,
+		);
+
+		foreach ( $errors as $in => $out ) {
+			$this->assertEquals( $out, llms_php_error_constant_to_code( $in ) );
 		}
 
 	}

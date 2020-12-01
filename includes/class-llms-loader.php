@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -212,7 +212,8 @@ class LLMS_Loader {
 	 * Includes that are required only on the admin panel
 	 *
 	 * @since 4.0.0
-	 * @since [version] Always load `LLMS_Admin_Reporting`.
+	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
+	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 *
 	 * @return void
 	 */
@@ -236,6 +237,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 
@@ -276,6 +278,7 @@ class LLMS_Loader {
 	 * Include libraries
 	 *
 	 * @since 4.0.0
+	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 *
 	 * @return void
 	 */
@@ -283,11 +286,13 @@ class LLMS_Loader {
 
 		// Block library.
 		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
+			define( 'LLMS_BLOCKS_LIB', true );
 			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
 		}
 
 		// Rest API.
 		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
+			define( 'LLMS_REST_API_LIB', true );
 			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
 

@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_menus
  *
- * @since [version]
+ * @since 4.7.0
  */
 class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Test reporting_page_init() when there's permission issues.
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Test reporting_page_init() when there's no permission issues
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Test reporting_page_init() when there's no permission issues
 	 *
-	 * @since [version]
+	 * @since 4.7.0
 	 *
 	 * @return void
 	 */

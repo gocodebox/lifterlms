@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.6.0';
+	public $version = '4.9.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -388,26 +388,35 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Load Localization files
+	 * Localize the plugin
 	 *
-	 * The first loaded file takes priority
+	 * Language files can be found in the following locations (The first loaded file takes priority):
 	 *
-	 * Files can be found in the following order:
-	 *      WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
-	 *      WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
+	 *   1. wp-content/languages/lifterlms/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is recommended "safe" location where custom language files can be stored. A file
+	 *      stored in this directory will never be automatically overwritten.
+	 *
+	 *   2. wp-content/languages/plugins/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is the default directory where WordPress will download language files from the
+	 *      WordPress GlotPress server during updates. If you store a custom language file in this
+	 *      directory it will be overwritten during updates.
+	 *
+	 *   3. wp-content/plugins/lifterlms/languages/lifterlms-{LOCALE}.mo
+	 *
+	 *      This is the the LifterLMS plugin directory. A language file stored in this directory will
+	 *      be removed from the server during a LifterLMS plugin update.
+	 *
+	 * @since Unknown
+	 * @since 4.9.0 Use `llms_load_textdomain()`.
 	 *
 	 * @return void
 	 */
 	public function localize() {
 
-		// Load locale.
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'lifterlms' );
-
-		// Load a lifterlms specific locale file if one exists.
-		load_textdomain( 'lifterlms', WP_LANG_DIR . '/lifterlms/lifterlms-' . $locale . '.mo' );
-
-		// Load localization files.
-		load_plugin_textdomain( 'lifterlms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms-functions-l10n.php';
+		llms_load_textdomain( 'lifterlms' );
 
 	}
 

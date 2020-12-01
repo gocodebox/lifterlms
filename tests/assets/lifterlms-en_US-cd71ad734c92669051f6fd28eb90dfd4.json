@@ -1,0 +1,21 @@
+{
+  "translation-revision-date": "2020-11-20T23:21:55.271Z",
+  "generator": "llms-dev 1.0.0\n",
+  "source": "assets/js/llms-test-messages.js",
+  "domain": "messages",
+  "locale_data": {
+    "messages": {
+      "": {
+        "domain": "messages",
+        "lang": "en",
+        "plural-forms": "nplurals=2; plural=(n != 1);"
+      },
+      "LifterLMS": [
+        "MyLMS"
+      ],
+      "Course": [
+        "Module"
+      ],
+    }
+  }
+}

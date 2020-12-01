@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 4.5.0
+ * @version 4.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -205,6 +205,8 @@ class LLMS_Sessions {
 	 * in the last 30 minutes.
 	 *
 	 * @since 3.36.0
+	 * @since 4.7.0 When retrieving the last event, instantiate the events query passing `no_found_rows` arg as `true`,
+	 *              to improve performance.
 	 *
 	 * @param LLMS_Event $start Event record for the start of the session.
 	 * @return bool
@@ -233,10 +235,11 @@ class LLMS_Sessions {
 		$events = $this->get_session_events(
 			$start,
 			array(
-				'per_page' => 1,
-				'sort'     => array(
+				'per_page'      => 1,
+				'sort'          => array(
 					'date' => 'DESC',
 				),
+				'no_found_rows' => true,
 			)
 		);
 

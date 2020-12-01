@@ -2,12 +2,12 @@
  * Export all modules.
  *
  * @since 1.0.0
- * @version 2.1.2
+ * @version 2.2.0
  */
 
 export { click } from './click';
 export { clickAndWait } from './click-and-wait';
-// export { clickElementByText } from './click-element-by-text';
+export { clickElementByText } from './click-element-by-text';
 
 export { createAccessPlan } from './create-access-plan';
 export { createCertificate } from './create-certificate';
@@ -18,13 +18,15 @@ export { createMembership } from './create-membership';
 export { createPost } from './create-post';
 export { createUser } from './create-user';
 
+export { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
+
 export { enrollStudent } from './enroll-student';
 
 export { fillField } from './fill-field';
 
 export { importCourse } from './import-course';
 
-// export { findElementByText } from './find-element-by-text';
+export { findElementByText } from './find-element-by-text';
 
 export { loginStudent } from './login-student';
 export { logoutUser } from './logout-user';

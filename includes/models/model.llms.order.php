@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 4.6.0
+ * @version 4.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -58,6 +58,7 @@ defined( 'ABSPATH' ) || exit;
  * @property   $plan_id  (int)  WP Post ID of the purchased access plan
  * @property   $plan_sku   (string)  SKU of the purchased access plan
  * @property   $plan_title  (string)  Title / Name of the purchased access plan
+ * @property   $plan_ended  (string)  Whether or not the payment plan has ended [yes|no]. Only applicable when the plan is not "unlimited".
  * @property   $product_id  (int)  WP Post ID of the purchased product
  * @property   $product_sku   (string)  SKU of the purchased product
  * @property   $product_title  (string)  Title / Name of the purchased product
@@ -78,12 +79,29 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
+ * @since 4.7.0 Added `plan_ended` meta property.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
-	protected $db_post_type    = 'llms_order';
+	/**
+	 * Database post type.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'llms_order';
+
+	/**
+	 * Model post type.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'order';
 
+	/**
+	 * Meta properties.
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
 
 		'anonymized'           => 'yesno',
@@ -128,6 +146,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		'order_key'            => 'text',
 		'order_type'           => 'text',
 		'payment_gateway'      => 'text',
+		'plan_ended'           => 'yesno',
 		'plan_sku'             => 'text',
 		'plan_title'           => 'text',
 		'product_sku'          => 'text',
@@ -258,6 +277,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.12.0 Unknown.
 	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
+	 * @since 4.9.0 Fix comparison for PHP8 compat.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.
@@ -334,7 +354,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		// If the next payment is after the end time (where applicable).
-		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
+		if ( $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
 			$ret = '';
 		} elseif ( $next_payment_time > 0 ) {
 			$ret = date( $format, $next_payment_time );
@@ -468,7 +488,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$ret = $this->get_date( 'date_access_expires', $format );
 		if ( ! $ret ) {
-
 			switch ( $type ) {
 				case 'lifetime':
 					$ret = __( 'Lifetime Access', 'lifterlms' );
@@ -779,7 +798,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Retrieve the saved due date.
 		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
-
 		// Calculate it if not saved.
 		if ( ! $next_payment_time ) {
 			$next_payment_time = $this->calculate_next_payment_date( 'U' );
@@ -1396,6 +1414,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since 4.7.0 Add `plan_ended` metadata when a plan ends.
 	 *
 	 * @return void
 	 */
@@ -1438,6 +1457,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 				// Add a note that the plan has completed.
 				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
+				$this->set( 'plan_ended', 'yes' );
 
 			}
 		}

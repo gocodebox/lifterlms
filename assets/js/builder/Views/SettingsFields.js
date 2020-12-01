@@ -2,7 +2,7 @@
  * Model settings fields view
  *
  * @since 3.17.0
- * @version [version]
+ * @version 4.7.0
  */
 define( [], function() {
 
@@ -286,7 +286,7 @@ define( [], function() {
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
-		 * @since [version] Ensure `switch-number` fields are set with the `number` type attribute.
+		 * @since 4.7.0 Ensure `switch-number` fields are set with the `number` type attribute.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
