@@ -37,7 +37,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 
 		LLMS_Admin_Notices::init();
 
-		$this->assertEquals( $expect, LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Admin_Notices', 'notices' ) );
+		$this->assertEquals( $expect, LLMS_Admin_Notices::get_notices() );
 
 	}
 
