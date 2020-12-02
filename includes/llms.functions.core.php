@@ -281,7 +281,7 @@ function llms_get_core_supported_themes() {
  * - with precision = 2 : 3 days, 4 hours
  * - with precision = 3 : 3 days, 4 hours, 12 minutes.
  *
- * @since ??
+ * @since Unknown
  * @since 3.24.0 Unknown.
  *
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
@@ -893,7 +893,7 @@ function llms_get_enrollment_statuses() {
  * Get the human readable (and translated) name of an enrollment status
  *
  * @since 3.0.0
- * @since 3.6.0
+ * @since 3.6.0 Unknown.
  *
  * @param string $status Enrollment status key.
  * @return string
