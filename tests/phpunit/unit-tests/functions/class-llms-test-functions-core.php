@@ -16,6 +16,7 @@
  * @since 4.4.0 Add tests for `llms_deprecated_function()`.
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
  * @since 4.7.0 Add test for `llms_get_dom_document()`.
+ * @since [version] Add test for possible 3rd party cpts conflicts using `llms_get_post()`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -514,6 +515,33 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->assertInstanceOf( 'WP_Post', llms_get_post( $this->factory->post->create(), 'post' ) );
 		$this->assertNull( llms_get_post( 'fail' ) );
 		$this->assertNull( llms_get_post( 0 ) );
+
+	}
+
+	/**
+	 * Test llms_get_post() with post types which don't have to be confused with LifterLMS post types
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_no_conflicts() {
+
+		$types = array(
+			'LLMS_Events'      => 'events',
+			'LLMS_Certificate' => 'certificate',
+			'LLMS_Transaction' => 'transaction',
+		);
+
+		foreach ( $types as $class => $type ) {
+			register_post_type( $type );
+			$id = $this->factory->post->create( array(
+				'post_type' => $type,
+			) );
+
+			$this->assertNotInstanceOf( $class, llms_get_post( $id ) );
+			unregister_post_type( $type );
+		}
 
 	}
 
