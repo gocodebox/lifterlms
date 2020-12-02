@@ -271,7 +271,7 @@ class LLMS_Admin_AddOns {
 	 * Output HTML for the current screen
 	 *
 	 * @since 3.5.0
-	 * @since 3.28.0 Unknown
+	 * @since 3.28.0 Unknown.
 	 * @since [version] Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices.
 	 *
 	 * @return void
