@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -542,6 +542,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
+	 * @since [version] Fixed incorrect position of `true` in `in_array()`.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
@@ -585,7 +586,7 @@ class LLMS_Template_Loader {
 			$msg    = __( 'This content is restricted', 'lifterlms' );
 			$reason = $page_restricted['reason'];
 
-			if ( in_array( $reason, array( 'membership', 'sitewide_membership', true ) ) ) {
+			if ( in_array( $reason, array( 'membership', 'sitewide_membership' ), true ) ) {
 
 				$membership_id = $page_restricted['restriction_id'];
 
