@@ -6,7 +6,8 @@
  *
  * @since 3.16.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @version 3.35.0
+ * @since [version] Remove unneded require of the file LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php', the autoloader will do the job.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) {
 	exit;
 }
-
-require LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php';
 
 $data   = new LLMS_Quiz_Data( $quiz->get( 'id' ) );
 $period = llms_filter_input( INPUT_GET, 'period', FILTER_SANITIZE_STRING );
