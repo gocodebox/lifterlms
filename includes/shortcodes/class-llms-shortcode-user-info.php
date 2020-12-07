@@ -4,6 +4,8 @@
  *
  * [user]
  *
+ * @package LifterLMS/Shortcodes/Classes
+ *
  * @since [version]
  * @version [version]
  */

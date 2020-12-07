@@ -123,7 +123,7 @@ class LLMS_Forms {
 		$res       = wp_cache_get( $cache_key );
 		if ( false === $res ) {
 			global $wpdb;
-			$res = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_form' AND post_content LIKE '%<!-- wp:llms/form-field-user-username %' LIMIT 1" ); // db call ok
+			$res = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_form' AND post_content LIKE '%<!-- wp:llms/form-field-user-username %' LIMIT 1" ); // db call ok.
 			wp_cache_set( $cache_key, $res );
 		}
 
@@ -149,7 +149,7 @@ class LLMS_Forms {
 			unset( $attrs['field'] );
 		}
 
-		// Rename "className" to "classes"
+		// Rename "className" to "classes".
 		if ( isset( $attrs['className'] ) ) {
 			$attrs['classes'] = $attrs['className'];
 			unset( $attrs['className'] );

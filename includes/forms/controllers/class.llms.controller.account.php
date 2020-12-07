@@ -319,7 +319,6 @@ class LLMS_Controller_Account {
 			wp_password_change_notification( $user );
 		}
 
-
 		/**
 		 * Fire an action the the user's password is reset.
 		 *

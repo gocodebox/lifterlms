@@ -2,6 +2,8 @@
 /**
  * User Handling for login and registration (mostly)
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.0.0
  * @version [version]
  */
@@ -21,18 +23,14 @@ class LLMS_Person_Handler {
 	/**
 	 * Prefix for all user meta field keys
 	 *
-	 * @var  string
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @var string
 	 */
 	private static $meta_prefix = 'llms_';
 
 	/**
 	 * Prevents the hacky voucher script from being output multiple times
 	 *
-	 * @var      boolean
-	 * @since    3.0.2
-	 * @version  3.0.2
+	 * @var boolean
 	 */
 	private static $voucher_script_output = false;
 
@@ -144,10 +142,10 @@ class LLMS_Person_Handler {
 
 		$uid = get_current_user_id();
 
-		// setup all the fields to load
+		// Setup all the fields to load.
 		$fields = array();
 
-		// this isn't needed if we're on an account screen or
+		// This isn't needed if we're on an account screen or.
 		if ( 'account' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
 			$fields[] = array(
 				'columns'     => 12,
@@ -159,8 +157,8 @@ class LLMS_Person_Handler {
 			);
 		}
 
-		// on the checkout screen, if we already have a user we can remove these fields:
-		// username, email, email confirm, password, password confirm, password meter
+		// On the checkout screen, if we already have a user we can remove these fields:.
+		// Username, email, email confirm, password, password confirm, password meter.
 		if ( 'checkout' !== $screen || ! $uid ) {
 			$email_con = get_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility' );
 			$fields[]  = array(
@@ -184,7 +182,7 @@ class LLMS_Person_Handler {
 				);
 			}
 
-			// account screen has password updates at the bottom
+			// Account screen has password updates at the bottom.
 			if ( 'account' !== $screen ) {
 				$fields = self::get_password_fields( $screen, $fields );
 			}
@@ -264,7 +262,7 @@ class LLMS_Person_Handler {
 				'required'    => ( 'required' === $address ) ? true : false,
 				'type'        => 'select',
 			);
-		}// End if().
+		}
 
 		$phone = get_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility' );
 		if ( 'hidden' !== $phone ) {
@@ -302,14 +300,14 @@ class LLMS_Person_Handler {
 
 		}
 
-		// add account password fields
+		// Add account password fields.
 		if ( 'account' === $screen ) {
 			$fields = self::get_password_fields( $screen, $fields );
 		}
 
 		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
 
-		// populate fields with data, if we have any
+		// Populate fields with data, if we have any.
 		if ( $data ) {
 			$fields = self::fill_fields( $fields, $data );
 		}
@@ -656,12 +654,12 @@ class LLMS_Person_Handler {
 				'ID' => $data['user_id'],
 			);
 
-			// email address if set
+			// Email address if set.
 			if ( isset( $data['email_address'] ) ) {
 				$insert_data['user_email'] = $data['email_address'];
 			}
 
-			// update password if both are set
+			// Update password if both are set.
 			if ( isset( $data['password'] ) && isset( $data['password_confirm'] ) ) {
 				$insert_data['user_pass'] = $data['password'];
 			}
@@ -686,18 +684,18 @@ class LLMS_Person_Handler {
 			}
 		}
 
-		// attempt to insert the data
+		// Attempt to insert the data.
 		$person_id = $insert_func( apply_filters( 'lifterlms_user_' . $action . '_insert_user', $insert_data, $data, $action ) );
 
-		// return the error object if registration fails
+		// Return the error object if registration fails.
 		if ( is_wp_error( $person_id ) ) {
 			return apply_filters( 'lifterlms_user_' . $action . '_failure', $person_id, $data, $action );
 		}
 
-		// add user ip address
+		// Add user ip address.
 		$data[ self::$meta_prefix . 'ip_address' ] = llms_get_ip_address();
 
-		// metas
+		// Metas.
 		$possible_metas = apply_filters(
 			'llms_person_insert_data_possible_metas',
 			array(
@@ -718,13 +716,13 @@ class LLMS_Person_Handler {
 			}
 		}
 
-		// record all meta values
+		// Record all meta values.
 		$metas = apply_filters( 'lifterlms_user_' . $action . '_insert_user_meta', $insert_metas, $data, $action );
 		foreach ( $metas as $key => $val ) {
 			$meta_func( $person_id, $key, $val );
 		}
 
-		// if agree to terms data is present, record the agreement date
+		// If agree to terms data is present, record the agreement date.
 		if ( isset( $data[ self::$meta_prefix . 'agree_to_terms' ] ) && 'yes' === $data[ self::$meta_prefix . 'agree_to_terms' ] ) {
 
 			$meta_func( $person_id, self::$meta_prefix . 'agree_to_terms', current_time( 'mysql' ) );
@@ -846,8 +844,8 @@ class LLMS_Person_Handler {
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
 	 *
-	 * @param array $data {
-	 *     User data array.
+	 * @param array  $data {
+	 *      User data array.
 	 *
 	 *     @type string $user_login             User login/username.
 	 *     @type string $email_address          User email.
@@ -881,8 +879,8 @@ class LLMS_Person_Handler {
 
 			$fields = self::get_available_fields( $screen );
 
-			// if no current password submitted with an account update
-			// we can remove password fields so we don't get false validations
+			// If no current password submitted with an account update.
+			// We can remove password fields so we don't get false validations.
 			if ( 'account' === $screen && empty( $data['current_password'] ) ) {
 				unset( $data['current_password'], $data['password'], $data['password_confirm'] );
 				foreach ( $fields as $key => $field ) {
@@ -905,7 +903,7 @@ class LLMS_Person_Handler {
 			$field_type = isset( $field['type'] ) ? $field['type'] : '';
 			$val        = isset( $data[ $name ] ) ? self::sanitize_field( $data[ $name ], $field_type ) : '';
 
-			// ensure required fields are submitted
+			// Ensure required fields are submitted.
 			if ( isset( $field['required'] ) && $field['required'] && empty( $val ) ) {
 
 				$e->add( $field['id'], sprintf( __( '%s is a required field', 'lifterlms' ), $label ), 'required' );
@@ -913,12 +911,12 @@ class LLMS_Person_Handler {
 
 			}
 
-			// check email field for uniqueness
+			// Check email field for uniqueness.
 			if ( 'email_address' === $name ) {
 
 				$skip_email = false;
 
-				// only run this check when we're trying to change the email address for an account update
+				// Only run this check when we're trying to change the email address for an account update.
 				if ( 'account' === $screen ) {
 					$user = wp_get_current_user();
 					if ( self::sanitize_field( $data['email_address'], 'email' ) === $user->user_email ) {
@@ -931,7 +929,7 @@ class LLMS_Person_Handler {
 				}
 			} elseif ( 'user_login' === $name ) {
 
-				// blacklist usernames for security purposes
+				// Blacklist usernames for security purposes.
 				$banned_usernames = apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );
 
 				if ( in_array( $val, $banned_usernames ) || ! validate_username( $val ) ) {
@@ -957,12 +955,12 @@ class LLMS_Person_Handler {
 				}
 			}
 
-			// scrub and check field data types
+			// Scrub and check field data types.
 			if ( isset( $field['type'] ) ) {
 
 				switch ( $field['type'] ) {
 
-					// ensure it's a selectable option
+					// Ensure it's a selectable option.
 					case 'select':
 					case 'radio':
 						if ( ! in_array( $val, array_keys( $field['options'] ) ) ) {
@@ -970,12 +968,7 @@ class LLMS_Person_Handler {
 						}
 						break;
 
-					// case 'password':
-					// case 'text':
-					// case 'textarea':
-					// break;
-
-					// make sure the value is numeric
+					// Make sure the value is numeric.
 					case 'number':
 						if ( ! is_numeric( $val ) ) {
 							$e->add( $field['id'], sprintf( __( '%s must be numeric', 'lifterlms' ), $label ), 'invalid' );
@@ -983,7 +976,7 @@ class LLMS_Person_Handler {
 						}
 						break;
 
-					// validate the email address
+					// Validate the email address.
 					case 'email':
 						if ( ! is_email( $val ) ) {
 							$e->add( $field['id'], sprintf( __( '%s must be a valid email address', 'lifterlms' ), $label ), 'invalid' );
@@ -991,16 +984,16 @@ class LLMS_Person_Handler {
 						break;
 
 				}
-			}// End if().
+			}
 
-			// store this fields label so it can be used in a match error later if necessary
+			// Store this fields label so it can be used in a match error later if necessary.
 			if ( ! empty( $field['matched'] ) ) {
 
 				$matched_values[ $field['matched'] ] = $label;
 
 			}
 
-			// match matchy fields
+			// Match matchy fields.
 			if ( ! empty( $field['match'] ) ) {
 
 				$match = isset( $data[ $field['match'] ] ) ? self::sanitize_field( $data[ $field['match'] ], $field_type ) : false;
@@ -1010,9 +1003,9 @@ class LLMS_Person_Handler {
 
 				}
 			}
-		}// End foreach().
+		}
 
-		// return errors if we have errors
+		// Return errors if we have errors.
 		if ( $e->get_error_messages() ) {
 			return $e;
 		}
@@ -1023,7 +1016,7 @@ class LLMS_Person_Handler {
 
 
 	/**
-	 * Output Voucher toggle JS in a quick and shameful manner...
+	 * Output Voucher toggle JS in a quick and shameful manner
 	 *
 	 * @since 3.0.0
 	 *

@@ -823,8 +823,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
 	}
 
-	/*
-*	 * Update the LifterLMS version record to the latest version
+	/**
+	 * Update the LifterLMS version record to the latest version
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.3 Unknown.

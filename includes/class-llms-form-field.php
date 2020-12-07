@@ -23,29 +23,29 @@ class LLMS_Form_Field {
 	 * @var array {
 	 *     Array of field settings.
 	 *
-	 *     @type array $attributes Associative array of HTML attributes to add to the field element.
-	 *     @type bool $checked Determines if radio and checkbox fields are checked.
-	 *     @type int $columns Number of columns the field wrapper should occupy when rendered. Accepts integers >= 1 and <= 12.
-	 *     @type string[]|string $classes Additional CSS classes to add to the field element. Accepts a string or an array of strings.
-	 *     @type string $data_store Determines where to store field values. Accepts "users" or "usermeta" to store on the respective WP core tables.
-	 *     @type string $data_store_key Determines the key name to use when storing the field value. Pass `false` to disable automatic storage. Defaults to the value of the `$name` property.
-	 *     @type string $description A string to use as the field's description or helper text.
-	 *     @type string default $default The default value to use for the field.
-	 *     @type bool $disabled Whether or not the field is enabled.
-	 *     @type string $id The field's HTML "id" attribute. Must be unique. If not supplied, an ID is automatically generated.
-	 *     @type string $label Text to use in the label element associated with the field.
-	 *     @type bool $label_show_empty When true and no `$label` is supplied, will show an empty label element.
-	 *     @type bool $last_column When true, outputs a clearfix element following the element's wrapper. Allows ending a "row" of fields.
-	 *     @type bool $match Match this field to another field for validation purposes. Must be the `$id` of another field in the form.
-	 *     @type string $name The field's HTML "name" attribute. Default's to the value of `$id` when not supplied.
-	 *     @type array $options An associative array of options used for select, checkbox groups, and radio fields.
-	 *     @type string $options_preset A string representing a pre-defined set of `$options`. Accepts "countries" or "states". Custom presets can be defined using the filter "llms_form_field_options_preset_{$preset_id}".
-	 *     @type string $placeholder The field's HTML placeholder attribute.
-	 *     @type bool $required Determines if the field is marked as required.
-	 *     @type string $selected Alias of `$default`.
-	 *     @type string $type Field type. Accepts any HTML5 input type (text, email, tel, etc...), radio, checkbox, select, textarea, button, reset, submit, and html.
-	 *     @type string $value Value of the field.
-	 *     @type string[]|string $wrapper_classes Additional CSS classes to add to the field's wrapper element. Accepts a string or an array of strings.
+	 *     @type array           $attributes       Associative array of HTML attributes to add to the field element.
+	 *     @type bool            $checked          Determines if radio and checkbox fields are checked.
+	 *     @type int             $columns          Number of columns the field wrapper should occupy when rendered. Accepts integers >= 1 and <= 12.
+	 *     @type string[]|string $classes          Additional CSS classes to add to the field element. Accepts a string or an array of strings.
+	 *     @type string          $data_store       Determines where to store field values. Accepts "users" or "usermeta" to store on the respective WP core tables.
+	 *     @type string          $data_store_key   Determines the key name to use when storing the field value. Pass `false` to disable automatic storage. Defaults to the value of the `$name` property.
+	 *     @type string          $description      A string to use as the field's description or helper text.
+	 *     @type string          $default          The default value to use for the field.
+	 *     @type bool            $disabled         Whether or not the field is enabled.
+	 *     @type string          $id               The field's HTML "id" attribute. Must be unique. If not supplied, an ID is automatically generated.
+	 *     @type string          $label            Text to use in the label element associated with the field.
+	 *     @type bool            $label_show_empty When true and no `$label` is supplied, will show an empty label element.
+	 *     @type bool            $last_column      When true, outputs a clearfix element following the element's wrapper. Allows ending a "row" of fields.
+	 *     @type bool            $match            Match this field to another field for validation purposes. Must be the `$id` of another field in the form.
+	 *     @type string          $name             The field's HTML "name" attribute. Default's to the value of `$id` when not supplied.
+	 *     @type array           $options          An associative array of options used for select, checkbox groups, and radio fields.
+	 *     @type string          $options_preset   A string representing a pre-defined set of `$options`. Accepts "countries" or "states". Custom presets can be defined using the filter "llms_form_field_options_preset_{$preset_id}".
+	 *     @type string          $placeholder      The field's HTML placeholder attribute.
+	 *     @type bool            $required         Determines if the field is marked as required.
+	 *     @type string          $selected         Alias of `$default`.
+	 *     @type string          $type             Field type. Accepts any HTML5 input type (text, email, tel, etc...), radio, checkbox, select, textarea, button, reset, submit, and html.
+	 *     @type string          $value            Value of the field.
+	 *     @type string[]|string $wrapper_classes  Additional CSS classes to add to the field's wrapper element. Accepts a string or an array of strings.
 	 * }
 	 */
 	protected $settings = array();
@@ -108,9 +108,9 @@ class LLMS_Form_Field {
 			'attributes'       => array(),
 			'checked'          => false,
 			'columns'          => 12,
-			'classes'          => array(), // or string of space-separated classes.
-			'data_store'       => 'usermeta', // users or usermeta.
-			'data_store_key'   => '', // defaults to value passed for "name".
+			'classes'          => array(), // Or string of space-separated classes.
+			'data_store'       => 'usermeta', // Users or usermeta.
+			'data_store_key'   => '', // Defaults to value passed for "name".
 			'description'      => '',
 			'default'          => '',
 			'disabled'         => false,
@@ -118,16 +118,16 @@ class LLMS_Form_Field {
 			'label'            => '',
 			'label_show_empty' => false,
 			'last_column'      => true,
-			'match'            => '', // test
-			'name'             => '', // defaults to value passed for "id".
+			'match'            => '', // Test.
+			'name'             => '', // Defaults to value passed for "id".
 			'options'          => array(),
 			'options_preset'   => '',
 			'placeholder'      => '',
 			'required'         => false,
-			'selected'         => '', // alias of "default".
+			'selected'         => '', // Alias of "default".
 			'type'             => 'text',
 			'value'            => '',
-			'wrapper_classes'  => array(), // or string of space-separated classes.
+			'wrapper_classes'  => array(), // Or string of space-separated classes.
 		);
 
 	}
@@ -456,7 +456,7 @@ class LLMS_Form_Field {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $options Prepared options array.
+	 * @param array $options      Prepared options array.
 	 * @param mixed $selected_val The value of the option that should be marked as "selected".
 	 * @return string
 	 */
@@ -624,7 +624,7 @@ class LLMS_Form_Field {
 					}
 				}
 
-				// Flat array of $key=>$val
+				// Flat array of $key=>$val.
 			} else {
 
 				$prepared[ $key ] = $val;
@@ -756,7 +756,7 @@ class LLMS_Form_Field {
 
 		$name = $this->settings['name'];
 
-		// Field Name => Storage Key
+		// Field Name => Storage Key.
 		$users_fields = array(
 
 			// We prefer these aliases for legacy reasons.

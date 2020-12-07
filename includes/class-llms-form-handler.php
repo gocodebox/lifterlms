@@ -169,9 +169,9 @@ class LLMS_Form_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @param array   &$posted_data User submitted form data (passed by reference).
-	 * @param string  $location Form location ID.
-	 * @param array[] &$fields Array of LifterLMS Form Fields (passed by reference).
+	 * @param array   $posted_data User submitted form data (passed by reference).
+	 * @param string  $location    Form location ID.
+	 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
 	 * @return void
 	 */
 	public function maybe_modify_edit_account_field_settings( &$posted_data, $location, &$fields ) {
@@ -605,10 +605,7 @@ class LLMS_Form_Handler {
 					}
 					break;
 
-				// case 'password':
-					// @todo check password min length
-					// break;
-
+				// @TODO Check password min length.
 			}
 		}
 

@@ -2,6 +2,8 @@
 /**
  * Add, Customize, and Manage LifterLMS Forms Post Table Columns
  *
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
  * @since [version]
  * @version [version]
  */

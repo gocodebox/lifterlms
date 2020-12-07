@@ -5,7 +5,6 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @since [version] Moved localization functions related to countries to includes/functions/llms-functions-locales.php.
  * @version [version]
  */
 
