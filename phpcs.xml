@@ -27,6 +27,9 @@
 		<exclude-pattern>includes/libraries/wp-background-processing/wp-background-process.php</exclude-pattern>
 	</rule>
 
+    <!-- Exclude locale files that take forever to process -->
+    <exclude-pattern>languages/*.php</exclude-pattern>
+
 	<rule ref="LifterLMS">
 
 		<!-- @todo: Apply coding standards to js -->

@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -190,54 +190,36 @@ function llms_get_instructor( $user = null ) {
 }
 
 /**
- * Retrieve the minimum accepted password strength for student passwords
- *
- * @since 3.0.0
- *
- * @return string
- */
-function llms_get_minimum_password_strength() {
-	/**
-	 * Filter  the minimum accepted password strength for student passwords
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $strength Minimum required password strength setting.
-	 */
-	return apply_filters( 'llms_get_minimum_password_strength', get_option( 'lifterlms_registration_password_min_strength' ) );
-}
-
-/**
  * Retrieve the translated name of minimum accepted password strength for student passwords
  *
  * @since 3.0.0
+ * @since [version] Remove database call to deprecated option and add the $strength parameter.
  *
+ * @param string $strength Optional. Password strength value to translate. Default is 'strong'.
  * @return string
  */
-function llms_get_minimum_password_strength_name() {
-	$strength = llms_get_minimum_password_strength();
-	switch ( $strength ) {
-		case 'strong':
-			$r = __( 'strong', 'lifterlms' );
-			break;
+function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 
-		case 'medium':
-			$r = __( 'medium', 'lifterlms' );
-			break;
+	$opts = array(
+		'strong'    => __( 'strong', 'lifterlms' ),
+		'medium'    => __( 'medium', 'lifterlms' ),
+		'weak'      => __( 'weak', 'lifterlms' ),
+		'very-weak' => __( 'very weak', 'lifterlms' ),
+	);
 
-		case 'weak':
-			$r = __( 'weak', 'lifterlms' );
-			break;
+	$name = isset( $opts[ $strength ] ) ? $opts[ $strength ] : $strength;
 
-		case 'very-weak':
-			$r = __( 'very weak', 'lifterlms' );
-			break;
+	/**
+	 * Filter the name of the password strength
+	 *
+	 * The dynamic portion of this hook, `$strength`, can be either "strong", "medium", "weak" or "very-weak".
+	 *
+	 * @since [version]
+	 *
+	 * @param $string $name Translated name of the password strength value.
+	 */
+	return apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $name );
 
-		default:
-			$r = apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $strength );
-	}
-
-	return $r;
 }
 
 /**
@@ -255,7 +237,43 @@ function llms_get_student( $user = null ) {
 }
 
 /**
- * Checks if the given object is complete for the given student
+ * Retrieve a list of disallowed usernames.
+ *
+ * @since [version]
+ *
+ * @return string[]
+ */
+function llms_get_usernames_blocklist() {
+
+	$list = array( 'admin', 'test', 'administrator', 'password', 'testing' );
+
+	/**
+	 * Deprecated filter.
+	 *
+	 * @since Unknown
+	 * @deprecated [version] Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
+	 *
+	 * @param string[] $list List of banned usernames.
+	 */
+	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '[version]', 'llms_usernames_blocklist' );
+
+	/**
+	 * Modify the list of disallowed usernames
+	 *
+	 * If a user attempts to create a new account with any username found in this list they will receive an error and will not
+	 * be able to register the account.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $list List of banned usernames.
+	 */
+	return apply_filters( 'llms_usernames_blocklist', $list );
+
+}
+
+
+/**
+ * Checks if user is currently enrolled in cours
  *
  * @since Unknown
  * @since 3.3.1 Updated to use `LLMS_Student->is_enrolled()`.
@@ -330,20 +348,110 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
 }
 
 /**
+ * Parses the password reset cookie.
+ *
+ * This is the cookie set when a user uses the password reset link found in a reset password email. The query string
+ * vars in the link (user login and reset key) are parsed and stored in this cookie.
+ *
+ * @since [version]
+ *
+ * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
+ *                        returns a WP_Error.
+ */
+function llms_parse_password_reset_cookie() {
+
+	if ( ! isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) ) {
+		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( 2 !== count( $parsed ) ) {
+		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$uid = $parsed[0];
+	$key = $parsed[1];
+
+	$user  = get_user_by( 'ID', $uid );
+	$login = $user ? $user->user_login : '';
+	$user  = check_password_reset_key( $key, $login );
+
+	if ( is_wp_error( $user ) ) {
+		// Error code is either "llms_password_reset_invalid_key" or "llms_password_reset_expired_key".
+		return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
+	}
+
+	// Success.
+	return compact( 'key', 'login' );
+
+}
+
+/**
  * Register a new user
  *
  * @since 3.0.0
+ * @since [version] Use `LLMS_Form_Handler()` for registration and
  *
- * @see LLMS_Person_Handler::register()
- *
- * @param array  $data    array of registration data.
- * @param string $screen  the screen to be used for the validation template, accepts "registration" or "checkout".
- * @param bool   $signon  if true, signon the newly created user.
- *
+ * @param  array  $data   Array of registration data.
+ * @param  string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
+ * @param  bool   $signon If true, signon the newly created user
  * @return int|WP_Error
  */
 function llms_register_user( $data = array(), $screen = 'registration', $signon = true ) {
-	return LLMS_Person_Handler::register( $data, $screen, $signon );
+
+	$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen );
+
+	if ( is_wp_error( $user_id ) ) {
+		return $user_id;
+	}
+
+	// Signon.
+	if ( $signon ) {
+
+		$user = get_user_by( 'ID', $user_id );
+
+		/**
+		 * Filters whether or not a new user should be "remembered" when signing on during account creation
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $remember If `true` (default), the user signon will be set to "remember".
+		 * @param string  $screen   Current validation template, either "registration" or "checkout".
+		 * @param WP_User $user     User object for the newly registered user.
+		 */
+		$remember = apply_filters( 'llms_user_registration_remeber', true, $screen, $user );
+
+		wp_signon(
+			array(
+				'user_login'    => $user->user_login,
+				'user_password' => $data['password'],
+				'remember'      => $remember,
+			),
+			is_ssl()
+		);
+
+	}
+
+	return $user_id;
+
+}
+
+/**
+ * Set or unset a user's password reset cookie.
+ *
+ * @since [version]
+ *
+ * @param string $val Cookie value.
+ * @return boolean
+ */
+function llms_set_password_reset_cookie( $val = '' ) {
+
+	$cookie  = sprintf( 'wp-resetpass-%s', COOKIEHASH );
+	$expires = $val ? 0 : time() - YEAR_IN_SECONDS;
+	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
+
 }
 
 /**
@@ -399,17 +507,16 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 }
 
 /**
- * Perform validations according to $screen and updates the user
+ * Performs validations for the user.
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.
+ * @since [version] Updated to utilize LLMS_Form_Handler class.
  *
- * @see LLMS_Person_Handler::update()
- *
- * @param array  $data   Array of user data.
- * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
- * @return int|WP_Error
+ * @param array  $data Array of user data.
+ * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'
+ * @return int|WP_Error WP_User ID on success or error object on failure.
  */
-function llms_update_user( $data = array(), $screen = 'account' ) {
-	return LLMS_Person_Handler::update( $data, $screen );
+function llms_update_user( $data = array(), $location = 'account' ) {
+	return LLMS_Form_Handler::instance()->submit( $data, $location );
 }

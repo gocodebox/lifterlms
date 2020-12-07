@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +87,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
+	 * @since [version] Include `LLMS_Forms`, LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 *
 	 * @return void
 	 */
@@ -134,6 +135,10 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-field.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-handler.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-templates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';

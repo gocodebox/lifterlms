@@ -2,17 +2,19 @@
 /**
  * Registration Form
  *
- * @package LifterLMS/Templates
+ * @package LifterLMS/Templates/Global
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @since [version] Utilize fields from LLMS_Forms.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$field_data = isset( $_POST ) ? $_POST : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
+$form_title  = llms_get_form_title( 'registration' );
+$form_fields = llms_get_form_html( 'registration' );
 
-// don't allow logged in users to register.
+// Don't allow logged in users to register.
 if ( get_current_user_id() ) {
 	return;
 }
@@ -24,19 +26,20 @@ if ( get_current_user_id() ) {
 
 <div class="llms-new-person-form-wrapper">
 
-	<h4 class="llms-form-heading"><?php _e( 'Register', 'lifterlms' ); ?></h4>
+	<?php if ( $form_title ) : ?>
+		<h4 class="llms-form-heading"><?php echo $form_title; ?></h4>
+	<?php endif; ?>
 
 	<form method="post" class="llms-new-person-form register">
 
 		<?php do_action( 'lifterlms_register_form_start' ); ?>
 
+
 		<div class="llms-form-fields">
 
 			<?php do_action( 'lifterlms_before_registration_fields' ); ?>
 
-			<?php foreach ( LLMS_Person_Handler::get_available_fields( 'registration', $field_data ) as $field ) : ?>
-				<?php llms_form_field( $field ); ?>
-			<?php endforeach; ?>
+			<?php echo $form_fields; ?>
 
 			<?php
 				/**

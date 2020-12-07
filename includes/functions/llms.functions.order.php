@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -171,6 +171,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  *
  * @since 3.29.0
  * @since 4.2.0 Prevent double displaying a notice to already enrolled students in the product being purchased.
+ * @since [version] Use `llms_update_user()` instead of deprecated `LLMS_Person_Handler::update()`.
  *
  * @param array $data {
  *     Data used to create a pending order.
@@ -272,7 +273,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	// Update the customer.
 	if ( ! empty( $data['customer']['user_id'] ) ) {
-		$person_id = LLMS_Person_Handler::update( $data['customer'], 'checkout' );
+		$person_id = llms_update_user( $data['customer'], 'checkout' );
 	} else {
 		$person_id = llms_register_user( $data['customer'], 'checkout', true );
 	}
@@ -317,13 +318,13 @@ function llms_setup_pending_order( $data = array() ) {
 	 *
 	 * @since 3.30.1
 	 *
-	 * @param $setup {
-		 *     Data used to create the pending order.
-		 *
-		 *     @type LLMS_Student $person Student object.
-		 *     @type LLMS_Access_Plan $plan Access plan object.
-		 *     @type LLMS_Payment_Gateway $gateway Instance of the selected gateway.
-		 *     @type LLMS_Coupon|false $coupon Coupon object or false if none used.
+	 * @param array $setup {
+	 *     Data used to create the pending order.
+	 *
+	 *     @type LLMS_Student $person Student object.
+	 *     @type LLMS_Access_Plan $plan Access plan object.
+	 *     @type LLMS_Payment_Gateway $gateway Instance of the selected gateway.
+	 *     @type LLMS_Coupon|false $coupon Coupon object or false if none used.
 	 * }
 	 * @param array $data Array of input data from a checkout form.
 	 */

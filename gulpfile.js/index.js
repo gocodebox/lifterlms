@@ -8,6 +8,7 @@ var gulp = require('gulp');
 // All custom tasks.
 require( './tasks/js-additional' );
 require( './tasks/js-builder' );
+require( './tasks/gen-loc-files' );
 
 // All tasks from lib-tasks.
 require( 'lifterlms-lib-tasks' )( gulp );

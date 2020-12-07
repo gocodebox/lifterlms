@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1084,16 +1084,42 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
 
 
 /**
- * Displays Login Form
+ * Displays a login form.
  *
- * @param    string  $message Messages to display before login form
- * @param    string  $redirect URL to redirect to after login
- * @param    type    $layout Form layout [columns|stacked]
- * @since    1.0.0
- * @version  3.19.4
+ * Only displays the form for logged out users (because logged in users cannot login).
+ *
+ * @since 1.0.0
+ * @since 3.19.4 Unknown
+ * @since [version] Moved logic and filters for the $message, $redirect, and $layout parameters from the template into the function.
+ *
+ * @param string $message (Optional) Messages to display before login form.
+ * @param string $redirect (Optional) URL to redirect to after login.
+ * @param string $layout (Optional) Form layout [columns|stacked].
+ * @return void
  */
 if ( ! function_exists( 'llms_get_login_form' ) ) {
 	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
+
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		/**
+		 * Customize the layout of the login form.
+		 *
+		 * @since Unknown
+		 *
+		 * @param string $layout Form layout. Accepts "columns" (default) for a side-by-side layout
+		 *                       for form fields or "stacked" so fields sit on top of each other.
+		 */
+		$layout = apply_filters( 'llms_login_form_layout', 'columns' );
+
+		if ( ! empty( $message ) ) {
+			llms_add_notice( $message, 'notice' );
+		}
+
+		$redirect = empty( $redirect ) ? get_permalink() : $redirect;
+
 		llms_get_template(
 			'global/form-login.php',
 			array(
