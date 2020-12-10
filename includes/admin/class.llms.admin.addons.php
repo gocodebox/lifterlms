@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version 3.35.0
+ * @version 4.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -270,9 +270,11 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Output HTML for the current screen
 	 *
-	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.28.0
+	 * @since 3.5.0
+	 * @since 3.28.0 Unknown.
+	 * @since 4.10.1 Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
@@ -285,7 +287,7 @@ class LLMS_Admin_AddOns {
 
 			<h1 class="wp-heading-inline"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 			<?php do_action( 'llms_addons_page_after_title' ); ?>
-			<h1 class="screen-reader-text"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+			<hr class="wp-header-end">
 
 			<?php $this->output_navigation(); ?>
 			<form action="" method="POST">
