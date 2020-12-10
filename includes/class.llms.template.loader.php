@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -423,7 +423,7 @@ class LLMS_Template_Loader {
 	 * @since 1.0.0
 	 * @since 3.16.11 Unknown.
 	 * @since 3.37.2 Make sure to print notices on sales page redirect.
-	 * @since [version] Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
+	 * @since 4.10.1 Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -542,7 +542,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.41.1
 	 * @since 4.0.0 Don't pass by reference because it's unnecessary.
-	 * @since [version] Fixed incorrect position of `true` in `in_array()`.
+	 * @since 4.10.1 Fixed incorrect position of `true` in `in_array()`.
 	 *
 	 * @param WP_Post  $post  Post Object.
 	 * @param WP_Query $query Query object.
