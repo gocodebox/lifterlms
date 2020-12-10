@@ -11,6 +11,8 @@ jobs:
   allow_failures:
   - php: nightly
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
+  - php: "8.0"
+    env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
 
   include:
   - name: "E2E PHP 7.4 & WP Latest"
