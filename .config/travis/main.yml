@@ -17,48 +17,46 @@ env:
     - TESTS_DB_NAME=llms_tests
     - TESTS_DB_PASS=""
   jobs:
-    - WP_VERSION=latest # 5.5
+    - WP_VERSION=latest # 5.6
+    - WP_VERSION="5.5"
     - WP_VERSION="5.4"
     - WP_VERSION="5.3"
     - WP_VERSION="5.2"
-    - WP_VERSION="5.1"
-    - WP_VERSION=nightly
+    - WP_VERSION=nightly # 5.7
 
 php:
-  - 7.4
-  - 7.3
-  - 7.2
-  - nightly
+  - "8.0"
+  - "7.4"
+  - "7.3"
+  - "7.2"
 
 jobs:
   fast_finish: true
 
   allow_failures:
   - env: WP_VERSION=nightly
-  - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
+  - env: RUN_CODE_COVERAGE=1 WP_VERSION=latest
   - php: nightly
-    env: WP_VERSION=latest
 
   exclude:
   # These WP Versions don't work on PHP 7.4
-  - php: 7.4
+  - php: "7.4"
     env: WP_VERSION="5.2"
-  - php: 7.4
-    env: WP_VERSION="5.1"
   # These WP Versions don't work on PHP 8.0
-  - php: nightly
+  - php: "8.0"
+    env: WP_VERSION="5.5"
+  - php: "8.0"
     env: WP_VERSION="5.4"
-  - php: nightly
+  - php: "8.0"
     env: WP_VERSION="5.3"
-  - php: nightly
+  - php: "8.0"
     env: WP_VERSION="5.2"
-  - php: nightly
-    env: WP_VERSION="5.1"
 
   include:
-  - name: "PHP Unit Test Coverage"
-    php: 7.4
-    env: WP_VERSION=latest RUN_CODE_COVERAGE=1
+  - php: nightly
+    env: WP_VERSION=latest
+  - php: "8.0"
+    env: RUN_CODE_COVERAGE=1 WP_VERSION=latest
     before_script:
       # Download CodeClimate Test Reporter
       - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -75,11 +73,16 @@ before_install:
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
     fi
+  # Enable code coverage. PHP 8.0 build doesn't seem to have this enabled by default.
+  - |
+    if [ "1" != $RUN_CODE_COVERAGE ]; then
+      echo 'xdebug.mode = "coverage"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    fi
   # Raise PHP memory limit to 2048MB
   - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Install composer deps.
   - |
-    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+    if [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
       composer install
     else
       composer run install-php8
@@ -88,7 +91,7 @@ before_install:
 install:
   # Install Tests.
   - |
-    if [ "nightly" != $TRAVIS_PHP_VERSION ]; then
+    if [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
       composer run tests-install
     else
       composer run tests-install-php8
