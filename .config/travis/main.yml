@@ -55,7 +55,7 @@ jobs:
   include:
   - php: nightly
     env: WP_VERSION=latest
-  - php: "8.0"
+  - php: "7.4"
     env: RUN_CODE_COVERAGE=1 WP_VERSION=latest
     before_script:
       # Download CodeClimate Test Reporter
@@ -72,11 +72,6 @@ before_install:
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
-    fi
-  # Enable code coverage. PHP 8.0 build doesn't seem to have this enabled by default.
-  - |
-    if [ "1" != $RUN_CODE_COVERAGE ]; then
-      echo 'xdebug.mode = "coverage"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     fi
   # Raise PHP memory limit to 2048MB
   - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
