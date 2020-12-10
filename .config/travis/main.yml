@@ -44,6 +44,8 @@ jobs:
     env: WP_VERSION="5.2"
   # These WP Versions don't work on PHP 8.0
   - php: "8.0"
+    env: WP_VERSION="5.5"
+  - php: "8.0"
     env: WP_VERSION="5.4"
   - php: "8.0"
     env: WP_VERSION="5.3"
@@ -72,6 +74,11 @@ before_install:
   - |
     if [ "1" != $RUN_CODE_COVERAGE ] && [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
+    fi
+  # Enable code coverage. PHP 8.0 build doesn't seem to have this enabled by default.
+  - |
+    if [ "1" != $RUN_CODE_COVERAGE ]; then
+      echo 'xdebug.mode = "coverage"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     fi
   # Raise PHP memory limit to 2048MB
   - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
