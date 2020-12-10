@@ -35,7 +35,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Callback for testing custom restrictions applied through a filter.
 	 *
 	 * @since 3.41.1
-	 * @since [version] Use `$this->mock_page_restricted_id` for the restriction_id to allow easy customization of the mocked data.
+	 * @since 4.10.1 Use `$this->mock_page_restricted_id` for the restriction_id to allow easy customization of the mocked data.
 	 *
 	 * @param array $restrictions Restriction data array from `llms_page_restricted()`.
 	 * @param int   $post_id      WP_Post ID.
@@ -210,7 +210,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() with a screen we don't care about modifying
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() on the blog (home) page.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() for restricted pages.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -296,7 +296,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() with the course catalog.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -316,7 +316,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() with the membership catalog.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -336,7 +336,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() on custom taxonomy archives.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -356,7 +356,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() on certificate pages.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */
@@ -377,7 +377,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test template_loader() with a default unrestricted post type
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @return void
 	 */

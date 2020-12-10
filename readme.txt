@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.10.0
+Stable tag: 4.10.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,9 +516,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v4.10.0 - 2020-12-01 =
+= v4.10.1 - 2020-12-10 =
 
-**PHP 7.2 has reached it's official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Bug fixes
+
++ Fixed visual issues encountered on the admin Add-Ons screen.
++ Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices on the Add-Ons screen.
++ Replace incorrect usage of invalid ID `llms_shop` with `courses` during catalog template loader checks.
++ Function `llms_get_post()` will now only allow instantiation of LifterLMS classes.
++ Remove unneeded require autoloaded file `includes/class.llms.quiz.data.php`.
+
+
+= v4.10.0 - 2020-12-01 =
 
 ##### Updates
 
@@ -673,12 +684,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Bugfix: Created lessons will now have the derivative `course_id` property set according to the ID of the lesson's parent section.
 + Bugfix: The `course_id` property of lessons is now properly marked as read-only.
-
-
-= v4.4.3 - 2020-09-16 =
-
-+ Bugfix: Fix engagement email duplicate check issue.
-+ Bugfix: Fix transposition issue found in engagement email dupcheck debug log message.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

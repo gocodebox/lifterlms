@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version [version]
+ * @version 4.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -272,7 +272,7 @@ class LLMS_Admin_AddOns {
 	 *
 	 * @since 3.5.0
 	 * @since 3.28.0 Unknown.
-	 * @since [version] Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices.
+	 * @since 4.10.1 Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices.
 	 *
 	 * @return void
 	 */

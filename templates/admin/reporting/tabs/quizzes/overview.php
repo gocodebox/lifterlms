@@ -6,8 +6,8 @@
  *
  * @since 3.16.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @since [version] Remove unneded require of the file LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php', the autoloader will do the job.
- * @version [version]
+ * @since 4.10.1 Remove unneded require of the file LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php', the autoloader will do the job.
+ * @version 4.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
