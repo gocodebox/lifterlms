@@ -10,13 +10,13 @@ services:
 jobs:
   allow_failures:
   - php: nightly
-    env: E2E=1 WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
+    env: WP_VERSION=nightly LLMS_TRAVIS_TESTS=E2E DOCKER_COMPOSE_VERSION=1.25.0
   - php: "8.0"
-    env: E2E=1 WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
+    env: WP_VERSION=nightly LLMS_TRAVIS_TESTS=E2E DOCKER_COMPOSE_VERSION=1.25.0
 
   include:
   - php: "7.4"
-    env: E2E=1 WP_VERSION=latest DOCKER_COMPOSE_VERSION=1.25.0
+    env: WP_VERSION=latest LLMS_TRAVIS_TESTS=E2E DOCKER_COMPOSE_VERSION=1.25.0
     install:
       # Upgrade docker-compose.
       - sudo rm /usr/local/bin/docker-compose
@@ -38,7 +38,7 @@ jobs:
 
   include:
   - php: "8.0"
-    env: E2E=1 WP_VERSION=latest DOCKER_COMPOSE_VERSION=1.25.0
+    env: WP_VERSION=latest LLMS_TRAVIS_TESTS=E2E DOCKER_COMPOSE_VERSION=1.25.0
     install:
       # Upgrade docker-compose.
       - sudo rm /usr/local/bin/docker-compose
@@ -59,7 +59,7 @@ jobs:
       - ./vendor/bin/llms-env down
 
   - php: "8.0"
-    env: E2E=1 WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
+    env: WP_VERSION=nightly LLMS_TRAVIS_TESTS=E2E DOCKER_COMPOSE_VERSION=1.25.0
     install:
       # Upgrade docker-compose.
       - sudo rm /usr/local/bin/docker-compose

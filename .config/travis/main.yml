@@ -35,7 +35,7 @@ jobs:
 
   allow_failures:
   - env: WP_VERSION=nightly
-  - env: RUN_CODE_COVERAGE=1 WP_VERSION=latest
+  - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
   - php: nightly
 
   exclude:
@@ -56,7 +56,7 @@ jobs:
   - php: nightly
     env: WP_VERSION=latest
   - php: "7.4"
-    env: RUN_CODE_COVERAGE=1 WP_VERSION=latest
+    env: WP_VERSION=latest RUN_CODE_COVERAGE=1
     before_script:
       # Download CodeClimate Test Reporter
       - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
