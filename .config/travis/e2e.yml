@@ -14,7 +14,7 @@ jobs:
 
   include:
   - name: "E2E PHP 7.4 & WP Latest"
-    php: 7.4
+    php: "7.4"
     env: WP_VERSION=latest DOCKER_COMPOSE_VERSION=1.25.0
     install:
       # Upgrade docker-compose.
@@ -35,8 +35,31 @@ jobs:
     after_script:
       - ./vendor/bin/llms-env down
 
-  - name: "E2E PHP Nightly & WP Nightly"
-    php: nightly
+  include:
+  - name: "E2E PHP 8.0 & WP Latest"
+    php: "8.0"
+    env: WP_VERSION=latest DOCKER_COMPOSE_VERSION=1.25.0
+    install:
+      # Upgrade docker-compose.
+      - sudo rm /usr/local/bin/docker-compose
+      - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+      - chmod +x docker-compose
+      - sudo mv docker-compose /usr/local/bin
+      # Setup and Install Node.
+      - nvm install --lts
+      # Install dependencies.
+      - npm ci
+      # Start the Environment.
+      - composer run env up
+      # Setup Environment.
+      - composer run env:setup
+    script:
+      - npm run test
+    after_script:
+      - ./vendor/bin/llms-env down
+
+  - name: "E2E PHP 8.0 & WP Nightly"
+    php: "8.0"
     env: WP_VERSION=nightly DOCKER_COMPOSE_VERSION=1.25.0
     install:
       # Upgrade docker-compose.
