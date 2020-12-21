@@ -2,7 +2,7 @@
 /**
  * Manage block editor templates for LifterLMS Forms.
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since [version]
  * @version [version]
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Form_Templates class..
+ * LLMS_Form_Templates class.
  *
  * @since [version]
  */
@@ -44,7 +44,7 @@ class LLMS_Form_Templates {
 	 * @since [version]
 	 *
 	 * @param string $block_name Field name which will be appended to "wp:llms/form-field-user-".
-	 * @param array  $settings Settings to add to the defaults provided by `$this->get_block_settings()`.
+	 * @param array  $settings   Settings to add to the defaults provided by `$this->get_block_settings()`.
 	 * @return string
 	 */
 	protected function get_block( $block_name, $settings = array() ) {
@@ -62,12 +62,12 @@ class LLMS_Form_Templates {
 	 *     Array of settings to merge into the default settings.
 	 *
 	 *     @type string $description Field description text.
-	 *     @type string $field Field type, eg "text", "email", "select".
-	 *     @type string $id HTML "id" attribute.
-	 *     @type string $label Field label text.
-	 *     @type string $name HTML "name" attribute. Uses `$id` if none is supplied.
-	 *     @type string $label Field placeholder text.
-	 *     @type bool $required Whether or not the field is required. Defaults to `true`.
+	 *     @type string $field       Field type, eg "text", "email", "select".
+	 *     @type string $id          HTML "id" attribute.
+	 *     @type string $label       Field label text.
+	 *     @type string $name        HTML "name" attribute. Uses `$id` if none is supplied.
+	 *     @type string $label       Field placeholder text.
+	 *     @type bool $required      Whether or not the field is required. Defaults to `true`.
 	 * }
 	 * @return string|false
 	 */
@@ -141,37 +141,46 @@ class LLMS_Form_Templates {
 			return $cols;
 		}
 
-		$cols[] = $this->get_block(
-			'user-address-country',
-			array(
-				'field'          => 'select',
-				'id'             => 'llms_billing_country',
-				'label'          => __( 'Country / Region', 'lifterlms' ),
-				'options'        => array(),
-				'options_preset' => 'countries',
-				'required'       => ( 'required' === $option ),
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-address-country',
+				array(
+					'field'          => 'select',
+					'id'             => 'llms_billing_country',
+					'label'          => __( 'Country / Region', 'lifterlms' ),
+					'options'        => array(),
+					'options_preset' => 'countries',
+					'required'       => ( 'required' === $option ),
+				)
+			),
+			'width'   => 40,
 		);
 
-		$cols[] = $this->get_block(
-			'user-address-state',
-			array(
-				'field'          => 'select',
-				'id'             => 'llms_billing_state',
-				'label'          => __( 'State / Province', 'lifterlms' ),
-				'options'        => array(),
-				'options_preset' => 'states',
-				'required'       => ( 'required' === $option ),
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-address-state',
+				array(
+					'field'          => 'select',
+					'id'             => 'llms_billing_state',
+					'label'          => __( 'State / Province', 'lifterlms' ),
+					'options'        => array(),
+					'options_preset' => 'states',
+					'required'       => ( 'required' === $option ),
+				)
+			),
+			'width'   => 35,
 		);
 
-		$cols[] = $this->get_block(
-			'user-address-zip',
-			array(
-				'id'       => 'llms_billing_zip',
-				'label'    => __( 'Zip / Postal Code', 'lifterlms' ),
-				'required' => ( 'required' === $option ),
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-address-zip',
+				array(
+					'id'       => 'llms_billing_zip',
+					'label'    => __( 'Zip / Postal Code', 'lifterlms' ),
+					'required' => ( 'required' === $option ),
+				)
+			),
+			'width'   => 25,
 		);
 
 		return $this->wrap_columns( $cols );
@@ -263,6 +272,14 @@ class LLMS_Form_Templates {
 			)
 		);
 
+		// Add widths.
+		foreach ( $cols as &$col ) {
+			$col = array(
+				'content' => $col,
+				'width'   => 50,
+			);
+		}
+
 		return $this->wrap_columns( $cols, 'logged_out' );
 
 	}
@@ -286,22 +303,28 @@ class LLMS_Form_Templates {
 			return $cols;
 		}
 
-		$cols[] = $this->get_block(
-			'user-first-name',
-			array(
-				'id'       => 'first_name',
-				'label'    => __( 'First Name', 'lifterlms' ),
-				'required' => ( 'required' === $option ),
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-first-name',
+				array(
+					'id'       => 'first_name',
+					'label'    => __( 'First Name', 'lifterlms' ),
+					'required' => ( 'required' === $option ),
+				)
+			),
+			'width'   => 50,
 		);
 
-		$cols[] = $this->get_block(
-			'user-last-name',
-			array(
-				'id'       => 'last_name',
-				'label'    => __( 'Last Name', 'lifterlms' ),
-				'required' => ( 'required' === $option ),
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-last-name',
+				array(
+					'id'       => 'last_name',
+					'label'    => __( 'Last Name', 'lifterlms' ),
+					'required' => ( 'required' === $option ),
+				)
+			),
+			'width'   => 50,
 		);
 
 		return $this->wrap_columns( $cols );
@@ -319,25 +342,31 @@ class LLMS_Form_Templates {
 
 		$cols = array();
 
-		$cols[] = $this->get_block(
-			'user-password',
-			array(
-				'field' => 'password',
-				'id'    => 'password',
-				'label' => __( 'Password', 'lifterlms' ),
-				'match' => 'password_confirm',
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-password',
+				array(
+					'field' => 'password',
+					'id'    => 'password',
+					'label' => __( 'Password', 'lifterlms' ),
+					'match' => 'password_confirm',
+				)
+			),
+			'width'   => 50,
 		);
 
-		$cols[] = $this->get_block(
-			'user-password-confirm',
-			array(
-				'field'          => 'password',
-				'id'             => 'password_confirm',
-				'label'          => __( 'Confirm Password', 'lifterlms' ),
-				'match'          => 'password',
-				'data_store_key' => false,
-			)
+		$cols[] = array(
+			'content' => $this->get_block(
+				'user-password-confirm',
+				array(
+					'field'          => 'password',
+					'id'             => 'password_confirm',
+					'label'          => __( 'Confirm Password', 'lifterlms' ),
+					'match'          => 'password',
+					'data_store_key' => false,
+				)
+			),
+			'width'   => 50,
 		);
 
 		return $this->wrap_columns( $cols, 'logged_out' );
@@ -670,7 +699,7 @@ class LLMS_Form_Templates {
 		}
 
 		$width = $use_widths && $column['width'] ? $column['width'] : false;
-		$json  = $width ? wp_json_encode( array( 'width' => $width ) ) . ' ' : '';
+		$json  = $width ? wp_json_encode( array( 'width' => $width . '%' ) ) . ' ' : '';
 		$css   = $width ? sprintf( ' style="flex-basis:%s%%"', $width ) : '';
 
 		return sprintf( '<!-- wp:column %1$s--><div class="wp-block-column"%2$s>%3$s</div><!-- /wp:column -->', $json, $css, $column['content'] );
