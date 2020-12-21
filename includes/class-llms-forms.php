@@ -235,16 +235,19 @@ class LLMS_Forms {
 			return false;
 		}
 
-		$meta = array(
-			'_llms_form_location' => $location_id,
+		$templates = LLMS_Form_Templates::instance();
+		$content   = $templates->get_template( $location_id );
+		$meta      = array(
+			'_llms_form_location'         => $location_id,
+			'_llms_form_default_template' => $content,
 		);
+
 		if ( isset( $data['meta'] ) ) {
 			$meta = array_merge( $meta, $data['meta'] );
 		}
 
-		$templates = LLMS_Form_Templates::instance();
-		$args      = array(
-			'post_content' => $templates->get_template( $location_id ),
+		$args = array(
+			'post_content' => $content,
 			'post_status'  => 'publish',
 			'post_title'   => $data['title'],
 			'post_type'    => $this->post_type,
@@ -766,14 +769,17 @@ class LLMS_Forms {
 	public function register_meta() {
 
 		$props = array(
-			'_llms_form_location'   => array(
+			'_llms_form_location'         => array(
 				'description' => __( 'Determines the front-end location where the form is displayed.', 'lifterlms' ),
 			),
-			'_llms_form_show_title' => array(
+			'_llms_form_show_title'       => array(
 				'description' => __( 'Determines whether or not to display the form\'s title on the front-end.', 'lifterlms' ),
 			),
-			'_llms_form_is_core'    => array(
+			'_llms_form_is_core'          => array(
 				'description' => __( 'Determines if the form is a core form required for basic site functionality.', 'lifterlms' ),
+			),
+			'_llms_form_default_template' => array(
+				'description' => __( 'Stores the default template for the form.', 'lifterlms' ),
 			),
 		);
 
