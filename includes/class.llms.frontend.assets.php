@@ -223,7 +223,7 @@ class LLMS_Frontend_Assets {
 
 		if ( is_llms_account_page() || is_llms_checkout() ) {
 			llms()->assets->enqueue_script( 'llms-select2' );
-			lms()->assets->enqueue_inline(
+			llms()->assets->enqueue_inline(
 				'llms-countries-locale',
 				"window.llms = window.llms.locale = '" . wp_json_encode( llms_get_countries_locale() ) . "';",
 				'footer',
