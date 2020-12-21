@@ -24,6 +24,5 @@ jobs:
   - env: LLMS_BRANCH=dev WP_VERSION=latest
 
   include:
-  - name: "LLMS Nightly on PHP 7.4 and WP Latest"
-    php: 7.4
+  - php: "7.4"
     env:  LLMS_BRANCH=dev WP_VERSION=latest

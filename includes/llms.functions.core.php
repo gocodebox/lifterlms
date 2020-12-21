@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -141,7 +141,7 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
  * Removes any files that are more than a day old.
  *
  * @since 3.18.0
- * @since [version] Use strict type comparisons.
+ * @since 4.10.1 Use strict type comparisons.
  *
  * @return void
  */
@@ -233,7 +233,7 @@ function llms_get_completable_taxonomies() {
 /**
  * Retrieve an array of post types whose name doesn't start with the prefix 'llms_'.
  *
- * @since [version]
+ * @since 4.10.1
  *
  * @return string[]
  */
@@ -242,7 +242,7 @@ function llms_get_unprefixed_post_types() {
 	/**
 	 * Filter the list of post types whose name doesn't start with the prefix 'llms_'.
 	 *
-	 * @since [version]
+	 * @since 4.10.1
 	 *
 	 * @param string[] $post_types WP_Post post type names.
 	 */
@@ -788,7 +788,7 @@ function llms_get_ip_address() {
  *
  * @since 3.3.0
  * @since 3.16.11 Unknown.
- * @since [version] Made sure to only instantiate LifterLMS classes.
+ * @since 4.10.1 Made sure to only instantiate LifterLMS classes.
  *
  * @param WP_Post|int $post  Instance of WP_Post or a WP Post ID.
  * @param mixed       $error Determine what to return if the LLMS class isn't found.

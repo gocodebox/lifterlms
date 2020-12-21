@@ -1,10 +1,22 @@
 LifterLMS Changelog
 ===================
 
-v4.10.0 - 2020-12-01
+v4.10.1 - 2020-12-10
 --------------------
 
-**PHP 7.2 has reached it's official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Bug fixes
+
++ Fixed visual issues encountered on the admin Add-Ons screen.
++ Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices on the Add-Ons screen.
++ Replace incorrect usage of invalid ID `llms_shop` with `courses` during catalog template loader checks.
++ Function `llms_get_post()` will now only allow instantiation of LifterLMS classes.
++ Remove unneeded require autoloaded file `includes/class.llms.quiz.data.php`.
+
+
+v4.10.0 - 2020-12-01
+--------------------
 
 ##### Updates
 
