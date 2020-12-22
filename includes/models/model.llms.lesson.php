@@ -796,7 +796,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 		$curr_position = $this->get_order();
 
 		// First cannot have a previous.
-		if ( 0 === $curr_position && 'prev' === $direction ) {
+		if ( 1 === $curr_position && 'prev' === $direction ) {
 			return false;
 		}
 
@@ -872,6 +872,11 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 
 			$curr_position = $curr_section->get_order();
 
+			// First cannot have a previous.
+			if ( 1 === $curr_position && 'prev' === $direction ) {
+				return false;
+			}
+
 			if ( 'next' === $direction ) {
 				$sibling_position = $curr_position + 1;
 				$order            = 'ASC';
@@ -917,8 +922,8 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 
 			if ( ! empty( $sections ) ) {
 				$sibling_section = llms_get_post( $sections[0]->ID );
-				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : false;
-				$sibling_lesson  = 'next' === $direction ? array_shift( $lessons ) : array_pop( $lessons );
+				$lessons         = $sibling_section ? $sibling_section->get_lessons( 'posts' ) : array( false );
+				$sibling_lesson  = 'next' === $direction ? $lessons[0] : end( $lessons );
 			}
 		}
 
