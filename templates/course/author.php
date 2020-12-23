@@ -3,7 +3,8 @@
  * LifterLMS Course Author Info
  *
  * @since   3.0.0
- * @version 3.25.0
+ * @since [version] Use post type's name in the title to cover membership case.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +21,7 @@ $count = count( $instructors );
 ?>
 
 <section class="llms-instructor-info">
-	<h3 class="llms-meta-title"><?php echo _n( 'Instructor', 'Instructors', count( $instructors ), 'lifterlms' ); ?></h3>
+	<h3 class="llms-meta-title"><?php printf( _n( '%s Instructor', '%s Instructors', count( $instructors ), 'lifterlms' ), $course->get_post_type_label() ); ?></h3>
 	<div class="llms-instructors llms-cols">
 		<?php foreach ( $instructors as $instructor ) : ?>
 			<div class="llms-col-<?php echo $count <= 4 ? $count : 4; ?>">
