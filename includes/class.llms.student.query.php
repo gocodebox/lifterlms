@@ -332,7 +332,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * @param string             $sql           The SQL part that performs the search.
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
 		 */
-		return apply_filters( $this->get_filter( 'search' ), $sql, $this );
+		return apply_filters( 'llms_student_query_search', $sql, $this );
 
 	}
 
