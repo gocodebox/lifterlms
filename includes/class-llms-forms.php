@@ -323,7 +323,6 @@ class LLMS_Forms {
 	public function get_form_blocks( $location, $args = array() ) {
 
 		$post = $this->get_form_post( $location, $args );
-
 		if ( ! $post ) {
 			return false;
 		}

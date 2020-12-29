@@ -473,8 +473,9 @@ class LLMS_Form_Field {
 
 			} else {
 
-				$selected = ( $selected_val && $key == $selected_val ) ? ' selected="selected"' : '';
-				$html    .= sprintf( '<option value="%1$s"%3$s>%2$s</option>', esc_attr( $key ), esc_attr( $val ), $selected );
+				$selected = ( (string) $key === (string) $selected_val ) ? ' selected="selected"' : '';
+				$disabled = ( $this->settings['placeholder'] && '' === $key ) ? ' disabled="disabled"' : '';
+				$html    .= sprintf( '<option value="%1$s"%3$s%4$s>%2$s</option>', esc_attr( $key ), esc_attr( $val ), $selected, $disabled );
 
 			}
 		}
@@ -630,6 +631,12 @@ class LLMS_Form_Field {
 				$prepared[ $key ] = $val;
 
 			}
+		}
+
+		// Add a placeholder.
+		if ( $this->settings['placeholder'] ) {
+			$this->settings['default'] = '';
+			$prepared = array_merge( array( '' => $this->settings['placeholder'] ), $prepared );
 		}
 
 		return $prepared;

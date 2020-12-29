@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
- * @since [version] Deprecated LLMS_Person_Handler::register() method.
- *               Deprecated LLMS_Person_Handler::update() method.
  */
 class LLMS_Person_Handler {
 

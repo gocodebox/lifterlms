@@ -406,7 +406,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 	}
 
 	// Signon.
-	if ( $signon ) {
+	if ( $signon && ! empty( $data['password'] ) ) {
 
 		$user = get_user_by( 'ID', $user_id );
 
@@ -419,7 +419,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 		 * @param string  $screen   Current validation template, either "registration" or "checkout".
 		 * @param WP_User $user     User object for the newly registered user.
 		 */
-		$remember = apply_filters( 'llms_user_registration_remeber', true, $screen, $user );
+		$remember = apply_filters( 'llms_user_registration_remember', true, $screen, $user );
 
 		wp_signon(
 			array(

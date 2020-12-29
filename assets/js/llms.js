@@ -2216,13 +2216,10 @@ var LLMS = window.LLMS || {};
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix JS error when settings aren't loaded.
 	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
-	<<<<<<< HEAD
 	 * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
 	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
-	=======
 	 * @since [version] Set `settings` as an empty object when no settings supplied.
 	 *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
-	>>>>>>> dcc6bdf184661cf3e9cf5d36803cbff72f51f524
 	 */
 	LLMS.Tracking = function( settings ) {
 	

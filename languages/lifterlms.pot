@@ -9,11 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2020-12-07T08:56:46-07:00\n"
-=======
-"POT-Creation-Date: 2020-12-10T13:37:09-07:00\n"
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+"POT-Creation-Date: 2020-12-22T12:08:15-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -584,6 +580,7 @@ msgstr ""
 #: vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:69
 #: vendor/lifterlms/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:137
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:66
+#: includes/admin/class.llms.admin.menus.php:206
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:389
 #: includes/admin/reporting/tables/llms.table.course.students.php:422
 #: includes/admin/reporting/tables/llms.table.membership.students.php:410
@@ -1566,6 +1563,7 @@ msgid "LifterLMS is a powerful WordPress learning management system plugin that 
 msgstr ""
 
 #: class-lifterlms.php:380
+#: includes/admin/class.llms.admin.menus.php:200
 msgid "Settings"
 msgstr ""
 
@@ -1604,6 +1602,7 @@ msgid "Back"
 msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:659
+#: includes/shortcodes/class.llms.shortcodes.php:377
 #: templates/loop/pagination.php:38
 #: templates/myaccount/my-grades.php:55
 #: templates/myaccount/my-notifications.php:39
@@ -1643,6 +1642,7 @@ msgstr ""
 
 #: includes/abstracts/abstract.llms.payment.gateway.php:279
 #: includes/abstracts/llms.abstract.integration.php:169
+#: includes/admin/settings/class.llms.settings.accounts.php:224
 msgid "Enable / Disable"
 msgstr ""
 
@@ -1762,11 +1762,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:309
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:715
-=======
-#: includes/llms.functions.core.php:659
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:661
 msgid "Author"
 msgstr ""
 
@@ -1855,7 +1851,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:266
 #: includes/admin/views/builder/editor.php:28
 #: includes/class.llms.post-types.php:476
-#: includes/functions/llms.functions.templates.dashboard.php:622
+#: includes/functions/llms.functions.templates.dashboard.php:614
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:84
 msgid "Quiz"
 msgstr ""
@@ -1887,7 +1883,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:269
 #: includes/admin/reporting/tables/llms.table.student.courses.php:238
 #: includes/admin/reporting/tables/llms.table.students.php:631
-#: includes/functions/llms.functions.templates.dashboard.php:623
+#: includes/functions/llms.functions.templates.dashboard.php:615
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:87
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:150
 #: includes/privacy/class-llms-privacy-exporters.php:227
@@ -1978,8 +1974,8 @@ msgstr ""
 #: includes/admin/class-llms-admin-export-download.php:58
 #: includes/admin/class.llms.admin.notices.php:242
 #: includes/class-llms-staging.php:53
-#: includes/class.llms.install.php:733
-#: includes/class.llms.install.php:753
+#: includes/class.llms.install.php:721
+#: includes/class.llms.install.php:741
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -2139,7 +2135,7 @@ msgid "All"
 msgstr ""
 
 #: includes/admin/class.llms.admin.builder.php:51
-#: includes/class.llms.install.php:350
+#: includes/class.llms.install.php:342
 #: includes/class.llms.student.dashboard.php:153
 msgid "Dashboard"
 msgstr ""
@@ -2209,7 +2205,7 @@ msgstr ""
 #: includes/class.llms.l10n.js.php:103
 #: includes/class.llms.l10n.js.php:369
 #: includes/class.llms.post-types.php:441
-#: includes/models/model.llms.lesson.php:428
+#: includes/models/model.llms.lesson.php:427
 msgid "New Lesson"
 msgstr ""
 
@@ -2335,6 +2331,57 @@ msgstr ""
 msgid "Terms"
 msgstr ""
 
+#: includes/admin/class.llms.admin.menus.php:181
+#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
+msgid "Course Builder"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:200
+msgid "LifterLMS Settings"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:202
+msgid "LifterLMS Reporting"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:202
+msgid "Reporting"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:204
+msgid "LifterLMS Import"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:204
+#: includes/admin/views/import.php:33
+msgid "Import"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:206
+msgid "LifterLMS Status"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:208
+msgid "LifterLMS Course Builder"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:233
+msgid "LifterLMS Add-ons, Courses, and Resources"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:233
+msgid "Add-ons & more"
+msgstr ""
+
+#: includes/admin/class.llms.admin.menus.php:324
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:99
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:74
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:81
+#: templates/admin/reporting/tabs/students/courses.php:49
+msgid "You do not have permission to access this content."
+msgstr ""
+
 #: includes/admin/class.llms.admin.notices.core.php:113
 msgid "No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans."
 msgstr ""
@@ -2351,8 +2398,8 @@ msgstr ""
 #: includes/admin/class.llms.admin.page.status.php:40
 #: includes/admin/class.llms.admin.page.status.php:236
 #: includes/class-llms-staging.php:50
-#: includes/class.llms.install.php:729
-#: includes/class.llms.install.php:749
+#: includes/class.llms.install.php:717
+#: includes/class.llms.install.php:737
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
@@ -2911,11 +2958,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
 #: includes/class.llms.ajax.handler.php:887
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:1172
-=======
-#: includes/llms.functions.core.php:1113
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:944
 msgid "ID#"
 msgstr ""
 
@@ -3037,10 +3080,6 @@ msgstr ""
 msgid "A Trial Discount Amount was not supplied. Trial Pricing Discount has automatically been disabled. Please re-enable Trial Pricing Discount and enter a Trial Discount Amount, then save this coupon again."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
-msgid "Course Builder"
-msgstr ""
-
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:115
 msgid "This lesson is not attached to a course."
 msgstr ""
@@ -3095,6 +3134,8 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:104
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:144
+#: includes/admin/settings/class.llms.settings.accounts.php:242
+#: includes/admin/settings/class.llms.settings.accounts.php:272
 #: includes/admin/settings/class.llms.settings.courses.php:95
 #: includes/admin/settings/class.llms.settings.memberships.php:102
 #: includes/admin/views/access-plans/access-plan.php:373
@@ -3455,11 +3496,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 #: includes/functions/llms-functions-access-plans.php:259
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:659
-=======
-#: includes/llms.functions.core.php:603
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:605
 msgid "Hidden"
 msgstr ""
 
@@ -3829,7 +3866,6 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:74
 #: includes/class.llms.l10n.js.php:434
 #: includes/class.llms.l10n.js.php:505
-#: includes/class.llms.person.handler.php:493
 msgid "Cancel"
 msgstr ""
 
@@ -3883,15 +3919,15 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:51
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
 msgid "Location"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:111
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:113
 msgid "View \"%s\""
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:112
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:114
 #: includes/admin/reporting/tables/llms.table.certificates.php:47
 #: includes/class.llms.l10n.js.php:438
 #: includes/class.llms.l10n.js.php:509
@@ -4247,16 +4283,16 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:406
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
-#: includes/class-llms-form-templates.php:302
-#: includes/class.llms.person.handler.php:230
+#: includes/class-llms-form-templates.php:323
+#: includes/class.llms.person.handler.php:204
 msgid "Last Name"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.course.students.php:411
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
-#: includes/class-llms-form-templates.php:293
-#: includes/class.llms.person.handler.php:222
+#: includes/class-llms-form-templates.php:311
+#: includes/class.llms.person.handler.php:196
 msgid "First Name"
 msgstr ""
 
@@ -4353,11 +4389,7 @@ msgid "This student is not enrolled in any courses."
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:137
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:944
-=======
-#: includes/llms.functions.core.php:885
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:716
 msgid "Enrolled"
 msgstr ""
 
@@ -4419,13 +4451,6 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:716
 msgid "Memberships (Expired)"
-msgstr ""
-
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:99
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:74
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:81
-#: templates/admin/reporting/tabs/students/courses.php:49
-msgid "You do not have permission to access this content."
 msgstr ""
 
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:69
@@ -4561,153 +4586,230 @@ msgstr ""
 msgid "# of Registrations"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:67
+#: includes/admin/settings/class.llms.settings.accounts.php:63
 #: includes/admin/views/setup-wizard/step-pages.php:31
 msgid "Student Dashboard"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:71
+#: includes/admin/settings/class.llms.settings.accounts.php:67
 msgid "Dashboard Page"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:72
+#: includes/admin/settings/class.llms.settings.accounts.php:68
 #: includes/admin/views/setup-wizard/step-pages.php:32
 msgid "Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:84
+#: includes/admin/settings/class.llms.settings.accounts.php:80
 msgid "Courses Sorting"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:86
+#: includes/admin/settings/class.llms.settings.accounts.php:82
 msgid "Determines the order of the courses in-progress listed on the student dashboard."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:90
+#: includes/admin/settings/class.llms.settings.accounts.php:86
 msgid "Course Title (A to Z)"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:91
+#: includes/admin/settings/class.llms.settings.accounts.php:87
 msgid "Course Title (Z to A)"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:92
+#: includes/admin/settings/class.llms.settings.accounts.php:88
 msgid "Enrollment Date (Most Recent to Least Recent)"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:93
+#: includes/admin/settings/class.llms.settings.accounts.php:89
 #: includes/admin/settings/class.llms.settings.courses.php:117
 #: includes/admin/settings/class.llms.settings.memberships.php:126
 msgid "Order (Low to High)"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:94
+#: includes/admin/settings/class.llms.settings.accounts.php:90
 msgid "Order (High to Low)"
 msgstr ""
 
 #. Translators: %1$s = opening anchor tag; %2$s = closing anchor tag.
-#: includes/admin/settings/class.llms.settings.accounts.php:101
+#: includes/admin/settings/class.llms.settings.accounts.php:97
 msgid "Enable new user registration on the Student Dashboard. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:106
+#: includes/admin/settings/class.llms.settings.accounts.php:102
 msgid "Open Registration"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:120
+#: includes/admin/settings/class.llms.settings.accounts.php:116
 msgid "Student Dashboard Endpoints"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:121
+#: includes/admin/settings/class.llms.settings.accounts.php:117
 msgid "Each endpoint allows students to view more information or manage parts of their account. Each endpoint should be unique, URL-safe, and can be left blank to disable the endpoint completely."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:125
+#: includes/admin/settings/class.llms.settings.accounts.php:121
 msgid "View Grades"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:126
+#: includes/admin/settings/class.llms.settings.accounts.php:122
 msgid "Student grade and progress reporting"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:133
+#: includes/admin/settings/class.llms.settings.accounts.php:129
 msgid "View Courses"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:134
+#: includes/admin/settings/class.llms.settings.accounts.php:130
 msgid "List of all the student's courses"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:141
+#: includes/admin/settings/class.llms.settings.accounts.php:137
 msgid "View Memberships"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:142
+#: includes/admin/settings/class.llms.settings.accounts.php:138
 msgid "List of all the student's memberships"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:149
+#: includes/admin/settings/class.llms.settings.accounts.php:145
 msgid "View Achievements"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:150
+#: includes/admin/settings/class.llms.settings.accounts.php:146
 msgid "List of all the student's achievements"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:157
+#: includes/admin/settings/class.llms.settings.accounts.php:153
 msgid "View Certificates"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:158
+#: includes/admin/settings/class.llms.settings.accounts.php:154
 msgid "List of all the student's certificates"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:165
+#: includes/admin/settings/class.llms.settings.accounts.php:161
 #: includes/admin/settings/class.llms.settings.notifications.php:41
 #: includes/class.llms.student.dashboard.php:193
 msgid "Notifications"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:166
+#: includes/admin/settings/class.llms.settings.accounts.php:162
 msgid "View Notifications and adjust notification settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:173
+#: includes/admin/settings/class.llms.settings.accounts.php:169
 #: includes/class.llms.student.dashboard.php:199
 msgid "Edit Account"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:174
+#: includes/admin/settings/class.llms.settings.accounts.php:170
 msgid "Edit Account page"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:181
+#: includes/admin/settings/class.llms.settings.accounts.php:177
 msgid "Lost Password"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:182
+#: includes/admin/settings/class.llms.settings.accounts.php:178
 msgid "Lost Password page"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:189
+#: includes/admin/settings/class.llms.settings.accounts.php:185
 msgid "Redeem Vouchers"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:190
+#: includes/admin/settings/class.llms.settings.accounts.php:186
 msgid "Redeem vouchers page"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:197
+#: includes/admin/settings/class.llms.settings.accounts.php:193
 msgid "Orders History"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:198
+#: includes/admin/settings/class.llms.settings.accounts.php:194
 msgid "Students can review order history on this page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:211
+msgid "User Privacy Options"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:216
+msgid "Terms and Conditions"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:223
+msgid "When enabled users must agree to your site's Terms and Conditions to register for an account."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:233
+msgid "Select a page where your site's Terms and Conditions are described."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:238
+msgid "Terms and Conditions Page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:250
+msgid "Customize the text used to display the Terms and Conditions checkbox that students must accept."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:251
+msgid "Terms and Conditions Notice"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:256
+msgid "Privacy Policy"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:262
+msgid "Select a page where your site's Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:268
+msgid "Privacy Policy Page"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:280
+msgid "Optionally display a privacy policy notice during registration and checkout."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:281
+msgid "Privacy Policy Notice"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:285
+msgid "Account Erasure Requests"
+msgstr ""
+
+#. Translators: %$1s = opening anchor to account erasure screen; %2$s closing anchor
+#: includes/admin/settings/class.llms.settings.accounts.php:287
+msgid "Customize data retention during %1$saccount erasure requests%2$s."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:294
+msgid "When enabled orders will be anonymized during a personal data erasure."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:295
+msgid "Remove Order Data"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:302
+msgid "When enabled all student data related to course and membership activities will be removed."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:303
+msgid "Remove Student LMS Data"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.accounts.php:323
+msgid "Accounts"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:41
 #: includes/admin/views/setup-wizard/step-pages.php:27
-#: includes/class-llms-forms.php:558
+#: includes/class-llms-forms.php:561
 msgid "Checkout"
 msgstr ""
 
@@ -4785,7 +4887,7 @@ msgid "The following options affect how prices are displayed on the frontend."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:249
-#: includes/class.llms.person.handler.php:285
+#: includes/class.llms.person.handler.php:259
 msgid "Country"
 msgstr ""
 
@@ -4879,7 +4981,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.courses.php:100
 #: includes/admin/views/setup-wizard/step-pages.php:19
-#: includes/class.llms.install.php:332
+#: includes/class.llms.install.php:324
 msgid "Course Catalog"
 msgstr ""
 
@@ -5276,20 +5378,12 @@ msgid "Plan Period"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:137
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:365
-=======
-#: includes/llms.functions.core.php:309
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:311
 msgid "year"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:138
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:366
-=======
-#: includes/llms.functions.core.php:310
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:312
 msgid "month"
 msgstr ""
 
@@ -5298,11 +5392,7 @@ msgid "week"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:140
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:367
-=======
-#: includes/llms.functions.core.php:311
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:313
 msgid "day"
 msgstr ""
 
@@ -5809,10 +5899,6 @@ msgstr ""
 msgid "Upload export files generated by LifterLMS. Must be a \".json\" file."
 msgstr ""
 
-#: includes/admin/views/import.php:33
-msgid "Import"
-msgstr ""
-
 #. Translators: %s = anchor link HTML to LifterLMS.com.
 #: includes/admin/views/import.php:62
 msgid "Download and import courses, templates, and more from %s."
@@ -6009,7 +6095,7 @@ msgid "This page is where your visitors will find a list of all your available c
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-pages.php:23
-#: includes/class.llms.install.php:338
+#: includes/class.llms.install.php:330
 msgid "Membership Catalog"
 msgstr ""
 
@@ -6121,172 +6207,179 @@ msgstr ""
 msgid "The %1$s \"%2$s\" must be less than or equal to %3$d."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:630
+#: includes/class-llms-form-handler.php:627
 msgid "You must be logged in to update your password."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:634
+#: includes/class-llms-form-handler.php:631
 msgid "The submitted password was not correct."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:640
+#: includes/class-llms-form-handler.php:637
+#: includes/class.llms.person.handler.php:928
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:646
+#: includes/class-llms-form-handler.php:643
+#: includes/class.llms.person.handler.php:937
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:648
+#: includes/class-llms-form-handler.php:645
+#: includes/class.llms.person.handler.php:941
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
 #. Translators: %s = field label or name.
-#: includes/class-llms-form-handler.php:713
+#. Translators: %s = field label or id.
+#: includes/class-llms-form-handler.php:710
+#: includes/forms/controllers/class.llms.controller.account.php:384
 msgid "%s is a required field."
 msgstr ""
 
 #: includes/class-llms-form-templates.php:118
-#: includes/class.llms.person.handler.php:260
+#: includes/class.llms.person.handler.php:234
 msgid "City"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:149
+#: includes/class-llms-form-templates.php:150
 msgid "Country / Region"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:161
+#: includes/class-llms-form-templates.php:165
 msgid "State / Province"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:172
+#: includes/class-llms-form-templates.php:179
 msgid "Zip / Postal Code"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:204
-#: includes/class.llms.person.handler.php:243
+#: includes/class-llms-form-templates.php:213
+#: includes/class.llms.person.handler.php:217
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:216
-#: includes/class.llms.person.handler.php:253
+#: includes/class-llms-form-templates.php:225
+#: includes/class.llms.person.handler.php:227
 msgid "Apartment, suite, or unit"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:245
-#: includes/class.llms.person.handler.php:193
-#: includes/class.llms.person.handler.php:377
-#: includes/class.llms.person.handler.php:559
+#: includes/class-llms-form-templates.php:254
+#: includes/class.llms.person.handler.php:167
+#: includes/class.llms.person.handler.php:345
+#: includes/class.llms.person.handler.php:435
 msgid "Email Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:260
-#: includes/class.llms.person.handler.php:203
+#: includes/class-llms-form-templates.php:269
+#: includes/class.llms.person.handler.php:177
 msgid "Confirm Email Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:327
-#: includes/class.llms.person.handler.php:385
-#: includes/class.llms.person.handler.php:450
-#: includes/class.llms.person.handler.php:594
+#: includes/class-llms-form-templates.php:351
+#: includes/class.llms.person.handler.php:353
+#: includes/class.llms.person.handler.php:470
 msgid "Password"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:337
-#: includes/class.llms.person.handler.php:461
-#: includes/class.llms.person.handler.php:604
+#: includes/class-llms-form-templates.php:364
+#: includes/class.llms.person.handler.php:480
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:369
+#: includes/class-llms-form-templates.php:398
 msgid "A %1$s password is required. The password must be at least %2$s characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class-llms-form-templates.php:402
-#: includes/class.llms.person.handler.php:298
+#: includes/class-llms-form-templates.php:431
+#: includes/class.llms.person.handler.php:272
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:431
-#: includes/class.llms.person.handler.php:179
+#: includes/class-llms-form-templates.php:460
+#: includes/class.llms.person.handler.php:153
 msgid "Username"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:458
-#: includes/class.llms.person.handler.php:310
+#: includes/class-llms-form-templates.php:487
+#: includes/class.llms.person.handler.php:284
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:459
-#: includes/class.llms.person.handler.php:321
+#: includes/class-llms-form-templates.php:488
+#: includes/class.llms.person.handler.php:295
 #: templates/myaccount/form-redeem-voucher.php:22
 #: templates/myaccount/form-redeem-voucher.php:23
 msgid "Voucher Code"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:522
+#: includes/class-llms-form-templates.php:551
 msgid "User Password (current)"
 msgstr ""
 
-#: includes/class-llms-forms.php:559
+#: includes/class-llms-forms.php:562
 msgid "Handles new user registration and existing user information updates during checkout and enrollment."
 msgstr ""
 
-#: includes/class-llms-forms.php:560
+#: includes/class-llms-forms.php:563
 msgid "Billing Information"
 msgstr ""
 
-#: includes/class-llms-forms.php:567
+#: includes/class-llms-forms.php:570
 msgid "Registration"
 msgstr ""
 
-#: includes/class-llms-forms.php:568
+#: includes/class-llms-forms.php:571
 msgid "Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used."
 msgstr ""
 
-#: includes/class-llms-forms.php:569
-#: templates/global/form-registration.php:72
+#: includes/class-llms-forms.php:572
+#: templates/global/form-registration.php:68
 msgid "Register"
 msgstr ""
 
-#: includes/class-llms-forms.php:576
+#: includes/class-llms-forms.php:579
 msgid "Account"
 msgstr ""
 
-#: includes/class-llms-forms.php:577
+#: includes/class-llms-forms.php:580
 msgid "Handles user account information updates on the edit account area of the student dashboard."
 msgstr ""
 
-#: includes/class-llms-forms.php:578
+#: includes/class-llms-forms.php:581
 msgid "Edit Account Information"
 msgstr ""
 
-#: includes/class-llms-forms.php:770
+#: includes/class-llms-forms.php:773
 msgid "Determines the front-end location where the form is displayed."
 msgstr ""
 
-#: includes/class-llms-forms.php:773
+#: includes/class-llms-forms.php:776
 msgid "Determines whether or not to display the form's title on the front-end."
 msgstr ""
 
-#: includes/class-llms-forms.php:776
+#: includes/class-llms-forms.php:779
 msgid "Determines if the form is a core form required for basic site functionality."
 msgstr ""
 
-#: includes/class-llms-forms.php:812
-#: includes/class-llms-forms.php:814
+#: includes/class-llms-forms.php:782
+msgid "Stores the default template for the form."
+msgstr ""
+
+#: includes/class-llms-forms.php:818
+#: includes/class-llms-forms.php:820
 msgid "LifterLMS Forms"
 msgstr ""
 
-#: includes/class-llms-forms.php:815
+#: includes/class-llms-forms.php:821
 msgid "LifterLMS Form"
 msgstr ""
 
-#: includes/class-llms-forms.php:816
+#: includes/class-llms-forms.php:822
 msgid "Search Forms"
 msgstr ""
 
-#: includes/class-llms-forms.php:817
+#: includes/class-llms-forms.php:823
 msgid "Forms"
 msgstr ""
 
@@ -6377,7 +6470,7 @@ msgstr ""
 
 #. Translators: %s = coupon code.
 #: includes/class.llms.ajax.handler.php:999
-#: includes/functions/llms.functions.order.php:250
+#: includes/functions/llms.functions.order.php:242
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -6409,20 +6502,12 @@ msgid "%1$b %2$d, %3$Y @ %4$I:%5$M %6$p"
 msgstr ""
 
 #: includes/class.llms.date.php:185
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:376
-=======
-#: includes/llms.functions.core.php:320
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:322
 msgid "hours"
 msgstr ""
 
 #: includes/class.llms.date.php:187
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:368
-=======
-#: includes/llms.functions.core.php:312
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:314
 msgid "hour"
 msgstr ""
 
@@ -6431,38 +6516,22 @@ msgid "%1$d %2$s "
 msgstr ""
 
 #: includes/class.llms.date.php:194
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:378
-=======
-#: includes/llms.functions.core.php:322
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:324
 msgid "seconds"
 msgstr ""
 
 #: includes/class.llms.date.php:196
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:370
-=======
-#: includes/llms.functions.core.php:314
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:316
 msgid "second"
 msgstr ""
 
 #: includes/class.llms.date.php:207
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:377
-=======
-#: includes/llms.functions.core.php:321
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:323
 msgid "minutes"
 msgstr ""
 
 #: includes/class.llms.date.php:209
-<<<<<<< HEAD
-#: includes/llms.functions.core.php:369
-=======
-#: includes/llms.functions.core.php:313
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
+#: includes/llms.functions.core.php:315
 msgid "minute"
 msgstr ""
 
@@ -6529,26 +6598,26 @@ msgstr ""
 msgid "The supplied generator is invalid."
 msgstr ""
 
-#: includes/class.llms.install.php:344
+#: includes/class.llms.install.php:336
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:463
+#: includes/class.llms.install.php:455
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:464
+#: includes/class.llms.install.php:456
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:465
+#: includes/class.llms.install.php:457
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:813
+#: includes/class.llms.install.php:801
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -7080,7 +7149,7 @@ msgstr ""
 msgid "Add to menu"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:268
+#: includes/class.llms.person.handler.php:242
 #: languages/countries-locale.php:329
 #: languages/countries-locale.php:455
 #: languages/countries-locale.php:511
@@ -7088,81 +7157,81 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:276
+#: includes/class.llms.person.handler.php:250
 msgid "Zip Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:300
+#: includes/class.llms.person.handler.php:274
 msgctxt "Phone Number Placeholder"
 msgid "(123) 456 - 7890"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:377
-#: includes/class.llms.person.handler.php:559
+#: includes/class.llms.person.handler.php:345
+#: includes/class.llms.person.handler.php:435
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:394
-#: templates/global/form-login.php:38
+#: includes/class.llms.person.handler.php:362
+#: templates/global/form-login.php:34
 msgid "Login"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:402
+#: includes/class.llms.person.handler.php:370
 msgid "Remember me"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:411
+#: includes/class.llms.person.handler.php:379
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:438
-msgid "Current Password"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:450
-msgid "New Password"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:461
-msgid "Confirm New Password"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:472
-msgid "A %s password is required."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:474
-msgid "A minimum password strength of %s is required."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:480
-msgid "The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:493
-msgid "Change Password"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:528
+#: includes/class.llms.person.handler.php:404
 msgid "Lost your password? Enter your email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:530
+#: includes/class.llms.person.handler.php:406
 msgid "Lost your password? Enter your username or email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:566
-#: includes/class.llms.person.handler.php:660
+#: includes/class.llms.person.handler.php:442
+#: includes/class.llms.person.handler.php:536
 #: templates/emails/reset-password.php:15
 msgid "Reset Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:612
+#: includes/class.llms.person.handler.php:488
 msgid "A strong password is required. The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:802
+#: includes/class.llms.person.handler.php:677
 msgid "Invalid action"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:813
+msgid "Could not find an account with the supplied email address and password combination."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:909
+msgid "%s is a required field"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:954
+msgid "The submitted %s was incorrect."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:967
+msgid "\"%1$s\" is an invalid option for %2$s"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:974
+msgid "%s must be numeric"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:982
+msgid "%s must be a valid email address"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1002
+msgid "%1$s must match %2$s"
 msgstr ""
 
 #: includes/class.llms.post-types.php:142
@@ -7817,7 +7886,7 @@ msgstr ""
 
 #: includes/class.llms.post-types.php:803
 #: includes/class.llms.student.dashboard.php:186
-#: includes/functions/llms.functions.templates.dashboard.php:436
+#: includes/functions/llms.functions.templates.dashboard.php:428
 msgid "My Certificates"
 msgstr ""
 
@@ -8027,7 +8096,7 @@ msgid "This is where voucher are stored."
 msgstr ""
 
 #: includes/class.llms.post-types.php:963
-#: includes/functions/llms.functions.templates.dashboard.php:948
+#: includes/functions/llms.functions.templates.dashboard.php:940
 msgid "Review"
 msgstr ""
 
@@ -8599,7 +8668,7 @@ msgid "Lesson Sidebar"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:161
-#: includes/functions/llms.functions.templates.dashboard.php:479
+#: includes/functions/llms.functions.templates.dashboard.php:471
 msgid "My Courses"
 msgstr ""
 
@@ -8608,12 +8677,12 @@ msgid "My Grades"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:174
-#: includes/functions/llms.functions.templates.dashboard.php:673
+#: includes/functions/llms.functions.templates.dashboard.php:665
 msgid "My Memberships"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:180
-#: includes/functions/llms.functions.templates.dashboard.php:393
+#: includes/functions/llms.functions.templates.dashboard.php:385
 msgid "My Achievements"
 msgstr ""
 
@@ -8678,80 +8747,80 @@ msgstr ""
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:125
-#: includes/controllers/class.llms.controller.orders.php:131
-#: includes/shortcodes/class.llms.shortcode.checkout.php:255
+#: includes/controllers/class.llms.controller.orders.php:118
+#: includes/controllers/class.llms.controller.orders.php:124
+#: includes/shortcodes/class.llms.shortcode.checkout.php:248
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:144
+#: includes/controllers/class.llms.controller.orders.php:137
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:316
+#: includes/controllers/class.llms.controller.orders.php:309
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:444
+#: includes/controllers/class.llms.controller.orders.php:434
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:451
+#: includes/controllers/class.llms.controller.orders.php:441
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
 #. Translators: %d = The deleted user's ID..
-#: includes/controllers/class.llms.controller.orders.php:515
+#: includes/controllers/class.llms.controller.orders.php:505
 msgid "Recurring charge skipped. The user (#%d) no longer exists."
 msgstr ""
 
 #. Translators: %s = error message encountered while loading the gateway..
-#: includes/controllers/class.llms.controller.orders.php:539
+#: includes/controllers/class.llms.controller.orders.php:529
 msgid "Recurring charge was not processed due to an error encountered while loading the payment gateway: %s."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:552
+#: includes/controllers/class.llms.controller.orders.php:542
 msgid "Recurring charge skipped because recurring payments are disabled for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:561
+#: includes/controllers/class.llms.controller.orders.php:551
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:588
+#: includes/controllers/class.llms.controller.orders.php:578
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:593
+#: includes/controllers/class.llms.controller.orders.php:583
 #: templates/myaccount/view-order.php:16
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:595
+#: includes/controllers/class.llms.controller.orders.php:585
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:718
+#: includes/controllers/class.llms.controller.orders.php:708
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:750
-#: includes/functions/llms.functions.order.php:39
+#: includes/controllers/class.llms.controller.orders.php:740
+#: includes/functions/llms.functions.order.php:34
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:755
-#: includes/functions/llms.functions.order.php:45
+#: includes/controllers/class.llms.controller.orders.php:745
+#: includes/functions/llms.functions.order.php:40
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:760
-#: includes/functions/llms.functions.order.php:51
+#: includes/controllers/class.llms.controller.orders.php:750
+#: includes/functions/llms.functions.order.php:46
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:765
-#: includes/functions/llms.functions.order.php:57
+#: includes/controllers/class.llms.controller.orders.php:755
+#: includes/functions/llms.functions.order.php:52
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -8767,31 +8836,61 @@ msgstr ""
 msgid "Reset Your Password"
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:69
-#: includes/forms/controllers/class.llms.controller.account.php:76
+#: includes/forms/controllers/class.llms.controller.account.php:57
+#: includes/forms/controllers/class.llms.controller.account.php:64
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:79
+#: includes/forms/controllers/class.llms.controller.account.php:67
 msgid "Subscription cancelled by student from account page."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:85
+#: includes/forms/controllers/class.llms.controller.account.php:73
 msgid "Enrollment will be cancelled at the end of the prepaid period."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:116
+#: includes/forms/controllers/class.llms.controller.account.php:104
 msgid "Please log in and try again."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:131
+#: includes/forms/controllers/class.llms.controller.account.php:119
 #: includes/forms/controllers/class.llms.controller.registration.php:96
-#: includes/functions/llms.functions.order.php:297
+#: includes/functions/llms.functions.order.php:289
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:135
+#: includes/forms/controllers/class.llms.controller.account.php:123
 msgid "Your account information has been saved."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:166
+#: includes/forms/frontend/class.llms.frontend.password.php:39
+msgid "Enter a username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:175
+msgid "Invalid username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:222
+msgid "Unable to reset password due to an unknown error. Please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:229
+msgid "Check your e-mail for the confirmation link."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:260
+msgid "Your password has been updated."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:304
+#: includes/functions/llms.functions.person.php:381
+msgid "This password reset key is invalid or has already been used. Please reset your password again if needed."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:397
+msgid "The submitted passwords do must match."
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.registration.php:80
@@ -8808,10 +8907,6 @@ msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.forms.php:151
 msgid "Voucher redeemed successfully!"
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.password.php:39
-msgid "Enter a username or e-mail address."
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.password.php:47
@@ -8919,58 +9014,694 @@ msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:221
+#: includes/functions/llms.functions.currency.php:95
+msgid "United Arab Emirates dirham"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:96
+msgid "Afghan afghani"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:97
+msgid "Albanian lek"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:98
+msgid "Armenian dram"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:99
+msgid "Netherlands Antillean guilder"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:100
+msgid "Angolan kwanza"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:101
+msgid "Argentine peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:102
+msgid "Australian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:103
+msgid "Aruban florin"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:104
+msgid "Azerbaijani manat"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:105
+msgid "Bosnia and Herzegovina convertible mark"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:106
+msgid "Barbadian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:107
+msgid "Bangladeshi taka"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:108
+msgid "Bulgarian lev"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:109
+msgid "Bahraini dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:110
+msgid "Burundian franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:111
+msgid "Bermudian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:112
+msgid "Brunei dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:113
+msgid "Bolivian boliviano"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:114
+msgid "Brazilian real"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:115
+msgid "Bahamian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:116
+msgid "Bitcoin"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:117
+msgid "Bhutanese ngultrum"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:118
+msgid "Botswana pula"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:119
+msgid "Belarusian ruble"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:120
+msgid "Belize dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:121
+msgid "Canadian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:122
+msgid "Congolese franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:123
+msgid "Swiss franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:124
+msgid "Chilean peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:125
+msgid "Chinese yuan"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:126
+msgid "Colombian peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:127
+msgid "Costa Rican col&oacute;n"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:128
+msgid "Cuban convertible peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:129
+msgid "Cuban peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:130
+msgid "Cape Verdean escudo"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:131
+msgid "Czech koruna"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:132
+msgid "Djiboutian franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:133
+msgid "Danish krone"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:134
+msgid "Dominican peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:135
+msgid "Algerian dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:136
+msgid "Egyptian pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:137
+msgid "Eritrean nakfa"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:138
+msgid "Ethiopian birr"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:139
+msgid "Euro"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:140
+msgid "Fijian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:141
+msgid "Falkland Islands pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:142
+msgid "Pound sterling"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:143
+msgid "Georgian lari"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:144
+msgid "Guernsey pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:145
+msgid "Ghana cedi"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:146
+msgid "Gibraltar pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:147
+msgid "Gambian dalasi"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:148
+msgid "Guinean franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:149
+msgid "Guatemalan quetzal"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:150
+msgid "Guyanese dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:151
+msgid "Hong Kong dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:152
+msgid "Honduran lempira"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:153
+msgid "Croatian kuna"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:154
+msgid "Haitian gourde"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:155
+msgid "Hungarian forint"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:156
+msgid "Indonesian rupiah"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:157
+msgid "Israeli new shekel"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:158
+msgid "Manx pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:159
+msgid "Indian rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:160
+msgid "Iraqi dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:161
+msgid "Iranian rial"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:162
+msgid "Icelandic kr&oacute;na"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:163
+msgid "Jersey pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:164
+msgid "Jamaican dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:165
+msgid "Jordanian dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:166
+msgid "Japanese yen"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:167
+msgid "Kenyan shilling"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:168
+msgid "Kyrgyzstani som"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:169
+msgid "Cambodian riel"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:170
+msgid "Comorian franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:171
+msgid "North Korean won"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:172
+msgid "South Korean won"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:173
+msgid "Kuwaiti dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:174
+msgid "Cayman Islands dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:175
+msgid "Kazakhstani tenge"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:176
+msgid "Lao kip"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:177
+msgid "Lebanese pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:178
+msgid "Sri Lankan rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:179
+msgid "Liberian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:180
+msgid "Lesotho loti"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:181
+msgid "Libyan dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:182
+msgid "Moroccan dirham"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:183
+msgid "Moldovan leu"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:184
+msgid "Malagasy ariary"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:185
+msgid "Macedonian denar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:186
+msgid "Burmese kyat"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:187
+msgid "Mongolian t&ouml;gr&ouml;g"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:188
+msgid "Macanese pataca"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:189
+msgid "Mauritanian ouguiya"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:190
+msgid "Mauritian rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:191
+msgid "Maldivian rufiyaa"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:192
+msgid "Malawian kwacha"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:193
+msgid "Mexican peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:194
+msgid "Malaysian ringgit"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:195
+msgid "Mozambican metical"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:196
+msgid "Namibian dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:197
+msgid "Nigerian naira"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:198
+msgid "Nicaraguan c&oacute;rdoba"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:199
+msgid "Norwegian krone"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:200
+msgid "Nepalese rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:201
+msgid "New Zealand dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:202
+msgid "Omani rial"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:203
+msgid "Panamanian balboa"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:204
+msgid "Peruvian nuevo sol"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:205
+msgid "Papua New Guinean kina"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:206
+msgid "Philippine peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:207
+msgid "Pakistani rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:208
+msgid "Polish z&#x142;oty"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:209
+msgid "Transnistrian ruble"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:210
+msgid "Paraguayan guaran&iacute;"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:211
+msgid "Qatari riyal"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:212
+msgid "Romanian leu"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:213
+msgid "Serbian dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:214
+msgid "Russian ruble"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:215
+msgid "Rwandan franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:216
+msgid "Saudi riyal"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:217
+msgid "Solomon Islands dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:218
+msgid "Seychellois rupee"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:219
+msgid "Sudanese pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:220
+msgid "Swedish krona"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:221
+msgid "Singapore dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:222
+msgid "Saint Helena pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:223
+msgid "Sierra Leonean leone"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:224
+msgid "Somali shilling"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:225
+msgid "Surinamese dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:226
+msgid "South Sudanese pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:227
+msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:228
+msgid "Syrian pound"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:229
+msgid "Swazi lilangeni"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:230
+msgid "Thai baht"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:231
+msgid "Tajikistani somoni"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:232
+msgid "Turkmenistan manat"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:233
+msgid "Tunisian dinar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:234
+msgid "Tongan pa&#x2bb;anga"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:235
+msgid "Turkish lira"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:236
+msgid "Trinidad and Tobago dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:237
+msgid "New Taiwan dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:238
+msgid "Tanzanian shilling"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:239
+msgid "Ukrainian hryvnia"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:240
+msgid "Ugandan shilling"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:241
+msgid "United States dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:242
+msgid "Uruguayan peso"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:243
+msgid "Uzbekistani som"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:244
+msgid "Venezuelan bol&iacute;var"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:245
+msgid "Vietnamese &#x111;&#x1ed3;ng"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:246
+msgid "Vanuatu vatu"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:247
+msgid "Samoan t&#x101;l&#x101;"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:248
+msgid "Central African CFA franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:249
+msgid "East Caribbean dollar"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:250
+msgid "West African CFA franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:251
+msgid "CFP franc"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:252
+msgid "Yemeni rial"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:253
+msgid "South African rand"
+msgstr ""
+
+#: includes/functions/llms.functions.currency.php:254
+msgid "Zambian kwacha"
+msgstr ""
+
+#: includes/functions/llms.functions.order.php:213
 msgid "You must agree to the %s to continue."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:228
+#: includes/functions/llms.functions.order.php:220
 msgid "Missing an Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:235
+#: includes/functions/llms.functions.order.php:227
 msgid "Invalid Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:267
+#: includes/functions/llms.functions.order.php:259
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:278
+#: includes/functions/llms.functions.order.php:270
 msgid "Missing customer information."
 msgstr ""
 
 #. Translators: %2$s = The product type (course/membership); %1$s = product permalink.
-#: includes/functions/llms.functions.order.php:310
-#: includes/shortcodes/class.llms.shortcode.checkout.php:88
+#: includes/functions/llms.functions.order.php:302
+#: includes/shortcodes/class.llms.shortcode.checkout.php:81
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:257
+#: includes/functions/llms.functions.person.php:204
 msgid "strong"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:258
+#: includes/functions/llms.functions.person.php:205
 msgid "medium"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:259
+#: includes/functions/llms.functions.person.php:206
 msgid "weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:260
+#: includes/functions/llms.functions.person.php:207
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:406
+#: includes/functions/llms.functions.person.php:364
 msgid "The password reset key could not be found. Please rest your password again if needed."
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:411
+#: includes/functions/llms.functions.person.php:369
 msgid "The password reset key is in an invalid format. Please rest your password again if needed."
-msgstr ""
-
-#: includes/functions/llms.functions.person.php:423
-msgid "This password reset key is invalid or has already been used. Please reset your password again if needed."
 msgstr ""
 
 #: includes/functions/llms.functions.privacy.php:41
@@ -9001,43 +9732,43 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:194
+#: includes/functions/llms.functions.templates.dashboard.php:186
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:299
+#: includes/functions/llms.functions.templates.dashboard.php:291
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:379
+#: includes/functions/llms.functions.templates.dashboard.php:371
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:424
+#: includes/functions/llms.functions.templates.dashboard.php:416
 msgid "View All My Certificates"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:467
+#: includes/functions/llms.functions.templates.dashboard.php:459
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:621
+#: includes/functions/llms.functions.templates.dashboard.php:613
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:661
+#: includes/functions/llms.functions.templates.dashboard.php:653
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:701
+#: includes/functions/llms.functions.templates.dashboard.php:693
 msgid "View Notifications"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:705
+#: includes/functions/llms.functions.templates.dashboard.php:697
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:948
+#: includes/functions/llms.functions.templates.dashboard.php:940
 msgid "Start"
 msgstr ""
 
@@ -9115,129 +9846,129 @@ msgstr ""
 msgid "Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/llms.functions.core.php:373
+#: includes/llms.functions.core.php:319
 msgid "years"
 msgstr ""
 
-#: includes/llms.functions.core.php:374
+#: includes/llms.functions.core.php:320
 msgid "months"
 msgstr ""
 
-#: includes/llms.functions.core.php:375
+#: includes/llms.functions.core.php:321
 msgid "days"
 msgstr ""
 
-#: includes/llms.functions.core.php:436
+#: includes/llms.functions.core.php:382
 msgid "DOMDocument not available."
 msgstr ""
 
-#: includes/llms.functions.core.php:447
+#: includes/llms.functions.core.php:393
 msgid "DOMDocument XML Error encountered."
 msgstr ""
 
-#: includes/llms.functions.core.php:512
+#: includes/llms.functions.core.php:458
 msgid "Student creates a new account"
 msgstr ""
 
-#: includes/llms.functions.core.php:513
+#: includes/llms.functions.core.php:459
 msgid "Student Purchases an Access Plan"
 msgstr ""
 
-#: includes/llms.functions.core.php:514
+#: includes/llms.functions.core.php:460
 msgid "Student enrolls in a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:515
+#: includes/llms.functions.core.php:461
 msgid "Student purchases a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:516
+#: includes/llms.functions.core.php:462
 msgid "Student completes a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:518
+#: includes/llms.functions.core.php:464
 msgid "Student completes a lesson"
 msgstr ""
 
-#: includes/llms.functions.core.php:519
+#: includes/llms.functions.core.php:465
 msgid "Student completes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:520
+#: includes/llms.functions.core.php:466
 msgid "Student passes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:521
+#: includes/llms.functions.core.php:467
 msgid "Student fails a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:522
+#: includes/llms.functions.core.php:468
 msgid "Student completes a section"
 msgstr ""
 
-#: includes/llms.functions.core.php:523
+#: includes/llms.functions.core.php:469
 msgid "Student completes a course track"
 msgstr ""
 
-#: includes/llms.functions.core.php:524
+#: includes/llms.functions.core.php:470
 msgid "Student enrolls in a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:525
+#: includes/llms.functions.core.php:471
 msgid "Student purchases a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:548
+#: includes/llms.functions.core.php:494
 msgid "Award an Achievement"
 msgstr ""
 
-#: includes/llms.functions.core.php:549
+#: includes/llms.functions.core.php:495
 msgid "Award a Certificate"
 msgstr ""
 
-#: includes/llms.functions.core.php:550
+#: includes/llms.functions.core.php:496
 msgid "Send an Email"
 msgstr ""
 
-#: includes/llms.functions.core.php:656
+#: includes/llms.functions.core.php:602
 msgid "Catalog &amp; Search"
 msgstr ""
 
-#: includes/llms.functions.core.php:657
+#: includes/llms.functions.core.php:603
 msgid "Catalog only"
 msgstr ""
 
-#: includes/llms.functions.core.php:658
+#: includes/llms.functions.core.php:604
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:943
+#: includes/llms.functions.core.php:715
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:945
+#: includes/llms.functions.core.php:717
 msgid "Expired"
 msgstr ""
 
-#: includes/llms.template.functions.php:584
+#: includes/llms.template.functions.php:580
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr ""
 
-#: includes/llms.template.functions.php:587
+#: includes/llms.template.functions.php:583
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
-#: includes/llms.template.functions.php:641
-#: includes/llms.template.functions.php:728
+#: includes/llms.template.functions.php:637
+#: includes/llms.template.functions.php:724
 msgid "Continue"
 msgstr ""
 
-#: includes/llms.template.functions.php:713
+#: includes/llms.template.functions.php:709
 #: includes/notifications/controllers/class.llms.notification.controller.course.complete.php:98
 msgid "Course Complete"
 msgstr ""
 
-#: includes/llms.template.functions.php:724
+#: includes/llms.template.functions.php:720
 msgid "Get Started"
 msgstr ""
 
@@ -9270,7 +10001,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: includes/models/model.llms.access.plan.php:389
-#: includes/models/model.llms.lesson.php:344
+#: includes/models/model.llms.lesson.php:343
 msgid "FREE"
 msgstr ""
 
@@ -10329,23 +11060,23 @@ msgstr ""
 msgid "Please find the attached CSV file."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:68
+#: includes/shortcodes/class.llms.shortcode.checkout.php:61
 msgid "You must be a member in order to purchase this access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:100
+#: includes/shortcodes/class.llms.shortcode.checkout.php:93
 msgid "You are currently logged in as <em>%1$s</em>. <a href=\"%2$s\">Click here to logout</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:102
+#: includes/shortcodes/class.llms.shortcode.checkout.php:95
 msgid "Already have an account? <a href=\"%s\">Click here to login</a>"
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:248
+#: includes/shortcodes/class.llms.shortcode.checkout.php:241
 msgid "Invalid access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:274
+#: includes/shortcodes/class.llms.shortcode.checkout.php:267
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
@@ -10355,6 +11086,13 @@ msgstr ""
 
 #: includes/shortcodes/class.llms.shortcode.courses.php:200
 msgid "No courses found."
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcodes.php:376
+#: templates/loop/pagination.php:37
+#: templates/myaccount/my-grades.php:54
+#: templates/myaccount/my-notifications.php:38
+msgid "Previous"
 msgstr ""
 
 #: includes/widgets/class.llms.bbp.widget.course.forums.list.php:31
@@ -26041,7 +26779,6 @@ msgstr ""
 msgid "Iğdır"
 msgstr ""
 
-<<<<<<< HEAD
 #: languages/states.php:4108
 msgid "Yalova"
 msgstr ""
@@ -26144,110 +26881,6 @@ msgstr ""
 
 #: languages/states.php:4138
 msgid "Nukufetau"
-=======
-#: includes/llms.functions.core.php:317
-msgid "years"
-msgstr ""
-
-#: includes/llms.functions.core.php:318
-msgid "months"
-msgstr ""
-
-#: includes/llms.functions.core.php:319
-msgid "days"
-msgstr ""
-
-#: includes/llms.functions.core.php:380
-msgid "DOMDocument not available."
-msgstr ""
-
-#: includes/llms.functions.core.php:391
-msgid "DOMDocument XML Error encountered."
-msgstr ""
-
-#: includes/llms.functions.core.php:456
-msgid "Student creates a new account"
-msgstr ""
-
-#: includes/llms.functions.core.php:457
-msgid "Student Purchases an Access Plan"
-msgstr ""
-
-#: includes/llms.functions.core.php:458
-msgid "Student enrolls in a course"
-msgstr ""
-
-#: includes/llms.functions.core.php:459
-msgid "Student purchases a course"
-msgstr ""
-
-#: includes/llms.functions.core.php:460
-msgid "Student completes a course"
-msgstr ""
-
-#: includes/llms.functions.core.php:462
-msgid "Student completes a lesson"
-msgstr ""
-
-#: includes/llms.functions.core.php:463
-msgid "Student completes a quiz"
-msgstr ""
-
-#: includes/llms.functions.core.php:464
-msgid "Student passes a quiz"
-msgstr ""
-
-#: includes/llms.functions.core.php:465
-msgid "Student fails a quiz"
-msgstr ""
-
-#: includes/llms.functions.core.php:466
-msgid "Student completes a section"
-msgstr ""
-
-#: includes/llms.functions.core.php:467
-msgid "Student completes a course track"
-msgstr ""
-
-#: includes/llms.functions.core.php:468
-msgid "Student enrolls in a membership"
-msgstr ""
-
-#: includes/llms.functions.core.php:469
-msgid "Student purchases a membership"
-msgstr ""
-
-#: includes/llms.functions.core.php:492
-msgid "Award an Achievement"
-msgstr ""
-
-#: includes/llms.functions.core.php:493
-msgid "Award a Certificate"
-msgstr ""
-
-#: includes/llms.functions.core.php:494
-msgid "Send an Email"
-msgstr ""
-
-#: includes/llms.functions.core.php:600
-msgid "Catalog &amp; Search"
-msgstr ""
-
-#: includes/llms.functions.core.php:601
-msgid "Catalog only"
-msgstr ""
-
-#: includes/llms.functions.core.php:602
-msgid "Search only"
-msgstr ""
-
-#: includes/llms.functions.core.php:884
-msgid "Cancelled"
-msgstr ""
-
-#: includes/llms.functions.core.php:886
-msgid "Expired"
->>>>>>> 97a0623f2e7d7b0fd768c0082e0c55a137118bfd
 msgstr ""
 
 #: languages/states.php:4139
@@ -27833,11 +28466,11 @@ msgstr ""
 msgid "Remove Coupon"
 msgstr ""
 
-#: templates/checkout/form-gateways.php:36
+#: templates/checkout/form-gateways.php:32
 msgid "Payment processing is currently disabled."
 msgstr ""
 
-#: templates/checkout/form-gateways.php:67
+#: templates/checkout/form-gateways.php:63
 msgid "There are no gateways enabled which can support the necessary transaction type for this access plan."
 msgstr ""
 
@@ -27980,12 +28613,6 @@ msgstr ""
 
 #: templates/loop/none-found.php:13
 msgid "No products were found matching your selection."
-msgstr ""
-
-#: templates/loop/pagination.php:37
-#: templates/myaccount/my-grades.php:54
-#: templates/myaccount/my-notifications.php:38
-msgid "Previous"
 msgstr ""
 
 #: templates/membership/price.php:34
