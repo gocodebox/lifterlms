@@ -101,7 +101,17 @@ class LLMS_Processors {
 	 */
 	private function load_all() {
 
-		// Allow loading of 3rd party processors.
+		/**
+		 * Filter the list of available processors to be loaded
+		 *
+		 * Third parties can use this filter to load custom processors.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_load_processor_path To add a custom load path for the loaded processor.
+		 *
+		 * @param string[] $this->classes A list of processor class ids/slugs.
+		 */
 		$classes = apply_filters( 'llms_load_processors', $this->classes );
 
 		foreach ( $this->classes as $name ) {
@@ -127,6 +137,19 @@ class LLMS_Processors {
 	 */
 	public function load_processor( $name ) {
 
+		/**
+		 * Filter the path of a processor class
+		 *
+		 * If the returned path isn't the full path to a PHP file the file will be attempted to be
+		 * loaded from the LifterLMS core's processor directory by replacing underscores with dots
+		 * and prepending `class.llms.processor.` and appending `.php`.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_load_processors For a filter used to register custom processors.
+		 *
+		 * @param string $name Processor classname id/slug.
+		 */
 		$path = apply_filters( 'llms_load_processor_path', $name );
 
 		if ( false === strpos( $path, '.php' ) ) {
