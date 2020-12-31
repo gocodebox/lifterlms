@@ -94,9 +94,6 @@
 	</rule>
 
 	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-		<!-- Permanently excluded library files -->
-		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
-
 		<!-- To be fixed -->
 		<exclude-pattern>includes/notifications/class.llms.notifications.query.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy-exporters.php</exclude-pattern>
