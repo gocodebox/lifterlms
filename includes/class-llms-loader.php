@@ -279,7 +279,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
-	 * @since [version] Load core libraries from new location.
+	 * @since [version] Load core libraries from new location and load WP Background Processing lib.
 	 *
 	 * @return void
 	 */
@@ -299,6 +299,9 @@ class LLMS_Loader {
 
 		// Action Scheduler.
 		require_once LLMS_PLUGIN_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+
+		// WP Background Processing.
+		require_once LLMS_PLUGIN_DIR . 'vendor/deliciousbrains/wp-background-processing/wp-background-processing.php';
 
 	}
 
