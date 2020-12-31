@@ -101,7 +101,7 @@ class LLMS_Processors {
 	 */
 	private function load_all() {
 
-		// allow loading of 3rd party processors
+		// Allow loading of 3rd party processors.
 		$classes = apply_filters( 'llms_load_processors', $this->classes );
 
 		foreach ( $this->classes as $name ) {
