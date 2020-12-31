@@ -21,9 +21,10 @@ class LLMS_Processors {
 
 	/**
 	 * Processor classes that should be loaded
-	 * this should match the classname of a processor
 	 *
-	 * @var  array
+	 * This should match the classname of a processor.
+	 *
+	 * @var array
 	 */
 	private $classes = array(
 		'course_data',
@@ -34,23 +35,23 @@ class LLMS_Processors {
 	/**
 	 * Array of available processors loaded via $this->load_all()
 	 *
-	 * @var  LLMS_Abstract_Processor[]
+	 * @var LLMS_Abstract_Processor[]
 	 */
 	private $processors = array();
 
 	/**
 	 * Singleton instance of the class
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Main instance
 	 *
-	 * @return   LLMS_Processors
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return LLMS_Processors
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -62,8 +63,9 @@ class LLMS_Processors {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
@@ -75,10 +77,10 @@ class LLMS_Processors {
 	/**
 	 * Access a single loaded processor instance
 	 *
-	 * @param    string $name  name of the processor
-	 * @return   LLMS_Abstract_Processor|false instance of the processor if found, otherwise false
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param string $name Name of the processor.
+	 * @return LLMS_Abstract_Processor|false instance of the processor if found, otherwise false
 	 */
 	public function get( $name ) {
 
@@ -92,7 +94,7 @@ class LLMS_Processors {
 	/**
 	 * Include classes required by processors
 	 *
-	 *  @since    3.15.0
+	 *  @since 3.15.0
 	 *
 	 * @return void
 	 */
@@ -106,9 +108,9 @@ class LLMS_Processors {
 	/**
 	 * Load all processors
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	private function load_all() {
 
@@ -131,10 +133,10 @@ class LLMS_Processors {
 	/**
 	 * Load a single processor
 	 *
-	 * @param    string $name  name of the processor
-	 * @return   LLMS_Abstract_Processor|false         instance of the processor if found, otherwise false
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param string $name Name of the processor.
+	 * @return LLMS_Abstract_Processor|false Instance of the processor if found, otherwise false.
 	 */
 	public function load_processor( $name ) {
 
