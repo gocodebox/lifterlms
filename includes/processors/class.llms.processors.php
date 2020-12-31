@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Load, access, and manage LifterLMS Processors
  *
  * @since 3.15.0
+ * @since [version] Removed private method `includes()`.
  */
 class LLMS_Processors {
 
@@ -64,12 +65,12 @@ class LLMS_Processors {
 	 * Constructor
 	 *
 	 * @since 3.15.0
+	 * @since [version] Remove call to removed method `includes()`.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
-		$this->includes();
 		$this->load_all();
 
 	}
@@ -80,7 +81,7 @@ class LLMS_Processors {
 	 * @since 3.15.0
 	 *
 	 * @param string $name Name of the processor.
-	 * @return LLMS_Abstract_Processor|false instance of the processor if found, otherwise false
+	 * @return LLMS_Abstract_Processor|false Instance of the processor if found, otherwise false.
 	 */
 	public function get( $name ) {
 
@@ -89,20 +90,6 @@ class LLMS_Processors {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Include classes required by processors
-	 *
-	 *  @since 3.15.0
-	 *
-	 * @return void
-	 */
-	private function includes() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-
 	}
 
 	/**
