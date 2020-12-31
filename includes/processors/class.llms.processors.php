@@ -133,7 +133,8 @@ class LLMS_Processors {
 	 * @since 3.15.0
 	 *
 	 * @param string $name Name of the processor.
-	 * @return LLMS_Abstract_Processor|false Instance of the processor if found, otherwise false.
+	 * @return LLMS_Abstract_Processor|boolean Instance of the processor if found and not yet included, `false` if
+	 *                                         the processor can't be found, and `true` if it has already been included.
 	 */
 	public function load_processor( $name ) {
 
