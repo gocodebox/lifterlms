@@ -19,6 +19,9 @@
     <!-- Exclude node packages -->
     <exclude-pattern>packages/</exclude-pattern>
 
+    <!-- Exclude external libraries -->
+    <exclude-pattern>libraries/</exclude-pattern>
+
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
 
