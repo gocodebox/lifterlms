@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.0
- * @version [version]
+ * @version 4.10.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Retrieve default arguments for a student query
 	 *
 	 * @since 3.4.0
-	 * @since [version] Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_student_query_default_args'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'default_args' )` in favor of `'llms_student_query_default_args'`.
 	 *
 	 * @return array
 	 */
@@ -70,7 +70,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.4.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Drop usage of `this->get_filter( 'get_students' )` in favor of `'llms_student_query_get_students'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'get_students' )` in favor of `'llms_student_query_get_students'`.
 	 *
 	 * @return array
 	 */
@@ -94,7 +94,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		 * Filters the list of students
 		 *
 		 * @since Unknown
-		 * @since [version] Pass this query instance as second parameter.
+		 * @since 4.10.2 Pass this query instance as second parameter.
 		 *
 		 * @param LLMS_Student[]     $students      Array of LLMS_Student instances.
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
@@ -154,7 +154,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.4.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
+	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.4.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Drop usage of `this->get_filter( 'having' )` in favor of `'llms_student_query_having'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'having' )` in favor of `'llms_student_query_having'`.
 	 *
 	 * @return string
 	 */
@@ -254,7 +254,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Setup joins based on submitted sort and search args
 	 *
 	 * @since 3.13.0
-	 * @since [version] Drop usage of `this->get_filter( 'join' )` in favor of `'llms_student_query_join'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'join' )` in favor of `'llms_student_query_join'`.
 	 *
 	 * @return string
 	 */
@@ -301,7 +301,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.4.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Drop usage of `this->get_filter( 'search' )` in favor of `'llms_student_query_search'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'search' )` in favor of `'llms_student_query_search'`.
 	 *
 	 * @return string
 	 */
@@ -340,7 +340,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Setup the SQL for the select statement
 	 *
 	 * @since 3.13.0
-	 * @since [version] Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
+	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
 	 *               Use `$this->sql_select_columns({columns})` to determine additional columns to select.
 	 *
 	 * @return string

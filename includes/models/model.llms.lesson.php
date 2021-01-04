@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -726,7 +726,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	 * @since 3.24.0
 	 * @since 4.4.0 Improve query so that unpublished siblings do not break expected results.
 	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
-	 * @since [version] Refactor to use helper method `get_sibling()`.
+	 * @since 4.10.2 Refactor to use helper method `get_sibling()`.
 	 *
 	 * @return false|int ID of the next lesson, if any, `false` otherwise.
 	 */
@@ -745,7 +745,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	 *              Use strict comparisons where needed.
 	 *              Make sure to always return `false` if no previous lesson is found.
 	 * @since 4.4.2 Use a numeric comparison for the previous position meta query.
-	 * @since [version] Refactor to use helper method `get_sibling()`.
+	 * @since 4.10.2 Refactor to use helper method `get_sibling()`.
 	 *
 	 * @return false|int WP_Post ID of the previous lesson or `false` if one doesn't exist.
 	 */
@@ -758,7 +758,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	/**
 	 * Retrieve the sibling lesson in a specified direction
 	 *
-	 * @since [version]
+	 * @since 4.10.2
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
@@ -786,7 +786,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	 * in the course's next section. For this reason this function should not be relied upon
 	 * alone.
 	 *
-	 * @since [version]
+	 * @since 4.10.2
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
@@ -837,7 +837,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 		/**
 		 * Filter the WP_Query arguments used to locate a sibling lesson for the specified lesson.
 		 *
-		 * @since [version]
+		 * @since 4.10.2
 		 *
 		 * @param array       $args      WP_Query arguments array.
 		 * @param string      $direction Navigation direction. Either "prev" or "next".
@@ -857,7 +857,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	 * This will retrieve either the first lesson from the course's next section or the last
 	 * lesson from the course's previous section.
 	 *
-	 * @since [version]
+	 * @since 4.10.2
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
@@ -910,7 +910,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 			/**
 			 * Filter the WP_Query arguments used to locate a sibling lesson from a sibling section for the specified lesson.
 			 *
-			 * @since [version]
+			 * @since 4.10.2
 			 *
 			 * @param array       $args      WP_Query arguments array.
 			 * @param string      $direction Navigation direction. Either "prev" or "next".
