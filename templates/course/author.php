@@ -1,41 +1,14 @@
 <?php
 /**
- * LifterLMS Course Author Info
+ * LifterLMS Course Instructors Info
  *
- * @since   3.0.0
- * @since [version] Use post type's name in the title to cover membership case.
+ * @package LifterLMS/Templates/Course
+ *
+ * @since 3.0.0
+ * @since [version] Use `llms_template_instructors()`.
  * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$course = llms_get_post( get_the_ID() );
-if ( ! $course ) {
-	return '';
-}
-$instructors = $course->get_instructors( true );
-if ( ! $instructors ) {
-	return '';
-}
-$count = count( $instructors );
-?>
-
-<section class="llms-instructor-info">
-	<h3 class="llms-meta-title"><?php printf( _n( '%s Instructor', '%s Instructors', count( $instructors ), 'lifterlms' ), $course->get_post_type_label() ); ?></h3>
-	<div class="llms-instructors llms-cols">
-		<?php foreach ( $instructors as $instructor ) : ?>
-			<div class="llms-col-<?php echo $count <= 4 ? $count : 4; ?>">
-				<?php
-				echo llms_get_author(
-					array(
-						'avatar_size' => 100,
-						'bio'         => true,
-						'label'       => $instructor['label'],
-						'user_id'     => $instructor['id'],
-					)
-				);
-				?>
-			</div>
-		<?php endforeach; ?>
-	</div>
-</section>
+llms_template_instructors();
