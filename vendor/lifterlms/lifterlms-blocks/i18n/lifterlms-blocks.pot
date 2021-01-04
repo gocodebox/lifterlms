@@ -1,0 +1,96 @@
+# Copyright (C) 2018-2020 LifterLMS
+# This file is distributed under the same license as the LifterLMS Blocks plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LifterLMS Blocks 1.10.0\n"
+"Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
+"Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
+"Language-Team: Team LifterLMS <team@lifterlms.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-11-24T13:37:43-07:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
+"X-Generator: llms-dev 1.0.0\n"
+"X-Domain: lifterlms\n"
+
+#. Plugin Name of the plugin
+#: includes/class-llms-blocks.php:62
+msgid "LifterLMS Blocks"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/gocodebox/lifterlms-blocks"
+msgstr ""
+
+#. Description of the plugin
+msgid "WordPress Editor (Gutenberg) blocks for LifterLMS."
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://lifterlms.com/"
+msgstr ""
+
+#: includes/blocks/class-llms-blocks-course-information-block.php:48
+#: assets/js/llms-blocks.js:14574
+#: assets/js/llms-blocks.js:14584
+msgid "Course Information"
+msgstr ""
+
+#: includes/blocks/class-llms-blocks-instructors-block.php:84
+msgid "No visible instructors were found."
+msgstr ""
+
+#: includes/blocks/class-llms-blocks-pricing-table-block.php:94
+msgid "No access plans found."
+msgstr ""
+
+#: includes/class-llms-blocks-abstract-block.php:113
+msgid "No HTML was returned."
+msgstr ""
+
+#: includes/class-llms-blocks-post-instructors.php:136
+msgid "Sorry, you are not allowed to edit the object instructors."
+msgstr ""
+
+#: includes/class-llms-blocks-post-types.php:87
+msgid "Add a short description of your course visible to all visitors..."
+msgstr ""
+
+#: includes/class-llms-blocks-post-types.php:116
+msgid "Add a short description of your membership visible to all visitors..."
+msgstr ""
+
+#: includes/class-llms-blocks-post-types.php:140
+msgid "Add your lesson content..."
+msgstr ""
+
+#: includes/class-llms-blocks-post-visibility.php:82
+msgid "Sorry, you are not allowed to edit the object visibility."
+msgstr ""
+
+#: includes/class-llms-blocks-post-visibility.php:116
+msgid "Post visibility."
+msgstr ""
+
+#: includes/class-llms-blocks-status-tools.php:51
+msgid "Removes block editor code from all courses and lessons which were migrated to the block editor during an upgrade to WordPress 5.0 or later. If you installed the Classic Editor plugin after upgrading and see duplicate content items (such as the course syllabus or lesson mark complete button) this tool will remove the duplicates."
+msgstr ""
+
+#. Translators: %d = number of affected courses/lessons.
+#: includes/class-llms-blocks-status-tools.php:54
+msgid "Currently %d courses and/or lessons are affected."
+msgstr ""
+
+#: includes/class-llms-blocks-status-tools.php:58
+msgid "Remove LifterLMS Block Code"
+msgstr ""
+
+#: includes/class-llms-blocks-status-tools.php:59
+msgid "Remove Block Code"
+msgstr ""
+
+#: includes/class-llms-blocks.php:66
+msgid "LifterLMS Form Fields"
+msgstr ""

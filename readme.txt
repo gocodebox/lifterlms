@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.10.1
+Stable tag: 4.10.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,9 +516,21 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v4.10.1 - 2020-12-10 =
+= v4.10.2 - 2021-01-04 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Improveed performance of `llms_get_enrolled_students()`.
++ Refactored lesson navigation query functions.
+
+##### Bug fixes
+
++ Fixed sorting error when sorting student reports by name.
+
+
+= v4.10.1 - 2020-12-10 =
 
 ##### Bug fixes
 
@@ -666,24 +678,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Deprecations
 
 + `llms_set_person_auth_cookie()` is deprecated in favor of WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
-
-
-= v4.4.4 - 2020-09-21 =
-
-##### Bug fixes
-
-+ Don't pass unsupported parameter `$use_cache` to the `calculate_grade()` method, thanks [@pondermatic](https://github.com/pondermatic)!
-+ Add an HTML title attribute to the admin setup wizard page.
-+ Fix issue causing notices to be logged during quiz attempt deletion on the admin panel.
-
-##### Deprecations
-
-+ Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
-
-##### LifterLMS REST API version 1.0.0-beta.15
-
-+ Bugfix: Created lessons will now have the derivative `course_id` property set according to the ID of the lesson's parent section.
-+ Bugfix: The `course_id` property of lessons is now properly marked as read-only.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

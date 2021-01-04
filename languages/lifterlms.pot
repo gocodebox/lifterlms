@@ -1,15 +1,15 @@
-# Copyright (C) 2014-2020 LifterLMS
+# Copyright (C) 2014-2021 LifterLMS
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.10.1\n"
+"Project-Id-Version: LifterLMS 4.10.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-12-10T13:37:09-07:00\n"
+"POT-Creation-Date: 2021-01-04T11:05:41-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -1763,7 +1763,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:309
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
-#: includes/llms.functions.core.php:659
+#: includes/llms.functions.core.php:662
 msgid "Author"
 msgstr ""
 
@@ -2206,7 +2206,7 @@ msgstr ""
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:360
 #: includes/class.llms.post-types.php:441
-#: includes/models/model.llms.lesson.php:428
+#: includes/models/model.llms.lesson.php:427
 msgid "New Lesson"
 msgstr ""
 
@@ -2959,7 +2959,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
 #: includes/class.llms.ajax.handler.php:887
-#: includes/llms.functions.core.php:1113
+#: includes/llms.functions.core.php:1116
 msgid "ID#"
 msgstr ""
 
@@ -4381,7 +4381,7 @@ msgid "This student is not enrolled in any courses."
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:137
-#: includes/llms.functions.core.php:885
+#: includes/llms.functions.core.php:888
 msgid "Enrolled"
 msgstr ""
 
@@ -10886,11 +10886,11 @@ msgstr ""
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:884
+#: includes/llms.functions.core.php:887
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:886
+#: includes/llms.functions.core.php:889
 msgid "Expired"
 msgstr ""
 
@@ -10945,7 +10945,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: includes/models/model.llms.access.plan.php:389
-#: includes/models/model.llms.lesson.php:344
+#: includes/models/model.llms.lesson.php:343
 msgid "FREE"
 msgstr ""
 
