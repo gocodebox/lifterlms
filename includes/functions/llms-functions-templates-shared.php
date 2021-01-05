@@ -26,7 +26,7 @@ if ( ! function_exists( 'llms_template_instructors' ) ) {
 	function llms_template_instructors() {
 
 		$llms_post = llms_get_post( get_the_ID() );
-		if ( ! $post || ! $post instanceof LLMS_Post_Model ) {
+		if ( ! $llms_post || ! $llms_post instanceof LLMS_Post_Model || ! $llms_post instanceof LLMS_Interface_Post_Instructors ) {
 			return;
 		}
 
