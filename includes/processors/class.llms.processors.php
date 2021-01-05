@@ -110,7 +110,7 @@ class LLMS_Processors {
 		 *
 		 * @see llms_load_processor_path To add a custom load path for the loaded processor.
 		 *
-		 * @param string[] $this->classes A list of processor class ids/slugs.
+		 * @param string[] $classes A list of processor class ids/slugs.
 		 */
 		$classes = apply_filters( 'llms_load_processors', $this->classes );
 
