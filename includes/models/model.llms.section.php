@@ -15,6 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 4.0.0 Remove deprecated class methods.
+ *
+ * @property int    $order         The section's order within its parent course.
+ * @property int    $parent_course The WP_Post ID of the section's parent course.
+ * @property string $title         The title / display name of the section.
  */
 class LLMS_Section extends LLMS_Post_Model {
 
