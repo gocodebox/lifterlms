@@ -7,7 +7,7 @@
  * @since [version]
  * @version [version]
  *
- * @param LLMS_Post_Model $post        Instance of the LLMS_Post_Model for the current screen.
+ * @param LLMS_Post_Model $llms_post   Instance of the LLMS_Post_Model for the current screen.
  * @param array[]         $instructors Array of instructor data from the post's `get_instructors()` method.
  * @param int             $count       Number of instructors found in the `$instructors` array.
  */
@@ -23,15 +23,15 @@ defined( 'ABSPATH' ) || exit;
 		 *
 		 * @since [version]
 		 *
-		 * @param string          $title The block's title.
-		 * @param LLMS_Post_Model $post  The post model object.
-		 * @param int             $count Number of instructors found, used to pluralize the title.
+		 * @param string          $title     The block's title.
+		 * @param LLMS_Post_Model $llms_post The post model object.
+		 * @param int             $count     Number of instructors found, used to pluralize the title.
 		 */
 		echo apply_filters(
 			'llms_instructors_info_title',
 			// Translators: %s = The singular name of the post type, eg: "Course".
-			sprintf( _n( '%s Instructor', '%s Instructors', $count, 'lifterlms' ), $post->get_post_type_label() ),
-			$post,
+			sprintf( _n( '%s Instructor', '%s Instructors', $count, 'lifterlms' ), $llms_post->get_post_type_label() ),
+			$llms_post,
 			$count
 		);
 		?>

@@ -25,19 +25,19 @@ if ( ! function_exists( 'llms_template_instructors' ) ) {
 	 */
 	function llms_template_instructors() {
 
-		$post = llms_get_post( get_the_ID() );
+		$llms_post = llms_get_post( get_the_ID() );
 		if ( ! $post || ! $post instanceof LLMS_Post_Model ) {
 			return;
 		}
 
-		$instructors = $post->get_instructors( true );
+		$instructors = $llms_post->get_instructors( true );
 		if ( ! $instructors ) {
 			return;
 		}
 
 		$count = count( $instructors );
 
-		llms_get_template( 'shared/instructors.php', compact( 'post', 'instructors', 'count' ) );
+		llms_get_template( 'shared/instructors.php', compact( 'llms_post', 'instructors', 'count' ) );
 
 	}
 }
