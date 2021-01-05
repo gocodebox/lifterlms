@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.10.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -612,7 +612,7 @@ function llms_get_product_visibility_options() {
  *
  * @since 3.0.0
  * @since 3.8.0 Unknown.
- * @since [version] Instantiate the student query passing `no_found_rows` arg as `true`,
+ * @since 4.10.2 Instantiate the student query passing `no_found_rows` arg as `true`,
  *               as we don't need (and do not return) pagination info, e.g. max_pages.
  *
  * @param int          $post_id  WP_Post id of a course or membership.

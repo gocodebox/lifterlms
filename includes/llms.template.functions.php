@@ -12,6 +12,9 @@ defined( 'ABSPATH' ) || exit;
 
 require 'functions/llms-functions-content.php';
 require 'functions/llms-functions-conditional-tags.php';
+require 'functions/llms-functions-templates-courses.php';
+require 'functions/llms-functions-templates-memberships.php';
+require 'functions/llms-functions-templates-shared.php';
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
@@ -731,21 +734,6 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 			}
 		}
 
-	}
-}
-
-
-
-
-/**
- * Get single post author template
- *
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_course_author' ) ) {
-
-	function lifterlms_template_course_author() {
-		llms_get_template( 'course/author.php' );
 	}
 }
 

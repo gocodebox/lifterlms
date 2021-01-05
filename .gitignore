@@ -2,6 +2,11 @@
 node_modules/
 /vendor/
 
+# Ignore composer-installed libs.
+/libraries/*
+!/libraries/index.php
+!/libraries/README.md
+
 # Misc.
 *.log
 .DS_Store

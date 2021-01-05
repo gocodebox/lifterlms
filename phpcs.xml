@@ -19,6 +19,9 @@
     <!-- Exclude node packages -->
     <exclude-pattern>packages/</exclude-pattern>
 
+    <!-- Exclude external libraries -->
+    <exclude-pattern>libraries/</exclude-pattern>
+
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
 
@@ -97,9 +100,6 @@
 	</rule>
 
 	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-		<!-- Permanently excluded library files -->
-		<exclude-pattern>includes/libraries/wp-background-processing/*.php</exclude-pattern>
-
 		<!-- To be fixed -->
 		<exclude-pattern>includes/notifications/class.llms.notifications.query.php</exclude-pattern>
 		<exclude-pattern>includes/privacy/class-llms-privacy-exporters.php</exclude-pattern>
@@ -107,7 +107,6 @@
 		<exclude-pattern>includes/processors/class.llms.processor.course.data.php</exclude-pattern>
 		<exclude-pattern>includes/processors/class.llms.processor.membership.bulk.enroll.php</exclude-pattern>
 		<exclude-pattern>includes/processors/class.llms.processor.table.to.csv.php</exclude-pattern>
-		<exclude-pattern>includes/processors/class.llms.processors.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.course.outline.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/class.llms.shortcode.hide.content.php</exclude-pattern>
 	</rule>
