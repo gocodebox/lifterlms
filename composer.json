@@ -26,14 +26,10 @@
     }
   },
   "minimum-stability": "dev",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/Prospress/action-scheduler"
-    }
-  ],
   "require": {
     "php": ">=7.2",
+    "composer/installers": "~1.9.0",
+    "deliciousbrains/wp-background-processing": "1.0.2",
     "lifterlms/lifterlms-blocks": "1.11.1",
     "lifterlms/lifterlms-rest": "1.0.0-beta.17",
     "woocommerce/action-scheduler": "3.1.6"
@@ -109,5 +105,16 @@
     "tests": "\"vendor/bin/phpunit\"",
     "tests-run": "\"vendor/bin/phpunit\"",
     "install-php8": "composer install --ignore-platform-reqs"
+  },
+  "extra": {
+    "installer-paths": {
+      "libraries/{$name}": [
+        "lifterlms/lifterlms-blocks",
+        "lifterlms/lifterlms-rest"
+      ],
+      "vendor/{$vendor}/{$name}": [
+        "type:wordpress-plugin"
+      ]
+    }
   }
 }

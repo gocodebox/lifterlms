@@ -2,6 +2,11 @@ node_modules/
 composer.phar
 vendor/
 
+# Ignore composer-installed libs.
+/libraries/*
+!/libraries/index.php
+!/libraries/README.md
+
 sftp-config.json
 *.sublime-project
 *.sublime-workspace
