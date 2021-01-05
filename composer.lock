@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "119928e19fd96721e701ea4d53ac76b1",
+    "content-hash": "f499cdb1f7ba56cd760e9a587e1faff7",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "2172cff67cc370506b7cffb43c08dd1594f5e060"
+                "reference": "be06243de36766de801b86470f2779374b68dde8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/2172cff67cc370506b7cffb43c08dd1594f5e060",
-                "reference": "2172cff67cc370506b7cffb43c08dd1594f5e060",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/be06243de36766de801b86470f2779374b68dde8",
+                "reference": "be06243de36766de801b86470f2779374b68dde8",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
-                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.11.0"
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.11.1"
             },
-            "time": "2020-12-29T23:07:58+00:00"
+            "time": "2021-01-05T18:08:23+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
