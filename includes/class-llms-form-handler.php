@@ -373,7 +373,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location Form location ID.
-	 * @param array  $args
+	 * @param array  $args Additional arguments passed to the short-circuit filter.
 	 * @return int|WP_Error WP_User ID on success, error object on failure.
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {
