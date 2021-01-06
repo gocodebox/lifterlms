@@ -381,6 +381,43 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_free_enroll_form_fields()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_free_enroll_form_fields() {
+
+		$plan = $this->get_mock_plan();
+		wp_set_current_user( $this->factory->user->create() );
+
+		$this->forms->create( 'checkout' );
+
+		$fields = $this->forms->get_free_enroll_form_fields( $plan );
+
+		// Expected field list by name.
+		$expect = array(
+			'first_name',
+			'last_name',
+			'llms_billing_address_1',
+			'llms_billing_address_2',
+			'llms_billing_city',
+			'llms_billing_country',
+			'llms_billing_state',
+			'llms_billing_zip',
+			'llms_phone',
+			'free_checkout_redirect',
+			'llms_plan_id',
+		);
+		$this->assertEquals( $expect, wp_list_pluck( $fields, 'name' ) );
+
+		// Only hidden fields.
+		$this->assertEquals( array( 'hidden' ), array_unique( wp_list_pluck( $fields, 'type' ) ) );
+
+	}
+
+	/**
 	 * Can't retrieve blocks for an invalid location.
 	 *
 	 * @since [version]

@@ -136,7 +136,7 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $block Block Attributes.
+	 * @param array $block A WP Block array.
 	 * @return array
 	 */
 	protected function block_to_field_settings( $block ) {
@@ -160,7 +160,15 @@ class LLMS_Forms {
 			$attrs['required'] = false;
 		}
 
-		return $attrs;
+		/**
+		 * Filter an LLMS_Form_Field settings array after conversion from a field block
+		 *
+		 * @since [version]
+		 *
+		 * @param array $attrs An array of LLMS_Form_Field settings.
+		 * @param array $block A WP Block array.
+		 */
+		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block );
 
 	}
 
@@ -355,8 +363,10 @@ class LLMS_Forms {
 		$fields = array();
 		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
 			$settings = $this->block_to_field_settings( $block );
-			$field    = new LLMS_Form_Field( $settings );
-			$fields[] = $field->get_settings();
+			if ( $settings ) {
+				$field    = new LLMS_Form_Field( $settings );
+				$fields[] = $field->get_settings();
+			}
 		}
 
 		$fields = array_merge( $fields, $this->get_additional_fields( $location, $args ) );
@@ -529,6 +539,77 @@ class LLMS_Forms {
 
 		foreach ( $fields as $field ) {
 			$html .= sprintf( "\r<!-- wp:html -->\r%s\r<!-- /wp:html -->", llms_form_field( $field, false ) );
+		}
+
+		return $html;
+
+	}
+
+	/**
+	 * Retrieve an array of form fields used for the "free enrollment" form
+	 *
+	 * This is the "one-click" enrollment form used when a logged-in user clicks the "checkout" button
+	 * from an access plan.
+	 *
+	 * This function converts the checkout form to hidden fields, the result is that users with all required fields
+	 * will be enrolled into the course with a single click (no need to head to the checkout page) and users
+	 * who are missing required information will be directed to the checkout page.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
+	 * @return array[] List of LLMS_Form_Field settings arrays.
+	 */
+	public function get_free_enroll_form_fields( $plan ) {
+
+		// Convert all fields to hidden fields and remove any fields hidden by LLMS block-level visibility settings.
+		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+		$fields = $this->get_form_fields( 'checkout', compact( 'plan' ) );
+		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+
+		// Add additional fields required for form processing.
+		$fields[] = array(
+			'name'           => 'free_checkout_redirect',
+			'type'           => 'hidden',
+			'value'          => $plan->get_redirection_url(),
+			'data_store_key' => false,
+		);
+
+		$fields[] = array(
+			'id'             => 'llms-plan-id',
+			'name'           => 'llms_plan_id',
+			'type'           => 'hidden',
+			'value'          => $plan->get( 'id' ),
+			'data_store_key' => false,
+		);
+
+		/**
+		 * Filter the list of LLMS_Form_Fields used to generate the "free enrollment" form
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields List of LLMS_Form_Field settings arrays.
+		 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
+		 */
+		return apply_filters( 'llms_forms_get_free_enroll_form_fields', $fields, $plan );
+
+	}
+
+	/**
+	 * Retrieve the HTML of form fields used for the "free enrollment" form
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Forms::get_free_enroll_form_fields()
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
+	 * @return string
+	 */
+	public function get_free_enroll_form_html( $plan ) {
+
+		$html = '';
+		foreach( $this->get_free_enroll_form_fields( $plan ) as $field ) {
+			$html .= llms_form_field( $field, false );
 		}
 
 		return $html;
@@ -755,6 +836,37 @@ class LLMS_Forms {
 		$blocks = parse_blocks( $content );
 		$blocks = $this->cascade_visibility_attrs( $blocks );
 		return $blocks;
+
+	}
+
+	/**
+	 * Modifies a field for usage in the "free enrollment" checkout form
+	 *
+	 * If the block is not visible (according to LLMS block-level visibility settings)
+	 * it will return an empty array (signaling the field to be removed).
+	 *
+	 * Otherwise the block will be converted to a hidden field.
+	 *
+	 * This method is a filter callback and is intended for internal use only.
+	 *
+	 * Backwards incompatible changes and/or method removal may occur without notice.
+	 *
+	 * @since [version]
+	 *
+	 * @access private
+	 *
+	 * @param array $attrs LLMS_Form_Field settings array for the field.
+	 * @param array $block WP_Block settings array.
+	 * @return array
+	 */
+	public function prepare_field_for_free_enroll_form( $attrs, $block ) {
+
+		if ( ! $this->is_block_visible( $block ) ) {
+			return array();
+		}
+
+		$attrs['type'] = 'hidden';
+		return $attrs;
 
 	}
 

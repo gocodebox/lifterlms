@@ -11,7 +11,7 @@
  * @since [version]
  * @version [version]
  */
-class LLMS_Test_Functions_Forms extends LLMS_Unit_Test_Case {
+class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_form() function.
