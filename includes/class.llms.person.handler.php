@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
+ * @since [version] Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
  */
 class LLMS_Person_Handler {
 
@@ -98,11 +99,12 @@ class LLMS_Person_Handler {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $custom_username Return a non-null value to use that as the username.
-		 * @param string $email User's email address.
+		 * @param string $custom_username The custom-generated username. If the filter returns a truthy string it will be used in favor
+		 *                                of the automatically generated username.
+		 * @param string $email           User's email address.
 		 */
 		$custom_username = apply_filters( 'lifterlms_generate_username', null, $email );
-		if ( $custom_username ) {
+		if ( $custom_username && is_string( $custom_username ) ) {
 			return $custom_username;
 		}
 
@@ -116,6 +118,14 @@ class LLMS_Person_Handler {
 
 		}
 
+		/**
+		 * Modify an auto-generated username before it is used
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $username The generated user name.
+		 * @param string $email    User's email address which was used to generate the username.
+		 */
 		return apply_filters( 'lifterlms_generated_username', $username, $email );
 
 	}
@@ -369,175 +379,6 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Field an array of user fields retrieved from self::get_available_fields() with data
-	 *
-	 * The resulting array will be the data retrieved from self::get_available_fields() with "value" keys filled for each field.
-	 *
-	 * @since 3.0.0
-	 * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
-	 *
-	 * @param array $fields Array of fields from self::get_available_fields().
-	 * @param array $data   Array of data (from a $_POST or function).
-	 * @return array
-	 */
-	private static function fill_fields( $fields, $data ) {
-
-		if ( is_numeric( $data ) ) {
-			$user = new LLMS_Student( $data );
-		}
-
-		foreach ( $fields as &$field ) {
-
-			if ( 'password' === $field['type'] || 'html' === $field['type'] ) {
-				continue;
-			}
-
-			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
-			$val  = false;
-
-			if ( isset( $data[ $name ] ) ) {
-
-				$val = $data[ $name ];
-
-			} elseif ( isset( $user ) ) {
-
-				if ( 'email_address' === $name ) {
-					$name = 'user_email';
-				}
-				$val = $user->get( $name );
-
-			}
-
-			if ( $val ) {
-				if ( 'checkbox' === $field['type'] ) {
-					if ( $val == $field['value'] ) {
-						$field['selected'] = true;
-					}
-				} else {
-					$field['value'] = self::sanitize_field( $val, $field['type'] );
-				}
-			}
-		}
-
-		return $fields;
-
-	}
-
-	/**
-	 * Insert user data during registrations and updates
-	 *
-	 * @since 3.0.0
-	 * @since 3.24.0
-	 *
-	 * @param array  $data   Array of user data to be passed to WP core functions.
-	 * @param string $action Either registration or update.
-	 * @return WP_Error|int  WP_Error on error or the WP User ID
-	 */
-	private static function insert_data( $data = array(), $action = 'registration' ) {
-
-		if ( 'registration' === $action ) {
-			$insert_data = array(
-				'role'                 => 'student',
-				'show_admin_bar_front' => false,
-				'user_email'           => $data['email_address'],
-				'user_login'           => $data['user_login'],
-				'user_pass'            => $data['password'],
-			);
-
-			$extra_data = array(
-				'first_name',
-				'last_name',
-			);
-
-			$insert_func = 'wp_insert_user';
-			$meta_func   = 'add_user_meta';
-
-		} elseif ( 'update' === $action ) {
-
-			$insert_data = array(
-				'ID' => $data['user_id'],
-			);
-
-			// Email address if set.
-			if ( isset( $data['email_address'] ) ) {
-				$insert_data['user_email'] = $data['email_address'];
-			}
-
-			// Update password if both are set.
-			if ( isset( $data['password'] ) && isset( $data['password_confirm'] ) ) {
-				$insert_data['user_pass'] = $data['password'];
-			}
-
-			$extra_data = array(
-				'first_name',
-				'last_name',
-			);
-
-			$insert_func = 'wp_update_user';
-			$meta_func   = 'update_user_meta';
-
-		} else {
-
-			return new WP_Error( 'invalid', __( 'Invalid action', 'lifterlms' ) );
-
-		}
-
-		foreach ( $extra_data as $field ) {
-			if ( isset( $data[ $field ] ) ) {
-				$insert_data[ $field ] = $data[ $field ];
-			}
-		}
-
-		// Attempt to insert the data.
-		$person_id = $insert_func( apply_filters( 'lifterlms_user_' . $action . '_insert_user', $insert_data, $data, $action ) );
-
-		// Return the error object if registration fails.
-		if ( is_wp_error( $person_id ) ) {
-			return apply_filters( 'lifterlms_user_' . $action . '_failure', $person_id, $data, $action );
-		}
-
-		// Add user ip address.
-		$data[ self::$meta_prefix . 'ip_address' ] = llms_get_ip_address();
-
-		// Metas.
-		$possible_metas = apply_filters(
-			'llms_person_insert_data_possible_metas',
-			array(
-				self::$meta_prefix . 'billing_address_1',
-				self::$meta_prefix . 'billing_address_2',
-				self::$meta_prefix . 'billing_city',
-				self::$meta_prefix . 'billing_state',
-				self::$meta_prefix . 'billing_zip',
-				self::$meta_prefix . 'billing_country',
-				self::$meta_prefix . 'ip_address',
-				self::$meta_prefix . 'phone',
-			)
-		);
-		$insert_metas   = array();
-		foreach ( $possible_metas as $meta ) {
-			if ( isset( $data[ $meta ] ) ) {
-				$insert_metas[ $meta ] = $data[ $meta ];
-			}
-		}
-
-		// Record all meta values.
-		$metas = apply_filters( 'lifterlms_user_' . $action . '_insert_user_meta', $insert_metas, $data, $action );
-		foreach ( $metas as $key => $val ) {
-			$meta_func( $person_id, $key, $val );
-		}
-
-		// If agree to terms data is present, record the agreement date.
-		if ( isset( $data[ self::$meta_prefix . 'agree_to_terms' ] ) && 'yes' === $data[ self::$meta_prefix . 'agree_to_terms' ] ) {
-
-			$meta_func( $person_id, self::$meta_prefix . 'agree_to_terms', current_time( 'mysql' ) );
-
-		}
-
-		return $person_id;
-
-	}
-
-	/**
 	 * Login a user
 	 *
 	 * @since 3.0.0
@@ -586,7 +427,7 @@ class LLMS_Person_Handler {
 		$data = apply_filters( 'lifterlms_user_login_data', $data );
 
 		// Validate the fields & allow custom validation to occur.
-		$valid = self::validate_fields( $data, 'login' );
+		$valid = self::validate_login_fields( $data );
 
 		// Error.
 		if ( is_wp_error( $valid ) ) {
@@ -623,9 +464,87 @@ class LLMS_Person_Handler {
 	}
 
 	/**
+	 * Validate login form fields
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data Array of user-submitted data, usually from `$_POST`.
+	 * @return WP_Error|true Returns an error object or `true` if the submission is valid.
+	 */
+	protected static function validate_login_fields( $data ) {
+
+		$err = new WP_Error();
+
+		$fields = self::get_login_fields();
+
+		foreach ( $fields as $field ) {
+
+			$name  = isset( $field['name'] ) ? $field['name'] : $field['id'];
+			$label = isset( $field['label'] ) ? $field['label'] : $name;
+
+			$field_type = isset( $field['type'] ) ? $field['type'] : '';
+			$val        = isset( $data[ $name ] ) ? $data[ $name ] : '';
+
+			// Ensure required fields are submitted.
+			if ( ! empty( $field['required'] ) && empty( $val ) ) {
+
+				$err->add( $field['id'], sprintf( __( '%s is a required field', 'lifterlms' ), $label ), 'required' );
+				continue;
+
+			}
+
+			// Email fields must be emails.
+			if ( 'email' === $field_type && ! is_email( $val ) ) {
+				$err->add( $field['id'], sprintf( __( '%s must be a valid email address', 'lifterlms' ), $label ), 'invalid' );
+			}
+
+		}
+
+		return $err->has_errors() ? $err : true;
+
+	}
+
+	/**
+	 * Retrieve an array of fields for a specific screen
+	 *
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @deprecated [version] `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
+	 *
+	 * @param string    $screen Name os the screen [account|checkout|registration].
+	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
+	 * @return array
+	 */
+	public static function get_available_fields( $screen = 'registration', $data = array() ) {
+		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '[version]', 'LLMS_Forms::get_form_fields()' );
+		return LLMS_Forms::instance()->get_form_fields( $screen );
+	}
+
+	/**
+	 * Perform validations according to the registration screen and registers a user
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 * @since 4.5.0 Use `wp_signon()` in favor of `llms_set_person_auth_cookie()` to sign on upon registration.
+	 * @deprecated [version] `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
+	 *
+	 * @param array  $data Associative array of form data.
+	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
+	 * @param bool   $signon If true, also signon the newly created user.
+	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
+	 */
+	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
+		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
+		return llms_register_user( $data, $screen, $signon );
+	}
+
+	/**
 	 * Sanitize posted fields
 	 *
+	 * This private method can be removed when LLMS_Person_Handler::validate_fields() is removed.
+	 *
 	 * @since 3.19.4
+	 * @deprecated [version] Private method LLMS_Person_Handler::sanitize_field() is deprecated with no replacement.
 	 *
 	 * @param string $val        Unsanitized user data.
 	 * @param string $field_type Field type, allows additional sanitization to run based on field type.
@@ -643,10 +562,27 @@ class LLMS_Person_Handler {
 	}
 
 	/**
+	 * Perform validations according to $screen and update the user
+	 *
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @deprecated [version] `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
+	 *
+	 * @param array  $data Associative array of form data.
+	 * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
+	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
+	 */
+	public static function update( $data = array(), $screen = 'update' ) {
+		llms_deprecated_function( 'LLMS_Person_Handler::update()', '[version]', 'llms_update_user()' );
+		return llms_update_user( $data, $screen );
+	}
+
+	/**
 	 * Validate submitted user data for registration or profile update
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
+	 * @deprecated [version] LLMS_Person_Handler::validate_fields() is deprecated with no replacement.
 	 *
 	 * @param array  $data {
 	 *      User data array.
@@ -670,6 +606,8 @@ class LLMS_Person_Handler {
 	 * @return true|WP_Error
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
+
+		llms_deprecated_function( 'LLMS_Person_Handler::validate_fields()', '[version]' );
 
 		if ( 'login' === $screen ) {
 
@@ -818,16 +756,17 @@ class LLMS_Person_Handler {
 
 	}
 
-
 	/**
 	 * Output Voucher toggle JS in a quick and shameful manner
 	 *
 	 * @since 3.0.0
+	 * @deprecated [version] LLMS_Person_Handler::voucher_toggle_script() is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public static function voucher_toggle_script() {
 
+		llms_deprecated_function( 'LLMS_Person_Handler::voucher_toggle_script()', '[version]' );
 		if ( empty( self::$voucher_script_output ) ) {
 
 			self::$voucher_script_output = true;
@@ -843,56 +782,6 @@ class LLMS_Person_Handler {
 
 		}
 
-	}
-
-	/**
-	 * Retrieve an array of fields for a specific screen
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.0 Unknown.
-	 * @deprecated [version] `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
-	 *
-	 * @param string    $screen Name os the screen [account|checkout|registration].
-	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
-	 * @return array
-	 */
-	public static function get_available_fields( $screen = 'registration', $data = array() ) {
-		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '[version]', 'LLMS_Forms::get_form_fields()' );
-		return LLMS_Forms::instance()->get_form_fields( $screen );
-	}
-
-	/**
-	 * Perform validations according to the registration screen and registers a user
-	 *
-	 * @since 3.0.0
-	 * @since 3.19.4 Unknown.
-	 * @since 4.5.0 Use `wp_signon()` in favor of `llms_set_person_auth_cookie()` to sign on upon registration.
-	 * @deprecated [version] `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
-	 *
-	 * @param array  $data Associative array of form data.
-	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
-	 * @param bool   $signon If true, also signon the newly created user.
-	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
-	 */
-	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
-		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
-		return llms_register_user( $data, $screen, $signon );
-	}
-
-	/**
-	 * Perform validations according to $screen and update the user
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.0 Unknown.
-	 * @deprecated [version] `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
-	 *
-	 * @param array  $data Associative array of form data.
-	 * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
-	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
-	 */
-	public static function update( $data = array(), $screen = 'update' ) {
-		llms_deprecated_function( 'LLMS_Person_Handler::update()', '[version]', 'llms_update_user()' );
-		return llms_update_user( $data, $screen );
 	}
 
 }
