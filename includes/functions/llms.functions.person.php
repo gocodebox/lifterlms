@@ -390,16 +390,17 @@ function llms_parse_password_reset_cookie() {
  * Register a new user
  *
  * @since 3.0.0
- * @since [version] Use `LLMS_Form_Handler()` for registration and
+ * @since [version] Use `LLMS_Form_Handler()` for registration.
  *
- * @param  array  $data   Array of registration data.
- * @param  string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
- * @param  bool   $signon If true, signon the newly created user
+ * @param array  $data   Array of registration data.
+ * @param string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
+ * @param bool   $signon If true, signon the newly created user
+ * @param array  $args   Additional arguments passed to the short-circuit filter.
  * @return int|WP_Error
  */
-function llms_register_user( $data = array(), $screen = 'registration', $signon = true ) {
+function llms_register_user( $data = array(), $screen = 'registration', $signon = true, $args = array() ) {
 
-	$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen );
+	$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen, $args );
 
 	if ( is_wp_error( $user_id ) ) {
 		return $user_id;
@@ -515,8 +516,9 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
  *
  * @param array  $data Array of user data.
  * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'
+ * @param array  $args   Additional arguments passed to the short-circuit filter.
  * @return int|WP_Error WP_User ID on success or error object on failure.
  */
-function llms_update_user( $data = array(), $location = 'account' ) {
-	return LLMS_Form_Handler::instance()->submit( $data, $location );
+function llms_update_user( $data = array(), $location = 'account', $args = array() ) {
+	return LLMS_Form_Handler::instance()->submit( $data, $location, $args );
 }
