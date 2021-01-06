@@ -497,7 +497,6 @@ class LLMS_Person_Handler {
 			if ( 'email' === $field_type && ! is_email( $val ) ) {
 				$err->add( $field['id'], sprintf( __( '%s must be a valid email address', 'lifterlms' ), $label ), 'invalid' );
 			}
-
 		}
 
 		return $err->has_errors() ? $err : true;

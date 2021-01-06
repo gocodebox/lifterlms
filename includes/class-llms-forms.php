@@ -608,7 +608,7 @@ class LLMS_Forms {
 	public function get_free_enroll_form_html( $plan ) {
 
 		$html = '';
-		foreach( $this->get_free_enroll_form_fields( $plan ) as $field ) {
+		foreach ( $this->get_free_enroll_form_fields( $plan ) as $field ) {
 			$html .= llms_form_field( $field, false );
 		}
 

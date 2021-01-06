@@ -275,7 +275,7 @@ function llms_setup_pending_order( $data = array() ) {
 	if ( ! empty( $data['customer']['user_id'] ) ) {
 		$person_id = llms_update_user( $data['customer'], 'checkout', compact( 'plan' ) );
 	} else {
-		$person_id = llms_register_user( $data['customer'], 'checkout', true,compact( 'plan' ) );
+		$person_id = llms_register_user( $data['customer'], 'checkout', true, compact( 'plan' ) );
 	}
 
 	// Validation or registration issues.

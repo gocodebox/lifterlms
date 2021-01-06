@@ -636,7 +636,7 @@ class LLMS_Form_Field {
 		// Add a placeholder.
 		if ( $this->settings['placeholder'] ) {
 			$this->settings['default'] = '';
-			$prepared = array_merge( array( '' => $this->settings['placeholder'] ), $prepared );
+			$prepared                  = array_merge( array( '' => $this->settings['placeholder'] ), $prepared );
 		}
 
 		return $prepared;
