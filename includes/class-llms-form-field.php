@@ -28,7 +28,7 @@ class LLMS_Form_Field {
 	 *     @type int             $columns          Number of columns the field wrapper should occupy when rendered. Accepts integers >= 1 and <= 12.
 	 *     @type string[]|string $classes          Additional CSS classes to add to the field element. Accepts a string or an array of strings.
 	 *     @type string          $data_store       Determines where to store field values. Accepts "users" or "usermeta" to store on the respective WP core tables.
-	 *     @type string          $data_store_key   Determines the key name to use when storing the field value. Pass `false` to disable automatic storage. Defaults to the value of the `$name` property.
+	 *     @type string|false    $data_store_key   Determines the key name to use when storing the field value. Pass `false` to disable automatic storage. Defaults to the value of the `$name` property.
 	 *     @type string          $description      A string to use as the field's description or helper text.
 	 *     @type string          $default          The default value to use for the field.
 	 *     @type bool            $disabled         Whether or not the field is enabled.
