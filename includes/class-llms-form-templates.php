@@ -244,20 +244,22 @@ class LLMS_Form_Templates {
 	 */
 	protected function get_row_email( $location ) {
 
-		$cols = array();
+		$option = llms_parse_bool( get_option( sprintf( 'lifterlms_user_info_field_email_confirmation_%s_visibility', $location ) ) );
 
-		$cols[] = $this->get_block(
-			'user-email',
-			array(
-				'field' => 'email',
-				'id'    => 'email_address',
-				'label' => __( 'Email Address', 'lifterlms' ),
-				'match' => 'email_address_confirm',
-			)
+		$cols = array(
+			$this->get_block(
+				'user-email',
+				array(
+					'field'           => 'email',
+					'id'              => 'email_address',
+					'label'           => __( 'Email Address', 'lifterlms' ),
+					'match'           => 'email_address_confirm',
+					'llms_visibility' => $option ? 'all' : 'logged_out',
+				)
+			),
 		);
 
-		$option = get_option( sprintf( 'lifterlms_user_info_field_email_confirmation_%s_visibility', $location ) );
-		if ( ! llms_parse_bool( $option ) ) {
+		if ( ! $option ) {
 			return $cols;
 		}
 
