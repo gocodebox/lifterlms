@@ -148,8 +148,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 *
 	 * @see LLMS_Student::get_progress()
 	 *
-	 * @param string $user_id   WP_User ID, if none supplied users current user (if exists).
-	 * @param bool   $use_cache When true, uses results from from the wp object cache (if available).
+	 * @param string $user_id   Optional. WP_User ID, if none supplied uses current user (if exists). Default is empty string.
+	 * @param bool   $use_cache Optional. When true, uses results from from the wp object cache (if available). Default is `false`.
 	 * @return float
 	 */
 	public function get_percent_complete( $user_id = '', $use_cache = true ) {
@@ -193,7 +193,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @since 3.3.0
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param string $return  type of return [ids|posts|lessons]
+	 * @param string $return Optional. Type of return [ids|posts|lessons]. Default is `lessons`.
 	 * @return int[]|WP_Post[]|LLMS_Lesson[] Return ty depends on value of `$return` argument.
 	 */
 	public function get_lessons( $return = 'lessons' ) {
@@ -231,7 +231,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param string $return Type of return [ids|posts|sections].
+	 * @param string $return Optional. Type of return [ids|posts|sections]. Default is `sections`.
 	 * @return int[]|WP_Post[]|LLMS_Section[] Return type depends on value of `$return` argument.
 	 */
 	public function get_siblings( $return = 'sections' ) {
@@ -247,7 +247,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @since 3.3.0
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param array $arr Data to be serialized
+	 * @param array $arr Data to be serialized.
 	 * @return array
 	 */
 	public function toArrayAfter( $arr ) {
