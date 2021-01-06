@@ -7,6 +7,7 @@
  * @since 3.19.0
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  * @since 3.37.17 Added tests for the `lost_password()` and `reset_password()` methods.
+ * @since [version] Added tests for `redeem_voucher()` method.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -343,6 +344,122 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$this->assertTrue( $res );
 
 		$this->assertHasNotice( 'Check your e-mail for the confirmation link.', 'success' );
+
+	}
+
+	/**
+	 * Test redeem_voucher() when the form isn't submitted
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_not_submitted() {
+		$this->assertNull( $this->main->redeem_voucher() );
+	}
+
+	/**
+	 * Test redeem_voucher() when there's an invalid nonce
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_invalid_nonce() {
+
+		$this->mockPostRequest( array(
+			'lifterlms_voucher_nonce' => 'fake',
+		) );
+
+		$this->assertNull( $this->main->redeem_voucher() );
+
+	}
+
+	/**
+	 * Test redeem_voucher() when no voucher code is submitted
+	 *
+	 * Note: the error message doesn't really make sense but in real world scenarios
+	 * and end user will never encounter this error as HTML5 validation prevents
+	 * the form from being submitted without a voucher.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_missing_voucher() {
+
+		wp_set_current_user( $this->factory->user->create() );
+		$this->mockPostRequest( array(
+			'lifterlms_voucher_nonce' => wp_create_nonce( 'lifterlms_voucher_check' ),
+		) );
+
+		$res = $this->main->redeem_voucher();
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'not-found', $res );
+		$this->assertHasNotice( 'Voucher code "" could not be found.', 'error' );
+
+	}
+
+	/**
+	 * Test redeem_voucher() when there's no user
+	 *
+	 * This shouldn't ever really happen but we'll test it just in case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_missing_user() {
+
+		$this->mockPostRequest( array(
+			'lifterlms_voucher_nonce' => wp_create_nonce( 'lifterlms_voucher_check' ),
+		) );
+
+		$this->assertNull( $this->main->redeem_voucher() );
+
+	}
+
+	/**
+	 * Test redeem_voucher() when an error is encountered during the voucher redemption
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_error() {
+
+		wp_set_current_user( $this->factory->user->create() );
+		$this->mockPostRequest( array(
+			'lifterlms_voucher_nonce' => wp_create_nonce( 'lifterlms_voucher_check' ),
+			'llms_voucher_code'       => 'fakevouchercode1',
+		) );
+
+		$res = $this->main->redeem_voucher();
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'not-found', $res );
+		$this->assertHasNotice( 'Voucher code "fakevouchercode1" could not be found.', 'error' );
+
+	}
+
+	/**
+	 * Test redeem_voucher() success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_redeem_voucher_success() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+
+		wp_set_current_user( $this->factory->user->create() );
+		$this->mockPostRequest( array(
+			'lifterlms_voucher_nonce' => wp_create_nonce( 'lifterlms_voucher_check' ),
+			'llms_voucher_code'       => $voucher->get_voucher_codes()[0]->code,
+		) );
+
+		$this->assertTrue( $this->main->redeem_voucher() );
+		$this->assertHasNotice( 'Voucher redeemed successfully!', 'success' );
 
 	}
 
