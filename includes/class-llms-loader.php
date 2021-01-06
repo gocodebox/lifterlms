@@ -87,7 +87,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
-	 * @since [version] Include `LLMS_Forms`, LLMS_Form_Templates`, and `LLMS_Form_Handler`.
+	 * @since [version] Include `LLMS_Forms`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 *
 	 * @return void
 	 */
