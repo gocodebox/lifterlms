@@ -121,200 +121,6 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retrieve an array of fields for a specific screen
-	 *
-	 * Each array represents a form field that can be passed to llms_form_field().
-	 *
-	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields().
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.0 Unknown.
-	 *
-	 * @todo Deprecate
-	 *
-	 * @param string    $screen Name os the screen [account|checkout|registration].
-	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
-	 * @return array
-	 */
-	public static function get_available_fields( $screen = 'registration', $data = array() ) {
-
-		$uid = get_current_user_id();
-
-		// Setup all the fields to load.
-		$fields = array();
-
-		// This isn't needed if we're on an account screen or.
-		if ( 'account' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
-			$fields[] = array(
-				'columns'     => 12,
-				'id'          => 'user_login',
-				'label'       => __( 'Username', 'lifterlms' ),
-				'last_column' => true,
-				'required'    => true,
-				'type'        => ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) ) ? 'hidden' : 'text',
-			);
-		}
-
-		// On the checkout screen, if we already have a user we can remove these fields:.
-		// Username, email, email confirm, password, password confirm, password meter.
-		if ( 'checkout' !== $screen || ! $uid ) {
-			$email_con = get_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility' );
-			$fields[]  = array(
-				'columns'     => ( 'no' === $email_con ) ? 12 : 6,
-				'id'          => 'email_address',
-				'label'       => __( 'Email Address', 'lifterlms' ),
-				'last_column' => ( 'no' === $email_con ) ? true : false,
-				'matched'     => 'email_address_confirm',
-				'required'    => true,
-				'type'        => 'email',
-			);
-			if ( 'yes' === $email_con ) {
-				$fields[] = array(
-					'columns'     => 6,
-					'id'          => 'email_address_confirm',
-					'label'       => __( 'Confirm Email Address', 'lifterlms' ),
-					'last_column' => true,
-					'match'       => 'email_address',
-					'required'    => true,
-					'type'        => 'email',
-				);
-			}
-
-			// Account screen has password updates at the bottom.
-			if ( 'account' !== $screen ) {
-				$fields = self::get_password_fields( $screen, $fields );
-			}
-		}
-
-		$names = get_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility' );
-		if ( 'hidden' !== $names ) {
-			$fields[] = array(
-				'columns'     => 6,
-				'id'          => 'first_name',
-				'label'       => __( 'First Name', 'lifterlms' ),
-				'last_column' => false,
-				'required'    => ( 'required' === $names ) ? true : false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 6,
-				'id'          => 'last_name',
-				'label'       => __( 'Last Name', 'lifterlms' ),
-				'last_column' => true,
-				'required'    => ( 'required' === $names ) ? true : false,
-				'type'        => 'text',
-			);
-		}
-
-		$address = get_option( 'lifterlms_user_info_field_address_' . $screen . '_visibility' );
-
-		if ( 'hidden' !== $address ) {
-			$fields[] = array(
-				'columns'     => 8,
-				'id'          => self::$meta_prefix . 'billing_address_1',
-				'label'       => __( 'Street Address', 'lifterlms' ),
-				'last_column' => false,
-				'required'    => ( 'required' === $address ) ? true : false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 4,
-				'id'          => self::$meta_prefix . 'billing_address_2',
-				'label'       => '&nbsp;',
-				'last_column' => true,
-				'placeholder' => __( 'Apartment, suite, or unit', 'lifterlms' ),
-				'required'    => false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 6,
-				'id'          => self::$meta_prefix . 'billing_city',
-				'label'       => __( 'City', 'lifterlms' ),
-				'last_column' => false,
-				'required'    => ( 'required' === $address ) ? true : false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 3,
-				'id'          => self::$meta_prefix . 'billing_state',
-				'label'       => __( 'State', 'lifterlms' ),
-				'last_column' => false,
-				'required'    => ( 'required' === $address ) ? true : false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 3,
-				'id'          => self::$meta_prefix . 'billing_zip',
-				'label'       => __( 'Zip Code', 'lifterlms' ),
-				'last_column' => true,
-				'required'    => ( 'required' === $address ) ? true : false,
-				'type'        => 'text',
-			);
-			$fields[] = array(
-				'columns'     => 12,
-				'default'     => get_lifterlms_country(),
-				'id'          => self::$meta_prefix . 'billing_country',
-				'label'       => __( 'Country', 'lifterlms' ),
-				'last_column' => true,
-				'options'     => get_lifterlms_countries(),
-				'required'    => ( 'required' === $address ) ? true : false,
-				'type'        => 'select',
-			);
-		}
-
-		$phone = get_option( 'lifterlms_user_info_field_phone_' . $screen . '_visibility' );
-		if ( 'hidden' !== $phone ) {
-			$fields[] = array(
-				'columns'     => 12,
-				'id'          => self::$meta_prefix . 'phone',
-				'label'       => __( 'Phone Number', 'lifterlms' ),
-				'last_column' => true,
-				'placeholder' => _x( '(123) 456 - 7890', 'Phone Number Placeholder', 'lifterlms' ),
-				'required'    => ( 'required' === $phone ) ? true : false,
-				'type'        => 'text',
-			);
-		}
-
-		$voucher = get_option( 'lifterlms_voucher_field_' . $screen . '_visibility', '' );
-		if ( 'registration' === $screen && 'hidden' !== $voucher ) {
-
-			$toggleable    = apply_filters( 'llms_voucher_toggleable', ( 'required' === $voucher ) ? false : true );
-			$voucher_label = __( 'Have a voucher?', 'lifterlms' );
-			if ( $toggleable ) {
-				$voucher_label = '<a class="llms-voucher-toggle" id="llms-voucher-toggle" href="#">' . $voucher_label . '</a>';
-				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'voucher_toggle_script' ) );
-			}
-
-			$fields[] = array(
-				'columns'     => 12,
-				'id'          => self::$meta_prefix . 'voucher',
-				'label'       => $voucher_label,
-				'last_column' => true,
-				'placeholder' => __( 'Voucher Code', 'lifterlms' ),
-				'required'    => ( 'required' === $voucher ) ? true : false,
-				'style'       => $toggleable ? 'display: none;' : '',
-				'type'        => 'text',
-			);
-
-		}
-
-		// Add account password fields.
-		if ( 'account' === $screen ) {
-			$fields = self::get_password_fields( $screen, $fields );
-		}
-
-		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
-
-		// Populate fields with data, if we have any.
-		if ( $data ) {
-			$fields = self::fill_fields( $fields, $data );
-		}
-
-		return $fields;
-
-	}
-
-	/**
 	 * Get the fields for the login form
 	 *
 	 * @since 3.0.0
@@ -1037,6 +843,22 @@ class LLMS_Person_Handler {
 
 		}
 
+	}
+
+	/**
+	 * Retrieve an array of fields for a specific screen
+	 *
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @deprecated [version] `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
+	 *
+	 * @param string    $screen Name os the screen [account|checkout|registration].
+	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
+	 * @return array
+	 */
+	public static function get_available_fields( $screen = 'registration', $data = array() ) {
+		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '[version]', 'LLMS_Forms::get_form_fields()' );
+		return LLMS_Forms::instance()->get_form_fields( $screen );
 	}
 
 	/**
