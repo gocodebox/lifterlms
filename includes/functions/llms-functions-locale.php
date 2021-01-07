@@ -108,7 +108,7 @@ function get_lifterlms_countries() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  array $countries Associative array of Country Code => Country Name.
+	 * @param array $countries Associative array of Country Code => Country Name.
 	 */
 	$countries = apply_filters( 'lifterlms_countries', $countries );
 
