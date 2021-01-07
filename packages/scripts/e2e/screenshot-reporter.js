@@ -1,6 +1,9 @@
 /**
  * Test Reporter that takes screenshots when a test fails.
  *
+ * @since Unknown
+ * @version [version]
+ *
  * @link https://github.com/smooth-code/jest-puppeteer/issues/131#issuecomment-424073620
  */
 
@@ -11,10 +14,14 @@ const
 /**
  * Take a Screenshot.
  *
- * @param {string} name Screenshot name.
+ * @since Unknown.
+ * @since [version] Added `result` argument.
+ *
+ * @param {String} name   Screenshot name.
+ * @param {Object} result Full test result object.
  * @return {Void}
  */
-async function takeScreenshot( name ) {
+async function takeScreenshot( name, result ) {
 
 	const
 		dir        = './tmp/e2e-screenshots',
@@ -42,6 +49,9 @@ afterAll( () => screenshotPromise );
 /**
  * Add the test Reporter.
  *
+ * @since Unknown.
+ * @since [version] Pass the full test result to `takeScreenshot()`.
+ *
  * @return {Void}
  */
 jasmine.getEnv().addReporter( {
@@ -50,7 +60,7 @@ jasmine.getEnv().addReporter( {
 		if ( 'false' !== process.env.PUPPETEER_HEADLESS && 'failed' === result.status ) {
 			screenshotPromise = screenshotPromise
 				.catch()
-				.then( () => takeScreenshot( result.fullName ) );
+				.then( () => takeScreenshot( result.fullName, result ) );
 		}
 	},
 
