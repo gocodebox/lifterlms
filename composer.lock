@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7ae75854bdb0fea0898537c49fbce6d",
+    "content-hash": "9d3e0d7306dc8958b2a8c15d2a1b55fd",
     "packages": [
         {
             "name": "composer/installers",
@@ -192,16 +192,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.11.1",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "be06243de36766de801b86470f2779374b68dde8"
+                "reference": "dc5d89b78afc7ecb0284825d54fd8b2497f008a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/be06243de36766de801b86470f2779374b68dde8",
-                "reference": "be06243de36766de801b86470f2779374b68dde8",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/dc5d89b78afc7ecb0284825d54fd8b2497f008a9",
+                "reference": "dc5d89b78afc7ecb0284825d54fd8b2497f008a9",
                 "shasum": ""
             },
             "require": {
@@ -225,9 +225,9 @@
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
-                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.11.1"
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.12.0"
             },
-            "time": "2021-01-05T18:08:23+00:00"
+            "time": "2021-01-07T21:36:59+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
@@ -588,12 +588,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "99487722b4fdff64fd70004c415975ade28c0d09"
+                "reference": "02df750fa20689df142885c1ea949e5cbc004bf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/99487722b4fdff64fd70004c415975ade28c0d09",
-                "reference": "99487722b4fdff64fd70004c415975ade28c0d09",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/02df750fa20689df142885c1ea949e5cbc004bf3",
+                "reference": "02df750fa20689df142885c1ea949e5cbc004bf3",
                 "shasum": ""
             },
             "require": {
@@ -603,9 +603,9 @@
                 "symfony/filesystem": "^2.3.0|^3|^4|^5"
             },
             "require-dev": {
-                "easy-doc/easy-doc": "0.0.0 || ^1.2.3",
+                "easy-doc/easy-doc": "0.0.0|^1.2.3",
                 "gregwar/rst": "^1.0",
-                "phpunit/phpunit": "^4.8.35|^5.7",
+                "phpunit/phpunit": "^4.8.36|^5.7.27",
                 "squizlabs/php_codesniffer": "^2.0.0"
             },
             "default-branch": true,
@@ -638,7 +638,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-18T13:22:36+00:00"
+            "time": "2021-01-07T09:14:02+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2444,12 +2444,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "346fda2f4f7fab27a5396a58156be487c6fc2730"
+                "reference": "e6c80181de492949504b6f7aa1b5fb4563d6698c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/346fda2f4f7fab27a5396a58156be487c6fc2730",
-                "reference": "346fda2f4f7fab27a5396a58156be487c6fc2730",
+                "url": "https://api.github.com/repos/symfony/config/zipball/e6c80181de492949504b6f7aa1b5fb4563d6698c",
+                "reference": "e6c80181de492949504b6f7aa1b5fb4563d6698c",
                 "shasum": ""
             },
             "require": {
@@ -2515,7 +2515,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-04T17:59:10+00:00"
+            "time": "2021-01-05T19:50:41+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2523,12 +2523,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "870df0ac2b1be856b4edef40b8402df68c0ecb25"
+                "reference": "7bf0f98fe48a4e71cf48cba564a432b31256d2f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/870df0ac2b1be856b4edef40b8402df68c0ecb25",
-                "reference": "870df0ac2b1be856b4edef40b8402df68c0ecb25",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/7bf0f98fe48a4e71cf48cba564a432b31256d2f7",
+                "reference": "7bf0f98fe48a4e71cf48cba564a432b31256d2f7",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2603,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-04T18:20:06+00:00"
+            "time": "2021-01-07T14:55:28+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2743,12 +2743,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "7130f348df2f842044038aaae9d6653dc9d67649"
+                "reference": "c6c942b1ac76c82448322025e084cadc56048b4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/7130f348df2f842044038aaae9d6653dc9d67649",
-                "reference": "7130f348df2f842044038aaae9d6653dc9d67649",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/c6c942b1ac76c82448322025e084cadc56048b4e",
+                "reference": "c6c942b1ac76c82448322025e084cadc56048b4e",
                 "shasum": ""
             },
             "require": {
@@ -2761,7 +2761,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.21-dev"
+                    "dev-main": "1.22-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -2799,7 +2799,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/main"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.0"
             },
             "funding": [
                 {
@@ -2815,7 +2815,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-27T09:28:48+00:00"
+            "time": "2021-01-07T16:49:33+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -2823,12 +2823,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "54cc82c30ba7ed02bc64f5d010488c159b5f1706"
+                "reference": "dc3063ba22c2a1fd2f45ed856374d79114998f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/54cc82c30ba7ed02bc64f5d010488c159b5f1706",
-                "reference": "54cc82c30ba7ed02bc64f5d010488c159b5f1706",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dc3063ba22c2a1fd2f45ed856374d79114998f91",
+                "reference": "dc3063ba22c2a1fd2f45ed856374d79114998f91",
                 "shasum": ""
             },
             "require": {
@@ -2838,7 +2838,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.21-dev"
+                    "dev-main": "1.22-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -2883,7 +2883,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/main"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.0"
             },
             "funding": [
                 {
@@ -2899,7 +2899,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-27T09:28:48+00:00"
+            "time": "2021-01-07T16:49:33+00:00"
         },
         {
             "name": "symfony/service-contracts",
