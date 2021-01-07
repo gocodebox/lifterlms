@@ -11,7 +11,8 @@
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
- * @since 4.4.2 Add additional navigation testing scenarios.
+ * @since 4.4.2 Added additional navigation testing scenarios.
+ * @since 4.11.0 Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -594,4 +595,38 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test next/prev lesson with empty sibling sections
+	 *
+	 * @since 4.11.0
+	 *
+	 * @return void
+	 */
+	public function test_navigation_empty_sibling_section() {
+
+		$course = $this->factory->course->create_and_get(
+			array(
+				'sections' => 2,
+				'lessons' => 1,
+				'quizzes' => 0
+			)
+		);
+
+		$lessons = $course->get_lessons();
+
+		// Detach the second lesson from the second section.
+		$second_section = $lessons[1]->get_parent_section();
+		$lessons[1]->set_parent_section('');
+		// Check the next lesson of the first one is false.
+		$this->assertEquals( false, $lessons[0]->get_next_lesson() );
+
+		// Re-attach the second lesson to the second section.
+		$lessons[1]->set_parent_section( $second_section );
+
+		// Detach the first lesson from the first section.
+		$lessons[0]->set_parent_section('');
+		// Check the previous lesson of the second one is false.
+		$this->assertEquals( false, $lessons[1]->get_previous_lesson() );
+
+	}
 }

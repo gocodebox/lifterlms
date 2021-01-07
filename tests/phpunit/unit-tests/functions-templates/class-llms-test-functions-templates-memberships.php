@@ -6,14 +6,14 @@
  * @group template_functions_memberships
  * @group template_functions
  *
- * @since [version]
+ * @since 4.11.0
  */
 class LLMS_Test_Functions_Templates_Memberships extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test llms_template_membership_instructors()
 	 *
-	 * @since [version]
+	 * @since 4.11.0
 	 *
 	 * @return void
 	 */

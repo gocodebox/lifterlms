@@ -6,14 +6,14 @@
  * @group template_functions_courses
  * @group template_functions
  *
- * @since [version]
+ * @since 4.11.0
  */
 class LLMS_Test_Functions_Templates_Courses extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test lifterlms_template_course_author()
 	 *
-	 * @since [version]
+	 * @since 4.11.0
 	 *
 	 * @return void
 	 */

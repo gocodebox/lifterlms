@@ -73,10 +73,27 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
 
 
-v4.10.2 - 2021-01-04
+v4.11.0 - 2021-01-07
 --------------------
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Adds the ability to use the Instructors blocks on the membership post type. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
++ Updated LifterLMS Blocks to [Version 1.11.1](https://make.lifterlms.com/2020/12/29/lifterlms-blocks-version-1-11-1/).
+
+##### Bug fixes
+
++ Fixed a PHP Notice encountered when trying to retrieve next lesson from an empty section.
+
+##### Templates updated
+
++ templates/course/author.php
+
+
+v4.10.2 - 2021-01-04
+--------------------
 
 ##### Updates
 
