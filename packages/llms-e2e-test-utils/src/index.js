@@ -2,7 +2,7 @@
  * Export all modules.
  *
  * @since 1.0.0
- * @version 2.2.0
+ * @version [version]
  */
 
 export { click } from './click';
@@ -17,6 +17,7 @@ export { createEngagement } from './create-engagement';
 export { createMembership } from './create-membership';
 export { createPost } from './create-post';
 export { createUser } from './create-user';
+export { createVoucher } from './create-voucher';
 
 export { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
 
@@ -34,6 +35,7 @@ export { logoutUser } from './logout-user';
 export { registerStudent } from './register-student';
 export { runSetupWizard } from './run-setup-wizard';
 
+export { select2Select } from './select2-select';
 export { setSelect2Option } from './set-select2-option';
 
 export { toggleOpenRegistration } from './toggle-open-registration';
