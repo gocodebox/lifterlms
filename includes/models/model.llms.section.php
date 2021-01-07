@@ -107,7 +107,7 @@ class LLMS_Section extends LLMS_Post_Model {
 		/**
 		 * Filter arguments used to create a new section post
 		 *
-		 * @since [version]
+		 * @since 4.11.0
 		 *
 		 * @param array        $args    Data to be passed to `wp_insert_post()`.
 		 * @param LLMS_Section $section Instance of the section object.

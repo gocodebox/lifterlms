@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.10.2
+Stable tag: 4.11.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,9 +516,25 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v4.10.2 - 2021-01-04 =
+= v4.11.0 - 2021-01-07 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Adds the ability to use the Instructors blocks on the membership post type. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
++ Updated LifterLMS Blocks to [Version 1.11.1](https://make.lifterlms.com/2020/12/29/lifterlms-blocks-version-1-11-1/).
+
+##### Bug fixes
+
++ Fixed a PHP Notice encountered when trying to retrieve next lesson from an empty section.
+
+##### Templates updated
+
++ templates/course/author.php
+
+
+= v4.10.2 - 2021-01-04 =
 
 ##### Updates
 
@@ -657,27 +673,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Only display the admin bar "View Manager" to users who can bypass content restrictions.
 + Updated jQuery code to stop using deprecated events and methods in preparation for jQuery upgrades in the WordPress core.
 + Fixed PHP notice encountered on the admin panel when using Yoast SEO.
-
-
-= v4.5.0 - 2020-10-06 =
-
-##### Updates
-
-+ Students can now choose to make their certificates publicly accessible. Huge thanks to [@alaa-alshamy](https://github.com/alaa-alshamy) for contributing this awesome new feature!
-+ When accessing a certificate that does not have sharing enabled, a 404 will be served in favor of an error message.
-+ Admin payment gateway notices will no longer redisplay a week after being dismissed.
-+ Log files will be automatically split when a file is 5MB or larger, ensuring that log files never grow too large.
-+ During student registration, `wp_signon()` is used to login the newly created user.
-+ Improved slow background process database queries run during the automatic "closing" of idle user sessions.
-
-##### Bug fixes
-
-+ `LLMS_User_Certificate::get_related_post_id()` and `LLMS_User_Certificate::get_user_id()` will now always return an integer.
-+ Fixes issues related to account sign on/out and session start/end events being recorded incorrectly.
-
-##### Deprecations
-
-+ `llms_set_person_auth_cookie()` is deprecated in favor of WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

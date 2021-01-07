@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 4.11.0
+ * @version 4.11.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ if ( ! function_exists( 'llms_template_membership_instructors' ) ) {
 	/**
 	 * Get single membership instructors template
 	 *
-	 * @since [version]
+	 * @since 4.11.0
 	 *
 	 * @return void
 	 */
