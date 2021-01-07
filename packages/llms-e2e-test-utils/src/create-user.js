@@ -9,10 +9,10 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
 /**
  * Asynchronously loop through an Object
  *
- * @since  3.37.8
+ * @since 1.0.0
  *
- * @param  {Object}    obj      Object to loop through.
- * @param  {Function}  callback Callback function, will be passed to params `key` and `val`.
+ * @param {Object}   obj      Object to loop through.
+ * @param {Function} callback Callback function, will be passed to params `key` and `val`.
  * @return {Void}
  */
 const forEach = async ( obj, callback ) => {
@@ -27,13 +27,14 @@ const forEach = async ( obj, callback ) => {
 /**
  * Create a new user.
  *
- * @since 3.37.8
+ * @since 1.0.0
  * @since 2.2.0 Returns the WP_User ID in the return object.
+ * @since [version] Options object is now optional.
  *
- * @param  {Object} opts Hash of user information used to create the new user.
+ * @param {Object} opts Hash of user information used to create the new user.
  * @return {Object}
  */
-export async function createUser( opts ) {
+export async function createUser( opts = {} ) {
 
 	await visitAdminPage( 'user-new.php' );
 
