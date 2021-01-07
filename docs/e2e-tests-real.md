@@ -1,11 +1,13 @@
-Running E2E (End to End) Tests Against a Production Website
-===========================================================
+Running E2E (End to End) Tests Against a Real Website
+=====================================================
 
 _The core E2E test suite is primarily designed to be run locally against managed Docker containers. However, it is possible to run the test suite against any WordPress website with a publicly accessible URL by following this guide._
 
 _To run tests locally against managed Docker containers, see the [E2E Testing README](../tests/e2e/README.md)._
 
 **NOTE: This is an experimental process! Proceed with caution. We are developing this process for internal use and thought it might be useful to some other folks.**
+
+**Another note: This process will import courses, create fake users, and add other data to your website and there is no cleanup proccess. If you choose to use this against a live production site that means that the database will have a bunch of fake test data added to it. So don't run this against a real production website. Use a staging website instead!**
 
 ## Prerequisites
 
