@@ -1,3 +1,4 @@
+import { click }        from './click';
 import { clickAndWait } from './click-and-wait';
 import { fillField }    from './fill-field';
 import { logoutUser }   from './logout-user';
@@ -7,11 +8,13 @@ import { visitPage }    from './visit-page';
  * Register a new student via the LifterLMS Open Registration Page
  *
  * @since 2.1.2
+ * @since [version] Add `args.voucher` to enable voucher usage during registration.
  *
- * @param {String} args.email Optional. Email address. If not supplied one will be created from the first name and last name.
- * @param {String} args.pass  Optional. User password. If not supplied one will be automatically generated.
- * @param {String} args.first Optional. User's first name.
- * @param {String} args.last  Optional. User's last name.
+ * @param {String} args.email   Optional. Email address. If not supplied one will be created from the first name and last name.
+ * @param {String} args.pass    Optional. User password. If not supplied one will be automatically generated.
+ * @param {String} args.first   Optional. User's first name.
+ * @param {String} args.last    Optional. User's last name.
+ * @param {String} args.voucher Optional. Voucher code to use during registration.
  * @return {Object} {
  *     Object containing information about the newly created user.
  *
@@ -19,7 +22,7 @@ import { visitPage }    from './visit-page';
  *     @type {String} pass  User's password.
  * }
  */
-export async function registerStudent( { email = null, pass = null, first = 'Jamie', last = 'Doe' } = {} ) {
+export async function registerStudent( { email = null, pass = null, first = 'Jamie', last = 'Doe', voucher = '' } = {} ) {
 
 	const the_int = Math.floor( Math.random() * ( 99990 - 10000 + 1 ) ) + 10000;
 
@@ -34,6 +37,12 @@ export async function registerStudent( { email = null, pass = null, first = 'Jam
 	await fillField( '#password_confirm', pass );
 	await fillField( '#first_name', first );
 	await fillField( '#last_name', last );
+
+	if ( voucher ) {
+		await click( '#llms-voucher-toggle' );
+		await page.waitForSelector( '#llms_voucher' );
+		await fillField( '#llms_voucher', voucher );
+	}
 
 	await clickAndWait( '#llms_register_person' );
 
