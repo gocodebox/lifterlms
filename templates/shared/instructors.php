@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Shared
  *
- * @since [version]
- * @version [version]
+ * @since 4.11.0
+ * @version 4.11.0
  *
  * @param LLMS_Post_Model $llms_post   Instance of the LLMS_Post_Model for the current screen.
  * @param array[]         $instructors Array of instructor data from the post's `get_instructors()` method.
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Filters the displayed title of the Instructors block
 		 *
-		 * @since [version]
+		 * @since 4.11.0
 		 *
 		 * @param string          $title     The block's title.
 		 * @param LLMS_Post_Model $llms_post The post model object.

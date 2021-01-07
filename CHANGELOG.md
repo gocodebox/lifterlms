@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v4.11.0 - 2021-01-07
+--------------------
+
+##### Updates
+
++ Adds the ability to use the Instructors blocks on the membership post type. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
++ Updated LifterLMS Blocks to [Version 1.11.1](https://make.lifterlms.com/2020/12/29/lifterlms-blocks-version-1-11-1/).
+
+##### Bug fixes
+
++ Fixed a PHP Notice encountered when trying to retrieve next lesson from an empty section.
+
+##### Templates updated
+
++ templates/course/author.php
+
+
 v4.10.2 - 2021-01-04
 --------------------
 

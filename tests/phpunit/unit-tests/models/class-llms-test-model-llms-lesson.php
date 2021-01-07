@@ -12,7 +12,7 @@
  *               Also added `$date_delta` property to be used to test dates against current time.
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
  * @since 4.4.2 Added additional navigation testing scenarios.
- * @since [version] Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
+ * @since 4.11.0 Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -598,7 +598,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test next/prev lesson with empty sibling sections
 	 *
-	 * @since [version]
+	 * @since 4.11.0
 	 *
 	 * @return void
 	 */

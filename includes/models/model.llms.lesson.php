@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.11.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -858,7 +858,7 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	 * lesson from the course's previous section.
 	 *
 	 * @since 4.10.2
-	 * @since [version] Fix PHP Notice when trying to retrieve next lesson from an empty section.
+	 * @since 4.11.0 Fix PHP Notice when trying to retrieve next lesson from an empty section.
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
