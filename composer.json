@@ -65,14 +65,17 @@
       "tests",
       "tmp",
       "wordpress",
-      "wp-content",
-
       "!/vendor",
+
+      "!/libraries",
+      "/libraries/README.md",
+      "/libraries/**/composer.*",
 
       "/vendor/bin",
       "/vendor/**/**/composer.*",
       "/vendor/**/**/*.md",
       "/vendor/**/**/.*",
+      "/vendor/composer/installers",
 
       "!/assets/maps/js/vendor",
       "!/assets/vendor",
