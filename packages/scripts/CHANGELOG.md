@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v1.3.3 - 2021-01-07
+-------------------
+
++ Updated screenshot reporter function to include additional debugging information
+
+
 v1.3.1 - 2020-08-11
 -------------------
 

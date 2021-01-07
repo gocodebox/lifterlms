@@ -2,7 +2,7 @@
  * Test Reporter that takes screenshots when a test fails.
  *
  * @since Unknown
- * @version [version]
+ * @version 1.3.3
  *
  * @link https://github.com/smooth-code/jest-puppeteer/issues/131#issuecomment-424073620
  */
@@ -15,7 +15,7 @@ const
  * Take a Screenshot.
  *
  * @since Unknown.
- * @since [version] Added `result` argument.
+ * @since 1.3.3 Added `result` argument.
  *
  * @param {String} name   Screenshot name.
  * @param {Object} result Full test result object.
@@ -50,7 +50,7 @@ afterAll( () => screenshotPromise );
  * Add the test Reporter.
  *
  * @since Unknown.
- * @since [version] Pass the full test result to `takeScreenshot()`.
+ * @since 1.3.3 Pass the full test result to `takeScreenshot()`.
  *
  * @return {Void}
  */
