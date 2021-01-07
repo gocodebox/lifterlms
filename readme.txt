@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.10.2
+Stable tag: 5.0.0-alpha.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,77 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.0.0-alpha.1 - 2021-01-07 =
+
+##### User Information Form Builder
+
++ Customize all user information collection forms using the block editor for drag and drop and WYSIWYG form building.
++ Customize field labels, placeholders, descriptions and more with an easy point and click interface.
++ Determine if fields are required or optional with a simple toggle switch.
++ Update the form layout with the block editor. Reorder fields, add columns, and more with a simple drag and drop interface.
++ Remove unwanted fields with the click of a button.
+
+##### User Location Information Form Fields
+
++ During user account creation and updates the user location fields are now locale aware ensuring that the proper terminology is used and only locale-required fields are displayed for the selected locale.
++ The "Country" field has been updated to be automatically populated with a list of countries. View the full list in the file at `languages/countries.php` and the filter `lifterlms_countries` can be used to modify the default list at runtime.
++ The "State" field on user forms has been updated to be automatically populated with a list of states (provinces or regions) for the selected country. This list of states can be found in the file at `languages/states.php` and the filter `lifterlms_states` can be used to modify the default list at runtime.
++ Both "Country" and "State" fields are now searchable dropdowns elements.
++ The lists of countries and states will be automatically updated during future releases based on information provided by [GeoNames](https://www.geonames.org/) APIs.
+
+##### Mergecodes everywhere via new `[user]` shortcode
+
++ TODO.
+
+##### Updates
+
++ Email and password confirmation fields may now be made optional.
++ "User Information Options" have been largely removed in favor of determining which fields are displayed via the forms UI
++ The former "User Information Options" settings area has been renamed to "User Privacy Options".
+
+##### Bug Fixes
+
++ Changed the filter on return of `LLMS_Person_Handler::get_password_reset_fields()` from `lifterlms_lost_password_fields` to `llms_password_reset_fields`.
+
+##### Development changes
+
++ The filter `lifterlms_before_user_${action}` is now triggered by `do_action_ref_array()` instead of `do_action()` allowing modification of `$posted_data` and `$fields` via hooks.
++ A number of action and filter hooks have been moved to new locations within the codebase. They will continue to function as expected (with some minor exceptions).
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+
+
+##### Library & Vendor Updates
+
++ Load core libraries from new location and load WP Background Processing lib.
++ The vendor script dependency `topModal.js` has been removed.
+
+##### Templates Updated
+
++ templates/global/form-login.php
++ templates/global/form-registration.php
++ templates/product/free-enroll-form.php
+
+##### Deprecations
+
+The following have been deprecated and will be removed from LifterLMS in a major update following version 5.0.0.
+
++ Class Method: `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
++ Class Method: `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
++ Class Method: `LLMS_Person_Handler::sanitize_field()` (private method) is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
++ Class Method: `LLMS_Person_Handler::validate_fields()` is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::voucher_toggle_script()` is deprecated with no replacement.
++ Filter: `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
++ Function: `llms_get_minimum_password_strength()` is deprecated with no replacement.
++ Option: `lifterlms_registration_generate_username` is deprecated in favor of the new method `LLMS_Forms::are_usernames_enabled()`.
+
+##### Removed Items
+
++ Private method `LLMS_Processors::includes()` has been removed.
++ Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
+
+
 = v4.10.2 - 2021-01-04 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
@@ -657,27 +728,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Only display the admin bar "View Manager" to users who can bypass content restrictions.
 + Updated jQuery code to stop using deprecated events and methods in preparation for jQuery upgrades in the WordPress core.
 + Fixed PHP notice encountered on the admin panel when using Yoast SEO.
-
-
-= v4.5.0 - 2020-10-06 =
-
-##### Updates
-
-+ Students can now choose to make their certificates publicly accessible. Huge thanks to [@alaa-alshamy](https://github.com/alaa-alshamy) for contributing this awesome new feature!
-+ When accessing a certificate that does not have sharing enabled, a 404 will be served in favor of an error message.
-+ Admin payment gateway notices will no longer redisplay a week after being dismissed.
-+ Log files will be automatically split when a file is 5MB or larger, ensuring that log files never grow too large.
-+ During student registration, `wp_signon()` is used to login the newly created user.
-+ Improved slow background process database queries run during the automatic "closing" of idle user sessions.
-
-##### Bug fixes
-
-+ `LLMS_User_Certificate::get_related_post_id()` and `LLMS_User_Certificate::get_user_id()` will now always return an integer.
-+ Fixes issues related to account sign on/out and session start/end events being recorded incorrectly.
-
-##### Deprecations
-
-+ `llms_set_person_auth_cookie()` is deprecated in favor of WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

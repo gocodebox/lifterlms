@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +87,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
+	 * @since [version] Include `LLMS_Forms`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 *
 	 * @return void
 	 */
@@ -134,6 +135,10 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-field.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-handler.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-templates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
@@ -279,6 +284,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
+	 * @since [version] Load core libraries from new location and load WP Background Processing lib.
 	 *
 	 * @return void
 	 */
@@ -287,17 +293,20 @@ class LLMS_Loader {
 		// Block library.
 		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
 			define( 'LLMS_BLOCKS_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
+			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php';
 		}
 
 		// Rest API.
 		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
 			define( 'LLMS_REST_API_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
+			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php';
 		}
 
 		// Action Scheduler.
 		require_once LLMS_PLUGIN_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+
+		// WP Background Processing.
+		require_once LLMS_PLUGIN_DIR . 'vendor/deliciousbrains/wp-background-processing/wp-background-processing.php';
 
 	}
 
