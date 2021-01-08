@@ -4,10 +4,12 @@
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
  * @since 4.5.0 Use package functions.
+ * @since [version] Added registration test with a voucher.
  */
 
 import {
 	clickAndWait,
+	createVoucher,
 	fillField,
 	logoutUser,
 	registerStudent,
@@ -65,6 +67,19 @@ describe( 'OpenRegistration', () => {
 		await toggleOpenReg( true );
 		await registerStudent();
 		expect( await page.$eval( 'h2.llms-sd-title', el => el.textContent ) ).toBe( 'Dashboard' );
+
+	} );
+
+	it ( 'should register a new user with a voucher.', async() => {
+
+		await toggleOpenReg( true );
+		const codes = await createVoucher( { codes: 1, uses: 1 } );
+		await registerStudent( { voucher: codes[0] } );
+
+		expect( await page.$eval( 'h2.llms-sd-title', el => el.textContent ) ).toBe( 'Dashboard' );
+
+		await page.waitForSelector( '.llms-notification .llms-notification-main' );
+		expect( await page.$eval( '.llms-notification .llms-notification-main', el => el.innerHTML ) ).toMatchSnapshot();
 
 	} );
 
