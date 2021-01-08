@@ -170,9 +170,37 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			),
 		);
 
-		// Setup throttle vars.
-		$this->throttle_max_students = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_count', 2500, $this );
-		$this->throttle_frequency    = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
+		/**
+		 * Throttles course data processing based on the number of a students in a course.
+		 *
+		 * If the number of students in a course is greater than or equal to this number, the background
+		 * process will be throttled to run only once every N hours where N is equal to the number of hours
+		 * defined by the `llms_data_processor_course_data_throttle_frequency` filter.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @see llms_data_processor_course_data_throttle_frequency
+		 *
+		 * @param int                        $number_students The number of students.
+		 * @param LLMS_Processor_Course_Data $processor       Instance of the data processor class.
+		 */
+		$this->throttle_max_students = apply_filters( 'llms_data_processor_course_data_throttle_count', 2500, $this );
+
+		/**
+		 * Throttles course data processing based on the number of a students in a course.
+		 *
+		 * If the number of students in a course is greater than or equal to this number, the background
+		 * process will be throttled to run only once every N hours where N is equal to the number of hours
+		 * defined by the `llms_data_processor_course_data_throttle_frequency` filter.
+		 *
+		 * @since 3.15.0
+		 *
+		 * @see llms_data_processor_course_data_throttle_count
+		 *
+		 * @param int                        $frequency Frequency of the calculation process in seconds. Default `HOUR_IN_SECONDS * 4`.
+		 * @param LLMS_Processor_Course_Data $processor Instance of the data processor class.
+		 */
+		$this->throttle_frequency = apply_filters( 'llms_data_processor_course_data_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
 
 	}
 
@@ -182,8 +210,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 *
 	 * @param int $num_students Number of students in the current course.
-	 * @return boolean               true = throttle the current dispatch
-	 *                                 false = run the current dispatch
+	 * @return boolean When `true` the dispatch is throttled and when `false` it will run.
 	 */
 	private function maybe_throttle( $num_students = 0 ) {
 
