@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -178,13 +178,14 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		 * defined by the `llms_data_processor_course_data_throttle_frequency` filter.
 		 *
 		 * @since 3.15.0
+		 * @since [version] Reduced default value of `$number_students` from 2500 to 500.
 		 *
 		 * @see llms_data_processor_course_data_throttle_frequency
 		 *
-		 * @param int                        $number_students The number of students.
+		 * @param int                        $number_students The number of students. Default is `500`.
 		 * @param LLMS_Processor_Course_Data $processor       Instance of the data processor class.
 		 */
-		$this->throttle_max_students = apply_filters( 'llms_data_processor_course_data_throttle_count', 2500, $this );
+		$this->throttle_max_students = apply_filters( 'llms_data_processor_course_data_throttle_count', 500, $this );
 
 		/**
 		 * Throttles course data processing based on the number of a students in a course.
