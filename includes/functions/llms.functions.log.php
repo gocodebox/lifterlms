@@ -157,7 +157,7 @@ function llms_log( $message, $handle = 'llms' ) {
 
 		// Print array or objects with `print_r`.
 		if ( is_array( $message ) || is_object( $message ) ) {
-			$message = print_r( $message, true );
+			$message = print_r( $message, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
 		}
 
 		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" );
