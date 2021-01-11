@@ -317,12 +317,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "9440ec843aa1e3ab93cb156f7ee9bc6106649b1c"
+                "reference": "a812e7be616331dc1a1acca2cba8a78b8dd04539"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/9440ec843aa1e3ab93cb156f7ee9bc6106649b1c",
-                "reference": "9440ec843aa1e3ab93cb156f7ee9bc6106649b1c",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/a812e7be616331dc1a1acca2cba8a78b8dd04539",
+                "reference": "a812e7be616331dc1a1acca2cba8a78b8dd04539",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,7 @@
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
                 "source": "https://github.com/gocodebox/lifterlms-tests/tree/trunk"
             },
-            "time": "2020-11-30T18:28:25+00:00"
+            "time": "2021-01-11T22:52:13+00:00"
         },
         {
             "name": "myclabs/deep-copy",
