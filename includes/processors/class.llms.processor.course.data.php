@@ -13,17 +13,28 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Processor_Course_Data
  *
- * Handle background processing of average progress & average grade for LifterLMS Courses.
+ * Handle background processing of average progress & average grade for courses.
  *
- * This triggers a bg process which gets the current progress
- * of all students in a course.
+ * The background process calculates "expensive" aggregate course data and stores them
+ * on the `wp_postmeta` table so the data can be access later with a single
+ * database read.
  *
- * Progress is queued for recalculation when:
- *      students enroll
- *      students unenroll
- *      students complete lessons
+ * The process is queued for recalculation when:
+ *
+ *   + Students enroll.
+ *   + Students unenroll.
+ *   + Students complete lessons.
+ *   + Students complete quizzes.
+ *
+ * Upon completion, the following values can be accessed via the `LLMS_Course` model
+ * to retrieve the aggregate data for the course:
+ *
+ *   + Average grade: `LLMS_Course::get( 'average_grade' )`
+ *   + Average progress: `LLMS_Course::get( 'average_progress' )`
+ *   + Number of currently enrolled students: `LLMS_Course::get( 'enrolled_students' )`
  *
  * @since 3.15.0
+ * @since [version] Remove (protected) method `LLMS_Processor_Course_Data::complete()`, the override of the parent method is no longer needed.
  */
 class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
@@ -59,39 +70,35 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	private $throttle_frequency;
 
 	/**
-	 * Called when queue is emptied and process is complete
-	 *
-	 * @since 3.15.0
-	 *
-	 * @return void
-	 */
-	protected function complete() {
-
-		parent::complete();
-		$this->set_data( 'last_run', time() );
-
-	}
-
-	/**
 	 * Action triggered to queue queries needed to make the calculation
 	 *
 	 * @since 3.15.0
+	 * @since [version] Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @return void
 	 */
 	public function dispatch_calc( $course_id ) {
 
-		$this->log( sprintf( 'course data calculation dispatched for course %d', $course_id ) );
+		$this->log( sprintf( 'Course data calculation dispatched for course %d.', $course_id ) );
 
-		// Cancel process in case it's currently running.
-		$this->cancel_process();
-
-		$args = array(
-			'post_id'  => $course_id,
-			'statuses' => array( 'enrolled' ),
-			'page'     => 1,
-			'per_page' => 100,
+		/**
+		 * Filter the query arguments used when calculating course data
+		 *
+		 * @since [version]
+		 *
+		 * @param array                      $args      Query arguments passed to LLMS_Student_Query.
+		 * @param LLMS_Processor_Course_Data $processor Instance of the data processor class.
+		 */
+		$args = apply_filters(
+			'llms_data_processor_course_data_student_query_args',
+			array(
+				'post_id'  => $course_id,
+				'statuses' => array( 'enrolled' ),
+				'page'     => 1,
+				'per_page' => 100,
+			),
+			$this
 		);
 
 		// Get total number of pages.
@@ -100,14 +107,13 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Only queue if we have students in the course.
 		if ( $query->found_results ) {
 
-			// Throttle dispatch?.
-			if ( $this->maybe_throttle( $query->found_results ) ) {
+			// Throttle dispatch based on number of students or because the course is already processing.
+			if ( $this->maybe_throttle( $query->found_results, $course_id ) ) {
 
 				// Schedule to run again in the future.
-				$last_run = $this->get_data( 'last_run', 0 );
-				$this->schedule_calculation( $course_id, $last_run + $this->throttle_frequency );
+				$this->schedule_calculation( $course_id, $this->get_last_run( $course_id ) + $this->throttle_frequency );
 
-				$this->log( sprintf( 'course data calculation throttled for course %d', $course_id ) );
+				$this->log( sprintf( 'Course data calculation throttled for course %d.', $course_id ) );
 				return;
 
 			}
@@ -123,10 +129,20 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			// Save queue and dispatch the process.
 			$this->save()->dispatch();
 
-			$this->log( sprintf( 'course data calculation started for course %d', $course_id ) );
-
 		}
 
+	}
+
+	/**
+	 * Retrieve a timestamp for the last time data calculation was completed for a given course
+	 *
+	 * @since [version]
+	 *
+	 * @param int $course_id WP_Post ID of the course.
+	 * @return int The timestamp of the last run. Returns `0` when no data recorded.
+	 */
+	protected function get_last_run( $course_id ) {
+		return absint( get_post_meta( $course_id, '_llms_last_data_calc_run', true ) );
 	}
 
 	/**
@@ -206,26 +222,62 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	}
 
 	/**
+	 * Determines if the supplied course is already being processed.
+	 *
+	 * If it's already being processed we'll throttle the processing so we'll wait until the course
+	 * completes it's current data processing and start again later.
+	 *
+	 * @since [version]
+	 *
+	 * @param [type] $course_id [description]
+	 * @return boolean [description]
+	 */
+	protected function is_already_processing_course( $course_id ) {
+
+		if ( ! $this->is_queue_empty() ) {
+			return in_array( $course_id, wp_list_pluck( $this->get_batch()->data, 'post_id' ), true );
+		}
+		return false;
+
+	}
+
+	/**
 	 * For large courses, only recalculate once every 4 hours
 	 *
 	 * @since 3.15.0
+	 * @since [version] Adjusted access from private to protected.
+	 *               Pull last run data on a per-course basis.
+	 *               Added parameter `$course_id` to also throttle if the processor is already running data for the given course.
 	 *
 	 * @param int $num_students Number of students in the current course.
+	 * @param int $course_id    WP_Post ID of the course.
 	 * @return boolean When `true` the dispatch is throttled and when `false` it will run.
 	 */
-	private function maybe_throttle( $num_students = 0 ) {
+	protected function maybe_throttle( $num_students, $course_id ) {
 
-		// If we have more students in the course than the max allowed.
-		// We will only process this query once every four hours.
-		if ( $num_students >= $this->throttle_max_students ) {
+		$throttled = false;
 
-			$last_run = $this->get_data( 'last_run' );
+		if ( $this->is_already_processing_course( $course_id ) ) {
 
-			return ( ( time() - $last_run ) <= $this->throttle_frequency );
+			$throttled = true;
+
+		} elseif ( $num_students >= $this->throttle_max_students ) {
+
+			$throttled = ( time() - $this->get_last_run( $course_id ) <= $this->throttle_frequency );
 
 		}
 
-		return false;
+		/**
+		 * Filter whether or not data processing in throttled for a request
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $throttled    If `true`, the processing for the current request is throttled, otherwise data processing will begin.
+		 * @param int     $num_students Number of students in the current course.
+		 * @param int     $course_id    WP_Post ID of the course.
+		 * $param int     $max_students Maximum number of students in the course before processing is throttled.
+		 */
+		return apply_filters( 'llms_data_processor_course_data_throttled', $throttled, $num_students, $course_id, $this->throttle_max_students );
 
 	}
 
@@ -261,9 +313,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 *
 	 * @since 3.15.0
 	 *
-	 * @param int $user_id WP user id of the student.
-	 * @param int $quiz_id WP Post ID of the quiz.
-	 * @param obj $attempt LLMS_Quiz_Attempt object.
+	 * @param int               $user_id WP user id of the student.
+	 * @param int               $quiz_id WP Post ID of the quiz.
+	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
 	 * @return void
 	 */
 	public function schedule_from_quiz( $user_id, $quiz_id, $attempt ) {
@@ -283,7 +335,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	public function schedule_calculation( $course_id, $time = null ) {
 
-		$this->log( sprintf( 'course data calculation triggered for course %d', $course_id ) );
+		$this->log( sprintf( 'Course data calculation triggered for course %d.', $course_id ) );
 
 		$args = array( $course_id );
 
@@ -292,7 +344,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			$time = ! $time ? time() : $time;
 
 			wp_schedule_single_event( $time, $this->schedule_hook, $args );
-			$this->log( sprintf( 'course data calculation scheduled for course %d', $course_id ) );
+			$this->log( sprintf( 'Course data calculation scheduled for course %d.', $course_id ) );
 
 		}
 
@@ -305,18 +357,16 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
 	 *
 	 * @since 3.15.0
+	 * @since [version] Moved task completion logic to `task_complete()`.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query..
-	 * @return boolean Returns `true` to keep the item in the queue and process again and `false` to remove the item from the queue.
+	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
 	 */
 	public function task( $args ) {
 
-		$course_id = $args['post_id'];
+		$this->log( sprintf( 'Course data calculation task called for course %2$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
 
-		$this->log( sprintf( 'course data calculation task called for course %d (args below)', $course_id ) );
-		$this->log( $args );
-
-		$course = llms_get_post( $course_id );
+		$course = llms_get_post( $args['post_id'] );
 
 		// Get saved data or empty array when on first page.
 		$data = ( 1 !== $args['page'] ) ? $course->get( 'temp_calc_data' ) : array();
@@ -338,11 +388,11 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 			// Progress, all students counted here.
 			$data['students']++;
-			$data['progress'] = $data['progress'] + $student->get_progress( $course_id );
+			$data['progress'] = $data['progress'] + $student->get_progress( $args['post_id'] );
 
 			// Grades only counted when a student has taken a quiz.
 			// If a student hasn't taken it, we don't count it as a 0 on the quiz.
-			$grade = $student->get_grade( $course_id );
+			$grade = $student->get_grade( $args['post_id'] );
 
 			// Only check actual quiz grades.
 			if ( is_numeric( $grade ) ) {
@@ -351,10 +401,32 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			}
 		}
 
-		$this->log( $data );
+		return $this->task_complete( $course, $data, $query->is_last_page() );
+
+	}
+
+	/**
+	 * Complete a task
+	 *
+	 * Stores the current (incomplete) array of course data on the postmeta table for use
+	 * by the next task in the queue.
+	 *
+	 * Upon completion, uses the data array to calculate the final aggregate values and store
+	 * them on the postmeta table for the course for quick retrieval later.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Course $course    Course object.
+	 * @param array       $data      Aggregate calculation data array.
+	 * @param boolean     $last_page Whether or not this is the last page set of students for the process.
+	 * @return boolean Always returns false.
+	 */
+	protected function task_complete( $course, $data, $last_page ) {
+
+		$this->log( sprintf( 'Course data calculation task completed for course %2$d with data: %2$s', $course->get( 'id' ), wp_json_encode( $data ) ) );
 
 		// Save our work on the last run.
-		if ( $query->max_pages === $query->get( 'page' ) ) {
+		if ( $last_page ) {
 
 			// Calculate.
 			$grade    = $data['quizzes'] ? round( $data['grade'] / $data['quizzes'], 2 ) : 0;
@@ -363,14 +435,17 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 			// Save the data to the course.
 			$course->set( 'average_grade', $grade );
 			$course->set( 'average_progress', $progress );
+			$course->set( 'enrolled_students', $data['students'] );
+			$course->set( 'last_data_calc_run', time() );
 
 			// Delete the temporary data so its fresh for next time.
-			delete_post_meta( $query->get( 'post_id' ), '_llms_temp_calc_data' );
+			delete_post_meta( $course->get( 'id' ), '_llms_temp_calc_data' );
 
-			$this->log( sprintf( 'course data calculation completed for course %d', $course_id ) );
+			$this->log( sprintf( 'Course data calculation completed for course %d.', $course->get( 'id' ) ) );
 
 		} else {
 
+			// Save temporary data so it can be used by the next run in the process.
 			$course->set( 'temp_calc_data', $data );
 
 		}
