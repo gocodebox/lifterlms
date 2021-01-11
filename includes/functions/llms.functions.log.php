@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 3.75
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -139,9 +139,18 @@ function llms_get_log_path( $handle ) {
  */
 function llms_log( $message, $handle = 'llms' ) {
 
-	$ret = false;
+	/**
+	 * Filter a log message before it's written to the logger.
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed  $message Data to log.
+	 * @param string $handle  Allow creation of multiple log files by handle.
+	 */
+	$message = apply_filters( 'llms_log_message', $message, $handle );
 
-	$fh = fopen( llms_get_log_path( $handle ), 'a' );
+	$ret = false;
+	$fh  = fopen( llms_get_log_path( $handle ), 'a' );
 
 	// Open the file (creates it if it doesn't already exist).
 	if ( $fh ) {
