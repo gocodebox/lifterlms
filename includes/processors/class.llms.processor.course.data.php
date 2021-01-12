@@ -74,6 +74,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 *
 	 * @since 3.15.0
 	 * @since [version] Add throttling by course in progress and adjust last_run calculation to be specific to the course.
+	 *               Improve performance of the student query by removing unneeded sort columns.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @return void
@@ -97,6 +98,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 				'statuses' => array( 'enrolled' ),
 				'page'     => 1,
 				'per_page' => 100,
+				'sort'     => array(
+					'id' => 'ASC',
+				),
 			),
 			$this
 		);
