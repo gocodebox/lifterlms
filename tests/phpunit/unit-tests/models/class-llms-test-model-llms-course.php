@@ -53,7 +53,6 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'enrollment_period'          => 'yesno',
 			'enrollment_start_date'      => 'text',
 			'has_prerequisite'           => 'yesno',
-			'instructors'                => 'array',
 			'length'                     => 'text',
 			'prerequisite'               => 'absint',
 			'prerequisite_track'         => 'absint',
@@ -77,6 +76,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'audio_embed' => 'http://example.tld/audio_embed',
+			'average_grade' => 25.55,
+			'average_progress' => 99.32,
 			'capacity' => 25,
 			'capacity_message' => 'Capacity Reached',
 			'course_closed_message' => 'Course has closed',

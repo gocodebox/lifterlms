@@ -226,6 +226,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Test create_course()
 	 *
 	 * @since 4.7.0
+	 * @since [version] Only test properties that exist on the raw data arrays.
 	 *
 	 * @return void
 	 */
@@ -253,7 +254,9 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 
 		// Test meta props are set.
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $course, 'properties' ) ) as $prop ) {
-			$this->assertEquals( $raw[ $prop ], $course->get( $prop ) );
+			if ( isset( $raw[ $prop ] ) ) {
+				$this->assertEquals( $raw[ $prop ], $course->get( $prop ) );
+			}
 		}
 
 		// Test custom values.
