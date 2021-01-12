@@ -110,7 +110,8 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
 		$this->factory->student->create_and_enroll_many( 1, $course_id );
-		$this->main->push_to_queue( array( 'post_id' => $course_id ) )->save();
+
+		update_post_meta( $course_id, '_llms_temp_calc_data_lock', 'yes' );
 
 		$this->logs->clear( 'processors' );
 
@@ -193,59 +194,36 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_is_already_processing_course_false() {
-
-		// Process not running.
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( 123 ) ) );
-
-		// Running but not for this course.
-		$this->main->push_to_queue( array( 'post_id' => 456 ) )->save();
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( 123 ) ) );
-
-
-
-	}
-
-	/**
-	 * Test is_already_processing_course() when it is already processing for the course.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_is_already_processing_course_true() {
-
-		$this->main->push_to_queue( array( 'post_id' => 123 ) );
-		$this->main->push_to_queue( array( 'post_id' => 456 ) )->save();
-		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( 123 ) ) );
-
-	}
-
-	/**
-	 * Test maybe_throttle() when the course is already processing.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_maybe_throttle_already_processing() {
+	public function test_is_already_processing_course() {
 
 		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
-		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_throttle', array( 25, $course_id ) ) );
+		$course    = llms_get_post( $course_id );
 
-		$this->main->push_to_queue( array( 'post_id' => $course_id ) )->save();
-		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_throttle', array( 25, $course_id ) ) );
+		// No meta data.
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
+
+		// Unexpected / invalid meta values.
+		$course->set( 'temp_calc_data_lock', '' );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
+
+		$course->set( 'temp_calc_data_lock', 'no' );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
+
+		// Is running.
+		$course->set( 'temp_calc_data_lock', 'yes' );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
+
 
 	}
 
 	/**
-	 * Test maybe_throttle() when throttled by number of students in the course.
+	 * Test maybe_throttle()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_maybe_throttle_by_students() {
+	public function test_maybe_throttle() {
 
 		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_throttle', array( 25, $course_id ) ) );
@@ -378,6 +356,8 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'grade'    => 0,
 		);
 		$this->assertEquals( $expect, $course->get( 'temp_calc_data' ) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
+
 
 		// Perform task for page 2, not completed, save the data.
 		$this->assertFalse( $this->main->task( array(
@@ -394,6 +374,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'grade'    => floatval( 100 ),
 		);
 		$this->assertEquals( $expect, $course->get( 'temp_calc_data' ) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
 
 		// Perform task for page 3, completed.
 		$this->assertFalse( $this->main->task( array(
@@ -402,7 +383,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'page'     => 3,
 			'per_page' => 2,
 		) ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
 		$this->assertEmpty( $course->get( 'temp_calc_data' ) );
+		$this->assertEmpty( $course->get( 'temp_calc_data_lock' ) );
 		$this->assertEquals( 100, $course->get( 'average_grade' ) );
 		$this->assertEquals( 60, $course->get( 'average_progress' ) );
 		$this->assertEquals( 5, $course->get( 'enrolled_students' ) );
