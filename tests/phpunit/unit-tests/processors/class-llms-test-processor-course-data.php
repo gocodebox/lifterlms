@@ -341,6 +341,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			$this->complete_courses_for_student( $student, $course_id, $perc[ $i ] );
 		}
 
+		// Clear any data that may exist as a result of mock data creation above.
+		delete_post_meta( $course_id, '_llms_temp_calc_data' );
+
 		// Perform task for page 1, not completed, save the data.
 		$this->assertFalse( $this->main->task( array(
 			'post_id' => $course_id,
