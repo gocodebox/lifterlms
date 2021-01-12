@@ -156,6 +156,17 @@ implements LLMS_Interface_Post_Audio
 		foreach ( $this->get_lessons() as $lesson ) {
 			$points += $lesson->get( 'points' );
 		}
+
+		/**
+		 * Filters the total available points for the course.
+		 *
+		 * Hook description.
+		 *
+		 * @since 3.24.0
+		 *
+		 * @param int         $points Number of available points.
+		 * @param LLMS_Course $course Course object.
+		 */
 		return apply_filters( 'llms_course_get_available_points', $points, $this );
 	}
 
@@ -258,6 +269,15 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
+		/**
+		 * Filters the course's instructors list
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param array       $instructors    Instructor data array.
+		 * @param LLMS_Course $course         Course object.
+		 * @param boolearn    $exclude_hidden If true, excludes hidden instructors from the return array.
+		 */
 		return apply_filters(
 			'llms_course_get_instructors',
 			$this->instructors()->get_instructors( $exclude_hidden ),
@@ -340,6 +360,15 @@ implements LLMS_Interface_Post_Audio
 
 		}
 
+		/**
+		 * Filters the course's sales page URL
+		 *
+		 * @since Unknown
+		 *
+		 * @param string      $url    Sales page URL.
+		 * @param LLMS_Course $course The course object.
+		 * @param string      $type   The sales page content type.
+		 */
 		return apply_filters( 'llms_course_get_sales_page_url', $url, $this, $type );
 	}
 
@@ -627,12 +656,25 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 3.20.0
 	 * @since 3.23.0 Unknown.
+	 * @since [version] Use strict `in_array()` comparison.
 	 *
-	 * @return string
+	 * @return boolean
 	 */
 	public function has_sales_page_redirect() {
+
 		$type = $this->get( 'sales_page_content_type' );
-		return apply_filters( 'llms_course_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ) ), $this, $type );
+
+		/**
+		 * Filters whether or not the course has a sales page redirect.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param boolean     $has_redirect Whether or not the course has a sales page redirect.
+		 * @param LLMS_Course $course       Course object.
+		 * @param string      $type         The course's sales page content type property value.
+		 */
+		return apply_filters( 'llms_course_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ), true ), $this, $type );
+
 	}
 
 	/**
@@ -648,15 +690,23 @@ implements LLMS_Interface_Post_Audio
 		// If no period is set, enrollment is automatically open.
 		if ( 'yes' !== $this->get( 'enrollment_period' ) ) {
 
-			$ret = true;
+			$is_open = true;
 
 		} else {
 
-			$ret = ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
+			$is_open = ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
 
 		}
 
-		return apply_filters( 'llms_is_course_enrollment_open', $ret, $this );
+		/**
+		 * Filters whether or not course enrollment is open.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean     $is_open Whether or not enrollment is open.
+		 * @param LLMS_Course $course  Course object.
+		 */
+		return apply_filters( 'llms_is_course_enrollment_open', $is_open, $this );
 
 	}
 
@@ -676,15 +726,23 @@ implements LLMS_Interface_Post_Audio
 		// If a course time period is not enabled, just return true (content is accessible).
 		if ( 'yes' !== $this->get( 'time_period' ) ) {
 
-			$ret = true;
+			$is_open = true;
 
 		} else {
 
-			$ret = ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
+			$is_open = ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
 
 		}
 
-		return apply_filters( 'llms_is_course_open', $ret, $this );
+		/**
+		 * Filters whether or not the course is considered open based on the current date.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean     $is_open Whether or not enrollment is open.
+		 * @param LLMS_Course $course  Course object.
+		 */
+		return apply_filters( 'llms_is_course_open', $is_open, $this );
 
 	}
 
