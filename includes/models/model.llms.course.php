@@ -118,23 +118,27 @@ implements LLMS_Interface_Post_Audio
 	protected $model_post_type = 'course';
 
 	/**
-	 * @var array
 	 * @since 1.0.0
+	 * @deprecated [version] Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
+	 *
+	 * @var array
 	 */
 	public $sections;
 
 	/**
-	 * @var string
 	 * @since 1.0.0
+	 * @deprecated [version] Unused property `LLMS_Course::$sku` is deprecated with no replacement.
+	 *
+	 * @var string
 	 */
 	public $sku;
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
 	 *
-	 * @return   LLMS_Post_Instructors
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @return LLMS_Post_Instructors
 	 */
 	public function instructors() {
 		return new LLMS_Post_Instructors( $this );
@@ -143,9 +147,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve the total points available for the course
 	 *
-	 * @return   int
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return int
 	 */
 	public function get_available_points() {
 		$points = 0;
@@ -158,11 +162,12 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get course's prerequisite id based on the type of prerequisite
 	 *
-	 * @param    string $type  Type of prereq to retrieve id for [course|track]
-	 * @return   int|false         Post ID of a course, taxonomy ID of a track, or false if none found
-	 * @since    3.0.0
-	 * @version  3.7.3
-	 */
+	 * @since 3.0.0
+	 * @since 3.7.3 Unknown.
+	 *
+	 * @param string $type Type of prereq to retrieve id for [course|track].
+	 * @return int|false Post ID of a course, taxonomy ID of a track, or false if none found
+.	 */
 	public function get_prerequisite_id( $type = 'course' ) {
 
 		if ( $this->has_prerequisite( $type ) ) {
@@ -190,11 +195,13 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Attempt to get oEmbed for an audio provider
-	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
+	 * Falls back to the [audio] shortcode if the oEmbed fails.
+	 *
+	 * @since 1.0.0
+	 * @since 3.17.0 Unknown
 	 *
 	 * @return string
-	 * @since   1.0.0
-	 * @version 3.17.0
 	 */
 	public function get_audio() {
 		return $this->get_embed( 'audio' );
@@ -203,10 +210,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve course categories
 	 *
-	 * @param    array $args  array of args passed to wp_get_post_terms
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @param array $args Array of args passed to wp_get_post_terms.
+	 * @return array
 	 */
 	public function get_categories( $args = array() ) {
 		return wp_get_post_terms( $this->get( 'id' ), 'course_cat', $args );
@@ -215,12 +222,12 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get Difficulty
 	 *
-	 * @param    string $field  which field to return from the available term fields
-	 *                          any public variables from a WP_Term object are acceptable
-	 *                          term_id, name, slug, and more
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $field Which field to return from the available term fields.
+	 *                      Any public variables from a WP_Term object are acceptable: term_id, name, slug, and more.
+	 * @return string
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
@@ -244,10 +251,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve course instructor information
 	 *
-	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @return array
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -263,10 +270,11 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get course lessons
 	 *
-	 * @param    string $return  type of return [ids|posts|lessons]
-	 * @return   int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $return Type of return [ids|posts|lessons].
+	 * @return int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -289,9 +297,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an array of quizzes within a course
 	 *
-	 * @return   array            array of WP_Post IDs of the quizzes
-	 * @since    3.12.0
-	 * @version  3.16.0
+	 * @since 3.12.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return int[] Array of WP_Post IDs of the quizzes.
 	 */
 	public function get_quizzes() {
 
@@ -308,9 +317,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
 	 *
-	 * @return   string
-	 * @since    3.20.0
-	 * @version  3.23.0
+	 * @since 3.20.0
+	 * @since 3.23.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_sales_page_url() {
 
@@ -336,10 +346,11 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get course sections
 	 *
-	 * @param    string $return  type of return [ids|posts|sections]
-	 * @return   int[]|WP_Post[]|LLMS_Section[] type depends on value of $return
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $return Type of return [ids|posts|sections].
+	 * @return int[]|WP_Post[]|LLMS_Section[] The type depends on value of $return.
 	 */
 	public function get_sections( $return = 'sections' ) {
 
@@ -382,7 +393,7 @@ implements LLMS_Interface_Post_Audio
 	 * If, for whatever reason, it's not found, it will be calculated on demand and saved for later use.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use cached value where possible.
+	 * @since version] Use cached value where possible.
 	 *
 	 * @param boolean $skip_cache Default: `false`. Whether or not to bypass the cache. If `true`, bypasses the cache.
 	 * @return int
@@ -422,7 +433,7 @@ implements LLMS_Interface_Post_Audio
 		 *
 		 * @since [version]
 		 *
-		 * @param int         $count  Number of students enrolled in the course.
+		 * @param int $count Number of students enrolled in the course.
 		 * @param LLMS_Course $course Instance of the course object.
 		 */
 		$count = apply_filters( 'llms_course_get_student_count', $count, $this );
@@ -434,27 +445,24 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get an array of student IDs based on enrollment status in the course
 	 *
-	 * @param    string|array $statuses  list of enrollment statuses to query by
-	 *                                   status query is an OR relationship
-	 * @param    integer      $limit        number of results
-	 * @param    integer      $skip         number of results to skip (for pagination)
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string|string[] $statuses List of enrollment statuses to query by. Students matching at least one of the provided statuses will be returned.
+	 * @param integer         $limit    Number of results.
+	 * @param integer         $skip     Number of results to skip (for pagination).
+	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
-
 	}
 
 	/**
 	 * Retrieve course tags
 	 *
-	 * @param    array $args  array of args passed to wp_get_post_terms
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @param array $args Array of args passed to wp_get_post_terms.
+	 * @return array
 	 */
 	public function get_tags( $args = array() ) {
 		return wp_get_post_terms( $this->get( 'id' ), 'course_tag', $args );
@@ -463,10 +471,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve course tracks
 	 *
-	 * @param    array $args  array of args passed to wp_get_post_terms
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @param array $args Array of args passed to wp_get_post_terms.
+	 * @return array
 	 */
 	public function get_tracks( $args = array() ) {
 		return wp_get_post_terms( $this->get( 'id' ), 'course_track', $args );
@@ -475,24 +483,24 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an array of students currently enrolled in the course
 	 *
-	 * @param    integer $limit   number of results
-	 * @param    integer $skip    number of results to skip (for pagination)
-	 * @return   array
-	 * @since    1.0.0
-	 * @version  3.0.0 - updated the function to be less complicated
+	 * @since 1.0.0
+	 * @since 3.0.0 Use `LLMS_Course::get_students()`.
+	 *
+	 * @param integer $limit Number of results.
+	 * @param integer $skip Number of results to skip (for pagination).
+	 * @return array
 	 */
 	public function get_enrolled_students( $limit, $skip ) {
-
 		return $this->get_students( 'enrolled', $limit, $skip );
-
 	}
 
 	/**
 	 * Get a user's percentage completion through the course
 	 *
-	 * @return  float
-	 * @since   1.0.0
-	 * @version 3.17.2
+	 * @since 1.0.0
+	 * @since 3.17.2 Unknown.
+	 *
+	 * @return float
 	 */
 	public function get_percent_complete( $user_id = '' ) {
 
@@ -507,9 +515,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an instance of the LLMS_Product for this course
 	 *
-	 * @return   LLMS_Product instance of an LLMS_Product
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @return LLMS_Product
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'id' ) );
@@ -517,11 +525,13 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Attempt to get oEmbed for a video provider
-	 * Falls back to the [video] shortcode if the oEmbed fails
 	 *
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.17.0
+	 * Falls back to the [video] shortcode if the oEmbed fails.
+	 *
+	 * @since 1.0.0
+	 * @since 3.17.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_video() {
 		return $this->get_embed( 'video' );
@@ -530,11 +540,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Compare a course meta info date to the current date and get a bool
 	 *
-	 * @param    string $date_key  property key, eg "start_date" or "enrollment_end_date"
-	 * @return   boolean               true when the date is in the past
-	 *                                 false when the date is in the future
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $date_key Property key, eg "start_date" or "enrollment_end_date".
+	 * @return boolean Returns `true` when the date is in the past and `false` when the date is in the future.
 	 */
 	public function has_date_passed( $date_key ) {
 
@@ -549,20 +558,19 @@ implements LLMS_Interface_Post_Audio
 		if ( ! $date ) {
 			return false;
 
-		} else {
-
-			return $now > $date;
-
 		}
+
+		return $now > $date;
 
 	}
 
 	/**
 	 * Determine if the course is at capacity based on course capacity settings
 	 *
-	 * @return   boolean    true if not at capacity, false if at or over capacity
-	 * @since    3.0.0
-	 * @version  3.15.0
+	 * @since 3.0.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return boolean Returns `true` if not at capacity & `false` if at or over capacity.
 	 */
 	public function has_capacity() {
 
@@ -617,9 +625,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if sales page redirection is enabled
 	 *
-	 * @return   string
-	 * @since    3.20.0
-	 * @version  3.23.0
+	 * @since 3.20.0
+	 * @since 3.23.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function has_sales_page_redirect() {
 		$type = $this->get( 'sales_page_content_type' );
@@ -629,9 +638,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if students can access course content based on the current date
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 *
+	 * @return boolean
 	 */
 	public function is_enrollment_open() {
 
@@ -654,11 +664,12 @@ implements LLMS_Interface_Post_Audio
 	 * Determine if students can access course content based on the current date
 	 *
 	 * Note that enrollment does not affect the outcome of this check as regardless
-	 * of enrollment, once a course closes content is locked
+	 * of enrollment, once a course closes content is locked.
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 *
+	 * @return boolean
 	 */
 	public function is_open() {
 
@@ -680,10 +691,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if a prerequisite is completed for a student
 	 *
-	 * @param    string $type  type of prereq [course|track]
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $type Type of prereq [course|track].
+	 * @return boolean
 	 */
 	public function is_prerequisite_complete( $type = 'course', $student_id = null ) {
 
@@ -713,9 +724,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Save instructor information
 	 *
-	 * @param    array $instructors  array of course instructor information
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param array $instructors Array of course instructor information.
 	 */
 	public function set_instructors( $instructors = array() ) {
 
@@ -725,12 +736,14 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Add data to the course model when converted to array
-	 * Called before data is sorted and returned by $this->jsonSerialize()
 	 *
-	 * @param    array $arr   data to be serialized
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.8.0
+	 * Called before data is sorted and returned by $this->jsonSerialize().
+	 *
+	 * @since 3.3.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @param array $arr Data to be serialized.
+	 * @return array
 	 */
 	public function toArrayAfter( $arr ) {
 
