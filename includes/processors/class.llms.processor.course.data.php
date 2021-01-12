@@ -229,7 +229,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Determines if the supplied course is already being processed.
 	 *
 	 * If it's already being processed we'll throttle the processing so we'll wait until the course
-	 * completes it's current data processing and start again later.
+	 * completes its current data processing and start again later.
 	 *
 	 * @since [version]
 	 *
@@ -272,7 +272,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		}
 
 		/**
-		 * Filter whether or not data processing in throttled for a request
+		 * Filters whether or not data processing is throttled for a request
 		 *
 		 * @since [version]
 		 *
@@ -363,7 +363,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since [version] Moved task completion logic to `task_complete()`.
 	 *
-	 * @param array $args Query arguments passed to LLMS_Student_Query..
+	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
 	 */
 	public function task( $args ) {
