@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OpenRegistration should register a new user with a voucher. 1`] = `" <h4 class=\\"llms-notification-title\\">Course enrollment success!</h4> <div class=\\"llms-notification-body\\"><p>Congratulations! You enrolled in LifterLMS Quickstart Course</p> </div> "`;
