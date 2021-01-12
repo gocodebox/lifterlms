@@ -5,13 +5,17 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Course model class
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
+ * @since 4.0.0 Remove previously deprecated class methods.
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calculated value of the overall average grade of all *enrolled* students in the course.
@@ -40,10 +44,6 @@ defined( 'ABSPATH' ) || exit;
  * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
  * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
  * @property $video_embed  (string)  URL to an oEmbed enable video URL
- *
- * @since 1.0.0
- * @since 3.30.3 Explicitly define class properties.
- * @since 4.0.0 Remove previously deprecated class methods.
  */
 class LLMS_Course
 extends LLMS_Post_Model
@@ -52,6 +52,11 @@ implements LLMS_Interface_Post_Audio
 		 , LLMS_Interface_Post_Sales_Page
 		 , LLMS_Interface_Post_Video {
 
+	/**
+	 * Meta properties
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
 
 		// Public.
@@ -65,6 +70,7 @@ implements LLMS_Interface_Post_Audio
 		'content_restricted_message' => 'text',
 		'enable_capacity'            => 'yesno',
 		'end_date'                   => 'text',
+		'enrolled_students'          => 'absint',
 		'enrollment_closed_message'  => 'text',
 		'enrollment_end_date'        => 'text',
 		'enrollment_opens_message'   => 'text',
@@ -85,9 +91,30 @@ implements LLMS_Interface_Post_Audio
 
 		// Private.
 		'temp_calc_data'             => 'array',
+
 	);
 
-	protected $db_post_type    = 'course';
+	/**
+	 * Default property values
+	 *
+	 * @var array
+	 */
+	protected $property_defaults = array(
+		'enrolled_students' => 0,
+	);
+
+	/**
+	 * DB post type name.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'course';
+
+	/**
+	 * Model post type name.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'course';
 
 	/**
@@ -350,21 +377,57 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve the number of enrolled students in the course
 	 *
-	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * The cached value is calculated in the `LLMS_Processor_Course_Data` background processor.
+	 *
+	 * If, for whatever reason, it's not found, it will be calculated on demand and saved for later use.
+	 *
+	 * @since 3.15.0
+	 * @since [version] Use cached value where possible.
+	 *
+	 * @param boolean $skip_cache Default: `false`. Whether or not to bypass the cache. If `true`, bypasses the cache.
+	 * @return int
 	 */
-	public function get_student_count() {
+	public function get_student_count( $skip_cache = false ) {
 
-		$query = new LLMS_Student_Query(
-			array(
-				'post_id'  => $this->get( 'id' ),
-				'statuses' => array( 'enrolled' ),
-				'per_page' => 1,
-			)
-		);
+		$count = ! $skip_cache ? $this->get( 'enrolled_students' ) : false;
 
-		return $query->found_results;
+		/**
+		 * Query enrolled students when `$skip_cache=true` or when there's no stored meta data.
+		 *
+		 * The second condition is necessary to disambiguate between a cached `0` and a `0` that's
+		 * returned as the default value when the metadata doesn't exist.
+		 */
+		if ( false === $count || ! isset( $this->enrolled_students ) ) {
+
+			$query = new LLMS_Student_Query(
+				array(
+					'post_id'  => $this->get( 'id' ),
+					'statuses' => array( 'enrolled' ),
+					'per_page' => 1,
+					'sort'     => array(
+						'id' => 'ASC',
+					),
+				)
+			);
+
+			$count = $query->found_results;
+
+			// Cache result for later use.
+			$this->set( 'enrolled_students', $count );
+
+		}
+
+		/**
+		 * Filter the number of actively enrolled students in the course
+		 *
+		 * @since [version]
+		 *
+		 * @param int         $count  Number of students enrolled in the course.
+		 * @param LLMS_Course $course Instance of the course object.
+		 */
+		$count = apply_filters( 'llms_course_get_student_count', $count, $this );
+
+		return absint( $count );
 
 	}
 
