@@ -47,6 +47,26 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
 	}
 
+	protected function get_data_for_form_submit( $args ) {
+
+		$email = uniqid( 'fake-' ) . '@mock.tld';
+
+		return wp_parse_args( $args, array(
+			'email_address'          => $email,
+			'email_address_confirm'  => $email,
+			'password'               => '123456',
+			'password_confirm'       => '123456',
+			'first_name'             => 'Jeffrey',
+			'last_name'              => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city'      => 'Reseda',
+			'llms_billing_state'     => 'CA',
+			'llms_billing_zip'       => '91234',
+			'llms_billing_country'   => 'US',
+		) );
+
+	}
+
 	/**
 	 * Test submit() for the account form when there's no logged in user.
 	 *
@@ -146,27 +166,72 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_submit_registration_voucher_errors() {
+	public function test_submit_registration_voucher_err_not_found() {
 
-		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
-			'llms_billing_state' => 'CA',
-			'llms_billing_zip' => '91234',
-			'llms_billing_country' => 'US',
-			'llms_voucher' => 'invalid-code',
-		);
-
-		$ret = $this->handler->submit( $args, 'registration' );
+		$ret = $this->handler->submit( $this->get_data_for_form_submit( array( 'llms_voucher' => 'invalid-code' ) ), 'registration' );
 		$this->assertIsWPError( $ret );
 		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
 		$this->assertWPErrorMessageEquals( 'Voucher code "invalid-code" could not be found.', $ret );
+
+	}
+
+	/**
+	 * Test registration form submissions with a deleted voucher code.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_voucher_err_deleted() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+		$voucher->delete_voucher_code( $code->id );
+
+		$ret = $this->handler->submit( $this->get_data_for_form_submit( array( 'llms_voucher' => $code->code ) ), 'registration' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" could not be found.', $code->code ), $ret );
+
+	}
+
+	/**
+	 * Test registration form submissions when a voucher code's parent post is deleted (or not published).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_voucher_err_post_deleted() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+		wp_delete_post( $code->voucher_id, true );
+
+		$ret = $this->handler->submit( $this->get_data_for_form_submit( array( 'llms_voucher' => $code->code ) ) , 'registration' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" is no longer valid.', $code->code ), $ret );
+
+	}
+
+	/**
+	 * Test registration form submissions when a voucher code has been redeemed the maximum number of times allowed
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_voucher_err_max() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+		$voucher->use_voucher( $code->code, $this->factory->user->create() );
+
+		$ret = $this->handler->submit( $this->get_data_for_form_submit( array( 'llms_voucher' => $code->code ) ), 'registration' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" has already been redeemed the maximum number of times.', $code->code ), $ret );
 
 	}
 
