@@ -61,6 +61,24 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the llms_get_country_locale() function
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_country_locale() {
+
+		$this->assertEquals( array(
+			'state' => __( 'State', 'lifterlms' ),
+			'zip'   => __( 'ZIP code', 'lifterlms' ),
+		), llms_get_country_locale( 'US' ) );
+
+		$this->assertEquals( array(), llms_get_country_locale( 'FAKE' ) );
+
+	}
+
+	/**
 	 * test the llms_get_country_name() function
 	 *
 	 * @since 3.24.1

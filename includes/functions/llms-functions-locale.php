@@ -25,6 +25,19 @@ function llms_get_country_name( $code ) {
 }
 
 /**
+ * Retrieve locale information for a specific country
+ *
+ * @since [version]
+ *
+ * @param string $code Country code.
+ * @return array
+ */
+function llms_get_country_locale( $code ) {
+	$all = llms_get_countries_locale();
+	return isset( $all[ $code ] ) ? $all[ $code ] : array();
+}
+
+/**
  * Retrieve a list of states for a given country.
  *
  * @since [version]
@@ -33,10 +46,8 @@ function llms_get_country_name( $code ) {
  * @return array
  */
 function llms_get_country_states( $code ) {
-
 	$all = llms_get_states();
 	return isset( $all[ $code ] ) ? $all[ $code ] : array();
-
 }
 
 /**
