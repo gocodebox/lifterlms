@@ -23,6 +23,10 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
 		parent::setUp();
 		$this->handler = LLMS_Form_Handler::instance();
+
+		// Actions aren't firing on unit tests without explicitly calling the constructor to add them. Not sure why.
+		LLMS_Unit_Test_Util::call_method( $this->handler, '__construct' );
+
 		LLMS_Forms::instance()->install();
 
 	}
@@ -176,19 +180,20 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	public function test_submit_success() {
 
 		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
+			'email_address'          => 'fake@mock.com',
+			'email_address_confirm'  => 'fake@mock.com',
+			'password'               => '123456',
+			'password_confirm'       => '123456',
+			'first_name'             => 'Jeffrey',
+			'last_name'              => 'Lebowski',
 			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
-			'llms_billing_state' => 'CA',
-			'llms_billing_zip' => '91234',
-			'llms_billing_country' => 'US',
+			'llms_billing_city'      => 'Reseda',
+			'llms_billing_state'     => 'CA',
+			'llms_billing_zip'       => '91234',
+			'llms_billing_country'   => 'US',
 		);
 
+		// Register.
 		$ret = $this->handler->submit( $args, 'checkout' );
 
 		$this->assertTrue( is_int( $ret ) );
@@ -205,6 +210,92 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$this->assertEquals( $args['llms_billing_country'], $user->llms_billing_country );
 
 		$this->assertTrue( wp_check_password( '123456', $user->user_pass, $user->ID ) );
+
+		// Update.
+		wp_set_current_user( $ret );
+		$args['first_name'] = 'Maude';
+		$this->assertSame( $ret, $this->handler->submit( $args, 'account' ) );
+		$this->assertEquals( $args['first_name'], $user->first_name );
+
+	}
+
+	/**
+	 * Test submit() with a country that doesn't require states.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_address_no_states() {
+
+		$args = array(
+			'email_address' => 'fake@mock.com',
+			'email_address_confirm' => 'fake@mock.com',
+			'password' => '123456',
+			'password_confirm' => '123456',
+			'first_name' => 'Jeffrey',
+			'last_name' => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city' => 'Reseda',
+			'llms_billing_state' => 'C',
+			'llms_billing_country' => 'UG', // Uganda.
+		);
+
+		$ret = $this->handler->submit( $args, 'checkout' );
+		$this->assertTrue( is_numeric( $ret ) );
+
+	}
+
+	/**
+	 * Test submit() with a country that doesn't require zip codes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_address_no_zip() {
+
+		$args = array(
+			'email_address' => 'fake@mock.com',
+			'email_address_confirm' => 'fake@mock.com',
+			'password' => '123456',
+			'password_confirm' => '123456',
+			'first_name' => 'Jeffrey',
+			'last_name' => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city' => 'Reseda',
+			'llms_billing_zip' => '23424',
+			'llms_billing_country' => 'AS', // America Samoa.
+		);
+
+		$ret = $this->handler->submit( $args, 'checkout' );
+		$this->assertTrue( is_numeric( $ret ) );
+
+	}
+
+	/**
+	 * Test submit() with a country that doesn't require states or zip codes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_address_no_states_or_zip() {
+
+		$args = array(
+			'email_address' => 'fake@mock.com',
+			'email_address_confirm' => 'fake@mock.com',
+			'password' => '123456',
+			'password_confirm' => '123456',
+			'first_name' => 'Jeffrey',
+			'last_name' => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city' => 'Reseda',
+			'llms_billing_country' => 'AW', // Aruba.
+		);
+
+		$ret = $this->handler->submit( $args, 'checkout' );
+		$this->assertTrue( is_numeric( $ret ) );
 
 	}
 
@@ -247,14 +338,5 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		}
 
 	}
-
-	/**
-	 * Test submission success as a logged in user.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_submit_update() {}
 
 }

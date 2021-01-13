@@ -25,6 +25,13 @@ class LLMS_Form_Handler {
 	protected static $instance = null;
 
 	/**
+	 * Validation class instance
+	 *
+	 * @var LLMS_Form_Validator
+	 */
+	protected $validator = null;
+
+	/**
 	 * Get Main Singleton Instance.
 	 *
 	 * @since [version]
@@ -47,92 +54,41 @@ class LLMS_Form_Handler {
 	 */
 	private function __construct() {
 
+		$this->validator = new LLMS_Form_Validator();
+
 		add_action( 'lifterlms_before_user_update', array( $this, 'maybe_modify_edit_account_field_settings' ), 10, 3 );
+		add_action( 'lifterlms_before_user_update', array( $this, 'maybe_modify_required_address_fields' ), 10, 3 );
+		add_action( 'lifterlms_before_user_registration', array( $this, 'maybe_modify_required_address_fields' ), 10, 3 );
 
 	}
 
 	/**
-	 * Ensure matching fields match one another.
+	 * Retrieve fields for a given form
+	 *
+	 * Ensures the form exists and that the current user can access the form.
 	 *
 	 * @since [version]
 	 *
-	 * @param array   $posted_data Array of posted data.
-	 * @param array[] $fields      Array of LifterLMS Form Fields.
-	 * @return WP_Error|true
+	 * @param string $action   User action to be performed. Either "update" (for an existing user) or "registration" for a new user.
+	 * @param string $location Form location ID.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
+	 * @return WP_Error|array[] Array of LLMS_Form_Field arrays on success or an error object on failure.
 	 */
-	protected function check_matching_fields( $posted_data, $fields ) {
+	protected function get_fields( $action, $location, $args = array() ) {
 
-		$err      = new WP_Error();
-		$err_data = array();
+		$fields = LLMS_Forms::instance()->get_form_fields( $location, $args );
 
-		$matches = array();
-		foreach ( $fields as $field ) {
+		// Form couldn't be located.
+		if ( false === $fields ) {
+			// Translators: %s = form location ID.
+			return new WP_Error( 'llms-form-invalid-location', sprintf( __( 'The form location "%s" is invalid.', 'lifterlms' ), $location ), $args );
 
-			// Field doesn't have a match to check or it was already checked by it's match.
-			if ( empty( $field['match'] ) || in_array( $field['id'], $matches, true ) ) {
-				continue;
-			}
-
-			$field_name = isset( $field['label'] ) ? $field['label'] : $field['name'];
-
-			$name        = $field['name'];
-			$match_field = LLMS_Forms::instance()->get_field_by( $fields, 'id', $field['match'] );
-			if ( ! $match_field ) {
-				continue;
-			}
-
-			$match = $match_field['name'];
-
-			$val   = isset( $posted_data[ $name ] ) ? $posted_data[ $name ] : '';
-			$match = isset( $posted_data[ $match ] ) ? $posted_data[ $match ] : '';
-
-			if ( $val !== $match ) {
-
-				$match_name = isset( $match_field['label'] ) ? $match_field['label'] : $match_field['name'];
-				$err->add( 'llms-form-field-not-matched', sprintf( __( '%1$s must match %2$s.', 'lifterlms' ), $field_name, $match_name ) );
-				$err_data[] = array( $field, $match_field );
-
-			}
-
-			// Fields reference each other so we only need to check the pair one time.
-			$matches[] = $match_field['id'];
-
+		} elseif ( 'account' === $location && 'update' !== $action ) {
+			// No logged in user, can't update.
+			return new WP_Error( 'llms-form-no-user', __( 'You must be logged in to perform this action.', 'lifterlms' ), $args );
 		}
 
-		if ( $err->errors ) {
-			$err->add_data( $err_data, 'llms-form-field-not-matched' );
-			return $err;
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * Callback function for array_filter() used in `$this->get_required_fields()`
-	 *
-	 * @since [version]
-	 *
-	 * @param array $field LifterLMS Form Field settings.
-	 * @return bool `true` if the field is required, `false` otherwise.
-	 */
-	protected function filter_required_fields( $field ) {
-
-		return ! empty( $field['required'] );
-
-	}
-
-	/**
-	 * Filters a list of fields down to only the required fields.
-	 *
-	 * @since [version]
-	 *
-	 * @param array[] $fields Array of LifterLMS Form Field settings arrays.
-	 * @return array[]
-	 */
-	protected function get_required_fields( $fields ) {
-
-		return array_values( array_filter( $fields, array( $this, 'filter_required_fields' ) ) );
+		return $fields;
 
 	}
 
@@ -204,6 +160,45 @@ class LLMS_Form_Handler {
 					$fields[ $con_index ]['required'] = false;
 				}
 			}
+		}
+
+	}
+
+	/**
+	 * Modify LifterLMS Fields to allow some address fields to be conditionally required
+	 *
+	 * Uses available country locale information to remove the "required" attribute for state
+	 * and zip code fields when a user has chosen a country that doesn't use states and/or
+	 * zip codes.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $posted_data User submitted form data (passed by reference).
+	 * @param string  $location    Form location ID.
+	 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
+	 * @return void
+	 */
+	public function maybe_modify_required_address_fields( &$posted_data, $location, &$fields ) {
+
+		// Only proceed if we have a country to review.
+		if ( empty( $posted_data['llms_billing_country'] ) ) {
+			return;
+		}
+
+		$country = $posted_data['llms_billing_country'];
+
+		// The state field exists in the form, it's not included in post data (or it's empty), and the country does not support states.
+		$index = LLMS_Forms::instance()->get_field_by( $fields, 'name', 'llms_billing_state', 'index' );
+		if ( false !== $index && empty( $posted_data['llms_billing_state'] ) && empty( llms_get_country_states( $country ) ) ) {
+			$fields[ $index ]['required'] = false;
+		}
+
+		// The zip field exists in the form, it's not included in post data (or it's empty).
+		$index = LLMS_Forms::instance()->get_field_by( $fields, 'name', 'llms_billing_zip', 'index' );
+		if ( false !== $index && empty( $posted_data['llms_billing_zip'] ) ) {
+			$locale = llms_get_country_locale( $country );
+			// Zip must exist in the array and be explicitly set to false for it to be disabled.
+			$fields[ $index ]['required'] = isset( $locale['zip'] ) && false === $locale['zip'] ? false : $fields[ $index ]['required'];
 		}
 
 	}
@@ -304,69 +299,6 @@ class LLMS_Form_Handler {
 	}
 
 	/**
-	 * Sanitize a single field according to its type.
-	 *
-	 * @since [version]
-	 *
-	 * @param mixed $posted_value User-submitted (dirty) value.
-	 * @param array $field LifterLMS field settings.
-	 * @return mixed
-	 */
-	protected function sanitize_field( $posted_value, $field ) {
-
-		if ( isset( $field['sanitize'] ) && is_callable( $field['sanitize'] ) ) {
-			return trim( call_user_func( $field['sanitize'], $posted_value ) );
-		}
-
-		switch ( $field['type'] ) {
-
-			case 'email':
-				$value = sanitize_email( $posted_value );
-				break;
-
-			case 'tel':
-				$value = preg_replace( '/[^\s\#0-9\-\+\(\)\.]/', '', $posted_value );
-				break;
-
-			case 'number':
-				$value = preg_replace( '/[^0-9.,]/', '', $posted_value );
-				break;
-
-			default:
-				$value = sanitize_text_field( $posted_value );
-
-		}
-
-		return trim( $value );
-
-	}
-
-	/**
-	 * Sanitize all user-submitted data according to field settings.
-	 *
-	 * @since [version]
-	 *
-	 * @param array   $posted_data User-submitted form data.
-	 * @param array[] $fields LifterLMS form fields settings.
-	 * @return array
-	 */
-	protected function sanitize_fields( $posted_data, $fields ) {
-
-		foreach ( $fields as $field ) {
-
-			if ( ! isset( $posted_data[ $field['name'] ] ) ) {
-				continue;
-			}
-
-			$posted_data[ $field['name'] ] = $this->sanitize_field( $posted_data[ $field['name'] ], $field );
-
-		}
-
-		return $posted_data;
-
-	}
-
-	/**
 	 * Form submission handler.
 	 *
 	 * @since [version]
@@ -378,30 +310,13 @@ class LLMS_Form_Handler {
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {
 
-		$fields = LLMS_Forms::instance()->get_form_fields( $location, $args );
-
+		// Determine the user action to perform.
 		$action = get_current_user_id() ? 'update' : 'registration';
 
-		// Form couldn't be located.
-		if ( false === $fields ) {
-
-			return $this->submit_error(
-				// Translators: %s = form location ID.
-				new WP_Error( 'llms-form-invalid-location', sprintf( __( 'The form location "%s" is invalid.', 'lifterlms' ), $location ), $args ),
-				$posted_data,
-				$action
-			);
-
-			// No logged in user, can't update.
-		} elseif ( 'account' === $location && 'update' !== $action ) {
-
-			return $this->submit_error(
-				// Translators: %s = form location ID.
-				new WP_Error( 'llms-form-no-user', __( 'You must be logged in to perform this action.', 'lifterlms' ), $args ),
-				$posted_data,
-				$action
-			);
-
+		// Load the form.
+		$fields = $this->get_fields( $action, $location, $args );
+		if ( is_wp_error( $fields ) ) {
+			return $this->submit_error( $fields, $posted_data, $action );
 		}
 
 		/**
@@ -423,21 +338,21 @@ class LLMS_Form_Handler {
 		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields, $args ) );
 
 		// Check for all required fields.
-		$required = $this->validate_required_fields( $posted_data, $fields );
+		$required = $this->validator->validate_required_fields( $posted_data, $fields );
 		if ( is_wp_error( $required ) ) {
 			return $this->submit_error( $required, $posted_data, $action );
 		}
 
 		// Sanitize.
-		$posted_data = $this->sanitize_fields( wp_unslash( $posted_data ), $fields );
+		$posted_data = $this->validator->sanitize_fields( wp_unslash( $posted_data ), $fields );
 
-		$valid = $this->validate_fields( $posted_data, $fields );
+		$valid = $this->validator->validate_fields( $posted_data, $fields );
 		if ( is_wp_error( $valid ) ) {
 			return $this->submit_error( $valid, $posted_data, $action );
 		}
 
 		// Validate matching fields.
-		$matches = $this->check_matching_fields( $posted_data, $fields );
+		$matches = $this->validator->validate_matching_fields( $posted_data, $fields );
 		if ( is_wp_error( $matches ) ) {
 			return $this->submit_error( $matches, $posted_data, $action );
 		}
@@ -552,172 +467,6 @@ class LLMS_Form_Handler {
 		 * @param string $action Submission action, either "registration" or "update"!
 		 */
 		return apply_filters( "lifterlms_user_${action}_failure", $error, $posted_data, $action );
-
-	}
-
-	/**
-	 * Validate a posted value.
-	 *
-	 * @since [version]
-	 *
-	 * @param mixed $posted_value Posted data.
-	 * @param array $field LifterLMS Form Field settings array.
-	 * @return WP_Error|true
-	 */
-	protected function validate_field( $posted_value, $field ) {
-
-		if ( isset( $field['validate'] ) && is_callable( $field['validate'] ) ) {
-			return trim( call_user_func( $field['validate'], $posted_value ) );
-		}
-
-		// Validate field by field type.
-		if ( ! empty( $field['type'] ) ) {
-
-			switch ( $field['type'] ) {
-
-				case 'email':
-					if ( ! is_email( $posted_value ) ) {
-						// Translators: %s user submitted value.
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The email address "%s" is not valid.', 'lifterlms' ), $posted_value ) );
-					}
-					break;
-
-				case 'tel':
-					if ( 0 < strlen( trim( preg_replace( '/[\s\#0-9\-\+\(\)\.]/', '', $posted_value ) ) ) ) {
-						// Translators: %s user submitted value.
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The phone number "%s" is not valid.', 'lifterlms' ), $posted_value ) );
-					}
-					break;
-
-				case 'number':
-					$temp_value = str_replace( ',', '', $posted_value );
-					if ( ! is_numeric( $temp_value ) ) {
-						// Translators: %1$s field label or name; %2$s = user submitted value.
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" is not valid number.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value ) );
-					} elseif ( isset( $field['attributes'] ) ) {
-						if ( isset( $field['attributes']['min'] ) && $temp_value < $field['attributes']['min'] ) {
-							// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
-							return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be greater than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['min'] ) );
-						} elseif ( isset( $field['attributes']['max'] ) && $temp_value > $field['attributes']['max'] ) {
-							// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
-							return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be less than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['max'] ) );
-						}
-					}
-					break;
-
-				// @TODO Check password min length.
-			}
-		}
-
-		// Perform special validations for special field types.
-		if ( ! empty( $field['id'] ) ) {
-
-			switch ( $field['id'] ) {
-
-				case 'llms_voucher':
-					$voucher = new LLMS_Voucher();
-					$check   = $voucher->check_voucher( $posted_value );
-					if ( is_wp_error( $check ) ) {
-						return new WP_Error( 'llms-form-field-invalid', $check->get_error_message(), array( $posted_value, $check ) );
-					}
-					break;
-
-				case 'password_current':
-					if ( ! is_user_logged_in() ) {
-						return new WP_Error( 'llms-form-field-invalid-no-user', __( 'You must be logged in to update your password.', 'lifterlms' ), $posted_value );
-					}
-					$user = wp_get_current_user();
-					if ( ! wp_check_password( $posted_value, $user->user_pass ) ) {
-						return new WP_Error( 'llms-form-field-invalid', __( 'The submitted password was not correct.', 'lifterlms' ), $posted_value );
-					}
-					break;
-
-				case 'user_email':
-					if ( email_exists( $posted_value ) ) {
-						return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $posted_value ) );
-					}
-					break;
-
-				case 'user_login':
-					if ( in_array( $posted_value, llms_get_usernames_blocklist(), true ) || ! validate_username( $posted_value ) ) {
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The username "%s" is invalid, please try a different username.', 'lifterlms' ), $posted_value ), $posted_value );
-					} elseif ( username_exists( $posted_value ) ) {
-						return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the username "%s" already exists.', 'lifterlms' ), $posted_value ), $posted_value );
-					}
-					break;
-
-			}
-		}
-
-		return true;
-
-	}
-
-
-	/**
-	 * Validate submitted field values.
-	 *
-	 * @since [version]
-	 *
-	 * @param array   $posted_data Array of posted data.
-	 * @param array[] $fields Array of LifterLMS Form Fields.
-	 * @return WP_Error|true
-	 */
-	protected function validate_fields( $posted_data, $fields ) {
-
-		$err      = new WP_Error();
-		$err_data = array();
-		foreach ( $fields as $field ) {
-
-			if ( empty( $posted_data[ $field['name'] ] ) ) {
-				continue;
-			}
-
-			$valid = $this->validate_field( $posted_data[ $field['name'] ], $field );
-			if ( is_wp_error( $valid ) ) {
-				$err->add( $valid->get_error_code(), $valid->get_error_message() );
-				$err_data[ $field['name'] ] = $field;
-			}
-		}
-
-		if ( $err->errors ) {
-			$err->add_data( $err_data );
-			return $err;
-		}
-
-		return true;
-
-	}
-
-	/**
-	 * Ensure that all of the forms required fields are present in the submitted data.
-	 *
-	 * @since [version]
-	 *
-	 * @param array   $posted_data User data (likely from $_POST).
-	 * @param array[] $fields Array of LifterLMS form fields.
-	 * @return WP_Error|true
-	 */
-	protected function validate_required_fields( $posted_data, $fields ) {
-
-		// Ensure all required fields have been submitted.
-		$err      = new WP_Error();
-		$err_data = array();
-		foreach ( $this->get_required_fields( $fields ) as $field ) {
-
-			if ( empty( $posted_data[ $field['name'] ] ) ) {
-				// Translators: %s = field label or name.
-				$err->add( 'llms-form-missing-required', sprintf( __( '%s is a required field.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'] ) );
-				$err_data[ $field['name'] ] = $field;
-			}
-		}
-
-		if ( $err->errors ) {
-			$err->add_data( $err_data, 'llms-form-missing-required' );
-			return $err;
-		}
-
-		return true;
 
 	}
 
