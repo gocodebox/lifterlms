@@ -160,8 +160,6 @@ implements LLMS_Interface_Post_Audio
 		/**
 		 * Filters the total available points for the course.
 		 *
-		 * Hook description.
-		 *
 		 * @since 3.24.0
 		 *
 		 * @param int         $points Number of available points.
