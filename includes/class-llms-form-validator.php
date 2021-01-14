@@ -26,9 +26,14 @@ class LLMS_Form_Validator {
 	 * @return array[]
 	 */
 	public function get_required_fields( $fields ) {
-		return array_values( array_filter( $fields, function( $field ) {
-			return ! empty( $field['required'] );
-		} ) );
+		return array_values(
+			array_filter(
+				$fields,
+				function( $field ) {
+					return ! empty( $field['required'] );
+				}
+			)
+		);
 	}
 
 	/**
@@ -131,7 +136,6 @@ class LLMS_Form_Validator {
 			return $valid;
 		}
 
-
 		// Perform special validations for special field types.
 		$extra_map = array(
 			'llms_voucher'     => array( $this, 'validate_field_voucher' ),
@@ -139,7 +143,7 @@ class LLMS_Form_Validator {
 			'user_email'       => array( $this, 'validate_field_user_email' ),
 			'user_login'       => array( $this, 'validate_field_user_login' ),
 		);
-		$valid = isset( $extra_map[ $field['id'] ] ) ? call_user_func( $extra_map[ $field['id'] ], $posted_value ) : true;
+		$valid     = isset( $extra_map[ $field['id'] ] ) ? call_user_func( $extra_map[ $field['id'] ], $posted_value ) : true;
 		if ( is_wp_error( $valid ) ) {
 			return $valid;
 		}
