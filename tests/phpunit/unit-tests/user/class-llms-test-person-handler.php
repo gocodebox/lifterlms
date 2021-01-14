@@ -374,7 +374,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * @since 3.29.4
 	 * @since [version] Remove deprecated option `lifterlms_registration_generate_username`.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function test_login_with_email() {
 
@@ -432,9 +432,9 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		wp_logout();
 
 		// Make sure that email addresses with an apostrophe in them can login without issue.
-		$user = $this->factory->user->create_and_get( array( 'user_email' => "mock'mock@what.org", 'user_pass' => '1234' ) );
+		$user = $this->factory->user->create_and_get( array( 'user_email' => "mock\'mock@what.org", 'user_pass' => '1234' ) );
 		$login = LLMS_Person_Handler::login( array(
-			'llms_login' => wp_slash( $user->user_email ), // add slashes like the $_POST data.
+			'llms_login' => $user->user_email,
 			'llms_password' => '1234',
 		) );
 
@@ -544,8 +544,19 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test validate fields
+	 *
+	 * @since Unknown
+	 *
+	 * @expectedDeprecated LLMS_Person_Handler::validate_fields()
+	 * @expectedDeprecated LLMS_Person_Handler::get_available_fields()
+	 *
+	 * @return void
+	 */
 	public function test_validate_fields() {
 
+		LLMS_Forms::instance()->install();
 		/**
 		 * Registration
 		 */
@@ -557,7 +568,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'registration' ) );
 
 		// check emails with quotes
-		$data['email_address'] = "mock\'mock@what.org";
+		$data['email_address'] = "mock'mock@what.org";
 		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'registration' ) );
 
 
@@ -576,7 +587,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 		// check emails with quotes
 		$data = array(
-			'llms_login' => "moc\'ker@mock.com",
+			'llms_login' => "moc'ker@mock.com",
 			'llms_password' => '4bKyvI41Xxnf',
 		);
 		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'login' ) );
@@ -594,12 +605,12 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 
 		$uid = $this->factory->user->create( array(
-			'user_email' =>"mock\'mock@what.org",
+			'user_email' =>"mock'mock@what.org",
 		) );
 		wp_set_current_user( $uid );
 
 		$data = $this->get_mock_registration_data();
-		$data['email_address'] = "mock\'mock@what.org";
+		$data['email_address'] = "mock'mock@what.org";
 		$data['email_address_confirm'] = $data['email_address'];
 		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'account' ) );
 

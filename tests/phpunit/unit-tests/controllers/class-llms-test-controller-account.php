@@ -311,6 +311,10 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_email_success() {
 
+		// Something prior to this test triggers a password changed email to be sent and causes this test to fail as a result.
+		// Adding a reset here is faster than tracking down the test that causes that email to be sent.
+		reset_phpmailer_instance();
+
 		$controller = new LLMS_Controller_Account();
 
 		$user = $this->factory->user->create_and_get();
@@ -333,6 +337,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			$this->assertEquals( 'Password Reset for Test Blog', $sent->subject );
 
 		}
+
+		reset_phpmailer_instance();
 
 	}
 

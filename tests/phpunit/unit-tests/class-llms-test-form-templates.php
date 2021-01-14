@@ -514,7 +514,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	public function test_wrap_columns_get_column_with_widths_wp_53_plus() {
 
 		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:column {"width":25} --><div class="wp-block-column" style="flex-basis:25%">' . $col . '</div><!-- /wp:column -->';
+		$expect = '<!-- wp:column {"width":"25%"} --><div class="wp-block-column" style="flex-basis:25%">' . $col . '</div><!-- /wp:column -->';
 
 		$col = array(
 			'content' => $col,
