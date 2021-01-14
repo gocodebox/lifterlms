@@ -701,7 +701,7 @@ class LLMS_Form_Field {
 		$replace = array();
 
 		$meter_settings = array(
-			'blacklist' => array(),
+			'blocklist' => array(),
 		);
 
 		if ( isset( $this->settings['min_strength'] ) ) {
@@ -733,9 +733,9 @@ class LLMS_Form_Field {
 		 * @param array $meter_settings {
 		 *     Hash of meter configuration options.
 		 *
-		 *     @type string[] $blacklist A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
-		 *     @type string $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak".
-		 *     @type int $min_length The minimum acceptable password length. Must be >= 6.
+		 *     @type string[] $blocklist    A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
+		 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak".
+		 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6.
 		 * }
 		 */
 		$meter_settings = apply_filters( 'llms_password_strength_meter_settings', $meter_settings, $this->settings, $this );
