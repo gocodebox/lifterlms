@@ -129,6 +129,21 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test validate_fields() when no user input is supplied.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_fields_empty_input() {
+
+		$res = $this->main->validate_fields( array(), array() );
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms-form-no-input', $res );
+	}
+
+	/**
 	 * Test sanitize_field() for text fields / default case.
 	 *
 	 * @since [version]
