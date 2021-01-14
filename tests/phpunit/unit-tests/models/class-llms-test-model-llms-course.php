@@ -26,36 +26,43 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.20.0
+	 *
+	 * @since 3.4.0
+	 * @since 3.20.0 Unknown.
+	 * @since [version] Added missing values.
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
-			'audio_embed' => 'text',
-			'capacity' => 'absint',
-			'capacity_message' => 'text',
-			'course_closed_message' => 'text',
-			'course_opens_message' => 'text',
+			// Public.
+			'audio_embed'                => 'text',
+			'average_grade'              => 'float',
+			'average_progress'           => 'float',
+			'capacity'                   => 'absint',
+			'capacity_message'           => 'text',
+			'course_closed_message'      => 'text',
+			'course_opens_message'       => 'text',
 			'content_restricted_message' => 'text',
-			'enable_capacity' => 'yesno',
-			'end_date' => 'text',
-			'enrollment_closed_message' => 'text',
-			'enrollment_end_date' => 'text',
-			'enrollment_opens_message' => 'text',
-			'enrollment_period' => 'yesno',
-			'enrollment_start_date' => 'text',
-			'has_prerequisite' => 'yesno',
-			'length' => 'text',
-			'prerequisite' => 'absint',
-			'prerequisite_track' => 'absint',
+			'enable_capacity'            => 'yesno',
+			'end_date'                   => 'text',
+			'enrolled_students'          => 'absint',
+			'enrollment_closed_message'  => 'text',
+			'enrollment_end_date'        => 'text',
+			'enrollment_opens_message'   => 'text',
+			'enrollment_period'          => 'yesno',
+			'enrollment_start_date'      => 'text',
+			'has_prerequisite'           => 'yesno',
+			'length'                     => 'text',
+			'prerequisite'               => 'absint',
+			'prerequisite_track'         => 'absint',
 			'sales_page_content_page_id' => 'absint',
-			'sales_page_content_type' => 'string',
-			'sales_page_content_url' => 'string',
-			'tile_featured_video' => 'yesno',
-			'time_period' => 'yesno',
-			'start_date' => 'text',
-			'video_embed' => 'text',
+			'sales_page_content_type'    => 'string',
+			'sales_page_content_url'     => 'string',
+			'tile_featured_video'        => 'yesno',
+			'time_period'                => 'yesno',
+			'start_date'                 => 'text',
+			'video_embed'                => 'text',
 		);
 	}
 
@@ -69,6 +76,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'audio_embed' => 'http://example.tld/audio_embed',
+			'average_grade' => 25.55,
+			'average_progress' => 99.32,
 			'capacity' => 25,
 			'capacity_message' => 'Capacity Reached',
 			'course_closed_message' => 'Course has closed',
@@ -76,6 +85,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'content_restricted_message' => 'You cannot access this content',
 			'enable_capacity' => 'yes',
 			'end_date' => '2017-05-05',
+			'enrolled_students' => 25,
 			'enrollment_closed_message' => 'Enrollment is closed',
 			'enrollment_end_date' => '2017-05-05',
 			'enrollment_opens_message' => 'Enrollment opens later',
@@ -362,6 +372,39 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		array_map( function( $section ) {
 			$this->assertTrue( is_a( $section, 'LLMS_Section' ) );
 		}, $sections );
+
+	}
+
+	/**
+	 * Test get_student_count()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_student_count() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course    = llms_get_post( $course_id );
+
+		// No value, uses default from course default property value (instead of using an empty string).
+		$this->assertSame( 0, $course->get_student_count() );
+
+		// Cached 0.
+		$this->assertSame( 0, $course->get_student_count() );
+
+		// Fake cache hit.
+		$course->set( 'enrolled_students', 52 );
+		$this->assertSame( 52, $course->get_student_count() );
+
+		// Use real data.
+		$this->factory->student->create_and_enroll_many( 2, $course_id );
+
+		// Skip cache.
+		$this->assertSame( 2, $course->get_student_count( true ) );
+
+		// Cached.
+		$this->assertSame( 2, $course->get_student_count() );
 
 	}
 
