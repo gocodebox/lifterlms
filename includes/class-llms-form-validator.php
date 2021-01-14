@@ -128,7 +128,6 @@ class LLMS_Form_Validator {
 			'number' => array( $this, 'validate_field_number' ),
 			'tel'    => array( $this, 'validate_field_tel' ),
 			'url'    => array( $this, 'validate_field_url' ),
-			// @TODO Check password min length.
 		);
 
 		$valid = isset( $type_map[ $field['type'] ] ) ? call_user_func( $type_map[ $field['type'] ], $posted_value, $field ) : true;
