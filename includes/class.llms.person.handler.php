@@ -630,7 +630,12 @@ class LLMS_Person_Handler {
 					}
 				}
 			}
+
+			$validator = new LLMS_Form_Validator();
+			return $validator->validate_fields( $data, $fields );
+
 		}
+
 
 		$e = new WP_Error();
 
