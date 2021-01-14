@@ -17,33 +17,33 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
  *
- * @property string $audio_embed                URL to an oEmbed enable audio URL
- * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course.
- * @property float  $average_progress           Calculated value of the overall average progress of all *enrolled* students in the course.
- * @property int    $capacity                   Number of students who can be enrolled in the course before enrollment closes
- * @property string $capacity_message           Message displayed when capacity has been reached
- * @property string $content_restricted_message Message displayed when non-enrolled visitors try to access lessons/quizzes directly
- * @property string $course_closed_message      Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'
- * @property string $course_opens_message       Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'
- * @property string $enable_capacity            Whether capacity restrictions are enabled [yes|no]
- * @property string $enrollment_closed_message  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
- * @property string $enrollment_end_date        After this date, registration closes
- * @property string $enrollment_opens_message   Message displayed to non-enrolled visitors when the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
- * @property string $enrollment_period          Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
- * @property string $enrollment_start_date      Before this date, registration is closed
- * @property string $end_date                   Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
- * @property string $has_prerequisite           Determine if prerequisites are enabled [yes|no]
- * @property array  $instructors                Course instructor user information
- * @property int    $prerequisite               WP Post ID of a the prerequisite course
- * @property int    $prerequisite_track         WP Tax ID of a the prerequisite track
- * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'
- * @property string $sales_page_content_type    Sales page behavior [none,content,page,url]
- * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'
- * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
- * @property string $length                     User defined course length
- * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no]
- * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
- * @property string $video_embed                URL to an oEmbed enable video URL
+ * @property string $audio_embed                URL to an oEmbed enable audio URL.
+ * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
+ * @property float  $average_progress           Calculated value of the overall average progress of all *enrolled* students in the course..
+ * @property int    $capacity                   Number of students who can be enrolled in the course before enrollment closes.
+ * @property string $capacity_message           Message displayed when capacity has been reached.
+ * @property string $content_restricted_message Message displayed when non-enrolled visitors try to access lessons/quizzes directly.
+ * @property string $course_closed_message      Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'.
+ * @property string $course_opens_message       Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'.
+ * @property string $enable_capacity            Whether capacity restrictions are enabled [yes|no].
+ * @property string $enrollment_closed_message  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'.
+ * @property string $enrollment_end_date        After this date, registration closes.
+ * @property string $enrollment_opens_message   Message displayed to non-enrolled visitors when the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'.
+ * @property string $enrollment_period          Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
+ * @property string $enrollment_start_date      Before this date, registration is closed.
+ * @property string $end_date                   Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date..
+ * @property string $has_prerequisite           Determine if prerequisites are enabled [yes|no].
+ * @property array  $instructors                Course instructor user information.
+ * @property int    $prerequisite               WP Post ID of a the prerequisite course.
+ * @property int    $prerequisite_track         WP Tax ID of a the prerequisite track.
+ * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
+ * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
+ * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
+ * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date..
+ * @property string $length                     User defined course length.
+ * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
+ * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
+ * @property string $video_embed                URL to an oEmbed enable video URL.
  */
 class LLMS_Course
 extends LLMS_Post_Model
