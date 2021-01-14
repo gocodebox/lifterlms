@@ -176,8 +176,8 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.0.0
 	 * @since 3.7.3 Unknown.
 	 *
-	 * @param string $type Type of prereq to retrieve id for [course|track].
-	 * @return int|false Post ID of a course, taxonomy ID of a track, or false if none found
+	 * @param string $type Optional. Type of prereq to retrieve id for [course|track]. Default is `'course'`.
+	 * @return int|false Post ID of a course, taxonomy ID of a track, or false if none found.
 .	 */
 	public function get_prerequisite_id( $type = 'course' ) {
 
@@ -236,8 +236,9 @@ implements LLMS_Interface_Post_Audio
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param string $field Which field to return from the available term fields.
+	 * @param string $field Optional. Which field to return from the available term fields.
 	 *                      Any public variables from a WP_Term object are acceptable: term_id, name, slug, and more.
+	 *                      Default is `'name'`.
 	 * @return string
 	 */
 	public function get_difficulty( $field = 'name' ) {
@@ -264,7 +265,7 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @param boolean $exclude_hidden Optional. If true, excludes hidden instructors from the return array. Default is `false`.
 	 * @return array
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
@@ -293,8 +294,8 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.0.0
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param string $return Type of return [ids|posts|lessons].
-	 * @return int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
+	 * @param string $return Optional. Type of return [ids|posts|lessons]. Default is `'lessons'`.
+	 * @return int[]|WP_Post[]|LLMS_Lesson[] The type depends on value of `$return`.
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -378,8 +379,8 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.0.0
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param string $return Type of return [ids|posts|sections].
-	 * @return int[]|WP_Post[]|LLMS_Section[] The type depends on value of $return.
+	 * @param string $return Optional. Type of return [ids|posts|sections]. Default is `'sections'`.
+	 * @return int[]|WP_Post[]|LLMS_Section[] The type depends on value of `$return`.
 	 */
 	public function get_sections( $return = 'sections' ) {
 
@@ -462,7 +463,7 @@ implements LLMS_Interface_Post_Audio
 		 *
 		 * @since [version]
 		 *
-		 * @param int $count Number of students enrolled in the course.
+		 * @param int         $count  Number of students enrolled in the course.
 		 * @param LLMS_Course $course Instance of the course object.
 		 */
 		$count = apply_filters( 'llms_course_get_student_count', $count, $this );
@@ -476,9 +477,9 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string|string[] $statuses List of enrollment statuses to query by. Students matching at least one of the provided statuses will be returned.
-	 * @param integer         $limit    Number of results.
-	 * @param integer         $skip     Number of results to skip (for pagination).
+	 * @param string|string[] $statuses Optional. List of enrollment statuses to query by. Students matching at least one of the provided statuses will be returned. Default is `'enrolled'`.
+	 * @param integer         $limit    Optional. Number of results. Default is `50`.
+	 * @param integer         $skip     Optional. Number of results to skip (for pagination). Default is `0`.
 	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
