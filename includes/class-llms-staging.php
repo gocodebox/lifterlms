@@ -105,6 +105,7 @@ class LLMS_Staging {
 	 * Adds a "bubble" to the "Orders" menu item when recurring payments are disabled.
 	 *
 	 * @since 3.32.0
+	 * @since [version] Moved HTML for the warning bubble into it's own method.
 	 *
 	 * @return void
 	 */
