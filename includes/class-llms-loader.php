@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +87,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
+	 * @since [version] Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 *
 	 * @return void
 	 */
@@ -137,6 +138,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 
 		// Classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.assets.php';
@@ -214,6 +216,7 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 * @since 4.8.0 Add `LLMS_Export_API`.
+	 * @since [version] Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 *
 	 * @return void
 	 */
@@ -256,7 +259,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/tables/class.llms.table.student.management.php';
 
 		// Classes.
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.dot.com.api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.generator.php';
 
