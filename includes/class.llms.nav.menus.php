@@ -221,8 +221,7 @@ class LLMS_Nav_Menus {
 	 * @since 3.22.0
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
-	 * @since [version] Make sure `is_lifterlms()` exists before calling it, to avoid fatals
-	 *                  e.g. when calling `wp_nav_menu()` before the `init` hook (when the file which defines it is loaded).
+	 * @since [version] Make sure `is_lifterlms()` exists before calling it.
 	 *
 	 * @param array $menu_items Menu items.
 	 * @return array
