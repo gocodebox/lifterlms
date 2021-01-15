@@ -137,7 +137,7 @@ class LLMS_Site {
 		if ( is_null( $status ) ) {
 
 			$features = self::get_features();
-			$status = isset( $features[ $feature ] ) ? $features[ $feature ] : false;
+			$status   = isset( $features[ $feature ] ) ? $features[ $feature ] : false;
 
 		}
 
