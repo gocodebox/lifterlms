@@ -481,6 +481,32 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test a recurring payment processed in the same page load as a site "clone" is identified
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_charge_staging_clone_detected() {
+
+		do_action( 'llms_site_clone_detected' );
+
+		$plan = $this->get_mock_plan( '200.00', 1 );
+		$order = $this->get_mock_order( $plan );
+
+		// starting action numbers.
+		$skip_actions = did_action( 'llms_order_recurring_charge_skipped' );
+		$note_actions = did_action( 'llms_new_order_note_added' );
+
+		// Trigger recurring payment.
+		do_action( 'llms_charge_recurring_payment', $order->get( 'id' ) );
+
+		$this->assertSame( $note_actions + 1, did_action( 'llms_new_order_note_added' ) );
+		$this->assertSame( $skip_actions + 1, did_action( 'llms_order_recurring_charge_skipped' ) );
+
+	}
+
+	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
 	 * @since 3.32.0
