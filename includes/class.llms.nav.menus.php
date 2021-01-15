@@ -209,7 +209,7 @@ class LLMS_Nav_Menus {
 		 *
 		 * @since 3.14.7
 		 *
-		 * @param $items Array of custom LifterLMS nav menu items.
+		 * @param array $items Array of custom LifterLMS nav menu items.
 		 */
 		return apply_filters( 'llms_nav_menu_items', $items );
 
