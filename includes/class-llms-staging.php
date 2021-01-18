@@ -126,7 +126,7 @@ class LLMS_Staging {
 	}
 
 	/**
-	 * Output a notice informing the use the site was put into staging mode.
+	 * Output a notice informing the user the site was put into staging mode.
 	 *
 	 * @since [version]
 	 *
