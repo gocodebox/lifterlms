@@ -26,6 +26,10 @@ v4.12.0 - 2021-01-19
 + `LLMS_Frontend_Forms` is deprecated, functionality is available via `LLMS_Controller_Account`.
 + `LLMS_Frontend_Forms::reset_password()` is deprecated in favor of `LLMS_Controller_Account::reset_password()`.
 
+##### Templates Updated
+
++ templates/myaccount/form-redeem-voucher.php
+
 
 v4.11.0 - 2021-01-07
 --------------------
