@@ -29,7 +29,7 @@ const forEach = async ( obj, callback ) => {
  *
  * @since 1.0.0
  * @since 2.2.0 Returns the WP_User ID in the return object.
- * @since [version] Options object is now optional.
+ * @since 2.2.1 Options object is now optional.
  *
  * @param {Object} opts Hash of user information used to create the new user.
  * @return {Object}

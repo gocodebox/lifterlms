@@ -1,6 +1,13 @@
 LifterLMS E2E Test Utils CHANGELOG
 ==================================
 
+v2.2.1 - 2021-01-19
+-------------------
+
++ Options object is now optional for the createUser() function.
++ Added `args.voucher` to enable voucher usage during registration via the registerStudent() function.
+
+
 v2.2.0 - 2020-11-16
 -------------------
 
