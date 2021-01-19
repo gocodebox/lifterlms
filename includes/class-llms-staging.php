@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ class LLMS_Staging {
 	 * Static Constructor.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Add hook on `llms_site_clone_detected` action.
+	 * @since 4.12.0 Add hook on `llms_site_clone_detected` action.
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Staging {
 	/**
 	 * Callback function to automatically disable site features when a clone is detected
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Staging {
 	/**
 	 * Retrieves the HTML for the "warning bubble" displayed in the admin menu when staging mode is active
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return string
 	 */
@@ -67,7 +67,7 @@ class LLMS_Staging {
 	 *
 	 * @since 3.32.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Use `llms_filter_input()` for retrieval of `$_GET` data.
+	 * @since 4.12.0 Use `llms_filter_input()` for retrieval of `$_GET` data.
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Staging {
 	 * Adds a "bubble" to the "Orders" menu item when recurring payments are disabled.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Moved HTML for the warning bubble into it's own method.
+	 * @since 4.12.0 Moved HTML for the warning bubble into it's own method.
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Staging {
 	/**
 	 * Output a notice informing the user the site was put into staging mode.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */

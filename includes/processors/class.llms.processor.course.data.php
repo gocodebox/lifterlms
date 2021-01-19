@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
  *   + Number of currently enrolled students: `LLMS_Course::get( 'enrolled_students' )`
  *
  * @since 3.15.0
- * @since [version] Remove (protected) method `LLMS_Processor_Course_Data::complete()`, the override of the parent method is no longer needed.
+ * @since 4.12.0 Remove (protected) method `LLMS_Processor_Course_Data::complete()`, the override of the parent method is no longer needed.
  */
 class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
@@ -73,7 +73,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Action triggered to queue queries needed to make the calculation
 	 *
 	 * @since 3.15.0
-	 * @since [version] Add throttling by course in progress and adjust last_run calculation to be specific to the course.
+	 * @since 4.12.0 Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *               Improve performance of the student query by removing unneeded sort columns.
 	 *
 	 * @param int $course_id WP Post ID of the course.
@@ -121,7 +121,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * This method is called when data processing is triggered for a course that is currently being processed
 	 * or for a course that qualifies for process throttling based on the number of students in the course.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param int $course_id WP_Post ID of the course.
 	 * @return void
@@ -136,7 +136,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Retrieve arguments used to perform an LLMS_Student_Query for background data processing
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param int $course_id WP_Post ID of the course.
 	 * @return array Array of arguments passed to an LLMS_Student_Query.
@@ -146,7 +146,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		/**
 		 * Filter the query arguments used when calculating course data
 		 *
-		 * @since [version]
+		 * @since 4.12.0
 		 *
 		 * @param array                      $args      Query arguments passed to LLMS_Student_Query.
 		 * @param LLMS_Processor_Course_Data $processor Instance of the data processor class.
@@ -170,7 +170,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Retrieve a timestamp for the last time data calculation was completed for a given course
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param int $course_id WP_Post ID of the course.
 	 * @return int The timestamp of the last run. Returns `0` when no data recorded.
@@ -228,7 +228,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		 * defined by the `llms_data_processor_course_data_throttle_frequency` filter.
 		 *
 		 * @since 3.15.0
-		 * @since [version] Reduced default value of `$number_students` from 2500 to 500.
+		 * @since 4.12.0 Reduced default value of `$number_students` from 2500 to 500.
 		 *
 		 * @see llms_data_processor_course_data_throttle_frequency
 		 *
@@ -257,7 +257,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * If it's already being processed we'll throttle the processing so we'll wait until the course
 	 * completes its current data processing and start again later.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param int $course_id WP_Post ID of the course.
 	 * @return boolean
@@ -270,7 +270,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * For large courses, only recalculate once every 4 hours
 	 *
 	 * @since 3.15.0
-	 * @since [version] Adjusted access from private to protected.
+	 * @since 4.12.0 Adjusted access from private to protected.
 	 *               Pull last run data on a per-course basis.
 	 *               Added parameter `$course_id`.
 	 *
@@ -291,7 +291,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		/**
 		 * Filters whether or not data processing is throttled for a request
 		 *
-		 * @since [version]
+		 * @since 4.12.0
 		 *
 		 * @param boolean $throttled    If `true`, the processing for the current request is throttled, otherwise data processing will begin.
 		 * @param int     $num_students Number of students in the current course.
@@ -378,7 +378,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Moved task completion logic to `task_complete()`.
+	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
@@ -438,7 +438,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Upon completion, uses the data array to calculate the final aggregate values and store
 	 * them on the postmeta table for the course for quick retrieval later.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param LLMS_Course $course    Course object.
 	 * @param array       $data      Aggregate calculation data array.

@@ -93,7 +93,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	/**
 	 * Test status_page_includes()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */

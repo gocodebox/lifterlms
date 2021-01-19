@@ -6,14 +6,14 @@
  *
  * @group staging
  *
- * @since [version]
+ * @since 4.12.0
  */
 class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test clone_detected()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_staging_notice_actions() when the method isn't called
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_staging_notice_actions() with an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @expectedException WPDieException
 	 *
@@ -76,7 +76,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_staging_notice_actions() with an invalid user.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @expectedException WPDieException
 	 *
@@ -96,7 +96,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_staging_notice_actions() when enabling recurring payments
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_staging_notice_actions() when enabling recurring payments
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the menu_warning() method
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test notice() method
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */

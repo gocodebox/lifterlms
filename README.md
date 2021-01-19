@@ -95,8 +95,8 @@ Endless thanks to all our incredible contributors!
 [//]: contributor-faces
 <a href="https://github.com/thomasplevy"><img src="https://avatars0.githubusercontent.com/u/1290739?v=4" title="thomasplevy" width="80" height="80"></a>
 <a href="https://github.com/therealmarknelson"><img src="https://avatars0.githubusercontent.com/u/5050601?v=4" title="therealmarknelson" width="80" height="80"></a>
-<a href="https://github.com/PSmolic"><img src="https://avatars3.githubusercontent.com/u/4542049?v=4" title="PSmolic" width="80" height="80"></a>
 <a href="https://github.com/eri-trabiccolo"><img src="https://avatars3.githubusercontent.com/u/7689242?v=4" title="eri-trabiccolo" width="80" height="80"></a>
+<a href="https://github.com/PSmolic"><img src="https://avatars3.githubusercontent.com/u/4542049?v=4" title="PSmolic" width="80" height="80"></a>
 <a href="https://github.com/actual-saurabh"><img src="https://avatars1.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
 <a href="https://github.com/bmatt468"><img src="https://avatars1.githubusercontent.com/u/8673706?v=4" title="bmatt468" width="80" height="80"></a>
 <a href="https://github.com/pondermatic"><img src="https://avatars1.githubusercontent.com/u/5377968?v=4" title="pondermatic" width="80" height="80"></a>

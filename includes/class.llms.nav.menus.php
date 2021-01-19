@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -221,7 +221,7 @@ class LLMS_Nav_Menus {
 	 * @since 3.22.0
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
-	 * @since [version] Make sure `is_lifterlms()` exists before calling it.
+	 * @since 4.12.0 Make sure `is_lifterlms()` exists before calling it.
 	 *
 	 * @param array $menu_items Menu items.
 	 * @return array

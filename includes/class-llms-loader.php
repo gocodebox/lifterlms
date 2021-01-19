@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
-	 * @since [version] Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 *
 	 * @return void
 	 */
@@ -216,7 +216,7 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 * @since 4.8.0 Add `LLMS_Export_API`.
-	 * @since [version] Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 *
 	 * @return void
 	 */

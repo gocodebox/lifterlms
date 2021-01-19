@@ -10,7 +10,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,7 +43,7 @@ class LLMS_Site {
 	/**
 	 * Check if the site is cloned and not ignored
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return boolean Returns `true` when a clone is detected, otherwise `false`.
 	 */
@@ -55,7 +55,7 @@ class LLMS_Site {
 			 * Action triggered when the current website is determined to be a "cloned" site
 			 *
 			 * @since 3.7.4
-			 * @since [version] Moved from LLMS_Admin_Notices_Core::check_staging().
+			 * @since 4.12.0 Moved from LLMS_Admin_Notices_Core::check_staging().
 			 */
 			do_action( 'llms_site_clone_detected' );
 
@@ -126,7 +126,7 @@ class LLMS_Site {
 	 * a final fallback to `false` if the feature cannot be found.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allow feature configuration via constants.
+	 * @since 4.12.0 Allow feature configuration via constants.
 	 *
 	 * @param string $feature Feature id/key.
 	 * @return bool
@@ -144,7 +144,7 @@ class LLMS_Site {
 		/**
 		 * Filters the status of a LLMS_Site feature.
 		 *
-		 * @since [version]
+		 * @since 4.12.0
 		 *
 		 * @param boolean $status  Status of the feature.
 		 * @param string  $feature The feature ID/key.
@@ -159,7 +159,7 @@ class LLMS_Site {
 	 * This allows site features to be explicitly enabled or disabled
 	 * in a wp-config.php file.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param string $feature Feature id/key.
 	 * @return bool
@@ -252,7 +252,7 @@ class LLMS_Site {
 	 * and automatic payments remain disabled.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `llms_parse_bool()` to determine check the option value.
+	 * @since 4.12.0 Use `llms_parse_bool()` to determine check the option value.
 	 *
 	 * @return boolean
 	 */

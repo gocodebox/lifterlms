@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,7 +142,7 @@ function llms_log( $message, $handle = 'llms' ) {
 	/**
 	 * Filter a log message before it's written to the logger.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @param mixed  $message Data to log.
 	 * @param string $handle  Allow creation of multiple log files by handle.

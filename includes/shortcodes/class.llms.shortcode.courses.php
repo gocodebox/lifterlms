@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 3.14.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,7 +147,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 *
 	 * @since 3.14.0
 	 * @since 3.31.0 Changed access from private to protected.
-	 * @since [version] Handle pagination when the shortcode is used on the static front page.
+	 * @since 4.12.0 Handle pagination when the shortcode is used on the static front page.
 	 *
 	 * @return WP_Query
 	 */

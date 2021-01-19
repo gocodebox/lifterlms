@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -300,7 +300,7 @@ class LLMS_Admin_Menus {
 	 * Include files used on the Status page.
 	 *
 	 * @since 3.37.19
-	 * @since [version] Added `llms_load_admin_tools` action.
+	 * @since 4.12.0 Added `llms_load_admin_tools` action.
 	 *
 	 * @return void
 	 */
@@ -318,7 +318,7 @@ class LLMS_Admin_Menus {
 		/**
 		 * Action which can be used by 3rd parties to load custom admin page tools.
 		 *
-		 * @since [version]
+		 * @since 4.12.0
 		 */
 		do_action( 'llms_load_admin_tools' );
 

@@ -7,7 +7,7 @@
  * @since 3.19.0
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  * @since 3.37.17 Added tests for the `lost_password()` and `reset_password()` methods.
- * @since [version] Added tests for `redeem_voucher()` method.
+ * @since 4.12.0 Added tests for `redeem_voucher()` method.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -350,7 +350,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test redeem_voucher() when the form isn't submitted
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -361,7 +361,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test redeem_voucher() when there's an invalid nonce
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -382,7 +382,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * and end user will never encounter this error as HTML5 validation prevents
 	 * the form from being submitted without a voucher.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -405,7 +405,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * This shouldn't ever really happen but we'll test it just in case.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -422,7 +422,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test redeem_voucher() when an error is encountered during the voucher redemption
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -444,7 +444,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test redeem_voucher() success
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */

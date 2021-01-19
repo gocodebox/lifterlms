@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -293,7 +293,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.4.4
 	 * @since 3.0.2
-	 * @since [version] Handle pagination when the shortcode is used on the static front page.
+	 * @since 4.12.0 Handle pagination when the shortcode is used on the static front page.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string

@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.1
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.11.0
+Stable tag: 4.12.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,31 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.12.0 - 2021-01-19 =
+
+##### Updates
+
++ Automatic site clone detection checks have been adjusted to always run in favor of only running on the admin panel.
++ LifterLMS Site Features (like recurring payment status) can now be configured via constant values.
++ Added `llms_load_admin_tools` action to allow 3rd parties to easily hook into our admin tools system.
++ Made numerous performance improvements on the course data background processor.
++ Course data background processing will now be automatically throttled for courses with 500 students or more as opposed to the old value of 2,500 or more.
+
+##### Bug fixes
+
++ Fixed an incorrect HTML `for` attribute and added an `id` to the related input element on the student dashboard voucher redemption endpoint.
++ Fixed a pagination error encountered when using course or membership list shortcodes on the static front page.
++ Make sure `is_lifterlms()` exists before calling it in navigation menu-related classes.
+
+##### Deprecations
+
++ `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
++ Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
++ Unused property `LLMS_Course::$sku` is deprecated with no replacement.
++ `LLMS_Frontend_Forms` is deprecated, functionality is available via `LLMS_Controller_Account`.
++ `LLMS_Frontend_Forms::reset_password()` is deprecated in favor of `LLMS_Controller_Account::reset_password()`.
+
+
 = v4.11.0 - 2021-01-07 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
@@ -655,24 +680,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added an admin tool to help automatically identify and schedule missed recurring payments
 + Use `llms_deprecated_function()` in favor of `llms_log()`.
 + Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
-
-
-= v4.5.1 - 2020-10-14 =
-
-##### Updates
-
-+ Added logic in `LLMS_Database_Query` to reduce unnecessary DB reads when total results are not required.
-
-##### Bug fixes
-
-+ Removed the course "Excerpt" area in favor of utilization of the course sales page content.
-+ Show sales reporting currency symbol based on LifterLMS site options in favor of the browser's locale settings.
-+ Fixed an issue causing achievement-related JS DOM events to be bound unnecessarily. Thanks to [@imknight](https://github.com/imknight)!
-+ Fixed an issue causing site administrator capabilities to be removed during LifterLMS data removal.
-+ Fixed an issue causing an instructors course post count to display 0 on the admin panel courses post table. Thanks to [nhandl3](https://github.com/nhandl3)!
-+ Only display the admin bar "View Manager" to users who can bypass content restrictions.
-+ Updated jQuery code to stop using deprecated events and methods in preparation for jQuery upgrades in the WordPress core.
-+ Fixed PHP notice encountered on the admin panel when using Yoast SEO.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

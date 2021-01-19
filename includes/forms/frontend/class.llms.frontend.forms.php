@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize `$_POST` data.
- * @deprecated [version] LLMS_Frontend_Forms is deprecated, functionality is available via LLMS_Controller_Account.
+ * @deprecated 4.12.0 LLMS_Frontend_Forms is deprecated, functionality is available via LLMS_Controller_Account.
  */
 class LLMS_Frontend_Forms {
 
@@ -25,13 +25,13 @@ class LLMS_Frontend_Forms {
 	 *
 	 * @since Unknown
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @deprecated [version] LLMS_Frontend_Forms::reset_password() is deprecated in favor of LLMS_Controller_Account::reset_password().
+	 * @deprecated 4.12.0 LLMS_Frontend_Forms::reset_password() is deprecated in favor of LLMS_Controller_Account::reset_password().
 	 *
 	 * @return void
 	 */
 	public function reset_password() {
 
-		llms_deprecated_function( 'LLMS_Frontend_Forms::reset_password()', '[version]', 'LLMS_Controller_Account::reset_password()' );
+		llms_deprecated_function( 'LLMS_Frontend_Forms::reset_password()', '4.12.0', 'LLMS_Controller_Account::reset_password()' );
 
 		if ( ! isset( $_POST['llms_reset_password'] ) ) {
 			return;
@@ -118,13 +118,13 @@ class LLMS_Frontend_Forms {
 	 * @since Unknown
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @deprecated [version] LLMS_Frontend_Forms::voucher_check() is deprecated in favor of LLMS_Controller_Account::redeem_voucher()
+	 * @deprecated 4.12.0 LLMS_Frontend_Forms::voucher_check() is deprecated in favor of LLMS_Controller_Account::redeem_voucher()
 	 *
 	 * @return bool
 	 */
 	public function voucher_check() {
 
-		llms_deprecated_function( 'LLMS_Frontend_Forms::voucher_check()', '[version]', 'LLMS_Controller_Account::redeem_voucher()' );
+		llms_deprecated_function( 'LLMS_Frontend_Forms::voucher_check()', '4.12.0', 'LLMS_Controller_Account::redeem_voucher()' );
 
 		$accounts = new LLMS_Controller_Account();
 		return $accounts->redeem_voucher();

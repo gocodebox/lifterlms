@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ class LLMS_Admin_Notices_Core {
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Remove hook for deprecated `check_staging()` notice.
+	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
 	 *
 	 * @return void
 	 */
@@ -70,12 +70,12 @@ class LLMS_Admin_Notices_Core {
 	 * @since 3.0.0
 	 * @since 3.7.4 Automatically disable recurring payments when a clone is detected.
 	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
-	 * @deprecated [version] `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
+	 * @deprecated 4.12.0 `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
 	 *
 	 * @return void
 	 */
 	public static function check_staging() {
-		llms_deprecated_function( 'LLMS_Admin_Notices_Core::check_staging()', '[version]', 'LLMS_Staging::notice()' );
+		llms_deprecated_function( 'LLMS_Admin_Notices_Core::check_staging()', '4.12.0', 'LLMS_Staging::notice()' );
 		LLMS_Staging::notice();
 	}
 

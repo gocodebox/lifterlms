@@ -4,7 +4,7 @@
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
  * @since 4.5.0 Use package functions.
- * @since [version] Added registration test with a voucher.
+ * @since 4.12.0 Added registration test with a voucher.
  */
 
 import {

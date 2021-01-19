@@ -28,7 +28,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test check_status() method
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 * Test lock url getter and setter functions
 	 *
 	 * @since 3.8.0
-	 * @since [version] Added urls with "www".
+	 * @since 4.12.0 Added urls with "www".
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 * Test feature getter and setter functions
 	 *
 	 * @since 3.8.0
-	 * @since [version] Test against feature constants.
+	 * @since 4.12.0 Test against feature constants.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

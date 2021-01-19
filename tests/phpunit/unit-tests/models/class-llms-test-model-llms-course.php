@@ -29,7 +29,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.4.0
 	 * @since 3.20.0 Unknown.
-	 * @since [version] Added missing values.
+	 * @since 4.12.0 Added missing values.
 	 *
 	 * @return array
 	 */
@@ -378,7 +378,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_student_count()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
