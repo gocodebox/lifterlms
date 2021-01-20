@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.5.0
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices class
  *
  * @since 3.0.0
- * @since 3.32.0 Moved staging notice logic to `LLMS_Staging::handle_staging_notice_actions()`.
  */
 class LLMS_Admin_Notices_Core {
 
@@ -41,7 +40,9 @@ class LLMS_Admin_Notices_Core {
 	 *
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
 	 *
-	 * @version 3.0.0
+	 * @since 3.0.0
+	 * @since 4.12.0 Remove hook for deprecated `check_staging()` notice.
+	 *
 	 * @return void
 	 */
 	public static function add_init_actions() {
@@ -57,7 +58,6 @@ class LLMS_Admin_Notices_Core {
 
 		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
-		add_action( $action, array( __CLASS__, 'check_staging' ), $priority );
 
 	}
 
@@ -68,33 +68,15 @@ class LLMS_Admin_Notices_Core {
 	 * from the button on the general settings tab.
 	 *
 	 * @since 3.0.0
+	 * @since 3.7.4 Automatically disable recurring payments when a clone is detected.
 	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
+	 * @deprecated 4.12.0 `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
 	 *
 	 * @return void
 	 */
 	public static function check_staging() {
-
-		$id = 'maybe-staging';
-
-		if ( ! LLMS_Site::is_clone_ignored() && ! LLMS_Admin_Notices::has_notice( $id ) && LLMS_Site::is_clone() ) {
-
-			do_action( 'llms_site_clone_detected' );
-
-			// Disable recurring payments immediately.
-			LLMS_Site::update_feature( 'recurring_payments', false );
-
-			LLMS_Admin_Notices::add_notice(
-				$id,
-				array(
-					'type'        => 'info',
-					'dismissible' => false,
-					'remindable'  => false,
-					'template'    => 'admin/notices/staging.php',
-				)
-			);
-
-		}
-
+		llms_deprecated_function( 'LLMS_Admin_Notices_Core::check_staging()', '4.12.0', 'LLMS_Staging::notice()' );
+		LLMS_Staging::notice();
 	}
 
 	/**

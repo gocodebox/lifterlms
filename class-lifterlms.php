@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.9.0
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.11.0';
+	public $version = '4.12.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -183,12 +183,15 @@ final class LifterLMS {
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown.
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
+	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 *
 	 * @return void
 	 */
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
+
+		LLMS_Site::check_status();
 
 		$this->engagements();
 		$this->notifications();

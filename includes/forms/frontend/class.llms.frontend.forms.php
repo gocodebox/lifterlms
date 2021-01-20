@@ -16,32 +16,22 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @deprecated 4.12.0 LLMS_Frontend_Forms is deprecated, functionality is available via LLMS_Controller_Account.
  */
 class LLMS_Frontend_Forms {
-
-	/**
-	 * Constructor
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function __construct() {
-
-		add_action( 'init', array( $this, 'voucher_check' ) );
-
-	}
 
 	/**
 	 * Reset password form
 	 *
 	 * @since Unknown
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 *
-	 * @todo It appears this function is not called from anywhere and can be deprecated.
+	 * @deprecated 4.12.0 LLMS_Frontend_Forms::reset_password() is deprecated in favor of LLMS_Controller_Account::reset_password().
 	 *
 	 * @return void
 	 */
 	public function reset_password() {
+
+		llms_deprecated_function( 'LLMS_Frontend_Forms::reset_password()', '4.12.0', 'LLMS_Controller_Account::reset_password()' );
 
 		if ( ! isset( $_POST['llms_reset_password'] ) ) {
 			return;
@@ -128,30 +118,17 @@ class LLMS_Frontend_Forms {
 	 * @since Unknown
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @deprecated 4.12.0 LLMS_Frontend_Forms::voucher_check() is deprecated in favor of LLMS_Controller_Account::redeem_voucher()
 	 *
 	 * @return bool
 	 */
 	public function voucher_check() {
 
-		if ( ! llms_verify_nonce( 'lifterlms_voucher_nonce', 'lifterlms_voucher_check' ) ) {
-			return false;
-		}
+		llms_deprecated_function( 'LLMS_Frontend_Forms::voucher_check()', '4.12.0', 'LLMS_Controller_Account::redeem_voucher()' );
 
-		if ( isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] ) ) {
+		$accounts = new LLMS_Controller_Account();
+		return $accounts->redeem_voucher();
 
-			$voucher  = new LLMS_Voucher();
-			$redeemed = $voucher->use_voucher( llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING ), get_current_user_id() );
-
-			if ( is_wp_error( $redeemed ) ) {
-
-				llms_add_notice( $redeemed->get_error_message(), 'error' );
-
-			} else {
-
-				llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ), 'success' );
-
-			}
-		}
 	}
 
 }

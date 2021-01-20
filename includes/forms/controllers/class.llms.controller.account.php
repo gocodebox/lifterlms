@@ -33,6 +33,7 @@ class LLMS_Controller_Account {
 		add_action( 'init', array( $this, 'lost_password' ) );
 		add_action( 'init', array( $this, 'reset_password' ) );
 		add_action( 'init', array( $this, 'cancel_subscription' ) );
+		add_action( 'init', array( $this, 'redeem_voucher' ) );
 
 	}
 
@@ -224,6 +225,33 @@ class LLMS_Controller_Account {
 
 		// Success.
 		llms_add_notice( __( 'Check your e-mail for the confirmation link.', 'lifterlms' ) );
+		return true;
+
+	}
+
+	/**
+	 * Redeem a voucher from the "Redeem Voucher" endpoint of the student dashboard
+	 *
+	 * @since 4.12.0
+	 *
+	 * @return null|true|WP_Error Returns `null` when the form hasn't been submitted, there's a nonce error, or there's no logged in user.
+	 *                            Returns `true` on success and an error object when an error is encountered redeeming the voucher.
+	 */
+	public function redeem_voucher() {
+
+		if ( ! llms_verify_nonce( 'lifterlms_voucher_nonce', 'lifterlms_voucher_check' ) || ! get_current_user_id() ) {
+			return null;
+		}
+
+		$voucher  = new LLMS_Voucher();
+		$redeemed = $voucher->use_voucher( llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING ), get_current_user_id() );
+
+		if ( is_wp_error( $redeemed ) ) {
+			llms_add_notice( $redeemed->get_error_message(), 'error' );
+			return $redeemed;
+		}
+
+		llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ), 'success' );
 		return true;
 
 	}
