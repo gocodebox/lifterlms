@@ -516,7 +516,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v4.12.0 - 2021-01-19 =
+= v4.12.0 - 2021-01-20 =
 
 ##### Updates
 
