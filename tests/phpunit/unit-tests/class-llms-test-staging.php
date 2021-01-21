@@ -25,6 +25,82 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Removes actions added by the `init()` method (so that we can test the `init()` method)
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function remove_init_actions() {
+		remove_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ), 10 );
+		remove_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ), 10 );
+		remove_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ), 10 );
+	}
+
+	/**
+	 * Test init() actions when no recurring feature constant is set
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_init() {
+
+		$this->remove_init_actions();
+
+		LLMS_Staging::init();
+
+		$this->assertEquals( 10, has_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ) ) );
+
+	}
+
+	/**
+	 * Test init() actions when a recurring feature constant is set
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_init_with_constant() {
+
+		$this->remove_init_actions();
+
+		define( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', true );
+
+		LLMS_Staging::init();
+
+		$this->assertFalse( has_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ) ) );
+		$this->assertFalse( has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
+		$this->assertFalse( has_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ) ) );
+
+	}
+
+	/**
+	 * Test init() actions when a recurring feature constant is set
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_init_clone_site_feature_cascade() {
+
+		define( 'LLMS_SITE_IS_CLONE', true );
+
+		LLMS_Staging::init();
+
+		$this->assertFalse( LLMS_SITE_FEATURE_RECURRING_PAYMENTS );
+
+	}
+
+	/**
 	 * Test clone_detected()
 	 *
 	 * @since 4.12.0

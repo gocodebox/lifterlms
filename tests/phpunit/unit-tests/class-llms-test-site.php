@@ -169,6 +169,51 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test is_clone() when using a constant set to `true`.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_is_clone_constant_true() {
+
+		// Not a clone.
+		$this->assertFalse( LLMS_Site::is_clone() );
+
+		define( 'LLMS_SITE_IS_CLONE', true );
+		$this->assertTrue( LLMS_Site::is_clone() );
+
+	}
+
+	/**
+	 * Test is_clone() when using a constant set to `false`.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_is_clone_constant_false() {
+
+		$original = get_site_url();
+
+		// Is a clone.
+		update_option( 'siteurl', 'http://fakeurl.tld' );
+		$this->assertTrue( LLMS_Site::is_clone() );
+
+		define( 'LLMS_SITE_IS_CLONE', false );
+		$this->assertFalse( LLMS_Site::is_clone() );
+
+		update_option( 'siteurl', $original );
+
+	}
+
+	/**
 	 * Test is_clone_ignored() function
 	 *
 	 * @since 3.8.0
