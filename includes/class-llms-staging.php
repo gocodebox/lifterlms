@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version 4.12.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,15 +22,22 @@ class LLMS_Staging {
 	 *
 	 * @since 3.32.0
 	 * @since 4.12.0 Add hook on `llms_site_clone_detected` action.
+	 * @since [version] Only add actions when recurring payments constant is not defined.
+	 *               If `LLMS_SITE_IS_CLONE` is defined & true, automatically disable recurring payments.
 	 *
 	 * @return void
 	 */
 	public static function init() {
 
-		add_action( 'llms_site_clone_detected', array( __CLASS__, 'clone_detected' ) );
+		if ( ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) ) {
+			add_action( 'llms_site_clone_detected', array( __CLASS__, 'clone_detected' ) );
+			add_action( 'admin_menu', array( __CLASS__, 'menu_warning' ) );
+			add_action( 'admin_init', array( __CLASS__, 'handle_staging_notice_actions' ) );
+		}
 
-		add_action( 'admin_menu', array( __CLASS__, 'menu_warning' ) );
-		add_action( 'admin_init', array( __CLASS__, 'handle_staging_notice_actions' ) );
+		if ( defined( 'LLMS_SITE_IS_CLONE' ) && LLMS_SITE_IS_CLONE ) {
+			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
+		}
 
 	}
 
@@ -38,15 +45,15 @@ class LLMS_Staging {
 	 * Callback function to automatically disable site features when a clone is detected
 	 *
 	 * @since 4.12.0
+	 * @since [version] Only disable payments for logged in users on the admin panel when not processing ajax requests.
 	 *
 	 * @return void
 	 */
 	public static function clone_detected() {
 
-		LLMS_Site::update_feature( 'recurring_payments', false );
-
-		if ( is_admin() ) {
+		if ( is_admin() && current_user_can( 'manage_lifterlms' ) && ! wp_doing_ajax() ) {
 			self::notice();
+			LLMS_Site::update_feature( 'recurring_payments', false );
 		}
 
 	}
