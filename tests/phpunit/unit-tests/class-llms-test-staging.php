@@ -28,6 +28,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test clone_detected()
 	 *
 	 * @since 4.12.0
+	 * @since [version] Add tests for all potential conditions.
 	 *
 	 * @return void
 	 */
@@ -35,8 +36,30 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 
 		LLMS_Site::update_feature( 'recurring_payments', true );
 
+		// Not admin panel.
+		LLMS_Staging::clone_detected();
+		$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'maybe-staging' ) );
+
+		// Admin panel but not admin.
+		set_current_screen( 'admin.php' );
+		LLMS_Staging::clone_detected();
+		$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'maybe-staging' ) );
+
+		// Admin panel and admin but doing an ajax request.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		LLMS_Staging::clone_detected();
+		$this->assertTrue( LLMS_Site::get_feature( 'recurring_payments' ) );
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'maybe-staging' ) );
+
+		// All good.
+		remove_filter( 'wp_doing_ajax', '__return_true' );
 		LLMS_Staging::clone_detected();
 		$this->assertFalse( LLMS_Site::get_feature( 'recurring_payments' ) );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'maybe-staging' ) );
+		LLMS_Admin_Notices::delete_notice( 'maybe-staging' );
 
 	}
 
