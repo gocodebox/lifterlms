@@ -29,14 +29,14 @@ class LLMS_Staging {
 	 */
 	public static function init() {
 
+		if ( defined( 'LLMS_SITE_IS_CLONE' ) && LLMS_SITE_IS_CLONE ) {
+			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
+		}
+
 		if ( ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) ) {
 			add_action( 'llms_site_clone_detected', array( __CLASS__, 'clone_detected' ) );
 			add_action( 'admin_menu', array( __CLASS__, 'menu_warning' ) );
 			add_action( 'admin_init', array( __CLASS__, 'handle_staging_notice_actions' ) );
-		}
-
-		if ( defined( 'LLMS_SITE_IS_CLONE' ) && LLMS_SITE_IS_CLONE ) {
-			llms_maybe_define_constant( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
 		}
 
 	}
