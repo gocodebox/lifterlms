@@ -33,27 +33,30 @@ class LLMS_Admin_Page_Status {
 	 */
 	public static function add_core_tools( $tools ) {
 
-		return array_merge( $tools, array(
+		return array_merge(
+			$tools,
+			array(
 
-			'reset-tracking'     => array(
-				'description' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
-				'label'       => __( 'Reset Tracking Settings', 'lifterlms' ),
-				'text'        => __( 'Reset Tracking Settings', 'lifterlms' ),
-			),
+				'reset-tracking' => array(
+					'description' => __( 'If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here.', 'lifterlms' ),
+					'label'       => __( 'Reset Tracking Settings', 'lifterlms' ),
+					'text'        => __( 'Reset Tracking Settings', 'lifterlms' ),
+				),
 
-			'clear-cache'        => array(
-				'description' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
-				'label'       => __( 'Student Progress Cache', 'lifterlms' ),
-				'text'        => __( 'Clear cache', 'lifterlms' ),
-			),
+				'clear-cache'    => array(
+					'description' => __( 'Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed.', 'lifterlms' ),
+					'label'       => __( 'Student Progress Cache', 'lifterlms' ),
+					'text'        => __( 'Clear cache', 'lifterlms' ),
+				),
 
-			'setup-wizard'       => array(
-				'description' => __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ),
-				'label'       => __( 'Setup Wizard', 'lifterlms' ),
-				'text'        => __( 'Return to Setup Wizard', 'lifterlms' ),
-			),
+				'setup-wizard'   => array(
+					'description' => __( 'If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below.', 'lifterlms' ),
+					'label'       => __( 'Setup Wizard', 'lifterlms' ),
+					'text'        => __( 'Return to Setup Wizard', 'lifterlms' ),
+				),
 
-		) );
+			)
+		);
 
 	}
 
