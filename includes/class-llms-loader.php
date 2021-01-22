@@ -132,6 +132,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
