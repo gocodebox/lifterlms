@@ -79,7 +79,7 @@ class LLMS_Admin_Notices {
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
-		// Don't add the notice if we've already dismissed of delayed it.
+		// Don't add the notice if we've already dismissed or delayed it.
 		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
 			return;
 		}
