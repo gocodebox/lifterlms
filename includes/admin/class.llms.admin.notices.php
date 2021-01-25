@@ -191,12 +191,13 @@ class LLMS_Admin_Notices {
 	 * Get notice details array from the DB
 	 *
 	 * @since 3.0.0
+	 * @since [version] When the notice cannot be found, return an empty array in favor of an empty string.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return array
 	 */
 	public static function get_notice( $notice_id ) {
-		return get_option( 'llms_admin_notice_' . $notice_id, '' );
+		return get_option( 'llms_admin_notice_' . $notice_id, array() );
 	}
 
 	/**
