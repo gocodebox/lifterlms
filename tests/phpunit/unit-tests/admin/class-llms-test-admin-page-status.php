@@ -108,36 +108,6 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test the automatic payments reset tool.
-	 *
-	 * @since 3.37.14
-	 *
-	 * @return void
-	 */
-	public function test_do_tool_reset_auto_payments() {
-
-		// Get the original values of options to be cleared.
-		$orig_url    = get_option( 'llms_site_url' );
-		$orig_ignore = get_option( 'llms_site_url_ignore' );
-
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
-
-		$this->mockPostRequest( array(
-			'_wpnonce'  => wp_create_nonce( 'llms_tool' ),
-			'llms_tool' => 'automatic-payments',
-		) );
-		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
-
-		$this->assertEquals( '', get_option( 'llms_site_url' ) );
-		$this->assertEquals( 'no', get_option( 'llms_site_url_ignore' ) );
-
-		// Reset to the orig values.
-		update_option( 'llms_site_url', $orig_url );
-		update_option( 'llms_site_url_ignore', $orig_ignore );
-
-	}
-
-	/**
 	 * Test the overall progress cache clear tool.
 	 *
 	 * @since 3.37.14
@@ -194,13 +164,14 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test the setup wizard redirect tool.
 	 *
 	 * @since 3.37.14
+	 * @since [version] Fix expected redirect URL.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_setup_wizard() {
 
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
-		$this->expectExceptionMessage( sprintf( '%s?page=llms-setup [302] YES', admin_url() ) );
+		$this->expectExceptionMessage( sprintf( '%s [302] YES', admin_url( 'admin.php?page=llms-setup') ) );
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
