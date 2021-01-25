@@ -93,7 +93,8 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	/**
 	 * Conditionally load the tool
 	 *
-	 * This tool should only load if the recurring payments site feature constant is NOT defined.
+	 * This tool should only load if the recurring payments site feature constant and the site clone status
+	 * constant are both NOT set.
 	 *
 	 * @since [version]
 	 *
@@ -101,7 +102,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 */
 	protected function should_load() {
 
-		return ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' );
+		return ! defined( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS' ) && ! defined( 'LLMS_SITE_IS_CLONE' );
 
 	}
 

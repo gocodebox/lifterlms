@@ -124,4 +124,45 @@ class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test should_load() with no constants set.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_should_load() {
+		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+	}
+
+	/**
+	 * Test should_load() with LLMS_SITE_IS_CLONE constant set.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_should_load_with_site_clone_constant_set() {
+		define( 'LLMS_SITE_IS_CLONE', false );
+		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+	}
+
+	/**
+	 * Test should_load() with LLMS_SITE_FEATURE_RECURRING_PAYMENTS constant set.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_should_load_with_recurring_payments_constant_set() {
+		define( 'LLMS_SITE_FEATURE_RECURRING_PAYMENTS', false );
+		$this->assertTrue( true, LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+	}
+
 }
