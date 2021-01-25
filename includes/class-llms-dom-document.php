@@ -58,18 +58,19 @@ class LLMS_DOM_Document {
 	 * @since [version]
 	 *
 	 * @param string $source An HTML string, either a full HTML document or a partial string.
-	 * @return void|WP_Error
+	 * @return void
 	 */
 	public function __construct( $source ) {
 
 		if ( ! class_exists( 'DOMDocument' ) ) {
-			return new WP_Error( 'llms-dom-document-missing', __( 'DOMDocument not available.', 'lifterlms' ) );
+			$this->error = new WP_Error( 'llms-dom-document-missing', __( 'DOMDocument not available.', 'lifterlms' ) );
+			return;
 		}
 
 		/**
 		 * Filters the convert encoding method to be used when loading the source in the DOMDocument
 		 *
-		 * @param boolean $use_mb_convert_endoding Whether or not the convert encoding method should be used when loading the source in the DOMDocument.
+		 * @param boolean $use_mb_convert_encoding Whether or not the convert encoding method should be used when loading the source in the DOMDocument.
 		 *                                         Default is `true`. Requires `mbstring` PHP extension.
 		 */
 		$use_mb_convert_encoding = apply_filters( 'llms_dom_document_use_mb_convert_encoding', true );
@@ -89,10 +90,14 @@ class LLMS_DOM_Document {
 	 *
 	 * @since [version]
 	 *
-	 * @return boolean|WP_Error Returns true if the source is loaded fine.
-	 *                          Or an error object when an error is encountered during loading.
+	 * @return boolean|WP_Error Returns `true` if the source is loaded fine.
+	 *                          Or an error object when DOMDocument isn't available or an error is encountered during loading.
 	 */
 	public function load() {
+
+		if ( is_wp_error( $this->error ) && $this->error->has_errors() ) {
+			return $this->error;
+		}
 
 		// Don't throw or log warnings.
 		$libxml_state = libxml_use_internal_errors( true );
@@ -143,9 +148,6 @@ class LLMS_DOM_Document {
 	private function load_with_meta_utf_fixer() {
 		if ( ! $this->dom->loadHTML( $this->utf8_fixer . $this->source ) ) {
 			$this->error = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
-		}
-
-		if ( is_wp_error( $this->error ) ) {
 			return;
 		}
 

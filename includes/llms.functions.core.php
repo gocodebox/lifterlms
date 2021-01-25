@@ -382,12 +382,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 function llms_get_dom_document( $string ) {
 
 	$llms_dom = new LLMS_DOM_Document( $string );
-
-	if ( is_wp_error( $llms_dom ) ) {
-		return $llms_dom;
-	}
-
-	$load = $llms_dom->load();
+	$load     = $llms_dom->load();
 
 	return is_wp_error( $load ) ? $load : $llms_dom->dom();
 }
