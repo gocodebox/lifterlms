@@ -106,15 +106,21 @@ class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_UnitTestCase {
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( sprintf( '%s [302] YES', admin_url( 'admin.php?page=llms-status&tab=tools') ) );
 
-		LLMS_Unit_Test_Util::call_method( $this->main, 'handle' );
+		try {
+			LLMS_Unit_Test_Util::call_method( $this->main, 'handle' );
+		} catch( LLMS_Unit_Test_Exception_Redirect $exception ) {
 
-		$this->assertEquals( '', get_option( 'llms_site_url' ) );
-		$this->assertEquals( 'no', get_option( 'llms_site_url_ignore' ) );
-		$this->assertEquals( ++$actions, did_action( 'llms_site_clone_detected' ) );
+			$this->assertEquals( '', get_option( 'llms_site_url' ) );
+			$this->assertEquals( 'no', get_option( 'llms_site_url_ignore' ) );
+			$this->assertEquals( ++$actions, did_action( 'llms_site_clone_detected' ) );
 
-		// Reset to the orig values.
-		update_option( 'llms_site_url', $orig_url );
-		update_option( 'llms_site_url_ignore', $orig_ignore );
+			// Reset to the orig values.
+			update_option( 'llms_site_url', $orig_url );
+			update_option( 'llms_site_url_ignore', $orig_ignore );
+
+			throw $exception;
+
+		}
 
 	}
 

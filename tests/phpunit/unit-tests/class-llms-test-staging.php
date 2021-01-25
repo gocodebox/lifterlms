@@ -137,6 +137,9 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'maybe-staging' ) );
 		LLMS_Admin_Notices::delete_notice( 'maybe-staging' );
 
+		// Return to front.
+		set_current_screen( 'front' );
+
 	}
 
 	/**
