@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -220,6 +220,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.14.8 Unknown.
 	 * @since 4.7.0 Load generators from `LLMS_Generator_Courses()`.
+	 * @since [version] Use `clone_course()` method for cloning courses in favor of `genrate_course()`.
 	 *
 	 * @return array
 	 */
@@ -237,7 +238,7 @@ class LLMS_Generator {
 			array(
 				'LifterLMS/BulkCourseExporter'    => array( $this->courses_generator, 'generate_courses' ),
 				'LifterLMS/BulkCourseGenerator'   => array( $this->courses_generator, 'generate_courses' ),
-				'LifterLMS/SingleCourseCloner'    => array( $this->courses_generator, 'generate_course' ),
+				'LifterLMS/SingleCourseCloner'    => array( $this->courses_generator, 'clone_course' ),
 				'LifterLMS/SingleCourseExporter'  => array( $this->courses_generator, 'generate_course' ),
 				'LifterLMS/SingleCourseGenerator' => array( $this->courses_generator, 'generate_course' ),
 				'LifterLMS/SingleLessonCloner'    => array( $this->courses_generator, 'clone_lesson' ),
