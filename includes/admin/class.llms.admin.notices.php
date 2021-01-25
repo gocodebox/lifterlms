@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,12 +28,13 @@ class LLMS_Admin_Notices {
 	 * Static constructor
 	 *
 	 * @since 3.0.0
+	 * @since [version] Populate the `self::$notices` using `self::load_notices()`.
 	 *
 	 * @return void
 	 */
 	public static function init() {
 
-		self::$notices = get_option( 'llms_admin_notices', array() );
+		self::$notices = self::load_notices();
 
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
 		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
@@ -251,6 +252,28 @@ class LLMS_Admin_Notices {
 			}
 			self::delete_notice( $notice, $action );
 		}
+	}
+
+	/**
+	 * Loads stored notice IDs from the database
+	 *
+	 * Handles potentially malformed data by ensuring that only an array of strings
+	 * can be loaded.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function load_notices() {
+
+		$option = get_option( 'llms_admin_notices', array() );
+
+		if ( ! is_array( $option ) ) {
+			$option = array( $option );
+		}
+
+		return array_filter( array_filter( $option, 'is_string' ) );
+
 	}
 
 	/**
