@@ -33,8 +33,8 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 */
 	private function remove_init_actions() {
 		remove_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ), 10 );
-		remove_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ), 10 );
 		remove_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ), 10 );
+		remove_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ), 10 );
 	}
 
 	/**
@@ -51,8 +51,9 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 		LLMS_Staging::init();
 
 		$this->assertEquals( 10, has_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ) ) );
-		$this->assertEquals( 10, has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
 		$this->assertEquals( 10, has_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ) ) );
+
+		$this->assertEquals( 10, has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
 
 	}
 
@@ -75,8 +76,9 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 		LLMS_Staging::init();
 
 		$this->assertFalse( has_action( 'llms_site_clone_detected', array( 'LLMS_Staging', 'clone_detected' ) ) );
-		$this->assertFalse( has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
 		$this->assertFalse( has_action( 'admin_init', array( 'LLMS_Staging', 'handle_staging_notice_actions' ) ) );
+
+		$this->assertEquals( 10, has_action( 'admin_menu', array( 'LLMS_Staging', 'menu_warning' ) ) );
 
 	}
 
