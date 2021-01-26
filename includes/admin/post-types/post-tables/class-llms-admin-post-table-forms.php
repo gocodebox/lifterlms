@@ -102,11 +102,11 @@ class LLMS_Admin_Post_Table_Forms {
 	 */
 	public function manage_post_row_actions( $actions, $post ) {
 
-		if ( 'llms_form' === $post->post_type ) {
-
-			unset( $actions['inline hide-if-no-js'] );
-
+		if ( 'llms_form' !== $post->post_type ) {
+			return $actions;
 		}
+
+		unset( $actions['inline hide-if-no-js'] );
 
 		$link = get_permalink( $post );
 		if ( $link ) {
