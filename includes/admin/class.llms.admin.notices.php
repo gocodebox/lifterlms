@@ -272,7 +272,10 @@ class LLMS_Admin_Notices {
 			$option = array( $option );
 		}
 
-		return array_filter( array_filter( $option, 'is_string' ) );
+		// Remove empty and non-string values.
+		return array_filter( function ( $option ) {
+			return ( ! empty( $option ) && is_string( $option ) );
+		} );
 
 	}
 
