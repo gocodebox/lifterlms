@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version 3.11.2.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,17 +14,16 @@ defined( 'ABSPATH' ) || exit;
  * Admin System Report Class
  *
  * @since 2.1.0
- * @since 3.0.0 Unknown.
- * @since 3.11.2 Unknown.
  */
 class LLMS_Admin_System_Report {
 
 	/**
 	 * Output the system report
 	 *
+	 * @since 2.1.0
+	 * @since 3.0.0 Unknown.
+	 *
 	 * @return   void
-	 * @since    2.1.0
-	 * @version  3.0.0
 	 */
 	public static function output() {
 
@@ -48,8 +47,10 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output the copy for support box
 	 *
-	 * @since    2.1.0
-	 * @version  3.11.2
+	 * @since 2.1.0
+	 * @since 3.11.2 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function output_copy_box() {
 		?>
@@ -100,11 +101,13 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output a section of data in the system report
 	 *
-	 * @param    string $section_title  title / key of the section
-	 * @param    arry   $data             array of data for the section
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.11.2
+	 * @since 3.0.0
+	 * @since 3.11.2 Unknown.
+	 * @since [version] Don't strip underscores when outputting the constant keys.
+	 *
+	 * @param string $section_title Title / key of the section.
+	 * @param arry   $data          Array of data for the section.
+	 * @return void
 	 */
 	public static function output_section( $section_title, $data ) {
 
@@ -127,7 +130,7 @@ class LLMS_Admin_System_Report {
 							<?php elseif ( 'template_overrides' === $section_title ) : ?>
 								<?php self::template_item( $val ); ?>
 							<?php else : ?>
-								<?php self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
+								<?php echo 'constants' === $section_title ? $key : self::title( $key ); ?>: <strong><?php self::value( $val ); ?></strong>
 							<?php endif; ?>
 							</p></li>
 						<?php endforeach; ?>
@@ -141,10 +144,10 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output data related to an active plugin in the system report
 	 *
-	 * @param    array $data  array of plugin data
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array $data Array of plugin data.
+	 * @return void
 	 */
 	private static function plugin_item( $data ) {
 		?>
@@ -155,7 +158,7 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output data related to an overridden template system report
 	 *
-	 * @param    array $data  array of template data
+	 * @param array $data Array of template data.
 	 * @return   void
 	 * @since    3.11.2
 	 * @version  3.11.2
@@ -169,10 +172,10 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output the title for an item in the system report
 	 *
-	 * @param    string $key  title
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $key Title.
+	 * @return void
 	 */
 	private static function title( $key ) {
 
@@ -184,10 +187,10 @@ class LLMS_Admin_System_Report {
 	/**
 	 * Output the value of an item in the system report
 	 *
-	 * @param    string $val  value
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $val Value.
+	 * @return void
 	 */
 	private static function value( $val ) {
 
