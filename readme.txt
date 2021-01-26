@@ -4,10 +4,14 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.1
+Requires at least: 5.2
 Tested up to: 5.6
 Requires PHP: 7.2
+<<<<<<< HEAD
 Stable tag: 5.0.0-alpha.1
+=======
+Stable tag: 4.13.0
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +520,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+<<<<<<< HEAD
 = v5.0.0-alpha.1 - 2021-01-07 =
 
 ##### User Information Form Builder
@@ -588,8 +593,57 @@ The following have been deprecated and will be removed from LifterLMS in a major
 
 
 = v4.11.0 - 2021-01-07 =
+=======
+= v4.13.0 - 2021-01-26 =
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ **The minimum supported WordPress core version has been raised to 5.2.** For more information, please review the [LifterLMS Minimum System Requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
++ When cloning courses and lessons the cloned post will be created as a draft.
++ When cloning courses the suffix "(Clone)" will be appended to the title of the course to unify cloning behavior with lessons.
++ Added information about LifterLMS specific constant values to the LifterLMS system report.
++ Added a new constant `LLMS_IS_SITE_CLONE` which can be used to force the site's clone status.
+
+##### Bug fixes
+
++ Reverts site clone detection check changes implemented in 4.12.0 to restore pre 4.12.0 functionality which only runs checks on the admin panel for logged in users with the `manage_lifterlms` capability.
++ Restore reliance on `mb_convert_encoding()` when passing html strings into `DOMDocument` and use the alternate method introduced in version 4.8.0 as a fallback.
++ Fixed an issue encountered when unexpected or malformed data is stored in the LifterLMS admin notices option.
+
+
+= v4.12.0 - 2021-01-20 =
+
+##### Updates
+
++ Automatic site clone detection checks have been adjusted to always run in favor of only running on the admin panel.
++ LifterLMS Site Features (like recurring payment status) can now be configured via constant values.
++ Added `llms_load_admin_tools` action to allow 3rd parties to easily hook into our admin tools system.
++ Made numerous performance improvements on the course data background processor.
++ Course data background processing will now be automatically throttled for courses with 500 students or more as opposed to the old value of 2,500 or more.
+
+##### Bug fixes
+
++ Fixed an incorrect HTML `for` attribute and added an `id` to the related input element on the student dashboard voucher redemption endpoint.
++ Fixed a pagination error encountered when using course or membership list shortcodes on the static front page.
++ Make sure `is_lifterlms()` exists before calling it in navigation menu-related classes.
+
+##### Deprecations
+
++ `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
++ Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
++ Unused property `LLMS_Course::$sku` is deprecated with no replacement.
++ `LLMS_Frontend_Forms` is deprecated, functionality is available via `LLMS_Controller_Account`.
++ `LLMS_Frontend_Forms::reset_password()` is deprecated in favor of `LLMS_Controller_Account::reset_password()`.
+
+##### Templates Updated
+
++ templates/myaccount/form-redeem-voucher.php
+
+
+= v4.11.0 - 2021-01-07 =
 
 ##### Updates
 
@@ -721,6 +775,7 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + `LLMS_Generator::increment()` is deprecated with no replacement.
 
 
+<<<<<<< HEAD
 = v4.6.0 - 2020-10-19 =
 
 + Added an admin tool to help automatically identify and schedule missed recurring payments
@@ -728,4 +783,6 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
 
 
+=======
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

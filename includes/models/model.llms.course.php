@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -119,7 +119,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * @since 1.0.0
-	 * @deprecated [version] Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
+	 * @deprecated 4.12.0 Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
 	 *
 	 * @var array
 	 */
@@ -127,7 +127,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * @since 1.0.0
-	 * @deprecated [version] Unused property `LLMS_Course::$sku` is deprecated with no replacement.
+	 * @deprecated 4.12.0 Unused property `LLMS_Course::$sku` is deprecated with no replacement.
 	 *
 	 * @var string
 	 */
@@ -459,7 +459,7 @@ implements LLMS_Interface_Post_Audio
 		/**
 		 * Filter the number of actively enrolled students in the course
 		 *
-		 * @since [version]
+		 * @since 4.12.0
 		 *
 		 * @param int         $count  Number of students enrolled in the course.
 		 * @param LLMS_Course $course Instance of the course object.
@@ -655,7 +655,7 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @since 3.20.0
 	 * @since 3.23.0 Unknown.
-	 * @since [version] Use strict `in_array()` comparison.
+	 * @since 4.12.0 Use strict `in_array()` comparison.
 	 *
 	 * @return boolean
 	 */

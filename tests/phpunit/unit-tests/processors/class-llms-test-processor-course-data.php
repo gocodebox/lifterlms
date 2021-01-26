@@ -7,8 +7,8 @@
  * @group processors
  * @group processor_course_data
  *
- * @since [version]
- * @version [version]
+ * @since 4.12.0
+ * @version 4.12.0
  */
 class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * Forces processor debugging on so that we can make assertions against logged data.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_calc() when throttled by number of students
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_calc() when throttled because it's already processing for the course.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -131,7 +131,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_calc()w
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -172,7 +172,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get_last_run()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test is_already_processing_course() when it's not processing.
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -219,7 +219,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_throttle()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -242,7 +242,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_from_course()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -267,7 +267,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_from_lesson()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -293,7 +293,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_from_quiz()
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -324,9 +324,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test task() method.
+	 * Test task() method
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return void
 	 */
@@ -350,6 +350,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'statuses' => array( 'enrolled' ),
 			'page'     => 1,
 			'per_page' => 2,
+			'sort'     => array(
+				'id' => 'ASC',
+			),
 		) ) );
 
 		$expect = array(
@@ -368,6 +371,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'statuses' => array( 'enrolled' ),
 			'page'     => 2,
 			'per_page' => 2,
+			'sort'     => array(
+				'id' => 'ASC',
+			),
 		) ) );
 
 		$expect = array(
@@ -385,6 +391,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 			'statuses' => array( 'enrolled' ),
 			'page'     => 3,
 			'per_page' => 2,
+			'sort'     => array(
+				'id' => 'ASC',
+			),
 		) ) );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'is_already_processing_course', array( $course_id ) ) );
 		$this->assertEmpty( $course->get( 'temp_calc_data' ) );

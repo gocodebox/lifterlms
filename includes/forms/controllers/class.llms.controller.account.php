@@ -235,7 +235,7 @@ class LLMS_Controller_Account {
 	/**
 	 * Redeem a voucher from the "Redeem Voucher" endpoint of the student dashboard
 	 *
-	 * @since [version]
+	 * @since 4.12.0
 	 *
 	 * @return null|true|WP_Error Returns `null` when the form hasn't been submitted, there's a nonce error, or there's no logged in user.
 	 *                            Returns `true` on success and an error object when an error is encountered redeeming the voucher.

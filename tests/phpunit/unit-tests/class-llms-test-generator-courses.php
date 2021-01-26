@@ -87,9 +87,34 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test clone_course()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_clone_course() {
+
+		$raw = array(
+			'title'   => 'Sample Course',
+			'content' => 'Content',
+		);
+
+		$id = $this->main->clone_course( $raw );
+		$this->assertTrue( is_numeric( $id ) );
+		$post = get_post( $id );
+		$this->assertEquals( 'course', $post->post_type );
+		$this->assertEquals( 'Sample Course (Clone)', $post->post_title );
+		$this->assertEquals( 'Content', $post->post_content );
+		$this->assertEquals( 'draft', $post->post_status );
+
+	}
+
+	/**
 	 * Test clone_lesson()
 	 *
 	 * @since 4.7.0
+	 * @since 4.13.0 Add check against post status.
 	 *
 	 * @return void
 	 */
@@ -106,6 +131,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 		$this->assertEquals( 'lesson', $post->post_type );
 		$this->assertEquals( 'Sample Lesson (Clone)', $post->post_title );
 		$this->assertEquals( 'Content', $post->post_content );
+		$this->assertEquals( 'draft', $post->post_status );
 
 	}
 
@@ -226,7 +252,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Test create_course()
 	 *
 	 * @since 4.7.0
-	 * @since [version] Only test properties that exist on the raw data arrays.
+	 * @since 4.12.0 Only test properties that exist on the raw data arrays.
 	 *
 	 * @return void
 	 */

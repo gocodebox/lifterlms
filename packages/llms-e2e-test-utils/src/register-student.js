@@ -8,7 +8,7 @@ import { visitPage }    from './visit-page';
  * Register a new student via the LifterLMS Open Registration Page
  *
  * @since 2.1.2
- * @since [version] Add `args.voucher` to enable voucher usage during registration.
+ * @since 2.2.1 Add `args.voucher` to enable voucher usage during registration.
  *
  * @param {String} args.email   Optional. Email address. If not supplied one will be created from the first name and last name.
  * @param {String} args.pass    Optional. User password. If not supplied one will be automatically generated.

@@ -87,6 +87,8 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
+	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since [version] Include `LLMS_Forms`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 *
 	 * @return void
@@ -132,6 +134,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
@@ -143,6 +146,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 
 		// Classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.assets.php';
@@ -220,6 +224,7 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 * @since 4.8.0 Add `LLMS_Export_API`.
+	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 *
 	 * @return void
 	 */
@@ -262,7 +267,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/tables/class.llms.table.student.management.php';
 
 		// Classes.
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.dot.com.api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.generator.php';
 

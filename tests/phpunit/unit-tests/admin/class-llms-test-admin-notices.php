@@ -62,4 +62,371 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test add_notice() for a notice that has been previously dismissed
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_add_notice_already_dismissed() {
+
+		set_transient( 'llms_admin_notice_test-dismissal_delay', 'yes', 60 );
+
+		LLMS_Admin_Notices::add_notice( 'test-dismissal' );
+
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( 'test-dismissal' ) );
+
+	}
+
+	/**
+	 * Test add_notice() with HTML and defaults
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_add_notice_with_defaults() {
+
+		LLMS_Admin_Notices::add_notice( 'test-add-notice', '<p>HTML CONTENT</p>' );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-add-notice' ) );
+
+		$this->assertEquals( array(
+			'dismissible'      => true,
+			'dismiss_for_days' => 7,
+			'flash'            => false,
+			'html'             => '<p>HTML CONTENT</p>',
+			'remind_in_days'   => 7,
+			'remindable'       => false,
+			'type'             => 'info',
+			'template'         => false,
+			'template_path'    => '',
+			'default_path'     => '',
+		), LLMS_Admin_Notices::get_notice( 'test-add-notice' ) );
+
+	}
+
+	/**
+	 * Test add_notice() with HTML and defaults
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_add_notice_with_options() {
+
+		LLMS_Admin_Notices::add_notice( 'test-add-notice-2', array( 'template' => 'path/to/template.php' ) );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-add-notice-2' ) );
+
+		$this->assertEquals( array(
+			'dismissible'      => true,
+			'dismiss_for_days' => 7,
+			'flash'            => false,
+			'html'             => '',
+			'remind_in_days'   => 7,
+			'remindable'       => false,
+			'type'             => 'info',
+			'template'         => 'path/to/template.php',
+			'template_path'    => '',
+			'default_path'     => '',
+		), LLMS_Admin_Notices::get_notice( 'test-add-notice-2' ) );
+
+	}
+
+	/**
+	 * Test delete_notice()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_notice() {
+
+		LLMS_Admin_Notices::add_notice( 'test-delete' );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-delete' ) );
+
+		LLMS_Admin_Notices::delete_notice( 'test-delete' );
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-delete' ) );
+
+		$this->assertSame( 1, did_action( 'lifterlms_delete_test-delete_notice' ) );
+		$this->assertFalse( get_transient( 'llms_admin_notice_test-delete_delay' ) );
+
+	}
+
+	/**
+	 * Test delete_notice() when "reminding" for a notice that is not remindable
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_notice_remind_not_remindable() {
+
+		LLMS_Admin_Notices::add_notice( 'test-delete-not-remindable' );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-delete-not-remindable' ) );
+
+		LLMS_Admin_Notices::delete_notice( 'test-delete-not-remindable', 'remind' );
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-delete-not-remindable' ) );
+		$this->assertFalse( get_transient( 'llms_admin_notice_test-delete-not-remindable_delay' ) );
+		$this->assertSame( 1, did_action( 'lifterlms_remind_test-delete-not-remindable_notice' ) );
+
+	}
+
+	/**
+	 * Test delete_notice() for a remindable notice
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_notice_remind() {
+
+		LLMS_Admin_Notices::add_notice( 'test-remind', array( 'remindable' => true ) );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-remind' ) );
+
+		LLMS_Admin_Notices::delete_notice( 'test-remind', 'remind' );
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-remind' ) );
+		$this->assertEquals( 'yes', get_transient( 'llms_admin_notice_test-remind_delay' ) );
+		$this->assertSame( 1, did_action( 'lifterlms_remind_test-remind_notice' ) );
+
+
+	}
+
+	/**
+	 * Test delete_notice() for dismissing a not dismissible notice
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_notice_remind_not_dismissable() {
+
+		LLMS_Admin_Notices::add_notice( 'test-delete-not-dismissible', array( 'dismissible' => false ) );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-delete-not-dismissible' ) );
+
+		LLMS_Admin_Notices::delete_notice( 'test-delete-not-dismissible', 'hide' );
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-delete-not-dismissible' ) );
+		$this->assertFalse( get_transient( 'llms_admin_notice_test-delete-not-dismissible_delay' ) );
+		$this->assertSame( 1, did_action( 'lifterlms_hide_test-delete-not-dismissible_notice' ) );
+
+	}
+
+	/**
+	 * Test delete_notice() for a dismissible notice
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_delete_notice_dismiss() {
+
+		LLMS_Admin_Notices::add_notice( 'test-dismiss' );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'test-dismiss' ) );
+
+		LLMS_Admin_Notices::delete_notice( 'test-dismiss', 'hide' );
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-dismiss' ) );
+		$this->assertEquals( 'yes', get_transient( 'llms_admin_notice_test-dismiss_delay' ) );
+		$this->assertSame( 1, did_action( 'lifterlms_hide_test-dismiss_notice' ) );
+
+	}
+
+	/**
+	 * Test flash_notice()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_flash_notice() {
+
+		LLMS_Admin_Notices::flash_notice( '<p>FLASH NOTICE</p>', 'error' );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'llms-flash-notice-0' ) );
+		$this->assertEquals( array(
+			'dismissible'      => false,
+			'dismiss_for_days' => 7,
+			'flash'            => true,
+			'html'             => '<p>FLASH NOTICE</p>',
+			'remind_in_days'   => 7,
+			'remindable'       => false,
+			'type'             => 'error',
+			'template'         => '',
+			'template_path'    => '',
+			'default_path'     => '',
+		), LLMS_Admin_Notices::get_notice( 'llms-flash-notice-0' ) );
+
+		// Test incrementor.
+		LLMS_Admin_Notices::flash_notice( '<p>FLASH NOTICE 2</p>', 'success' );
+
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'llms-flash-notice-1' ) );
+		$this->assertEquals( array(
+			'dismissible'      => false,
+			'dismiss_for_days' => 7,
+			'flash'            => true,
+			'html'             => '<p>FLASH NOTICE 2</p>',
+			'remind_in_days'   => 7,
+			'remindable'       => false,
+			'type'             => 'success',
+			'template'         => '',
+			'template_path'    => '',
+			'default_path'     => '',
+		), LLMS_Admin_Notices::get_notice( 'llms-flash-notice-1' ) );
+
+
+	}
+
+	/**
+	 * Test get_notice()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_get_notice() {
+
+		LLMS_Admin_Notices::add_notice( 'test-get' );
+
+		$this->assertEquals( array(
+			'dismissible'      => true,
+			'dismiss_for_days' => 7,
+			'flash'            => false,
+			'html'             => '',
+			'remind_in_days'   => 7,
+			'remindable'       => false,
+			'type'             => 'info',
+			'template'         => false,
+			'template_path'    => '',
+			'default_path'     => '',
+		), LLMS_Admin_Notices::get_notice( 'test-get' ) );
+
+	}
+
+	public function test_get_notice_not_found() {
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notice( 'test-get-not-found' ) );
+
+	}
+
+	/**
+	 * Test get_notices()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_get_notices() {
+
+		// Reset the array from previous tests.
+		LLMS_Admin_Notices::init();
+
+		LLMS_Admin_Notices::add_notice( 'test-get-all' );
+		LLMS_Admin_Notices::add_notice( 'test-get-all-2' );
+		$this->assertEquals( array( 'test-get-all', 'test-get-all-2' ), LLMS_Admin_Notices::get_notices() );
+
+	}
+
+	/**
+	 * Test get_notices() when no notices record exists in the DB
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_get_notices_no_db_option() {
+
+		delete_option( 'llms_admin_notices' );
+
+		// Reset the array from previous tests.
+		LLMS_Admin_Notices::init();
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notices() );
+
+	}
+
+	/**
+	 * Test get_notices() when an empty string is stored in the DB option
+	 *
+	 * @since 4.13.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1443
+	 *
+	 * @return void
+	 */
+	public function test_get_notices_empty_string_db_option() {
+
+		update_option( 'llms_admin_notices', '' );
+
+		// Reset the array from previous tests.
+		LLMS_Admin_Notices::init();
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notices() );
+
+	}
+
+	/**
+	 * Test get_notices() when malformed or invalid data is stored in the DB.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_get_notices_invalid_db_option() {
+
+		update_option( 'llms_admin_notices', array( array(), 1, null, new stdClass() ) );
+
+		// Reset the array from previous tests.
+		LLMS_Admin_Notices::init();
+
+		$this->assertEquals( array(), LLMS_Admin_Notices::get_notices() );
+
+	}
+
+	/**
+	 * Test has_notice()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_has_notice() {
+
+		$id = 'test-has';
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( $id ) );
+
+		LLMS_Admin_Notices::add_notice( $id );
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( $id ) );
+
+	}
+
+	/**
+	 * Test save_notices()
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return void
+	 */
+	public function test_save_notices() {
+
+		// Reset the array from previous tests.
+		LLMS_Admin_Notices::init();
+
+		LLMS_Admin_Notices::add_notice( 'test-save-1' );
+		LLMS_Admin_Notices::add_notice( 'test-save-2' );
+
+		LLMS_Admin_Notices::save_notices();
+
+		$this->assertEquals( array( 'test-save-1', 'test-save-2' ), get_option( 'llms_admin_notices' ) );
+
+	}
+
 }

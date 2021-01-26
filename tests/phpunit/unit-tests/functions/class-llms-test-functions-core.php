@@ -17,6 +17,7 @@
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
  * @since 4.7.0 Add test for `llms_get_dom_document()`.
  * @since 4.10.1 Add test for possible 3rd party cpts conflicts using `llms_get_post()`.
+ * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -185,6 +186,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.7.0
 	 * @since 4.8.0 Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
+	 * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
+	 *               Also, use `$this->assertStringContainsString()` in place of `$this->assertStringContainsString()` to get a better erro message on failures.
 	 *
 	 * @return void
 	 */
@@ -220,14 +223,27 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			),
 		);
 
+		// Using `mb_convert_econding()`.
 		foreach ( $tests as $test ) {
 
 			$dom = llms_get_dom_document( $test[0] );
-			$this->assertTrue( $dom instanceof DOMDocument );
-			$this->assertStringContains( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
+			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
 
 		}
 
+		// Repeat the same test using "the meta fixer".
+		add_filter( 'llms_dom_document_use_mb_convert_encoding', '__return_false' );
+
+		foreach ( $tests as $test ) {
+
+			$dom = llms_get_dom_document( $test[0] );
+			$this->assertTrue( $dom instanceof DOMDocument, $test[1] );
+			$this->assertStringContainsString( sprintf( '<body>%s</body></html>', $test[1] ), $dom->saveHTML() );
+
+		}
+
+		remove_filter( 'llms_dom_document_use_mb_convert_encoding', '__return_false' );
 	}
 
 	/**

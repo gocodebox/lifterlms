@@ -1,7 +1,7 @@
 /**
  * Test voucher redemption on the student dashboard
  *
- * @since [version]
+ * @since 4.12.0
  */
 
 import {

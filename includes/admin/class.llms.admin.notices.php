@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.10.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,12 +28,13 @@ class LLMS_Admin_Notices {
 	 * Static constructor
 	 *
 	 * @since 3.0.0
+	 * @since 4.13.0 Populate the `self::$notices` using `self::load_notices()`.
 	 *
 	 * @return void
 	 */
 	public static function init() {
 
-		self::$notices = get_option( 'llms_admin_notices', array() );
+		self::$notices = self::load_notices();
 
 		add_action( 'wp_loaded', array( __CLASS__, 'hide_notices' ) );
 		add_action( 'current_screen', array( __CLASS__, 'add_output_actions' ) );
@@ -79,7 +80,7 @@ class LLMS_Admin_Notices {
 	 */
 	public static function add_notice( $notice_id, $html_or_options = '', $options = array() ) {
 
-		// Don't add the notice if we've already dismissed of delayed it.
+		// Don't add the notice if we've already dismissed or delayed it.
 		if ( get_transient( 'llms_admin_notice_' . $notice_id . '_delay' ) ) {
 			return;
 		}
@@ -191,12 +192,13 @@ class LLMS_Admin_Notices {
 	 * Get notice details array from the DB
 	 *
 	 * @since 3.0.0
+	 * @since 4.13.0 When the notice cannot be found, return an empty array in favor of an empty string.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return array
 	 */
 	public static function get_notice( $notice_id ) {
-		return get_option( 'llms_admin_notice_' . $notice_id, '' );
+		return get_option( 'llms_admin_notice_' . $notice_id, array() );
 	}
 
 	/**
@@ -250,6 +252,34 @@ class LLMS_Admin_Notices {
 			}
 			self::delete_notice( $notice, $action );
 		}
+	}
+
+	/**
+	 * Loads stored notice IDs from the database
+	 *
+	 * Handles potentially malformed data by ensuring that only an array of strings
+	 * can be loaded.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return string[]
+	 */
+	protected static function load_notices() {
+
+		$notices = get_option( 'llms_admin_notices', array() );
+
+		if ( ! is_array( $notices ) ) {
+			$notices = array( $notices );
+		}
+
+		// Remove empty and non-string values.
+		return array_filter(
+			$notices,
+			function( $notice ) {
+				return ( ! empty( $notice ) && is_string( $notice ) );
+			}
+		);
+
 	}
 
 	/**

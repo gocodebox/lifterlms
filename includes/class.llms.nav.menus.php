@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.14.7
- * @version 3.37.12
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,19 +31,19 @@ class LLMS_Nav_Menus {
 	 */
 	public function __construct() {
 
-		// filter menu items on frontend to add real URLs to menu items.
+		// Filter menu items on frontend to add real URLs to menu items.
 		add_filter( 'wp_nav_menu_objects', array( $this, 'filter_nav_items' ) );
 
-		// add meta box to the Appearance -> Menus screen on admin panel.
+		// Add meta box to the Appearance -> Menus screen on admin panel.
 		add_action( 'load-nav-menus.php', array( $this, 'add_metabox' ) );
 
-		// add LifterLMS menu item type section to customizer.
+		// Add LifterLMS menu item type section to customizer.
 		add_filter( 'customize_nav_menu_available_item_types', array( $this, 'customize_add_type' ) );
 
-		// add LifterLMS menu items links to the customizer.
+		// Add LifterLMS menu items links to the customizer.
 		add_filter( 'customize_nav_menu_available_items', array( $this, 'customize_add_items' ), 10, 4 );
 
-		// add active classes for nav items for catalog pages.
+		// Add active classes for nav items for catalog pages.
 		add_filter( 'wp_nav_menu_objects', array( $this, 'menu_item_classes' ) );
 
 	}
@@ -173,7 +173,7 @@ class LLMS_Nav_Menus {
 
 				$url = ! empty( $data['endpoint'] ) ? llms_get_endpoint_url( $data['endpoint'], '', llms_get_page_url( 'myaccount' ) ) : '';
 
-				// no URL no nav item.
+				// No URL no nav item.
 				if ( empty( $url ) ) {
 					if ( empty( $data['url'] ) ) {
 						continue;
@@ -204,6 +204,13 @@ class LLMS_Nav_Menus {
 			'title' => __( 'Sign Out', 'lifterlms' ),
 		);
 
+		/**
+		 * Filters array of custom LifterLMS nav menu items
+		 *
+		 * @since 3.14.7
+		 *
+		 * @param array $items Array of custom LifterLMS nav menu items.
+		 */
 		return apply_filters( 'llms_nav_menu_items', $items );
 
 	}
@@ -214,13 +221,14 @@ class LLMS_Nav_Menus {
 	 * @since 3.22.0
 	 * @since 3.37.12 Use strict comparisons.
 	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
+	 * @since 4.12.0 Make sure `is_lifterlms()` exists before calling it.
 	 *
 	 * @param array $menu_items Menu items.
 	 * @return array
 	 */
 	public function menu_item_classes( $menu_items ) {
 
-		if ( ! is_lifterlms() ) {
+		if ( ! function_exists( 'is_lifterlms' ) || ! is_lifterlms() ) {
 			return $menu_items;
 		}
 
@@ -233,7 +241,7 @@ class LLMS_Nav_Menus {
 			$classes   = $item->classes;
 			$object_id = absint( $item->object_id );
 
-			// remove active class from blog archive.
+			// Remove active class from blog archive.
 			if ( $blog_id === $object_id ) {
 
 				$menu_items[ $key ]->current = false;
@@ -248,7 +256,7 @@ class LLMS_Nav_Menus {
 				$classes[]                   = 'current-menu-item';
 				$classes[]                   = 'current_page_item';
 
-				// set parent links for courses & memberships.
+				// Set parent links for courses & memberships.
 			} elseif ( ( $courses_id === $object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id === $object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
 
 				$classes[] = 'current_page_parent';

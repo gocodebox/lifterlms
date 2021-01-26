@@ -333,6 +333,7 @@ class LLMS_Admin_Menus {
 	 * Include files used on the Status page.
 	 *
 	 * @since 3.37.19
+	 * @since 4.12.0 Added `llms_load_admin_tools` action.
 	 *
 	 * @return void
 	 */
@@ -346,6 +347,13 @@ class LLMS_Admin_Menus {
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-*.php' ) as $tool_path ) {
 			require_once $tool_path;
 		}
+
+		/**
+		 * Action which can be used by 3rd parties to load custom admin page tools.
+		 *
+		 * @since 4.12.0
+		 */
+		do_action( 'llms_load_admin_tools' );
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.10.2
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -369,8 +369,13 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * This function suppresses PHP warnings that would be thrown by DOMDocument when
  * loading a partial string or an HTML string with errors.
  *
+ * @see LLMS_DOM_Document->load().
+ *
  * @since 4.7.0
  * @since 4.8.0 Remove reliance on `mb_convert_encoding()`.
+ * @since 4.13.0 Add back partial reliance on `mb_convert_encoding()` but keep the previous implementation as a fall-back.
+ *               Also fix a potential fatal in the fall-back which tried to manipulate a non existent node.
+ *               Wrapper for `LLMS_Dom_Document:load()`.
  *
  * @param string $string An HTML string, either a full HTML document or a partial string.
  * @return DOMDocument|WP_Error Returns an instance of DOMDocument with `$string` loaded into it
@@ -378,33 +383,10 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  */
 function llms_get_dom_document( $string ) {
 
-	if ( ! class_exists( 'DOMDocument' ) ) {
-		return new WP_Error( 'llms-dom-document-missing', __( 'DOMDocument not available.', 'lifterlms' ) );
-	}
+	$llms_dom = new LLMS_DOM_Document( $string );
+	$load     = $llms_dom->load();
 
-	// Don't throw or log warnings.
-	$libxml_state = libxml_use_internal_errors( true );
-
-	// This forces DOMDocument to convert non-utf8 characters into HTML entities and without relying on `mb_convert_encoding()`.
-	$utf8_fixer = '<meta id="llms-get-dom-doc-utf-fixer" http-equiv="Content-Type" content="text/html; charset=utf-8">';
-
-	$dom = new DOMDocument();
-	if ( ! $dom->loadHTML( $utf8_fixer . $string ) ) {
-		$dom = new WP_Error( 'llms-dom-document-error', __( 'DOMDocument XML Error encountered.', 'lifterlms' ), libxml_get_errors() );
-	}
-
-	// Remove the fixer meta element, if it's not removed it creates invalid HTML5 Markup.
-	$meta = $dom->getElementById( 'llms-get-dom-doc-utf-fixer' );
-	if ( $dom ) {
-		$meta->parentNode->removeChild( $meta ); // phpcs:ignore: WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-	}
-
-	// Clear and restore errors.
-	libxml_clear_errors();
-	libxml_use_internal_errors( $libxml_state );
-
-	return $dom;
-
+	return is_wp_error( $load ) ? $load : $llms_dom->dom();
 }
 
 /**

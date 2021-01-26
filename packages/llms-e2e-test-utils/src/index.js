@@ -2,7 +2,7 @@
  * Export all modules.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 2.2.1
  */
 
 export { click } from './click';

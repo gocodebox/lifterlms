@@ -2,14 +2,22 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: LifterLMS 5.0.0-alpha.1\n"
+=======
+"Project-Id-Version: LifterLMS 4.13.0\n"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2021-01-07T16:50:03-07:00\n"
+=======
+"POT-Creation-Date: 2021-01-26T11:35:34-07:00\n"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -16443,8 +16451,16 @@ msgstr ""
 msgid "German"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1627
 msgid "Jurby"
+=======
+#: assets/js/llms-blocks.js:16351
+#: includes/class.llms.person.handler.php:246
+#: templates/myaccount/form-redeem-voucher.php:24
+#: templates/myaccount/form-redeem-voucher.php:25
+msgid "Voucher Code"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1628
@@ -16836,24 +16852,45 @@ msgstr ""
 msgid "Kochi"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1738
 msgid "Fukuoka"
+=======
+#: assets/js/llms-blocks.js:20700
+#: includes/llms.functions.core.php:583
+msgid "Catalog only"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1739
 msgid "Saga"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1740
 msgid "Nagasaki"
+=======
+#: assets/js/llms-blocks.js:20704
+#: includes/llms.functions.core.php:584
+msgid "Search only"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1741
 msgid "Kumamoto"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1742
 msgid "Oita"
+=======
+#: assets/js/llms-blocks.js:20708
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
+#: includes/admin/settings/class.llms.settings.accounts.php:53
+#: includes/functions/llms-functions-access-plans.php:259
+#: includes/llms.functions.core.php:585
+msgid "Hidden"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1743
@@ -16912,16 +16949,30 @@ msgstr ""
 msgid "St Saviour"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1759
 msgid "St. Brelade"
+=======
+#: assets/js/llms-blocks.js:21302
+#: includes/abstracts/llms.abstract.notification.controller.php:309
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
+#: includes/llms.functions.core.php:644
+msgid "Author"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1760
 msgid "Grouville"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1761
 msgid "St Mary"
+=======
+#: class-lifterlms.php:385
+#: includes/admin/class.llms.admin.menus.php:167
+msgid "Settings"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1762
@@ -17068,8 +17119,19 @@ msgstr ""
 msgid "West Kazakhstan"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1802
 msgid "Zhambyl Oblysy"
+=======
+#: includes/abstracts/abstract.llms.admin.table.php:659
+#: includes/shortcodes/class.llms.shortcodes.php:368
+#: templates/loop/pagination.php:38
+#: templates/myaccount/my-grades.php:55
+#: templates/myaccount/my-notifications.php:39
+#: templates/myaccount/my-orders.php:83
+#: templates/myaccount/view-order-transactions.php:56
+msgid "Next"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1805
@@ -17320,8 +17382,18 @@ msgstr ""
 msgid "Mubārak al Kabīr"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1873
 msgid "Muḩāfaz̧at al Jahrā’"
+=======
+#: includes/admin/class-llms-admin-export-download.php:48
+#: includes/admin/class-llms-admin-export-download.php:53
+#: includes/admin/class-llms-admin-export-download.php:58
+#: includes/admin/class.llms.admin.notices.php:244
+#: includes/class.llms.install.php:717
+#: includes/class.llms.install.php:737
+msgid "Cheatin&#8217; huh?"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1876
@@ -17632,6 +17704,7 @@ msgstr ""
 msgid "Jelgava"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:1957
 msgid "Jelgavas novads"
 msgstr ""
@@ -17718,6 +17791,88 @@ msgstr ""
 
 #: languages/states.php:1978
 msgid "Mazsalaca"
+=======
+#: includes/admin/class.llms.admin.notices.core.php:95
+msgid "No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans."
+msgstr ""
+
+#: includes/admin/class.llms.admin.notices.core.php:97
+msgid "For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships."
+msgstr ""
+
+#: includes/admin/class.llms.admin.notices.core.php:162
+msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
+msgstr ""
+
+#: includes/admin/class.llms.admin.notices.php:241
+#: includes/admin/class.llms.admin.page.status.php:78
+#: includes/admin/class.llms.admin.page.status.php:271
+#: includes/class-llms-staging.php:89
+#: includes/class.llms.install.php:713
+#: includes/class.llms.install.php:733
+msgid "Action failed. Please refresh the page and retry."
+msgstr ""
+
+#: includes/admin/class.llms.admin.notices.php:313
+msgid "Dismiss"
+msgstr ""
+
+#: includes/admin/class.llms.admin.notices.php:328
+msgid "Remind me later"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:41
+msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:42
+#: includes/admin/class.llms.admin.page.status.php:43
+msgid "Reset Tracking Settings"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:47
+msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:48
+msgid "Student Progress Cache"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:49
+msgid "Clear cache"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:53
+msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:54
+msgid "Setup Wizard"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:55
+msgid "Return to Setup Wizard"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:202
+msgid "System Report"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:203
+msgid "Tools & Utilities"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:204
+msgid "Logs"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:205
+msgid "Scheduled Actions"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:326
+msgid "There are currently no logs to view."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:1979
@@ -17892,6 +18047,7 @@ msgstr ""
 msgid "Ventspils"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2022
 msgid "Ādaži"
 msgstr ""
@@ -17902,6 +18058,18 @@ msgstr ""
 
 #: languages/states.php:2024
 msgid "Ķegums"
+=======
+#: includes/admin/class.llms.admin.system-report.php:59
+msgid "Support"
+msgstr ""
+
+#: includes/admin/class.llms.admin.system-report.php:64
+msgid "Copy for Support"
+msgstr ""
+
+#: includes/admin/class.llms.admin.system-report.php:65
+msgid "Get Help"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2025
@@ -18056,8 +18224,16 @@ msgstr ""
 msgid "Al Jufrah"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2071
 msgid "Al Kufrah"
+=======
+#: includes/admin/post-types/class.llms.post.tables.php:62
+#: includes/class-llms-generator-courses.php:677
+#: includes/class.llms.l10n.js.php:230
+#: includes/class.llms.l10n.js.php:378
+msgid "Clone"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2072
@@ -18140,8 +18316,16 @@ msgstr ""
 msgid "Balzers"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2094
 msgid "Eschen"
+=======
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
+#: includes/class.llms.ajax.handler.php:887
+#: includes/llms.functions.core.php:1098
+msgid "ID#"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2095
@@ -19344,8 +19528,14 @@ msgstr ""
 msgid "Hînceşti"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2437
 msgid "Ialoveni"
+=======
+#: includes/admin/reporting/tables/llms.table.student.memberships.php:137
+#: includes/llms.functions.core.php:870
+msgid "Enrolled"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2438
@@ -20268,8 +20458,22 @@ msgstr ""
 msgid "Ryanggang"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2709
 msgid "Rason"
+=======
+#: includes/admin/tools/class-llms-admin-tool-reset-automatic-payments.php:46
+msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-reset-automatic-payments.php:59
+#: includes/admin/tools/class-llms-admin-tool-reset-automatic-payments.php:70
+msgid "Reset Automatic Payments Status"
+msgstr ""
+
+#: includes/admin/views/access-plans/access-plan.php:50
+msgid "Unnamed Access Plan"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2710
@@ -21063,8 +21267,23 @@ msgstr ""
 msgid "Departamento de Ñeembucú"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2926
 msgid "Departamento del Amambay"
+=======
+#: includes/class-llms-dom-document.php:66
+msgid "DOMDocument not available."
+msgstr ""
+
+#: includes/class-llms-dom-document.php:137
+#: includes/class-llms-dom-document.php:150
+msgid "DOMDocument XML Error encountered."
+msgstr ""
+
+#. Translators: %s = Event field key.
+#: includes/class-llms-events.php:139
+msgid "The event is missing the \"%s\" field."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2927
@@ -21091,6 +21310,7 @@ msgstr ""
 msgid "Ancash"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2936
 msgid "Apurimac"
 msgstr ""
@@ -21101,14 +21321,31 @@ msgstr ""
 
 #: languages/states.php:2938
 msgid "Ayacucho"
+=======
+#: includes/class-llms-generator-courses.php:156
+msgid "Raw data is missing the required \"courses\" array."
+msgstr ""
+
+#: includes/class-llms-generator-courses.php:158
+msgid "The raw \"courses\" item must be an array."
+msgstr ""
+
+#: includes/class-llms-generator-courses.php:451
+msgid "Error creating the question post object."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2939
 msgid "Cajamarca"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2940
 msgid "Callao"
+=======
+#: includes/class-llms-staging.php:70
+msgid "Staging"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2941
@@ -21275,12 +21512,21 @@ msgstr ""
 msgid "Subcarpathian"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:2987
 msgid "Podlachian"
 msgstr ""
 
 #: languages/states.php:2988
 msgid "Pomerania"
+=======
+#: includes/class.llms.generator.php:434
+msgid "The supplied file cannot be processed by the importer."
+msgstr ""
+
+#: includes/class.llms.generator.php:446
+msgid "The supplied generator is invalid."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:2989
@@ -21709,12 +21955,21 @@ msgstr ""
 msgid "Moca"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:3102
 msgid "Al Khor"
 msgstr ""
 
 #: languages/states.php:3103
 msgid "Al Wakrah"
+=======
+#: includes/class.llms.nav.menus.php:308
+msgid "Select all"
+msgstr ""
+
+#: includes/class.llms.nav.menus.php:311
+msgid "Add to menu"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:3104
@@ -23326,6 +23581,7 @@ msgstr ""
 msgid "Občina Divača"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:3548
 msgid "Občina Domžale"
 msgstr ""
@@ -23368,12 +23624,66 @@ msgstr ""
 
 #: languages/states.php:3558
 msgid "Občina Majšperk"
+=======
+#: includes/forms/controllers/class.llms.controller.account.php:55
+#: includes/forms/controllers/class.llms.controller.account.php:62
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:65
+msgid "Subscription cancelled by student from account page."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:71
+msgid "Enrollment will be cancelled at the end of the prepaid period."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:102
+msgid "Please log in and try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:117
+#: includes/forms/controllers/class.llms.controller.registration.php:96
+#: includes/functions/llms.functions.order.php:288
+msgid "An unknown error occurred when attempting to create an account, please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:121
+msgid "Your account information has been saved."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:164
+#: includes/forms/frontend/class.llms.frontend.password.php:39
+msgid "Enter a username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:173
+msgid "Invalid username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:220
+msgid "Unable to reset password due to an unknown error. Please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:227
+msgid "Check your e-mail for the confirmation link."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:254
+msgid "Voucher redeemed successfully!"
+msgstr ""
+
+#. Translators: %1$s = Opening anchor tag; $2$s = closing anchor tag.
+#: includes/forms/controllers/class.llms.controller.account.php:317
+msgid "Your password has been updated. %1$sClick here to login%2$s."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:3559
 msgid "Občina Mengeš"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:3560
 msgid "Občina Mežica"
 msgstr ""
@@ -23388,6 +23698,18 @@ msgstr ""
 
 #: languages/states.php:3563
 msgid "Občina Podčetrtek"
+=======
+#: includes/forms/frontend/class.llms.frontend.forms.php:77
+msgid "Please enter your password."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.forms.php:84
+msgid "Passwords do not match."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:47
+msgid "The email address entered is not associated with an account."
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:3564
@@ -25322,6 +25644,7 @@ msgstr ""
 msgid "Adana"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:4114
 msgid "Adıyaman"
 msgstr ""
@@ -25404,6 +25727,82 @@ msgstr ""
 
 #: languages/states.php:4139
 msgid "Nukulaelae"
+=======
+#: includes/llms.functions.core.php:438
+msgid "Student creates a new account"
+msgstr ""
+
+#: includes/llms.functions.core.php:439
+msgid "Student Purchases an Access Plan"
+msgstr ""
+
+#: includes/llms.functions.core.php:440
+msgid "Student enrolls in a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:441
+msgid "Student purchases a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:442
+msgid "Student completes a course"
+msgstr ""
+
+#: includes/llms.functions.core.php:444
+msgid "Student completes a lesson"
+msgstr ""
+
+#: includes/llms.functions.core.php:445
+msgid "Student completes a quiz"
+msgstr ""
+
+#: includes/llms.functions.core.php:446
+msgid "Student passes a quiz"
+msgstr ""
+
+#: includes/llms.functions.core.php:447
+msgid "Student fails a quiz"
+msgstr ""
+
+#: includes/llms.functions.core.php:448
+msgid "Student completes a section"
+msgstr ""
+
+#: includes/llms.functions.core.php:449
+msgid "Student completes a course track"
+msgstr ""
+
+#: includes/llms.functions.core.php:450
+msgid "Student enrolls in a membership"
+msgstr ""
+
+#: includes/llms.functions.core.php:451
+msgid "Student purchases a membership"
+msgstr ""
+
+#: includes/llms.functions.core.php:474
+msgid "Award an Achievement"
+msgstr ""
+
+#: includes/llms.functions.core.php:475
+msgid "Award a Certificate"
+msgstr ""
+
+#: includes/llms.functions.core.php:476
+msgid "Send an Email"
+msgstr ""
+
+#: includes/llms.functions.core.php:582
+msgid "Catalog &amp; Search"
+msgstr ""
+
+#: includes/llms.functions.core.php:869
+msgid "Cancelled"
+msgstr ""
+
+#: includes/llms.functions.core.php:871
+msgid "Expired"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:4140
@@ -26410,6 +26809,7 @@ msgstr ""
 msgid "Luapula Province"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:4435
 msgid "Lusaka Province"
 msgstr ""
@@ -26420,6 +26820,21 @@ msgstr ""
 
 #: languages/states.php:4442
 msgid "Bulawayo"
+=======
+#: includes/shortcodes/class.llms.shortcode.courses.php:192
+msgid "You must be logged in to view this information. Click %1$shere%2$s to login."
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcode.courses.php:201
+msgid "No courses found."
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcodes.php:367
+#: templates/loop/pagination.php:37
+#: templates/myaccount/my-grades.php:54
+#: templates/myaccount/my-notifications.php:38
+msgid "Previous"
+>>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 msgstr ""
 
 #: languages/states.php:4443
@@ -27132,7 +27547,7 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#: templates/myaccount/form-redeem-voucher.php:26
+#: templates/myaccount/form-redeem-voucher.php:28
 msgctxt "Voucher Code"
 msgid "Submit"
 msgstr ""

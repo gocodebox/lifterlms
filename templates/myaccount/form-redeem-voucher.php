@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 2.0.0
- * @since [version] Updated the label `for` attribute and added an `id` to the input element.
- * @version [version]
+ * @since 4.12.0 Updated the label `for` attribute and added an `id` to the input element.
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;

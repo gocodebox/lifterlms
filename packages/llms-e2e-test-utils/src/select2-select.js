@@ -1,7 +1,7 @@
 /**
  * Select a value from a select2 dropdown field
  *
- * @since [version]
+ * @since 2.2.1
  *
  * @param {String} selector Query selector for the select element.
  * @param {String} value    Option value to select.

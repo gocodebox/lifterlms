@@ -90,4 +90,40 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 		set_current_screen( 'front' );
 	}
 
+	/**
+	 * Test status_page_includes()
+	 *
+	 * @since 4.12.0
+	 *
+	 * @return void
+	 */
+	public function test_status_page_includes() {
+
+		$classes = array(
+			'LLMS_Admin_Page_Status',
+
+			'LLMS_Admin_Tool_Batch_Eraser',
+			'LLMS_Admin_Tool_Clear_Sessions',
+			'LLMS_Admin_Tool_Recurring_Payment_Rescheduler',
+		);
+
+		$actions = did_action( 'llms_load_admin_tools' );
+
+		foreach ( $classes as $class ) {
+			$this->assertFalse( class_exists( $class ) );
+		}
+
+		LLMS_Unit_Test_Util::call_method( $this->main, 'status_page_includes' );
+
+		// Classes included.
+		foreach ( $classes as $class ) {
+			$this->assertTrue( class_exists( $class ) );
+		}
+
+		// Action ran.
+		$this->assertSame( ++$actions, did_action( 'llms_load_admin_tools' ) );
+
+
+	}
+
 }

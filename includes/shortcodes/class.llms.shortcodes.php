@@ -303,6 +303,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.4.4
 	 * @since 3.0.2
+	 * @since 4.12.0 Handle pagination when the shortcode is used on the static front page.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
@@ -323,7 +324,7 @@ class LLMS_Shortcodes {
 		}
 
 		$args = array(
-			'paged'          => get_query_var( 'paged' ),
+			'paged'          => is_front_page() ? get_query_var( 'page' ) : get_query_var( 'paged' ),
 			'post_type'      => 'llms_membership',
 			'post_status'    => 'publish',
 			'posts_per_page' => isset( $atts['posts_per_page'] ) ? $atts['posts_per_page'] : -1,
@@ -371,7 +372,7 @@ class LLMS_Shortcodes {
 					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
 					'format'    => '?page=%#%',
 					'total'     => $query->max_num_pages,
-					'current'   => max( 1, get_query_var( 'paged' ) ),
+					'current'   => max( 1, $args['paged'] ),
 					'prev_next' => true,
 					'prev_text' => '«' . __( 'Previous', 'lifterlms' ),
 					'next_text' => __( 'Next', 'lifterlms' ) . '»',
