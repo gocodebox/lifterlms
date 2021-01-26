@@ -273,9 +273,12 @@ class LLMS_Admin_Notices {
 		}
 
 		// Remove empty and non-string values.
-		return array_filter( $notices, function ( $notice ) {
-			return ( ! empty( $notice ) && is_string( $notice ) );
-		} );
+		return array_filter(
+			$notices,
+			function( $notice ) {
+				return ( ! empty( $notice ) && is_string( $notice ) );
+			}
+		);
 
 	}
 
