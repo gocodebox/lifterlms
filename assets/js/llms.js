@@ -1365,27 +1365,26 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
-		 * Get the list of blacklisted strings
+		 * Get the list of blocklisted strings
 		 *
-		 * @since 3.0.0
-		 * @since [version] Add blacklisted words as configured via the php filter and automatically add values from all text inputs in the current form.
+		 * @since [version]
 		 *
 		 * @return array
 		 */
-		get_blacklist: function() {
+		get_blocklist: function() {
 	
 			// Default values from WP Core + any values added via settings filter..
-			var blacklist = wp.passwordStrength.userInputBlacklist().concat( this.get_setting( 'blacklist', [] ) );
+			var blocklist = wp.passwordStrength.userInputDisallowedList().concat( this.get_setting( 'blocklist', [] ) );
 	
 			// Add values from all text fields in the form.
 			this.$form.find( 'input[type="text"], input[type="email"], input[type="tel"], input[type="number"]' ).each( function() {
 				var val = $( this ).val();
 				if ( val ) {
-					blacklist.push( val );
+					blocklist.push( val );
 				}
 			} );
 	
-			return blacklist;
+			return blocklist;
 	
 		},
 	
@@ -1408,7 +1407,7 @@ var LLMS = window.LLMS || {};
 			if ( pass.length < this.get_setting( 'min_length', 6 ) ) {
 				val = -1;
 			} else {
-				val = wp.passwordStrength.meter( pass, this.get_blacklist(), conf );
+				val = wp.passwordStrength.meter( pass, this.get_blocklist(), conf );
 				// 0 & 1 are both very-weak
 				if ( 0 === val ) {
 					val = 1;
@@ -1585,7 +1584,20 @@ var LLMS = window.LLMS || {};
 					self.$meter.fadeIn( 400 );
 				}, 220 );
 			}
-		}
+		},
+	
+		/**
+		 * Get the list of blocklist strings
+		 *
+		 * @since 3.0.0
+		 * @deprecated [version] `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
+		 *
+		 * @return array
+		 */
+		get_blacklist: function() {
+			console.log( 'Method `get_blacklist()` is deprecated in favor of `get_blocklist()`.' );
+			return this.get_blacklist();
+		},
 	
 	} );
 	
