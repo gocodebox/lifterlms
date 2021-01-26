@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.12.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -88,6 +88,7 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 *
 	 * @return void
 	 */
@@ -132,6 +133,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';

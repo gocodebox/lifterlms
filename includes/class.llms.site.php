@@ -10,7 +10,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.12.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,12 +44,14 @@ class LLMS_Site {
 	 * Check if the site is cloned and not ignored
 	 *
 	 * @since 4.12.0
+	 * @since 4.13.0 Reverse the order of checks in the `if` statements for a minor performance improvement
+	 *               when the `LLMS_SITE_IS_CLONE` constant is being used.
 	 *
 	 * @return boolean Returns `true` when a clone is detected, otherwise `false`.
 	 */
 	public static function check_status() {
 
-		if ( ! self::is_clone_ignored() && self::is_clone() ) {
+		if ( self::is_clone() && ! self::is_clone_ignored() ) {
 
 			/**
 			 * Action triggered when the current website is determined to be a "cloned" site
@@ -228,11 +230,14 @@ class LLMS_Site {
 	 * Compares the stored (and cleaned) llms_site_url against the WP site url.
 	 *
 	 * @since 3.0.0
+	 * @since 4.13.0 Add `LLMS_SITE_IS_CLONE` constant check.
 	 *
 	 * @return boolean Returns `true` if it's a cloned site (urls do not match)
 	 *                 and `false` if it's not (urls DO match).
 	 */
 	public static function is_clone() {
+
+		$is_clone = defined( 'LLMS_SITE_IS_CLONE' ) ? LLMS_SITE_IS_CLONE : ( get_site_url() !== self::get_url() );
 
 		/**
 		 * Filters whether or not the site is a "cloned" site
@@ -241,7 +246,7 @@ class LLMS_Site {
 		 *
 		 * @param boolean $is_clone When `true` the site is considered a "clone", otherwise it is not.
 		 */
-		return apply_filters( 'llms_site_is_clone', ( get_site_url() !== self::get_url() ) );
+		return apply_filters( 'llms_site_is_clone', $is_clone );
 
 	}
 

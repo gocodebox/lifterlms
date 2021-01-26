@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.12.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.12.0';
+	public $version = '4.13.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -84,6 +84,7 @@ final class LifterLMS {
 	 * @since 3.21.1 Unknown
 	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
+	 * @since 4.13.0 Check site duplicate status on `admin_init`.
 	 *
 	 * @return void
 	 */
@@ -117,6 +118,8 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'init_session' ), 6 ); // After table installation which happens at init 5.
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+
+		add_action( 'admin_init', array( 'LLMS_Site', 'check_status' ) );
 
 		// Tracking.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
@@ -184,14 +187,13 @@ final class LifterLMS {
 	 * @since 3.21.1 Unknown.
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
+	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 *
 	 * @return void
 	 */
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
-
-		LLMS_Site::check_status();
 
 		$this->engagements();
 		$this->notifications();
