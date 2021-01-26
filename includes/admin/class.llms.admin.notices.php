@@ -266,15 +266,15 @@ class LLMS_Admin_Notices {
 	 */
 	protected static function load_notices() {
 
-		$option = get_option( 'llms_admin_notices', array() );
+		$notices = get_option( 'llms_admin_notices', array() );
 
-		if ( ! is_array( $option ) ) {
-			$option = array( $option );
+		if ( ! is_array( $notices ) ) {
+			$notices = array( $notices );
 		}
 
 		// Remove empty and non-string values.
-		return array_filter( function ( $option ) {
-			return ( ! empty( $option ) && is_string( $option ) );
+		return array_filter( $notices, function ( $notice ) {
+			return ( ! empty( $notice ) && is_string( $notice ) );
 		} );
 
 	}
