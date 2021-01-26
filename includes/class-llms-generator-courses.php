@@ -85,7 +85,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $raw Raw course data array
+	 * @param array $raw Raw course data array.
 	 * @return int|null WP_Post ID of the generated course or `null` on failure.
 	 */
 	public function clone_course( $raw ) {
