@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.12.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Shortcodes
  *
  * @since 1.0.0
- * @since [version] Register [user] shortcode.
  * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
@@ -25,10 +24,6 @@ class LLMS_Shortcodes {
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
-	 *
-	 * @since 1.0.0
-	 * @since 3.11.1 Unknown.
-	 * @since [version] Register [user] shortcode.
 	 *
 	 * @return void
 	 */
@@ -85,7 +80,7 @@ class LLMS_Shortcodes {
 		}
 
 		// Proper naming convention.
-		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
+		// require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
 
 		/**
 		 * @deprecated  2.0.0
