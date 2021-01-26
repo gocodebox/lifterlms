@@ -1,7 +1,6 @@
 LifterLMS Changelog
 ===================
 
-<<<<<<< HEAD
 v5.0.0-alpha.1 - 2021-01-07
 ---------------------------
 
@@ -41,8 +40,6 @@ v5.0.0-alpha.1 - 2021-01-07
 + A number of action and filter hooks have been moved to new locations within the codebase. They will continue to function as expected (with some minor exceptions).
 + Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
 
-
-
 ##### Library & Vendor Updates
 
 + Load core libraries from new location and load WP Background Processing lib.
@@ -74,10 +71,7 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
 
 
-v4.11.0 - 2021-01-07
-=======
 v4.13.0 - 2021-01-26
->>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 --------------------
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
