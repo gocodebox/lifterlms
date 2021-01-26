@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.13.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Tool_Reset_Automatic_Payments
  *
- * @since [version]
+ * @since 4.13.0
  */
 class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool {
 
@@ -38,7 +38,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return string
 	 */
@@ -51,7 +51,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return string
 	 */
@@ -62,7 +62,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return string
 	 */
@@ -77,7 +77,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 *
 	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ class LLMS_Admin_Tool_Reset_Automatic_Payments extends LLMS_Abstract_Admin_Tool 
 	 * This tool should only load if the recurring payments site feature constant and the site clone status
 	 * constant are both NOT set.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

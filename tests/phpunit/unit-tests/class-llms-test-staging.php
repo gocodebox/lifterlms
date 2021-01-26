@@ -27,7 +27,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Removes actions added by the `init()` method (so that we can test the `init()` method)
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init() actions when no recurring feature constant is set
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init() actions when a recurring feature constant is set
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -85,7 +85,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init() actions when a recurring feature constant is set
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -106,7 +106,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test clone_detected()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Add tests for all potential conditions.
+	 * @since 4.13.0 Add tests for all potential conditions.
 	 *
 	 * @return void
 	 */

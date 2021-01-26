@@ -65,7 +65,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_notice() for a notice that has been previously dismissed
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_notice() with HTML and defaults
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_notice() with HTML and defaults
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test delete_notice()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -158,7 +158,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test delete_notice() when "reminding" for a notice that is not remindable
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test delete_notice() for a remindable notice
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -201,7 +201,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test delete_notice() for dismissing a not dismissible notice
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -222,7 +222,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test delete_notice() for a dismissible notice
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -243,7 +243,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test flash_notice()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -288,7 +288,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_notice()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -320,7 +320,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_notices()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -338,7 +338,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_notices() when no notices record exists in the DB
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -356,7 +356,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_notices() when an empty string is stored in the DB option
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1443
 	 *
@@ -376,7 +376,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_notices() when malformed or invalid data is stored in the DB.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -394,7 +394,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test has_notice()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -411,7 +411,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_notices()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */

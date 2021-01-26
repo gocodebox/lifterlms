@@ -164,7 +164,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test the setup wizard redirect tool.
 	 *
 	 * @since 3.37.14
-	 * @since [version] Fix expected redirect URL.
+	 * @since 4.13.0 Fix expected redirect URL.
 	 *
 	 * @return void
 	 */

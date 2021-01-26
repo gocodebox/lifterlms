@@ -17,7 +17,7 @@
  * @since 4.4.1 Add tests for `llms_get_enrollable_post_types()` and `llms_get_enrollable_status_check_post_types()`.
  * @since 4.7.0 Add test for `llms_get_dom_document()`.
  * @since 4.10.1 Add test for possible 3rd party cpts conflicts using `llms_get_post()`.
- * @since [version] Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
+ * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -186,7 +186,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.7.0
 	 * @since 4.8.0 Test against HTML strings, HTML documents, strings with character entities, and strings with non-utf8 characters.
-	 * @since [version] Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
+	 * @since 4.13.0 Test `llms_get_dom_document()` relying on `mb_convert_encoding()` and not.
 	 *               Also, use `$this->assertStringContainsString()` in place of `$this->assertStringContainsString()` to get a better erro message on failures.
 	 *
 	 * @return void

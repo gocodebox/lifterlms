@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ class LLMS_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 3.17.0 Added browser/os data section.
-	 * @since [version] Added constant data.
+	 * @since 4.13.0 Added constant data.
 	 *
 	 * @param string $dataset Dataset to retrieve data for [tracker|system_report].
 	 * @param string $format  Data return format (unused for unrecalled reasons).
@@ -112,7 +112,7 @@ class LLMS_Data {
 	/**
 	 * Retrieve data about LifterLMS constants
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return array
 	 */

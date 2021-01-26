@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Admin_Notices {
 	 * Static constructor
 	 *
 	 * @since 3.0.0
-	 * @since [version] Populate the `self::$notices` using `self::load_notices()`.
+	 * @since 4.13.0 Populate the `self::$notices` using `self::load_notices()`.
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_Admin_Notices {
 	 * Get notice details array from the DB
 	 *
 	 * @since 3.0.0
-	 * @since [version] When the notice cannot be found, return an empty array in favor of an empty string.
+	 * @since 4.13.0 When the notice cannot be found, return an empty array in favor of an empty string.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return array
@@ -260,7 +260,7 @@ class LLMS_Admin_Notices {
 	 * Handles potentially malformed data by ensuring that only an array of strings
 	 * can be loaded.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return string[]
 	 */

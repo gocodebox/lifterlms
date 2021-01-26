@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Register "unclassed" core tools
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @param array[] $tools List of tool definitions.
 	 * @return array[]
@@ -68,7 +68,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.37.14 Verify user capabilities when doing a tool action.
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
-	 * @since [version] The `automatic-payments` tool has been moved to `LLMS_Admin_Tool_Reset_Automatic_Payments`.
+	 * @since 4.13.0 The `automatic-payments` tool has been moved to `LLMS_Admin_Tool_Reset_Automatic_Payments`.
 	 *
 	 * @return void
 	 */
@@ -333,7 +333,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
-	 * @since [version] Move "unclassed" core actions to be added to the `llms_status_tools` filter at priority 5 via `LLMS_Admin_Page_Status::add_core_tools()`.
+	 * @since 4.13.0 Move "unclassed" core actions to be added to the `llms_status_tools` filter at priority 5 via `LLMS_Admin_Page_Status::add_core_tools()`.
 	 *
 	 * @return void
 	 */

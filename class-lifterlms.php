@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '4.12.0';
+	public $version = '4.13.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -84,7 +84,7 @@ final class LifterLMS {
 	 * @since 3.21.1 Unknown
 	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
-	 * @since [version] Check site duplicate status on `admin_init`.
+	 * @since 4.13.0 Check site duplicate status on `admin_init`.
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ final class LifterLMS {
 	 * @since 3.21.1 Unknown.
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
-	 * @since [version] Remove site staging/duplicate check and run only on `admin_init`.
+	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.1.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -103,7 +103,7 @@ class LLMS_Admin_System_Report {
 	 *
 	 * @since 3.0.0
 	 * @since 3.11.2 Unknown.
-	 * @since [version] Don't strip underscores when outputting the constant keys.
+	 * @since 4.13.0 Don't strip underscores when outputting the constant keys.
 	 *
 	 * @param string $section_title Title / key of the section.
 	 * @param arry   $data          Array of data for the section.

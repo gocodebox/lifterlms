@@ -10,7 +10,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,7 +44,7 @@ class LLMS_Site {
 	 * Check if the site is cloned and not ignored
 	 *
 	 * @since 4.12.0
-	 * @since [version] Reverse the order of checks in the `if` statements for a minor performance improvement
+	 * @since 4.13.0 Reverse the order of checks in the `if` statements for a minor performance improvement
 	 *               when the `LLMS_SITE_IS_CLONE` constant is being used.
 	 *
 	 * @return boolean Returns `true` when a clone is detected, otherwise `false`.
@@ -230,7 +230,7 @@ class LLMS_Site {
 	 * Compares the stored (and cleaned) llms_site_url against the WP site url.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Add `LLMS_SITE_IS_CLONE` constant check.
+	 * @since 4.13.0 Add `LLMS_SITE_IS_CLONE` constant check.
 	 *
 	 * @return boolean Returns `true` if it's a cloned site (urls do not match)
 	 *                 and `false` if it's not (urls DO match).
