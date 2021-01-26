@@ -171,7 +171,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test is_clone() when using a constant set to `true`.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -191,7 +191,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	/**
 	 * Test is_clone() when using a constant set to `false`.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.1
+Requires at least: 5.2
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.12.0
+Stable tag: 4.13.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,25 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.13.0 - 2021-01-26 =
+
+**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ **The minimum supported WordPress core version has been raised to 5.2.** For more information, please review the [LifterLMS Minimum System Requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
++ When cloning courses and lessons the cloned post will be created as a draft.
++ When cloning courses the suffix "(Clone)" will be appended to the title of the course to unify cloning behavior with lessons.
++ Added information about LifterLMS specific constant values to the LifterLMS system report.
++ Added a new constant `LLMS_IS_SITE_CLONE` which can be used to force the site's clone status.
+
+##### Bug fixes
+
++ Reverts site clone detection check changes implemented in 4.12.0 to restore pre 4.12.0 functionality which only runs checks on the admin panel for logged in users with the `manage_lifterlms` capability.
++ Restore reliance on `mb_convert_encoding()` when passing html strings into `DOMDocument` and use the alternate method introduced in version 4.8.0 as a fallback.
++ Fixed an issue encountered when unexpected or malformed data is stored in the LifterLMS admin notices option.
+
+
 = v4.12.0 - 2021-01-20 =
 
 ##### Updates
@@ -546,8 +565,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 
 = v4.11.0 - 2021-01-07 =
-
-**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
 
 ##### Updates
 
@@ -677,13 +694,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + `LLMS_Generator::get_generated_posts()` is deprecated in favor of `LLMS_Generator::get_generated_content()`.
 + `LLMS_Generator::format_date()` is deprecated in favor of `LLMS_Generator_Courses::format_date()`.
 + `LLMS_Generator::increment()` is deprecated with no replacement.
-
-
-= v4.6.0 - 2020-10-19 =
-
-+ Added an admin tool to help automatically identify and schedule missed recurring payments
-+ Use `llms_deprecated_function()` in favor of `llms_log()`.
-+ Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

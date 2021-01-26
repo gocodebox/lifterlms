@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.7.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -83,7 +83,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	/**
 	 * Generator called when cloning a course
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @param array $raw Raw course data array.
 	 * @return int|null WP_Post ID of the generated course or `null` on failure.
@@ -97,7 +97,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 *
 	 * @since 3.14.8
 	 * @since 4.7.0 Moved from `LLMS_Generator` and made `public` instead of `private`.
-	 * @since [version] Use `setup_raw_for_clone()` to normalize the
+	 * @since 4.13.0 Use `setup_raw_for_clone()` to normalize the
 	 *
 	 * @param array $raw Raw data array.
 	 * @return int|WP_Error WP_Post ID of the created lesson on success and an error object on failure.
@@ -658,7 +658,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 	 * When a clone is created, it will automatically have "(Clone)" appended to the existing title
 	 * and will be created with the "Draft" status.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @param array $raw Raw data array for the course or lesson.
 	 * @return array
@@ -668,7 +668,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		/**
 		 * Filters the suffix appended to the WP_Post title of a duplicated post when cloning a course or lesson
 		 *
-		 * @since [version]
+		 * @since 4.13.0
 		 *
 		 * @param string         $status    The WP_Post status to use for the duplicate of the post. Default: "draft".
 		 * @param array          $raw       Raw data array passed into the generator.
@@ -679,7 +679,7 @@ class LLMS_Generator_Courses extends LLMS_Abstract_Generator_Posts {
 		/**
 		 * Filters the WP_Post status used for the duplicated post when cloning a course or lesson
 		 *
-		 * @since [version]
+		 * @since 4.13.0
 		 *
 		 * @param string         $status    The WP_Post status to use for the duplicate of the post. Default: "draft".
 		 * @param array          $raw       Raw data array passed into the generator.

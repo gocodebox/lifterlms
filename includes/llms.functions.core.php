@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -371,7 +371,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  *
  * @since 4.7.0
  * @since 4.8.0 Remove reliance on `mb_convert_encoding()`.
- * @since [version] Add back partial reliance on `mb_convert_encoding()` but keep the previous implementation as a fall-back.
+ * @since 4.13.0 Add back partial reliance on `mb_convert_encoding()` but keep the previous implementation as a fall-back.
  *               Also fix a potential fatal in the fall-back which tried to manipulate a non existent node.
  *               Wrapper for `LLMS_Dom_Document:load()`.
  *

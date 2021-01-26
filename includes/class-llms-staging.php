@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ class LLMS_Staging {
 	 *
 	 * @since 3.32.0
 	 * @since 4.12.0 Add hook on `llms_site_clone_detected` action.
-	 * @since [version] Only add actions when recurring payments constant is not defined.
+	 * @since 4.13.0 Only add actions when recurring payments constant is not defined.
 	 *               If `LLMS_SITE_IS_CLONE` is defined & true, automatically disable recurring payments.
 	 *
 	 * @return void
@@ -46,7 +46,7 @@ class LLMS_Staging {
 	 * Callback function to automatically disable site features when a clone is detected
 	 *
 	 * @since 4.12.0
-	 * @since [version] Only disable payments for logged in users on the admin panel when not processing ajax requests.
+	 * @since 4.13.0 Only disable payments for logged in users on the admin panel when not processing ajax requests.
 	 *
 	 * @return void
 	 */

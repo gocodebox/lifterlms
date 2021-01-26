@@ -89,7 +89,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	/**
 	 * Test clone_course()
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Test clone_lesson()
 	 *
 	 * @since 4.7.0
-	 * @since [version] Add check against post status.
+	 * @since 4.13.0 Add check against post status.
 	 *
 	 * @return void
 	 */

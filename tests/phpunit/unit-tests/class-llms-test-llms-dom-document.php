@@ -6,14 +6,14 @@
  *
  * @group llms_dom_document
  *
- * @since [version]
+ * @since 4.13.0
  */
 class LLMS_Test_LLMS_DOM_Document extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test DOMDocument library missing
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Test_LLMS_DOM_Document extends LLMS_Unit_Test_Case {
 	/**
 	 * Test loading string success
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_LLMS_DOM_Document extends LLMS_Unit_Test_Case {
 	/**
 	 * Test loading method switch
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */

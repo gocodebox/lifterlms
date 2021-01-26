@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -220,7 +220,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.14.8 Unknown.
 	 * @since 4.7.0 Load generators from `LLMS_Generator_Courses()`.
-	 * @since [version] Use `clone_course()` method for cloning courses in favor of `genrate_course()`.
+	 * @since 4.13.0 Use `clone_course()` method for cloning courses in favor of `genrate_course()`.
 	 *
 	 * @return array
 	 */

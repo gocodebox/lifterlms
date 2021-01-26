@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.13.0
+ * @version 4.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_DOM_Document Class
  *
- * @since [version]
+ * @since 4.13.0
  */
 class LLMS_DOM_Document {
 
@@ -55,7 +55,7 @@ class LLMS_DOM_Document {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @param string $source An HTML string, either a full HTML document or a partial string.
 	 * @return void
@@ -88,7 +88,7 @@ class LLMS_DOM_Document {
 	 * This function suppresses PHP warnings that would be thrown by DOMDocument when
 	 * loading a partial string or an HTML string with errors.
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return boolean|WP_Error Returns `true` if the source is loaded fine.
 	 *                          Or an error object when DOMDocument isn't available or an error is encountered during loading.
@@ -115,7 +115,7 @@ class LLMS_DOM_Document {
 	/**
 	 * Returns the DOMDocument
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return DOMDocument Returns an instance of DOMDocument.
 	 */
@@ -128,7 +128,7 @@ class LLMS_DOM_Document {
 	/**
 	 * Load the HTML string in the DOMDocument using mb_convert_econding
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_DOM_Document {
 	/**
 	 * Load the HTML string in the DOMDocument using the meta ut8 fixer
 	 *
-	 * @since [version]
+	 * @since 4.13.0
 	 *
 	 * @return void
 	 */

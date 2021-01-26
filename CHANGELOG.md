@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v4.13.0 - 2021-01-26
+--------------------
+
+**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ **The minimum supported WordPress core version has been raised to 5.2.** For more information, please review the [LifterLMS Minimum System Requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
++ When cloning courses and lessons the cloned post will be created as a draft.
++ When cloning courses the suffix "(Clone)" will be appended to the title of the course to unify cloning behavior with lessons.
++ Added information about LifterLMS specific constant values to the LifterLMS system report.
++ Added a new constant `LLMS_IS_SITE_CLONE` which can be used to force the site's clone status.
+
+##### Bug fixes
+
++ Reverts site clone detection check changes implemented in 4.12.0 to restore pre 4.12.0 functionality which only runs checks on the admin panel for logged in users with the `manage_lifterlms` capability.
++ Restore reliance on `mb_convert_encoding()` when passing html strings into `DOMDocument` and use the alternate method introduced in version 4.8.0 as a fallback.
++ Fixed an issue encountered when unexpected or malformed data is stored in the LifterLMS admin notices option.
+
+
 v4.12.0 - 2021-01-20
 --------------------
 
@@ -33,8 +53,6 @@ v4.12.0 - 2021-01-20
 
 v4.11.0 - 2021-01-07
 --------------------
-
-**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
 
 ##### Updates
 
