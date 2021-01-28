@@ -18,6 +18,12 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	 */
 	public $class_name = 'LLMS_Shortcode_User_Info';
 
+	public function setUp() {
+
+		$this->markTestIncomplete( '[user] shortcode must be implemented.' );
+
+	}
+
 	/**
 	 * Test setting attributes with no key for the first attribute (field name).
 	 *
