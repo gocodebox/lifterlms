@@ -10,18 +10,30 @@
 
 defined( 'ABSPATH' ) || exit;
 
-
 /**
- * Retrieve the country name by country code
+ * Get countries address formatting and l10n information.
  *
- * @param    string $code  country code
- * @return   string
- * @since    3.8.0
- * @version  3.8.0
+ * Provides a list of language and address information for supported countries.
+ *
+ * @since [version]
+ *
+ * @see languages/countries-address-info.php
+ *
+ * @return array
  */
-function llms_get_country_name( $code ) {
-	$countries = get_lifterlms_countries();
-	return isset( $countries[ $code ] ) ? $countries[ $code ] : $code;
+function llms_get_countries_address_info() {
+
+	$info = require LLMS_PLUGIN_DIR . 'languages/countries-address-info.php';
+
+	/**
+	 * Modify the default states list.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $info Multi-dimensional array. See "languages/address-countries-address-info.php" for details.
+	 */
+	return apply_filters( 'llms_countries_address_info', $info );
+
 }
 
 /**
@@ -32,9 +44,22 @@ function llms_get_country_name( $code ) {
  * @param string $code Country code.
  * @return array
  */
-function llms_get_country_locale( $code ) {
-	$all = llms_get_countries_locale();
+function llms_get_country_adress_info( $code ) {
+	$all = llms_get_countries_address_info();
 	return isset( $all[ $code ] ) ? $all[ $code ] : array();
+}
+
+/**
+ * Retrieve the country name by country code
+ *
+ * @since 3.8.0
+ *
+ * @param string $code Country code.
+ * @return string
+ */
+function llms_get_country_name( $code ) {
+	$countries = get_lifterlms_countries();
+	return isset( $countries[ $code ] ) ? $countries[ $code ] : $code;
 }
 
 /**
@@ -48,32 +73,6 @@ function llms_get_country_locale( $code ) {
 function llms_get_country_states( $code ) {
 	$all = llms_get_states();
 	return isset( $all[ $code ] ) ? $all[ $code ] : array();
-}
-
-/**
- * Get countries locale information.
- *
- * Provides a list of language and address information for supported countries.
- *
- * @since [version]
- *
- * @see languages/countries-locale.php
- *
- * @return array
- */
-function llms_get_countries_locale() {
-
-	$states = require LLMS_PLUGIN_DIR . 'languages/countries-locale.php';
-
-	/**
-	 * Modify the default states list.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param array $states Multi-dimensional array. See "languages/countries-locale.php" for details.
-	 */
-	return apply_filters( 'lifterlms_countries_locale', $states );
-
 }
 
 /**
