@@ -16,18 +16,17 @@ LLMS.Forms = {
 	 *
 	 * @type {Object}
 	 */
-	locale: {},
+	address_info: {},
 
 	/**
-	 * Stores references to the default locale strings
-	 * as configured by users in the form editor.
+	 * jQuery ref. to the city text field.
 	 *
 	 * @type {Object}
 	 */
-	locale_defaults: {},
+	$cities: null,
 
 	/**
-	 * jQuery ref. to the countries select field..
+	 * jQuery ref. to the countries select field.
 	 *
 	 * @type {Object}
 	 */
@@ -104,6 +103,7 @@ LLMS.Forms = {
 
 		var self = this;
 
+		self.$cities    = $( '#llms_billing_city' );
 		self.$countries = $( '.llms-l10n-country-select select' );
 		self.$states    = $( '.llms-l10n-state-select select' );
 		self.$zips      = $( '#llms_billing_zip' );
@@ -118,19 +118,13 @@ LLMS.Forms = {
 
 		self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
 
-		if ( window.llms.locale ) {
-			self.locale = JSON.parse( window.llms.locale );
-			self.locale_defaults = {
-				state: ( function() {
-					return self.get_label_text( self.get_field_parent( self.$states ).find( 'label' ) );
-				} )(),
-			};
+		if ( window.llms.address_info ) {
+			self.address_info = JSON.parse( window.llms.address_info );
 		}
 
 		self.$countries.on( 'change', function() {
 
 			var val = $( this ).val();
-			self.update_state_options( val );
 			self.update_locale_info( val );
 
 		} ).trigger( 'change' );
@@ -365,23 +359,39 @@ LLMS.Forms = {
 	 */
 	update_locale_info: function( country_code ) {
 
-		if ( ! this.locale || ! this.locale[ country_code ] ) {
+		if ( ! this.address_info || ! this.address_info[ country_code ] ) {
 			return;
 		}
 
-		var info = this.locale[ country_code ],
-			state_text = info.state ? info.state : this.locale_defaults.state;
+		var info = this.address_info[ country_code ];
 
-		this.update_label( this.$states, state_text );
+		this.update_state_options( country_code );
+		this.update_label( this.$states, info.state );
 
-		var $zips_parent = this.get_field_parent( this.$zips );
-		this.$zips.removeAttr( 'disabled' );
-		if ( info.zip ) {
-			this.update_label( this.$zips, info.zip );
-			$zips_parent.show();
+		this.update_locale_info_for_field( this.$cities, info.city );
+		this.update_locale_info_for_field( this.$zips, info.postcode );
+
+	},
+
+	/**
+	 * Update locale info for a given field.
+	 *
+	 * @since [version]
+	 *
+	 * @param {Object}         $field The jQuery object for the field.
+	 * @param {String|Boolean} label  The text of the label, or `false` when the field isn't supported.
+	 * @return {Void}
+	 */
+	update_locale_info_for_field: function( $field, label ) {
+
+		var $parent = this.get_field_parent( $field );
+		$field.removeAttr( 'disabled' );
+		if ( label ) {
+			this.update_label( $field, label );
+			$parent.show();
 		} else {
-			this.$zips.attr( 'disabled', 'disabled' );
-			$zips_parent.hide();
+			$field.attr( 'disabled', 'disabled' );
+			$parent.hide();
 		}
 
 	},
