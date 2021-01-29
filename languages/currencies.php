@@ -2,7 +2,7 @@
 /**
  * Currencies
  *
- * Returns a map of currency codes and their names.
+ * currenciesList a map of currency codes and their names.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
