@@ -79,9 +79,6 @@ class LLMS_Shortcodes {
 			}
 		}
 
-		// Proper naming convention.
-		// require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
-
 		/**
 		 * @deprecated  2.0.0
 		 * @todo        deprecate

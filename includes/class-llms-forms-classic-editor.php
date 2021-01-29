@@ -12,6 +12,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Forms_Classic_Editor
+ *
+ * @since [version]
+ */
 class LLMS_Forms_Classic_Editor {
 
 	/**
