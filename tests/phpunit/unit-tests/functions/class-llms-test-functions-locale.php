@@ -23,8 +23,8 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 		$this->assertTrue( is_array( get_lifterlms_countries() ) );
 
 		// Spot check presence of countries.
-		$this->assertEquals( 'United States (US)', $countries['US'] );
-		$this->assertEquals( 'United Kingdom (UK)', $countries['GB'] );
+		$this->assertEquals( 'United States', $countries['US'] );
+		$this->assertEquals( 'United Kingdom', $countries['GB'] );
 		$this->assertEquals( 'Australia', $countries['AU'] );
 		$this->assertEquals( 'China', $countries['CN'] );
 		$this->assertEquals( 'Afghanistan', $countries['AF'] );
@@ -67,14 +67,14 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_llms_get_country_locale() {
+	public function test_llms_get_country_address_info() {
 
 		$this->assertEquals( array(
 			'state' => __( 'State', 'lifterlms' ),
 			'zip'   => __( 'ZIP code', 'lifterlms' ),
-		), llms_get_country_locale( 'US' ) );
+		), llms_get_country_address_info( 'US' ) );
 
-		$this->assertEquals( array(), llms_get_country_locale( 'FAKE' ) );
+		$this->assertEquals( array(), llms_get_country_address_info( 'FAKE' ) );
 
 	}
 
@@ -90,7 +90,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	public function test_llms_get_country_name() {
 
 		// test existing country definition
-		$this->assertEquals( 'United States (US)', llms_get_country_name( 'US' ) );
+		$this->assertEquals( 'United States', llms_get_country_name( 'US' ) );
 
 		// test non-existing country definition
 		$this->assertEquals( 'XX', llms_get_country_name( 'XX' ) );
@@ -102,7 +102,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 * @since 3.24.1
 	 * @since [version] Updated name when adding test for the base function
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_get_lifterlms_countries_filter_and_unique() {
 
