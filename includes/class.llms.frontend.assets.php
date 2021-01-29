@@ -225,7 +225,7 @@ class LLMS_Frontend_Assets {
 			llms()->assets->enqueue_script( 'llms-select2' );
 			llms()->assets->enqueue_inline(
 				'llms-countries-locale',
-				"window.llms.locale = '" . wp_json_encode( llms_get_countries_locale() ) . "';",
+				"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';",
 				'footer',
 				20
 			);
