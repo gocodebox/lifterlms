@@ -291,7 +291,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_submit_address_no_states() {
+	public function test_submit_address_no_zip() {
 
 		$args = array(
 			'email_address' => 'fake@mock.com',
@@ -318,7 +318,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_submit_address_no_zip() {
+	public function test_submit_address_no_states() {
 
 		$args = array(
 			'email_address' => 'fake@mock.com',
@@ -345,7 +345,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_submit_address_no_states_or_zip() {
+	public function test_submit_address_no_city_or_zip() {
 
 		$args = array(
 			'email_address' => 'fake@mock.com',
@@ -355,8 +355,8 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 			'first_name' => 'Jeffrey',
 			'last_name' => 'Lebowski',
 			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
-			'llms_billing_country' => 'AW', // Aruba.
+			'llms_billing_country' => 'NR',
+			'llms_billing_state' => '08',
 		);
 
 		$ret = $this->handler->submit( $args, 'checkout' );

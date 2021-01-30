@@ -186,19 +186,23 @@ class LLMS_Form_Handler {
 		}
 
 		$country = $posted_data['llms_billing_country'];
+		$info    = llms_get_country_address_info( $country );
 
-		// The state field exists in the form, it's not included in post data (or it's empty), and the country does not support states.
-		$index = LLMS_Forms::instance()->get_field_by( $fields, 'name', 'llms_billing_state', 'index' );
-		if ( false !== $index && empty( $posted_data['llms_billing_state'] ) && empty( llms_get_country_states( $country ) ) ) {
-			$fields[ $index ]['required'] = false;
-		}
+		// Fields to chek.
+		$check = array(
+			'llms_billing_city'  => 'city',
+			'llms_billing_state' => 'state',
+			'llms_billing_zip'   => 'postcode',
+		);
 
-		// The zip field exists in the form, it's not included in post data (or it's empty).
-		$index = LLMS_Forms::instance()->get_field_by( $fields, 'name', 'llms_billing_zip', 'index' );
-		if ( false !== $index && empty( $posted_data['llms_billing_zip'] ) ) {
-			$locale = llms_get_country_locale( $country );
-			// Zip must exist in the array and be explicitly set to false for it to be disabled.
-			$fields[ $index ]['required'] = isset( $locale['zip'] ) && false === $locale['zip'] ? false : $fields[ $index ]['required'];
+		foreach ( $check as $post_key => $info_key ) {
+
+			$index = LLMS_Forms::instance()->get_field_by( $fields, 'name', $post_key, 'index' );
+
+			// Field exists, no data was posted, and the field is disabled (is `false`) in the address info array.
+			if ( false !== $index && empty( $posted_data[ $post_key ] ) && ! $info[ $info_key ] ) {
+				$fields[ $index ]['required'] = false;
+			}
 		}
 
 	}

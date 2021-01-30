@@ -44,7 +44,7 @@ function llms_get_countries_address_info() {
  * @param string $code Country code.
  * @return array
  */
-function llms_get_country_adress_info( $code ) {
+function llms_get_country_address_info( $code ) {
 	$all = llms_get_countries_address_info();
 	return isset( $all[ $code ] ) ? $all[ $code ] : array();
 }
