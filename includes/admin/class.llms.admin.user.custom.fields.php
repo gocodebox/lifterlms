@@ -1,19 +1,19 @@
 <?php
 /**
- * Add Custom User Fields to user admin panel screens
- *
- * Applies to edit-user.php, user-new.php, & profile.php.
+ * LLMS_Admin_User_Custom_Fields class file
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version 3.37.15
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_User_Custom_Fields class.
+ * Add custom user fields to user admin panel screens
+ *
+ * Applies to edit-user.php, user-new.php, & profile.php.
  *
  * @since 2.7.0
  * @since 3.35.0 Sanitize input data.
@@ -28,6 +28,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Add personal options hook.
 	 *
 	 * @return void
 	 */
@@ -50,6 +51,9 @@ class LLMS_Admin_User_Custom_Fields {
 
 		// Save data when a new user is created.
 		add_action( 'edit_user_created_user', array( $this, 'save' ) );
+
+		// Add personal options.
+		add_action( 'personal_options', array( $this, 'output_personal_options' ) );
 
 	}
 
@@ -232,6 +236,39 @@ class LLMS_Admin_User_Custom_Fields {
 	}
 
 	/**
+	 * Output personal option fields
+	 *
+	 * Currently adds a single option row for controlling auto-save behavior on the course builder.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_User $user Viewed user object.
+	 * @return void
+	 */
+	public function output_personal_options( $user ) {
+
+		if ( ! user_can( $user, 'edit_courses' ) ) {
+			return;
+		}
+
+		$autosave = get_user_option( 'llms_builder_autosave', $user->ID );
+		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+
+		?>
+		<tr class="llms-builder-autosave llms-builder-autosave-wrap">
+			<th scope="row"><?php _e( 'Course Builder Autosave', 'lifterlms' ); ?></th>
+			<td>
+				<label for="llms_builder_autosave">
+					<input name="llms_builder_autosave" type="checkbox" id="llms_builder_autosave" value="yes"<?php checked( 'yes', $autosave ); ?>>
+					<?php _e( 'Automatically save changes when using the course builder', 'lifterlms' ); ?>
+				</label><br>
+			</td>
+		</tr>
+		<?php
+
+	}
+
+	/**
 	 * Add instructor parent fields for use when creating instructor's assistants
 	 *
 	 * @since 3.13.0
@@ -329,6 +366,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.13.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.15 Use strict comparisons.
+	 * @since [version] Save builder autosave personal options.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void
@@ -336,10 +374,16 @@ class LLMS_Admin_User_Custom_Fields {
 	public function save( $user ) {
 
 		if ( is_numeric( $user ) ) {
-			$user = new WP_User( $user );
+
+			// Numeric ID is passed in during creations.
+			$user   = new WP_User( $user );
+			$action = 'create';
+
 		} elseif ( isset( $user->ID ) ) {
+
 			// An object that's not a WP_User gets passed in during updates.
-			$user = new WP_User( $user->ID );
+			$user   = new WP_User( $user->ID );
+			$action = 'update';
 		}
 
 		// Saves custom fields.
@@ -355,6 +399,17 @@ class LLMS_Admin_User_Custom_Fields {
 
 			$instructor = llms_get_instructor( $user );
 			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
+
+		}
+
+		// Save personal options.
+		if ( user_can( $user, 'edit_courses' ) ) {
+			if ( 'create' === $action ) {
+				$autosave = 'yes';
+			} else {
+				$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
+			}
+			update_user_meta( $user->ID, 'llms_builder_autosave', $autosave );
 
 		}
 
