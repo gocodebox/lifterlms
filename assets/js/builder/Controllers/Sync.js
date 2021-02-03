@@ -1,8 +1,8 @@
 /**
  * Sync builder data to the server
  *
- * @since    3.16.0
- * @version  3.19.4
+ * @since 3.16.0
+ * @version [version]
  */
 define( [], function() {
 
@@ -11,7 +11,7 @@ define( [], function() {
 		this.saving = false;
 
 		var self              = this,
-			autosave          = true,
+			autosave          = ( 'yes' === window.llms_builder.autosave ),
 			check_interval    = null,
 			check_interval_ms = settings.check_interval_ms || 10000,
 			detached          = new Backbone.Collection(),
@@ -20,9 +20,9 @@ define( [], function() {
 		/**
 		 * init
 		 *
-		 * @return   void
-		 * @since    3.16.7
-		 * @version  3.16.7
+		 * @since 3.16.7
+		 *
+		 * @return void
 		 */
 		function init() {
 
@@ -658,13 +658,20 @@ define( [], function() {
 			|__/  |__/ \_______/ \_______/|__/         \___/  |_______/  \_______/ \_______/   \___/
 		*/
 
+
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.7
+		 * @since 3.16.0
+		 * @since 3.16.7 Unknown
+		 * @since [version] Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			// prevent simultaneous saves
 			if ( self.saving ) {
@@ -691,10 +698,15 @@ define( [], function() {
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since [version] Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			if ( ! data.llms_builder ) {
 				return;
@@ -714,10 +726,15 @@ define( [], function() {
 		/**
 		 * On heartbeat errors publish an error to the main builder application
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since [version] Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			window.llms_builder.debug.log( '==== start heartbeat-error ====', data, '==== finish heartbeat-error ====' );
 
