@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,12 +80,18 @@ class LLMS_Admin_Review {
 	 * AJAX callback for dismissing the notice
 	 *
 	 * @since 3.24.0
+	 * @since [version] Only users with `manager_lifterlms` caps can dismiss and added nonce verification.
+	 *              Use `llms_filter_input()` in favor of `filter_input()`.
 	 *
 	 * @return void
 	 */
 	public function dismiss() {
 
-		$success = llms_parse_bool( filter_input( INPUT_POST, 'success', FILTER_SANITIZE_STRING ) );
+		if ( ! current_user_can( 'manage_lifterlms' ) || ! llms_verify_nonce( 'nonce', 'llms-admin-review-request-dismiss' ) ) {
+			wp_die();
+		}
+
+		$success = llms_parse_bool( llms_filter_input( INPUT_POST, 'success', FILTER_SANITIZE_STRING ) );
 
 		update_option(
 			'llms_review',
@@ -96,7 +102,7 @@ class LLMS_Admin_Review {
 			)
 		);
 
-		die;
+		wp_die();
 
 	}
 
@@ -104,14 +110,17 @@ class LLMS_Admin_Review {
 	 * Determine if the notice should be displayed and display it
 	 *
 	 * @since 3.24.0
+	 * @since [version] Only show to users with `manage_lifterlms` instead of only admins.
+	 *               I
 	 *
-	 * @return void
+	 * @return null|false|void Returns `null` when there are permission issues, `false` when the notification is not set to be
+	 *                         displayed, and has no return when the notice is successfully displayed.
 	 */
 	public function maybe_show_notice() {
 
 		// Only show review request to admins.
-		if ( ! is_super_admin() ) {
-			return;
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return null;
 		}
 
 		// Verify that we can do a check for reviews.
@@ -122,27 +131,29 @@ class LLMS_Admin_Review {
 		// No review info stored, create a stub.
 		if ( ! $review ) {
 
-			$review = array(
-				'time'      => $time,
-				'dismissed' => false,
+			update_option(
+				'llms_review',
+				array(
+					'time'      => $time,
+					'dismissed' => false,
+				)
 			);
-			update_option( 'llms_review', $review );
+			return false;
 
-		} else {
+		}
 
-			// Review has not been dismissed and LifterLMS has been installed at least a week.
-			if ( ( isset( $review['dismissed'] ) && ! $review['dismissed'] ) && isset( $review['time'] ) && ( $review['time'] + WEEK_IN_SECONDS <= $time ) ) {
+		// Review has not been dismissed and LifterLMS has been installed at least a week.
+		if ( ( isset( $review['dismissed'] ) && ! $review['dismissed'] ) && isset( $review['time'] ) && ( $review['time'] + WEEK_IN_SECONDS <= $time ) ) {
 
-				// Show if there are more than 50 enrollments in the db.
-				global $wpdb;
-				$enrollments = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" );
+			// Show if there are more than 50 enrollments in the db.
+			global $wpdb;
+			$enrollments = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" ); // no-cache ok.
 
-			}
 		}
 
 		// Only load if we have 50 or more enrollments.
-		if ( $enrollments < 50 ) {
-			return;
+		if ( $enrollments < 30 ) {
+			return false;
 		}
 
 		$enrollments = self::round_down( $enrollments );
@@ -155,18 +166,19 @@ class LLMS_Admin_Review {
 	 * Round a number down to a big-ish round number
 	 *
 	 * @since 3.24.0
+	 * @since [version] Numbers less than 10 are not rounded & numbers less than 100 are rounded to the nearest 10.
 	 *
 	 * @param int $number Input number.
 	 * @return int
 	 */
 	public static function round_down( $number ) {
 
-		if ( $number < 50 ) {
+		if ( $number < 10 ) {
 			return $number;
 		}
 
 		if ( $number < 100 ) {
-			$number = 50;
+			$number = floor( $number / 10 ) * 10;
 		} elseif ( $number < 1000 ) {
 			$number = floor( $number / 100 ) * 100;
 		} elseif ( $number < 10000 ) {
