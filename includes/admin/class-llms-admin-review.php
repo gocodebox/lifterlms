@@ -1,8 +1,6 @@
 <?php
 /**
- * Admin Review
- *
- * Please say nice things about us.
+ * LLMS_Admin_Review class file
  *
  * @package LifterLMS/Admin/Classes
  *
@@ -13,7 +11,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Review class
+ * Admin review request
+ *
+ * Handles UI updates to the admin panel which request users to rate & review the
+ * LifterLMS plugin on WordPress.org.
+ *
+ * Please say nice things about us.
  *
  * @since 3.24.0
  */
@@ -22,8 +25,9 @@ class LLMS_Admin_Review {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -37,10 +41,10 @@ class LLMS_Admin_Review {
 	/**
 	 * On LifterLMS admin screens replace the default footer text with a review request
 	 *
-	 * @param   string $text default footer text
-	 * @return  string
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param string $text Default footer text.
+	 * @return string
 	 */
 	public function admin_footer( $text ) {
 
@@ -75,9 +79,9 @@ class LLMS_Admin_Review {
 	/**
 	 * AJAX callback for dismissing the notice
 	 *
-	 * @return  void
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return void
 	 */
 	public function dismiss() {
 
@@ -99,9 +103,9 @@ class LLMS_Admin_Review {
 	/**
 	 * Determine if the notice should be displayed and display it
 	 *
-	 * @return  void
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return void
 	 */
 	public function maybe_show_notice() {
 
@@ -150,10 +154,10 @@ class LLMS_Admin_Review {
 	/**
 	 * Round a number down to a big-ish round number
 	 *
-	 * @param   int $number input number
-	 * @return  int
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param int $number Input number.
+	 * @return int
 	 */
 	public static function round_down( $number ) {
 
