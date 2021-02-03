@@ -117,7 +117,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		/**
 		 * Retrieve a reference to the parent course of the section
 		 *
-		 * @since 3.16.0
+		 * @since [version]
 		 *
 		 * @return obj
 		 */
