@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
- * @version 3.37.8
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,12 +23,12 @@ class LLMS_Controller_Quizzes {
 	 *
 	 * @since 3.9.0
 	 * @since 3.37.8 Add reporting actions handler action.
+	 * @since [version] Remove `add_action()` for deprecated `take_quiz()` method.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'take_quiz' ) );
 		add_action( 'admin_init', array( $this, 'maybe_handle_reporting_actions' ) );
 
 	}
@@ -67,10 +67,13 @@ class LLMS_Controller_Quizzes {
 	 *
 	 * @since 1.0.0
 	 * @since 3.9.0 Unknown.
+	 * @deprecated [version] `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
 	 *
 	 * @return void
 	 */
 	public function take_quiz() {
+
+		_deprecated_function( 'LLMS_Controller_Quizzes::take_quiz()', '[version]', 'LLMS_AJAX_Handler::quiz_start()' );
 
 		// Invalid nonce or the form wasn't submitted.
 		if ( ! llms_verify_nonce( '_llms_take_quiz_nonce', 'take_quiz', 'POST' ) ) {
