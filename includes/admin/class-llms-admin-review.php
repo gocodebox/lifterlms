@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 4.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,7 +80,7 @@ class LLMS_Admin_Review {
 	 * AJAX callback for dismissing the notice
 	 *
 	 * @since 3.24.0
-	 * @since [version] Only users with `manager_lifterlms` caps can dismiss and added nonce verification.
+	 * @since 4.14.0 Only users with `manager_lifterlms` caps can dismiss and added nonce verification.
 	 *               Use `llms_filter_input()` in favor of `filter_input()`.
 	 *
 	 * @return void
@@ -110,7 +110,7 @@ class LLMS_Admin_Review {
 	 * Determine if the notice should be displayed and display it
 	 *
 	 * @since 3.24.0
-	 * @since [version] Only show to users with `manage_lifterlms` instead of only admins.
+	 * @since 4.14.0 Only show to users with `manage_lifterlms` instead of only admins.
 	 *
 	 * @return null|false|void Returns `null` when there are permission issues, `false` when the notification is not set to be
 	 *                         displayed, and has no return when the notice is successfully displayed.
@@ -165,7 +165,7 @@ class LLMS_Admin_Review {
 	 * Round a number down to a big-ish round number
 	 *
 	 * @since 3.24.0
-	 * @since [version] Numbers less than 10 are not rounded & numbers less than 100 are rounded to the nearest 10.
+	 * @since 4.14.0 Numbers less than 10 are not rounded & numbers less than 100 are rounded to the nearest 10.
 	 *
 	 * @param int $number Input number.
 	 * @return int

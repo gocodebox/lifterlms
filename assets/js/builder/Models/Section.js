@@ -2,7 +2,7 @@
  * Section Model
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.14.0
  */
 define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -117,7 +117,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		/**
 		 * Retrieve a reference to the parent course of the section
 		 *
-		 * @since [version]
+		 * @since 4.14.0
 		 *
 		 * @return {Object}
 		 */

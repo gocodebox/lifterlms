@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -73,7 +73,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * Defaults to enabled for users who have never configured a setting value.
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return string Either "yes" or "no".
 	 */
@@ -87,7 +87,7 @@ class LLMS_Admin_Builder {
 		 *
 		 * This can be configured on a per-user basis in the user's profile screen on the WP Admin Panel.
 		 *
-		 * @since [version]
+		 * @since 4.14.0
 		 *
 		 * @param string $autosave Status of autosave for the current user. Either "yes" or "no".
 		 */
@@ -532,7 +532,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Added builder autosave preference defaults.
+	 * @since 4.14.0 Added builder autosave preference defaults.
 	 *
 	 * @return void
 	 */

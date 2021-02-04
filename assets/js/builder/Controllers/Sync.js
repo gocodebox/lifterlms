@@ -2,7 +2,7 @@
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.14.0
  */
 define( [], function() {
 
@@ -664,7 +664,7 @@ define( [], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.16.7 Unknown
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
 
@@ -699,7 +699,7 @@ define( [], function() {
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
 		 *
 		 * @since 3.16.0
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
 
@@ -727,7 +727,7 @@ define( [], function() {
 		 * On heartbeat errors publish an error to the main builder application
 		 *
 		 * @since 3.16.0
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
 

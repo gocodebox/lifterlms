@@ -2,7 +2,7 @@
  * Lesson Model
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.14.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -108,7 +108,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * Retrieve a reference to the parent course of the lesson
 		 *
 		 * @since 3.16.0
-		 * @since [version] Use Section.get_course() in favor of Section.get_parent().
+		 * @since 4.14.0 Use Section.get_course() in favor of Section.get_parent().
 		 *
 		 * @return {Object}
 		 */

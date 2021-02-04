@@ -3706,7 +3706,7 @@ define( 'Schemas/Lesson',[], function() {
  * Lesson Model
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.14.0
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3812,7 +3812,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * Retrieve a reference to the parent course of the lesson
 		 *
 		 * @since 3.16.0
-		 * @since [version] Use Section.get_course() in favor of Section.get_parent().
+		 * @since 4.14.0 Use Section.get_course() in favor of Section.get_parent().
 		 *
 		 * @return {Object}
 		 */
@@ -4162,7 +4162,7 @@ define( 'Collections/QuestionTypes',[ 'Models/QuestionType' ], function( model )
  * Section Model
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.14.0
  */
 define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -4277,7 +4277,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 		/**
 		 * Retrieve a reference to the parent course of the section
 		 *
-		 * @since [version]
+		 * @since 4.14.0
 		 *
 		 * @return {Object}
 		 */
@@ -6159,7 +6159,7 @@ define( 'Controllers/Schemas',[], function() {
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.14.0
  */
 define( 'Controllers/Sync',[], function() {
 
@@ -6821,7 +6821,7 @@ define( 'Controllers/Sync',[], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.16.7 Unknown
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
 
@@ -6856,7 +6856,7 @@ define( 'Controllers/Sync',[], function() {
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
 		 *
 		 * @since 3.16.0
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
 
@@ -6884,7 +6884,7 @@ define( 'Controllers/Sync',[], function() {
 		 * On heartbeat errors publish an error to the main builder application
 		 *
 		 * @since 3.16.0
-		 * @since [version] Return early when autosaving is disabled.
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
 

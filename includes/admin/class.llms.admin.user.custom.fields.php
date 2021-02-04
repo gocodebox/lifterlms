@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version [version]
+ * @version 4.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Add personal options hook.
+	 * @since 4.14.0 Add personal options hook.
 	 *
 	 * @return void
 	 */
@@ -240,7 +240,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * Currently adds a single option row for controlling auto-save behavior on the course builder.
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @param WP_User $user Viewed user object.
 	 * @return void
@@ -366,7 +366,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.13.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.15 Use strict comparisons.
-	 * @since [version] Save builder autosave personal options.
+	 * @since 4.14.0 Save builder autosave personal options.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void

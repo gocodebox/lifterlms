@@ -14,7 +14,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Setup test class
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 3.24.0
-	 * @since [version] Move file include into setUpBeforeClass().
+	 * @since 4.14.0 Move file include into setUpBeforeClass().
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test admin_footer() when it's not supposed to display
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test admin_footer() when it's supposed to display
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test dismiss() for a logged out user with no nonce
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test dismiss() for a valid user with no nonce
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test dismiss() when the user goes to wp.org
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -139,7 +139,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test dismiss() when the user ignores/dismissed
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_show_notice() when logged out.
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -179,7 +179,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_show_notice() on its first run
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -200,7 +200,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_show_notice()
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -238,7 +238,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_show_notice() when the notice would display (assuming there were enough enrollments)
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Test round_down().
 	 *
 	 * @since 3.24.0
-	 * @since [version] Use a loop.
+	 * @since 4.14.0 Use a loop.
 	 *
 	 * @return void
 	 */
