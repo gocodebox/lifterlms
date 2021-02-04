@@ -119,7 +119,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 *
 		 * @since [version]
 		 *
-		 * @return obj
+		 * @return {Object}
 		 */
 		get_course: function() {
 

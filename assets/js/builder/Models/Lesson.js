@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  *
- * @since  3.13.0
+ * @since 3.13.0
  * @version [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
@@ -110,7 +110,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * @since 3.16.0
 		 * @since [version] Use Section.get_course() in favor of Section.get_parent().
 		 *
-		 * @return obj
+		 * @return {Object}
 		 */
 		get_course: function() {
 			return this.get_parent().get_course();
