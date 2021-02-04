@@ -22,7 +22,7 @@ define( [], function() {
 		 *
 		 * @since 3.16.7
 		 *
-		 * @return void
+		 * @return {Void}
 		 */
 		function init() {
 

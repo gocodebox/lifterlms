@@ -403,14 +403,9 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		// Save personal options.
-		if ( user_can( $user, 'edit_courses' ) ) {
-			if ( 'create' === $action ) {
-				$autosave = 'yes';
-			} else {
-				$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
-			}
+		if ( user_can( $user, 'edit_courses' ) && 'create' !== $action ) {
+			$autosave = empty( $_POST['llms_builder_autosave'] ) ? 'no' : 'yes';
 			update_user_meta( $user->ID, 'llms_builder_autosave', $autosave );
-
 		}
 
 	}
