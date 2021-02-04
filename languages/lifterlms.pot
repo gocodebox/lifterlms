@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.13.0\n"
+"Project-Id-Version: LifterLMS 4.14.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-01-26T11:35:34-07:00\n"
+"POT-Creation-Date: 2021-02-04T14:44:50-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -1666,7 +1666,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.students.php:651
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:109
 #: includes/admin/settings/class.llms.settings.memberships.php:32
-#: includes/admin/views/access-plans/access-plan.php:242
+#: includes/admin/views/access-plans/access-plan.php:276
 #: includes/class.llms.post-types.php:552
 #: includes/integrations/class.llms.integration.buddypress.php:95
 #: templates/admin/analytics/analytics.php:109
@@ -1921,7 +1921,7 @@ msgid "A password input field."
 msgstr ""
 
 #: assets/js/llms-blocks.js:16203
-#: includes/admin/class.llms.admin.user.custom.fields.php:162
+#: includes/admin/class.llms.admin.user.custom.fields.php:166
 #: includes/admin/reporting/tables/llms.table.students.php:686
 #: includes/privacy/class-llms-privacy.php:125
 #: includes/privacy/class-llms-privacy.php:238
@@ -2455,7 +2455,7 @@ msgstr ""
 
 #: assets/js/llms-blocks.js:21139
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:92
-#: includes/admin/views/access-plans/access-plan.php:90
+#: includes/admin/views/access-plans/access-plan.php:102
 msgid "Visibility"
 msgstr ""
 
@@ -2892,7 +2892,7 @@ msgid "Cheatin&#8217; huh?"
 msgstr ""
 
 #. Translators: %1$s = LifterLMS plugin name; %2$s = WP.org review link; %3$s = WP.org review link.
-#: includes/admin/class-llms-admin-review.php:55
+#: includes/admin/class-llms-admin-review.php:59
 msgid "Please rate %1$s <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%3$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!"
 msgstr ""
 
@@ -3017,66 +3017,66 @@ msgid "Dashboard"
 msgstr ""
 
 #. Translators: %s = Theme name.
-#: includes/admin/class.llms.admin.builder.php:108
+#: includes/admin/class.llms.admin.builder.php:135
 msgid "%s Theme Settings"
 msgstr ""
 
 #. Translators: %1$s = Lesson title; %2$d = Lesson id.
-#: includes/admin/class.llms.admin.builder.php:215
+#: includes/admin/class.llms.admin.builder.php:242
 msgid "Lesson: %1$s (#%2$d)"
 msgstr ""
 
 #. Translators: %1$s = Course title; %2$d - Course id.
-#: includes/admin/class.llms.admin.builder.php:219
+#: includes/admin/class.llms.admin.builder.php:246
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:416
+#: includes/admin/class.llms.admin.builder.php:443
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:423
+#: includes/admin/class.llms.admin.builder.php:450
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:428
+#: includes/admin/class.llms.admin.builder.php:455
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:516
+#: includes/admin/class.llms.admin.builder.php:545
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:525
+#: includes/admin/class.llms.admin.builder.php:554
 msgid "You cannot edit this course!"
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:621
+#: includes/admin/class.llms.admin.builder.php:651
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:701
+#: includes/admin/class.llms.admin.builder.php:731
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:781
+#: includes/admin/class.llms.admin.builder.php:811
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:819
+#: includes/admin/class.llms.admin.builder.php:849
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. Translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:843
+#: includes/admin/class.llms.admin.builder.php:873
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:974
+#: includes/admin/class.llms.admin.builder.php:1004
 #: includes/admin/views/builder/elements.php:22
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:360
@@ -3086,27 +3086,27 @@ msgid "New Lesson"
 msgstr ""
 
 #. Translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:998
+#: includes/admin/class.llms.admin.builder.php:1028
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. Translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1097
+#: includes/admin/class.llms.admin.builder.php:1127
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1136
+#: includes/admin/class.llms.admin.builder.php:1166
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. Translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1196
+#: includes/admin/class.llms.admin.builder.php:1226
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. Translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1275
+#: includes/admin/class.llms.admin.builder.php:1305
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -3530,56 +3530,64 @@ msgstr ""
 msgid "Get Help"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:114
+#: includes/admin/class.llms.admin.user.custom.fields.php:118
 #: includes/admin/reporting/tables/llms.table.students.php:656
 #: includes/privacy/class-llms-privacy.php:119
 #: includes/privacy/class-llms-privacy.php:232
 msgid "Billing Address 1"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:122
+#: includes/admin/class.llms.admin.user.custom.fields.php:126
 #: includes/admin/reporting/tables/llms.table.students.php:661
 #: includes/privacy/class-llms-privacy.php:120
 #: includes/privacy/class-llms-privacy.php:233
 msgid "Billing Address 2"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:130
+#: includes/admin/class.llms.admin.user.custom.fields.php:134
 #: includes/admin/reporting/tables/llms.table.students.php:666
 #: includes/privacy/class-llms-privacy.php:121
 #: includes/privacy/class-llms-privacy.php:234
 msgid "Billing City"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:138
+#: includes/admin/class.llms.admin.user.custom.fields.php:142
 #: includes/admin/reporting/tables/llms.table.students.php:671
 #: includes/privacy/class-llms-privacy.php:122
 #: includes/privacy/class-llms-privacy.php:235
 msgid "Billing State"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:146
+#: includes/admin/class.llms.admin.user.custom.fields.php:150
 #: includes/privacy/class-llms-privacy.php:123
 #: includes/privacy/class-llms-privacy.php:236
 msgid "Billing Zip Code"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:154
+#: includes/admin/class.llms.admin.user.custom.fields.php:158
 #: includes/admin/reporting/tables/llms.table.students.php:681
 #: includes/privacy/class-llms-privacy.php:124
 #: includes/privacy/class-llms-privacy.php:237
 msgid "Billing Country"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:227
+#: includes/admin/class.llms.admin.user.custom.fields.php:231
 msgid "LifterLMS Profile"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:269
+#: includes/admin/class.llms.admin.user.custom.fields.php:259
+msgid "Course Builder Autosave"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:263
+msgid "Automatically save changes when using the course builder"
+msgstr ""
+
+#: includes/admin/class.llms.admin.user.custom.fields.php:306
 msgid "Parent Instructor(s)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:384
+#: includes/admin/class.llms.admin.user.custom.fields.php:434
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
@@ -3991,7 +3999,7 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.accounts.php:314
 #: includes/admin/settings/class.llms.settings.courses.php:95
 #: includes/admin/settings/class.llms.settings.memberships.php:102
-#: includes/admin/views/access-plans/access-plan.php:373
+#: includes/admin/views/access-plans/access-plan.php:458
 msgid "Select a page"
 msgstr ""
 
@@ -6192,29 +6200,29 @@ msgstr ""
 msgid "Reset Automatic Payments Status"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:50
+#: includes/admin/views/access-plans/access-plan.php:51
 msgid "Unnamed Access Plan"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:51
+#: includes/admin/views/access-plans/access-plan.php:52
 msgctxt "Product Access Plan ID"
 msgid "ID# %s"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:52
+#: includes/admin/views/access-plans/access-plan.php:53
 msgid "Purchase Link"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:54
+#: includes/admin/views/access-plans/access-plan.php:55
 #: includes/class.llms.post-types.php:1007
 msgid "New Access Plan"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:58
+#: includes/admin/views/access-plans/access-plan.php:59
 msgid "Errors were found during access plan validation"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:75
+#: includes/admin/views/access-plans/access-plan.php:87
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:153
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:153
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:108
@@ -6222,235 +6230,235 @@ msgstr ""
 msgid "Plan Title"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:80
+#: includes/admin/views/access-plans/access-plan.php:92
 msgid "Plan SKU"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:85
+#: includes/admin/views/access-plans/access-plan.php:97
 msgid "Enroll Text"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:86
+#: includes/admin/views/access-plans/access-plan.php:98
 msgid "Enroll, Join, Buy..."
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:99
+#: includes/admin/views/access-plans/access-plan.php:111
 msgid "Is Free"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:101
+#: includes/admin/views/access-plans/access-plan.php:113
 msgid "No payment required"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:113
+#: includes/admin/views/access-plans/access-plan.php:136
 msgid "Price"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:118
+#: includes/admin/views/access-plans/access-plan.php:141
 msgid "Frequency"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:120
+#: includes/admin/views/access-plans/access-plan.php:143
 msgid "one-time payment"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:121
+#: includes/admin/views/access-plans/access-plan.php:144
 msgid "every"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:122
+#: includes/admin/views/access-plans/access-plan.php:145
 msgid "every 2nd"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:123
+#: includes/admin/views/access-plans/access-plan.php:146
 msgid "every 3rd"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:124
+#: includes/admin/views/access-plans/access-plan.php:147
 msgid "every 4th"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:125
+#: includes/admin/views/access-plans/access-plan.php:148
 msgid "every 5th"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:126
+#: includes/admin/views/access-plans/access-plan.php:149
 msgid "every 6th"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:135
+#: includes/admin/views/access-plans/access-plan.php:158
 msgid "Plan Period"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:137
+#: includes/admin/views/access-plans/access-plan.php:160
 #: includes/llms.functions.core.php:309
 msgid "year"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:138
+#: includes/admin/views/access-plans/access-plan.php:161
 #: includes/llms.functions.core.php:310
 msgid "month"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:139
+#: includes/admin/views/access-plans/access-plan.php:162
 msgid "week"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:140
+#: includes/admin/views/access-plans/access-plan.php:163
 #: includes/llms.functions.core.php:311
 msgid "day"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:145
+#: includes/admin/views/access-plans/access-plan.php:168
 msgid "Plan Length"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:147
-#: includes/admin/views/access-plans/access-plan.php:157
-#: includes/admin/views/access-plans/access-plan.php:167
-#: includes/admin/views/access-plans/access-plan.php:177
+#: includes/admin/views/access-plans/access-plan.php:170
+#: includes/admin/views/access-plans/access-plan.php:180
+#: includes/admin/views/access-plans/access-plan.php:190
+#: includes/admin/views/access-plans/access-plan.php:200
 msgid "for all time"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:149
+#: includes/admin/views/access-plans/access-plan.php:172
 msgid "for %s year"
 msgid_plural "for %s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/access-plans/access-plan.php:159
+#: includes/admin/views/access-plans/access-plan.php:182
 msgid "for %s month"
 msgid_plural "for %s months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/access-plans/access-plan.php:169
+#: includes/admin/views/access-plans/access-plan.php:192
 msgid "for %s week"
 msgid_plural "for %s weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/access-plans/access-plan.php:179
+#: includes/admin/views/access-plans/access-plan.php:202
 msgid "for %s day"
 msgid_plural "for %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/access-plans/access-plan.php:199
+#: includes/admin/views/access-plans/access-plan.php:233
 #: includes/admin/views/metaboxes/view-order-submit.php:81
 msgid "Access Expiration"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:201
+#: includes/admin/views/access-plans/access-plan.php:235
 #: includes/models/model.llms.order.php:493
 msgid "Lifetime Access"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:202
+#: includes/admin/views/access-plans/access-plan.php:236
 msgid "Expires after"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:203
+#: includes/admin/views/access-plans/access-plan.php:237
 msgid "Expires on"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:220
-#: includes/admin/views/access-plans/access-plan.php:283
+#: includes/admin/views/access-plans/access-plan.php:254
+#: includes/admin/views/access-plans/access-plan.php:328
 msgid "year(s)"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:221
-#: includes/admin/views/access-plans/access-plan.php:284
+#: includes/admin/views/access-plans/access-plan.php:255
+#: includes/admin/views/access-plans/access-plan.php:329
 msgid "month(s)"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:222
-#: includes/admin/views/access-plans/access-plan.php:285
+#: includes/admin/views/access-plans/access-plan.php:256
+#: includes/admin/views/access-plans/access-plan.php:330
 msgid "week(s)"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:223
-#: includes/admin/views/access-plans/access-plan.php:286
+#: includes/admin/views/access-plans/access-plan.php:257
+#: includes/admin/views/access-plans/access-plan.php:331
 msgid "day(s)"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:234
+#: includes/admin/views/access-plans/access-plan.php:268
 msgid "Plan Availability"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:236
+#: includes/admin/views/access-plans/access-plan.php:270
 msgid "Anyone"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:237
+#: includes/admin/views/access-plans/access-plan.php:271
 msgid "Members only"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:246
+#: includes/admin/views/access-plans/access-plan.php:280
 msgid "ID# %d"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:263
+#: includes/admin/views/access-plans/access-plan.php:308
 msgid "Trial Offer"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:265
+#: includes/admin/views/access-plans/access-plan.php:310
 msgid "No trial offer"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:266
+#: includes/admin/views/access-plans/access-plan.php:311
 msgid "Enable trial"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:271
+#: includes/admin/views/access-plans/access-plan.php:316
 msgid "Trial Price"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:276
+#: includes/admin/views/access-plans/access-plan.php:321
 msgid "Trial Length"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:297
+#: includes/admin/views/access-plans/access-plan.php:353
 msgid "Sale Pricing"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:299
+#: includes/admin/views/access-plans/access-plan.php:355
 msgid "Not on sale"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:300
+#: includes/admin/views/access-plans/access-plan.php:356
 msgid "On Sale"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:305
+#: includes/admin/views/access-plans/access-plan.php:361
 msgid "Sale Price"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:310
+#: includes/admin/views/access-plans/access-plan.php:366
 msgid "Sale Start Date"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:315
+#: includes/admin/views/access-plans/access-plan.php:371
 msgid "Sale End Date"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:325
+#: includes/admin/views/access-plans/access-plan.php:392
 msgid "Plan Description"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:353
+#: includes/admin/views/access-plans/access-plan.php:438
 msgid "Override Membership Redirects"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:355
+#: includes/admin/views/access-plans/access-plan.php:440
 msgid "Any redirection set up on the Membership Access Plans will be overridden by the following settings."
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:359
+#: includes/admin/views/access-plans/access-plan.php:444
 msgid "Checkout redirect"
 msgstr ""
 
-#: includes/admin/views/access-plans/access-plan.php:384
+#: includes/admin/views/access-plans/access-plan.php:469
 msgid "Enter a URL"
 msgstr ""
 
@@ -6876,27 +6884,27 @@ msgid "Update Order"
 msgstr ""
 
 #. Translators: %s = number of active students.
-#: includes/admin/views/notices/review-request.php:16
+#: includes/admin/views/notices/review-request.php:19
 msgid "Hey there, we noticed you have more than %s active students on your site - that’s really awesome!"
 msgstr ""
 
-#: includes/admin/views/notices/review-request.php:17
+#: includes/admin/views/notices/review-request.php:20
 msgid "Could you please do us a BIG favor and give LifterLMS a 5-star rating on WordPress to help us grow?"
 msgstr ""
 
-#: includes/admin/views/notices/review-request.php:18
+#: includes/admin/views/notices/review-request.php:21
 msgid "Chris Badgett & Thomas Patrick Levy, Co-Founders of LifterLMS"
 msgstr ""
 
-#: includes/admin/views/notices/review-request.php:20
+#: includes/admin/views/notices/review-request.php:23
 msgid "Ok, you deserve it"
 msgstr ""
 
-#: includes/admin/views/notices/review-request.php:21
+#: includes/admin/views/notices/review-request.php:24
 msgid "Nope, maybe later"
 msgstr ""
 
-#: includes/admin/views/notices/review-request.php:22
+#: includes/admin/views/notices/review-request.php:25
 msgid "I already did"
 msgstr ""
 
@@ -9524,7 +9532,7 @@ msgstr ""
 msgid "An invalid payment method was selected."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.quizzes.php:82
+#: includes/controllers/class.llms.controller.quizzes.php:85
 msgid "Could not proceed to the quiz because required information was missing."
 msgstr ""
 
