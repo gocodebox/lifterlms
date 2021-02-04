@@ -7,8 +7,8 @@
  * @package LifterLMS/Admin/Views
  *
  * @since 3.24.0
- * @version [version] Added nonce to AJAX request.
- * @version 3.24.0
+ * @since [version] Added nonce to AJAX request.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

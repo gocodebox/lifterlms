@@ -81,7 +81,7 @@ class LLMS_Admin_Review {
 	 *
 	 * @since 3.24.0
 	 * @since [version] Only users with `manager_lifterlms` caps can dismiss and added nonce verification.
-	 *              Use `llms_filter_input()` in favor of `filter_input()`.
+	 *               Use `llms_filter_input()` in favor of `filter_input()`.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,6 @@ class LLMS_Admin_Review {
 	 *
 	 * @since 3.24.0
 	 * @since [version] Only show to users with `manage_lifterlms` instead of only admins.
-	 *               I
 	 *
 	 * @return null|false|void Returns `null` when there are permission issues, `false` when the notification is not set to be
 	 *                         displayed, and has no return when the notice is successfully displayed.
@@ -145,13 +144,13 @@ class LLMS_Admin_Review {
 		// Review has not been dismissed and LifterLMS has been installed at least a week.
 		if ( ( isset( $review['dismissed'] ) && ! $review['dismissed'] ) && isset( $review['time'] ) && ( $review['time'] + WEEK_IN_SECONDS <= $time ) ) {
 
-			// Show if there are more than 50 enrollments in the db.
+			// Show if the enrollments threshold is reached.
 			global $wpdb;
 			$enrollments = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" ); // no-cache ok.
 
 		}
 
-		// Only load if we have 50 or more enrollments.
+		// Only load if we have 30 or more enrollments.
 		if ( $enrollments < 30 ) {
 			return false;
 		}

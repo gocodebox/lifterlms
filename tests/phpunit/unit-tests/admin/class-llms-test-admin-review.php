@@ -28,7 +28,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 3.24.0
 	 * @since [version] Move file include into setUpBeforeClass().
 	 *
 	 * @return void
@@ -177,7 +177,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_show_notice() on it's first run
+	 * Test maybe_show_notice() on its first run
 	 *
 	 * @since [version]
 	 *
