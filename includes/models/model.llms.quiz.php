@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -297,14 +297,14 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Retrieve lessons this quiz is assigned to.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
+	 * @deprecated 4.14.0 Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
 	 *
 	 * @param string $return Optional. Format of the return [ids|lessons]. Default `'ids'`.
 	 * @return array Array of WP_Post IDs (lesson post types).
 	 */
 	public function get_lessons( $return = 'ids' ) {
 
-		_deprecated_function( 'LLMS_Quiz::get_lessons()', '[version]' );
+		_deprecated_function( 'LLMS_Quiz::get_lessons()', '4.14.0' );
 
 		global $wpdb;
 		$query = $wpdb->get_col(

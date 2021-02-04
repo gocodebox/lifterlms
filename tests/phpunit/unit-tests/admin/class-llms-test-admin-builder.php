@@ -26,7 +26,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_autosave_states()
 	 *
-	 * @since [version]
+	 * @since 4.14.0
 	 *
 	 * @return void
 	 */
