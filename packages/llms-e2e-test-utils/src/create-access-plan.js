@@ -11,7 +11,8 @@ import {
 /**
  * Create and publish a new course
  *
- * @since 3.39.0
+ * @since 2.0.0
+ * @since [version] Use `waitForSelector()`` in favor of `waitFor()`.
  *
  * @param {Object} args {
  *     Creation arguments.
@@ -30,9 +31,8 @@ export async function createAccessPlan( { postId = null, price = 0.00, title = '
 
 	await click( '#llms-new-access-plan' );
 
-	await page.waitFor( 500 );
-
 	const selector = '#llms-access-plans .llms-access-plan';
+	await page.waitForSelector( selector );
 
 	await fillField( `${ selector }:last-child input.llms-plan-title`, title );
 
