@@ -1,8 +1,8 @@
 /**
  * Section Model
  *
- * @since    3.16.0
- * @version  3.16.12
+ * @since 3.16.0
+ * @version [version]
  */
 define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -112,6 +112,24 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 */
 		get_next: function( circular ) {
 			return this._get_sibling( 'next', circular );
+		},
+
+		/**
+		 * Retrieve a reference to the parent course of the section
+		 *
+		 * @since [version]
+		 *
+		 * @return {Object}
+		 */
+		get_course: function() {
+
+			// When working with an unsaved draft course the parent isn't properly set on the creation of a section.
+			if ( ! this.get_parent() ) {
+				this.set_parent( window.llms_builder.CourseModel );
+			}
+
+			return this.get_parent();
+
 		},
 
 		/**
