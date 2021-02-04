@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v4.14.0 - 2021-02-04
+--------------------
+
+##### Updates
+
++ Added a user preference option allowing users to opt-out of the course builder's autosave functionality. [More information](https://lifterlms.com/docs/using-course-builder/#manual-saving).
++ 5-star review request displayed at 30 enrollments instead of 50.
+
+##### Bug fixes
+
++ Fixed an issue encountered when using shortcodes in the description of an access plan.
++ Fixed an issue encountered when editing auto-draft courses on the course builder.
+
+##### Deprecations
+
++ `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
++ Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
+
+
 v4.13.0 - 2021-01-26
 --------------------
 
