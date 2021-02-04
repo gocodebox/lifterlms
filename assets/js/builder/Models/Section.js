@@ -123,10 +123,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 */
 		get_course: function() {
 
-			var parent = this.get_parent();
-
 			// When working with an unsaved draft course the parent isn't properly set on the creation of a section.
-			if ( ! parent ) {
+			if ( ! this.get_parent() ) {
 				this.set_parent( window.llms_builder.CourseModel );
 			}
 
