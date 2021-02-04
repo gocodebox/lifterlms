@@ -1,11 +1,14 @@
 <?php
 /**
  * Review Request
+ *
  * We're needy. Please tell us you like us, it means a lot.
  *
  * @package LifterLMS/Admin/Views
- * @since   3.24.0
- * @version 3.24.0
+ *
+ * @since 3.24.0
+ * @since [version] Added nonce to AJAX request.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
 	<p>&ndash; <?php esc_html_e( 'Chris Badgett & Thomas Patrick Levy, Co-Founders of LifterLMS', 'lifterlms' ); ?></p>
 	<p>
 		<a href="https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5#new-post" class="button-primary llms-review-notice-dismiss llms-review-notice-out" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Ok, you deserve it', 'lifterlms' ); ?></a>
-		<a href="#" class="button llms-review-notice-dismiss"><?php esc_html_e( 'Nope, maybe later', 'lifterlms' ); ?></a>
-		<a href="#" class="button llms-review-notice-dismiss"><?php esc_html_e( 'I already did', 'lifterlms' ); ?></a>
+		<button class="button llms-review-notice-dismiss"><?php esc_html_e( 'Nope, maybe later', 'lifterlms' ); ?></button>
+		<button class="button llms-review-notice-dismiss"><?php esc_html_e( 'I already did', 'lifterlms' ); ?></button>
 	</p>
 </div>
 <script>
@@ -33,6 +36,7 @@ defined( 'ABSPATH' ) || exit;
 			$.post( ajaxurl, {
 				action: 'llms_review_dismiss',
 				success: success,
+				nonce: '<?php echo wp_create_nonce( 'llms-admin-review-request-dismiss' ); ?>',
 			} );
 			$( '.llms-review-notice' ).remove();
 		} );
