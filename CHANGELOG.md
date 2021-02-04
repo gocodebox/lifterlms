@@ -4,6 +4,8 @@ LifterLMS Changelog
 v4.14.0 - 2021-02-04
 --------------------
 
+**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
 ##### Updates
 
 + Added a user preference option allowing users to opt-out of the course builder's autosave functionality. [More information](https://lifterlms.com/docs/using-course-builder/#manual-saving).
@@ -22,8 +24,6 @@ v4.14.0 - 2021-02-04
 
 v4.13.0 - 2021-01-26
 --------------------
-
-**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
 
 ##### Updates
 
