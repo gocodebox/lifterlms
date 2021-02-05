@@ -64,7 +64,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 			)
 		);
 		foreach ( $access_plan_ids as $access_plan_id ) {
-			update_post_meta( $access_plan_id, '_llms_product_id', 999 );
+			update_post_meta( $access_plan_id, '_llms_product_id', end( $access_plan_ids ) + 1 );
 		}
 
 		$this->assertEquals(
@@ -114,7 +114,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 			)
 		);
 		foreach ( $orphan_access_plan_ids as $access_plan_id ) {
-			update_post_meta( $access_plan_id, '_llms_product_id', 999 );
+			update_post_meta( $access_plan_id, '_llms_product_id', end( $orphan_access_plan_ids ) + 1 );
 		}
 
 		// Create linked access plans.

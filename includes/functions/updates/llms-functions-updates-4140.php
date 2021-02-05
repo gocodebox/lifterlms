@@ -30,9 +30,9 @@ function llms_update_4140_remove_orphan_access_plans() {
 
 	$orphan_access_plans = $wpdb->get_col(
 		$wpdb->prepare(
-			"SELECT pm.post_id as apid
+			"SELECT pm.post_id AS apid
 			FROM {$wpdb->postmeta} AS pm
-			LEFT JOIN {$wpdb->posts} as p
+			LEFT JOIN {$wpdb->posts} AS p
 			ON pm.meta_value = p.ID
 			WHERE pm.meta_key = '_llms_product_id'
 			AND p.ID IS NULL
