@@ -167,9 +167,14 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 		$courses = isset( $this->auto_enroll ) ? $this->get( 'auto_enroll' ) : array();
 
 		// Exclude unpublished courses.
-		$courses = array_values( array_filter( $courses, function( $id ) {
-			return 'publish' === get_post_status( $id );
-		} ) );
+		$courses = array_values(
+			array_filter(
+				$courses,
+				function( $id ) {
+					return 'publish' === get_post_status( $id );
+				}
+			)
+		);
 
 		/**
 		 * Filters the list of the membership's auto enroll courses
@@ -275,7 +280,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	/**
 	 * Get an array of student IDs based on enrollment status in the membership
 	 *
-	 * @since    3.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string|string[] $statuses List of enrollment statuses to query by status query is an OR relationship.
 	 * @param int             $limit Number of results.
@@ -283,9 +288,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
-
 	}
 
 	/**
