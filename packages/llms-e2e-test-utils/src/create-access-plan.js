@@ -12,7 +12,7 @@ import {
  * Create and publish a new course
  *
  * @since 2.0.0
- * @since [version] Use `waitForSelector()`` in favor of `waitFor()`.
+ * @since 2.2.2 Use `waitForSelector()`` in favor of `waitFor()`.
  *
  * @param {Object} args {
  *     Creation arguments.

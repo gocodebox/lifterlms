@@ -2,7 +2,7 @@
  * Click an elements by selector
  *
  * @since 2.0.0
- * @since [version] Always waitForSelector before clicking the element.
+ * @since 2.2.2 Always waitForSelector before clicking the element.
  *
  * @param {String} selector Element selector string.
  * @return {Void}

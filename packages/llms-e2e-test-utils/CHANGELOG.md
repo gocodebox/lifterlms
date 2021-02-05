@@ -1,6 +1,13 @@
 LifterLMS E2E Test Utils CHANGELOG
 ==================================
 
+v2.2.2 - 2021-02-04
+-------------------
+
++ `click()` now always uses `waitForSelector()`. before clicking the element.
++ Use `waitForSelector()` in favor of `waitFor()` when creating access plans.
+
+
 v2.2.1 - 2021-01-19
 -------------------
 
