@@ -253,6 +253,21 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_product()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_product() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		$this->assertInstanceOf( 'LLMS_Product', $membership->get_product() );
+
+	}
+
+	/**
 	 * Test LLMS_Membership->get_tags() method.
 	 *
 	 * @since 3.36.3
