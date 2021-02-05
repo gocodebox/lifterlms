@@ -5,7 +5,8 @@
  * @group post_relationships
  *
  * @since 3.16.12
- * @since 3.37.8 Add tests to remove quiz attempts upon quiz deletion.
+ * @since 3.37.8 Added tests to remove quiz attempts upon quiz deletion.
+ * @since [version] Added tests on access plans deletion upon quiz deletion.
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -16,7 +17,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 * 		   And the has_prereq metavalue should be unset returning "no"
 	 * 		B) Any quiz attached to this lesson should be detached (making it an orphan)
 	 *
-	 * @version  3.16.12
+	 * @since 3.16.12
 	 * @return void
 	 */
 	private function delete_lesson() {
@@ -24,7 +25,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 		$courses = $this->generate_mock_courses( 1, 1, 4, 3, 1 );
 		$lessons = llms_get_post( $courses[0] )->get_lessons();
 
-		// add prereqs to all the lessons except the first
+		// add prereqs to all the lessons except the first.
 		foreach ( $lessons as $i => $lesson ) {
 
 			if ( 0 === $i ) {
@@ -38,14 +39,14 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
 		}
 
-		// delete posts and run tests
+		// Delete posts and run tests.
 		foreach ( $lessons as $i => $lesson ) {
 
 			$quiz = $lesson->get_quiz();
 
 			wp_delete_post( $lesson->get( 'id' ) );
 
-			// quizzes attached to the lesson should now be orphaned
+			// Quizzes attached to the lesson should now be orphaned.
 			if ( $quiz ) {
 				$this->assertTrue( $quiz->is_orphan() );
 			}
@@ -55,7 +56,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 			}
 			$next = $lessons[ $i + 1 ];
 
-			// prereqs should be removed
+			// Prereqs should be removed.
 			$this->assertEquals( 'no', $next->get( 'has_prerequisite' ) );
 			$this->assertEquals( 0, $next->get( 'prerequisite' ) );
 			$this->assertFalse( $next->has_prerequisite() );
@@ -66,7 +67,8 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
 	/**
 	 * When a quiz is deleted, all the child questions should be deleted too
-	 * Lesson should switch quiz_enabled to "no"
+	 *
+	 * Lesson should switch quiz_enabled to "no".
 	 *
 	 * All student attempts for the quiz should be deleted.
 	 *
@@ -115,22 +117,87 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * When a product is deleted all the related access plans should be deleted
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function delete_product() {
+
+		$product_types = array(
+			'course',
+			'llms_membership',
+		);
+
+		foreach ( $product_types as $product_type ) {
+
+			// Create product.
+			$product_id  = $this->factory->post->create( array( 'post_type' => $product_type ) );
+			$title       = sprintf( 'Access plan for %1$s', $product_id );
+
+			// Create access plan and assign the related product to it.
+			$access_plan    = llms_insert_access_plan( compact( 'product_id', 'title' ) );
+			$access_plan_id = $access_plan->get( 'id' );
+
+			// Get access plan properties (meta) to test.
+			if ( ! isset( $access_plan_metas ) ) {
+				$access_plan_metas = array_map(
+					function( $prop ) use ( $access_plan ) {
+						return LLMS_Unit_Test_Util::get_private_property_value( $access_plan, 'meta_prefix' ) . $prop;
+					},
+					array_keys(
+						array_diff_key(
+							$access_plan->get( 'properties' ),
+							LLMS_Unit_Test_Util::call_method( $access_plan, 'get_post_properties' )
+						)
+					)
+				);
+			}
+			// Trash product => do not remove access plans.
+			wp_trash_post( $product_id );
+			$this->assertNotNull( get_post( $product_id ), $product_type );
+
+			// Delete the product (no trash, force deletion is true by default for non built-in post types).
+			wp_delete_post( $product_id );
+
+			// Check the access plan has been deleted.
+			$this->assertNull( get_post( $product_id ), $product_type );
+
+			// Check access plan's meta deletion
+			foreach ( $access_plan_metas as $access_plan_meta ) {
+				$this->assertFalse(
+					metadata_exists( 'post', $access_plan_id, $access_plan_meta ),
+					sprintf(
+						'Test failing for meta %1$s of access plan with ID %2$s on %3$s deletion',
+						$access_plan_meta,
+						$access_plan_id,
+						$product_type
+					)
+				);
+			}
+
+		}
+
+	}
+
+	/**
 	 * Test all relationships based on post types
 	 *
-	 * @since    3.16.12
+	 * @since 3.16.12
+	 * @since [version] Added tests on course on membership deletion.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_maybe_update_relationships() {
 
 		$funcs = array(
 			'delete_quiz',
 			'delete_lesson',
+			'delete_product',
 		);
 		foreach ( $funcs as $func ) {
-
-			call_user_func( array( $this, $func ) );
-
+			$this->{$func}();
 		}
 
 	}

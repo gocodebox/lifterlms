@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Order Functions
+* Test updates functions when updating to 4.5.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
@@ -9,6 +9,7 @@
  * @group updates_450
  *
  * @since 4.5.0
+ * @version [version]
  */
 class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
@@ -133,15 +134,16 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Test llms_update_450_update_db_version()
 	 *
 	 * @since 4.5.0
+	 * @since [version] Get original db_version before removing it.
 	 *
 	 * @return void
 	 */
 	public function test_update_db_version() {
 
+		$orig = get_option( 'lifterlms_db_version' );
+
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
-
-		$orig = get_option( 'lifterlms_db_version' );
 
 		llms_update_450_update_db_version();
 

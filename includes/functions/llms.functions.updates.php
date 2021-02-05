@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.4.3
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +23,7 @@ require_once 'updates/llms-functions-updates-3160.php';
 require_once 'updates/llms-functions-updates-3280.php';
 require_once 'updates/llms-functions-updates-400.php';
 require_once 'updates/llms-functions-updates-450.php';
+require_once 'updates/llms-functions-updates-4140.php';
 
 /**
  * Duplicate a WP Post & all relate metadata
@@ -50,12 +51,12 @@ function llms_update_util_post_duplicator( $id ) {
 /**
  * Update the key of a postmeta item
  *
- * @param    string $post_type   post type
- * @param    string $new_key     new postmeta key
- * @param    string $old_key     old postmeta key
- * @return   void
- * @since    3.4.3
- * @version  3.4.3
+ * @since 3.4.3
+ *
+ * @param string $post_type Post type.
+ * @param string $new_key   New postmeta key.
+ * @param string $old_key   Old postmeta key.
+ * @return void
  */
 function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 
@@ -69,6 +70,6 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 	 	 WHERE p.post_type = %s AND m.meta_key = %s;",
 			array( $new_key, $post_type, $old_key )
 		)
-	);
+	); // no-cache ok.
 
 }
