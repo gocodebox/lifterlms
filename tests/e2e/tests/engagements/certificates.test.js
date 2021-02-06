@@ -38,6 +38,7 @@ describe( 'Engagements/Certificates', () => {
 
 	} );
 
+
 	afterAll( async () => {
 		await toggleOpenRegistration( false );
 	} );
@@ -47,8 +48,8 @@ describe( 'Engagements/Certificates', () => {
 		it ( 'should create a certificate', async () => {
 
 			await visitAdminPage( 'post.php', `post=${ certificateId }&action=edit` );
+			page.on( 'dialog', dialog => dialog.accept() ); // Required due to WP core bug in 5.6.1 & later, see https://core.trac.wordpress.org/ticket/52440.
 			await clickAndWait( '#sample-permalink a' );
-
 			await certLooksRight( 'admin' );
 
 		} );
@@ -75,7 +76,7 @@ describe( 'Engagements/Certificates', () => {
 
 			await page.goto( reportingUrl );
 			page.on( 'dialog', dialog => dialog.accept() );
-			clickAndWait( '#llms_delete_cert' );
+			await clickAndWait( '#llms_delete_cert' );
 
 		} );
 
