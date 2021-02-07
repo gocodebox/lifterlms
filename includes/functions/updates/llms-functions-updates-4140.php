@@ -20,11 +20,6 @@ defined( 'ABSPATH' ) || exit;
 function llms_update_4140_remove_orphan_access_plans() {
 
 	$limit = 50;
-	$skip  = get_transient( 'llms_4140_skipper_orphan_access_plans' );
-	if ( ! $skip ) {
-		$skip = 0;
-	}
-	set_transient( 'llms_4140_skipper_orphan_access_plans', $skip + $limit, DAY_IN_SECONDS );
 
 	global $wpdb;
 
@@ -37,9 +32,8 @@ function llms_update_4140_remove_orphan_access_plans() {
 			WHERE pm.meta_key = '_llms_product_id'
 			AND p.ID IS NULL
 			ORDER BY apid ASC
-			LIMIT %d, %d
+			LIMIT %d
 		",
-			$skip,
 			$limit
 		)
 	); // db call ok; no-cache ok.

@@ -100,7 +100,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 		$open_session_ids  = $this->create_open_session_events( $num_open_sessions );
 
 		$loops = 1;
-		// Check how many times a the update function needs to run.
+		// Check how many times the update function needs to run.
 		// Internally we fetch 200 sessions at time, we expect it to run the following number of times:
 		$expected_loops = 3;
 		while ( llms_update_450_migrate_events_open_sessions() ) {

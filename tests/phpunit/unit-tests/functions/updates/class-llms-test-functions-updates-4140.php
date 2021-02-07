@@ -38,13 +38,12 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 	 */
 	public function tearDown() {
 		parent::tearDown();
-		// Clean posts and postmeta tables
+		// Clean posts and postmeta tables.
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->postmeta}" );
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->posts}" );
 		// Delete transients.
 		delete_transient( 'llms_update_4140_remove_orphan_access_plans' );
-		delete_transient( 'llms_4140_skipper_orphan_access_plans' );
 	}
 
 	/**
@@ -106,27 +105,29 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 	 */
 	public function test_update_4140_remove_orphan_access_plans_keep_linked() {
 
-		// Create orphan access plans
+		// Create linked access plans.
+		$access_plan_ids = $this->factory->post->create_many(
+			11,
+			array(
+				'post_type' => 'llms_access_plan',
+			)
+		);
+
+		$course = $this->factory->post->create();
+		foreach ( $access_plan_ids as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', $course );
+		}
+
+		// Create orphan access plans.
 		$orphan_access_plan_ids = $this->factory->post->create_many(
 			10,
 			array(
 				'post_type' => 'llms_access_plan',
 			)
 		);
+
 		foreach ( $orphan_access_plan_ids as $access_plan_id ) {
 			update_post_meta( $access_plan_id, '_llms_product_id', end( $orphan_access_plan_ids ) + 1 );
-		}
-
-		// Create linked access plans.
-		$access_plan_ids = $this->factory->post->create_many(
-			10,
-			array(
-				'post_type' => 'llms_access_plan',
-			)
-		);
-		$course = $this->factory->post->create();
-		foreach ( $access_plan_ids as $access_plan_id ) {
-			update_post_meta( $access_plan_id, '_llms_product_id', $course );
 		}
 
 		llms_update_4140_remove_orphan_access_plans();
@@ -158,6 +159,55 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 		);
 
 	}
+
+	/**
+	 * Test "pagination" in llms_update_4140_remove_orphan_access_plans()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_4140_remove_orphan_access_plans_pagination() {
+
+		// Create orphan access plans.
+		$orphan_access_plan_ids = $this->factory->post->create_many(
+			110, // Each page is of 50 orphan access plans.
+			array(
+				'post_type' => 'llms_access_plan',
+			)
+		);
+
+		foreach ( $orphan_access_plan_ids as $access_plan_id ) {
+			update_post_meta( $access_plan_id, '_llms_product_id', end( $orphan_access_plan_ids ) + 1 );
+		}
+
+		$loops = 0;
+		// Check how many times the update function needs to run.
+		// Internally we fetch 50 orphan access plans at time, we expect it to run the following number of times:
+		$expected_loops = 3;
+		while ( llms_update_4140_remove_orphan_access_plans() ) {
+			$loops++;
+		}
+
+		$this->assertEquals( $expected_loops, $loops );
+		$this->assertEquals( get_transient( 'llms_update_4140_remove_orphan_access_plans' ), 'complete' );
+
+		// Expect no orphan access plans.
+		$this->assertEquals(
+			0,
+			count(
+				get_posts(
+					array(
+						'include'     => $orphan_access_plan_ids,
+						'post_type'   => 'llms_access_plan',
+						'numberposts' => 200
+					)
+				)
+			)
+		);
+
+	}
+
 
 	/**
 	 * Test llms_update_4140_update_db_version()
