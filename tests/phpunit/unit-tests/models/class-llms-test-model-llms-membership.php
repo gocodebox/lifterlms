@@ -7,7 +7,7 @@
  *
  * @since 3.20.0
  * @since 3.36.3 Remove redundant test method `test_get_sections()`,
- *                @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
+ *               @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 

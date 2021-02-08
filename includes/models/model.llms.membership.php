@@ -74,7 +74,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * @since 3.30.0 Added optional `$replace` argument.
 	 *
 	 * @param array|int $course_ids Array of course id or course id as int.
-	 * @param bool      $replace Optional. Default `false`. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses.
+	 * @param bool      $replace    Optional. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses. Default `false`.
 	 * @return boolean Returns `true` on success, and `false` on error or if the value in the db is unchanged.
 	 */
 	public function add_auto_enroll_courses( $course_ids, $replace = false ) {
@@ -282,9 +282,9 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string|string[] $statuses List of enrollment statuses to query by status query is an OR relationship.
-	 * @param int             $limit Number of results.
-	 * @param int             $skip Number of results to skip (for pagination).
+	 * @param string|string[] $statuses Optional. List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
+	 * @param int             $limit    Optional. Number of results. Default is `50`.
+	 * @param int             $skip     Optional. Number of results to skip (for pagination). Default is `0`.
 	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
