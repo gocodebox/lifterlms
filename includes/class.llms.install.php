@@ -98,9 +98,9 @@ class LLMS_Install {
 			'llms_update_450_migrate_events_open_sessions',
 			'llms_update_450_update_db_version',
 		),
-		'4.14.0' => array(
-			'llms_update_4140_remove_orphan_access_plans',
-			'llms_update_4140_update_db_version',
+		'4.15.0' => array(
+			'llms_update_4150_remove_orphan_access_plans',
+			'llms_update_4150_update_db_version',
 		),
 	);
 

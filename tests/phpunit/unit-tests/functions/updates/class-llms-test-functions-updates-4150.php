@@ -1,17 +1,17 @@
 <?php
 /**
-* Test updates functions when updating to 4.14.0
+* Test updates functions when updating to 4.15.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
  * @group functions
  * @group updates
- * @group updates_4140
+ * @group updates_4150
  *
  * @since [version]
  * @version [version]
  */
-class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
+class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 
 	private $sessions;
 
@@ -26,7 +26,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 	 */
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-4140.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-4150.php';
 	}
 
 	/**
@@ -43,17 +43,17 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->postmeta}" );
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->posts}" );
 		// Delete transients.
-		delete_transient( 'llms_update_4140_remove_orphan_access_plans' );
+		delete_transient( 'llms_update_4150_remove_orphan_access_plans' );
 	}
 
 	/**
-	 * Test llms_update_4140_remove_orphan_access_plans
+	 * Test llms_update_4150_remove_orphan_access_plans
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_update_4140_remove_orphan_access_plans() {
+	public function test_update_4150_remove_orphan_access_plans() {
 
 		// Create orphan access plans.
 		$access_plan_ids = $this->factory->post->create_many(
@@ -79,7 +79,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 		);
 
 		// Fire the update.
-		llms_update_4140_remove_orphan_access_plans();
+		llms_update_4150_remove_orphan_access_plans();
 
 		// Expect no orphan access plans.
 		$this->assertEquals(
@@ -97,13 +97,13 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_update_4140_remove_orphan_access_plans
+	 * Test llms_update_4150_remove_orphan_access_plans
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_update_4140_remove_orphan_access_plans_keep_linked() {
+	public function test_update_4150_remove_orphan_access_plans_keep_linked() {
 
 		// Create linked access plans.
 		$access_plan_ids = $this->factory->post->create_many(
@@ -130,7 +130,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 			update_post_meta( $access_plan_id, '_llms_product_id', end( $orphan_access_plan_ids ) + 1 );
 		}
 
-		llms_update_4140_remove_orphan_access_plans();
+		llms_update_4150_remove_orphan_access_plans();
 
 		// Expect no orphan access plans.
 		$this->assertEquals(
@@ -161,13 +161,13 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test "pagination" in llms_update_4140_remove_orphan_access_plans()
+	 * Test "pagination" in llms_update_4150_remove_orphan_access_plans()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_update_4140_remove_orphan_access_plans_pagination() {
+	public function test_update_4150_remove_orphan_access_plans_pagination() {
 
 		// Create orphan access plans.
 		$orphan_access_plan_ids = $this->factory->post->create_many(
@@ -185,12 +185,12 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 		// Check how many times the update function needs to run.
 		// Internally we fetch 50 orphan access plans at time, we expect it to run the following number of times:
 		$expected_loops = 3;
-		while ( llms_update_4140_remove_orphan_access_plans() ) {
+		while ( llms_update_4150_remove_orphan_access_plans() ) {
 			$loops++;
 		}
 
 		$this->assertEquals( $expected_loops, $loops );
-		$this->assertEquals( get_transient( 'llms_update_4140_remove_orphan_access_plans' ), 'complete' );
+		$this->assertEquals( get_transient( 'llms_update_4150_remove_orphan_access_plans' ), 'complete' );
 
 		// Expect no orphan access plans.
 		$this->assertEquals(
@@ -210,7 +210,7 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 
 
 	/**
-	 * Test llms_update_4140_update_db_version()
+	 * Test llms_update_4150_update_db_version()
 	 *
 	 * @since [version]
 	 *
@@ -223,16 +223,16 @@ class LLMS_Test_Functions_Updates_4140 extends LLMS_UnitTestCase {
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
 
-		llms_update_4140_update_db_version();
+		llms_update_4150_update_db_version();
 
-		$this->assertNotEquals( '4.14.0', get_option( 'lifterlms_db_version' ) );
+		$this->assertNotEquals( '4.15.0', get_option( 'lifterlms_db_version' ) );
 
 		// Unlock the db version update.
-		set_transient( 'llms_update_4140_remove_orphan_access_plans', 'complete', DAY_IN_SECONDS );
+		set_transient( 'llms_update_4150_remove_orphan_access_plans', 'complete', DAY_IN_SECONDS );
 
-		llms_update_4140_update_db_version();
+		llms_update_4150_update_db_version();
 
-		$this->assertEquals( '4.14.0', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '4.15.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 

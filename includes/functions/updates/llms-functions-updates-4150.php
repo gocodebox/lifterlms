@@ -1,6 +1,6 @@
 <?php
 /**
- * Update functions for version 4.14.0
+ * Update functions for version 4.15.0
  *
  * @package LifterLMS/Functions/Updates
  *
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return bool True if it needs to run again, false otherwise.
  */
-function llms_update_4140_remove_orphan_access_plans() {
+function llms_update_4150_remove_orphan_access_plans() {
 
 	$limit = 50;
 
@@ -40,7 +40,7 @@ function llms_update_4140_remove_orphan_access_plans() {
 
 	// Finished.
 	if ( empty( $orphan_access_plans ) ) {
-		set_transient( 'llms_update_4140_remove_orphan_access_plans', 'complete', DAY_IN_SECONDS );
+		set_transient( 'llms_update_4150_remove_orphan_access_plans', 'complete', DAY_IN_SECONDS );
 		return false;
 	}
 
@@ -53,16 +53,16 @@ function llms_update_4140_remove_orphan_access_plans() {
 }
 
 /**
- * Update db version to 4.14.0
+ * Update db version to 4.15.0
  *
  * @since [version]
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
-function llms_update_4140_update_db_version() {
-	if ( 'complete' !== get_transient( 'llms_update_4140_remove_orphan_access_plans' ) ) {
+function llms_update_4150_update_db_version() {
+	if ( 'complete' !== get_transient( 'llms_update_4150_remove_orphan_access_plans' ) ) {
 		// Needs to run again.
 		return true;
 	}
-	LLMS_Install::update_db_version( '4.14.0' );
+	LLMS_Install::update_db_version( '4.15.0' );
 }
