@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Order Functions
+ * Test update to 4.0.0 functions
  *
  * @package LifterLMS/Tests/Functions/Updates
  *

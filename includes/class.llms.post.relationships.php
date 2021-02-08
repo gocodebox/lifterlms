@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version 3.37.8
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,17 +16,33 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.12
  * @since 3.24.0 Unknown
  * @since 3.37.8 Delete student quiz attempts when a quiz is deleted.
+ * @since [version] Delete access plans related to courses/memberships on their deletion.
  */
 class LLMS_Post_Relationships {
 
 	/**
 	 * Configure relationships
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private $relationships = array(
+		'course'          => array(
+			array(
+				'action'    => 'delete',
+				'meta_key'  => '_llms_product_id',
+				'post_type' => 'llms_access_plan',
+			),
+		),
 
-		'lesson'     => array(
+		'llms_membership' => array(
+			array(
+				'action'    => 'delete',
+				'meta_key'  => '_llms_product_id',
+				'post_type' => 'llms_access_plan',
+			),
+		),
+
+		'lesson'          => array(
 			array(
 				'action'               => 'unset',
 				'meta_key'             => '_llms_prerequisite', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -40,7 +56,7 @@ class LLMS_Post_Relationships {
 			),
 		),
 
-		'llms_order' => array(
+		'llms_order'      => array(
 			array(
 				'action'    => 'delete',
 				'meta_key'  => '_llms_order_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -48,7 +64,7 @@ class LLMS_Post_Relationships {
 			),
 		),
 
-		'llms_quiz'  => array(
+		'llms_quiz'       => array(
 			array(
 				'action'    => 'delete', // Delete = force delete; trash = move to trash.
 				'meta_key'  => '_llms_parent_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
