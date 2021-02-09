@@ -452,7 +452,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 			// 3rd party/custom types.
 			default:
-				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), $html, $this );
+				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), null, $this );
 
 		}
 
