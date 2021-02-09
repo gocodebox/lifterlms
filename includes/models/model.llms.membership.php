@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,7 +102,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * + A course that has at least one access plan with members-only availability linked to this membership
 	 *
 	 * @since 3.38.1
-	 * @since [version] Minor restructuring to only query post type data when it's needed.
+	 * @since 4.15.0 Minor restructuring to only query post type data when it's needed.
 	 *
 	 * @param string $post_type If supplied, returns only associations of this post type, otherwise returns an associative array of all associations.
 	 * @return array[]|int[] An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
@@ -157,7 +157,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Uses a custom function due to the default "get_array" returning an array with an empty string
 	 *
 	 * @since 3.0.0
-	 * @since [version] Exclude unpublished courses from the return array.
+	 * @since 4.15.0 Exclude unpublished courses from the return array.
 	 *
 	 * @return array
 	 */
@@ -331,7 +331,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Retrieve courses associated with the membership
 	 *
 	 * @since 3.38.1
-	 * @since [version] Exclude unpublished courses.
+	 * @since 4.15.0 Exclude unpublished courses.
 	 *
 	 * @see LLMS_Membership::get_associated_posts()
 	 *

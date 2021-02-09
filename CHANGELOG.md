@@ -1,10 +1,41 @@
 LifterLMS Changelog
 ===================
 
-v4.14.0 - 2021-02-04
+v4.15.0 - 2021-02-09
 --------------------
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Database migration: remove any "orphaned" access plans which were not properly cleaned up during deletion of parent course or membership.
++ Improved performance of membership post association query methods.
+
+##### Bug fixes
+
++ Access plans will now be automatically deleted when their parent course or membership is deleted.
++ Fix an issue with donut charts/graphs on RTL sites.
++ Fix an issue causing unpublished (draft/private) courses from being returned during queries for membership post associations.
+
+##### LifterLMS REST 1.0.0-beta.15
+
+###### Updates
+
++ Added Access Plan resource and endpoint.
++ Provide a more significant error message when trying to delete an item without permissions.
++ Use `WP_Http` constants in favor of integers when referencing HTTP status codes.
+
+###### Bug fixes
+
++ Fixes localization issues where a singular name was used in favor of the expected plural form.
++ Fixed issues where an error object was not properly returned when expected
++ Fixed call to undefined function `llms_bad_request_error()`, must be `llms_rest_bad_request_error()`.
++ Fixed access plans resource link.
++ Fixed wrong trigger retrieved when multiple trigger were present for the same user/post pair on Student Enrollment resources.
+
+
+v4.14.0 - 2021-02-04
+--------------------
 
 ##### Updates
 

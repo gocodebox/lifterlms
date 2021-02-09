@@ -2,7 +2,7 @@
  * Test certificates
  *
  * @since 4.5.0
- * @since [version] Added hack to work around WP core bug on 5.6.1.
+ * @since 4.15.0 Added hack to work around WP core bug on 5.6.1.
  */
 
 import { visitAdminPage } from '@wordpress/e2e-test-utils';

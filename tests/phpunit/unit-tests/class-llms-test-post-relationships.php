@@ -6,7 +6,7 @@
  *
  * @since 3.16.12
  * @since 3.37.8 Added tests to remove quiz attempts upon quiz deletion.
- * @since [version] Added tests on access plans deletion upon quiz deletion.
+ * @since 4.15.0 Added tests on access plans deletion upon quiz deletion.
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -119,7 +119,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * When a product is deleted all the related access plans should be deleted
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -185,7 +185,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 * Test all relationships based on post types
 	 *
 	 * @since 3.16.12
-	 * @since [version] Added tests on course on membership deletion.
+	 * @since 4.15.0 Added tests on course on membership deletion.
 	 *
 	 * @return void
 	 */

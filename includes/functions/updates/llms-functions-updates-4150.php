@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 4.15.0
+ * @version 4.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Remove orphan access plans
  *
- * @since [version]
+ * @since 4.15.0
  *
  * @return bool True if it needs to run again, false otherwise.
  */
@@ -55,7 +55,7 @@ function llms_update_4150_remove_orphan_access_plans() {
 /**
  * Update db version to 4.15.0
  *
- * @since [version]
+ * @since 4.15.0
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */

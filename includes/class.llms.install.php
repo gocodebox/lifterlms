@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Added `wp_lifterlms_sessions` table.
  *              Added session cleanup cron.
  *              Added db update functions for session manager library cleanup.
- * @since [version] Added db update functions for orphan access plans cleanup.
+ * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  */
 class LLMS_Install {
 

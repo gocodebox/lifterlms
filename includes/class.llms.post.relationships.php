@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version [version]
+ * @version 4.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.12
  * @since 3.24.0 Unknown
  * @since 3.37.8 Delete student quiz attempts when a quiz is deleted.
- * @since [version] Delete access plans related to courses/memberships on their deletion.
+ * @since 4.15.0 Delete access plans related to courses/memberships on their deletion.
  */
 class LLMS_Post_Relationships {
 

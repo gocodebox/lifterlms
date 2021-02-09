@@ -8,8 +8,8 @@
  * @group updates
  * @group updates_4150
  *
- * @since [version]
- * @version [version]
+ * @since 4.15.0
+ * @version 4.15.0
  */
 class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 
@@ -20,7 +20,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_4150_remove_orphan_access_plans
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_4150_remove_orphan_access_plans
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	/**
 	 * Test "pagination" in llms_update_4150_remove_orphan_access_plans()
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_4150_update_db_version()
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */

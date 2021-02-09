@@ -9,7 +9,7 @@
  * @group updates_450
  *
  * @since 4.5.0
- * @version [version]
+ * @version 4.15.0
  */
 class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
@@ -134,7 +134,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Test llms_update_450_update_db_version()
 	 *
 	 * @since 4.5.0
-	 * @since [version] Get original db_version before removing it.
+	 * @since 4.15.0 Get original db_version before removing it.
 	 *
 	 * @return void
 	 */

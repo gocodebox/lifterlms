@@ -76,7 +76,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	 *   + get_auto_enroll_courses()
 	 *   + remoe_auto_enroll_course()
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Ensure only published courses
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms-groups/issues/135
 	 *
@@ -156,7 +156,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	 * Test get_associated_posts() when associations do exist.
 	 *
 	 * @since 3.38.1
-	 * @since [version] Test equal sets instead of strict equals because we don't really care about the returned order.
+	 * @since 4.15.0 Test equal sets instead of strict equals because we don't really care about the returned order.
 	 *               Added tests to check when querying for a single post type.
 	 *
 	 * @return void
@@ -255,7 +255,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_product()
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @return void
 	 */
@@ -385,7 +385,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test query_associated_courses() to ensure only plan associations from published courses are returned.
 	 *
-	 * @since [version]
+	 * @since 4.15.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms-groups/issues/135
 	 *

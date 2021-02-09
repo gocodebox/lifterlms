@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.9.0
- * @version [version]
+ * @version 4.15.0
  *
  * @link https://gist.github.com/joeyinbox/8205962
  *
@@ -17,7 +17,7 @@ LLMS.Donut = function( $el ) {
 	 * Constructor
 	 *
 	 * @since 3.9.0
-	 * @since [version] Flip animation in RTL.
+	 * @since 4.15.0 Flip animation in RTL.
 	 *
 	 * @param {Object} options Donut options.
 	 * @return {Void}
