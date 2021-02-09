@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.15.0
  * @since [version] Removed private method `includes()`.
+ *              Stop loading removed processor "table_to_csv".
  */
 class LLMS_Processors {
 
@@ -30,7 +31,6 @@ class LLMS_Processors {
 	private $classes = array(
 		'course_data',
 		'membership_bulk_enroll',
-		'table_to_csv',
 	);
 
 	/**

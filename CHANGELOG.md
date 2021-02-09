@@ -69,8 +69,9 @@ The following have been deprecated and will be removed from LifterLMS in a major
 
 + Private method `LLMS_Processors::includes()` has been removed.
 + Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
-+ Breaking change: class method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
-+ Breaking change: class method `LLMS_Controller_Quizzes::take_quiz()` is deprecated with no replacement.
++ Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
++ Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
++ Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
 
 
 v4.15.0 - 2021-02-09
