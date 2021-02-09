@@ -289,16 +289,25 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @package LifterLMS/Scripts
 	 *
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 * @version 4.15.0
 	 *
-	 * @link  https://gist.github.com/joeyinbox/8205962
+	 * @link https://gist.github.com/joeyinbox/8205962
 	 *
-	 * @param    obj   $el  jQuery element to draw a chart within
+	 * @param {Object} $el jQuery element to draw a chart within.
 	 */
 	
 	LLMS.Donut = function( $el ) {
 	
+		/**
+		 * Constructor
+		 *
+		 * @since 3.9.0
+		 * @since 4.15.0 Flip animation in RTL.
+		 *
+		 * @param {Object} options Donut options.
+		 * @return {Void}
+		 */
 		function Donut(options) {
 	
 			this.settings = $.extend( {
@@ -309,16 +318,17 @@ var LLMS = window.LLMS || {};
 			this.circle                = this.settings.element.find( 'path' );
 			this.settings.stroke_width = parseInt( this.circle.css( 'stroke-width' ) );
 			this.radius                = ( parseInt( this.settings.element.css( 'width' ) ) - this.settings.stroke_width ) / 2;
-			this.angle                 = -97.5; // Origin of the draw at the top of the circle
+			this.angle                 = $( 'body' ).hasClass( 'rtl' ) ? 82.5 : 97.5; // Origin of the draw at the top of the circle
 			this.i                     = Math.round( 0.75 * this.settings.percent );
 			this.first                 = true;
+			this.increment             = $( 'body' ).hasClass( 'rtl' ) ? -5 : 5;
 	
 			this.animate = function() {
 				this.timer = setInterval( this.loop.bind( this ), 10 );
 			};
 	
 			this.loop = function() {
-				this.angle += 5;
+				this.angle += this.increment;
 				this.angle %= 360;
 				var radians = ( this.angle / 180 ) * Math.PI,
 					x       = this.radius + this.settings.stroke_width / 2 + Math.cos( radians ) * this.radius,
@@ -339,6 +349,14 @@ var LLMS = window.LLMS || {};
 			};
 		}
 	
+		/**
+		 * Draw donut element
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param {Object} $el jQuery element to draw a chart within.
+		 * @return {Void}
+		 */
 		function draw( $el ) {
 			var path = '<path d="M100,100" />';
 			$el.append( '<svg preserveAspectRatio="xMidYMid" xmlns:xlink="http://www.w3.org/1999/xlink">' + path + '</svg>' );
@@ -728,12 +746,21 @@ var LLMS = window.LLMS || {};
 	
 		},
 	
-		update_locale_info_for_field: function( $field, info ) {
+		/**
+		 * Update locale info for a given field.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object}         $field The jQuery object for the field.
+		 * @param {String|Boolean} label  The text of the label, or `false` when the field isn't supported.
+		 * @return {Void}
+		 */
+		update_locale_info_for_field: function( $field, label ) {
 	
 			var $parent = this.get_field_parent( $field );
 			$field.removeAttr( 'disabled' );
-			if ( info ) {
-				this.update_label( $field, info );
+			if ( label ) {
+				this.update_label( $field, label );
 				$parent.show();
 			} else {
 				$field.attr( 'disabled', 'disabled' );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Order Functions
+* Test updates functions when updating to 4.5.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
@@ -9,6 +9,7 @@
  * @group updates_450
  *
  * @since 4.5.0
+ * @version 4.15.0
  */
 class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 
@@ -99,7 +100,7 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 		$open_session_ids  = $this->create_open_session_events( $num_open_sessions );
 
 		$loops = 1;
-		// Check how many times a the update function needs to run.
+		// Check how many times the update function needs to run.
 		// Internally we fetch 200 sessions at time, we expect it to run the following number of times:
 		$expected_loops = 3;
 		while ( llms_update_450_migrate_events_open_sessions() ) {
@@ -133,15 +134,16 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Test llms_update_450_update_db_version()
 	 *
 	 * @since 4.5.0
+	 * @since 4.15.0 Get original db_version before removing it.
 	 *
 	 * @return void
 	 */
 	public function test_update_db_version() {
 
+		$orig = get_option( 'lifterlms_db_version' );
+
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
-
-		$orig = get_option( 'lifterlms_db_version' );
 
 		llms_update_450_update_db_version();
 

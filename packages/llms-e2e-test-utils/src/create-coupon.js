@@ -9,7 +9,7 @@ import {
 /**
  * Create and publish a new course
  *
- * @since 3.39.0
+ * @since 2.0.0
  *
  * @param {Object} args {
  *     Creation arguments.

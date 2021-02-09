@@ -2,6 +2,7 @@
  * Test certificates
  *
  * @since 4.5.0
+ * @since 4.15.0 Added hack to work around WP core bug on 5.6.1.
  */
 
 import { visitAdminPage } from '@wordpress/e2e-test-utils';
@@ -16,6 +17,17 @@ import {
 	toggleOpenRegistration,
 } from '@lifterlms/llms-e2e-test-utils';
 
+/**
+ * Reusable set of expectations to ensure a certificate looks right
+ *
+ * Intended to ensure the cert looks right on the frontend of the website
+ *
+ * @since 4.5.0
+ *
+ * @param {String} name  Students name.
+ * @param {String} title Certificate's title.
+ * @return {Void}
+ */
 async function certLooksRight( name, title = 'A Certificate!' ) {
 	expect( await page.$eval( '.llms-summary > h1', el => el.textContent ) ).toBe( title );
 	expect( await page.$eval( '.llms-summary', el => el.textContent.includes( name ) ) ).toBe( true );
@@ -38,6 +50,7 @@ describe( 'Engagements/Certificates', () => {
 
 	} );
 
+
 	afterAll( async () => {
 		await toggleOpenRegistration( false );
 	} );
@@ -46,9 +59,11 @@ describe( 'Engagements/Certificates', () => {
 
 		it ( 'should create a certificate', async () => {
 
+			// Required due to WP core bug in 5.6.1 & later, see https://core.trac.wordpress.org/ticket/52440.
+			page.on( 'dialog', dialog => dialog.accept() );
+
 			await visitAdminPage( 'post.php', `post=${ certificateId }&action=edit` );
 			await clickAndWait( '#sample-permalink a' );
-
 			await certLooksRight( 'admin' );
 
 		} );
@@ -74,8 +89,8 @@ describe( 'Engagements/Certificates', () => {
 			await certLooksRight( 'A Student Who Has a Certificate' );
 
 			await page.goto( reportingUrl );
-			page.on( 'dialog', dialog => dialog.accept() );
-			clickAndWait( '#llms_delete_cert' );
+			// page.on( 'dialog', dialog => dialog.accept() ); // Uncomment when https://core.trac.wordpress.org/ticket/52440 is resolved.
+			await clickAndWait( '#llms_delete_cert' );
 
 		} );
 

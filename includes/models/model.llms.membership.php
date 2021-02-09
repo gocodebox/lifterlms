@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 4.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,11 +72,10 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Added optional `$replace` argument.
-	 * @version 3.30.0
 	 *
 	 * @param array|int $course_ids Array of course id or course id as int.
-	 * @param bool      $replace Optional. Default `false`. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses.
-	 * @return boolean true on success, false on error or if the value in the db is unchanged.
+	 * @param bool      $replace    Optional. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses. Default `false`.
+	 * @return boolean Returns `true` on success, and `false` on error or if the value in the db is unchanged.
 	 */
 	public function add_auto_enroll_courses( $course_ids, $replace = false ) {
 
@@ -103,6 +102,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * + A course that has at least one access plan with members-only availability linked to this membership
 	 *
 	 * @since 3.38.1
+	 * @since 4.15.0 Minor restructuring to only query post type data when it's needed.
 	 *
 	 * @param string $post_type If supplied, returns only associations of this post type, otherwise returns an associative array of all associations.
 	 * @return array[]|int[] An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
@@ -110,25 +110,23 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 */
 	public function get_associated_posts( $post_type = null ) {
 
+		// If we're querying only posts, we can skip these associations entirely because courses don't support them.
+		$post_types = 'course' !== $post_type ? get_post_types_by_support( 'llms-membership-restrictions' ) : array();
+
+		// If we're looking at a single post type we only have to query associations for that post type.
+		$post_types = $post_type ? array_intersect( $post_types, array( $post_type ) ) : $post_types;
+
+		// Our return array.
 		$posts = array();
 
 		// Retrieve all posts that are restricted to a membership via a LifterLMS Membership Restriction setting.
-		foreach ( get_post_types_by_support( 'llms-membership-restrictions' ) as $type ) {
-
-			// Skip if it's not the requested post type.
-			if ( $post_type && $type !== $post_type ) {
-				continue;
-			}
-
+		foreach ( $post_types as $type ) {
 			$posts[ $type ] = $this->query_associated_posts( $type, '_llms_is_restricted', 'yes', '_llms_restricted_levels' );
-
 		}
 
 		// Include courses if courses were requested or if no specific post type was requested.
 		if ( ! $post_type || 'course' === $post_type ) {
-
 			$posts['course'] = $this->query_associated_courses();
-
 		}
 
 		/**
@@ -137,7 +135,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 		 * @since 3.38.1
 		 *
 		 * @param array[]         $posts     An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
-		 * @param string          $post_type The requested post type if only a specific post type was requested, otherwise `null` to indicate all associated post types.
+		 * @param string|null     $post_type The requested post type if only a specific post type was requested, otherwise `null` to indicate all associated post types.
 		 * @param LLMS_Membership $this      Membership object.
 		 */
 		$posts = apply_filters( 'llms_membership_get_associated_posts', $posts, $post_type, $this );
@@ -159,15 +157,33 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Uses a custom function due to the default "get_array" returning an array with an empty string
 	 *
 	 * @since 3.0.0
+	 * @since 4.15.0 Exclude unpublished courses from the return array.
 	 *
 	 * @return array
 	 */
 	public function get_auto_enroll_courses() {
-		if ( ! isset( $this->auto_enroll ) ) {
-			$courses = array();
-		} else {
-			$courses = $this->get( 'auto_enroll' );
-		}
+
+		// Ensure an array when metadata is not set.
+		$courses = isset( $this->auto_enroll ) ? $this->get( 'auto_enroll' ) : array();
+
+		// Exclude unpublished courses.
+		$courses = array_values(
+			array_filter(
+				$courses,
+				function( $id ) {
+					return 'publish' === get_post_status( $id );
+				}
+			)
+		);
+
+		/**
+		 * Filters the list of the membership's auto enroll courses
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int[]           $courses    List of LLMS_Course IDs.
+		 * @param LLMS_Membership $membership Membership post object.
+		 */
 		return apply_filters( 'llms_membership_get_auto_enroll_courses', $courses, $this );
 	}
 
@@ -264,17 +280,15 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	/**
 	 * Get an array of student IDs based on enrollment status in the membership
 	 *
-	 * @since    3.0.0
+	 * @since 3.0.0
 	 *
-	 * @param string|string[] $statuses List of enrollment statuses to query by status query is an OR relationship.
-	 * @param int             $limit Number of results.
-	 * @param int             $skip Number of results to skip (for pagination).
+	 * @param string|string[] $statuses Optional. List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
+	 * @param int             $limit    Optional. Number of results. Default is `50`.
+	 * @param int             $skip     Optional. Number of results to skip (for pagination). Default is `0`.
 	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
-
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
-
 	}
 
 	/**
@@ -317,6 +331,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Retrieve courses associated with the membership
 	 *
 	 * @since 3.38.1
+	 * @since 4.15.0 Exclude unpublished courses.
 	 *
 	 * @see LLMS_Membership::get_associated_posts()
 	 *
@@ -324,20 +339,21 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 */
 	protected function query_associated_courses() {
 
-		$courses = array();
+		// Start with autoenroll courses.
+		$courses = $this->get_auto_enroll_courses();
 
 		// Retrieve all access plans with a members-only availability restriction for this membership.
 		foreach ( $this->query_associated_posts( 'llms_access_plan', '_llms_availability', 'members', '_llms_availability_restrictions' ) as $plan_id ) {
 			$plan = llms_get_post( $plan_id );
 			if ( $plan ) {
-				$courses[] = $plan->get( 'product_id' );
+				$id = $plan->get( 'product_id' );
+				if ( 'publish' === get_post_status( $id ) ) {
+					$courses[] = $id;
+				}
 			}
 		}
 
-		// Merge in all the autoenrollment courses from the membership and remove duplicates.
-		$courses = array_unique( array_merge( $courses, $this->get_auto_enroll_courses() ) );
-
-		return $courses;
+		return array_unique( $courses );
 
 	}
 

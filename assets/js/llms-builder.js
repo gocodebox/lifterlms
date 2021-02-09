@@ -3705,8 +3705,8 @@ define( 'Schemas/Lesson',[], function() {
 /**
  * Lesson Model
  *
- * @since    3.13.0
- * @version  3.27.0
+ * @since 3.13.0
+ * @version 4.14.0
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3811,12 +3811,13 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		/**
 		 * Retrieve a reference to the parent course of the lesson
 		 *
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Use Section.get_course() in favor of Section.get_parent().
+		 *
+		 * @return {Object}
 		 */
 		get_course: function() {
-			return this.get_parent().get_parent();
+			return this.get_parent().get_course();
 		},
 
 		/**
@@ -4160,8 +4161,8 @@ define( 'Collections/QuestionTypes',[ 'Models/QuestionType' ], function( model )
 /**
  * Section Model
  *
- * @since    3.16.0
- * @version  3.16.12
+ * @since 3.16.0
+ * @version 4.14.0
  */
 define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -4271,6 +4272,24 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 		 */
 		get_next: function( circular ) {
 			return this._get_sibling( 'next', circular );
+		},
+
+		/**
+		 * Retrieve a reference to the parent course of the section
+		 *
+		 * @since 4.14.0
+		 *
+		 * @return {Object}
+		 */
+		get_course: function() {
+
+			// When working with an unsaved draft course the parent isn't properly set on the creation of a section.
+			if ( ! this.get_parent() ) {
+				this.set_parent( window.llms_builder.CourseModel );
+			}
+
+			return this.get_parent();
+
 		},
 
 		/**
@@ -6139,8 +6158,8 @@ define( 'Controllers/Schemas',[], function() {
 /**
  * Sync builder data to the server
  *
- * @since    3.16.0
- * @version  3.19.4
+ * @since 3.16.0
+ * @version 4.14.0
  */
 define( 'Controllers/Sync',[], function() {
 
@@ -6149,7 +6168,7 @@ define( 'Controllers/Sync',[], function() {
 		this.saving = false;
 
 		var self              = this,
-			autosave          = true,
+			autosave          = ( 'yes' === window.llms_builder.autosave ),
 			check_interval    = null,
 			check_interval_ms = settings.check_interval_ms || 10000,
 			detached          = new Backbone.Collection(),
@@ -6158,9 +6177,9 @@ define( 'Controllers/Sync',[], function() {
 		/**
 		 * init
 		 *
-		 * @return   void
-		 * @since    3.16.7
-		 * @version  3.16.7
+		 * @since 3.16.7
+		 *
+		 * @return {Void}
 		 */
 		function init() {
 
@@ -6796,13 +6815,20 @@ define( 'Controllers/Sync',[], function() {
 			|__/  |__/ \_______/ \_______/|__/         \___/  |_______/  \_______/ \_______/   \___/
 		*/
 
+
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.7
+		 * @since 3.16.0
+		 * @since 3.16.7 Unknown
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			// prevent simultaneous saves
 			if ( self.saving ) {
@@ -6829,10 +6855,15 @@ define( 'Controllers/Sync',[], function() {
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			if ( ! data.llms_builder ) {
 				return;
@@ -6852,10 +6883,15 @@ define( 'Controllers/Sync',[], function() {
 		/**
 		 * On heartbeat errors publish an error to the main builder application
 		 *
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since 4.14.0 Return early when autosaving is disabled.
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
+
+			// Autosaving is disabled.
+			if ( ! autosave ) {
+				return;
+			}
 
 			window.llms_builder.debug.log( '==== start heartbeat-error ====', data, '==== finish heartbeat-error ====' );
 

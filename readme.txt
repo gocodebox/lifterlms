@@ -7,11 +7,8 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.2
 Tested up to: 5.6
 Requires PHP: 7.2
-<<<<<<< HEAD
-Stable tag: 5.0.0-alpha.1
-=======
-Stable tag: 4.13.0
->>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
+Stable tag: 4.15.0
+
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -520,7 +517,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-<<<<<<< HEAD
 = v5.0.0-alpha.1 - 2021-01-07 =
 
 ##### User Information Form Builder
@@ -592,12 +588,57 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
 
 
-= v4.11.0 - 2021-01-07 =
-=======
-= v4.13.0 - 2021-01-26 =
->>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
+= v4.15.0 - 2021-02-09 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Database migration: remove any "orphaned" access plans which were not properly cleaned up during deletion of parent course or membership.
++ Improved performance of membership post association query methods.
+
+##### Bug fixes
+
++ Access plans will now be automatically deleted when their parent course or membership is deleted.
++ Fix an issue with donut charts/graphs on RTL sites.
++ Fix an issue causing unpublished (draft/private) courses from being returned during queries for membership post associations.
+
+##### LifterLMS REST 1.0.0-beta.15
+
+###### Updates
+
++ Added Access Plan resource and endpoint.
++ Provide a more significant error message when trying to delete an item without permissions.
++ Use `WP_Http` constants in favor of integers when referencing HTTP status codes.
+
+###### Bug fixes
+
++ Fixes localization issues where a singular name was used in favor of the expected plural form.
++ Fixed issues where an error object was not properly returned when expected
++ Fixed call to undefined function `llms_bad_request_error()`, must be `llms_rest_bad_request_error()`.
++ Fixed access plans resource link.
++ Fixed wrong trigger retrieved when multiple trigger were present for the same user/post pair on Student Enrollment resources.
+
+
+= v4.14.0 - 2021-02-04 =
+
+##### Updates
+
++ Added a user preference option allowing users to opt-out of the course builder's autosave functionality. [More information](https://lifterlms.com/docs/using-course-builder/#manual-saving).
++ 5-star review request displayed at 30 enrollments instead of 50.
+
+##### Bug fixes
+
++ Fixed an issue encountered when using shortcodes in the description of an access plan.
++ Fixed an issue encountered when editing auto-draft courses on the course builder.
+
+##### Deprecations
+
++ `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
++ Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
+
+
+= v4.13.0 - 2021-01-26 =
 
 ##### Updates
 
@@ -774,15 +815,4 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + `LLMS_Generator::format_date()` is deprecated in favor of `LLMS_Generator_Courses::format_date()`.
 + `LLMS_Generator::increment()` is deprecated with no replacement.
 
-
-<<<<<<< HEAD
-= v4.6.0 - 2020-10-19 =
-
-+ Added an admin tool to help automatically identify and schedule missed recurring payments
-+ Use `llms_deprecated_function()` in favor of `llms_log()`.
-+ Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
-
-
-=======
->>>>>>> 2dedf1d5c3c4b8705ff38644e8eae647be8e687c
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

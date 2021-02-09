@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 3.38.2
+ * @version 4.14.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -65,6 +65,33 @@ class LLMS_Admin_Builder {
 			wp_admin_bar_appearance_menu( $wp_admin_bar );
 
 		}
+
+	}
+
+	/**
+	 * Retrieve the current user's builder autosave preferences
+	 *
+	 * Defaults to enabled for users who have never configured a setting value.
+	 *
+	 * @since 4.14.0
+	 *
+	 * @return string Either "yes" or "no".
+	 */
+	protected static function get_autosave_status() {
+
+		$autosave = get_user_option( 'llms_builder_autosave' );
+		$autosave = empty( $autosave ) ? 'yes' : $autosave;
+
+		/**
+		 * Gets the status of autosave for the builder
+		 *
+		 * This can be configured on a per-user basis in the user's profile screen on the WP Admin Panel.
+		 *
+		 * @since 4.14.0
+		 *
+		 * @param string $autosave Status of autosave for the current user. Either "yes" or "no".
+		 */
+		return apply_filters( 'llms_builder_autosave_enabled', $autosave );
 
 	}
 
@@ -503,9 +530,11 @@ class LLMS_Admin_Builder {
 	/**
 	 * Output the page content
 	 *
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.19.2
+	 * @since 3.13.0
+	 * @since 3.19.2 Unknown.
+	 * @since 4.14.0 Added builder autosave preference defaults.
+	 *
+	 * @return void
 	 */
 	public static function output() {
 
@@ -574,6 +603,7 @@ class LLMS_Admin_Builder {
 			<?php
 			echo json_encode(
 				array(
+					'autosave'  => self::get_autosave_status(),
 					'admin_url' => admin_url(),
 					'course'    => $course->toArray(),
 					'debug'     => array(

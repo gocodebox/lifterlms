@@ -188,7 +188,8 @@
     clear: both; }
   .llms-donut svg {
     overflow: visible !important;
-    pointer-events: none; }
+    pointer-events: none;
+    width: 100%; }
   .llms-donut svg path {
     fill: none;
     stroke-width: 35px;

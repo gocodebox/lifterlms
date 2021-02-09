@@ -1,6 +1,6 @@
 <?php
 /**
- * Update functions for version [version]
+ * Update functions for version 4.5.0
  *
  * @package LifterLMS/Functions/Updates
  *
@@ -76,7 +76,7 @@ function llms_update_450_migrate_events_open_sessions() {
 }
 
 /**
- * Update db version to [version]
+ * Update db version to 4.5.0
  *
  * @since 4.5.0
  *
