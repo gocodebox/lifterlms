@@ -385,7 +385,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	public function task( $args ) {
 
-		$this->log( sprintf( 'Course data calculation task called for course %2$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
+		$this->log( sprintf( 'Course data calculation task called for course %1$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
 
 		$course = llms_get_post( $args['post_id'] );
 
@@ -447,7 +447,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	protected function task_complete( $course, $data, $last_page ) {
 
-		$this->log( sprintf( 'Course data calculation task completed for course %2$d with data: %2$s', $course->get( 'id' ), wp_json_encode( $data ) ) );
+		$this->log( sprintf( 'Course data calculation task completed for course %1$d with data: %2$s', $course->get( 'id' ), wp_json_encode( $data ) ) );
 
 		// Save our work on the last run.
 		if ( $last_page ) {
