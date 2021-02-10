@@ -25,18 +25,11 @@ class LLMS_Forms {
 	protected static $instance = null;
 
 	/**
-	 * User Capability required to manage forms
+	 * Provide access to the post type manager class
 	 *
-	 * @var string
+	 * @var LLMS_Forms_Post_Type
 	 */
-	protected $capability = 'manage_lifterlms';
-
-	/**
-	 * Forms post type name.
-	 *
-	 * @var string
-	 */
-	protected $post_type = 'llms_form';
+	public $post_type_manager = null;
 
 	/**
 	 * Get Main Singleton Instance.
@@ -61,20 +54,9 @@ class LLMS_Forms {
 	 */
 	private function __construct() {
 
-		add_action( 'init', array( $this, 'register_post_type' ) );
-		add_action( 'init', array( $this, 'register_meta' ) );
+		$this->post_type_manager = new LLMS_Form_Post_Type( $this );
 
-		add_filter( 'post_type_link', array( $this, 'modify_permalink' ), 10, 2 );
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
-
-		/**
-		 * Filter the capability required to manage LifterLMS Forms
-		 *
-		 * @since [version]
-		 *
-		 * @param string $capability The user capability.
-		 */
-		$this->capability = apply_filters( 'llms_forms_managment_capability', $this->capability );
 
 	}
 
@@ -139,7 +121,7 @@ class LLMS_Forms {
 	 * @param array $block A WP Block array.
 	 * @return array
 	 */
-	protected function block_to_field_settings( $block ) {
+	private function block_to_field_settings( $block ) {
 
 		$attrs = $block['attrs'];
 
@@ -187,12 +169,12 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @param array[]     $blocks Array of parsed block arrays.
+	 * @param array[]     $blocks     Array of parsed block arrays.
 	 * @param string|null $visibility The llms_visibility attribute of the parent block which is applied to all innerBlocks
 	 *                                if the innerBlock does not already have it's own visibility attribute.
 	 * @return array[]
 	 */
-	protected function cascade_visibility_attrs( $blocks, $visibility = null ) {
+	private function cascade_visibility_attrs( $blocks, $visibility = null ) {
 
 		foreach ( $blocks as &$block ) {
 
@@ -201,13 +183,10 @@ class LLMS_Forms {
 				$block['attrs']['llms_visibility'] = $visibility;
 			}
 
-			// If visibility is empty or there's no innerBlocks we don't have to do anything further to this block.
-			if ( empty( $block['attrs']['llms_visibility'] ) || empty( $block['innerBlocks'] ) ) {
-				continue;
-			}
-
 			// This block has a visibility attribute and it should be applied it to all the innerBlocks.
-			$block['innerBlocks'] = $this->cascade_visibility_attrs( $block['innerBlocks'], $block['attrs']['llms_visibility'] );
+			if ( ! empty( $block['attrs']['llms_visibility'] ) && ! empty( $block['innerBlocks'] ) ) {
+				$block['innerBlocks'] = $this->cascade_visibility_attrs( $block['innerBlocks'], $block['attrs']['llms_visibility'] );
+			}
 
 		}
 
@@ -238,33 +217,21 @@ class LLMS_Forms {
 
 		$existing = $this->get_form_post( $location_id );
 
-		// Only create a form for a location if the form doesn't already exist.
+		// Form already exists and we haven't requested an update.
 		if ( false !== $existing && ! $update ) {
 			return false;
 		}
 
 		$templates = LLMS_Form_Templates::instance();
-		$content   = $templates->get_template( $location_id );
-		$meta      = array(
-			'_llms_form_location'         => $location_id,
-			'_llms_form_default_template' => $content,
-		);
-
-		if ( isset( $data['meta'] ) ) {
-			$meta = array_merge( $meta, $data['meta'] );
-		}
 
 		$args = array(
-			'post_content' => $content,
+			'ID'           => $existing ? $existing->ID : 0,
+			'post_content' => $templates->get_template( $location_id ),
 			'post_status'  => 'publish',
 			'post_title'   => $data['title'],
-			'post_type'    => $this->post_type,
-			'meta_input'   => $meta,
+			'post_type'    => $this->get_post_type(),
+			'meta_input'   => $data['meta'],
 		);
-
-		if ( $existing ) {
-			$args['ID'] = $existing->ID;
-		}
 
 		/**
 		 * Filter arguments used to install a new form.
@@ -289,7 +256,7 @@ class LLMS_Forms {
 	 * @return string
 	 */
 	public function get_capability() {
-		return $this->capability;
+		return $this->post_type_manager->capability;
 	}
 
 	/**
@@ -302,7 +269,7 @@ class LLMS_Forms {
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
-	protected function get_field_blocks( $blocks ) {
+	private function get_field_blocks( $blocks ) {
 
 		$fields = array();
 
@@ -325,7 +292,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additional arguments passed to the short-circuit filter in `get_form_post()`.
+	 * @param array  $args Additional arguments passed to the short-circuit filter in `f()`.
 	 * @return array|false
 	 */
 	public function get_form_blocks( $location, $args = array() ) {
@@ -435,9 +402,9 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param string $html Form fields HTML.
+		 * @param string $html     Form fields HTML.
 		 * @param string $location Form location, one of: "checkout", "registration", or "account".
-		 * @param array $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+		 * @param array  $args     Additioal arguments passed to the short-circuit filter in `get_form_post()`.
 		 */
 		return apply_filters( 'llms_get_form_html', $html, $location, $args );
 
@@ -470,10 +437,10 @@ class LLMS_Forms {
 
 		$query = new WP_Query(
 			array(
-				'post_type'      => $this->post_type,
+				'post_type'      => $this->get_post_type(),
 				'posts_per_page' => 1,
 				// Only show published forms to end users but allow admins to "preview" drafts.
-				'post_status'    => current_user_can( $this->capability ) ? array( 'publish', 'draft' ) : 'publish',
+				'post_status'    => current_user_can( $this->get_capability() ) ? array( 'publish', 'draft' ) : 'publish',
 				'meta_query'     => array(
 					'relation' => 'AND',
 					array(
@@ -488,11 +455,7 @@ class LLMS_Forms {
 			)
 		);
 
-		if ( $query->have_posts() ) {
-			return $query->posts[0];
-		}
-
-		return false;
+		return $query->have_posts() ? $query->posts[0] : false;
 
 	}
 
@@ -505,7 +468,7 @@ class LLMS_Forms {
 	 * @param array  $args Additioal arguments passed to the short-circuit filter.
 	 * @return array[]
 	 */
-	protected function get_additional_fields( $location, $args = array() ) {
+	private function get_additional_fields( $location, $args = array() ) {
 
 		/**
 		 * Filter to add custom fields to a form programmatically.
@@ -532,7 +495,7 @@ class LLMS_Forms {
 	 * @param array  $args Additioal arguments passed to the short-circuit filter.
 	 * @return string
 	 */
-	protected function get_additional_fields_html( $location, $args = array() ) {
+	private function get_additional_fields_html( $location, $args = array() ) {
 
 		$html   = '';
 		$fields = $this->get_additional_fields( $location, $args );
@@ -588,8 +551,8 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param array[] $fields List of LLMS_Form_Field settings arrays.
-		 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
+		 * @param array[]          $fields List of LLMS_Form_Field settings arrays.
+		 * @param LLMS_Access_Plan $plan   Access plan being used for enrollment.
 		 */
 		return apply_filters( 'llms_forms_get_free_enroll_form_fields', $fields, $plan );
 
@@ -621,9 +584,18 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @return array
+	 * @return array[] {
+	 *     An associative array. The array key is the location ID and each array is a location definition array.
+	 *
+	 *     @type string $name        The human-readable location name (as displayed on the admin panel).
+	 *     @type string $description A description of the form (as displayed on the admin panel).
+	 *     @type string $title       The form's post title. This is displayed to the end user when the "Show Form Title" option is enabled.
+	 *     @type array  $meta        An associative array of postmeta information for the form. The array key is the meta key and the value is the meta value.
+	 * }
 	 */
 	public function get_locations() {
+
+		$templates = LLMS_Form_Templates::instance();
 
 		/**
 		 * Filter the available form locations.
@@ -632,7 +604,7 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param  array $locations Associative array of form location information.
+		 * @param  array[] $locations Associative array of form location information.
 		 */
 		return apply_filters(
 			'llms_forms_get_locations',
@@ -641,7 +613,9 @@ class LLMS_Forms {
 					'name'        => __( 'Checkout', 'lifterlms' ),
 					'description' => __( 'Handles new user registration and existing user information updates during checkout and enrollment.', 'lifterlms' ),
 					'title'       => __( 'Billing Information', 'lifterlms' ),
+					'template'    => $templates->get_template( 'checkout' ),
 					'meta'        => array(
+						'_llms_form_location'   => 'checkout',
 						'_llms_form_show_title' => 'yes',
 						'_llms_form_is_core'    => 'yes',
 					),
@@ -650,7 +624,9 @@ class LLMS_Forms {
 					'name'        => __( 'Registration', 'lifterlms' ),
 					'description' => __( 'Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used.', 'lifterlms' ),
 					'title'       => __( 'Register', 'lifterlms' ),
+					'template'    => $templates->get_template( 'registration' ),
 					'meta'        => array(
+						'_llms_form_location'   => 'registration',
 						'_llms_form_show_title' => 'yes',
 						'_llms_form_is_core'    => 'yes',
 					),
@@ -659,7 +635,9 @@ class LLMS_Forms {
 					'name'        => __( 'Account', 'lifterlms' ),
 					'description' => __( 'Handles user account information updates on the edit account area of the student dashboard.', 'lifterlms' ),
 					'title'       => __( 'Edit Account Information', 'lifterlms' ),
+					'template'    => $templates->get_template( 'account' ),
 					'meta'        => array(
+						'_llms_form_location'   => 'account',
 						'_llms_form_show_title' => 'no',
 						'_llms_form_is_core'    => 'yes',
 					),
@@ -677,58 +655,7 @@ class LLMS_Forms {
 	 * @return string
 	 */
 	public function get_post_type() {
-		return $this->post_type;
-	}
-
-	/**
-	 * Retrieve a permalink for a given form post.
-	 *
-	 * This is primarily used by the Block Editor to allow quick links to the form from within the editor.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post $post Form post object.
-	 * @return string|false
-	 */
-	protected function get_permalink( $post ) {
-
-		$url      = false;
-		$location = get_post_meta( $post->ID, '_llms_form_location', true );
-
-		switch ( $location ) {
-
-			case 'account':
-				$url = llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) );
-				break;
-
-			case 'checkout':
-				$url = llms_get_page_url( 'checkout' );
-
-				// Add an access plan to the URL.
-				$plans = new WP_Query(
-					array(
-						'post_type'      => 'llms_access_plan',
-						'posts_per_page' => 1,
-						'orderby'        => 'ID',
-						'order'          => 'ASC',
-					)
-				);
-				if ( $plans->have_posts() ) {
-					$url = add_query_arg( 'plan', $plans->posts[0]->ID, $url );
-				}
-				break;
-
-			case 'registration':
-				if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
-					$url = llms_get_page_url( 'myaccount' );
-				}
-
-				break;
-
-		}
-
-		return apply_filters( 'llms_form_get_permalink', $url, $location, $post );
-
+		return $this->post_type_manager->post_type;
 	}
 
 	/**
@@ -739,7 +666,7 @@ class LLMS_Forms {
 	 * @param array $block Parsed block array.
 	 * @return bool
 	 */
-	protected function is_block_visible( $block ) {
+	private function is_block_visible( $block ) {
 
 		// Make the block return `true` if it's visible, it will already automatically return an empty string if it's invisible.
 		add_filter( 'render_block', '__return_true', 5 );
@@ -786,42 +713,6 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Meta field update authorization callback.
-	 *
-	 * @since [version]
-	 *
-	 * @param bool   $allowed Is the update allowed.
-	 * @param string $meta_key Meta keyname.
-	 * @param int    $object_id WP Object ID (post,comment,etc)...
-	 * @param int    $user_id WP User ID.
-	 * @param string $cap Requested capability.
-	 * @param array  $caps User capabilities.
-	 * @return bool
-	 */
-	public function meta_auth_callback( $allowed, $meta_key, $object_id, $user_id, $cap, $caps ) {
-		return user_can( $user_id, $this->capability, $object_id );
-	}
-
-	/**
-	 * Modify the permalink of a given form.
-	 *
-	 * @since [version]
-	 *
-	 * @param string  $permalink Default permalink.
-	 * @param WP_Post $post Post object.
-	 * @return string|false
-	 */
-	public function modify_permalink( $permalink, $post ) {
-
-		if ( $this->post_type !== $post->post_type ) {
-			return $permalink;
-		}
-
-		return $this->get_permalink( $post );
-
-	}
-
-	/**
 	 * Internal function to parse form content into a list of WP Block arrays.
 	 *
 	 * Parses HTML content and then cascade visibility settings to innerBlocks.
@@ -831,7 +722,7 @@ class LLMS_Forms {
 	 * @param string $content Post content HTML.
 	 * @return array[] Array of parsed block arrays.
 	 */
-	protected function parse_blocks( $content ) {
+	private function parse_blocks( $content ) {
 
 		$blocks = parse_blocks( $content );
 		$blocks = $this->cascade_visibility_attrs( $blocks );
@@ -867,111 +758,6 @@ class LLMS_Forms {
 
 		$attrs['type'] = 'hidden';
 		return $attrs;
-
-	}
-
-	/**
-	 * Register custom postmeta properties for the forms post type.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function register_meta() {
-
-		$props = array(
-			'_llms_form_location'         => array(
-				'description' => __( 'Determines the front-end location where the form is displayed.', 'lifterlms' ),
-			),
-			'_llms_form_show_title'       => array(
-				'description' => __( 'Determines whether or not to display the form\'s title on the front-end.', 'lifterlms' ),
-			),
-			'_llms_form_is_core'          => array(
-				'description' => __( 'Determines if the form is a core form required for basic site functionality.', 'lifterlms' ),
-			),
-			'_llms_form_default_template' => array(
-				'description' => __( 'Stores the default template for the form.', 'lifterlms' ),
-			),
-		);
-
-		foreach ( $props as $prop => $settings ) {
-
-			register_meta(
-				'post',
-				$prop,
-				wp_parse_args(
-					$settings,
-					array(
-						'object_subtype'    => $this->post_type,
-						'sanitize_callback' => 'sanitize_text_field',
-						'auth_callback'     => array( $this, 'meta_auth_callback' ),
-						'type'              => 'string',
-						'single'            => true,
-						'show_in_rest'      => true,
-					)
-				)
-			);
-
-		}
-
-	}
-
-	/**
-	 * Register the forms post type.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function register_post_type() {
-
-		$args = array(
-			'label'               => __( 'LifterLMS Forms', 'lifterlms' ),
-			'labels'              => array(
-				'name'          => __( 'LifterLMS Forms', 'lifterlms' ),
-				'singular_name' => __( 'LifterLMS Form', 'lifterlms' ),
-				'search_items'  => __( 'Search Forms', 'lifterlms' ),
-				'menu_name'     => __( 'Forms', 'lifterlms' ),
-			),
-			'public'              => false,
-			'exclude_from_search' => true,
-			'publicly_queryable'  => false,
-			'show_ui'             => true,
-			'show_in_nav_menus'   => false,
-			'show_in_menu'        => 'lifterlms',
-			'show_in_admin_bar'   => false,
-			'supports'            => array( 'title', 'editor', 'custom-fields' ),
-			'show_in_rest'        => true,
-			'rewrite'             => false,
-			'capabilities'        => array(
-				'edit_post'              => $this->capability,
-				'read_post'              => $this->capability,
-				'delete_post'            => false,
-				'edit_posts'             => $this->capability,
-				'edit_others_posts'      => $this->capability,
-				'publish_posts'          => $this->capability,
-				'read_private_posts'     => $this->capability,
-				'read'                   => 'read',
-				'delete_posts'           => false,
-				'delete_private_posts'   => false,
-				'delete_published_posts' => false,
-				'delete_others_posts'    => false,
-				'edit_private_posts'     => $this->capability,
-				'edit_published_posts'   => $this->capability,
-				'create_posts'           => false,
-			),
-		);
-
-		/**
-		 * Filter post type registration arguments for the llms_form post type.
-		 *
-		 * @since [version]
-		 *
-		 * @param array $args Post type registration arguments.
-		 */
-		$args = apply_filters( 'llms_forms_register_post_type', $args );
-
-		register_post_type( $this->post_type, $args );
 
 	}
 

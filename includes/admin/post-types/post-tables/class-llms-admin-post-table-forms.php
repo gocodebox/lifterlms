@@ -106,6 +106,11 @@ class LLMS_Admin_Post_Table_Forms {
 			return $actions;
 		}
 
+		// Core forms cannot be deleted.
+		if ( llms_parse_bool( get_post_meta( $post->ID, '_llms_form_is_core', true ) ) ) {
+			unset( $actions['trash'] );
+		}
+
 		unset( $actions['inline hide-if-no-js'] );
 
 		$link = get_permalink( $post );

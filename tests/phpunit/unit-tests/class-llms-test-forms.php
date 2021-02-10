@@ -353,31 +353,46 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 */
 	public function test_create() {
 
-		$locs = array( 'checkout', 'registration', 'account' );
+		$locs = $this->forms->get_locations();
 		$created = array();
 
 		// Create new forms.
-		foreach ( $locs as $loc ) {
+		foreach ( $locs as $loc => $data ) {
 			$id = $this->forms->create( $loc );
 			$this->assertTrue( is_numeric( $id ) );
 			$post = get_post( $id );
 			$this->assertEquals( 'llms_form', $post->post_type );
 			$this->assertEquals( $loc, get_post_meta( $post->ID, '_llms_form_location', true ) );
 
+			foreach ( $data['meta'] as $key => $val ) {
+				$this->assertEquals( $val, get_post_meta( $post->ID, $key, true ) );
+			}
+
 			$created[ $loc ] = $id;
 
 		}
 
 		// Locs already exist.
-		foreach ( $locs as $loc ) {
+		foreach ( array_keys( $locs ) as $loc ) {
 			$this->assertFalse( $this->forms->create( $loc ) );
 		}
 
 		// Locs already exist and we want to update them.
-		foreach ( $locs as $loc ) {
-			$this->assertEquals( $created[$loc], $this->forms->create( $loc, true ) );
+		foreach ( array_keys( $locs ) as $loc ) {
+			$this->assertEquals( $created[ $loc ], $this->forms->create( $loc, true ), $loc );
 		}
 
+	}
+
+	/**
+	 * Test the get_capability() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_capability() {
+		$this->assertEquals( 'manage_lifterlms', $this->forms->get_capability() );
 	}
 
 	/**
@@ -581,9 +596,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
 	 * @return void
 	 */
 	public function test_get_form_post_not_installed() {
@@ -598,9 +610,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Test get_form_post()
 	 *
 	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
 	 *
 	 * @return void
 	 */
@@ -637,97 +646,20 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test permalink retrieval for account updates.
+	 * Test the get_post_type() method.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_permalink_for_account() {
-
-		LLMS_Install::create_pages();
-		$form = get_post( $this->forms->create( 'account' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
-		$this->assertEquals( add_query_arg( 'edit-account', '', get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ) ), $link );
-
-	}
-
-	/**
-	 * Test permalink retrieval for checkout when no access plans exist.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink_for_checkout_no_plans() {
-
-		global $wpdb;
-		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_access_plan' ) );
-
-		LLMS_Install::create_pages();
-		$form = get_post( $this->forms->create( 'checkout' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
-		$this->assertEquals( get_permalink( get_option( 'lifterlms_checkout_page_id' ) ), $link );
-
-	}
-
-	/**
-	 * Test permalink retrieval for checkout with access plans.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink_for_checkout_with_plans() {
-
-		LLMS_Install::create_pages();
-		$plan = $this->get_mock_plan();
-		$form = get_post( $this->forms->create( 'checkout' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
-		$this->assertEquals( add_query_arg( 'plan', $plan->get( 'id' ), get_permalink( get_option( 'lifterlms_checkout_page_id' ) ) ), $link );
-
-	}
-
-	/**
-	 * Test permalink retrieval for registration form when open registration is not enabled.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink_for_registration_not_enabled() {
-
-		$form = get_post( $this->forms->create( 'registration' ) );
-		update_option( 'lifterlms_enable_myaccount_registration', 'no' );
-		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
-		$this->assertFalse( $link );
-
-	}
-
-	/**
-	 * Test permalink retrieval for registration form when open registration is enabled.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_permalink_for_registration_enabled() {
-
-		LLMS_Install::create_pages();
-		$form = get_post( $this->forms->create( 'registration' ) );
-		update_option( 'lifterlms_enable_myaccount_registration', 'yes' );
-		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
-		$this->assertEquals( get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ), $link );
-
+	public function test_get_post_type() {
+		$this->assertEquals( 'llms_form', $this->forms->get_post_type() );
 	}
 
 	/**
 	 * test the install() method.
 	 *
 	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
 	 *
 	 * @return void
 	 */
@@ -782,40 +714,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		// Has a user, don't show.
 		wp_set_current_user( $this->factory->student->create() );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->forms, 'is_block_visible', array( $blocks[0] ) ) );
-
-	}
-
-	/**
-	 * Test post type registration.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_register_post_type() {
-
-		$this->assertTrue( post_type_exists( 'llms_form' ) );
-
-	}
-
-	/**
-	 * Test custom meta prop registration.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_register_meta() {
-
-		do_action( 'init' );
-
-		global $wp_meta_keys;
-		$this->assertArrayHasKey( 'post', $wp_meta_keys );
-		$this->assertArrayHasKey( 'llms_form', $wp_meta_keys['post'] );
-
-		foreach ( array( '_llms_form_location', '_llms_form_show_title' ) as $meta ) {
-			$this->assertArrayHasKey( $meta, $wp_meta_keys['post']['llms_form'] );
-		}
 
 	}
 
