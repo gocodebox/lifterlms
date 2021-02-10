@@ -110,6 +110,50 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test maybe_prevent_deletion() for other post types
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prevent_deletion_wrong_post_type() {
+		$post = $this->factory->post->create_and_get();
+		$this->assertNull( $this->main->maybe_prevent_deletion( null, $post ) );
+	}
+
+	/**
+	 * Test maybe_prevent_deletion() for non-core forms
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prevent_deletion_not_core() {
+		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_form' ) );
+		$this->assertNull( $this->main->maybe_prevent_deletion( null, $post ) );
+	}
+
+	/**
+	 * Test maybe_prevent_deletion() for core forms that cannot be deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prevent_deletion() {
+		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_form' ) );
+		update_post_meta( $post->ID, '_llms_form_is_core', 'yes' );
+		$this->assertFalse( $this->main->maybe_prevent_deletion( null, $post ) );
+	}
+
+	/**
+	 * Test meta_auth_callback()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_meta_auth_callback() {
 
 		LLMS_Install::create_pages();
@@ -121,10 +165,13 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 			'instructor'    => false,
 			'student'       => false,
 			'editor'        => false,
+			'subscriber'    => false,
 		);
 
+		// Logged out user can't do stuff.
 		$this->assertFalse( $this->main->meta_auth_callback( false, 'does_not_matter', $form->ID, null, 'does_not_matter', array() ) );
 
+		// Test various roes.
 		foreach ( $roles as $role => $expect ) {
 			$user = $this->factory->user->create_and_get( array( 'role' => $role ) );
 			$this->assertSame( $expect, $this->main->meta_auth_callback( false, 'does_not_matter', $form->ID, $user->ID, 'does_not_matter', $user->caps ) );

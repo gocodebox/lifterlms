@@ -128,13 +128,25 @@ class LLMS_Form_Post_Type {
 
 	}
 
-	public function maybe_prevent_deletion( $check, $post ) {
+	/**
+	 * Maybe prevent a post from being deleted/trashed
+	 *
+	 * We do not allow the "core" forms to be deleted. This action prevents both
+	 * deletion and trash actions when run against one of the core form.
+	 *
+	 * @since [version]
+	 *
+	 * @param null|bool $prevent Whether or not the action has been prevented.
+	 * @param WP_Post   $post    The form post object.
+	 * @return null|false Returns `null` when we don't prevent the action and `false` if we should.
+	 */
+	public function maybe_prevent_deletion( $prevent, $post ) {
 
 		if ( $post->post_type === $this->post_type && llms_parse_bool( get_post_meta( $post->ID, '_llms_form_is_core', 'yes' ) ) ) {
-			$check = false;
+			$prevent = false;
 		}
 
-		return $check;
+		return $prevent;
 	}
 
 	/**
