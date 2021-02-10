@@ -187,7 +187,6 @@ class LLMS_Forms {
 			if ( ! empty( $block['attrs']['llms_visibility'] ) && ! empty( $block['innerBlocks'] ) ) {
 				$block['innerBlocks'] = $this->cascade_visibility_attrs( $block['innerBlocks'], $block['attrs']['llms_visibility'] );
 			}
-
 		}
 
 		return $blocks;
