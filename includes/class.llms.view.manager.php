@@ -115,7 +115,7 @@ class LLMS_View_Manager {
 
 			$wp_admin_bar->add_node(
 				array(
-					'href'   => $this->get_url( $slug ),
+					'href'   => LLMS_View_Manager::get_url( $slug ),
 					'id'     => 'llms-view-as--' . $slug,
 					'parent' => 'llms-view-as-menu',
 					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
@@ -123,25 +123,6 @@ class LLMS_View_Manager {
 			);
 
 		}
-
-	}
-
-	/**
-	 * Add view manager query args to a given url
-	 *
-	 * @since [version]
-	 *
-	 * @param string|false $href The URL or `false` to use the current `$_SERVER['REQUEST_URI']`.
-	 * @param string       $role The role to view the URL as. Accepts any role defined in the `get_views()` method.
-	 * @param array        $args Additional query arguments to add to the URL.
-	 *
-	 * @return string
-	 */
-	public static function create_url( $href, $role, $args = array() ) {
-
-		$args['llms-view-as'] = $role;
-		$href = add_query_arg( $args, $href );
-		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
 
 	}
 
@@ -167,19 +148,24 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X.
-	 * @since [version] Use `LLMS_View_Manager::create_url()`.
+	 * @since [version] Changed method signature to add the `$href` parameter and changed access from private to public static.
 	 *
-	 * @param string $role View option [self|visitor|student].
-	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
+	 * @param string       $role Role to view the screen as. Accepts "self", "visitor", or "student".
+	 * @param string|false $href Optional. The URL to create a URL for. If `false`, uses `$_SERVER['REQUEST_URI']`.
+	 * @param array        $args Optional. Additional query args to add to the url. Default empty array.
 	 * @return string
 	 */
-	private function get_url( $role, $args = array() ) {
+	public static function get_url( $role, $href = false, $args = array() ) {
 
-		// Returns the current url without the `llms-view-as` and `view_nonce` query args.
+		// If we want to view as "self" we should remove the query vars (if they're set).
 		if ( 'self' === $role ) {
-			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
+			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ), $href );
 		}
-		return LLMS_View_Manager::create_url( false, $role, $args );
+
+		// Create a new URL.
+		$args['llms-view-as'] = $role;
+		$href = add_query_arg( $args, $href );
+		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
 
 	}
 

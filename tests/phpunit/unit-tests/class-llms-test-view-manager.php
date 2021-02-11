@@ -82,6 +82,61 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_url() with a supplied URL and additional QS args.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_url_with_url() {
+
+		$url = parse_url( LLMS_View_Manager::get_url(  'visitor', 'https://mock.tld/test?whatever=0', array( 'more' => 'yes' ) ) );
+
+		// Make sure URL is preserved properly.
+		$this->assertEquals( 'https', $url['scheme'] );
+		$this->assertEquals( 'mock.tld', $url['host'] );
+		$this->assertEquals( '/test', $url['path'] );
+
+		// Check query vars.
+		parse_str( $url['query'], $qs );
+		$this->assertEquals( '0', $qs['whatever'] );
+		$this->assertEquals( 'yes', $qs['more'] );
+		$this->assertEquals( 'visitor', $qs['llms-view-as'] );
+
+		// Ensure generated nonce is valid.
+		$this->assertEquals( 1, wp_verify_nonce( $qs['view_nonce'], 'llms-view-as' ) );
+
+	}
+
+	/**
+	 * Test get_url() with a supplied URL and additional QS args.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_url_without_url() {
+
+		$_SERVER['REQUEST_URI'] = 'https://fake.tld';
+
+		$url = parse_url( LLMS_View_Manager::get_url(  'student' ) );
+
+		// Make sure URL is preserved properly.
+		$this->assertEquals( 'https', $url['scheme'] );
+		$this->assertEquals( 'fake.tld', $url['host'] );
+
+		// Check query vars.
+		parse_str( $url['query'], $qs );
+		$this->assertEquals( 'student', $qs['llms-view-as'] );
+
+		// Ensure generated nonce is valid.
+		$this->assertEquals( 1, wp_verify_nonce( $qs['view_nonce'], 'llms-view-as' ) );
+
+		$_SERVER['REQUEST_URI'] = '';
+
+	}
+
+	/**
 	 * Test modify_dashboard()
 	 *
 	 * @since [version]
