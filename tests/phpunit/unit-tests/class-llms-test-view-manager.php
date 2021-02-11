@@ -25,6 +25,23 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Mock `$_GET` data to control the return of `get_view()`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $role Requested view role.
+	 * @return void
+	 */
+	public function mock_view_data( $role ) {
+
+		$this->mockGetRequest( array(
+			'view_nonce'   => wp_create_nonce( 'llms-view-as' ),
+			'llms-view-as' => $role,
+		) );
+
+	}
+
+	/**
 	 * Test constructor
 	 *
 	 * @since 4.5.1
@@ -65,6 +82,28 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test modify_dashboard()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_dashboard() {
+
+		// Unchanged when viewing as self.
+		$this->assertNull( $this->main->modify_dashboard( null ) );
+
+		// Visitors can't load the dashboard (they see forms).
+		$this->mock_view_data( 'visitor' );
+		$this->assertFalse( $this->main->modify_dashboard( null ) );
+
+		// Students see the dashboard.
+		$this->mock_view_data( 'student' );
+		$this->assertTrue( $this->main->modify_dashboard( null ) );
+
+	}
+
+	/**
 	 * Test should_display() when viewing valid post types with a valid user
 	 *
 	 * @since 4.5.1
@@ -96,6 +135,20 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
 
+	}
+
+	/**
+	 * Test should_display() when viewing the student dashboard with a valid user
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_should_display_on_dashboard() {
+		LLMS_Install::create_pages();
+		$this->go_to( llms_get_page_url( 'myaccount' ) );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
 	}
 
 	/**

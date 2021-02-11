@@ -41,7 +41,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		do_action( 'lifterlms_before_student_dashboard' );
 
 		// If user is not logged in.
-		if ( ! is_user_logged_in() ) {
+		if ( ! apply_filters( 'llms_display_student_dashboard', is_user_logged_in() ) ) {
 
 			/**
 			 * Allow adding a notice message to be displayed in the student dashboard where `llms_print_notices()` will be invoked.

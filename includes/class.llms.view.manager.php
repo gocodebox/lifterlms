@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 4.5.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,12 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_View_Manager class.
  *
  * @since 3.7.0
- * @since 3.35.0 Sanitize `$_GET` data.
- * @since 4.2.0 Disable the view management when creating a pending order.
- *               Added `modify_display_free_enroll_form` method.
- *               `get_url` method modified so to take into account already present
- *               query args in the request URI.
- *               Update admin bar icon.
  */
 class LLMS_View_Manager {
 
@@ -47,6 +41,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
+	 * @since [version] Added filters to handle modification of the student dashboard.
 	 *
 	 * @return void
 	 */
@@ -70,6 +65,10 @@ class LLMS_View_Manager {
 			add_filter( 'llms_get_enrollment_status', array( $this, 'modify_enrollment_status' ), 10, 1 );
 
 			add_filter( 'llms_display_free_enroll_form', array( $this, 'modify_display_free_enroll_form' ), 10, 1 );
+
+			add_filter( 'llms_display_student_dashboard', array( $this, 'modify_dashboard' ), 10, 1 );
+			add_filter( 'llms_hide_registration_form', array( $this, 'modify_dashboard' ), 10, 1 );
+			add_filter( 'llms_hide_login_form', array( $this, 'modify_dashboard' ), 10, 1 );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
@@ -128,6 +127,25 @@ class LLMS_View_Manager {
 	}
 
 	/**
+	 * Add view manager query args to a given url
+	 *
+	 * @since [version]
+	 *
+	 * @param string|false $href The URL or `false` to use the current `$_SERVER['REQUEST_URI']`.
+	 * @param string       $role The role to view the URL as. Accepts any role defined in the `get_views()` method.
+	 * @param array        $args Additional query arguments to add to the URL.
+	 *
+	 * @return string
+	 */
+	public static function create_url( $href, $role, $args = array() ) {
+
+		$args['llms-view-as'] = $role;
+		$href = add_query_arg( $args, $href );
+		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
+
+	}
+
+	/**
 	 * Inline JS.
 	 *
 	 * Updates links so admins can navigate around quickly when "viewing as".
@@ -148,7 +166,8 @@ class LLMS_View_Manager {
 	 * Get a view url for the requested view.
 	 *
 	 * @since 3.7.0
-	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X
+	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X.
+	 * @since [version] Use `LLMS_View_Manager::create_url()`.
 	 *
 	 * @param string $role View option [self|visitor|student].
 	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
@@ -160,13 +179,7 @@ class LLMS_View_Manager {
 		if ( 'self' === $role ) {
 			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
 		}
-
-		$args['llms-view-as'] = $role;
-
-		$href = add_query_arg( $args );
-		$href = wp_nonce_url( $href, 'llms-view-as', 'view_nonce' );
-
-		return $href;
+		return LLMS_View_Manager::create_url( false, $role, $args );
 
 	}
 
@@ -175,6 +188,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since [version] Don't access `$_GET` directly, use `llms_filter_input()`.
 	 *
 	 * @return string
 	 */
@@ -186,11 +200,12 @@ class LLMS_View_Manager {
 
 		// Ensure it's a valid view.
 		$views = $this->get_views();
-		if ( ! isset( $views[ $_GET['llms-view-as'] ] ) ) {
+		$view  = llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		if ( ! $view || ! isset( $views[ $view ] ) ) {
 			return 'self';
 		}
 
-		return llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		return $view;
 
 	}
 
@@ -252,6 +267,32 @@ class LLMS_View_Manager {
 		}
 
 		return $status;
+
+	}
+
+	/**
+	 * Modify the student dashboard
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $value Default value from the filter.
+	 * @return boolean
+	 */
+	public function modify_dashboard( $value ) {
+
+		switch ( $this->get_view() ) {
+
+			case 'visitor':
+				$value = false;
+				break;
+
+			case 'student':
+				$value = true;
+				break;
+		}
+
+		return $value;
+
 
 	}
 
@@ -352,9 +393,13 @@ class LLMS_View_Manager {
 	 *
 	 * The view manager is only displayed when the following criteria is met:
 	 * + The current user must have a role that is allowed to bypass LifterLMS restrictions
-	 * + Must be viewing a single course, lesson, membership, or quiz or the LifterLMS checkout page.
+	 * + Must be viewing one of the following:
+	 *   + a single course, lesson, membership, or quiz
+	 *   + LifterLMS checkout page
+	 *   + LifterLMS student dashboard page
 	 *
 	 * @since 4.5.1
+	 * @since [version] Display on the student dashboard.
 	 *
 	 * @return boolean
 	 */
@@ -364,7 +409,7 @@ class LLMS_View_Manager {
 
 		if ( llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 			global $post;
-			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
+			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! is_llms_account_page() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
 		}
 
 		/**
