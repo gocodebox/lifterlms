@@ -24,6 +24,13 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Initiate (and retrieve) an instance of WP_Admin_Bar
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Admin_Bar
+	 */
 	private function get_admin_bar() {
 
 		add_filter( 'show_admin_bar', '__return_true' );
