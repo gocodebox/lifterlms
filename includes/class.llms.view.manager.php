@@ -115,7 +115,7 @@ class LLMS_View_Manager {
 
 			$wp_admin_bar->add_node(
 				array(
-					'href'   => LLMS_View_Manager::get_url( $slug ),
+					'href'   => self::get_url( $slug ),
 					'id'     => 'llms-view-as--' . $slug,
 					'parent' => 'llms-view-as-menu',
 					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
@@ -164,7 +164,7 @@ class LLMS_View_Manager {
 
 		// Create a new URL.
 		$args['llms-view-as'] = $role;
-		$href = add_query_arg( $args, $href );
+		$href                 = add_query_arg( $args, $href );
 		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
 
 	}
