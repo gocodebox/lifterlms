@@ -24,6 +24,19 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 
 	}
 
+	private function get_admin_bar() {
+
+		add_filter( 'show_admin_bar', '__return_true' );
+		_wp_admin_bar_init();
+
+		global $wp_admin_bar;
+
+		remove_filter( 'show_admin_bar', '__return_true' );
+
+		return $wp_admin_bar;
+
+	}
+
 	/**
 	 * Mock `$_GET` data to control the return of `get_view()`.
 	 *
@@ -79,6 +92,44 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 		) );
 		$this->main = new LLMS_View_Manager();
 		$this->assertFalse( has_action( 'init', array( $this->main, 'add_actions' ) ) );
+	}
+
+	/**
+	 * Test add_menu_items() when the display manager shouldn't be displayed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_menu_items_no_display() {
+
+		$bar = $this->get_admin_bar();
+
+		$this->main->add_menu_items( $bar );
+
+		$this->assertNull( $bar->get_nodes() );
+
+	}
+
+	/**
+	 * Test add_menu_items()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_menu_items() {
+
+		$bar = $this->get_admin_bar();
+
+		add_filter( 'llms_view_manager_should_display', '__return_true' );
+
+		$this->main->add_menu_items( $bar );
+
+		$this->assertEquals( array( 'llms-view-as-menu', 'llms-view-as--visitor', 'llms-view-as--student' ), array_keys( $bar->get_nodes() ) );
+
+		remove_filter( 'llms_view_manager_should_display', '__return_true' );
+
 	}
 
 	/**

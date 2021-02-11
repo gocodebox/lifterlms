@@ -83,45 +83,19 @@ class LLMS_View_Manager {
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Updated icon.
 	 * @since 4.5.1 Use `should_display()` method to determine if the view manager should be added to the admin bar.
+	 * @since [version] Retrieve nodes to add from `get_menu_items_to_add()`.
 	 *
+	 * @param WP_Admin_Bar $wp_admin_bar Admin bar class instance.
 	 * @return void
 	 */
-	public function add_menu_items() {
+	public function add_menu_items( $wp_admin_bar ) {
 
 		if ( ! $this->should_display() ) {
 			return;
 		}
 
-		global $wp_admin_bar;
-
-		$view  = $this->get_view();
-		$views = $this->get_views();
-		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
-
-		$wp_admin_bar->add_node(
-			array(
-				'id'     => 'llms-view-as-menu',
-				'parent' => 'top-secondary',
-				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
-			)
-		);
-
-		foreach ( $views as $slug => $title ) {
-
-			// Exclude the current view.
-			if ( $slug === $view ) {
-				continue;
-			}
-
-			$wp_admin_bar->add_node(
-				array(
-					'href'   => self::get_url( $slug ),
-					'id'     => 'llms-view-as--' . $slug,
-					'parent' => 'llms-view-as-menu',
-					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
-				)
-			);
-
+		foreach ( $this->get_menu_items_to_add() as $node ) {
+			$wp_admin_bar->add_node( $node );
 		}
 
 	}
@@ -141,6 +115,52 @@ class LLMS_View_Manager {
 		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input( INPUT_GET, 'view_nonce', FILTER_SANITIZE_STRING ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Retrieve an array of nodes to be added to the admin bar
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] An array of arrays formatted to be passed to `WP_Admin_Bar::add_node()`.
+	 */
+	private function get_menu_items_to_add() {
+
+		$nodes  = array();
+		$view   = $this->get_view();
+		$views  = $this->get_views();
+		$top_id = 'llms-view-as-menu';
+
+		// Translators: %s = View manager role name.
+		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
+
+		// Add the top-level node.
+		$nodes[] = array(
+			'id'     => $top_id,
+			'parent' => 'top-secondary',
+			'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
+		);
+
+		// Add view as links.
+		foreach ( $views as $role => $name ) {
+
+			// Exclude the current view.
+			if ( $role === $view ) {
+				continue;
+			}
+
+			$nodes[] = array(
+				'href'   => self::get_url( $role ),
+				'id'     => 'llms-view-as--' . $role,
+				'parent' => $top_id,
+				// Translators: %s = View manager role name.
+				'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $name ),
+			);
+
+		}
+
+		return $nodes;
+
 	}
 
 	/**
