@@ -188,6 +188,59 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_view() when there's nonce errors.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_view_nonce_error() {
+
+		// Nothing set.
+		$this->assertEquals( 'self', LLMS_Unit_Test_Util::call_method( $this->main, 'get_view' ) );
+
+		// Invalid nonce.
+		$this->mockGetRequest( array(
+			'view_nonce'   => 'fake',
+			'llms-view-as' => 'student',
+		) );
+		$this->assertEquals( 'self', LLMS_Unit_Test_Util::call_method( $this->main, 'get_view' ) );
+
+	}
+
+	/**
+	 * Test get_view() with an invalid view.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_view_invalid_view() {
+
+		$this->mock_view_data( 'fake' );
+		$this->assertEquals( 'self', LLMS_Unit_Test_Util::call_method( $this->main, 'get_view' ) );
+
+	}
+
+	/**
+	 * Test get_view() with valid data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_view() {
+
+		foreach ( array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_views' ) ) as $view ) {
+
+			$this->mock_view_data( $view );
+			$this->assertEquals( $view, LLMS_Unit_Test_Util::call_method( $this->main, 'get_view' ) );
+
+		}
+
+	}
+
+	/**
 	 * Test modify_dashboard()
 	 *
 	 * @since [version]
