@@ -279,7 +279,6 @@ class LLMS_View_Manager {
 
 		return $value;
 
-
 	}
 
 	/**
