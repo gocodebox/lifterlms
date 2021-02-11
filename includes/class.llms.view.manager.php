@@ -216,6 +216,17 @@ class LLMS_View_Manager {
 	}
 
 	/**
+	 * Test get_views() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_views() {
+		$this->assertEquals( array( 'self', 'visitor', 'student' ), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_views' ) ) );
+	}
+
+	/**
 	 * Get a list of available views.
 	 *
 	 * @since 3.7.0
