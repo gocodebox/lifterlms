@@ -207,12 +207,12 @@ class LLMS_Forms {
 	 */
 	public function create( $location_id, $update = false ) {
 
-		$locs = $this->get_locations();
-		$data = isset( $locs[ $location_id ] ) ? $locs[ $location_id ] : false;
-
-		if ( ! $data ) {
+		if ( ! $this->is_location_valid() ) {
 			return false;
 		}
+
+		$locs = $this->get_locations();
+		$data = isset( $locs[ $location_id ] ) ? $locs[ $location_id ] : false;
 
 		$existing = $this->get_form_post( $location_id );
 
@@ -709,6 +709,18 @@ class LLMS_Forms {
 
 		return $installed;
 
+	}
+
+	/**
+	 * Determines if a location is a valid & registered form location
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location The location id.
+	 * @return boolean
+	 */
+	public function is_location_valid( $location ) {
+		return in_array( $location, array_keys( $this->get_locations(), true );
 	}
 
 	/**

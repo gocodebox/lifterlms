@@ -718,6 +718,23 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test is_location_valid()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_location_valid() {
+
+		foreach ( array_keys( $this->forms->get_locations() ) as $loc ) {
+			$this->assertTrue( $this->forms->is_location_valid( $loc ) );
+		}
+
+		$this->assertFalse( $this->forms->is_location_valid( 'fake' ) );
+
+	}
+
+	/**
 	 * Test block field render function for non-field blocks.
 	 *
 	 * @since [version]
