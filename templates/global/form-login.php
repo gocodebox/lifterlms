@@ -14,6 +14,20 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Filters whether or not the login form should be displayed
+ *
+ * By default, the registration form is hidden from logged-in users and
+ * displayed to logged out users.
+ *
+ * @since [version]
+ *
+ * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
+ */
+if ( apply_filters( 'llms_hide_login_form', is_user_logged_in() ) ) {
+	return;
+}
 ?>
 
 <?php llms_print_notices(); ?>

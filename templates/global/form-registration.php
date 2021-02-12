@@ -14,8 +14,17 @@ defined( 'ABSPATH' ) || exit;
 $form_title  = llms_get_form_title( 'registration' );
 $form_fields = llms_get_form_html( 'registration' );
 
-// Don't allow logged in users to register.
-if ( get_current_user_id() ) {
+/**
+ * Filters whether or not the registration form should be displayed
+ *
+ * By default, the registration form is hidden from logged-in users and
+ * displayed to logged out users.
+ *
+ * @since [version]
+ *
+ * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
+ */
+if ( apply_filters( 'llms_hide_registration_form', is_user_logged_in() ) ) {
 	return;
 }
 ?>

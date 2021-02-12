@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 4.11.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1087,10 +1087,6 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
  */
 if ( ! function_exists( 'llms_get_login_form' ) ) {
 	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
-
-		if ( is_user_logged_in() ) {
-			return;
-		}
 
 		/**
 		 * Customize the layout of the login form.

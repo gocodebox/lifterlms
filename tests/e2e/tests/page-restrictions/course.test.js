@@ -15,7 +15,6 @@ import {
 import {
 	createURL,
 	loginUser,
-	visitAdminPage
 } from '@wordpress/e2e-test-utils';
 
 describe( 'CourseRestrictions', () => {
