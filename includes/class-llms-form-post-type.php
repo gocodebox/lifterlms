@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Form_Post_Type {
 
-	protected $forms = null;
+	private $forms = null;
 
 	/**
 	 * User Capability required to manage forms
@@ -71,60 +71,90 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Retrieve a permalink for a given form post.
 	 *
-	 * This is primarily used by the Block Editor to allow quick links to the form from within the editor.
-	 *
 	 * @since [version]
 	 *
 	 * @param WP_Post $post Form post object.
-	 * @return string|false
+	 * @return string|false Permalink to the form or `false` if no permalink exists for the given location.
 	 */
-	protected function get_permalink( $post ) {
+	private function get_permalink( $post ) {
 
 		$url      = false;
 		$location = get_post_meta( $post->ID, '_llms_form_location', true );
 
-		switch ( $location ) {
-
-			case 'account':
-				$url = llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) );
-				break;
-
-			case 'checkout':
-				$url = llms_get_page_url( 'checkout' );
-
-				// Add an access plan to the URL.
-				$plans = new WP_Query(
-					array(
-						'post_type'      => 'llms_access_plan',
-						'posts_per_page' => 1,
-						'orderby'        => 'ID',
-						'order'          => 'ASC',
-					)
-				);
-				if ( $plans->have_posts() ) {
-					$url = add_query_arg( 'plan', $plans->posts[0]->ID, $url );
-				}
-				break;
-
-			case 'registration':
-				if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
-					$url = llms_get_page_url( 'myaccount' );
-				}
-
-				break;
-
+		$method = "get_permalink_for_{$location}";
+		if ( $this->forms->is_location_valid( $location ) && method_exists( $this, $method ) ) {
+			$url = $this->$method();
 		}
 
 		/**
-		 * Filters the permalink for an LLMS_Form
+		 * Filters the permalink for a LifterLMS form
 		 *
 		 * @since [version]
 		 *
-		 * @param string  $url      The form's URL.
-		 * @param string  $location The location ID for the form.
-		 * @param WP_Post $post     The form post object.
+		 * @param string|false $url      The form's URL.
+		 * @param string       $location The location ID for the form.
+		 * @param WP_Post      $post     The form post object.
 		 */
-		return apply_filters( 'llms_form_get_permalink', $url, $location, $post );
+		return apply_filters( 'llms_form_permalink', $url, $location, $post );
+
+	}
+
+	/**
+	 * Retrieve permalink for the account edit form
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	private function get_permalink_for_account() {
+		return llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) );
+	}
+
+	/**
+	 * Retrieve permalink for the checkout form
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	private function get_permalink_for_checkout() {
+
+		$url  = llms_get_page_url( 'checkout' );
+		$args = array();
+
+		// Add an access plan to the URL.
+		$plans = new WP_Query(
+			array(
+				'post_type'      => 'llms_access_plan',
+				'posts_per_page' => 1,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+			)
+		);
+		if ( $plans->have_posts() ) {
+			$args = array(
+				'plan' => $plans->posts[0]->ID
+			);
+		}
+
+		return LLMS_View_Manager::get_url( 'visitor', $url, $args );
+
+	}
+
+	/**
+	 * Retrieve permalink for the registration form
+	 *
+	 * @since [version]
+	 *
+	 * @return string|false Permalink or `false` when open registration is disabled.
+	 */
+	private function get_permalink_for_registration() {
+
+		if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
+			return LLMS_View_Manager::get_url( 'visitor', llms_get_page_url( 'myaccount' ) );
+		}
+
+		return false;
 
 	}
 

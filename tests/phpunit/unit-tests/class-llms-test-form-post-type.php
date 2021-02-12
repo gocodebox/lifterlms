@@ -35,9 +35,13 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	public function test_get_permalink_for_account() {
 
 		LLMS_Install::create_pages();
-		$form = get_post( LLMS_Forms::instance()->create( 'account' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->main, 'get_permalink', array( $form ) );
-		$this->assertEquals( add_query_arg( 'edit-account', '', get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ) ), $link );
+
+		$url = parse_url( get_permalink( LLMS_Forms::instance()->create( 'account' ) ) );
+		parse_str( $url['query'], $qs );
+
+		$this->assertEquals( parse_url( get_site_url(), PHP_URL_HOST ), $url['host'] );
+		$this->assertEquals( get_option( 'lifterlms_myaccount_page_id' ), $qs['page_id'] );
+		$this->assertArrayHasKey( 'edit-account', $qs );
 
 	}
 
@@ -54,9 +58,15 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_access_plan' ) );
 
 		LLMS_Install::create_pages();
-		$form = get_post( LLMS_Forms::instance()->create( 'checkout' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->main, 'get_permalink', array( $form ) );
-		$this->assertEquals( get_permalink( get_option( 'lifterlms_checkout_page_id' ) ), $link );
+
+		$url = parse_url( get_permalink( LLMS_Forms::instance()->create( 'checkout' ) ) );
+		parse_str( $url['query'], $qs );
+
+		$this->assertEquals( parse_url( get_site_url(), PHP_URL_HOST ), $url['host'] );
+		$this->assertEquals( get_option( 'lifterlms_checkout_page_id' ), $qs['page_id'] );
+		$this->assertEquals( 'visitor', $qs['llms-view-as'] );
+
+		$this->assertEquals( 1, wp_verify_nonce( $qs['view_nonce'], 'llms-view-as' ) );
 
 	}
 
@@ -71,9 +81,16 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
 		LLMS_Install::create_pages();
 		$plan = $this->get_mock_plan();
-		$form = get_post( LLMS_Forms::instance()->create( 'checkout' ) );
-		$link = LLMS_Unit_Test_Util::call_method( $this->main, 'get_permalink', array( $form ) );
-		$this->assertEquals( add_query_arg( 'plan', $plan->get( 'id' ), get_permalink( get_option( 'lifterlms_checkout_page_id' ) ) ), $link );
+
+		$url = parse_url( get_permalink( LLMS_Forms::instance()->create( 'checkout' ) ) );
+		parse_str( $url['query'], $qs );
+
+		$this->assertEquals( parse_url( get_site_url(), PHP_URL_HOST ), $url['host'] );
+		$this->assertEquals( get_option( 'lifterlms_checkout_page_id' ), $qs['page_id'] );
+		$this->assertEquals( 'visitor', $qs['llms-view-as'] );
+		$this->assertEquals( $plan->get( 'id' ), $qs['plan'] );
+
+		$this->assertEquals( 1, wp_verify_nonce( $qs['view_nonce'], 'llms-view-as' ) );
 
 	}
 
@@ -88,8 +105,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
 		$form = get_post( LLMS_Forms::instance()->create( 'registration' ) );
 		update_option( 'lifterlms_enable_myaccount_registration', 'no' );
-		$link = LLMS_Unit_Test_Util::call_method( $this->main, 'get_permalink', array( $form ) );
-		$this->assertFalse( $link );
+		$this->assertFalse( get_permalink( LLMS_Forms::instance()->create( 'registration' ) ) );
 
 	}
 
@@ -103,10 +119,16 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	public function test_get_permalink_for_registration_enabled() {
 
 		LLMS_Install::create_pages();
-		$form = get_post( LLMS_Forms::instance()->create( 'registration' ) );
 		update_option( 'lifterlms_enable_myaccount_registration', 'yes' );
-		$link = LLMS_Unit_Test_Util::call_method( $this->main, 'get_permalink', array( $form ) );
-		$this->assertEquals( get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ), $link );
+
+		$url = parse_url( get_permalink( LLMS_Forms::instance()->create( 'registration' ) ) );
+		parse_str( $url['query'], $qs );
+
+		$this->assertEquals( parse_url( get_site_url(), PHP_URL_HOST ), $url['host'] );
+		$this->assertEquals( get_option( 'lifterlms_myaccount_page_id' ), $qs['page_id'] );
+		$this->assertEquals( 'visitor', $qs['llms-view-as'] );
+
+		$this->assertEquals( 1, wp_verify_nonce( $qs['view_nonce'], 'llms-view-as' ) );
 
 	}
 

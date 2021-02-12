@@ -207,7 +207,7 @@ class LLMS_Forms {
 	 */
 	public function create( $location_id, $update = false ) {
 
-		if ( ! $this->is_location_valid() ) {
+		if ( ! $this->is_location_valid( $location_id ) ) {
 			return false;
 		}
 
@@ -720,7 +720,7 @@ class LLMS_Forms {
 	 * @return boolean
 	 */
 	public function is_location_valid( $location ) {
-		return in_array( $location, array_keys( $this->get_locations(), true );
+		return in_array( $location, array_keys( $this->get_locations() ), true );
 	}
 
 	/**
