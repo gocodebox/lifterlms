@@ -212,7 +212,7 @@ class LLMS_Forms {
 		}
 
 		$locs = $this->get_locations();
-		$data = isset( $locs[ $location_id ] ) ? $locs[ $location_id ] : false;
+		$data = $locs[ $location_id ];
 
 		$existing = $this->get_form_post( $location_id );
 
