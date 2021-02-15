@@ -40,8 +40,24 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		 */
 		do_action( 'lifterlms_before_student_dashboard' );
 
-		// If user is not logged in.
-		if ( ! is_user_logged_in() ) {
+		/**
+		 * Filters whether or not to display the student dashboard
+		 *
+		 * By default, this condition will show the dashboard to a logged in user
+		 * and the login/registration forms (as well as the password recovery flow)
+		 * to logged out users.
+		 *
+		 * The `LLMS_View_Manager` class uses this filter to modify the dashboard view
+		 * conditionally based on the requested view role.
+		 *
+		 * @since [version]
+		 *
+		 * @param type $arg Description.
+		 */
+		$display_dashboard = apply_filters( 'llms_display_student_dashboard', is_user_logged_in() );
+
+		// Not displaying the dashboard (the user is not logged in), we'll show login/registration forms.
+		if ( ! $display_dashboard ) {
 
 			/**
 			 * Allow adding a notice message to be displayed in the student dashboard where `llms_print_notices()` will be invoked.

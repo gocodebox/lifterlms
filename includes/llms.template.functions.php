@@ -1082,6 +1082,7 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
  */
 if ( ! function_exists( 'llms_get_login_form' ) ) {
 	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
+
 		llms_get_template(
 			'global/form-login.php',
 			array(

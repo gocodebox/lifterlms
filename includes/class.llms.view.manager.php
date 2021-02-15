@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 4.5.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,12 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_View_Manager class.
  *
  * @since 3.7.0
- * @since 3.35.0 Sanitize `$_GET` data.
- * @since 4.2.0 Disable the view management when creating a pending order.
- *               Added `modify_display_free_enroll_form` method.
- *               `get_url` method modified so to take into account already present
- *               query args in the request URI.
- *               Update admin bar icon.
  */
 class LLMS_View_Manager {
 
@@ -47,6 +41,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
+	 * @since [version] Added filters to handle modification of the student dashboard.
 	 *
 	 * @return void
 	 */
@@ -71,6 +66,10 @@ class LLMS_View_Manager {
 
 			add_filter( 'llms_display_free_enroll_form', array( $this, 'modify_display_free_enroll_form' ), 10, 1 );
 
+			add_filter( 'llms_display_student_dashboard', array( $this, 'modify_dashboard' ), 10, 1 );
+			add_filter( 'llms_hide_registration_form', array( $this, 'modify_dashboard' ), 10, 1 );
+			add_filter( 'llms_hide_login_form', array( $this, 'modify_dashboard' ), 10, 1 );
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		}
@@ -84,45 +83,19 @@ class LLMS_View_Manager {
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Updated icon.
 	 * @since 4.5.1 Use `should_display()` method to determine if the view manager should be added to the admin bar.
+	 * @since [version] Retrieve nodes to add from `get_menu_items_to_add()`.
 	 *
+	 * @param WP_Admin_Bar $wp_admin_bar Admin bar class instance.
 	 * @return void
 	 */
-	public function add_menu_items() {
+	public function add_menu_items( $wp_admin_bar ) {
 
 		if ( ! $this->should_display() ) {
 			return;
 		}
 
-		global $wp_admin_bar;
-
-		$view  = $this->get_view();
-		$views = $this->get_views();
-		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
-
-		$wp_admin_bar->add_node(
-			array(
-				'id'     => 'llms-view-as-menu',
-				'parent' => 'top-secondary',
-				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
-			)
-		);
-
-		foreach ( $views as $slug => $title ) {
-
-			// Exclude the current view.
-			if ( $slug === $view ) {
-				continue;
-			}
-
-			$wp_admin_bar->add_node(
-				array(
-					'href'   => $this->get_url( $slug ),
-					'id'     => 'llms-view-as--' . $slug,
-					'parent' => 'llms-view-as-menu',
-					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
-				)
-			);
-
+		foreach ( $this->get_menu_items_to_add() as $node ) {
+			$wp_admin_bar->add_node( $node );
 		}
 
 	}
@@ -145,28 +118,74 @@ class LLMS_View_Manager {
 	}
 
 	/**
+	 * Retrieve an array of nodes to be added to the admin bar
+	 *
+	 * @since [version]
+	 *
+	 * @return array[] An array of arrays formatted to be passed to `WP_Admin_Bar::add_node()`.
+	 */
+	private function get_menu_items_to_add() {
+
+		$nodes  = array();
+		$view   = $this->get_view();
+		$views  = $this->get_views();
+		$top_id = 'llms-view-as-menu';
+
+		// Translators: %s = View manager role name.
+		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
+
+		// Add the top-level node.
+		$nodes[] = array(
+			'id'     => $top_id,
+			'parent' => 'top-secondary',
+			'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
+		);
+
+		// Add view as links.
+		foreach ( $views as $role => $name ) {
+
+			// Exclude the current view.
+			if ( $role === $view ) {
+				continue;
+			}
+
+			$nodes[] = array(
+				'href'   => self::get_url( $role ),
+				'id'     => 'llms-view-as--' . $role,
+				'parent' => $top_id,
+				// Translators: %s = View manager role name.
+				'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $name ),
+			);
+
+		}
+
+		return $nodes;
+
+	}
+
+	/**
 	 * Get a view url for the requested view.
 	 *
 	 * @since 3.7.0
-	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X
+	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X.
+	 * @since [version] Changed method signature to add the `$href` parameter and changed access from private to public static.
 	 *
-	 * @param string $role View option [self|visitor|student].
-	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
+	 * @param string       $role Role to view the screen as. Accepts "self", "visitor", or "student".
+	 * @param string|false $href Optional. The URL to create a URL for. If `false`, uses `$_SERVER['REQUEST_URI']`.
+	 * @param array        $args Optional. Additional query args to add to the url. Default empty array.
 	 * @return string
 	 */
-	private function get_url( $role, $args = array() ) {
+	public static function get_url( $role, $href = false, $args = array() ) {
 
-		// Returns the current url without the `llms-view-as` and `view_nonce` query args.
+		// If we want to view as "self" we should remove the query vars (if they're set).
 		if ( 'self' === $role ) {
-			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
+			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ), $href );
 		}
 
+		// Create a new URL.
 		$args['llms-view-as'] = $role;
-
-		$href = add_query_arg( $args );
-		$href = wp_nonce_url( $href, 'llms-view-as', 'view_nonce' );
-
-		return $href;
+		$href                 = add_query_arg( $args, $href );
+		return html_entity_decode( esc_url( wp_nonce_url( $href, 'llms-view-as', 'view_nonce' ) ) );
 
 	}
 
@@ -175,6 +194,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since [version] Don't access `$_GET` directly, use `llms_filter_input()`.
 	 *
 	 * @return string
 	 */
@@ -186,12 +206,24 @@ class LLMS_View_Manager {
 
 		// Ensure it's a valid view.
 		$views = $this->get_views();
-		if ( ! isset( $views[ $_GET['llms-view-as'] ] ) ) {
+		$view  = llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		if ( ! $view || ! isset( $views[ $view ] ) ) {
 			return 'self';
 		}
 
-		return llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		return $view;
 
+	}
+
+	/**
+	 * Test get_views() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_views() {
+		$this->assertEquals( array( 'self', 'visitor', 'student' ), array_keys( LLMS_Unit_Test_Util::call_method( $this->main, 'get_views' ) ) );
 	}
 
 	/**
@@ -252,6 +284,31 @@ class LLMS_View_Manager {
 		}
 
 		return $status;
+
+	}
+
+	/**
+	 * Modify the student dashboard
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $value Default value from the filter.
+	 * @return boolean
+	 */
+	public function modify_dashboard( $value ) {
+
+		switch ( $this->get_view() ) {
+
+			case 'visitor':
+				$value = false;
+				break;
+
+			case 'student':
+				$value = true;
+				break;
+		}
+
+		return $value;
 
 	}
 
@@ -352,9 +409,13 @@ class LLMS_View_Manager {
 	 *
 	 * The view manager is only displayed when the following criteria is met:
 	 * + The current user must have a role that is allowed to bypass LifterLMS restrictions
-	 * + Must be viewing a single course, lesson, membership, or quiz or the LifterLMS checkout page.
+	 * + Must be viewing one of the following:
+	 *   + a single course, lesson, membership, or quiz
+	 *   + LifterLMS checkout page
+	 *   + LifterLMS student dashboard page
 	 *
 	 * @since 4.5.1
+	 * @since [version] Display on the student dashboard.
 	 *
 	 * @return boolean
 	 */
@@ -364,7 +425,7 @@ class LLMS_View_Manager {
 
 		if ( llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 			global $post;
-			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
+			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! is_llms_account_page() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
 		}
 
 		/**
