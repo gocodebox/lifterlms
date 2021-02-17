@@ -86,7 +86,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		}
 
-		return $ids;
+		return apply_filters('courses_shortcode_get_post__in', $ids, $student, $mine);
 	}
 
 	/**
