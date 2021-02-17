@@ -168,7 +168,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @param int    $course_id   WP Post ID of the course
 	 * @param string $post_type   Optional. Search specific post type(s). By default searches for all post types.
-	 * @param string $search_term Optiona. Search term (searches post_title). Default is empty string.
+	 * @param string $search_term Optional. Search term (searches post_title). Default is empty string.
 	 * @param int    $page        Optional. Used when paginating search results. Default is `1`.
 	 * @return array
 	 */
@@ -316,8 +316,9 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Remove all filters/actions applied to the title/content when handling the ajax builder.
-	 *                 This is specially to prevent plugin conflicts, see https://github.com/gocodebox/lifterlms/issues/1530.
+	 * @since [version] Remove all filters/actions applied to the title/content when handling the ajax_save by deafault.
+	 *               This is specially to prevent plugin conflicts, see https://github.com/gocodebox/lifterlms/issues/1530.
+	 *
 	 * @param array $request $_REQUEST
 	 * @return array
 	 */
@@ -328,14 +329,14 @@ class LLMS_Admin_Builder {
 			return array();
 		}
 
-		// Remove filters/actions applied to the title and content.
-		remove_all_actions( 'the_title' );
-		remove_all_actions( 'the_content' );
-
 		switch ( $request['action_type'] ) {
 
 			case 'ajax_save':
 				if ( isset( $request['llms_builder'] ) ) {
+
+					// Remove filters/actions applied to the title and content.
+					remove_all_actions( 'the_title' );
+					remove_all_actions( 'the_content' );
 
 					$request['llms_builder'] = stripslashes( $request['llms_builder'] );
 					wp_send_json( self::heartbeat_received( array(), $request ) );
