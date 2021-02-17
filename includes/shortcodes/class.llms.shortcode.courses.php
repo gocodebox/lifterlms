@@ -86,7 +86,16 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		}
 
-		return apply_filters('courses_shortcode_get_post__in', $ids, $student, $mine);
+                /**
+                 * Filter the array of IDs returned for use in querying courses to display.
+                 *
+                 * @since 4.15.1
+                 *
+                 * @param array          $ids       The IDs of courses that will be displayed.
+                 * @param LLMS_Student   $student   The student object for the current user.
+                 * @param string         $mine      The "mine" attribute of the shortcode.
+                 */
+		return apply_filters( 'llms_courses_shortcode_get_post_in', $ids, $student, $mine );
 	}
 
 	/**
