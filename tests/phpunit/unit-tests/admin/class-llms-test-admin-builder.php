@@ -8,6 +8,8 @@
  * @group builder
  *
  * @since 3.37.12
+ * @since 4.14.0 Added tests on the autosave option.
+ * @since [version] Added tests on 'the_title' and 'the_content' filters not affecting the save.
  */
 class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
@@ -238,6 +240,217 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 		// Choice has been deleted.
 		$this->assertFalse( $question->get_choice( $choice_id ) );
 
+	}
+
+	/**
+	 * Test the ajax save an possible filters applied to the title and the content
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_ajax_save_unfiltered_title_content() {
+
+		// Handle wp die ajax and simulate ajax call.
+		add_filter( 'wp_die_ajax_handler', array( $this, '_wp_die_handler' ), 1 );
+		add_filter( 'wp_doing_ajax', '__return_true' );
+
+		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $user );
+
+		// Add title and content filters.
+		foreach ( array( 'the_title', 'the_content' ) as $filter_hook ) {
+			add_filter( $filter_hook, array( $this, '__return_filtered' ), 999999 );
+		}
+		// Create a valid course.
+		$course = $this->factory->course->create( array( 0,0,0,0 ) );
+
+		$request = array(
+			'action_type'  => 'ajax_save',
+			'course_id'    => $course,
+			'llms_builder' => array(
+			),
+		);
+
+		$to_save = array(
+			'updates' => array(
+				'id'       => $course,
+				'sections' => array(
+					array(
+						'id'            => 'temp_28',
+						'parent_course' => $course,
+						'title'         => 'New Section',
+						'type'          => 'section',
+						'lessons'       => array(
+							array(
+								'id'             => 'temp_40',
+								'title'          => 'New Lesson',
+								'content'        => '<p>Content</p>',
+								'video_embed'    => 'https://somevideo',
+								'parent_course'  => $course,
+								'parent_section' => 'temp_28',
+								'type'           => 'lesson',
+								'quiz'           => array(
+									'id'        => 'temp_123',
+									'title'     => 'New Quiz',
+									'type'      => 'llms_quiz',
+									'lesson_id' => 'temp_40',
+									'content'   => '<p>Quiz description</p>',
+									'questions' => array(
+										array(
+											'id'            => 'temp_155',
+											'content'       => '<p>Question description 1</p>',
+											'title'         => 'Question title 1',
+											'parent_id'     => 'temp_123',
+											'type'          => 'llms_question',
+											'question_type' => 'choice',
+										),
+										array(
+											'id'            => 'temp_156',
+											'content'       => '<p>Question description 2</p>',
+											'title'         => 'Question title 2',
+											'parent_id'     => 'temp_123',
+											'type'          => 'llms_question',
+											'question_type' => 'choice',
+										),
+									),
+								),
+							),
+						),
+					),
+				),
+			),
+			'id'      => $course,
+		);
+
+		$request['llms_builder'] = wp_json_encode( $to_save );
+
+		// Simulate the ajax save request.
+		ob_start();
+		try {
+			LLMS_Unit_Test_Util::call_method( $this->main, 'handle_ajax', array( $request ) );
+		} catch ( WPAjaxDieContinueException $e ) {}
+		$res = json_decode( $this->last_response, true );
+
+		// Check the request went through.
+		$this->assertEquals( 'success', $res['llms_builder']['status'] );
+
+		// Check the raw title and content have not been affected by the filters.
+		$this->check_title_content_filtering_on_save( $res, $to_save );
+
+		/* Check the raw title and content have not been affected by the filters. */
+
+		// Following the instructions contained in the handle_ajax method that actually perform the update,
+		// but without removing any filters on the_title, the_content.
+		$req = $request;
+		$req['llms_builder'] = stripslashes( $request['llms_builder'] );
+		$res = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'heartbeat_received',
+			array(
+				array(),
+				$req,
+			)
+		);
+
+		// Check the request went through.
+		$this->assertEquals( 'success', $res['llms_builder']['status'] );
+
+		// Check the raw title and content have not been affected by the filters.
+		$this->check_title_content_filtering_on_save( $res, $to_save );
+
+		// Reset.
+		foreach ( array( 'the_title', 'the_content' ) as $filter_hook ) {
+			remove_filter( $filter_hook, array( $this, '__return_filtered' ), 999999 );
+		}
+		remove_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
+		remove_filter( 'wp_doing_ajax', '__return_true' );
+	}
+
+	/**
+	 * Helper that always returns the string '{filtered}'
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	private function __return_filtered() {
+		return '{filtered}';
+	}
+
+	/**
+	 * Helper to check whether the title and content props are filtered on save.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $res  Associative array containing the response from the save ajax method.
+	 * @param array $sent Associative array containing the data sent for the update.
+	 * @return void
+	 */
+	private function check_title_content_filtering_on_save( $res, $sent ) {
+
+		$li = 0;
+
+		foreach ( $res['llms_builder']['updates']['sections'][0]['lessons'] as $lesson ) {
+			$lq = 0;
+			foreach ( array( 'title', 'content' ) as $prop ) {
+				// Check lesson's title and content.
+				$this->assertStringContainsString(
+					$sent['updates']['sections'][0]['lessons'][$li][$prop],
+					llms_get_post( $lesson['id'] )->get( $prop, true ),
+					$prop
+				);
+				$this->assertStringNotContainsString(
+					$this->__return_filtered(),
+					llms_get_post( $lesson['id'] )->get( $prop, true ),
+					$prop
+				);
+
+				// Check quiz title and content.
+				$this->assertStringContainsString(
+					$sent['updates']['sections'][0]['lessons'][$li]['quiz'][$prop],
+					llms_get_post( $lesson['quiz']['id'] )->get( $prop, true ),
+					$prop
+				);
+				$this->assertStringNotContainsString(
+					$this->__return_filtered(),
+					llms_get_post( $lesson['quiz']['id'] )->get( $prop, true ),
+					$prop
+				);
+			}
+
+			foreach ( $lesson['quiz']['questions'] as $question ) {
+				foreach ( array( 'title', 'content' ) as $prop ) {
+					// Check question title and content.
+					$this->assertStringContainsString(
+						$sent['updates']['sections'][0]['lessons'][$li]['quiz']['questions'][$lq][$prop],
+						llms_get_post( $question['id'] )->get( $prop, true ),
+						$prop
+					);
+					$this->assertStringNotContainsString(
+						$this->__return_filtered(),
+						llms_get_post( $question['id'] )->get( $prop, true ),
+						$prop
+					);
+				}
+				$lq++;
+			}
+			$li++;
+		}
+	}
+
+	/**
+	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
+	 *
+	 * The same method is used in LLMS_Test_AJAX_Handler.
+	 * @since [version]
+	 *
+	 * @param string $msg Die msg.
+	 * @return void
+	 */
+	public function _wp_die_handler( $msg ) {
+		$this->last_response = ob_get_clean();
+		throw new WPAjaxDieContinueException( $msg );
 	}
 
 }
