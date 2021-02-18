@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.2
 Tested up to: 5.6
 Requires PHP: 7.2
-Stable tag: 4.15.0
+Stable tag: 4.16.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.16.0 - 2021-02-18 =
+
+##### Updates
+
++ Added preview management to the student dashboard to allow previewing of the dashboard as a site visitor.
++ Added a new filter to allow customization of courses output by the [lifterlms_courses] shortcode. Thanks [@reedhewitt](https://github.com/reedhewitt)!
++ Added compatibility code to reduce plugin conflicts encountered in the course builder. Resolves a conflict encountered when building quizzes with Yoast SEO installed.
+
+##### Bug fixes
+
++ Fixed undefined variable error encountered when creating custom notification types. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed incorrect variables passed to `sprintf()` in logging functions used by the course data background processor. Thanks [@pondermatic](https://github.com/pondermatic)!
+
+
 = v4.15.0 - 2021-02-09 =
 
 **PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
@@ -677,26 +691,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added script localization for block editor scripts.
 + Updated LifterLMS Rest to [Version 1.0.0-beta.17](https://make.lifterlms.com/2020/11/24/lifterlms-rest-api-version-1-0-0-beta-17/).
 + Updated LifterLMS Blocks to [Version 1.10.0](https://make.lifterlms.com/2020/11/24/lifterlms-blocks-version-1-10-0/).
-
-
-= v4.8.0 - 2020-11-16 =
-
-##### Updates
-
-+ Added additional course imports and templates at the end of the setup wizard
-+ Added a cloud importer enabling 1-click importing of courses and course templates via the importer at LifterLMS -> Import
-+ Added strict comparisons in several places.
-+ Course "extra" data is only added to course arrays during exports to improve performance on the course builder.
-+ Improved template override loading performance on sites with no child theme.
-
-##### Bug fixes
-
-+ Fixed issues related to reliance on methods provided by the `mb_string` PHP module.
-
-##### Deprecations
-
-+ `LLMS_Admin_Setup_Wizard::generator_course_status()` is deprecated with no replacement.
-+ `LLMS_Admin_Setup_Wizard::watch_course_generation()` is deprecated with no replacement.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

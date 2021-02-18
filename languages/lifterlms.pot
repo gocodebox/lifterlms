@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.15.0\n"
+"Project-Id-Version: LifterLMS 4.16.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-02-09T14:03:54-07:00\n"
+"POT-Creation-Date: 2021-02-18T12:24:40-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -1760,7 +1760,7 @@ msgstr ""
 
 #: assets/js/llms-blocks.js:14226
 #: includes/admin/class-llms-admin-users-table.php:118
-#: includes/admin/class.llms.admin.builder.php:60
+#: includes/admin/class.llms.admin.builder.php:61
 #: includes/admin/class.llms.admin.import.php:389
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:69
@@ -2819,7 +2819,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61
 #: includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
 #: includes/class.llms.roles.php:328
-#: includes/class.llms.view.manager.php:208
+#: includes/class.llms.view.manager.php:240
 #: includes/functions/updates/llms-functions-updates-303.php:28
 msgid "Student"
 msgstr ""
@@ -2890,7 +2890,7 @@ msgstr ""
 msgid "Disable Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:544
+#: includes/abstracts/llms.abstract.notification.view.php:545
 msgid "Divider Line"
 msgstr ""
 
@@ -2900,7 +2900,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:266
 #: includes/admin/views/builder/editor.php:28
 #: includes/class.llms.post-types.php:476
-#: includes/functions/llms.functions.templates.dashboard.php:605
+#: includes/functions/llms.functions.templates.dashboard.php:621
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:84
 msgid "Quiz"
 msgstr ""
@@ -2921,7 +2921,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:269
 #: includes/admin/reporting/tables/llms.table.student.courses.php:238
 #: includes/admin/reporting/tables/llms.table.students.php:631
-#: includes/functions/llms.functions.templates.dashboard.php:606
+#: includes/functions/llms.functions.templates.dashboard.php:622
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:87
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:150
 #: includes/privacy/class-llms-privacy-exporters.php:227
@@ -3135,73 +3135,73 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:51
+#: includes/admin/class.llms.admin.builder.php:52
 #: includes/class.llms.install.php:346
 #: includes/class.llms.student.dashboard.php:153
 msgid "Dashboard"
 msgstr ""
 
 #. Translators: %s = Theme name.
-#: includes/admin/class.llms.admin.builder.php:135
+#: includes/admin/class.llms.admin.builder.php:136
 msgid "%s Theme Settings"
 msgstr ""
 
 #. Translators: %1$s = Lesson title; %2$d = Lesson id.
-#: includes/admin/class.llms.admin.builder.php:242
+#: includes/admin/class.llms.admin.builder.php:245
 msgid "Lesson: %1$s (#%2$d)"
 msgstr ""
 
 #. Translators: %1$s = Course title; %2$d - Course id.
-#: includes/admin/class.llms.admin.builder.php:246
+#: includes/admin/class.llms.admin.builder.php:249
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:443
+#: includes/admin/class.llms.admin.builder.php:455
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:450
+#: includes/admin/class.llms.admin.builder.php:462
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:455
+#: includes/admin/class.llms.admin.builder.php:467
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:545
+#: includes/admin/class.llms.admin.builder.php:559
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:554
+#: includes/admin/class.llms.admin.builder.php:568
 msgid "You cannot edit this course!"
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:651
+#: includes/admin/class.llms.admin.builder.php:666
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:731
+#: includes/admin/class.llms.admin.builder.php:746
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:811
+#: includes/admin/class.llms.admin.builder.php:826
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:849
+#: includes/admin/class.llms.admin.builder.php:864
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. Translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:873
+#: includes/admin/class.llms.admin.builder.php:888
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1004
+#: includes/admin/class.llms.admin.builder.php:1018
 #: includes/admin/views/builder/elements.php:22
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:360
@@ -3211,27 +3211,27 @@ msgid "New Lesson"
 msgstr ""
 
 #. Translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:1028
+#: includes/admin/class.llms.admin.builder.php:1042
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. Translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1127
+#: includes/admin/class.llms.admin.builder.php:1141
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1166
+#: includes/admin/class.llms.admin.builder.php:1180
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. Translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1226
+#: includes/admin/class.llms.admin.builder.php:1241
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. Translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1305
+#: includes/admin/class.llms.admin.builder.php:1321
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -7970,7 +7970,7 @@ msgid "Username or Email Address"
 msgstr ""
 
 #: includes/class.llms.person.handler.php:306
-#: templates/global/form-login.php:38
+#: templates/global/form-login.php:48
 msgid "Login"
 msgstr ""
 
@@ -8723,7 +8723,7 @@ msgstr ""
 
 #: includes/class.llms.post-types.php:803
 #: includes/class.llms.student.dashboard.php:186
-#: includes/functions/llms.functions.templates.dashboard.php:419
+#: includes/functions/llms.functions.templates.dashboard.php:435
 msgid "My Certificates"
 msgstr ""
 
@@ -8929,7 +8929,7 @@ msgid "This is where voucher are stored."
 msgstr ""
 
 #: includes/class.llms.post-types.php:963
-#: includes/functions/llms.functions.templates.dashboard.php:931
+#: includes/functions/llms.functions.templates.dashboard.php:947
 msgid "Review"
 msgstr ""
 
@@ -9501,7 +9501,7 @@ msgid "Lesson Sidebar"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:161
-#: includes/functions/llms.functions.templates.dashboard.php:462
+#: includes/functions/llms.functions.templates.dashboard.php:478
 msgid "My Courses"
 msgstr ""
 
@@ -9510,12 +9510,12 @@ msgid "My Grades"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:174
-#: includes/functions/llms.functions.templates.dashboard.php:656
+#: includes/functions/llms.functions.templates.dashboard.php:672
 msgid "My Memberships"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:180
-#: includes/functions/llms.functions.templates.dashboard.php:376
+#: includes/functions/llms.functions.templates.dashboard.php:392
 msgid "My Achievements"
 msgstr ""
 
@@ -9535,19 +9535,21 @@ msgstr ""
 msgid "This content is restricted"
 msgstr ""
 
-#: includes/class.llms.view.manager.php:100
+#. Translators: %s = View manager role name.
+#: includes/class.llms.view.manager.php:135
 msgid "Viewing as %s"
 msgstr ""
 
-#: includes/class.llms.view.manager.php:122
+#. Translators: %s = View manager role name.
+#: includes/class.llms.view.manager.php:157
 msgid "View as %s"
 msgstr ""
 
-#: includes/class.llms.view.manager.php:206
+#: includes/class.llms.view.manager.php:238
 msgid "Myself"
 msgstr ""
 
-#: includes/class.llms.view.manager.php:207
+#: includes/class.llms.view.manager.php:239
 msgid "Visitor"
 msgstr ""
 
@@ -11545,43 +11547,43 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:177
+#: includes/functions/llms.functions.templates.dashboard.php:193
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:282
+#: includes/functions/llms.functions.templates.dashboard.php:298
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:362
+#: includes/functions/llms.functions.templates.dashboard.php:378
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:407
+#: includes/functions/llms.functions.templates.dashboard.php:423
 msgid "View All My Certificates"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:450
+#: includes/functions/llms.functions.templates.dashboard.php:466
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:604
+#: includes/functions/llms.functions.templates.dashboard.php:620
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:644
+#: includes/functions/llms.functions.templates.dashboard.php:660
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:684
+#: includes/functions/llms.functions.templates.dashboard.php:700
 msgid "View Notifications"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:688
+#: includes/functions/llms.functions.templates.dashboard.php:704
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:931
+#: includes/functions/llms.functions.templates.dashboard.php:947
 msgid "Start"
 msgstr ""
 
@@ -12872,11 +12874,11 @@ msgstr ""
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.courses.php:192
+#: includes/shortcodes/class.llms.shortcode.courses.php:201
 msgid "You must be logged in to view this information. Click %1$shere%2$s to login."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.courses.php:201
+#: includes/shortcodes/class.llms.shortcode.courses.php:210
 msgid "No courses found."
 msgstr ""
 
@@ -13578,8 +13580,8 @@ msgstr ""
 msgid "If this was a mistake you can ignore this email and your password will not be changed."
 msgstr ""
 
-#: templates/global/form-registration.php:27
-#: templates/global/form-registration.php:65
+#: templates/global/form-registration.php:36
+#: templates/global/form-registration.php:74
 msgid "Register"
 msgstr ""
 

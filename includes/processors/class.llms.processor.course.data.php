@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 4.12.0
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -379,13 +379,14 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 *
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
+	 * @since 4.16.0 Fix log string to properly record the post_id.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
 	 */
 	public function task( $args ) {
 
-		$this->log( sprintf( 'Course data calculation task called for course %2$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
+		$this->log( sprintf( 'Course data calculation task called for course %1$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
 
 		$course = llms_get_post( $args['post_id'] );
 
@@ -439,6 +440,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * them on the postmeta table for the course for quick retrieval later.
 	 *
 	 * @since 4.12.0
+	 * @since 4.16.0 Fix log string to properly log the course id.
 	 *
 	 * @param LLMS_Course $course    Course object.
 	 * @param array       $data      Aggregate calculation data array.
@@ -447,7 +449,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	protected function task_complete( $course, $data, $last_page ) {
 
-		$this->log( sprintf( 'Course data calculation task completed for course %2$d with data: %2$s', $course->get( 'id' ), wp_json_encode( $data ) ) );
+		$this->log( sprintf( 'Course data calculation task completed for course %1$d with data: %2$s', $course->get( 'id' ), wp_json_encode( $data ) ) );
 
 		// Save our work on the last run.
 		if ( $last_page ) {

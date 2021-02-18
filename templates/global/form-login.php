@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,17 @@ if ( ! isset( $layout ) ) {
 	$layout = apply_filters( 'llms_login_form_layout', 'columns' );
 }
 
-if ( is_user_logged_in() ) {
+/**
+ * Filters whether or not the login form should be displayed
+ *
+ * By default, the registration form is hidden from logged-in users and
+ * displayed to logged out users.
+ *
+ * @since 4.16.0
+ *
+ * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
+ */
+if ( apply_filters( 'llms_hide_login_form', is_user_logged_in() ) ) {
 	return;
 }
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.37.19
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -433,6 +433,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Retrieve the full HTML to be output for the notification type
 	 *
 	 * @since 3.8.0
+	 * @since 4.16.0 Pass `null` to the 3rd-party filter.
 	 *
 	 * @return string|WP_Error If the notification type is not supported, returns an error.
 	 */
@@ -452,7 +453,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 			// 3rd party/custom types.
 			default:
-				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), $html, $this );
+				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), null, $this );
 
 		}
 

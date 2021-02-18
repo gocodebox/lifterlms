@@ -5,15 +5,24 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $field_data = isset( $_POST ) ? $_POST : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
 
-// don't allow logged in users to register.
-if ( get_current_user_id() ) {
+/**
+ * Filters whether or not the registration form should be displayed
+ *
+ * By default, the registration form is hidden from logged-in users and
+ * displayed to logged out users.
+ *
+ * @since 4.16.0
+ *
+ * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
+ */
+if ( apply_filters( 'llms_hide_registration_form', is_user_logged_in() ) ) {
 	return;
 }
 ?>
