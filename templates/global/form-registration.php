@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ $field_data = isset( $_POST ) ? $_POST : array(); // phpcs:ignore WordPress.Secu
  * By default, the registration form is hidden from logged-in users and
  * displayed to logged out users.
  *
- * @since [version]
+ * @since 4.16.0
  *
  * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
  */

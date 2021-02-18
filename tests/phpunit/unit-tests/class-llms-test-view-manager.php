@@ -27,7 +27,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Initiate (and retrieve) an instance of WP_Admin_Bar
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return WP_Admin_Bar
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Mock `$_GET` data to control the return of `get_view()`.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @param string $role Requested view role.
 	 * @return void
@@ -104,7 +104,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test add_menu_items() when the display manager shouldn't be displayed.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test add_menu_items()
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test get_url() with a supplied URL and additional QS args.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test get_url() with a supplied URL and additional QS args.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -197,7 +197,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test get_view() when there's nonce errors.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test get_view() with an invalid view.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test get_view() with valid data.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -250,7 +250,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_dashboard()
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -306,7 +306,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() when viewing the student dashboard with a valid user
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */

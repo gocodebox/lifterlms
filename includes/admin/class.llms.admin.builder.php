@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -316,7 +316,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.13.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Remove all filters/actions applied to the title/content when handling the ajax_save by deafault.
+	 * @since 4.16.0 Remove all filters/actions applied to the title/content when handling the ajax_save by deafault.
 	 *               This is specially to prevent plugin conflicts, see https://github.com/gocodebox/lifterlms/issues/1530.
 	 *
 	 * @param array $request $_REQUEST

@@ -1,7 +1,7 @@
 /**
  * Test the LifterLMS View Manager
  *
- * @since [version]
+ * @since 4.16.0
  */
 
 import {
@@ -21,7 +21,7 @@ import {
 /**
  * Select a view from the view manager menu in the WP Admin bar.
  *
- * @since [version]
+ * @since 4.16.0
  *
  * @param {String} view View name to select. Accepts "self", "visitor", or "student".
  * @return {Void}

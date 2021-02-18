@@ -9,7 +9,7 @@
  *
  * @since 3.37.12
  * @since 4.14.0 Added tests on the autosave option.
- * @since [version] Added tests on 'the_title' and 'the_content' filters not affecting the save.
+ * @since 4.16.0 Added tests on 'the_title' and 'the_content' filters not affecting the save.
  */
 class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
@@ -245,7 +245,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the ajax save an possible filters applied to the title and the content
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -370,7 +370,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Helper that always returns the string '{filtered}'
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return string
 	 */
@@ -381,7 +381,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Helper to check whether the title and content props are filtered on save.
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @param array $res  Associative array containing the response from the save ajax method.
 	 * @param array $sent Associative array containing the data sent for the update.
@@ -443,7 +443,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
 	 * The same method is used in LLMS_Test_AJAX_Handler.
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @param string $msg Die msg.
 	 * @return void

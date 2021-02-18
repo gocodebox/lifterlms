@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v4.16.0 - 2021-02-18
+--------------------
+
+##### Updates
+
++ Added preview management to the student dashboard to allow previewing of the dashboard as a site visitor.
++ Added a new filter to allow customization of courses output by the [lifterlms_courses] shortcode. Thanks [@reedhewitt](https://github.com/reedhewitt)!
++ Added compatibility code to reduce plugin conflicts encountered in the course builder. Resolves a conflict encountered when building quizzes with Yoast SEO installed.
+
+##### Bug fixes
+
++ Fixed undefined variable error encountered when creating custom notification types. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed incorrect variables passed to `sprintf()` in logging functions used by the course data background processor. Thanks [@pondermatic](https://github.com/pondermatic)!
+
+
 v4.15.0 - 2021-02-09
 --------------------
 

@@ -89,7 +89,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		/**
 		 * Filter the array of IDs returned for use in querying courses to display.
 		 *
-		 * @since [version]
+		 * @since 4.16.0
 		 *
 		 * @param array        $ids     The IDs of courses that will be displayed.
 		 * @param LLMS_Student $student The student object for the current user.
