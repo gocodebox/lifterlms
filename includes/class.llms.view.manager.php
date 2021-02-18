@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
-	 * @since [version] Added filters to handle modification of the student dashboard.
+	 * @since 4.16.0 Added filters to handle modification of the student dashboard.
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_View_Manager {
 	 * @since 3.16.0 Unknown.
 	 * @since 4.2.0 Updated icon.
 	 * @since 4.5.1 Use `should_display()` method to determine if the view manager should be added to the admin bar.
-	 * @since [version] Retrieve nodes to add from `get_menu_items_to_add()`.
+	 * @since 4.16.0 Retrieve nodes to add from `get_menu_items_to_add()`.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar Admin bar class instance.
 	 * @return void
@@ -120,7 +120,7 @@ class LLMS_View_Manager {
 	/**
 	 * Retrieve an array of nodes to be added to the admin bar
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return array[] An array of arrays formatted to be passed to `WP_Admin_Bar::add_node()`.
 	 */
@@ -168,7 +168,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 4.2.0 Take into account already present query args. e.g. ?plan=X.
-	 * @since [version] Changed method signature to add the `$href` parameter and changed access from private to public static.
+	 * @since 4.16.0 Changed method signature to add the `$href` parameter and changed access from private to public static.
 	 *
 	 * @param string       $role Role to view the screen as. Accepts "self", "visitor", or "student".
 	 * @param string|false $href Optional. The URL to create a URL for. If `false`, uses `$_SERVER['REQUEST_URI']`.
@@ -194,7 +194,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
-	 * @since [version] Don't access `$_GET` directly, use `llms_filter_input()`.
+	 * @since 4.16.0 Don't access `$_GET` directly, use `llms_filter_input()`.
 	 *
 	 * @return string
 	 */
@@ -218,7 +218,7 @@ class LLMS_View_Manager {
 	/**
 	 * Test get_views() method
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @return void
 	 */
@@ -290,7 +290,7 @@ class LLMS_View_Manager {
 	/**
 	 * Modify the student dashboard
 	 *
-	 * @since [version]
+	 * @since 4.16.0
 	 *
 	 * @param boolean $value Default value from the filter.
 	 * @return boolean
@@ -415,7 +415,7 @@ class LLMS_View_Manager {
 	 *   + LifterLMS student dashboard page
 	 *
 	 * @since 4.5.1
-	 * @since [version] Display on the student dashboard.
+	 * @since 4.16.0 Display on the student dashboard.
 	 *
 	 * @return boolean
 	 */

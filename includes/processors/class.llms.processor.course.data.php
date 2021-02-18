@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -379,7 +379,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 *
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
-	 * @since [version] Fix log string to properly record the post_id.
+	 * @since 4.16.0 Fix log string to properly record the post_id.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
@@ -440,7 +440,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * them on the postmeta table for the course for quick retrieval later.
 	 *
 	 * @since 4.12.0
-	 * @since [version] Fix log string to properly log the course id.
+	 * @since 4.16.0 Fix log string to properly log the course id.
 	 *
 	 * @param LLMS_Course $course    Course object.
 	 * @param array       $data      Aggregate calculation data array.

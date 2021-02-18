@@ -50,7 +50,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		 * The `LLMS_View_Manager` class uses this filter to modify the dashboard view
 		 * conditionally based on the requested view role.
 		 *
-		 * @since [version]
+		 * @since 4.16.0
 		 *
 		 * @param type $arg Description.
 		 */
