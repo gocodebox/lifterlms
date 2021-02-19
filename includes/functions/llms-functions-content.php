@@ -17,10 +17,11 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 *
 	 * Appends LLMS content above and below post content.
 	 *
-	 * @param    string $content  WP_Post post_content.
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.25.2
+	 * @since 1.0.0
+	 * @since 3.25.2 Unknown.
+	 *
+	 * @param string $content WP_Post post_content.
+	 * @return string
 	 */
 	function llms_get_post_content( $content ) {
 
@@ -80,8 +81,17 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			$after = ob_get_clean();
 		}
 
+		/**
+		 * Filter the post_content of a LifterLMS post type.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param string  $content         Post content.
+		 * @param WP_Post $post            Post object.
+		 * @param array   $page_restricted Result from `llms_page_restricted()` for the current post.
+		 */
 		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $page_restricted );
 
 	}
-}// End if().
+}
 add_filter( 'the_content', 'llms_get_post_content' );
