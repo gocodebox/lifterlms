@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.25.1
- * @version 3.25.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,10 +15,11 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	/**
 	 * Post Template Include
 	 *
-	 * Appends LLMS content above and below post content.
+	 * Adds LifterLMS template content before and after the post's default content.
 	 *
 	 * @since 1.0.0
 	 * @since 3.25.2 Unknown.
+	 * @since [version] TODO.
 	 *
 	 * @param string $content WP_Post post_content.
 	 * @return string
@@ -26,72 +27,82 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	function llms_get_post_content( $content ) {
 
 		global $post;
-		if ( ! $post instanceof WP_Post ) {
+		if ( ! $post instanceof WP_Post || ! in_array( $post->post_type, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ), true ) ) {
 			return $content;
 		}
 
-		$page_restricted = llms_page_restricted( $post->ID );
-		$before          = '';
-		$template_before = '';
-		$after           = '';
-		$template_after  = '';
+		$restrictions    = llms_page_restricted( $post->ID );
+		$post_type       = str_replace( 'llms_', '', $post->post_type );
+		$template_before = 'single-' . $post_type . '-before';
+		$template_after  = 'single-' . $post_type . '-after';
 
-		if ( 'course' === $post->post_type || 'llms_membership' === $post->post_type ) {
-
-			$sales_page = get_post_meta( $post->ID, '_llms_sales_page_content_type', true );
-
-			if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
-
-				add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-				if ( $post->post_excerpt ) {
-					$content = llms_get_excerpt( $post->ID );
-				}
-			}
-
-			$template_name   = str_replace( 'llms_', '', $post->post_type );
-			$template_before = llms_get_template_part_contents( 'content', 'single-' . $template_name . '-before' );
-			$template_after  = llms_get_template_part_contents( 'content', 'single-' . $template_name . '-after' );
-
-		} elseif ( 'lesson' === $post->post_type ) {
-
-			if ( $page_restricted['is_restricted'] ) {
+		if ( $restrictions['is_restricted'] ) {
+			$content = llms_get_post_sales_page_content( $post, $content );
+			if ( in_array( $post->post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
 				$content         = '';
-				$template_before = llms_get_template_part_contents( 'content', 'no-access-before' );
-				$template_after  = llms_get_template_part_contents( 'content', 'no-access-after' );
-			} else {
-				$template_before = llms_get_template_part_contents( 'content', 'single-lesson-before' );
-				$template_after  = llms_get_template_part_contents( 'content', 'single-lesson-after' );
+				$template_before = 'no-access-before';
+				$template_after  = 'no-access-after';
 			}
-		} elseif ( 'llms_quiz' === $post->post_type ) {
-			$template_before = llms_get_template_part_contents( 'content', 'single-quiz-before' );
-			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
-
 		}
 
-		if ( $template_before ) {
-			ob_start();
-			load_template( $template_before, false );
-			$before = ob_get_clean();
-		}
+		ob_start();
+		load_template( llms_get_template_part_contents( 'content', $template_before ), false );
+		$before = ob_get_clean();
 
-		if ( $template_after ) {
-			ob_start();
-			load_template( $template_after, false );
-			$after = ob_get_clean();
-		}
+		ob_start();
+		load_template( llms_get_template_part_contents( 'content', $template_after ), false );
+		$after = ob_get_clean();
 
 		/**
 		 * Filter the post_content of a LifterLMS post type.
 		 *
-		 * @since [version]
+		 * @since Unknown
 		 *
-		 * @param string  $content         Post content.
-		 * @param WP_Post $post            Post object.
-		 * @param array   $page_restricted Result from `llms_page_restricted()` for the current post.
+		 * @param string  $content      Post content.
+		 * @param WP_Post $post         Post object.
+		 * @param array   $restrictions Result from `llms_page_restricted()` for the current post.
 		 */
-		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $page_restricted );
+		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $restrictions );
 
 	}
+}
+
+/**
+ * Retrieve the sales page content for a course or membership
+ *
+ * By default only courses and memberships support sales pages, the meta property
+ * must be set to `content` or an empty string, and the post must have a `post_excerpt`
+ * property value.
+ *
+ * @since [version]
+ *
+ * @param WP_Post $post    The post object.
+ * @param string  $default Optional. Default content to use when no override content can be found.
+ * @return string
+ */
+function llms_get_post_sales_page_content( $post, $default = '' ) {
+
+	$content = $default;
+
+	if ( post_type_supports( $post->post_type, 'llms-sales-page' ) ) {
+		$sales_page = get_post_meta( $post->ID, '_llms_sales_page_content_type', true );
+		if ( $post->post_excerpt && ( '' === $sales_page || 'content' === $sales_page ) ) {
+			add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
+			$content = llms_get_excerpt( $post->ID );
+		}
+	}
+
+	/**
+	 * Filters the HTML content of a LifterLMS post type's sales page content
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $content HTML content of the sales page.
+	 * @param WP_Post $content Post object.
+	 * @param string  $default Default content used when no override content can be found.
+	 */
+	return apply_filters( 'llms_post_sales_page_content', $content, $post, $default );
+
 }
 
 /**
