@@ -63,7 +63,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 				$template_after  = llms_get_template_part_contents( 'content', 'single-lesson-after' );
 			}
 		} elseif ( 'llms_quiz' === $post->post_type ) {
-
 			$template_before = llms_get_template_part_contents( 'content', 'single-quiz-before' );
 			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
 
@@ -84,7 +83,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		/**
 		 * Filter the post_content of a LifterLMS post type.
 		 *
-		 * @since Unknown.
+		 * @since [version]
 		 *
 		 * @param string  $content         Post content.
 		 * @param WP_Post $post            Post object.
@@ -94,4 +93,40 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 
 	}
 }
-add_filter( 'the_content', 'llms_get_post_content' );
+
+/**
+ * Initialize LifterLMS post type content filters
+ *
+ * This method is used to determine whether or `llms_get_post_content()` should automatically
+ * be added as a filter callback for the WP core `the_content` filter.
+ *
+ * When working with posts on the admin panel (during course building, importing) we don't want
+ * other plugins that may desire running `apply_filters( 'the_content', $content )` to apply our
+ * plugin's filters.
+ *
+ * Additionally, we don't want to return template information when processing REST requests.
+ *
+ * @since [version]
+ *
+ * @return boolean Returns `true` if content filters are added and `false` if not.
+ */
+function llms_post_content_init() {
+
+	// Don't filter any requests on the admin panel or when processing REST requests.
+	$should_filter = ( ! is_admin() && ! llms_is_rest() );
+
+	/**
+	 * Filters whether or not LifterLMS content filters should be applied.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $should_filter Whether or not to filter the content.
+	 */
+	if ( apply_filters( 'llms_should_filter_post_content', $should_filter ) ) {
+		return add_filter( 'the_content', 'llms_get_post_content' );
+	}
+
+	return false;
+
+}
+add_action( 'init', 'llms_post_content_init' );
