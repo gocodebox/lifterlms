@@ -1,16 +1,19 @@
 <?php
 /**
- * The Template for displaying all single courses.
+ * Template displayed after content on a restricted page
  *
- * @author      codeBOX
- * @package     lifterLMS/Templates
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @since [version] Removed redundant notice output call and replaced duplicated hook with a new hook.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-global $post;
-llms_print_notices();
-
-?>
-<?php
-do_action( 'lifterlms_no_access_main_content' );
+/**
+ * Action triggered after the main content of a restricted page is rendered
+ *
+ * @since [version]
+ */
+do_action( 'lifterlms_no_access_after' );
