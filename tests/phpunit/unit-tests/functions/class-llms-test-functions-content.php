@@ -11,21 +11,73 @@
  */
 class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 
-	public function get_post_content( $post ) {
+	/**
+	 * Helper to retrieve filtered post content for a given post
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $post Post object
+	 * @return string
+	 */
+	private function get_post_content( $post ) {
 		return trim( apply_filters( 'the_content', $post->post_content ) );
 	}
 
+	/**
+	 * Retrieve a mock post of a give type with expected content and excerpts.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $post Post object
+	 * @return WP_Post
+	 */
+	private function get_mock_post( $post_type ) {
+
+		global $post;
+		$post = $this->factory->post->create_and_get( array(
+			'post_type'    => $post_type,
+			'post_content' => '<p>Post Content</p>',
+			'post_excerpt' => '<p>Post Excerpt</p>',
+		) );
+
+		return $post;
+
+	}
+
+	/**
+	 * Callback for `llms_page_restricted` filter to force a page to look restricted
+	 *
+	 * @since [version]
+	 *
+	 * @param array $restrictions Restriction data array from llms_page_restricted().
+	 * @return array
+	 */
+	public function make_restricted( $restrictions ) {
+		$restrictions['is_restricted'] = true;
+		return $restrictions;
+	}
+
+	/**
+	 * Test llms_get_post_content() for various post types
+	 *
+	 * This test was never a very good one but it's retained as it does ensure WP core post types
+	 * are not affected by our functions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_llms_get_post_content() {
 
 		llms_post_content_init();
 
 		$content = '<p>Lorem ipsum dolor sit amet.</p>';
-		$post_types = array( 'llms_membership', 'course', 'lesson', 'post', 'page' );
+		$post_types = array( 'llms_membership', 'course', 'lesson', 'llms_quiz', 'post', 'page' );
 		foreach ( $post_types as $post_type ) {
 
 			global $post;
 			$post = $this->factory->post->create_and_get( array(
-				'post_type' => $post_type,
+				'post_type'    => $post_type,
 				'post_content' => $content,
 			) );
 
@@ -36,6 +88,268 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the course post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_course_restricted_no_sales_page() {
+
+		$before = did_action( 'lifterlms_single_course_before_summary' );
+		$after  = did_action( 'lifterlms_single_course_after_summary' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'course' );
+
+		$res = $this->get_post_content( $post );
+
+		// Starts with the default post content.
+		$this->assertSame( 0, strpos( $res, '<p>Post Content</p>' ) );
+
+		// Additions added to the end.
+		$additions = array(
+			'<div class="llms-meta-info">',
+			'<section class="llms-instructor-info">',
+			'<div class="llms-syllabus-wrapper">',
+		);
+		foreach ( $additions as $add ) {
+			$this->assertStringContains( $add, $res );
+		}
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_course_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_course_after_summary' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the course post type with restrictions and a salse page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_course_restricted_with_sales_page() {
+
+		$before = did_action( 'lifterlms_single_course_before_summary' );
+		$after  = did_action( 'lifterlms_single_course_after_summary' );
+
+		add_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'course' );
+
+		update_post_meta( $post->ID, '_llms_sales_page_content_type', 'content' );
+
+		$res = $this->get_post_content( $post );
+
+		// Starts with the post's excerpt post content.
+		$this->assertSame( 0, strpos( $res, '<p>Post Excerpt</p>' ) );
+
+		// Post's content should not be found.
+		$this->assertSame( false, strpos( $res, '<p>Post Content</p>' ) );
+
+		// Additions added to the end.
+		$additions = array(
+			'<div class="llms-meta-info">',
+			'<section class="llms-instructor-info">',
+			'<div class="llms-syllabus-wrapper">',
+		);
+		foreach ( $additions as $add ) {
+			$this->assertStringContains( $add, $res );
+		}
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_course_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_course_after_summary' ) );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the membership post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_membership_restricted_no_sales_page() {
+
+		$before = did_action( 'lifterlms_single_membership_before_summary' );
+		$after  = did_action( 'lifterlms_single_membership_after_summary' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'llms_membership' );
+
+		$res = $this->get_post_content( $post );
+
+		// No additions to the post content.
+		$this->assertEquals( '<p>Post Content</p>', $res );
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_membership_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_membership_after_summary' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the membership post type with restrictions and a salse page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_membership_restricted_with_sales_page() {
+
+		$before = did_action( 'lifterlms_single_membership_before_summary' );
+		$after  = did_action( 'lifterlms_single_membership_after_summary' );
+
+		$handler = function( $restrictions ) {
+			$restrictions['is_restricted'] = true;
+			return $restrictions;
+		};
+		add_filter( 'llms_page_restricted', $handler );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'llms_membership' );
+
+		update_post_meta( $post->ID, '_llms_sales_page_content_type', 'content' );
+
+		$res = $this->get_post_content( $post );
+
+		// Just the excerpt.
+		$this->assertEquals( '<p>Post Excerpt</p>', $res );
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_membership_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_membership_after_summary' ) );
+
+		remove_filter( 'llms_page_restricted', $handler );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the lesson post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_lesson() {
+
+		$before = did_action( 'lifterlms_single_lesson_before_summary' );
+		$after  = did_action( 'lifterlms_single_lesson_after_summary' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'lesson' );
+
+		$res = $this->get_post_content( $post );
+
+		// Starts with the back to course link.
+		$this->assertSame( 0, strpos( $res, '<p class="llms-parent-course-link">' ) );
+
+		$additions = array(
+			'<p>Post Content</p>', // Default content.
+			'<nav class="llms-course-navigation">',
+		);
+		foreach ( $additions as $add ) {
+			$this->assertStringContains( $add, $res );
+		}
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_lesson_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_lesson_after_summary' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for a restricted lesson post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_lesson_restricted() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
+
+		$before = did_action( 'lifterlms_no_access_main_content' );
+		$after  = did_action( 'lifterlms_no_access_after' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'lesson' );
+
+		$res = $this->get_post_content( $post );
+
+		$this->assertSame( '', $res );
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_no_access_main_content' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_no_access_after' ) );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for the quiz post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_quiz() {
+
+		$before = did_action( 'lifterlms_single_quiz_before_summary' );
+		$after  = did_action( 'lifterlms_single_quiz_after_summary' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'llms_quiz' );
+
+		$res = $this->get_post_content( $post );
+
+		// Starts with a wrapper.
+		$this->assertSame( 0, strpos( $res, '<div class="llms-quiz-wrapper" id="llms-quiz-wrapper">' ) );
+
+		$additions = array(
+			'<div class="llms-return">',
+			'<p>Post Content</p>', // Default content.
+			'</div><!--end #llms-quiz-wrapper -->',
+		);
+		foreach ( $additions as $add ) {
+			$this->assertStringContains( $add, $res );
+		}
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_single_quiz_before_summary' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_single_quiz_after_summary' ) );
+
+	}
+
+	/**
+	 * Test llms_get_post_content() for a restricted quiz post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_post_content_quiz_restricted() {
+
+		add_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
+
+		$before = did_action( 'lifterlms_no_access_main_content' );
+		$after  = did_action( 'lifterlms_no_access_after' );
+
+		llms_post_content_init();
+		$post = $this->get_mock_post( 'llms_quiz' );
+
+		$res = $this->get_post_content( $post );
+
+		$this->assertSame( '', $res );
+
+		$this->assertEquals( ++$before, did_action( 'lifterlms_no_access_main_content' ) );
+		$this->assertEquals( ++$after, did_action( 'lifterlms_no_access_after' ) );
+
+		remove_filter( 'llms_page_restricted', array( $this, 'make_restricted' ) );
 
 	}
 
@@ -52,6 +366,26 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 
 		$input = 'whatever';
 		$this->assertEquals( $input, llms_get_post_content( $input ) );
+
+	}
+
+	public function test_llms_get_post_sales_page_content_unsupported() {
+		$this->assertEquals( 'default content', llms_get_post_sales_page_content( $this->factory->post->create_and_get(), 'default_content' ) );
+	}
+
+	public function test_llms_get_post_sales_page_content_supported() {
+
+		$post_excerpt = 'excerpt content';
+
+		foreach ( array( 'course', 'llms_membership' ) as $post_type ) {
+
+			$post = $this->factory->post->create_and_get( compact( 'post_type', 'post_excerpt' ) );
+			$this->assertEquals( 'default content', llms_get_post_sales_page_content( $post, 'default_content' ) );
+
+			update_post_meta( $post->ID, '_llms_sales_page_content_type', 'content' );
+
+			$this->assertEquals( $post_excerpt, llms_get_post_sales_page_content( $post, 'default_content' ) );
+		}
 
 	}
 
