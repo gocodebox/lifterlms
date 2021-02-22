@@ -19,7 +19,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 *
 	 * @since 1.0.0
 	 * @since 3.25.2 Unknown.
-	 * @since [version] TODO.
+	 * @since [version] Refactored.
 	 *
 	 * @param string $content WP_Post post_content.
 	 * @return string
@@ -27,31 +27,37 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	function llms_get_post_content( $content ) {
 
 		global $post;
-		if ( ! $post instanceof WP_Post || ! in_array( $post->post_type, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ), true ) ) {
+		if ( ! $post instanceof WP_Post ) {
 			return $content;
 		}
 
-		$restrictions    = llms_page_restricted( $post->ID );
-		$post_type       = str_replace( 'llms_', '', $post->post_type );
-		$template_before = 'single-' . $post_type . '-before';
-		$template_after  = 'single-' . $post_type . '-after';
+		if ( in_array( $post->post_type, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ), true ) ) {
 
-		if ( $restrictions['is_restricted'] ) {
-			$content = llms_get_post_sales_page_content( $post, $content );
-			if ( in_array( $post->post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
-				$content         = '';
-				$template_before = 'no-access-before';
-				$template_after  = 'no-access-after';
+			$restrictions    = llms_page_restricted( $post->ID );
+			$post_type       = str_replace( 'llms_', '', $post->post_type );
+			$template_before = 'single-' . $post_type . '-before';
+			$template_after  = 'single-' . $post_type . '-after';
+
+			if ( $restrictions['is_restricted'] ) {
+				$content = llms_get_post_sales_page_content( $post, $content );
+				if ( in_array( $post->post_type, array( 'lesson', 'llms_quiz' ), true ) ) {
+					$content         = '';
+					$template_before = 'no-access-before';
+					$template_after  = 'no-access-after';
+				}
 			}
+
+			ob_start();
+			load_template( llms_get_template_part_contents( 'content', $template_before ), false );
+			$before = ob_get_clean();
+
+			ob_start();
+			load_template( llms_get_template_part_contents( 'content', $template_after ), false );
+			$after = ob_get_clean();
+
+			$content = do_shortcode( $before . $content . $after );
+
 		}
-
-		ob_start();
-		load_template( llms_get_template_part_contents( 'content', $template_before ), false );
-		$before = ob_get_clean();
-
-		ob_start();
-		load_template( llms_get_template_part_contents( 'content', $template_after ), false );
-		$after = ob_get_clean();
 
 		/**
 		 * Filter the post_content of a LifterLMS post type.
@@ -62,7 +68,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		 * @param WP_Post $post         Post object.
 		 * @param array   $restrictions Result from `llms_page_restricted()` for the current post.
 		 */
-		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $restrictions );
+		return apply_filters( 'llms_get_post_content', $content, $post, $restrictions );
 
 	}
 }
