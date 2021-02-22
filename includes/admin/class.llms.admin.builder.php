@@ -318,6 +318,7 @@ class LLMS_Admin_Builder {
 	 * @since 3.19.2 Unknown.
 	 * @since 4.16.0 Remove all filters/actions applied to the title/content when handling the ajax_save by deafault.
 	 *               This is specially to prevent plugin conflicts, see https://github.com/gocodebox/lifterlms/issues/1530.
+	 * @since [version] Remove `remove_all_*` hooks added in version 4.16.0.
 	 *
 	 * @param array $request $_REQUEST
 	 * @return array
@@ -333,10 +334,6 @@ class LLMS_Admin_Builder {
 
 			case 'ajax_save':
 				if ( isset( $request['llms_builder'] ) ) {
-
-					// Remove filters/actions applied to the title and content.
-					remove_all_actions( 'the_title' );
-					remove_all_actions( 'the_content' );
 
 					$request['llms_builder'] = stripslashes( $request['llms_builder'] );
 					wp_send_json( self::heartbeat_received( array(), $request ) );
