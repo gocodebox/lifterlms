@@ -115,29 +115,31 @@ function llms_get_post_sales_page_content( $post, $default = '' ) {
  * other plugins that may desire running `apply_filters( 'the_content', $content )` to apply our
  * plugin's filters.
  *
- * Additionally, we don't want to return template information when processing REST requests.
- *
  * @since [version]
  *
+ * @param callable $callback Optional. Callback function to be added as a callback for the filter `the_content`. Default 'llms_get_post_content'.
+ * @param integer  $priority Optional. Priority used when adding the filter. Default: 10.
  * @return boolean Returns `true` if content filters are added and `false` if not.
  */
-function llms_post_content_init() {
+function llms_post_content_init( $callback = 'llms_get_post_content', $priority = 10 ) {
 
-	// Don't filter any requests on the admin panel or when processing REST requests.
-	$should_filter = ( ! is_admin() && ! llms_is_rest() );
+	// Don't filter post content on the admin panel.
+	$should_filter = ( false === is_admin() );
 
 	/**
 	 * Filters whether or not LifterLMS content filters should be applied.
 	 *
 	 * @since [version]
 	 *
-	 * @param boolean $should_filter Whether or not to filter the content.
+	 * @param boolean  $should_filter Whether or not to filter the content.
+	 * @param callable $callback      Callback function to be added as a callback for the filter `the_content`.
 	 */
-	if ( apply_filters( 'llms_should_filter_post_content', $should_filter ) ) {
-		return add_filter( 'the_content', 'llms_get_post_content' );
+	if ( apply_filters( 'llms_should_filter_post_content', $should_filter, $callback ) ) {
+		return add_filter( 'the_content', $callback, $priority );
 	}
 
 	return false;
 
 }
-add_action( 'init', 'llms_post_content_init' );
+
+llms_post_content_init();
