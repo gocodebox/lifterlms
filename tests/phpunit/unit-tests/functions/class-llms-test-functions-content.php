@@ -369,10 +369,24 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_get_post_sales_page_content() for an unsupported post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_llms_get_post_sales_page_content_unsupported() {
-		$this->assertEquals( 'default content', llms_get_post_sales_page_content( $this->factory->post->create_and_get(), 'default_content' ) );
+		$this->assertEquals( 'default content', llms_get_post_sales_page_content( $this->factory->post->create_and_get(), 'default content' ) );
 	}
 
+	/**
+	 * Test llms_get_post_sales_page_content() for supported post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_llms_get_post_sales_page_content_supported() {
 
 		$post_excerpt = 'excerpt content';
@@ -380,11 +394,12 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 		foreach ( array( 'course', 'llms_membership' ) as $post_type ) {
 
 			$post = $this->factory->post->create_and_get( compact( 'post_type', 'post_excerpt' ) );
-			$this->assertEquals( 'default content', llms_get_post_sales_page_content( $post, 'default_content' ) );
+			update_post_meta( $post->ID, '_llms_sales_page_content_type', 'redirect' );
+			$this->assertEquals( 'default content', llms_get_post_sales_page_content( $post, 'default content' ) );
 
 			update_post_meta( $post->ID, '_llms_sales_page_content_type', 'content' );
 
-			$this->assertEquals( $post_excerpt, llms_get_post_sales_page_content( $post, 'default_content' ) );
+			$this->assertEquals( "<p>excerpt content</p>\n", llms_get_post_sales_page_content( $post, 'default content' ) );
 		}
 
 	}
@@ -426,22 +441,18 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_post_content_init() during REST requests
+	 * Test llms_post_content_init() when filters should be applied
 	 *
 	 * @since [version]
 	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
-	 *
 	 * @return void
 	 */
-	public function test_llms_post_content_init_is_rest() {
+	public function test_llms_post_content_custom() {
 
-		remove_filter( 'the_content', 'llms_get_post_content' );
+		$this->assertTrue( llms_post_content_init( 'a_fake_callback', 85 ) );
+		$this->assertEquals( 85, has_filter( 'the_content', 'a_fake_callback' ) );
 
-		define( 'REST_REQUEST', true );
-		$this->assertFalse( llms_post_content_init() );
-		$this->assertFalse( has_filter( 'the_content', 'llms_get_post_content' ) );
+		remove_filter( 'the_content', 'a_fake_callback' );
 
 	}
 
