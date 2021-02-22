@@ -2,7 +2,7 @@
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.17.0
  */
 define( [], function() {
 
@@ -114,7 +114,7 @@ define( [], function() {
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
 		 *
 		 * @since 3.16.7
-		 * @since [version] Fixed undefined variable error when logging an error response.
+		 * @since 4.17.0 Fixed undefined variable error when logging an error response.
 		 *
 		 * @return void
 		 */
