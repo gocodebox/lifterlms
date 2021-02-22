@@ -31,9 +31,10 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			return $content;
 		}
 
+		$restrictions = llms_page_restricted( $post->ID );
+
 		if ( in_array( $post->post_type, array( 'course', 'llms_membership', 'lesson', 'llms_quiz' ), true ) ) {
 
-			$restrictions    = llms_page_restricted( $post->ID );
 			$post_type       = str_replace( 'llms_', '', $post->post_type );
 			$template_before = 'single-' . $post_type . '-before';
 			$template_after  = 'single-' . $post_type . '-after';
