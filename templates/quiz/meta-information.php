@@ -5,16 +5,25 @@
  * @package LifterLMS/Templates
  *
  * @since 3.9.0
- * @version 4.0.0-beta.2
+ * @since 4.0.0 Unknown.
+ * @since 4.17.0 Return early if accessed without a logged in user or the quiz can't be loaded from the `$post` global.
+ * @version 4.17.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 global $post;
 
-$quiz            = llms_get_post( $post );
+$student = llms_get_student();
+if ( ! $student ) {
+	return;
+}
+
+$quiz = llms_get_post( $post );
+if ( ! $quiz ) {
+	return;
+}
 $passing_percent = $quiz->get( 'passing_percent' );
-$student         = llms_get_student();
 ?>
 
 <h2 class="llms-quiz-meta-title"><?php _e( 'Quiz Information', 'lifterlms' ); ?></h2>

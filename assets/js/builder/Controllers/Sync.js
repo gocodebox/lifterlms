@@ -2,7 +2,7 @@
  * Sync builder data to the server
  *
  * @since 3.16.0
- * @version 4.14.0
+ * @version 4.17.0
  */
 define( [], function() {
 
@@ -113,9 +113,10 @@ define( [], function() {
 		/**
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
 		 *
-		 * @return   void
-		 * @since    3.16.7
-		 * @version  3.16.7
+		 * @since 3.16.7
+		 * @since 4.17.0 Fixed undefined variable error when logging an error response.
+		 *
+		 * @return void
 		 */
 		function do_ajax_save() {
 
@@ -149,7 +150,7 @@ define( [], function() {
 					},
 					error: function( xhr, status, error ) {
 
-						window.llms_builder.debug.log( '==== start do_ajax_save error ====', data, '==== finish do_ajax_save error ====' );
+						window.llms_builder.debug.log( '==== start do_ajax_save error ====', xhr, '==== finish do_ajax_save error ====' );
 
 						self.saving = false;
 

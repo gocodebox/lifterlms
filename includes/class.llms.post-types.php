@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 4.5.1
+ * @version 4.17.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -344,6 +344,7 @@ class LLMS_Post_Types {
 	 * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
 	 * @since 3.37.12 Added 'revisions' support to course, lesson, and llms_mebership post types.
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
+	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 *
 	 * @return void
 	 */
@@ -385,7 +386,7 @@ class LLMS_Post_Types {
 					'feeds'      => true,
 				),
 				'query_var'           => true,
-				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post' ),
+				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
 				'has_archive'         => ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
@@ -580,7 +581,7 @@ class LLMS_Post_Types {
 					'feeds'      => true,
 				),
 				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions' ),
+				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
 				'has_archive'         => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,

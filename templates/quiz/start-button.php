@@ -2,8 +2,9 @@
 /**
  * Quiz Start & Next lesson buttons
  *
- * @since    1.0.0
- * @version  3.25.0
+ * @since 1.0.0
+ * @since 3.25.0 Unknown.
+ * @since 4.17.0 Early bail on orphan quiz.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,11 +12,22 @@ defined( 'ABSPATH' ) || exit;
 global $post;
 $quiz   = llms_get_post( $post );
 $lesson = $quiz->get_lesson();
+
+if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+	return;
+}
 ?>
 
 <div class="llms-quiz-buttons llms-button-wrapper" id="quiz-start-button">
 
-	<?php do_action( 'lifterlms_before_start_quiz' ); ?>
+	<?php
+		/**
+		 * Fired before the start quiz button
+		 *
+		 * @since Unknown
+		 */
+		do_action( 'lifterlms_before_start_quiz' );
+	?>
 
 	<?php if ( $quiz ) : ?>
 
@@ -31,7 +43,18 @@ $lesson = $quiz->get_lesson();
 				<?php wp_nonce_field( 'llms_start_quiz' ); ?>
 
 				<button class="llms-start-quiz-button llms-button-action button" id="llms_start_quiz" name="llms_start_quiz" type="submit">
-					<?php echo apply_filters( 'lifterlms_begin_quiz_button_text', __( 'Start Quiz', 'lifterlms' ), $quiz, $lesson ); ?>
+					<?php
+						/**
+						 * Filters the quiz button text
+						 *
+						 * @since Unknown
+						 *
+						 * @param string      $button_text The start quiz button text.
+						 * @param LLMS_Quiz   $quiz        The current quiz instance.
+						 * @param LLMS_Lesson $lesson      The parent lesson instance.
+						 */
+						echo apply_filters( 'lifterlms_begin_quiz_button_text', __( 'Start Quiz', 'lifterlms' ), $quiz, $lesson );
+					?>
 				</button>
 
 			<?php else : ?>
@@ -49,6 +72,13 @@ $lesson = $quiz->get_lesson();
 
 	<?php endif; ?>
 
-	<?php do_action( 'lifterlms_after_start_quiz' ); ?>
+	<?php
+		/**
+		 * Fired after the start quiz button
+		 *
+		 * @since Unknown
+		 */
+		do_action( 'lifterlms_after_start_quiz' );
+	?>
 
 </div>

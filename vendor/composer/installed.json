@@ -1,0 +1,144 @@
+{
+    "packages": [
+        {
+            "name": "lifterlms/lifterlms-blocks",
+            "version": "1.11.1",
+            "version_normalized": "1.11.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+                "reference": "be06243de36766de801b86470f2779374b68dde8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/be06243de36766de801b86470f2779374b68dde8",
+                "reference": "be06243de36766de801b86470f2779374b68dde8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "dev-trunk"
+            },
+            "time": "2021-01-05T18:08:23+00:00",
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/1.11.1"
+            },
+            "install-path": "../lifterlms/lifterlms-blocks"
+        },
+        {
+            "name": "lifterlms/lifterlms-rest",
+            "version": "1.0.0-beta.18",
+            "version_normalized": "1.0.0.0-beta18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-rest.git",
+                "reference": "bf80069f35f9cb16edd707e6e44be52e35d6e03b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/bf80069f35f9cb16edd707e6e44be52e35d6e03b",
+                "reference": "bf80069f35f9cb16edd707e6e44be52e35d6e03b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "dev-trunk"
+            },
+            "time": "2021-02-09T20:32:17+00:00",
+            "type": "wordpress-plugin",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "REST API feature plugin for the LifterLMS Core.",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.18"
+            },
+            "install-path": "../lifterlms/lifterlms-rest"
+        },
+        {
+            "name": "woocommerce/action-scheduler",
+            "version": "3.1.6",
+            "version_normalized": "3.1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woocommerce/action-scheduler.git",
+                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.6",
+                "woocommerce/woocommerce-sniffs": "0.0.8",
+                "wp-cli/wp-cli": "~1.5.1"
+            },
+            "time": "2020-05-12T16:22:33+00:00",
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "installation-source": "dist",
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "phpcs": [
+                    "phpcs -s -p"
+                ],
+                "phpcs-pre-commit": [
+                    "phpcs -s -p -n"
+                ],
+                "phpcbf": [
+                    "phpcbf -p"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "homepage": "https://actionscheduler.org/",
+            "support": {
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.1.6",
+                "issues": "https://github.com/woocommerce/action-scheduler/issues"
+            },
+            "install-path": "../woocommerce/action-scheduler"
+        }
+    ],
+    "dev": false
+}

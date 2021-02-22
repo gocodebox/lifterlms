@@ -6,7 +6,8 @@
  *
  * @since 1.0.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @version 3.35.0
+ * @since 4.17.0 Return early if accessed without a logged in user.
+ * @version 4.17.0
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
@@ -19,7 +20,11 @@ if ( ! $quiz ) {
 	return;
 }
 
-$student  = llms_get_student();
+$student = llms_get_student();
+if ( ! $student ) {
+	return;
+}
+
 $attempts = $student->quizzes()->get_attempts_by_quiz(
 	$quiz->get( 'id' ),
 	array(
