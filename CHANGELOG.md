@@ -1,6 +1,28 @@
 LifterLMS Changelog
 ===================
 
+v4.17.0 - 2021-02-22
+--------------------
+
+##### Updates
+
++ The post type feature "llms-sales-page" has been added to course and membership post types, signifying they support custom sales pages.
+
+##### Bug fixes
+
++ Fixed compatibility issues with Yoast SEO 15.8.
++ Fixed duplicate action hook in `content-no-access-after.php` template.
++ Added early returns to several templates to prevent undefined variables errors.
++ Fixed an undefined variable encountered in course builder JS debug logging.
+
+##### Templates Updated
+
++ content-no-access-after.php
++ quiz/meta-information.php
++ quiz/results.php
++ quiz/start-button.php
+
+
 v4.16.0 - 2021-02-18
 --------------------
 

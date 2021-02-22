@@ -14,7 +14,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Helper to retrieve filtered post content for a given post
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @param WP_Post $post Post object
 	 * @return string
@@ -26,7 +26,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a mock post of a give type with expected content and excerpts.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @param WP_Post $post Post object
 	 * @return WP_Post
@@ -47,7 +47,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Callback for `llms_page_restricted` filter to force a page to look restricted
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @param array $restrictions Restriction data array from llms_page_restricted().
 	 * @return array
@@ -63,7 +63,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	 * This test was never a very good one but it's retained as it does ensure WP core post types
 	 * are not affected by our functions.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the course post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -129,7 +129,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the course post type with restrictions and a salse page.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the membership post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the membership post type with restrictions and a salse page.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -233,7 +233,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the lesson post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -266,7 +266,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for a restricted lesson post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -294,7 +294,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for the quiz post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -328,7 +328,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_content() for a restricted quiz post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -356,7 +356,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test that llms_get_post_content() will return early if the `$post` global is not set.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -372,7 +372,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_sales_page_content() for an unsupported post type.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -383,7 +383,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_post_sales_page_content() for supported post types.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -407,7 +407,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_post_content_init() when filters should be applied
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -423,7 +423,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_post_content_init() when on the admin panel
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */
@@ -443,7 +443,7 @@ class LLMS_Test_Functions_Content extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_post_content_init() when filters should be applied
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @return void
 	 */

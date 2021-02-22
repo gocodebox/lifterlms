@@ -4,7 +4,7 @@
  *
  * @since 1.0.0
  * @since 3.25.0 Unknown.
- * @since [version] Early bail on orphan quiz.
+ * @since 4.17.0 Early bail on orphan quiz.
  */
 
 defined( 'ABSPATH' ) || exit;

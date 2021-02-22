@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.25.1
- * @version [version]
+ * @version 4.17.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 *
 	 * @since 1.0.0
 	 * @since 3.25.2 Unknown.
-	 * @since [version] Refactored.
+	 * @since 4.17.0 Refactored.
 	 *
 	 * @param string $content WP_Post post_content.
 	 * @return string
@@ -81,7 +81,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
  * must be set to `content` or an empty string, and the post must have a `post_excerpt`
  * property value.
  *
- * @since [version]
+ * @since 4.17.0
  *
  * @param WP_Post $post    The post object.
  * @param string  $default Optional. Default content to use when no override content can be found.
@@ -102,7 +102,7 @@ function llms_get_post_sales_page_content( $post, $default = '' ) {
 	/**
 	 * Filters the HTML content of a LifterLMS post type's sales page content
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @param string  $content HTML content of the sales page.
 	 * @param WP_Post $content Post object.
@@ -122,7 +122,7 @@ function llms_get_post_sales_page_content( $post, $default = '' ) {
  * other plugins that may desire running `apply_filters( 'the_content', $content )` to apply our
  * plugin's filters.
  *
- * @since [version]
+ * @since 4.17.0
  *
  * @param callable $callback Optional. Callback function to be added as a callback for the filter `the_content`. Default 'llms_get_post_content'.
  * @param integer  $priority Optional. Priority used when adding the filter. Default: 10.
@@ -136,7 +136,7 @@ function llms_post_content_init( $callback = 'llms_get_post_content', $priority 
 	/**
 	 * Filters whether or not LifterLMS content filters should be applied.
 	 *
-	 * @since [version]
+	 * @since 4.17.0
 	 *
 	 * @param boolean  $should_filter Whether or not to filter the content.
 	 * @param callable $callback      Callback function to be added as a callback for the filter `the_content`.

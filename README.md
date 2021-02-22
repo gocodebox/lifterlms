@@ -132,6 +132,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/moorscode"><img src="https://avatars.githubusercontent.com/u/2005352?v=4" title="moorscode" width="80" height="80"></a>
 <a href="https://github.com/nhandl3"><img src="https://avatars.githubusercontent.com/u/1247539?v=4" title="nhandl3" width="80" height="80"></a>
 <a href="https://github.com/Nikschavan"><img src="https://avatars.githubusercontent.com/u/2931091?v=4" title="Nikschavan" width="80" height="80"></a>
+<a href="https://github.com/reedhewitt"><img src="https://avatars.githubusercontent.com/u/957141?v=4" title="reedhewitt" width="80" height="80"></a>
 <a href="https://github.com/edent"><img src="https://avatars.githubusercontent.com/u/837136?v=4" title="edent" width="80" height="80"></a>
 <a href="https://github.com/nrherron92"><img src="https://avatars.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
 <a href="https://github.com/sujaypawar"><img src="https://avatars.githubusercontent.com/u/2222249?v=4" title="sujaypawar" width="80" height="80"></a>

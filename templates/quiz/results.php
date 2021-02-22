@@ -6,8 +6,8 @@
  *
  * @since 1.0.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @since [version] Return early if accessed without a logged in user.
- * @version [version]
+ * @since 4.17.0 Return early if accessed without a logged in user.
+ * @version 4.17.0
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
