@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 4.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -331,6 +331,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Added 'upcoming_payment_reminder'.
 	 *
 	 * @return void
 	 */
@@ -373,7 +374,7 @@ class LLMS_Notifications {
 		/**
 		 * Run an action after all core notification classes are loaded.
 		 *
-		 * Third party notifications can hook into this action
+		 * Third party notifications can hook into this action.
 		 * Use `load_view()`, `load_controller()`, and `load_processor()` methods
 		 * to load notifications into the class and be auto-called by the core APIs.
 		 *

@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 5.0.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -129,9 +129,15 @@ class LLMS_Controller_Orders {
 		 *
 		 * @since 3.34.4
 		 *
+<<<<<<< HEAD
 		 * @param bool       $can_be_confirmed   True if the order can be confirmed, false otherwise.
 		 * @param LLMS_Order $order              Order object.
 		 * @param string     $gateway_id Payment gateway ID.
+=======
+		 * @param bool       $can_be_confirmed True if the order can be confirmed, false otherwise.
+		 * @param LLMS_Order $order            Order object.
+		 * @param string     $gateway_id       Payment gateway ID.
+>>>>>>> 13f82ffbc (docs)
 		 */
 		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
@@ -171,14 +177,44 @@ class LLMS_Controller_Orders {
 
 		unset( LLMS()->session->llms_coupon );
 
-		// Trigger order complete action.
+		/**
+		 * Action fired on order complete
+		 *
+		 * Prior to the students being enrolled.
+		 *
+		 * @since Unknown
+		 *
+		 * @param integer $order_id The WP_Post ID of the order.
+		 */
 		do_action( 'lifterlms_order_complete', $order_id ); // @todo used by AffiliateWP only, can remove after updating AffiliateWP.
 
 		// Enroll student.
 		llms_enroll_student( $user_id, $product_id, 'order_' . $order_id );
 
 		// Trigger purchase action, used by engagements.
+
+		/**
+		 * Action fired on product purchased.
+		 *
+		 * After the student has been enrolled.
+		 *
+		 * @since Unknown
+		 *
+		 * @param integer $user_id    The WP_User ID of the buyer.
+		 * @param integer $product_id The WP_Post ID of the purchased product (course/membership).
+		 */
 		do_action( 'lifterlms_product_purchased', $user_id, $product_id );
+
+		/**
+		 * Action fired on access plan purchased.
+		 *
+		 * After the student has been enrolled.
+		 *
+		 * @since Unknown
+		 *
+		 * @param integer $user_id    The WP_User ID of the buyer.
+		 * @param integer $product_id The WP_Post ID of the purchased access plan.
+		 */
 		do_action( 'lifterlms_access_plan_purchased', $user_id, $order->get( 'plan_id' ) );
 
 		// Maybe schedule a payment.
@@ -224,7 +260,7 @@ class LLMS_Controller_Orders {
 		/**
 		 * Allow 3rd parties to perform their own validation prior to standard validation.
 		 *
-		 * If this returns a truthy, we'll stop processing
+		 * If this returns a truthy, we'll stop processing.
 		 *
 		 * The extension should add a notice in addition to returning the truthy.
 		 *
@@ -285,9 +321,15 @@ class LLMS_Controller_Orders {
 
 		/**
 		 * Allow gateways, extensions, etc to do their own validation
-		 * after all standard validations are successfully
-		 * If this returns a truthy, we'll stop processing
-		 * The extension should add a notice in addition to returning the truthy
+		 *
+		 * After all standard validations are successfully.
+		 *
+		 * If this returns a truthy, we'll stop processing.
+		 * The extension should add a notice in addition to returning the truthy.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean $stop_processing When a `true`, we'll stop processing. Default is `false`.
 		 */
 		if ( apply_filters( 'llms_after_checkout_validation', false ) ) {
 			return;
@@ -327,6 +369,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
+	 * @since [version] Unschedule upcoming payment reminder.
 	 *
 	 * @param LLMS_Order $order Instance of an LLMS_Order.
 	 * @return void
@@ -426,8 +469,9 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Unschedule upcoming payment reminder.
 	 *
-	 * @param int $order_id WP Post ID of the LLMS Order.
+	 * @param int $order_id WP_Post ID of the LLMS Order.
 	 * @return void
 	 */
 	public function expire_access( $order_id ) {
@@ -465,6 +509,7 @@ class LLMS_Controller_Orders {
 	 * Unschedule recurring payments and schedule access expiration
 	 *
 	 * @since 3.19.0
+	 * @since [version] Unschedule upcoming payment reminder.
 	 *
 	 * @param LLMS_Order $order LLMS_Order object.
 	 * @return void
@@ -488,6 +533,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
+	 * @since [version] Fixed buggy logging on gateway error because it doesn't support recurring payments.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.
@@ -498,6 +544,14 @@ class LLMS_Controller_Orders {
 		$order = llms_get_post( $order_id );
 		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the order doesn't exist anymore
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_order_error', $order_id, $this );
 			llms_log( sprintf( 'Recurring charge for Order #%d could not be processed because the order no longer exists.', $order_id ), 'recurring-payments' );
 			return false;
@@ -508,19 +562,37 @@ class LLMS_Controller_Orders {
 		$user_id = $order->get( 'user_id' );
 		if ( ! get_user_by( 'id', $user_id ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the user who placed the order doesn't exist anymore
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param int                    $user_id    WP User ID of the user who placed the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_user_error', $order_id, $user_id, $this );
 			llms_log( sprintf( 'Recurring charge for Order #%1$d could not be processed because the user (#%2$d) no longer exists.', $order_id, $user_id ), 'recurring-payments' );
 
-			// Translators: %d = The deleted user's ID..
+			// Translators: %d = The deleted user's ID.
 			$order->add_note( sprintf( __( 'Recurring charge skipped. The user (#%d) no longer exists.', 'lifterlms' ), $user_id ) );
 			return false;
 
 		}
 
-		// Ensure Gateway is still available..
+		// Ensure Gateway is still available.
 		$gateway = $order->get_gateway();
-		if ( is_wp_error( $gateway ) ) {
 
+		if ( is_wp_error( $gateway ) ) {
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because of a gateway error. E.g. it's not available anymore
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param WP_Error               $error      WP_Error instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_gateway_error', $order_id, $gateway, $this );
 
 			llms_log(
@@ -535,7 +607,7 @@ class LLMS_Controller_Orders {
 
 			$order->add_note(
 				sprintf(
-					// Translators: %s = error message encountered while loading the gateway..
+					// Translators: %s = error message encountered while loading the gateway.
 					__( 'Recurring charge was not processed due to an error encountered while loading the payment gateway: %s.', 'lifterlms' ),
 					$gateway->get_error_message()
 				)
@@ -544,26 +616,51 @@ class LLMS_Controller_Orders {
 
 		}
 
-		// Gateway doesn't support recurring payments..
+		// Gateway doesn't support recurring payments.
 		if ( ! $gateway->supports( 'recurring_payments' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the selected gateway doesn't support recurring payments
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Payment_Gateway   $gateway    LLMS_Payment_Gateway extending class instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_gateway_payments_disabled', $order_id, $gateway, $this );
-			llms_log( sprintf( 'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.', 'recurring-payments' ), $order_id );
+			llms_log(
+				sprintf(
+					// Translators: %d = The WP Post ID of the order.
+					__( 'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.', 'recurring-payments' ),
+					$order_id
+				)
+			);
+
 			$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled for the payment gateway.', 'lifterlms' ) );
 			return false;
 
 		}
 
-		// Recurring payments disabled as a site feature when in staging mode..
+		// Recurring payments disabled as a site feature when in staging mode.
 		if ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
 
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the recurring payments site feature is disabled
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Payment_Gateway   $gateway    LLMS_Payment_Gateway extending class instance.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
 			do_action( 'llms_order_recurring_charge_skipped', $order_id, $gateway, $this );
 			$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in staging mode.', 'lifterlms' ) );
 			return false;
 
 		}
 
-		// Passed validation, hand off to the gateway..
+		// Passed validation, hand off to the gateway.
 		$gateway->handle_recurring_transaction( $order );
 		return true;
 
@@ -694,11 +791,11 @@ class LLMS_Controller_Orders {
 	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
 	 *
 	 * @since 3.0.0
-	 * @since 3.19.0 Unknown.
+	 * @since 3.19.0
 	 *
 	 * @param string  $new_status New status.
 	 * @param string  $old_status Old status.
-	 * @param WP_Post $post       WP_Post instance.
+	 * @param WP_Post $post       WP_Post instance of the transaction.
 	 * @return void
 	 */
 	public function transition_status( $new_status, $old_status, $post ) {
@@ -725,8 +822,34 @@ class LLMS_Controller_Orders {
 		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
-		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj, $old_status, $new_status );
-		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj, $old_status, $new_status );
+		/**
+		 * Fired when a LifterLMS order or transaction changes status
+		 *
+		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
+		 * The second dynamic portion of this hook, `$old_status`, refers to the previous object status.
+		 * The third dynamic portion of this hook, `$new_status`, refers to the new object status.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order|LLMS_Transaction $object     The LifterLMS order or transaction instance.
+		 * @param string                      $old_status The previous order or transaction status.
+		 * @param string                      $new_status The new order or transaction status.
+		 */
+		do_action( "lifterlms_{$post_type}_status_{$old_status}_to_{$new_status}", $obj, $old_status, $new_status );
+
+		/**
+		 * Fired when a LifterLMS order or transaction changes status
+		 *
+		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
+		 * The second dynamic portion of this hook, `$new_status`, refers to the new object status.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order|LLMS_Transaction $object     The LifterLMS order or transaction instance.
+		 * @param string                      $old_status The previous order or transaction status.
+		 * @param string                      $new_status The new order or transaction status.
+		 */
+		do_action( "lifterlms_{$post_type}_status_{$new_status}", $obj, $old_status, $new_status );
 
 	}
 

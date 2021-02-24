@@ -3,6 +3,9 @@
  * Notification View: Upcoming Payment Reminder
  *
  * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -10,23 +13,23 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View: Payment Retry
  *
- * @since 3.10.0
+ * @since [version]
  */
 class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
 		 * Time in milliseconds to show a notification
-		 * before automatically dismissing it
+		 * before automatically dismissing it.
 		 */
 		'auto_dismiss' => 10000,
 		/**
-		 * Enables manual dismissal of notifications
+		 * Enables manual dismissal of notifications.
 		 */
 		'dismissible'  => true,
 	);
@@ -35,14 +38,16 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'upcoming_payment_reminder';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 
@@ -55,6 +60,10 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 
 	/**
 	 * Setup default notification body for basic notifications
+	 *
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	private function set_body_basic() {
 		return esc_html__( 'You will be charged for your subscription tomorrow.', 'lifterlms' );
@@ -62,6 +71,10 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 
 	/**
 	 * Setup default notification body for email notifications
+	 *
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	private function set_body_email() {
 		$mailer = LLMS()->mailer();
@@ -103,9 +116,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
@@ -115,9 +128,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
@@ -126,9 +139,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -149,10 +162,10 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -227,7 +240,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 				}
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
@@ -236,7 +249,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'You will be charged for your subscription to %1$s tomorrow on %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
@@ -245,7 +260,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
