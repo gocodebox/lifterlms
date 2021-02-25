@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,16 +14,16 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Post_Table_Orders class
  *
  * @since 3.0.0
- * @since 3.24.0 Unknown.
  */
 class LLMS_Admin_Post_Table_Orders {
 
 	/**
 	 * Constructor.
 	 *
-	 * @return  void
-	 * @since   3.0.0
-	 * @since   3.24.3
+	 * @since 3.0.0
+	 * @since 3.24.3 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -39,10 +39,11 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post. Appends custom columns to post grid/
 	 *
-	 * @param   array $columns  array of columns
-	 * @return  array
-	 * @since   3.0.0
-	 * @version 3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param array $columns Array of columns.
+	 * @return array
 	 */
 	public function add_columns( $columns ) {
 
@@ -63,11 +64,12 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Queries data based on column name.
 	 *
-	 * @param    string $column  custom column name
-	 * @param    int    $post_id    ID of the individual post
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string $column  Custom column name.
+	 * @param int    $post_id ID of the individual post.
+	 * @return void
 	 */
 	public function manage_columns( $column, $post_id ) {
 		global $post;
@@ -84,7 +86,7 @@ class LLMS_Admin_Post_Table_Orders {
 				_e( 'by', 'lifterlms' );
 				echo ' ';
 
-				if ( 'yes' === $order->get( 'anonymized' ) ) {
+				if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) {
 					echo $order->get_customer_name();
 				} else {
 					echo '<a href="' . get_edit_user_link( $order->get( 'user_id' ) ) . '">' . $order->get_customer_name() . '</a><br>';
@@ -160,9 +162,10 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Creates array of columns that will be sortable.
 	 *
-	 * @param  array $columns  array of sortable columns
-	 * @return array $columns
-	 * @since  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array $columns Array of sortable columns.
+	 * @return array
 	 */
 	public function sortable_columns( $columns ) {
 
@@ -176,8 +179,9 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Adds custom sortable columns to WP request.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
-	 * @since  3.0.0
 	 */
 	public function edit_load() {
 		add_filter( 'request', array( $this, 'llms_sort_orders' ) );
@@ -186,9 +190,10 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Applies custom query variables for sorting custom columns.
 	 *
-	 * @param  array $vars  post query args
+	 * @since 3.0.0
+	 *
+	 * @param array $vars Fost query args.
 	 * @return array
-	 * @since  3.0.0
 	 */
 	public function llms_sort_orders( $vars ) {
 
@@ -227,9 +232,9 @@ class LLMS_Admin_Post_Table_Orders {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param    array $actions   existing actions
-	 * @param    obj   $post      WP_Post Object
-	 * @return   string[]
+	 * @param array   $actions Existing actions.
+	 * @param WP_Post $post    Post object.
+	 * @return string[]
 	 */
 	public function modify_actions( $actions, $post ) {
 
@@ -251,8 +256,8 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 3.24.3 Unknown
 	 * @since 3.35.0 Sanitize $_GET data.
 	 *
-	 * @param    obj $query  WP_Query
-	 * @return   obj
+	 * @param WP_Query $query Query object.
+	 * @return WP_Query
 	 */
 	public function modify_admin_search( $query ) {
 
@@ -321,7 +326,7 @@ class LLMS_Admin_Post_Table_Orders {
 				}
 			);
 
-		} // End if().
+		}
 
 		return $query;
 
