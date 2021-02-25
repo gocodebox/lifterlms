@@ -69,4 +69,33 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_get_login_form() for a logged out user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_login_form_logged_out_user() {
+
+		$res = $this->get_output( 'llms_get_login_form' );
+		$this->assertStringContains( '<div class="llms-person-login-form-wrapper">', $res );
+		$this->assertStringContains( '<form action="" class="llms-login" method="POST">', $res );
+
+	}
+
+	/**
+	 * Test llms_get_login_form() for a logged in user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_login_form_logged_in_user() {
+
+		wp_set_current_user( $this->factory->user->create() );
+		$this->assertOutputEmpty( 'llms_get_login_form' );
+
+	}
+
 }

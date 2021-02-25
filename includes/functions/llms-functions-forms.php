@@ -95,7 +95,7 @@ function llms_get_form_title( $location, $args = array() ) {
  * @since [version] Moved logic and filters for the $message, $redirect, and $layout parameters from the template into the function.
  *
  * @param string $message  Optional. Messages to display before login form via llms_add_notice().
- * @param string $redirect Optional. URL to redirect to after login.
+ * @param string $redirect Optional. URL to redirect to after login. Defaults to current page url.
  * @param string $layout   Optional. Form layout. Accepts either 'columns' (default) or 'stacked'.
  * @return void
  */
