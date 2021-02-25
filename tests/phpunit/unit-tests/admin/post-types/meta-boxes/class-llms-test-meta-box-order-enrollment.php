@@ -117,10 +117,8 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$product_id = $order->get( 'product_id' );
 
 		$order->set( 'user_id', '' );
+		$this->assertOutputEmpty( array( $this->metabox, 'output' ) );
 
-		ob_start();
-		$this->metabox->output();
-		$this->assertEmpty( ob_get_clean() );
 	}
 
 
@@ -142,9 +140,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		wp_delete_user( $student_id );
 
-		ob_start();
-		$this->metabox->output();
-		$this->assertEquals( "The student who placed the order doesn't exist anymore.", ob_get_clean() );
+		$this->assertOutputEquals( "The student who placed the order doesn't exist anymore.", array( $this->metabox, 'output' ) );
 
 	}
 
@@ -164,9 +160,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$product_id = $order->get( 'product_id' );
 		$student_id = $order->get( 'user_id' );
 
-		ob_start();
-		$this->metabox->output();
-		$output = ob_get_clean();
+		$output = $this->get_output( array( $this->metabox, 'output' ) );
 
 		// There's a status selecter.
 		$this->assertStringContainsString( '<select name="llms_student_new_enrollment_status">', $output );
@@ -181,9 +175,8 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		// Enroll the student.
 		llms_enroll_student( $student_id, $product_id );
 
-		ob_start();
-		$this->metabox->output();
-		$output = ob_get_clean();
+		$output = $this->get_output( array( $this->metabox, 'output' ) );
+
 		// The selected option is 'enrolled', as well as the old (current) enrollment status.
 		$this->assertStringContainsString( "<option value=\"enrolled\" selected='selected'>", $output );
 		$this->assertStringContainsString( '<input name="llms_student_old_enrollment_status" type="hidden" value="enrolled">', $output );
@@ -193,9 +186,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		// Unenroll the student (cancelled status).
 		llms_unenroll_student( $student_id, $product_id, 'cancelled', 'any' );
 
-		ob_start();
-		$this->metabox->output();
-		$output = ob_get_clean();
+		$output = $this->get_output( array( $this->metabox, 'output' ) );
 
 		// The selected option is 'cancelled', as well as the old (current) enrollment status.
 		$this->assertStringContainsString( "<option value=\"cancelled\" selected='selected'>", $output );
@@ -207,9 +198,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		llms_enroll_student( $student_id, $product_id );
 		llms_unenroll_student( $student_id, $product_id, 'expired', 'any' );
 
-		ob_start();
-		$this->metabox->output();
-		$output = ob_get_clean();
+		$output = $this->get_output( array( $this->metabox, 'output' ) );
 
 		// The selected option is 'expired', as well as the old (current) enrollment status.
 		$this->assertStringContainsString( "<option value=\"expired\" selected='selected'>", $output );
@@ -220,9 +209,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		// Delete enrollment.
 		llms_delete_student_enrollment( $student_id, $product_id, 'any' );
 
-		ob_start();
-		$this->metabox->output();
-		$output = ob_get_clean();
+		$output = $this->get_output( array( $this->metabox, 'output' ) );
 
 		// No selected option, as well as the old (current) enrollment status.
 		$this->assertStringNotContainsString( "selected='selected'>", $output );
