@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 3.37.16
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @since 3.25.1
 	 * @since 3.35.0 unslash `$_GET` data.
 	 * @since 3.37.10 Add filter `llms_enable_open_registration`.
+	 * @since [version] During password reset, retrieve reset key and login from cookie instead of query string.
 	 *
 	 * @param array $options Optinal. Array of options. Default empty array.
 	 * @return void
@@ -34,7 +35,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		/**
 		 * Fires before the student dashboard output.
 		 *
-		 * @since unknown
+		 * @since Unknown
 		 *
 		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
 		 */
@@ -75,10 +76,18 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 			if ( isset( $wp->query_vars['lost-password'] ) ) {
 
 				$args = array();
-
-				if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
-					$args['form']   = 'reset_password';
-					$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( wp_unslash( $_GET['key'] ) ) ), trim( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) );
+				if ( llms_filter_input( INPUT_GET, 'reset-pass', FILTER_SANITIZE_NUMBER_INT ) ) {
+					$args['form'] = 'reset_password';
+					$cookie       = llms_parse_password_reset_cookie();
+					$key          = '';
+					$login        = '';
+					$fields       = array();
+					if ( is_wp_error( $cookie ) ) {
+						llms_add_notice( $cookie->get_error_message(), 'error' );
+					} else {
+						$fields = LLMS_Person_Handler::get_password_reset_fields( $cookie['key'], $cookie['login'] );
+					}
+					$args['fields'] = $fields;
 				} else {
 					$args['form']   = 'lost_password';
 					$args['fields'] = LLMS_Person_Handler::get_lost_password_fields();

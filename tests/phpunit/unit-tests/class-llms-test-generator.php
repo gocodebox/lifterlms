@@ -18,6 +18,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * @since Unknown.
 	 * @since 3.37.4 Don't test against core metadata.
 	 * @since 4.7.0 Update to accommodate changes in results data (and test to maintain backwards compat).
+	 * @since [version] Ignore core custom field data for custom data assertions.
 	 *
 	 * @return void
 	 */
@@ -78,8 +79,8 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
 		// Ensure custom data is properly added
 		$courses = $gen->get_generated_courses();
-		$custom  = get_post_custom( $courses[0] );
-		unset( $custom['_llms_instructors'] ); // remove core meta data.
+		$custom = get_post_custom( $courses[0] );
+		unset( $custom['_llms_instructors'] ); // Ignore core custom data.
 		$this->assertEquals( $course['custom'], $custom );
 
 	}

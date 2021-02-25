@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.0.0
- * @version 3.4.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,17 +30,15 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 	/**
 	 * Retrieve the actual content of the shortcode
 	 *
-	 * $atts & $content are both filtered before being passed to get_output()
-	 * output is filtered so the return of get_output() doesn't need its own filter
+	 * The variables `$atts` & `$content` are both filtered before being passed to get_output()
+	 * output is filtered so the return of get_output() doesn't need its own filter.
 	 *
 	 * @since 3.4.3
+	 * @since [version] Remove password strength enqueue script.
 	 *
 	 * @return string
 	 */
 	protected function get_output() {
-
-		$this->enqueue_script( 'password-strength-meter' );
-		LLMS_Frontend_Assets::enqueue_inline_pw_script();
 
 		ob_start();
 		include llms_get_template_part_contents( 'global/form', 'registration' );

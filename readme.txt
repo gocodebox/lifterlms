@@ -9,6 +9,7 @@ Tested up to: 5.6
 Requires PHP: 7.2
 Stable tag: 4.17.0
 
+
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
 
@@ -516,6 +517,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+<<<<<<< HEAD
 = v4.17.0 - 2021-02-22 =
 
 ##### Updates
@@ -549,6 +551,77 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Fixed undefined variable error encountered when creating custom notification types. Thanks [@pondermatic](https://github.com/pondermatic)!
 + Fixed incorrect variables passed to `sprintf()` in logging functions used by the course data background processor. Thanks [@pondermatic](https://github.com/pondermatic)!
+=======
+= v5.0.0-alpha.1 - 2021-01-07 =
+
+##### User Information Form Builder
+
++ Customize all user information collection forms using the block editor for drag and drop and WYSIWYG form building.
++ Customize field labels, placeholders, descriptions and more with an easy point and click interface.
++ Determine if fields are required or optional with a simple toggle switch.
++ Update the form layout with the block editor. Reorder fields, add columns, and more with a simple drag and drop interface.
++ Remove unwanted fields with the click of a button.
+
+##### User Location Information Form Fields
+
++ During user account creation and updates the user location fields are now locale aware ensuring that the proper terminology is used and only locale-required fields are displayed for the selected locale.
++ The "Country" field has been updated to be automatically populated with a list of countries. View the full list in the file at `languages/countries.php` and the filter `lifterlms_countries` can be used to modify the default list at runtime.
++ The "State" field on user forms has been updated to be automatically populated with a list of states (provinces or regions) for the selected country. This list of states can be found in the file at `languages/states.php` and the filter `lifterlms_states` can be used to modify the default list at runtime.
++ Both "Country" and "State" fields are now searchable dropdowns elements.
++ The lists of countries and states will be automatically updated during future releases based on information provided by [GeoNames](https://www.geonames.org/) APIs.
+
+##### Mergecodes everywhere via new `[user]` shortcode
+
++ TODO.
+
+##### Updates
+
++ Email and password confirmation fields may now be made optional.
++ "User Information Options" have been largely removed in favor of determining which fields are displayed via the forms UI
++ The former "User Information Options" settings area has been renamed to "User Privacy Options".
+
+##### Bug Fixes
+
++ Changed the filter on return of `LLMS_Person_Handler::get_password_reset_fields()` from `lifterlms_lost_password_fields` to `llms_password_reset_fields`.
+
+##### Development changes
+
++ The filter `lifterlms_before_user_${action}` is now triggered by `do_action_ref_array()` instead of `do_action()` allowing modification of `$posted_data` and `$fields` via hooks.
++ A number of action and filter hooks have been moved to new locations within the codebase. They will continue to function as expected (with some minor exceptions).
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+
+
+##### Library & Vendor Updates
+
++ Load core libraries from new location and load WP Background Processing lib.
++ The vendor script dependency `topModal.js` has been removed.
+
+##### Templates Updated
+
++ templates/global/form-login.php
++ templates/global/form-registration.php
++ templates/product/free-enroll-form.php
+
+##### Deprecations
+
+The following have been deprecated and will be removed from LifterLMS in a major update following version 5.0.0.
+
++ Class Method: `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
++ Class Method: `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
++ Class Method: `LLMS_Person_Handler::sanitize_field()` (private method) is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
++ Class Method: `LLMS_Person_Handler::validate_fields()` is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::voucher_toggle_script()` is deprecated with no replacement.
++ Filter: `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
++ Function: `llms_get_minimum_password_strength()` is deprecated with no replacement.
++ Option: `lifterlms_registration_generate_username` is deprecated in favor of the new method `LLMS_Forms::are_usernames_enabled()`.
+
+##### Removed Items
+
++ Private method `LLMS_Processors::includes()` has been removed.
++ Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
+>>>>>>> 11fee876cb6b7535631139340cf255d4c0d30dc1
 
 
 = v4.15.0 - 2021-02-09 =
@@ -703,4 +776,82 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + templates/loop/pagination.php
 
 
+<<<<<<< HEAD
+=======
+= v4.9.0 - 2020-11-24 =
+
++ Tested up to WordPress core 5.6 (RC.1).
++ Raised the minimum required WordPress core version to 5.1.
++ Add new localization utilities for developers.
++ Fixed various issues found on PHP 8.
++ Added script localization for block editor scripts.
++ Updated LifterLMS Rest to [Version 1.0.0-beta.17](https://make.lifterlms.com/2020/11/24/lifterlms-rest-api-version-1-0-0-beta-17/).
++ Updated LifterLMS Blocks to [Version 1.10.0](https://make.lifterlms.com/2020/11/24/lifterlms-blocks-version-1-10-0/).
+
+
+= v4.8.0 - 2020-11-16 =
+
+##### Updates
+
++ Added additional course imports and templates at the end of the setup wizard
++ Added a cloud importer enabling 1-click importing of courses and course templates via the importer at LifterLMS -> Import
++ Added strict comparisons in several places.
++ Course "extra" data is only added to course arrays during exports to improve performance on the course builder.
++ Improved template override loading performance on sites with no child theme.
+
+##### Bug fixes
+
++ Fixed issues related to reliance on methods provided by the `mb_string` PHP module.
+
+##### Deprecations
+
++ `LLMS_Admin_Setup_Wizard::generator_course_status()` is deprecated with no replacement.
++ `LLMS_Admin_Setup_Wizard::watch_course_generation()` is deprecated with no replacement.
+
+
+= v4.7.1 - 2020-11-05 =
+
+##### Bug fixes
+
++ During import generation set the post excerpt during the initial post insert instead of during metadata updates after creation.
+
+##### LifterLMS REST API 1.0.0-beta.16
+
++ Improved performance of various database queries.
+
+
+= v4.7.0 - 2020-11-02 =
+
+##### Updates
+
++ Major refractor of the `LLMS_Generator` class.
++ Course export structure improved to include images and reusable blocks found in post content.
++ When importing courses images will be automatically sideloaded into the media library as new attachment posts
++ When importing courses reusable blocks will be imported
++ Improved the success message displayed following a course import
++ The class `LLMS_Admin_Reporting` is now always loaded on the admin panel.
++ Performance improvements have been made to the `LLMS_Events_Query` to support using the `no_found_rows` query argument.
++ When an order's billing plan "completes", a new meta property will be added to the order, `plan_ended`, which can be used to query orders with completed plans.
++ Made improvements to the admin payment rescheduler tool to have more accurate reporting information.
+
+##### Bug fixes
+
++ Replaced an instance of the LifterLMS (old) 1.0 rocket logo with the current rocket logo. Thanks [@imknight](https://github.com/imknight)!
++ Ensure builder `switch-number` fields are set with the `number` type attribute. Thanks [@imknight](https://github.com/imknight)!
++ Don't display a "View Post" link when updating post types that aren't publicly queryable. Thanks [@imknight](https://github.com/imknight)!
++ Fixed the incorrect output of an achievment's title in a popover notification when using the {{ACHIEVEMENT_TITLE}} merge code. Thanks [@CadenG150](https://github.com/@CadenG150)!
++ Fixed an error encountered when plugins utilize the `WP_Users_List_Table` class outside of the `users.php` screen.
+
+##### Deprecations
+
++ `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
++ `LLMS_Admin_Users_Table::load_dependencies()` is deprecated with no replacement. The included class, `LLMS_Admin_Reporting` is now always loaded.
++ `LLMS_Generator::add_custom_values()` is deprecated in favor of `LLMS_Generator_Courses::add_custom_values`.
++ `LLMS_Generator::get_author_id_from_raw()` is deprecated in favor of `LLMS_Generator_Courses::get_author_id_from_raw()`.
++ `LLMS_Generator::get_default_post_status()` is deprecated in favor of `LLMS_Generator_Courses::get_default_post_status()`.
++ `LLMS_Generator::get_generated_posts()` is deprecated in favor of `LLMS_Generator::get_generated_content()`.
++ `LLMS_Generator::format_date()` is deprecated in favor of `LLMS_Generator_Courses::format_date()`.
++ `LLMS_Generator::increment()` is deprecated with no replacement.
+
+>>>>>>> 11fee876cb6b7535631139340cf255d4c0d30dc1
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

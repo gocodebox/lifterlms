@@ -8,8 +8,12 @@
  * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
  * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
  * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
+ * @since [version] Set `settings` as an empty object when no settings supplied.
+ *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
  */
 LLMS.Tracking = function( settings ) {
+
+	settings = settings || {};
 
 	var self = this,
 		store = new LLMS.Storage( 'llms-tracking' );
@@ -20,13 +24,18 @@ LLMS.Tracking = function( settings ) {
 	 * Initialize / Bind all tracking event listeners.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 	 *
 	 * @return {void}
 	 */
 	function init() {
 
 		// Set the nonce for server-side verification.
-		store.set( 'nonce', settings.nonce );
+		if ( settings.nonce ) {
+
+			store.set( 'nonce', settings.nonce );
+
+		}
 
 		self.addEvent( 'page.load' );
 

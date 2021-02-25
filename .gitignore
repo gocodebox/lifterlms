@@ -1,25 +1,19 @@
+# Package managers.
 node_modules/
-composer.phar
-vendor/
+/vendor/
 
-sftp-config.json
-*.sublime-project
-*.sublime-workspace
+# Ignore composer-installed libs.
+/libraries/*
+!/libraries/index.php
+!/libraries/README.md
 
-# Ignore Eclipse project files
-.buildpath
-.project
-.settings/
-
-.sass-cache/
+# Misc.
 *.log
-
 .DS_Store
 
-dist/
-tmp/
-wordpress/
-build/
+# Release distribution directory.
+/dist/
+/tmp/
 
-# Exclude non-distributable configs
+# Non-distributable configs.
 phpunit.xml
