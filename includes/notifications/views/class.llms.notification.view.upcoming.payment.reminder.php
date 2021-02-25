@@ -77,19 +77,11 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	private function set_body_email() {
+
 		$mailer = LLMS()->mailer();
 
-		$table_style = sprintf(
-			'border-collapse:collapse;color:%1$s;font-family:%2$s;font-size:%3$s;Margin-bottom:15px;text-align:left;width:100%%;',
-			$mailer->get_css( 'font-color', false ),
-			$mailer->get_css( 'font-family', false ),
-			$mailer->get_css( 'font-size', false )
-		);
-		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
-
 		$rows = array(
-			'NEXT_PAYMENT_DATE'  => __( 'Upcoming Payment Reminder', 'lifterlms' ),
+			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),
 			'PRODUCT_TITLE_LINK' => '{{PRODUCT_TYPE}}',
 			'PLAN_TITLE'         => __( 'Plan', 'lifterlms' ),
 			'PAYMENT_AMOUNT'     => __( 'Amount', 'lifterlms' ),
@@ -98,16 +90,8 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		ob_start();
 		?><p><?php printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
 		<p><?php printf( __( 'You will be charged for your subscription to %1$s tomorrow on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
-		<p><?php printf( __( 'You can unsubscribe on %1$sorder\'s page%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
 		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
-		<table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		<?php echo $mailer->get_table_html( $rows ); ?>
 		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
@@ -254,6 +238,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	protected function set_subject() {
+		// Translators: %1$s = The product title; %2$s = Next payment date.
 		return sprintf( __( 'You will be charged for your subscription to %1$s tomorrow on %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
 	}
 
@@ -266,8 +251,10 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 */
 	protected function set_title() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
+			// Translators: %s = The order ID.
 			return sprintf( __( 'You will be charged for your subscription tomorrow. Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 		}
+		// Translators: %s = The product title.
 		return sprintf( __( 'You will be charged for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 

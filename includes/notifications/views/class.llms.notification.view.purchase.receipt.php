@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 3.8.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,29 +21,21 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var [type]
+	 * @var string
 	 */
 	public $trigger_id = 'purchase_receipt';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Build the table with mailer helper.
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 
 		$mailer = LLMS()->mailer();
-
-		$table_style = sprintf(
-			'border-collapse:collapse;color:%1$s;font-family:%2$s;font-size:%3$s;Margin-bottom:15px;text-align:left;width:100%%;',
-			$mailer->get_css( 'font-color', false ),
-			$mailer->get_css( 'font-family', false ),
-			$mailer->get_css( 'font-size', false )
-		);
-		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
 			'TRANSACTION_DATE'   => __( 'Date', 'lifterlms' ),
@@ -55,14 +47,8 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		);
 
 		ob_start();
-		?><table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		echo $mailer->get_table_html( $rows );
+		?>
 		<p><a href="{{ORDER_URL}}"><?php _e( 'View Order Details', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
@@ -72,9 +58,9 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -83,9 +69,9 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return '';
@@ -94,9 +80,9 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -119,10 +105,11 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @since 3.8.0
+	 * @since 3.8.2 Unknown
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -206,7 +193,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 				$code = $transaction->get( 'gateway_source_description' );
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
@@ -215,22 +202,24 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
+		// Translators: %s = Product Title.
 		return sprintf( __( 'Purchase Receipt for %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
+		// Translators: %s = Order ID.
 		return sprintf( __( 'Purchase Receipt for Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
 	}
 

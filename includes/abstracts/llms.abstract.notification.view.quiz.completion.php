@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.24.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +39,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 * Setup body for email notification
 	 *
 	 * @since 3.24.0
+	 * @since [version] Build the table with mailer helper.
 	 *
 	 * @return string
 	 */
@@ -47,15 +48,6 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		$mailer = LLMS()->mailer();
 
 		$btn_style = $mailer->get_button_style();
-
-		$table_style = sprintf(
-			'border-collapse:collapse;color:%1$s;font-family:%2$s;font-size:%3$s;Margin-bottom:15px;text-align:left;width:100%%;',
-			$mailer->get_css( 'font-color', false ),
-			$mailer->get_css( 'font-family', false ),
-			$mailer->get_css( 'font-size', false )
-		);
-		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
 			'STUDENT_NAME' => __( 'Student', 'lifterlms' ),
@@ -67,14 +59,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		);
 
 		ob_start();
-		?><table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		echo $mailer->get_table_html( $rows );
+		?>
 		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the quiz attempt and leave remarks', 'lifterlms' ); ?></a></p>
 		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php

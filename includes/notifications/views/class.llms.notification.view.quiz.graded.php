@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.24.0
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,12 +28,11 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
-		 * Time in milliseconds to show a notification
-		 * before automatically dismissing it
+		 * Time in milliseconds to show a notification before automatically dismissing it
 		 */
 		'auto_dismiss' => 10000,
 		/**
@@ -45,9 +44,9 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -61,24 +60,16 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup body for email notification
 	 *
-	 * @return  string
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 * @since [version] Build the table with mailer helper.
+	 *
+	 * @return string
 	 */
 	protected function set_body_email() {
 
 		$mailer = LLMS()->mailer();
 
 		$btn_style = $mailer->get_button_style();
-
-		$table_style = sprintf(
-			'border-collapse:collapse;color:%1$s;font-family:%2$s;font-size:%3$s;Margin-bottom:15px;text-align:left;width:100%%;',
-			$mailer->get_css( 'font-color', false ),
-			$mailer->get_css( 'font-family', false ),
-			$mailer->get_css( 'font-size', false )
-		);
-		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
 			'QUIZ_TITLE'   => __( 'Quiz', 'lifterlms' ),
@@ -89,14 +80,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		);
 
 		ob_start();
-		?><table style="<?php echo $table_style; ?>">
-		<?php foreach ( $rows as $code => $name ) : ?>
-			<tr style="<?php echo $tr_style; ?>">
-				<th style="<?php echo $td_style; ?>width:33.3333%;"><?php echo $name; ?></th>
-				<td style="<?php echo $td_style; ?>">{{<?php echo $code; ?>}}</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		echo $mailer->get_table_html( $rows );
+		?>
 		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the whole attempt', 'lifterlms' ); ?></a></p>
 		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
@@ -107,9 +92,9 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
@@ -118,9 +103,10 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.29.0
+	 * @since 3.24.0
+	 * @since 3.29.0 Unknown.
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 
@@ -140,9 +126,9 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -159,10 +145,10 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -219,21 +205,21 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
-		// Translators %s = Quiz Title.
+		// Translators: %s = Quiz Title.
 		return sprintf( __( 'Your quiz "%s" has been reviewed', 'lifterlms' ), '{{QUIZ_TITLE}}' );
 	}
 
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return __( 'Quiz Review Details', 'lifterlms' );
