@@ -92,7 +92,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	abstract protected function set_merge_data( $code );
@@ -742,7 +742,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.11.0
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data_default( $code ) {

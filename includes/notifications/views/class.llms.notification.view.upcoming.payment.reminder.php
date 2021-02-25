@@ -148,7 +148,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 *
 	 * @since [version]
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
@@ -158,21 +158,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		switch ( $code ) {
 
 			case '{{CUSTOMER_ADDRESS}}':
-				$code = '';
-				if ( isset( $order->billing_address_1 ) ) {
-					$code .= $order->get( 'billing_address_1' );
-					if ( isset( $order->billing_address_2 ) ) {
-						$code .= ' ';
-						$code .= $order->get( 'billing_address_2' );
-					}
-					$code .= ', ';
-					$code .= $order->get( 'billing_city' );
-					$code .= $order->get( 'billing_state' );
-					$code .= ', ';
-					$code .= $order->get( 'billing_zip' );
-					$code .= ', ';
-					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
-				}
+				$code = $order->get_customer_full_address();
 				break;
 
 			case '{{CUSTOMER_NAME}}':

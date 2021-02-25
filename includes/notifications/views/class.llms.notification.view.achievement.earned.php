@@ -107,7 +107,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 * @since 3.8.2 Unknown.
 	 * @since 4.7.0 Use `achievement_title` in favor of `title` for the {{ACHIEVEMENT_TITLE}} merge code
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data( $code ) {

@@ -147,7 +147,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 *
 	 * @since 3.24.0
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data( $code ) {

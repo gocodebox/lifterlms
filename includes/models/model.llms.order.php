@@ -641,6 +641,32 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the customer's full billing address
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_customer_full_address() {
+
+		if ( ! isset( $this->billing_address_1 ) ) {
+			return '';
+		}
+
+		$address = $this->get( 'billing_address_1' );
+
+		if ( isset( $this->billing_address_2 ) ) {
+			$address .= ' ' . $this->get( 'billing_address_2' );
+		}
+		$address .= ', ' . $this->get( 'billing_city' );
+		$address .= ' ' . $this->get( 'billing_state' );
+		$address .= ', ' . $this->get( 'billing_zip' );
+		$address .= ', ' . llms_get_country_name( $this->get( 'billing_country' ) );
+
+		return $address;
+	}
+
+	/**
 	 * An array of default arguments to pass to $this->create() when creating a new post
 	 *
 	 * @since 3.0.0

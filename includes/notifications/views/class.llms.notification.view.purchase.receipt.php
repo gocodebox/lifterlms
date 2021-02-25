@@ -106,9 +106,10 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 * Replace merge codes with actual values
 	 *
 	 * @since 3.8.0
-	 * @since 3.8.2 Unknown
+	 * @since 3.8.2 Unknown.
+	 * @since [version] Retrieve the customer's full address using the proper order's method.
 	 *
-	 * @param string $code The merge code to ge merged data for.
+	 * @param string $code The merge code to get merged data for.
 	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
@@ -119,21 +120,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 		switch ( $code ) {
 
 			case '{{CUSTOMER_ADDRESS}}':
-				$code = '';
-				if ( isset( $order->billing_address_1 ) ) {
-					$code .= $order->get( 'billing_address_1' );
-					if ( isset( $order->billing_address_2 ) ) {
-						$code .= ' ';
-						$code .= $order->get( 'billing_address_2' );
-					}
-					$code .= ', ';
-					$code .= $order->get( 'billing_city' );
-					$code .= $order->get( 'billing_state' );
-					$code .= ', ';
-					$code .= $order->get( 'billing_zip' );
-					$code .= ', ';
-					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
-				}
+				$code = $order->get_customer_full_address();
 				break;
 
 			case '{{CUSTOMER_NAME}}':
