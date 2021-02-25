@@ -7,7 +7,9 @@
  * @since 3.0.0
  * @since 3.18.0 Unknown.
  * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
- * @version 3.36.2
+ * @since [version] Do not print dead link for removed students.
+ *               Also replace occurrences of json_encode with safer wp_json_encode.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -150,6 +152,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 				<?php
 				//phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number so it's throwing an error but it's not broken.
 				printf(
+					// Translators: %1$d = The order billing period; %2$s = The order billing frequency.
 					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ),
 					$order->get( 'billing_frequency' ),
 					$order->get( 'billing_period' )
@@ -176,7 +179,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Buyer Name:', 'lifterlms' ); ?></label>
-			<?php if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) : ?>
+			<?php if ( llms_parse_bool( $order->get( 'anonymized' ) ) || empty( llms_get_student( $order->get( 'user_id' ) ) ) ) : ?>
 				<?php echo $order->get_customer_name(); ?>
 			<?php else : ?>
 				<a href="<?php echo get_edit_user_link( $order->get( 'user_id' ) ); ?>"><?php echo $order->get_customer_name(); ?></a>
@@ -230,7 +233,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?><a class="llms-editable" href="#"><span class="dashicons dashicons-edit"></span></a></h4>
 
-			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
+			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo wp_json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo wp_json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
 				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
 			</div>
