@@ -97,9 +97,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		$order->set( 'anonymized', 'yes' );
 
-		ob_start();
-		$this->metabox->output();
-		$this->assertEquals( 'Cannot manage enrollment status for anonymized orders.', ob_get_clean() );
+		$this->assertOutputEquals( 'Cannot manage enrollment status for anonymized orders.', array( $this->metabox, 'output' ) );
 
 	}
 
