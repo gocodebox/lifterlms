@@ -401,6 +401,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if the order can be retried for recurring payments
 	 *
 	 * @since 3.10.0
+	 * @since [version] Use stric type comparison.
 	 *
 	 * @return boolean
 	 */
@@ -416,7 +417,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		// Only active & on-hold orders qualify for a retry.
-		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) {
+		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ), true ) ) {
 			return false;
 		}
 
@@ -435,6 +436,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if an order can be resubscribed to
 	 *
 	 * @since 3.19.0
+	 * @since [version] Use stric type comparison.
 	 *
 	 * @return bool
 	 */
@@ -452,7 +454,7 @@ class LLMS_Order extends LLMS_Post_Model {
 					'llms-pending-cancel',
 				)
 			);
-			$ret              = in_array( $this->get( 'status' ), $allowed_statuses );
+			$ret              = in_array( $this->get( 'status' ), $allowed_statuses, true );
 
 		}
 
@@ -526,6 +528,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Use stric type comparison.
 	 *
 	 * @return string 'inactive' If the order is refunded, failed, pending, etc...
 	 *                'expired'  If access has expired according to $this->get_access_expiration_date()
@@ -551,7 +554,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// If the order doesn't have one of the allowed statuses.
 		// Return 'inactive' and don't bother checking expiration data.
-		if ( ! in_array( $this->get( 'status' ), $statuses ) ) {
+		if ( ! in_array( $this->get( 'status' ), $statuses, true ) ) {
 
 			return 'inactive';
 
@@ -794,6 +797,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Use stric type comparisons.
 	 *
 	 * @param string $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
 	 * @return string
@@ -803,7 +807,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// Single payments will never have a next payment date.
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ) ) ) {
+		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ), true ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
@@ -840,7 +844,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment" and "llms_access_plan_expiration".
+	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment", "llms_access_plan_expiration" and "llms_send_upcoming_payment_reminder_notification".
 	 * @return int|false Returns the timestamp of the next action as an integer or `false` when no action exist.
 	 */
 	public function get_next_scheduled_action_time( $action ) {
@@ -987,6 +991,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
+	 * @since [version] Use stric type comparisons.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.
@@ -1024,12 +1029,12 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( 'any' !== $statuses ) {
 
 			// If status is a string, ensure it's a valid status.
-			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
+			if ( is_string( $status ) && in_array( $status, $statuses, true ) ) {
 				$statuses = array( $status );
 			} elseif ( is_array( $status ) ) {
 				$temp = array();
 				foreach ( $status as $stat ) {
-					if ( in_array( $stat, $statuses ) ) {
+					if ( in_array( (string) $stat, $statuses, true ) ) {
 						$temp[] = $stat;
 					}
 				}
@@ -1669,6 +1674,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
+	 * @since [version] Prefer `array_key_exists( $key, $keys )` over `in_array( $key, array_keys( $assoc_array ) )`.
 	 *
 	 * @param string $status Status name, accepts unprefixed statuses.
 	 * @return void
@@ -1679,9 +1685,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$status = 'llms-' . $status;
 		}
 
-		$statuses = array_keys( llms_get_order_statuses( $this->get( 'order_type' ) ) );
-
-		if ( in_array( $status, $statuses ) ) {
+		if ( array_key_exists( $status, llms_get_order_statuses( $this->get( 'order_type' ) ) ) ) {
 			$this->set( 'status', $status );
 		}
 
@@ -1692,6 +1696,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Use strict type comparision.
 	 *
 	 * @return void
 	 */
@@ -1710,7 +1715,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$this->unschedule_expiration();
 
 		// Setup expiration.
-		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
+		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ), true ) ) {
 
 			$expires_date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );
 			$this->set( 'date_access_expires', $expires_date );
@@ -1769,7 +1774,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function unschedule_upcoming_payment_reminder() {
 
-		if ( as_next_scheduled_action( 'llms_send_upcoming_payment_reminder_notification', $this->get_action_args() ) ) {
+		if ( $this->get_next_scheduled_action_time( 'llms_send_upcoming_payment_reminder_notification' ) ) {
 			as_unschedule_action( 'llms_send_upcoming_payment_reminder_notification', $this->get_action_args() );
 		}
 
