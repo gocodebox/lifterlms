@@ -104,23 +104,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	}
 
 	/**
-	 * Determine what types are supported
-	 *
-	 * Extending classes can override this function in order to add or remove support.
-	 * 3rd parties should add support via filter on $this->get_supported_types().
-	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.10.0
-	 * @version  3.10.0
-	 */
-	protected function set_supported_types() {
-		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
-			'email' => __( 'Email', 'lifterlms' ),
-		);
-	}
-
-	/**
 	 * Get the translatable title for the notification
 	 *
 	 * Used on settings screens.
