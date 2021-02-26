@@ -649,21 +649,19 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function get_customer_full_address() {
 
-		if ( ! isset( $this->billing_address_1 ) ) {
+		$billing_address_1 = $this->get( 'billing_address_1' );
+		if ( empty( $billing_address_1 ) ) {
 			return '';
 		}
 
-		$address = $this->get( 'billing_address_1' );
+		$address   = array(
+			trim( $billing_address_1 . ' ' . $this->get( 'billing_address_2' ) ),
+		);
+		$address[] = trim( $this->get( 'billing_city' ) . ' ' . $this->get( 'billing_state' ) );
+		$address[] = $this->get( 'billing_zip' );
+		$address[] = llms_get_country_name( $this->get( 'billing_country' ) );
 
-		if ( isset( $this->billing_address_2 ) ) {
-			$address .= ' ' . $this->get( 'billing_address_2' );
-		}
-		$address .= ', ' . $this->get( 'billing_city' );
-		$address .= ' ' . $this->get( 'billing_state' );
-		$address .= ', ' . $this->get( 'billing_zip' );
-		$address .= ', ' . llms_get_country_name( $this->get( 'billing_country' ) );
-
-		return $address;
+		return implode( ', ', array_filter( $address ) );
 	}
 
 	/**

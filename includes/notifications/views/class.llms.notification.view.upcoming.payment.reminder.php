@@ -224,8 +224,8 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	protected function set_subject() {
-		// Translators: %1$s = The product title; %2$s = Next payment date.
-		return sprintf( __( 'You will be charged for your subscription to %1$s tomorrow on %2$s', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+		// Translators: %s = The product title.
+		return sprintf( __( 'You will be charged for your subscription to %1$s tomorrow', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**

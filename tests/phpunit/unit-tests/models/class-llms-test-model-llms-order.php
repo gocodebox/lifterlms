@@ -28,7 +28,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since Unknown.
+	 * @since Unknown
 	 *
 	 * @return void.
 	 */
@@ -71,13 +71,15 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * class name for the model being tested by the class
+	 * Class name for the model being tested by the class
+	 *
 	 * @var  string
 	 */
 	protected $class_name = 'LLMS_Order';
 
 	/**
-	 * db post type of the model being tested
+	 * Db post type of the model being tested
+	 *
 	 * @var  string
 	 */
 	protected $post_type = 'llms_order';
@@ -151,7 +153,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get data to fill a create post with
-	 * This is used by test_getters_setters
+	 *
+	 * This is used by test_getters_setters.
 	 *
 	 * @since 3.10.0
 	 *
@@ -224,31 +227,31 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_add_note() {
 
-		// don't create empty notes
+		// Don't create empty notes.
 		$this->assertNull( $this->obj->add_note( '' ) );
 
 		$note_text = 'This is an order note';
 		$id = $this->obj->add_note( $note_text );
 
-		// should return the comment id
+		// Should return the comment id.
 		$this->assertTrue( is_numeric( $id ) );
 
 		$note = get_comment( $id );
 
-		// should be a comment
+		// Should be a comment.
 		$this->assertTrue( is_a( $note, 'WP_Comment' ) );
 
-		// comment content should be our original note
+		// Comment content should be our original note.
 		$this->assertEquals( $note->comment_content, $note_text );
-		// author should be the system (LifterLMS)
+		// Author should be the system (LifterLMS).
 		$this->assertEquals( $note->comment_author, 'LifterLMS' );
 
-		// create a new note by a user
+		// Create a new note by a user.
 		$id = $this->obj->add_note( $note_text, true );
 		$note = get_comment( $id );
 		$this->assertEquals( get_current_user_id(), $note->user_id );
 
-		// 1 for original creation note, 2 for our test notes
+		// 1 for original creation note, 2 for our test notes.
 		$this->assertEquals( 3, did_action( 'llms_new_order_note_added' ) );
 
 	}
@@ -368,7 +371,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Overrides test from the abstract.
+	 * Overrides test from the abstract
 	 *
 	 * Since this test isn't essential for this class we'll skip the test with a fake assertion
 	 * in order to reduce the number of skipped tests warnings which are output.
@@ -405,16 +408,16 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_get_access_expiration_date() {
 
-		// lifetime responds with a string not a date
+		// Lifetime responds with a string not a date.
 		$this->obj->set( 'access_expiration', 'lifetime' );
 		$this->assertEquals( 'Lifetime Access', $this->obj->get_access_expiration_date() );
 
-		// expires on a specific date
+		// Expires on a specific date.
 		$this->obj->set( 'access_expiration', 'limited-date' );
-		$this->obj->set( 'access_expires', '12/01/2020' ); // m/d/Y format (from datepicker)
+		$this->obj->set( 'access_expires', '12/01/2020' ); // m/d/Y format (from datepicker).
 		$this->assertEquals( '2020-12-01', $this->obj->get_access_expiration_date() );
 
-		// expires after a period of time
+		// Expires after a period of time.
 		$this->obj->set( 'access_expiration', 'limited-period' );
 
 		$tests = array(
@@ -459,8 +462,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		}
 
-
-		// recurring pending cancel has access until the next payment due date
+		// Recurring pending cancel has access until the next payment due date.
 		$this->obj->set( 'order_type', 'recurring' );
 		$this->obj->set( 'status', 'llms-pending-cancel' );
 		$this->assertEquals( $this->obj->get_next_payment_due_date( 'U' ), $this->obj->get_access_expiration_date( 'U' ) );
@@ -487,35 +489,35 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'access_expiration', 'lifetime' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
-		// past should still grant access
+		// Past should still grant access.
 		llms_mock_current_time( '2010-05-05' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
-		// future should still grant access
+		// Future should still grant access.
 		llms_mock_current_time( '2525-05-05' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
-		// check limited access by date
+		// Check limited access by date.
 		$this->obj->set( 'access_expiration', 'limited-date' );
 		$tests = array(
 			array(
 				'now' => '2010-05-05',
-				'expires' => '05/06/2010', // m/d/Y from datepicker
+				'expires' => '05/06/2010', // m/d/Y from datepicker.
 				'expect' => 'active',
 			),
 			array(
 				'now' => '2015-05-05',
-				'expires' => '05/06/2010', // m/d/Y from datepicker
+				'expires' => '05/06/2010', // m/d/Y from datepicker.
 				'expect' => 'expired',
 			),
 			array(
 				'now' => '2010-05-05',
-				'expires' => '05/05/2010', // m/d/Y from datepicker
+				'expires' => '05/05/2010', // m/d/Y from datepicker.
 				'expect' => 'active',
 			),
 		array(
 				'now' => '2010-05-06',
-				'expires' => '05/05/2010', // m/d/Y from datepicker
+				'expires' => '05/05/2010', // m/d/Y from datepicker.
 				'expect' => 'expired',
 			),
 		);
@@ -540,7 +542,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_customer_name() method.
 	 *
-	 * @since Unknown.
+	 * @since Unknown
 	 *
 	 * @return void
 	 */
@@ -552,38 +554,53 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $first . ' ' . $last,  $this->obj->get_customer_name() );
 	}
 
+	/**
+	 * Test the get_gateway() method.
+	 *
+	 * @return void
+	 */
 	public function test_get_gateway() {
 
-		// gateway doesn't exist
+		// Gateway doesn't exist.
 		$this->obj->set( 'payment_gateway', 'garbage' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
 		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$this->obj->set( 'payment_gateway', 'manual' );
 
-		// real gateway that's not enabled
+		// Real gateway that's not enabled.
 		update_option( $manual->get_option_name( 'enabled' ), 'no' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
-		// enabled gateway responds with the gateway instance
+		// Enabled gateway responds with the gateway instance.
 		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'LLMS_Payment_Gateway_Manual' ) );
 
 	}
 
+	/**
+	 * Test get_initial_price() method
+	 *
+	 * @return void
+	 */
 	public function test_get_initial_price() {
 
-		// no trial
+		// No trial.
 		$order = $this->get_order();
 		$this->assertEquals( 25.99, $order->get_initial_price( array(), 'float' ) );
 
-		// with trial
+		// With trial.
 		$trial_plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
 		$order = $this->get_order( $trial_plan );
 		$this->assertEquals( 1.00, $order->get_initial_price( array(), 'float' ) );
 
 	}
 
+	/**
+	 * Test get_notes() method
+	 *
+	 * @return void
+	 */
 	public function test_get_notes() {
 
 		$i = 1;
@@ -594,7 +611,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		}
 
-		// remove filter so we can test order notes
+		// Remove filter so we can test order notes.
 		remove_filter( 'comments_clauses', array( 'LLMS_Comments', 'exclude_order_comments' ) );
 
 		$notes = $this->obj->get_notes( 1, 1 );
@@ -612,6 +629,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_product() method
+	 *
+	 * @return void
+	 */
 	public function test_get_product() {
 
 		$course = new LLMS_Course( 'new', 'test' );
@@ -625,7 +647,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	// public function test_get_last_transaction_date() {}
 
 	/**
-	 * Test get_next_payment_due_date() for a one-time payment.
+	 * Test get_next_payment_due_date() for a one-time payment
 	 *
 	 * @since 3.37.2
 	 *
@@ -658,13 +680,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 			$plan->set( 'period', $period );
 
-			// test due date with a trial
+			// Test due date with a trial.
 			$plan->set( 'trial_offer', 'yes' );
 			$order = $this->get_order( $plan );
 			$this->assertEquals( strtotime( $order->get_trial_end_date() ), strtotime( $order->get_next_payment_due_date() ), '', $this->date_delta );
 			$plan->set( 'trial_offer', 'no' );
 
-			// perform calculation tests against different frequencies
+			// Perform calculation tests against different frequencies.
 			$i = 1;
 			while ( $i <= 3 ) {
 
@@ -675,16 +697,16 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$expect = strtotime( "+{$i} {$period}", $order->get_date( 'date', 'U' ) );
 				$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U') );
 
-				// time travel a bit and recalculate the time
+				// Time travel a bit and recalculate the time.
 				llms_mock_current_time( date( 'Y-m-d H:i:s', $expect + HOUR_IN_SECONDS * 2 ) );
 				$future_expect = strtotime( "+{$i} {$period}", $expect );
 
-				// this will calculate the next payment date based off of the saved next payment date (which is now in the past)
+				// This will calculate the next payment date based off of the saved next payment date (which is now in the past).
 				$order->maybe_schedule_payment( true );
 				$this->assertEquals( $future_expect, $order->get_next_payment_due_date( 'U' ) );
 
-				// recalculate off a transaction -- this is the fallback for pre 3.10 orders
-				// occurs only when no date_next_payment is set
+				// Recalculate off a transaction -- this is the fallback for pre 3.10 orders.
+				// Occurs only when no date_next_payment is set.
 				$order->set( 'date_next_payment', '' );
 				$order->record_transaction( array(
 					'amount' => 25.99,
@@ -696,7 +718,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 				$this->assertEquals( strtotime( date( 'Y-m-d H:i:s', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i:s' ) ), '', HOUR_IN_SECONDS * 2 );
 
-				// plan ends so func should return a WP_Error
+				// Plan ends so func should return a WP_Error.
 				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
 				$order->maybe_schedule_payment( true );
 				$date = $order->get_next_payment_due_date();
@@ -713,41 +735,45 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Undocumented get_next_payment_due_date() method
+	 *
+	 * @return void
+	 */
 	public function test_get_next_payment_due_date_payment_plan() {
 
 		$original_time = current_time( 'Y-m-d H:i:s' );
 
 		llms_mock_current_time( $original_time );
 
-		// this should run 3 total payments over the course of 9 weeks
+		// This should run 3 total payments over the course of 9 weeks.
 		$plan = $this->get_plan();
-		$plan->set( 'frequency', 3 ); // every 3rd
-		$plan->set( 'period', 'week' ); // week
-		$plan->set( 'length', 3 ); // for 3 payments
+		$plan->set( 'frequency', 3 ); // Every 3rd.
+		$plan->set( 'period', 'week' ); // Week.
+		$plan->set( 'length', 3 ); // For 3 payments.
 
-
-		// payment one is order date
+		// Payment one is order date.
 		$order = $this->get_order( $plan );
 
-		// payment two
+		// Payment two.
 		$expect = strtotime( "+3 weeks", $order->get_date( 'date', 'U' ) );
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// time travel
+		// Time travel.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// reschedule next date
+		// Reschedule next date.
 		$order->maybe_schedule_payment( true );
 		$expect += WEEK_IN_SECONDS * 3;
 
-		// payment three
+		// Payment three.
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// time travel
+		// Time travel.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// reschedule next date
+		// Reschedule next date.
 		$order->maybe_schedule_payment( true );
 
-		// no more payments
+		// No more payments.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date( 'U' ), 'WP_Error' ) );
 
 	}
@@ -758,24 +784,29 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_transactions() {}
 
+	/**
+	 * Test get_trial_end_deate() method
+	 *
+	 * @return void
+	 */
 	public function test_get_trial_end_date() {
 
 		$this->obj->set( 'order_type', 'recurring' );
 
-		// no trial so false for end date
+		// No trial so false for end date.
 		$this->assertEmpty( $this->obj->get_trial_end_date() );
 
-		// enable trial
+		// Enable trial.
 		$this->obj->set( 'trial_offer', 'yes' );
 		$start = $this->obj->get_start_date( 'U' );
 
-		// when the date is saved the getter shouldn't calculate a new date and should return the saved date
+		// When the date is saved the getter shouldn't calculate a new date and should return the saved date.
 		$set = '2017-05-05 13:42:19';
 		$this->obj->set( 'date_trial_end', $set );
 		$this->assertEquals( $set, $this->obj->get_trial_end_date() );
 		$this->obj->set( 'date_trial_end', '' );
 
-		// run a bunch of tests testing the dynamic calculations for various periods and whatever...
+		// Run a bunch of tests testing the dynamic calculations for various periods and whatever.
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
 
 			$this->obj->set( 'trial_period', $period );
@@ -788,10 +819,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$expect = strtotime( '+' . $i . ' ' . $period, $start );
 				$this->assertEquals( $expect, $this->obj->get_trial_end_date( 'U' ) );
 
-				// trial is not over
+				// Trial is not over.
 				$this->assertFalse( $this->obj->has_trial_ended() );
 
-				// change date to future
+				// Change date to future.
 				llms_mock_current_time( date( 'Y-m-d H:i:s', $this->obj->get_trial_end_date( 'U' ) + HOUR_IN_SECONDS ) );
 				$this->assertTrue( $this->obj->has_trial_ended() );
 
@@ -805,6 +836,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_revenue() {}
 
+	/**
+	 * Test has_coupon() method
+	 *
+	 * @return void
+	 */
 	public function test_has_coupon() {
 
 		$this->obj->set( 'coupon_used', 'whatarst' );
@@ -821,6 +857,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test had_discount() method
+	 *
+	 * @return void
+	 */
 	public function test_has_discount() {
 
 		$this->obj->set( 'coupon_used', 'yes' );
@@ -837,6 +878,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test has_sale() method
+	 *
+	 * @return void
+	 */
 	public function test_has_sale() {
 
 		$this->obj->set( 'on_sale', 'whatarst' );
@@ -855,6 +901,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_has_scheduled_payment() {}
 
+	/**
+	 * Test has_trial() method
+	 *
+	 * @return void
+	 */
 	public function test_has_trial() {
 
 		$this->obj->set( 'order_type', 'recurring' );
@@ -882,7 +933,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_init_with_trial() {
 
-		// test initialization of a trial
+		// Test initialization of a trial.
 		$plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
 		$order = $this->get_order( $plan );
 
@@ -900,7 +951,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_init_with_limited_plan() {
 
-		// test initialization of an order with a plan that ends
+		// Test initialization of an order with a plan that ends.
 		$plan = $this->get_plan();
 		$plan->set( 'length', 5 );
 		$order = $this->get_order( $plan );
@@ -911,7 +962,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the is_recurring() method.
 	 *
-	 * @since Unknown.
+	 * @since Unknown
 	 *
 	 * @return void
 	 */
@@ -934,7 +985,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_maybe_schedule_expiration() {
 
-		// recurring order with lifetime access won't schedule expiration
+		// Recurring order with lifetime access won't schedule expiration.
 		$order = $this->get_mock_order();
 
 		$order->set_status( 'llms-active' );
@@ -945,7 +996,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		) ) );
 		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_access_plan_expiration' ) );
 
-		// limited access will schedule expiration
+		// Limited access will schedule expiration.
 		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 
@@ -1005,6 +1056,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test maybe_schedule_retry() method.
+	 *
+	 * @return void
+	 */
 	public function test_maybe_schedule_retry() {
 
 		$this->mock_gateway_support( 'recurring_retry' );
@@ -1047,6 +1103,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test record_transaction() method
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
+	 */
 	public function test_record_transaction() {
 
 		$order = $this->get_order();
@@ -1064,7 +1127,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * test the set_date() method
+	 * Test the set_date() method
 	 *
 	 * @since 3.19.0
 	 *
@@ -1080,12 +1143,12 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		foreach ( $dates as $key ) {
 
-			// set via date string
+			// Set via date string.
 			$date = current_time( 'mysql' );
 			$this->obj->set_date( $key, $date );
 			$this->assertEquals( $date, $this->obj->get( 'date_' . $key ) );
 
-			// set via timestamp
+			// Set via timestamp.
 			$timestamp = current_time( 'timestamp' );
 			$this->obj->set_date( $key, $timestamp );
 			$this->assertEquals( date_i18n( 'Y-m-d H:i:s', $timestamp ), $this->obj->get( 'date_' . $key ) );
@@ -1094,6 +1157,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test set_status() method
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
+	 */
 	public function test_set_status() {
 
 		$this->obj->set_status( 'fakestatus' );
@@ -1114,7 +1184,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the start access function
+	 * Test the start access method
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
@@ -1126,20 +1196,20 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
 		$order = $this->get_mock_order( $plan );
 
-		// freeze time
+		// Freeze time.
 		$time = current_time( 'mysql' );
 		llms_mock_current_time( $time );
 
-		// prior to starting access there should be no access start date
+		// Prior to starting access there should be no access start date.
 		$this->assertEmpty( $order->get( 'start_date' ) );
 
-		// start the access
+		// Start the access.
 		$order->start_access();
 
-		// time should be our mocked time
+		// Time should be our mocked time.
 		$this->assertEquals( $time, $order->get( 'start_date' ) );
 
-		// an expiration event should be scheduled to match the expiration date
+		// An expiration event should be scheduled to match the expiration date.
 		$event_time = as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) );
@@ -1148,7 +1218,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test unschedule_expiration().
+	 * Test unschedule_expiration() method
 	 *
 	 * @since 4.6.0
 	 *
@@ -1169,7 +1239,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test unschedule_recurring_payment()
+	 * Test unschedule_recurring_payment() method
 	 *
 	 * @since 4.6.0
 	 *
@@ -1183,6 +1253,58 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->unschedule_recurring_payment();
 
 		$this->assertFalse( $order->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) );
+
+	}
+
+	/**
+	 * Test get_customer_full_address() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_cutomer_full_address() {
+
+		$customer_details = array(
+			'billing_address_1' => 'Rue Jennifer 7',
+			'billing_address_2' => 'c/o Juniper',
+			'billing_city'      => 'Pasadena',
+			'billing_state'     => 'CA',
+			'billing_zip'       => '28282',
+			'billing_country'   => 'US'
+		);
+
+		$this->obj->set_bulk( $customer_details );
+
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena CA, 28282, United States (US)', $this->obj->get_customer_full_address() );
+
+		// Remove city.
+		$this->obj->set( 'billing_city', '' );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, CA, 28282, United States (US)', $this->obj->get_customer_full_address() );
+
+		// Remove state.
+		$this->obj->set( 'billing_state', '' );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, 28282, United States (US)', $this->obj->get_customer_full_address() );
+
+		// Add back city.
+		$this->obj->set( 'billing_city', $customer_details['billing_city'] );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, 28282, United States (US)', $this->obj->get_customer_full_address() );
+
+		// Remove zip code.
+		$this->obj->set( 'billing_zip', '' );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena, United States (US)', $this->obj->get_customer_full_address() );
+
+		// Remove country.
+		$this->obj->set( 'billing_country', '' );
+		$this->assertEquals( 'Rue Jennifer 7 c/o Juniper, Pasadena', $this->obj->get_customer_full_address() );
+
+		// Remove secondary address.
+		$this->obj->set( 'billing_address_2', '' );
+		$this->assertEquals( 'Rue Jennifer 7, Pasadena', $this->obj->get_customer_full_address() );
+
+		// Remove main billing address. We expect that nothing is returned.
+		$this->obj->set( 'billing_address_1', '' );
+		$this->assertEquals( '', $this->obj->get_customer_full_address() );
 
 	}
 
