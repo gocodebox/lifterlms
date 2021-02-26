@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Notification_Controller_Payment_Retry {
+class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstract_Notification_Controller {
 
 	/**
 	 * Trigger Identifier
@@ -34,7 +34,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Notifi
 	);
 
 	/**
-	 * Callback function called when a payment retry is scheduled
+	 * Callback function called when the upcoming payment reminder notification is fired
 	 *
 	 * @since [version]
 	 *
@@ -53,6 +53,60 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Notifi
 	}
 
 	/**
+	 * Takes a subscriber type (student, author, etc) and retrieves a User ID.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $subscriber Subscriber type string.
+	 * @return int|false
+	 */
+	protected function get_subscriber( $subscriber ) {
+
+		switch ( $subscriber ) {
+
+			case 'author':
+				$order = llms_get_post( $this->post_id );
+				if ( ! is_a( $order, 'LLMS_Order' ) ) {
+					return false;
+				}
+				$product = $order->get_product();
+				if ( is_a( $product, 'WP_Post' ) ) {
+					return false;
+				}
+				$uid = $product->get( 'author' );
+				break;
+
+			case 'student':
+				$uid = $this->user_id;
+				break;
+
+			default:
+				$uid = false;
+
+		}
+
+		return $uid;
+
+	}
+
+	/**
+	 * Determine what types are supported
+	 *
+	 * Extending classes can override this function in order to add or remove support.
+	 * 3rd parties should add support via filter on $this->get_supported_types().
+	 *
+	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
+	 * @since    3.10.0
+	 * @version  3.10.0
+	 */
+	protected function set_supported_types() {
+		return array(
+			'basic' => __( 'Basic', 'lifterlms' ),
+			'email' => __( 'Email', 'lifterlms' ),
+		);
+	}
+
+	/**
 	 * Get the translatable title for the notification
 	 *
 	 * Used on settings screens.
@@ -63,6 +117,36 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Notifi
 	 */
 	public function get_title() {
 		return __( 'Upcoming Payment Reminder', 'lifterlms' );
+	}
+
+	/**
+	 * Setup the subscriber options for the notification
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Notification type id.
+	 * @return array
+	 */
+	protected function set_subscriber_options( $type ) {
+
+		$options = array();
+
+		switch ( $type ) {
+
+			case 'basic':
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				break;
+
+			case 'email':
+				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
+				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
+				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
+				break;
+
+		}
+
+		return $options;
+
 	}
 
 }
