@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Controllers/Classes
  *
  * @since 3.10.0
- * @version 3.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,21 +20,21 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var id
 	 */
 	public $id = 'payment_retry';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $action_hooks = array(
 		'llms_send_automatic_payment_retry_notification',
@@ -43,10 +43,10 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	/**
 	 * Callback function called when a payment retry is scheduled
 	 *
-	 * @param    int $order   Instance of an LLMS_Order
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param int $order Instance of an LLMS_Order.
+	 * @return void
 	 */
 	public function action_callback( $order = null ) {
 
@@ -60,10 +60,10 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 *
-	 * @param    string $subscriber  subscriber type string
-	 * @return   int|false
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param string $subscriber Subscriber type string.
+	 * @return int|false
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -95,28 +95,13 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	}
 
 	/**
-	 * Determine what types are supported
-	 * Extending classes can override this function in order to add or remove support
-	 * 3rd parties should add support via filter on $this->get_supported_types()
-	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.10.0
-	 * @version  3.10.0
-	 */
-	protected function set_supported_types() {
-		return array(
-			'basic' => __( 'Basic', 'lifterlms' ),
-			'email' => __( 'Email', 'lifterlms' ),
-		);
-	}
-
-	/**
 	 * Get the translatable title for the notification
-	 * used on settings screens
 	 *
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * Used on settings screens.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return string
 	 */
 	public function get_title() {
 		return __( 'Payment Retry Scheduled', 'lifterlms' );
@@ -125,10 +110,10 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @param    string $type  notification type id
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param string $type Notification type id.
+	 * @return array
 	 */
 	protected function set_subscriber_options( $type ) {
 
