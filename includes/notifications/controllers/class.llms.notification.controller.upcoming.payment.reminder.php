@@ -38,17 +38,31 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * @since [version]
 	 *
-	 * @param int $order Instance of an LLMS_Order.
-	 * @return void
+	 * @param int $order_id WP Post ID of the order.
+	 * @return boolean
 	 */
-	public function action_callback( $order = null ) {
+	public function action_callback( $order_id = null ) {
 
-		$order = llms_get_post( $order );
+		$order = llms_get_post( $order_id );
 
-		$this->user_id = $order->get( 'user_id' );
+		// The order has been deleted?
+		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+			return false;
+		}
+
+		$user_id = $order->get( 'user_id' );
+
+		// Deleted user?
+		if ( ! get_user_by( 'id', $user_id ) ) {
+			return false;
+		}
+
+		$this->user_id = $user_id;
 		$this->post_id = $order->get( 'id' );
 
 		$this->send();
+
+		return true;
 
 	}
 
