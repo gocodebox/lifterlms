@@ -13,12 +13,11 @@
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
  * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
- *
  * @version 4.2.0
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
-	// consider dates equal within 60 seconds
+	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
 
 	public function setUp() {
@@ -33,7 +32,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.32.0
 	 *
-	 * @param array $supports Gateway features array.
+	 * @param array  $supports   Gateway features array.
 	 * @param string $gateway_id Gateway ID.
 	 * @return array
 	 */
@@ -63,13 +62,13 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( '25.99', 0 );
 		$order = $this->get_mock_order( $plan );
 
-		// student not yet enrolled
+		// Student not yet enrolled.
 		$this->assertFalse( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
-		// complete the order
+		// Complete the order.
 		$order->set( 'status', 'llms-completed' );
 
-		// student gets enrolled
+		// Student gets enrolled.
 		$this->assertTrue( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) );
 
 		// student now has lifetime access
@@ -212,7 +211,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test delete order
+	 * Test delete order
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.1 Check recurring payment is unscheduled.
@@ -260,10 +259,11 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test on user enrollment deleted.
+	 * Test on user enrollment deleted.
+	 *
 	 * The controller's `on_user_enrollment_deleted()` method is reponsible of changing the order status to `cancelled`
 	 * in reaction to the deletion of an enrollment with the same order as trigger.
-	 * @group whattino
+	 *
 	 * @since 4.2.0
 	 *
 	 * @return void

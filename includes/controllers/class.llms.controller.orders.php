@@ -877,12 +877,12 @@ class LLMS_Controller_Orders {
 
 				// It's a recurring plan and the gateway doesn't support recurring.
 			} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-
+				// Translators: %s = The gateway display name.
 				return $err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 
 				// Not recurring and the gateway doesn't support single payments.
 			} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-
+				// Translators: %s = The gateway display name.
 				return $err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 
 			}

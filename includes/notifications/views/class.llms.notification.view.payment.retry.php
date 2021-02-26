@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version [veersion]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

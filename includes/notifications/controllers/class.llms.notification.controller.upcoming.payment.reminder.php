@@ -43,17 +43,31 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 */
 	public function action_callback( $order_id = null ) {
 
+		// These checks are basically the same we do in LLMS_Controller_Orders::recurring_charge().
+		// TODO: create a new method that can be used by both.
+
+		// Recurring payments disabled as a site feature when in staging mode.
+		if ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
+			return false;
+		}
+
 		$order = llms_get_post( $order_id );
 
-		// The order has been deleted?
-		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+		// Make sure the order still exists.
+		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
 			return false;
 		}
 
 		$user_id = $order->get( 'user_id' );
 
-		// Deleted user?
+		// Check the user still exists.
 		if ( ! get_user_by( 'id', $user_id ) ) {
+			return false;
+		}
+
+		// Ensure Gateway is still available and supports recurring payments.
+		$gateway = $order->get_gateway();
+		if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_payments' ) ) {
 			return false;
 		}
 
