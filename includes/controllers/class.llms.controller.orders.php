@@ -451,7 +451,7 @@ class LLMS_Controller_Orders {
 
 		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 
-			// No need to run an unenrollment as we're reacting to an enrollment deletion, user enrollments data already removed..
+			// No need to run an unenrollment as we're reacting to an enrollment deletion, user enrollments data already removed.
 			add_filter( 'llms_unenroll_on_error_order', '__return_false', 100 );
 			$order->set_status( 'cancelled' );
 			// Reset unenrollment's suspension..

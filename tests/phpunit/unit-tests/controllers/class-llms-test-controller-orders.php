@@ -13,7 +13,8 @@
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
  * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
- * @version 4.2.0
+ * @since [version] Added tests on the upcoming payment reminder.
+ * @version [version]
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -51,6 +52,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -76,6 +78,8 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		// No next payment date.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
+		// No next upcoming payment reminder date.
+		$this->assertTrue( is_a( $order->get_upcoming_payment_reminder_date(), 'WP_Error' ) );
 
 		// Actions were run.
 		$this->assertEquals( 1, did_action( 'lifterlms_product_purchased' ) );
@@ -101,6 +105,8 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
 		// No next payment date.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
+		// No next upcoming payment reminder date.
+		$this->assertTrue( is_a( $order->get_upcoming_payment_reminder_date(), 'WP_Error' ) );
 
 		// Actions were run.
 		$this->assertEquals( 2, did_action( 'lifterlms_product_purchased' ) );
@@ -124,8 +130,10 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// Student now has lifetime access.
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
-		// No next payment date.
+		// Next payment date.
 		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
+		// Next upcoming payment reminder date.
+		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) ), (float) $order->get_upcoming_payment_reminder_date( false, 'U' ), '', $this->date_delta );
 
 		// Actions were run.
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
@@ -164,7 +172,8 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 3.36.1 Make sure to schedule a recurring payment when setting an order as active so that,
-	 *               when subsequently we error the order, checking the recurring payment is unscheduled maskes sense.
+	 *               when subsequently we error the order, checking the recurring payment is unscheduled makes sense.
+	 * @since [version] Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -191,9 +200,26 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 			$order->maybe_schedule_payment();
 
 			// Recurring payment is scheduled.
-			$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-				'order_id' => $order->get( 'id' ),
-			) ) );
+			$this->assertEquals(
+				$order->get_next_payment_due_date( 'U' ),
+				as_next_scheduled_action(
+					'llms_charge_recurring_payment',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
+
+			// Upcoming payment reminder is scheduled.
+			$this->assertEquals(
+				$order->get_upcoming_payment_reminder_date( false, 'U' ),
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
 
 			// Error the order.
 			$order->set( 'status', $status );
@@ -205,9 +231,24 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 			$this->assertEquals( $enrollment_status, $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 
 			// Recurring payment is unscheduled.
-			$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-				'order_id' => $order->get( 'id' ),
-			) ) );
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_charge_recurring_payment',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
+
+			// Upcoming payment reminder is unscheduled.
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+					)
+				)
+			);
 
 		}
 
@@ -218,6 +259,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.1 Check recurring payment is unscheduled.
+	 * @since [version] Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -234,9 +276,26 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$order->maybe_schedule_payment();
 
 		// Recurring payment is scheduled.
-		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+		$this->assertEquals(
+			$order->get_next_payment_due_date( 'U' ),
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Upcoming payment reminder is scheduled.
+		$this->assertEquals(
+			$order->get_upcoming_payment_reminder_date( false, 'U' ),
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 
 		// Delete order.
 		wp_delete_post( $order->get( 'id' ), false );
@@ -255,10 +314,24 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertFalse( $student->get_enrollment_date( $order_product_id ) );
 
 		// Recurring payment is unscheduled.
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order_product_id,
-		) ) );
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 
+		// Upcoming payment reminder is unscheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
 	}
 
 	/**
@@ -321,6 +394,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -335,9 +409,27 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		do_action( 'llms_access_plan_expiration', $order->get( 'id' ) );
 
 		$this->assertFalse( $student->is_enrolled( $order->get( 'product_id' ) ) );
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+
+		// Recurring payment is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Upcoming payment reminder is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
 
@@ -351,9 +443,27 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		do_action( 'llms_access_plan_expiration', $order->get( 'id' ) );
 
 		$this->assertFalse( $student->is_enrolled( $order->get( 'product_id' ) ) );
-		$this->assertFalse( as_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $order->get( 'id' ),
-		) ) );
+
+		// Recurring payment is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
+		// Upcoming payment reminder is not scheduled.
+		$this->assertFalse(
+			as_next_scheduled_action(
+				'llms_send_upcoming_payment_reminder_notification',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+			)
+		);
+
 		$this->assertEquals( 'cancelled', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-cancelled', get_post_status( $order->get( 'id' ) ) );
 

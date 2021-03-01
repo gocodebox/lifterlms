@@ -880,13 +880,33 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since [version]
 	 *
-	 * @param string|false $next_payment_date Optional. Next payment due date. If not provided it'll be retrieved usin `$this->get_next_payment_due_date()`
-	 * @return string
+	 * @param string|false $next_payment_date Optional. Next payment due date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param string       $format            Optional. Date return format. Default is 'Y-m-d H:i:s'.
+	 * @return WP_Error|string
 	 */
-	public function get_upcoming_payment_reminder_date( $next_payment_date = false ) {
+	public function get_upcoming_payment_reminder_date( $next_payment_date = false, $format = 'Y-m-d H:i:s' ) {
 
 		$next_payment_date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
-		return date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day', strtotime( $next_payment_date ) ) );
+
+		if ( ! $next_payment_date || is_wp_error( $next_payment_date ) ) {
+			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
+		}
+
+		/**
+		 * Filter the next upcoming payment reminder date.
+		 *
+		 * A timestamp should always be returned as the conversion to the requested format
+		 * will be performed on the returned value.
+		 *
+		 * @since [version]
+		 *
+		 * @param int        $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
+		 * @param LLMS_Order $order                          Order object.
+		 * @param string     $format                         Requested date format.
+		 */
+		$upcoming_payment_reminder_time = apply_filters( 'llms_order_get_next_upcoming_payment_reminder_date', strtotime( '-1 day', strtotime( $next_payment_date ) ), $this, $format );
+
+		return date_i18n( $format, $upcoming_payment_reminder_time );
 
 	}
 
