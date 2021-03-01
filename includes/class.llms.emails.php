@@ -242,23 +242,21 @@ class LLMS_Emails {
 	}
 
 	/**
-	 * Return an associative array with the table's tags inline style
+	 * Returns an array with the table's tags inline style
 	 *
 	 * It makes sure that all the required tags (table, tr, td) are set.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $output Optional. Any of ARRAY_A | ARRAY_N constants. Default is ARRAY_N.
-	 *                       With ARRAY_A returns an associative array whose keys are the tags `table`, `tr`, `td`, and their styles as values.
-	 *                       With ARRAY_N returns an array with the following order 0 = table style, 1 = tr style, 2 = td style.
-	 *                       Will defaults to ARRAY_N if the provided value is different than ARRAY_A | ARRAY_N constants.
-	 * @return array
+	 * @return array {
+	 *     Array of table style.
+	 *
+	 *     @type string $0 Style of the table tag.
+	 *     @type string $1 Style of the tr tag.
+	 *     @type string $2 Style of the td tag.
+	 * }
 	 */
-	private function get_parsed_table_style( $output = ARRAY_N ) {
-
-		if ( ! in_array( $output, array( ARRAY_N, ARRAY_A ), true ) ) {
-			$output = ARRAY_N;
-		}
+	private function get_parsed_table_style() {
 
 		$table_style = $this->get_table_style();
 		$table_style = is_array( $table_style ) ? $table_style : array( $table_style );
@@ -272,11 +270,8 @@ class LLMS_Emails {
 			)
 		);
 
-		if ( ARRAY_N === $output ) {
-			return array_values( $table_style );
-		}
+		return array_values( $table_style );
 
-		return $table_style;
 	}
 
 	/**
