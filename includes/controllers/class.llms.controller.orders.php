@@ -182,7 +182,7 @@ class LLMS_Controller_Orders {
 		 *
 		 * Prior to the students being enrolled.
 		 *
-		 * @since Unknown
+		 * @since 1.0.0
 		 *
 		 * @param integer $order_id The WP_Post ID of the order.
 		 */

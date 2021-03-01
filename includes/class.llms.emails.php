@@ -248,10 +248,10 @@ class LLMS_Emails {
 	 *
 	 * @since [version]
 	 *
-	 * @param string Optional. Any of ARRAY_A | ARRAY_N constants. Default is ARRAY_N.
-	 *               With ARRAY_A returns an associative array whose keys are the tags `table`, `tr`, `td`, and their styles as values.
-	 *               With ARRAY_N returns an array with the following order 0 = table style, 1 = tr style, 2 = td style.
-	 *               Will defaults to ARRAY_N if the provided value is different than ARRAY_A | ARRAY_N constants.
+	 * @param string $output Optional. Any of ARRAY_A | ARRAY_N constants. Default is ARRAY_N.
+	 *                       With ARRAY_A returns an associative array whose keys are the tags `table`, `tr`, `td`, and their styles as values.
+	 *                       With ARRAY_N returns an array with the following order 0 = table style, 1 = tr style, 2 = td style.
+	 *                       Will defaults to ARRAY_N if the provided value is different than ARRAY_A | ARRAY_N constants.
 	 * @return array
 	 */
 	private function get_parsed_table_style( $output = ARRAY_N ) {
