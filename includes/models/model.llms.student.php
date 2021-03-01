@@ -641,9 +641,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// Get the most recent recorded status.
 			$status = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta " .
-					"WHERE meta_key = '_status' AND user_id = %d AND post_id = %d " .
-					"ORDER BY updated_date DESC, meta_id DESC LIMIT 1",
+					"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta
+					 WHERE meta_key = '_status' AND user_id = %d AND post_id = %d
+					 ORDER BY updated_date DESC, meta_id DESC LIMIT 1;",
 					array( $this->get_id(), $product_id )
 				)
 			);
