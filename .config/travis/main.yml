@@ -12,9 +12,9 @@ cache:
     - $HOME/.composer/cache
 
 import:
-  - .config/travis/main-env.yml
-  - .config/travis/main-php.yml
-  - .config/travis/main-notifications.yml
+  - main-env.yml
+  - main-php.yml
+  - main-notifications.yml
 
 jobs:
   fast_finish: true
