@@ -33,7 +33,7 @@ $ composer install
 ### 3. Install npm dependencies:
 
 ```sh
-$ npm install --gloabl gulp
+$ npm install --global gulp
 $ npm install
 ```
 

@@ -32,7 +32,7 @@ Replace all `[version]` tags with the release version number: run `llms-dev ver:
 
 The following steps can be run in a single command, `npm run build`.
 
-+ Generate static assets and language files: `gulp build`
++ Generate static assets and language files: `npm run build:scripts && npm run build:styles && npm run build:pot`
 + Generate the readme.txt file: `llms-dev readme`
 + Update contributors list in README.md: `npm run contributors`
 
