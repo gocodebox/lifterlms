@@ -54,6 +54,8 @@ jobs:
     env: WP_VERSION="5.2"
 
   include:
+  - php: "8.0"
+    env: CHECK_CODING_STANDARDS=1
   - php: nightly
     env: WP_VERSION=latest
   - php: "7.4"
@@ -85,19 +87,44 @@ before_install:
     fi
 
 install:
-  # Install Tests.
   - |
-    if [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
+    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+      sudo rm /usr/local/bin/docker-compose
+      curl -L https://github.com/docker/compose/releases/download/1.25.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+      chmod +x docker-compose
+      sudo mv docker-compose /usr/local/bin
+      nvm install --lts
+      npm ci
+      composer run env up
+      composer run env:setup
+      if [ "latest" != $WP_VERSION ]; then
+        ./vendor/bin/llms-env wp core update --version=$WP_VERSION --force
+        ./vendor/bin/llms-env wp core update-db
+      fi;
+      ./vendor/bin/llms-env wp core version
+    elif [ "1" == $CHECK_CODING_STANDARDS ]; then
+      echo "Nothing to install"
+    elif [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
       composer run tests-install
     else
       composer run tests-install-php8
     fi
 
 script:
-  # Check coding standards.
-  - composer run-script check-cs-errors -- $( git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE )
-  # Run phpunit tests.
-  - composer run-script tests-run
+  - |
+    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+      npm run test
+    elif [ "1" == $CHECK_CODING_STANDARDS ]; then
+      composer run-script check-cs-errors
+    else
+      composer run-script tests-run
+    fi
+
+after_script:
+  - |
+    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+      ./vendor/bin/llms-env down
+    fi
 
 notifications:
   slack:
