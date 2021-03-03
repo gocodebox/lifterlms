@@ -35,7 +35,7 @@ jobs:
 
   allow_failures:
   - env: WP_VERSION=nightly
-  - env: RUN_CODE_COVERAGE=1
+  - env: WP_VERSION=latest RUN_CODE_COVERAGE=1
   - php: nightly
 
   exclude:
@@ -53,12 +53,12 @@ jobs:
     env: WP_VERSION="5.2"
 
   include:
+  - php: "8.0"
+    env: CHECK_CODING_STANDARDS=1
   - php: nightly
     env: WP_VERSION=latest
   - php: "8.0"
     env: WP_VERSION=nightly
-  - php: "8.0"
-    env: CHECK_CODING_STANDARDS=1
   - php: "7.4"
     env: WP_VERSION=latest RUN_CODE_COVERAGE=1
     before_script:
