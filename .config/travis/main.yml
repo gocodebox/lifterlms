@@ -23,7 +23,6 @@ env:
     - WP_VERSION="5.4"
     - WP_VERSION="5.3"
     - WP_VERSION="5.2"
-    - LLMS_TRAVIS_TESTS=phpunit
 
 php:
   - "8.0"
