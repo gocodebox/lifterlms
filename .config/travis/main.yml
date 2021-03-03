@@ -54,7 +54,7 @@ jobs:
 
   include:
   - php: "8.0"
-    env: CHECK_CODING_STANDARDS=1
+    env: PHPCS=1
   - php: nightly
     env: WP_VERSION=latest
   - php: "8.0"
@@ -103,7 +103,7 @@ install:
         ./vendor/bin/llms-env wp core update-db
       fi;
       ./vendor/bin/llms-env wp core version
-    elif [ "1" = "$CHECK_CODING_STANDARDS" ]; then
+    elif [ "1" = "$PHPCS" ]; then
       echo "Nothing to install"
     elif [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
       composer run tests-install
@@ -115,7 +115,7 @@ script:
   - |
     if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
       npm run test
-    elif [ "1" = "$CHECK_CODING_STANDARDS" ]; then
+    elif [ "1" = "$PHPCS" ]; then
       composer run-script check-cs-errors
     else
       composer run-script tests-run
