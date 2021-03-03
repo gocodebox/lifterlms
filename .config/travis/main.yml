@@ -88,7 +88,7 @@ before_install:
 
 install:
   - |
-    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+    if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
       sudo rm /usr/local/bin/docker-compose
       curl -L https://github.com/docker/compose/releases/download/1.25.0/docker-compose-`uname -s`-`uname -m` > docker-compose
       chmod +x docker-compose
@@ -102,7 +102,7 @@ install:
         ./vendor/bin/llms-env wp core update-db
       fi;
       ./vendor/bin/llms-env wp core version
-    elif [ "1" == $CHECK_CODING_STANDARDS ]; then
+    elif [ "1" = "$CHECK_CODING_STANDARDS" ]; then
       echo "Nothing to install"
     elif [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
       composer run tests-install
@@ -112,9 +112,9 @@ install:
 
 script:
   - |
-    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+    if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
       npm run test
-    elif [ "1" == $CHECK_CODING_STANDARDS ]; then
+    elif [ "1" = "$CHECK_CODING_STANDARDS" ]; then
       composer run-script check-cs-errors
     else
       composer run-script tests-run
@@ -122,7 +122,7 @@ script:
 
 after_script:
   - |
-    if [ "E2E" == $LLMS_TRAVIS_TESTS ]; then
+    if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
       ./vendor/bin/llms-env down
     fi
 
