@@ -116,7 +116,11 @@ script:
     if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
       npm run test
     elif [ "1" = "$PHPCS" ]; then
-      composer run-script check-cs-errors
+      if [ "trunk" = "$TRAVIS_BRANCH" ]; then
+        composer run-script check-cs-errors
+      else
+        composer run-script check-cs-errors -- $( git diff --name-only --diff-filter=ACMR $TRAVIS_COMMIT_RANGE )
+      fi
     else
       composer run-script tests-run
     fi
