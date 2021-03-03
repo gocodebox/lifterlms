@@ -16,6 +16,7 @@ env:
     - TESTS_DB_HOST=localhost
     - TESTS_DB_NAME=llms_tests
     - TESTS_DB_PASS=""
+    - LLMS_TRAVIS_TESTS=phpunit
   jobs:
     - WP_VERSION=latest # 5.7
     - WP_VERSION="5.6"
