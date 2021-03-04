@@ -316,7 +316,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
 	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
-	 * @since [version] Removed the sleep delay between status changes to test statuses with the same date & time.
+	 * @since 4.18.0 Removed the sleep delay between status changes to test statuses with the same date & time.
 	 *
 	 * @return void
 	 */
