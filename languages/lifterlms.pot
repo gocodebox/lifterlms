@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.17.0\n"
+"Project-Id-Version: LifterLMS 4.18.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-02-22T13:47:42-07:00\n"
+"POT-Creation-Date: 2021-03-04T09:28:46-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -4665,53 +4665,57 @@ msgstr ""
 msgid "Student Enrollment"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:68
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:69
 msgid "Cannot manage enrollment status for anonymized orders."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:80
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:82
+msgid "The student who placed the order doesn't exist anymore."
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:89
 msgid "Select"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:88
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:97
 msgctxt "enrollment status"
 msgid "Status: %s"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:93
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:101
 msgctxt "enrollment trigger"
 msgid "Enrolled: %s"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:96
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:104
 msgctxt "enrollment trigger"
 msgid "Updated: %s"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:99
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:107
 msgctxt "enrollment trigger"
 msgid "Trigger: %s"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:105
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:112
 msgid "Update Status"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:107
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:114
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:120
 msgid "Delete Enrollment"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:157
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:164
 msgid "Student enrollment records have been deleted."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:192
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:199
 msgid "Student enrollment status changed to %s."
 msgstr ""
 
 #. Translators: %1$s = old enrollment status; %2$s = new enrollment status.
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:197
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:204
 msgid "Student enrollment status changed from %1$s to %2$s"
 msgstr ""
 
@@ -4949,7 +4953,7 @@ msgid "Prerequisite"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:57
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:57
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:58
 #: includes/class.llms.l10n.js.php:153
 #: includes/class.llms.l10n.js.php:317
 #: includes/class.llms.l10n.js.php:358
@@ -4961,61 +4965,61 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:51
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
 #: includes/class.llms.post-types.php:639
 #: templates/myaccount/my-orders.php:23
 #: templates/myaccount/my-orders.php:33
 msgid "Order"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:53
 msgid "Payment Status"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:53
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:54
 msgid "Access Status"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:54
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
 #: includes/privacy/class-llms-privacy.php:104
 #: templates/myaccount/view-order.php:49
 msgid "Product"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:56
 msgid "Revenue"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:56
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:57
 msgid "Order Type"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:81
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:83
 msgctxt "order number display"
 msgid "#%d"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:84
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:86
 msgid "by"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:110
-msgctxt "access plan expiration"
-msgid "Expired:"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:112
 msgctxt "access plan expiration"
+msgid "Expired:"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:114
+msgctxt "access plan expiration"
 msgid "Expires:"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:145
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:147
 #: includes/models/model.llms.transaction.php:350
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:147
-#: templates/admin/post-types/order-details.php:163
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:149
+#: templates/admin/post-types/order-details.php:166
 #: templates/myaccount/view-order.php:121
 msgid "One-time"
 msgstr ""
@@ -11973,12 +11977,12 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:754
+#: includes/models/model.llms.student.php:757
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:857
+#: includes/models/model.llms.student.php:860
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -12313,7 +12317,7 @@ msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:100
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:100
-#: templates/admin/post-types/order-details.php:35
+#: templates/admin/post-types/order-details.php:37
 msgid "Order #%s"
 msgstr ""
 
@@ -13045,54 +13049,54 @@ msgstr ""
 msgid "Enable Automatic Payments"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:29
+#: templates/admin/post-types/order-details.php:31
 msgid "This order was processed in the gateway's testing mode"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:36
+#: templates/admin/post-types/order-details.php:38
 msgid "Processed by %s"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:54
+#: templates/admin/post-types/order-details.php:56
 msgid "Access Plan Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:57
-#: templates/admin/post-types/order-details.php:76
-#: templates/admin/post-types/order-details.php:234
+#: templates/admin/post-types/order-details.php:59
+#: templates/admin/post-types/order-details.php:78
+#: templates/admin/post-types/order-details.php:237
 msgid "Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:63
-#: templates/admin/post-types/order-details.php:82
+#: templates/admin/post-types/order-details.php:65
+#: templates/admin/post-types/order-details.php:84
 msgid "SKU:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:73
+#: templates/admin/post-types/order-details.php:75
 msgid "Product Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:96
+#: templates/admin/post-types/order-details.php:98
 msgid "Trial Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:100
-#: templates/admin/post-types/order-details.php:124
+#: templates/admin/post-types/order-details.php:102
+#: templates/admin/post-types/order-details.php:126
 msgid "Original Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:105
-#: templates/admin/post-types/order-details.php:138
+#: templates/admin/post-types/order-details.php:107
+#: templates/admin/post-types/order-details.php:140
 msgid "Coupon Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:113
-#: templates/admin/post-types/order-details.php:147
+#: templates/admin/post-types/order-details.php:115
+#: templates/admin/post-types/order-details.php:149
 msgid "Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:115
-#: templates/admin/post-types/order-details.php:160
+#: templates/admin/post-types/order-details.php:117
+#: templates/admin/post-types/order-details.php:163
 #: templates/myaccount/view-order.php:74
 #: templates/myaccount/view-order.php:118
 msgid "for %1$d %2$s"
@@ -13100,46 +13104,47 @@ msgid_plural "for %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/post-types/order-details.php:120
+#: templates/admin/post-types/order-details.php:122
 msgid "Payment Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:130
+#: templates/admin/post-types/order-details.php:132
 msgid "Sale Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:153
+#. Translators: %1$d = The order billing period; %2$s = The order billing frequency.
+#: templates/admin/post-types/order-details.php:156
 #: templates/myaccount/view-order.php:114
 msgid "Every %2$s"
 msgid_plural "Every %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/admin/post-types/order-details.php:175
+#: templates/admin/post-types/order-details.php:178
 msgid "Customer Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:178
+#: templates/admin/post-types/order-details.php:181
 msgid "Buyer Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:187
+#: templates/admin/post-types/order-details.php:190
 msgid "Buyer Email:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:193
+#: templates/admin/post-types/order-details.php:196
 msgid "Buyer Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:207
+#: templates/admin/post-types/order-details.php:210
 msgid "Buyer Phone:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:214
+#: templates/admin/post-types/order-details.php:217
 msgid "Buyer IP Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:231
+#: templates/admin/post-types/order-details.php:234
 msgid "Gateway Information"
 msgstr ""
 
