@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v4.18.0 - 2021-03-04
+--------------------
+
+##### Updates
+
++ Tested up to WordPress core version 5.7
++ Updated several occurrences of `json_encode()` with preferred `wp_json_encode()`.
+
+##### Bug fixes
+
++ Added a tie-breaker when there are multiple enrollment statuses with the same date & time. Thanks [@pondermatic](https://github.com/pondermatic)!
++ On admin order pages and tables don't print links for deleted students.
++ Fixed an issue on admin order pages when viewing an order for a deleted student.
+
+
 v4.17.0 - 2021-02-22
 --------------------
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.4.1
+ * @version 4.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -598,7 +598,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.17.0 Unknown.
 	 * @since 3.37.9 Added filter `llms_user_enrollment_status_allowed_post_types`.
 	 * @since 4.4.1 Moved filter `llms_user_enrollment_status_allowed_post_types` to function `llms_get_enrollable_status_check_post_types()`.
-	 * @since [version] Added a tie-breaker when there are multiple enrollment statuses with the same date & time.
+	 * @since 4.18.0 Added a tie-breaker when there are multiple enrollment statuses with the same date & time.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.18.0
  */
 
 defined( 'ABSPATH' ) || exit;

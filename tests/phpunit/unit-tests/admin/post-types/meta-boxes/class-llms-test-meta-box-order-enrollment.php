@@ -9,8 +9,8 @@
  * @group LLMS_Meta_Box_Order_Enrollment
  *
  * @since 3.33.0
- * @since [version] Added some tests on the output method.
- * @version [version]
+ * @since 4.18.0 Added some tests on the output method.
+ * @version 4.18.0
  */
 class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
@@ -82,7 +82,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the LLMS_Meta_Box_Order_Enrollment output method for anonymized orders
 	 *
-	 * @since [version]
+	 * @since 4.18.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the LLMS_Meta_Box_Order_Enrollment output method for orders with no user
 	 *
-	 * @since [version]
+	 * @since 4.18.0
 	 *
 	 * @return void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the LLMS_Meta_Box_Order_Enrollment output method for orders of deleted students
 	 *
-	 * @since [version]
+	 * @since 4.18.0
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the LLMS_Meta_Box_Order_Enrollment output method for orders with student
 	 *
-	 * @since [version]
+	 * @since 4.18.0
 	 *
 	 * @return void
 	 */
