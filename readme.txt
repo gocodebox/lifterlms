@@ -5,9 +5,9 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.2
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 7.2
-Stable tag: 4.17.0
+Stable tag: 4.18.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,22 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.18.0 - 2021-03-04 =
+
+**This is the last release of LifterLMS that will declare support for PHP 7.2. PHP 7.2 reached its official [end of life](https://www.php.net/eol.php) on November 30, 2020. With the next release of LifterLMS the minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
+
+##### Updates
+
++ Tested up to WordPress core version 5.7
++ Updated several occurrences of `json_encode()` with preferred `wp_json_encode()`.
+
+##### Bug fixes
+
++ Added a tie-breaker when there are multiple enrollment statuses with the same date & time. Thanks [@pondermatic](https://github.com/pondermatic)!
++ On admin order pages and tables don't print links for deleted students.
++ Fixed an issue on admin order pages when viewing an order for a deleted student.
+
+
 = v4.17.0 - 2021-02-22 =
 
 ##### Updates
@@ -552,8 +568,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 
 = v4.15.0 - 2021-02-09 =
-
-**PHP 7.2 has reached its official [end of life](https://www.php.net/eol.php). LifterLMS aims to support only officially supported PHP versions and our goal is to drop support for PHP 7.2 by March of 2021 at which time minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
 
 ##### Updates
 
@@ -684,23 +698,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Replace incorrect usage of invalid ID `llms_shop` with `courses` during catalog template loader checks.
 + Function `llms_get_post()` will now only allow instantiation of LifterLMS classes.
 + Remove unneeded require autoloaded file `includes/class.llms.quiz.data.php`.
-
-
-= v4.10.0 - 2020-12-01 =
-
-##### Updates
-
-+ Adds native theme support for the WordPress default theme Twenty Twenty-One.
-+ Improved the `llms_archive_description()` function and releated filter.
-
-##### Bug fixes
-
-+ Fix issue encountered when using multiple role plugins to add the Instructor role to an Administrator user account. Thanks [@daniel-shuy](https://github.com/daniel-shuy)!
-+ Fixed an issue encountered when using non-latin characters in a course post URL slug. Thanks [@alaa-alshamy](https://github.com/alaa-alshamy)!
-
-##### Templates Updated
-
-+ templates/loop/pagination.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
