@@ -7,9 +7,9 @@
  * @since 3.0.0
  * @since 3.18.0 Unknown.
  * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
- * @since [version] Do not print dead link for removed students.
+ * @since 4.18.0 Do not print dead link for removed students.
  *               Also replace occurrences of json_encode with safer wp_json_encode.
- * @version [version]
+ * @version 4.18.0
  */
 
 defined( 'ABSPATH' ) || exit;

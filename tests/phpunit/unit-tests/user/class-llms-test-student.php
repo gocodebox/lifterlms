@@ -316,6 +316,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
 	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
+	 * @since 4.18.0 Removed the sleep delay between status changes to test statuses with the same date & time.
 	 *
 	 * @return void
 	 */
@@ -336,14 +337,10 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ) );
 		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ), false );
 
-		sleep( 1 );
-
 		// expired
 		$student->unenroll( $course_id );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id, false ) );
-
-		sleep( 1 );
 
 		// deleted
 		$student->delete_enrollment( $course_id );
