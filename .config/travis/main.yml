@@ -22,7 +22,6 @@ env:
     - WP_VERSION="5.5"
     - WP_VERSION="5.4"
     - WP_VERSION="5.3"
-    - WP_VERSION="5.2"
 
 php:
   - "8.0"
@@ -39,9 +38,6 @@ jobs:
   - php: nightly
 
   exclude:
-  # These WP Versions don't work on PHP 7.4
-  - php: "7.4"
-    env: WP_VERSION="5.2"
   # These WP Versions don't work on PHP 8.0
   - php: "8.0"
     env: WP_VERSION="5.5"
@@ -49,8 +45,6 @@ jobs:
     env: WP_VERSION="5.4"
   - php: "8.0"
     env: WP_VERSION="5.3"
-  - php: "8.0"
-    env: WP_VERSION="5.2"
 
   include:
   - php: "8.0"
