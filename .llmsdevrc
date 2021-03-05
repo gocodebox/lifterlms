@@ -6,7 +6,7 @@
 			"Tags": "learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS",
 			"Requires at least": "5.2",
 			"Tested up to": "5.7",
-			"Requires PHP": "7.2"
+			"Requires PHP": "7.3"
 		},
 		"changelog": {
 			"link": "https://make.lifterlms.com/tag/lifterlms/"
