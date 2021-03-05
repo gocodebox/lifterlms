@@ -1034,7 +1034,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 4.6.0 Add coverage for `get_next_scheduled_action_time()`.
-	 * @since 4.7.0 Split into it's own method to prevent variable clashes.
+	 * @since 4.7.0 Split into its own method to prevent variable clashes.
 	 *
 	 * @return void
 	 */
