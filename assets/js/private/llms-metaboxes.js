@@ -2,8 +2,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @since 3.30.0 Made autoenroll table sortable, added AJAX save for adding new courses.
- * @version 3.30.0
+ * @version [version]
  */
 ( function( $ ) {
 
@@ -50,9 +49,11 @@
 		/**
 		 * Initialize
 		 *
+		 * @since 3.0.0
+		 * @since 3.13.0 Unknown.
+		 * @since [version] Add `this.bind_mce_fixes()`.
+		 *
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.13.0
 		 */
 		this.init = function() {
 
@@ -65,6 +66,8 @@
 			$( '.llms-collapsible-group' ).llmsCollapsible();
 
 			this.bind_tabs();
+
+			this.bind_mce_fixes();
 
 			// bind everything better and less repetitively...
 			var bindings = [
@@ -762,6 +765,84 @@
 				}
 
 			} );
+
+		};
+
+		/**
+		 * Re-initializes TinyMCE Editors found within metaboxes
+		 *
+		 * @since [version]
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1553
+		 *
+		 * @return {void}
+		 */
+		this.bind_mce_fixes = function() {
+
+			// We need `wp.data` to proceed.
+			if ( 'undefined' === wp.data ) {
+				return;
+			}
+
+			LLMS.wait_for(
+				function() {
+					return 'undefined' !== wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+				},
+				function() {
+
+					var shouldRun = false;
+						find      = [ 'lifterlms-product', 'lifterlms-membership', 'lifterlms-course-options' ];
+						metaboxes = wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+
+					// Determine if we should run the fixer.
+					for ( var key in metaboxes ) {
+						if ( -1 !== find.indexOf( metaboxes[ key ].id ) ) {
+							shouldRun = true;
+							break;
+						}
+					}
+
+					if ( ! shouldRun ) {
+						return;
+					}
+
+					// Fix them.
+					var toFix = {};
+
+					/**
+					 * Determines if the TinyMCE instance should be fixed.
+					 *
+					 * @since [version]
+					 *
+					 * @param {string} key Editor Key. This is the HTML id attribute of the textarea powering the editor instance.
+					 * @return {Boolean} Returns `true` if the editor should be fixed.
+					 */
+					function llmsShouldFixTinyMCEEditor( key ) {
+						return ( 'excerpt' === key || -1 !== key.indexOf( 'llms' ) || -1 !== key.indexOf( 'lifterlms' ) )
+					};
+
+					// Loop through all the loaded editors.
+					for ( var key in tinyMCE.EditorManager.editors ) {
+
+						// Mark LifterLMS editors to be fixed & de-init the editor.
+						if ( llmsShouldFixTinyMCEEditor( key ) ) {
+
+							toFix[ key ] = tinyMCE.EditorManager.get( key );
+							tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, key );
+
+						}
+
+					}
+
+					// If we remove and re-init immediately it doesn't work, so we'll wait a bit and then re-init them all.
+					setTimeout( function() {
+						for ( var key in toFix ) {
+							tinyMCE.EditorManager.init( toFix[ key ].settings || tinyMCE.EditorManager.settings );
+						}
+					}, 500 );
+
+				}
+			);
 
 		};
 
