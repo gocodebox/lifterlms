@@ -194,7 +194,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.get_course().get( 'sections' ).each( function( section, curr_sec_index ) {
 				if ( curr_sec_index <= parent_section_index ) {
 					var group = {
-							/* Translators: %1$d = section order number, %2$s = section title */
+							// Translators: %1$d = section order number, %2$s = section title.
 						label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
 							'%1$d': section.get( 'order' ),
 							'%2$s': section.get( 'title' )
@@ -204,7 +204,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 					section.get( 'lessons' ).each( function( lesson, curr_les_index ) {
 						if ( curr_sec_index !== parent_section_index || curr_les_index < lesson_index_in_section ) {
-							/* Translators: %1$d = lesson order number, %2$s = lesson title */
+							// Translators: %1$d = lesson order number, %2$s = lesson title.
 							group.options.push( {
 								key: lesson.get( 'id' ),
 								val: LLMS.l10n.replace( 'Lesson %1$d: %2$s', {
@@ -318,7 +318,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * @return {Boolean} Whether this is the first lesson of its section.
 		 */
 		is_first_in_section: function() {
-			return this.collection.indexOf( this ) === 0;
+			return 0 === this.collection.indexOf( this );
 		},
 
 		/**
