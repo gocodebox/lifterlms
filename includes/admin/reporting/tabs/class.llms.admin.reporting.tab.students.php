@@ -102,7 +102,6 @@ class LLMS_Admin_Reporting_Tab_Students {
 		// Single student.
 		if ( isset( $_GET['student_id'] ) ) {
 
-			llms_get_student( $_GET['student_id'] );
 			$student = llms_get_student( $_GET['student_id'] );
 			if ( ! $student ) {
 				wp_die( __( 'You do not have permission to access this user.', 'lifterlms' ) );
