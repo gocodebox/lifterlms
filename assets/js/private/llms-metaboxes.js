@@ -780,13 +780,13 @@
 		this.bind_mce_fixes = function() {
 
 			// We need `wp.data` to proceed.
-			if ( 'undefined' === wp.data ) {
+			if ( undefined === wp.data ) {
 				return;
 			}
 
 			LLMS.wait_for(
 				function() {
-					return 'undefined' !== wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
+					return undefined !== wp.data.select( 'core/edit-post' ).getMetaBoxesPerLocation( 'normal' );
 				},
 				function() {
 
