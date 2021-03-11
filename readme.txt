@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.2
+Requires at least: 5.3
 Tested up to: 5.7
-Requires PHP: 7.2
-Stable tag: 4.18.0
+Requires PHP: 7.3
+Stable tag: 4.19.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -516,6 +516,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.19.0 - 2021-03-11 =
+
+##### PHP Version Requirement Update
+
++ **The minimum supported PHP version has been raised to PHP 7.3. Please upgrade to a [supported PHP version](https://www.php.net/supported-versions).**
+
+##### Bug fixes
+
++ Fixed an issue causing TinyMCE editor instances to be unusable within metaboxes when using the block editor.
+
+
 = v4.18.0 - 2021-03-04 =
 
 **This is the last release of LifterLMS that will declare support for PHP 7.2. PHP 7.2 reached its official [end of life](https://www.php.net/eol.php) on November 30, 2020. With the next release of LifterLMS the minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
@@ -687,17 +698,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Bug fixes
 
 + Fixed sorting error when sorting student reports by name.
-
-
-= v4.10.1 - 2020-12-10 =
-
-##### Bug fixes
-
-+ Fixed visual issues encountered on the admin Add-Ons screen.
-+ Use `hr.wp-header-end` in favor of a second (hidden) <h1> to "catch" admin notices on the Add-Ons screen.
-+ Replace incorrect usage of invalid ID `llms_shop` with `courses` during catalog template loader checks.
-+ Function `llms_get_post()` will now only allow instantiation of LifterLMS classes.
-+ Remove unneeded require autoloaded file `includes/class.llms.quiz.data.php`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
