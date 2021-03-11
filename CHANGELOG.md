@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v4.19.0 - 2021-03-11
+--------------------
+
+##### Supported Version Requirement Updates
+
++ **The minimum supported PHP version has been raised to PHP 7.3. Please upgrade to a [supported PHP version](https://www.php.net/supported-versions).**
++ **The minimum supported WordPress core version has been raised to version 5.3.**
+
+##### Bug fixes
+
++ Fixed an issue causing TinyMCE editor instances to be unusable within metaboxes when using the block editor.
+
+
 v4.18.0 - 2021-03-04
 --------------------
 

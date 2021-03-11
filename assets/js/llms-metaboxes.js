@@ -11,7 +11,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.19.0
  */
 ( function( $ ) {
 
@@ -525,7 +525,7 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.13.0 Unknown.
-		 * @since [version] Add `this.bind_mce_fixes()`.
+		 * @since 4.19.0 Add `this.bind_mce_fixes()`.
 		 *
 		 * @return   void
 		 */
@@ -1245,7 +1245,7 @@
 		/**
 		 * Re-initializes TinyMCE Editors found within metaboxes
 		 *
-		 * @since [version]
+		 * @since 4.19.0
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1553
 		 *
@@ -1286,7 +1286,7 @@
 					/**
 					 * Determines if the TinyMCE instance should be fixed.
 					 *
-					 * @since [version]
+					 * @since 4.19.0
 					 *
 					 * @param {string} key Editor Key. This is the HTML id attribute of the textarea powering the editor instance.
 					 * @return {Boolean} Returns `true` if the editor should be fixed.
