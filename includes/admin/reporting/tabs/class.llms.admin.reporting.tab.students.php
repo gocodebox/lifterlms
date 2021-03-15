@@ -94,12 +94,22 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 *
 	 * @return   void
 	 * @since    3.2.0
+	 * @since    [version] Added a report permission check and a user existence check.
 	 * @version  3.2.0
 	 */
 	public function output() {
 
 		// Single student.
 		if ( isset( $_GET['student_id'] ) ) {
+
+			$student_id = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+			if ( ! llms_current_user_can( 'view_lifterlms_reports', $student_id ) ) {
+				wp_die( __( "You do not have permission to access this student's reports", 'lifterlms' ) );
+			}
+			$student = llms_get_student( $student_id );
+			if ( ! $student ) {
+				wp_die( __( "This student doesn't exist.", 'lifterlms' ) );
+			}
 
 			$tabs = apply_filters(
 				'llms_reporting_tab_student_tabs',
@@ -117,7 +127,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 				array(
 					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'information',
 					'tabs'        => $tabs,
-					'student'     => new LLMS_Student( intval( $_GET['student_id'] ) ),
+					'student'     => $student,
 				)
 			);
 
