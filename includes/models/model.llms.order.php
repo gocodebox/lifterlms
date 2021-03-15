@@ -868,46 +868,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment", "llms_access_plan_expiration" and "llms_send_upcoming_payment_reminder_notification".
+	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment", "llms_access_plan_expiration".
 	 * @return int|false Returns the timestamp of the next action as an integer or `false` when no action exist.
 	 */
 	public function get_next_scheduled_action_time( $action ) {
 		return as_next_scheduled_action( $action, $this->get_action_args() );
-	}
-
-	/**
-	 * Retrieve the date to remind user before actual payment
-	 *
-	 * @since [version]
-	 *
-	 * @param string|false $next_payment_date Optional. Next payment due date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
-	 * @param string       $format            Optional. Date return format. Default is 'Y-m-d H:i:s'.
-	 * @return WP_Error|string
-	 */
-	public function get_upcoming_payment_reminder_date( $next_payment_date = false, $format = 'Y-m-d H:i:s' ) {
-
-		$next_payment_date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
-
-		if ( ! $next_payment_date || is_wp_error( $next_payment_date ) ) {
-			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
-		}
-
-		/**
-		 * Filter the next upcoming payment reminder date.
-		 *
-		 * A timestamp should always be returned as the conversion to the requested format
-		 * will be performed on the returned value.
-		 *
-		 * @since [version]
-		 *
-		 * @param int        $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
-		 * @param LLMS_Order $order                          Order object.
-		 * @param string     $format                         Requested date format.
-		 */
-		$upcoming_payment_reminder_time = apply_filters( 'llms_order_get_next_upcoming_payment_reminder_date', strtotime( '-1 day', strtotime( $next_payment_date ) ), $this, $format );
-
-		return date_i18n( $format, $upcoming_payment_reminder_time );
-
 	}
 
 	/**
@@ -1495,7 +1460,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 4.7.0 Add `plan_ended` metadata when a plan ends.
-	 * @since [version] Schedule/unschedule upcoming payment reminder notification.
+	 * @since [version] Move scheduling recurring payment into a proper method.
 	 *
 	 * @return void
 	 */
@@ -1514,35 +1479,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// Unschedule and reschedule.
 		if ( $date && ! is_wp_error( $date ) ) {
 
-			// Unschedule upcoming payment reminder (does nothing if no action scheduled).
-			$this->unschedule_upcoming_payment_reminder();
-
-			// Unschedule the next action (does nothing if no action scheduled).
-			$this->unschedule_recurring_payment();
-
-			// Convert our reminder date to UTC before passing to the scheduler.
-			$reminder_date = get_gmt_from_date( $this->get_upcoming_payment_reminder_date( $date ), 'U' );
-
-			// Schedule upcoming payment reminder.
-			as_schedule_single_action(
-				$reminder_date,
-				'llms_send_upcoming_payment_reminder_notification',
-				array(
-					'order_id' => $this->get( 'id' ),
-				)
-			);
-
-			// Convert our date to UTC before passing to the scheduler.
-			$date = get_gmt_from_date( $date, 'U' );
-
-			// Schedule the payment.
-			as_schedule_single_action(
-				$date,
-				'llms_charge_recurring_payment',
-				array(
-					'order_id' => $this->get( 'id' ),
-				)
-			);
+			$this->schedule_recurring_payment( $date );
 
 		} elseif ( is_wp_error( $date ) ) {
 
@@ -1550,9 +1487,6 @@ class LLMS_Order extends LLMS_Post_Model {
 
 				// Unschedule the next action (does nothing if no action scheduled).
 				$this->unschedule_recurring_payment();
-
-				// Unschedule upcoming payment reminder (does nothing if no action scheduled).
-				$this->unschedule_upcoming_payment_reminder();
 
 				// Add a note that the plan has completed.
 				$this->add_note( __( 'Order payment plan completed.', 'lifterlms' ) );
@@ -1802,25 +1736,58 @@ class LLMS_Order extends LLMS_Post_Model {
 	public function unschedule_recurring_payment() {
 
 		if ( $this->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) ) {
-			as_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
+
+			$action_args = $this->get_action_args();
+
+			as_unschedule_action( 'llms_charge_recurring_payment', $action_args );
+
+			do_action( 'llms_charge_recurring_payment_unscheduled', $this, $action_args );
+
 		}
 
 	}
 
 	/**
-	 * Cancels a scheduled upcoming payment reminder notification
+	 * Schedule recurring payment
 	 *
-	 * Does nothing if no payments are scheduled.
+	 * It will unschedule the next recurring payment action, if any, before scheduling.
 	 *
-	 * @since [version]
-	 *
+	 * @param boolean $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                   Only applies when the `$next_payment_date` is provided.
 	 * @return void
 	 */
-	public function unschedule_upcoming_payment_reminder() {
+	public function schedule_recurring_payment( $next_payment_date = false, $gmt = false ) {
 
-		if ( $this->get_next_scheduled_action_time( 'llms_send_upcoming_payment_reminder_notification' ) ) {
-			as_unschedule_action( 'llms_send_upcoming_payment_reminder_notification', $this->get_action_args() );
+		$date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
+
+		if ( ! $date || is_wp_error( $date ) ) {
+			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
 		}
+
+		// Convert our date to Unix time and UTC before passing to the scheduler.
+
+		// No date passed, or date passed was not in gmt: needs to be converted in UTC.
+		if ( ( $next_payment_date && ! $gmt ) || ! $next_payment_date ) {
+			$date = get_gmt_from_date( $date, 'U' );
+		} else {
+			// Get timestamp.
+			$date = date_format( date_create( $date ), 'U' );
+		}
+
+		// Unschedule the next action (does nothing if no action scheduled).
+		$this->unschedule_recurring_payment();
+
+		$action_args = $this->get_action_args();
+
+		// Schedule the payment.
+		as_schedule_single_action(
+			$date,
+			'llms_charge_recurring_payment',
+			$action_args
+		);
+
+		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args );
 
 	}
 
