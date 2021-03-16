@@ -2,7 +2,7 @@
  * Lesson Model
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.20.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -263,7 +263,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * Determine if this is the first lesson
 		 *
 		 * @since 3.17.0
-		 * @since [version] Use is_first_in_section() new method.
+		 * @since 4.20.0 Use is_first_in_section() new method.
 		 *
 		 * @return {Boolean} Whether this is the first lesson of its course.
 		 */
@@ -288,7 +288,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Determine if this is the last lesson of the course
 		 *
-		 * @since [version]
+		 * @since 4.20.0
 		 *
 		 * @return {Boolean} Whether this is the last lesson of its course.
 		 */
@@ -313,7 +313,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Determine if this is the first lesson within its section
 		 *
-		 * @since [version]
+		 * @since 4.20.0
 		 *
 		 * @return {Boolean} Whether this is the first lesson of its section.
 		 */
@@ -324,7 +324,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Determine if this is the last lesson within its section
 		 *
-		 * @since [version]
+		 * @since 4.20.0
 		 *
 		 * @return {Boolean} Whether this is the last lesson of its section.
 		 */
@@ -335,7 +335,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Get prev lesson in a course
 		 *
-		 * @since [version]
+		 * @since 4.20.0
 		 *
 		 * @param {String} status Prev lesson post status. If not specified any status will be taken into account.
 		 * @return {Object}|false Previous lesson model or `false` if no previous lesson could be found.
@@ -347,7 +347,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Get next lesson in a course
 		 *
-		 * @since [version]
+		 * @since 4.20.0
 		 *
 		 * @param {String} status Next lesson post status. If not specified any status will be taken into account.
 		 * @return {Object}|false Next lesson model or `false` if no next lesson could be found.

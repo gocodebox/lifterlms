@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 4.20.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -93,7 +93,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 * Output HTML for the current view within the students tab
 	 *
 	 * @since 3.2.0
-	 * @since [version] Added a report permission check and a user existence check.
+	 * @since 4.20.0 Added a report permission check and a user existence check.
 	 *
 	 * @return void
 	 */
