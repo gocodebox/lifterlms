@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Options Table Data Store Abstract
+ * LifterLMS Options Table Data Store abstract class
  *
  * @package LifterLMS/Abstracts/Classes
  *
@@ -11,23 +11,27 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Options Table Data Store abstract class
+ * LifterLMS Options Table Data Store abstract
  *
  * @since 3.8.0
- * @since 3.17.8 Added `set_option()` method.
  */
 abstract class LLMS_Abstract_Options_Data {
 
+	/**
+	 * Option name prefix.
+	 *
+	 * @var string
+	 */
 	protected $option_prefix = 'llms_';
 
 	/**
 	 * Retrieve the value of an option from the database
 	 *
-	 * @param    string $name     option name (unprefixed)
-	 * @param    mixed  $default  default value to use if no option is found
-	 * @return   mixed
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $name    Option name (unprefixed).
+	 * @param mixed  $default Default value to use if no option is found.
+	 * @return mixed
 	 */
 	public function get_option( $name, $default = '' ) {
 		$val = get_option( $this->get_option_name( $name ), '' );
@@ -40,9 +44,9 @@ abstract class LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieve a prefix for options
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function get_option_prefix() {
 		return $this->option_prefix;
@@ -53,10 +57,10 @@ abstract class LLMS_Abstract_Options_Data {
 	 * Prefix automatically adds a trigger and type to the option name
 	 * in addition to llms_notification
 	 *
-	 * @param    string $name  option name (unprefixed)
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $name Option name (unprefixed).
+	 * @return string
 	 */
 	public function get_option_name( $name ) {
 		return $this->get_option_prefix() . $name;
@@ -65,12 +69,11 @@ abstract class LLMS_Abstract_Options_Data {
 	/**
 	 * Set the value of an option
 	 *
-	 * @param    string $name   option name (unprefixed)
-	 * @param    mixed  $value  option value
-	 * @return   bool               true if option value has changed
-	 *                              false if no update or update failed
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @param string $name  Option name (unprefixed).
+	 * @param mixed  $value Option value.
+	 * @return bool Returns `true` if option value has changed and `false` if no update or the update failed.
 	 */
 	public function set_option( $name, $value ) {
 		return update_option( $this->get_option_name( $name ), $value );
