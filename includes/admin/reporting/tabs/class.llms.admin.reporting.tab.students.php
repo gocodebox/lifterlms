@@ -1,28 +1,28 @@
 <?php
 /**
- * Students Tab on Reporting Screen
+ * LLMS_Admin_Reporting_Tab_Students class file
  *
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version 4.20.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Reporting_Tab_Students class
+ * Students Tab on Reporting Screen
  *
  * @since 3.2.0
- * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Students {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -37,7 +37,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function breadcrumbs() {
 
@@ -92,10 +92,10 @@ class LLMS_Admin_Reporting_Tab_Students {
 	/**
 	 * Output HTML for the current view within the students tab
 	 *
-	 * @return   void
-	 * @since    3.2.0
-	 * @since    [version] Added a report permission check and a user existence check.
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 * @since 4.20.0 Added a report permission check and a user existence check.
+	 *
+	 * @return void
 	 */
 	public function output() {
 

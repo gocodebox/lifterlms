@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.19.0\n"
+"Project-Id-Version: LifterLMS 4.20.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-11T10:57:21-07:00\n"
+"POT-Creation-Date: 2021-03-16T13:33:51-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -1767,7 +1767,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
 #: includes/admin/reporting/class.llms.admin.reporting.php:291
 #: includes/admin/reporting/tables/llms.table.courses.php:181
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:118
 #: includes/admin/settings/class.llms.settings.courses.php:32
 #: includes/class.llms.post-types.php:359
 #: includes/integrations/class.llms.integration.buddypress.php:69
@@ -1789,7 +1789,7 @@ msgstr ""
 #: includes/admin/reporting/class.llms.admin.reporting.php:292
 #: includes/admin/reporting/tables/llms.table.memberships.php:189
 #: includes/admin/reporting/tables/llms.table.students.php:651
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:109
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:119
 #: includes/admin/settings/class.llms.settings.memberships.php:32
 #: includes/admin/views/access-plans/access-plan.php:276
 #: includes/class.llms.post-types.php:553
@@ -5343,7 +5343,7 @@ msgid "Completions"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:643
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:111
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:121
 #: includes/class.llms.post-types.php:762
 #: includes/integrations/class.llms.integration.buddypress.php:117
 #: includes/privacy/class-llms-privacy-exporters.php:85
@@ -5351,7 +5351,7 @@ msgid "Certificates"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:647
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:110
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:120
 #: includes/class.llms.post-types.php:723
 #: includes/integrations/class.llms.integration.buddypress.php:106
 #: includes/privacy/class-llms-privacy-exporters.php:44
@@ -5500,6 +5500,14 @@ msgid "All Courses"
 msgstr ""
 
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:107
+msgid "You do not have permission to access this student's reports"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:111
+msgid "This student doesn't exist."
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:117
 msgid "Information"
 msgstr ""
 

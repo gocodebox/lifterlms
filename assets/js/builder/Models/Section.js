@@ -2,7 +2,7 @@
  * Section Model
  *
  * @since 3.16.0
- * @version [version]
+ * @version 4.20.0
  */
 define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -149,7 +149,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 * Get a sibling section
 		 *
 		 * @since 3.16.11
-		 * @since [version] Fix case when the last section was returned when looking for the prev of the first section and not `circular`.
+		 * @since 4.20.0 Fix case when the last section was returned when looking for the prev of the first section and not `circular`.
 		 *
 		 * @param {String}  direction Siblings direction [next|prev].
 		 * @param {Boolean} circular  If true handles the collection in a circle.

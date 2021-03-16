@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v4.20.0 - 2021-03-16
+--------------------
+
+##### Bugfixes
+
++ Fixed an issue causing a fatal error when attempting to access reports for deleted students. Thanks Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed an issue encountered on the builder causing the last section to be returned when retrieving the previous section for the first section.
+
+
 v4.19.0 - 2021-03-11
 --------------------
 
