@@ -1,19 +1,21 @@
 <?php
 /**
  * Tests for the LLMS_Abstract_Integration class
- * @group    abstracts
- * @group    options
- * @group    settings
- * @since    3.19.0
- * @version  3.19.0
+ *
+ * @group abstracts
+ * @group options
+ * @group settings
+ *
+ * @since 3.19.0
  */
 class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Retrieve the abstract class mock stub
-	 * @return   obj
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return obj
 	 */
 	private function get_stub() {
 
@@ -23,9 +25,10 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * test get_option() method
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_get_option() {
 
@@ -44,9 +47,10 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * test get_option_name() method
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_get_option_name() {
 
@@ -66,9 +70,10 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * test set_option() method
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_set_option() {
 
