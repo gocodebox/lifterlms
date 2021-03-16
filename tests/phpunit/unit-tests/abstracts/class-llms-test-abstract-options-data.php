@@ -2,6 +2,8 @@
 /**
  * Tests for the LLMS_Abstract_Integration class
  *
+ * @package LifterLMS/Tests/Abstracts
+ *
  * @group abstracts
  * @group options
  * @group settings
@@ -34,9 +36,13 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 		$stub = $this->get_stub();
 
-		// default value
+		// Default value.
 		$this->assertEquals( '', $stub->get_option( 'mock_option' ) );
 		$this->assertEquals( 'mockvalue', $stub->get_option( 'mock_option', 'mockvalue' ) );
+
+		// This is a bug?
+		update_option( 'llms_mock_option', '' );
+		$this->assertEquals( '', $stub->get_option( 'mock_option', 'mockvalue' ) );
 
 		update_option( 'llms_mock_option', 'mockvalue' );
 
