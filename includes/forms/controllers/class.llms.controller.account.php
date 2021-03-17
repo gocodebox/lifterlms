@@ -295,8 +295,17 @@ class LLMS_Controller_Account {
 			return $user;
 		}
 
-		// Reset the password.
-		reset_password( $user, llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING ) );
+		/**
+		 * Reset the password.
+		 *
+		 * We're doing this identically to how the WP Core does as of the writing of this comment.
+		 *
+		 * I feel like it should be sanitized but when slashes are used in a password any amount of sanitization
+		 * causes the reset to save but then, later, when trying to login users can't.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1567
+		 */
+		reset_password( $user, $_POST['password'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.
