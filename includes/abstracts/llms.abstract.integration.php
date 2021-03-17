@@ -250,8 +250,7 @@ g	 */
 			if ( ! empty( $setting['id'] ) && $full_option_name === $setting['id'] ) {
 				$default_value = isset( $setting['default'] ) ? $setting['default'] : $default_value;
 				break;
- 			}
-
+			}
 		}
 
 		return $default_value;

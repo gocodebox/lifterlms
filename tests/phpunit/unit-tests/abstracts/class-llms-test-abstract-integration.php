@@ -158,6 +158,9 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 		$this->assertEquals( 'no', $stub->get_option_default_value( '', $stub->get_option_name( 'enabled' ), false ) );
 		$this->assertEquals( 'no', $stub->get_option_default_value( 'yes', $stub->get_option_name( 'enabled' ), false ) );
 
+		// Default value explicitly passed.
+		$this->assertEquals( 'yes', $stub->get_option_default_value( 'yes', $stub->get_option_name( 'enabled' ), true ) );
+
 	}
 
 
