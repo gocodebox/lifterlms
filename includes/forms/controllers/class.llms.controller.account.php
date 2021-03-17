@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 3.37.17
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
