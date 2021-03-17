@@ -168,25 +168,23 @@ g	 */
 	 */
 	protected function get_settings() {
 
-		$settings = array(
-			array(
-				'type'  => 'sectionstart',
-				'id'    => 'llms_integration_' . $this->id . '_start',
-				'class' => 'top',
-			);
-			array(
-				'desc'  => $this->description,
-				'id'    => 'llms_integration_' . $this->id . '_title',
-				'title' => $this->title,
-				'type'  => 'title',
-			);
-			array(
-				'desc'    => __( 'Check to enable this integration.', 'lifterlms' ),
-				'default' => 'no',
-				'id'      => $this->get_option_name( 'enabled' ),
-				'type'    => 'checkbox',
-				'title'   => __( 'Enable / Disable', 'lifterlms' ),
-			),
+		$settings   = array();
+		$settings[] = array(
+			'type' => 'sectionstart',
+			'id'   => 'llms_integration_' . $this->id . '_start',
+		);
+		$settings[] = array(
+			'desc'  => $this->description,
+			'id'    => 'llms_integration_' . $this->id . '_title',
+			'title' => $this->title,
+			'type'  => 'title',
+		);
+		$settings[] = array(
+			'desc'    => __( 'Check to enable this integration.', 'lifterlms' ),
+			'default' => 'no',
+			'id'      => $this->get_option_name( 'enabled' ),
+			'type'    => 'checkbox',
+			'title'   => __( 'Enable / Disable', 'lifterlms' ),
 		);
 
 		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
@@ -196,6 +194,7 @@ g	 */
 				'value' => '<em>' . $this->description_missing . '</em>',
 			);
 		}
+
 		$settings   = array_merge( $settings, $this->get_integration_settings() );
 		$settings[] = array(
 			'type' => 'sectionend',
