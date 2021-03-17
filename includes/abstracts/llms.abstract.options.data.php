@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.17.8
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -57,7 +57,6 @@ abstract class LLMS_Abstract_Options_Data {
 			$default = 1 === func_num_args() ? '' : $default;
 			return $this->get_option_deprecated( $full_name, $default );
 		}
-
 
 		add_filter( "default_option_{$full_name}", array( $this, 'get_option_default_value' ), 10, 3 );
 

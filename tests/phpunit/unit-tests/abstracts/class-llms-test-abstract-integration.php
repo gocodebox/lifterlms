@@ -15,19 +15,60 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	 * Retrieve the abstract class mock stub
 	 *
 	 * @since 3.19.0
+	 * @since [version] Use an anonymous class in favor of a mock abstract.
 	 *
 	 * @return LLMS_Abstract_Integration
 	 */
 	private function get_stub() {
 
-		$stub = $this->getMockForAbstractClass( 'LLMS_Abstract_Integration' );
+		return new class() extends LLMS_Abstract_Integration {
 
-		// Setup variables that would be configured by abstract configure method.
-		$stub->title = 'Mock Integration';
-		$stub->id = 'mocker';
-		$stub->description = 'this is a mock description of the integration';
+			protected function configure() {
+				$this->id          = 'mocker';
+				$this->title       = 'Mock Integration';
+				$this->description = 'this is a mock description of the integration';
+				do_action( 'llms_tests_mock_integration_configured' );
+			}
 
-		return $stub;
+			public $__is_installed = true;
+			public function is_installed() {
+				return $this->__is_installed;
+			}
+
+		};
+
+	}
+
+	/**
+	 * Test the constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_constructor() {
+
+		$stub = $this->get_stub();
+
+		$configure_action = did_action( 'llms_tests_mock_integration_configured' );
+		$init_action      = did_action( 'llms_integration_mocker_init' );
+
+		remove_filter( 'lifterlms_integrations_settings_mocker', array( $stub, 'add_settings' ), 20 );
+
+		LLMS_Unit_Test_Util::set_private_property( $stub, 'plugin_basename', 'mockerpluginbasename' );
+
+		$stub->__construct();
+
+		// Actions ran.
+		$this->assertEquals( ++$configure_action, did_action( 'llms_tests_mock_integration_configured' ) );
+		$this->assertEquals( ++$init_action, did_action( 'llms_integration_mocker_init' ) );
+
+		// Filter added.
+		$this->assertEquals( 20, has_filter( 'lifterlms_integrations_settings_mocker', array( $stub, 'add_settings' ) ) );
+
+		// Plugin actions link added.
+		$this->assertEquals( 100, has_action( 'plugin_action_links_mockerpluginbasename', array( $stub, 'plugin_action_links' ) ) );
+
 
 	}
 
@@ -50,6 +91,76 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 
 		// Mimic other settings from other integrations.
 		$this->assertEquals( 10, count( $stub->add_settings( array( 1, 2, 3, 4, 5, 6 ) ) ) );
+
+	}
+
+	/**
+	 * Test the get_priority() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_priority() {
+
+		$stub = $this->get_stub();
+
+		// Default.
+		$this->assertEquals( 20, $stub->get_priority() );
+
+		// Redefined.
+		LLMS_Unit_Test_Util::set_private_property( $stub, 'priority', 50 );
+		$this->assertEquals( 50, $stub->get_priority() );
+
+	}
+
+	/**
+	 * Test get_settings()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_settings() {
+
+		$stub = $this->get_stub();
+
+		$settings = LLMS_Unit_Test_Util::call_method( $stub, 'get_settings' );
+
+		$expected = array(
+			'llms_integration_mocker_start',
+			'llms_integration_mocker_title',
+			'llms_integration_mocker_enabled',
+			'llms_integration_mocker_end',
+		);
+		$this->assertEquals( $expected, wp_list_pluck( $settings, 'id' ) );
+
+	}
+
+	/**
+	 * Test get_settings() when missing requirements.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_settings_not_installed() {
+
+		$stub = $this->get_stub();
+		$stub->__is_installed = false;
+
+		LLMS_Unit_Test_Util::set_private_property( $stub, 'description_missing', 'Missing requirements' );
+
+		$settings = LLMS_Unit_Test_Util::call_method( $stub, 'get_settings' );
+
+		$expected = array(
+			'llms_integration_mocker_start',
+			'llms_integration_mocker_title',
+			'llms_integration_mocker_enabled',
+			'llms_integration_mocker_missing_requirements_desc',
+			'llms_integration_mocker_end',
+		);
+		$this->assertEquals( $expected, wp_list_pluck( $settings, 'id' ) );
 
 	}
 

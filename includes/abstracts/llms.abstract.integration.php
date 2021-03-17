@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.37.9
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,7 +161,8 @@ g	 */
 	 * Retrieve an array of integration related settings
 	 *
 	 * @since 3.8.0
-	 * @since 3.21.1 Unknown.
+	 * @since 3.21.1 Automatically output the `$description_missing` message when requirements are not met.
+	 * @since [version] Add an 'id' to the missing description HTML setting.
 	 *
 	 * @return array
 	 */
@@ -187,6 +188,7 @@ g	 */
 		);
 		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
 			$settings[] = array(
+				'id'    => 'llms_integration_' . $this->id . '_missing_requirements_desc',
 				'type'  => 'custom-html',
 				'value' => '<em>' . $this->description_missing . '</em>',
 			);
@@ -197,7 +199,17 @@ g	 */
 			'id'   => 'llms_integration_' . $this->id . '_end',
 		);
 
-		return apply_filters( 'llms_integration_' . $this->id . '_get_settings', $settings, $this );
+		/**
+		 * Filters the integration's settings
+		 *
+		 * The dynamic portion of this hook, `{$this->id}`, refers to the integration's ID.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array[] $settings Array of settings arrays.
+		 * @param object  $instance Class instance of the class extending the `LLMS_Abstract_Integration` abstract.
+		 */
+		return apply_filters( "llms_integration_{$this->id}_get_settings", $settings, $this );
 	}
 
 	/**
