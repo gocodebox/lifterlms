@@ -116,4 +116,21 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test plugin_action_links()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_plugin_action_links() {
+
+		$mock_links    = array( '<a href="#">FAKE</a>' );
+		$expected_link = array( '<a href="http://example.org/wp-admin/admin.php?page=llms-settings&#038;tab=integrations&#038;section=mocker">Settings</a>' );
+		$stub          = $this->get_stub();
+
+		$this->assertEquals( array_merge( $mock_links, $expected_link ), $stub->plugin_action_links( $mock_links, 'mock', array(), 'all' ) );
+
+	}
+
 }

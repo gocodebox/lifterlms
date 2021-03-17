@@ -61,8 +61,8 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 *
 	 * In the `configure()` method call `plugin_basename()` on the main plugin file.
 	 *
-	 * @var string
-	 */
+	 * @var strin
+g	 */
 	protected $plugin_basename = '';
 
 	/**
@@ -254,30 +254,26 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Add plugin settings Action Links
 	 *
 	 * @since 3.37.9
+	 * @since [version] Don't check `$context`. If the plugin isn't active this won't run anyway so it's a useless check.
 	 *
-	 * @param string[] $links Existing action links.
-	 * @param string   $file Path to the plugin file, relative to the plugin directory.
-	 * @param array    $data Plugin data
-	 * @param string   $context Plugin's content (eg: active, invactive, etc...);
+	 * @param string[] $links   Existing action links.
+	 * @param string   $file    Path to the plugin file, relative to the plugin directory.
+	 * @param array    $data    Plugin data.
+	 * @param string   $context Plugin's content (eg: active, invactive, etc...).
 	 * @return string[]
 	 */
 	public function plugin_action_links( $links, $file, $data, $context ) {
 
-		// Only add links if the plugin is active.
-		if ( in_array( $context, array( 'all', 'active' ), true ) ) {
+		$url = add_query_arg(
+			array(
+				'page'    => 'llms-settings',
+				'tab'     => 'integrations',
+				'section' => $this->id,
+			),
+			admin_url( 'admin.php' )
+		);
 
-			$url = add_query_arg(
-				array(
-					'page'    => 'llms-settings',
-					'tab'     => 'integrations',
-					'section' => $this->id,
-				),
-				admin_url( 'admin.php' )
-			);
-
-			$links[] = '<a href="' . esc_url( $url ) . '">' . _x( 'Settings', 'Link text for integration plugin settings', 'lifterlms' ) . '</a>';
-
-		}
+		$links[] = '<a href="' . esc_url( $url ) . '">' . _x( 'Settings', 'Link text for integration plugin settings', 'lifterlms' ) . '</a>';
 
 		return $links;
 
