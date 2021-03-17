@@ -25,7 +25,7 @@ abstract class LLMS_Abstract_Options_Data {
 	protected $option_prefix = 'llms_';
 
 	/**
-	 * Class version
+	 * Options data abstract version
 	 *
 	 * This is used to determine the behavior of the `get_option()` method.
 	 *
@@ -62,6 +62,7 @@ abstract class LLMS_Abstract_Options_Data {
 		// Call this way so that the `$passed_default_value` of the filter is accurate based on the number of arguments actually passed.
 		$args = func_num_args() > 1 ? array( $full_name, $default ) : array( $full_name );
 		$val  = get_option( ...$args );
+
 		remove_filter( "default_option_{$full_name}", array( $this, 'get_option_default_value' ), 10, 3 );
 
 		return $val;
