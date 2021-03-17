@@ -95,6 +95,71 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the get_option() method v1 behavior
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_option_v1() {
+
+		$stub = $this->get_stub();
+		$this->assertEquals( '', $stub->get_option( 'enabled' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'yes' ) );
+		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'no' ) );
+		$this->assertEquals( 'fake', $stub->get_option( 'enabled', 'fake' ) );
+
+		$stub->set_option( 'enabled', 'yes' );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'yes' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'no' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'fake' ) );
+
+	}
+
+	/**
+	 * Test the get_option() method v2 behavior
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_option_v2() {
+
+		$stub = $this->get_stub();
+		LLMS_Unit_Test_Util::set_private_property( $stub, 'version', 2 );
+
+		$this->assertEquals( 'no', $stub->get_option( 'enabled' ) );
+		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'yes' ) );
+		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'no' ) );
+		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'fake' ) );
+
+		$stub->set_option( 'enabled', 'yes' );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'yes' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'no' ) );
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'fake' ) );
+
+	}
+
+	/**
+	 * Directly test the get_option_default_value() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_option_default_value() {
+
+		$stub = $this->get_stub();
+
+		$this->assertEquals( 'no', $stub->get_option_default_value( '', $stub->get_option_name( 'enabled' ), false ) );
+		$this->assertEquals( 'no', $stub->get_option_default_value( 'yes', $stub->get_option_name( 'enabled' ), false ) );
+
+	}
+
+
+	/**
 	 * Test the get_priority() method
 	 *
 	 * @since [version]

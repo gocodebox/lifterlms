@@ -224,6 +224,36 @@ g	 */
 	}
 
 	/**
+	 * Autoload default option values from values defined in the integration settings array
+	 *
+	 * This will only run when extending integration classes define a version property greater than 1.
+	 *
+	 * This is a callback function for the WP core filter `default_option_{$option}`.
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed  $default_value        The default value. If no value is passed to `get_option()`, this will be an empty string.
+	 *                                     Otherwise it will be the default value passed to the method.
+	 * @param string $full_option_name     The full (prefixed) option name.
+	 * @param bool   $passed_default_value Whether or not a default value was passed to `get_option()`.
+	 * @return mixed The default option value.
+	 */
+	public function get_option_default_value( $default_value, $full_option_name, $passed_default_value ) {
+
+		foreach ( $this->get_settings() as $setting ) {
+
+			if ( ! empty( $setting['id'] ) && $full_option_name === $setting['id'] ) {
+				$default_value = isset( $setting['default'] ) ? $setting['default'] : $default_value;
+				break;
+ 			}
+
+		}
+
+		return $default_value;
+
+	}
+
+	/**
 	 * Determine if the integration is enabled via the checkbox on the admin panel
 	 * and the necessary plugin (if any) is installed and activated
 	 *

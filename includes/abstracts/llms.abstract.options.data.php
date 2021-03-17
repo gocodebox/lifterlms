@@ -36,7 +36,6 @@ abstract class LLMS_Abstract_Options_Data {
 	 */
 	protected $version = 1;
 
-
 	/**
 	 * Retrieve the value of an option from the database
 	 *
@@ -96,6 +95,8 @@ abstract class LLMS_Abstract_Options_Data {
 	 *
 	 * By default, this method does nothing but extending classes can implement an autoloader to pull
 	 * default values from other sources.
+	 *
+	 * This is a callback function for the WP core filter `default_option_{$option}`.
 	 *
 	 * @since [version]
 	 *
