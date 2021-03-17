@@ -130,9 +130,11 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 		LLMS_Unit_Test_Util::set_private_property( $stub, 'version', 2 );
 
 		$this->assertEquals( 'no', $stub->get_option( 'enabled' ) );
-		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'yes' ) );
+
+		// Don't autoload the default value when a default value is passed.
+		$this->assertEquals( 'yes', $stub->get_option( 'enabled', 'yes' ) );
 		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'no' ) );
-		$this->assertEquals( 'no', $stub->get_option( 'enabled', 'fake' ) );
+		$this->assertEquals( 'fake', $stub->get_option( 'enabled', 'fake' ) );
 
 		$stub->set_option( 'enabled', 'yes' );
 		$this->assertEquals( 'yes', $stub->get_option( 'enabled' ) );

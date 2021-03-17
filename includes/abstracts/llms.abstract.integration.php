@@ -240,6 +240,11 @@ g	 */
 	 */
 	public function get_option_default_value( $default_value, $full_option_name, $passed_default_value ) {
 
+		// If a default value is explicitly passed, use it.
+		if ( $passed_default_value ) {
+			return $default_value;
+		}
+
 		foreach ( $this->get_settings() as $setting ) {
 
 			if ( ! empty( $setting['id'] ) && $full_option_name === $setting['id'] ) {
