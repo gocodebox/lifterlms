@@ -63,7 +63,7 @@ abstract class LLMS_Abstract_Options_Data {
 
 		// Call this way so that the `$passed_default_value` of the filter is accurate based on the number of arguments actually passed.
 		$args = func_num_args() > 1 ? array( $full_name, $default ) : array( $full_name );
-		$val  = call_user_func_array( 'get_option', $args );
+		$val  = get_option( ...$args );
 		remove_filter( "default_option_{$full_name}", array( $this, 'get_option_default_value' ), 10, 3 );
 
 		return $val;
