@@ -49,14 +49,15 @@ abstract class LLMS_Abstract_Options_Data {
 	 */
 	public function get_option( $name, $default = false ) {
 
+		$full_name = $this->get_option_name( $name );
+
 		// If the class is version 1, use the old method.
 		if ( 1 === $this->version ) {
 			// If only one argument is passed switch the default to the old argument default (an empty string).
 			$default = 1 === func_num_args() ? '' : $default;
-			return $this->get_option_deprecated( $name, $default );
+			return $this->get_option_deprecated( $full_name, $default );
 		}
 
-		$full_name = $this->get_option_name( $name );
 
 		add_filter( "default_option_{$full_name}", array( $this, 'get_option_default_value' ), 10, 3 );
 
@@ -79,12 +80,12 @@ abstract class LLMS_Abstract_Options_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param [type] $name [description]
-	 * @param string $default [description]
-	 * @return [type] [description]
+	 * @param string $name     Full (prefixed) option name.
+	 * @param mixed  $default  Default value to use if no option is found.
+	 * @return mixed The option value.
 	 */
 	private function get_option_deprecated( $name, $default = '' ) {
-		$val = get_option( $this->get_option_name( $name ), '' );
+		$val = get_option( $name, '' );
 		if ( '' === $val ) {
 			return $default;
 		}
