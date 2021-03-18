@@ -623,7 +623,6 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
-
 	/**
 	 * Test account update form submission handler
 	 *
