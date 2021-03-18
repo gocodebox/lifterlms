@@ -20,7 +20,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Integration ID
 	 *
-	 * Defined by extending class as a variable
+	 * Defined by extending class as a variable.
 	 *
 	 * @var string
 	 */
@@ -61,8 +61,8 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 *
 	 * In the `configure()` method call `plugin_basename()` on the main plugin file.
 	 *
-	 * @var strin
-g	 */
+	 * @var string
+	 */
 	protected $plugin_basename = '';
 
 	/**
