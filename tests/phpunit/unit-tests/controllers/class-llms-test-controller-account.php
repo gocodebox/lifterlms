@@ -605,7 +605,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			$this->assertTrue( $this->main->reset_password() );
 
 			$user = get_user_by( 'id', $user->ID );
-			$this->assertTrue( wp_check_password( $pass, $user->user_pass ) );
+			// When the password is posted by a user later WP will automatically add slashes because of `wp_magic_quotes()`.
+			$this->assertTrue( wp_check_password( addslashes( $pass ), $user->user_pass ), $pass );
 
 			$this->assertHasNotices( 'success' );
 			$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
@@ -613,7 +614,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			// User should be able to login too.
 			$login = LLMS_Person_Handler::login( array(
 				'llms_login'    => $user->user_email,
-				'llms_password' => $pass,
+				'llms_password' => addslashes( $pass ),
 			) );
 
 			$this->assertEquals( $user->ID, $login );
