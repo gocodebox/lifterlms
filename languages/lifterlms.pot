@@ -2,22 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-<<<<<<< HEAD
 "Project-Id-Version: LifterLMS 5.0.0-alpha.1\n"
-=======
-"Project-Id-Version: LifterLMS 4.18.0\n"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2021-02-25T13:01:06-07:00\n"
-=======
-"POT-Creation-Date: 2021-03-04T09:28:46-07:00\n"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
+"POT-Creation-Date: 2021-03-18T13:54:12-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -509,7 +501,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
 #: includes/admin/reporting/class.llms.admin.reporting.php:291
 #: includes/admin/reporting/tables/llms.table.courses.php:181
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:118
 #: includes/admin/settings/class.llms.settings.courses.php:32
 #: includes/class.llms.post-types.php:359
 #: includes/integrations/class.llms.integration.buddypress.php:69
@@ -526,7 +518,7 @@ msgstr ""
 #: includes/admin/reporting/class.llms.admin.reporting.php:292
 #: includes/admin/reporting/tables/llms.table.memberships.php:189
 #: includes/admin/reporting/tables/llms.table.students.php:651
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:109
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:119
 #: includes/admin/settings/class.llms.settings.memberships.php:32
 #: includes/admin/views/access-plans/access-plan.php:276
 #: includes/class.llms.post-types.php:553
@@ -2937,7 +2929,7 @@ msgid "Completions"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:643
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:111
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:121
 #: includes/class.llms.post-types.php:762
 #: includes/integrations/class.llms.integration.buddypress.php:117
 #: includes/privacy/class-llms-privacy-exporters.php:85
@@ -2945,7 +2937,7 @@ msgid "Certificates"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:647
-#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:110
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:120
 #: includes/class.llms.post-types.php:723
 #: includes/integrations/class.llms.integration.buddypress.php:106
 #: includes/privacy/class-llms-privacy-exporters.php:44
@@ -3094,6 +3086,14 @@ msgid "All Courses"
 msgstr ""
 
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:107
+msgid "You do not have permission to access this student's reports"
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:111
+msgid "This student doesn't exist."
+msgstr ""
+
+#: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:117
 msgid "Information"
 msgstr ""
 
@@ -5154,7 +5154,7 @@ msgid "Handles new user registration and existing user information updates for o
 msgstr ""
 
 #: includes/class-llms-forms.php:625
-#: templates/global/form-registration.php:81
+#: templates/global/form-registration.php:77
 msgid "Register"
 msgstr ""
 
@@ -5941,7 +5941,7 @@ msgid "Username or Email Address"
 msgstr ""
 
 #: includes/class.llms.person.handler.php:176
-#: templates/global/form-login.php:52
+#: templates/global/form-login.php:34
 msgid "Login"
 msgstr ""
 
@@ -8300,12 +8300,12 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:754
+#: includes/models/model.llms.student.php:757
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:857
+#: includes/models/model.llms.student.php:860
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -23449,7 +23449,6 @@ msgstr ""
 msgid "Bosilovo Municipality"
 msgstr ""
 
-<<<<<<< HEAD
 #: languages/states.php:3205
 msgid "Brvenica Municipality"
 msgstr ""
@@ -23492,60 +23491,6 @@ msgstr ""
 
 #: languages/states.php:3217
 msgid "Ménaka Region"
-=======
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:69
-msgid "Cannot manage enrollment status for anonymized orders."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:82
-msgid "The student who placed the order doesn't exist anymore."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:89
-msgid "Select"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:97
-msgctxt "enrollment status"
-msgid "Status: %s"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:101
-msgctxt "enrollment trigger"
-msgid "Enrolled: %s"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:104
-msgctxt "enrollment trigger"
-msgid "Updated: %s"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:107
-msgctxt "enrollment trigger"
-msgid "Trigger: %s"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:112
-msgid "Update Status"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:114
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:120
-msgid "Delete Enrollment"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:164
-msgid "Student enrollment records have been deleted."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:199
-msgid "Student enrollment status changed to %s."
-msgstr ""
-
-#. Translators: %1$s = old enrollment status; %2$s = new enrollment status.
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.enrollment.php:204
-msgid "Student enrollment status changed from %1$s to %2$s"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
 msgstr ""
 
 #: languages/states.php:3218
@@ -23740,7 +23685,6 @@ msgstr ""
 msgid "Dakhlet Nouadhibou"
 msgstr ""
 
-<<<<<<< HEAD
 #: languages/states.php:3275
 msgid "Gorgol Region"
 msgstr ""
@@ -23791,78 +23735,6 @@ msgstr ""
 
 #: languages/states.php:3290
 msgid "Għaxaq"
-=======
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:57
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:58
-#: includes/class.llms.l10n.js.php:153
-#: includes/class.llms.l10n.js.php:317
-#: includes/class.llms.l10n.js.php:358
-#: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:49
-#: templates/admin/post-types/order-transactions.php:26
-#: templates/myaccount/my-orders.php:24
-#: templates/myaccount/my-orders.php:37
-#: templates/myaccount/view-order-transactions.php:22
-msgid "Date"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
-#: includes/class.llms.post-types.php:639
-#: templates/myaccount/my-orders.php:23
-#: templates/myaccount/my-orders.php:33
-msgid "Order"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:53
-msgid "Payment Status"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:54
-msgid "Access Status"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
-#: includes/privacy/class-llms-privacy.php:104
-#: templates/myaccount/view-order.php:49
-msgid "Product"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:56
-msgid "Revenue"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:57
-msgid "Order Type"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:83
-msgctxt "order number display"
-msgid "#%d"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:86
-msgid "by"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:112
-msgctxt "access plan expiration"
-msgid "Expired:"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:114
-msgctxt "access plan expiration"
-msgid "Expires:"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:147
-#: includes/models/model.llms.transaction.php:350
-msgid "Recurring"
-msgstr ""
-
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:149
-#: templates/admin/post-types/order-details.php:166
-#: templates/myaccount/view-order.php:121
-msgid "One-time"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
 msgstr ""
 
 #: languages/states.php:3291
@@ -30349,23 +30221,12 @@ msgstr ""
 msgid "Missouri"
 msgstr ""
 
-<<<<<<< HEAD
 #: languages/states.php:5090
 msgid "Montana"
 msgstr ""
 
 #: languages/states.php:5091
 msgid "Nebraska"
-=======
-#: includes/models/model.llms.student.php:757
-msgctxt "Grade to display when no quizzes taken or available"
-msgid "N/A"
-msgstr ""
-
-#: includes/models/model.llms.student.php:860
-msgctxt "overall grade when no quizzes"
-msgid "N/A"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
 msgstr ""
 
 #: languages/states.php:5092
@@ -30656,15 +30517,8 @@ msgstr ""
 msgid "Lara"
 msgstr ""
 
-<<<<<<< HEAD
 #: languages/states.php:5181
 msgid "Miranda"
-=======
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:100
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:100
-#: templates/admin/post-types/order-details.php:37
-msgid "Order #%s"
->>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
 msgstr ""
 
 #: languages/states.php:5182

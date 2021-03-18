@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.2
+Requires at least: 5.3
 Tested up to: 5.7
-Requires PHP: 7.2
-Stable tag: 4.18.0
+Requires PHP: 7.3
+Stable tag: 4.20.0
 
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
@@ -519,7 +519,30 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+= v4.20.0 - 2021-03-16 =
+
+##### Bugfixes
+
++ Fixed an issue causing a fatal error when attempting to access reports for deleted students. Thanks Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed an issue encountered on the builder causing the last section to be returned when retrieving the previous section for the first section.
+
+
+= v4.19.0 - 2021-03-11 =
+
+##### Supported Version Requirement Updates
+
++ **The minimum supported PHP version has been raised to PHP 7.3. Please upgrade to a [supported PHP version](https://www.php.net/supported-versions).**
++ **The minimum supported WordPress core version has been raised to version 5.3.**
+
+##### Bug fixes
+
++ Fixed an issue causing TinyMCE editor instances to be unusable within metaboxes when using the block editor.
+
+
+>>>>>>> bd810e59f564b129ce7af3801db59c1f0a8a457b
 = v4.18.0 - 2021-03-04 =
 
 **This is the last release of LifterLMS that will declare support for PHP 7.2. PHP 7.2 reached its official [end of life](https://www.php.net/eol.php) on November 30, 2020. With the next release of LifterLMS the minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
@@ -753,6 +776,7 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + templates/course/author.php
 
 
+<<<<<<< HEAD
 = v4.10.2 - 2021-01-04 =
 
 ##### Updates
@@ -874,4 +898,6 @@ The following have been deprecated and will be removed from LifterLMS in a major
 >>>>>>> 11fee876cb6b7535631139340cf255d4c0d30dc1
 =======
 >>>>>>> d0098775e5ed9c251913bef51e43484bb677bda1
+=======
+>>>>>>> bd810e59f564b129ce7af3801db59c1f0a8a457b
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
