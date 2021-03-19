@@ -150,7 +150,7 @@ class LLMS_Form_Post_Type {
 	 */
 	private function get_permalink_for_registration() {
 
-		if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
+		if ( llms_parse_bool( llms_get_open_registration_status() ) ) {
 			return LLMS_View_Manager::get_url( 'visitor', llms_get_page_url( 'myaccount' ) );
 		}
 

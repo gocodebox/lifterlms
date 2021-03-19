@@ -19,8 +19,9 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @since 3.35.0 unslash `$_GET` data.
 	 * @since 3.37.10 Add filter `llms_enable_open_registration`.
 	 * @since [version] During password reset, retrieve reset key and login from cookie instead of query string.
+	 *                Use `llms_get_open_registration_status()`.
 	 *
-	 * @param array $options Optinal. Array of options. Default empty array.
+	 * @param array $options Optional. Array of options. Default empty array.
 	 * @return void
 	 */
 	function lifterlms_student_dashboard( $options = array() ) {
@@ -111,15 +112,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 					apply_filters( 'llms_student_dashboard_login_redirect', $options['login_redirect'] )
 				);
 
-				/**
-				 * Determine if Open Registration is enabled
-				 *
-				 * @since 3.37.10
-				 *
-				 * @param string $enabled Whether or not open registration is enabled. Accepts "yes" for enabled and "no" for disabled.
-				 */
-				$open_reg = apply_filters( 'llms_enable_open_registration', get_option( 'lifterlms_enable_myaccount_registration' ) );
-				if ( llms_parse_bool( $open_reg ) ) {
+				if ( llms_parse_bool( llms_get_open_registration_status() ) ) {
 
 					llms_get_template( 'global/form-registration.php' );
 
