@@ -133,7 +133,7 @@ class LLMS_Form_Post_Type {
 		);
 		if ( $plans->have_posts() ) {
 			$args = array(
-				'plan' => $plans->posts[0]->ID
+				'plan' => $plans->posts[0]->ID,
 			);
 		}
 

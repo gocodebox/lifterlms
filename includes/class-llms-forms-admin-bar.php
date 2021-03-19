@@ -55,12 +55,14 @@ class LLMS_Forms_Admin_Bar {
 		}
 		$form = llms_get_form( ...$args );
 
-		$wp_admin_bar->add_node( array(
-			'id'     => 'llms-edit-form',
-			'parent' => 'edit',
-			'title'  => __( 'Edit Form', 'lifterlms' ),
-			'href'   => get_edit_post_link( $form->ID ),
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => 'llms-edit-form',
+				'parent' => 'edit',
+				'title'  => __( 'Edit Form', 'lifterlms' ),
+				'href'   => get_edit_post_link( $form->ID ),
+			)
+		);
 
 	}
 
@@ -92,7 +94,6 @@ class LLMS_Forms_Admin_Bar {
 				return 'registration';
 
 			}
-
 		}
 
 		return false;
