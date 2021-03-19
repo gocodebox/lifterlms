@@ -769,6 +769,28 @@ function llms_get_ip_address() {
 }
 
 /**
+ * Retrieves and filters the value open registration option
+ *
+ * @since [version]
+ *
+ * @return string The value of the open registration status. Either "yes" for enabled or "no" for disabled.
+ */
+function llms_get_open_registration_status() {
+
+	$status = get_option( 'lifterlms_enable_myaccount_registration', 'no' );
+
+	/**
+	 * Filter the value of the open registration setting
+	 *
+	 * @since 3.37.10
+	 *
+	 * @param string $status The current value of the open registration option. Either "yes" for enabled or "no" for disabled.
+	 */
+	return apply_filters( 'llms_enable_open_registration', $status );
+
+}
+
+/**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
  *
  * @since 3.3.0
