@@ -144,6 +144,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-templates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-validator.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms-admin-bar.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms-classic-editor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
