@@ -570,32 +570,57 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Test reset_password(): success
 	 *
 	 * @since 3.37.17
+	 * @since [version] Added more assertions for testing with special character passwords.
 	 *
 	 * @return void
 	 */
 	public function test_reset_password_success() {
 
-		$user = $this->factory->user->create_and_get();
-		$pass = wp_generate_password( 12 );
-
-		// Fake user and key.
-		$post = array(
-			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
-			'password'         => $pass,
-			'password_confirm' => $pass,
-			'llms_reset_key'   => get_password_reset_key( $user ),
-			'llms_reset_login' => $user->user_login,
+		$passwords = array(
+			wp_generate_password( 12 ),
+			wp_generate_password( 32, true, true ),
+			wp_generate_password( 64, true, true ),
+			'123456arst!',
+			'\slashy \ passwordy',
+			'<such>()-!=***. special!y320',
 		);
 
-		$this->mockPostRequest( $post );
+		foreach ( $passwords as $pass ) {
 
-		$this->assertTrue( $this->main->reset_password() );
+			wp_set_current_user( null );
 
-		$user = get_user_by( 'id', $user->ID );
-		$this->assertTrue( wp_check_password( $pass, $user->user_pass ) );
+			$user = $this->factory->user->create_and_get();
 
-		$this->assertHasNotices( 'success' );
-		$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
+			// Fake user and key.
+			$post = array(
+				'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+				'password'         => $pass,
+				'password_confirm' => $pass,
+				'llms_reset_key'   => get_password_reset_key( $user ),
+				'llms_reset_login' => $user->user_login,
+			);
+
+			$this->mockPostRequest( $post );
+
+			$this->assertTrue( $this->main->reset_password() );
+
+			$user = get_user_by( 'id', $user->ID );
+			// When the password is posted by a user later WP will automatically add slashes because of `wp_magic_quotes()`.
+			$this->assertTrue( wp_check_password( addslashes( $pass ), $user->user_pass ), $pass );
+
+			$this->assertHasNotices( 'success' );
+			$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
+
+			// User should be able to login too.
+			$login = LLMS_Person_Handler::login( array(
+				'llms_login'    => $user->user_email,
+				'llms_password' => addslashes( $pass ),
+			) );
+
+			$this->assertEquals( $user->ID, $login );
+
+		}
+
 
 	}
 
