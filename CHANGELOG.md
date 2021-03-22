@@ -1,6 +1,22 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-alpha.2 - 2021-03-22
+---------------------------
+
+##### Updates
+
++ Updates LifterLMS Blocks to version 2.0.0-beta.1
++ Adds functionality to force usage of the Block Editor for editing LifterLMS forms
++ Updates localization functionality and methods to have more accurate information.
++ Added a function for determining if open registration is enabled.
++ Added a WP Admin Bar link below the "Edit Page" link to enable editing the form (if a form exists on the page).
+
+##### Bug Fixes
+
++ Fixed an issue encountered when custom HTML fields exist on a form (backwards compatibility for pre 5.x fields API).
+
+
 v5.0.0-alpha.1 - 2021-01-07
 ---------------------------
 
