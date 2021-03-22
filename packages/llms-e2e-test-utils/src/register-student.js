@@ -10,7 +10,7 @@ import { visitPage }     from './visit-page';
  *
  * @since 2.1.2
  * @since 2.2.1 Add `args.voucher` to enable voucher usage during registration.
- * @since [version] Add arguments for address fields.
+ * @since 5.0.0-alpha.2 Add arguments for address fields.
  *
  * @param {String} args.email   Optional. Email address. If not supplied one will be created from the first name and last name.
  * @param {String} args.pass    Optional. User password. If not supplied one will be automatically generated.
