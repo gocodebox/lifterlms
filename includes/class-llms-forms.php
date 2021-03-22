@@ -420,6 +420,8 @@ class LLMS_Forms {
 	 */
 	public function get_form_post( $location, $args = array() ) {
 
+		// @todo Add caching. This runs twice on some page loads.
+
 		/**
 		 * Skip core lookup of the form for the request location and return a custom form post.
 		 *
