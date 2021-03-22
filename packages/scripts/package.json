@@ -24,6 +24,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@jest/test-sequencer": "^26.6.3",
     "@wordpress/scripts": "^12.1.0",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
