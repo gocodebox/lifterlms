@@ -67,7 +67,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	 */
 	public function test_load_processor() {
 
-		$this->assertTrue( $this->main->load_processor( 'table_to_csv' ) );
+		$this->assertTrue( $this->main->load_processor( 'course_data' ) );
 		$this->assertFalse( $this->main->load_processor( 'fake' ) );
 
 	}
