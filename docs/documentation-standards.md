@@ -256,7 +256,7 @@ When present, the `@throws` tag should be added to the end of the docblock below
  *
  * @throws Exception A description of the raised exception.
  */
-
+```
 
 ## DocBlock Examples
 
