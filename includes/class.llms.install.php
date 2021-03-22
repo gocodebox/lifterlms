@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added session cleanup cron.
  *              Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
+ * @since [version] Install forms during installation.
  */
 class LLMS_Install {
 
@@ -622,6 +623,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Install forms.
 	 *
 	 * @return void
 	 */
@@ -648,6 +650,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_files();
 		self::create_difficulties();
 		self::create_visibilities();
+
+		LLMS_Forms::instance()->install();
 
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );

@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,41 +16,43 @@ defined( 'ABSPATH' ) || exit;
  * Load, access, and manage LifterLMS Processors
  *
  * @since 3.15.0
+ * @since [version] Removed private method `includes()`.
+ *              Stop loading removed processor "table_to_csv".
  */
 class LLMS_Processors {
 
 	/**
 	 * Processor classes that should be loaded
-	 * this should match the classname of a processor
 	 *
-	 * @var  array
+	 * This should match the classname of a processor.
+	 *
+	 * @var array
 	 */
 	private $classes = array(
 		'course_data',
 		'membership_bulk_enroll',
-		'table_to_csv',
 	);
 
 	/**
 	 * Array of available processors loaded via $this->load_all()
 	 *
-	 * @var  LLMS_Abstract_Processor[]
+	 * @var LLMS_Abstract_Processor[]
 	 */
 	private $processors = array();
 
 	/**
 	 * Singleton instance of the class
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Main instance
 	 *
-	 * @return   LLMS_Processors
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return LLMS_Processors
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -62,12 +64,13 @@ class LLMS_Processors {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Remove call to removed method `includes()`.
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
-		$this->includes();
 		$this->load_all();
 
 	}
@@ -75,10 +78,10 @@ class LLMS_Processors {
 	/**
 	 * Access a single loaded processor instance
 	 *
-	 * @param    string $name  name of the processor
-	 * @return   LLMS_Abstract_Processor|false instance of the processor if found, otherwise false
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param string $name Name of the processor.
+	 * @return LLMS_Abstract_Processor|false Instance of the processor if found, otherwise false.
 	 */
 	public function get( $name ) {
 
@@ -90,29 +93,25 @@ class LLMS_Processors {
 	}
 
 	/**
-	 * Include classes required by processors
+	 * Load all processors
 	 *
-	 *  @since    3.15.0
+	 * @since 3.15.0
 	 *
 	 * @return void
 	 */
-	private function includes() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-
-	}
-
-	/**
-	 * Load all processors
-	 *
-	 * @since    3.15.0
-	 *
-	 * @return  void
-	 */
 	private function load_all() {
 
-		// allow loading of 3rd party processors
+		/**
+		 * Filter the list of available processors to be loaded
+		 *
+		 * Third parties can use this filter to load custom processors.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_load_processor_path To add a custom load path for the loaded processor.
+		 *
+		 * @param string[] $classes A list of processor class ids/slugs.
+		 */
 		$classes = apply_filters( 'llms_load_processors', $this->classes );
 
 		foreach ( $this->classes as $name ) {
@@ -131,13 +130,27 @@ class LLMS_Processors {
 	/**
 	 * Load a single processor
 	 *
-	 * @param    string $name  name of the processor
-	 * @return   LLMS_Abstract_Processor|false         instance of the processor if found, otherwise false
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @param string $name Name of the processor.
+	 * @return LLMS_Abstract_Processor|boolean Instance of the processor if found and not yet included, `false` if
+	 *                                         the processor can't be found, and `true` if it has already been included.
 	 */
 	public function load_processor( $name ) {
 
+		/**
+		 * Filter the path of a processor class
+		 *
+		 * If the returned path isn't the full path to a PHP file the file will be attempted to be
+		 * loaded from the LifterLMS core's processor directory by replacing underscores with dots
+		 * and prepending `class.llms.processor.` and appending `.php`.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_load_processors For a filter used to register custom processors.
+		 *
+		 * @param string $name Processor classname id/slug.
+		 */
 		$path = apply_filters( 'llms_load_processor_path', $name );
 
 		if ( false === strpos( $path, '.php' ) ) {

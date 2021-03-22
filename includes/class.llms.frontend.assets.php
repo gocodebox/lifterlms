@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,26 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Frontend_Assets {
 
 	/**
+	 * Inline script ids that have been enqueued.
+	 *
+	 * @var  array
+	 */
+	private static $enqueued_inline_scripts = array();
+
+	/**
+	 * Array of inline scripts to be output in the header / footer respectively.
+	 *
+	 * @var  array
+	 */
+	private static $inline_scripts = array(
+		'header' => array(),
+		'footer' => array(),
+	);
+
+	/**
 	 * Initializer
+	 *
+	 * Replaces non-static __construct() from 3.4.0 & lower.
 	 *
 	 * @since 3.4.1
 	 * @since 3.17.5 Unknown.
@@ -68,7 +87,7 @@ class LLMS_Frontend_Assets {
 	public static function enqueue_inline_pw_script() {
 		llms()->assets->enqueue_inline(
 			'llms-pw-strength',
-			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {}; window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; }',
+			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
 			'footer',
 			15
 		);
@@ -81,6 +100,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
+	 * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
 	 *
 	 * @return void
 	 */
@@ -101,6 +121,10 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_style( 'wp-mediaelement' );
 		}
 
+		if ( is_llms_account_page() || is_llms_checkout() ) {
+			llms()->assets->enqueue_style( 'llms-select2-styles' );
+		}
+
 	}
 
 	/**
@@ -114,6 +138,8 @@ class LLMS_Frontend_Assets {
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 *              Add Add `window.llms.ajax_nonce` data to replace `wp_ajax_data.nonce`.
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
+	 * @since [version] Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
+	 *               Remove password strength inline enqueue.
 	 *
 	 * @return void
 	 */
@@ -144,11 +170,6 @@ class LLMS_Frontend_Assets {
 		// I think we only need this on account and checkout pages.
 		llms()->assets->enqueue_script( 'llms-form-checkout' );
 
-		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
-			wp_enqueue_script( 'password-strength-meter' );
-			self::enqueue_inline_pw_script();
-		}
-
 		if ( is_singular( 'llms_quiz' ) ) {
 			llms()->assets->enqueue_script( 'llms-quiz' );
 		}
@@ -159,6 +180,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		self::enqueue_inline_scripts();
+		self::enqueue_locale_scripts();
 
 	}
 
@@ -186,6 +208,27 @@ class LLMS_Frontend_Assets {
 		// Enqueue them.
 		foreach ( $scripts as $handle => $script ) {
 			llms()->assets->enqueue_inline( $handle, $script, 'footer' );
+		}
+
+	}
+
+	/**
+	 * Enqueue dependencies and inline script data for form localization
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected static function enqueue_locale_scripts() {
+
+		if ( is_llms_account_page() || is_llms_checkout() ) {
+			llms()->assets->enqueue_script( 'llms-select2' );
+			llms()->assets->enqueue_inline(
+				'llms-countries-locale',
+				"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';",
+				'footer',
+				20
+			);
 		}
 
 	}
