@@ -70,8 +70,9 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	public function test_llms_get_country_address_info() {
 
 		$this->assertEquals( array(
-			'state' => __( 'State', 'lifterlms' ),
-			'zip'   => __( 'ZIP code', 'lifterlms' ),
+			'city'     => 'City',
+			'state'    => 'State',
+			'postcode' => 'ZIP code',
 		), llms_get_country_address_info( 'US' ) );
 
 		$this->assertEquals( array(), llms_get_country_address_info( 'FAKE' ) );
