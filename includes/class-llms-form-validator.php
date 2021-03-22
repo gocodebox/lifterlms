@@ -99,7 +99,7 @@ class LLMS_Form_Validator {
 
 		foreach ( $fields as $field ) {
 
-			if ( ! isset( $posted_data[ $field['name'] ] ) ) {
+			if ( empty( $field['name'] ) || ! isset( $posted_data[ $field['name'] ] ) ) {
 				continue;
 			}
 
@@ -340,7 +340,7 @@ class LLMS_Form_Validator {
 		$err_data = array();
 		foreach ( $fields as $field ) {
 
-			if ( empty( $posted_data[ $field['name'] ] ) ) {
+			if ( empty( $field['name'] ) || empty( $posted_data[ $field['name'] ] ) ) {
 				continue;
 			}
 
