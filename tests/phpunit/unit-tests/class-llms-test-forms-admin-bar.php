@@ -65,6 +65,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	public function test_add_menu_items() {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		LLMS_Forms::instance()->install();
 		LLMS_Install::create_pages();
 		$this->go_to( get_permalink( llms_get_page_id( 'checkout' ) ) );
 
