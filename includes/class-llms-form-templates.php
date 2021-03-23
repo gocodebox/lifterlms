@@ -101,6 +101,7 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
 	protected function get_row_address_city( $location ) {
@@ -130,6 +131,7 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
 	protected function get_row_address_l10n( $location ) {
@@ -194,6 +196,7 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
 	protected function get_row_address_street( $location ) {
@@ -242,7 +245,7 @@ class LLMS_Form_Templates {
 	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
-	protected function get_row_email( $location ) {
+	protected function get_row_email( $location, $visibility = 'all' ) {
 
 		$option = llms_parse_bool( get_option( sprintf( 'lifterlms_user_info_field_email_confirmation_%s_visibility', $location ) ) );
 
@@ -254,7 +257,7 @@ class LLMS_Form_Templates {
 					'id'              => 'email_address',
 					'label'           => __( 'Email Address', 'lifterlms' ),
 					'match'           => 'email_address_confirm',
-					'llms_visibility' => $option ? 'all' : 'logged_out',
+					'llms_visibility' => $option ? 'all' : $visibility,
 				)
 			),
 		);
@@ -282,7 +285,7 @@ class LLMS_Form_Templates {
 			);
 		}
 
-		return $this->wrap_columns( $cols, 'logged_out' );
+		return $this->wrap_columns( $cols, $visibility );
 
 	}
 
@@ -338,9 +341,10 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
-	protected function get_row_password() {
+	protected function get_row_password( $location ) {
 
 		$cols = array();
 
@@ -371,7 +375,7 @@ class LLMS_Form_Templates {
 			'width'   => 50,
 		);
 
-		return $this->wrap_columns( $cols, 'logged_out' );
+		return $this->wrap_columns( $cols, 'checkout' === $location ? 'logged_out' : 'all' );
 
 	}
 
@@ -380,9 +384,10 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
-	protected function get_row_password_meter() {
+	protected function get_row_password_meter( $location ) {
 
 		$option = llms_parse_bool( get_option( 'lifterlms_registration_password_strength' ) );
 		if ( ! $option ) {
@@ -400,7 +405,7 @@ class LLMS_Form_Templates {
 					'description'     => sprintf( __( 'A %1$s password is required. The password must be at least %2$s characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ), '{min_strength}', '{min_length}' ),
 					'min_strength'    => get_option( 'lifterlms_registration_password_min_strength', 'strong' ), // Use legacy option.
 					'min_length'      => 6,
-					'llms_visibility' => 'logged_out',
+					'llms_visibility' => 'checkout' === $location ? 'logged_out' : 'all',
 				)
 			),
 		);
@@ -445,9 +450,10 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
 	 * @return array
 	 */
-	protected function get_row_username() {
+	protected function get_row_username( $location ) {
 
 		$option = get_option( 'lifterlms_registration_generate_username', 'yes' );
 		if ( llms_parse_bool( $option ) ) {
@@ -460,7 +466,7 @@ class LLMS_Form_Templates {
 				array(
 					'id'              => 'user_login',
 					'label'           => __( 'Username', 'lifterlms' ),
-					'llms_visibility' => 'logged_out',
+					'llms_visibility' => 'checkout' === $location ? 'logged_out' : 'all',
 				)
 			),
 		);
@@ -525,7 +531,7 @@ class LLMS_Form_Templates {
 	 */
 	protected function template_default( $location ) {
 
-		$base      = $this->get_row_username();
+		$base      = $this->get_row_username( $location );
 		$defaults  = array_merge(
 			$this->get_row_names( $location ),
 			$this->get_row_address_street( $location ),
@@ -534,8 +540,8 @@ class LLMS_Form_Templates {
 			$this->get_row_phone( $location )
 		);
 		$passwords = array_merge(
-			$this->get_row_password(),
-			$this->get_row_password_meter()
+			$this->get_row_password( $location ),
+			$this->get_row_password_meter( $location )
 		);
 
 		// Account form.
@@ -543,7 +549,7 @@ class LLMS_Form_Templates {
 			return array_merge(
 				$base,
 				$defaults,
-				$this->get_row_email( $location ),
+				$this->get_row_email( $location, 'all' ),
 				array(
 					$this->get_block(
 						'user-password-current',
@@ -561,7 +567,7 @@ class LLMS_Form_Templates {
 		// Checkout & Reg.
 		return array_merge(
 			$base,
-			$this->get_row_email( $location ),
+			$this->get_row_email( $location, 'checkout' === $location ? 'logged_out' : 'all' ),
 			$passwords,
 			$defaults
 		);
