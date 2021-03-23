@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.0.0-alpha.2\n"
+"Project-Id-Version: LifterLMS 5.0.0-alpha.3\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-22T15:11:29-06:00\n"
+"POT-Creation-Date: 2021-03-23T13:52:36-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -2830,7 +2830,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:406
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
-#: includes/class-llms-form-templates.php:325
+#: includes/class-llms-form-templates.php:328
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Last Name"
 msgstr ""
@@ -2838,7 +2838,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:411
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
-#: includes/class-llms-form-templates.php:313
+#: includes/class-llms-form-templates.php:316
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "First Name"
 msgstr ""
@@ -4792,7 +4792,7 @@ msgstr ""
 msgid "Determines if the form is a core form required for basic site functionality."
 msgstr ""
 
-#: includes/class-llms-form-templates.php:118
+#: includes/class-llms-form-templates.php:119
 #: languages/countries-address-info.php:40
 #: languages/countries-address-info.php:50
 #: languages/countries-address-info.php:55
@@ -5035,31 +5035,31 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:150
+#: includes/class-llms-form-templates.php:152
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Country / Region"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:165
+#: includes/class-llms-form-templates.php:167
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "State / Province"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:179
+#: includes/class-llms-form-templates.php:181
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Zip / Postal Code"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:213
+#: includes/class-llms-form-templates.php:216
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:225
+#: includes/class-llms-form-templates.php:228
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Apartment, suite, or unit"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:255
+#: includes/class-llms-form-templates.php:258
 #: includes/class.llms.person.handler.php:159
 #: includes/class.llms.person.handler.php:249
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
@@ -5067,12 +5067,12 @@ msgstr ""
 msgid "Email Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:271
+#: includes/class-llms-form-templates.php:274
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Confirm Email Address"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:353
+#: includes/class-llms-form-templates.php:357
 #: includes/class.llms.person.handler.php:167
 #: includes/class.llms.person.handler.php:284
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
@@ -5080,41 +5080,41 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:366
+#: includes/class-llms-form-templates.php:370
 #: includes/class.llms.person.handler.php:294
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Confirm Password"
 msgstr ""
 
 #. Translators: %1$s = password minimum strength merge code; %2$s = password minimum length merge code.
-#: includes/class-llms-form-templates.php:400
+#: includes/class-llms-form-templates.php:405
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "A %1$s password is required. The password must be at least %2$s characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class-llms-form-templates.php:433
+#: includes/class-llms-form-templates.php:438
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:462
+#: includes/class-llms-form-templates.php:468
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Username"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:489
+#: includes/class-llms-form-templates.php:495
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:490
+#: includes/class-llms-form-templates.php:496
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "Voucher Code"
 msgstr ""
 
-#: includes/class-llms-form-templates.php:553
+#: includes/class-llms-form-templates.php:559
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
 msgid "User Password (current)"
 msgstr ""
@@ -10003,705 +10003,705 @@ msgid "Congo"
 msgstr ""
 
 #: languages/countries.php:89
-msgid "Congo The Democratic Republic Of The"
-msgstr ""
-
-#: languages/countries.php:90
 msgid "Cook Islands"
 msgstr ""
 
-#: languages/countries.php:91
+#: languages/countries.php:90
 msgid "Costa Rica"
 msgstr ""
 
-#: languages/countries.php:92
+#: languages/countries.php:91
 msgid "Cote D'Ivoire (Ivory Coast)"
 msgstr ""
 
-#: languages/countries.php:93
+#: languages/countries.php:92
 msgid "Croatia (Hrvatska)"
 msgstr ""
 
-#: languages/countries.php:94
+#: languages/countries.php:93
 msgid "Cuba"
 msgstr ""
 
-#: languages/countries.php:95
+#: languages/countries.php:94
 msgid "Curaçao"
 msgstr ""
 
-#: languages/countries.php:96
+#: languages/countries.php:95
 msgid "Cyprus"
 msgstr ""
 
-#: languages/countries.php:97
+#: languages/countries.php:96
 msgid "Czech Republic"
 msgstr ""
 
-#: languages/countries.php:98
+#: languages/countries.php:97
 msgid "Denmark"
 msgstr ""
 
-#: languages/countries.php:99
+#: languages/countries.php:98
 #: languages/states.php:1148
 msgid "Djibouti"
 msgstr ""
 
-#: languages/countries.php:100
+#: languages/countries.php:99
 msgid "Dominica"
 msgstr ""
 
-#: languages/countries.php:101
+#: languages/countries.php:100
 msgid "Dominican Republic"
 msgstr ""
 
-#: languages/countries.php:102
+#: languages/countries.php:101
 msgid "East Timor"
 msgstr ""
 
-#: languages/countries.php:103
+#: languages/countries.php:102
 msgid "Ecuador"
 msgstr ""
 
-#: languages/countries.php:104
+#: languages/countries.php:103
 msgid "Egypt"
 msgstr ""
 
-#: languages/countries.php:105
+#: languages/countries.php:104
 msgid "El Salvador"
 msgstr ""
 
-#: languages/countries.php:106
+#: languages/countries.php:105
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: languages/countries.php:107
+#: languages/countries.php:106
 msgid "Eritrea"
 msgstr ""
 
-#: languages/countries.php:108
+#: languages/countries.php:107
 msgid "Estonia"
 msgstr ""
 
-#: languages/countries.php:109
+#: languages/countries.php:108
 msgid "Ethiopia"
 msgstr ""
 
-#: languages/countries.php:110
+#: languages/countries.php:109
 msgid "Falkland Islands"
 msgstr ""
 
-#: languages/countries.php:111
+#: languages/countries.php:110
 msgid "Faroe Islands"
 msgstr ""
 
-#: languages/countries.php:112
+#: languages/countries.php:111
 msgid "Fiji Islands"
 msgstr ""
 
-#: languages/countries.php:113
+#: languages/countries.php:112
 msgid "Finland"
 msgstr ""
 
-#: languages/countries.php:114
+#: languages/countries.php:113
 msgid "France"
 msgstr ""
 
-#: languages/countries.php:115
+#: languages/countries.php:114
 #: languages/states.php:1477
 msgid "French Guiana"
 msgstr ""
 
-#: languages/countries.php:116
+#: languages/countries.php:115
 #: languages/states.php:1478
 msgid "French Polynesia"
 msgstr ""
 
-#: languages/countries.php:117
+#: languages/countries.php:116
 msgid "French Southern Territories"
 msgstr ""
 
-#: languages/countries.php:118
+#: languages/countries.php:117
 msgid "Gabon"
 msgstr ""
 
-#: languages/countries.php:119
-msgid "Gambia The"
-msgstr ""
-
-#: languages/countries.php:120
+#: languages/countries.php:118
 #: languages/states.php:5073
 msgid "Georgia"
 msgstr ""
 
-#: languages/countries.php:121
+#: languages/countries.php:119
 msgid "Germany"
 msgstr ""
 
-#: languages/countries.php:122
+#: languages/countries.php:120
 msgid "Ghana"
 msgstr ""
 
-#: languages/countries.php:123
+#: languages/countries.php:121
 msgid "Gibraltar"
 msgstr ""
 
-#: languages/countries.php:124
+#: languages/countries.php:122
 msgid "Greece"
 msgstr ""
 
-#: languages/countries.php:125
+#: languages/countries.php:123
 msgid "Greenland"
 msgstr ""
 
-#: languages/countries.php:126
+#: languages/countries.php:124
 msgid "Grenada"
 msgstr ""
 
-#: languages/countries.php:127
+#: languages/countries.php:125
 #: languages/states.php:1480
 msgid "Guadeloupe"
 msgstr ""
 
-#: languages/countries.php:128
+#: languages/countries.php:126
 #: languages/states.php:5074
 msgid "Guam"
 msgstr ""
 
-#: languages/countries.php:129
+#: languages/countries.php:127
 msgid "Guatemala"
 msgstr ""
 
-#: languages/countries.php:130
+#: languages/countries.php:128
 msgid "Guernsey and Alderney"
 msgstr ""
 
-#: languages/countries.php:131
+#: languages/countries.php:129
 msgid "Guinea"
 msgstr ""
 
-#: languages/countries.php:132
+#: languages/countries.php:130
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: languages/countries.php:133
+#: languages/countries.php:131
 msgid "Guyana"
 msgstr ""
 
-#: languages/countries.php:134
+#: languages/countries.php:132
 msgid "Haiti"
 msgstr ""
 
-#: languages/countries.php:135
+#: languages/countries.php:133
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-#: languages/countries.php:136
+#: languages/countries.php:134
 msgid "Honduras"
 msgstr ""
 
-#: languages/countries.php:137
+#: languages/countries.php:135
 msgid "Hong Kong S.A.R."
 msgstr ""
 
-#: languages/countries.php:138
+#: languages/countries.php:136
 msgid "Hungary"
 msgstr ""
 
-#: languages/countries.php:139
+#: languages/countries.php:137
 msgid "Iceland"
 msgstr ""
 
-#: languages/countries.php:140
+#: languages/countries.php:138
 msgid "India"
 msgstr ""
 
-#: languages/countries.php:141
+#: languages/countries.php:139
 msgid "Indonesia"
 msgstr ""
 
-#: languages/countries.php:142
+#: languages/countries.php:140
 msgid "Iran"
 msgstr ""
 
-#: languages/countries.php:143
+#: languages/countries.php:141
 msgid "Iraq"
 msgstr ""
 
-#: languages/countries.php:144
+#: languages/countries.php:142
 msgid "Ireland"
 msgstr ""
 
-#: languages/countries.php:145
+#: languages/countries.php:143
 msgid "Isle of Man"
 msgstr ""
 
-#: languages/countries.php:146
+#: languages/countries.php:144
 msgid "Israel"
 msgstr ""
 
-#: languages/countries.php:147
+#: languages/countries.php:145
 msgid "Italy"
 msgstr ""
 
-#: languages/countries.php:148
+#: languages/countries.php:146
 msgid "Jamaica"
 msgstr ""
 
-#: languages/countries.php:149
+#: languages/countries.php:147
 msgid "Japan"
 msgstr ""
 
-#: languages/countries.php:150
+#: languages/countries.php:148
 msgid "Jersey"
 msgstr ""
 
-#: languages/countries.php:151
+#: languages/countries.php:149
 msgid "Jordan"
 msgstr ""
 
-#: languages/countries.php:152
+#: languages/countries.php:150
 msgid "Kazakhstan"
 msgstr ""
 
-#: languages/countries.php:153
+#: languages/countries.php:151
 msgid "Kenya"
 msgstr ""
 
-#: languages/countries.php:154
+#: languages/countries.php:152
 msgid "Kiribati"
 msgstr ""
 
-#: languages/countries.php:155
+#: languages/countries.php:153
 msgid "Korea North"
 msgstr ""
 
-#: languages/countries.php:156
+#: languages/countries.php:154
 msgid "Korea South"
 msgstr ""
 
-#: languages/countries.php:157
+#: languages/countries.php:155
 msgid "Kosovo"
 msgstr ""
 
-#: languages/countries.php:158
+#: languages/countries.php:156
 msgid "Kuwait"
 msgstr ""
 
-#: languages/countries.php:159
+#: languages/countries.php:157
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: languages/countries.php:160
+#: languages/countries.php:158
 msgid "Laos"
 msgstr ""
 
-#: languages/countries.php:161
+#: languages/countries.php:159
 msgid "Latvia"
 msgstr ""
 
-#: languages/countries.php:162
+#: languages/countries.php:160
 msgid "Lebanon"
 msgstr ""
 
-#: languages/countries.php:163
+#: languages/countries.php:161
 msgid "Lesotho"
 msgstr ""
 
-#: languages/countries.php:164
+#: languages/countries.php:162
 msgid "Liberia"
 msgstr ""
 
-#: languages/countries.php:165
+#: languages/countries.php:163
 msgid "Libya"
 msgstr ""
 
-#: languages/countries.php:166
+#: languages/countries.php:164
 msgid "Liechtenstein"
 msgstr ""
 
-#: languages/countries.php:167
+#: languages/countries.php:165
 msgid "Lithuania"
 msgstr ""
 
-#: languages/countries.php:168
+#: languages/countries.php:166
 #: languages/states.php:423
 msgid "Luxembourg"
 msgstr ""
 
-#: languages/countries.php:169
+#: languages/countries.php:167
 msgid "Macau S.A.R."
 msgstr ""
 
-#: languages/countries.php:170
+#: languages/countries.php:168
 msgid "Macedonia"
 msgstr ""
 
-#: languages/countries.php:171
+#: languages/countries.php:169
 msgid "Madagascar"
 msgstr ""
 
-#: languages/countries.php:172
+#: languages/countries.php:170
 msgid "Malawi"
 msgstr ""
 
-#: languages/countries.php:173
+#: languages/countries.php:171
 msgid "Malaysia"
 msgstr ""
 
-#: languages/countries.php:174
+#: languages/countries.php:172
 msgid "Maldives"
 msgstr ""
 
-#: languages/countries.php:175
+#: languages/countries.php:173
 msgid "Mali"
 msgstr ""
 
-#: languages/countries.php:176
+#: languages/countries.php:174
 msgid "Malta"
 msgstr ""
 
-#: languages/countries.php:177
+#: languages/countries.php:175
 msgid "Marshall Islands"
 msgstr ""
 
-#: languages/countries.php:178
+#: languages/countries.php:176
 #: languages/states.php:1486
 msgid "Martinique"
 msgstr ""
 
-#: languages/countries.php:179
+#: languages/countries.php:177
 msgid "Mauritania"
 msgstr ""
 
-#: languages/countries.php:180
+#: languages/countries.php:178
 msgid "Mauritius"
 msgstr ""
 
-#: languages/countries.php:181
+#: languages/countries.php:179
 #: languages/states.php:1487
 msgid "Mayotte"
 msgstr ""
 
-#: languages/countries.php:182
+#: languages/countries.php:180
 msgid "Mexico"
 msgstr ""
 
-#: languages/countries.php:183
+#: languages/countries.php:181
 msgid "Micronesia"
 msgstr ""
 
-#: languages/countries.php:184
+#: languages/countries.php:182
 msgid "Moldova"
 msgstr ""
 
-#: languages/countries.php:185
+#: languages/countries.php:183
 msgid "Monaco"
 msgstr ""
 
-#: languages/countries.php:186
+#: languages/countries.php:184
 msgid "Mongolia"
 msgstr ""
 
-#: languages/countries.php:187
+#: languages/countries.php:185
 msgid "Montenegro"
 msgstr ""
 
-#: languages/countries.php:188
+#: languages/countries.php:186
 msgid "Montserrat"
 msgstr ""
 
-#: languages/countries.php:189
+#: languages/countries.php:187
 msgid "Morocco"
 msgstr ""
 
-#: languages/countries.php:190
+#: languages/countries.php:188
 msgid "Mozambique"
 msgstr ""
 
-#: languages/countries.php:191
+#: languages/countries.php:189
 msgid "Myanmar"
 msgstr ""
 
-#: languages/countries.php:192
+#: languages/countries.php:190
 msgid "Namibia"
 msgstr ""
 
-#: languages/countries.php:193
+#: languages/countries.php:191
 msgid "Nauru"
 msgstr ""
 
-#: languages/countries.php:194
+#: languages/countries.php:192
 msgid "Nepal"
 msgstr ""
 
-#: languages/countries.php:195
-msgid "Netherlands The"
-msgstr ""
-
-#: languages/countries.php:196
+#: languages/countries.php:193
 msgid "New Caledonia"
 msgstr ""
 
-#: languages/countries.php:197
+#: languages/countries.php:194
 msgid "New Zealand"
 msgstr ""
 
-#: languages/countries.php:198
+#: languages/countries.php:195
 msgid "Nicaragua"
 msgstr ""
 
-#: languages/countries.php:199
+#: languages/countries.php:196
 msgid "Niger"
 msgstr ""
 
-#: languages/countries.php:200
+#: languages/countries.php:197
 msgid "Nigeria"
 msgstr ""
 
-#: languages/countries.php:201
+#: languages/countries.php:198
 msgid "Niue"
 msgstr ""
 
-#: languages/countries.php:202
+#: languages/countries.php:199
 msgid "Norfolk Island"
 msgstr ""
 
-#: languages/countries.php:203
+#: languages/countries.php:200
 #: languages/states.php:5099
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: languages/countries.php:204
+#: languages/countries.php:201
 msgid "Norway"
 msgstr ""
 
-#: languages/countries.php:205
+#: languages/countries.php:202
 msgid "Oman"
 msgstr ""
 
-#: languages/countries.php:206
+#: languages/countries.php:203
 msgid "Pakistan"
 msgstr ""
 
-#: languages/countries.php:207
+#: languages/countries.php:204
 msgid "Palau"
 msgstr ""
 
-#: languages/countries.php:208
+#: languages/countries.php:205
 msgid "Palestinian Territory Occupied"
 msgstr ""
 
-#: languages/countries.php:209
+#: languages/countries.php:206
 msgid "Panama"
 msgstr ""
 
-#: languages/countries.php:210
+#: languages/countries.php:207
 msgid "Papua new Guinea"
 msgstr ""
 
-#: languages/countries.php:211
+#: languages/countries.php:208
 msgid "Paraguay"
 msgstr ""
 
-#: languages/countries.php:212
+#: languages/countries.php:209
 msgid "Peru"
 msgstr ""
 
-#: languages/countries.php:213
+#: languages/countries.php:210
 msgid "Philippines"
 msgstr ""
 
-#: languages/countries.php:214
+#: languages/countries.php:211
 msgid "Pitcairn Island"
 msgstr ""
 
-#: languages/countries.php:215
+#: languages/countries.php:212
 msgid "Poland"
 msgstr ""
 
-#: languages/countries.php:216
+#: languages/countries.php:213
 msgid "Portugal"
 msgstr ""
 
-#: languages/countries.php:217
+#: languages/countries.php:214
 #: languages/states.php:5104
 msgid "Puerto Rico"
 msgstr ""
 
-#: languages/countries.php:218
+#: languages/countries.php:215
 msgid "Qatar"
 msgstr ""
 
-#: languages/countries.php:219
+#: languages/countries.php:216
 msgid "Reunion"
 msgstr ""
 
-#: languages/countries.php:220
+#: languages/countries.php:217
 msgid "Romania"
 msgstr ""
 
-#: languages/countries.php:221
+#: languages/countries.php:218
 msgid "Russia"
 msgstr ""
 
-#: languages/countries.php:222
+#: languages/countries.php:219
 msgid "Rwanda"
 msgstr ""
 
-#: languages/countries.php:223
+#: languages/countries.php:220
 #: languages/states.php:1717
 msgid "Saint Helena"
 msgstr ""
 
-#: languages/countries.php:224
+#: languages/countries.php:221
 msgid "Saint Kitts And Nevis"
 msgstr ""
 
-#: languages/countries.php:225
+#: languages/countries.php:222
 msgid "Saint Lucia"
 msgstr ""
 
-#: languages/countries.php:226
+#: languages/countries.php:223
 #: languages/states.php:1500
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-#: languages/countries.php:227
+#: languages/countries.php:224
 msgid "Saint Vincent And The Grenadines"
 msgstr ""
 
-#: languages/countries.php:228
+#: languages/countries.php:225
 msgid "Saint-Barthelemy"
 msgstr ""
 
-#: languages/countries.php:229
+#: languages/countries.php:226
 msgid "Saint-Martin (French part)"
 msgstr ""
 
-#: languages/countries.php:230
+#: languages/countries.php:227
 msgid "Samoa"
 msgstr ""
 
-#: languages/countries.php:231
+#: languages/countries.php:228
 #: languages/states.php:4461
 msgid "San Marino"
 msgstr ""
 
-#: languages/countries.php:232
+#: languages/countries.php:229
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#: languages/countries.php:233
+#: languages/countries.php:230
 msgid "Saudi Arabia"
 msgstr ""
 
-#: languages/countries.php:234
+#: languages/countries.php:231
 msgid "Senegal"
 msgstr ""
 
-#: languages/countries.php:235
+#: languages/countries.php:232
 msgid "Serbia"
 msgstr ""
 
-#: languages/countries.php:236
+#: languages/countries.php:233
 msgid "Seychelles"
 msgstr ""
 
-#: languages/countries.php:237
+#: languages/countries.php:234
 msgid "Sierra Leone"
 msgstr ""
 
-#: languages/countries.php:238
+#: languages/countries.php:235
 msgid "Singapore"
 msgstr ""
 
-#: languages/countries.php:239
+#: languages/countries.php:236
 msgid "Sint Maarten (Dutch part)"
 msgstr ""
 
-#: languages/countries.php:240
+#: languages/countries.php:237
 msgid "Slovakia"
 msgstr ""
 
-#: languages/countries.php:241
+#: languages/countries.php:238
 msgid "Slovenia"
 msgstr ""
 
-#: languages/countries.php:242
+#: languages/countries.php:239
 msgid "Solomon Islands"
 msgstr ""
 
-#: languages/countries.php:243
+#: languages/countries.php:240
 msgid "Somalia"
 msgstr ""
 
-#: languages/countries.php:244
+#: languages/countries.php:241
 msgid "South Africa"
 msgstr ""
 
-#: languages/countries.php:245
+#: languages/countries.php:242
 msgid "South Georgia"
 msgstr ""
 
-#: languages/countries.php:246
+#: languages/countries.php:243
 msgid "South Sudan"
 msgstr ""
 
-#: languages/countries.php:247
+#: languages/countries.php:244
 msgid "Spain"
 msgstr ""
 
-#: languages/countries.php:248
+#: languages/countries.php:245
 msgid "Sri Lanka"
 msgstr ""
 
-#: languages/countries.php:249
+#: languages/countries.php:246
 msgid "Sudan"
 msgstr ""
 
-#: languages/countries.php:250
+#: languages/countries.php:247
 msgid "Suriname"
 msgstr ""
 
-#: languages/countries.php:251
+#: languages/countries.php:248
 msgid "Svalbard And Jan Mayen Islands"
 msgstr ""
 
-#: languages/countries.php:252
+#: languages/countries.php:249
 msgid "Swaziland"
 msgstr ""
 
-#: languages/countries.php:253
+#: languages/countries.php:250
 msgid "Sweden"
 msgstr ""
 
-#: languages/countries.php:254
+#: languages/countries.php:251
 msgid "Switzerland"
 msgstr ""
 
-#: languages/countries.php:255
+#: languages/countries.php:252
 msgid "Syria"
 msgstr ""
 
-#: languages/countries.php:256
+#: languages/countries.php:253
 msgid "Taiwan"
 msgstr ""
 
-#: languages/countries.php:257
+#: languages/countries.php:254
 msgid "Tajikistan"
 msgstr ""
 
-#: languages/countries.php:258
+#: languages/countries.php:255
 msgid "Tanzania"
 msgstr ""
 
-#: languages/countries.php:259
+#: languages/countries.php:256
 msgid "Thailand"
 msgstr ""
 
-#: languages/countries.php:260
+#: languages/countries.php:257
 msgid "The Bahamas"
+msgstr ""
+
+#: languages/countries.php:258
+msgid "The Democratic Republic Of The Congo"
+msgstr ""
+
+#: languages/countries.php:259
+msgid "The Gambia"
+msgstr ""
+
+#: languages/countries.php:260
+msgid "The Netherlands"
 msgstr ""
 
 #: languages/countries.php:261
