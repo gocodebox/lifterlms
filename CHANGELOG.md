@@ -6,6 +6,7 @@ v5.0.0-alpha.3 - 2021-03-23
 
 + Fixed issue preventing users from editing their email address and password on the dashboard account edit screens.
 + Fixed issues with country names with the article "the" in their name, for example "The Netherlands" instead of "Netherlands The".
++ Upgraded LifterLMS Blocks to version 2.0.0-beta.2.
 
 
 v5.0.0-alpha.2 - 2021-03-22
