@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-alpha.3 - 2021-03-23
+---------------------------
+
++ Fixed issue preventing users from editing their email address and password on the dashboard account edit screens.
++ Fixed issues with country names with the article "the" in their name, for example "The Netherlands" instead of "Netherlands The".
+
+
 v5.0.0-alpha.2 - 2021-03-22
 ---------------------------
 
