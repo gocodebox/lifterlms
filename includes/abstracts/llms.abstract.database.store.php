@@ -177,6 +177,10 @@ abstract class LLMS_Abstract_Database_Store {
 
 	}
 
+	protected function get_data() {
+		return $this->data;
+	}
+
 	/**
 	 * Set object data
 	 *
@@ -239,6 +243,17 @@ abstract class LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Determines if the record can be updated
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function can_be_updated() {
+		return $this->id ? true : false;
+	}
+
+	/**
 	 * Create the item in the database
 	 *
 	 * @since 3.14.0
@@ -249,16 +264,18 @@ abstract class LLMS_Abstract_Database_Store {
 	 */
 	private function create() {
 
-		if ( ! $this->data ) {
+		if ( ! $this->get_data() ) {
 			return false;
 		}
 
 		global $wpdb;
-		$format = array_map( array( $this, 'get_column_format' ), array_keys( $this->data ) );
-		$res    = $wpdb->insert( $this->get_table(), $this->data, $format ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$format = array_map( array( $this, 'get_column_format' ), array_keys( $this->get_data() ) );
+		$res    = $wpdb->insert( $this->get_table(), $this->get_data(), $format ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		if ( 1 === $res ) {
 
-			$this->id = $wpdb->insert_id;
+			if ( '%d' === $this->get_primary_key_format() ) {
+				$this->id = $wpdb->insert_id;
+			}
 
 			/**
 			 * Fires when a new database record is created.
@@ -352,7 +369,7 @@ abstract class LLMS_Abstract_Database_Store {
 			$keys = implode( ', ', $keys );
 		}
 		$res = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
+			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = {$this->get_primary_key_format()}", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
 			ARRAY_A
 		);
 		return ! $res ? false : $res;
@@ -416,7 +433,7 @@ abstract class LLMS_Abstract_Database_Store {
 		if ( $this->id ) {
 			$res = $this->read( array_keys( $this->columns ) );
 			if ( $res ) {
-				$this->data = array_merge( $this->data, $res );
+				$this->data = array_merge( $this->get_data(), $res );
 			}
 		}
 
@@ -435,16 +452,14 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @return boolean
 	 */
 	public function save() {
-
-		if ( ! $this->id ) {
+		if ( ! $this->can_be_updated() ) {
 			$id = $this->create();
 			if ( $id ) {
 				return true;
 			}
 			return false;
-		} else {
-			return $this->update( $this->data );
 		}
+		return $this->update( $this->get_data() );
 
 	}
 
@@ -478,6 +493,18 @@ abstract class LLMS_Abstract_Database_Store {
 	}
 
 	/**
+	 * Retrieve the primary key column format
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_primary_key_format() {
+		$primary_key = array_values( $this->primary_key );
+		return $primary_key[0];
+	}
+
+	/**
 	 * Get the ID of the object
 	 *
 	 * @since 3.14.0
@@ -495,7 +522,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @return string
 	 */
-	private function get_table() {
+	protected function get_table() {
 
 		global $wpdb;
 		return $wpdb->prefix . $this->table_prefix . $this->table;
@@ -514,7 +541,7 @@ abstract class LLMS_Abstract_Database_Store {
 	public function to_array() {
 
 		$this->hydrate();
-		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->data );
+		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->get_data() );
 
 	}
 

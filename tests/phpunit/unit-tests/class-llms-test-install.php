@@ -193,6 +193,8 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * @since 3.3.1
 	 * @since 4.0.0 Add missing tables.
 	 *
+	 * @expectedDeprecated LLMS_Install::create_tables()
+	 *
 	 * @return void
 	 */
 	public function test_create_tables() {

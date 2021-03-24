@@ -9,7 +9,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-
+return;
 /**
  * LLMS_Form_Field class..
  *

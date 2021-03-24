@@ -10,6 +10,29 @@
 
 defined( 'ABSPATH' ) || exit;
 
+function llms_insert_form_field( $field_id, $data = array(), $metas = array() ) {
+
+	try {
+
+		$field = new LLMS_Form_Field_Data( $field_id );
+
+		if ( $field->setup( $data )->save() ) {
+			foreach ( $metas as $key => $value ) {
+				$field->set_meta( $key, $value );
+			}
+			return $field;
+		}
+
+		return new WP_Error( 'llms-insert-form-field-error', __( 'Insertion error.', 'lifterlms' ), compact( 'field_id', 'data' ) );
+
+	} catch ( Exception $exception ) {
+
+		return new WP_Error( 'llms-insert-form-field-exception', $exception->getMessage(), compact( 'field_id', 'data' ) );
+
+	}
+
+}
+
 /**
  * Generate the HTML for a form field
  *

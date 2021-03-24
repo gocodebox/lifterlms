@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  * @since [version] Install forms during installation.
+ *              Removed private method `LLMS_Install::get_schema()`.
  */
 class LLMS_Install {
 
@@ -361,19 +362,13 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.3.1 Unknown.
+	 * @deprecated [version] `LLMS_Install::create_tables()` is deprecated in favor of `LLMS_Database::create_tables()`.
 	 *
 	 * @return void
 	 */
 	public static function create_tables() {
-
-		global $wpdb;
-
-		$wpdb->hide_errors();
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-		dbDelta( self::get_schema() );
-
+		_deprecated_function( 'LLMS_Install::create_tables()', '[version]', 'LLMS_Database::create_tables()' );
+		LLMS_Database::create_tables();
 	}
 
 	/**
@@ -465,145 +460,6 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
-	 *
-	 * @since 3.0.0
-	 * @since 3.16.9 Unknown
-	 * @since 3.16.9 Unknown
-	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
-	 * @since 3.36.0 Added `wp_lifterlms_events` table.
-	 * @since 4.0.0 Added `wp_lifterlms_sessions` table.
-	 * @since 4.5.0 Added `wp_lifterlms_events_open_sessions` table.
-	 *
-	 * @return string
-	 */
-	private static function get_schema() {
-
-		global $wpdb;
-
-		$collate = '';
-
-		if ( $wpdb->has_cap( 'collation' ) ) {
-
-			if ( ! empty( $wpdb->charset ) ) {
-				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-			}
-			if ( ! empty( $wpdb->collate ) ) {
-				$collate .= " COLLATE $wpdb->collate";
-			}
-		}
-
-		$tables = "
-CREATE TABLE `{$wpdb->prefix}lifterlms_user_postmeta` (
-  meta_id bigint(20) NOT NULL auto_increment,
-  user_id bigint(20) NOT NULL,
-  post_id bigint(20) NOT NULL,
-  meta_key varchar(255) NULL,
-  meta_value longtext NULL,
-  updated_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`meta_id`),
-  KEY user_id (`user_id`),
-  KEY post_id (`post_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `student_id` bigint(20) DEFAULT NULL,
-  `quiz_id` bigint(20) DEFAULT NULL,
-  `lesson_id` bigint(20) DEFAULT NULL,
-  `start_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  `end_date` datetime DEFAULT NULL,
-  `status` varchar(15) DEFAULT '',
-  `attempt` bigint(20) DEFAULT NULL,
-  `grade` float DEFAULT NULL,
-  `questions` longtext,
-  PRIMARY KEY (`id`),
-  KEY `student_id` (`student_id`),
-  KEY `quiz_id` (`quiz_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_product_to_voucher` (
-  `product_id` bigint(20) NOT NULL,
-  `voucher_id` bigint(20) NOT NULL,
-  KEY `product_id` (`product_id`),
-  KEY `voucher_id` (`voucher_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_voucher_code_redemptions` (
-  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
-  `code_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `redemption_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `code_id` (`code_id`),
-  KEY `user_id` (`user_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_vouchers_codes` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `voucher_id` bigint(20) NOT NULL,
-  `code` varchar(20) NOT NULL DEFAULT '',
-  `redemption_count` bigint(20) DEFAULT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `code` (`code`),
-  KEY `voucher_id` (`voucher_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `created` datetime DEFAULT NULL,
-  `updated` datetime DEFAULT NULL,
-  `status` varchar(11) DEFAULT '0',
-  `type` varchar(75) DEFAULT NULL,
-  `subscriber` varchar(255) DEFAULT NULL,
-  `trigger_id` varchar(75) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `post_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `status` (`status`),
-  KEY `type` (`type`),
-  KEY `subscriber` (`subscriber`(191))
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `date` datetime DEFAULT NULL,
-  `actor_id` bigint(20) DEFAULT NULL,
-  `object_type` varchar(55) DEFAULT NULL,
-  `object_id` bigint(20) DEFAULT NULL,
-  `event_type` varchar(55) DEFAULT NULL,
-  `event_action` varchar(55) DEFAULT NULL,
-  `meta` longtext DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY actor_id (`actor_id`),
-  KEY object_id (`object_id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_events_open_sessions` (
-	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	`event_id` bigint(20) unsigned NOT NULL,
-	PRIMARY KEY (`id`)
-) $collate;
-CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `session_key` char(32) NOT NULL,
-  `data` longtext NOT NULL,
-  `expires` BIGINT unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `session_key` (`session_key`)
-) $collate;
-";
-
-		/**
-		 * Filter the database table schema.
-		 *
-		 * @since 3.34.0
-		 *
-		 * @param string $tables  A semi-colon (`;`) separated list of database table creating commands.
-		 * @param string $collate Database collation statement.
-		 */
-		return apply_filters( 'llms_install_get_schema', $tables, $collate );
-
-	}
-
-	/**
 	 * Initializes the bg updater class
 	 *
 	 * @since 3.4.3
@@ -636,7 +492,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		do_action( 'lifterlms_before_install' );
 
 		LLMS_Site::set_lock_url();
-		self::create_tables();
+		LLMS_Database::create_tables();
 		self::create_options();
 		LLMS_Roles::install();
 
