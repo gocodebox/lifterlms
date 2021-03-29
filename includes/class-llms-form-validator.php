@@ -189,10 +189,10 @@ class LLMS_Form_Validator {
 			// Translators: %1$s field label or name; %2$s = user submitted value.
 			return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" is not valid number.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value ) );
 		} elseif ( isset( $field['attributes'] ) ) {
-			if ( ! empty( $field['attributes']['min'] ) || ( isset( $field['attributes']['min'] ) && '0' === $field['attributes']['min'] ) && $temp_value < $field['attributes']['min'] ) {
+			if ( ( ! empty( $field['attributes']['min'] ) || ( isset( $field['attributes']['min'] ) && '0' === $field['attributes']['min'] ) ) && $temp_value < $field['attributes']['min'] ) {
 				// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
 				return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be greater than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['min'] ) );
-			} elseif ( ! empty( $field['attributes']['max'] ) || ( isset( $field['attributes']['max'] ) && '0' === $field['attributes']['max'] ) && $temp_value > $field['attributes']['max'] ) {
+			} elseif ( ( ! empty( $field['attributes']['max'] ) || ( isset( $field['attributes']['max'] ) && '0' === $field['attributes']['max'] ) ) && $temp_value > $field['attributes']['max'] ) {
 				// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
 				return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be less than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['max'] ) );
 			}
