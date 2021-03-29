@@ -532,7 +532,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 
 		$field = $this->get_field_arr( 'number', array( 'name' => 'number_field' ) );
 
-		$emails = array(
+		$tests = array(
 			array( true, '1' ),
 			array( true, '-1' ),
 			array( true, '+1' ),
@@ -546,7 +546,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array( false, ' fake 2 mock' ),
 		);
 
-		foreach ( $emails as $test ) {
+		foreach ( $tests as $test ) {
 
 			$valid = $this->main->validate_field( $test[1], $field );
 
@@ -561,16 +561,23 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 		$field['attributes']['min'] = '25';
 		$field['attributes']['max'] = '500';
 
-		// Number too small.
-		$this->assertIsWPError( $this->main->validate_field( '10', $field ) );
-		$this->assertIsWPError( $this->main->validate_field( '10.50', $field ) );
-		$this->assertIsWPError( $this->main->validate_field( '24.99', $field ) );
-		$this->assertIsWPError( $this->main->validate_field( '-500', $field ) );
+		$tests = array(
+			array( 'greater', '10' ),
+			array( 'greater', '10.50' ),
+			array( 'greater', '24.99' ),
+			array( 'greater', '-500' ),
+			array( 'less', '500.01' ),
+			array( 'less', '1,000' ),
+			array( 'less', '+99999' ),
+			array( 'less', '909090' ),
+		);
+		foreach ( $tests as $test ) {
 
-		// Number too large.
-		$this->assertIsWPError( $this->main->validate_field( '500.01', $field ) );
-		$this->assertIsWPError( $this->main->validate_field( '1,000', $field ) );
-		$this->assertIsWPError( $this->main->validate_field( '+99999', $field ) );
+			$res = $this->main->validate_field( $test[1], $field );
+			$this->assertIsWPError( $res );
+			$this->assertStringContains( $test[0], $res->get_error_message() );
+
+		}
 
 	}
 
