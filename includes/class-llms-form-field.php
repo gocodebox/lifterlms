@@ -78,7 +78,7 @@ class LLMS_Form_Field {
 	 *
 	 * @since [version]
 	 *
-	 * @param string[]|string $classes Classes
+	 * @param string[]|string $classes  Classes.
 	 * @param string[]        $defaults Default classes.
 	 * @return string[]
 	 */
@@ -184,9 +184,9 @@ class LLMS_Form_Field {
 		 *
 		 * @since [version]
 		 *
-		 * @param string $html Override html.
-		 * @param array $settings Array of field settings initially passed to the class constructor.
-		 * @param LLMS_Form_Field $field Form field object.
+		 * @param string          $html     Override html.
+		 * @param array           $settings Array of field settings initially passed to the class constructor.
+		 * @param LLMS_Form_Field $field    Form field object.
 		 */
 		$override = apply_filters( 'llms_form_field_get_' . $this->settings['type'] . '_html', '', $this->settings, $this );
 		if ( ! empty( $override ) ) {
@@ -225,13 +225,17 @@ class LLMS_Form_Field {
 				} else {
 
 					$classes[] = 'llms-input-group';
-					$value     = ! empty( $this->settings['value'] ) ? $this->settings['value'] : $this->settings['default'];
+					$value     = ! empty( $this->settings['value'] ) || is_array( $this->settings['value'] ) ? $this->settings['value'] : $this->settings['default'];
 
 					foreach ( $this->settings['options'] as $key => $val ) {
 
-						$name = $this->settings['name'];
+						$name    = $this->settings['name'];
+						$checked = $value === $key;
+
 						if ( 'checkbox' === $this->settings['type'] ) {
-							$name .= '[]';
+							$name   .= '[]';
+							$value   = is_array( $value ) ? $value : array( $value );
+							$checked = in_array( $key, $value, true );
 						}
 
 						$field       = new self(
@@ -241,7 +245,7 @@ class LLMS_Form_Field {
 								'name'       => $name,
 								'value'      => $key,
 								'label'      => $val,
-								'checked'    => ( $value === $key ),
+								'checked'    => $checked,
 								'type'       => $this->settings['type'],
 							)
 						);
@@ -357,8 +361,8 @@ class LLMS_Form_Field {
 		 *
 		 * @since [version]
 		 *
-		 * @param string $pre The pre-rendered HTML content. Default `null`.
-		 * @param array $settings The prepared field settings array.
+		 * @param string          $pre       The pre-rendered HTML content. Default `null`.
+		 * @param array           $settings  The prepared field settings array.
 		 * @param LLMS_Form_Field $field_obj Form field instance.
 		 */
 		$pre = apply_filters( 'llms_form_field_pre_render', null, $this->settings, $this );
@@ -419,7 +423,7 @@ class LLMS_Form_Field {
 			 * @since Unknown.
 			 *
 			 * @param string $character The character used to denote a required field. Defaults to "*" (an asterisk).
-			 * @param array $settings Associative array of field settings.
+			 * @param array  $settings  Associative array of field settings.
 			 */
 			$char     = apply_filters( 'lifterlms_form_field_required_character', '*', $this->settings );
 			$required = sprintf( '<span class="llms-required">%s</span>', $char );
@@ -621,7 +625,12 @@ class LLMS_Form_Field {
 					$prepared[ $item_key ] = $val['text'];
 
 					if ( isset( $val['default'] ) && llms_parse_bool( $val['default'] ) ) {
-						$this->settings['default'] = $item_key;
+						if ( 'checkbox' === $this->settings['type'] ) { // Account for multiple defaults.
+							$this->settings['default']   = is_array( $this->settings['default'] ) ? $this->settings['default'] : array();
+							$this->settings['default'][] = $item_key;
+						} else {
+							$this->settings['default'] = $item_key;
+						}
 					}
 				}
 
@@ -671,8 +680,8 @@ class LLMS_Form_Field {
 				 *
 				 * @since [version]
 				 *
-				 * @param array $options Array of options.
-				 * @param array $settings Prepared field settings.
+				 * @param array $options              Array of options.
+				 * @param array $settings             Prepared field settings.
 				 * @param LLMS_Form_Field $fomr_field Form field object instance.
 				 */
 				$options = apply_filters( "llms_form_field_options_preset_{$preset_id}", array(), $this->settings, $this );
@@ -838,7 +847,7 @@ class LLMS_Form_Field {
 		}
 
 		// Add default value if there's no explicit value and a default value is set.
-		if ( ! $this->settings['value'] && '' !== $this->settings['default'] ) {
+		if ( ! $this->settings['value'] && ! is_array( $this->settings['value'] ) && '' !== $this->settings['default'] ) {
 			$this->settings['value'] = $this->settings['default'];
 		}
 

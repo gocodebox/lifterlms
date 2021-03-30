@@ -57,7 +57,15 @@ class LLMS_Form_Validator {
 
 		$func = isset( $map[ $field['type'] ] ) ? $map[ $field['type'] ] : 'sanitize_text_field';
 
-		return trim( call_user_func( $func, $posted_value ) );
+		// Turn the submitted value into array, so to unify validation of scalar and array posted values.
+		$to_sanitize = is_array( $posted_value ) ? $posted_value : array( $posted_value );
+		$sanitized   = array();
+
+		foreach ( $to_sanitize as $value ) {
+			$sanitized[] = trim( call_user_func( $func, $value ) );
+		}
+
+		return is_array( $posted_value ) ? $sanitized : $sanitized[0];
 
 	}
 
@@ -117,7 +125,7 @@ class LLMS_Form_Validator {
 	 * @since [version]
 	 *
 	 * @param mixed $posted_value Posted data.
-	 * @param array $field LifterLMS Form Field settings array.
+	 * @param array $field        LifterLMS Form Field settings array.
 	 * @return WP_Error|true
 	 */
 	public function validate_field( $posted_value, $field ) {
@@ -130,12 +138,17 @@ class LLMS_Form_Validator {
 			'url'    => array( $this, 'validate_field_url' ),
 		);
 
-		$valid = isset( $type_map[ $field['type'] ] ) ? call_user_func( $type_map[ $field['type'] ], $posted_value, $field ) : true;
-		if ( is_wp_error( $valid ) ) {
-			return $valid;
+		// Turn the submitted value into array, so to unify validation of scalar and array posted values.
+		$to_validate = is_array( $posted_value ) ? $posted_value : array( $posted_value );
+
+		foreach ( $to_validate as $value ) {
+			$valid = isset( $type_map[ $field['type'] ] ) ? call_user_func( $type_map[ $field['type'] ], $value, $field ) : true;
+			if ( is_wp_error( $valid ) ) { // Return as soon as a field is not valid.
+				return $valid;
+			}
 		}
 
-		// Perform special validations for special field types.
+		// Perform special validations for special field types (scalar by their nature).
 		$extra_map = array(
 			'llms_voucher'     => array( $this, 'validate_field_voucher' ),
 			'password_current' => array( $this, 'validate_field_current_password' ),
@@ -327,7 +340,7 @@ class LLMS_Form_Validator {
 	 * @since [version]
 	 *
 	 * @param array   $posted_data Array of posted data.
-	 * @param array[] $fields Array of LifterLMS Form Fields.
+	 * @param array[] $fields      Array of LifterLMS Form Fields.
 	 * @return WP_Error|true
 	 */
 	public function validate_fields( $posted_data, $fields ) {
@@ -423,7 +436,7 @@ class LLMS_Form_Validator {
 	 * @since [version]
 	 *
 	 * @param array   $posted_data User data (likely from $_POST).
-	 * @param array[] $fields Array of LifterLMS form fields.
+	 * @param array[] $fields      Array of LifterLMS form fields.
 	 * @return WP_Error|true
 	 */
 	public function validate_required_fields( $posted_data, $fields ) {

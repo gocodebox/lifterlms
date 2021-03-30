@@ -20,6 +20,8 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * @link https://github.com/WordPress/wordpress-develop/blob/master/tests/phpunit/tests/formatting/SanitizeTextField.php Most data adapted from WP Core tests.
 	 *
+	 * @since [version]
+	 *
 	 * @return array
 	 */
 	protected function data_for_text_fields() {
@@ -51,7 +53,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			),
 			array(
 				array(),
-				'',
+				array(),
 			),
 			array(
 				llms(),
