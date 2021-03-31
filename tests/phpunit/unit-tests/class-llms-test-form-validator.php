@@ -582,6 +582,43 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test number field validation with empty limits
+	 *
+	 * When min|max attributes are set but empty (like empty string): default.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_for_number_with_empty_limits() {
+
+		$field = $this->get_field_arr( 'number', array( 'name' => 'number_field' ) );
+
+		$field['attributes']['min'] = '';
+		$field['attributes']['max'] = '';
+
+		$this->assertTrue( $this->main->validate_field( '1', $field ) );
+		$this->assertIsWPError( $this->main->validate_field( ' fake 2 mock', $field ) );
+
+		$field['attributes']['min'] = '0';
+		$field['attributes']['max'] = '';
+
+		$this->assertTrue( $this->main->validate_field( '1', $field ) );
+		$this->assertIsWPError( $this->main->validate_field( ' fake 2 mock', $field ) );
+		$this->assertIsWPError( $this->main->validate_field( '-1', $field ) );
+		$this->assertStringContains( 'greater', $this->main->validate_field( '-1', $field )->get_error_message() );
+
+		$field['attributes']['min'] = '';
+		$field['attributes']['max'] = '5';
+
+		$this->assertTrue( $this->main->validate_field( '1', $field ) );
+		$this->assertIsWPError( $this->main->validate_field( ' fake 2 mock', $field ) );
+		$this->assertIsWPError( $this->main->validate_field( '6', $field ) );
+		$this->assertStringContains( 'less', $this->main->validate_field( '6', $field )->get_error_message() );
+
+	}
+
+	/**
 	 * Test special voucher field validation.
 	 *
 	 * @since [version]
