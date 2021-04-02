@@ -37,7 +37,7 @@ class LLMS_Form_Validator {
 	}
 
 	/**
-	 * Sanitize a single field according to its type.
+	 * Sanitize a single field according to its type
 	 *
 	 * @since [version]
 	 *
@@ -57,7 +57,7 @@ class LLMS_Form_Validator {
 
 		$func = isset( $map[ $field['type'] ] ) ? $map[ $field['type'] ] : 'sanitize_text_field';
 
-		// Turn the submitted value into array, so to unify validation of scalar and array posted values.
+		// Turn the submitted value into array, so to unify sanitization of scalar and array posted values.
 		$to_sanitize = is_array( $posted_value ) ? $posted_value : array( $posted_value );
 		$sanitized   = array();
 
@@ -95,12 +95,12 @@ class LLMS_Form_Validator {
 	}
 
 	/**
-	 * Sanitize all user-submitted data according to field settings.
+	 * Sanitize all user-submitted data according to field settings
 	 *
 	 * @since [version]
 	 *
 	 * @param array   $posted_data User-submitted form data.
-	 * @param array[] $fields LifterLMS form fields settings.
+	 * @param array[] $fields      LifterLMS form fields settings.
 	 * @return array
 	 */
 	public function sanitize_fields( $posted_data, $fields ) {
@@ -120,7 +120,7 @@ class LLMS_Form_Validator {
 	}
 
 	/**
-	 * Validate a posted value.
+	 * Validate a posted value
 	 *
 	 * @since [version]
 	 *
@@ -203,10 +203,10 @@ class LLMS_Form_Validator {
 			return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" is not valid number.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value ) );
 		} elseif ( isset( $field['attributes'] ) ) {
 			if ( ( ! empty( $field['attributes']['min'] ) || ( isset( $field['attributes']['min'] ) && '0' === $field['attributes']['min'] ) ) && $temp_value < $field['attributes']['min'] ) {
-				// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
+				// Translators: %1$s = field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
 				return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be greater than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['min'] ) );
 			} elseif ( ( ! empty( $field['attributes']['max'] ) || ( isset( $field['attributes']['max'] ) && '0' === $field['attributes']['max'] ) ) && $temp_value > $field['attributes']['max'] ) {
-				// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
+				// Translators: %1$s = field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
 				return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be less than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['max'] ) );
 			}
 		}
@@ -248,7 +248,7 @@ class LLMS_Form_Validator {
 	protected function validate_field_tel( $posted_value ) {
 
 		if ( 0 < strlen( trim( preg_replace( '/[\s\#0-9\-\+\(\)\.]/', '', $posted_value ) ) ) ) {
-			// Translators: %s user submitted value.
+			// Translators: %s = user submitted value.
 			return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The phone number "%s" is not valid.', 'lifterlms' ), $posted_value ) );
 		}
 
@@ -267,7 +267,7 @@ class LLMS_Form_Validator {
 	protected function validate_field_url( $posted_value ) {
 
 		if ( ! filter_var( $posted_value, FILTER_VALIDATE_URL ) ) {
-			// Translators: %s user submitted value.
+			// Translators: %s = user submitted value.
 			return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The URL "%s" is not valid.', 'lifterlms' ), $posted_value ) );
 		}
 
@@ -379,7 +379,7 @@ class LLMS_Form_Validator {
 	 * @since [version]
 	 *
 	 * @param array   $posted_data Array of posted data.
-	 * @param array[] $fields      Array of LifterLMS Form Fields.
+	 * @param array[] $fields      Array of LifterLMS form fields.
 	 * @return WP_Error|true
 	 */
 	public function validate_matching_fields( $posted_data, $fields ) {
