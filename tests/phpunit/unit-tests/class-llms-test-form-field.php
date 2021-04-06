@@ -290,7 +290,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$this->assertStringContains( 'value="mock_val"', $html );
 		$this->assertStringNotContains( 'checked="checked"', $html );
 
-		// checked.
+		// Checked.
 		$opts['checked'] = true;
 		$html = llms_form_field( $opts, false );
 		$this->assertStringContains( 'checked="checked"', $html );
@@ -349,17 +349,35 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$this->assertStringContains( '<div class="llms-form-field type-checkbox llms-cols-12 llms-cols-last"><input class="llms-field-checkbox" id="checkbox-id--opt1" name="checkbox-id[]" type="checkbox" value="opt1" /><label for="checkbox-id--opt1">Option1</label></div>', $html );
 		$this->assertStringContains( '<div class="llms-form-field type-checkbox llms-cols-12 llms-cols-last"><input class="llms-field-checkbox" id="checkbox-id--opt2" name="checkbox-id[]" type="checkbox" value="opt2" /><label for="checkbox-id--opt2">Option2</label></div>', $html );
 
-		// default value.
+		// Default value.
 		$opts['default'] = 'opt1';
 		$html = llms_form_field( $opts, false );
-		$this->assertStringContains( '<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt1" name="checkbox-id[]" type="checkbox" value="opt1" /><label for="checkbox-id--opt1">Option1</label>', $html );
+		$this->assertStringContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt1" name="checkbox-id[]" type="checkbox" value="opt1" /><label for="checkbox-id--opt1">Option1</label>',
+			$html
+		);
+		$this->assertStringNotContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt2" name="checkbox-id[]" type="checkbox" value="opt2" /><label for="checkbox-id--opt2">Option2</label>',
+			$html
+		);
 
-		// user has saved data.
+		// Test multiple defaults.
+		$opts['default'] = array( 'opt1', 'opt2' );
+		$html = llms_form_field( $opts, false );
+		$this->assertStringContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt1" name="checkbox-id[]" type="checkbox" value="opt1" /><label for="checkbox-id--opt1">Option1</label>',
+			$html
+		);
+		$this->assertStringContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt2" name="checkbox-id[]" type="checkbox" value="opt2" /><label for="checkbox-id--opt2">Option2</label>',
+			$html
+		);
+
+		// User has saved data.
 		$this->get_user_with_meta( 'checkbox-id', 'opt2' );
 		$html = llms_form_field( $opts, false );
 		$this->assertStringContains( '<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt2" name="checkbox-id[]" type="checkbox" value="opt2" /><label for="checkbox-id--opt2">Option2</label>', $html );
 		$this->assertStringNotContains( '<input checked="checked" class="llms-field-checkbox" id="checkbox-id--opt1" name="checkbox-id[]" type="checkbox" value="opt1" /><label for="checkbox-id--opt1">Option1</label>', $html );
-
 
 	}
 
