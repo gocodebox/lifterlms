@@ -223,18 +223,22 @@ class LLMS_Form_Handler {
 
 		$prepared = array();
 
-		foreach ( $posted_data as $name => $value ) {
+		foreach ( $fields as $field ) {
 
-			$field = $forms->get_field_by( $fields, 'name', $name );
-			if ( ! $field || empty( $field['data_store_key'] ) ) {
+			if ( empty( $field['data_store_key'] ) ) {
 				continue;
 			}
 
-			if ( ! isset( $prepared[ $field['data_store'] ] ) ) {
-				$prepared[ $field['data_store'] ] = array();
-			}
-			$prepared[ $field['data_store'] ][ $field['data_store_key'] ] = $value;
+			// We need to account for fields that are part of the form but are not present in the `$posted_data`
+			// e.g. unchecked check boxes.
+			if ( isset( $posted_data[ $field['name'] ] ) || 'checkbox' === $field['type'] ) {
 
+				if ( ! isset( $prepared[ $field['data_store'] ] ) ) {
+					$prepared[ $field['data_store'] ] = array();
+				}
+
+				$prepared[ $field['data_store'] ][ $field['data_store_key'] ] = isset( $posted_data[ $field['name'] ] ) ? $posted_data[ $field['name'] ] : array();
+			}
 		}
 
 		if ( 'registration' === $action ) {

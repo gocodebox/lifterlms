@@ -20,6 +20,8 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * @link https://github.com/WordPress/wordpress-develop/blob/master/tests/phpunit/tests/formatting/SanitizeTextField.php Most data adapted from WP Core tests.
 	 *
+	 * @since [version]
+	 *
 	 * @return array
 	 */
 	protected function data_for_text_fields() {
@@ -51,7 +53,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			),
 			array(
 				array(),
-				'',
+				array(),
 			),
 			array(
 				llms(),
@@ -64,6 +66,18 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array(
 				true,
 				'1',
+			),
+			array(
+				array(
+					'text 1',
+					'text 2',
+					false,
+				),
+				array(
+					'text 1',
+					'text 2',
+					'',
+				),
 			),
 		);
 
@@ -175,6 +189,19 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test sanitize_field() for fields whose values are arrays.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	/*public function test_sanitize_field_arra)y() {
+
+		$tests = $this->data_for_text_fields(;
+		$t
+	}*/
+
+	/**
 	 * Sanitize email fields.
 	 *
 	 * @since [version]
@@ -184,19 +211,24 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	public function test_sanitize_field_for_email() {
 
 		$emails = array(
-			"hello'hi@hello.com"           => "hello'hi@hello.com",
-			'hello@hello.com'              => 'hello@hello.com',
-			'admin@hello.net'              => '    admin@hello.net',
-			'admin+hi@hello.edu'           => 'admin+hi@hello.edu',
-			'hello@so.many.subdomains.org' => 'hello@so.many.subdomains.org',
-			'ip@204.32.111.32'             => 'ip@204.32.111.32',
-			'l@l.ms'                       => 'l@l.ms',
-			''                             => 'fake',
+			"hello'hi@hello.com"                 => "hello'hi@hello.com",
+			'hello@hello.com'                    => 'hello@hello.com',
+			'admin@hello.net'                    => '    admin@hello.net',
+			'admin+hi@hello.edu'                 => 'admin+hi@hello.edu',
+			'hello@so.many.subdomains.org'       => 'hello@so.many.subdomains.org',
+			'ip@204.32.111.32'                   => 'ip@204.32.111.32',
+			'l@l.ms'                             => 'l@l.ms',
+			''                                   => 'fake',
 		);
 
 		foreach ( $emails as $clean => $dirty ) {
 			$this->assertEquals( $clean, $this->main->sanitize_field( $dirty, $this->get_field_arr( 'email' ) ) );
 		}
+
+		$this->assertEquals(
+			array( 'hello@hello.com', 'l@l.ms', '' ),
+			$this->main->sanitize_field( array( 'hello@hello.com', 'l@l.ms', 'j' ), $this->get_field_arr( 'email' ) )
+		);
 
 	}
 
@@ -221,6 +253,8 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array( false, 'f@k.e' ),
 			array( false, ' f' ),
 			array( false, 'fake.mock.com' ),
+			array( true, array( 'ip@204.32.111.32', 'hello@hello.com' ) ),
+			array( false, array( 'ip@204.32.111.32', 'hello@hello.com', ' f' ) ),
 		);
 
 		foreach ( $emails as $test ) {
@@ -344,6 +378,11 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			$this->assertEquals( $clean, $this->main->sanitize_field( $dirty, $this->get_field_arr( 'tel' ) ) );
 		}
 
+		$this->assertEquals(
+			array( '000 000 0000 #000', '+00' ),
+			$this->main->sanitize_field( array( '000 000 0000 #000', '+00 aaa bbb cccc' ), $this->get_field_arr( 'tel' ) )
+		);
+
 	}
 
 	/**
@@ -364,6 +403,8 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array( true, '000 000 0000 #000' ),
 			array( false, '+00 aaa bbb cccc' ),
 			array( false, 'fake' ),
+			array( true, array( '000 000 0000 #000', '(000) 000 0000' ) ),
+			array( false, array( '000 000 0000 #000', '+00 aaa bbb cccc' ) ),
 		);
 
 		foreach ( $emails as $test ) {
@@ -404,6 +445,16 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 		$tests[] = array(
 			"internal  whitespace   okay",
 			"internal  whitespace   okay",
+		);
+		$tests[] = array(
+			array(
+				"internal  whitespace   okay",
+				"tabs \nokay too",
+			),
+			array(
+				"internal  whitespace   okay",
+				"tabs \nokay too",
+			),
 		);
 
 		foreach ( $tests as $data ) {
@@ -456,6 +507,16 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 				'https://example.tld/?qs=whatever+<script>alert(1)</script>',
 				'https://example.tld/?qs=whatever+scriptalert(1)/script',
 			),
+			array(
+				array(
+					'http://www.example.tld',
+					'https://example.tld/?qs=whatever+<script>alert(1)</script>',
+				),
+				array(
+					'http://www.example.tld',
+					'https://example.tld/?qs=whatever+scriptalert(1)/script',
+				),
+			),
 		);
 
 		foreach ( $tests as $data ) {
@@ -478,6 +539,9 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array( false, 'test.php' ),
 			array( false, 'example.tld' ),
 			array( true, 'https://example.tld' ),
+			array( true, 'https://example.tld' ),
+			array( true, array( 'https://example.tld', 'https://another-example.ltd' ) ),
+			array( false, array( 'https://example.tld', 'another-example.ltd' ) ),
 		);
 
 		foreach ( $tests as $test ) {
@@ -519,6 +583,16 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			$this->assertEquals( $clean, $this->main->sanitize_field( $dirty, $this->get_field_arr( 'number' ) ) );
 		}
 
+		$this->assertEquals(
+			array( '1', '100' ),
+			$this->main->sanitize_field( array( '1', '100' ), $this->get_field_arr( 'number' ) )
+		);
+
+		$this->assertEquals(
+			array( '1', '100', '2' ),
+			$this->main->sanitize_field( array( '1', '100', ' fake 2 mock' ), $this->get_field_arr( 'number' ) )
+		);
+
 	}
 
 	/**
@@ -544,6 +618,8 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 			array( true, '1,000.00' ),
 			array( true, '1.000,00' ),
 			array( false, ' fake 2 mock' ),
+			array( true, array( '1.000,00', '1' ) ),
+			array( false, array( '1.000,00', '1', ' fake 2 mock' ) ),
 		);
 
 		foreach ( $tests as $test ) {
