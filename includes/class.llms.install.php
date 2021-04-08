@@ -870,6 +870,37 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 	}
 
+	/**
+	 * Get the WP User ID of the first available user who can 'manage_options'
+	 *
+	 * @since [version]
+	 *
+	 * @return int Returns the ID of the current user if they can 'manage_options'.
+	 *             Otherwise returns the ID of the first Administrator if they can 'manage_options'.
+	 *             Returns 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+	 */
+	public static function get_can_install_user_id() {
+
+		$capability = 'manage_options';
+
+		if ( current_user_can( $capability ) ) {
+			return get_current_user_id();
+		}
+
+		// Get the first user with administrator role.
+		// Here, for simplicity, we're assuming the administrator's role capabilities are the original ones.
+		$first_admin_user = get_users(
+			array(
+				'role'    => 'Administrator',
+				'number'  => 1,
+				'orderby' => 'ID',
+			)
+		);
+
+		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
+
+	}
 }
 
 LLMS_Install::init();
