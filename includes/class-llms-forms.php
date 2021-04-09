@@ -227,7 +227,7 @@ class LLMS_Forms {
 			'post_title'   => $data['title'],
 			'post_type'    => $this->get_post_type(),
 			'meta_input'   => $data['meta'],
-			'post_author'  => LLMS_Install::get_can_install_user_id(),
+			'post_author'  => $existing ? $existing->post_author : LLMS_Install::get_can_install_user_id(),
 		);
 
 		/**

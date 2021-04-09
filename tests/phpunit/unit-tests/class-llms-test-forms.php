@@ -385,6 +385,95 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test forms author on install
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_forms_author_on_install() {
+
+		// Clean user* tables.
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
+		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
+
+		// Create a subscriber.
+		$subscriber = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		$locs = $this->forms->get_locations();
+
+		// Install forms
+		$installed = $this->forms->install();
+
+		foreach ( $installed as $loc => $id ) {
+			// No admin users, expect 0.
+			$this->assertEquals( 0, get_post( $id )->post_author, $id );
+		}
+
+		// Delete forms.
+		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );
+
+		// Create two admins.
+		$admins = $this->factory->user->create_many( 2, array( 'role' => 'administrator' ) );
+
+		// Install forms.
+		$installed = $this->forms->install();
+
+		foreach ( $installed as $loc => $id ) {
+			// Expect the first admin to be the forms author.
+			$this->assertEquals( $admins[0], get_post( $id )->post_author, $id );
+		}
+
+		// Delete forms.
+		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );
+
+		// Log in as subscriber.
+		wp_set_current_user( $subscriber );
+
+		// Install forms.
+		$installed = $this->forms->install();
+
+		foreach ( $installed as $loc => $id ) {
+			// Expect the first admin to be the forms author.
+			$this->assertEquals( $admins[0], get_post( $id )->post_author, $id );
+		}
+
+		// Delete forms.
+		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );
+
+		// Log in as first admin.
+		wp_set_current_user( $admins[0] );
+
+		// Install forms.
+		$installed = $this->forms->install();
+
+		foreach ( $installed as $loc => $id ) {
+			// Expect the first admin to be the forms author.
+			$this->assertEquals( $admins[0], get_post( $id )->post_author, $id );
+		}
+
+		// Delete forms.
+		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );
+
+		// Log in as second admin.
+		wp_set_current_user( $admins[1] );
+
+		// Install forms.
+		$installed = $this->forms->install();
+
+		foreach ( $installed as $loc => $id ) {
+			// Expect the first admin to be the forms author.
+			$this->assertEquals( $admins[1], get_post( $id )->post_author, $id );
+		}
+
+		// Clean user* tables.
+		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
+		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
+
+	}
+
+	/**
 	 * Test the get_capability() method
 	 *
 	 * @since [version]

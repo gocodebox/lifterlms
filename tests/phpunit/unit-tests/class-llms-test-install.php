@@ -10,6 +10,7 @@
  * @since 3.37.8 Fix directory path to uninstall.php.
  * @since 4.0.0 Test creation of all tables; fix caching issue when testing full install; add new cron test.
  * @since 4.5.0 Test log backup cron.
+ * @since [version] Added tests for the get_can_install_user_id() method.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -323,6 +324,59 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 		LLMS_Install::install();
 		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
+
+	}
+
+	/**
+	 * Test get_can_install_user_id() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_can_install_user_id() {
+
+		// Clean user* tables.
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
+		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
+
+		// No users, expect 0.
+		$this->assertEquals( 0, LLMS_Install::get_can_install_user_id() );
+
+		// Create a subscriber.
+		$subscriber = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		// No admin users, expect 0.
+		$this->assertEquals( 0, LLMS_Install::get_can_install_user_id() );
+
+		// Create two admins.
+		$admins = $this->factory->user->create_many( 2, array( 'role' => 'administrator' ) );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as subscriber.
+		wp_set_current_user( $subscriber );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as first admin.
+		wp_set_current_user( $admins[0] );
+
+		// Expect the first admin to be returned.
+		$this->assertEquals( $admins[0], LLMS_Install::get_can_install_user_id() );
+
+		// Log in as second admin.
+		wp_set_current_user( $admins[1] );
+
+		// Expect the second admin to be returned.
+		$this->assertEquals( $admins[1], LLMS_Install::get_can_install_user_id() );
+
+		// Clean user* tables.
+		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
+		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
 
 	}
 
