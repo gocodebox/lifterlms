@@ -374,10 +374,6 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 		// Expect the second admin to be returned.
 		$this->assertEquals( $admins[1], LLMS_Install::get_can_install_user_id() );
 
-		// Clean user* tables.
-		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
-		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
-
 	}
 
 }

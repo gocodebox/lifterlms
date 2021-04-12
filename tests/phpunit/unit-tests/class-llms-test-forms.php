@@ -467,10 +467,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 			$this->assertEquals( $admins[1], get_post( $id )->post_author, $id );
 		}
 
-		// Clean user* tables.
-		$wpdb->query( "TRUNCATE TABLE $wpdb->users" );
-		$wpdb->query( "TRUNCATE TABLE $wpdb->usermeta" );
-
 	}
 
 	/**
