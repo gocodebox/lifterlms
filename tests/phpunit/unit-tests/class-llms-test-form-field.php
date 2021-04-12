@@ -822,4 +822,70 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test field html generated on submision when value is an array
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_field_array_value_only_post_request() {
+
+		$checkbox_options = array(
+			'yes_key' => 'Yes',
+			'no_key'  => 'No',
+		);
+
+		$form_field_conf = array(
+			'name'    => 'array_type',
+			'type'    => 'checkbox',
+			'options' => $checkbox_options,
+		);
+
+		// Simulate a field submission where both the checkboxes are checked.
+		$this->mockPostRequest(
+			array(
+				'array_type' => array_keys( $checkbox_options ),
+			)
+		);
+
+		// Create a form field.
+		$form_field = llms_form_field(
+			$form_field_conf,
+			false
+		);
+
+		// Expect the html has 2 "checked" checkboxes.
+		$this->assertEquals(
+			2,
+			substr_count(
+				$form_field,
+				'"checked"'
+			)
+		);
+
+		// Simulate a field submission where only one checkbox is checked.
+		$this->mockPostRequest(
+			array(
+				'array_type' => array_keys( $checkbox_options )[1],
+			)
+		);
+
+		// Create a form field.
+		$form_field = llms_form_field(
+			$form_field_conf,
+			false
+		);
+
+		// Expect the html has 1 "checked" checkbox.
+		$this->assertEquals(
+			1,
+			substr_count(
+				$form_field,
+				'"checked"'
+			)
+		);
+
+	}
+
 }

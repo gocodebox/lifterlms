@@ -822,7 +822,8 @@ class LLMS_Form_Field {
 		if ( 'POST' === strtoupper( getenv( 'REQUEST_METHOD' ) ) ) {
 			$posted = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce is verified prior to reaching this method.
 			if ( isset( $posted[ $this->settings['name'] ] ) ) {
-				$user_val = llms_filter_input( INPUT_POST, $this->settings['name'], FILTER_SANITIZE_STRING );
+				$filter_options = is_array( $posted[ $this->settings['name'] ] ) ? FILTER_REQUIRE_ARRAY : array();
+				$user_val       = llms_filter_input( INPUT_POST, $this->settings['name'], FILTER_SANITIZE_STRING, $filter_options );
 			}
 		}
 
