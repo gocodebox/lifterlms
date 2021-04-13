@@ -104,14 +104,16 @@ $.extend( LLMS.PasswordStrength, {
 	check_strength: function() {
 
 		var $pass_field = this.$pass.closest( '.llms-form-field' ),
-			$conf_field = this.$conf.closest( '.llms-form-field' ),
+			$conf_field = this.$conf ? this.$conf.closest( '.llms-form-field' ) : null,
 			pass_length = this.$pass.val().length,
-			conf_length = this.$conf.length ? this.$conf.val().length : 0;
+			conf_length = this.$conf ? this.$conf.val().length : 0;
 
 		// hide the meter if both fields are empty
 		if ( ! pass_length && ! conf_length ) {
 			$pass_field.removeClass( 'valid invalid' );
-			$conf_field.removeClass( 'valid invalid' );
+			if ( $conf_field ) {
+				$conf_field.removeClass( 'valid invalid' );
+			}
 			this.$meter.hide();
 			return;
 		}
@@ -184,6 +186,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve current strength as a number, a slug, or a translated text string
 	 *
 	 * @since 3.0.0
+	 * @since [version] Allow password confirmation to be optional when checking strength.
 	 *
 	 * @param {String} format Derived return format [int|slug|text] defaults to int.
 	 * @return mixed
@@ -192,7 +195,7 @@ $.extend( LLMS.PasswordStrength, {
 
 		format   = format || 'int';
 		var pass = this.$pass.val(),
-			conf = this.$conf.val(),
+			conf = this.$conf ? this.$conf.val() : '',
 			val;
 
 		// enforce custom length requirement
