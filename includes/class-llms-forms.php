@@ -122,16 +122,18 @@ class LLMS_Forms {
 
 		$attrs = $block['attrs'];
 
-		if ( isset( $attrs['field'] ) ) {
-			// Rename "field" to "type".
-			$attrs['type'] = $attrs['field'];
-			unset( $attrs['field'] );
-		}
+		// Rename some properties;
+		$rename = array(
+			'field'      => 'type',
+			'className'  => 'classes',
+			'html_attrs' => 'attributes',
+		);
 
-		// Rename "className" to "classes".
-		if ( isset( $attrs['className'] ) ) {
-			$attrs['classes'] = $attrs['className'];
-			unset( $attrs['className'] );
+		foreach ( $rename as $block_prop => $field_prop ) {
+			if ( isset( $attrs[ $block_prop ] ) ) {
+				$attrs[ $field_prop ] = $attrs[ $block_prop ];
+				unset( $attrs[ $block_prop ] );
+			}
 		}
 
 		// If the field is required and hidden it's impossible for the user to fill it out so it gets marked as optional at runtime.
