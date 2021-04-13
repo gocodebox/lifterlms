@@ -853,4 +853,33 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test rendering a field block which contains fields in the inner blocks
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_render_field_block_with_inner() {
+
+		$blocks = parse_blocks( '<!-- wp:llms/form-field-confirm-group -->
+<!-- wp:llms/form-field-user-email {"id":"one"} /-->
+
+<!-- wp:llms/form-field-text {"id":"two"} /-->
+<!-- /wp:llms/form-field-confirm-group -->' );
+
+		ob_start();
+		llms_form_field( array( 'id' => 'one' ) );
+		echo "\n";
+		llms_form_field( array( 'id' => 'two' ) );
+		$expected = ob_get_clean();
+
+		$this->assertEquals( $expected, $this->forms->render_field_block( '', $blocks[0] ) );
+
+	}
+
 }
+
+
+
+

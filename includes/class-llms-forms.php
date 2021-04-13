@@ -277,6 +277,7 @@ class LLMS_Forms {
 			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
 				$fields[] = $block;
 			}
+
 		}
 
 		return $fields;
