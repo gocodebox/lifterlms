@@ -1,8 +1,8 @@
 <?php
 /**
- * Register and manage LifterLMS user forms.
+ * Register and manage LifterLMS user forms
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since [version]
  * @version [version]
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Forms class..
+ * LLMS_Forms class
  *
  * @since [version]
  */
@@ -20,7 +20,7 @@ class LLMS_Forms {
 	/**
 	 * Singleton instance
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected static $instance = null;
 
@@ -46,7 +46,7 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Private Constructor.
+	 * Private Constructor
 	 *
 	 * @since [version]
 	 *
@@ -74,9 +74,6 @@ class LLMS_Forms {
 	 * and explicitly enable or disable usernames.
 	 *
 	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
 	 *
 	 * @return bool
 	 */
@@ -200,7 +197,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location_id Location id.
-	 * @param bool   $update If `true` and the form already exists, will update the existing form.
+	 * @param bool   $update      If `true` and the form already exists, will update the existing form.
 	 * @return int|false Returns the created/update form post ID on success.
 	 *                   If the location doesn't exist, returns `false`.
 	 *                   If the form already exists and `$update` is `false` will return `false`.
@@ -230,6 +227,7 @@ class LLMS_Forms {
 			'post_title'   => $data['title'],
 			'post_type'    => $this->get_post_type(),
 			'meta_input'   => $data['meta'],
+			'post_author'  => $existing ? $existing->post_author : LLMS_Install::get_can_install_user_id(),
 		);
 
 		/**
@@ -237,9 +235,9 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param array $args Array of arguments to be passed to wp_insert_post
-		 * @param $string $location_id Location ID/name.
-		 * @param array $data Array of location information from LLMS_Forms::get_locations().
+		 * @param array  $args        Array of arguments to be passed to wp_insert_post
+		 * @param string $location_id Location ID/name.
+		 * @param array  $data        Array of location information from LLMS_Forms::get_locations().
 		 */
 		$args = apply_filters( 'llms_forms_install_post_args', $args, $location_id, $data );
 
@@ -291,7 +289,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additional arguments passed to the short-circuit filter in `f()`.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter in `f()`.
 	 * @return array|false
 	 */
 	public function get_form_blocks( $location, $args = array() ) {
@@ -316,7 +314,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 	 * @return false|array
 	 */
 	public function get_form_fields( $location, $args = array() ) {
@@ -342,9 +340,9 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param array[] $fields Array of LifterLMS Form Field settings data.
-		 * @param string $location Form location, one of: "checkout", "registration", or "account".
-		 * @param array $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+		 * @param array[] $fields   Array of LifterLMS Form Field settings data.
+		 * @param string  $location Form location, one of: "checkout", "registration", or "account".
+		 * @param array   $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 		 */
 		return apply_filters( 'llms_get_form_fields', $fields, $location, $args );
 
@@ -356,8 +354,8 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param array[] $fields List of LifterLMS Form Fields.
-	 * @param string  $key Setting key to search for.
-	 * @param mixed   $val Setting valued to search for.
+	 * @param string  $key    Setting key to search for.
+	 * @param mixed   $val    Setting valued to search for.
 	 * @param string  $return Determine the return value. Use "field" to return the field settings
 	 *                        array. Use "index" to return the index of the field in the $fields array.
 	 * @return array|int|false `false` when the field isn't found in $fields, otherwise returns the field settings
@@ -381,7 +379,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 	 * @return string
 	 */
 	public function get_form_html( $location, $args = array() ) {
@@ -403,7 +401,7 @@ class LLMS_Forms {
 		 *
 		 * @param string $html     Form fields HTML.
 		 * @param string $location Form location, one of: "checkout", "registration", or "account".
-		 * @param array  $args     Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+		 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
 		 */
 		return apply_filters( 'llms_get_form_html', $html, $location, $args );
 
@@ -415,7 +413,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
 	 * @return WP_Post|false
 	 */
 	public function get_form_post( $location, $args = array() ) {
@@ -427,9 +425,9 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param null|WP_Post $post Return a WP_Post object to short-circuit default lookup query.
-		 * @param string $location Form location. Either "checkout", "registration", or "account".
-		 * @param array $args Additional custom arguments.
+		 * @param null|WP_Post $post     Return a WP_Post object to short-circuit default lookup query.
+		 * @param string       $location Form location. Either "checkout", "registration", or "account".
+		 * @param array        $args     Additional custom arguments.
 		 */
 		$post = apply_filters( 'llms_get_form_post_pre_query', null, $location, $args );
 		if ( is_a( $post, 'WP_Post' ) ) {
@@ -466,7 +464,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
 	 * @return array[]
 	 */
 	private function get_additional_fields( $location, $args = array() ) {
@@ -477,9 +475,9 @@ class LLMS_Forms {
 		 * @since 3.0.0
 		 * @since [version] Moved from deprecated function `LLMS_Person_Handler::get_available_fields()`.
 		 *
-		 * @param array[] $fields Array of field array suitable to pass to `llms_form_field()`.
+		 * @param array[] $fields  Array of field array suitable to pass to `llms_form_field()`.
 		 * @param string $location Form location, one of: "checkout", "registration", or "account".
-		 * @param array $args Additioal arguments passed to the short-circuit filter.
+		 * @param array $args      Additional arguments passed to the short-circuit filter.
 		 */
 		return apply_filters( 'lifterlms_get_person_fields', array(), $location, $args );
 
@@ -493,7 +491,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
 	 * @return string
 	 */
 	private function get_additional_fields_html( $location, $args = array() ) {
@@ -687,8 +685,8 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param bool $visible Whether or not the block is visible.
-		 * @param array $block Parsed block array.
+		 * @param bool  $visible Whether or not the block is visible.
+		 * @param array $block   Parsed block array.
 		 */
 		return apply_filters( 'llms_forms_is_block_visible', llms_parse_bool( $render ), $block );
 
@@ -779,7 +777,7 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $html Block HTML.
+	 * @param string $html  Block HTML.
 	 * @param array  $block Array of block information.
 	 * @return string
 	 */
