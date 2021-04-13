@@ -30,7 +30,7 @@ class LLMS_Controller_Account {
 	 */
 	public function __construct() {
 
-		add_action( 'wp', array( $this, 'r' ), 1 );
+		add_action( 'wp', array( $this, 'reset_password_link_redirect' ), 1 );
 
 		add_action( 'init', array( $this, 'update' ) );
 		add_action( 'init', array( $this, 'lost_password' ) );
