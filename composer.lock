@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1d1774dba60d15762979d94021a3ff8",
+    "content-hash": "30b9b30faa99e660c844744fe25572f4",
     "packages": [
         {
             "name": "composer/installers",
@@ -231,16 +231,16 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.18",
+            "version": "1.0.0-beta.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "bf80069f35f9cb16edd707e6e44be52e35d6e03b"
+                "reference": "aa8599da427182c42303fb3bac5da4462e26e65e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/bf80069f35f9cb16edd707e6e44be52e35d6e03b",
-                "reference": "bf80069f35f9cb16edd707e6e44be52e35d6e03b",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/aa8599da427182c42303fb3bac5da4462e26e65e",
+                "reference": "aa8599da427182c42303fb3bac5da4462e26e65e",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             "description": "REST API feature plugin for the LifterLMS Core.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-rest/issues",
-                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.18"
+                "source": "https://github.com/gocodebox/lifterlms-rest/tree/1.0.0-beta.19"
             },
-            "time": "2021-02-09T20:32:17+00:00"
+            "time": "2021-04-13T17:06:08+00:00"
         },
         {
             "name": "woocommerce/action-scheduler",
@@ -311,16 +311,16 @@
     "packages-dev": [
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.5",
+            "version": "1.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "f28d44c286812c714741478d968104c5e604a1d4"
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/f28d44c286812c714741478d968104c5e604a1d4",
-                "reference": "f28d44c286812c714741478d968104c5e604a1d4",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/f27e06cd9675801df441b3656569b328e04aa37c",
+                "reference": "f27e06cd9675801df441b3656569b328e04aa37c",
                 "shasum": ""
             },
             "require": {
@@ -328,7 +328,8 @@
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8"
+                "phpstan/phpstan": "^0.12.55",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
             },
             "type": "library",
             "autoload": {
@@ -354,7 +355,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/xdebug-handler/issues",
-                "source": "https://github.com/composer/xdebug-handler/tree/1.4.5"
+                "source": "https://github.com/composer/xdebug-handler/tree/1.4.6"
             },
             "funding": [
                 {
@@ -370,7 +371,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-13T08:04:11+00:00"
+            "time": "2021-03-25T17:01:18+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -591,12 +592,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead"
+                "reference": "cf5bb2c23210b485aaca3220a5252caf4ce36bde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
-                "reference": "b6452ce4b570f540be3a4f46276dd8d8f4fa5ead",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/cf5bb2c23210b485aaca3220a5252caf4ce36bde",
+                "reference": "cf5bb2c23210b485aaca3220a5252caf4ce36bde",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +634,7 @@
             "description": "Official version of pdepend to be handled with Composer",
             "support": {
                 "issues": "https://github.com/pdepend/pdepend/issues",
-                "source": "https://github.com/pdepend/pdepend/tree/2.9.0"
+                "source": "https://github.com/pdepend/pdepend/tree/master"
             },
             "funding": [
                 {
@@ -641,7 +642,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-11T09:20:40+00:00"
+            "time": "2021-04-11T15:46:24+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2384,12 +2385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "2bd19c2e6edb918ab14d87f1c4b37d1f112d8f00"
+                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/2bd19c2e6edb918ab14d87f1c4b37d1f112d8f00",
-                "reference": "2bd19c2e6edb918ab14d87f1c4b37d1f112d8f00",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
+                "reference": "ffced0d2c8fa8e6cdc4d695a743271fab6c38625",
                 "shasum": ""
             },
             "require": {
@@ -2433,7 +2434,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-03-21T21:51:55+00:00"
+            "time": "2021-04-09T00:54:41+00:00"
         },
         {
             "name": "symfony/config",
@@ -2441,12 +2442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "2740b1695d3a9275a62f43fa01da1ac492c17930"
+                "reference": "d07558360e8d3a69a3450870e9e32fca00d0cdac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/2740b1695d3a9275a62f43fa01da1ac492c17930",
-                "reference": "2740b1695d3a9275a62f43fa01da1ac492c17930",
+                "url": "https://api.github.com/repos/symfony/config/zipball/d07558360e8d3a69a3450870e9e32fca00d0cdac",
+                "reference": "d07558360e8d3a69a3450870e9e32fca00d0cdac",
                 "shasum": ""
             },
             "require": {
@@ -2512,7 +2513,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-24T13:36:13+00:00"
+            "time": "2021-04-13T16:59:11+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -2520,12 +2521,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "8d7e2e3f396b8f5f8a86e6e62e5b2a414a52eebb"
+                "reference": "6be36b94ade2cb764e224e7192af757999665ce5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/8d7e2e3f396b8f5f8a86e6e62e5b2a414a52eebb",
-                "reference": "8d7e2e3f396b8f5f8a86e6e62e5b2a414a52eebb",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/6be36b94ade2cb764e224e7192af757999665ce5",
+                "reference": "6be36b94ade2cb764e224e7192af757999665ce5",
                 "shasum": ""
             },
             "require": {
@@ -2600,7 +2601,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-16T19:13:40+00:00"
+            "time": "2021-04-13T17:01:37+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2608,12 +2609,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "49dc45a74cbac5fffc6417372a9f5ae1682ca0b4"
+                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/49dc45a74cbac5fffc6417372a9f5ae1682ca0b4",
-                "reference": "49dc45a74cbac5fffc6417372a9f5ae1682ca0b4",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5f38c8804a9e97d23e0c8d63341088cd8a22d627",
+                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627",
                 "shasum": ""
             },
             "require": {
@@ -2668,7 +2669,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-25T16:38:04+00:00"
+            "time": "2021-03-23T23:28:01+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -2676,12 +2677,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "b84b3a9461a96e295e3c452caae277450f89fcbe"
+                "reference": "2a7311756f4ffa7ea39a4c31422c9d08013099d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b84b3a9461a96e295e3c452caae277450f89fcbe",
-                "reference": "b84b3a9461a96e295e3c452caae277450f89fcbe",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/2a7311756f4ffa7ea39a4c31422c9d08013099d0",
+                "reference": "2a7311756f4ffa7ea39a4c31422c9d08013099d0",
                 "shasum": ""
             },
             "require": {
@@ -2731,7 +2732,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-12T10:47:00+00:00"
+            "time": "2021-04-01T10:43:52+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2903,12 +2904,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "3d72b4bfab3e991aa66906aa301aa479de4ca6ee"
+                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/3d72b4bfab3e991aa66906aa301aa479de4ca6ee",
-                "reference": "3d72b4bfab3e991aa66906aa301aa479de4ca6ee",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
+                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
                 "shasum": ""
             },
             "require": {
@@ -2975,7 +2976,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-16T09:10:58+00:00"
+            "time": "2021-04-01T10:43:52+00:00"
         },
         {
             "name": "theseer/tokenizer",

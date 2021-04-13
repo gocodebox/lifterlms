@@ -30,7 +30,7 @@ class LLMS_Controller_Account {
 	 */
 	public function __construct() {
 
-		add_action( 'wp', array( $this, 'reset_password_link_redirect' ), 1 );
+		add_action( 'wp', array( $this, 'r' ), 1 );
 
 		add_action( 'init', array( $this, 'update' ) );
 		add_action( 'init', array( $this, 'lost_password' ) );
@@ -268,10 +268,10 @@ class LLMS_Controller_Account {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
 	 * @since [version] Refactored to move reset logic into it's own method.
+	 *                  Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
 	 *
-	 * @return null|WP_Error|true `null` for nonce errors or when the form hasn't been submitted.
-	 *                            Error object when errors are encounterd.
-	 *                            `true` on success.
+	 * @return null|WP_Error|true Returns `null` for nonce errors or when the form hasn't been submitted, an error object when
+	 *                            errors are encountered, and `true` on success.
 	 */
 	public function reset_password() {
 
@@ -332,7 +332,7 @@ class LLMS_Controller_Account {
 			return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
 		}
 
-		reset_password( $user, llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING ) );
+		reset_password( $user, addslashes( llms_filter_input( INPUT_POST, 'password', FILTER_UNSAFE_RAW ) ) );
 
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.

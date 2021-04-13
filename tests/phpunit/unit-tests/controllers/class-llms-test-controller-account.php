@@ -751,7 +751,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password() success
 	 *
-	 * @since [version]
+	 * @since 3.37.17
+	 * @since [version] Added more assertions for testing with special character passwords.
 	 *
 	 * @return void
 	 */
@@ -760,36 +761,48 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		LLMS_Install::create_pages();
 		$controller = new LLMS_Controller_Account();
 
-		$user = $this->factory->user->create_and_get();
-		$key  = get_password_reset_key( $user );
+		$passwords = array(
+			wp_generate_password( 12 ),
+			wp_generate_password( 32, true, true ),
+			wp_generate_password( 64, true, true ),
+			'123456arst!',
+			'\slashy \ passwordy',
+			'<such>()-!=***. special!y320',
+		);
 
-		llms_set_password_reset_cookie( sprintf( '%1$d:%2$s', $user->ID, $key ) );
+		foreach ( $passwords as $pass ) {
 
-		$this->mockPostRequest( array(
- 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
- 			'password' => 'fake',
- 			'password_confirm' => 'fake',
- 			'llms_reset_login' => $user->user_login,
- 			'llms_reset_key' => $key,
-		) );
+			wp_set_current_user( null );
 
-		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
-		$this->expectExceptionMessage( add_query_arg( 'password-reset', 1, llms_get_page_url( 'myaccount' ) ) . ' [302] YES' );
+			$user = $this->factory->user->create_and_get();
 
-		try {
+			// Fake user and key.
+			$post = array(
+				'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+				'password'         => $pass,
+				'password_confirm' => $pass,
+				'llms_reset_key'   => get_password_reset_key( $user ),
+				'llms_reset_login' => $user->user_login,
+			);
 
-			$controller->reset_password();
+			$this->mockPostRequest( $post );
 
-		} catch( LLMS_Unit_Test_Exception_Redirect $exception ) {
+			$this->assertTrue( $this->main->reset_password() );
 
-			// Verify the password has been successfully changed.
 			$user = get_user_by( 'id', $user->ID );
-			wp_check_password( 'fake', $user->user_pass );
+			// When the password is posted by a user later WP will automatically add slashes because of `wp_magic_quotes()`.
+			$this->assertTrue( wp_check_password( addslashes( $pass ), $user->user_pass ), $pass );
 
 			$this->assertHasNotices( 'success' );
 			$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
 
-			throw $exception;
+			// User should be able to login too.
+			$login = LLMS_Person_Handler::login( array(
+				'llms_login'    => $user->user_email,
+				'llms_password' => addslashes( $pass ),
+			) );
+
+			$this->assertEquals( $user->ID, $login );
 
 		}
 
