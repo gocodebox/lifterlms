@@ -272,10 +272,10 @@ class LLMS_Forms {
 
 		foreach ( $blocks as $block ) {
 
-			if ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
-				$fields[] = $block;
-			} elseif ( $block['innerBlocks'] ) {
+			if ( $block['innerBlocks'] ) {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
+			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
+				$fields[] = $block;
 			}
 		}
 
@@ -438,6 +438,7 @@ class LLMS_Forms {
 			array(
 				'post_type'      => $this->get_post_type(),
 				'posts_per_page' => 1,
+				'no_found_rows'  => true,
 				// Only show published forms to end users but allow admins to "preview" drafts.
 				'post_status'    => current_user_can( $this->get_capability() ) ? array( 'publish', 'draft' ) : 'publish',
 				'meta_query'     => array(
@@ -786,6 +787,13 @@ class LLMS_Forms {
 		// Return HTML for any non llms/form-field blocks.
 		if ( false === strpos( $block['blockName'], 'llms/form-field-' ) ) {
 			return $html;
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+
+			$inner_blocks = array_map( 'render_block', $block['innerBlocks'] );
+			return implode( "\n", $inner_blocks );
+
 		}
 
 		$attrs = $this->block_to_field_settings( $block );
