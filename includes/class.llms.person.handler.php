@@ -676,7 +676,9 @@ class LLMS_Person_Handler {
 		// Validate the fields & allow custom validation to occur.
 		$valid = self::validate_fields( apply_filters( 'lifterlms_user_login_data', $data ), 'login' );
 
-		$valid = apply_filters( 'lifterlms_pre_user_login_errors', $valid, $data, false );
+		// Allow for custom validation of user login data (previous filter doesn't fully allow for this)
+		$valid = apply_filters( 'llms_after_user_login_data_validation', $valid, $data, 'login' );
+
 		// If errors found, return them.
 		if ( is_wp_error( $valid ) ) {
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data, false );
