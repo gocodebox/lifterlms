@@ -252,25 +252,24 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @param array[] $blocks WP_Block list.
+	 * @param array[] $blocks       WP_Block list.
+	 * @param integer $parent_index Top level index of the parent block. Used to hold a reference to the current index within the toplevel
+	 *                              blocks of the form when looking into the innerBlocks of a block. We don't want to add the password meter inside
+	 *                              another group, only ever at the top level.
 	 * @return boolean|array Returns `false` when no password block found in the given list, otherwise returns a numeric array
 	 *                       where item `0` is the index of the block within the list (the index of the items parent if it's in a
 	 *                       group) and item `1` is the block array.
 	 */
-	private function find_password_block( $blocks ) {
+	private function find_password_block( $blocks, $parent_index = null ) {
 
 		foreach ( $blocks as $index => $block ) {
 
 			if ( 'llms/form-field-user-password' === $block['blockName'] ) {
-				return array( $index, $block );
+				return array( is_null( $parent_index ) ? $index : $parent_index , $block );
 			} elseif ( $block['innerBlocks'] ) {
-				foreach ( $block['innerBlocks'] as $inner_block ) {
-					if ( 'llms/form-field-user-password' === $inner_block['blockName'] ) {
-						return array( $index, $inner_block );
-					}
+				$inner = $this->find_password_block( $block['innerBlocks'], is_null( $parent_index ) ? $index : $parent_index );
+				if ( false !== $inner ) {
+					return $inner;
 				}
 			}
 
@@ -828,7 +827,7 @@ class LLMS_Forms {
 					'id'           => 'llms-password-strength-meter',
 					'classes'      => 'llms-password-strength-meter',
 					'description'  => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
-					'min_length'   => ! empty( $block['attrs']['min_length'] ) ? $block['attrs']['min_length'] : '',
+					'min_length'   => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
 					'min_strength' => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
 				)
 			)

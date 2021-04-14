@@ -722,14 +722,17 @@ class LLMS_Form_Field {
 
 		}
 
-		if ( isset( $this->settings['attributes']['minlength'] ) ) {
+		if ( isset( $this->settings['min_length'] ) ) {
 
-			$minlength = max( 6, $this->settings['attributes']['minlength'] );
+			$minlength = max( 6, $this->settings['min_length'] );
 
 			$meter_settings['min_length'] = $minlength;
 
 			$find[]    = '{min_length}';
 			$replace[] = $minlength;
+
+			// Backwards compat functionality ends up outputting a minlength attribute on the <div> and we don't want that.
+			unset( $this->settings['min_length'] );
 
 		}
 
