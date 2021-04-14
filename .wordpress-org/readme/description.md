@@ -269,7 +269,7 @@ _There are many ways to take LifterLMS for a test drive before commiting to the 
 
 # **What Others Are Saying About the LMS**
 
-> _“**WP101.com serves more than 30,000 members**, so it’s no small challenge to migrate to a new membership plugin. **We spent more than a year carefully evaluating dozens of LMS and membership plugins before we finally discovered LifterLMS. It was the only plugin that checked all the boxes for our needs.** And the LifterLMS team also shares our passion for creating better online learning experiences. In particular, we deeply resonate with their goal of restoring the human touch to online learning—something that is absent from most online courses today.”_
+> _“**WP101.com serves more than 30,000 members**, so it’s no small challenge to migrate to a new membership plugin. **We spent more than a year carefully evaluating dozens of LMS and membership plugins before we finally discovered LifterLMS (a membership plugin and LMS plugin combiined into one). It was the only plugin that checked all the boxes for our needs.** And the LifterLMS team also shares our passion for creating better online learning experiences. In particular, we deeply resonate with their goal of restoring the human touch to online learning—something that is absent from most online courses today.”_
 
 > _**Shawn Hesketh**, Owner, WP101_
 
@@ -299,9 +299,9 @@ _There are many ways to take LifterLMS for a test drive before commiting to the 
 
 # **Join Our Growing Community**
 
-> When you download LifterLMS, you **join a thriving community** of education entrepreneurs, developers, LMS professionals, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here.
+> When you download LifterLMS, you **join a thriving community** of education entrepreneurs, developers, LMS professionals, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here in our LMS community.
 
-If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in on the LMS software.
+If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in on the open source LMS software.
 
 Want to add a new language to LifterLMS? Swell! You can contribute language translations to the LMS at [translate.wordpress.org][translate].
 
