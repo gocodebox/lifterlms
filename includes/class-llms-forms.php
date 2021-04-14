@@ -199,12 +199,12 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location_id Location id.
-	 * @param bool   $update      If `true` and the form already exists, will update the existing form.
+	 * @param bool   $recreate    If `true` and the form already exists, will recreate the existing form using the existing form's id.
 	 * @return int|false Returns the created/update form post ID on success.
 	 *                   If the location doesn't exist, returns `false`.
-	 *                   If the form already exists and `$update` is `false` will return `false`.
+	 *                   If the form already exists and `$recreate` is `false` will return `false`.
 	 */
-	public function create( $location_id, $update = false ) {
+	public function create( $location_id, $recreate = false ) {
 
 		if ( ! $this->is_location_valid( $location_id ) ) {
 			return false;
@@ -216,7 +216,7 @@ class LLMS_Forms {
 		$existing = $this->get_form_post( $location_id );
 
 		// Form already exists and we haven't requested an update.
-		if ( false !== $existing && ! $update ) {
+		if ( false !== $existing && ! $recreate ) {
 			return false;
 		}
 
