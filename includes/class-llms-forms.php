@@ -248,6 +248,39 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Finds the user password form field block within a list of blocks
+	 *
+	 * @since [version]
+	 *
+	 * @see [Reference]
+	 * @link [URL]
+	 *
+	 * @param array[] $blocks WP_Block list.
+	 * @return boolean|array Returns `false` when no password block found in the given list, otherwise returns a numeric array
+	 *                       where item `0` is the index of the block within the list (the index of the items parent if it's in a
+	 *                       group) and item `1` is the block array.
+	 */
+	private function find_password_block( $blocks ) {
+
+		foreach ( $blocks as $index => $block ) {
+
+			if ( 'llms/form-field-user-password' === $block['blockName'] ) {
+				return array( $index, $block );
+			} elseif ( $block['innerBlocks'] ) {
+				foreach ( $block['innerBlocks'] as $inner_block ) {
+					if ( 'llms/form-field-user-password' === $inner_block['blockName'] ) {
+						return array( $index, $inner_block );
+					}
+				}
+			}
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Retrieve the form management user capability.
 	 *
 	 * @since [version]
@@ -292,7 +325,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args     Additional arguments passed to the short-circuit filter in `f()`.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
 	 * @return array|false
 	 */
 	public function get_form_blocks( $location, $args = array() ) {
@@ -305,7 +338,21 @@ class LLMS_Forms {
 		$content  = $post->post_content;
 		$content .= $this->get_additional_fields_html( $location, $args );
 
-		return $this->parse_blocks( $content );
+		$blocks = $this->parse_blocks( $content );
+
+		/**
+		 * Filters the parsed block list for a given LifterLMS form
+		 *
+		 * This hook can be used to programmatically modify, insert, or remove
+		 * blocks (fields) from a form.
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $blocks   Array of parsed WP_Block arrays.
+		 * @param string  $location The request form location ID.
+		 * @param array   $args     Additional arguments passed to the short-circuit filter.
+		 */
+		return apply_filters( 'llms_get_form_blocks', $blocks, $location, $args );
 
 	}
 
@@ -504,11 +551,26 @@ class LLMS_Forms {
 		$fields = $this->get_additional_fields( $location, $args );
 
 		foreach ( $fields as $field ) {
-			$html .= sprintf( "\r<!-- wp:html -->\r%s\r<!-- /wp:html -->", llms_form_field( $field, false ) );
+			$html .= "\r" . $this->get_custom_field_block_markup( $field );
 		}
 
 		return $html;
 
+	}
+
+	/**
+	 * Retrieve the HTML markup for a custom form field block
+	 *
+	 * Retrieves an array of `LLMS_Form_Field` settings, generates the HTML
+	 * for the field, and wraps it in a `wp:html` block.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $settings Form field settings (passed to `llms_form_field()`).
+	 * @return string
+	 */
+	public function get_custom_field_block_markup( $settings ) {
+		return sprintf( "<!-- wp:html -->\r%s\r<!-- /wp:html -->", llms_form_field( $settings, false ) );
 	}
 
 	/**
@@ -519,7 +581,7 @@ class LLMS_Forms {
 	 *
 	 * This function converts the checkout form to hidden fields, the result is that users with all required fields
 	 * will be enrolled into the course with a single click (no need to head to the checkout page) and users
-	 * who are missing required information will be directed to the checkout page.
+	 * who are missing r equired information will be directed to the checkout page.
 	 *
 	 * @since [version]
 	 *
@@ -728,6 +790,58 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Adds a password strength meter to a block list
+	 *
+	 * This function will programmatically add an html block containing the necessary
+	 * markup for the password strength meter to function.
+	 *
+	 * This will locate the user password block and output the meter immediately after
+	 * the block. If the password block is within a group it'll output it after the
+	 * group block.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $blocks WP_Block list.
+	 * @return array[]
+	 */
+	private function maybe_add_password_strength_meter( $blocks ) {
+
+		$password = $this->find_password_block( $blocks );
+
+		// No password field in the form.
+		if ( ! $password ) {
+			return $blocks;
+		}
+
+		list( $index, $block ) = $password;
+
+		// Meter not enabled.
+		if ( empty( $block['attrs']['meter'] ) || ! llms_parse_bool( $block['attrs']['meter'] ) ) {
+			return $blocks;
+		}
+
+		// Make the new block.
+		$password_block = parse_blocks(
+			$this->get_custom_field_block_markup(
+				array(
+					'type'         => 'html',
+					'id'           => 'llms-password-strength-meter',
+					'classes'      => 'llms-password-strength-meter',
+					'description'  => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
+					'min_length'   => ! empty( $block['attrs']['min_length'] ) ? $block['attrs']['min_length'] : '',
+					'min_strength' => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
+				)
+			)
+		);
+
+		// Add it into the form after the password block / group.
+		array_splice( $blocks, $index + 1, 0, $password_block );
+
+		return $blocks;
+
+	}
+
+	/**
 	 * Internal function to parse form content into a list of WP Block arrays.
 	 *
 	 * Parses HTML content and then cascade visibility settings to innerBlocks.
@@ -740,7 +854,11 @@ class LLMS_Forms {
 	private function parse_blocks( $content ) {
 
 		$blocks = parse_blocks( $content );
+
+		$blocks = $this->maybe_add_password_strength_meter( $blocks );
+
 		$blocks = $this->cascade_visibility_attrs( $blocks );
+
 		return $blocks;
 
 	}

@@ -522,75 +522,6 @@ class LLMS_Form_Field {
 	}
 
 	/**
-	 * Get the HTML for the password strength meter
-	 *
-	 * @since [version]
-	 *
-	 * @param array   $settings Password field settings array.
-	 * @param boolean $cache    Whether to cache the generated field HTML. When there's a password confirmation field
-	 *                          the HTML is generated from the settings of the main field and cached so that it can be
-	 *                          rendered after the confirmation field.
-	 * @return string
-	 */
-	private function get_strength_meter_html( $settings, $cache ) {
-
-		$meter = llms_form_field( array(
-			'type'        => 'html',
-			'id'          => 'llms-password-strength-meter',
-			'classes'     => 'llms-password-strength-meter',
-			'description' => ! empty( $settings['meter_description'] ) ? $settings['meter_description'] : '',
-		), false );
-
-		if ( $cache ) {
-			wp_cache_set( 'llms-password-strength-meter', $meter );
-		}
-
-		return $meter;
-
-	}
-
-	/**
-	 * Add a password strength meter (when enabled)
-	 *
-	 * This is a callback for the `llms_form_field` filter hook. The password
-	 * strength meter HTML will be output after the last password field.
-	 *
-	 * If there's no password confirmation field, it's output immediately following
-	 * the password field, otherwise it is cached and served after the confirmation field.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $html     Generated field HTML.
-	 * @param array  $settings Field settings.
-	 * @return string
-	 */
-	public function maybe_add_strength_meter( $html, $settings ) {
-
-		$done = false;
-
-		if ( 'password' === $settings['id'] ) {
-
-			$done  = empty( $settings['match'] );
-			$html .= $this->get_strength_meter_html( $settings, ! $done );
-
-		} elseif ( 'password-confirm' === $settings['id'] ) {
-
-			$done  = true;
-			$html .= wp_cache_get( 'llms-password-strength-meter' );
-
-		}
-
-		// Clean up.
-		if ( $done ) {
-			wp_cache_delete( 'llms-password-strength-meter' );
-			remove_filter( 'llms_form_field', array( $this, 'maybe_add_strength_meter' ), 10 );
-		}
-
-		return $html;
-
-	}
-
-	/**
 	 * Determines if the field is a group of checkboxes or radios.
 	 *
 	 * @since [version]
@@ -650,7 +581,7 @@ class LLMS_Form_Field {
 
 		$this->prepare_value();
 
-		if ( 'password' === $this->settings['id'] && llms_parse_bool( $this->settings['meter'] ) ) {
+		if ( 'llms-password-strength-meter' === $this->settings['id'] ) {
 			$this->prepare_password_strength_meter();
 		} elseif ( 'llms_voucher' === $this->settings['id'] ) {
 			$this->prepare_voucher();
@@ -803,7 +734,7 @@ class LLMS_Form_Field {
 		}
 
 		// Merge the description string.
-		$this->settings['meter_description'] = str_replace( $find, $replace, $this->settings['meter_description'] );
+		$this->settings['description'] = str_replace( $find, $replace, $this->settings['description'] );
 
 		/**
 		 * Modify password strength meter settings
@@ -827,8 +758,6 @@ class LLMS_Form_Field {
 			'footer',
 			15
 		);
-
-		add_filter( 'llms_form_field', array( $this, 'maybe_add_strength_meter' ), 10, 2 );
 
 	}
 
