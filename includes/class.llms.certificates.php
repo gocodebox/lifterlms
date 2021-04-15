@@ -284,6 +284,7 @@ class LLMS_Certificates {
 	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
 	 * @since [version] Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
 	 *               Also, remove the WP Admin Bar earlier.
+	 *               Move the links and images modification in specific methods.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string
@@ -309,6 +310,35 @@ class LLMS_Certificates {
 		if ( $admin_bar ) {
 			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
+
+		$this->modify_dom_links( $dom );
+		$this->modify_dom_images( $dom );
+
+		// Hide print stuff (this is faster than traversing the dom to remove the element).
+		$header = $dom->getElementsByTagName( 'head' )->item( 0 );
+		$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
+
+		$html = $dom->saveHTML();
+
+		// Handle errors.
+		libxml_clear_errors();
+
+		// Restore.
+		libxml_use_internal_errors( $libxml_state );
+
+		return $html;
+
+	}
+
+	/**
+	 * Modify head's <link>s of the DOMDocument.
+	 *
+	 * @since [version]
+	 *
+	 * @param DOMDocument $dom The DOMDocument containing the certificate.
+	 * @return void
+	 */
+	private function modify_dom_links( $dom ) {
 
 		// Get all <links>.
 		$links      = $dom->getElementsByTagName( 'link' );
@@ -363,6 +393,18 @@ class LLMS_Certificates {
 			$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
 		}
 
+	}
+
+	/**
+	 * Modify images of the DOMDocument
+	 *
+	 * @since [version]
+	 *
+	 * @param DOMDocument $dom The DOMDocument containing the certificate.
+	 * @return void
+	 */
+	private function modify_dom_images( $dom ) {
+
 		// Convert images to data uris.
 		$images = $dom->getElementsByTagName( 'img' );
 
@@ -403,20 +445,6 @@ class LLMS_Certificates {
 			$img->removeAttribute( 'loading' );
 
 		}
-
-		// Hide print stuff (this is faster than traversing the dom to remove the element).
-		$header = $dom->getElementsByTagName( 'head' )->item( 0 );
-		$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
-
-		$html = $dom->saveHTML();
-
-		// Handle errors.
-		libxml_clear_errors();
-
-		// Restore.
-		libxml_use_internal_errors( $libxml_state );
-
-		return $html;
 
 	}
 
