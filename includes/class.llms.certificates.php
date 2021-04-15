@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,6 +39,27 @@ class LLMS_Certificates {
 	public $certs = array();
 
 	/**
+	 * Array of local hosts
+	 *
+	 * @var string[]
+	 */
+	private $export_local_hosts;
+
+	/**
+	 * Array of hosts from which stylesheets won't be retrieved during the export
+	 *
+	 * @var string[]
+	 */
+	private $export_blocked_stylesheet_hosts;
+
+	/**
+	 * Array of hosts from which images won't be retrieved during the export
+	 *
+	 * @var string[]
+	 */
+	private $export_blocked_image_hosts;
+
+	/**
 	 * Instance singleton
 	 *
 	 * @since 1.0.0
@@ -67,12 +88,52 @@ class LLMS_Certificates {
 	 * Initialize Class
 	 *
 	 * @since 1.0.0
+	 * @since [version] Define useful class properties used when exporting.
 	 *
 	 * @return void
 	 */
 	public function init() {
+
 		include_once 'class.llms.certificate.php';
 		$this->certs['LLMS_Certificate_User'] = include_once 'certificates/class.llms.certificate.user.php';
+
+		$this->export_local_hosts = array_unique(
+			array(
+				wp_parse_url( get_home_url(), PHP_URL_HOST ),
+				wp_parse_url( get_site_url(), PHP_URL_HOST ),
+			)
+		);
+
+		$this->export_blocked_stylesheet_hosts = array_unique(
+			/**
+			 * Filters the blocked hosts for stylesheets in certificate exports
+			 *
+			 * @since [version]
+			 *
+			 * @param string[] Array of hosts to block.
+			 */
+			apply_filters(
+				'llms_certificate_export_blocked_stylesheet_hosts',
+				array(
+					'fonts.googleapis.com',
+				)
+			)
+		);
+
+		$this->export_blocked_image_hosts = array_unique(
+			/**
+			 * Filters the blocked hosts for images in certificate exports
+			 *
+			 * @since [version]
+			 *
+			 * @param string[] Array of hosts to block.
+			 */
+			apply_filters(
+				'llms_certificate_blocked_image_hosts',
+				array()
+			)
+		);
+
 	}
 
 	/**
@@ -211,16 +272,18 @@ class LLMS_Certificates {
 	 *
 	 * Preparations include:
 	 *
-	 *     1. Removing all `script` tags .
-	 *     2. Converting all stylesheets into inline `style` tags.
-	 *     3. Removes all non stylesheet `link` tags.
-	 *     4. Converts `img` tags into data uris.
-	 *     5. Adds inline CSS to hide anything hidden in a print view.
-	 *     6. Removes the WP Admin Bar.
+	 *     1. Removing all `script` tags.
+	 *     2. Removes the WP Admin Bar.
+	 *     3. Converting all stylesheets into inline `style` tags.
+	 *     4. Removes all non stylesheet `link` tags.
+	 *     5. Converts `img` tags into data uris.
+	 *     6. Adds inline CSS to hide anything hidden in a print view.
 	 *
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
 	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
+	 * @since [version] Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
+	 *               Also, remove the WP Admin Bar earlier.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string
@@ -241,6 +304,12 @@ class LLMS_Certificates {
 			$scripts->item( 0 )->parentNode->removeChild( $scripts->item( 0 ) );
 		}
 
+		// Remove the admin bar (if found).
+		$admin_bar = $dom->getElementById( 'wpadminbar' );
+		if ( $admin_bar ) {
+			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		}
+
 		// Get all <links>.
 		$links      = $dom->getElementsByTagName( 'link' );
 		$to_replace = array();
@@ -254,19 +323,25 @@ class LLMS_Certificates {
 			}
 
 			// Save href for use later.
-			$href = $link->getAttribute( 'href' );
+			$href      = $link->getAttribute( 'href' );
+			$href_host = wp_parse_url( $href, PHP_URL_HOST );
 
-			/**
-			 * Only include local stylesheets.
-			 * This means that external fonts (google, for example) are excluded from the download.
-			 */
-			if ( 0 !== strpos( $href, get_site_url() ) ) {
+			// Only include stylesheets from non blocked hosts.
+			if ( in_array( $href_host, $this->export_blocked_stylesheet_hosts, true ) ) {
 				continue;
 			}
 
 			// Get the actual CSS.
-			$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
-			$raw       = file_get_contents( $stylepath );
+			if ( in_array( $href_host, $this->export_local_hosts, true ) ) { // Is local?
+				$raw = file_get_contents( untrailingslashit( ABSPATH ) . wp_parse_url( $href, PHP_URL_PATH ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+			} else {
+				$response = wp_remote_get( $href );
+				$raw      = wp_remote_retrieve_body( $response );
+			}
+
+			if ( empty( $raw ) ) {
+				continue;
+			}
 
 			// Add it to be inlined late.
 			$tag          = $dom->createElement( 'style', $raw );
@@ -290,30 +365,48 @@ class LLMS_Certificates {
 
 		// Convert images to data uris.
 		$images = $dom->getElementsByTagName( 'img' );
+
 		foreach ( $images as $img ) {
 
-			$src = $img->getAttribute( 'src' );
+			$src      = $img->getAttribute( 'src' );
+			$src_host = wp_parse_url( $src, PHP_URL_HOST );
 
-			// Only include local images.
-			if ( 0 !== strpos( $src, get_site_url() ) ) {
+			// Only include images from non blocked hosts.
+			if ( in_array( $src_host, $this->export_blocked_image_hosts, true ) ) {
+				$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				continue;
 			}
 
-			$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
-			$data    = base64_encode( file_get_contents( $imgpath ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-			$img->setAttribute( 'src', 'data:' . LLMS_Mime_Type_Extractor::from_file_path( $imgpath ) . ';base64,' . $data );
+			if ( in_array( $src_host, $this->export_local_hosts, true ) ) { // Is local?
+				$imgpath = untrailingslashit( ABSPATH ) . wp_parse_url( $src, PHP_URL_PATH );
+				$type    = LLMS_Mime_Type_Extractor::from_file_path( $imgpath );
+				$data    = file_get_contents( $imgpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+			} else {
+				$response = wp_remote_get( $src );
+				$data     = wp_remote_retrieve_body( $response );
+				$type     = wp_remote_retrieve_header( $response, 'content-type' );
+			}
+
+			if ( empty( $data ) || empty( $type ) ) {
+				$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				continue;
+			}
+
+			$data = base64_encode( $data );// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+
+			$img->setAttribute( 'src', 'data:' . $type . ';base64,' . $data );
+
+			// Remove srcset and sizes attributes.
+			$img->removeAttribute( 'sizes' );
+			$img->removeAttribute( 'srcset' );
+			// Remove useless loading attribute.
+			$img->removeAttribute( 'loading' );
 
 		}
 
 		// Hide print stuff (this is faster than traversing the dom to remove the element).
 		$header = $dom->getElementsByTagName( 'head' )->item( 0 );
 		$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
-
-		// Remove the admin bar (if found).
-		$admin_bar = $dom->getElementById( 'wpadminbar' );
-		if ( $admin_bar ) {
-			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-		}
 
 		$html = $dom->saveHTML();
 
