@@ -643,7 +643,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 				'llms_password' => addslashes( $pass ),
 			) );
 
-			$this->assertEquals( $user->ID, $login );
+			$this->assertEquals( $user->ID, $login, $pass );
 
 			wp_set_current_user( null );
 
