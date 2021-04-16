@@ -242,6 +242,7 @@ _Make your LMS platform beautiful_
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
+
 #### **Support**
 
 _**Our world-class LMS software support has your back** and all of our paid products include priority private support with the LifterLMS support team_
@@ -266,8 +267,23 @@ _There are many ways to take LifterLMS for a test drive before commiting to the 
 + Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons installed. This demo website allows you to test drive all the LMS add-ons before you invest. You can also practice creating an online course from scratch and test out the learner experience by enrolling yourself in a course on your demo site. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1][try]** now.
 + Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes. [Take a Free Course][demo] now.
 
+# **Scaling LifterLMS From A Simple Online Course...**
+
+LifterLMS is incredibly flexible, customizable and scalable. It can be used for a simple one course website, and it can also be used as course marketplace or multi instructor online school. LifterLMS can handle small sites with low course enrollments, and it's also used in large universities and inside fortune 500 corporations for employee training. 
+
+Unlike hosted LMS software where you would pay monthly for access and pay more as your platform grows, LifterLMS does not charge you more per course. LifterLMS also does not charge you more per instructor or per student or based on your revenue.
+
+Some LifterLMS websites are small in terms of course and membership enrollments by design. Some are quite large in the hundreds of thousand of course enrollments. The largest site we know about has 734,415 course enrollments. 
+
+Wether you are going big or keeping it small, LifterLMS can scale to your needs for your online course, membership site, training portal, or remote school. 
 
 # **What Others Are Saying About the LMS**
+
+> _"I've used a number of course creation and delivery platforms over the years. And they were all fine… right up to the day when they weren't. The trouble is, they all want you to package and manage your course the way THEY think you should do it. THEIR feature set. THEIR way to do it. **Now I host all my courses on LifterLMS. TOTALLY different experience, because I'm free to do things MY way. I've never yet hit a wall where LifterLMS didn't enable me to do things the way I wanted.** Love it! Great support and community too."_
+
+> _**Nick Usborne**, Teacher, Entrepreneur_
+
+***
 
 > _“**WP101.com serves more than 30,000 members**, so it’s no small challenge to migrate to a new membership plugin. **We spent more than a year carefully evaluating dozens of LMS and membership plugins before we finally discovered LifterLMS (a membership plugin and LMS plugin combined into one). It was the only plugin that checked all the boxes for our needs for course creation and membership functionality.** And the LifterLMS team also shares our passion for creating better online learning experiences. In particular, we deeply resonate with their goal of restoring the human touch to online learning—something that is absent from most online courses today.”_
 
