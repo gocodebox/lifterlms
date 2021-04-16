@@ -104,9 +104,9 @@ $.extend( LLMS.PasswordStrength, {
 	check_strength: function() {
 
 		var $pass_field = this.$pass.closest( '.llms-form-field' ),
-			$conf_field = this.$conf ? this.$conf.closest( '.llms-form-field' ) : null,
+			$conf_field = this.$conf && this.$conf.length ? this.$conf.closest( '.llms-form-field' ) : null,
 			pass_length = this.$pass.val().length,
-			conf_length = this.$conf ? this.$conf.val().length : 0;
+			conf_length = this.$conf && this.$conf.length ? this.$conf.val().length : 0;
 
 		// hide the meter if both fields are empty
 		if ( ! pass_length && ! conf_length ) {
@@ -195,7 +195,7 @@ $.extend( LLMS.PasswordStrength, {
 
 		format   = format || 'int';
 		var pass = this.$pass.val(),
-			conf = this.$conf ? this.$conf.val() : '',
+			conf = this.$conf && this.$conf.length ? this.$conf.val() : '',
 			val;
 
 		// enforce custom length requirement
