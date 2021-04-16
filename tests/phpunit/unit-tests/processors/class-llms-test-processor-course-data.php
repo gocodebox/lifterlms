@@ -240,6 +240,70 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test schedule_calculation()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_schedule_calculation() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		$expected_time = time() + HOUR_IN_SECONDS;
+		$logs = array (
+			"Course data calculation triggered for course {$course_id}.",
+			"Course data calculation scheduled for course {$course_id}.",
+		);
+
+		// Schedule an event.
+		$this->main->schedule_calculation( $course_id, $expected_time );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+		$this->logs->clear( 'processors' );
+
+		// No duplicate scheduled.
+		$this->main->schedule_calculation( $course_id );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
+
+	}
+
+	/**
+	 * Test schedule_calculation() to ensure duplicate events aren't scheduled regardless of ID variable type
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1600
+	 *
+	 * @return void
+	 */
+	public function test_schedule_calculation_string_or_int() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		$expected_time = time() + HOUR_IN_SECONDS;
+		$logs = array (
+			"Course data calculation triggered for course {$course_id}.",
+			"Course data calculation scheduled for course {$course_id}.",
+		);
+
+		// Schedule with an int.
+		$this->main->schedule_calculation( $course_id, $expected_time );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+		$this->logs->clear( 'processors' );
+
+		// No duplicate should be scheduled if using a string later.
+		$this->main->schedule_calculation( (string) $course_id );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
+
+	}
+
+	/**
 	 * Test schedule_from_course()
 	 *
 	 * @since 4.12.0
