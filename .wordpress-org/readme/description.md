@@ -1,9 +1,8 @@
-**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS is a complete LMS solution that works with any well-coded WordPress theme, modern WordPress blocks, and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
+**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS is a complete course building and LMS solution that works with any well-coded WordPress theme, modern WordPress blocks, and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
 
 As an innovative self-hosted LMS platfom solution LifterLMS strikes a beautiful balance in being an **all-in-one LMS solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
 https://www.youtube.com/watch?v=jDVvkipF_pg
-
 
 > **Similar to WooCommerce and WordPress**, As a LMS plugin, LifterLMS gives back to the open source WordPress community by contributing the core LifterLMS plugin for FREE for the world to benefit from. The core LMS incredibly powerful and customizable by itself with it's course building, membership, gamification system, and more. We believe in free distributed learning for all, and our core free open source LMS plugin helps further tha vision **LifterLMS exists to democratize education in the digital classroom.** 
 
@@ -80,19 +79,19 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + One-time payments
 + Recurring payments
 + Payment plans
-+ Unlimited pricing models
++ Unlimited course and membership pricing models
 + PayPal
 + Subscriptions
 + Checkout
 + Free courses
 + Course bundles
 + Private coaching upsells
-+ Coupons
-+ Bulk sales
++ Course and membership Coupons
++ Bulk course and membership sales
 + Affiliate ready
 + Native course and membership sales pages
-+ Offline sales
-+ Customizable enrollment
++ Offline course and membership sales
++ Customizable course and membership enrollment
 + Country and currency
 + E-commerce dashboard
 + Credit card management
@@ -103,13 +102,13 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 
 #### **Create Courses on Your LMS**
 
-+ Multimedia lessons
-+ Quizzes
++ Course multimedia lessons
++ Course quizzes
 + Course builder
 + Drip Content
-+ Pre-requisites
++ Course and lesson pre-requisites
 + Course tracks
-+ Assignments
++ Course assignments
 + Quiz time limits
 + Student dashboard
 + Multi-instructor courses
@@ -120,7 +119,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Forum integrations
 + Graphics pack
 + Course reviews
-+ Group enrollments
++ Group enrollments for courses and memberships
 
 
 #### **Engage Your Students**
@@ -139,7 +138,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Traditional memberships
 + Automatic course enrollment
 + Bulk course enrollment
-+ Content restrictions
++ Content restrictions outside of a course
 + Members-only payment plans
 + Private group discussions
 + Members-only forums
@@ -150,7 +149,7 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 + Email marketing
 + Forums
 + Mobile friendly
-+ Use any theme
++ Use any theme or page builder
 + Built for compatibility
 + CRMs
 + E-learning authoring tools
@@ -160,21 +159,22 @@ _LifterLMS plus one payment gateway like [Stripe][stripe] or [PayPal][pp] is pow
 
 + Course protection
 + User account management and registration
-+ Members-only content
++ Members only content
++ Course only content
 + Restricted access
 + Password management
 + Self-hosted
 
 #### **Own and Manage Your Platform**
 
-+ Detailed reporting
++ Detailed course, membership, ecommerce, and student reporting
 + Course gradebook
 + Email notifications
 + Bulk course and membership enrollments
 + Student management
-+ Course and membership ccess management
++ Course and membership access management
 + Web design management
-+ Branding & Typography
++ Branding & typography
 + LMS Roles
 + Security
 + Require terms
@@ -297,19 +297,19 @@ _There are many ways to take LifterLMS for a test drive before commiting to the 
 + [Showcase][sho] — Check out these LMS websites using LifterLMS
 
 
-# **Join Our Growing Community**
+# **Join Our Growing Community of Course Builders, Membership Site Owners, and WordPress LMS Professionals**
 
 > When you download LifterLMS, you **join a thriving community** of education entrepreneurs, course creators, developers, LMS professionals, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here in our LMS community.
 
-If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in on the open source LMS software.
+If you’re interested in contributing to LifterLMS, head over to the [LifterLMS GitHub Repository][git] to find out how you can pitch in on the open source LMS software. 
 
 Want to add a new language to LifterLMS? Swell! You can contribute language translations to the LMS at [translate.wordpress.org][translate].
 
-Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the LMS website building community. We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you would like to connect in Slack.
+Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users and course creators are up to and ask questions to the LMS website building community. We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you would like to connect in Slack.
 
 **The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.**
 
-We invite you to **let us guide you to a successful training platform** through our WordPress LMS technology, course library, and support systems. We want you to avoid the common LMS site building mistakes, avoid the Software Frankenstein problem, and NOT waste any time bringing your LMS website to life.
+We invite you to **let us guide you to a successful training platform** through our WordPress LMS technology, course library, and support systems. We want you to avoid the common online course & general LMS website building mistakes, avoid the Software Frankenstein problem, and NOT waste any time bringing your LMS website to life.
 
 > LifterLMS helps you **ACCELERATE**.
 
