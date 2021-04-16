@@ -1,4 +1,4 @@
-**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS is a complete course building and LMS solution that works with any well-coded WordPress theme, modern WordPress blocks, and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
+**LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites.** LifterLMS is a complete course building and LMS solution that works with any well-coded WordPress theme, modern WordPress blocks, and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, Gutenberg, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier. LifterLMS is one of only 11 WordPress plugins listed in the Zapier app directory.
 
 As an innovative self-hosted LMS platfom solution LifterLMS strikes a beautiful balance in being an **all-in-one LMS solution** while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
@@ -10,7 +10,9 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 You do NOT need a separate ecommerce or membership plugin made by a different company to use LifterLMS! All that and more is included with LifterLMS so you can **avoid the "Software Frankenstein" problem** (too many plugins made by different companies that don't work well together have different levels of support). LifterLMS combines LMS features, course building, membership features, ecommerce feautures, and engagement features into one powerful LMS platform tool.
 
-LifterLMS is also known for having a thriving well supported LMS user community through active listening, social engagement, course library and robust documentation. As a feature complete LMS solution, LifterLMS invests heavily in support and it's industry leading customer success program. LifterLMS doesn't just provide LMS software. LifterLMS builds community and invest heavily in supporting the community of LMS site builders.
+LifterLMS is also known for having a thriving well supported LMS user community through active listening, social engagement, a course library and robust documentation. As a feature complete LMS solution, LifterLMS invests heavily in support and it's industry leading customer success program. LifterLMS doesn't just provide LMS software. LifterLMS builds community and invest heavily in supporting the community of LMS site builders. 
+
+LifterLMS uses it's own product to create a helpful course library to help the course building community learn. A company should use it's own software beyond simple demos. Course creation software made by course builders!
 
 ***
 
@@ -237,7 +239,7 @@ _Integrate your LMS with the third-party tools you know and love_
 
 #### **LMS Website and User Experience Design Tools**
 
-_Make your LMS platform beautiful_
+_Make your online course creations and LMS platform beautiful_
 
 + [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
@@ -253,7 +255,7 @@ _**Our world-class LMS software support has your back** and all of our paid prod
 
 #### **Save Big on your LMS with a Bundle**
 
-_Save money while unlocking the full potential of your LMS platform_
+_Save money while unlocking the full potential of your course building and LMS platform_
 
 + Level up your online course LMS website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe]
 + Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity]
@@ -277,7 +279,7 @@ Some LifterLMS websites are small in terms of course and membership enrollments 
 
 Wether you are going big or keeping it small, LifterLMS can scale to your needs for your online course, membership site, training portal, or remote school. 
 
-# **What Others Are Saying About the LMS**
+# **What Others Are Saying About LifterLMS for Course Building, Membership Sites, and Remote Schools...**
 
 > _"I've used a number of course creation and delivery platforms over the years. And they were all fine… right up to the day when they weren't. The trouble is, they all want you to package and manage your course the way THEY think you should do it. THEIR feature set. THEIR way to do it. **Now I host all my courses on LifterLMS. TOTALLY different experience, because I'm free to do things MY way. I've never yet hit a wall where LifterLMS didn't enable me to do things the way I wanted.** Love it! Great support and community too."_
 
