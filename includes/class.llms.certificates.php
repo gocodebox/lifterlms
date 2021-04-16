@@ -95,7 +95,7 @@ class LLMS_Certificates {
 	public function init() {
 
 		include_once 'class.llms.certificate.php';
-		$this->certs['LLMS_Certificate_User'] = include_once 'certificates/class.llms.certificate.user.php';
+		$this->certs['LLMS_Certificate_User'] = isset( $this->certs['LLMS_Certificate_User'] ) ? $this->certs['LLMS_Certificate_User'] : include_once 'certificates/class.llms.certificate.user.php';
 
 		$this->export_local_hosts = array_unique(
 			array(
@@ -129,7 +129,7 @@ class LLMS_Certificates {
 			 * @param string[] Array of hosts to block.
 			 */
 			apply_filters(
-				'llms_certificate_blocked_image_hosts',
+				'llms_certificate_export_blocked_image_hosts',
 				array()
 			)
 		);
@@ -352,22 +352,7 @@ class LLMS_Certificates {
 				continue;
 			}
 
-			// Save href for use later.
-			$href      = $link->getAttribute( 'href' );
-			$href_host = wp_parse_url( $href, PHP_URL_HOST );
-
-			// Only include stylesheets from non blocked hosts.
-			if ( in_array( $href_host, $this->export_blocked_stylesheet_hosts, true ) ) {
-				continue;
-			}
-
-			// Get the actual CSS.
-			if ( in_array( $href_host, $this->export_local_hosts, true ) ) { // Is local?
-				$raw = file_get_contents( untrailingslashit( ABSPATH ) . wp_parse_url( $href, PHP_URL_PATH ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
-			} else {
-				$response = wp_remote_get( $href );
-				$raw      = wp_remote_retrieve_body( $response );
-			}
+			$raw = $this->get_stylesheet_raw( $link->getAttribute( 'href' ) );
 
 			if ( empty( $raw ) ) {
 				continue;
@@ -396,6 +381,36 @@ class LLMS_Certificates {
 	}
 
 	/**
+	 * Get stylesheet raw content given its URL
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $stylesheet_href The stylesheet href.
+	 * @param boolean $allowed_only    Optional. Get only stylesheet whose host is not in the `export_blocked_stylesheet_hosts` list.
+	 * @return string|false
+	 */
+	private function get_stylesheet_raw( $stylesheet_href, $allowed_only = true ) {
+
+		$href_host = wp_parse_url( $stylesheet_href, PHP_URL_HOST );
+
+		// Only include stylesheets from non blocked hosts.
+		if ( $allowed_only && in_array( $href_host, $this->export_blocked_stylesheet_hosts, true ) ) {
+			return false;
+		}
+
+		// Get the actual CSS.
+		if ( in_array( $href_host, $this->export_local_hosts, true ) ) { // Is local?
+			$raw = file_get_contents( untrailingslashit( ABSPATH ) . wp_parse_url( $stylesheet_href, PHP_URL_PATH ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+		} else {
+			$response = wp_remote_get( $stylesheet_href );
+			$raw      = wp_remote_retrieve_body( $response );
+		}
+
+		return $raw;
+
+	}
+
+	/**
 	 * Modify images of the DOMDocument
 	 *
 	 * @since [version]
@@ -405,46 +420,65 @@ class LLMS_Certificates {
 	 */
 	private function modify_dom_images( $dom ) {
 
-		// Convert images to data uris.
-		$images = $dom->getElementsByTagName( 'img' );
+		$images    = $dom->getElementsByTagName( 'img' );
+		$to_remove = array();
 
+		// Convert images to data uris.
 		foreach ( $images as $img ) {
 
-			$src      = $img->getAttribute( 'src' );
-			$src_host = wp_parse_url( $src, PHP_URL_HOST );
+			$img_data_type = $this->get_image_data_and_type( $img->getAttribute( 'src' ) );
 
-			// Only include images from non blocked hosts.
-			if ( in_array( $src_host, $this->export_blocked_image_hosts, true ) ) {
-				$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			if ( empty( $img_data_type['data'] ) || empty( $img_data_type['type'] ) ) {
+				$to_remove[] = $img; // Save images to remove: removing them directly here will alter the collection iteration (skip).
 				continue;
 			}
 
-			if ( in_array( $src_host, $this->export_local_hosts, true ) ) { // Is local?
-				$imgpath = untrailingslashit( ABSPATH ) . wp_parse_url( $src, PHP_URL_PATH );
-				$type    = LLMS_Mime_Type_Extractor::from_file_path( $imgpath );
-				$data    = file_get_contents( $imgpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
-			} else {
-				$response = wp_remote_get( $src );
-				$data     = wp_remote_retrieve_body( $response );
-				$type     = wp_remote_retrieve_header( $response, 'content-type' );
-			}
+			$data = base64_encode( $img_data_type['data'] );// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 
-			if ( empty( $data ) || empty( $type ) ) {
-				$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-				continue;
-			}
-
-			$data = base64_encode( $data );// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-
-			$img->setAttribute( 'src', 'data:' . $type . ';base64,' . $data );
+			$img->setAttribute( 'src', 'data:' . $img_data_type['type'] . ';base64,' . $data );
 
 			// Remove srcset and sizes attributes.
 			$img->removeAttribute( 'sizes' );
 			$img->removeAttribute( 'srcset' );
 			// Remove useless loading attribute.
 			$img->removeAttribute( 'loading' );
-
 		}
+
+		foreach ( $to_remove as $img ) {
+			$img->parentNode->removeChild( $img ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		}
+
+	}
+
+	/**
+	 * Get image data and type given its source URL
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $image_src    The image src.
+	 * @param boolean $allowed_only Optional. Get only images whose host is not in the `export_blocked_image_hosts` list.
+	 * @return array|false
+	 */
+	private function get_image_data_and_type( $image_src, $allowed_only = true ) {
+
+		$src_host = wp_parse_url( $image_src, PHP_URL_HOST );
+
+		// Only include images from non blocked hosts.
+		if ( $allowed_only && in_array( $src_host, $this->export_blocked_image_hosts, true ) ) {
+			return false;
+		}
+
+		if ( in_array( $src_host, $this->export_local_hosts, true ) ) { // Is local?
+			$imgpath = untrailingslashit( ABSPATH ) . wp_parse_url( $image_src, PHP_URL_PATH );
+			$data    = file_get_contents( $imgpath ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- getting a local file.
+			$type    = LLMS_Mime_Type_Extractor::from_file_path( $imgpath );
+		} else {
+			$response = wp_remote_get( $image_src );
+			$data     = wp_remote_retrieve_body( $response );
+			$type     = wp_remote_retrieve_header( $response, 'content-type' );
+		}
+
+		return compact( 'data', 'type' );
 
 	}
 
