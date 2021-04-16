@@ -8,7 +8,6 @@
  * @group processor_course_data
  *
  * @since 4.12.0
- * @version 4.12.0
  */
 class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
@@ -402,6 +401,50 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( 60, $course->get( 'average_progress' ) );
 		$this->assertEquals( 5, $course->get( 'enrolled_students' ) );
 		$this->assertEquals( time(), $course->get( 'last_data_calc_run' ), '', 5 );
+
+	}
+
+	/**
+	 * Test deleted / nonexistant courses/posts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_task_nonexistent_course() {
+
+		$tests = array(
+			// Deleted course.
+			$this->factory->post->create( array( 'post_type' => 'course' ) ),
+
+			// Not a course.
+			$this->factory->post->create(),
+		);
+
+		wp_delete_post( $tests[0], true );
+
+		// Not a real post at all.
+		$tests[] = $tests[1] + 1;
+
+		foreach ( $tests as $post_id ) {
+
+			wp_delete_post( $post_id, true );
+
+			$args = compact( 'post_id' );
+			$this->assertFalse( $this->main->task( $args ) );
+
+			$json = wp_json_encode( $args );
+
+			$logs = array (
+				"Course data calculation task called for course {$post_id} with args: {$json}",
+				"Course data calculation task skipped for course {$post_id}.",
+			);
+
+			$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+			$this->logs->clear( 'processors' );
+
+		}
 
 	}
 
