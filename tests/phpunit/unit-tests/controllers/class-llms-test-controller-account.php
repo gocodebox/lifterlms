@@ -577,12 +577,25 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	public function test_reset_password_success() {
 
 		$passwords = array(
-			wp_generate_password( 12 ),
-			wp_generate_password( 32, true, true ),
-			wp_generate_password( 64, true, true ),
+			// See notes on spaces below.
+			' with leading space',
+			'with trailing space ',
+
+			// Some simple characters.
 			'123456arst!',
 			'\slashy \ passwordy',
 			'<such>()-!=***. special!y320',
+
+			// These passwords were failing before we improved the tests.
+			' AxwVr=@D`z5SXh&Cj/z{#8xta>rvx Nr!5Ur48rtI[ykmc8k~Uj&HO>)/$4:z98',
+			'G!*EODpN[!rw] Z|tW|L4.2]@Iok1b1ws(kF3~BP0B%_}./{?)5y$Y`ODn|#-!x ',
+			' w,~5E3`=RiPZq&.q0P>-R]1t|t7Qxev',
+			'_rsBES.Icg~T)c( -UPh?;Dhu>Up{|b!woR{_hynn7$0(*e1mI1Q3t9(h.V1h]v ',
+
+			// Generate some random passwords to test.
+			wp_generate_password( 12 ),
+			wp_generate_password( 32, true, true ),
+			wp_generate_password( 64, true, true ),
 		);
 
 		foreach ( $passwords as $pass ) {
@@ -605,19 +618,38 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			$this->assertTrue( $this->main->reset_password() );
 
 			$user = get_user_by( 'id', $user->ID );
-			// When the password is posted by a user later WP will automatically add slashes because of `wp_magic_quotes()`.
-			$this->assertTrue( wp_check_password( addslashes( $pass ), $user->user_pass ), $pass );
+
+			/**
+			 * Because of `wp_magic_quotes()`, slashes will be automatically added when a user actually tries to login.
+			 *
+			 * We also will trim the password because WP runs `trim()` on passwords when logging in / creating accounts
+			 * but it doesn't run it when using `wp_check_password()` itself: https://core.trac.wordpress.org/ticket/34889.
+			 *
+			 * We'll add these to `wp_check_password()` here to make sure that a user can actually login with their newly updated
+			 * password.
+			 */
+			$this->assertTrue( wp_check_password( addslashes( trim( $pass ) ), $user->user_pass ), $pass );
 
 			$this->assertHasNotices( 'success' );
 			$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
 
-			// User should be able to login too.
+			// User should be able to login using our login functionality / forms.
 			$login = LLMS_Person_Handler::login( array(
 				'llms_login'    => $user->user_email,
+				/**
+				 * Here we add slashes to simulate a physical $_POST with `wp_magic_quotes()` but we don't need to `trim()` because
+				 * that's handled in `wp_authenticate()` (called by `wp_signon()` used by our handler).
+				 */
 				'llms_password' => addslashes( $pass ),
 			) );
 
 			$this->assertEquals( $user->ID, $login );
+
+			wp_set_current_user( null );
+
+			// Authenticate via the WP core method directly (redundant but...).
+			$auth = wp_authenticate( $user->user_login, addslashes( $pass ) );
+			$this->assertEquals( $auth, $user, $pass );
 
 		}
 
