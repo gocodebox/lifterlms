@@ -107,9 +107,13 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 */
 	public function test_modify_dom_links() {
 
+		// Copy test CSSs to the local website for testing purpose.
+		LLMS_Unit_Test_Files::copy_asset( 'example-style-1.css', WP_CONTENT_DIR );
+		LLMS_Unit_Test_Files::copy_asset( 'example-style-2.css', WP_CONTENT_DIR );
+
 		$stylesheet_hrefs = array(
-		//	get_site_url() . '/wp-content/plugins/lifterlms/assets/css/lifterlms.css'                                                                                               => true, // Local.
-		//	get_home_url() . '/wp-content/plugins/lifterlms/assets/css/certificates.css'                                                                                            => true, // Local.
+			get_site_url() . '/wp-content/example-style-1.css'                                                                                                                      => true, // Local.
+			get_home_url() . '/wp-content/example-style-2.css'                                                                                                                      => true, // Local.
 			'https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext&#038;display=swap' => false, // Blocked host.
 			'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/example-style.css'                                                                            => true,
 			'https://unreacha.ble/style.css'                                                                                                                                        => false,
@@ -171,6 +175,10 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			}
 		}
 
+		// Delete copied assets.
+		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-1.css' );
+		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-2.css' );
+
 	}
 
 
@@ -183,7 +191,13 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 */
 	public function test_modify_dom_images() {
 
+		// Copy test images to the local website for testing purpose.
+		LLMS_Unit_Test_Files::copy_asset( 'klim-musalimov-rDMacl1FDjw-unsplash.jpeg', WP_CONTENT_DIR );
+		LLMS_Unit_Test_Files::copy_asset( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg', WP_CONTENT_DIR );
+
 		$image_srcs = array(
+			get_site_url() . '/wp-content/klim-musalimov-rDMacl1FDjw-unsplash.jpeg'                                   => true, // Local.
+			get_home_url() . '/wp-content/yura-timoshenko-R7ftweJR8ks-unsplash.jpeg'                                  => true, // Local.
 			'https://upload.wikimedia.org/wikipedia/commons/a/a9/Example.jpg'                                         => false, // Blocked host.
 			'https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/assets/christian-fregnan-unsplash.jpg' => true,
 			'https://unreach.able/christian-fregnan-unsplash.jpg'                                                     => false,
@@ -273,6 +287,10 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		// Clean added filters.
 		remove_all_filters( 'llms_certificate_export_blocked_image_hosts' );
+
+		// Delete copied images.
+		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/klim-musalimov-rDMacl1FDjw-unsplash.jpeg' );
+		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
 
 	}
 
