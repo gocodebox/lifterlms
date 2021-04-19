@@ -1,6 +1,6 @@
 <?php
 /**
- * Certificates
+ * LLMS_Certificates class file
  *
  * @package LifterLMS/Classes
  *
@@ -11,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Certificates class
+ * Main LifterLMS Certificates "factory"
+ *
+ * Handles certificate generation and exports.
  *
  * @see LLMS()->certificates()
  *
@@ -21,6 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
+ * @since [version] Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  */
 class LLMS_Certificates {
 
