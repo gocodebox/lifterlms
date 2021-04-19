@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v4.21.0 - 2021-04-19
+--------------------
+
+##### Updates
+
++ Certificate exports will now automatically include (most) externally hosted images and stylesheets.
++ Opt-in forward compatibility changes have been made to the `LLMS_Abstract_Options_Data` class.
+
+##### Bugfixes
+
++ Fixed an issue causing one-time payment orders from being included in totals on some reporting screens.
++ Fixed an issue causing student enrollment counts to be incorrect under some circumstances.
++ Fixed issues resulting in unnecessary duplicated instances of course background data processing.
++ Fixed an error encountered when a course is deleted prior to its background data being processed.
++ Fixed an escaping issue causing passwords with a backslash character from being usable following a password reset.
+
+
 v4.20.0 - 2021-03-16
 --------------------
 
