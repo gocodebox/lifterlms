@@ -428,8 +428,6 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $post_id ) {
 
-			wp_delete_post( $post_id, true );
-
 			$args = compact( 'post_id' );
 			$this->assertFalse( $this->main->task( $args ) );
 
