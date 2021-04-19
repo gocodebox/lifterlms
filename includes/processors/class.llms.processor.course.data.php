@@ -375,12 +375,15 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * This will schedule an event that will setup the queue of items for the background process.
 	 *
 	 * @since 3.15.0
+	 * @since [version] Force `$course_id` to an absolute integer to avoid duplicate scheduling resulting from loose variable typing.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @param int $time      Optionally pass a timestamp for when the event should be run.
 	 * @return void
 	 */
 	public function schedule_calculation( $course_id, $time = null ) {
+
+		$course_id = absint( $course_id );
 
 		$this->log( sprintf( 'Course data calculation triggered for course %d.', $course_id ) );
 
