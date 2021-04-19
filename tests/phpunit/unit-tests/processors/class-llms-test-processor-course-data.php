@@ -128,7 +128,41 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test dispatch_calc()w
+	 * Test dispatch_calc() when there's no students in the course
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1596#issuecomment-821585937
+	 *
+	 * @return void
+	 */
+	public function test_dispatch_calc_no_students() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course    = llms_get_post( $course_id );
+
+		// Mock meta data that may exist on the course (from a previous run, for example).
+		$metas = array(
+			'average_grade' => array( 95, 0 ),
+			'average_progress' => array( 22, 0 ),
+			'enrolled_students' => array( 204, 0 ),
+			'last_data_calc_run' => array( time() - HOUR_IN_SECONDS, time() ),
+			'temp_calc_data' => array( array( 123 ), array() ),
+		);
+		foreach ( $metas as $key => $vals ) {
+			$course->set( $key, $vals[0] );
+		}
+
+		$this->main->dispatch_calc( $course_id );
+
+		foreach ( $metas as $key => $vals ) {
+			$this->assertEquals( $vals[1], $course->get( $key ), $key );
+		}
+
+	}
+
+	/**
+	 * Test dispatch_calc()
 	 *
 	 * @since 4.12.0
 	 *
@@ -183,6 +217,44 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$now = time();
 		update_post_meta( $course_id, '_llms_last_data_calc_run', $now );
 		$this->assertEquals( $now, LLMS_Unit_Test_Util::call_method( $this->main, 'get_last_run', array( $course_id ) ) );
+
+	}
+
+	/**
+	 * Test get_task_data()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_task_data() {
+
+		$data = array();
+
+		// Default data only.
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_task_data' );
+		$this->assertEquals( array(
+			'students' => 0,
+			'progress' => 0,
+			'quizzes'  => 0,
+			'grade'    => 0,
+		), $res );
+
+
+		// Merge in some data
+		$merge = array(
+			'progress' => 25,
+			'students' => 203,
+			'custom' => 'abc',
+		);
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_task_data', array( $merge ) );
+		$this->assertEquals( array(
+			'students' => 203,
+			'progress' => 25,
+			'quizzes'  => 0,
+			'grade'    => 0,
+			'custom'   => 'abc',
+		), $res );
 
 	}
 

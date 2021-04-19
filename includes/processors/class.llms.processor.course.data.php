@@ -75,9 +75,11 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *               Improve performance of the student query by removing unneeded sort columns.
+	 * @since [version] When there's no students found in the course, run the `task_complete()` method to ensure data
+	 *                  from a previous calculation is cleared.
 	 *
 	 * @param int $course_id WP Post ID of the course.
-	 * @return void
+	 * @return void|null
 	 */
 	public function dispatch_calc( $course_id ) {
 
@@ -94,9 +96,10 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Get total number of pages.
 		$query = new LLMS_Student_Query( $args );
 
-		// Nothing to do.
+		// No students in the course, run task completion.
 		if ( ! $query->found_results ) {
-			return;
+			$course = llms_get_post( $course_id );
+			return $course instanceof LLMS_Course ? $this->task_complete( $course, $this->get_task_data(), true ) : null;
 		}
 
 		// Throttle processing.
@@ -177,6 +180,29 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	protected function get_last_run( $course_id ) {
 		return absint( get_post_meta( $course_id, '_llms_last_data_calc_run', true ) );
+	}
+
+	/**
+	 * Retrieve structured task data array.
+	 *
+	 * Ensures the expected required array keys are found on the task array
+	 * and optionally merges in an existing array of day with the (empty) defaults.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data Existing array of day (from a previous task).
+	 * @return array
+	 */
+	protected function get_task_data( $data = array() ) {
+		return wp_parse_args(
+			$data,
+			array(
+				'students' => 0,
+				'progress' => 0,
+				'quizzes'  => 0,
+				'grade'    => 0,
+			)
+		);
 	}
 
 	/**
@@ -380,7 +406,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
 	 * @since 4.16.0 Fix log string to properly record the post_id.
-	 * @since [version] Return early for non-courses.
+	 * @since [version] Use `get_task_data()` to merge/retrieve aggregate task data.
+	 *               Return early for non-courses.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
@@ -404,16 +431,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$data = ( 1 !== $args['page'] ) ? $course->get( 'temp_calc_data' ) : array();
 
 		// Merge with the defaults.
-		$data = wp_parse_args(
-			$data,
-			array(
-				'students' => 0,
-				'progress' => 0,
-				'quizzes'  => 0,
-				'grade'    => 0,
-			)
-		);
+		$data = $this->get_task_data( $data );
 
+		// Perform the query.
 		$query = new LLMS_Student_Query( $args );
 
 		foreach ( $query->get_students() as $student ) {
