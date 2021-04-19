@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 4.16.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -380,6 +380,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
 	 * @since 4.16.0 Fix log string to properly record the post_id.
+	 * @since [version] Return early for non-courses.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
@@ -389,6 +390,12 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$this->log( sprintf( 'Course data calculation task called for course %1$d with args: %2$s', $args['post_id'], wp_json_encode( $args ) ) );
 
 		$course = llms_get_post( $args['post_id'] );
+
+		// Only process existing courses.
+		if ( ! $course instanceof LLMS_Course ) {
+			$this->log( sprintf( 'Course data calculation task skipped for course %1$d.', $args['post_id'] ) );
+			return false;
+		}
 
 		// Lock the course against duplicate processing.
 		$course->set( 'temp_calc_data_lock', 'yes' );
