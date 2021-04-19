@@ -85,6 +85,12 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		$this->log( sprintf( 'Course data calculation dispatched for course %d.', $course_id ) );
 
+		// Make sure we have a course.
+		$course = llms_get_post( $course_id );
+		if ( ! $course instanceof LLMS_Course ) {
+			return null;
+		}
+
 		// Return early if we're already processing data for the given course.
 		if ( $this->is_already_processing_course( $course_id ) ) {
 			return $this->dispatch_calc_throttled( $course_id );
@@ -98,9 +104,11 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		// No students in the course, run task completion.
 		if ( ! $query->found_results ) {
-			$course = llms_get_post( $course_id );
-			return $course instanceof LLMS_Course ? $this->task_complete( $course, $this->get_task_data(), true ) : null;
+			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
+
+		// Store the total number of students right away.
+		$course->set( 'enrolled_students', $query->found_results );
 
 		// Throttle processing.
 		if ( $this->maybe_throttle( $query->found_results, $course_id ) ) {

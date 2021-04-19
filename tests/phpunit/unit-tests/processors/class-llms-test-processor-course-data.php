@@ -62,6 +62,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc() when throttled by number of students
 	 *
 	 * @since 4.12.0
+	 * @since [version] Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -81,6 +82,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Dispatch.
 		$this->main->dispatch_calc( $course_id );
+
+		/**
+		 * Even if a course is throttled the student count should be updated right away since it's not only used for reporting
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1564
+		 */
+		$this->assertEquals( 2, get_post_meta( $course_id, '_llms_enrolled_students', true ) );
 
 		// Expected logs.
 		$logs = array(
@@ -165,6 +173,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc()
 	 *
 	 * @since 4.12.0
+	 * @since [version] Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -181,6 +190,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		add_filter( 'llms_data_processor_course_data_student_query_args', $handler );
 
 		$this->main->dispatch_calc( $course_id );
+
+		/**
+		 * Even if a course is throttled the student count should be updated right away since it's not only used for reporting
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1564
+		 */
+		$this->assertEquals( 5, get_post_meta( $course_id, '_llms_enrolled_students', true ) );
 
 		// Logged properly.
 		$this->assertEquals( array( "Course data calculation dispatched for course {$course_id}." ), $this->logs->get( 'processors' ) );
