@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.20.0\n"
+"Project-Id-Version: LifterLMS 4.21.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-16T13:33:51-06:00\n"
+"POT-Creation-Date: 2021-04-19T14:22:58-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -146,7 +146,7 @@ msgid "Sorry, you are not allowed to create %s as this user."
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:199
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:451
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:489
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr ""
 
@@ -154,149 +154,157 @@ msgstr ""
 msgid "Incorrect password."
 msgstr ""
 
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:368
+msgid "Limit result set to posts assigned one or more statuses."
+msgstr ""
+
 #. Translators: %s = The post type name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:447
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:485
 msgid "Sorry, you are not allowed to update %s as this user."
 msgstr ""
 
 #. Translators: %s = The post type name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:597
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:635
 msgid "Sorry, you are not allowed to delete %s as this user."
 msgstr ""
 
 #. translators: %1$s: post type name, %2$s: force=true
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:648
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:686
 msgid "The %1$s does not support trashing. Set '%2$s' to delete."
 msgstr ""
 
 #. translators: %s: post type name
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:672
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:710
 msgid "The %s cannot be deleted."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1052
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1091
 msgid "Unique Identifier. The WordPress Post ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1058
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1097
 #: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:230
 #: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
 msgid "Creation date. Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1063
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1080
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1102
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1119
 msgid "Creation date (in GMT). Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1068
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1107
 #: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:239
 #: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
 msgid "Date last modified. Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1074
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1113
 msgid "Date last modified (in GMT). Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1089
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1128
 msgid "Post title."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1099
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1138
 msgid "Raw title. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1104
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1143
 msgid "Rendered title."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1113
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1152
 msgid "The HTML content of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1122
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1161
 msgid "Rendered HTML content."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1128
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1167
 msgid "Raw HTML content. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1133
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1172
 msgid "Whether the content is protected with a password."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1142
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1181
 msgid "The HTML excerpt of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1150
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1189
 msgid "Rendered HTML excerpt."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1156
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1195
 msgid "Raw HTML excerpt. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1161
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1200
 msgid "Whether the excerpt is protected with a password."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1169
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1208
 msgid "Post URL."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1176
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1215
 msgid "Post URL slug."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1184
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1223
 msgid "LifterLMS custom post type"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1190
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1229
 msgid "The publication status of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1197
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1243
 msgid "Password used to protect access to the content."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1202
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1248
 msgid "Featured image ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1207
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1253
 msgid "Post comment status. Default comment status dependent upon general WordPress post discussion settings."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1214
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1260
 msgid "Post ping status. Default ping status dependent upon general WordPress post discussion settings."
 msgstr ""
 
 #. translators: %s: post type
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1246
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1292
 msgid "The %s cannot be retrieved."
 msgstr ""
 
 #. translators: %s: post type
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1272
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1318
 msgid "The %s cannot be created."
 msgstr ""
 
 #. Translators: %s = The post type name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1454
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1500
 msgid "Sorry, you are not allowed to create private %s."
 msgstr ""
 
 #. Translators: $s = The post type name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1461
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1507
 msgid "Sorry, you are not allowed to publish %s."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1494
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1540
 msgid "Invalid featured media ID."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1809
+msgid "Status is forbidden."
 msgstr ""
 
 #. Translators: %s = role key.
@@ -539,7 +547,7 @@ msgstr ""
 #: vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:186
 #: vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:122
 #: includes/admin/views/access-plans/metabox.php:31
-#: templates/content-certificate.php:47
+#: templates/content-certificate.php:48
 #: templates/myaccount/form-edit-account.php:49
 msgid "Save"
 msgstr ""
@@ -2695,7 +2703,7 @@ msgid "Checking this box will allow users to use this payment gateway."
 msgstr ""
 
 #: includes/abstracts/abstract.llms.payment.gateway.php:279
-#: includes/abstracts/llms.abstract.integration.php:169
+#: includes/abstracts/llms.abstract.integration.php:187
 #: includes/admin/settings/class.llms.settings.accounts.php:265
 #: includes/admin/settings/class.llms.settings.accounts.php:397
 msgid "Enable / Disable"
@@ -2806,11 +2814,11 @@ msgstr ""
 msgid "Unable to generate export file, could not open file for writing."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:165
+#: includes/abstracts/llms.abstract.integration.php:183
 msgid "Check to enable this integration."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:256
+#: includes/abstracts/llms.abstract.integration.php:323
 msgctxt "Link text for integration plugin settings"
 msgid "Settings"
 msgstr ""
@@ -7326,16 +7334,16 @@ msgstr ""
 msgid "Missing tracking data."
 msgstr ""
 
-#: includes/class.llms.certificates.php:125
+#: includes/class.llms.certificates.php:189
 msgid "Unable to open export file (HTML certificate) for writing."
 msgstr ""
 
-#: includes/class.llms.certificates.php:129
+#: includes/class.llms.certificates.php:193
 msgid "Unable to write to export file (HTML certificate)."
 msgstr ""
 
 #. Translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-#: includes/class.llms.certificates.php:159
+#: includes/class.llms.certificates.php:223
 msgctxt "certificate download filename"
 msgid "certificate-%1$s-%2$s"
 msgstr ""
@@ -8039,47 +8047,47 @@ msgstr ""
 msgid "Invalid action"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:687
+#: includes/class.llms.person.handler.php:697
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:860
+#: includes/class.llms.person.handler.php:870
 msgid "No user ID specified."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:959
+#: includes/class.llms.person.handler.php:969
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:985
+#: includes/class.llms.person.handler.php:995
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:994
+#: includes/class.llms.person.handler.php:1004
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:998
+#: includes/class.llms.person.handler.php:1008
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1011
+#: includes/class.llms.person.handler.php:1021
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1024
+#: includes/class.llms.person.handler.php:1034
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1031
+#: includes/class.llms.person.handler.php:1041
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1039
+#: includes/class.llms.person.handler.php:1049
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1059
+#: includes/class.llms.person.handler.php:1069
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -9732,7 +9740,7 @@ msgid "Voucher redeemed successfully!"
 msgstr ""
 
 #. Translators: %1$s = Opening anchor tag; $2$s = closing anchor tag.
-#: includes/forms/controllers/class.llms.controller.account.php:317
+#: includes/forms/controllers/class.llms.controller.account.php:316
 msgid "Your password has been updated. %1$sClick here to login%2$s."
 msgstr ""
 
@@ -13498,15 +13506,19 @@ msgstr ""
 msgid "Due Now: %s"
 msgstr ""
 
-#: templates/content-certificate.php:41
+#: templates/content-certificate.php:18
+msgid "Certificate Background"
+msgstr ""
+
+#: templates/content-certificate.php:42
 msgid "Print"
 msgstr ""
 
-#: templates/content-certificate.php:52
+#: templates/content-certificate.php:53
 msgid "Disable sharing"
 msgstr ""
 
-#: templates/content-certificate.php:52
+#: templates/content-certificate.php:53
 msgid "Enable sharing"
 msgstr ""
 

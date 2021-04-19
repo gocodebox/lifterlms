@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 3.37.17
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -264,10 +264,10 @@ class LLMS_Controller_Account {
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
+	 * @since 4.21.0 Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
 	 *
-	 * @return null|WP_Error|true `null` for nonce errors or when the form hasn't been submitted.
-	 *                            Error object when errors are encounterd.
-	 *                            `true` on success.
+	 * @return null|WP_Error|true Returns `null` for nonce errors or when the form hasn't been submitted, an error object when
+	 *                            errors are encountered, and `true` on success.
 	 */
 	public function reset_password() {
 
@@ -295,8 +295,7 @@ class LLMS_Controller_Account {
 			return $user;
 		}
 
-		// Reset the password.
-		reset_password( $user, llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING ) );
+		reset_password( $user, addslashes( llms_filter_input( INPUT_POST, 'password', FILTER_UNSAFE_RAW ) ) );
 
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.

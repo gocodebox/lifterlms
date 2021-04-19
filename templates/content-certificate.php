@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @version 4.5.0
+ * @since 4.21.0 Make certificate background alt localizable.
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +15,7 @@ $cert  = new LLMS_User_Certificate( get_the_ID() );
 $image = llms_get_certificate_image();
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
-	<img src="<?php echo $image['src']; ?>" style="margin-bottom:-<?php echo $image['height']; ?>px;" alt="Cetrificate Background" class="certificate-background">
+	<img src="<?php echo $image['src']; ?>" style="margin-bottom:-<?php echo $image['height']; ?>px;" alt="<?php esc_html_e( 'Certificate Background', 'lifterlms' ); ?>" class="certificate-background">
 	<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<div class="llms-summary">
