@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,7 +75,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *               Improve performance of the student query by removing unneeded sort columns.
-	 * @since [version] When there's no students found in the course, run the `task_complete()` method to ensure data
+	 * @since 4.21.0 When there's no students found in the course, run the `task_complete()` method to ensure data
 	 *                  from a previous calculation is cleared.
 	 *
 	 * @param int $course_id WP Post ID of the course.
@@ -196,7 +196,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Ensures the expected required array keys are found on the task array
 	 * and optionally merges in an existing array of day with the (empty) defaults.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param array $data Existing array of day (from a previous task).
 	 * @return array
@@ -383,7 +383,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * This will schedule an event that will setup the queue of items for the background process.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Force `$course_id` to an absolute integer to avoid duplicate scheduling resulting from loose variable typing.
+	 * @since 4.21.0 Force `$course_id` to an absolute integer to avoid duplicate scheduling resulting from loose variable typing.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @param int $time      Optionally pass a timestamp for when the event should be run.
@@ -417,7 +417,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
 	 * @since 4.16.0 Fix log string to properly record the post_id.
-	 * @since [version] Use `get_task_data()` to merge/retrieve aggregate task data.
+	 * @since 4.21.0 Use `get_task_data()` to merge/retrieve aggregate task data.
 	 *               Return early for non-courses.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.

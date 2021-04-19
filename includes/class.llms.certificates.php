@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
- * @since [version] Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
+ * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  */
 class LLMS_Certificates {
 
@@ -91,7 +91,7 @@ class LLMS_Certificates {
 	 * Initialize Class
 	 *
 	 * @since 1.0.0
-	 * @since [version] Define useful class properties used when exporting.
+	 * @since 4.21.0 Define useful class properties used when exporting.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Certificates {
 			/**
 			 * Filters the blocked hosts for stylesheets in certificate exports
 			 *
-			 * @since [version]
+			 * @since 4.21.0
 			 *
 			 * @param string[] Array of hosts to block.
 			 */
@@ -127,7 +127,7 @@ class LLMS_Certificates {
 			/**
 			 * Filters the blocked hosts for images in certificate exports
 			 *
-			 * @since [version]
+			 * @since 4.21.0
 			 *
 			 * @param string[] Array of hosts to block.
 			 */
@@ -285,7 +285,7 @@ class LLMS_Certificates {
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
 	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
-	 * @since [version] Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
+	 * @since 4.21.0 Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
 	 *               Also, remove the WP Admin Bar earlier.
 	 *               Move the links and images modification in specific methods.
 	 *
@@ -336,7 +336,7 @@ class LLMS_Certificates {
 	/**
 	 * Modify head's <link>s of the DOMDocument.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param DOMDocument $dom The DOMDocument containing the certificate.
 	 * @return void
@@ -386,7 +386,7 @@ class LLMS_Certificates {
 	/**
 	 * Get stylesheet raw content given its URL
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param string  $stylesheet_href The stylesheet href.
 	 * @param boolean $allowed_only    Optional. Get only stylesheet whose host is not in the `export_blocked_stylesheet_hosts` list.
@@ -416,7 +416,7 @@ class LLMS_Certificates {
 	/**
 	 * Modify images of the DOMDocument
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param DOMDocument $dom The DOMDocument containing the certificate.
 	 * @return void
@@ -456,7 +456,7 @@ class LLMS_Certificates {
 	/**
 	 * Get image data and type given its source URL
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param string  $image_src    The image src.
 	 * @param boolean $allowed_only Optional. Get only images whose host is not in the `export_blocked_image_hosts` list.

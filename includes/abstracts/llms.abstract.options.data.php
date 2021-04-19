@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Options_Data {
 	 * Retrieve the value of an option from the database
 	 *
 	 * @since 3.8.0
-	 * @since [version] Changed the behavior of the function when the concrete class defines `$this->version` greater than 1.
+	 * @since 4.21.0 Changed the behavior of the function when the concrete class defines `$this->version` greater than 1.
 	 *
 	 * @param string $name     Option name (unprefixed).
 	 * @param mixed  $default  Default value to use if no option is found.
@@ -77,7 +77,7 @@ abstract class LLMS_Abstract_Options_Data {
 	 * We will transition extending classes little by little to use the new behavior and deprecate this once
 	 * all classes are fully transitioned.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param string $name     Full (prefixed) option name.
 	 * @param mixed  $default  Default value to use if no option is found.
@@ -99,7 +99,7 @@ abstract class LLMS_Abstract_Options_Data {
 	 *
 	 * This is a callback function for the WP core filter `default_option_{$option}`.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param mixed  $default_value        The default value. If no value is passed to `get_option()`, this will be an empty string.
 	 *                                     Otherwise it will be the default value passed to the method.

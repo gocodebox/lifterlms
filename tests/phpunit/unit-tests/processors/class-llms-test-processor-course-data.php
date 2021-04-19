@@ -62,7 +62,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc() when throttled by number of students
 	 *
 	 * @since 4.12.0
-	 * @since [version] Assert student enrolled count early.
+	 * @since 4.21.0 Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_calc() when there's no students in the course
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1596#issuecomment-821585937
 	 *
@@ -173,7 +173,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Assert student enrolled count early.
+	 * @since 4.21.0 Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -239,7 +239,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get_task_data()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -329,7 +329,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_calculation()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -360,7 +360,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_calculation() to ensure duplicate events aren't scheduled regardless of ID variable type
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1600
 	 *
@@ -559,7 +559,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test deleted / nonexistant courses/posts.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -602,7 +602,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_calc() with multiple courses to make sure that tasks are not duplicated in other batches.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1602
 	 *

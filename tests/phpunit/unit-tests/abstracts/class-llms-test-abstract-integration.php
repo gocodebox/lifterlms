@@ -15,7 +15,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	 * Retrieve the abstract class mock stub
 	 *
 	 * @since 3.19.0
-	 * @since [version] Use an anonymous class in favor of a mock abstract.
+	 * @since 4.21.0 Use an anonymous class in favor of a mock abstract.
 	 *
 	 * @return LLMS_Abstract_Integration
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test the constructor.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_option() method v1 behavior
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_option() method v2 behavior
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Directly test the get_option_default_value() method.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_priority() method
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test get_settings()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -210,7 +210,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test get_settings() when missing requirements.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -300,7 +300,7 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test plugin_action_links()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */

@@ -7,8 +7,8 @@
  * @group certificates
  *
  * @since 3.37.3
- * @since [version] Added tests on modify_dom_links() and modify_dom_images().
- * @version [version]
+ * @since 4.21.0 Added tests on modify_dom_links() and modify_dom_images().
+ * @version 4.21.0
  */
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
@@ -101,7 +101,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_dom_links()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -185,7 +185,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_dom_images()
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -297,7 +297,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Util to build a DOMDocument similar to the scraped certificate
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param array $dom_sections Sections of the page.
 	 * @return DOMDocument|WP_Error

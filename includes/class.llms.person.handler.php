@@ -679,7 +679,7 @@ class LLMS_Person_Handler {
 		/**
 		 * Filters the validation result of user-submitted login data
 		 *
-		 * @since [version]
+		 * @since 4.21.0
 		 *
 		 * @param WP_Error|boolean $valid An error object containing validation errors or `true` if no validation errors found.
 		 * @param array            $data  User submitted login data.

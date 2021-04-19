@@ -570,7 +570,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Test reset_password(): success
 	 *
 	 * @since 3.37.17
-	 * @since [version] Added more assertions for testing with special character passwords.
+	 * @since 4.21.0 Added more assertions for testing with special character passwords.
 	 *
 	 * @return void
 	 */

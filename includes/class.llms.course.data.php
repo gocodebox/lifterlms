@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,7 +186,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieve # of orders placed for the course within the period
 	 *
 	 * @since 3.15.0
-	 * @since [version] Fixed order params passed to the `$this->orders_query()` method.
+	 * @since 4.21.0 Fixed order params passed to the `$this->orders_query()` method.
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
 	 * @return int
@@ -288,7 +288,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Execute a WP Query to retrieve orders within the given date range
 	 *
 	 * @since 3.15.0
-	 * @since [version] Fixed the post status for completed orders.
+	 * @since 4.21.0 Fixed the post status for completed orders.
 	 *
 	 * @param int   $num_orders Optional. Number of orders to retrieve. Default is `1`.
 	 * @param array $dates      Optional. Date range (passed to WP_Query['date_query']). Default is empty array.

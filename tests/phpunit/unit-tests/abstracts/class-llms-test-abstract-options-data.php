@@ -9,14 +9,14 @@
  * @group settings
  *
  * @since 3.19.0
- * @since [version] Replaced the `get_stub()` method with `$this->main`, initialized in `setUp()`.
+ * @since 4.21.0 Replaced the `get_stub()` method with `$this->main`, initialized in `setUp()`.
  */
 class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	 * might result in unexpected consequences throughout add-ons utilizing the existing behavior as
 	 * if it were intended and not a bug.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get_option(): v2 behavior
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	/**
 	 * Run test_get_option_v1_expected_bug() on v2 to see the bug fixed.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	 * test get_option_name() method
 	 *
 	 * @since 3.19.0
-	 * @since [version] Use unit test utils to update private property value.
+	 * @since 4.21.0 Use unit test utils to update private property value.
 	 *
 	 * @return void
 	 */

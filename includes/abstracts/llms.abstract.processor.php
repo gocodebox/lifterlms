@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -132,7 +132,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Overrides the parent method to reset the (saved) `$data` property and
 	 * prevent duplicate data being pushed into future batches.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @return array|WP_Error Result of wp_remote_post()
 	 */

@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @since [version] Make certificate background alt localizable.
- * @version [version]
+ * @since 4.21.0 Make certificate background alt localizable.
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
