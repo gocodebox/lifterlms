@@ -582,4 +582,57 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 	}
 
+
+	/**
+	 * Test dispatch_calc() with multiple courses to make sure that tasks are not duplicated in other batches.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1602
+	 *
+	 * @return void
+	 */
+	public function test_duplicate_batch_tasks() {
+
+		$course_ids[] = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course_ids[] = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $course_ids as $course_id ) {
+			$this->factory->student->create_and_enroll_many( 5, $course_id );
+		}
+		$this->logs->clear( 'processors' );
+
+		$handler = function ( $args ) {
+			$args['per_page'] = 2;
+
+			return $args;
+		};
+		add_filter( 'llms_data_processor_course_data_student_query_args', $handler );
+
+		$expected_logs = array();
+		foreach ( $course_ids as $course_id ) {
+			$this->main->dispatch_calc( $course_id );
+			$expected_logs[] = "Course data calculation dispatched for course {$course_id}.";
+		}
+		// Logged properly.
+		$this->assertEquals( $expected_logs, $this->logs->get( 'processors' ) );
+
+		foreach ( $course_ids as $course_id ) {
+			$batch = LLMS_Unit_Test_Util::call_method( $this->main, 'get_batch' );
+
+			// Test data is loaded into the queue properly.
+			foreach ( $batch->data as $i => $student_query_args ) {
+				$this->assertEquals( $course_id, $student_query_args['post_id'], $course_id );
+				$this->assertEquals( 2, $student_query_args['per_page'], 'per_page' );
+				$this->assertEquals( array( 'enrolled' ), $student_query_args['statuses'], 'statuses' );
+				$this->assertEquals( ++ $i, $student_query_args['page'], 'page' );
+			}
+
+			// Simulate handling of queued batched tasks.
+			LLMS_Unit_Test_Util::call_method( $this->main, 'delete', array( $batch->key ) );
+		}
+
+		remove_filter( 'llms_data_processor_course_data_student_query_args', $handler );
+
+	}
+
 }

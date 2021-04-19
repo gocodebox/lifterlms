@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -55,7 +55,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 */
 	// phpcs:ignore -- commented out code
 	// abstract protected function task( $item );
-
 
 	/**
 	 * Array of actions that should be watched to trigger
@@ -136,6 +135,30 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 			remove_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
 		}
+
+	}
+
+	/**
+	 * Dispatch
+	 *
+	 * Overrides the parent method to reset the (saved) `$data` property and
+	 * prevent duplicate data being pushed into future batches.
+	 *
+	 * @return array|WP_Error Result of wp_remote_post()
+	 */
+	public function dispatch() {
+
+		// Perform the parent method.
+		$ret = parent::dispatch();
+
+		/**
+		 * Empty the (saved) data to prevent duplicate data in future batches.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1602
+		 */
+		$this->data = array();
+
+		return $ret;
 
 	}
 
@@ -256,5 +279,6 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		$this->save_data( $data );
 
 	}
+
 
 }
