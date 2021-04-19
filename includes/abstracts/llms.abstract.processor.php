@@ -35,7 +35,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Initializer
 	 *
 	 * Acts as a constructor that extending processors should implement
-	 * at the very least should populate the $this->actions array
+	 * at the very least should populate the $this->actions array.
 	 *
 	 * @since 3.15.0
 	 *
@@ -196,9 +196,10 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Log data to the processors log when processors debugging is enabled
 	 *
-	 * @param mixed $data  Data to log.
-	 * @return void
 	 * @since 3.15.0
+	 *
+	 * @param mixed $data Data to log.
+	 * @return void
 	 */
 	protected function log( $data ) {
 
