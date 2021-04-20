@@ -392,7 +392,7 @@ class LLMS_Person_Handler {
 	 *     @type string $llms_password User password.
 	 *     @type string $llms_remember Whether to extend the cookie duration to keep the user logged in for a longer period.
 	 * }
-	 * @return WP_Error|int WP_Error on error or the WP_User ID.
+	 * @return WP_Error|int The WP_User ID on login success or an error object on failure.
 	 */
 	public static function login( $data ) {
 
@@ -429,9 +429,21 @@ class LLMS_Person_Handler {
 		// Validate the fields & allow custom validation to occur.
 		$valid = self::validate_login_fields( $data );
 
-		// Error.
+		// If errors found, return them.
 		if ( is_wp_error( $valid ) ) {
+
+			/**
+			 * Filters the errors found during a LifterLMS user login attempt
+			 *
+			 * @since Unknown
+			 *
+			 * @param WP_Error       $valid  Error object containing information about the login error.
+			 * @param array          $data   User submitted login form data.
+			 * @param WP_Error|false $signon The original WP Error object returned by `wp_signon()` or false if the error
+			 *                               is encountered prior to the signon attempt.
+			 */
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data, false );
+
 		}
 
 		$creds = array(
@@ -442,6 +454,8 @@ class LLMS_Person_Handler {
 
 		/**
 		 * Filter a user's login credentials immediately prior to signing in.
+		 *
+		 * @since Unknown
 		 *
 		 * @param array $creds {
 		 *    User login credentials.
@@ -455,8 +469,11 @@ class LLMS_Person_Handler {
 		$signon = wp_signon( $creds, is_ssl() );
 
 		if ( is_wp_error( $signon ) ) {
+
 			$err = new WP_Error( 'login-error', __( 'Could not find an account with the supplied email address and password combination.', 'lifterlms' ) );
+			// This hook is documented in includes/class.llms.person.handler.php.
 			return apply_filters( 'lifterlms_user_login_errors', $err, $data, $signon );
+
 		}
 
 		return $signon->ID;
@@ -499,7 +516,17 @@ class LLMS_Person_Handler {
 			}
 		}
 
-		return $err->has_errors() ? $err : true;
+		$valid = $err->has_errors() ? $err : true;
+
+		/**
+		 * Filters the validation result of user-submitted login data
+		 *
+		 * @since 4.21.0
+		 *
+		 * @param WP_Error|boolean $valid An error object containing validation errors or `true` if no validation errors found.
+		 * @param array            $data  User submitted login data.
+		 */
+		return apply_filters( 'llms_after_user_login_data_validation', $valid, $data );
 
 	}
 

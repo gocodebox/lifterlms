@@ -8,7 +8,6 @@
  * @group processor_course_data
  *
  * @since 4.12.0
- * @version 4.12.0
  */
 class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
@@ -63,6 +62,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc() when throttled by number of students
 	 *
 	 * @since 4.12.0
+	 * @since 4.21.0 Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -82,6 +82,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Dispatch.
 		$this->main->dispatch_calc( $course_id );
+
+		/**
+		 * Even if a course is throttled the student count should be updated right away since it's not only used for reporting
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1564
+		 */
+		$this->assertEquals( 2, get_post_meta( $course_id, '_llms_enrolled_students', true ) );
 
 		// Expected logs.
 		$logs = array(
@@ -129,9 +136,44 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test dispatch_calc()w
+	 * Test dispatch_calc() when there's no students in the course
+	 *
+	 * @since 4.21.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1596#issuecomment-821585937
+	 *
+	 * @return void
+	 */
+	public function test_dispatch_calc_no_students() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course    = llms_get_post( $course_id );
+
+		// Mock meta data that may exist on the course (from a previous run, for example).
+		$metas = array(
+			'average_grade' => array( 95, 0 ),
+			'average_progress' => array( 22, 0 ),
+			'enrolled_students' => array( 204, 0 ),
+			'last_data_calc_run' => array( time() - HOUR_IN_SECONDS, time() ),
+			'temp_calc_data' => array( array( 123 ), array() ),
+		);
+		foreach ( $metas as $key => $vals ) {
+			$course->set( $key, $vals[0] );
+		}
+
+		$this->main->dispatch_calc( $course_id );
+
+		foreach ( $metas as $key => $vals ) {
+			$this->assertEquals( $vals[1], $course->get( $key ), $key );
+		}
+
+	}
+
+	/**
+	 * Test dispatch_calc()
 	 *
 	 * @since 4.12.0
+	 * @since 4.21.0 Assert student enrolled count early.
 	 *
 	 * @return void
 	 */
@@ -148,6 +190,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		add_filter( 'llms_data_processor_course_data_student_query_args', $handler );
 
 		$this->main->dispatch_calc( $course_id );
+
+		/**
+		 * Even if a course is throttled the student count should be updated right away since it's not only used for reporting
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1564
+		 */
+		$this->assertEquals( 5, get_post_meta( $course_id, '_llms_enrolled_students', true ) );
 
 		// Logged properly.
 		$this->assertEquals( array( "Course data calculation dispatched for course {$course_id}." ), $this->logs->get( 'processors' ) );
@@ -184,6 +233,44 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$now = time();
 		update_post_meta( $course_id, '_llms_last_data_calc_run', $now );
 		$this->assertEquals( $now, LLMS_Unit_Test_Util::call_method( $this->main, 'get_last_run', array( $course_id ) ) );
+
+	}
+
+	/**
+	 * Test get_task_data()
+	 *
+	 * @since 4.21.0
+	 *
+	 * @return void
+	 */
+	public function test_get_task_data() {
+
+		$data = array();
+
+		// Default data only.
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_task_data' );
+		$this->assertEquals( array(
+			'students' => 0,
+			'progress' => 0,
+			'quizzes'  => 0,
+			'grade'    => 0,
+		), $res );
+
+
+		// Merge in some data
+		$merge = array(
+			'progress' => 25,
+			'students' => 203,
+			'custom' => 'abc',
+		);
+		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_task_data', array( $merge ) );
+		$this->assertEquals( array(
+			'students' => 203,
+			'progress' => 25,
+			'quizzes'  => 0,
+			'grade'    => 0,
+			'custom'   => 'abc',
+		), $res );
 
 	}
 
@@ -236,6 +323,70 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		update_post_meta( $course_id, '_llms_last_data_calc_run', time() - HOUR_IN_SECONDS );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_throttle', array( 500, $course_id ) ) );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'maybe_throttle', array( 2500, $course_id ) ) );
+
+	}
+
+	/**
+	 * Test schedule_calculation()
+	 *
+	 * @since 4.21.0
+	 *
+	 * @return void
+	 */
+	public function test_schedule_calculation() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		$expected_time = time() + HOUR_IN_SECONDS;
+		$logs = array (
+			"Course data calculation triggered for course {$course_id}.",
+			"Course data calculation scheduled for course {$course_id}.",
+		);
+
+		// Schedule an event.
+		$this->main->schedule_calculation( $course_id, $expected_time );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+		$this->logs->clear( 'processors' );
+
+		// No duplicate scheduled.
+		$this->main->schedule_calculation( $course_id );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
+
+	}
+
+	/**
+	 * Test schedule_calculation() to ensure duplicate events aren't scheduled regardless of ID variable type
+	 *
+	 * @since 4.21.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1600
+	 *
+	 * @return void
+	 */
+	public function test_schedule_calculation_string_or_int() {
+
+		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+
+		$expected_time = time() + HOUR_IN_SECONDS;
+		$logs = array (
+			"Course data calculation triggered for course {$course_id}.",
+			"Course data calculation scheduled for course {$course_id}.",
+		);
+
+		// Schedule with an int.
+		$this->main->schedule_calculation( $course_id, $expected_time );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+		$this->logs->clear( 'processors' );
+
+		// No duplicate should be scheduled if using a string later.
+		$this->main->schedule_calculation( (string) $course_id );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
 
 	}
 
@@ -402,6 +553,101 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( 60, $course->get( 'average_progress' ) );
 		$this->assertEquals( 5, $course->get( 'enrolled_students' ) );
 		$this->assertEquals( time(), $course->get( 'last_data_calc_run' ), '', 5 );
+
+	}
+
+	/**
+	 * Test deleted / nonexistant courses/posts.
+	 *
+	 * @since 4.21.0
+	 *
+	 * @return void
+	 */
+	public function test_task_nonexistent_course() {
+
+		$tests = array(
+			// Deleted course.
+			$this->factory->post->create( array( 'post_type' => 'course' ) ),
+
+			// Not a course.
+			$this->factory->post->create(),
+		);
+
+		wp_delete_post( $tests[0], true );
+
+		// Not a real post at all.
+		$tests[] = $tests[1] + 1;
+
+		foreach ( $tests as $post_id ) {
+
+			$args = compact( 'post_id' );
+			$this->assertFalse( $this->main->task( $args ) );
+
+			$json = wp_json_encode( $args );
+
+			$logs = array (
+				"Course data calculation task called for course {$post_id} with args: {$json}",
+				"Course data calculation task skipped for course {$post_id}.",
+			);
+
+			$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
+
+			$this->logs->clear( 'processors' );
+
+		}
+
+	}
+
+
+	/**
+	 * Test dispatch_calc() with multiple courses to make sure that tasks are not duplicated in other batches.
+	 *
+	 * @since 4.21.0
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1602
+	 *
+	 * @return void
+	 */
+	public function test_duplicate_batch_tasks() {
+
+		$course_ids[] = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$course_ids[] = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		foreach ( $course_ids as $course_id ) {
+			$this->factory->student->create_and_enroll_many( 5, $course_id );
+		}
+		$this->logs->clear( 'processors' );
+
+		$handler = function ( $args ) {
+			$args['per_page'] = 2;
+
+			return $args;
+		};
+		add_filter( 'llms_data_processor_course_data_student_query_args', $handler );
+
+		$expected_logs = array();
+		foreach ( $course_ids as $course_id ) {
+			$this->main->dispatch_calc( $course_id );
+			$expected_logs[] = "Course data calculation dispatched for course {$course_id}.";
+		}
+		// Logged properly.
+		$this->assertEquals( $expected_logs, $this->logs->get( 'processors' ) );
+
+		foreach ( $course_ids as $course_id ) {
+			$batch = LLMS_Unit_Test_Util::call_method( $this->main, 'get_batch' );
+
+			// Test data is loaded into the queue properly.
+			foreach ( $batch->data as $i => $student_query_args ) {
+				$this->assertEquals( $course_id, $student_query_args['post_id'], $course_id );
+				$this->assertEquals( 2, $student_query_args['per_page'], 'per_page' );
+				$this->assertEquals( array( 'enrolled' ), $student_query_args['statuses'], 'statuses' );
+				$this->assertEquals( ++ $i, $student_query_args['page'], 'page' );
+			}
+
+			// Simulate handling of queued batched tasks.
+			LLMS_Unit_Test_Util::call_method( $this->main, 'delete', array( $batch->key ) );
+		}
+
+		remove_filter( 'llms_data_processor_course_data_student_query_args', $handler );
 
 	}
 

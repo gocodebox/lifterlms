@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -267,8 +267,8 @@ class LLMS_Controller_Account {
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
+	 * @since 4.21.0 Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
 	 * @since [version] Refactored to move reset logic into it's own method.
-	 *                  Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
 	 *
 	 * @return null|WP_Error|true Returns `null` for nonce errors or when the form hasn't been submitted, an error object when
 	 *                            errors are encountered, and `true` on success.

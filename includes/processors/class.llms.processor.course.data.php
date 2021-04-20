@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 4.16.0
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,13 +75,21 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *               Improve performance of the student query by removing unneeded sort columns.
+	 * @since 4.21.0 When there's no students found in the course, run the `task_complete()` method to ensure data
+	 *                  from a previous calculation is cleared.
 	 *
 	 * @param int $course_id WP Post ID of the course.
-	 * @return void
+	 * @return void|null
 	 */
 	public function dispatch_calc( $course_id ) {
 
 		$this->log( sprintf( 'Course data calculation dispatched for course %d.', $course_id ) );
+
+		// Make sure we have a course.
+		$course = llms_get_post( $course_id );
+		if ( ! $course instanceof LLMS_Course ) {
+			return null;
+		}
 
 		// Return early if we're already processing data for the given course.
 		if ( $this->is_already_processing_course( $course_id ) ) {
@@ -94,10 +102,13 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		// Get total number of pages.
 		$query = new LLMS_Student_Query( $args );
 
-		// Nothing to do.
+		// No students in the course, run task completion.
 		if ( ! $query->found_results ) {
-			return;
+			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
+
+		// Store the total number of students right away.
+		$course->set( 'enrolled_students', $query->found_results );
 
 		// Throttle processing.
 		if ( $this->maybe_throttle( $query->found_results, $course_id ) ) {
@@ -177,6 +188,29 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 */
 	protected function get_last_run( $course_id ) {
 		return absint( get_post_meta( $course_id, '_llms_last_data_calc_run', true ) );
+	}
+
+	/**
+	 * Retrieve structured task data array.
+	 *
+	 * Ensures the expected required array keys are found on the task array
+	 * and optionally merges in an existing array of day with the (empty) defaults.
+	 *
+	 * @since 4.21.0
+	 *
+	 * @param array $data Existing array of day (from a previous task).
+	 * @return array
+	 */
+	protected function get_task_data( $data = array() ) {
+		return wp_parse_args(
+			$data,
+			array(
+				'students' => 0,
+				'progress' => 0,
+				'quizzes'  => 0,
+				'grade'    => 0,
+			)
+		);
 	}
 
 	/**
@@ -349,12 +383,15 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * This will schedule an event that will setup the queue of items for the background process.
 	 *
 	 * @since 3.15.0
+	 * @since 4.21.0 Force `$course_id` to an absolute integer to avoid duplicate scheduling resulting from loose variable typing.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @param int $time      Optionally pass a timestamp for when the event should be run.
 	 * @return void
 	 */
 	public function schedule_calculation( $course_id, $time = null ) {
+
+		$course_id = absint( $course_id );
 
 		$this->log( sprintf( 'Course data calculation triggered for course %d.', $course_id ) );
 
@@ -380,6 +417,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 3.15.0
 	 * @since 4.12.0 Moved task completion logic to `task_complete()`.
 	 * @since 4.16.0 Fix log string to properly record the post_id.
+	 * @since 4.21.0 Use `get_task_data()` to merge/retrieve aggregate task data.
+	 *               Return early for non-courses.
 	 *
 	 * @param array $args Query arguments passed to LLMS_Student_Query.
 	 * @return boolean Always returns `false` to remove the item from the queue when processing is complete.
@@ -390,6 +429,12 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		$course = llms_get_post( $args['post_id'] );
 
+		// Only process existing courses.
+		if ( ! $course instanceof LLMS_Course ) {
+			$this->log( sprintf( 'Course data calculation task skipped for course %1$d.', $args['post_id'] ) );
+			return false;
+		}
+
 		// Lock the course against duplicate processing.
 		$course->set( 'temp_calc_data_lock', 'yes' );
 
@@ -397,16 +442,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$data = ( 1 !== $args['page'] ) ? $course->get( 'temp_calc_data' ) : array();
 
 		// Merge with the defaults.
-		$data = wp_parse_args(
-			$data,
-			array(
-				'students' => 0,
-				'progress' => 0,
-				'quizzes'  => 0,
-				'grade'    => 0,
-			)
-		);
+		$data = $this->get_task_data( $data );
 
+		// Perform the query.
 		$query = new LLMS_Student_Query( $args );
 
 		foreach ( $query->get_students() as $student ) {

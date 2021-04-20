@@ -98,7 +98,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Lesson.js.
 			 *
 			 * @since    3.13.0
-			 * @version  3.27.0
+			 * @version  4.20.0
 			 */
 			'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 			'lessons' => esc_html__( 'lessons', 'lifterlms' ),
@@ -130,7 +130,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Section.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.16.12
+			 * @version  4.20.0
 			 */
 			'New Section' => esc_html__( 'New Section', 'lifterlms' ),
 			'sections' => esc_html__( 'sections', 'lifterlms' ),
@@ -424,7 +424,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metaboxes.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.30.0
+			 * @version  4.19.0
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
@@ -496,7 +496,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/private/llms-metaboxes.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.30.0
+			 * @version  4.19.0
 			 */
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'"%s" is already in the course list.' => esc_html__( '"%s" is already in the course list.', 'lifterlms' ),

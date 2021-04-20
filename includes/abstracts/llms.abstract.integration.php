@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.21.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -95,7 +95,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		 *
 		 * The dynamic portion of this hook, `{$this->id}`, refers to the integration's unique ID.
 		 *
-		 * @since [version]
+		 * @since 4.21.0
 		 *
 		 * @param object $instance Class instance of the class extending the `LLMS_Abstract_Integration` abstract.
 		 */
@@ -162,7 +162,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 *
 	 * @since 3.8.0
 	 * @since 3.21.1 Automatically output the `$description_missing` message when requirements are not met.
-	 * @since [version] Add an 'id' to the missing description HTML setting.
+	 * @since 4.21.0 Add an 'id' to the missing description HTML setting.
 	 *
 	 * @return array
 	 */
@@ -232,7 +232,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 *
 	 * This is a callback function for the WP core filter `default_option_{$option}`.
 	 *
-	 * @since [version]
+	 * @since 4.21.0
 	 *
 	 * @param mixed  $default_value        The default value. If no value is passed to `get_option()`, this will be an empty string.
 	 *                                     Otherwise it will be the default value passed to the method.
@@ -301,7 +301,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Add plugin settings Action Links
 	 *
 	 * @since 3.37.9
-	 * @since [version] Don't check `$context`. If the plugin isn't active this won't run anyway so it's a useless check.
+	 * @since 4.21.0 Don't check `$context`. If the plugin isn't active this won't run anyway so it's a useless check.
 	 *
 	 * @param string[] $links   Existing action links.
 	 * @param string   $file    Path to the plugin file, relative to the plugin directory.
