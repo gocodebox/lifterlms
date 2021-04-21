@@ -203,16 +203,17 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Order $order Desc.
-	 * @param string     $date  Desc.
+	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
+	 * @param integer    $date  Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
+	 *                          When not provided it'll be calculated from the order.
 	 * @return void
 	 */
-	public function schedule_upcoming_payment_reminder( $order, $date = false ) {
+	public function schedule_upcoming_payment_reminder( $order, $date = 0 ) {
 
 		// Unschedule upcoming payment reminder (does nothing if no action scheduled).
 		$this->unschedule_upcoming_payment_reminder();
 
-		// Convert our reminder date to UTC before passing to the scheduler.
+		// Convert our reminder date to Unix Time and UTC before passing to the scheduler.
 		$reminder_date = $date ? $date : get_gmt_from_date(
 			$this->get_upcoming_payment_reminder_date( $order ),
 			'U'
@@ -237,11 +238,12 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 * @since [version]
 	 *
 	 * @param LLMS_Order $order  Instance of the LLMS_Order which we'll calculate the reminder date from.
-	 * @param string     $date
+	 * @param integer    $date   Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
+	 *                           When not provided it'll be calculated from the order.
 	 * @param string     $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
 	 * @return WP_Error|string
 	 */
-	public function get_upcoming_payment_reminder_date( $order, $date = false, $format = 'Y-m-d H:i:s' ) {
+	public function get_upcoming_payment_reminder_date( $order, $date = 0, $format = 'Y-m-d H:i:s' ) {
 
 		$next_payment_date = $date ? $date : $order->get_next_payment_due_date( $format );
 

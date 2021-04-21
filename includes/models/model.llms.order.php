@@ -1741,6 +1741,15 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			as_unschedule_action( 'llms_charge_recurring_payment', $action_args );
 
+			/**
+			 * Fired after a recurring payment is unscheduled
+			 *
+			 * @since [version]
+			 *
+			 * @param LLMS_Order $order       LLMS_Order instance.
+			 * @param int        $date        Timestamp of the recurring payment date UTC.
+			 * @param array      $action_args Arguments passed to the scheduler.
+			 */
 			do_action( 'llms_charge_recurring_payment_unscheduled', $this, $action_args );
 
 		}
@@ -1752,7 +1761,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * It will unschedule the next recurring payment action, if any, before scheduling.
 	 *
-	 * @param boolean $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @since [version]
+	 *
+	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
 	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
 	 *                                   Only applies when the `$next_payment_date` is provided.
 	 * @return void
@@ -1767,7 +1778,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// Convert our date to Unix time and UTC before passing to the scheduler.
 
-		// No date passed, or date passed was not in gmt: needs to be converted in UTC.
+		// No date passed, or date passed was not in gmt.
 		if ( ( $next_payment_date && ! $gmt ) || ! $next_payment_date ) {
 			$date = get_gmt_from_date( $date, 'U' );
 		} else {
@@ -1787,6 +1798,15 @@ class LLMS_Order extends LLMS_Post_Model {
 			$action_args
 		);
 
+		/**
+		 * Fired after a recurring payment is scheduled
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Order $order       LLMS_Order instance.
+		 * @param int        $date        Timestamp of the recurring payment date UTC.
+		 * @param array      $action_args Arguments passed to the scheduler.
+		 */
 		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args );
 
 	}
