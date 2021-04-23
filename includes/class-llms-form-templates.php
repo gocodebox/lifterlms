@@ -1,6 +1,6 @@
 <?php
 /**
- * Manage block editor templates for LifterLMS Forms.
+ * LLMS_Form_Templates class.
  *
  * @package LifterLMS/Classes
  *
@@ -11,494 +11,213 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Form_Templates class.
+ * Manage llms_form post type templates
+ *
+ * Handles creation of reusable blocks for the core/default fields used
+ * by the default checkout, registration, and account edit forms.
  *
  * @since [version]
  */
 class LLMS_Form_Templates {
 
 	/**
-	 * Singleton instance
-	 *
-	 * @var  null
-	 */
-	protected static $instance = null;
-
-	/**
-	 * Get Main Singleton Instance.
+	 * Transform a block definition into a confirm group
 	 *
 	 * @since [version]
 	 *
-	 * @return LLMS_Form_Templates
+	 * @param array $block A WP_Block definition array.
+	 * @return array
 	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
+	private static function add_confirm_group( $block ) {
+
+		$inner = array(
+			self::get_confirm_group_controller( $block ),
+			self::get_confirm_group_controlled( $block ),
+		);
+
+		if ( is_rtl() ) {
+			$inner = array_reverse( $inner );
 		}
-		return self::$instance;
+
+		return array(
+			'blockName' => 'llms/form-field-confirm-group',
+			'innerBlocks' => $inner,
+			'attrs' => array(
+				'fieldLayout' => 'columns',
+			),
+		);
+
 	}
 
 	/**
-	 * Retrieves the block HTML for a form field block.
+	 * Create a wp_block (resuable block) post for a given field id
+	 *
+	 * This method will attempt to use an existing reusable block field
+	 * if it already exists and will only create it if one isn't found.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $block_name Field name which will be appended to "wp:llms/form-field-user-".
-	 * @param array  $settings   Settings to add to the defaults provided by `$this->get_block_settings()`.
-	 * @return string
+	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @return int Returns the WP_Post ID of the the wp_block post type or `0` on failure.
 	 */
-	protected function get_block( $block_name, $settings = array() ) {
-		return sprintf( '<!-- wp:llms/form-field-%1$s %2$s /-->', $block_name, $this->get_block_settings( $settings ) );
+	private static function create_reusable_block( $field_id ) {
+
+		$existing = self::find_reusable_block( $field_id );
+		if ( $existing ) {
+			return $existing->ID;
+		}
+
+		$block      = self::get_reusable_block_schema( $field_id );
+		$post_title = $block['title'];
+
+		unset( $block['title'] );
+
+		if ( ! empty( $block['confirm'] ) ) {
+			$block = self::add_confirm_group( $block );
+		}
+
+		$args = array(
+			'post_title'   => $post_title,
+			'post_content' => serialize_blocks( self::prepare_blocks( array( $block ) ) ),
+			'post_status'  => 'publish',
+			'post_type'    => 'wp_block',
+			'meta_input'   => array(
+				'_is_llms_field' => 'yes',
+				'_llms_field_id' => $field_id,
+			),
+		);
+
+		return wp_insert_post( $args );
+
 	}
 
 	/**
-	 * Retrieve JSON settings string for a LifterLMS Form Field Block.
-	 *
-	 * Merges the supplied settings into an array of defaults.
+	 * Locates an existing wp_block post by field id
 	 *
 	 * @since [version]
 	 *
-	 * @param array $settings {
-	 *     Array of settings to merge into the default settings.
-	 *
-	 *     @type string $description Field description text.
-	 *     @type string $field       Field type, eg "text", "email", "select".
-	 *     @type string $id          HTML "id" attribute.
-	 *     @type string $label       Field label text.
-	 *     @type string $name        HTML "name" attribute. Uses `$id` if none is supplied.
-	 *     @type string $label       Field placeholder text.
-	 *     @type bool $required      Whether or not the field is required. Defaults to `true`.
-	 * }
-	 * @return string|false
+	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @return WP_Post|boolean Returns the post object or false if not found.
 	 */
-	protected function get_block_settings( $settings = array() ) {
+	private static function find_reusable_block( $field_id ) {
 
-		$settings = wp_parse_args(
-			$settings,
+		$query = new WP_Query( array(
+			'posts_per_page' => 1,
+			'no_found_rows'  => true,
+			'post_type'      => 'wp_block',
+			'meta_key'       => '_llms_field_id',
+			'meta_value'     => $field_id,
+		) );
+
+		return $query->posts ? $query->posts[0] : false;
+
+	}
+
+	/**
+	 * Creates a WP_Block array definition for the confirmation (controlled) block in a confirm group
+	 *
+	 * @since [version]
+	 *
+	 * @param array $block A WP_Block definition array for the primary/default block in the group.
+	 * @return array A new WP_Block definition array for the controlled block.
+	 */
+	private static function get_confirm_group_controlled( $block ) {
+
+		$block['blockName'] = 'llms/form-field-text';
+
+		$block['attrs'] = wp_parse_args(
 			array(
-				'description' => '',
-				'field'       => 'text',
-				'id'          => '',
-				'label'       => '',
-				'name'        => '',
-				'placeholder' => '',
-				'required'    => true,
-			)
+				'field'               => $block['confirm'],
+				'id'                  => $block['attrs']['id'] . '_confirm',
+				'name'                => $block['attrs']['id'] . '_confirm',
+				'label'               => sprintf( __( 'Confirm %s', 'lifterlms' ), $block['attrs']['label'] ),
+				'columns'             => 6,
+				'last_column'         => is_rtl() ? false : true,
+				'isConfirmationField' => true,
+				'llms_visibility'     => 'off',
+				'match'               => $block['attrs']['id'],
+				'data_store'          => false,
+				'data_store_key'      => false,
+			),
+			$block['attrs']
 		);
 
-		if ( empty( $settings['name'] ) ) {
-			$settings['name'] = $settings['id'];
-		}
-
-		return wp_json_encode( $settings );
+		return $block;
 
 	}
 
 	/**
-	 * Retrieve block for the city address row.
-	 *
-	 * Returns an empty array if address fields are disabled by legacy settings.
+	 * Creates a WP_Block array definition for the primary (controller) block in a confirm group
 	 *
 	 * @since [version]
 	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
+	 * @param array $block A WP_Block definition array for the primary/default block in the group.
+	 * @return array A new WP_Block definition array for the controller block.
 	 */
-	protected function get_row_address_city( $location ) {
+	private static function get_confirm_group_controller( $block ) {
 
-		$option = get_option( sprintf( 'lifterlms_user_info_field_address_%s_visibility', $location ), 'required' );
-		if ( 'hidden' === $option ) {
-			return array();
-		}
-
-		return array(
-			$this->get_block(
-				'user-address-city',
-				array(
-					'id'       => 'llms_billing_city',
-					'label'    => __( 'City', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-		);
-
-	}
-
-	/**
-	 * Retrieve blocks for the country/state/zip row.
-	 *
-	 * Returns an empty array if address fields are disabled by legacy settings.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_address_l10n( $location ) {
-
-		$cols = array();
-
-		$option = get_option( sprintf( 'lifterlms_user_info_field_address_%s_visibility', $location ), 'required' );
-		if ( 'hidden' === $option ) {
-			return $cols;
-		}
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-address-country',
-				array(
-					'field'          => 'select',
-					'id'             => 'llms_billing_country',
-					'label'          => __( 'Country / Region', 'lifterlms' ),
-					'options'        => array(),
-					'options_preset' => 'countries',
-					'required'       => ( 'required' === $option ),
-				)
-			),
-			'width'   => 40,
-		);
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-address-state',
-				array(
-					'field'          => 'select',
-					'id'             => 'llms_billing_state',
-					'label'          => __( 'State / Province', 'lifterlms' ),
-					'options'        => array(),
-					'options_preset' => 'states',
-					'required'       => ( 'required' === $option ),
-				)
-			),
-			'width'   => 35,
-		);
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-address-zip',
-				array(
-					'id'       => 'llms_billing_zip',
-					'label'    => __( 'Zip / Postal Code', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-			'width'   => 25,
-		);
-
-		return $this->wrap_columns( $cols );
-
-	}
-
-	/**
-	 * Retrieve blocks for the street address row.
-	 *
-	 * Returns an empty array if address fields are disabled by legacy settings.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_address_street( $location ) {
-
-		$cols = array();
-
-		$option = get_option( sprintf( 'lifterlms_user_info_field_address_%s_visibility', $location ), 'required' );
-		if ( 'hidden' === $option ) {
-			return $cols;
-		}
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-address',
-				array(
-					'id'       => 'llms_billing_address_1',
-					'label'    => __( 'Street Address', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-			'width'   => 66.66,
-		);
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-address-additional',
-				array(
-					'id'               => 'llms_billing_address_2',
-					'placeholder'      => __( 'Apartment, suite, or unit', 'lifterlms' ),
-					'required'         => false,
-					'label_show_empty' => true,
-				)
-			),
-			'width'   => 33.33,
-		);
-
-		return $this->wrap_columns( $cols );
-
-	}
-
-	/**
-	 * Retrieve block(s) for the email address row.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_email( $location, $visibility = 'all' ) {
-
-		$option = llms_parse_bool( get_option( sprintf( 'lifterlms_user_info_field_email_confirmation_%s_visibility', $location ) ) );
-
-		$cols = array(
-			$this->get_block(
-				'user-email',
-				array(
-					'field'           => 'email',
-					'id'              => 'email_address',
-					'label'           => __( 'Email Address', 'lifterlms' ),
-					'match'           => 'email_address_confirm',
-					'llms_visibility' => $option ? 'all' : $visibility,
-				)
-			),
-		);
-
-		if ( ! $option ) {
-			return $cols;
-		}
-
-		$cols[] = $this->get_block(
-			'user-email-confirm',
+		$block['attrs'] = wp_parse_args(
 			array(
-				'field'          => 'email',
-				'id'             => 'email_address_confirm',
-				'label'          => __( 'Confirm Email Address', 'lifterlms' ),
-				'match'          => 'email_address',
-				'data_store_key' => false,
-			)
+				'columns'                    => 6,
+				'last_column'                => is_rtl() ? true : false,
+				'isConfirmationControlField' => true,
+				'llms_visibility'            => 'off',
+				'match'                      => $block['attrs']['id'] . '_confirm',
+			),
+			$block['attrs']
 		);
 
-		// Add widths.
-		foreach ( $cols as &$col ) {
-			$col = array(
-				'content' => $col,
-				'width'   => 50,
-			);
-		}
-
-		return $this->wrap_columns( $cols, $visibility );
+		return $block;
 
 	}
 
 	/**
-	 * Retrieve blocks for the name row.
+	 * Retrieves a core/block WP_Block array for a given default/core field
 	 *
-	 * Returns an empty array if names are disabled by legacy settings.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_names( $location ) {
-
-		$cols = array();
-
-		$option = get_option( sprintf( 'lifterlms_user_info_field_names_%s_visibility', $location ), 'required' );
-		if ( 'hidden' === $option ) {
-			return $cols;
-		}
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-first-name',
-				array(
-					'id'       => 'first_name',
-					'label'    => __( 'First Name', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-			'width'   => 50,
-		);
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-last-name',
-				array(
-					'id'       => 'last_name',
-					'label'    => __( 'Last Name', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-			'width'   => 50,
-		);
-
-		return $this->wrap_columns( $cols );
-
-	}
-
-	/**
-	 * Retrieve blocks for the password row.
+	 * This method will attempt to use an existing wp_block for the given field id
+	 * if it exists, and when not found creates a new one.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
+	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @return array A WP_Block definition array.
 	 */
-	protected function get_row_password( $location ) {
+	private static function get_reusable_block( $field_id ) {
 
-		$cols = array();
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-password',
-				array(
-					'field' => 'password',
-					'id'    => 'password',
-					'label' => __( 'Password', 'lifterlms' ),
-					'match' => 'password_confirm',
-				)
-			),
-			'width'   => 50,
-		);
-
-		$cols[] = array(
-			'content' => $this->get_block(
-				'user-password-confirm',
-				array(
-					'field'          => 'password',
-					'id'             => 'password_confirm',
-					'label'          => __( 'Confirm Password', 'lifterlms' ),
-					'match'          => 'password',
-					'data_store_key' => false,
-				)
-			),
-			'width'   => 50,
-		);
-
-		return $this->wrap_columns( $cols, 'checkout' === $location ? 'logged_out' : 'all' );
-
-	}
-
-	/**
-	 * Retrieve the password strength meter field row.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_password_meter( $location ) {
-
-		$option = llms_parse_bool( get_option( 'lifterlms_registration_password_strength' ) );
-		if ( ! $option ) {
-			return array();
-		}
+		$ref = self::create_reusable_block( $field_id );
 
 		return array(
-			$this->get_block(
-				'password-strength-meter',
-				array(
-					'className'       => 'llms-password-strength-meter',
-					'field'           => 'html',
-					'id'              => 'llms-password-strength-meter',
-					'required'        => false,
-					'description'     => sprintf( __( 'A %1$s password is required. The password must be at least %2$s characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ), '{min_strength}', '{min_length}' ),
-					'min_strength'    => get_option( 'lifterlms_registration_password_min_strength', 'strong' ), // Use legacy option.
-					'min_length'      => 6,
-					'llms_visibility' => 'checkout' === $location ? 'logged_out' : 'all',
-				)
-			),
+			'blockName'    => 'core/block',
+			'attrs'        => compact( 'ref' ),
+			'innerContent' => array(),
 		);
-
 	}
 
 	/**
-	 * Retrieve block for the phone row.
-	 *
-	 * Returns an empty array of phone collection is disabled via legacy settings.
+	 * Retrieves the schema definition for a default/core reusable block
 	 *
 	 * @since [version]
 	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
+	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @return array The block definition schema. This is a WP_Block array definition but missing some data that is automatically populated before serialization.
 	 */
-	protected function get_row_phone( $location ) {
+	private static function get_reusable_block_schema( $field_id ) {
 
-		$option = get_option( sprintf( 'lifterlms_user_info_field_phone_%s_visibility', $location ), 'optional' );
-		if ( 'hidden' === $option ) {
-			return array();
-		}
+		$list = require LLMS_PLUGIN_DIR . '/includes/llms-blocks-schema.php';
 
-		return array(
-			$this->get_block(
-				'user-phone',
-				array(
-					'field'    => 'tel',
-					'id'       => 'llms_phone',
-					'label'    => __( 'Phone Number', 'lifterlms' ),
-					'required' => ( 'required' === $option ),
-				)
-			),
-		);
+		$definition = empty( $list[ $field_id ] ) ? array() : $list[ $field_id ];
 
-	}
-
-	/**
-	 * Retrieve block for the username row.
-	 *
-	 * If username generation is enabled returns an empty array as the username block isn't required.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location. Accepts template options passed to `$this->get_template()`.
-	 * @return array
-	 */
-	protected function get_row_username( $location ) {
-
-		$option = get_option( 'lifterlms_registration_generate_username', 'yes' );
-		if ( llms_parse_bool( $option ) ) {
-			return array();
-		}
-
-		return array(
-			$this->get_block(
-				'user-username',
-				array(
-					'id'              => 'user_login',
-					'label'           => __( 'Username', 'lifterlms' ),
-					'llms_visibility' => 'checkout' === $location ? 'logged_out' : 'all',
-				)
-			),
-		);
-
-	}
-
-	/**
-	 * Retrieve block for the voucher row.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	protected function get_row_voucher() {
-
-		$option = get_option( 'lifterlms_voucher_field_registration_visibility', 'optional' );
-		if ( 'hidden' === $option ) {
-			return array();
-		}
-
-		return array(
-			$this->get_block(
-				'redeem-voucher',
-				array(
-					'id'          => 'llms_voucher',
-					'label'       => __( 'Have a voucher?', 'lifterlms' ),
-					'placeholder' => __( 'Voucher Code', 'lifterlms' ),
-					'required'    => ( 'required' === $option ),
-					'toggleable'  => true,
-				)
-			),
-		);
+		/**
+		 * Filters the result of a schema definition.
+		 *
+		 * This hook can be used to add definitions for custom (non-core) fields.
+		 *
+		 * @since [version]
+		 *
+		 * @param array  $definition The schema definition.
+	 	 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+		 */
+		return apply_filters( 'llms_get_reusable_block_schema', $definition, $field_id );
 
 	}
 
@@ -510,207 +229,107 @@ class LLMS_Form_Templates {
 	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
 	 * @return string
 	 */
-	public function get_template( $location ) {
+	public static function get_template( $location ) {
 
-		$method = sprintf( 'template_%s', $location );
-		if ( method_exists( $this, $method ) ) {
-			return $this->to_string( $this->{$method}() );
+		$blocks = array();
+
+		// Email and password are added in different locations depending on the form.
+		$base = array(
+			self::get_reusable_block( 'email' ),
+			self::get_reusable_block( 'password' ),
+		);
+
+		// Username only added when option is off on legacy sites.
+		if ( 'account' !== $location && ! llms_parse_bool( get_option( 'lifterlms_registration_generate_username', 'yes' ) ) ) {
+			array_unshift( $base, self::get_reusable_block( 'username' ) );
 		}
 
-		return '';
+		// Email and password go first on checkout/reg forms.
+		if ( 'account' !== $location ) {
+			$blocks = array_merge( $base, $blocks );
+		}
 
-	}
+		$blocks[] = self::get_reusable_block( 'name' );
 
-	/**
-	 * Get the default template used for the basis of all forms.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Form location ID.
-	 * @return array
-	 */
-	protected function template_default( $location ) {
-
-		$base      = $this->get_row_username( $location );
-		$defaults  = array_merge(
-			$this->get_row_names( $location ),
-			$this->get_row_address_street( $location ),
-			$this->get_row_address_city( $location ),
-			$this->get_row_address_l10n( $location ),
-			$this->get_row_phone( $location )
-		);
-		$passwords = array_merge(
-			$this->get_row_password( $location ),
-			$this->get_row_password_meter( $location )
-		);
-
-		// Account form.
+		// Display name on account only, users can add to other forms if desired.
 		if ( 'account' === $location ) {
-			return array_merge(
-				$base,
-				$defaults,
-				$this->get_row_email( $location, 'all' ),
-				array(
-					$this->get_block(
-						'user-password-current',
-						array(
-							'field' => 'password',
-							'id'    => 'password_current',
-							'label' => __( 'User Password (current)', 'lifterlms' ),
-						)
-					),
-				),
-				$passwords
-			);
+			$blocks[] = self::get_reusable_block( 'display_name' );
 		}
 
-		// Checkout & Reg.
-		return array_merge(
-			$base,
-			$this->get_row_email( $location, 'checkout' === $location ? 'logged_out' : 'all' ),
-			$passwords,
-			$defaults
+		$blocks[] = self::get_reusable_block( 'address' );
+		$blocks[] = self::get_reusable_block( 'phone' );
+
+		if ( 'registration' === $location ) {
+			$blocks[] = self::get_voucher_block();
+		}
+
+		// Email and password go at the end on the account form.
+		if ( 'account' === $location ) {
+			$blocks = array_merge( $blocks, $base );
+		}
+
+		return serialize_blocks( array_filter( $blocks ) );
+
+	}
+
+	/**
+	 * Retrieve block for the voucher row.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private static function get_voucher_block() {
+
+		// Don't include voucher if legacy option has vouchers hidden.
+		$option = get_option( 'lifterlms_voucher_field_registration_visibility', 'optional' );
+		if ( 'hidden' === $option ) {
+			return array();
+		}
+
+		return array(
+			'blockName'    => 'llms/form-field-redeem-voucher',
+			'attrs'        => array(
+				'id'          => 'llms_voucher',
+				'label'       => __( 'Have a voucher?', 'lifterlms' ),
+				'placeholder' => __( 'Voucher Code', 'lifterlms' ),
+				'required'    => ( 'required' === $option ),
+				'toggleable'  => true,
+				'data_store' => false,
+				'data_store_key' => false,
+			),
+			'innerContent' => array(),
 		);
 
 	}
 
 	/**
-	 * Retrieve the default template for the edit account screen.
+	 * Recursively prepare a list of blocks to ensure it can be passed into serialize_blocks() without error
 	 *
 	 * @since [version]
 	 *
-	 * @return array
+	 * @param array[] $blocks Array of WP_Block definition arrays.
+	 * @return array[]
 	 */
-	protected function template_account() {
-		return $this->template_default( 'account' );
-	}
+	private static function prepare_blocks( $blocks ) {
 
-	/**
-	 * Retrieve the default template for the checkout screen.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	protected function template_checkout() {
-		return $this->template_default( 'checkout' );
-	}
+		foreach ( $blocks as &$block ) {
 
-	/**
-	 * Retrieve the default template for the registration screen.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	protected function template_registration() {
-		return array_merge(
-			$this->template_default( 'registration' ),
-			$this->get_row_voucher()
-		);
-	}
+			$block = wp_parse_args( $block, array(
+				'attrs'       => array(),
+				'innerBlocks' => array(),
+			) );
 
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$block['innerBlocks'] = self::prepare_blocks( $block['innerBlocks'] );
+			}
 
-	/**
-	 * Convert an array of block lines to a composed string that can be used in the post_content of a form.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $template Array of block strings.
-	 * @return string
-	 */
-	protected function to_string( $template ) {
-
-		return implode( '', $template );
-
-	}
-
-	/**
-	 * Wrap blocks in column blocks.
-	 *
-	 * @since [version]
-	 *
-	 * @param array  $columns Array of block strings or block settings.
-	 * @param string $visibility Block visibility restriction setting (eg "logged_out").
-	 * @return array
-	 */
-	protected function wrap_columns( $columns = array(), $visibility = '' ) {
-
-		// Opening tag.
-		$cols[] = $this->wrap_columns_get_open_tag( $columns, $visibility );
-
-		// Explicit widths are used on WP 5.3 and greater.
-		global $wp_version;
-		$use_widths = ( version_compare( $wp_version, '5.3.0', '>=' ) );
-
-		foreach ( $columns as $column ) {
-			$cols[] = $this->wrap_columns_get_column( $column, $use_widths );
-		}
-
-		$cols[] = '</div><!-- /wp:columns -->';
-
-		return $cols;
-
-	}
-
-	/**
-	 * Retrieve columns opening block comment and div tag.
-	 *
-	 * @since [version]
-	 *
-	 * @param array  $columns Array of block strings or block settings.
-	 * @param string $visibility Block visibility restriction setting (eg "logged_out").
-	 * @return string
-	 */
-	protected function wrap_columns_get_open_tag( $columns, $visibility = '' ) {
-
-		$classes  = array( 'wp-block-columns' );
-		$settings = array();
-
-		if ( $visibility ) {
-			$settings['llms_visibility'] = $visibility;
-		}
-
-		// Support WP Core 5.2 & lower.
-		global $wp_version;
-		if ( version_compare( $wp_version, '5.3.0', '<' ) ) {
-			$num_cols            = count( $columns );
-			$classes[]           = sprintf( 'has-%d-columns', $num_cols );
-			$settings['columns'] = $num_cols;
+			// WP core serialize_block() doesn't work unless this...
+			$block['innerContent'] = array_fill( 0, count( $block['innerBlocks'] ), null );
 
 		}
 
-		$settings = $settings ? ' ' . wp_json_encode( $settings ) : '';
-		return sprintf( '<!-- wp:columns%1$s --><div class="%2$s">', $settings, implode( ' ', $classes ) );
-
-	}
-
-	/**
-	 * Wrap a single block in a column block comment and html tag.
-	 *
-	 * @since [version]
-	 *
-	 * @param array|string $column Block settings array or block as a string.
-	 * @param bool         $use_widths Whether or not width information should be stored on the column tag.
-	 *                                 Prior to WP 5.3.0 columns were always equal and storing width information on the block
-	 *                                 causes block validation issues in the editor.
-	 * @return string
-	 */
-	protected function wrap_columns_get_column( $column, $use_widths = true ) {
-
-		// If a string is passed, convert it to an array with no explicit column width.
-		if ( is_string( $column ) ) {
-			$column = array(
-				'width'   => false,
-				'content' => $column,
-			);
-		}
-
-		$width = $use_widths && $column['width'] ? $column['width'] : false;
-		$json  = $width ? wp_json_encode( array( 'width' => $width . '%' ) ) . ' ' : '';
-		$css   = $width ? sprintf( ' style="flex-basis:%s%%"', $width ) : '';
-
-		return sprintf( '<!-- wp:column %1$s--><div class="wp-block-column"%2$s>%3$s</div><!-- /wp:column -->', $json, $css, $column['content'] );
+		return $blocks;
 
 	}
 

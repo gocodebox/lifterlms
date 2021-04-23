@@ -65,19 +65,23 @@ class LLMS_Forms {
 	 *
 	 * This method is used to determine if a username can be used to login / reset a user's password.
 	 *
-	 * It works by searching `llms_form` posts for the presence of a username form field. If at least one
-	 * form with a username field exists then usernames are considered to be enabled and can therefore
-	 * be used to login and reset a password. If no username fields are found then only the email address
-	 * can be used to login or reset passwords.
+	 * A reference to every form with a username block is stored in an option. The option is an array
+	 * of integers, the WP_Post IDs of all the form posts containing a username block.
 	 *
-	 * The filter in this method `llms_are_usernames_enabled` can be used to bypass the database query
-	 * and explicitly enable or disable usernames.
+	 * If the array is empty, there are no forms with username blocks and, therefore, usernames are disabled.
+	 * If the array contains at least one item that means there is a form with a username block in it and,
+	 * we therefore consider usernames to be enabled for the site.
+	 *
+	 * This isn't perfect. We're well aware. But usernames are kind of silly anyway, right? Just use the email
+	 * address like your average website owner and stop pretending usernames matter.
 	 *
 	 * @since [version]
 	 *
 	 * @return bool
 	 */
 	public function are_usernames_enabled() {
+
+		$locations = get_option( 'llms_forms_username_locations', array() );
 
 		/**
 		 * Use this to explicitly enable of disable username fields.
@@ -89,24 +93,9 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param null $enabled Whether or not usernames are explicitly disabled. If a non-null value
-		 *                      is returned will shortcircuit this method, skipping the database query.
-		 *                      A truthy indicates usernames are enabled while a falsy indicates disabled.
+		 * @param boolean $enabled Whether or not usernames are enabled.
 		 */
-		$enabled = apply_filters( 'llms_are_usernames_enabled', null );
-		if ( ! is_null( $enabled ) ) {
-			return llms_parse_bool( $enabled );
-		}
-
-		$cache_key = 'llms_are_usernames_enabled_results';
-		$res       = wp_cache_get( $cache_key );
-		if ( false === $res ) {
-			global $wpdb;
-			$res = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_form' AND post_content LIKE '%<!-- wp:llms/form-field-user-username %' LIMIT 1" ); // db call ok.
-			wp_cache_set( $cache_key, $res );
-		}
-
-		return llms_parse_bool( count( $res ) );
+		return apply_filters( 'llms_are_usernames_enabled', ! empty( $locations ) );
 
 	}
 
@@ -178,7 +167,7 @@ class LLMS_Forms {
 		foreach ( $blocks as &$block ) {
 
 			// If a visibility setting has been passed from the parent and the block does not have visibility setting of it's own.
-			if ( $visibility && empty( $block['attrs']['llms_visibility'] ) ) {
+			if ( $visibility && ( empty( $block['attrs']['llms_visibility'] ) || 'off' === $block['attrs']['llms_visibility'] ) ) {
 				$block['attrs']['llms_visibility'] = $visibility;
 			}
 
@@ -220,11 +209,9 @@ class LLMS_Forms {
 			return false;
 		}
 
-		$templates = LLMS_Form_Templates::instance();
-
 		$args = array(
 			'ID'           => $existing ? $existing->ID : 0,
-			'post_content' => $templates->get_template( $location_id ),
+			'post_content' => LLMS_Form_Templates::get_template( $location_id ),
 			'post_status'  => 'publish',
 			'post_title'   => $data['title'],
 			'post_type'    => $this->get_post_type(),
@@ -250,6 +237,9 @@ class LLMS_Forms {
 	/**
 	 * Finds the user password form field block within a list of blocks
 	 *
+	 * There's a gotcha with this function... if a user password field is placed within a wp core columns block
+	 * the password strength meter will be added outside the column the password is contained within.
+	 *
 	 * @since [version]
 	 *
 	 * @param array[] $blocks       WP_Block list.
@@ -266,7 +256,7 @@ class LLMS_Forms {
 
 			if ( 'llms/form-field-user-password' === $block['blockName'] ) {
 				return array( is_null( $parent_index ) ? $index : $parent_index , $block );
-			} elseif ( $block['innerBlocks'] ) {
+			} elseif (  $block['innerBlocks'] ) {
 				$inner = $this->find_password_block( $block['innerBlocks'], is_null( $parent_index ) ? $index : $parent_index );
 				if ( false !== $inner ) {
 					return $inner;
@@ -309,6 +299,8 @@ class LLMS_Forms {
 			if ( $block['innerBlocks'] ) {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
 			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
+				$fields[] = $block;
+			} elseif ( 'core/html' === $block['blockName'] && ! empty( $block['attrs'] ) && 'html' === $block['attrs']['type'] ) {
 				$fields[] = $block;
 			}
 
@@ -438,9 +430,20 @@ class LLMS_Forms {
 			return '';
 		}
 
+		$disable_visibility = ( 'checkout' !== $location );
+
+		// Force fields to display regardless of visibility settings when viewing account/registration forms.
+		if ( $disable_visibility ) {
+			add_filter( 'llms_blocks_visibility_should_filter_block', '__return_false', 999 );
+		}
+
 		$html = '';
 		foreach ( $blocks as $block ) {
 			$html .= render_block( $block );
+		}
+
+		if ( $disable_visibility ) {
+			remove_filter( 'llms_blocks_visibility_should_filter_block', '__return_false', 999 );
 		}
 
 		/**
@@ -569,7 +572,7 @@ class LLMS_Forms {
 	 * @return string
 	 */
 	public function get_custom_field_block_markup( $settings ) {
-		return sprintf( "<!-- wp:html -->\r%s\r<!-- /wp:html -->", llms_form_field( $settings, false ) );
+		return sprintf( '<!-- wp:html %1$s -->%2$s%3$s%2$s<!-- /wp:html -->', wp_json_encode( $settings ), "\r", llms_form_field( $settings, false ) );
 	}
 
 	/**
@@ -659,8 +662,6 @@ class LLMS_Forms {
 	 */
 	public function get_locations() {
 
-		$templates = LLMS_Form_Templates::instance();
-
 		/**
 		 * Filter the available form locations.
 		 *
@@ -677,7 +678,7 @@ class LLMS_Forms {
 					'name'        => __( 'Checkout', 'lifterlms' ),
 					'description' => __( 'Handles new user registration and existing user information updates during checkout and enrollment.', 'lifterlms' ),
 					'title'       => __( 'Billing Information', 'lifterlms' ),
-					'template'    => $templates->get_template( 'checkout' ),
+					'template'    => LLMS_Form_Templates::get_template( 'checkout' ),
 					'meta'        => array(
 						'_llms_form_location'   => 'checkout',
 						'_llms_form_show_title' => 'yes',
@@ -688,7 +689,7 @@ class LLMS_Forms {
 					'name'        => __( 'Registration', 'lifterlms' ),
 					'description' => __( 'Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used.', 'lifterlms' ),
 					'title'       => __( 'Register', 'lifterlms' ),
-					'template'    => $templates->get_template( 'registration' ),
+					'template'    => LLMS_Form_Templates::get_template( 'registration' ),
 					'meta'        => array(
 						'_llms_form_location'   => 'registration',
 						'_llms_form_show_title' => 'yes',
@@ -699,7 +700,7 @@ class LLMS_Forms {
 					'name'        => __( 'Account', 'lifterlms' ),
 					'description' => __( 'Handles user account information updates on the edit account area of the student dashboard.', 'lifterlms' ),
 					'title'       => __( 'Edit Account Information', 'lifterlms' ),
-					'template'    => $templates->get_template( 'account' ),
+					'template'    => LLMS_Form_Templates::get_template( 'account' ),
 					'meta'        => array(
 						'_llms_form_location'   => 'account',
 						'_llms_form_show_title' => 'no',
@@ -762,14 +763,15 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
+	 * @param bool $recreate Whether or not to recreate an existing form. This is passed to `LLMS_Forms::create()`.
 	 * @return WP_Post[] Array of created posts. Array key is the location id and array value is the WP_Post object.
 	 */
-	public function install() {
+	public function install( $recreate = false ) {
 
 		$installed = array();
 
 		foreach ( array_keys( $this->get_locations() ) as $location ) {
-			$installed[ $location ] = $this->create( $location );
+			$installed[ $location ] = $this->create( $location, $recreate );
 		}
 
 		return $installed;
@@ -786,6 +788,42 @@ class LLMS_Forms {
 	 */
 	public function is_location_valid( $location ) {
 		return in_array( $location, array_keys( $this->get_locations() ), true );
+	}
+
+	/**
+	 * Loads reusable blocks into a block list
+	 *
+	 * By default, a reusable block contains a reference to the block post (which will be
+	 * loaded during rendering). This is problematic for us since we want to review then
+	 * entire block list so we can see all fields for validation purposes and so on.
+	 *
+	 * This function will replace each reusable block with the parsed blocks
+	 * from it's reference post.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $blocks List of WP_Block arrays.
+	 * @return array[]
+	 */
+	private function load_reusable_blocks( $blocks ) {
+
+		foreach ( $blocks as $index => &$block ) {
+
+			if ( 'core/block' === $block['blockName'] ) {
+				$post = get_post( $block['attrs']['ref'] );
+				if ( ! $post ) {
+					continue;
+				}
+				$inner_blocks = parse_blocks( $post->post_content );
+				array_splice( $blocks, $index, 1, $inner_blocks );
+			} elseif ( $block['innerBlocks'] ) {
+				$block['innerBlocks'] = $this->load_reusable_blocks( $block['innerBlocks'] );
+			}
+
+		}
+
+		return $blocks;
+
 	}
 
 	/**
@@ -841,18 +879,22 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Internal function to parse form content into a list of WP Block arrays.
+	 * Parse the post_content of a form into a list of WP_Block arrays.
 	 *
-	 * Parses HTML content and then cascade visibility settings to innerBlocks.
+	 * This method parses the blocks, loads block data from any reusable blocks,
+	 * adds dynamic inserted content (like a password strength meter), and
+	 * cascades visibility attributes onto a block's innerBlocks.
 	 *
 	 * @since [version]
 	 *
 	 * @param string $content Post content HTML.
 	 * @return array[] Array of parsed block arrays.
 	 */
-	private function parse_blocks( $content ) {
+	public function parse_blocks( $content ) {
 
 		$blocks = parse_blocks( $content );
+
+		$blocks = $this->load_reusable_blocks( $blocks );
 
 		$blocks = $this->maybe_add_password_strength_meter( $blocks );
 

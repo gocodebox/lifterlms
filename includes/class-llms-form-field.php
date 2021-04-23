@@ -754,13 +754,17 @@ class LLMS_Form_Field {
 		 */
 		$meter_settings = apply_filters( 'llms_password_strength_meter_settings', $meter_settings, $this->settings, $this );
 
-		wp_enqueue_script( 'password-strength-meter' );
-		llms()->assets->enqueue_inline(
-			'llms-pw-strength-settings',
-			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_settings = function() { return JSON.parse( \'' . wp_json_encode( $meter_settings ) . '\' ); };',
-			'footer',
-			15
-		);
+		if ( did_action( 'wp_enqueue_scripts' ) ) {
+
+			wp_enqueue_script( 'password-strength-meter' );
+			llms()->assets->enqueue_inline(
+				'llms-pw-strength-settings',
+				'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_settings = function() { return JSON.parse( \'' . wp_json_encode( $meter_settings ) . '\' ); };',
+				'footer',
+				15
+			);
+
+		}
 
 	}
 

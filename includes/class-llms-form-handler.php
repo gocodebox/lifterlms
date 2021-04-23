@@ -225,6 +225,7 @@ class LLMS_Form_Handler {
 
 		foreach ( $fields as $field ) {
 
+
 			if ( empty( $field['data_store_key'] ) ) {
 				continue;
 			}
@@ -239,6 +240,7 @@ class LLMS_Form_Handler {
 
 				$prepared[ $field['data_store'] ][ $field['data_store_key'] ] = isset( $posted_data[ $field['name'] ] ) ? $posted_data[ $field['name'] ] : array();
 			}
+
 		}
 
 		if ( 'registration' === $action ) {

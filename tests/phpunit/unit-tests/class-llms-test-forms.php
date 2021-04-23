@@ -124,7 +124,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		$this->assertFalse( $this->forms->are_usernames_enabled() );
 		remove_filter( 'llms_are_usernames_enabled', '__return_false' );
 
-
 	}
 
 	/**

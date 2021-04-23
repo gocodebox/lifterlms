@@ -243,7 +243,6 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 			'post_content' => '',
 		) );
 
-		update_option( 'lifterlms_registration_password_strength', 'no' );
 		LLMS_Forms::instance()->create( 'registration', true );
 
 		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
@@ -254,6 +253,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		$expect = array(
 			'password',
 			'password_confirm',
+			'llms-password-strength-meter',
 			'llms_lost_password_button',
 			'llms_reset_key',
 			'llms_reset_login',
@@ -447,16 +447,18 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test account.signon event recorded on user registration
 	 *
 	 * @since 4.5.0
+	 * @since [version] Add email confirm fields to reflect new form defaults.
 	 */
 	public function test_account_signon_event_recorded_on_registration_signon() {
 
 		LLMS_Install::create_pages();
-		LLMS_Forms::instance()->install();
+		LLMS_Forms::instance()->install( true );
 
 		global $wpdb;
 
 		$data = $this->get_mock_registration_data();
 		$data['email_address'] = "new_{$data['email_address']}";
+		$data['email_address_confirm'] = $data['email_address'];
 
 		$query_signon_event = "
 			SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_events
@@ -472,6 +474,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 		// Test event registered when signing on registration (defaults).
 		$data['email_address'] = "new1_{$data['email_address']}";
+		$data['email_address_confirm'] = $data['email_address'];
 		$user_id = llms_register_user( $data );
 		$this->assertEquals( 1, $wpdb->get_var( $wpdb->prepare( $query_signon_event, $user_id ) ) );
 

@@ -247,6 +247,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$args = array(
 			'email_address'          => 'fake@mock.com',
 			'email_address_confirm'  => 'fake@mock.com',
+
 			'password'               => '123456',
 			'password_confirm'       => '123456',
 			'first_name'             => 'Jeffrey',
@@ -279,6 +280,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		// Update.
 		wp_set_current_user( $ret );
 		$args['first_name'] = 'Maude';
+		$args['display_name'] = $user->display_name;
 		$this->assertSame( $ret, $this->handler->submit( $args, 'account' ) );
 		$this->assertEquals( $args['first_name'], $user->first_name );
 

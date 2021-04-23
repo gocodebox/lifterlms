@@ -12,109 +12,109 @@
 class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 
 	/**
-	 * Hold a temporary reference to the $wp_version global.
-	 *
-	 * @var null
-	 */
-	private $wp_version = null;
-
-	/**
-	 * Mock the $wp_version global.
+	 * Ensures the generated block content of a reusable block matches the stored "snapshot"
 	 *
 	 * @since [version]
 	 *
-	 * @param string $version Version string.
+	 * @param string $id     Field ID.
+	 * @param string $actual Actual generated content to compare to the expected "snapshot"
 	 * @return void
 	 */
-	private function mock_wp_version( $version ) {
+	public function assertReusableBlockContentMatchesSnapshot( $id, $actual ) {
 
-		global $wp_version;
-		$this->wp_version = $wp_version;
+		$snapshots = array(
+			'username'     => '<!-- wp:llms/form-field-user-login {"field":"text","required":true,"label":"Username","name":"user_login","id":"user_login","data_store":"users","data_store_key":"user_login","llms_visibility":"logged_out"} /-->',
+			'email'        => '<!-- wp:llms/form-field-confirm-group {"fieldLayout":"columns"} --><!-- wp:llms/form-field-user-email {"field":"email","required":true,"label":"Email Address","name":"email_address","id":"email_address","data_store":"users","data_store_key":"user_email","llms_visibility":"off","columns":6,"last_column":false,"isConfirmationControlField":true,"match":"email_address_confirm"} /--><!-- wp:llms/form-field-text {"field":"email","required":true,"label":"Confirm Email Address","name":"email_address_confirm","id":"email_address_confirm","data_store":false,"data_store_key":false,"llms_visibility":"off","columns":6,"last_column":true,"isConfirmationField":true,"match":"email_address"} /--><!-- /wp:llms/form-field-confirm-group -->',
+			'password'     => '<!-- wp:llms/form-field-confirm-group {"fieldLayout":"columns"} --><!-- wp:llms/form-field-user-password {"field":"text","required":true,"label":"Password","name":"password","id":"password","data_store":"users","data_store_key":"user_pass","llms_visibility":"off","meter":true,"min_strength":"strong","html_attrs":{"minlength":8},"meter_description":"A {min_strength} password is required with at least {min_length} characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.","columns":6,"last_column":false,"isConfirmationControlField":true,"match":"password_confirm"} /--><!-- wp:llms/form-field-text {"field":"password","required":true,"label":"Confirm Password","name":"password_confirm","id":"password_confirm","data_store":false,"data_store_key":false,"llms_visibility":"off","meter":true,"min_strength":"strong","html_attrs":{"minlength":8},"meter_description":"A {min_strength} password is required with at least {min_length} characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.","columns":6,"last_column":true,"isConfirmationField":true,"match":"password"} /--><!-- /wp:llms/form-field-confirm-group -->',
+			'name'         => '<!-- wp:llms/form-field-user-name --><!-- wp:llms/form-field-user-last-name {"field":"text","label":"First Name","name":"first_name","id":"first_name","data_store":"usermeta","data_store_key":"first_name","columns":6,"last_column":false} /--><!-- wp:llms/form-field-user-last-name {"field":"text","label":"Last Name","name":"last_name","id":"last_name","data_store":"usermeta","data_store_key":"last_name","columns":6,"last_column":true} /--><!-- /wp:llms/form-field-user-name -->',
+			'display_name' => '<!-- wp:llms/form-field-user-display-name {"field":"text","required":true,"label":"Display Name","name":"display_name","id":"display_name","data_store":"users","data_store_key":"display_name"} /-->',
+			'address'      => '<!-- wp:llms/form-field-user-address --><!-- wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-street-primary {"field":"text","label":"Address","name":"llms_billing_address_1","id":"llms_billing_address_1","data_store":"usermeta","data_store_key":"llms_billing_address_1","columns":8,"last_column":false} /--><!-- wp:llms/form-field-user-address-street-secondary {"field":"text","label":"","label_show_empty":true,"placeholder":"Apartment, suite, etc...","name":"llms_billing_address_2","id":"llms_billing_address_2","data_store":"usermeta","data_store_key":"llms_billing_address_2","columns":4,"last_column":true} /--><!-- /wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-city {"field":"text","label":"City","name":"llms_billing_city","id":"llms_billing_city","data_store":"usermeta","data_store_key":"llms_billing_city"} /--><!-- wp:llms/form-field-user-address-country {"field":"select","label":"Country","name":"llms_billing_country","id":"llms_billing_country","data_store":"usermeta","data_store_key":"llms_billing_country","options_preset":"countries","placeholder":"Select a Country"} /--><!-- wp:llms/form-field-user-address-region --><!-- wp:llms/form-field-user-address-state {"field":"select","label":"State \/ Region","placeholder":"Select a State \/ Region","name":"llms_billing_state","id":"llms_billing_state","data_store":"usermeta","data_store_key":"llms_billing_state","columns":6,"last_column":false} /--><!-- wp:llms/form-field-user-address-postal-code {"field":"text","label":"Postal \/ Zip Code","name":"llms_billing_zip","id":"llms_billing_zip","data_store":"usermeta","data_store_key":"llms_billing_zip","columns":6,"last_column":true} /--><!-- /wp:llms/form-field-user-address-region --><!-- /wp:llms/form-field-user-address -->',
+			'phone'        => '<!-- wp:llms/form-field-user-phone {"field":"text","label":"Phone Number","name":"llms_phone","id":"llms_phone","data_store":"usermeta","data_store_key":"llms_phone"} /-->',
+		);
 
-		$wp_version = $version;
+		$this->assertEquals( $snapshots[ $id ], $actual, $id );
 
 	}
 
 	/**
-	 * Setup the test case.
+	 * Retrieve a list of field ids as they are to be stored on a template at a given location
 	 *
 	 * @since [version]
 	 *
-	 * @return void
-	 */
-	public function setUp() {
-
-		parent::setUp();
-		$this->obj = LLMS_Form_Templates::instance();
-
-		delete_option( 'lifterlms_registration_generate_username' );
-		delete_option( 'lifterlms_user_info_field_names_checkout_visibility' );
-		delete_option( 'lifterlms_user_info_field_address_checkout_visibility' );
-		delete_option( 'lifterlms_user_info_field_phone_checkout_visibility' );
-
-	}
-
-	/**
-	 * Cleanup the test case.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function tearDown() {
-
-		parent::tearDown();
-		if ( $this->wp_version ) {
-			global $wp_version;
-			$wp_version = $this->wp_version;
-			$this->wp_version = null;
-		}
-
-	}
-
-	/**
-	 * Retrieve a flattened list of all LifterLMS field blocks in a given list of parsed blocks.
-	 *
-	 * Recursively checks innerBlocks lists to find blocks nested inside columns blocks.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $blocks Blocks list from `parse_blocks()`.
+	 * @param string $location A form location ID.
 	 * @return string[]
 	 */
-	protected function get_flat_block_list( $blocks ) {
+	private function get_template_field_id_list( $location ) {
 
-		$flat = array();
+		$res    = LLMS_Form_Templates::get_template( $location );
+		$blocks = parse_blocks( $res );
+		$list   = array();
 
 		foreach ( $blocks as $block ) {
 
-			if ( false !== strpos( $block['blockName'], 'llms/' ) ) {
-				$flat[] = $block['blockName'];
-			} elseif ( $block['innerBlocks'] ) {
-				$flat = array_merge( $flat, $this->get_flat_block_list( $block['innerBlocks'] ) );
+			if ( 'core/block' === $block['blockName'] ) {
+				$list[] = get_post_meta( $block['attrs']['ref'], '_llms_field_id', true );
+			} elseif ( 'llms/form-field-redeem-voucher' === $block['blockName'] ) {
+				$list[] = 'voucher';
+			} else {
+				// This shouldn't happen but when we compare against the list we'll see what doesn't belong.
+				$list[] = $block['blockName'];
 			}
 
 		}
 
-		return $flat;
+		return $list;
 
 	}
 
 	/**
-	 * Test retrieving an undefined template
+	 * Test create_reusable_block()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_template_not_exists() {
+	public function test_create__and_get_reusable_block() {
 
-		$this->assertEquals( '', $this->obj->get_template( 'fake' ) );
+		$list = require LLMS_PLUGIN_DIR . '/includes/llms-blocks-schema.php';
+
+		foreach ( $list as $field_id => $def ) {
+
+			$post_id = LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'create_reusable_block', array( $field_id ) );
+			$this->assertTrue( ! empty( $post_id ) && is_int( $post_id ) );
+
+			$post = get_post( $post_id );
+
+			// Title stored.
+			$this->assertEquals( $def['title'], $post->post_title );
+
+			// Block(s) inserted correctly.
+			$this->assertReusableBlockContentMatchesSnapshot( $field_id, $post->post_content );
+
+			// Meta data is stored.
+			$this->assertEquals( 'yes', get_post_meta( $post_id, '_is_llms_field', true ) );
+			$this->assertEquals( $field_id, get_post_meta( $post_id, '_llms_field_id', true ) );
+
+			// If we try to create it again the existing post will be used (in favor of creating a new one).
+			$this->assertEquals( $post_id, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'create_reusable_block', array( $field_id ) ) );
+
+			// Retrieve the core/block array.
+			$expected = array(
+				'blockName'    => 'core/block',
+				'attrs'        => array(
+					'ref' => $post_id,
+				),
+				'innerContent' => array(),
+			);
+
+			$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_reusable_block', array( $field_id ) ) );
+
+		}
 
 	}
 
 	/**
-	 * Test retrieval of the account form template.
+	 * Test get_template() for the account location.
 	 *
 	 * @since [version]
 	 *
@@ -122,547 +122,241 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 */
 	public function test_get_template_account() {
 
+		$expected = array(
+			'name',
+			'display_name',
+			'address',
+			'phone',
+			'email',
+			'password',
+		);
+
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'account' ) );
+
+	}
+
+	/**
+	 * Test get_template() for the checkout location.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_template_checkout() {
+
+		$expected = array(
+			'email',
+			'password',
+			'name',
+			'address',
+			'phone',
+		);
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'checkout' ) );
+
+		// With username.
 		update_option( 'lifterlms_registration_generate_username', 'no' );
+		array_unshift( $expected, 'username' );
 
-		$blocks = parse_blocks( $this->obj->get_template( 'account' ) );
-		$flat   = $this->get_flat_block_list( $blocks );
-		$expect = array (
-			'llms/form-field-user-username',
-			'llms/form-field-user-first-name',
-			'llms/form-field-user-last-name',
-			'llms/form-field-user-address',
-			'llms/form-field-user-address-additional',
-			'llms/form-field-user-address-city',
-			'llms/form-field-user-address-country',
-			'llms/form-field-user-address-state',
-			'llms/form-field-user-address-zip',
-			'llms/form-field-user-phone',
-			'llms/form-field-user-email',
-			'llms/form-field-user-password-current',
-			'llms/form-field-user-password',
-			'llms/form-field-user-password-confirm',
-		);
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'checkout' ) );
 
-		$this->assertEquals( $expect, $flat );
+		delete_option( 'lifterlms_registration_generate_username' );
 
 	}
 
 	/**
-	 * Test checkout template with usernames enabled
+	 * Test get_template() for the registration location.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_template_checkout_with_username() {
+	public function test_get_template_registration() {
 
+		$expected = array(
+			'email',
+			'password',
+			'name',
+			'address',
+			'phone',
+		);
+
+		// No voucher.
+		update_option( 'lifterlms_voucher_field_registration_visibility', 'hidden' );
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
+
+		// With username.
 		update_option( 'lifterlms_registration_generate_username', 'no' );
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$this->assertEquals( 'llms/form-field-user-username', $blocks[0]['blockName'] );
+		array_unshift( $expected, 'username' );
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
+
+		// With voucher.
+		delete_option( 'lifterlms_voucher_field_registration_visibility' );
+		$expected[] = 'voucher';
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
+
+		delete_option( 'lifterlms_registration_generate_username' );
 
 	}
 
 	/**
-	 * Test checkout template with username disabled
+	 * Test get_voucher_block() when the voucher field is disabled
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_template_checkout_without_username() {
+	public function test_get_voucher_block_disabled() {
 
-		update_option( 'lifterlms_registration_generate_username', 'yes' );
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$this->assertTrue( 'llms/form-field-user-username' !== $blocks[0]['blockName'] );
+		update_option( 'lifterlms_voucher_field_registration_visibility', 'hidden' );
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_voucher_block' ) );
+
+		delete_option( 'lifterlms_voucher_field_registration_visibility' );
 
 	}
 
 	/**
-	 * Test checkout template without email confirmation.
+	 * Test get_voucher_block() when voucher submission is optional.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_template_checkout_without_email_confirm() {
-
-		update_option( 'lifterlms_user_info_field_email_confirmation_checkout_visibility', 'no' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-		$this->assertFalse( in_array( 'llms/form-field-user-email-confirm', $list, true ) );
-
-	}
-
-	/**
-	 * Test checkout template with email confirmation
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_email_confirm() {
-
-		update_option( 'lifterlms_user_info_field_email_confirmation_checkout_visibility', 'yes' );
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-
-		// First block is a column
-		$this->assertEquals( 'core/columns', $blocks[0]['blockName'] );
-
-		// First inner block is column with email field.
-		$this->assertEquals( 'core/column', $blocks[0]['innerBlocks'][0]['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-email', $blocks[0]['innerBlocks'][0]['innerBlocks'][0]['blockName'] );
-
-		// Second inner block is column with email field.
-		$this->assertEquals( 'core/column', $blocks[0]['innerBlocks'][1]['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-email-confirm', $blocks[0]['innerBlocks'][1]['innerBlocks'][0]['blockName'] );
-
-	}
-
-	/**
-	 * Test checkout template with a password strength meter
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_password_strength_meter() {
-
-		update_option( 'lifterlms_registration_password_strength', 'yes' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-
-		$this->assertTrue( in_array( 'llms/form-field-password-strength-meter', $list, true ) );
-
-	}
-
-	/**
-	 * Test
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_without_password_strength_meter() {
-
-		update_option( 'lifterlms_registration_password_strength', 'no' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-
-		$this->assertFalse( in_array( 'llms/form-field-password-strength-meter', $list, true ) );
-
-	}
-
-	/**
-	 * Test
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_names_required() {
-
-		update_option( 'lifterlms_user_info_field_names_checkout_visibility', 'required' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-
-		// First block is a column
-		$this->assertEquals( 'core/columns', $blocks[2]['blockName'] );
-
-		// First inner block is column with email field.
-		$this->assertEquals( 'core/column', $blocks[2]['innerBlocks'][0]['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-first-name', $blocks[2]['innerBlocks'][0]['innerBlocks'][0]['blockName'] );
-
-		// Required.
-		$this->assertTrue( $blocks[2]['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-
-		// Second inner block is column with email field.
-		$this->assertEquals( 'core/column', $blocks[2]['innerBlocks'][1]['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-last-name', $blocks[2]['innerBlocks'][1]['innerBlocks'][0]['blockName'] );
-
-		// Required.
-		$this->assertTrue( $blocks[2]['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-
-	}
-
-	/**
-	 * Test
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_names_optional() {
-
-		update_option( 'lifterlms_user_info_field_names_checkout_visibility', 'optional' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-
-		// Not Required.
-		$this->assertFalse( $blocks[2]['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-		$this->assertFalse( $blocks[2]['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-
-	}
-
-	/**
-	 * Test that name fields aren't returned when names are hidden.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_names_disabled() {
-
-		update_option( 'lifterlms_user_info_field_names_checkout_visibility', 'hidden' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-		$this->assertFalse( in_array( 'llms/form-field-user-first-name', $list, true ) );
-		$this->assertFalse( in_array( 'llms/form-field-user-last-name', $list, true ) );
-
-	}
-
-	/**
-	 * Test get template checkout with addresses required
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_addresses_required() {
-
-		update_option( 'lifterlms_user_info_field_address_checkout_visibility', 'required' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-
-		$street = $blocks[3];
-		$this->assertEquals( 'core/columns', $street['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-address', $street['innerBlocks'][0]['innerBlocks'][0]['blockName'] );
-		$this->assertTrue( $street['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-
-		$this->assertEquals( 'llms/form-field-user-address-additional', $street['innerBlocks'][1]['innerBlocks'][0]['blockName'] );
-		$this->assertFalse( $street['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-
-		$city = $blocks[4];
-		$this->assertEquals( 'llms/form-field-user-address-city', $city['blockName'] );
-		$this->assertTrue( $city['attrs']['required'] );
-
-		$final = $blocks[5];
-		$this->assertEquals( 'core/columns', $final['blockName'] );
-		$this->assertEquals( 'llms/form-field-user-address-country', $final['innerBlocks'][0]['innerBlocks'][0]['blockName'] );
-		$this->assertTrue( $final['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-
-		$this->assertEquals( 'llms/form-field-user-address-state', $final['innerBlocks'][1]['innerBlocks'][0]['blockName'] );
-		$this->assertTrue( $final['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-
-		$this->assertEquals( 'llms/form-field-user-address-zip', $final['innerBlocks'][2]['innerBlocks'][0]['blockName'] );
-		$this->assertTrue( $final['innerBlocks'][2]['innerBlocks'][0]['attrs']['required'] );
-
-	}
-
-	/**
-	 * Checkout with addresses optional.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_addresses_optional() {
-
-		update_option( 'lifterlms_user_info_field_address_checkout_visibility', 'optional' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-
-		$street = $blocks[3];
-		$this->assertFalse( $street['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-		$this->assertFalse( $street['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-
-		$city = $blocks[4];
-		$this->assertFalse( $city['attrs']['required'] );
-
-		$final = $blocks[5];
-		$this->assertFalse( $final['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] );
-		$this->assertFalse( $final['innerBlocks'][1]['innerBlocks'][0]['attrs']['required'] );
-		$this->assertFalse( $final['innerBlocks'][2]['innerBlocks'][0]['attrs']['required'] );
-
-	}
-
-	/**
-	 * Checkout with hidden addresses.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_addresses_hidden() {
-
-		update_option( 'lifterlms_user_info_field_address_checkout_visibility', 'hidden' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-
-		$addresses = array(
-			'llms/form-field-user-address',
-			'llms/form-field-user-address-additional',
-			'llms/form-field-user-address-city',
-			'llms/form-field-user-address-country',
-			'llms/form-field-user-address-state',
-			'llms/form-field-user-address-zip',
-		);
-		foreach ( $addresses as $field ) {
-			$this->assertFalse( in_array( $field, $list, true ), $field );
-		}
-
-	}
-
-	/**
-	 * Phone required.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_phone_required() {
-
-		update_option( 'lifterlms_user_info_field_phone_checkout_visibility', 'required' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$phone  = $blocks[ count( $blocks ) - 1 ];
-
-		$this->assertEquals( 'llms/form-field-user-phone', $phone['blockName'] );
-		$this->assertTrue( $phone['attrs']['required'] );
-
-	}
-
-	/**
-	 * Phone optional.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_phone_optional() {
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$phone  = $blocks[ count( $blocks ) - 1 ];
-
-		$this->assertEquals( 'llms/form-field-user-phone', $phone['blockName'] );
-		$this->assertFalse( $phone['attrs']['required'] );
-
-	}
-
-	/**
-	 * Phone hidden.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_template_checkout_with_phone_hidden() {
-
-		update_option( 'lifterlms_user_info_field_phone_checkout_visibility', 'hidden' );
-
-		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
-		$list   = $this->get_flat_block_list( $blocks );
-		$this->assertFalse( in_array( 'llms/form-field-user-phone', $list, true ) );
-
-	}
-
-	/**
-	 * Test column creation with no widths.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_wrap_columns_get_column_no_widths() {
-
-		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:column --><div class="wp-block-column">' . $col . '</div><!-- /wp:column -->';
-
-		// As a string on 5.3 or later.
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
-		$this->assertEquals( $expect, $res );
-
-		// As a string pre 5.3.
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
-		$this->assertEquals( $expect, $res );
-
-		// As an array on 5.3 or later.
-		$col = array(
-			'content' => $col,
-			'width' => false,
-		);
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
-		$this->assertEquals( $expect, $res );
-
-		// As an array on pre 5.3.
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
-		$this->assertEquals( $expect, $res );
-
-	}
-
-	/**
-	 * Test column creation with widths on 5.3 or later.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_wrap_columns_get_column_with_widths_wp_53_plus() {
-
-		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:column {"width":"25%"} --><div class="wp-block-column" style="flex-basis:25%">' . $col . '</div><!-- /wp:column -->';
-
-		$col = array(
-			'content' => $col,
-			'width' => 25,
-		);
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
-		$this->assertEquals( $expect, $res );
-
-	}
-
-	/**
-	 * Test column creation with widths on 5.2 or lower.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_wrap_columns_get_column_with_widths_wp_52_down() {
-
-		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:column --><div class="wp-block-column">' . $col . '</div><!-- /wp:column -->';
-
-		$col = array(
-			'content' => $col,
-			'width' => 25,
-		);
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
-		$this->assertEquals( $expect, $res );
-
-	}
-
-	/**
-	 * Test column opening wrapper with visibility settings on 5.3 or later.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_wrap_columns_get_open_tag_with_visibility_wp_53_plus() {
-
-		$this->mock_wp_version( '5.3.0' );
-
-		$cols = array(
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+	public function test_get_voucher_block_optional() {
+
+		update_option( 'lifterlms_voucher_field_registration_visibility', 'optional' );
+
+		$expected = array(
+			'blockName'    => 'llms/form-field-redeem-voucher',
+			'attrs'        => array(
+				'id'             => 'llms_voucher',
+				'label'          => __( 'Have a voucher?', 'lifterlms' ),
+				'placeholder'    => __( 'Voucher Code', 'lifterlms' ),
+				'required'       => false,
+				'toggleable'     => true,
+				'data_store'     => false,
+				'data_store_key' => false,
+			),
+			'innerContent' => array(),
 		);
 
-		$expect = '<!-- wp:columns {"llms_visibility":"logged_out"} --><div class="wp-block-columns">';
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_voucher_block' ) );
 
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
-		$this->assertEquals( $expect, $res );
-
-		// Same result with more cols.
-		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
-		$this->assertEquals( $expect, $res );
+		delete_option( 'lifterlms_voucher_field_registration_visibility' );
 
 	}
 
 	/**
-	 * Test column opening wrapper without visibility settings on 5.3 or later.
+	 * Test get_voucher_block() when voucher submission is required.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_wrap_columns_get_open_tag_no_visibility_wp_53_plus() {
+	public function test_get_voucher_block_required() {
 
-		$this->mock_wp_version( '5.3.0' );
+		update_option( 'lifterlms_voucher_field_registration_visibility', 'required' );
 
-		$cols = array(
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		$expected = array(
+			'blockName'    => 'llms/form-field-redeem-voucher',
+			'attrs'        => array(
+				'id'             => 'llms_voucher',
+				'label'          => __( 'Have a voucher?', 'lifterlms' ),
+				'placeholder'    => __( 'Voucher Code', 'lifterlms' ),
+				'required'       => true,
+				'toggleable'     => true,
+				'data_store'     => false,
+				'data_store_key' => false,
+			),
+			'innerContent' => array(),
 		);
 
-		$expect = '<!-- wp:columns --><div class="wp-block-columns">';
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_voucher_block' ) );
 
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
-		$this->assertEquals( $expect, $res );
-
-		// Same result with more cols.
-		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
-		$this->assertEquals( $expect, $res );
+		delete_option( 'lifterlms_voucher_field_registration_visibility' );
 
 	}
 
 	/**
-	 * Test column opening wrapper with visibility settings on 5.2 or earlier.
+	 * Test prepare_blocks(): Missing properties automatically added.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_wrap_columns_get_open_tag_with_visibility_wp_52_down() {
+	public function test_prepare_blocks_without_props() {
 
-		$this->mock_wp_version( '5.2.0' );
-
-		$cols = array(
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		$input = array(
+			array(),
+		);
+		$expected = array(
+			array(
+				'attrs'        => array(),
+				'innerBlocks'  => array(),
+				'innerContent' => array(),
+			),
 		);
 
-		$expect = '<!-- wp:columns {"llms_visibility":"logged_out","columns":2} --><div class="wp-block-columns has-2-columns">';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
-		$this->assertEquals( $expect, $res );
-
-		// With 3 cols.
-		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:columns {"llms_visibility":"logged_out","columns":3} --><div class="wp-block-columns has-3-columns">';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
-		$this->assertEquals( $expect, $res );
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'prepare_blocks', array( $input ) ) );
 
 	}
 
 	/**
-	 * Test column opening wrapper without visibility settings on 5.2 or earlier.
+	 * Test prepare_blocks(): Existing props not overwritten.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_wrap_columns_get_open_tag_no_visibility_wp_52_down() {
+	public function test_prepare_blocks_with_props() {
 
-		$this->mock_wp_version( '5.2.0' );
-
-		$cols = array(
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
-			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		$input = array(
+			array(
+				'attrs'       => 'fake',
+				'innerBlocks' => array(),
+			),
+		);
+		$expected = array(
+			array(
+				'attrs'        => 'fake',
+				'innerBlocks'  => array(),
+				'innerContent' => array(),
+			),
 		);
 
-		$expect = '<!-- wp:columns {"columns":2} --><div class="wp-block-columns has-2-columns">';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
-		$this->assertEquals( $expect, $res );
-
-		// With 3 cols.
-		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
-		$expect = '<!-- wp:columns {"columns":3} --><div class="wp-block-columns has-3-columns">';
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
-		$this->assertEquals( $expect, $res );
-
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'prepare_blocks', array( $input ) ) );
 
 	}
+
+	/**
+	 * Test prepare_blocks(): Works recursively on inner blocks and fills innerContent.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_blocks_recursive() {
+
+		$input = array(
+			array(
+				'attrs'       => array(),
+				'innerBlocks' => array( array(), array() ),
+			),
+		);
+		$expected = array(
+			array(
+				'attrs'        => array(),
+				'innerBlocks'  => array_fill( 0, 2, array(
+					'attrs'        => array(),
+					'innerBlocks'  => array(),
+					'innerContent' => array(),
+				) ),
+				'innerContent' => array( null, null ),
+			),
+		);
+
+		$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'prepare_blocks', array( $input ) ) );
+
+	}
+
 
 }
