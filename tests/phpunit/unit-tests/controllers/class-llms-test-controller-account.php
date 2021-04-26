@@ -1008,6 +1008,9 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_update_missing_fields() {
 
+		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install( true );
+
 		// create a user
 		$uid = $this->factory->user->create();
 		// sign the user in
@@ -1050,6 +1053,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 			'email_address' => 'help+23568@lifterlms.com',
 			'email_address_confirm' => 'help+23568@lifterlms.com',
+			'display_name' => 'Marshall P.',
 			'first_name' => 'Marshall',
 			'last_name' => 'Pate',
 			'llms_billing_address_1' => 'Voluptatem',
