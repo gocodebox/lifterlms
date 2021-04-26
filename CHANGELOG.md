@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-alpha.4 - 2021-04-26
+---------------------------
+
++ Default form templates now use reusable blocks.
++ Improved the user experience surrounding fields with a confirmation field (email address and password).
++ Added the ability to define a field's column width instead of requiring the usage of WP column blocks.
++ Added support for reusable blocks on form posts
++ Upgraded LifterLMS Blocks to 2.0.0-beta.3.
+
+
 v5.0.0-alpha.3 - 2021-03-23
 ---------------------------
 
