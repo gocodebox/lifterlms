@@ -40,9 +40,9 @@ class LLMS_Form_Templates {
 		}
 
 		return array(
-			'blockName' => 'llms/form-field-confirm-group',
+			'blockName'   => 'llms/form-field-confirm-group',
 			'innerBlocks' => $inner,
-			'attrs' => array(
+			'attrs'       => array(
 				'fieldLayout' => 'columns',
 			),
 		);
@@ -101,13 +101,15 @@ class LLMS_Form_Templates {
 	 */
 	private static function find_reusable_block( $field_id ) {
 
-		$query = new WP_Query( array(
-			'posts_per_page' => 1,
-			'no_found_rows'  => true,
-			'post_type'      => 'wp_block',
-			'meta_key'       => '_llms_field_id',
-			'meta_value'     => $field_id,
-		) );
+		$query = new WP_Query(
+			array(
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+				'post_type'      => 'wp_block',
+				'meta_key'       => '_llms_field_id',
+				'meta_value'     => $field_id,
+			)
+		);
 
 		return $query->posts ? $query->posts[0] : false;
 
@@ -215,7 +217,7 @@ class LLMS_Form_Templates {
 		 * @since [version]
 		 *
 		 * @param array  $definition The schema definition.
-	 	 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+		 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 		 */
 		return apply_filters( 'llms_get_reusable_block_schema', $definition, $field_id );
 
@@ -290,12 +292,12 @@ class LLMS_Form_Templates {
 		return array(
 			'blockName'    => 'llms/form-field-redeem-voucher',
 			'attrs'        => array(
-				'id'          => 'llms_voucher',
-				'label'       => __( 'Have a voucher?', 'lifterlms' ),
-				'placeholder' => __( 'Voucher Code', 'lifterlms' ),
-				'required'    => ( 'required' === $option ),
-				'toggleable'  => true,
-				'data_store' => false,
+				'id'             => 'llms_voucher',
+				'label'          => __( 'Have a voucher?', 'lifterlms' ),
+				'placeholder'    => __( 'Voucher Code', 'lifterlms' ),
+				'required'       => ( 'required' === $option ),
+				'toggleable'     => true,
+				'data_store'     => false,
 				'data_store_key' => false,
 			),
 			'innerContent' => array(),
@@ -315,10 +317,13 @@ class LLMS_Form_Templates {
 
 		foreach ( $blocks as &$block ) {
 
-			$block = wp_parse_args( $block, array(
-				'attrs'       => array(),
-				'innerBlocks' => array(),
-			) );
+			$block = wp_parse_args(
+				$block,
+				array(
+					'attrs'       => array(),
+					'innerBlocks' => array(),
+				)
+			);
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
 				$block['innerBlocks'] = self::prepare_blocks( $block['innerBlocks'] );

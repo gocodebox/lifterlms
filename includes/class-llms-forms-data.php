@@ -60,7 +60,6 @@ class LLMS_Forms_Data {
 					return true;
 				}
 			}
-
 		}
 
 		return false;

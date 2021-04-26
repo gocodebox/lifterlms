@@ -255,14 +255,13 @@ class LLMS_Forms {
 		foreach ( $blocks as $index => $block ) {
 
 			if ( 'llms/form-field-user-password' === $block['blockName'] ) {
-				return array( is_null( $parent_index ) ? $index : $parent_index , $block );
-			} elseif (  $block['innerBlocks'] ) {
+				return array( is_null( $parent_index ) ? $index : $parent_index, $block );
+			} elseif ( $block['innerBlocks'] ) {
 				$inner = $this->find_password_block( $block['innerBlocks'], is_null( $parent_index ) ? $index : $parent_index );
 				if ( false !== $inner ) {
 					return $inner;
 				}
 			}
-
 		}
 
 		return false;
@@ -303,7 +302,6 @@ class LLMS_Forms {
 			} elseif ( 'core/html' === $block['blockName'] && ! empty( $block['attrs'] ) && 'html' === $block['attrs']['type'] ) {
 				$fields[] = $block;
 			}
-
 		}
 
 		return $fields;
@@ -819,7 +817,6 @@ class LLMS_Forms {
 			} elseif ( $block['innerBlocks'] ) {
 				$block['innerBlocks'] = $this->load_reusable_blocks( $block['innerBlocks'] );
 			}
-
 		}
 
 		return $blocks;
