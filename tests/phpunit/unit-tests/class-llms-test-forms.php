@@ -566,7 +566,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan();
 		wp_set_current_user( $this->factory->user->create() );
 
-		$this->forms->create( 'checkout' );
+		$this->forms->create( 'checkout', true );
 
 		$fields = $this->forms->get_free_enroll_form_fields( $plan );
 

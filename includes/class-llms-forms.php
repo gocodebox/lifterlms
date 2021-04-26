@@ -805,21 +805,31 @@ class LLMS_Forms {
 	 */
 	private function load_reusable_blocks( $blocks ) {
 
-		foreach ( $blocks as $index => &$block ) {
+		$loaded = array();
+
+		foreach ( $blocks as $index => $block ) {
 
 			if ( 'core/block' === $block['blockName'] ) {
+
 				$post = get_post( $block['attrs']['ref'] );
 				if ( ! $post ) {
 					continue;
 				}
-				$inner_blocks = parse_blocks( $post->post_content );
-				array_splice( $blocks, $index, 1, $inner_blocks );
-			} elseif ( $block['innerBlocks'] ) {
+
+				$loaded = array_merge( $loaded, $this->parse_blocks( $post->post_content ) );
+				continue;
+
+			}
+
+			if ( $block['innerBlocks'] ) {
 				$block['innerBlocks'] = $this->load_reusable_blocks( $block['innerBlocks'] );
 			}
+
+			$loaded[] = $block;
+
 		}
 
-		return $blocks;
+		return $loaded;
 
 	}
 
@@ -858,12 +868,13 @@ class LLMS_Forms {
 		$password_block = parse_blocks(
 			$this->get_custom_field_block_markup(
 				array(
-					'type'         => 'html',
-					'id'           => 'llms-password-strength-meter',
-					'classes'      => 'llms-password-strength-meter',
-					'description'  => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
-					'min_length'   => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
-					'min_strength' => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
+					'type'            => 'html',
+					'id'              => 'llms-password-strength-meter',
+					'classes'         => 'llms-password-strength-meter',
+					'description'     => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
+					'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
+					'min_strength'    => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
+					'llms_visibility' => ! empty( $block['attrs']['llms_visibility'] ) ? $block['attrs']['llms_visibility'] : '',
 				)
 			)
 		);
@@ -893,9 +904,9 @@ class LLMS_Forms {
 
 		$blocks = $this->load_reusable_blocks( $blocks );
 
-		$blocks = $this->maybe_add_password_strength_meter( $blocks );
-
 		$blocks = $this->cascade_visibility_attrs( $blocks );
+
+		$blocks = $this->maybe_add_password_strength_meter( $blocks );
 
 		return $blocks;
 

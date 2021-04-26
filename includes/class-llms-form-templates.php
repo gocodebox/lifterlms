@@ -39,12 +39,18 @@ class LLMS_Form_Templates {
 			$inner = array_reverse( $inner );
 		}
 
+		$attrs = array(
+			'fieldLayout' => 'columns',
+		);
+
+		if ( ! empty( $block['attrs']['llms_visibility'] ) ) {
+			$attrs['llms_visibility'] = $block['attrs']['llms_visibility'];
+		}
+
 		return array(
 			'blockName'   => 'llms/form-field-confirm-group',
 			'innerBlocks' => $inner,
-			'attrs'       => array(
-				'fieldLayout' => 'columns',
-			),
+			'attrs'       => $attrs,
 		);
 
 	}
