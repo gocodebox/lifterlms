@@ -163,7 +163,6 @@ class LLMS_Form_Validator {
 			'password_current' => array( $this, 'validate_field_current_password' ),
 			'user_email'       => array( $this, 'validate_field_user_email' ),
 			'user_login'       => array( $this, 'validate_field_user_login' ),
-			'password'         => array( $this, 'validate_field_user_password' )
 		);
 		$valid     = isset( $extra_map[ $field['id'] ] ) ? call_user_func( $extra_map[ $field['id'] ], $posted_value ) : true;
 		if ( is_wp_error( $valid ) ) {
