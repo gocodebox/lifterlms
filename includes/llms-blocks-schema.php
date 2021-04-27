@@ -205,7 +205,7 @@ return array(
 		'title'     => _x( 'Default Field: Phone Number', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-phone',
 		'attrs'     => array(
-			'field'          => 'text',
+			'field'          => 'tel',
 			'label'          => __( 'Phone Number', 'lifterlms' ),
 			'name'           => 'llms_phone',
 			'id'             => 'llms_phone',
