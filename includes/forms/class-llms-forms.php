@@ -328,6 +328,7 @@ class LLMS_Forms {
 		$content .= $this->get_additional_fields_html( $location, $args );
 
 		$blocks = $this->parse_blocks( $content );
+		$blocks = $this->maybe_add_password_strength_meter( $blocks );
 
 		/**
 		 * Filters the parsed block list for a given LifterLMS form
@@ -905,8 +906,6 @@ class LLMS_Forms {
 		$blocks = $this->load_reusable_blocks( $blocks );
 
 		$blocks = $this->cascade_visibility_attrs( $blocks );
-
-		$blocks = $this->maybe_add_password_strength_meter( $blocks );
 
 		return $blocks;
 
