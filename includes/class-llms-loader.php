@@ -138,19 +138,21 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-field.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-handler.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-post-type.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-templates.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-form-validator.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms-admin-bar.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms-classic-editor.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-forms-data.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
+
+		// Forms
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-field.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-handler.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-post-type.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-templates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-validator.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-admin-bar.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-classic-editor.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-data.php';
 
 		// Classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.assets.php';
