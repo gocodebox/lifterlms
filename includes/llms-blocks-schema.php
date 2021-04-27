@@ -1,6 +1,16 @@
 <?php
+/**
+ * Default form field blocks schema
+ *
+ * This file returns a list of the default LifterLMS form fields
+ * used to build an initial set of reusable blocks used across the
+ * core user information forms (checkout, registration, and account).
+ *
+ * @since [version]
+ * @version [version]
+ */
 
-
+defined( 'ABSPATH' ) || exit;
 
 return array(
 	'username'     => array(
@@ -175,6 +185,7 @@ return array(
 						'attrs'     => array(
 							'field'          => 'select',
 							'label'          => __( 'State / Region', 'lifterlms' ),
+							'options_preset' => 'states',
 							'placeholder'    => __( 'Select a State / Region', 'lifterlms' ),
 							'name'           => 'llms_billing_state',
 							'id'             => 'llms_billing_state',
