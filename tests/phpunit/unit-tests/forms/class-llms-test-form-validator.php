@@ -86,6 +86,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	protected function get_field_arr( $type, $args = array() ) {
 		return wp_parse_args( $args, array(
 			'id'   => "field-{$type}-id",
+			'name' => "field-{$type}-name",
 			'type' => $type,
 		) );
 	}
@@ -267,6 +268,80 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 				$this->assertIsWPError( $valid );
 			}
 
+		}
+
+	}
+
+	/**
+	 * Test validate_field_attribute_minlength()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_attribute_minlength() {
+
+		$length = 1;
+		while ( $length <= 25 ) {
+
+			$field = $this->get_field_arr( 'password', array(
+				'attributes' => array(
+					'minlength' => $length,
+				),
+			) );
+
+			// Too short.
+			$value = str_repeat( 'A', $length - 1 );
+			$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( $value, $length, $field ) );
+			$this->assertIsWPError( $res );
+
+			// Equal
+			$value .= 'A';
+			$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( $value, $length, $field ) );
+			$this->assertTrue( $res );
+
+			// Longer
+			$value .= 'AAAA';
+			$res = LLMS_Unit_Test_Util::call_method( $this->main, 'validate_field_attribute_minlength', array( $value, $length, $field ) );
+			$this->assertTrue( $res );
+
+			++$length;
+
+		}
+
+	}
+
+	/**
+	 * Test validate_field() for a field with an html minlength attribute
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_for_minlength_attribute() {
+
+		$field = $this->get_field_arr( 'password', array(
+			'attributes' => array(
+				'minlength' => 6,
+			),
+		) );
+
+		$tests = array(
+			array( false, 'short' ),
+			array( false, array( 'short' ) ),
+			array( false, array( 'short', 'corto' ) ),
+			array( true, 'it is good' ),
+			array( true, array( 'it is good' ) ),
+			array( true, array( 'it is good', 'è buono' ) ),
+		);
+
+		foreach ( $tests as $test ) {
+			$res = $this->main->validate_field( $test[1], $field );
+			if ( $test[0] ) {
+				$this->assertTrue( $res );
+			} else {
+				$this->assertIsWPError( $res );
+			}
 		}
 
 	}

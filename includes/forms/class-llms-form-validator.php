@@ -142,9 +142,18 @@ class LLMS_Form_Validator {
 		$to_validate = is_array( $posted_value ) ? $posted_value : array( $posted_value );
 
 		foreach ( $to_validate as $value ) {
+
 			$valid = isset( $type_map[ $field['type'] ] ) ? call_user_func( $type_map[ $field['type'] ], $value, $field ) : true;
 			if ( is_wp_error( $valid ) ) { // Return as soon as a field is not valid.
 				return $valid;
+			}
+
+			// HTML Attribute Validations.
+			if ( ! empty( $field['attributes']['minlength'] ) ) {
+				$valid = $this->validate_field_attribute_minlength( $value, $field['attributes']['minlength'], $field );
+				if ( is_wp_error( $valid ) ) {
+					return $valid;
+				}
 			}
 		}
 
@@ -154,10 +163,40 @@ class LLMS_Form_Validator {
 			'password_current' => array( $this, 'validate_field_current_password' ),
 			'user_email'       => array( $this, 'validate_field_user_email' ),
 			'user_login'       => array( $this, 'validate_field_user_login' ),
+			'password'         => array( $this, 'validate_field_user_password' )
 		);
 		$valid     = isset( $extra_map[ $field['id'] ] ) ? call_user_func( $extra_map[ $field['id'] ], $posted_value ) : true;
 		if ( is_wp_error( $valid ) ) {
 			return $valid;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Validates the html input minlength attribute
+	 *
+	 * Used by the User Password field.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $posted_value User-submitted value.
+	 * @param int    $minlength    The minimum string length as parsed from the field block.
+	 * @param array $field         LifterLMS Form Field settings array.
+	 * @return WP_Error|boolean Returns `true` for a valid value, otherwise an error.
+	 */
+	protected function validate_field_attribute_minlength( $posted_value, $minlength, $field ) {
+
+		if ( strlen( $posted_value ) < $minlength ) {
+			return new WP_Error(
+				'llms-form-field-invalid',
+				sprintf(
+					__( 'The %1$s must be at least %2$d characters in length.', 'lifterlms' ),
+					isset( $field['label'] ) ? $field['label'] : $field['name'],
+					$minlength
+				)
+			);
 		}
 
 		return true;
