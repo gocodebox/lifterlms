@@ -27,7 +27,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		// Actions aren't firing on unit tests without explicitly calling the constructor to add them. Not sure why.
 		LLMS_Unit_Test_Util::call_method( $this->handler, '__construct' );
 
-		LLMS_Forms::instance()->install();
+		LLMS_Forms::instance()->install( true );
 
 	}
 
@@ -47,15 +47,24 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
 	}
 
-	protected function get_data_for_form_submit( $args ) {
+	public function make_address_required( $settings ) {
+
+		if ( 0 === strpos( $settings['name'], 'llms_billing_' ) && 'llms_billing_address_2' !== $settings['name'] ) {
+			$settings['required'] = true;
+		}
+
+		return $settings;
+	}
+
+	protected function get_data_for_form_submit( $args = array() ) {
 
 		$email = uniqid( 'fake-' ) . '@mock.tld';
 
 		return wp_parse_args( $args, array(
 			'email_address'          => $email,
 			'email_address_confirm'  => $email,
-			'password'               => '123456',
-			'password_confirm'       => '123456',
+			'password'               => '12345678',
+			'password_confirm'       => '12345678',
 			'first_name'             => 'Jeffrey',
 			'last_name'              => 'Lebowski',
 			'llms_billing_address_1' => '123 Any Street',
@@ -142,7 +151,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$args = array(
 			'email_address' => 'fake@mock.com',
 			'email_address_confirm' => 'mismatch@mock.com',
-			'password' => '123456',
+			'password' => '12345678',
 			'password_confirm' => 'mistmatch',
 			'first_name' => 'Jeffrey',
 			'last_name' => 'Lebowski',
@@ -244,20 +253,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_submit_success() {
 
-		$args = array(
-			'email_address'          => 'fake@mock.com',
-			'email_address_confirm'  => 'fake@mock.com',
-
-			'password'               => '123456',
-			'password_confirm'       => '123456',
-			'first_name'             => 'Jeffrey',
-			'last_name'              => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city'      => 'Reseda',
-			'llms_billing_state'     => 'CA',
-			'llms_billing_zip'       => '91234',
-			'llms_billing_country'   => 'US',
-		);
+		$args = $this->get_data_for_form_submit();
 
 		// Register.
 		$ret = $this->handler->submit( $args, 'checkout' );
@@ -275,7 +271,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$this->assertEquals( $args['llms_billing_zip'], $user->llms_billing_zip );
 		$this->assertEquals( $args['llms_billing_country'], $user->llms_billing_country );
 
-		$this->assertTrue( wp_check_password( '123456', $user->user_pass, $user->ID ) );
+		$this->assertTrue( wp_check_password( $args['password'], $user->user_pass, $user->ID ) );
 
 		// Update.
 		wp_set_current_user( $ret );
@@ -295,21 +291,18 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_submit_address_no_zip() {
 
-		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
+		add_filter( 'llms_field_settings', array( $this, 'make_address_required' ) );
+
+		$args = $this->get_data_for_form_submit( array(
 			'llms_billing_state' => 'C',
 			'llms_billing_country' => 'UG', // Uganda.
-		);
+		) );
+		unset( $args['llms_billing_zip'] );
 
 		$ret = $this->handler->submit( $args, 'checkout' );
 		$this->assertTrue( is_numeric( $ret ) );
+
+		remove_filter( 'llms_field_settings', array( $this, 'make_address_required' ), 10 );
 
 	}
 
@@ -322,21 +315,18 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_submit_address_no_states() {
 
-		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
+		add_filter( 'llms_field_settings', array( $this, 'make_address_required' ) );
+
+		$args = $this->get_data_for_form_submit( array(
 			'llms_billing_zip' => '23424',
 			'llms_billing_country' => 'AS', // America Samoa.
-		);
+		) );
+		unset( $args['llms_billing_state'] );
 
 		$ret = $this->handler->submit( $args, 'checkout' );
 		$this->assertTrue( is_numeric( $ret ) );
+
+		remove_filter( 'llms_field_settings', array( $this, 'make_address_required' ), 10 );
 
 	}
 
@@ -349,20 +339,19 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_submit_address_no_city_or_zip() {
 
-		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
+		add_filter( 'llms_field_settings', array( $this, 'make_address_required' ) );
+
+		$args = $this->get_data_for_form_submit( array(
 			'llms_billing_country' => 'NR',
 			'llms_billing_state' => '08',
-		);
+		) );
+		unset( $args['llms_billing_city'] );
+		unset( $args['llms_billing_zip'] );
 
 		$ret = $this->handler->submit( $args, 'checkout' );
 		$this->assertTrue( is_numeric( $ret ) );
+
+		remove_filter( 'llms_field_settings', array( $this, 'make_address_required' ), 10 );
 
 	}
 
@@ -379,20 +368,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$products = $voucher->get_products();
 		$code     = $voucher->get_voucher_codes()[0]->code;
 
-		$args = array(
-			'email_address' => 'fake@mock.com',
-			'email_address_confirm' => 'fake@mock.com',
-			'password' => '123456',
-			'password_confirm' => '123456',
-			'first_name' => 'Jeffrey',
-			'last_name' => 'Lebowski',
-			'llms_billing_address_1' => '123 Any Street',
-			'llms_billing_city' => 'Reseda',
-			'llms_billing_state' => 'CA',
-			'llms_billing_zip' => '91234',
-			'llms_billing_country' => 'US',
-			'llms_voucher' => $code,
-		);
+		$args = $this->get_data_for_form_submit( array( 'llms_voucher' => $code ) );
 
 		$ret = $this->handler->submit( $args, 'registration' );
 
