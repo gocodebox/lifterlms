@@ -364,19 +364,13 @@ class LLMS_Forms {
 			return false;
 		}
 
-		$fields = array();
-		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
-			$settings = $this->block_to_field_settings( $block );
-			if ( $settings ) {
-				$field    = new LLMS_Form_Field( $settings );
-				$fields[] = $field->get_settings();
-			}
-		}
-
-		$fields = array_merge( $fields, $this->get_additional_fields( $location, $args ) );
+		$fields = array_merge(
+			$this->get_fields_settings_from_blocks( $blocks ),
+			$this->get_additional_fields( $location, $args )
+		);
 
 		/**
-		 * Modify the parsed array of LifterLMS Form Fields.
+		 * Modify the parsed array of LifterLMS Form Fields
 		 *
 		 * @since [version]
 		 *
@@ -386,6 +380,29 @@ class LLMS_Forms {
 		 */
 		return apply_filters( 'llms_get_form_fields', $fields, $location, $args );
 
+	}
+
+	/**
+	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
+	 *
+	 * @since [version]
+	 *
+	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
+	 * @return false|array
+	 */
+	public function get_fields_settings_from_blocks( $blocks ) {
+
+		$fields = array();
+
+		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
+			$settings = $this->block_to_field_settings( $block );
+			if ( $settings ) {
+				$field    = new LLMS_Form_Field( $settings );
+				$fields[] = $field->get_settings();
+			}
+		}
+
+		return $fields;
 	}
 
 	/**
