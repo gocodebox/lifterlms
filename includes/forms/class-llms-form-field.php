@@ -829,7 +829,8 @@ class LLMS_Form_Field {
 	 */
 	protected function prepare_value() {
 
-		if ( in_array( $this->settings['type'], array( 'button', 'reset', 'submit', 'html', 'password' ), true ) ) {
+		// Never autoload passwords and or fields with an explicit value (except radio and checkbox).
+		if ( 'password' === $this->settings['type'] || ! empty( $this->settings['value'] && ! in_array( $this->settings['type'], array( 'checkbox', 'radio' ), true ) ) ) {
 			return;
 		}
 

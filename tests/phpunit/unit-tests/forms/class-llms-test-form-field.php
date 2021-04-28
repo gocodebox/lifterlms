@@ -822,6 +822,62 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	public function test_prepare_value_for_button_and_html() {
+
+		$types =  array(
+			// Always have an explicit value.
+			'button', 'reset', 'submit', 'html',
+			// May or may not have an explicit value.
+			'text',
+		);
+
+		foreach ( $types as $type ) {
+
+			$args = array(
+				'type'  => $type,
+				'name'  => 'test_field',
+				'value' => 'A Value',
+			);
+
+			$field = new LLMS_Form_Field( $args );
+
+			$settings = $field->get_settings();
+
+			$this->assertEquals( $args['value'], $settings['value'] );
+
+		}
+
+	}
+
+	public function test_prepare_value_for_password() {
+
+		$field = new LLMS_Form_Field( array(
+			'type'  => 'password',
+			'name'  => 'test_field',
+		) );
+
+		$settings = $field->get_settings();
+
+		$this->assertEmpty( $settings['value'] );
+
+	}
+
+	public function test_prepare_value_with_posted_data() {
+
+		$this->mockPostRequest( array(
+			'test_field' => 'submitted value',
+		) );
+
+		$field = new LLMS_Form_Field( array(
+			'name'  => 'test_field',
+		) );
+
+		$settings = $field->get_settings();
+
+		$this->assertEquals( 'submitted value', $settings['value'] );
+
+	}
+
 	/**
 	 * Test field html generated on submision when value is an array
 	 *
