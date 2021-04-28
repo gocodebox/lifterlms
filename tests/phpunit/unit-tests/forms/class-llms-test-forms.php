@@ -554,6 +554,47 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		$this->assertEquals( 'manage_lifterlms', $this->forms->get_capability() );
 	}
 
+
+	/**
+	 * Test the get_fields_settings_from_blocks() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_fields_settings_from_blocks() {
+
+		$this->forms->create( 'checkout', true );
+
+		$blocks = $this->forms->get_form_blocks( 'checkout' );
+
+		$fields = $this->forms->get_fields_settings_from_blocks( $blocks );
+
+		foreach ( $fields as $field ) {
+ 			$this->assertIsArray( $field );
+			$this->assertTrue( ! empty( $field ) );
+		}
+
+		$expect = array(
+			'email_address',
+			'email_address_confirm',
+			'password',
+			'password_confirm',
+			'llms-password-strength-meter',
+			'first_name',
+			'last_name',
+			'llms_billing_address_1',
+			'llms_billing_address_2',
+			'llms_billing_city',
+			'llms_billing_country',
+			'llms_billing_state',
+			'llms_billing_zip',
+			'llms_phone',
+		);
+		$this->assertEquals( $expect, wp_list_pluck( $fields, 'name' ) );
+
+	}
+
 	/**
 	 * Test get_free_enroll_form_fields()
 	 *
@@ -670,9 +711,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Test get_form_fields() method.
 	 *
 	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
 	 *
 	 * @return void
 	 */
