@@ -68,6 +68,14 @@ class LLMS_Form_Field {
 	 */
 	public function __construct( $settings = array() ) {
 
+		/**
+		 * Filters the settings of a LifterLMS Form Field.
+		 *
+		 * @since [version]
+		 *
+		 * @param array           $settings Field settings.
+		 * @param LLMS_Form_Field $field    Form field class instance.
+		 */
 		$this->settings = apply_filters( 'llms_field_settings', wp_parse_args( $settings, $this->get_defaults() ), $this );
 		$this->prepare();
 
