@@ -182,7 +182,7 @@ class LLMS_Form_Validator {
 	 *
 	 * @param string $posted_value User-submitted value.
 	 * @param int    $minlength    The minimum string length as parsed from the field block.
-	 * @param array $field         LifterLMS Form Field settings array.
+	 * @param array  $field        LifterLMS Form Field settings array.
 	 * @return WP_Error|boolean Returns `true` for a valid value, otherwise an error.
 	 */
 	protected function validate_field_attribute_minlength( $posted_value, $minlength, $field ) {
