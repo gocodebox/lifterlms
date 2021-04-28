@@ -228,8 +228,8 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$order_data['customer'] = array(
 			'user_login' => 'arstehnarst',
 			'email_address' => 'arstinhasrteinharst@test.net',
-			'password' => '123456',
-			'password_confirm' => '123456',
+			'password' => '12345678',
+			'password_confirm' => '12345678',
 			'first_name' => 'Test',
 			'last_name' => 'Person',
 			'llms_billing_address_1' => '123',
