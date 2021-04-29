@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -171,6 +171,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  *
  * @since 3.29.0
  * @since 4.2.0 Prevent double displaying a notice to already enrolled students in the product being purchased.
+ * @since [version] Sanitize coupon code prior to outputting it in error messages.
  *
  * @param array $data {
  *     Data used to create a pending order.
@@ -233,6 +234,8 @@ function llms_setup_pending_order( $data = array() ) {
 
 	// If a coupon is being used, validate it.
 	if ( ! empty( $data['coupon_code'] ) ) {
+
+		$data['coupon_code'] = sanitize_text_field( $data['coupon_code'] );
 
 		$coupon_id = llms_find_coupon( $data['coupon_code'] );
 
