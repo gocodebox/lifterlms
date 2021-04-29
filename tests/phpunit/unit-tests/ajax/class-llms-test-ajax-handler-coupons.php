@@ -145,4 +145,48 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test validate_coupon_code(): prevent reflected xss
+	 *
+	 * Input is only a tag that will be stripped resulting in an empty response.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_coupon_code_sanitization_empty_result() {
+
+		$request = array(
+			'code' => '<img src="#">',
+		);
+		$res = LLMS_AJAX_Handler::validate_coupon_code( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'error', $res );
+		$this->assertWPErrorMessageEquals( 'Please enter a coupon code.', $res );
+
+	}
+
+	/**
+	 * Test validate_coupon_code(): prevent reflected xss
+	 *
+	 * Input is text mixed with a a tag that will be stripped resulting in a not found error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_coupon_code_sanitization_mixed_result() {
+
+		$request = array(
+			'code'    => 'FAKE_CODE<script>alert(1);</script>_WITH_TAGS',
+			'plan_id' => 123,
+		);
+		$res = LLMS_AJAX_Handler::validate_coupon_code( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'error', $res );
+		$this->assertWPErrorMessageEquals( 'Coupon code "FAKE_CODE_WITH_TAGS" not found.', $res );
+
+	}
+
+
 }
