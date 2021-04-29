@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.21.0\n"
+"Project-Id-Version: LifterLMS 4.21.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-04-19T14:22:58-06:00\n"
+"POT-Creation-Date: 2021-04-29T14:01:15-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -7312,25 +7312,25 @@ msgstr ""
 msgid "Action \"%1$s\" failed. Please try again"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:986
+#: includes/class.llms.ajax.handler.php:989
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:990
+#: includes/class.llms.ajax.handler.php:993
 msgid "Please enter a plan ID."
 msgstr ""
 
 #. Translators: %s = coupon code.
-#: includes/class.llms.ajax.handler.php:999
-#: includes/functions/llms.functions.order.php:241
+#: includes/class.llms.ajax.handler.php:1002
+#: includes/functions/llms.functions.order.php:244
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1375
+#: includes/class.llms.ajax.handler.php:1378
 msgid "Missing Required Parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1429
+#: includes/class.llms.ajax.handler.php:1432
 msgid "Missing tracking data."
 msgstr ""
 
@@ -8043,51 +8043,51 @@ msgstr ""
 msgid "Update Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:604
+#: includes/class.llms.person.handler.php:605
 msgid "Invalid action"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:697
+#: includes/class.llms.person.handler.php:698
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:870
+#: includes/class.llms.person.handler.php:871
 msgid "No user ID specified."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:969
+#: includes/class.llms.person.handler.php:970
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:995
+#: includes/class.llms.person.handler.php:996
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1004
+#: includes/class.llms.person.handler.php:1005
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1008
+#: includes/class.llms.person.handler.php:1009
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1021
+#: includes/class.llms.person.handler.php:1022
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1034
+#: includes/class.llms.person.handler.php:1035
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1041
+#: includes/class.llms.person.handler.php:1042
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1049
+#: includes/class.llms.person.handler.php:1050
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1069
+#: includes/class.llms.person.handler.php:1070
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -9710,7 +9710,7 @@ msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:117
 #: includes/forms/controllers/class.llms.controller.registration.php:96
-#: includes/functions/llms.functions.order.php:288
+#: includes/functions/llms.functions.order.php:291
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
@@ -11497,28 +11497,28 @@ msgstr ""
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:212
+#: includes/functions/llms.functions.order.php:213
 msgid "You must agree to the %s to continue."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:219
+#: includes/functions/llms.functions.order.php:220
 msgid "Missing an Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:226
+#: includes/functions/llms.functions.order.php:227
 msgid "Invalid Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:258
+#: includes/functions/llms.functions.order.php:261
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:269
+#: includes/functions/llms.functions.order.php:272
 msgid "Missing customer information."
 msgstr ""
 
 #. Translators: %2$s = The product type (course/membership); %1$s = product permalink.
-#: includes/functions/llms.functions.order.php:301
+#: includes/functions/llms.functions.order.php:304
 #: includes/shortcodes/class.llms.shortcode.checkout.php:80
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
 msgstr ""
