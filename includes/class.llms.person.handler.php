@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.21.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -551,7 +551,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Sanitize custom usermeta data prior to storage.
+	 * @since 4.21.1 Sanitize custom usermeta data prior to storage.
 	 *
 	 * @param array  $data   Array of user data to be passed to WP core functions.
 	 * @param string $action Either registration or update.

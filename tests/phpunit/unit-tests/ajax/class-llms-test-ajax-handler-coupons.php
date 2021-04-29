@@ -150,7 +150,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	 *
 	 * Input is only a tag that will be stripped resulting in an empty response.
 	 *
-	 * @since [version]
+	 * @since 4.21.1
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	 *
 	 * Input is text mixed with a a tag that will be stripped resulting in a not found error.
 	 *
-	 * @since [version]
+	 * @since 4.21.1
 	 *
 	 * @return void
 	 */

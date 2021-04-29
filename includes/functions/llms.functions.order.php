@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 4.21.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -171,7 +171,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  *
  * @since 3.29.0
  * @since 4.2.0 Prevent double displaying a notice to already enrolled students in the product being purchased.
- * @since [version] Sanitize coupon code prior to outputting it in error messages.
+ * @since 4.21.1 Sanitize coupon code prior to outputting it in error messages.
  *
  * @param array $data {
  *     Data used to create a pending order.

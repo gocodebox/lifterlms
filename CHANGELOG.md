@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v4.21.1 - 2021-04-29
+--------------------
+
+##### Security Update
+
+This releases fixes two security issues affecting LifterLMS versions 4.21.0 and earlier:
+
++ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting a way to store XSS.
++ Thank you to Ashish Jha from [Bluefire Redteam](https://www.bluefire-redteam.com/) for reporting a reflected XSS issue on checkout screens.
+
+
+
 v4.21.0 - 2021-04-19
 --------------------
 
