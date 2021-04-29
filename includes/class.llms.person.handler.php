@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -550,7 +550,8 @@ class LLMS_Person_Handler {
 	 * Insert user data during registrations and updates
 	 *
 	 * @since 3.0.0
-	 * @since 3.24.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Sanitize custom usermeta data prior to storage.
 	 *
 	 * @param array  $data   Array of user data to be passed to WP core functions.
 	 * @param string $action Either registration or update.
@@ -646,7 +647,7 @@ class LLMS_Person_Handler {
 		// Record all meta values.
 		$metas = apply_filters( 'lifterlms_user_' . $action . '_insert_user_meta', $insert_metas, $data, $action );
 		foreach ( $metas as $key => $val ) {
-			$meta_func( $person_id, $key, $val );
+			$meta_func( $person_id, $key, self::sanitize_field( $val ) );
 		}
 
 		// If agree to terms data is present, record the agreement date.
