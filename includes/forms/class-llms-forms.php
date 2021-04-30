@@ -265,7 +265,7 @@ class LLMS_Forms {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
 			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
 				$fields[] = $block;
-			} elseif ( 'core/html' === $block['blockName'] && ! empty( $block['attrs'] ) && 'html' === $block['attrs']['type'] ) {
+			} elseif ( 'core/html' === $block['blockName'] && ! empty( $block['attrs']['type'] ) ) {
 				$fields[] = $block;
 			}
 		}
@@ -358,7 +358,6 @@ class LLMS_Forms {
 	public function get_fields_settings_from_blocks( $blocks ) {
 
 		$fields = array();
-
 		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
 			$settings = $this->block_to_field_settings( $block );
 			if ( $settings ) {

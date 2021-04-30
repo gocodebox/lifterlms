@@ -87,8 +87,7 @@ LLMS.Forms = {
 			return;
 		}
 
-		this.setup_toggle_field( $( '#email_address, #email_address_confirm' ) );
-		this.setup_toggle_field( $( '#password, #password_confirm, #password_current, #llms-password-strength-meter' ) );
+		$( '.llms-toggle-fields' ).on( 'click', this.handle_toggle_click );
 
 	},
 
@@ -229,6 +228,37 @@ LLMS.Forms = {
 	},
 
 	/**
+	 * Callback function to handle the "toggle" button links for changing email address and password on account edit forms
+	 *
+	 * @since [version]
+	 *
+	 * @param {Object} event Native JS event object.
+	 * @return {void}
+	 */
+	handle_toggle_click: function( event ) {
+
+		event.preventDefault();
+
+		var $this       = $( this ),
+			$fields     = $( $( this ).attr( 'data-fields' ) ),
+			isShowing   = $this.attr( 'data-is-showing' ) || 'no',
+			displayFunc = 'yes' === isShowing ? 'hide' : 'show',
+			disabled    = 'yes' === isShowing ? 'disabled' : null,
+			textAttr    = 'yes' === isShowing ? 'data-change-text' : 'data-cancel-text';
+
+		$fields.each( function() {
+
+			$( this ).closest( '.llms-form-field' )[ displayFunc ]();
+			$( this ).attr( 'disabled', disabled );
+
+		} );
+
+		$this.text( $this.attr( textAttr ) );
+		$this.attr( 'data-is-showing', 'yes' === isShowing ? 'no' : 'yes' );
+
+	},
+
+	/**
 	 * Prepares the state select field.
 	 *
 	 * Moves All optgroup elements into a hidden & disabled select element.
@@ -245,84 +275,6 @@ LLMS.Forms = {
 
 		this.$holder.appendTo( $parent );
 		this.$states.find( 'optgroup' ).appendTo( this.$holder );
-
-	},
-
-	/**
-	 * Setup a set of fields that can be toggled to edit.
-	 *
-	 * Used on the account edit screen to allow optionally updating user email and passwords.
-	 *
-	 * @since [version]
-	 *
-	 * @param {Object[]} $fields Array of jQuery dom objects.
-	 * @return {void}
-	 */
-	setup_toggle_field: function( $fields ) {
-
-		var self            = this,
-			$primary        = $( $fields[0] ),
-			$primary_parent = this.get_field_parent( $primary ),
-			$toggle         = $( '<a href="#"></a>' ),
-			$toggle_wrap    = $( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last"></div>' ),
-			change_text     = LLMS.l10n.replace( 'Change your %s', { '%s': this.get_label_text( $primary_parent.find( 'label' ) ).toLowerCase() } ),
-			cancel_text     = LLMS.l10n.replace( 'Cancel %s change', { '%s': this.get_label_text( $primary_parent.find( 'label' ) ).toLowerCase() } ),
-			$after_field    = $fields.length > 2 ? this.get_field_parent( $( $fields[ $fields.length - 1 ] ) ) : $primary_parent,
-			$after_el       = $after_field.hasClass( 'wp-block-column' ) ? $after_field.parent() : $after_field;
-
-		/**
-		 * Display and enable the fields.
-		 *
-		 * @since [version]
-		 *
-		 * @return {void}
-		 */
-		function show_fields() {
-
-			$toggle.text( cancel_text );
-
-			$fields.each( function() {
-				self.get_field_parent( $( this ) ).show();
-				$( this ).attr( 'required', 'required' );
-				$( this ).removeAttr( 'disabled' );
-			} );
-
-		}
-
-		/**
-		 * Hide and disable the fields.
-		 *
-		 * @since [version]
-		 *
-		 * @return {void}
-		 */
-		function hide_fields() {
-
-			$toggle.text( change_text );
-			$fields.each( function() {
-				self.get_field_parent( $( this ) ).hide();
-				$( this ).removeAttr( 'required' );
-				$( this ).attr( 'disabled', 'disabled' );
-			} );
-
-		}
-
-		$toggle.on( 'click', function( e ) {
-			e.preventDefault();
-
-			if ( $primary_parent.is( ':visible' ) ) {
-				hide_fields();
-			} else {
-				show_fields();
-			}
-
-		} );
-
-		$toggle_wrap.append( $toggle );
-		$after_el.after( '<div class="clear"></div>' );
-		$after_el.after( $toggle_wrap );
-
-		hide_fields();
 
 	},
 

@@ -26,7 +26,9 @@ class LLMS_Forms_Dynamic_Fields {
 	 */
 	public function __construct() {
 
-		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10 );
+		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10, 2 );
+
+		add_filter( 'llms_get_form_blocks', array( $this, 'modify_account_form' ), 15, 2 );
 
 	}
 
@@ -48,7 +50,7 @@ class LLMS_Forms_Dynamic_Fields {
 			LLMS_Forms::instance()->get_custom_field_block_markup( $block_settings )
 		);
 
-		// Add it into the form after the password block / group.
+		// Add it into the form after the specified index.
 		array_splice( $blocks, $index + 1, 0, $add_block );
 
 		return $blocks;
@@ -70,7 +72,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * @param array[] $blocks WP_Block list.
 	 * @return array[]
 	 */
-	public function add_password_strength_meter( $blocks ) {
+	public function add_password_strength_meter( $blocks, $location ) {
 
 		$password = $this->find_block( 'password', $blocks );
 
@@ -86,15 +88,7 @@ class LLMS_Forms_Dynamic_Fields {
 			return $blocks;
 		}
 
-		/**
-		 * Filters the settings used to create the dynamic password strength meter block
-		 *
-		 * @since [version]
-		 *
-		 * @param array $settings Array or block attributes/settings.
-		 * @param  $[name] [<description>]
-		 */
-		$meter_block = apply_filters( 'llms_password_strength_meter_block_settings', array(
+		$meter_settings = array(
 			'type'            => 'html',
 			'id'              => 'llms-password-strength-meter',
 			'classes'         => 'llms-password-strength-meter',
@@ -102,9 +96,22 @@ class LLMS_Forms_Dynamic_Fields {
 			'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
 			'min_strength'    => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
 			'llms_visibility' => ! empty( $block['attrs']['llms_visibility'] ) ? $block['attrs']['llms_visibility'] : '',
-		) );
+		);
 
-		return $this->add_block( $blocks, $meter_block, $index );
+		if ( 'account' === $location ) {
+			$meter_settings['wrapper_classes'] = 'llms-visually-hidden-field';
+		}
+
+		/**
+		 * Filters the settings used to create the dynamic password strength meter block
+		 *
+		 * @since [version]
+		 *
+		 * @param array $meter_settings Array or block attributes/settings.
+		 */
+		$meter_settings = apply_filters( 'llms_password_strength_meter_field_settings', $meter_settings );
+
+		return $this->add_block( $blocks, $meter_settings, $index );
 
 	}
 
@@ -141,6 +148,160 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Retrieve the HTML for a field toggle button link
+	 *
+	 * @since [version]
+	 *
+	 * @param string $fields      A comma-separated list of selectors for the controlled fields.
+	 * @param string $field_label Label for the original field.
+	 * @return string
+	 */
+	private function get_toggle_button_html( $fields, $field_label ) {
+
+		// Translator: %s = user-selected label for the given field being toggled.
+		$change_text = sprintf( esc_attr_x( 'Change %s', 'Toggle button for changing email or password', 'lifterlms' ), $field_label );
+		$cancel_text = esc_attr_x( 'Cancel', 'Cancel password or email address change button text', 'lifterlms' );
+
+		return '<a class="llms-toggle-fields" data-fields="' . $fields . '" data-change-text="' . $change_text . '" data-cancel-text="' . $cancel_text . '" href="#">' . $change_text . '</a>';
+
+	}
+
+	/**
+	 * Modifies account form to improve the UX of editing the email address and password fields
+	 *
+	 * Adds a "Current Password" field used to verify the existing user password when changing passwords.
+	 *
+	 * Forces email & password fields to be required and makes them disabled and visually hidden on page load.
+	 *
+	 * Adds a toggle button for each set of fields, when the toggle is clicked the fields are revealed and enabled
+	 * so they can be used. Ensuring that the fields are only required when they're being explicitly changed.
+	 *
+	 * @since [version]
+	 *
+	 * @param [type] $blocks [description]
+	 * @param [type] $location [description]
+	 *
+	 * @return array[]
+	 */
+	public function modify_account_form( $blocks, $location ) {
+
+		// Only add toggles on the account edit form.
+		if ( 'account' !== $location ) {
+			return $blocks;
+		}
+
+		$blocks = $this->modify_toggle_blocks( $blocks );
+
+		foreach ( array( 'email_address', 'password' ) as $id ) {
+			$field  = $this->find_block( $id, $blocks );
+			$blocks = $field ? $this->{"toggle_for_$id"}( $field, $blocks ) : $blocks;
+		}
+
+		return $blocks;
+
+	}
+
+	/**
+	 * Modifies block settings for toggle-controlled fields
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $blocks Array of WP_Block arrays.
+	 * @return array[]
+	 */
+	private function modify_toggle_blocks( $blocks ) {
+
+		// List of toggle fields to modify.
+		$fields = array(
+			'email_address',
+			'email_address_confirm',
+			'password',
+			'password_confirm',
+		);
+
+		foreach ( $blocks as &$block ) {
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$block['innerBlocks'] = $this->modify_toggle_blocks( $block['innerBlocks'] );
+			} elseif ( ! empty( $block['attrs']['id'] ) && in_array( $block['attrs']['id'], $fields, true ) ) {
+				$block['attrs']['wrapper_classes'] = 'llms-visually-hidden-field';
+				$block['attrs']['disabled'] = true;
+				$block['attrs']['required'] = true;
+			}
+
+		}
+
+		return $blocks;
+	}
+
+	/**
+	 * Adds a toggle link button allowing the user to change their email address
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $email  Email field data as located by LLMS_Forms_Dynamic_Fields::find_block().
+	 * @param array[] $blocks Array of WP_Block arrays.
+	 * @return array[]
+	 */
+	private function toggle_for_email_address( $email, $blocks ) {
+
+		return $this->add_block(
+			$blocks,
+			array(
+				'type'  => 'html',
+				'id'    => 'llms-field-toggle--email',
+				'value' => $this->get_toggle_button_html( '#email_address,#email_address_confirm', $email[1]['attrs']['label'] ),
+			),
+			$email[0]
+		);
+
+	}
+
+
+	/**
+	 * Adds a current password field and a toggle link button allowing the user to change their password
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $password Password field data as located by LLMS_Forms_Dynamic_Fields::find_block().
+	 * @param array[] $blocks   Array of WP_Block arrays.
+	 * @return array[]
+	 */
+	private function toggle_for_password( $password, $blocks ) {
+
+		// Add the toggle button.
+		$blocks = $this->add_block(
+			$blocks,
+			array(
+				'type'  => 'html',
+				'id'    => 'llms-field-toggle--password',
+				'value' => $this->get_toggle_button_html( '#password,#password_confirm,#llms-password-strength-meter,#password_current', $password[1]['attrs']['label'] ),
+			),
+			$password[1]['attrs']['meter'] ? $password[0] + 1 : $password[0]
+		);
+
+		/**
+		 * Filters the settings used to create the dynamic password strength meter block
+		 *
+		 * @since [version]
+		 *
+		 * @param array $settings Array or block attributes/settings.
+		 */
+		$current_password = apply_filters( 'llms_current_password_field_settings', array(
+			'type'            => 'password',
+			'id'              => 'password_current',
+			'name'            => 'password_current',
+			'label'           => sprintf( __( 'Current %s', 'lifterlms' ), $password[1]['attrs']['label'] ),
+			'required'        => true,
+			'disabled'        => true,
+			'data_store_key'  => false,
+			'wrapper_classes' => 'llms-visually-hidden-field',
+		) );
+		return $this->add_block( $blocks, $current_password, $password[0] - 1 );
 
 	}
 
