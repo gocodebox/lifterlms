@@ -123,6 +123,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @since [version]
 	 *
+	 * @param string  $id           ThHe ID of the field to find.
 	 * @param array[] $blocks       WP_Block list.
 	 * @param integer $parent_index Top level index of the parent block. Used to hold a reference to the current index within the toplevel
 	 *                              blocks of the form when looking into the innerBlocks of a block.
@@ -144,7 +145,6 @@ class LLMS_Forms_Dynamic_Fields {
 					return $inner;
 				}
 			}
-
 		}
 
 		return false;
@@ -229,10 +229,9 @@ class LLMS_Forms_Dynamic_Fields {
 				$block['innerBlocks'] = $this->modify_toggle_blocks( $block['innerBlocks'] );
 			} elseif ( ! empty( $block['attrs']['id'] ) && in_array( $block['attrs']['id'], $fields, true ) ) {
 				$block['attrs']['wrapper_classes'] = 'llms-visually-hidden-field';
-				$block['attrs']['disabled'] = true;
-				$block['attrs']['required'] = true;
+				$block['attrs']['disabled']        = true;
+				$block['attrs']['required']        = true;
 			}
-
 		}
 
 		return $blocks;
@@ -291,16 +290,19 @@ class LLMS_Forms_Dynamic_Fields {
 		 *
 		 * @param array $settings Array or block attributes/settings.
 		 */
-		$current_password = apply_filters( 'llms_current_password_field_settings', array(
-			'type'            => 'password',
-			'id'              => 'password_current',
-			'name'            => 'password_current',
-			'label'           => sprintf( __( 'Current %s', 'lifterlms' ), $password[1]['attrs']['label'] ),
-			'required'        => true,
-			'disabled'        => true,
-			'data_store_key'  => false,
-			'wrapper_classes' => 'llms-visually-hidden-field',
-		) );
+		$current_password = apply_filters(
+			'llms_current_password_field_settings',
+			array(
+				'type'            => 'password',
+				'id'              => 'password_current',
+				'name'            => 'password_current',
+				'label'           => sprintf( __( 'Current %s', 'lifterlms' ), $password[1]['attrs']['label'] ),
+				'required'        => true,
+				'disabled'        => true,
+				'data_store_key'  => false,
+				'wrapper_classes' => 'llms-visually-hidden-field',
+			)
+		);
 		return $this->add_block( $blocks, $current_password, $password[0] - 1 );
 
 	}
