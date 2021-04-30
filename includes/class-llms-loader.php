@@ -143,7 +143,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 
-		// Forms
+		// Forms.
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-field.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-handler.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-post-type.php';

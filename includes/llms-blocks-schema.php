@@ -6,6 +6,8 @@
  * used to build an initial set of reusable blocks used across the
  * core user information forms (checkout, registration, and account).
  *
+ * @package LifterLMS/Schemas
+ *
  * @since [version]
  * @version [version]
  */
