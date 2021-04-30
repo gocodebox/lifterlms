@@ -235,40 +235,6 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Finds the user password form field block within a list of blocks
-	 *
-	 * There's a gotcha with this function... if a user password field is placed within a wp core columns block
-	 * the password strength meter will be added outside the column the password is contained within.
-	 *
-	 * @since [version]
-	 *
-	 * @param array[] $blocks       WP_Block list.
-	 * @param integer $parent_index Top level index of the parent block. Used to hold a reference to the current index within the toplevel
-	 *                              blocks of the form when looking into the innerBlocks of a block. We don't want to add the password meter inside
-	 *                              another group, only ever at the top level.
-	 * @return boolean|array Returns `false` when no password block found in the given list, otherwise returns a numeric array
-	 *                       where item `0` is the index of the block within the list (the index of the items parent if it's in a
-	 *                       group) and item `1` is the block array.
-	 */
-	private function find_password_block( $blocks, $parent_index = null ) {
-
-		foreach ( $blocks as $index => $block ) {
-
-			if ( 'llms/form-field-user-password' === $block['blockName'] ) {
-				return array( is_null( $parent_index ) ? $index : $parent_index, $block );
-			} elseif ( $block['innerBlocks'] ) {
-				$inner = $this->find_password_block( $block['innerBlocks'], is_null( $parent_index ) ? $index : $parent_index );
-				if ( false !== $inner ) {
-					return $inner;
-				}
-			}
-		}
-
-		return false;
-
-	}
-
-	/**
 	 * Retrieve the form management user capability.
 	 *
 	 * @since [version]
@@ -328,7 +294,6 @@ class LLMS_Forms {
 		$content .= $this->get_additional_fields_html( $location, $args );
 
 		$blocks = $this->parse_blocks( $content );
-		$blocks = $this->maybe_add_password_strength_meter( $blocks );
 
 		/**
 		 * Filters the parsed block list for a given LifterLMS form
@@ -852,64 +817,10 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Adds a password strength meter to a block list
-	 *
-	 * This function will programmatically add an html block containing the necessary
-	 * markup for the password strength meter to function.
-	 *
-	 * This will locate the user password block and output the meter immediately after
-	 * the block. If the password block is within a group it'll output it after the
-	 * group block.
-	 *
-	 * @since [version]
-	 *
-	 * @param array[] $blocks WP_Block list.
-	 * @return array[]
-	 */
-	private function maybe_add_password_strength_meter( $blocks ) {
-
-		$password = $this->find_password_block( $blocks );
-
-		// No password field in the form.
-		if ( ! $password ) {
-			return $blocks;
-		}
-
-		list( $index, $block ) = $password;
-
-		// Meter not enabled.
-		if ( empty( $block['attrs']['meter'] ) || ! llms_parse_bool( $block['attrs']['meter'] ) ) {
-			return $blocks;
-		}
-
-		// Make the new block.
-		$password_block = parse_blocks(
-			$this->get_custom_field_block_markup(
-				array(
-					'type'            => 'html',
-					'id'              => 'llms-password-strength-meter',
-					'classes'         => 'llms-password-strength-meter',
-					'description'     => ! empty( $block['attrs']['meter_description'] ) ? $block['attrs']['meter_description'] : '',
-					'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
-					'min_strength'    => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
-					'llms_visibility' => ! empty( $block['attrs']['llms_visibility'] ) ? $block['attrs']['llms_visibility'] : '',
-				)
-			)
-		);
-
-		// Add it into the form after the password block / group.
-		array_splice( $blocks, $index + 1, 0, $password_block );
-
-		return $blocks;
-
-	}
-
-	/**
 	 * Parse the post_content of a form into a list of WP_Block arrays.
 	 *
 	 * This method parses the blocks, loads block data from any reusable blocks,
-	 * adds dynamic inserted content (like a password strength meter), and
-	 * cascades visibility attributes onto a block's innerBlocks.
+	 * and cascades visibility attributes onto a block's innerBlocks.
 	 *
 	 * @since [version]
 	 *
