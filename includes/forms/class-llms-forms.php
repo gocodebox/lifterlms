@@ -111,7 +111,7 @@ class LLMS_Forms {
 
 		$attrs = $block['attrs'];
 
-		// Rename some properties;
+		// Rename some properties.
 		$rename = array(
 			'field'      => 'type',
 			'className'  => 'classes',
@@ -830,7 +830,7 @@ class LLMS_Forms {
 			if ( 'core/block' === $block['blockName'] ) {
 
 				$post = get_post( $block['attrs']['ref'] );
-				if ( ! $post ) {
+				if ( ! $post || 'publish' !== get_post_status( $post ) ) {
 					continue;
 				}
 

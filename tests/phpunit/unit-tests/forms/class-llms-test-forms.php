@@ -932,6 +932,72 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test load_reusable_blocks() default successful behavior.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_load_reusable_blocks() {
+
+		$blocks = array(
+			LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_reusable_block', array( 'email' ) ),
+			LLMS_Unit_Test_Util::call_method( 'LLMS_Form_Templates', 'get_reusable_block', array( 'address' ) ),
+		);
+
+		$load = LLMS_Unit_Test_Util::call_method( $this->forms, 'load_reusable_blocks', array( $blocks ) );
+
+		// Make sure the loaded blocks match the following snapshot when serialized.
+		$expected = '<!-- wp:llms/form-field-confirm-group {"fieldLayout":"columns","llms_visibility":"logged_out"} --><!-- wp:llms/form-field-user-email {"field":"email","required":true,"label":"Email Address","name":"email_address","id":"email_address","data_store":"users","data_store_key":"user_email","llms_visibility":"logged_out","columns":6,"last_column":false,"isConfirmationControlField":true,"match":"email_address_confirm"} /--><!-- wp:llms/form-field-text {"field":"email","required":true,"label":"Confirm Email Address","name":"email_address_confirm","id":"email_address_confirm","data_store":false,"data_store_key":false,"llms_visibility":"logged_out","columns":6,"last_column":true,"isConfirmationField":true,"match":"email_address"} /--><!-- /wp:llms/form-field-confirm-group --><!-- wp:llms/form-field-user-address --><!-- wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-street-primary {"field":"text","label":"Address","name":"llms_billing_address_1","id":"llms_billing_address_1","data_store":"usermeta","data_store_key":"llms_billing_address_1","columns":8,"last_column":false} /--><!-- wp:llms/form-field-user-address-street-secondary {"field":"text","label":"","label_show_empty":true,"placeholder":"Apartment, suite, etc...","name":"llms_billing_address_2","id":"llms_billing_address_2","data_store":"usermeta","data_store_key":"llms_billing_address_2","columns":4,"last_column":true} /--><!-- /wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-city {"field":"text","label":"City","name":"llms_billing_city","id":"llms_billing_city","data_store":"usermeta","data_store_key":"llms_billing_city"} /--><!-- wp:llms/form-field-user-address-country {"field":"select","label":"Country","name":"llms_billing_country","id":"llms_billing_country","data_store":"usermeta","data_store_key":"llms_billing_country","options_preset":"countries","placeholder":"Select a Country"} /--><!-- wp:llms/form-field-user-address-region --><!-- wp:llms/form-field-user-address-state {"field":"select","label":"State \/ Region","options_preset":"states","placeholder":"Select a State \/ Region","name":"llms_billing_state","id":"llms_billing_state","data_store":"usermeta","data_store_key":"llms_billing_state","columns":6,"last_column":false} /--><!-- wp:llms/form-field-user-address-postal-code {"field":"text","label":"Postal \/ Zip Code","name":"llms_billing_zip","id":"llms_billing_zip","data_store":"usermeta","data_store_key":"llms_billing_zip","columns":6,"last_column":true} /--><!-- /wp:llms/form-field-user-address-region --><!-- /wp:llms/form-field-user-address -->';
+		$this->assertEquals( $expected, serialize_blocks( $load ) );
+
+	}
+
+	/**
+	 * Test load_reusable_blocks(): a non-existent block is passed in
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_load_reusable_blocks_fake() {
+
+		$blocks = array(
+			array(
+				'blockName'    => 'core/block',
+				'attrs'        => array( 'ref' => $this->factory->post->create() + 1 ),
+				'innerContent' => array(),
+			),
+		);
+
+		$load = LLMS_Unit_Test_Util::call_method( $this->forms, 'load_reusable_blocks', array( $blocks ) );
+		$this->assertEquals( array(), $load );
+
+	}
+
+	/**
+	 * Test load_reusable_blocks(): when the reusable block is not published.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_load_reusable_blocks_draft() {
+
+		$blocks = array(
+			array(
+				'blockName'    => 'core/block',
+				'attrs'        => array( 'ref' => $this->factory->post->create( array( 'post_status' => 'draft' ) ) ),
+				'innerContent' => array(),
+			),
+		);
+
+		$load = LLMS_Unit_Test_Util::call_method( $this->forms, 'load_reusable_blocks', array( $blocks ) );
+		$this->assertEquals( array(), $load );
+
+	}
+
+	/**
 	 * Test maybe_add_password_strength_meter() when no password field found
 	 *
 	 * @since [version]
