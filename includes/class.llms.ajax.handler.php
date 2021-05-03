@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.7.0
+ * @version 4.21.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -972,6 +972,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.39.0 Minor changes to code for readability with no changes to function behavior.
+	 * @since 4.21.1 Sanitize user-submitted coupon code before outputting in error messages.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array|WP_Error On success, returns an array containing HTML parts used to update the interface of the checkout screen.
@@ -980,6 +981,8 @@ class LLMS_AJAX_Handler {
 	public static function validate_coupon_code( $request ) {
 
 		$error = new WP_Error();
+
+		$request['code'] = ! empty( $request['code'] ) ? sanitize_text_field( $request['code'] ) : '';
 
 		if ( empty( $request['code'] ) ) {
 

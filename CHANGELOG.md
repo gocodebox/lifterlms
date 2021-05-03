@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-alpha.5 - 2021-05-03
+---------------------------
+
++ Reorganized new files into subdirectories.
++ Added serverside password minimum length validation.
++ Fix duplicate password strength meter output.
++ Fix the user password field type from text to password
++ Fix the phone number field type from text to tel
++ Fix user state select field
++ Don't autoload field values from specified datastore when a "value" is explicitly passed to the field.
++ Only load published reusable blocks on the frontend of the website
++ Improved the UX for editing a users account by automatically "hiding" password and email fields and only requiring them to be submitted when users explicit request an update via the field's "change" toggle button.
+
+
 v5.0.0-alpha.4 - 2021-04-26
 ---------------------------
 
@@ -106,6 +120,17 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
 + Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
 + Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
+
+
+v4.21.1 - 2021-04-29
+--------------------
+
+##### Security Update
+
+This releases fixes two security issues affecting LifterLMS versions 4.21.0 and earlier:
+
++ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting a way to store XSS.
++ Thank you to Ashish Jha from [Bluefire Redteam](https://www.bluefire-redteam.com/) for reporting a reflected XSS issue on checkout screens.
 
 
 v4.21.0 - 2021-04-19

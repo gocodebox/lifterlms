@@ -2,14 +2,22 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
+<<<<<<< HEAD
 "Project-Id-Version: LifterLMS 5.0.0-alpha.5\n"
+=======
+"Project-Id-Version: LifterLMS 4.21.1\n"
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2021-05-03T17:11:25-06:00\n"
+=======
+"POT-Creation-Date: 2021-04-29T14:01:15-06:00\n"
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -28105,6 +28113,7 @@ msgstr ""
 msgid "Kédougou"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:4472
 msgid "Louga"
 msgstr ""
@@ -28123,6 +28132,28 @@ msgstr ""
 
 #: languages/states.php:4476
 msgid "Tambacounda Region"
+=======
+#: includes/class.llms.ajax.handler.php:989
+msgid "Please enter a coupon code."
+msgstr ""
+
+#: includes/class.llms.ajax.handler.php:993
+msgid "Please enter a plan ID."
+msgstr ""
+
+#. Translators: %s = coupon code.
+#: includes/class.llms.ajax.handler.php:1002
+#: includes/functions/llms.functions.order.php:244
+msgid "Coupon code \"%s\" not found."
+msgstr ""
+
+#: includes/class.llms.ajax.handler.php:1378
+msgid "Missing Required Parameters."
+msgstr ""
+
+#: includes/class.llms.ajax.handler.php:1432
+msgid "Missing tracking data."
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 msgstr ""
 
 #: languages/states.php:4477
@@ -28733,6 +28764,7 @@ msgstr ""
 msgid "Ratchaburi"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:4655
 msgid "Kanchanaburi"
 msgstr ""
@@ -28779,6 +28811,54 @@ msgstr ""
 
 #: languages/states.php:4666
 msgid "Surat Thani"
+=======
+#: includes/class.llms.person.handler.php:605
+msgid "Invalid action"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:698
+msgid "Could not find an account with the supplied email address and password combination."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:871
+msgid "No user ID specified."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:970
+msgid "%s is a required field"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:996
+msgid "An account with the email address \"%s\" already exists."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1005
+msgid "The username \"%s\" is invalid, please try a different username."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1009
+msgid "An account with the username \"%s\" already exists."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1022
+msgid "The submitted %s was incorrect."
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1035
+msgid "\"%1$s\" is an invalid option for %2$s"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1042
+msgid "%s must be numeric"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1050
+msgid "%s must be a valid email address"
+msgstr ""
+
+#: includes/class.llms.person.handler.php:1070
+msgid "%1$s must match %2$s"
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 msgstr ""
 
 #: languages/states.php:4667
@@ -30281,8 +30361,15 @@ msgstr ""
 msgid "Idaho"
 msgstr ""
 
+<<<<<<< HEAD
 #: languages/states.php:5077
 msgid "Illinois"
+=======
+#: includes/forms/controllers/class.llms.controller.account.php:117
+#: includes/forms/controllers/class.llms.controller.registration.php:96
+#: includes/functions/llms.functions.order.php:291
+msgid "An unknown error occurred when attempting to create an account, please try again."
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 msgstr ""
 
 #: languages/states.php:5078
@@ -32118,6 +32205,7 @@ msgstr ""
 msgid "List of course categories."
 msgstr ""
 
+<<<<<<< HEAD
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:192
 msgid "List of course tags."
 msgstr ""
@@ -32142,6 +32230,32 @@ msgstr ""
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:236
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:379
 msgid "URL to an oEmbed enable video URL."
+=======
+#: includes/functions/llms.functions.order.php:213
+msgid "You must agree to the %s to continue."
+msgstr ""
+
+#: includes/functions/llms.functions.order.php:220
+msgid "Missing an Access Plan ID."
+msgstr ""
+
+#: includes/functions/llms.functions.order.php:227
+msgid "Invalid Access Plan ID."
+msgstr ""
+
+#: includes/functions/llms.functions.order.php:261
+msgid "No payment method selected."
+msgstr ""
+
+#: includes/functions/llms.functions.order.php:272
+msgid "Missing customer information."
+msgstr ""
+
+#. Translators: %2$s = The product type (course/membership); %1$s = product permalink.
+#: includes/functions/llms.functions.order.php:304
+#: includes/shortcodes/class.llms.shortcode.checkout.php:80
+msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
+>>>>>>> 2d86dd2c67042b1f3bfb9a63d0b7b2089e8eaa28
 msgstr ""
 
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:245

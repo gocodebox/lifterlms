@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.3
-Stable tag: 4.21.0
+Stable tag: 4.21.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,16 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.21.1 - 2021-04-29 =
+
+##### Security Update
+
+This releases fixes two security issues affecting LifterLMS versions 4.21.0 and earlier:
+
++ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting a way to store XSS.
++ Thank you to Ashish Jha from [Bluefire Redteam](https://www.bluefire-redteam.com/) for reporting a reflected XSS issue on checkout screens.
+
+
 = v4.21.0 - 2021-04-19 =
 
 ##### Updates
@@ -687,35 +697,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Reverts site clone detection check changes implemented in 4.12.0 to restore pre 4.12.0 functionality which only runs checks on the admin panel for logged in users with the `manage_lifterlms` capability.
 + Restore reliance on `mb_convert_encoding()` when passing html strings into `DOMDocument` and use the alternate method introduced in version 4.8.0 as a fallback.
 + Fixed an issue encountered when unexpected or malformed data is stored in the LifterLMS admin notices option.
-
-
-= v4.12.0 - 2021-01-20 =
-
-##### Updates
-
-+ Automatic site clone detection checks have been adjusted to always run in favor of only running on the admin panel.
-+ LifterLMS Site Features (like recurring payment status) can now be configured via constant values.
-+ Added `llms_load_admin_tools` action to allow 3rd parties to easily hook into our admin tools system.
-+ Made numerous performance improvements on the course data background processor.
-+ Course data background processing will now be automatically throttled for courses with 500 students or more as opposed to the old value of 2,500 or more.
-
-##### Bug fixes
-
-+ Fixed an incorrect HTML `for` attribute and added an `id` to the related input element on the student dashboard voucher redemption endpoint.
-+ Fixed a pagination error encountered when using course or membership list shortcodes on the static front page.
-+ Make sure `is_lifterlms()` exists before calling it in navigation menu-related classes.
-
-##### Deprecations
-
-+ `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
-+ Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
-+ Unused property `LLMS_Course::$sku` is deprecated with no replacement.
-+ `LLMS_Frontend_Forms` is deprecated, functionality is available via `LLMS_Controller_Account`.
-+ `LLMS_Frontend_Forms::reset_password()` is deprecated in favor of `LLMS_Controller_Account::reset_password()`.
-
-##### Templates Updated
-
-+ templates/myaccount/form-redeem-voucher.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
