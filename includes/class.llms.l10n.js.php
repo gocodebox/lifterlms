@@ -40,15 +40,6 @@ class LLMS_L10n_JS {
 		return array_merge( $strings, array(
 
 			/**
-			 * File: assets/js/app/llms-forms.js.
-			 *
-			 * @since    [version]
-			 * @version  [version]
-			 */
-			'Change your %s' => esc_html__( 'Change your %s', 'lifterlms' ),
-			'Cancel %s change' => esc_html__( 'Cancel %s change', 'lifterlms' ),
-
-			/**
 			 * File: assets/js/app/llms-l10n.js.
 			 *
 			 * @since    2.7.3
@@ -470,8 +461,6 @@ class LLMS_L10n_JS {
 			 * @since    1.0.0
 			 * @version  3.24.3
 			 */
-			'Change your %s' => esc_html__( 'Change your %s', 'lifterlms' ),
-			'Cancel %s change' => esc_html__( 'Cancel %s change', 'lifterlms' ),
 			'This is a %2$s %1$s String' => esc_html__( 'This is a %2$s %1$s String', 'lifterlms' ),
 			'You do not have permission to access this content' => esc_html__( 'You do not have permission to access this content', 'lifterlms' ),
 			'There is an issue with your chosen password.' => esc_html__( 'There is an issue with your chosen password.', 'lifterlms' ),

@@ -2858,6 +2858,8 @@ button[name="llms_quiz_attempt_action"].grading .save {
   .llms-form-field.error input[type="date"], .llms-form-field.error input[type="time"], .llms-form-field.error input[type="datetime-local"], .llms-form-field.error input[type="week"], .llms-form-field.error input[type="month"], .llms-form-field.error input[type="text"], .llms-form-field.error input[type="email"], .llms-form-field.error input[type="url"], .llms-form-field.error input[type="password"], .llms-form-field.error input[type="search"], .llms-form-field.error input[type="tel"], .llms-form-field.error input[type="number"], .llms-form-field.error textarea, .llms-form-field.error select, .llms-form-field.invalid input[type="date"], .llms-form-field.invalid input[type="time"], .llms-form-field.invalid input[type="datetime-local"], .llms-form-field.invalid input[type="week"], .llms-form-field.invalid input[type="month"], .llms-form-field.invalid input[type="text"], .llms-form-field.invalid input[type="email"], .llms-form-field.invalid input[type="url"], .llms-form-field.invalid input[type="password"], .llms-form-field.invalid input[type="search"], .llms-form-field.invalid input[type="tel"], .llms-form-field.invalid input[type="number"], .llms-form-field.invalid textarea, .llms-form-field.invalid select {
     background: rgba(229, 85, 78, 0.3);
     border-color: #e5554e; }
+  .llms-form-field.llms-visually-hidden-field {
+    display: none; }
   .llms-form-field.align-right {
     text-align: left; }
   @media screen and (min-width: 600px) {
