@@ -102,36 +102,56 @@ describe( 'OpenRegistration', () => {
 
 		it ( 'should localize city, state, and postcode fields when changing the selected country', async () => {
 
+			const getStatesList = async () => {
+				const list = await page.$$eval( '#llms_billing_state option', els =>
+					els.map( ( { value, textContent } ) => ( [ value, textContent ] ) ) );
+
+				return Object.fromEntries( list );
+			}
+
 			await toggleOpenReg( true );
 			await logoutUser();
 			await visitPage( 'dashboard' );
 
 			// China.
 			await select2Select( '#llms_billing_country', 'China' );
-			expect( await page.$eval( '.llms-l10n-state-select', el => el.innerHTML ) ).toMatchSnapshot();
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
+			expect ( await getStatesList() ).toMatchSnapshot( 'China' );
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
+
+			await page.waitFor( 1000 );
 
 			// Peru changes name of the State & City fields.
 			await select2Select( '#llms_billing_country', 'Peru' );
-			expect( await page.$eval( '.llms-l10n-state-select', el => el.innerHTML ) ).toMatchSnapshot();
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
+			expect ( await getStatesList() ).toMatchSnapshot( 'Peru' );
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
+
+			await page.waitFor( 1000 );
 
 			// United States.
 			await select2Select( '#llms_billing_country', 'United States' );
-			expect( await page.$eval( '.llms-l10n-state-select', el => el.innerHTML ) ).toMatchSnapshot();
+			expect ( await getStatesList() ).toMatchSnapshot( 'United States' );
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
 
+			await page.waitFor( 1000 );
+
 			// UAB has no postal code or city.
 			await select2Select( '#llms_billing_country', 'United Arab Emirates' );
-			expect( await page.$eval( '.llms-l10n-state-select', el => el.innerHTML ) ).toMatchSnapshot();
+			expect ( await getStatesList() ).toMatchSnapshot( 'United Arab Emirates' );
+			expect( await page.$eval( 'label[for="llms_billing_state"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( '#llms_billing_city', el => el.disabled ) ).toBe( true );
 			expect( await page.$eval( '#llms_billing_zip', el => el.disabled ) ).toBe( true );
 
+			await page.waitFor( 1000 );
+
 			// Tokelau has no states.
 			await select2Select( '#llms_billing_country', 'Tokelau' );
+			expect ( await getStatesList() ).toMatchSnapshot( 'Tokelau' );
 			expect( await page.$eval( '#llms_billing_state', el => el.disabled ) ).toBe( true );
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
