@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 
 return array(
 	'username'     => array(
-		'title'     => _x( 'Default Field: Username', 'Default form field reusable block title', 'lifterlms' ),
+		'title'     => _x( 'Username (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-login',
 		'attrs'     => array(
 			'field'           => 'text',
@@ -30,7 +30,7 @@ return array(
 		),
 	),
 	'email'        => array(
-		'title'     => _x( 'Default Field: Email Address', 'Default form field reusable block title', 'lifterlms' ),
+		'title'     => _x( 'Email Address (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-email',
 		'attrs'     => array(
 			'field'           => 'email',
@@ -45,7 +45,7 @@ return array(
 		'confirm'   => 'email',
 	),
 	'password'     => array(
-		'title'     => _x( 'Default Field: Password', 'Default form field reusable block title', 'lifterlms' ),
+		'title'     => _x( 'Password (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-password',
 		'attrs'     => array(
 			'field'             => 'text',
@@ -74,7 +74,7 @@ return array(
 		'confirm'   => 'password',
 	),
 	'name'         => array(
-		'title'       => _x( 'Default Field: First and Last Name', 'Default form field reusable block title', 'lifterlms' ),
+		'title'       => _x( 'First and Last Name (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName'   => 'llms/form-field-user-name',
 		'innerBlocks' => array(
 			array(
@@ -106,7 +106,7 @@ return array(
 		),
 	),
 	'display_name' => array(
-		'title'     => _x( 'Default Field: Public Display Name', 'Default form field reusable block title', 'lifterlms' ),
+		'title'     => _x( 'Public Display Name (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-display-name',
 		'attrs'     => array(
 			'field'          => 'text',
@@ -119,7 +119,7 @@ return array(
 		),
 	),
 	'address'      => array(
-		'title'       => _x( 'Default Field: Address', 'Default form field reusable block title', 'lifterlms' ),
+		'title'       => _x( 'Address (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName'   => 'llms/form-field-user-address',
 		'innerBlocks' => array(
 			array(
@@ -215,7 +215,7 @@ return array(
 		),
 	),
 	'phone'        => array(
-		'title'     => _x( 'Default Field: Phone Number', 'Default form field reusable block title', 'lifterlms' ),
+		'title'     => _x( 'Phone Number (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-phone',
 		'attrs'     => array(
 			'field'          => 'tel',
