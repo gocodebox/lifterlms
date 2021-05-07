@@ -48,7 +48,7 @@ return array(
 		'title'     => _x( 'Password (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-password',
 		'attrs'     => array(
-			'field'             => 'text',
+			'field'             => 'password',
 			'required'          => true,
 			'label'             => __( 'Password', 'lifterlms' ),
 			'name'              => 'password',
