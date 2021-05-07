@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-alpha.6 - 2021-05-07
+---------------------------
+
++ LifterLMS Blocks 2.0.0-beta.4
++ Fix default reusable password field type from plain text to password
++ Change the default reusable block post titles to reduce confusion when searching for blocks in the editor
+
+
 v5.0.0-alpha.5 - 2021-05-03
 ---------------------------
 
