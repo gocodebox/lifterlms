@@ -57,6 +57,7 @@ export async function registerStudent(
 	await visitPage( 'dashboard' );
 
 	await fillField( '#email_address', email );
+	await fillField( '#email_address_confirm', email );
 	await fillField( '#password', pass );
 	await fillField( '#password_confirm', pass );
 	await fillField( '#first_name', first );
