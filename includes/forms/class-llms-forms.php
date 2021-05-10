@@ -275,6 +275,47 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Returns a list of field names used by LifterLMS forms
+	 *
+	 * Used to validate uniqueness of custom field data.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	public function get_field_names() {
+
+		$names = array(
+			'user_login',
+			'user_login_confirm',
+			'email_address',
+			'email_address_confirm',
+			'password',
+			'password_confirm',
+			'first_name',
+			'last_name',
+			'display_name',
+			'llms_billing_address_1',
+			'llms_billing_address_2',
+			'llms_billing_city',
+			'llms_billing_country',
+			'llms_billing_state',
+			'llms_billing_zip',
+			'llms_phone',
+		);
+
+		/**
+		 * Filters the list of field names used by LifterLMS forms
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $names List of registered field names.
+		 */
+		return apply_filters( 'llms_forms_field_names', $names );
+
+	}
+
+	/**
 	 * Retrieve an array of parsed blocks for the form at a given location.
 	 *
 	 * @since [version]

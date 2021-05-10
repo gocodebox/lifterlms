@@ -279,8 +279,14 @@ class LLMS_Admin_Assets {
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
 
-		if ( LLMS_Forms::instance()->get_post_type() === $screen->id ) {
+		$forms = LLMS_Forms::instance()->get_post_type();
+
+		if ( $forms === $screen->id ) {
 			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
+		}
+
+		if ( in_array( $screen->id, array( $forms, 'wp_block' ) ) ) {
+			echo "<script>window.llms.fieldNames = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_field_names() ) ) . "' );</script>";
 		}
 
 	}
