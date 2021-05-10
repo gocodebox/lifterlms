@@ -161,3 +161,30 @@ Form Styles
 	}
 
 }
+
+#llms-profile-fields {
+	margin: 50px 0;
+	.llms-form-field {
+		padding-left: 0;
+	}
+	label {
+		display: block;
+		font-weight: bold;
+		padding: 8px 0 2px;
+	}
+	.type-checkbox .type-checkbox {
+		label {
+			display: initial;
+			font-weight: initial;
+			padding: 0;
+		}
+		input {
+			display: inline-block;
+			margin-bottom: 0;
+			width: 1rem;
+		}
+	}
+	select {
+		max-width: 100%;
+	}
+}

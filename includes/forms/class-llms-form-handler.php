@@ -213,13 +213,11 @@ class LLMS_Form_Handler {
 	 * @since [version]
 	 *
 	 * @param array   $posted_data Sanitized & validated user-submitted form data.
-	 * @param array[] $fields LifterLMS form fields list.
-	 * @param string  $action Insert action, either "registration" for new users or "update" for existing, logged-in users.
+	 * @param array[] $fields      LifterLMS form fields list.
+	 * @param string  $action      Insert action, either "registration" for new users or "update" for existing, users.
 	 * @return array
 	 */
 	protected function prepare_data_for_insert( $posted_data, $fields, $action ) {
-
-		$forms = LLMS_Forms::instance();
 
 		$prepared = array();
 
@@ -262,7 +260,7 @@ class LLMS_Form_Handler {
 
 		} elseif ( 'update' === $action ) {
 
-			$prepared['users']['ID'] = get_current_user_id();
+			$prepared['users']['ID'] = empty( $posted_data['user_id'] ) ? get_current_user_id() : absint( $posted_data['user_id'] );
 
 		}
 
@@ -307,13 +305,13 @@ class LLMS_Form_Handler {
 	}
 
 	/**
-	 * Form submission handler.
+	 * Form submission handler
 	 *
 	 * @since [version]
 	 *
 	 * @param array  $posted_data User-submitted form data.
-	 * @param string $location Form location ID.
-	 * @param array  $args Additional arguments passed to the short-circuit filter.
+	 * @param string $location    Form location ID.
+	 * @param array  $args        Additional arguments passed to the short-circuit filter.
 	 * @return int|WP_Error WP_User ID on success, error object on failure.
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {
@@ -327,6 +325,26 @@ class LLMS_Form_Handler {
 			return $this->submit_error( $fields, $posted_data, $action );
 		}
 
+		// Make sure the user id cannot be forced by user submission.
+		unset( $posted_data['user_id'] );
+
+		return $this->submit_fields( $posted_data, $location, $fields, $action, $args );
+
+	}
+
+	/**
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $posted_data User-submitted form data.
+	 * @param string  $location    Form location ID.
+	 * @param array[] $fields      Array of LifterLMS Form Fields.
+	 * @param string  $action      User action to perform.
+	 * @param array   $args        Additional arguments passed to the short-circuit filter.
+	 * @return int|WP_Error WP_User ID on success, error object on failure.
+	 */
+	public function submit_fields( $posted_data, $location, $fields, $action, $args = array() ) {
+
 		/**
 		 * Run an action immediately prior to user registration or update.
 		 *
@@ -338,12 +356,11 @@ class LLMS_Form_Handler {
 		 *               Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
 		 *               of `$posted_data` and `$fields` via hooks.
 		 *
-		 * @param array $posted_data Array of user-submitted data (passed by reference).
-		 * @param string $location Form location.
-		 * @param array[] $fields Array of LifterLMS Form Fields (passed by reference).
-		 * @param array $args Additional arguments from the form retrieval function.
+		 * @param array   $posted_data Array of user-submitted data (passed by reference).
+		 * @param string  $location    Form location.
+		 * @param array[] $fields      Array of LifterLMS Form Fields (passed by reference).
 		 */
-		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields, $args ) );
+		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields ) );
 
 		// Check for all required fields.
 		$required = $this->validator->validate_required_fields( $posted_data, $fields );
@@ -366,25 +383,24 @@ class LLMS_Form_Handler {
 		}
 
 		/**
-		 * Filter the validity of the form submission.
+		 * Filter the validity of the form submission
 		 *
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
 		 * @since [version]
 		 *
-		 * @param WP_Error|true $valid Error object containing validation errors or true when the data is valid.
-		 * @param array $posted_data Array of user-submitted data.
-		 * @param string $location Form location.
-		 * @param array $args Additional arguments passed to the form submission handler.
+		 * @param WP_Error|true $valid       Error object containing validation errors or true when the data is valid.
+		 * @param array         $posted_data Array of user-submitted data.
+		 * @param string        $location    Form location.
 		 */
-		$valid = apply_filters( "lifterlms_user_${action}_data", true, $posted_data, $location, $args );
+		$valid = apply_filters( "lifterlms_user_${action}_data", true, $posted_data, $location );
 		if ( is_wp_error( $valid ) ) {
 			return $this->submit_error( $valid, $posted_data, $action );
 		}
 
 		/**
-		 * Run an action immediately after user registration/update fields have been validated.
+		 * Run an action immediately after user registration/update fields have been validated
 		 *
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
@@ -392,12 +408,11 @@ class LLMS_Form_Handler {
 		 * @since [version] Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
 		 *               Added parameters `$fields` and `$args`.
 		 *
-		 * @param array $posted_data Array of user-submitted data.
-		 * @param string $location Form location.
-		 * @param array[] $fields Array of LifterLMS Form Fields
-		 * @param array $args Additional arguments from the form retrieval function.
+		 * @param array   $posted_data Array of user-submitted data.
+		 * @param string  $location    Form location.
+		 * @param array[] $fields      Array of LifterLMS Form Fields
 		 */
-		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields, $args );
+		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields );
 
 		$user_id = $this->insert( $action, $posted_data, $fields );
 		if ( is_wp_error( $user_id ) ) {
@@ -407,40 +422,40 @@ class LLMS_Form_Handler {
 		if ( 'registration' === $action ) {
 
 			/**
-			 * Deprecated user creation hook.
+			 * Deprecated user creation hook
 			 *
 			 * @since Unknown.
 			 * @deprecated [version]
 			 *
-			 * @param int $user_id WP_User ID of the newly created user.
-			 * @param array $posted_data Array of user-submitted data.
-			 * @param string $location Form location.
+			 * @param int    $user_id     WP_User ID of the newly created user.
+			 * @param array  $posted_data Array of user-submitted data.
+			 * @param string $location    Form location.
 			 */
 			do_action( 'lifterlms_created_person', $user_id, $posted_data, $location );
 
 			/**
-			 * Fire an action after a user has been registered.
+			 * Fire an action after a user has been registered
 			 *
 			 * @since 3.0.0
 			 * @since [version] Moved from `LLMS_Person_Handler::register()`.
 			 *
-			 * @param int $user_id WP_User ID of the user.
-			 * @param array $posted_data Array of user submitted data.
-			 * @param string $location Form location.
+			 * @param int    $user_id     WP_User ID of the user.
+			 * @param array  $posted_data Array of user submitted data.
+			 * @param string $location    Form location.
 			 */
 			do_action( 'lifterlms_user_registered', $user_id, $posted_data, $location );
 
 		} elseif ( 'update' === $action ) {
 
 			/**
-			 * Fire an action after a user has been updated.
+			 * Fire an action after a user has been updated
 			 *
 			 * @since 3.0.0
 			 * @since [version] Moved from `LLMS_Person_Handler::update()`.
 			 *
-			 * @param int $user_id WP_User ID of the user.
-			 * @param array $posted_data Array of user submitted data.
-			 * @param string $location Form location.
+			 * @param int    $user_id     WP_User ID of the user.
+			 * @param array  $posted_data Array of user submitted data.
+			 * @param string $location    Form location.
 			 */
 			do_action( 'lifterlms_user_updated', $user_id, $posted_data, $location );
 

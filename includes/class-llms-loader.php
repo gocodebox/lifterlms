@@ -267,6 +267,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.reviews.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.user.custom.fields.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.student.bulk.enroll.php';
 
 		// Post types.

@@ -21,13 +21,19 @@ defined( 'ABSPATH' ) || exit;
  * @since [version] Move from file: llms.functions.core.php.
  *               Utilize `LLMS_Form_Field` class for field generation and output.
  *
- * @param array   $field Field settings.
- * @param boolean $echo Whether or not to output (echo) the field HTML.
+ * @param array      $field       Field settings.
+ * @param boolean    $echo        Optional. Whether or not to output (echo) the field HTML. Default is `true`.
+ * @param int|object $data_source Optional. Data source where to get field value from. Default is `null`.
  * @return string
  */
-function llms_form_field( $field = array(), $echo = true ) {
+function llms_form_field( $field = array(), $echo = true, $data_source = null ) {
 
-	$field = new LLMS_Form_Field( $field );
+	$args = array( $field );
+	if ( ! is_null( $data_source ) ) {
+		$args[] = $data_source;
+	}
+
+	$field = new LLMS_Form_Field( ...$args );
 
 	if ( $echo ) {
 		$field->render();
