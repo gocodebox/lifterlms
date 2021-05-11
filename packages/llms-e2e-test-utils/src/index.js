@@ -39,6 +39,8 @@ export { select2Select } from './select2-select';
 export { setSelect2Option } from './set-select2-option';
 
 export { toggleOpenRegistration } from './toggle-open-registration';
+export { toggleGateway } from './toggle-gateway';
+export { toggleSetting } from './toggle-setting';
 
 export { visitPage } from './visit-page';
 export { visitSettingsPage } from './visit-settings-page';
