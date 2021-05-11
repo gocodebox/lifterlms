@@ -49,7 +49,7 @@ class LLMS_Admin_Profile {
 		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ) );
 
 		// Allow errors to be output.
-		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ), 10, 3 );
+		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ) );
 
 	}
 
@@ -103,12 +103,10 @@ class LLMS_Admin_Profile {
 	 *
 	 * @since [version]
 	 *
-	 * @param obj     $errors Instance of WP_Error, passed by reference.
-	 * @param bool    $update `true` if updating a profile, `false` if a new user.
-	 * @param WP_User $user   Instance of WP_User for the user being updated.
+	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
 	 * @return void
 	 */
-	public function add_errors( &$errors, $update, $user ) {
+	public function add_errors( &$errors ) {
 
 		if ( is_wp_error( $this->errors ) && $this->errors->has_errors() ) {
 			foreach ( $this->errors->get_error_messages() as $message ) {
@@ -179,15 +177,14 @@ class LLMS_Admin_Profile {
 	private function get_fields() {
 
 		if ( ! isset( $this->fields ) ) {
-
+			/**
+			 * Fields to be added in the profile screen
+			 *
+			 * @since [version]
+			 *
+			 * @param array[] $fields Array of fields.
+			 */
 			$this->fields = apply_filters(
-				/**
-				 * Fields to be added in the profile screen
-				 *
-				 * @since [version]
-				 *
-				 * @param array[] $fields Array of fields.
-				 */
 				'llms_admin_profile_fields',
 				array(
 					array(
