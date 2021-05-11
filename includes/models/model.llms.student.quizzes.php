@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 3.16.11
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,10 +23,10 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve # of quiz attempts for a quiz
 	 *
-	 * @since    3.16.0
+	 * @since 3.16.0
 	 *
-	 * @param    int $quiz_id  WP Post ID of the quiz
-	 * @return   int
+	 * @param int $quiz_id WP Post ID of the quiz
+	 * @return int
 	 */
 	public function count_attempts_by_quiz( $quiz_id ) {
 
@@ -45,35 +45,46 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove Student Quiz attempt by ID
 	 *
-	 * @param    int $attempt_id  Attempt ID
-	 * @return   boolean              true on success, false on error
-	 * @since    3.9.0
-	 * @version  3.16.11
+	 * @since 3.9.0
+	 * @since 3.16.11 Unknown.
+	 *
+	 * @param int $attempt_id Attempt ID.
+	 * @return boolean Returns `true` on success and `false` on error.
 	 */
 	public function delete_attempt( $attempt_id ) {
 
 		$attempt = $this->get_attempt_by_id( $attempt_id );
-		return $attempt->delete();
+		return $attempt ? $attempt->delete() : false;
 
 	}
 
 	/**
 	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
 	 *
-	 * @param    mixed $quiz    WP Post ID / Array of WP Post IDs
-	 * @return   LLMS_Quiz_Attempt
-	 * @since    3.9.0
-	 * @version  3.16.11
+	 * @since 3.9.0
+	 * @since 3.16.11 Unknown.
+	 * @since [version] Retrieve only attempts for the initialized student.
+	 *
+	 * @param int[]|int $quiz Array or single WP_Post ID for quizzes to retrieve attempts for.
+	 * @return LLMS_Quiz_Attempt[] Array of quiz attempts for the requested quiz or quizzes.
 	 */
 	public function get_all( $quiz = array() ) {
 
 		$query = new LLMS_Query_Quiz_Attempt(
 			array(
-				'quiz_id'  => $quiz,
-				'per_page' => 5000,
+				'quiz_id'    => $quiz,
+				'per_page'   => 5000,
+				'student_id' => $this->get( 'id' ),
 			)
 		);
 
+		/**
+		 * Filters the list of quiz attempts for a student
+		 *
+		 * @since Unknown
+		 *
+		 * @param int[]|int $quiz Array or single WP_Post ID for quizzes to retrieve attempts for.
+		 */
 		return apply_filters( 'llms_student_get_quiz_data', $query->get_attempts(), $quiz );
 
 	}
@@ -110,13 +121,29 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve an attempt by attempt id
 	 *
-	 * @param    int $attempt_id  Attempt ID
-	 * @return   LLMS_Quiz_Attempt
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Only return
+	 *
+	 * @param int $attempt_id Attempt ID.
+	 * @return LLMS_Quiz_Attempt|boolean Returns the quiz attempt or `false` if the attempt doesn't exist or
+	 *                                   doesn't belong to the initialized student.
 	 */
 	public function get_attempt_by_id( $attempt_id ) {
-		return new LLMS_Quiz_Attempt( $attempt_id );
+
+		$attempt = new LLMS_Quiz_Attempt( $attempt_id );
+
+		// Invalid ID.
+		if ( ! $attempt->exists() ) {
+			return false;
+		}
+
+		// Quiz doesn't belong to the initialized student.
+		if ( absint( $attempt->get( 'student_id' ) ) !== $this->get( 'id' ) ) {
+			return false;
+		}
+
+		return $attempt;
+
 	}
 
 	/**
