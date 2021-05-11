@@ -73,6 +73,10 @@ class LLMS_Admin_Profile {
 		wp_enqueue_script( 'llms-metaboxes' );
 		wp_enqueue_script( 'llms-select2' );
 		llms()->assets->enqueue_style( 'llms-select2-styles' );
+		wp_add_inline_script(
+			'llms',
+			"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';"
+		);
 
 		$fields = $this->get_fields();
 
