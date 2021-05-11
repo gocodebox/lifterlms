@@ -328,7 +328,7 @@ class LLMS_Form_Handler {
 		// Make sure the user id cannot be forced by user submission.
 		unset( $posted_data['user_id'] );
 
-		return $this->submit_fields( $posted_data, $location, $fields, $action, $args );
+		return $this->submit_fields( $posted_data, $location, $fields, $action );
 
 	}
 
@@ -340,10 +340,9 @@ class LLMS_Form_Handler {
 	 * @param string  $location    Form location ID.
 	 * @param array[] $fields      Array of LifterLMS Form Fields.
 	 * @param string  $action      User action to perform.
-	 * @param array   $args        Additional arguments passed to the short-circuit filter.
 	 * @return int|WP_Error WP_User ID on success, error object on failure.
 	 */
-	public function submit_fields( $posted_data, $location, $fields, $action, $args = array() ) {
+	public function submit_fields( $posted_data, $location, $fields, $action ) {
 
 		/**
 		 * Run an action immediately prior to user registration or update.
