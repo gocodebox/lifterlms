@@ -67,6 +67,13 @@ class LLMS_Admin_Profile {
 			return;
 		}
 
+		/**
+		 * Enqueue select2 scripts and styles.
+		 */
+		wp_enqueue_script( 'llms-metaboxes' );
+		wp_enqueue_script( 'llms-select2' );
+		llms()->assets->enqueue_style( 'llms-select2-styles' );
+
 		$fields = $this->get_fields();
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/views/user-edit-fields.php';
@@ -135,11 +142,11 @@ class LLMS_Admin_Profile {
 
 		foreach ( $this->fields as $field ) {
 			//phpcs:disable WordPress.Security.NonceVerification.Missing  -- nonce is verified prior to reaching this method.
-			if ( isset( $_POST[ $field['data_store_key'] ] ) &&
+			if ( isset( $_POST[ $field['name'] ] ) &&
 					isset( $field['data_store_key'] ) &&
 						$field['data_store'] && 'usermeta' === $field['data_store'] ) {
 				//phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- sanitization and unslashing happens in `LLMS_Form_Handler::instance()->submit_form_fields()` below.
-				$posted_data[ $field['data_store_key'] ] = $_POST[ $field['data_store_key'] ];
+				$posted_data[ $field['name'] ] = $_POST[ $field['name'] ];
 			}
 			//phpcs:disable WordPress.Security.NonceVerification.Missing
 		}
@@ -217,6 +224,7 @@ class LLMS_Admin_Profile {
 						'options_preset' => 'countries',
 						'placeholder'    => __( 'Select a Country', 'lifterlms' ),
 						'columns'        => 6,
+						'classes'        => 'llms-select2',
 					),
 					array(
 						'type'           => 'select',
@@ -228,6 +236,7 @@ class LLMS_Admin_Profile {
 						'data_store'     => 'usermeta',
 						'data_store_key' => 'llms_billing_state',
 						'columns'        => 6,
+						'classes'        => 'llms-select2',
 					),
 					array(
 						'type'           => 'text',
