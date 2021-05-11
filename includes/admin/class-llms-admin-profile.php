@@ -182,7 +182,7 @@ class LLMS_Admin_Profile {
 				 *
 				 * @since [version]
 				 *
-				 * @param array $fields Array of fields.
+				 * @param array[] $fields Array of fields.
 				 */
 				'llms_admin_profile_fields',
 				array(

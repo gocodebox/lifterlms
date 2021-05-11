@@ -874,7 +874,7 @@ class LLMS_Form_Field {
 		}
 
 		// Auto-populate field from the datastore if we have a user and datastore information.
-		if ( is_null( $user_val ) && ( ! is_null( $this->user ) ) && $this->settings['data_store_key'] && in_array( $this->settings['data_store'], array( 'users', 'usermeta' ), true ) ) {
+		if ( is_null( $user_val ) && ( ! is_null( $this->user ) ) && $this->settings['data_store_key'] ) {
 			$user_val = $this->user->get( $this->settings['data_store_key'] );
 		}
 
