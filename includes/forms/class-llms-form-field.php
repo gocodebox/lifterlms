@@ -58,6 +58,20 @@ class LLMS_Form_Field {
 	protected $html = '';
 
 	/**
+	 * Data source where to get field value from.
+	 *
+	 * @var null|WP_Post|WP_User
+	 */
+	private $data_source;
+
+	/**
+	 * Data source type where to get field value from.
+	 *
+	 * @var null|string
+	 */
+	private $data_source_type;
+
+	/**
 	 * Constructor
 	 *
 	 * @since [version]
@@ -96,16 +110,20 @@ class LLMS_Form_Field {
 	 */
 	private function define_data_source( $data_source ) {
 
-		if ( ! empty( $this->settings['data_store'] ) && ! in_array( $this->settings['data_store'], array( 'users', 'usermeta' ), true ) ) {
+		if ( empty( $this->settings['data_store'] ) || ! in_array( $this->settings['data_store'], array( 'users', 'usermeta' ), true ) ) {
 			return;
 		}
+
 		if ( ! is_null( $data_source ) ) {
 			$data_source = $data_source instanceof WP_User ? $data_source : get_user_by( 'ID', $data_source );
 		} elseif ( is_user_logged_in() ) {
 			$data_source = wp_get_current_user();
 		}
 
-		$this->user = $data_source;
+		if ( $data_source instanceof WP_User ) {
+			$this->data_source      = $data_source;
+			$this->data_source_type = 'wp_user';
+		}
 
 	}
 
@@ -874,8 +892,8 @@ class LLMS_Form_Field {
 		}
 
 		// Auto-populate field from the datastore if we have a user and datastore information.
-		if ( is_null( $user_val ) && ( ! is_null( $this->user ) ) && $this->settings['data_store_key'] ) {
-			$user_val = $this->user->get( $this->settings['data_store_key'] );
+		if ( is_null( $user_val ) && ( isset( $this->data_source ) && 'wp_user' === $this->data_source_type ) && $this->settings['data_store_key'] ) {
+			$user_val = $this->data_source->get( $this->settings['data_store_key'] );
 		}
 
 		// Set the value to the user's submitted or stored value.
