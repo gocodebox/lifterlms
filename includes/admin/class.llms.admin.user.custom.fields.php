@@ -29,7 +29,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
 	 * @since 4.14.0 Add personal options hook.
-	 *
+	 * @since [version] Custom fields (legacy), are now printed with priority 11 instead of 10.
 	 * @return void
 	 */
 	public function __construct() {
@@ -42,7 +42,7 @@ class LLMS_Admin_User_Custom_Fields {
 		);
 
 		foreach ( $field_actions as $action ) {
-			add_action( $action, array( $this, 'output_custom_fields' ), 10, 1 );
+			add_action( $action, array( $this, 'output_custom_fields' ), 11, 1 );
 			add_action( $action, array( $this, 'output_instructors_assistant_fields' ), 10, 1 );
 		}
 
@@ -106,18 +106,20 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Removed LLMS core fields.
+	 * @since [version] Removed LLMS core fields and deprecate the filter usage.
 	 *
 	 * @return array
 	 */
 	public function get_fields() {
 
-		$fields = apply_filters(
+		$this->fields = apply_filters_deprecated(
 			'lifterlms_get_user_custom_fields',
-			array()
+			array(
+				array(),
+			),
+			'5.0.0',
+			'llms_admin_profile_fields'
 		);
-
-		$this->fields = $fields;
 
 		return $this->fields;
 
