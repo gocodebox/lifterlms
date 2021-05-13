@@ -93,8 +93,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @since    3.16.0
 	 *
-	 * @param int   $quiz_id  WP Post ID of the quiz.
-	 * @param array $args     Additional args to pass to LLMS_Query_Quiz_Attempt.
+	 * @param int   $quiz_id WP Post ID of the quiz.
+	 * @param array $args    Additional args to pass to LLMS_Query_Quiz_Attempt.
 	 * @return LLMS_Quiz_Attempt[]
 	 */
 	public function get_attempts_by_quiz( $quiz_id, $args = array() ) {
@@ -146,7 +146,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @since 3.9.0
 	 * @since 3.16.0 Unknown.
 	 *
-	 * @param string $attempt_key  Encoded attempt key.
+	 * @param string $attempt_key Encoded attempt key.
 	 * @return LLMS_Quiz_Attempt|false
 	 */
 	public function get_attempt_by_key( $attempt_key ) {
