@@ -121,7 +121,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Retrieve an attempt by attempt id
 	 *
 	 * @since 3.16.0
-	 * @since [version] Only return
+	 * @since [version] Return `false` for invalid IDs & check permissions before returning the attempt.
 	 *
 	 * @param int $attempt_id Attempt ID.
 	 * @return LLMS_Quiz_Attempt|boolean Returns the quiz attempt or `false` if the attempt doesn't exist or
@@ -132,12 +132,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		$attempt = new LLMS_Quiz_Attempt( $attempt_id );
 
 		// Invalid ID.
-		if ( ! $attempt->exists() ) {
-			return false;
-		}
-
-		// Quiz doesn't belong to the initialized student.
-		if ( absint( $attempt->get( 'student_id' ) ) !== $this->get( 'id' ) ) {
+		if ( ! $attempt->exists() || ! current_user_can( 'view_grades', absint( $attempt->get( 'student_id' ) ), absint( $attempt->get( 'quiz_id' ) ) ) ) {
 			return false;
 		}
 

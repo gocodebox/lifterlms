@@ -11,6 +11,36 @@
 class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	/**
+	 * Assert that two quiz attempts are deeply equal
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Quiz_Attempt $expected Expected attempt object.
+	 * @param LLMS_Quiz_Attempt $actual   Actual attempt object.
+	 * @return void
+	 */
+	private function assertAttemptsAreEqual( $expected, $actual ) {
+
+		$props = array(
+			'id',
+			'student_id',
+			'quiz_id',
+			'lesson_id',
+			'start_date',
+			'update_date',
+			'end_date',
+			'status',
+			'attempt',
+			'grade',
+		);
+
+		foreach ( $props as $prop ) {
+			$this->assertEquals( $expected->get( $prop ), $actual->get( $prop ), $prop );
+		}
+
+	}
+
+	/**
 	 * Create a student with sample quizzes.
 	 *
 	 * @since Unknown
@@ -27,6 +57,14 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Retrieve a quiz attempt for a given student.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Student $student Student object.
+	 * @return LLMS_Quiz_Attempt
+	 */
 	private function get_attempt( $student ) {
 
 		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 1 )[0] );
@@ -46,10 +84,13 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
+	 * @since [version] Only users who can view_grades can delete attempts.
 	 *
 	 * @return void
 	 */
 	public function test_delete_attempt() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		$i = 1;
 		while ( $i <= 5 ) {
@@ -102,26 +143,13 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 		$student = llms_get_student( $this->factory->user->create() );
 		$attempt = $this->get_attempt( $student );
 
-		$props = array(
-			'id',
-			'student_id',
-			'quiz_id',
-			'lesson_id',
-			'start_date',
-			'update_date',
-			'end_date',
-			'status',
-			'attempt',
-			'grade',
-		);
+		wp_set_current_user( $student->get( 'id' ) );
 
-		$get = $student->quizzes()->get_attempt_by_id( $attempt->get( 'id' ) );
-		$key = $student->quizzes()->get_attempt_by_key( $attempt->get_key() );
+		// Get by ID.
+		$this->assertAttemptsAreEqual( $attempt, $student->quizzes()->get_attempt_by_id( $attempt->get( 'id' ) ) );
 
-		foreach ( $props as $prop ) {
-			$this->assertEquals( $attempt->get( $prop ), $get->get( $prop ) );
-			$this->assertEquals( $attempt->get( $prop ), $key->get( $prop ) );
-		}
+		// Get by Key.
+		$this->assertAttemptsAreEqual( $attempt, $student->quizzes()->get_attempt_by_key( $attempt->get_key() ) );
 
 		// ID Doesn't exit.
 		$this->assertFalse( $student->quizzes()->get_attempt_by_id( absint( $attempt->get( 'id' ) ) + 1 ) );
@@ -130,8 +158,12 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 		$this->assertFalse( $student->quizzes()->get_attempt_by_key( 'FAKEHASH' ) );
 
 		// ID exists but Wrong student.
-		$student = llms_get_student( $this->factory->user->create() );
+		wp_set_current_user( $this->factory->user->create() );
 		$this->assertFalse( $student->quizzes()->get_attempt_by_id( $attempt->get( 'id' ) ) );
+
+		// Admin can view.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertAttemptsAreEqual( $attempt, $student->quizzes()->get_attempt_by_id( $attempt->get( 'id' ) ) );
 
 	}
 
