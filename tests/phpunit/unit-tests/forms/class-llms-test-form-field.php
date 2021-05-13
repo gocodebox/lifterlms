@@ -944,4 +944,56 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test llms_form_field when passing an user
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_field_with_user_as_data_source() {
+
+		$opts = array(
+			'id'         => 'checkbox_store',
+			'type'       => 'checkbox',
+			'options'    => array(
+				'mock_val'  => 'Mock val',
+				'mock_val2' => 'Mock val 2',
+			),
+			'data_store' => 'usermeta',
+		);
+
+		// User doesn't have value stored.
+		$this->get_user_with_meta( 'checkbox_store' );
+		$user_id = get_current_user_id();
+		// Log-out.
+		wp_set_current_user( 0 );
+
+		$html = llms_form_field( $opts, false, $user_id );
+		$this->assertStringNotContains( 'checked="checked"', $html );
+
+		// User has value stored.
+		$this->get_user_with_meta( 'checkbox_store', array( 'mock_val2' ) );
+		$user_id = get_current_user_id();
+		// Log-out.
+		wp_set_current_user( 0 );
+
+		$html = llms_form_field( $opts, false, $user_id );
+		$this->assertStringContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox_store--mock_val2" name="checkbox_store[]" type="checkbox" value="mock_val2" />',
+			$html
+		);
+
+		// Log in the last user.
+		wp_set_current_user( $user_id );
+		// Pass a non existing user.
+		$html = llms_form_field( $opts, false, $user_id + 1 );
+		$this->assertStringNotContains( 'checked="checked"', $html );
+
+		// Pass a WP Post in place of a user.
+		$post = $this->factory->post->create_and_get();
+		$html = llms_form_field( $opts, false, $post );
+		$this->assertStringNotContains( 'checked="checked"', $html );
+	}
+
 }
