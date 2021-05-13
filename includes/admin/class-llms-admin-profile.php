@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Handle extra profile fields for users in admin
  *
- * Applies to edit-user.php, & profile.php.
+ * Applies to edit-user.php & profile.php.
  *
  * @since [version]
  */
@@ -85,47 +85,6 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Undocumented function
-	 *
-	 * Only who can 'manage_lifterlms' will be able to edit own and other profiles.
-	 *
-	 * @param WP_User $user Instance of WP_User for the user being updated.
-	 * @return boolean
-	 */
-	private function current_user_can_manage_user_custom_fields( $user ) {
-
-		return current_user_can( 'manage_lifterlms' ) && current_user_can( 'edit_users', $user );
-
-	}
-
-	/**
-	 * Maybe print validation errors
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
-	 * @return void
-	 */
-	public function add_errors( &$errors ) {
-
-		if ( is_wp_error( $this->errors ) && $this->errors->has_errors() ) {
-			foreach ( $this->errors->get_error_messages() as $message ) {
-				$errors->add(
-					'',
-					sprintf(
-						// Translators: %1$s = Opening strong tag; %2$s = Closing strong tag; %3$s = The error message.
-						esc_html__( '%1$sError%2$s: %3$s', 'lifterlms' ),
-						'<strong>',
-						'</strong>',
-						$message
-					)
-				);
-			}
-		}
-
-	}
-
-	/**
 	 * Maybe save customer meta fields
 	 *
 	 * @since [version]
@@ -168,6 +127,75 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
+	 * Maybe print validation errors
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
+	 * @return void
+	 */
+	public function add_errors( &$errors ) {
+
+		if ( is_wp_error( $this->errors ) && $this->errors->has_errors() ) {
+			$this->merge_llms_fields_errors( $errors );
+		}
+
+	}
+
+	/**
+	 * Check whether the current user can manage a given user's custom fields
+	 *
+	 * Only who can 'manage_lifterlms' will be able to edit own and other profiles.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_User $user Instance of WP_User for the user being updated.
+	 * @return boolean
+	 */
+	private function current_user_can_manage_user_custom_fields( $user ) {
+
+		return current_user_can( 'manage_lifterlms' ) && current_user_can( 'edit_users', $user );
+
+	}
+
+	/**
+	 * Merge llms fields errors into the passed WP_Error
+	 *
+	 * @since [version]
+	 * @todo Remove the fallback when minimum required WP version will be 5.6+.
+	 *
+	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
+	 * @return void
+	 */
+	private function merge_llms_fields_errors( &$errors ) {
+
+		foreach ( $this->errors->get_error_codes() as $code ) {
+			foreach ( $this->errors->get_error_messages( $code ) as $error_message ) {
+				$errors->add(
+					$code,
+					sprintf(
+						// Translators: %1$s = Opening strong tag; %2$s = Closing strong tag; %3$s = The error message.
+						esc_html__( '%1$sError%2$s: %3$s', 'lifterlms' ),
+						'<strong>',
+						'</strong>',
+						$error_message
+					)
+				);
+			}
+			/**
+			 * `WP_Error::get_all_error_data()` has been introduced in WP 5.6.0.
+			 */
+			$error_data = method_exists( $this->errors, 'get_all_error_data' ) ?
+					$this->errors->get_all_error_data( $code ) : $this->errors->get_error_data( $code );
+
+			foreach ( $error_data as $data ) {
+				$errors->add_data( $data, $code );
+			}
+		}
+
+	}
+
+	/**
 	 * Get fields to be added in the profile screen
 	 *
 	 * @since [version]
@@ -198,7 +226,7 @@ class LLMS_Admin_Profile {
 					),
 					array(
 						'type'           => 'text',
-						'label'          => __( 'Additional address information', 'lifterlms' ), // It's used in the error messages.
+						'label'          => __( 'Address line 2', 'lifterlms' ), // It's used in the error messages.
 						'placeholder'    => __( 'Apartment, suite, etc...', 'lifterlms' ),
 						'name'           => 'llms_billing_address_2',
 						'id'             => 'llms_billing_address_2',
