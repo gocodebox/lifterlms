@@ -77,7 +77,7 @@ class LLMS_Form_Post_Type {
 	 * @since [version]
 	 *
 	 * @param WP_REST_Response $response Response object.
-	 * @param WP_Post_Type    $post_type Post Type object.
+	 * @param WP_Post_Type     $post_type Post Type object.
 	 * @return WP_REST_Response
 	 */
 	public function enable_post_type_visibility( $response, $post_type ) {
@@ -170,11 +170,7 @@ class LLMS_Form_Post_Type {
 	 */
 	private function get_permalink_for_registration() {
 
-		if ( llms_parse_bool( llms_get_open_registration_status() ) ) {
-			return LLMS_View_Manager::get_url( 'visitor', llms_get_page_url( 'myaccount' ) );
-		}
-
-		return false;
+		return LLMS_View_Manager::get_url( 'visitor', llms_get_page_url( 'myaccount' ) );
 
 	}
 
