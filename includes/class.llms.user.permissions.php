@@ -160,6 +160,57 @@ class LLMS_User_Permissions {
 	}
 
 	/**
+	 * Modify a users ability to `view_grades`
+	 *
+	 * Users can view the grades (quiz results) if one of the following conditions is met:
+	 *   + Users can view their own grades.
+	 *   + Admins and LMS Managers can view anyone's grade.
+	 *   + Any user who has been explicitly granted the `view_grades` cap can view anyone's grade (via custom code).
+	 *   + Any instructor/assistant who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool[] $allcaps Array of key/value pairs where keys represent a capability name and boolean values
+	 *                        represent whether the user has that capability.
+	 * @param array  $args {
+	 *   Arguments that accompany the requested capability check.
+	 *
+	 *     @type string $0 Requested capability: 'view_grades'.
+	 *     @type int    $1 Current User ID.
+	 *     @type int    $2 Requested User ID.
+	 *     @type int    $3 WP_Post ID of the quiz.
+	 * }
+	 * @return array
+	 */
+	private function handle_cap_view_grades( $allcaps, $args ) {
+
+		// Logged out user or missing required args.
+		if ( empty( $args[1] ) || empty( $args[2] ) || empty( $args[3] ) ) {
+			return $allcaps;
+		}
+
+		list( $requested_cap, $current_user_id, $requested_user_id, $post_id ) = $args;
+
+		// Administrators and LMS managers explicitly have the cap so we don't need to perform any further checks.
+		if ( ! empty( $allcaps[ $requested_cap ] ) ) {
+			return $allcaps;
+		}
+
+		// Users can view their own grades.
+		if ( $current_user_id === $requested_user_id ) {
+			$allcaps[ $requested_cap ] = true;
+		} elseif ( current_user_can( 'edit_post', $post_id ) ) {
+			$instructor = llms_get_instructor( $current_user_id );
+			if ( $instructor && $instructor->has_student( $requested_user_id ) ) {
+				$allcaps[ $requested_cap ] = true;
+			}
+		}
+
+		return $allcaps;
+
+	}
+
+	/**
 	 * Custom capability checks for LifterLMS things
 	 *
 	 * @since 3.13.0
@@ -167,6 +218,7 @@ class LLMS_User_Permissions {
 	 *               Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
 	 * @since 3.37.14 Use strict comparison.
+	 * @since [version] Add logic to handle the `view_grades` capability.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
@@ -191,13 +243,17 @@ class LLMS_User_Permissions {
 		 */
 		$post_types = apply_filters( 'llms_user_caps_edit_others_posts_post_types', array( 'courses', 'lessons', 'sections', 'quizzes', 'questions', 'memberships' ) );
 		foreach ( $post_types as $cpt ) {
-			// allow any instructor to edit courses they're attached to.
+			// Allow any instructor to edit courses they're attached to.
 			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap, true ) ) {
 				$allcaps = $this->edit_others_lms_content( $allcaps, $cap, $args );
 			}
 		}
 
 		$required_cap = ! empty( $cap[0] ) ? $cap[0] : false;
+
+		if ( 'view_grades' === $required_cap ) {
+			return $this->handle_cap_view_grades( $allcaps, $args );
+		}
 
 		// We don't have a cap or the user doesn't have the requested cap.
 		if ( ! $required_cap || empty( $allcaps[ $required_cap ] ) ) {
