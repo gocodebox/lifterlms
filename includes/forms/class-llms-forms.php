@@ -57,6 +57,7 @@ class LLMS_Forms {
 		$this->post_type_manager = new LLMS_Form_Post_Type( $this );
 
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
+		add_filter( 'llms_get_form_post', array( $this, 'maybe_load_preview' ) );
 
 	}
 
@@ -528,7 +529,18 @@ class LLMS_Forms {
 			)
 		);
 
-		return $query->have_posts() ? $query->posts[0] : false;
+		$post = $query->have_posts() ? $query->posts[0] : false;
+
+		/**
+		 * Filters the returned `llms_form` post object
+		 *
+		 * @since [version]
+		 *
+		 * @param WP_Post|boolean $post     The post object of the form or `false` if no form could be located.
+		 * @param string       $location Form location. Either "checkout", "registration", or "account".
+		 * @param array        $args     Additional custom arguments.
+		 */
+		return apply_filters( 'llms_get_form_post', $post, $location, $args );
 
 	}
 
@@ -853,6 +865,32 @@ class LLMS_Forms {
 		}
 
 		return $loaded;
+
+	}
+
+	/**
+	 * Load form autosaves when previewing a form
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post|boolean $post WP_Post object for the llms_form post or `false` if no form found.
+	 * @return WP_Post|boolean
+	 */
+	public function maybe_load_preview( $post ) {
+
+		// No form post found.
+		if ( ! is_object( $post ) ) {
+			return $post;
+		}
+
+		// The `_set_preview()` method is marked as private but has existed since 2.7 and my guess is that we can use this safely.
+		if ( ! function_exists( '_set_preview' ) ) {
+			return $post;
+		}
+
+		$is_preview = ( is_preview() && current_user_can( $this->get_capability(), $post->ID ) );
+
+		return $is_preview ? _set_preview( $post ) : $post;
 
 	}
 

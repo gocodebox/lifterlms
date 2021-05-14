@@ -923,6 +923,66 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test maybe_load_preview() when no post is found
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_load_preview_no_post() {
+		$this->assertFalse( $this->forms->maybe_load_preview( false ) );
+	}
+
+	/**
+	 * Test maybe_load_preview() when not previewing
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_load_preview_not_preview() {
+		$post = $this->factory->post->create_and_get();
+		$this->assertEquals( $post, $this->forms->maybe_load_preview( $post ) );
+	}
+
+	/**
+	 * Test maybe_load_preview() when current user can't preview
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_load_preview_user_cant_preview() {
+		global $wp_query;
+		$post = $this->factory->post->create_and_get();
+		$save = (array) $post;
+		$save['post_ID'] = $save['ID'];
+		$save['post_content'] = 'autosave content';
+		wp_create_post_autosave( $save );
+		$wp_query->is_preview();
+		$this->assertEquals( $post, $this->forms->maybe_load_preview( $post ) );
+	}
+
+	/**
+	 * Test maybe_load_preview() when there is a preview
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_load_preview_user_can_preview() {
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		global $wp_query;
+		$post = $this->factory->post->create_and_get();
+		$save = (array) $post;
+		$save['post_ID'] = $save['ID'];
+		$save['post_content'] = 'autosave content';
+		wp_create_post_autosave( $save );
+		$wp_query->is_preview();
+		$this->assertEquals( $post, $this->forms->maybe_load_preview( $post ) );
+	}
+
+	/**
 	 * Test block field render function for non-field blocks.
 	 *
 	 * @since [version]

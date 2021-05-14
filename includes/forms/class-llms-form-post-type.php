@@ -56,6 +56,8 @@ class LLMS_Form_Post_Type {
 		add_filter( 'pre_delete_post', array( $this, 'maybe_prevent_deletion' ), 20, 2 );
 		add_filter( 'pre_trash_post', array( $this, 'maybe_prevent_deletion' ), 20, 2 );
 
+		add_filter( 'rest_prepare_post_type', array( $this, 'enable_post_type_visibility' ), 10, 2 );
+
 		/**
 		 * Filters the capability required to manage LifterLMS Forms
 		 *
@@ -67,6 +69,24 @@ class LLMS_Form_Post_Type {
 
 	}
 
+	/**
+	 * Forces the non-visible form post type to be visible when REST requests for the post type info are made via the admin panel
+	 *
+	 * This enabled the "Preview in new tab" functionality of the block editor to be used to preview LifterLMS form posts.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Response $response Response object.
+	 * @param WP_Post_Type    $post_type Post Type object.
+	 * @return WP_REST_Response
+	 */
+	public function enable_post_type_visibility( $response, $post_type ) {
+		if ( is_admin() && $this->post_type === $post_type->name ) {
+			$response->data['viewable'] = true;
+		}
+		return $response;
+
+	}
 
 	/**
 	 * Retrieve a permalink for a given form post.

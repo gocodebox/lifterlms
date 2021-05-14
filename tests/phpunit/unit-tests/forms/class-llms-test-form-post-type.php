@@ -18,10 +18,46 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test class properties.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_properties() {
 
 		$this->assertEquals( 'llms_form', $this->main->post_type );
 		$this->assertEquals( 'manage_lifterlms', $this->main->capability );
+
+	}
+
+	/**
+	 * Test enabled_post_type_visibility() when skipping the override
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_enable_post_type_visibility() {
+
+		$res_data  = array( 'viewable' => false );
+		$res       = rest_ensure_response( $res_data );
+		$post_type = get_post_type_object( 'llms_form' );
+
+		// Not admin.
+		$this->assertEquals( $res_data, $this->main->enable_post_type_visibility( $res, $post_type )->get_data() );
+
+		// Is admin.
+		set_current_screen( 'admin.php' );
+
+		// Wrong post type.
+		$this->assertEquals( $res_data, $this->main->enable_post_type_visibility( $res, get_post_type_object( 'course' ) )->get_data() );
+
+		// Okay.
+		$this->assertEquals( array( 'viewable' => true ), $this->main->enable_post_type_visibility( $res, $post_type )->get_data() );
+
+		set_current_screen( 'front' ); // Reset.
 
 	}
 
