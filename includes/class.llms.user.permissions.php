@@ -166,7 +166,7 @@ class LLMS_User_Permissions {
 	 *   + Users can view their own grades.
 	 *   + Admins and LMS Managers can view anyone's grade.
 	 *   + Any user who has been explicitly granted the `view_grades` cap can view anyone's grade (via custom code).
-	 *   + Any user who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
+	 *   + Any instructor/assistant who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
 	 *
 	 * @since [version]
 	 *
