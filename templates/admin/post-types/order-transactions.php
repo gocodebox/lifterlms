@@ -6,8 +6,8 @@
  *
  * @since 3.5.0
  * @since 3.26.1 Unknown.
- * @since [version] Don't localize the price "step" html attribute.
- * @version [version]
+ * @since 4.21.2 Don't localize the price "step" html attribute.
+ * @version 4.21.2
  */
 
 defined( 'ABSPATH' ) || exit;

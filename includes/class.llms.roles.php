@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.21.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ class LLMS_Roles {
 	 * @since 3.13.0
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
 	 * @since 3.34.0 Added capabilities for student management.
-	 * @since [version] Added the `view_grades` capability.
+	 * @since 4.21.2 Added the `view_grades` capability.
 	 *
 	 * @link https://lifterlms.com/docs/roles-and-capabilities/
 	 *
@@ -83,7 +83,7 @@ class LLMS_Roles {
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Added student management capabilities.
-	 * @since [version] Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
+	 * @since 4.21.2 Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
 	 *
 	 * @param string $role Name of the role.
 	 * @return string[]
@@ -127,7 +127,7 @@ class LLMS_Roles {
 		 *
 		 * The dynamic portion of this hook `$role` refers to the user's role name.
 		 *
-		 * @since [version]
+		 * @since 4.21.2
 		 *
 		 * @param string[] $caps     List of capabilities provided to the role.
 		 * @param string[] $all_caps Full list of all LifterLMS user capabilities.
@@ -140,7 +140,7 @@ class LLMS_Roles {
 	 * Retrieve the post type specific capabilities for a give role
 	 *
 	 * @since 3.13.0
-	 * @since [version] Use strict comparisons for `in_array()`.
+	 * @since 4.21.2 Use strict comparisons for `in_array()`.
 	 *
 	 * @param string $role Name of the role
 	 * @return array
