@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.3
-Stable tag: 4.21.1
+Stable tag: 4.21.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,24 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.21.2 - 2021-05-17 =
+
+##### Security Update
+
+This releases fixes a security issue affecting LifterLMS versions 4.21.1 and earlier:
+
++ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting an insecure direct object reference issue.
+
+##### Updates
+
++ Added the `view_grades` capability which is used to determine whether or not a user has the ability to view another user's grades on the website's frontend.
+
+##### Bug fixes
+
++ Fixed an issue causing PHP errors when attempting to access a quiz attempt that doesn't exist.
++ Fixed a localization issue encountered when entering transaction amounts on the admin panel.
+
+
 = v4.21.1 - 2021-04-29 =
 
 ##### Security Update
@@ -680,23 +698,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 
 + `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
 + Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
-
-
-= v4.13.0 - 2021-01-26 =
-
-##### Updates
-
-+ **The minimum supported WordPress core version has been raised to 5.2.** For more information, please review the [LifterLMS Minimum System Requirements](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
-+ When cloning courses and lessons the cloned post will be created as a draft.
-+ When cloning courses the suffix "(Clone)" will be appended to the title of the course to unify cloning behavior with lessons.
-+ Added information about LifterLMS specific constant values to the LifterLMS system report.
-+ Added a new constant `LLMS_IS_SITE_CLONE` which can be used to force the site's clone status.
-
-##### Bug fixes
-
-+ Reverts site clone detection check changes implemented in 4.12.0 to restore pre 4.12.0 functionality which only runs checks on the admin panel for logged in users with the `manage_lifterlms` capability.
-+ Restore reliance on `mb_convert_encoding()` when passing html strings into `DOMDocument` and use the alternate method introduced in version 4.8.0 as a fallback.
-+ Fixed an issue encountered when unexpected or malformed data is stored in the LifterLMS admin notices option.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

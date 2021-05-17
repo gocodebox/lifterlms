@@ -35,7 +35,8 @@ $attempts = $student->quizzes()->get_attempts_by_quiz(
 	)
 );
 
-$attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( llms_filter_input( INPUT_GET, 'attempt_key', FILTER_SANITIZE_STRING ) ) : false;
+$key     = llms_filter_input( INPUT_GET, 'attempt_key', FILTER_SANITIZE_STRING );
+$attempt = $key ? $student->quizzes()->get_attempt_by_key( $key ) : false;
 
 if ( ! $attempt && ! $attempts ) {
 	return;
