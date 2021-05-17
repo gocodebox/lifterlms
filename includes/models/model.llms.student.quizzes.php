@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 4.21.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,7 +62,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Retrieve only attempts for the initialized student.
+	 * @since 4.21.2 Retrieve only attempts for the initialized student.
 	 *
 	 * @param int[]|Int $quiz Array or single WP_Post ID for quizzes to retrieve attempts for.
 	 * @return LLMS_Quiz_Attempt[] Array of quiz attempts for the requested quiz or quizzes.
@@ -121,7 +121,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Retrieve an attempt by attempt id
 	 *
 	 * @since 3.16.0
-	 * @since [version] Return `false` for invalid IDs & check permissions before returning the attempt.
+	 * @since 4.21.2 Return `false` for invalid IDs & check permissions before returning the attempt.
 	 *
 	 * @param int $attempt_id Attempt ID.
 	 * @return LLMS_Quiz_Attempt|boolean Returns the quiz attempt or `false` if the attempt doesn't exist or

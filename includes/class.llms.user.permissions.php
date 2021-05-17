@@ -168,7 +168,7 @@ class LLMS_User_Permissions {
 	 *   + Any user who has been explicitly granted the `view_grades` cap can view anyone's grade (via custom code).
 	 *   + Any instructor/assistant who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @param bool[] $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                        represent whether the user has that capability.
@@ -218,7 +218,7 @@ class LLMS_User_Permissions {
 	 *               Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
 	 * @since 3.37.14 Use strict comparison.
-	 * @since [version] Add logic to handle the `view_grades` capability.
+	 * @since 4.21.2 Add logic to handle the `view_grades` capability.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.

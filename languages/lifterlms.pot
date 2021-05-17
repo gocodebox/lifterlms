@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 4.21.1\n"
+"Project-Id-Version: LifterLMS 4.21.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-04-29T14:01:15-06:00\n"
+"POT-Creation-Date: 2021-05-17T10:59:28-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -611,7 +611,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:134
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:88
 #: includes/privacy/class-llms-privacy-exporters.php:313
-#: templates/admin/post-types/order-transactions.php:25
+#: templates/admin/post-types/order-transactions.php:27
 #: templates/admin/reporting/tabs/quizzes/attempt.php:96
 #: templates/myaccount/view-order.php:39
 msgid "Status"
@@ -2826,7 +2826,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.controller.php:312
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61
 #: includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
-#: includes/class.llms.roles.php:328
+#: includes/class.llms.roles.php:350
 #: includes/class.llms.view.manager.php:240
 #: includes/functions/updates/llms-functions-updates-303.php:28
 msgid "Student"
@@ -4462,7 +4462,7 @@ msgid "Select an Instructor"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:75
-#: includes/class.llms.roles.php:326
+#: includes/class.llms.roles.php:348
 msgid "Instructor"
 msgstr ""
 
@@ -4742,12 +4742,12 @@ msgid "on %s"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.notes.php:100
-#: templates/admin/post-types/order-transactions.php:100
+#: templates/admin/post-types/order-transactions.php:102
 msgid "%s Newer"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.notes.php:104
-#: templates/admin/post-types/order-transactions.php:104
+#: templates/admin/post-types/order-transactions.php:106
 msgid "Older %s"
 msgstr ""
 
@@ -4929,7 +4929,7 @@ msgid "Trigger"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.engagements.php:49
-#: templates/admin/post-types/order-transactions.php:29
+#: templates/admin/post-types/order-transactions.php:31
 msgid "Type"
 msgstr ""
 
@@ -4966,7 +4966,7 @@ msgstr ""
 #: includes/class.llms.l10n.js.php:317
 #: includes/class.llms.l10n.js.php:358
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:49
-#: templates/admin/post-types/order-transactions.php:26
+#: templates/admin/post-types/order-transactions.php:28
 #: templates/myaccount/my-orders.php:24
 #: templates/myaccount/my-orders.php:37
 #: templates/myaccount/view-order-transactions.php:22
@@ -5101,7 +5101,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.students.php:592
 #: includes/class.llms.l10n.js.php:231
 #: includes/class.llms.l10n.js.php:379
-#: templates/admin/post-types/order-transactions.php:24
+#: templates/admin/post-types/order-transactions.php:26
 msgid "ID"
 msgstr ""
 
@@ -5307,7 +5307,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.quizzes.php:461
 #: includes/admin/reporting/tables/llms.table.student.course.php:276
-#: templates/admin/post-types/order-transactions.php:33
+#: templates/admin/post-types/order-transactions.php:35
 msgid "Actions"
 msgstr ""
 
@@ -5863,7 +5863,7 @@ msgid "Checkout"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:70
-#: templates/admin/post-types/order-transactions.php:30
+#: templates/admin/post-types/order-transactions.php:32
 msgid "Gateway"
 msgstr ""
 
@@ -7875,13 +7875,13 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:426
 #: includes/class.llms.l10n.js.php:495
-#: templates/admin/post-types/order-transactions.php:87
+#: templates/admin/post-types/order-transactions.php:89
 msgid "Refund"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:427
 #: includes/class.llms.l10n.js.php:496
-#: templates/admin/post-types/order-transactions.php:111
+#: templates/admin/post-types/order-transactions.php:113
 msgid "Record a Manual Payment"
 msgstr ""
 
@@ -9492,15 +9492,15 @@ msgstr ""
 msgid "Leave Review"
 msgstr ""
 
-#: includes/class.llms.roles.php:325
+#: includes/class.llms.roles.php:347
 msgid "LMS Manager"
 msgstr ""
 
-#: includes/class.llms.roles.php:327
+#: includes/class.llms.roles.php:349
 msgid "Instructor's Assistant"
 msgstr ""
 
-#: includes/class.llms.roles.php:352
+#: includes/class.llms.roles.php:374
 msgid "Administrator"
 msgstr ""
 
@@ -12003,7 +12003,7 @@ msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.quizzes.php:152
+#: includes/models/model.llms.student.quizzes.php:174
 msgctxt "quiz attempts remaining"
 msgid "Unlimited"
 msgstr ""
@@ -12312,7 +12312,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:93
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:93
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:52
-#: templates/admin/post-types/order-transactions.php:27
+#: templates/admin/post-types/order-transactions.php:29
 #: templates/myaccount/view-order-transactions.php:23
 msgid "Amount"
 msgstr ""
@@ -12457,7 +12457,7 @@ msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:54
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:114
-#: templates/admin/post-types/order-transactions.php:32
+#: templates/admin/post-types/order-transactions.php:34
 msgid "Transaction ID"
 msgstr ""
 
@@ -13164,68 +13164,68 @@ msgstr ""
 msgid "Gateway Information"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:28
+#: templates/admin/post-types/order-transactions.php:30
 msgid "Refunded"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:31
+#: templates/admin/post-types/order-transactions.php:33
 msgid "Source"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:89
+#: templates/admin/post-types/order-transactions.php:91
 msgid "Resend Receipt"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:108
+#: templates/admin/post-types/order-transactions.php:110
 msgid "View all"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:112
+#: templates/admin/post-types/order-transactions.php:114
 msgid "Show Less Info"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:112
+#: templates/admin/post-types/order-transactions.php:114
 msgid "Show More Info"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:125
+#: templates/admin/post-types/order-transactions.php:127
 msgid "Refund Amount:"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:130
+#: templates/admin/post-types/order-transactions.php:132
 msgid "Refund Note (optional):"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:135
+#: templates/admin/post-types/order-transactions.php:137
 msgid "The refund will be recorded and you will need to manually issue a refund"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:135
+#: templates/admin/post-types/order-transactions.php:137
 msgid "Refund Manually"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:136
+#: templates/admin/post-types/order-transactions.php:138
 msgctxt "refund via payment gateway"
 msgid "Refund via %s"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:157
+#: templates/admin/post-types/order-transactions.php:159
 msgid "Payment Amount:"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:162
+#: templates/admin/post-types/order-transactions.php:164
 msgid "Payment Source (optional):"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:167
+#: templates/admin/post-types/order-transactions.php:169
 msgid "Payment Transaction ID (optional):"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:172
+#: templates/admin/post-types/order-transactions.php:174
 msgid "Payment Note (optional):"
 msgstr ""
 
-#: templates/admin/post-types/order-transactions.php:177
+#: templates/admin/post-types/order-transactions.php:179
 msgid "Record Payment"
 msgstr ""
 
@@ -13797,16 +13797,16 @@ msgstr ""
 msgid "Total time: %s"
 msgstr ""
 
-#: templates/quiz/results.php:67
+#: templates/quiz/results.php:68
 msgid "View Previous Attempts"
 msgstr ""
 
-#: templates/quiz/results.php:69
+#: templates/quiz/results.php:70
 msgid "Select an Attempt"
 msgstr ""
 
 #. Translators: %1$d = Attempt number; %2$s = Grade percentage; %3$s = Pass/fail text.
-#: templates/quiz/results.php:73
+#: templates/quiz/results.php:74
 msgid "Attempt #%1$d - %2$s (%3$s)"
 msgstr ""
 

@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v4.21.2 - 2021-05-17
+--------------------
+
+##### Security Update
+
+This releases fixes a security issue affecting LifterLMS versions 4.21.1 and earlier:
+
++ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting an insecure direct object reference issue.
+
+##### Updates
+
++ Added the `view_grades` capability which is used to determine whether or not a user has the ability to view another user's grades on the website's frontend.
+
+##### Bug fixes
+
++ Fixed an issue causing PHP errors when attempting to access a quiz attempt that doesn't exist.
++ Fixed a localization issue encountered when entering transaction amounts on the admin panel.
+
+
 v4.21.1 - 2021-04-29
 --------------------
 

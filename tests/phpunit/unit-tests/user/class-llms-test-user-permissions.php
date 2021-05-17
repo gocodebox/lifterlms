@@ -346,7 +346,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test view_grades capability errors
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @return void
 	 */
@@ -365,7 +365,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test view_grades cap in various scenarios and different user types
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @return void
 	 */

@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.21.2
  */
 ( function( $ ) {
 
@@ -772,7 +772,7 @@
 		 * Re-initializes TinyMCE Editors found within metaboxes
 		 *
 		 * @since 4.19.0
-		 * @since [version] Improve early return dependency check.
+		 * @since 4.21.2 Improve early return dependency check.
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1553
 		 *

@@ -13,7 +13,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Assert that two quiz attempts are deeply equal
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @param LLMS_Quiz_Attempt $expected Expected attempt object.
 	 * @param LLMS_Quiz_Attempt $actual   Actual attempt object.
@@ -60,7 +60,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a quiz attempt for a given student.
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @param LLMS_Student $student Student object.
 	 * @return LLMS_Quiz_Attempt
@@ -84,7 +84,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Only users who can view_grades can delete attempts.
+	 * @since 4.21.2 Only users who can view_grades can delete attempts.
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_all()
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_attempt_by_id() and get_attempt_by_key()
 	 *
-	 * @since [version]
+	 * @since 4.21.2
 	 *
 	 * @return void
 	 */
