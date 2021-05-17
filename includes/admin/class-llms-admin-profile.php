@@ -27,7 +27,7 @@ class LLMS_Admin_Profile {
 	private $fields;
 
 	/**
-	 * Submission error
+	 * Submission errors
 	 *
 	 * @var null|WP_Error
 	 */
@@ -59,12 +59,18 @@ class LLMS_Admin_Profile {
 	 * @since [version]
 	 *
 	 * @param WP_User $user Instance of WP_User for the user being updated.
-	 * @return void
+	 * @return bool `true` if fields were added, `false` otherwise.
 	 */
 	public function add_customer_meta_fields( $user ) {
 
-		if ( ! $this->current_user_can_manage_user_custom_fields( $user ) ) {
-			return;
+		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
+			return false;
+		}
+
+		$fields = $this->get_fields();
+
+		if ( empty( $fields ) ) {
+			return false;
 		}
 
 		/**
@@ -78,9 +84,9 @@ class LLMS_Admin_Profile {
 			"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';"
 		);
 
-		$fields = $this->get_fields();
-
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/views/user-edit-fields.php';
+
+		return true;
 
 	}
 
@@ -94,7 +100,7 @@ class LLMS_Admin_Profile {
 	 */
 	public function save_customer_meta_fields( $user_id ) {
 
-		if ( ! $this->current_user_can_manage_user_custom_fields( get_user_by( 'ID', $user_id ) ) ) {
+		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
 			return;
 		}
 
@@ -143,19 +149,14 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Check whether the current user can manage a given user's custom fields
-	 *
-	 * Only who can 'manage_lifterlms' will be able to edit own and other profiles.
+	 * Check whether the current user can edit users custom fields
 	 *
 	 * @since [version]
 	 *
-	 * @param WP_User $user Instance of WP_User for the user being updated.
 	 * @return boolean
 	 */
-	private function current_user_can_manage_user_custom_fields( $user ) {
-
-		return current_user_can( 'manage_lifterlms' ) && current_user_can( 'edit_users', $user );
-
+	private function current_user_can_edit_admin_custom_fields() {
+		return current_user_can( 'manage_lifterlms' ) && current_user_can( 'edit_users' );
 	}
 
 	/**
@@ -182,9 +183,8 @@ class LLMS_Admin_Profile {
 					)
 				);
 			}
-			/**
-			 * `WP_Error::get_all_error_data()` has been introduced in WP 5.6.0.
-			 */
+
+			// `WP_Error::get_all_error_data()` has been introduced in WP 5.6.0.
 			$error_data = method_exists( $this->errors, 'get_all_error_data' ) ?
 					$this->errors->get_all_error_data( $code ) : $this->errors->get_error_data( $code );
 
