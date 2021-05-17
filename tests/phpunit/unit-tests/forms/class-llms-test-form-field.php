@@ -967,7 +967,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$this->get_user_with_meta( 'checkbox_store' );
 		$user_id = get_current_user_id();
 		// Log-out.
-		wp_set_current_user( 0 );
+		wp_set_current_user( null );
 
 		$html = llms_form_field( $opts, false, $user_id );
 		$this->assertStringNotContains( 'checked="checked"', $html );
@@ -976,8 +976,16 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$this->get_user_with_meta( 'checkbox_store', array( 'mock_val2' ) );
 		$user_id = get_current_user_id();
 		// Log-out.
-		wp_set_current_user( 0 );
+		wp_set_current_user( null );
 
+		$html = llms_form_field( $opts, false, $user_id );
+		$this->assertStringContains(
+			'<input checked="checked" class="llms-field-checkbox" id="checkbox_store--mock_val2" name="checkbox_store[]" type="checkbox" value="mock_val2" />',
+			$html
+		);
+
+		// Log in the last user.
+		wp_set_current_user( $user_id );
 		$html = llms_form_field( $opts, false, $user_id );
 		$this->assertStringContains(
 			'<input checked="checked" class="llms-field-checkbox" id="checkbox_store--mock_val2" name="checkbox_store[]" type="checkbox" value="mock_val2" />',
@@ -990,10 +998,56 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$html = llms_form_field( $opts, false, $user_id + 1 );
 		$this->assertStringNotContains( 'checked="checked"', $html );
 
+	}
+
+	/**
+	 * Test LLMS_Form_Field data_source and data_source_type props setting
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_field_data_source_and_type() {
+		$opts = array(
+			'type'       => 'button',
+			'value'      => 'Button Text',
+			'data_store' => 'usermeta',
+		);
+
 		// Pass a WP Post in place of a user.
-		$post = $this->factory->post->create_and_get();
-		$html = llms_form_field( $opts, false, $post );
-		$this->assertStringNotContains( 'checked="checked"', $html );
+		$post  = $this->factory->post->create_and_get();
+		$field = new LLMS_Form_Field( $opts, $post );
+
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source' ) );
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source_type' ) );
+
+		// Pass a WP User.
+		$user  = $this->factory->user->create_and_get();
+		$field = new LLMS_Form_Field( $opts, $user );
+
+		$this->assertEquals( $user, LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source' ) );
+		$this->assertEquals( 'wp_user', LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source_type' ) );
+
+		// Pass a WP User ID.
+		$opts['data_store'] = 'users'; // Test it works with the users table as store too.
+		$field = new LLMS_Form_Field( $opts, $user->ID );
+
+		$this->assertEquals( $user, LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source' ) );
+		$this->assertEquals( 'wp_user', LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source_type' ) );
+
+		// Pass a non existing WP User ID.
+		$field = new LLMS_Form_Field( $opts, $user->ID + 1 );
+
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source' ) );
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source_type' ) );
+
+		// Pass an existing WP User ID but change the data_store to something different from 'usermeta' or 'users'.
+		$opts['data_store'] = 'whatever';
+		$field = new LLMS_Form_Field( $opts, $user->ID );
+
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source' ) );
+		$this->assertNull( LLMS_Unit_Test_Util::get_private_property_value( $field, 'data_source_type' ) );
+
 	}
 
 }

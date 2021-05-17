@@ -287,9 +287,9 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Output JS to handle user interaction with the instructor's parent field
 	 *
-	 * @since 3.13.0
-	 *
 	 * Display custom field ONLY when creating/editing an instructor's assistant.
+	 *
+	 * @since 3.13.0
 	 *
 	 * @return void
 	 */
