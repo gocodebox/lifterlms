@@ -88,16 +88,18 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 /**
  * Retrieve available products from the LifterLMS.com API
  *
- * @return   array
- * @since    3.22.0
- * @version  3.22.0
+ * @since 3.22.0
+ *
+ * @return array {
+ *     Array of LifterLMS add-on data from the LifterLMS.com products api.
+ *
+ *     @type array   $categories Associative array of add-on category information, mapping ID to Title.
+ *     @type array[] $items      List of add-ons definition arrays.
+ * }
  */
 function llms_get_add_ons( $use_cache = true ) {
 
-	$data = false;
-	if ( $use_cache ) {
-		$data = get_transient( 'llms_products_api_result' );
-	}
+	$data = $use_cache ? get_transient( 'llms_products_api_result' ) : false;
 
 	if ( false === $data ) {
 
@@ -117,13 +119,13 @@ function llms_get_add_ons( $use_cache = true ) {
 }
 
 /**
- * Instantiate a new LLMS_Add_On
+ * Instantiate a new LLMS_Add_On object
  *
- * @param    array  $addon       add-on data
- * @param    string $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
- * @return   obj
- * @since    3.22.0
- * @version  3.22.0
+ * @since 3.22.0
+ *
+ * @param string|array $addon      Add-on data array or a string (such as an ID or update file path) used to lookup the addon.
+ * @param string       $lookup_key If $addon is a string, this determines how to lookup the addon from the available list of addons.
+ * @return LLMS_Add_On|LLMS_Helper_Add_On
  */
 function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
 	if ( class_exists( 'LLMS_Helper_Add_On' ) ) {

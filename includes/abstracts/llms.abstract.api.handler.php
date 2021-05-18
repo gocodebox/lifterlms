@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.11.2
- * @version 3.30.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 *
 	 * @since 3.11.2
 	 * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
-	 * @version 3.30.1
+	 * @since [version] Updated the API connection error message.
 	 *
 	 * @param    string $resource  url endpoint or resource to make a request to.
 	 * @param    array  $data      array of data to pass in the body of the request.
@@ -116,9 +116,7 @@ abstract class LLMS_Abstract_API_Handler {
 
 		// Connection error.
 		if ( is_wp_error( $response ) ) {
-
-			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms' ), 'api_connection', $response );
-
+			return $this->set_error( __( 'There was a problem connecting to the external API.', 'lifterlms' ), 'api_connection', $response );
 		}
 
 		// Empty body.
