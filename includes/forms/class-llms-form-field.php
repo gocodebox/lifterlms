@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Form_Field class..
+ * LLMS_Form_Field class
  *
  * @since [version]
  */
@@ -58,18 +58,34 @@ class LLMS_Form_Field {
 	protected $html = '';
 
 	/**
-	 * Constructor.
+	 * Data source where to get field value from.
+	 *
+	 * @var null|WP_Post|WP_User
+	 */
+	private $data_source;
+
+	/**
+	 * Data source type where to get field value from.
+	 *
+	 * @var null|string
+	 */
+	private $data_source_type;
+
+	/**
+	 * Constructor
 	 *
 	 * @since [version]
 	 *
-	 * @param array $settings Field settings.
-	 *
+	 * @param array      $settings    Field settings.
+	 * @param int|object $data_source Optional. Data source where to get field value from. Default is `null`.
+	 *                                Can be a WP_User or a WP_Post, or their id.
+	 *                                The actual object will be retrieved basing on the data_store.
 	 * @return void
 	 */
-	public function __construct( $settings = array() ) {
+	public function __construct( $settings = array(), $data_source = null ) {
 
 		/**
-		 * Filters the settings of a LifterLMS Form Field.
+		 * Filters the settings of a LifterLMS Form Field
 		 *
 		 * @since [version]
 		 *
@@ -77,7 +93,37 @@ class LLMS_Form_Field {
 		 * @param LLMS_Form_Field $field    Form field class instance.
 		 */
 		$this->settings = apply_filters( 'llms_field_settings', wp_parse_args( $settings, $this->get_defaults() ), $this );
+
+		$this->define_data_source( $data_source );
+
 		$this->prepare();
+
+	}
+
+	/**
+	 * Define the source of the data
+	 *
+	 * @since [version]
+	 *
+	 * @param int|object $data_source Data source where to get field value from.
+	 * @return void
+	 */
+	private function define_data_source( $data_source ) {
+
+		if ( empty( $this->settings['data_store'] ) || ! in_array( $this->settings['data_store'], array( 'users', 'usermeta' ), true ) ) {
+			return;
+		}
+
+		if ( ! is_null( $data_source ) ) {
+			$data_source = $data_source instanceof WP_User ? $data_source : get_user_by( 'ID', $data_source );
+		} elseif ( is_user_logged_in() ) {
+			$data_source = wp_get_current_user();
+		}
+
+		if ( $data_source instanceof WP_User ) {
+			$this->data_source      = $data_source;
+			$this->data_source_type = 'wp_user';
+		}
 
 	}
 
@@ -846,9 +892,8 @@ class LLMS_Form_Field {
 		}
 
 		// Auto-populate field from the datastore if we have a user and datastore information.
-		if ( is_null( $user_val ) && is_user_logged_in() && $this->settings['data_store_key'] && in_array( $this->settings['data_store'], array( 'users', 'usermeta' ), true ) ) {
-			$user     = wp_get_current_user();
-			$user_val = $user->get( $this->settings['data_store_key'] );
+		if ( is_null( $user_val ) && ( isset( $this->data_source ) && 'wp_user' === $this->data_source_type ) && $this->settings['data_store_key'] ) {
+			$user_val = $this->data_source->get( $this->settings['data_store_key'] );
 		}
 
 		// Set the value to the user's submitted or stored value.
