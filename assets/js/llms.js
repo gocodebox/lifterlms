@@ -429,7 +429,9 @@ var LLMS = window.LLMS || {};
 		init: function() {
 	
 			if ( $( 'body' ).hasClass( 'wp-admin' ) ) {
-				return;
+				if ( ! ( $( 'body' ).hasClass( 'profile-php' ) || $( 'body' ).hasClass( 'user-edit-php' ) ) ) {
+					return;
+				}
 			}
 	
 			var self = this;

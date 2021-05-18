@@ -872,6 +872,25 @@ Form Styles
     right: auto;
     width: 2px; }
 
+#llms-profile-fields {
+  margin: 50px 0; }
+  #llms-profile-fields .llms-form-field {
+    padding-left: 0; }
+  #llms-profile-fields label {
+    display: block;
+    font-weight: bold;
+    padding: 8px 0 2px; }
+  #llms-profile-fields .type-checkbox .type-checkbox label {
+    display: initial;
+    font-weight: initial;
+    padding: 0; }
+  #llms-profile-fields .type-checkbox .type-checkbox input {
+    display: inline-block;
+    margin-bottom: 0;
+    width: 1rem; }
+  #llms-profile-fields select {
+    max-width: 100%; }
+
 a.llms-voucher-delete {
   background: #e5554e;
   color: #fefefe;
