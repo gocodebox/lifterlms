@@ -161,6 +161,46 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get_type()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_type() {
+
+		$tests = array(
+			'theme'    => array( 'type' => 'theme' ),
+			'plugin'   => array( 'type' => 'plugin' ),
+			'fake'     => array( 'type' => 'fake' ),
+			'bundle'   => array( 'categories' => array( 'bundles' => 'Bundles' ) ),
+			'external' => array( 'categories' => array( 'third-party' => 'Third Party' ) ),
+			'support'  => array( 'categories' => array() ),
+		);
+
+		foreach ( $tests as $expected => $data ) {
+			$addon = new LLMS_Add_On( $data );
+			$this->assertEquals( $expected, $addon->get_type(), $expected );
+		}
+
+	}
+
+	/**
+	 * Test get_permalink()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink() {
+
+		$addon = new LLMS_Add_On( 'lifterlms-com-lifterlms', 'id' );
+		$expect = 'https://lifterlms.com/product/lifterlms/?utm_source=LifterLMS%20Plugin&utm_campaign=Plugin%20to%20Sale&utm_medium=Add-Ons%20Screen&utm_content=LifterLMS%20Ad%20' . llms()->version;
+		$this->assertEquals( $expect, $addon->get_permalink() );
+
+	}
+
+	/**
 	 * Test get_install_status() and is_installed()
 	 *
 	 * @since [version]

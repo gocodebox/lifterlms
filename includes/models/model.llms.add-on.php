@@ -256,6 +256,7 @@ class LLMS_Add_On {
 	 * Retrieve a utm'd link to the add-on
 	 *
 	 * @since 3.22.0
+	 * @since [version] Use `rawurlencode()` in favor of `urlencode()`.
 	 *
 	 * @return string
 	 */
@@ -263,10 +264,10 @@ class LLMS_Add_On {
 
 		$url = add_query_arg(
 			array(
-				'utm_source'   => urlencode( 'LifterLMS Plugin' ),
-				'utm_campaign' => urlencode( 'Plugin to Sale' ),
-				'utm_medium'   => urlencode( 'Add-Ons Screen' ),
-				'utm_content'  => urlencode( sprintf( '%1$s Ad %2$s', $this->get( 'title' ), LLMS_VERSION ) ),
+				'utm_source'   => rawurlencode( 'LifterLMS Plugin' ),
+				'utm_campaign' => rawurlencode( 'Plugin to Sale' ),
+				'utm_medium'   => rawurlencode( 'Add-Ons Screen' ),
+				'utm_content'  => rawurlencode( sprintf( '%1$s Ad %2$s', $this->get( 'title' ), LLMS_VERSION ) ),
 			),
 			$this->get( 'permalink' )
 		);
@@ -279,6 +280,7 @@ class LLMS_Add_On {
 	 * Get the type of addon
 	 *
 	 * @since 3.22.0
+	 * @since [version] Use strict comparison for `in_array()`.
 	 *
 	 * @return string
 	 */
@@ -292,9 +294,9 @@ class LLMS_Add_On {
 
 		$cats = array_keys( $this->get( 'categories' ) );
 
-		if ( in_array( 'bundles', $cats ) ) {
+		if ( in_array( 'bundles', $cats, true ) ) {
 			$type = 'bundle';
-		} elseif ( in_array( 'third-party', $cats ) ) {
+		} elseif ( in_array( 'third-party', $cats, true ) ) {
 			$type = 'external';
 		} else {
 			$type = 'support';
@@ -370,11 +372,12 @@ class LLMS_Add_On {
 	 *
 	 * @since 3.22.0
 	 * @since 3.22.1 Unknown.
+	 * @since [version] Use strict comparison for `in_array()`.
 	 *
 	 * @return boolean
 	 */
 	public function is_installable() {
-		return ( $this->get( 'update_file' ) && in_array( $this->get_type(), array( 'plugin', 'theme' ) ) );
+		return ( $this->get( 'update_file' ) && in_array( $this->get_type(), array( 'plugin', 'theme' ), true ) );
 	}
 
 	/**
@@ -431,7 +434,7 @@ class LLMS_Add_On {
 		$addons = llms_get_add_ons();
 
 		// Error communicating with the API or no items found.
-		if ( is_wp_error( $addons) || empty( $addons['items'] ) ) {
+		if ( is_wp_error( $addons ) || empty( $addons['items'] ) ) {
 			return false;
 		}
 
@@ -442,7 +445,6 @@ class LLMS_Add_On {
 			if ( isset( $addon[ $lookup_key ] ) && $addon[ $lookup_key ] === $lookup_val ) {
 				return $addon;
 			}
-
 		}
 
 		return false;
