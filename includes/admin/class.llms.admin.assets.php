@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 4.5.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,23 +14,16 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Assets class
  *
  * @since 1.0.0
- * @since 3.7.5 Unknown.
- * @since 3.16.0 Added static method `register_quill()`.
- * @since 3.17.5 Unknown.
- * @since 3.17.8 Unknown.
- * @since 3.19.4 Unknown.
- * @since 3.22.0 Unknown.
- * @since 3.29.0 Unknown.
- * @since 3.35.0 Explicitly set asset versions.
- * @since 3.35.1 Don't reference external scripts & styles.
  */
 class LLMS_Admin_Assets {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @since 1.0.0
+	 * @since 3.17.5 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -43,9 +36,10 @@ class LLMS_Admin_Assets {
 	/**
 	 * Determine if the current screen should load LifterLMS assets
 	 *
-	 * @return   boolean
-	 * @since    3.7.0
-	 * @version  3.19.4
+	 * @since 3.7.0
+	 * @since 3.19.4 Unknown.
+	 *
+	 * @return bool
 	 */
 	public function is_llms_page() {
 
@@ -75,6 +69,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
+	 * @since [version] Use `LLMS_Assets` for registration/enqueue of
 	 *
 	 * @return void
 	 */
@@ -88,7 +83,7 @@ class LLMS_Admin_Assets {
 			return;
 		}
 
-		wp_enqueue_style( 'llms-select2-styles', LLMS_PLUGIN_URL . 'assets/vendor/select2/css/select2' . LLMS_ASSETS_SUFFIX . '.css', array(), '4.0.3' );
+		llms()->assets->enqueue_style( 'llms-select2-styles' );
 
 		$screen = get_current_screen();
 
@@ -110,8 +105,10 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
 	 * @since 4.4.0 Enqueue the main `llms` script.
+	 * @since [version] Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
+	 *               Remove topModal vendor dependency.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function admin_scripts() {
 
@@ -124,14 +121,11 @@ class LLMS_Admin_Assets {
 
 		}
 
-		wp_register_script( 'llms-metaboxes', LLMS_PLUGIN_URL . 'assets/js/llms-metaboxes' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-datepicker', 'llms-admin-scripts' ), LLMS()->version, true );
-		wp_register_script( 'llms-select2', LLMS_PLUGIN_URL . 'assets/vendor/select2/js/select2' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '4.0.3', true );
+		llms()->assets->register_script( 'llms-select2' );
+		wp_register_script( 'llms-metaboxes', LLMS_PLUGIN_URL . 'assets/js/llms-metaboxes' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-datepicker', 'llms-admin-scripts', 'llms-select2' ), LLMS()->version, true );
 
 		if ( ( post_type_exists( $screen->id ) && post_type_supports( $screen->id, 'llms-membership-restrictions' ) ) || 'dashboard_page_llms-setup' === $screen->id ) {
-
-			wp_enqueue_script( 'llms-select2' );
 			wp_enqueue_script( 'llms-metaboxes' );
-
 		}
 
 		$tables = apply_filters(
@@ -147,6 +141,9 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-admin-tables' );
 		}
 
+		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
+
 		if ( $this->is_llms_page() ) {
 
 			llms()->assets->enqueue_script( 'llms' );
@@ -154,9 +151,6 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
-			wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-
-			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-scripts' );
 
 			wp_register_style( 'jquery-ui-flick', LLMS_PLUGIN_URL . 'assets/vendor/jquery-ui-flick/jquery-ui-flick' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.11.2' );
@@ -166,21 +160,16 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_media();
 
-			wp_register_script( 'top-modal', LLMS_PLUGIN_URL . 'assets/js/vendor/topModal.js', array( 'jquery' ), '1.0.0', true );
-
-			wp_enqueue_script( 'llms-select2' );
-
 			if ( 'course' == $post_type ) {
 
-				wp_enqueue_script( 'llms-select2' );
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
 
 			if ( 'course' == $post_type || 'llms_membership' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS()->version, true );
-				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'top-modal' ), LLMS()->version, true );
-				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'top-modal' ), LLMS()->version, true );
+				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
+				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
 
 			}
 
@@ -196,15 +185,11 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-achievement', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-achievement' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
 			if ( 'llms_membership' == $post_type ) {
-				wp_enqueue_script( 'llms-select2' );
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
 			if ( 'llms_voucher' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-voucher', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-voucher' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-			}
-			if ( 'llms_coupon' == $post_type ) {
-				wp_enqueue_script( 'llms-select2' );
 			}
 
 			$this->maybe_enqueue_reporting( $screen );
@@ -259,10 +244,13 @@ class LLMS_Admin_Assets {
 	 * @since 3.7.5 Unknown.
 	 * @since 4.4.0 Add `ajax_nonce`.
 	 * @since 4.5.1 Add an analytics localization object.
+	 * @since [version] Output Form location information as a window variable for block editor utilization.
 	 *
 	 * @return void
 	 */
 	public function admin_print_scripts() {
+
+		$screen = get_current_screen();
 
 		global $post;
 		if ( ! empty( $post ) ) {
@@ -290,6 +278,16 @@ class LLMS_Admin_Assets {
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
+
+		$forms = LLMS_Forms::instance()->get_post_type();
+
+		if ( $forms === $screen->id ) {
+			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
+		}
+
+		if ( in_array( $screen->id, array( $forms, 'wp_block' ) ) ) {
+			echo "<script>window.llms.fieldNames = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_field_names() ) ) . "' );</script>";
+		}
 
 	}
 
@@ -360,9 +358,10 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register Quill CSS & JS
 	 *
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.17.8
+	 * @since 3.16.0
+	 * @since 3.17.8 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function register_quill( $modules = array() ) {
 

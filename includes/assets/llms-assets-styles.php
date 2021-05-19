@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.4.0
  * @since 4.4.4 Added llms-admin-setup.
  * @since 4.8.0 Added llms-admin-importer.
+ * @since [version] Added llms-select2.
  */
 return array(
 
@@ -51,6 +52,12 @@ return array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
 		'version'   => '1.5.1',
+		'rtl'       => false,
+	),
+	'llms-select2-styles' => array(
+		'file_name' => 'select2',
+		'path'      => 'assets/vendor/select2/css',
+		'version'   => '4.0.3',
 		'rtl'       => false,
 	),
 	'webui-popover'       => array(
