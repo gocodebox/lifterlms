@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-beta.1 - 2021-05-18
+---------------------------
+
++ LifterLMS Blocks 2.0.0-beta.5
++ Added site-wide field name validation
++ Reworked the output of user information fields on the admin panel to share a handler and APIs with frontend fields.
++ Deprecated filter: `lifterlms_get_user_custom_fields` in favor of `llms_admin_profile_fields`
++ Improved previewing of form posts using WP Core block editor UI elements
++ Open Registration form can now always be previewed regardless of the open registration site setting
+
+
 v5.0.0-alpha.6 - 2021-05-07
 ---------------------------
 
