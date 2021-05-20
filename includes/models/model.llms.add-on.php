@@ -35,7 +35,7 @@ class LLMS_Add_On {
 	 * Constructor
 	 *
 	 * @since 3.22.0
-	 * @since [version] Move lookup logic to it's own private method: `lookup_add_on()`.
+	 * @since [version] Move lookup logic to its own private method: `lookup_add_on()`.
 	 *
 	 * @param string|array $addon      Add-on data array or a string (such as an ID or update file path) used to lookup the addon.
 	 * @param string       $lookup_key If $addon is a string, this determines how to lookup the addon from the available list of addons.
