@@ -205,6 +205,21 @@ class LLMS_Admin_Profile {
 	private function get_fields() {
 
 		if ( ! isset( $this->fields ) ) {
+
+			$fields = llms_get_user_information_fields_for_group( 'llms' );
+
+			foreach ( $fields as &$field ) {
+
+				$field['columns'] = 6;
+				$field['name']    = $field['id'];
+				unset( $field['group'] );
+
+				if ( 'llms_billing_address_2' === $field['id'] ) {
+					$field['label'] = __( 'Address line 2', 'lifterlms' );
+				}
+
+			}
+
 			/**
 			 * Fields to be added in the profile screen
 			 *
@@ -212,81 +227,7 @@ class LLMS_Admin_Profile {
 			 *
 			 * @param array[] $fields Array of fields.
 			 */
-			$this->fields = apply_filters(
-				'llms_admin_profile_fields',
-				array(
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Address', 'lifterlms' ),
-						'name'           => 'llms_billing_address_1',
-						'id'             => 'llms_billing_address_1',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_address_1',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Address line 2', 'lifterlms' ), // It's used in the error messages.
-						'placeholder'    => __( 'Apartment, suite, etc...', 'lifterlms' ),
-						'name'           => 'llms_billing_address_2',
-						'id'             => 'llms_billing_address_2',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_address_2',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'City', 'lifterlms' ),
-						'name'           => 'llms_billing_city',
-						'id'             => 'llms_billing_city',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_city',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'select',
-						'label'          => __( 'Country', 'lifterlms' ),
-						'name'           => 'llms_billing_country',
-						'id'             => 'llms_billing_country',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_country',
-						'options_preset' => 'countries',
-						'placeholder'    => __( 'Select a Country', 'lifterlms' ),
-						'columns'        => 6,
-						'classes'        => 'llms-select2',
-					),
-					array(
-						'type'           => 'select',
-						'label'          => __( 'State / Region', 'lifterlms' ),
-						'options_preset' => 'states',
-						'placeholder'    => __( 'Select a State / Region', 'lifterlms' ),
-						'name'           => 'llms_billing_state',
-						'id'             => 'llms_billing_state',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_state',
-						'columns'        => 6,
-						'classes'        => 'llms-select2',
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Postal / Zip Code', 'lifterlms' ),
-						'name'           => 'llms_billing_zip',
-						'id'             => 'llms_billing_zip',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_zip',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'tel',
-						'label'          => __( 'Phone Number', 'lifterlms' ),
-						'name'           => 'llms_phone',
-						'id'             => 'llms_phone',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_phone',
-						'columns'        => 6,
-					),
-				)
-			);
+			$this->fields = apply_filters( 'llms_admin_profile_fields', $fields );
 
 		}
 
