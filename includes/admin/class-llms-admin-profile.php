@@ -217,7 +217,6 @@ class LLMS_Admin_Profile {
 				if ( 'llms_billing_address_2' === $field['id'] ) {
 					$field['label'] = __( 'Address line 2', 'lifterlms' );
 				}
-
 			}
 
 			/**

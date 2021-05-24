@@ -27,7 +27,6 @@ function llms_get_user_information_field( $id ) {
 		if ( isset( $field['id'] ) && $id === $field['id'] ) {
 			return $field;
 		}
-
 	}
 
 	return false;
@@ -70,8 +69,13 @@ function llms_get_user_information_fields() {
  */
 function llms_get_user_information_fields_for_group( $group_id ) {
 
-	return array_values( array_filter( llms_get_user_information_fields(), function( $field ) use( $group_id ) {
-		return $field['group'][0] === $group_id;
-	} ) );
+	return array_values(
+		array_filter(
+			llms_get_user_information_fields(),
+			function( $field ) use ( $group_id ) {
+				return $field['group'][0] === $group_id;
+			}
+		)
+	);
 
 }

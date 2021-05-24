@@ -177,7 +177,6 @@ class LLMS_Forms {
 	 * This method accepts an associative array
 	 * in one format or the other and converts it from the original format to the opposite format.
 	 *
-	 *
 	 * @since [version]
 	 *
 	 * @param array  $map            Associative array of settings.

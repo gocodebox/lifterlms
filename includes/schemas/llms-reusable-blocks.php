@@ -26,7 +26,7 @@ return array(
 		'blockName' => 'llms/form-field-user-login',
 		'attrs'     => array(
 			'required'        => true,
-			'id'            => 'user_login',
+			'id'              => 'user_login',
 			'llms_visibility' => 'logged_out',
 		),
 	),
@@ -35,7 +35,7 @@ return array(
 		'blockName' => 'llms/form-field-user-email',
 		'attrs'     => array(
 			'required'        => true,
-			'id'            => 'email_address',
+			'id'              => 'email_address',
 			'llms_visibility' => 'logged_out',
 		),
 		'confirm'   => 'email',
@@ -44,9 +44,9 @@ return array(
 		'title'     => _x( 'Password (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-password',
 		'attrs'     => array(
-			'required'          => true,
+			'required'        => true,
 			'id'              => 'password',
-			'llms_visibility'   => 'logged_out',
+			'llms_visibility' => 'logged_out',
 		),
 		'confirm'   => 'password',
 	),
@@ -57,17 +57,17 @@ return array(
 			array(
 				'blockName' => 'llms/form-field-user-last-name',
 				'attrs'     => array(
-					'id'           => 'first_name',
-					'columns'        => 6,
-					'last_column'    => false,
+					'id'          => 'first_name',
+					'columns'     => 6,
+					'last_column' => false,
 				),
 			),
 			array(
 				'blockName' => 'llms/form-field-user-last-name',
 				'attrs'     => array(
-					'id'           => 'last_name',
-					'columns'        => 6,
-					'last_column'    => true,
+					'id'          => 'last_name',
+					'columns'     => 6,
+					'last_column' => true,
 				),
 			),
 		),
@@ -76,8 +76,8 @@ return array(
 		'title'     => _x( 'Public Display Name (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-display-name',
 		'attrs'     => array(
-			'required'       => true,
-			'id'           => 'display_name',
+			'required' => true,
+			'id'       => 'display_name',
 		),
 	),
 	'address'      => array(
@@ -90,17 +90,17 @@ return array(
 					array(
 						'blockName' => 'llms/form-field-user-address-street-primary',
 						'attrs'     => array(
-							'id'           => 'llms_billing_address_1',
-							'columns'        => 8,
-							'last_column'    => false,
+							'id'          => 'llms_billing_address_1',
+							'columns'     => 8,
+							'last_column' => false,
 						),
 					),
 					array(
 						'blockName' => 'llms/form-field-user-address-street-secondary',
 						'attrs'     => array(
-							'id'             => 'llms_billing_address_2',
-							'columns'          => 4,
-							'last_column'      => true,
+							'id'          => 'llms_billing_address_2',
+							'columns'     => 4,
+							'last_column' => true,
 						),
 					),
 				),
@@ -108,13 +108,13 @@ return array(
 			array(
 				'blockName' => 'llms/form-field-user-address-city',
 				'attrs'     => array(
-					'id'           => 'llms_billing_city',
+					'id' => 'llms_billing_city',
 				),
 			),
 			array(
 				'blockName' => 'llms/form-field-user-address-country',
 				'attrs'     => array(
-					'id'           => 'llms_billing_country',
+					'id' => 'llms_billing_country',
 				),
 			),
 			array(
@@ -123,17 +123,17 @@ return array(
 					array(
 						'blockName' => 'llms/form-field-user-address-state',
 						'attrs'     => array(
-							'id'           => 'llms_billing_state',
-							'columns'        => 6,
-							'last_column'    => false,
+							'id'          => 'llms_billing_state',
+							'columns'     => 6,
+							'last_column' => false,
 						),
 					),
 					array(
 						'blockName' => 'llms/form-field-user-address-postal-code',
 						'attrs'     => array(
-							'id'           => 'llms_billing_zip',
-							'columns'        => 6,
-							'last_column'    => true,
+							'id'          => 'llms_billing_zip',
+							'columns'     => 6,
+							'last_column' => true,
 						),
 					),
 				),
@@ -144,7 +144,7 @@ return array(
 		'title'     => _x( 'Phone Number (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-phone',
 		'attrs'     => array(
-			'id'           => 'llms_phone',
+			'id' => 'llms_phone',
 		),
 	),
 );

@@ -248,8 +248,8 @@ class LLMS_Form_Templates {
 	private static function prepare_block_attrs( $block ) {
 
 		if ( ! empty( $block['innerBlocks'] ) ) {
-			foreach ( $block['innerBlocks'] as &$innerBlock ) {
-				$innerBlock = self::prepare_block_attrs( $innerBlock );
+			foreach ( $block['innerBlocks'] as &$inner_block ) {
+				$inner_block = self::prepare_block_attrs( $inner_block );
 			}
 		} elseif ( ! empty( $block['attrs']['id'] ) ) {
 
@@ -263,7 +263,6 @@ class LLMS_Form_Templates {
 		}
 
 		return $block;
-
 
 	}
 
