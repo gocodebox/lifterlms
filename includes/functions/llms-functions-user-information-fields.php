@@ -42,7 +42,7 @@ function llms_get_user_information_field( $id ) {
  */
 function llms_get_user_information_fields() {
 
-	$fields = require LLMS_PLUGIN_DIR . '/includes/schemas/llms-user-information-fields.php';
+	$fields = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-user-information-fields.php';
 
 	/**
 	 * Filters the user information fields schema

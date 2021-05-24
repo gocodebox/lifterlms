@@ -211,7 +211,7 @@ class LLMS_Form_Templates {
 	 */
 	private static function get_reusable_block_schema( $field_id ) {
 
-		$list = require LLMS_PLUGIN_DIR . '/includes/schemas/llms-reusable-blocks.php';
+		$list = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-reusable-blocks.php';
 
 		$definition = empty( $list[ $field_id ] ) ? array() : self::prepare_block_attrs( $list[ $field_id ] );
 
