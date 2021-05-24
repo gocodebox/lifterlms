@@ -344,6 +344,60 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test convert_settings_to_block_attrs()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_convert_settings_to_block_attrs() {
+
+		$in = array(
+			'id' => 'mock',
+			'type' => 'text',
+			'classes' => 'test',
+			'attributes' => array(),
+		);
+
+		$out = array(
+			'id' => 'mock',
+			'field' => 'text',
+			'className' => 'test',
+			'html_attrs' => array(),
+		);
+
+		$this->assertEquals( $out, $this->forms->convert_settings_to_block_attrs( $in ) );
+
+	}
+
+	/**
+	 * Test convert_settings_format() for a block -> field transformation
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_convert_settings_format_to_field() {
+
+		$in = array(
+			'id' => 'mock',
+			'field' => 'text',
+			'className' => 'test',
+			'html_attrs' => array(),
+		);
+
+		$out = array(
+			'id' => 'mock',
+			'type' => 'text',
+			'classes' => 'test',
+			'attributes' => array(),
+		);
+
+		$this->assertEquals( $out, LLMS_Unit_Test_Util::call_method( $this->forms, 'convert_settings_format', array( $in, 'block' ) ) );
+
+	}
+
+	/**
 	 * Test creating/updating forms.
 	 *
 	 * @since [version]
