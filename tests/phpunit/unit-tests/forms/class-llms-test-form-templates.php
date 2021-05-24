@@ -80,7 +80,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 */
 	public function test_create_and_get_reusable_block() {
 
-		$list = require LLMS_PLUGIN_DIR . '/includes/llms-blocks-schema.php';
+		$list = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-reusable-blocks.php';
 
 		foreach ( $list as $field_id => $def ) {
 
