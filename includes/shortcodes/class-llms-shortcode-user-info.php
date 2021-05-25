@@ -27,23 +27,40 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	public $tag = 'user';
 
 	/**
+	 * Retrieves a list of keys that cannot be displayed by the shortcode.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected function get_blocklist() {
+
+		/**
+		 * Filters the list of keys which cannot be displayed using the [user] shortcode
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $keys List of user and usermeta keys.
+		 */
+		return apply_filters( 'llms_user_info_shortcode_blocked_keys', array( 'user_pass' ) );
+
+	}
+
+	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
 	 * @since [version]
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'id'      => get_current_user_id(),
-			'field'   => '',
+			'key'    => '',
+			'or'     => '',
+			'id'     => get_current_user_id(),
 
-			'if'      => '',
-			'compare' => '=', // !=, <, >, <=, >=,
-			'value'   => '',
-
-			'prefix'  => '',
+			'format' => '',
 		);
 	}
 
@@ -59,24 +76,23 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	protected function get_output() {
 
-		if ( ! $this->get_attribute( 'id' ) ) {
+		$id      = $this->get_attribute( 'id' );
+		$key     = $this->get_attribute( 'key' );
+		$default = $this->get_attribute( 'or' );
+
+		if ( in_array( $key, $this->get_blocklist(), true ) ) {
 			return '';
 		}
 
-		$student = llms_get_student( $this->get_attribute( 'id' ) );
-		if ( ! $student ) {
-			return '';
+		// No user OR no key provided.
+		if ( ! $id || ! $key ) {
+			return $default;
 		}
 
-		$field = $this->get_attribute( 'field' );
-		if ( $field ) {
-			$val = $student->get( $field );
-			if ( $val ) {
-				return $val;
-			}
-		}
+		$user = new WP_User( $id );
+		$val  = $user->exists() ? $user->get( $key ) : null;
 
-		return '';
+		return ! empty( $val ) && is_scalar( $val ) ? $val : $default;
 
 	}
 
@@ -91,8 +107,9 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	protected function set_attributes( $atts = array() ) {
 
+		// Allow `key` attribute to be submitted without a key, eg: [user first_name].
 		if ( isset( $atts[0] ) ) {
-			$atts['field'] = $atts[0];
+			$atts['key'] = $atts[0];
 			unset( $atts[0] );
 		}
 

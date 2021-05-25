@@ -18,12 +18,6 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	 */
 	public $class_name = 'LLMS_Shortcode_User_Info';
 
-	public function setUp() {
-
-		$this->markTestIncomplete( '[user] shortcode must be implemented.' );
-
-	}
-
 	/**
 	 * Test setting attributes with no key for the first attribute (field name).
 	 *
@@ -37,11 +31,11 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 
 		$atts = array(
 			0 => 'first_name',
-			'if' => 'mock',
+			'or' => 'mock',
 		);
 
-		$this->assertArrayHasKey( 'field', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
-		$this->assertArrayHasKey( 'if', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
+		$this->assertArrayHasKey( 'key', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
+		$this->assertArrayHasKey( 'or', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
 
 	}
 
@@ -57,9 +51,9 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 		$obj = $this->get_class();
 
 		$atts = array(
-			'field' => 'first_name',
+			'key' => 'first_name',
 		);
-		$this->assertArrayHasKey( 'field', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
+		$this->assertArrayHasKey( 'key', LLMS_Unit_Test_Util::call_method( $obj, 'set_attributes', array( $atts ) ) );
 
 	}
 
@@ -73,6 +67,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	public function test_get_output_no_user() {
 
 		$this->assertShortcodeOutputEquals( '', '[user first_name]' );
+		$this->assertShortcodeOutputEquals( 'Pal', '[user first_name or="Pal"]' );
 
 	}
 
@@ -85,11 +80,24 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	 */
 	public function test_get_output_current_user() {
 
-		$uid = $this->factory->user->create();
-		update_user_meta( $uid, 'first_name', 'mock' );
-		wp_set_current_user( $uid );
+		$user = $this->factory->user->create_and_get();
+		wp_set_current_user( $user->ID );
 
+		// No value set.
+		$this->assertShortcodeOutputEquals( 'Bucko', '[user first_name or="Bucko"]' );
+
+		update_user_meta( $user->ID, 'first_name', 'mock' );
 		$this->assertShortcodeOutputEquals( 'mock', '[user first_name]' );
+
+		// Works.
+		$this->assertShortcodeOutputEquals( $user->display_name, '[user display_name]' );
+		$this->assertShortcodeOutputEquals( $user->user_email, '[user user_email]' );
+
+		// Blocked.
+		$this->assertShortcodeOutputEquals( '', '[user user_pass]' );
+
+		update_user_meta( $user->ID, 'llms_phone', '123456789' );
+		$this->assertShortcodeOutputEquals( '123456789', '[user llms_phone]' );
 
 	}
 
