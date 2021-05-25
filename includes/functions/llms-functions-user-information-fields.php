@@ -80,13 +80,16 @@ function llms_get_user_information_fields_for_editor() {
 	 *
 	 * @param string[] $keys Array of key names.
 	 */
-	$keys = apply_filters( 'llms_get_user_information_fields_for_editor_keys', array(
-		'id',
-		'name',
-		'label',
-		'data_store',
-		'data_store_key',
-	) );
+	$keys = apply_filters(
+		'llms_get_user_information_fields_for_editor_keys',
+		array(
+			'id',
+			'name',
+			'label',
+			'data_store',
+			'data_store_key',
+		)
+	);
 
 	// Add a value so we can use array_interect_key() later.
 	$keys = array_fill_keys( $keys, 1 );
