@@ -60,6 +60,47 @@ function llms_get_user_information_fields() {
 }
 
 /**
+ * Retrieve user infor fields used by the block editor
+ *
+ * This is used for JS localization purposes and returns a reduced set of data as used by
+ * the editor for validation purposes.
+ *
+ * @since [version]
+ *
+ * @return array[]
+ */
+function llms_get_user_information_fields_for_editor() {
+
+	$fields = llms_get_user_information_fields();
+
+	/**
+	 * Filters the list of keys included for user information fields when localized into the block editor
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $keys Array of key names.
+	 */
+	$keys = apply_filters( 'llms_get_user_information_fields_for_editor_keys', array(
+		'id',
+		'name',
+		'label',
+		'data_store',
+		'data_store_key',
+	) );
+
+	// Add a value so we can use array_interect_key() later.
+	$keys = array_fill_keys( $keys, 1 );
+
+	// Return a reduced list.
+	return array_map(
+		function( $field ) use ( $keys ) {
+			return array_intersect_key( $field, $keys );
+		},
+		$fields
+	);
+}
+
+/**
  * Returns a list of fields belonging to the specified group.
  *
  * @since [version]
