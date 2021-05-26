@@ -42,11 +42,11 @@ class LLMS_Admin_Profile {
 	 */
 	public function __construct() {
 
-		add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
-		add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+		add_action( 'show_user_profile', array( $this, 'add_user_meta_fields' ) );
+		add_action( 'edit_user_profile', array( $this, 'add_user_meta_fields' ) );
 
-		add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields' ) );
-		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ) );
+		add_action( 'personal_options_update', array( $this, 'save_user_meta_fields' ) );
+		add_action( 'edit_user_profile_update', array( $this, 'save_user_meta_fields' ) );
 
 		// Allow errors to be output.
 		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ) );
@@ -54,14 +54,14 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Add customer meta fields to the profile screens
+	 * Add user meta fields to the profile screens
 	 *
 	 * @since [version]
 	 *
 	 * @param WP_User $user Instance of WP_User for the user being updated.
 	 * @return bool `true` if fields were added, `false` otherwise.
 	 */
-	public function add_customer_meta_fields( $user ) {
+	public function add_user_meta_fields( $user ) {
 
 		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
 			return false;
@@ -91,14 +91,14 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Maybe save customer meta fields
+	 * Maybe save user meta fields
 	 *
 	 * @since [version]
 	 *
 	 * @param int $user_id WP_User ID for the user being updated.
 	 * @return void
 	 */
-	public function save_customer_meta_fields( $user_id ) {
+	public function save_user_meta_fields( $user_id ) {
 
 		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
 			return;
