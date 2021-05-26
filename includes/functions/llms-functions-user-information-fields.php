@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve a single user information field by it's ID attribute.
+ * Retrieve a single user information field by its ID attribute.
  *
  * @since [version]
  *

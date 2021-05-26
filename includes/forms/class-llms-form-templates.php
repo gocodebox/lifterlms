@@ -232,7 +232,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Prepares block attributes for a given reusable block
 	 *
-	 * This method loads a reusable block from the blocks schema and attempts to located a user information field
+	 * This method loads a reusable block from the blocks schema and attempts to locate a user information field
 	 * for the given field block from the user information fields schema.
 	 *
 	 * The field is matched by the block's "id" attribute which should match a user information field's "id" attribute.
