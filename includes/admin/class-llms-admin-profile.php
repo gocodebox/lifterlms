@@ -234,14 +234,17 @@ class LLMS_Admin_Profile {
 		 *
 		 * @param string[] $fields A list of field ids to be excluded.
 		 */
-		$excluded = apply_filters( 'llms_admin_profile_excluded_fields', array(
-			'user_login',
-			'email_address',
-			'password',
-			'first_name',
-			'last_name',
-			'display_name',
-		) );
+		$excluded = apply_filters(
+			'llms_admin_profile_excluded_fields',
+			array(
+				'user_login',
+				'email_address',
+				'password',
+				'first_name',
+				'last_name',
+				'display_name',
+			)
+		);
 
 		foreach ( $fields as $field ) {
 
@@ -254,7 +257,7 @@ class LLMS_Admin_Profile {
 			$field['columns'] = 6;
 
 			// Handle weird exception.
-			$field['label']   = ( 'llms_billing_address_2' === $field['name'] ) ?  __( 'Address line 2', 'lifterlms' ) : $field['label'];
+			$field['label'] = ( 'llms_billing_address_2' === $field['name'] ) ? __( 'Address line 2', 'lifterlms' ) : $field['label'];
 
 			$prepared[] = $field;
 
