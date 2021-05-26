@@ -15,16 +15,16 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  *
- * @param string $id The field's id
+ * @param string $name The field's name.
  * @return array|boolean Returns the field settings array or `false` when the field cannot be found.
  */
-function llms_get_user_information_field( $id ) {
+function llms_get_user_information_field( $name ) {
 
 	$fields = llms_get_user_information_fields();
 
 	foreach ( $fields as $field ) {
 
-		if ( isset( $field['id'] ) && $id === $field['id'] ) {
+		if ( isset( $field['name'] ) && $name === $field['name'] ) {
 			return $field;
 		}
 	}

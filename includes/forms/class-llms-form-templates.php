@@ -235,7 +235,7 @@ class LLMS_Form_Templates {
 	 * This method loads a reusable block from the blocks schema and attempts to locate a user information field
 	 * for the given field block from the user information fields schema.
 	 *
-	 * The field is matched by the block's "id" attribute which should match a user information field's "id" attribute.
+	 * The field is matched by the block's "id" attribute which should match a user information field's "name" attribute.
 	 *
 	 * When a match is found, the information field data is merged into the block data and the settings are converted from field settings
 	 * to block attributes.
