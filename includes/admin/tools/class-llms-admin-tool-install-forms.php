@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin tool to delete pending batches created by a background processor
+ * Admin tool to reinstall / revert user information forms to their default states
  *
  * @since [version]
  */
