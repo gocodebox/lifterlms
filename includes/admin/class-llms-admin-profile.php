@@ -205,32 +205,70 @@ class LLMS_Admin_Profile {
 	private function get_fields() {
 
 		if ( ! isset( $this->fields ) ) {
-
-			$fields = llms_get_user_information_fields_for_group( 'llms' );
-
-			foreach ( $fields as &$field ) {
-
-				$field['columns'] = 6;
-				$field['name']    = $field['id'];
-				unset( $field['group'] );
-
-				if ( 'llms_billing_address_2' === $field['id'] ) {
-					$field['label'] = __( 'Address line 2', 'lifterlms' );
-				}
-			}
-
-			/**
-			 * Fields to be added in the profile screen
-			 *
-			 * @since [version]
-			 *
-			 * @param array[] $fields Array of fields.
-			 */
-			$this->fields = apply_filters( 'llms_admin_profile_fields', $fields );
-
+			$this->fields = $this->prepare_fields();
 		}
 
 		return $this->fields;
+
+	}
+
+	/**
+	 * Setup fields to be added to the profile screen
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function prepare_fields() {
+
+		$fields   = llms_get_user_information_fields();
+		$prepared = array();
+
+		/**
+		 * Filters the list of user information fields which are excluded from the admin profile.
+		 *
+		 * By default WP core fields are excluded as they are automatically rendered on the screen
+		 * by the WP core.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $fields A list of field ids to be excluded.
+		 */
+		$excluded = apply_filters( 'llms_admin_profile_excluded_fields', array(
+			'user_login',
+			'email_address',
+			'password',
+			'first_name',
+			'last_name',
+			'display_name',
+		) );
+
+		foreach ( $fields as $field ) {
+
+			// Skip excluded fields.
+			if ( in_array( $field['name'], $excluded, true ) ) {
+				continue;
+			}
+
+			// For display purposes.
+			$field['columns'] = 6;
+
+			// Handle weird exception.
+			$field['label']   = ( 'llms_billing_address_2' === $field['name'] ) ?  __( 'Address line 2', 'lifterlms' ) : $field['label'];
+
+			$prepared[] = $field;
+
+		}
+
+		/**
+		 * Fields to be added in the profile screen
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields Array of fields.
+		 */
+		return apply_filters( 'llms_admin_profile_fields', $prepared );
+
 	}
 
 }

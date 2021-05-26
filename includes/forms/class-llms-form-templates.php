@@ -257,9 +257,6 @@ class LLMS_Form_Templates {
 			$field          = llms_get_user_information_field( $block['attrs']['id'] );
 			$block['attrs'] = $field ? LLMS_Forms::instance()->convert_settings_to_block_attrs( wp_parse_args( $field, $block['attrs'] ) ) : $block['attrs'];
 
-			// Property used for internal purposes.
-			unset( $block['attrs']['group'] );
-
 		}
 
 		return $block;

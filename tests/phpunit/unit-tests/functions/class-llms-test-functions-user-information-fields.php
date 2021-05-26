@@ -26,7 +26,7 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 		// Does exist.
 		$field = llms_get_user_information_field( 'email_address' );
 
-		$this->assertEquals( array( 'id', 'name', 'group', 'type', 'label', 'data_store', 'data_store_key' ), array_keys( $field ) );
+		$this->assertEquals( array( 'id', 'name', 'type', 'label', 'data_store', 'data_store_key' ), array_keys( $field ) );
 
 		$this->assertEquals( 'user_email', $field['data_store_key'] );
 		$this->assertEquals( 'users', $field['data_store'] );
@@ -51,7 +51,6 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 		foreach ( $list as $field ) {
 
 			$this->assertArrayHasKey( 'id', $field );
-			$this->assertArrayHasKey( 'group', $field );
 			$this->assertArrayHasKey( 'data_store', $field );
 			$this->assertArrayHasKey( 'data_store_key', $field );
 
@@ -75,44 +74,6 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 			'llms_phone',
 		);
 		$this->assertEquals( $expected_ids, $ids );
-	}
-
-	/**
-	 * Test summaryllms_get_user_information_fields_for_group()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_llms_get_user_information_fields_for_group() {
-
-		// Fake group.
-		$this->assertEquals( array(), wp_list_pluck( llms_get_user_information_fields_for_group( 'fake' ), 'id' ) );
-
-		// WP Core fields.
-		$expected = array(
-			'user_login',
-			'email_address',
-			'password',
-			'first_name',
-			'last_name',
-			'display_name',
-		);
-		$this->assertEquals( $expected, wp_list_pluck( llms_get_user_information_fields_for_group( 'wp' ), 'id' ) );
-
-		// LLMS Core fields.
-		$expected = array(
-			'llms_billing_address_1',
-			'llms_billing_address_2',
-			'llms_billing_city',
-			'llms_billing_country',
-			'llms_billing_state',
-			'llms_billing_zip',
-			'llms_phone',
-		);
-		$this->assertEquals( $expected, wp_list_pluck( llms_get_user_information_fields_for_group( 'llms' ), 'id' ) );
-
-
 	}
 
 }

@@ -102,24 +102,3 @@ function llms_get_user_information_fields_for_editor() {
 		$fields
 	);
 }
-
-/**
- * Returns a list of fields belonging to the specified group.
- *
- * @since [version]
- *
- * @param string $group_id A field group id.
- * @return array[] Returns a list of LLMS_Form_Field settings arrays for groups belonging to the specified group.
- */
-function llms_get_user_information_fields_for_group( $group_id ) {
-
-	return array_values(
-		array_filter(
-			llms_get_user_information_fields(),
-			function( $field ) use ( $group_id ) {
-				return $field['group'][0] === $group_id;
-			}
-		)
-	);
-
-}

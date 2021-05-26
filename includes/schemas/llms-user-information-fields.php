@@ -8,11 +8,6 @@
  * Each item in this list should be an array compatible with the `LLMS_Form_Field` classes
  * settings array.
  *
- * The `group` attribute on each item is used internally to determine the field's origin. This
- * attribute is an indexed array where the first item is the group's id attribute and the second item
- * is a human-readable group name. This is used primarily when creating a list of fields for user
- * information shortcode generation helpers.
- *
  * Fields can be added and modified using the `llms_user_information_fields` filter.
  *
  * @package LifterLMS/Schemas
@@ -32,7 +27,6 @@ return array(
 	array(
 		'id'             => 'user_login',
 		'name'           => 'user_login',
-		'group'          => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'Username', 'lifterlms' ),
 		'data_store'     => 'users',
@@ -41,7 +35,6 @@ return array(
 	array(
 		'id'             => 'email_address',
 		'name'           => 'email_address',
-		'group'          => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'           => 'email',
 		'label'          => __( 'Email Address', 'lifterlms' ),
 		'data_store'     => 'users',
@@ -50,7 +43,6 @@ return array(
 	array(
 		'id'                => 'password',
 		'name'              => 'password',
-		'group'             => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'              => 'password',
 		'label'             => __( 'Password', 'lifterlms' ),
 		'data_store'        => 'users',
@@ -73,7 +65,6 @@ return array(
 	array(
 		'id'             => 'first_name',
 		'name'           => 'first_name',
-		'group'          => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'First Name', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -82,7 +73,6 @@ return array(
 	array(
 		'id'             => 'last_name',
 		'name'           => 'last_name',
-		'group'          => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'Last Name', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -91,7 +81,6 @@ return array(
 	array(
 		'id'             => 'display_name',
 		'name'           => 'display_name',
-		'group'          => array( 'wp', __( 'WordPress', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'Display Name', 'lifterlms' ),
 		'data_store'     => 'users',
@@ -102,7 +91,6 @@ return array(
 	array(
 		'id'             => 'llms_billing_address_1',
 		'name'           => 'llms_billing_address_1',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'Address', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -111,7 +99,6 @@ return array(
 	array(
 		'id'               => 'llms_billing_address_2',
 		'name'             => 'llms_billing_address_2',
-		'group'            => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'             => 'text',
 		'label'            => '',
 		'label_show_empty' => true,
@@ -122,7 +109,6 @@ return array(
 	array(
 		'id'             => 'llms_billing_city',
 		'name'           => 'llms_billing_city',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'City', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -131,7 +117,6 @@ return array(
 	array(
 		'id'             => 'llms_billing_country',
 		'name'           => 'llms_billing_country',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'select',
 		'label'          => __( 'Country', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -143,7 +128,6 @@ return array(
 	array(
 		'id'             => 'llms_billing_state',
 		'name'           => 'llms_billing_state',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'select',
 		'label'          => __( 'State / Region', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -155,7 +139,6 @@ return array(
 	array(
 		'id'             => 'llms_billing_zip',
 		'name'           => 'llms_billing_zip',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'text',
 		'label'          => __( 'Postal / Zip Code', 'lifterlms' ),
 		'data_store'     => 'usermeta',
@@ -164,7 +147,6 @@ return array(
 	array(
 		'id'             => 'llms_phone',
 		'name'           => 'llms_phone',
-		'group'          => array( 'llms', __( 'LifterLMS', 'lifterlms' ) ),
 		'type'           => 'tel',
 		'label'          => __( 'Phone Number', 'lifterlms' ),
 		'data_store'     => 'usermeta',
