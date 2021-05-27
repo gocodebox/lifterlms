@@ -22,14 +22,8 @@ function llms_get_user_information_field( $name ) {
 
 	$fields = llms_get_user_information_fields();
 
-	foreach ( $fields as $field ) {
-
-		if ( isset( $field['name'] ) && $name === $field['name'] ) {
-			return $field;
-		}
-	}
-
-	return false;
+	$field_index = array_search( $name, array_column( $fields, 'name' ), true );
+	return false === $field_index ? false : $fields[ $field_name ];
 
 }
 
@@ -60,7 +54,7 @@ function llms_get_user_information_fields() {
 }
 
 /**
- * Retrieve user infor fields used by the block editor
+ * Retrieve user information fields used by the block editor
  *
  * This is used for JS localization purposes and returns a reduced set of data as used by
  * the editor for validation purposes.

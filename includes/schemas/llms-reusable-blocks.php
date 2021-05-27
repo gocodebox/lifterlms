@@ -7,8 +7,8 @@
  * core user information forms (checkout, registration, and account).
  *
  * Each field block is an incomplete form field definition. Each field
- * is linked to a user information form field by it's name attribute which
- * will match an info field by it's id attribute.
+ * is linked to a user information form field by its name attribute which
+ * will match an info field by its id attribute.
  *
  * User information fields are defined in `includes/schemas/llms-user-information-fields.php.
  *

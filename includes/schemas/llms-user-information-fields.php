@@ -5,7 +5,7 @@
  * A list of user information fields used by LifterLMS in various places, namely to build
  * the editable user information forms (Checkout, Registration, and Edit Account).
  *
- * Each item in this list should be an array compatible with the `LLMS_Form_Field` classes
+ * Each item in this list should be an array compatible with the `LLMS_Form_Field` class'
  * settings array.
  *
  * Fields can be added and modified using the `llms_user_information_fields` filter.
@@ -15,7 +15,7 @@
  * @since [version]
  * @version [version]
  *
- * @see llms_get_user_information_fields() Retrieves the (filtered) schema
+ * @see llms_get_user_information_fields() Retrieves the (filtered) schema.
  * @see llms_get_user_information_field() Retrieve a single field from this schema by ID.
  */
 
