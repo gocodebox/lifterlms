@@ -23,7 +23,7 @@ function llms_get_user_information_field( $name ) {
 	$fields = llms_get_user_information_fields();
 
 	$field_index = array_search( $name, array_column( $fields, 'name' ), true );
-	return false === $field_index ? false : $fields[ $field_name ];
+	return false === $field_index ? false : $fields[ $field_index ];
 
 }
 
