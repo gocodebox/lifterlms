@@ -121,6 +121,29 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_reusable_blcoks()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_reusable_blocks() {
+
+		LLMS_Forms::instance()->install();
+
+		$list = $this->main->get_reusable_blocks();
+
+		foreach ( $list as $id ) {
+			$this->assertTrue( is_numeric( $id ) );
+			$block = get_post( $id );
+			$this->assertEquals( 'wp_block', $block->post_type );
+			$this->assertStringContains( '(Reusable)', $block->post_title );
+			$this->assertNotEmpty( get_post_meta( $id, '_llms_field_id', true ) );
+		}
+
+	}
+
+	/**
 	 * Test handle()
 	 *
 	 * @since [version]
@@ -145,7 +168,6 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 		foreach ( $this->get_form_posts() as $form ) {
 			$this->assertNotEquals( 'overwritten', $form->post_content );
 		}
-
 
 		$new_blocks = $this->get_block_posts();
 		$this->assertNotEmpty( $new_blocks );
