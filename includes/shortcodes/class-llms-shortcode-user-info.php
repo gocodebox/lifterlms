@@ -1,8 +1,6 @@
 <?php
 /**
- * LifterLMS User Information Shortcode class.
- *
- * [user]
+ * LLMS_Shortcode_User_Info class.
  *
  * @package LifterLMS/Shortcodes/Classes
  *
@@ -13,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Shortcode_User_Info class.
+ * LifterLMS User Information Shortcode.
+ *
+ * Shortcode: [llms-user]
  *
  * @since [version]
  */
@@ -24,7 +24,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 *
 	 * @var  string
 	 */
-	public $tag = 'user';
+	public $tag = 'llms-user';
 
 	/**
 	 * Retrieves a list of keys that cannot be displayed by the shortcode.
@@ -107,7 +107,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	protected function set_attributes( $atts = array() ) {
 
-		// Allow `key` attribute to be submitted without a key, eg: [user first_name].
+		// Allow `key` attribute to be submitted without a key, eg: [llms-user first_name].
 		if ( isset( $atts[0] ) ) {
 			$atts['key'] = $atts[0];
 			unset( $atts[0] );

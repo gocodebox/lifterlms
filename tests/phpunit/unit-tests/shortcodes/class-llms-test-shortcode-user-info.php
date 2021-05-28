@@ -66,8 +66,8 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	 */
 	public function test_get_output_no_user() {
 
-		$this->assertShortcodeOutputEquals( '', '[user first_name]' );
-		$this->assertShortcodeOutputEquals( 'Pal', '[user first_name or="Pal"]' );
+		$this->assertShortcodeOutputEquals( '', '[llms-user first_name]' );
+		$this->assertShortcodeOutputEquals( 'Pal', '[llms-user first_name or="Pal"]' );
 
 	}
 
@@ -84,20 +84,20 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 		wp_set_current_user( $user->ID );
 
 		// No value set.
-		$this->assertShortcodeOutputEquals( 'Bucko', '[user first_name or="Bucko"]' );
+		$this->assertShortcodeOutputEquals( 'Bucko', '[llms-user first_name or="Bucko"]' );
 
 		update_user_meta( $user->ID, 'first_name', 'mock' );
-		$this->assertShortcodeOutputEquals( 'mock', '[user first_name]' );
+		$this->assertShortcodeOutputEquals( 'mock', '[llms-user first_name]' );
 
 		// Works.
-		$this->assertShortcodeOutputEquals( $user->display_name, '[user display_name]' );
-		$this->assertShortcodeOutputEquals( $user->user_email, '[user user_email]' );
+		$this->assertShortcodeOutputEquals( $user->display_name, '[llms-user display_name]' );
+		$this->assertShortcodeOutputEquals( $user->user_email, '[llms-user user_email]' );
 
 		// Blocked.
-		$this->assertShortcodeOutputEquals( '', '[user user_pass]' );
+		$this->assertShortcodeOutputEquals( '', '[llms-user user_pass]' );
 
 		update_user_meta( $user->ID, 'llms_phone', '123456789' );
-		$this->assertShortcodeOutputEquals( '123456789', '[user llms_phone]' );
+		$this->assertShortcodeOutputEquals( '123456789', '[llms-user llms_phone]' );
 
 	}
 
