@@ -98,14 +98,14 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 */
 	public function test_activate_theme_success() {
 
-		$addon = new LLMS_Add_On( array( 'title' => '2021', 'type' => 'theme', 'update_file' => 'twentytwentyone' ) );
+		$addon = new LLMS_Add_On( array( 'title' => 'Default Theme', 'type' => 'theme', 'update_file' => 'twentynineteen' ) );
 
 		$this->assertFalse( $addon->is_active() );
 		$this->assertEquals( 'inactive', $addon->get_status() );
 		$this->assertEquals( 'Inactive', $addon->get_status( true ) );
 
 		$res   = $addon->activate();
-		$this->assertEquals( $res, '2021 was successfully activated.' );
+		$this->assertEquals( $res, 'Default Theme was successfully activated.' );
 
 		$this->assertTrue( $addon->is_active() );
 		$this->assertEquals( 'active', $addon->get_status() );
@@ -225,7 +225,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'Not Installed', $addon->get_install_status( true ) );
 
 		// Theme installed.
-		$addon = new LLMS_Add_On( array( 'type' => 'theme', 'update_file' => 'twentytwentyone' ) );
+		$addon = new LLMS_Add_On( array( 'type' => 'theme', 'update_file' => 'twentynineteen' ) );
 		$this->assertEquals( 'installed', $addon->get_install_status() );
 		$this->assertEquals( 'Installed', $addon->get_install_status( true ) );
 
