@@ -327,7 +327,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the frontend
 	 *
 	 * @since 4.0.0
-	 * @since [version] Removed deprecated class LLMS_Frontend_Forms.
+	 * @since [version] Removed deprecated classes: LLMS_Frontend_Forms & LLMS_Frontend_Password.
 	 *
 	 * @return void
 	 */
@@ -336,9 +336,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.frontend.assets.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.https.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.template.loader.php';
-
-		// Form controllers.
-		require_once LLMS_PLUGIN_DIR . 'includes/forms/frontend/class.llms.frontend.password.php';
 
 	}
 
