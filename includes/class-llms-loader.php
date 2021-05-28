@@ -327,6 +327,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the frontend
 	 *
 	 * @since 4.0.0
+	 * @since [version] Removed deprecated class LLMS_Frontend_Forms.
 	 *
 	 * @return void
 	 */
