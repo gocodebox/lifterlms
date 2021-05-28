@@ -62,27 +62,26 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	}
 
 	/**
-	 * Delete all core-created reusable blocks
+	 * Retrieves a list of core reusable blocks ordered by their field ID.
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return int[] List of the WP_Post IDs.
 	 */
-	private function delete_reusable_blocks() {
+	public function get_reusable_blocks() {
 
-		$blocks = new WP_Query(
+		$query = new WP_Query(
 			array(
 				'posts_per_page' => -1,
 				'no_found_rows'  => true,
 				'post_type'      => 'wp_block',
 				'meta_key'       => '_llms_field_id',
 				'meta_compare'   => 'EXISTS',
+				'orderby'        => 'meta_value',
 			)
 		);
 
-		foreach ( $blocks->posts as $post ) {
-			wp_delete_post( $post->ID, true );
-		}
+		return wp_list_pluck( $query->posts, 'ID' );
 
 	}
 
@@ -98,7 +97,15 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	 */
 	protected function handle() {
 
-		$this->delete_reusable_blocks();
+		// Retrieve original reusable blocks.
+		$original_blocks = $this->get_reusable_blocks();
+
+		// Delete them all.
+		foreach ( $original_blocks as $id ) {
+			wp_delete_post( $id, true );
+		}
+
+		// Recreate the forms (and the blocks).
 		LLMS_Forms::instance()->install( true );
 
 		return true;
