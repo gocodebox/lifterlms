@@ -245,6 +245,9 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 				'image'         => $this->image,
 			)
 		);
+
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
 		return ob_get_clean();
 
 	}
