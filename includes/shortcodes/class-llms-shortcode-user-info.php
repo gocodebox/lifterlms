@@ -56,11 +56,8 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'key'    => '',
-			'or'     => '',
-			'id'     => get_current_user_id(),
-
-			'format' => '',
+			'key' => '',
+			'or'  => '',
 		);
 	}
 
@@ -76,7 +73,14 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	protected function get_output() {
 
-		$id      = $this->get_attribute( 'id' );
+		/**
+		 * Filters the user used to retrieve user information displayed by the [llms-user] shortcode
+		 *
+		 * @since [version]
+		 *
+		 * @param integer $user_id The WP_User ID of the currently logged-in user or `0` if no user logged in.
+		 */
+		$user_id = apply_filters( 'llms_user_info_shortcode_user_id', get_current_user_id() );
 		$key     = $this->get_attribute( 'key' );
 		$default = $this->get_attribute( 'or' );
 
@@ -85,11 +89,11 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		}
 
 		// No user OR no key provided.
-		if ( ! $id || ! $key ) {
+		if ( ! $user_id || ! $key ) {
 			return $default;
 		}
 
-		$user = new WP_User( $id );
+		$user = new WP_User( $user_id );
 		$val  = $user->exists() ? $user->get( $key ) : null;
 
 		return ! empty( $val ) && is_scalar( $val ) ? $val : $default;

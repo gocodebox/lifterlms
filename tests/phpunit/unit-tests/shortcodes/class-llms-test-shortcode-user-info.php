@@ -78,7 +78,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_output_current_user() {
+	public function test_get_output_with_user() {
 
 		$user = $this->factory->user->create_and_get();
 		wp_set_current_user( $user->ID );
@@ -90,6 +90,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 		$this->assertShortcodeOutputEquals( 'mock', '[llms-user first_name]' );
 
 		// Works.
+		$this->assertShortcodeOutputEquals( $user->ID, '[llms-user ID]' );
 		$this->assertShortcodeOutputEquals( $user->display_name, '[llms-user display_name]' );
 		$this->assertShortcodeOutputEquals( $user->user_email, '[llms-user user_email]' );
 
@@ -98,6 +99,31 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 
 		update_user_meta( $user->ID, 'llms_phone', '123456789' );
 		$this->assertShortcodeOutputEquals( '123456789', '[llms-user llms_phone]' );
+
+	}
+
+	/**
+	 * Test output when filtering the user to display another user's information
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_output_for_another() {
+
+		$user = $this->factory->user->create_and_get();
+
+		$handler = function( $uid ) use( $user ) {
+			return $user->ID;
+		};
+		add_filter( 'llms_user_info_shortcode_user_id', $handler );
+
+		// Works.
+		$this->assertShortcodeOutputEquals( $user->ID, '[llms-user ID]' );
+		$this->assertShortcodeOutputEquals( $user->display_name, '[llms-user display_name]' );
+		$this->assertShortcodeOutputEquals( $user->user_email, '[llms-user user_email]' );
+
+		remove_filter( 'llms_user_info_shortcode_user_id', $handler );
 
 	}
 
