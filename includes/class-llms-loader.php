@@ -338,7 +338,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.template.loader.php';
 
 		// Form controllers.
-		require_once LLMS_PLUGIN_DIR . 'includes/forms/frontend/class.llms.frontend.forms.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/frontend/class.llms.frontend.password.php';
 
 	}
