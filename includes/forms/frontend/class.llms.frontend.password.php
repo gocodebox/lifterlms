@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Sanitize `$_POST` data.
- * @deprecated [version] LLMS_Frontend_Password is deprecated, functionality is available via LLMS_Controller_Account
+ * @deprecated [version] LLMS_Frontend_Password is deprecated, functionality is available via LLMS_Controller_Account.
  */
 class LLMS_Frontend_Password {
 
