@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Frontend/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [vesion]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @deprecated 4.21.3 LLMS_Frontend_Password is deprecated, functionality is available via LLMS_Controller_Account.
  */
 class LLMS_Frontend_Password {
 
@@ -25,10 +26,13 @@ class LLMS_Frontend_Password {
 	 *
 	 * @since 1.0.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
 	 *
 	 * @return void
 	 */
 	public static function retrieve_password() {
+
+		llms_deprecated_function( 'LLMS_Frontend_Password::retrieve_password()', '4.21.3', 'LLMS_Controller_Account::lost_password()' );
 
 		global $wpdb;
 
@@ -116,49 +120,30 @@ class LLMS_Frontend_Password {
 	/**
 	 * Checks the password reset key
 	 *
+	 * @since 1.0.0
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
+	 *
 	 * @return string $user
 	 */
 	public static function check_password_reset_key( $key, $login ) {
-		global $wpdb;
 
-		$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+		llms_deprecated_function( 'LLMS_Frontend_Password::check_password_reset_key()', '4.21.3', 'check_password_reset_key()' );
+		return check_password_reset_key( $key, $login );
 
-		if ( empty( $key ) || ! is_string( $key ) ) {
-
-			llms_add_notice( __( 'Invalid key', 'lifterlms' ), 'error' );
-			return false;
-
-		}
-
-		if ( empty( $login ) || ! is_string( $login ) ) {
-
-			llms_add_notice( __( 'Invalid key', 'lifterlms' ), 'error' );
-			return false;
-
-		}
-
-		$user = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->users WHERE user_activation_key = %s AND user_login = %s", $key, $login ) );
-
-		if ( empty( $user ) ) {
-
-			llms_add_notice( __( 'Invalid key', 'lifterlms' ), 'error' );
-			return false;
-
-		}
-
-		return $user;
 	}
 
 	/**
 	 * Reset the users password
 	 *
+	 * @since 1.0.0
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
+	 *
 	 * @return void
 	 */
 	public static function reset_password( $user, $new_pass ) {
 
-		do_action( 'password_reset', $user, $new_pass );
-		wp_set_password( $new_pass, $user->ID );
-		wp_password_change_notification( $user );
+		llms_deprecated_function( 'LLMS_Frontend_Password::reset_password()', '4.21.3', 'reset_password()' );
+		reset_password( $user, $new_pass );
 
 	}
 

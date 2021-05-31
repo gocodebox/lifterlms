@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.3
-Stable tag: 4.21.2
+Stable tag: 4.21.3
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,28 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v4.21.3 - 2021-05-31 =
+
+##### Updates
+
++ Increase 3rd party support for WP core hook `lostpassword_post` hook.
+
+##### Bug fixes
+
++ Props to [Hemant Patidar](https://www.linkedin.com/in/hemantsolo/) for discovering an issue preventing rate limiting in various security plugins from working on the LifterLMS password recovery form.
++ Fixed an issue encountered when updating LifterLMS premium add-ons via the LifterLMS Helper encountered when API errors are occur.
++ Updated the failure error code from 'activation' to 'deactivation' in the `LLMS_Add_On` class.
++ Updated the API connection error message returned when using the `LLMS_Abstract_API_Handler` class.
+
+##### Deprecations
+
++ Class `LLMS_Frontend_Password` is deprecated, see deprecated methods and their replacments below:
+
+  + `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
+  + `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
+  + `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
+
+
 = v4.21.2 - 2021-05-17 =
 
 ##### Security Update
@@ -680,24 +702,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 + Fixed call to undefined function `llms_bad_request_error()`, must be `llms_rest_bad_request_error()`.
 + Fixed access plans resource link.
 + Fixed wrong trigger retrieved when multiple trigger were present for the same user/post pair on Student Enrollment resources.
-
-
-= v4.14.0 - 2021-02-04 =
-
-##### Updates
-
-+ Added a user preference option allowing users to opt-out of the course builder's autosave functionality. [More information](https://lifterlms.com/docs/using-course-builder/#manual-saving).
-+ 5-star review request displayed at 30 enrollments instead of 50.
-
-##### Bug fixes
-
-+ Fixed an issue encountered when using shortcodes in the description of an access plan.
-+ Fixed an issue encountered when editing auto-draft courses on the course builder.
-
-##### Deprecations
-
-+ `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
-+ Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
