@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Sanitize `$_POST` data.
- * @deprecated [version] LLMS_Frontend_Password is deprecated, functionality is available via LLMS_Controller_Account.
+ * @deprecated 4.21.3 LLMS_Frontend_Password is deprecated, functionality is available via LLMS_Controller_Account.
  */
 class LLMS_Frontend_Password {
 
@@ -26,13 +26,13 @@ class LLMS_Frontend_Password {
 	 *
 	 * @since 1.0.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @deprecated [version] `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
 	 *
 	 * @return void
 	 */
 	public static function retrieve_password() {
 
-		llms_deprecated_function( 'LLMS_Frontend_Password::retrieve_password()', '[version]', 'LLMS_Controller_Account::lost_password()' );
+		llms_deprecated_function( 'LLMS_Frontend_Password::retrieve_password()', '4.21.3', 'LLMS_Controller_Account::lost_password()' );
 
 		global $wpdb;
 
@@ -121,13 +121,13 @@ class LLMS_Frontend_Password {
 	 * Checks the password reset key
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
 	 *
 	 * @return string $user
 	 */
 	public static function check_password_reset_key( $key, $login ) {
 
-		llms_deprecated_function( 'LLMS_Frontend_Password::check_password_reset_key()', '[version]', 'check_password_reset_key()' );
+		llms_deprecated_function( 'LLMS_Frontend_Password::check_password_reset_key()', '4.21.3', 'check_password_reset_key()' );
 		return check_password_reset_key( $key, $login );
 
 	}
@@ -136,13 +136,13 @@ class LLMS_Frontend_Password {
 	 * Reset the users password
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
+	 * @deprecated 4.21.3 `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
 	 *
 	 * @return void
 	 */
 	public static function reset_password( $user, $new_pass ) {
 
-		llms_deprecated_function( 'LLMS_Frontend_Password::reset_password()', '[version]', 'reset_password()' );
+		llms_deprecated_function( 'LLMS_Frontend_Password::reset_password()', '4.21.3', 'reset_password()' );
 		reset_password( $user, $new_pass );
 
 	}

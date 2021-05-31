@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version [version]
+ * @version 4.21.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,7 +35,7 @@ class LLMS_Add_On {
 	 * Constructor
 	 *
 	 * @since 3.22.0
-	 * @since [version] Move lookup logic to its own private method: `lookup_add_on()`.
+	 * @since 4.21.3 Move lookup logic to its own private method: `lookup_add_on()`.
 	 *
 	 * @param string|array $addon      Add-on data array or a string (such as an ID or update file path) used to lookup the addon.
 	 * @param string       $lookup_key If $addon is a string, this determines how to lookup the addon from the available list of addons.
@@ -100,7 +100,7 @@ class LLMS_Add_On {
 	 * Deactivate the addon
 	 *
 	 * @since 3.22.0
-	 * @since [version] Updated the failure error code from 'activation' to 'deactivation'.
+	 * @since 4.21.3 Updated the failure error code from 'activation' to 'deactivation'.
 	 *
 	 * @return string|WP_Error
 	 */
@@ -256,7 +256,7 @@ class LLMS_Add_On {
 	 * Retrieve a utm'd link to the add-on
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use `rawurlencode()` in favor of `urlencode()`.
+	 * @since 4.21.3 Use `rawurlencode()` in favor of `urlencode()`.
 	 *
 	 * @return string
 	 */
@@ -280,7 +280,7 @@ class LLMS_Add_On {
 	 * Get the type of addon
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 4.21.3 Use strict comparison for `in_array()`.
 	 *
 	 * @return string
 	 */
@@ -372,7 +372,7 @@ class LLMS_Add_On {
 	 *
 	 * @since 3.22.0
 	 * @since 3.22.1 Unknown.
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 4.21.3 Use strict comparison for `in_array()`.
 	 *
 	 * @return boolean
 	 */
@@ -384,7 +384,7 @@ class LLMS_Add_On {
 	 * Determine if the add-on is currently installed
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 4.21.3 Use strict comparison for `in_array()`.
 	 *
 	 * @return bool
 	 */
@@ -423,7 +423,7 @@ class LLMS_Add_On {
 	 * Loads add-ons via `llms_get_add_ons()` and loops through the items list
 	 * to find an addon specified by the key/val pair.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @param string $lookup_key Key found within the add-on item. EG: "id" or "update_file".
 	 * @param string $lookup_val Value of the key to match.

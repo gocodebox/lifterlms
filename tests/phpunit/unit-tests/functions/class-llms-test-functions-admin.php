@@ -13,7 +13,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test: llms_get_add_ons()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_add_ons() when an error is encountered.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test: llms_get_add_ons() caching mechanisms
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_add_on()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

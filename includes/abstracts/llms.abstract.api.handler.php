@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.11.2
- * @version [version]
+ * @version 4.21.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 *
 	 * @since 3.11.2
 	 * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
-	 * @since [version] Use `wp_json_encode()` in favor of `json_encode()`.
+	 * @since 4.21.3 Use `wp_json_encode()` in favor of `json_encode()`.
 	 *                Updated the API connection error message.
 	 *
 	 * @param    string $resource  url endpoint or resource to make a request to.

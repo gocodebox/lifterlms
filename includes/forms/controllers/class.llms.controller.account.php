@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 4.21.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -136,7 +136,7 @@ class LLMS_Controller_Account {
 	 * @since 3.9.5 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Refactored for readability and added new hooks.
-	 * @since [version] Increase 3rd party support for WP core hooks.
+	 * @since 4.21.3 Increase 3rd party support for WP core hooks.
 	 *
 	 * @return null|WP_Error|true `null` when nonce cannot be verified.
 	 *                            `WP_Error` when an error is encountered.

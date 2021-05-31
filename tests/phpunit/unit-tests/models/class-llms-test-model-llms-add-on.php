@@ -7,14 +7,14 @@
  * @group LLMS_Add_On
  * @group add_ons
  *
- * @since [version]
+ * @since 4.21.3
  */
 class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test constructor with an addon array passed in.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test constructor with a lookup
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 *
 	 * Also tests the `is_active()` and partially the `get_status()` methods.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -92,7 +92,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 *
 	 * Also tests the `is_active()` and partially the `get_status()` methods.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test activate() error for a plugin
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test deactivate() error for a plugin
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_channel_subscription()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_type()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -188,7 +188,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_permalink()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_install_status() and is_installed()
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
@@ -239,7 +239,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test lookup_add_on() when errors are encountered.
 	 *
-	 * @since [version]
+	 * @since 4.21.3
 	 *
 	 * @return void
 	 */
