@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v5.0.0-beta.1 - 2021-05-18
+v5.0.0-beta.1 - 2021-05-19
 ---------------------------
 
 + LifterLMS Blocks 2.0.0-beta.5
