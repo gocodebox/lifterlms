@@ -711,14 +711,11 @@ var LLMS = window.LLMS || {};
 		 */
 		update_locale_info_for_field: function( $field, label ) {
 	
-			var $parent = this.get_field_parent( $field );
-			$field.removeAttr( 'disabled' );
 			if ( label ) {
 				this.update_label( $field, label );
-				$parent.show();
+				this.enable_field( $field );
 			} else {
-				$field.attr( 'disabled', 'disabled' );
-				$parent.hide();
+				this.disable_field( $field );
 			}
 	
 		},
@@ -743,20 +740,52 @@ var LLMS = window.LLMS || {};
 				return;
 			}
 	
-			var opts    = this.$holder.find( 'optgroup[data-key="' + country_code + '"] option' ).clone(),
-				$parent = this.get_field_parent( this.$states );
+			var opts = this.$holder.find( 'optgroup[data-key="' + country_code + '"] option' ).clone();
 	
 			if ( ! opts.length ) {
 				this.$states.html( '<option>&nbsp</option>' );
-				this.$states.attr( 'disabled', 'disabled' );
-				$parent.hide();
+				this.disable_field( this.$states );
 			} else {
+				this.enable_field( this.$states );
 				this.$states.html( opts );
-				this.$states.removeAttr( 'disabled' );
-				$parent.show();
 			}
 	
 		},
+	
+		/**
+		 * Disable a given field
+		 *
+		 * It also hides the parent element, and adds an empty hidden input field
+		 * with the same 'name' as teh being disabled field so to be sure to clear the field.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $field The jQuery object for the field.
+		 */
+		disable_field: function( $field ) {
+			$(
+				'<input>',
+				{ name: $field.attr('name'), class: $field.attr( 'class' ) + ' hidden', type: 'hidden' }
+			).insertAfter( $field );
+			$field.attr( 'disabled', 'disabled' );
+			this.get_field_parent( $field ).hide();
+		},
+	
+		/**
+		 * Enable a given field
+		 *
+		 * It also shows the parent element, and removes the empty hidden input field
+		 * previously added by disable_field().
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $field The jQuery object for the field.
+		 */
+		enable_field: function( $field ) {
+			$field.removeAttr( 'disabled' );
+			$field.next( '.hidden[name='+$field.attr('name')+']' ).detach();
+			this.get_field_parent( $field ).show();
+		}
 	
 	};
 	

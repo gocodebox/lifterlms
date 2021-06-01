@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-01T13:24:57-06:00\n"
+"POT-Creation-Date: 2021-06-01T13:26:46-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -72,7 +72,7 @@ msgid "Back"
 msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:659
-#: includes/shortcodes/class.llms.shortcodes.php:370
+#: includes/shortcodes/class.llms.shortcodes.php:371
 #: templates/loop/pagination.php:38
 #: templates/myaccount/my-grades.php:55
 #: templates/myaccount/my-notifications.php:39
@@ -121,7 +121,7 @@ msgid "The title the user sees during checkout."
 msgstr ""
 
 #: includes/abstracts/abstract.llms.payment.gateway.php:287
-#: includes/abstracts/llms.abstract.notification.view.php:383
+#: includes/abstracts/llms.abstract.notification.view.php:409
 #: includes/admin/reporting/tables/llms.table.courses.php:305
 #: includes/admin/reporting/tables/llms.table.memberships.php:305
 #: includes/admin/reporting/tables/llms.table.quizzes.php:436
@@ -245,7 +245,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:309
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
-#: includes/llms.functions.core.php:646
+#: includes/llms.functions.core.php:647
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
 msgid "Author"
 msgstr ""
@@ -297,36 +297,36 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:313
+#: includes/abstracts/llms.abstract.notification.view.php:339
 msgctxt "relative date display"
 msgid "About %s ago"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:373
+#: includes/abstracts/llms.abstract.notification.view.php:399
 msgid "Subject"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:383
+#: includes/abstracts/llms.abstract.notification.view.php:409
 msgid "Heading"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:395
+#: includes/abstracts/llms.abstract.notification.view.php:421
 msgid "Body"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:405
+#: includes/abstracts/llms.abstract.notification.view.php:431
 msgid "Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:411
+#: includes/abstracts/llms.abstract.notification.view.php:437
 msgid "When checked the icon will not be displayed when showing this notification."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:413
+#: includes/abstracts/llms.abstract.notification.view.php:439
 msgid "Disable Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:545
+#: includes/abstracts/llms.abstract.notification.view.php:571
 msgid "Divider Line"
 msgstr ""
 
@@ -486,435 +486,8 @@ msgstr ""
 msgid "%1$sError%2$s: %3$s"
 msgstr ""
 
-#: includes/admin/class-llms-admin-profile.php:220
-#: includes/llms-blocks-schema.php:132
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Address"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:229
-msgid "Address line 2"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:230
-#: includes/llms-blocks-schema.php:147
-msgid "Apartment, suite, etc..."
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:239
-#: includes/llms-blocks-schema.php:162
-#: languages/countries-address-info.php:40
-#: languages/countries-address-info.php:50
-#: languages/countries-address-info.php:55
-#: languages/countries-address-info.php:60
-#: languages/countries-address-info.php:65
-#: languages/countries-address-info.php:70
-#: languages/countries-address-info.php:75
-#: languages/countries-address-info.php:80
-#: languages/countries-address-info.php:85
-#: languages/countries-address-info.php:90
-#: languages/countries-address-info.php:95
-#: languages/countries-address-info.php:105
-#: languages/countries-address-info.php:110
-#: languages/countries-address-info.php:115
-#: languages/countries-address-info.php:120
-#: languages/countries-address-info.php:125
-#: languages/countries-address-info.php:130
-#: languages/countries-address-info.php:135
-#: languages/countries-address-info.php:140
-#: languages/countries-address-info.php:145
-#: languages/countries-address-info.php:150
-#: languages/countries-address-info.php:155
-#: languages/countries-address-info.php:160
-#: languages/countries-address-info.php:165
-#: languages/countries-address-info.php:170
-#: languages/countries-address-info.php:175
-#: languages/countries-address-info.php:180
-#: languages/countries-address-info.php:185
-#: languages/countries-address-info.php:190
-#: languages/countries-address-info.php:195
-#: languages/countries-address-info.php:200
-#: languages/countries-address-info.php:205
-#: languages/countries-address-info.php:210
-#: languages/countries-address-info.php:215
-#: languages/countries-address-info.php:220
-#: languages/countries-address-info.php:225
-#: languages/countries-address-info.php:230
-#: languages/countries-address-info.php:235
-#: languages/countries-address-info.php:240
-#: languages/countries-address-info.php:245
-#: languages/countries-address-info.php:250
-#: languages/countries-address-info.php:255
-#: languages/countries-address-info.php:260
-#: languages/countries-address-info.php:265
-#: languages/countries-address-info.php:270
-#: languages/countries-address-info.php:275
-#: languages/countries-address-info.php:280
-#: languages/countries-address-info.php:285
-#: languages/countries-address-info.php:290
-#: languages/countries-address-info.php:295
-#: languages/countries-address-info.php:300
-#: languages/countries-address-info.php:305
-#: languages/countries-address-info.php:310
-#: languages/countries-address-info.php:315
-#: languages/countries-address-info.php:320
-#: languages/countries-address-info.php:325
-#: languages/countries-address-info.php:330
-#: languages/countries-address-info.php:335
-#: languages/countries-address-info.php:340
-#: languages/countries-address-info.php:345
-#: languages/countries-address-info.php:350
-#: languages/countries-address-info.php:355
-#: languages/countries-address-info.php:360
-#: languages/countries-address-info.php:365
-#: languages/countries-address-info.php:370
-#: languages/countries-address-info.php:375
-#: languages/countries-address-info.php:380
-#: languages/countries-address-info.php:385
-#: languages/countries-address-info.php:390
-#: languages/countries-address-info.php:395
-#: languages/countries-address-info.php:400
-#: languages/countries-address-info.php:405
-#: languages/countries-address-info.php:410
-#: languages/countries-address-info.php:415
-#: languages/countries-address-info.php:425
-#: languages/countries-address-info.php:430
-#: languages/countries-address-info.php:435
-#: languages/countries-address-info.php:440
-#: languages/countries-address-info.php:445
-#: languages/countries-address-info.php:455
-#: languages/countries-address-info.php:460
-#: languages/countries-address-info.php:465
-#: languages/countries-address-info.php:470
-#: languages/countries-address-info.php:475
-#: languages/countries-address-info.php:480
-#: languages/countries-address-info.php:485
-#: languages/countries-address-info.php:490
-#: languages/countries-address-info.php:495
-#: languages/countries-address-info.php:500
-#: languages/countries-address-info.php:505
-#: languages/countries-address-info.php:515
-#: languages/countries-address-info.php:520
-#: languages/countries-address-info.php:525
-#: languages/countries-address-info.php:530
-#: languages/countries-address-info.php:535
-#: languages/countries-address-info.php:550
-#: languages/countries-address-info.php:555
-#: languages/countries-address-info.php:560
-#: languages/countries-address-info.php:565
-#: languages/countries-address-info.php:570
-#: languages/countries-address-info.php:575
-#: languages/countries-address-info.php:580
-#: languages/countries-address-info.php:585
-#: languages/countries-address-info.php:590
-#: languages/countries-address-info.php:595
-#: languages/countries-address-info.php:600
-#: languages/countries-address-info.php:605
-#: languages/countries-address-info.php:610
-#: languages/countries-address-info.php:615
-#: languages/countries-address-info.php:620
-#: languages/countries-address-info.php:625
-#: languages/countries-address-info.php:630
-#: languages/countries-address-info.php:635
-#: languages/countries-address-info.php:640
-#: languages/countries-address-info.php:645
-#: languages/countries-address-info.php:650
-#: languages/countries-address-info.php:660
-#: languages/countries-address-info.php:665
-#: languages/countries-address-info.php:670
-#: languages/countries-address-info.php:675
-#: languages/countries-address-info.php:680
-#: languages/countries-address-info.php:685
-#: languages/countries-address-info.php:690
-#: languages/countries-address-info.php:695
-#: languages/countries-address-info.php:700
-#: languages/countries-address-info.php:705
-#: languages/countries-address-info.php:710
-#: languages/countries-address-info.php:715
-#: languages/countries-address-info.php:720
-#: languages/countries-address-info.php:725
-#: languages/countries-address-info.php:730
-#: languages/countries-address-info.php:735
-#: languages/countries-address-info.php:740
-#: languages/countries-address-info.php:745
-#: languages/countries-address-info.php:750
-#: languages/countries-address-info.php:755
-#: languages/countries-address-info.php:760
-#: languages/countries-address-info.php:765
-#: languages/countries-address-info.php:770
-#: languages/countries-address-info.php:775
-#: languages/countries-address-info.php:780
-#: languages/countries-address-info.php:785
-#: languages/countries-address-info.php:790
-#: languages/countries-address-info.php:795
-#: languages/countries-address-info.php:800
-#: languages/countries-address-info.php:805
-#: languages/countries-address-info.php:810
-#: languages/countries-address-info.php:815
-#: languages/countries-address-info.php:820
-#: languages/countries-address-info.php:825
-#: languages/countries-address-info.php:830
-#: languages/countries-address-info.php:835
-#: languages/countries-address-info.php:840
-#: languages/countries-address-info.php:845
-#: languages/countries-address-info.php:850
-#: languages/countries-address-info.php:855
-#: languages/countries-address-info.php:860
-#: languages/countries-address-info.php:865
-#: languages/countries-address-info.php:870
-#: languages/countries-address-info.php:875
-#: languages/countries-address-info.php:885
-#: languages/countries-address-info.php:895
-#: languages/countries-address-info.php:900
-#: languages/countries-address-info.php:910
-#: languages/countries-address-info.php:915
-#: languages/countries-address-info.php:920
-#: languages/countries-address-info.php:925
-#: languages/countries-address-info.php:930
-#: languages/countries-address-info.php:935
-#: languages/countries-address-info.php:940
-#: languages/countries-address-info.php:945
-#: languages/countries-address-info.php:950
-#: languages/countries-address-info.php:955
-#: languages/countries-address-info.php:960
-#: languages/countries-address-info.php:965
-#: languages/countries-address-info.php:970
-#: languages/countries-address-info.php:975
-#: languages/countries-address-info.php:980
-#: languages/countries-address-info.php:985
-#: languages/countries-address-info.php:990
-#: languages/countries-address-info.php:995
-#: languages/countries-address-info.php:1000
-#: languages/countries-address-info.php:1005
-#: languages/countries-address-info.php:1010
-#: languages/countries-address-info.php:1015
-#: languages/countries-address-info.php:1020
-#: languages/countries-address-info.php:1030
-#: languages/countries-address-info.php:1035
-#: languages/countries-address-info.php:1040
-#: languages/countries-address-info.php:1045
-#: languages/countries-address-info.php:1050
-#: languages/countries-address-info.php:1055
-#: languages/countries-address-info.php:1060
-#: languages/countries-address-info.php:1065
-#: languages/countries-address-info.php:1070
-#: languages/countries-address-info.php:1075
-#: languages/countries-address-info.php:1080
-#: languages/countries-address-info.php:1085
-#: languages/countries-address-info.php:1090
-#: languages/countries-address-info.php:1095
-#: languages/countries-address-info.php:1100
-#: languages/countries-address-info.php:1105
-#: languages/countries-address-info.php:1110
-#: languages/countries-address-info.php:1115
-#: languages/countries-address-info.php:1120
-#: languages/countries-address-info.php:1125
-#: languages/countries-address-info.php:1130
-#: languages/countries-address-info.php:1135
-#: languages/countries-address-info.php:1140
-#: languages/countries-address-info.php:1145
-#: languages/countries-address-info.php:1150
-#: languages/countries-address-info.php:1155
-#: languages/countries-address-info.php:1160
-#: languages/countries-address-info.php:1165
-#: languages/countries-address-info.php:1170
-#: languages/countries-address-info.php:1175
-#: languages/countries-address-info.php:1180
-#: languages/countries-address-info.php:1185
-#: languages/countries-address-info.php:1190
-#: languages/countries-address-info.php:1195
-#: languages/countries-address-info.php:1200
-#: languages/countries-address-info.php:1205
-#: languages/countries-address-info.php:1210
-#: languages/countries-address-info.php:1215
-#: languages/countries-address-info.php:1220
-#: languages/countries-address-info.php:1225
-#: languages/countries-address-info.php:1230
-#: languages/countries-address-info.php:1235
-#: languages/countries-address-info.php:1240
-#: languages/countries-address-info.php:1245
-#: languages/countries-address-info.php:1250
-#: languages/countries-address-info.php:1255
-#: languages/countries-address-info.php:1260
-#: languages/countries-address-info.php:1265
-#: languages/countries-address-info.php:1270
-#: languages/countries-address-info.php:1275
-#: languages/countries-address-info.php:1280
-#: languages/countries-address-info.php:1285
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "City"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:248
-#: includes/admin/settings/class.llms.settings.checkout.php:249
-#: includes/llms-blocks-schema.php:173
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Country"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:254
-#: includes/llms-blocks-schema.php:179
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Select a Country"
-msgstr ""
-
 #: includes/admin/class-llms-admin-profile.php:260
-#: includes/llms-blocks-schema.php:189
-#: languages/countries-address-info.php:41
-#: languages/countries-address-info.php:51
-#: languages/countries-address-info.php:56
-#: languages/countries-address-info.php:66
-#: languages/countries-address-info.php:76
-#: languages/countries-address-info.php:96
-#: languages/countries-address-info.php:116
-#: languages/countries-address-info.php:121
-#: languages/countries-address-info.php:126
-#: languages/countries-address-info.php:131
-#: languages/countries-address-info.php:136
-#: languages/countries-address-info.php:141
-#: languages/countries-address-info.php:146
-#: languages/countries-address-info.php:151
-#: languages/countries-address-info.php:156
-#: languages/countries-address-info.php:161
-#: languages/countries-address-info.php:171
-#: languages/countries-address-info.php:176
-#: languages/countries-address-info.php:181
-#: languages/countries-address-info.php:186
-#: languages/countries-address-info.php:201
-#: languages/countries-address-info.php:211
-#: languages/countries-address-info.php:236
-#: languages/countries-address-info.php:241
-#: languages/countries-address-info.php:246
-#: languages/countries-address-info.php:251
-#: languages/countries-address-info.php:256
-#: languages/countries-address-info.php:271
-#: languages/countries-address-info.php:281
-#: languages/countries-address-info.php:286
-#: languages/countries-address-info.php:291
-#: languages/countries-address-info.php:311
-#: languages/countries-address-info.php:316
-#: languages/countries-address-info.php:321
-#: languages/countries-address-info.php:326
-#: languages/countries-address-info.php:331
-#: languages/countries-address-info.php:336
-#: languages/countries-address-info.php:346
-#: languages/countries-address-info.php:351
-#: languages/countries-address-info.php:356
-#: languages/countries-address-info.php:371
-#: languages/countries-address-info.php:381
-#: languages/countries-address-info.php:386
-#: languages/countries-address-info.php:411
-#: languages/countries-address-info.php:416
-#: languages/countries-address-info.php:426
-#: languages/countries-address-info.php:431
-#: languages/countries-address-info.php:446
-#: languages/countries-address-info.php:461
-#: languages/countries-address-info.php:466
-#: languages/countries-address-info.php:476
-#: languages/countries-address-info.php:481
-#: languages/countries-address-info.php:491
-#: languages/countries-address-info.php:501
-#: languages/countries-address-info.php:506
-#: languages/countries-address-info.php:526
-#: languages/countries-address-info.php:531
-#: languages/countries-address-info.php:536
-#: languages/countries-address-info.php:551
-#: languages/countries-address-info.php:581
-#: languages/countries-address-info.php:611
-#: languages/countries-address-info.php:616
-#: languages/countries-address-info.php:621
-#: languages/countries-address-info.php:631
-#: languages/countries-address-info.php:641
-#: languages/countries-address-info.php:666
-#: languages/countries-address-info.php:671
-#: languages/countries-address-info.php:676
-#: languages/countries-address-info.php:681
-#: languages/countries-address-info.php:686
-#: languages/countries-address-info.php:691
-#: languages/countries-address-info.php:696
-#: languages/countries-address-info.php:701
-#: languages/countries-address-info.php:706
-#: languages/countries-address-info.php:711
-#: languages/countries-address-info.php:716
-#: languages/countries-address-info.php:721
-#: languages/countries-address-info.php:731
-#: languages/countries-address-info.php:736
-#: languages/countries-address-info.php:746
-#: languages/countries-address-info.php:756
-#: languages/countries-address-info.php:761
-#: languages/countries-address-info.php:766
-#: languages/countries-address-info.php:791
-#: languages/countries-address-info.php:801
-#: languages/countries-address-info.php:806
-#: languages/countries-address-info.php:811
-#: languages/countries-address-info.php:816
-#: languages/countries-address-info.php:836
-#: languages/countries-address-info.php:846
-#: languages/countries-address-info.php:866
-#: languages/countries-address-info.php:871
-#: languages/countries-address-info.php:876
-#: languages/countries-address-info.php:926
-#: languages/countries-address-info.php:931
-#: languages/countries-address-info.php:956
-#: languages/countries-address-info.php:966
-#: languages/countries-address-info.php:971
-#: languages/countries-address-info.php:981
-#: languages/countries-address-info.php:986
-#: languages/countries-address-info.php:996
-#: languages/countries-address-info.php:1001
-#: languages/countries-address-info.php:1006
-#: languages/countries-address-info.php:1016
-#: languages/countries-address-info.php:1021
-#: languages/countries-address-info.php:1026
-#: languages/countries-address-info.php:1036
-#: languages/countries-address-info.php:1046
-#: languages/countries-address-info.php:1051
-#: languages/countries-address-info.php:1056
-#: languages/countries-address-info.php:1061
-#: languages/countries-address-info.php:1076
-#: languages/countries-address-info.php:1081
-#: languages/countries-address-info.php:1091
-#: languages/countries-address-info.php:1096
-#: languages/countries-address-info.php:1101
-#: languages/countries-address-info.php:1111
-#: languages/countries-address-info.php:1121
-#: languages/countries-address-info.php:1131
-#: languages/countries-address-info.php:1141
-#: languages/countries-address-info.php:1146
-#: languages/countries-address-info.php:1151
-#: languages/countries-address-info.php:1156
-#: languages/countries-address-info.php:1166
-#: languages/countries-address-info.php:1181
-#: languages/countries-address-info.php:1191
-#: languages/countries-address-info.php:1211
-#: languages/countries-address-info.php:1221
-#: languages/countries-address-info.php:1246
-#: languages/countries-address-info.php:1256
-#: languages/countries-address-info.php:1261
-#: languages/countries-address-info.php:1266
-#: languages/countries-address-info.php:1281
-#: languages/countries-address-info.php:1286
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "State / Region"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:262
-#: includes/llms-blocks-schema.php:191
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Select a State / Region"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:272
-#: includes/llms-blocks-schema.php:204
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Postal / Zip Code"
-msgstr ""
-
-#: includes/admin/class-llms-admin-profile.php:281
-#: includes/llms-blocks-schema.php:222
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Phone Number"
+msgid "Address line 2"
 msgstr ""
 
 #. Translators: %1$s = LifterLMS plugin name; %2$s = WP.org review link; %3$s = WP.org review link.
@@ -1853,7 +1426,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
 #: includes/class.llms.ajax.handler.php:887
-#: includes/llms.functions.core.php:951
+#: includes/llms.functions.core.php:952
 msgid "ID#"
 msgstr ""
 
@@ -2402,7 +1975,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 #: includes/functions/llms-functions-access-plans.php:259
-#: includes/llms.functions.core.php:587
+#: includes/llms.functions.core.php:588
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
 msgid "Hidden"
 msgstr ""
@@ -3218,7 +2791,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:406
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
-#: includes/llms-blocks-schema.php:97
+#: includes/schemas/llms-user-information-fields.php:77
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
 msgid "Last Name"
 msgstr ""
@@ -3226,7 +2799,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:411
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
-#: includes/llms-blocks-schema.php:84
+#: includes/schemas/llms-user-information-fields.php:69
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
 msgid "First Name"
 msgstr ""
@@ -3325,7 +2898,7 @@ msgid "This student is not enrolled in any courses."
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:137
-#: includes/llms.functions.core.php:701
+#: includes/llms.functions.core.php:702
 msgid "Enrolled"
 msgstr ""
 
@@ -3789,7 +3362,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:41
 #: includes/admin/views/setup-wizard/step-pages.php:27
-#: includes/forms/class-llms-forms.php:711
+#: includes/forms/class-llms-forms.php:751
 msgid "Checkout"
 msgstr ""
 
@@ -3864,6 +3437,12 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:243
 msgid "The following options affect how prices are displayed on the frontend."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.checkout.php:249
+#: includes/schemas/llms-user-information-fields.php:121
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Country"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:250
@@ -4248,6 +3827,18 @@ msgstr ""
 msgid "Clear All User Sessions"
 msgstr ""
 
+#: includes/admin/tools/class-llms-admin-tool-install-forms.php:37
+msgid "Restores LifterLMS user information forms and reusable field blocks to their default versions. Caution: any existing form and field customizations will be lost!"
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-install-forms.php:50
+msgid "Reinstall User Forms"
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-install-forms.php:61
+msgid "Reinstall Forms"
+msgstr ""
+
 #: includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php:42
 msgid "Check active recurring orders to ensure their recurring payment action is properly scheduled for the next payment. If a recurring payment is due and not scheduled it will be rescheduled."
 msgstr ""
@@ -4367,12 +3958,12 @@ msgid "Plan Period"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:160
-#: includes/llms.functions.core.php:311
+#: includes/llms.functions.core.php:312
 msgid "year"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:161
-#: includes/llms.functions.core.php:312
+#: includes/llms.functions.core.php:313
 msgid "month"
 msgstr ""
 
@@ -4381,7 +3972,7 @@ msgid "week"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:163
-#: includes/llms.functions.core.php:313
+#: includes/llms.functions.core.php:314
 msgid "day"
 msgstr ""
 
@@ -5296,12 +4887,12 @@ msgid "%1$b %2$d, %3$Y @ %4$I:%5$M %6$p"
 msgstr ""
 
 #: includes/class.llms.date.php:185
-#: includes/llms.functions.core.php:322
+#: includes/llms.functions.core.php:323
 msgid "hours"
 msgstr ""
 
 #: includes/class.llms.date.php:187
-#: includes/llms.functions.core.php:314
+#: includes/llms.functions.core.php:315
 msgid "hour"
 msgstr ""
 
@@ -5310,22 +4901,22 @@ msgid "%1$d %2$s "
 msgstr ""
 
 #: includes/class.llms.date.php:194
-#: includes/llms.functions.core.php:324
+#: includes/llms.functions.core.php:325
 msgid "seconds"
 msgstr ""
 
 #: includes/class.llms.date.php:196
-#: includes/llms.functions.core.php:316
+#: includes/llms.functions.core.php:317
 msgid "second"
 msgstr ""
 
 #: includes/class.llms.date.php:207
-#: includes/llms.functions.core.php:323
+#: includes/llms.functions.core.php:324
 msgid "minutes"
 msgstr ""
 
 #: includes/class.llms.date.php:209
-#: includes/llms.functions.core.php:315
+#: includes/llms.functions.core.php:316
 msgid "minute"
 msgstr ""
 
@@ -5940,7 +5531,7 @@ msgstr ""
 
 #: includes/class.llms.person.handler.php:159
 #: includes/class.llms.person.handler.php:249
-#: includes/llms-blocks-schema.php:38
+#: includes/schemas/llms-user-information-fields.php:39
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
 msgid "Email Address"
 msgstr ""
@@ -5952,7 +5543,7 @@ msgstr ""
 
 #: includes/class.llms.person.handler.php:167
 #: includes/class.llms.person.handler.php:284
-#: includes/llms-blocks-schema.php:53
+#: includes/schemas/llms-user-information-fields.php:47
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
 msgid "Password"
 msgstr ""
@@ -7708,12 +7299,12 @@ msgstr ""
 msgid "Confirm %s"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:302
+#: includes/forms/class-llms-form-templates.php:336
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:303
+#: includes/forms/class-llms-form-templates.php:337
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
@@ -7791,36 +7382,36 @@ msgstr ""
 msgid "Current %s"
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:712
+#: includes/forms/class-llms-forms.php:752
 msgid "Handles new user registration and existing user information updates during checkout and enrollment."
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:713
+#: includes/forms/class-llms-forms.php:753
 msgid "Billing Information"
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:722
+#: includes/forms/class-llms-forms.php:762
 msgid "Registration"
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:723
+#: includes/forms/class-llms-forms.php:763
 msgid "Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used."
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:724
+#: includes/forms/class-llms-forms.php:764
 #: templates/global/form-registration.php:77
 msgid "Register"
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:733
+#: includes/forms/class-llms-forms.php:773
 msgid "Account"
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:734
+#: includes/forms/class-llms-forms.php:774
 msgid "Handles user account information updates on the edit account area of the student dashboard."
 msgstr ""
 
-#: includes/forms/class-llms-forms.php:735
+#: includes/forms/class-llms-forms.php:775
 msgid "Edit Account Information"
 msgstr ""
 
@@ -7877,7 +7468,7 @@ msgid "Your password has been updated."
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:341
-#: includes/functions/llms.functions.person.php:381
+#: includes/functions/llms.functions.person.php:380
 msgid "This password reset key is invalid or has already been used. Please reset your password again if needed."
 msgstr ""
 
@@ -7887,14 +7478,6 @@ msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.registration.php:80
 msgid "Already logged in! Please log out and try again."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.forms.php:77
-msgid "Please enter your password."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.forms.php:84
-msgid "Passwords do not match."
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.password.php:51
@@ -8038,11 +7621,11 @@ msgstr ""
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:364
+#: includes/functions/llms.functions.person.php:363
 msgid "The password reset key could not be found. Please rest your password again if needed."
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:369
+#: includes/functions/llms.functions.person.php:368
 msgid "The password reset key is in an invalid format. Please rest your password again if needed."
 msgstr ""
 
@@ -8188,152 +7771,101 @@ msgstr ""
 msgid "Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/llms-blocks-schema.php:19
-msgctxt "Default form field reusable block title"
-msgid "Username (Reusable)"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:24
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Username"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:33
-msgctxt "Default form field reusable block title"
-msgid "Email Address (Reusable)"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:48
-msgctxt "Default form field reusable block title"
-msgid "Password (Reusable)"
-msgstr ""
-
-#. Translators: %1$s = Min strength merge code; %2$s = min length merge code.
-#: includes/llms-blocks-schema.php:66
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "A %1$s password is required with at least %2$s characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
-msgstr ""
-
-#: includes/llms-blocks-schema.php:77
-msgctxt "Default form field reusable block title"
-msgid "First and Last Name (Reusable)"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:109
-msgctxt "Default form field reusable block title"
-msgid "Public Display Name (Reusable)"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:114
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-msgid "Display Name"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:122
-msgctxt "Default form field reusable block title"
-msgid "Address (Reusable)"
-msgstr ""
-
-#: includes/llms-blocks-schema.php:218
-msgctxt "Default form field reusable block title"
-msgid "Phone Number (Reusable)"
-msgstr ""
-
-#: includes/llms.functions.core.php:319
+#: includes/llms.functions.core.php:320
 msgid "years"
 msgstr ""
 
-#: includes/llms.functions.core.php:320
+#: includes/llms.functions.core.php:321
 msgid "months"
 msgstr ""
 
-#: includes/llms.functions.core.php:321
+#: includes/llms.functions.core.php:322
 msgid "days"
 msgstr ""
 
-#: includes/llms.functions.core.php:440
+#: includes/llms.functions.core.php:441
 msgid "Student creates a new account"
 msgstr ""
 
-#: includes/llms.functions.core.php:441
+#: includes/llms.functions.core.php:442
 msgid "Student Purchases an Access Plan"
 msgstr ""
 
-#: includes/llms.functions.core.php:442
+#: includes/llms.functions.core.php:443
 msgid "Student enrolls in a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:443
+#: includes/llms.functions.core.php:444
 msgid "Student purchases a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:444
+#: includes/llms.functions.core.php:445
 msgid "Student completes a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:446
+#: includes/llms.functions.core.php:447
 msgid "Student completes a lesson"
 msgstr ""
 
-#: includes/llms.functions.core.php:447
+#: includes/llms.functions.core.php:448
 msgid "Student completes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:448
+#: includes/llms.functions.core.php:449
 msgid "Student passes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:449
+#: includes/llms.functions.core.php:450
 msgid "Student fails a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:450
+#: includes/llms.functions.core.php:451
 msgid "Student completes a section"
 msgstr ""
 
-#: includes/llms.functions.core.php:451
+#: includes/llms.functions.core.php:452
 msgid "Student completes a course track"
 msgstr ""
 
-#: includes/llms.functions.core.php:452
+#: includes/llms.functions.core.php:453
 msgid "Student enrolls in a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:453
+#: includes/llms.functions.core.php:454
 msgid "Student purchases a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:476
+#: includes/llms.functions.core.php:477
 msgid "Award an Achievement"
 msgstr ""
 
-#: includes/llms.functions.core.php:477
+#: includes/llms.functions.core.php:478
 msgid "Award a Certificate"
 msgstr ""
 
-#: includes/llms.functions.core.php:478
+#: includes/llms.functions.core.php:479
 msgid "Send an Email"
 msgstr ""
 
-#: includes/llms.functions.core.php:584
-msgid "Catalog &amp; Search"
-msgstr ""
-
 #: includes/llms.functions.core.php:585
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Catalog only"
+msgid "Catalog &amp; Search"
 msgstr ""
 
 #: includes/llms.functions.core.php:586
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Catalog only"
+msgstr ""
+
+#: includes/llms.functions.core.php:587
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:700
+#: includes/llms.functions.core.php:701
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:702
+#: includes/llms.functions.core.php:703
 msgid "Expired"
 msgstr ""
 
@@ -9460,6 +8992,469 @@ msgstr ""
 msgid "Last Login Date"
 msgstr ""
 
+#: includes/schemas/llms-reusable-blocks.php:25
+msgctxt "Default form field reusable block title"
+msgid "Username (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:34
+msgctxt "Default form field reusable block title"
+msgid "Email Address (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:44
+msgctxt "Default form field reusable block title"
+msgid "Password (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:54
+msgctxt "Default form field reusable block title"
+msgid "First and Last Name (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:76
+msgctxt "Default form field reusable block title"
+msgid "Public Display Name (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:84
+msgctxt "Default form field reusable block title"
+msgid "Address (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-reusable-blocks.php:144
+msgctxt "Default form field reusable block title"
+msgid "Phone Number (Reusable)"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:31
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+msgid "Username"
+msgstr ""
+
+#. Translators: %1$s = Min strength merge code; %2$s = min length merge code.
+#: includes/schemas/llms-user-information-fields.php:57
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "A %1$s password is required with at least %2$s characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:85
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+msgid "Display Name"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:95
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Address"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:107
+msgid "Apartment, suite, etc..."
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:113
+#: languages/countries-address-info.php:40
+#: languages/countries-address-info.php:50
+#: languages/countries-address-info.php:55
+#: languages/countries-address-info.php:60
+#: languages/countries-address-info.php:65
+#: languages/countries-address-info.php:70
+#: languages/countries-address-info.php:75
+#: languages/countries-address-info.php:80
+#: languages/countries-address-info.php:85
+#: languages/countries-address-info.php:90
+#: languages/countries-address-info.php:95
+#: languages/countries-address-info.php:105
+#: languages/countries-address-info.php:110
+#: languages/countries-address-info.php:115
+#: languages/countries-address-info.php:120
+#: languages/countries-address-info.php:125
+#: languages/countries-address-info.php:130
+#: languages/countries-address-info.php:135
+#: languages/countries-address-info.php:140
+#: languages/countries-address-info.php:145
+#: languages/countries-address-info.php:150
+#: languages/countries-address-info.php:155
+#: languages/countries-address-info.php:160
+#: languages/countries-address-info.php:165
+#: languages/countries-address-info.php:170
+#: languages/countries-address-info.php:175
+#: languages/countries-address-info.php:180
+#: languages/countries-address-info.php:185
+#: languages/countries-address-info.php:190
+#: languages/countries-address-info.php:195
+#: languages/countries-address-info.php:200
+#: languages/countries-address-info.php:205
+#: languages/countries-address-info.php:210
+#: languages/countries-address-info.php:215
+#: languages/countries-address-info.php:220
+#: languages/countries-address-info.php:225
+#: languages/countries-address-info.php:230
+#: languages/countries-address-info.php:235
+#: languages/countries-address-info.php:240
+#: languages/countries-address-info.php:245
+#: languages/countries-address-info.php:250
+#: languages/countries-address-info.php:255
+#: languages/countries-address-info.php:260
+#: languages/countries-address-info.php:265
+#: languages/countries-address-info.php:270
+#: languages/countries-address-info.php:275
+#: languages/countries-address-info.php:280
+#: languages/countries-address-info.php:285
+#: languages/countries-address-info.php:290
+#: languages/countries-address-info.php:295
+#: languages/countries-address-info.php:300
+#: languages/countries-address-info.php:305
+#: languages/countries-address-info.php:310
+#: languages/countries-address-info.php:315
+#: languages/countries-address-info.php:320
+#: languages/countries-address-info.php:325
+#: languages/countries-address-info.php:330
+#: languages/countries-address-info.php:335
+#: languages/countries-address-info.php:340
+#: languages/countries-address-info.php:345
+#: languages/countries-address-info.php:350
+#: languages/countries-address-info.php:355
+#: languages/countries-address-info.php:360
+#: languages/countries-address-info.php:365
+#: languages/countries-address-info.php:370
+#: languages/countries-address-info.php:375
+#: languages/countries-address-info.php:380
+#: languages/countries-address-info.php:385
+#: languages/countries-address-info.php:390
+#: languages/countries-address-info.php:395
+#: languages/countries-address-info.php:400
+#: languages/countries-address-info.php:405
+#: languages/countries-address-info.php:410
+#: languages/countries-address-info.php:415
+#: languages/countries-address-info.php:425
+#: languages/countries-address-info.php:430
+#: languages/countries-address-info.php:435
+#: languages/countries-address-info.php:440
+#: languages/countries-address-info.php:445
+#: languages/countries-address-info.php:455
+#: languages/countries-address-info.php:460
+#: languages/countries-address-info.php:465
+#: languages/countries-address-info.php:470
+#: languages/countries-address-info.php:475
+#: languages/countries-address-info.php:480
+#: languages/countries-address-info.php:485
+#: languages/countries-address-info.php:490
+#: languages/countries-address-info.php:495
+#: languages/countries-address-info.php:500
+#: languages/countries-address-info.php:505
+#: languages/countries-address-info.php:515
+#: languages/countries-address-info.php:520
+#: languages/countries-address-info.php:525
+#: languages/countries-address-info.php:530
+#: languages/countries-address-info.php:535
+#: languages/countries-address-info.php:550
+#: languages/countries-address-info.php:555
+#: languages/countries-address-info.php:560
+#: languages/countries-address-info.php:565
+#: languages/countries-address-info.php:570
+#: languages/countries-address-info.php:575
+#: languages/countries-address-info.php:580
+#: languages/countries-address-info.php:585
+#: languages/countries-address-info.php:590
+#: languages/countries-address-info.php:595
+#: languages/countries-address-info.php:600
+#: languages/countries-address-info.php:605
+#: languages/countries-address-info.php:610
+#: languages/countries-address-info.php:615
+#: languages/countries-address-info.php:620
+#: languages/countries-address-info.php:625
+#: languages/countries-address-info.php:630
+#: languages/countries-address-info.php:635
+#: languages/countries-address-info.php:640
+#: languages/countries-address-info.php:645
+#: languages/countries-address-info.php:650
+#: languages/countries-address-info.php:660
+#: languages/countries-address-info.php:665
+#: languages/countries-address-info.php:670
+#: languages/countries-address-info.php:675
+#: languages/countries-address-info.php:680
+#: languages/countries-address-info.php:685
+#: languages/countries-address-info.php:690
+#: languages/countries-address-info.php:695
+#: languages/countries-address-info.php:700
+#: languages/countries-address-info.php:705
+#: languages/countries-address-info.php:710
+#: languages/countries-address-info.php:715
+#: languages/countries-address-info.php:720
+#: languages/countries-address-info.php:725
+#: languages/countries-address-info.php:730
+#: languages/countries-address-info.php:735
+#: languages/countries-address-info.php:740
+#: languages/countries-address-info.php:745
+#: languages/countries-address-info.php:750
+#: languages/countries-address-info.php:755
+#: languages/countries-address-info.php:760
+#: languages/countries-address-info.php:765
+#: languages/countries-address-info.php:770
+#: languages/countries-address-info.php:775
+#: languages/countries-address-info.php:780
+#: languages/countries-address-info.php:785
+#: languages/countries-address-info.php:790
+#: languages/countries-address-info.php:795
+#: languages/countries-address-info.php:800
+#: languages/countries-address-info.php:805
+#: languages/countries-address-info.php:810
+#: languages/countries-address-info.php:815
+#: languages/countries-address-info.php:820
+#: languages/countries-address-info.php:825
+#: languages/countries-address-info.php:830
+#: languages/countries-address-info.php:835
+#: languages/countries-address-info.php:840
+#: languages/countries-address-info.php:845
+#: languages/countries-address-info.php:850
+#: languages/countries-address-info.php:855
+#: languages/countries-address-info.php:860
+#: languages/countries-address-info.php:865
+#: languages/countries-address-info.php:870
+#: languages/countries-address-info.php:875
+#: languages/countries-address-info.php:885
+#: languages/countries-address-info.php:895
+#: languages/countries-address-info.php:900
+#: languages/countries-address-info.php:910
+#: languages/countries-address-info.php:915
+#: languages/countries-address-info.php:920
+#: languages/countries-address-info.php:925
+#: languages/countries-address-info.php:930
+#: languages/countries-address-info.php:935
+#: languages/countries-address-info.php:940
+#: languages/countries-address-info.php:945
+#: languages/countries-address-info.php:950
+#: languages/countries-address-info.php:955
+#: languages/countries-address-info.php:960
+#: languages/countries-address-info.php:965
+#: languages/countries-address-info.php:970
+#: languages/countries-address-info.php:975
+#: languages/countries-address-info.php:980
+#: languages/countries-address-info.php:985
+#: languages/countries-address-info.php:990
+#: languages/countries-address-info.php:995
+#: languages/countries-address-info.php:1000
+#: languages/countries-address-info.php:1005
+#: languages/countries-address-info.php:1010
+#: languages/countries-address-info.php:1015
+#: languages/countries-address-info.php:1020
+#: languages/countries-address-info.php:1030
+#: languages/countries-address-info.php:1035
+#: languages/countries-address-info.php:1040
+#: languages/countries-address-info.php:1045
+#: languages/countries-address-info.php:1050
+#: languages/countries-address-info.php:1055
+#: languages/countries-address-info.php:1060
+#: languages/countries-address-info.php:1065
+#: languages/countries-address-info.php:1070
+#: languages/countries-address-info.php:1075
+#: languages/countries-address-info.php:1080
+#: languages/countries-address-info.php:1085
+#: languages/countries-address-info.php:1090
+#: languages/countries-address-info.php:1095
+#: languages/countries-address-info.php:1100
+#: languages/countries-address-info.php:1105
+#: languages/countries-address-info.php:1110
+#: languages/countries-address-info.php:1115
+#: languages/countries-address-info.php:1120
+#: languages/countries-address-info.php:1125
+#: languages/countries-address-info.php:1130
+#: languages/countries-address-info.php:1135
+#: languages/countries-address-info.php:1140
+#: languages/countries-address-info.php:1145
+#: languages/countries-address-info.php:1150
+#: languages/countries-address-info.php:1155
+#: languages/countries-address-info.php:1160
+#: languages/countries-address-info.php:1165
+#: languages/countries-address-info.php:1170
+#: languages/countries-address-info.php:1175
+#: languages/countries-address-info.php:1180
+#: languages/countries-address-info.php:1185
+#: languages/countries-address-info.php:1190
+#: languages/countries-address-info.php:1195
+#: languages/countries-address-info.php:1200
+#: languages/countries-address-info.php:1205
+#: languages/countries-address-info.php:1210
+#: languages/countries-address-info.php:1215
+#: languages/countries-address-info.php:1220
+#: languages/countries-address-info.php:1225
+#: languages/countries-address-info.php:1230
+#: languages/countries-address-info.php:1235
+#: languages/countries-address-info.php:1240
+#: languages/countries-address-info.php:1245
+#: languages/countries-address-info.php:1250
+#: languages/countries-address-info.php:1255
+#: languages/countries-address-info.php:1260
+#: languages/countries-address-info.php:1265
+#: languages/countries-address-info.php:1270
+#: languages/countries-address-info.php:1275
+#: languages/countries-address-info.php:1280
+#: languages/countries-address-info.php:1285
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "City"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:125
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Select a Country"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:132
+#: languages/countries-address-info.php:41
+#: languages/countries-address-info.php:51
+#: languages/countries-address-info.php:56
+#: languages/countries-address-info.php:66
+#: languages/countries-address-info.php:76
+#: languages/countries-address-info.php:96
+#: languages/countries-address-info.php:116
+#: languages/countries-address-info.php:121
+#: languages/countries-address-info.php:126
+#: languages/countries-address-info.php:131
+#: languages/countries-address-info.php:136
+#: languages/countries-address-info.php:141
+#: languages/countries-address-info.php:146
+#: languages/countries-address-info.php:151
+#: languages/countries-address-info.php:156
+#: languages/countries-address-info.php:161
+#: languages/countries-address-info.php:171
+#: languages/countries-address-info.php:176
+#: languages/countries-address-info.php:181
+#: languages/countries-address-info.php:186
+#: languages/countries-address-info.php:201
+#: languages/countries-address-info.php:211
+#: languages/countries-address-info.php:236
+#: languages/countries-address-info.php:241
+#: languages/countries-address-info.php:246
+#: languages/countries-address-info.php:251
+#: languages/countries-address-info.php:256
+#: languages/countries-address-info.php:271
+#: languages/countries-address-info.php:281
+#: languages/countries-address-info.php:286
+#: languages/countries-address-info.php:291
+#: languages/countries-address-info.php:311
+#: languages/countries-address-info.php:316
+#: languages/countries-address-info.php:321
+#: languages/countries-address-info.php:326
+#: languages/countries-address-info.php:331
+#: languages/countries-address-info.php:336
+#: languages/countries-address-info.php:346
+#: languages/countries-address-info.php:351
+#: languages/countries-address-info.php:356
+#: languages/countries-address-info.php:371
+#: languages/countries-address-info.php:381
+#: languages/countries-address-info.php:386
+#: languages/countries-address-info.php:411
+#: languages/countries-address-info.php:416
+#: languages/countries-address-info.php:426
+#: languages/countries-address-info.php:431
+#: languages/countries-address-info.php:446
+#: languages/countries-address-info.php:461
+#: languages/countries-address-info.php:466
+#: languages/countries-address-info.php:476
+#: languages/countries-address-info.php:481
+#: languages/countries-address-info.php:491
+#: languages/countries-address-info.php:501
+#: languages/countries-address-info.php:506
+#: languages/countries-address-info.php:526
+#: languages/countries-address-info.php:531
+#: languages/countries-address-info.php:536
+#: languages/countries-address-info.php:551
+#: languages/countries-address-info.php:581
+#: languages/countries-address-info.php:611
+#: languages/countries-address-info.php:616
+#: languages/countries-address-info.php:621
+#: languages/countries-address-info.php:631
+#: languages/countries-address-info.php:641
+#: languages/countries-address-info.php:666
+#: languages/countries-address-info.php:671
+#: languages/countries-address-info.php:676
+#: languages/countries-address-info.php:681
+#: languages/countries-address-info.php:686
+#: languages/countries-address-info.php:691
+#: languages/countries-address-info.php:696
+#: languages/countries-address-info.php:701
+#: languages/countries-address-info.php:706
+#: languages/countries-address-info.php:711
+#: languages/countries-address-info.php:716
+#: languages/countries-address-info.php:721
+#: languages/countries-address-info.php:731
+#: languages/countries-address-info.php:736
+#: languages/countries-address-info.php:746
+#: languages/countries-address-info.php:756
+#: languages/countries-address-info.php:761
+#: languages/countries-address-info.php:766
+#: languages/countries-address-info.php:791
+#: languages/countries-address-info.php:801
+#: languages/countries-address-info.php:806
+#: languages/countries-address-info.php:811
+#: languages/countries-address-info.php:816
+#: languages/countries-address-info.php:836
+#: languages/countries-address-info.php:846
+#: languages/countries-address-info.php:866
+#: languages/countries-address-info.php:871
+#: languages/countries-address-info.php:876
+#: languages/countries-address-info.php:926
+#: languages/countries-address-info.php:931
+#: languages/countries-address-info.php:956
+#: languages/countries-address-info.php:966
+#: languages/countries-address-info.php:971
+#: languages/countries-address-info.php:981
+#: languages/countries-address-info.php:986
+#: languages/countries-address-info.php:996
+#: languages/countries-address-info.php:1001
+#: languages/countries-address-info.php:1006
+#: languages/countries-address-info.php:1016
+#: languages/countries-address-info.php:1021
+#: languages/countries-address-info.php:1026
+#: languages/countries-address-info.php:1036
+#: languages/countries-address-info.php:1046
+#: languages/countries-address-info.php:1051
+#: languages/countries-address-info.php:1056
+#: languages/countries-address-info.php:1061
+#: languages/countries-address-info.php:1076
+#: languages/countries-address-info.php:1081
+#: languages/countries-address-info.php:1091
+#: languages/countries-address-info.php:1096
+#: languages/countries-address-info.php:1101
+#: languages/countries-address-info.php:1111
+#: languages/countries-address-info.php:1121
+#: languages/countries-address-info.php:1131
+#: languages/countries-address-info.php:1141
+#: languages/countries-address-info.php:1146
+#: languages/countries-address-info.php:1151
+#: languages/countries-address-info.php:1156
+#: languages/countries-address-info.php:1166
+#: languages/countries-address-info.php:1181
+#: languages/countries-address-info.php:1191
+#: languages/countries-address-info.php:1211
+#: languages/countries-address-info.php:1221
+#: languages/countries-address-info.php:1246
+#: languages/countries-address-info.php:1256
+#: languages/countries-address-info.php:1261
+#: languages/countries-address-info.php:1266
+#: languages/countries-address-info.php:1281
+#: languages/countries-address-info.php:1286
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "State / Region"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:136
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Select a State / Region"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:143
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Postal / Zip Code"
+msgstr ""
+
+#: includes/schemas/llms-user-information-fields.php:151
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "Phone Number"
+msgstr ""
+
 #: includes/shortcodes/class.llms.shortcode.checkout.php:61
 msgid "You must be a member in order to purchase this access plan."
 msgstr ""
@@ -9488,7 +9483,7 @@ msgstr ""
 msgid "No courses found."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcodes.php:369
+#: includes/shortcodes/class.llms.shortcodes.php:370
 #: templates/loop/pagination.php:37
 #: templates/myaccount/my-grades.php:54
 #: templates/myaccount/my-notifications.php:38
