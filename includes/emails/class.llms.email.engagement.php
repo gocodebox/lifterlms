@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,6 +110,37 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		$array  = explode( ',', $merged );
 		return array_map( 'trim', $array );
 
+	}
+
+	/**
+	 * Send email
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function send() {
+
+		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+		$ret = parent::send();
+
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+		return $ret;
+
+	}
+
+	/**
+	 * Set the user ID used by [llms-user] to the user receiving the email.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $uid WP_User ID of the current user.
+	 * @return int
+	 */
+	public function set_shortcode_user( $uid ) {
+		return $this->student->ID;
 	}
 
 }

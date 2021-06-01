@@ -60,6 +60,7 @@ class LLMS_Shortcodes {
 		// Include abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
 
 		foreach ( $scs as $class ) {
 

@@ -74,7 +74,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 			$func->invokeArgs( $this->main, array( $user ) )
 		);
 
-		// Create a subdcriber.
+		// Create a subscriber.
 		$subscriber = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 		// Log-in.
 		wp_set_current_user( $subscriber );
@@ -96,19 +96,19 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test add_customer_meta_fields()
+	 * Test add_user_meta_fields()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_add_customer_meta_fields() {
+	public function test_add_user_meta_fields() {
 
 		$user = $this->factory->user->create();
 
 		// No logged-in user.
 		$this->assertFalse(
-			$this->main->add_customer_meta_fields( $user )
+			$this->main->add_user_meta_fields( $user )
 		);
 
 		// Create an admin.
@@ -119,20 +119,20 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 		// Admin user logged-in.
 		ob_start(); // ob_start/ob_end_clean wrapper to avoid the view printing (via `include_once`).
 		$this->assertTrue(
-			$this->main->add_customer_meta_fields( $user )
+			$this->main->add_user_meta_fields( $user )
 		);
 		$this->assertTrue(
-			$this->main->add_customer_meta_fields( $admin )
+			$this->main->add_user_meta_fields( $admin )
 		);
 		ob_end_clean();
 
 		// Simple user logged-in: no required caps.
 		wp_set_current_user( $user );
 		$this->assertFalse(
-			$this->main->add_customer_meta_fields( $user )
+			$this->main->add_user_meta_fields( $user )
 		);
 		$this->assertFalse(
-			$this->main->add_customer_meta_fields( $admin )
+			$this->main->add_user_meta_fields( $admin )
 		);
 
 		// Admin user logged-in but empty custom fields.
@@ -142,10 +142,10 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 		add_filter( 'llms_admin_profile_fields', '__return_empty_array' );
 
 		$this->assertFalse(
-			$this->main->add_customer_meta_fields( $user )
+			$this->main->add_user_meta_fields( $user )
 		);
 		$this->assertFalse(
-			$this->main->add_customer_meta_fields( $admin )
+			$this->main->add_user_meta_fields( $admin )
 		);
 
 		remove_filter( 'llms_admin_profile_fields', '__return_empty_array' );
