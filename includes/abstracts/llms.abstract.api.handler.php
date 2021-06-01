@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.11.2
- * @version 3.30.1
+ * @version 4.21.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,14 +35,14 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Determine if the request should be made as JSON
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $is_json = true;
 
 	/**
 	 * Request timeout in seconds
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $request_timeout = 60;
 
@@ -72,7 +72,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 *
 	 * @since 3.11.2
 	 * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
-	 * @version 3.30.1
+	 * @since 4.21.3 Use `wp_json_encode()` in favor of `json_encode()`.
+	 *                Updated the API connection error message.
 	 *
 	 * @param    string $resource  url endpoint or resource to make a request to.
 	 * @param    array  $data      array of data to pass in the body of the request.
@@ -105,7 +106,7 @@ abstract class LLMS_Abstract_API_Handler {
 
 		// if "null" if passed to body, don't send a body at all.
 		if ( ! is_null( $body ) ) {
-			$args['body'] = $this->is_json && $body ? json_encode( $body ) : $body;
+			$args['body'] = $this->is_json && $body ? wp_json_encode( $body ) : $body;
 		}
 
 		// Attempt to call the API.
@@ -116,9 +117,7 @@ abstract class LLMS_Abstract_API_Handler {
 
 		// Connection error.
 		if ( is_wp_error( $response ) ) {
-
-			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms' ), 'api_connection', $response );
-
+			return $this->set_error( __( 'There was a problem connecting to the external API.', 'lifterlms' ), 'api_connection', $response );
 		}
 
 		// Empty body.

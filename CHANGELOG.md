@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-beta.2 - 2021-06-01
+---------------------------
+
+
+
+
 v5.0.0-beta.1 - 2021-05-19
 ---------------------------
 
@@ -139,6 +145,29 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
 + Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
 + Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
+
+
+v4.21.3 - 2021-05-31
+--------------------
+
+##### Updates
+
++ Increase 3rd party support for WP core hook `lostpassword_post` hook.
+
+##### Bug fixes
+
++ Props to [Hemant Patidar](https://www.linkedin.com/in/hemantsolo/) for discovering an issue preventing rate limiting in various security plugins from working on the LifterLMS password recovery form.
++ Fixed an issue encountered when updating LifterLMS premium add-ons via the LifterLMS Helper encountered when API errors are occur.
++ Updated the failure error code from 'activation' to 'deactivation' in the `LLMS_Add_On` class.
++ Updated the API connection error message returned when using the `LLMS_Abstract_API_Handler` class.
+
+##### Deprecations
+
++ Class `LLMS_Frontend_Password` is deprecated, see deprecated methods and their replacments below:
+
+  + `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
+  + `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
+  + `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
 
 
 v4.21.2 - 2021-05-17
