@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
 	 * @since 3.37.19 Moved the retrieval of the associated llms post into a protected method.
-	 * @since [versoin] Force [llms-user] shortocde to the user ID of the user who triggered the notification.
+	 * @since [version] Force [llms-user] shortocde to the user ID of the user who triggered the notification.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.

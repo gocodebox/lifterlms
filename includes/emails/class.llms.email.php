@@ -6,6 +6,7 @@
  *
  * @since 1.0.0
  * @version [version]
+ */
 
 defined( 'ABSPATH' ) || exit;
 
@@ -252,7 +253,8 @@ class LLMS_Email {
 
 	/**
 	 *  Format string method
-	 *  Finds and replaces merge fields with appropriate data
+	 *  
+	 *  Finds and replaces merge fields with appropriate data.
 	 *
 	 * @since 1.0.0
 	 * @since [version] Process shortocdes when formatting a string.
