@@ -4,7 +4,14 @@ LifterLMS Changelog
 v5.0.0-beta.2 - 2021-06-01
 ---------------------------
 
-
++ Updates LifterLMS Blocks to 2.0.0-beta.6.
++ (Re-)introduces the user information shortcode as `[llms-user]`.
++ Add Admins status tool to reinstall core forms & reusable blocks.
++ Fixed issue causing data from conditionally disabled fields (like state) from being cleared during form submission
++ Updated form post type labels and added missing labels
++ Removed the previously deprecated class `LLMS_Frontend_Forms` and it's deprecated class methods `reset_password()` and `voucher_check()`.
++ Removed the previously deprecated class `LLMS_Frontend_Password` and it's deprecated class methods: `retrieve_password()`, `check_password()`, and `reset_password()`.
++ Updated country and state localization lists.
 
 
 v5.0.0-beta.1 - 2021-05-19
