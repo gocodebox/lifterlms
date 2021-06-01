@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "174bd0a8230b5f651ea52dc6edbb4011",
+    "content-hash": "6b4ae546f14b47e662dd4436efa01949",
     "packages": [
         {
             "name": "composer/installers",
@@ -192,16 +192,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "2.0.0-beta.5",
+            "version": "2.0.0-beta.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "15bffa5966ce54a4e8f7d506e4c7b7535e440b2f"
+                "reference": "0a440057929c3376d3b03d3128b68bef838ec80d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/15bffa5966ce54a4e8f7d506e4c7b7535e440b2f",
-                "reference": "15bffa5966ce54a4e8f7d506e4c7b7535e440b2f",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/0a440057929c3376d3b03d3128b68bef838ec80d",
+                "reference": "0a440057929c3376d3b03d3128b68bef838ec80d",
                 "shasum": ""
             },
             "require": {
@@ -225,9 +225,9 @@
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-blocks/issues",
-                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/2.0.0-beta.5"
+                "source": "https://github.com/gocodebox/lifterlms-blocks/tree/2.0.0-beta.6"
             },
-            "time": "2021-05-18T23:46:38+00:00"
+            "time": "2021-06-01T20:05:16+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
