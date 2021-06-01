@@ -128,8 +128,6 @@ class LLMS_PlayNice {
 
 		include_once 'class.llms.template.loader.php';
 		include_once 'class.llms.frontend.assets.php';
-		include_once 'forms/frontend/class.llms.frontend.forms.php';
-		include_once 'forms/frontend/class.llms.frontend.password.php';
 		include_once 'shortcodes/class.llms.shortcodes.php';
 
 		include_once 'shortcodes/class.llms.shortcode.my.account.php';
