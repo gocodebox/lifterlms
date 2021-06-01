@@ -42,11 +42,11 @@ class LLMS_Admin_Profile {
 	 */
 	public function __construct() {
 
-		add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
-		add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+		add_action( 'show_user_profile', array( $this, 'add_user_meta_fields' ) );
+		add_action( 'edit_user_profile', array( $this, 'add_user_meta_fields' ) );
 
-		add_action( 'personal_options_update', array( $this, 'save_customer_meta_fields' ) );
-		add_action( 'edit_user_profile_update', array( $this, 'save_customer_meta_fields' ) );
+		add_action( 'personal_options_update', array( $this, 'save_user_meta_fields' ) );
+		add_action( 'edit_user_profile_update', array( $this, 'save_user_meta_fields' ) );
 
 		// Allow errors to be output.
 		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ) );
@@ -54,14 +54,14 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Add customer meta fields to the profile screens
+	 * Add user meta fields to the profile screens
 	 *
 	 * @since [version]
 	 *
 	 * @param WP_User $user Instance of WP_User for the user being updated.
 	 * @return bool `true` if fields were added, `false` otherwise.
 	 */
-	public function add_customer_meta_fields( $user ) {
+	public function add_user_meta_fields( $user ) {
 
 		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
 			return false;
@@ -91,14 +91,14 @@ class LLMS_Admin_Profile {
 	}
 
 	/**
-	 * Maybe save customer meta fields
+	 * Maybe save user meta fields
 	 *
 	 * @since [version]
 	 *
 	 * @param int $user_id WP_User ID for the user being updated.
 	 * @return void
 	 */
-	public function save_customer_meta_fields( $user_id ) {
+	public function save_user_meta_fields( $user_id ) {
 
 		if ( ! $this->current_user_can_edit_admin_custom_fields() ) {
 			return;
@@ -205,92 +205,73 @@ class LLMS_Admin_Profile {
 	private function get_fields() {
 
 		if ( ! isset( $this->fields ) ) {
-			/**
-			 * Fields to be added in the profile screen
-			 *
-			 * @since [version]
-			 *
-			 * @param array[] $fields Array of fields.
-			 */
-			$this->fields = apply_filters(
-				'llms_admin_profile_fields',
-				array(
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Address', 'lifterlms' ),
-						'name'           => 'llms_billing_address_1',
-						'id'             => 'llms_billing_address_1',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_address_1',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Address line 2', 'lifterlms' ), // It's used in the error messages.
-						'placeholder'    => __( 'Apartment, suite, etc...', 'lifterlms' ),
-						'name'           => 'llms_billing_address_2',
-						'id'             => 'llms_billing_address_2',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_address_2',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'City', 'lifterlms' ),
-						'name'           => 'llms_billing_city',
-						'id'             => 'llms_billing_city',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_city',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'select',
-						'label'          => __( 'Country', 'lifterlms' ),
-						'name'           => 'llms_billing_country',
-						'id'             => 'llms_billing_country',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_country',
-						'options_preset' => 'countries',
-						'placeholder'    => __( 'Select a Country', 'lifterlms' ),
-						'columns'        => 6,
-						'classes'        => 'llms-select2',
-					),
-					array(
-						'type'           => 'select',
-						'label'          => __( 'State / Region', 'lifterlms' ),
-						'options_preset' => 'states',
-						'placeholder'    => __( 'Select a State / Region', 'lifterlms' ),
-						'name'           => 'llms_billing_state',
-						'id'             => 'llms_billing_state',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_state',
-						'columns'        => 6,
-						'classes'        => 'llms-select2',
-					),
-					array(
-						'type'           => 'text',
-						'label'          => __( 'Postal / Zip Code', 'lifterlms' ),
-						'name'           => 'llms_billing_zip',
-						'id'             => 'llms_billing_zip',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_billing_zip',
-						'columns'        => 6,
-					),
-					array(
-						'type'           => 'tel',
-						'label'          => __( 'Phone Number', 'lifterlms' ),
-						'name'           => 'llms_phone',
-						'id'             => 'llms_phone',
-						'data_store'     => 'usermeta',
-						'data_store_key' => 'llms_phone',
-						'columns'        => 6,
-					),
-				)
-			);
-
+			$this->fields = $this->prepare_fields();
 		}
 
 		return $this->fields;
+
+	}
+
+	/**
+	 * Setup fields to be added to the profile screen
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function prepare_fields() {
+
+		$fields   = llms_get_user_information_fields();
+		$prepared = array();
+
+		/**
+		 * Filters the list of user information fields which are excluded from the admin profile.
+		 *
+		 * By default WP core fields are excluded as they are automatically rendered on the screen
+		 * by the WP core.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $fields A list of field ids to be excluded.
+		 */
+		$excluded = apply_filters(
+			'llms_admin_profile_excluded_fields',
+			array(
+				'user_login',
+				'email_address',
+				'password',
+				'first_name',
+				'last_name',
+				'display_name',
+			)
+		);
+
+		foreach ( $fields as $field ) {
+
+			// Skip excluded fields.
+			if ( in_array( $field['name'], $excluded, true ) ) {
+				continue;
+			}
+
+			// For display purposes.
+			$field['columns'] = 6;
+
+			// Handle weird exception.
+			$field['label'] = ( 'llms_billing_address_2' === $field['name'] ) ? __( 'Address line 2', 'lifterlms' ) : $field['label'];
+
+			$prepared[] = $field;
+
+		}
+
+		/**
+		 * Fields to be added in the profile screen
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields Array of fields.
+		 */
+		return apply_filters( 'llms_admin_profile_fields', $prepared );
+
 	}
 
 }

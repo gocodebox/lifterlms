@@ -271,7 +271,6 @@ function llms_get_usernames_blocklist() {
 
 }
 
-
 /**
  * Checks if user is currently enrolled in cours
  *

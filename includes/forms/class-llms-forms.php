@@ -110,21 +110,7 @@ class LLMS_Forms {
 	 */
 	private function block_to_field_settings( $block ) {
 
-		$attrs = $block['attrs'];
-
-		// Rename some properties.
-		$rename = array(
-			'field'      => 'type',
-			'className'  => 'classes',
-			'html_attrs' => 'attributes',
-		);
-
-		foreach ( $rename as $block_prop => $field_prop ) {
-			if ( isset( $attrs[ $block_prop ] ) ) {
-				$attrs[ $field_prop ] = $attrs[ $block_prop ];
-				unset( $attrs[ $block_prop ] );
-			}
-		}
+		$attrs = $this->convert_settings_format( $block['attrs'], 'block' );
 
 		// If the field is required and hidden it's impossible for the user to fill it out so it gets marked as optional at runtime.
 		if ( ! empty( $attrs['required'] ) && ! $this->is_block_visible( $block ) ) {
@@ -182,6 +168,60 @@ class LLMS_Forms {
 
 	}
 
+	/**
+	 * Converts field settings formats
+	 *
+	 * There are small differences between the LLMS_Form_Fields settings array
+	 * and the WP_Block settings array.
+	 *
+	 * This method accepts an associative array
+	 * in one format or the other and converts it from the original format to the opposite format.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $map            Associative array of settings.
+	 * @param string $orignal_format The original format of the submitted `$map`. Either "field" for
+	 *                               an array of LLMS_Form_Field settings or `block` for an array
+	 *                               of WP_Block attributes.
+	 * @return [type] [description]
+	 */
+	private function convert_settings_format( $map, $orignal_format ) {
+
+		// Block attributes to LLMS_Form_Field settings.
+		$keys = array(
+			'field'      => 'type',
+			'className'  => 'classes',
+			'html_attrs' => 'attributes',
+		);
+
+		// LLMS_Form_Field settings to block attributes.
+		if ( 'field' === $orignal_format ) {
+			$keys = array_flip( $keys );
+		}
+
+		// Loop through the original map and rename the necessary keys.
+		foreach ( $keys as $orig_key => $new_key ) {
+			if ( isset( $map[ $orig_key ] ) ) {
+				$map[ $new_key ] = $map[ $orig_key ];
+				unset( $map[ $orig_key ] );
+			}
+		}
+
+		return $map;
+
+	}
+
+	/**
+	 * Converts an array of LLMS_Form_Field settings to a block attributes array
+	 *
+	 * @since [version]
+	 *
+	 * @param array $settings An array of LLMS_Form_Field settings.
+	 * @return array An array of WP_Block attributes.
+	 */
+	public function convert_settings_to_block_attrs( $settings ) {
+		return $this->convert_settings_format( $settings, 'field' );
+	}
 
 	/**
 	 * Create a form for a given location with the provided data.

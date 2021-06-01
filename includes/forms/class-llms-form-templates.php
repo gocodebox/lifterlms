@@ -211,14 +211,14 @@ class LLMS_Form_Templates {
 	 */
 	private static function get_reusable_block_schema( $field_id ) {
 
-		$list = require LLMS_PLUGIN_DIR . '/includes/llms-blocks-schema.php';
+		$list = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-reusable-blocks.php';
 
-		$definition = empty( $list[ $field_id ] ) ? array() : $list[ $field_id ];
+		$definition = empty( $list[ $field_id ] ) ? array() : self::prepare_block_attrs( $list[ $field_id ] );
 
 		/**
 		 * Filters the result of a schema definition.
 		 *
-		 * This hook can be used to add definitions for custom (non-core) fields.
+		 * This hook can be used to add definitions for custom (non-core) fields or to modify a core definition.
 		 *
 		 * @since [version]
 		 *
@@ -226,6 +226,40 @@ class LLMS_Form_Templates {
 		 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 		 */
 		return apply_filters( 'llms_get_reusable_block_schema', $definition, $field_id );
+
+	}
+
+	/**
+	 * Prepares block attributes for a given reusable block
+	 *
+	 * This method loads a reusable block from the blocks schema and attempts to locate a user information field
+	 * for the given field block from the user information fields schema.
+	 *
+	 * The field is matched by the block's "id" attribute which should match a user information field's "name" attribute.
+	 *
+	 * When a match is found, the information field data is merged into the block data and the settings are converted from field settings
+	 * to block attributes.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $block A partial WP_Block array used to create a reusable block.
+	 * @return array
+	 */
+	private static function prepare_block_attrs( $block ) {
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as &$inner_block ) {
+				$inner_block = self::prepare_block_attrs( $inner_block );
+			}
+		} elseif ( ! empty( $block['attrs']['id'] ) ) {
+
+			// If we find a field, merge the block into the field and convert it to block attributes.
+			$field          = llms_get_user_information_field( $block['attrs']['id'] );
+			$block['attrs'] = $field ? LLMS_Forms::instance()->convert_settings_to_block_attrs( wp_parse_args( $field, $block['attrs'] ) ) : $block['attrs'];
+
+		}
+
+		return $block;
 
 	}
 
