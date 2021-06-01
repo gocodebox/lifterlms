@@ -253,7 +253,7 @@ class LLMS_Email {
 
 	/**
 	 *  Format string method
-	 *  
+	 *
 	 *  Finds and replaces merge fields with appropriate data.
 	 *
 	 * @since 1.0.0
