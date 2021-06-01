@@ -68,6 +68,7 @@ class LLMS_View_Manager {
 
 			add_filter( 'llms_display_student_dashboard', array( $this, 'modify_dashboard' ), 10, 1 );
 			add_filter( 'llms_hide_registration_form', array( $this, 'modify_dashboard' ), 10, 1 );
+			add_filter( 'llms_enable_open_registration', array( $this, 'enable_open_reg' ), 10, 1 );
 			add_filter( 'llms_hide_login_form', array( $this, 'modify_dashboard' ), 10, 1 );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
@@ -98,6 +99,26 @@ class LLMS_View_Manager {
 			$wp_admin_bar->add_node( $node );
 		}
 
+	}
+
+	/**
+	 * Forces open registration on when previewing the registration form
+	 *
+	 * If open registration is disabled, adds an action to output an info notice at the start
+	 * of the form alerting users that they're viewing a preview.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $status Current open registration status.
+	 * @return string
+	 */
+	public function enable_open_reg( $status ) {
+
+		if ( ! llms_parse_bool( $status ) ) {
+			add_action( 'lifterlms_register_form_start', array( $this, 'open_reg_notice' ) );
+		}
+
+		return 'yes';
 	}
 
 	/**
@@ -380,6 +401,17 @@ class LLMS_View_Manager {
 		}
 
 		return $restrictions;
+	}
+
+	/**
+	 * Output a notice alerting users that open registration is currently disabled
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function open_reg_notice() {
+		llms_print_notice( __( 'This is a preview of the Open Registration form but Open Registration is currently disabled. Enable Open Registration to allow users to create accounts on this page.' ), 'debug' );
 	}
 
 	/**
