@@ -723,7 +723,7 @@ return array(
 	),
 	'MC' => array(
 		'city'     => __( 'City', 'lifterlms' ),
-		'state'    => false,
+		'state'    => __( 'State / Region', 'lifterlms' ),
 		'postcode' => __( 'Postal code', 'lifterlms' ),
 	),
 	'MD' => array(
