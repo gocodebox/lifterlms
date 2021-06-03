@@ -411,10 +411,7 @@ class LLMS_Forms {
 			return false;
 		}
 
-		$fields = array_merge(
-			$this->get_fields_settings_from_blocks( $blocks ),
-			$this->get_additional_fields( $location, $args )
-		);
+		$fields = $this->get_fields_settings_from_blocks( $blocks );
 
 		/**
 		 * Modify the parsed array of LifterLMS Form Fields
@@ -601,9 +598,9 @@ class LLMS_Forms {
 		 * @since 3.0.0
 		 * @since [version] Moved from deprecated function `LLMS_Person_Handler::get_available_fields()`.
 		 *
-		 * @param array[] $fields  Array of field array suitable to pass to `llms_form_field()`.
-		 * @param string $location Form location, one of: "checkout", "registration", or "account".
-		 * @param array $args      Additional arguments passed to the short-circuit filter.
+		 * @param array[] $fields   Array of field array suitable to pass to `llms_form_field()`.
+		 * @param string  $location Form location, one of: "checkout", "registration", or "account".
+		 * @param array   $args     Additional arguments passed to the short-circuit filter.
 		 */
 		return apply_filters( 'lifterlms_get_person_fields', array(), $location, $args );
 
