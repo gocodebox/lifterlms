@@ -140,6 +140,53 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test custom fields added the legacy way are correctly parsed
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_custom_field_legacy() {
+
+		$custom_fields = array(
+			array(
+				'columns'      => 12,
+				'id'           => 'llms_company_name',
+				'label'        => 'Company name',
+				'last_column'  => false,
+				'required'     => true,
+				'type'         => 'text',
+			),
+		);
+
+		add_filter(
+			'lifterlms_get_person_fields',
+			function( $fields, $screen ) use ( $custom_fields ) {
+				array_push( $fields, ...$custom_fields );
+				return $fields;
+			},
+			10,
+			2
+		);
+
+		$args = $this->get_data_for_form_submit();
+
+		$ret = $this->handler->submit( $args, 'checkout' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+
+		$args[ 'llms_company_name' ] = 'something';
+
+		$ret = $this->handler->submit( $args, 'checkout' );
+
+		$this->assertTrue( is_int( $ret ) );
+		$this->assertEquals( 'something', get_user_meta( $ret, 'llms_company_name', true ) );
+
+		remove_all_filters( 'lifterlms_get_person_fields' );
+
+	}
+
+	/**
 	 * Test submission matching errors.
 	 *
 	 * @since [version]
