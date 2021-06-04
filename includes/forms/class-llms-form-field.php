@@ -760,38 +760,14 @@ class LLMS_Form_Field {
 	 */
 	protected function prepare_password_strength_meter() {
 
-		$find    = array();
-		$replace = array();
-
 		$meter_settings = array(
-			'blocklist' => array(),
+			'blocklist'    => array(),
+			'min_strength' => ! empty( $this->settings['min_strength'] ) ? $this->settings['min_strength'] : 'strong',
+			'min_length'   => ! empty( $this->settings['min_length'] ) ? max( 6, $this->settings['min_length'] ) : 6,
 		);
 
-		if ( isset( $this->settings['min_strength'] ) ) {
-
-			$meter_settings['min_strength'] = $this->settings['min_strength'];
-
-			$find[]    = '{min_strength}';
-			$replace[] = $this->settings['min_strength'];
-
-		}
-
-		if ( isset( $this->settings['min_length'] ) ) {
-
-			$minlength = max( 6, $this->settings['min_length'] );
-
-			$meter_settings['min_length'] = $minlength;
-
-			$find[]    = '{min_length}';
-			$replace[] = $minlength;
-
-			// Backwards compat functionality ends up outputting a minlength attribute on the <div> and we don't want that.
-			unset( $this->settings['min_length'] );
-
-		}
-
-		// Merge the description string.
-		$this->settings['description'] = str_replace( $find, $replace, $this->settings['description'] );
+		// Backwards compat functionality ends up outputting a minlength attribute on the <div> and we don't want that.
+		unset( $this->settings['min_length'] );
 
 		/**
 		 * Modify password strength meter settings
@@ -802,12 +778,13 @@ class LLMS_Form_Field {
 		 *     Hash of meter configuration options.
 		 *
 		 *     @type string[] $blocklist    A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
-		 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak".
-		 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6.
+		 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "strong".
+		 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6. Default: 6.
 		 * }
 		 */
 		$meter_settings = apply_filters( 'llms_password_strength_meter_settings', $meter_settings, $this->settings, $this );
 
+		// If scripts have been enqueued, add password strength meter script and localize with meter data.
 		if ( did_action( 'wp_enqueue_scripts' ) ) {
 
 			wp_enqueue_script( 'password-strength-meter' );

@@ -849,6 +849,114 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test prepare_password_strength_meter() with default values.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_default_values() {
+
+		$field = new LLMS_Form_Field();
+
+		$handler = function( $args ) {
+			$this->assertEquals( array(), $args['blocklist'] );
+			$this->assertEquals( 6, $args['min_length'] );
+			$this->assertEquals( 'strong', $args['min_strength'] );
+			return $args;
+		};
+		add_filter( 'llms_password_strength_meter_settings', $handler );
+
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+
+		remove_filter( 'llms_password_strength_meter_settings', $handler );
+	}
+
+	/**
+	 * Test prepare_password_strength_meter with custom values
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_custom_values() {
+
+		$field = new LLMS_Form_Field( array(
+			'min_strength' => 'weak',
+			'min_length'   => 10,
+		) );
+
+		$handler = function( $args ) {
+			$this->assertEquals( 10, $args['min_length'] );
+			$this->assertEquals( 'weak', $args['min_strength'] );
+			return $args;
+		};
+		add_filter( 'llms_password_strength_meter_settings', $handler );
+
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+		$this->assertFalse( isset( $field->get_settings()['min_length'] ) );
+
+		remove_filter( 'llms_password_strength_meter_settings', $handler );
+	}
+
+	/**
+	 * Test prepare_password_strength_meter() to ensure the minimum accepted value is 6
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_min_length() {
+
+		$field = new LLMS_Form_Field( array(
+			'min_length' => 2,
+		) );
+
+		$handler = function( $args ) {
+			$this->assertEquals( 6, $args['min_length'] );
+			return $args;
+		};
+		add_filter( 'llms_password_strength_meter_settings', $handler );
+
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+		$this->assertFalse( isset( $field->get_settings()['min_length'] ) );
+
+		remove_filter( 'llms_password_strength_meter_settings', $handler );
+	}
+
+	/**
+	 * Test prepare_password_strength_meter() for script enqueue
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_assets() {
+
+		$field = new LLMS_Form_Field();
+
+		// Not enqueued.
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+		$this->assertAssetNotEnqueued( 'script', 'password-strength-meter' );
+		$this->assertFalse( llms()->assets->is_inline_enqueued( 'llms-pw-strength-settings' ) );
+
+		// Enqueued.
+		do_action( 'wp_enqueue_scripts' );
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+
+		$this->assertAssetIsEnqueued( 'script', 'password-strength-meter' );
+		$this->assertTrue( llms()->assets->is_inline_enqueued( 'llms-pw-strength-settings' ) );
+
+	}
+
+	/**
+	 * Test prepare_value() for a password field.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_prepare_value_for_password() {
 
 		$field = new LLMS_Form_Field( array(
@@ -862,6 +970,13 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test prepare_value() with user-posted data
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_prepare_value_with_posted_data() {
 
 		$this->mockPostRequest( array(
