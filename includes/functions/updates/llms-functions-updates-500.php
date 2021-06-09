@@ -44,6 +44,60 @@ function llms_update_500_legacy_options_autoload_off() {
 }
 
 /**
+ * Admin welcome notice
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_update_500_add_admin_notice() {
+
+	$html = sprintf(
+		'<strong>%1$s</strong><br><br>%2$s<br><br>%3$s',
+		__( 'Welcome to LifterLMS 5.0!', 'lifterlms' ),
+		__( 'This new version of LifterLMS brings you the power to build and customize your student information forms using a simple point and click interface constructed on top of the WordPress block editor. Customization like the removal of default fields, changing the text of field labels, or reordering fields within a form is all possible without any code or professional help.', 'lifterlms' ),
+		sprintf(
+			// Translators: %1$s = Link to the welcome blog post on lifterlms.com, %2$s = Link to the documentation on lifterlms.com, %3$s Link to the Forms admin page.
+			__( '%1$s, %2$s or %3$s', 'lifterlms' ),
+			sprintf(
+				// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+				__( '%1$sRead More%2$s', 'lifterlms' ),
+				'<a href="" target="_blank" rel="noopener">',
+				'</a>'
+			),
+			sprintf(
+				// Translators: %1$s = Link to the documentation on lifterlms.com; %2$s = Closing anchor tag.
+				__( '%1$sRead the docs%2$s', 'lifterlms' ),
+				'<a href="" target="_blank" rel="noopener">',
+				'</a>'
+			),
+			sprintf(
+				// Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
+				__( '%1$sGet Started%2$s', 'lifterlms' ),
+				'<a href="' . add_query_arg(
+					array(
+						'post_type' => 'llms_form',
+					),
+					admin_url( 'edit.php' )
+				) . '" >',
+				'</a>'
+			)
+		)
+	);
+
+	LLMS_Admin_Notices::add_notice(
+		basename( __FILE__, '.php' ),
+		$html,
+		array(
+			'type'             => 'success',
+			'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
+			'remindable'       => false,
+		)
+	);
+	return false;
+}
+
+/**
  * Update db version to 5.0.0
  *
  * @since [version]]
@@ -58,4 +112,6 @@ function llms_update_500_update_db_version() {
 	}
 
 	LLMS_Install::update_db_version( '5.0.0' );
+	// Show the notice when update done.
+	llms_update_500_add_admin_notice();
 }
