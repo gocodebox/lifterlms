@@ -303,16 +303,33 @@ class LLMS_Loader {
 	 */
 	public function includes_libraries() {
 
-		// Block library.
-		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
-			define( 'LLMS_BLOCKS_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php';
-		}
+		$libs = array(
+			array(
+				'const' => 'LLMS_BLOCKS_LIB',
+				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
+			),
+			array(
+				'const' => 'LLMS_REST_API_LIB',
+				'test'  => ! class_exists( 'LifterLMS_REST_API' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php',
+			),
+			array(
+				'const' => 'LLMS_HELPER_LIB',
+				'test'  => ! class_exists( 'LifterLMS_Helper' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-helper/lifterlms-helper.php',
+			),
+		);
 
-		// Rest API.
-		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
-			define( 'LLMS_REST_API_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php';
+		foreach ( $libs as $lib ) {
+
+			// var_dump( $lib );
+
+			if ( $lib['test'] ) {
+				define( $lib['const'], true );
+				require_once $lib['file'];
+			}
+
 		}
 
 		// Action Scheduler.
