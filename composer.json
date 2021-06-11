@@ -32,7 +32,8 @@
     "deliciousbrains/wp-background-processing": "1.0.2",
     "lifterlms/lifterlms-blocks": "2.0.0-beta.6",
     "lifterlms/lifterlms-rest": "1.0.0-beta.19",
-    "woocommerce/action-scheduler": "3.2.0"
+    "woocommerce/action-scheduler": "3.2.0",
+    "lifterlms/lifterlms-helper": "9999999-dev"
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "dev-trunk",
@@ -118,6 +119,7 @@
     "installer-paths": {
       "libraries/{$name}": [
         "lifterlms/lifterlms-blocks",
+        "lifterlms/lifterlms-helper",
         "lifterlms/lifterlms-rest"
       ],
       "vendor/{$vendor}/{$name}": [
