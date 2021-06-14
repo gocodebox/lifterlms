@@ -103,6 +103,11 @@ class LLMS_Install {
 			'llms_update_4150_remove_orphan_access_plans',
 			'llms_update_4150_update_db_version',
 		),
+		'5.0.0'  => array(
+			'llms_update_500_legacy_options_autoload_off',
+			'llms_update_500_update_db_version',
+			'llms_update_500_add_admin_notice',
+		),
 	);
 
 	/**
