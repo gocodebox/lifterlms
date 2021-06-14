@@ -66,21 +66,17 @@ function llms_update_500_add_admin_notice() {
 		__( 'Welcome to LifterLMS 5.0!', 'lifterlms' ),
 		__( 'This new version of LifterLMS brings you the power to build and customize your student information forms using a simple point and click interface constructed on top of the WordPress block editor. Customization like the removal of default fields, changing the text of field labels, or reordering fields within a form is all possible without any code or professional help.', 'lifterlms' ),
 		sprintf(
-			// Translators: %1$s = Link to the welcome blog post on lifterlms.com, %2$s Link to the Forms admin page.
-			__( '%1$s or %2$s', 'lifterlms' ),
-			sprintf(
-				// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
-				__( '%1$sRead More%2$s', 'lifterlms' ),
-				'<a href="https://blog.lifterlms.com/5-0/" target="_blank" rel="noopener">',
-				'</a>'
-			),
-			sprintf(
-				// Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
-				__( '%1$sGet Started%2$s', 'lifterlms' ),
-				'<a class="button-primary" href="' . esc_url( $get_started_link ) . '" >',
-				'</a>'
-			)
-		)
+			// Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
+			__( '%1$sGet Started%2$s', 'lifterlms' ),
+			'<a class="button-primary" href="' . esc_url( $get_started_link ) . '" >',
+			'</a>'
+		) . ' ' .
+		sprintf(
+			// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+			__( '%1$sRead More%2$s', 'lifterlms' ),
+			'<a class="button" href="https://blog.lifterlms.com/5-0/" target="_blank" rel="noopener">',
+			'</a>'
+		),
 	);
 
 	LLMS_Admin_Notices::add_notice(
