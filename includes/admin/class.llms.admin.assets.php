@@ -285,7 +285,7 @@ class LLMS_Admin_Assets {
 			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
 		}
 
-		if ( ! empty( $screen->is_block_editor ) || 'customizer' === $screen ) {
+		if ( ! empty( $screen->is_block_editor ) || 'customize' === $screen->base ) {
 			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_json_encode( wp_slash( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
 		}
 
