@@ -38,7 +38,6 @@ function llms_update_500_legacy_options_autoload_off() {
 		)
 	); // db call ok; no-cache ok.
 
-	set_transient( 'llms_update_500_autoload_off_legacy_options', 'complete', DAY_IN_SECONDS );
 	return false;
 
 }
@@ -105,11 +104,6 @@ function llms_update_500_add_admin_notice() {
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
 function llms_update_500_update_db_version() {
-
-	if ( 'complete' !== get_transient( 'llms_update_500_autoload_off_legacy_options' ) ) {
-		// Needs to run again.
-		return true;
-	}
 
 	LLMS_Install::update_db_version( '5.0.0' );
 	// Show the notice when update done.
