@@ -68,13 +68,13 @@ function llms_update_500_add_admin_notice() {
 			sprintf(
 				// Translators: %1$s = Link to the documentation on lifterlms.com; %2$s = Closing anchor tag.
 				__( '%1$sRead the docs%2$s', 'lifterlms' ),
-				'<a href="" target="_blank" rel="noopener">',
+				'<a class="button" href="" target="_blank" rel="noopener">',
 				'</a>'
 			),
 			sprintf(
 				// Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
 				__( '%1$sGet Started%2$s', 'lifterlms' ),
-				'<a href="' . add_query_arg(
+				'<a class="button-primary" href="' . add_query_arg(
 					array(
 						'post_type' => 'llms_form',
 					),
@@ -86,11 +86,11 @@ function llms_update_500_add_admin_notice() {
 	);
 
 	LLMS_Admin_Notices::add_notice(
-		basename( __FILE__, '.php' ),
+		'v500-welcome-msg',
 		$html,
 		array(
 			'type'             => 'success',
-			'dismiss_for_days' => 730, // @TODO: there should be a "forever" setting here.
+			'dismiss_for_days' => 0,
 			'remindable'       => false,
 		)
 	);
