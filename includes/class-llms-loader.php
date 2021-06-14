@@ -323,8 +323,6 @@ class LLMS_Loader {
 
 		foreach ( $libs as $lib ) {
 
-			// var_dump( $lib );
-
 			if ( $lib['test'] ) {
 				define( $lib['const'], true );
 				require_once $lib['file'];
