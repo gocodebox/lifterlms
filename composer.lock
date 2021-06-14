@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bf7d2d4ae666b27fe031aa5b66eb752",
+    "content-hash": "2947c8c8fe55ed20c4526cb909df29c9",
     "packages": [
         {
             "name": "composer/installers",
@@ -231,16 +231,16 @@
         },
         {
             "name": "lifterlms/lifterlms-helper",
-            "version": "dev-trunk",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-helper.git",
-                "reference": "2cd2cb5724b94518b3ed50aac1027e1492802944"
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/2cd2cb5724b94518b3ed50aac1027e1492802944",
-                "reference": "2cd2cb5724b94518b3ed50aac1027e1492802944",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/fb54a6464bd373f83783d5dc50004b818c005c56",
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56",
                 "shasum": ""
             },
             "require": {
@@ -250,7 +250,6 @@
                 "lifterlms/lifterlms-cs": "dev-trunk",
                 "lifterlms/lifterlms-tests": "dev-trunk"
             },
-            "default-branch": true,
             "type": "wordpress-plugin",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -265,9 +264,9 @@
             "description": "Update, install, and beta test LifterLMS and LifterLMS add-ons",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-helper/issues",
-                "source": "https://github.com/gocodebox/lifterlms-helper/tree/dev"
+                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.3.0"
             },
-            "time": "2021-06-03T19:40:30+00:00"
+            "time": "2021-06-14T18:47:43+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
@@ -3183,7 +3182,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "lifterlms/lifterlms-helper": 20,
         "lifterlms/lifterlms-tests": 20,
         "lifterlms/lifterlms-cs": 20
     },
