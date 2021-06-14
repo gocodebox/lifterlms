@@ -106,6 +106,7 @@ class LLMS_Install {
 		'5.0.0'  => array(
 			'llms_update_500_legacy_options_autoload_off',
 			'llms_update_500_update_db_version',
+			'llms_update_500_add_admin_notice',
 		),
 	);
 

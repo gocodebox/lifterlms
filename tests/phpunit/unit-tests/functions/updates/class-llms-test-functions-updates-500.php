@@ -25,7 +25,6 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-500.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 	}
 
 	/**
@@ -78,7 +77,6 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 
 	}
 
-
 	/**
 	 * Test llms_update_500_update_db_version()
 	 *
@@ -95,17 +93,33 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 
 		llms_update_500_update_db_version();
 
-		$this->assertNotEquals( '5.0.0', get_option( 'lifterlms_db_version' ) );
-
-		// Unlock the db version update.
-		set_transient( 'llms_update_500_autoload_off_legacy_options', 'complete', DAY_IN_SECONDS );
-
-		llms_update_500_update_db_version();
-
 		$this->assertEquals( '5.0.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
 	}
 
+	/**
+	 * Test llms_update_500_add_admin_notice()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_500_add_admin_notice() {
+
+		$notice = 'v500-welcome-msg';
+
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( $notice ) );
+
+		llms_update_500_add_admin_notice();
+
+		$this->assertTrue( true, LLMS_Admin_Notices::has_notice( $notice ) );
+
+		// Cleanup.
+		LLMS_Admin_Notices::delete_notice( $notice );
+
+	}
 }
