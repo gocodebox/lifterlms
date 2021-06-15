@@ -18,6 +18,11 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Forms {
 
 	/**
+	 * Minimum Supported WP Version required to manage forms with the block editor UI.
+	 */
+	const MIN_WP_VERSION  = '5.7.0';
+
+	/**
 	 * Singleton instance
 	 *
 	 * @var null
