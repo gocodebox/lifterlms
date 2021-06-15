@@ -297,22 +297,37 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
-	 * @since [version] Load core libraries from new location and load WP Background Processing lib.
+	 * @since [version] Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
 	 *
 	 * @return void
 	 */
 	public function includes_libraries() {
 
-		// Block library.
-		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
-			define( 'LLMS_BLOCKS_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php';
-		}
+		$libs = array(
+			array(
+				'const' => 'LLMS_BLOCKS_LIB',
+				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
+			),
+			array(
+				'const' => 'LLMS_REST_API_LIB',
+				'test'  => ! class_exists( 'LifterLMS_REST_API' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php',
+			),
+			array(
+				'const' => 'LLMS_HELPER_LIB',
+				'test'  => ! class_exists( 'LifterLMS_Helper' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-helper/lifterlms-helper.php',
+			),
+		);
 
-		// Rest API.
-		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
-			define( 'LLMS_REST_API_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php';
+		foreach ( $libs as $lib ) {
+
+			if ( $lib['test'] ) {
+				define( $lib['const'], true );
+				require_once $lib['file'];
+			}
+
 		}
 
 		// Action Scheduler.

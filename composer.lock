@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66133ab181c0d7d84012bc28c4bcf40e",
+    "content-hash": "2947c8c8fe55ed20c4526cb909df29c9",
     "packages": [
         {
             "name": "composer/installers",
@@ -228,6 +228,45 @@
                 "source": "https://github.com/gocodebox/lifterlms-blocks/tree/2.0.0-beta.6"
             },
             "time": "2021-06-01T20:05:16+00:00"
+        },
+        {
+            "name": "lifterlms/lifterlms-helper",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-helper.git",
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/fb54a6464bd373f83783d5dc50004b818c005c56",
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "dev-trunk"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "Update, install, and beta test LifterLMS and LifterLMS add-ons",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-helper/issues",
+                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.3.0"
+            },
+            "time": "2021-06-14T18:47:43+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
