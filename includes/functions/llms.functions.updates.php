@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.4.3
- * @version 4.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ require_once 'updates/llms-functions-updates-3280.php';
 require_once 'updates/llms-functions-updates-400.php';
 require_once 'updates/llms-functions-updates-450.php';
 require_once 'updates/llms-functions-updates-4150.php';
+require_once 'updates/llms-functions-updates-500.php';
 
 /**
  * Duplicate a WP Post & all relate metadata

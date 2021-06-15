@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 3.37.17
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -168,3 +168,16 @@ function llms_expire_membership() {
 
 }
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
+
+/**
+ * Retrieve the minimum accepted password strength for student passwords
+ *
+ * @since 3.0.0
+ * @deprecated [version] `llms_get_minimum_password_strength` is deprecated with no replacement.
+ *
+ * @return string
+ */
+function llms_get_minimum_password_strength() {
+	llms_deprecated_function( 'llms_get_minimum_password_strength', '[version]' );
+	return apply_filters( 'llms_get_minimum_password_strength', 'strong' );
+}
