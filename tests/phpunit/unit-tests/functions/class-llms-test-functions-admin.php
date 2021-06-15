@@ -75,9 +75,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	 * Test llms_get_add_on()
 	 *
 	 * @since 4.21.3
-	 *
-	 * @runInSeparateProcess
-	 * @preserveGlobalState disabled
+	 * @since [version] Stop testing against Helper_Add_on.
 	 *
 	 * @return void
 	 */
@@ -90,15 +88,15 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 		$res = llms_get_add_on( 'lifterlms-com-lifterlms', 'id' );
 		$this->assertEquals( 'lifterlms-com-lifterlms', $res->get( 'id' ) );
 
-		// Pass in the whole add-on array.
-		$res = llms_get_add_on( LLMS_Unit_Test_Util::get_private_property_value( $res, 'data' ) );
-		$this->assertEquals( 'lifterlms-com-lifterlms', $res->get( 'id' ) );
+		// // Pass in the whole add-on array.
+		// $res = llms_get_add_on( LLMS_Unit_Test_Util::get_private_property_value( $res, 'data' ) );
+		// $this->assertEquals( 'lifterlms-com-lifterlms', $res->get( 'id' ) );
 
-		// Should load the Helper's if found subclass.
-		global $lifterlms_tests;
-		require_once $lifterlms_tests->tests_dir . '/mocks/class-llms-helper-add-on.php';
+		// // Should load the Helper's if found subclass.
+		// global $lifterlms_tests;
+		// require_once $lifterlms_tests->tests_dir . '/mocks/class-llms-helper-add-on.php';
 
-		$this->assertTrue( llms_get_add_on( array( 'id' => 'test' ) ) instanceof LLMS_Helper_Add_On );
+		// $this->assertTrue( llms_get_add_on( array( 'id' => 'test' ) ) instanceof LLMS_Helper_Add_On );
 
 	}
 

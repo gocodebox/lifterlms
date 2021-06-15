@@ -230,6 +230,45 @@
             "time": "2021-06-15T22:53:59+00:00"
         },
         {
+            "name": "lifterlms/lifterlms-helper",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-helper.git",
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/fb54a6464bd373f83783d5dc50004b818c005c56",
+                "reference": "fb54a6464bd373f83783d5dc50004b818c005c56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-trunk",
+                "lifterlms/lifterlms-tests": "dev-trunk"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "Update, install, and beta test LifterLMS and LifterLMS add-ons",
+            "support": {
+                "issues": "https://github.com/gocodebox/lifterlms-helper/issues",
+                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.3.0"
+            },
+            "time": "2021-06-14T18:47:43+00:00"
+        },
+        {
             "name": "lifterlms/lifterlms-rest",
             "version": "1.0.0-beta.19",
             "source": {
