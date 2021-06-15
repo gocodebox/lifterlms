@@ -724,13 +724,18 @@ class LLMS_Forms {
 	 * @return array[] {
 	 *     An associative array. The array key is the location ID and each array is a location definition array.
 	 *
-	 *     @type string $name        The human-readable location name (as displayed on the admin panel).
-	 *     @type string $description A description of the form (as displayed on the admin panel).
-	 *     @type string $title       The form's post title. This is displayed to the end user when the "Show Form Title" option is enabled.
-	 *     @type array  $meta        An associative array of postmeta information for the form. The array key is the meta key and the value is the meta value.
+	 *     @type string  $name        The human-readable location name (as displayed on the admin panel).
+	 *     @type string  $description A description of the form (as displayed on the admin panel).
+	 *     @type string  $title       The form's post title. This is displayed to the end user when the "Show Form Title" option is enabled.
+	 *     @type array   $meta        An associative array of postmeta information for the form. The array key is the meta key and the value is the meta value.
+	 *     @type string  $template    A string used to generate the post content of the form post, usually retrieve from `LLMS_Form_Templates`.
+	 *     @type array   $meta        Array of meta data used when generating the form. The array key is the meta key and array value is the meta value.
+	 *     @type array[] $required    Array of arrays defining required fields for each form.
 	 * }
 	 */
 	public function get_locations() {
+
+		$locations = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-form-locations.php';
 
 		/**
 		 * Filter the available form locations.
@@ -741,44 +746,7 @@ class LLMS_Forms {
 		 *
 		 * @param  array[] $locations Associative array of form location information.
 		 */
-		return apply_filters(
-			'llms_forms_get_locations',
-			array(
-				'checkout'     => array(
-					'name'        => __( 'Checkout', 'lifterlms' ),
-					'description' => __( 'Handles new user registration and existing user information updates during checkout and enrollment.', 'lifterlms' ),
-					'title'       => __( 'Billing Information', 'lifterlms' ),
-					'template'    => LLMS_Form_Templates::get_template( 'checkout' ),
-					'meta'        => array(
-						'_llms_form_location'   => 'checkout',
-						'_llms_form_show_title' => 'yes',
-						'_llms_form_is_core'    => 'yes',
-					),
-				),
-				'registration' => array(
-					'name'        => __( 'Registration', 'lifterlms' ),
-					'description' => __( 'Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used.', 'lifterlms' ),
-					'title'       => __( 'Register', 'lifterlms' ),
-					'template'    => LLMS_Form_Templates::get_template( 'registration' ),
-					'meta'        => array(
-						'_llms_form_location'   => 'registration',
-						'_llms_form_show_title' => 'yes',
-						'_llms_form_is_core'    => 'yes',
-					),
-				),
-				'account'      => array(
-					'name'        => __( 'Account', 'lifterlms' ),
-					'description' => __( 'Handles user account information updates on the edit account area of the student dashboard.', 'lifterlms' ),
-					'title'       => __( 'Edit Account Information', 'lifterlms' ),
-					'template'    => LLMS_Form_Templates::get_template( 'account' ),
-					'meta'        => array(
-						'_llms_form_location'   => 'account',
-						'_llms_form_show_title' => 'no',
-						'_llms_form_is_core'    => 'yes',
-					),
-				),
-			)
-		);
+		return apply_filters( 'llms_forms_get_locations', $locations );
 
 	}
 
