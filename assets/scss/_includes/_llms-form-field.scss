@@ -7,6 +7,10 @@
 			padding: 0 0 10px;
 		}
 	}
+
+	.wp-block-columns, .wp-block-column {
+		margin-bottom: 0;
+	}
 }
 
 	.llms-form-heading {
@@ -18,6 +22,12 @@
 		padding: 0 10px 10px;
 		position: relative;
 		width: 100%;
+
+		// Ensure "empty" labels don't break the layout.
+		// See the billing_address_2 field which has no label.
+		label:empty:after {
+			content: '\00a0';
+		}
 
 		&.valid {
 			input[type="date"], input[type="time"], input[type="datetime-local"], input[type="week"], input[type="month"], input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], textarea, select {
@@ -32,6 +42,10 @@
 				background: rgba( $color-red, .3 );
 				border-color: $color-red;
 			}
+		}
+
+		&.llms-visually-hidden-field {
+			display: none;
 		}
 
 		&.align-right {
@@ -60,9 +74,12 @@
 			input {
 				margin-right: 5px;
 			}
+			label + .llms-description {
+				display: block;
+			}
 		}
 
-		&.type-radio {
+		&.type-radio:not(.is-group) {
 
 			input[type="radio"] {
 				position: absolute;
@@ -89,14 +106,19 @@
 				z-index: 2;
 			}
 
-
-
 			input[type="radio"]:checked + label:before {
 				transition: background-position .2s .15s cubic-bezier(0, 0, .2, 1);
 				background-position: 0 0;
 				background-image: radial-gradient(ellipse at center,  $color-brand-blue 0%,$color-brand-blue 40%, #fafafa 45%);
 			}
 
+		}
+
+		.llms-input-group {
+			margin-top: 5px;
+			.llms-form-field {
+				padding: 0 0 5px 5px;
+			}
 		}
 
 		&.type-reset,
@@ -112,11 +134,20 @@
 
 		.llms-required {
 			color: $color-red;
+			margin-left: 4px;
 		}
 
 		input, textarea, select {
 			width: 100%;
 			margin-bottom: 5px;
+		}
+
+		.select2-container .select2-selection--single {
+			height: auto;
+			padding: 4px 6px;
+		}
+		.select2-container--default .select2-selection--single .select2-selection__arrow {
+			height: 100%;
 		}
 
 	}

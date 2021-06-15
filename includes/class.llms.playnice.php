@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,6 +110,9 @@ class LLMS_PlayNice {
 	 * @since 3.2.2
 	 * @since 3.19.6 Unknown.
 	 * @since 4.0.0 Removed inclusion of removed 'class.llms.person.php' file.
+	 * @since [version] Remove inclusion of removed files:
+	 *                    + forms/frontend/class.llms.frontend.forms.php
+	 *                    + forms/frontend/class.llms.frontend.password.php
 	 *
 	 * @return void
 	 */
@@ -125,8 +128,6 @@ class LLMS_PlayNice {
 
 		include_once 'class.llms.template.loader.php';
 		include_once 'class.llms.frontend.assets.php';
-		include_once 'forms/frontend/class.llms.frontend.forms.php';
-		include_once 'forms/frontend/class.llms.frontend.password.php';
 		include_once 'shortcodes/class.llms.shortcodes.php';
 
 		include_once 'shortcodes/class.llms.shortcode.my.account.php';

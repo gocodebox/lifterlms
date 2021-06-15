@@ -1,6 +1,173 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-rc.1 - 2021-06-15
+------------------------
+
++ Updates Action Scheduler library to version 3.2.0
++ Remove the {min_strength} and {min_length} merge codes from the User Password block description.
++ Don't load removed files during OptimizePress compatibility.
++ Add a 5.0.0 DB upgrade routine and welcome notice
++ Add the LifterLMS Helper as an included library
++ Add WordPress 5.8 compatibility on the Widgets and Customizer screens.
++ Move form location definitions into a schema file
++ Require WordPress 5.7+ to manage forms via the block editor
++ Upgrades LifterLMS Blocks to 2.0.0-rc.1
+
+
+v5.0.0-beta.2 - 2021-06-01
+---------------------------
+
++ Updates LifterLMS Blocks to 2.0.0-beta.6.
++ (Re-)introduces the user information shortcode as `[llms-user]`.
++ Add Admins status tool to reinstall core forms & reusable blocks.
++ Fixed issue causing data from conditionally disabled fields (like state) from being cleared during form submission
++ Updated form post type labels and added missing labels
++ Removed the previously deprecated class `LLMS_Frontend_Forms` and it's deprecated class methods `reset_password()` and `voucher_check()`.
++ Removed the previously deprecated class `LLMS_Frontend_Password` and it's deprecated class methods: `retrieve_password()`, `check_password()`, and `reset_password()`.
++ Updated country and state localization lists.
+
+
+v5.0.0-beta.1 - 2021-05-19
+---------------------------
+
++ LifterLMS Blocks 2.0.0-beta.5
++ Added site-wide field name validation
++ Reworked the output of user information fields on the admin panel to share a handler and APIs with frontend fields.
++ Deprecated filter: `lifterlms_get_user_custom_fields` in favor of `llms_admin_profile_fields`
++ Improved previewing of form posts using WP Core block editor UI elements
++ Open Registration form can now always be previewed regardless of the open registration site setting
+
+
+v5.0.0-alpha.6 - 2021-05-07
+---------------------------
+
++ LifterLMS Blocks 2.0.0-beta.4
++ Fix default reusable password field type from plain text to password
++ Change the default reusable block post titles to reduce confusion when searching for blocks in the editor
+
+
+v5.0.0-alpha.5 - 2021-05-03
+---------------------------
+
++ Reorganized new files into subdirectories.
++ Added serverside password minimum length validation.
++ Fix duplicate password strength meter output.
++ Fix the user password field type from text to password
++ Fix the phone number field type from text to tel
++ Fix user state select field
++ Don't autoload field values from specified datastore when a "value" is explicitly passed to the field.
++ Only load published reusable blocks on the frontend of the website
++ Improved the UX for editing a users account by automatically "hiding" password and email fields and only requiring them to be submitted when users explicit request an update via the field's "change" toggle button.
+
+
+v5.0.0-alpha.4 - 2021-04-26
+---------------------------
+
++ Default form templates now use reusable blocks.
++ Improved the user experience surrounding fields with a confirmation field (email address and password).
++ Added the ability to define a field's column width instead of requiring the usage of WP column blocks.
++ Added support for reusable blocks on form posts
++ Upgraded LifterLMS Blocks to 2.0.0-beta.3.
+
+
+v5.0.0-alpha.3 - 2021-03-23
+---------------------------
+
++ Fixed issue preventing users from editing their email address and password on the dashboard account edit screens.
++ Fixed issues with country names with the article "the" in their name, for example "The Netherlands" instead of "Netherlands The".
++ Upgraded LifterLMS Blocks to version 2.0.0-beta.2.
+
+
+v5.0.0-alpha.2 - 2021-03-22
+---------------------------
+
+##### Updates
+
++ Updates LifterLMS Blocks to version 2.0.0-beta.1
++ Adds functionality to force usage of the Block Editor for editing LifterLMS forms
++ Updates localization functionality and methods to have more accurate information.
++ Added a function for determining if open registration is enabled.
++ Added a WP Admin Bar link below the "Edit Page" link to enable editing the form (if a form exists on the page).
+
+##### Bug Fixes
+
++ Fixed an issue encountered when custom HTML fields exist on a form (backwards compatibility for pre 5.x fields API).
+
+
+v5.0.0-alpha.1 - 2021-01-07
+---------------------------
+
+##### User Information Form Builder
+
++ Customize all user information collection forms using the block editor for drag and drop and WYSIWYG form building.
++ Customize field labels, placeholders, descriptions and more with an easy point and click interface.
++ Determine if fields are required or optional with a simple toggle switch.
++ Update the form layout with the block editor. Reorder fields, add columns, and more with a simple drag and drop interface.
++ Remove unwanted fields with the click of a button.
+
+##### User Location Information Form Fields
+
++ During user account creation and updates the user location fields are now locale aware ensuring that the proper terminology is used and only locale-required fields are displayed for the selected locale.
++ The "Country" field has been updated to be automatically populated with a list of countries. View the full list in the file at `languages/countries.php` and the filter `lifterlms_countries` can be used to modify the default list at runtime.
++ The "State" field on user forms has been updated to be automatically populated with a list of states (provinces or regions) for the selected country. This list of states can be found in the file at `languages/states.php` and the filter `lifterlms_states` can be used to modify the default list at runtime.
++ Both "Country" and "State" fields are now searchable dropdowns elements.
++ The lists of countries and states will be automatically updated during future releases based on information provided by [GeoNames](https://www.geonames.org/) APIs.
+
+##### Mergecodes everywhere via new `[user]` shortcode
+
++ TODO.
+
+##### Updates
+
++ Email and password confirmation fields may now be made optional.
++ "User Information Options" have been largely removed in favor of determining which fields are displayed via the forms UI
++ The former "User Information Options" settings area has been renamed to "User Privacy Options".
+
+##### Bug Fixes
+
++ Changed the filter on return of `LLMS_Person_Handler::get_password_reset_fields()` from `lifterlms_lost_password_fields` to `llms_password_reset_fields`.
+
+##### Development changes
+
++ The filter `lifterlms_before_user_${action}` is now triggered by `do_action_ref_array()` instead of `do_action()` allowing modification of `$posted_data` and `$fields` via hooks.
++ A number of action and filter hooks have been moved to new locations within the codebase. They will continue to function as expected (with some minor exceptions).
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+##### Library & Vendor Updates
+
++ Load core libraries from new location and load WP Background Processing lib.
++ The vendor script dependency `topModal.js` has been removed.
+
+##### Templates Updated
+
++ templates/global/form-login.php
++ templates/global/form-registration.php
++ templates/product/free-enroll-form.php
+
+##### Deprecations
+
+The following have been deprecated and will be removed from LifterLMS in a major update following version 5.0.0.
+
++ Class Method: `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
++ Class Method: `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
++ Class Method: `LLMS_Person_Handler::sanitize_field()` (private method) is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
++ Class Method: `LLMS_Person_Handler::validate_fields()` is deprecated with no replacement.
++ Class Method: `LLMS_Person_Handler::voucher_toggle_script()` is deprecated with no replacement.
++ Filter: `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
++ Function: `llms_get_minimum_password_strength()` is deprecated with no replacement.
++ Option: `lifterlms_registration_generate_username` is deprecated in favor of the new method `LLMS_Forms::are_usernames_enabled()`.
+
+##### Removed Items
+
++ Private method `LLMS_Processors::includes()` has been removed.
++ Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
++ Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
++ Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
++ Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
+
+
 v4.21.3 - 2021-05-31
 --------------------
 
@@ -52,7 +219,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 
 + Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting a way to store XSS.
 + Thank you to Ashish Jha from [Bluefire Redteam](https://www.bluefire-redteam.com/) for reporting a reflected XSS issue on checkout screens.
-
 
 
 v4.21.0 - 2021-04-19
@@ -1183,6 +1349,75 @@ v3.37.8 - 2020-01-21
 + Fix: Quiz IDs on the quiz reporting screen now link to the quiz within the course builder. If the quiz is an "orphan" there will be no link.
 
 
+v3.38.0-beta.2 - 2019-12-19
+---------------------------
+
++ Update LifterLMS Blocks to v1.7.3.
+
+
+v3.38.0-beta.1 - 2019-12-13
+---------------------------
+
+##### Form Management Improvments
+
++ Forms (registration, checkout, account) are now managed via a block editor interface.
++ Customize field labels, description, and placeholders in a simple WYSIWYG interface.
++ Mark fields as required with a toggle.
++ Reorder fields with drag and drop.
++ Customize layout using block editor columns.
++ Use LifterLMS block-level visibility to conditionally display fields based on enrollment or logged in status.
+
+##### Form Localization
+
++ Added default country and state/region lists (see the "languages" directory).
++ Country and state forms are now searchable dropdowns that adjusted based on the currently selected country.
++ Each country's locale information (such as what a "post code" is called and whether or not the country has states or post codes) will update automatically based on the selected country.
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+##### Updates
+
++ New shortcode `[user]` which is used to output user information in a merge code interface.
++ Improved form field generation via `LLMS_Form_Field` class.
++ LifterLMS Settings: renamed "User Information Options" to "User Privacy Options".
++ Reorganized open registration setting.
++ Use `LLMS.wait_for()` for dependency waiting.
++ Moved checkout template variable declarations to the checkout shortcode controller.
++ Removed field display settings in favor of form customization using the form editors.
++ Organized function files. Some functions have been moved.
++ Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
++ Use `LLMS.wait_for()` for dependency waiting.
+
+##### LifterLMS Blocks v1.6.0
+
++ Feature: Added form field blocks for use on the Forms manager.
++ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
++ Update: Added isDisabled property to Search component.
++ Update: Adjusted priority of `render_block` filter to 20.
++ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
++ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
++ Bug fix: Pass style rules as camelCase.
+
+##### Removed unused Javascript assets
+
++ Remove unused bootstrap transiton and collapse scripts.
++ Remove topModal vendor dependency.
++ Remove password strength inline enqueues.
+
+##### Bug fixes
+
++ Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+
+##### Deprecations
+
++ Deprecated `LLMS_Person_Handler::register()` method, use `llms_register_user()` instead.
++ Deprecated `llms_get_minimum_password_strength()` with no replacement.
+
+##### Template Updates
+
++ templates/checkout/form-checkout.php
++ templates/checkout/form-gateways.php
++ templates/global/form-registration.php
+
 v3.37.7 - 2020-01-08
 --------------------
 
@@ -1317,19 +1552,6 @@ v3.36.3 - 2019-10-24
 + Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
 + Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
 + Fixed issue where `wp_list_pluck()` would run on non arrays.
-
-##### LifterLMS Rest API 1.0.0-beta.8
-
-+ Return links to those taxonomies which have an accessible rest route.
-+ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
-+ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
-+ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ `sales_page_page_id` and `sales_page_url` always returned in edit context.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
 
 
 v3.36.2 - 2019-10-01

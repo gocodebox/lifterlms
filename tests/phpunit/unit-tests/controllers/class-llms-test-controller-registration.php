@@ -4,23 +4,27 @@
  *
  * @group controllers
  * @group registration
+ * @group controller_registration
  *
  * @since 3.19.4
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since [version] Install forms during setup.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
 	/**
-	 * Test order completion actions
+	 * Test registration form submission.
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+	 * @since [version] Install forms during setup.
 	 *
 	 * @return void
 	 */
 	public function test_register() {
 
 		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install( true );
 
 		// form not submitted
 		$this->setup_post( array() );
@@ -78,6 +82,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 			'user_login' => '',
 			'email_address' => 'fake@mock.org',
+			'email_address_confirm' => 'fake@mock.org',
 			'password' => 'owb2g1pICH82',
 			'password_confirm' => 'owb2g1pICH82',
 			'first_name' => 'David',

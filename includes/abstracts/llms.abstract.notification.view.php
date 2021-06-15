@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 4.16.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,6 +159,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
 	 * @since 3.37.19 Moved the retrieval of the associated llms post into a protected method.
+	 * @since [version] Force [llms-user] shortocde to the user ID of the user who triggered the notification.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.
@@ -183,6 +184,31 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
+		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
+	}
+
+	/**
+	 * Destructor
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function __destruct() {
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+	}
+
+	/**
+	 * Set the user ID used by [llms-user] to the user triggering the notification.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $uid WP_User ID of the current user.
+	 * @return int
+	 */
+	public function set_shortcode_user( $uid ) {
+		return $this->user->get( 'id' );
 	}
 
 	/**

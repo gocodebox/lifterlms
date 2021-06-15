@@ -299,6 +299,37 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_open_registration_status()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_open_registration_status() {
+
+		// No value, defaults to no.
+		delete_option( 'lifterlms_enable_myaccount_registration' );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+
+		// Explicitly no.
+		update_option( 'lifterlms_enable_myaccount_registration', 'no' );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+
+		// Explicitly yes.
+		update_option( 'lifterlms_enable_myaccount_registration', 'yes' );
+		$this->assertEquals( 'yes', llms_get_open_registration_status() );
+
+		// Explicitly yes but filtered off.
+		$handler = function( $val ) {
+			return 'no';
+		};
+		add_filter( 'llms_enable_open_registration', $handler );
+		$this->assertEquals( 'no', llms_get_open_registration_status() );
+		remove_filter( 'llms_enable_open_registration', $handler );
+
+	}
+
+	/**
 	 * Test the llms_get_option_page_anchor() function
 	 *
 	 * @since 3.19.0

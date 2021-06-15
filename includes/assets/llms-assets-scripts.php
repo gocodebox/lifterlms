@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,6 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.8.0 Added llms-admin-setup.
+ * @since [version] Added llms-select2.
  */
 return array(
 
@@ -61,6 +62,12 @@ return array(
 		'path'         => 'assets/js/vendor/',
 		'suffix'       => '',
 		'version'      => '0.7.0',
+		'dependencies' => array( 'jquery' ),
+	),
+	'llms-select2'            => array(
+		'file_name'    => 'select2',
+		'path'         => 'assets/vendor/select2/js',
+		'version'      => '4.0.3',
 		'dependencies' => array( 'jquery' ),
 	),
 	'webui-popover'           => array(

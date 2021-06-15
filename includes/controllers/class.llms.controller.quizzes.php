@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
- * @version 4.14.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.9.0
  * @since 3.37.8 Add admin reporting actions handler.
+ * @since [version] Removed previously deprecated method `LLMS_Controller_Quizzes::take_quiz()`.
  */
 class LLMS_Controller_Quizzes {
 
@@ -59,50 +60,6 @@ class LLMS_Controller_Quizzes {
 		}
 
 		return false;
-
-	}
-
-	/**
-	 * Handle form submission of the "take quiz" button attached to lessons with quizzes
-	 *
-	 * @since 1.0.0
-	 * @since 3.9.0 Unknown.
-	 * @deprecated 4.14.0 `LLMS_Controller_Quizzes::take_quiz()` is deprecated in favor of `LLMS_AJAX_Handler::quiz_start()`.
-	 *
-	 * @return void
-	 */
-	public function take_quiz() {
-
-		_deprecated_function( 'LLMS_Controller_Quizzes::take_quiz()', '4.14.0', 'LLMS_AJAX_Handler::quiz_start()' );
-
-		// Invalid nonce or the form wasn't submitted.
-		if ( ! llms_verify_nonce( '_llms_take_quiz_nonce', 'take_quiz', 'POST' ) ) {
-			return;
-		}
-
-		// Check required fields.
-		if ( ! isset( $_POST['quiz_id'] ) || ! isset( $_POST['associated_lesson'] ) ) {
-			return llms_add_notice( __( 'Could not proceed to the quiz because required information was missing.', 'lifterlms' ), 'error' );
-		}
-
-		$quiz   = absint( $_POST['quiz_id'] );
-		$lesson = absint( $_POST['associated_lesson'] );
-
-		try {
-			$attempt = LLMS_Quiz_Attempt::init( $quiz, $lesson, get_current_user_id() )->save();
-		} catch ( Exception $exception ) {
-			return llms_add_notice( $exception->getMessage(), 'error' );
-		}
-
-		// Redirect user to quiz page.
-		$redirect = add_query_arg(
-			array(
-				'attempt_key' => $attempt->get_key(),
-			),
-			get_permalink( $quiz )
-		);
-		wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
-		exit;
 
 	}
 

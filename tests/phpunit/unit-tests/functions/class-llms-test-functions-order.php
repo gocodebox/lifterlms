@@ -6,7 +6,12 @@
  *
  * @group orders
  *
+ * @group orders
+ * @group functions
+ * @group functions_orders
+ *
  * @since 3.27.0
+ * @since [version] Updated for form handler error codes & install forms on setup.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -146,11 +151,13 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0
-	 * @version 3.27.0
-	 *
+	 * @since [version] Install forms & Updated expected error code.
+	 *               Only logged in users can edit themselves.
 	 * @return void
 	 */
 	public function test_llms_setup_pending_order() {
+
+		LLMS_Forms::instance()->install( true );
 
 		// enable t&c
 		update_option( 'lifterlms_registration_require_agree_to_terms', 'yes' );
@@ -217,13 +224,13 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		// no customer data
 		$this->setup_pending_order_fail( $order_data, 'missing-customer' );
 
-		// most customer data but missing required first name field
+		// most customer data but missing required email confirm field.
 		$order_data['customer'] = array(
 			'user_login' => 'arstehnarst',
 			'email_address' => 'arstinhasrteinharst@test.net',
-			'email_address_confirm' => 'arstinhasrteinharst@test.net',
-			'password' => '123456',
-			'password_confirm' => '123456',
+			'password' => '12345678',
+			'password_confirm' => '12345678',
+			'first_name' => 'Test',
 			'last_name' => 'Person',
 			'llms_billing_address_1' => '123',
 			'llms_billing_address_2' => '123',
@@ -235,16 +242,19 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		);
 
 		// missing required field
-		$this->setup_pending_order_fail( $order_data, 'first_name' );
+		$this->setup_pending_order_fail( $order_data, 'llms-form-missing-required' );
 
 		// existing user who's already enrolled
-		$order_data['customer']['first_name'] = 'Test';
-		$order_data['customer']['user_id'] = $this->factory->user->create( array( 'role' => 'student' ) );
-		llms_enroll_student( $order_data['customer']['user_id'], $course_id );
+		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
+		wp_set_current_user( $uid );
+		$order_data['customer']['email_address_confirm'] = 'arstinhasrteinharst@test.net';
+		$order_data['customer']['user_id'] = $uid;
+		llms_enroll_student( $uid, $course_id );
 		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
 
 		// this should return an array of details we need to create a new order!
 		unset( $order_data['customer']['user_id'] );
+		wp_set_current_user( null );
 		$order_data['customer']['email_address'] = 'arstarst@ats.net';
 		$order_data['customer']['email_address_confirm'] = 'arstarst@ats.net';
 		$setup = llms_setup_pending_order( $order_data );
@@ -265,7 +275,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	private function setup_pending_order_fail( $order_data, $expected_code ) {
 
 		$setup = llms_setup_pending_order( $order_data );
-
+// var_dump( $setup );
 		$this->assertTrue( is_wp_error( $setup ) );
 		$this->assertEquals( $expected_code, $setup->get_error_code() );
 

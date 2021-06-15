@@ -10,15 +10,18 @@
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
  * @since 4.0.0 Added create_mock_session-data() class.
  * @since 4.7.0 Disabled image sideloading during mock course generation.
+ * @since [version] Automatically clear notices on teardown.
+ *               Add a method to generate mock vouchers.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup tests
 	 * Automatically called before each test
+	 *
+	 * @since 3.17.0
+	 *
 	 * @return   void
-	 * @since    3.17.0
-	 * @version  3.17.0
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -451,6 +454,40 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		}
 
 		return $plan;
+
+	}
+
+	/**
+	 * Generate a mock voucher.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $codes Number of codes to create for the voucher.
+	 * @param int $uses Number of uses for each code.
+	 * @param array $products Array of WP_Post IDs to associate with voucher.
+	 * @return LLMS_Voucher
+	 */
+	protected function get_mock_voucher( $codes = 5, $uses = 1, $products = array() ) {
+
+		$voucher_id = $this->factory->post->create( array( 'post_type' => 'llms_voucher' ) );
+		$voucher = new LLMS_Voucher( $voucher_id );
+
+		if ( ! $products ) {
+			$products = array( $this->factory->course->create( array( 'sections' => 0 ) ) );
+		}
+
+		array_map( array( $voucher, 'save_product' ), $products );
+
+		$i = 1;
+		while( $i <= $codes ) {
+			$voucher->save_voucher_code( array(
+				'code'             => wp_generate_password( 12, false ),
+				'redemption_count' => $uses,
+			) );
+			++$i;
+		}
+
+		return $voucher;
 
 	}
 
