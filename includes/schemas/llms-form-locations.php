@@ -7,11 +7,11 @@
  *
  * @package LifterLMS/Schemas
  *
- * @see LLMS_Forms::get_locations() The core method used to retrieve the form locations schema.
- * @see llms_forms_get_locations Filter the form locations schema.
- *
  * @since [version]
  * @version [version]
+ *
+ * @see LLMS_Forms::get_locations() The core method used to retrieve the form locations schema.
+ * @see llms_forms_get_locations Filter the form locations schema.
  */
 
 defined( 'ABSPATH' ) || exit;

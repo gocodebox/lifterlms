@@ -56,7 +56,7 @@ function llms_update_500_add_admin_notice() {
 	$notice_id        = 'v500-welcome-msg';
 	$get_started_link = add_query_arg(
 		array(
-			'post_type'        => 'llms_form',
+			'post_type' => 'llms_form',
 		),
 		admin_url( 'edit.php' )
 	);
@@ -76,7 +76,7 @@ function llms_update_500_add_admin_notice() {
 			__( '%1$sRead More%2$s', 'lifterlms' ),
 			'<a class="button" href="https://blog.lifterlms.com/5-0/" target="_blank" rel="noopener">',
 			'</a>'
-		),
+		)
 	);
 
 	LLMS_Admin_Notices::add_notice(
