@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-rc.1 - 2021-06-15
+------------------------
+
++ Updates Action Scheduler library to version 3.2.0
++ Remove the {min_strength} and {min_length} merge codes from the User Password block description.
++ Don't load removed files during OptimizePress compatibility.
++ Add a 5.0.0 DB upgrade routine and welcome notice
++ Add the LifterLMS Helper as an included library
++ Add WordPress 5.8 compatibility on the Widgets and Customizer screens.
++ Move form location definitions into a schema file
++ Require WordPress 5.7+ to manage forms via the block editor
++ Upgrades LifterLMS Blocks to 2.0.0-rc.1
+
+
 v5.0.0-beta.2 - 2021-06-01
 ---------------------------
 

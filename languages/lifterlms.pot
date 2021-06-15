@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.0.0-beta.2\n"
+"Project-Id-Version: LifterLMS 5.0.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-01T14:17:21-06:00\n"
+"POT-Creation-Date: 2021-06-15T17:03:19-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: includes/class.llms.nav.menus.php:60
 #: includes/privacy/class-llms-privacy.php:32
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "LifterLMS"
 msgstr ""
 
@@ -246,7 +246,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.controller.php:309
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
 #: includes/llms.functions.core.php:647
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Author"
 msgstr ""
 
@@ -293,7 +293,7 @@ msgstr ""
 #: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:122
 #: includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:110
 #: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:140
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Email"
 msgstr ""
 
@@ -476,8 +476,8 @@ msgstr ""
 #: includes/admin/class-llms-admin-export-download.php:53
 #: includes/admin/class-llms-admin-export-download.php:58
 #: includes/admin/class.llms.admin.notices.php:244
-#: includes/class.llms.install.php:726
-#: includes/class.llms.install.php:746
+#: includes/class.llms.install.php:731
+#: includes/class.llms.install.php:751
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -648,7 +648,7 @@ msgid "All"
 msgstr ""
 
 #: includes/admin/class.llms.admin.builder.php:52
-#: includes/class.llms.install.php:347
+#: includes/class.llms.install.php:352
 #: includes/class.llms.student.dashboard.php:153
 msgid "Dashboard"
 msgstr ""
@@ -911,8 +911,8 @@ msgstr ""
 #: includes/admin/class.llms.admin.page.status.php:78
 #: includes/admin/class.llms.admin.page.status.php:271
 #: includes/class-llms-staging.php:89
-#: includes/class.llms.install.php:722
-#: includes/class.llms.install.php:742
+#: includes/class.llms.install.php:727
+#: includes/class.llms.install.php:747
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
@@ -1935,7 +1935,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.courses.php:311
 #: includes/admin/reporting/tables/llms.table.memberships.php:311
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructors"
 msgstr ""
 
@@ -1957,26 +1957,26 @@ msgid "Instructor"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:83
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Label"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:92
 #: includes/admin/views/access-plans/access-plan.php:102
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Visibility"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:94
 #: includes/functions/llms-functions-access-plans.php:258
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Visible"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 #: includes/functions/llms-functions-access-plans.php:259
 #: includes/llms.functions.core.php:588
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Hidden"
 msgstr ""
 
@@ -2336,7 +2336,7 @@ msgstr ""
 #: includes/class.llms.post-types.php:928
 #: includes/class.llms.post-types.php:968
 #: includes/class.llms.post-types.php:1006
-#: includes/forms/class-llms-form-post-type.php:234
+#: includes/forms/class-llms-form-post-type.php:237
 msgid "Edit"
 msgstr ""
 
@@ -2415,7 +2415,7 @@ msgid "Add New"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Location"
 msgstr ""
 
@@ -2655,7 +2655,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.students.php:601
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Name"
 msgstr ""
 
@@ -2793,7 +2793,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
 #: includes/schemas/llms-user-information-fields.php:77
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Last Name"
 msgstr ""
 
@@ -2801,7 +2801,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
 #: includes/schemas/llms-user-information-fields.php:69
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "First Name"
 msgstr ""
 
@@ -3363,7 +3363,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:41
 #: includes/admin/views/setup-wizard/step-pages.php:27
-#: includes/forms/class-llms-forms.php:751
+#: includes/schemas/llms-form-locations.php:21
 msgid "Checkout"
 msgstr ""
 
@@ -3442,7 +3442,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:249
 #: includes/schemas/llms-user-information-fields.php:121
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Country"
 msgstr ""
 
@@ -3536,7 +3536,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.courses.php:100
 #: includes/admin/views/setup-wizard/step-pages.php:19
-#: includes/class.llms.install.php:329
+#: includes/class.llms.install.php:334
 msgid "Course Catalog"
 msgstr ""
 
@@ -4684,7 +4684,7 @@ msgid "This page is where your visitors will find a list of all your available c
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-pages.php:23
-#: includes/class.llms.install.php:335
+#: includes/class.llms.install.php:340
 msgid "Membership Catalog"
 msgstr ""
 
@@ -4984,26 +4984,26 @@ msgstr ""
 msgid "The supplied generator is invalid."
 msgstr ""
 
-#: includes/class.llms.install.php:341
+#: includes/class.llms.install.php:346
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:460
+#: includes/class.llms.install.php:465
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:461
+#: includes/class.llms.install.php:466
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:462
+#: includes/class.llms.install.php:467
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:806
+#: includes/class.llms.install.php:811
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -5028,28 +5028,27 @@ msgstr ""
 msgid "Too Short"
 msgstr ""
 
-#. Translators: %1$s = Min strength merge code; %2$s = min length merge code.
 #: includes/class.llms.l10n.js.php:66
 #: includes/class.llms.l10n.js.php:468
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Very Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:67
 #: includes/class.llms.l10n.js.php:469
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:68
 #: includes/class.llms.l10n.js.php:470
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Medium"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:69
 #: includes/class.llms.l10n.js.php:471
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Strong"
 msgstr ""
 
@@ -5533,7 +5532,7 @@ msgstr ""
 #: includes/class.llms.person.handler.php:159
 #: includes/class.llms.person.handler.php:249
 #: includes/schemas/llms-user-information-fields.php:39
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Email Address"
 msgstr ""
 
@@ -5545,7 +5544,7 @@ msgstr ""
 #: includes/class.llms.person.handler.php:167
 #: includes/class.llms.person.handler.php:284
 #: includes/schemas/llms-user-information-fields.php:47
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password"
 msgstr ""
 
@@ -7238,77 +7237,77 @@ msgstr ""
 msgid "You must be logged in to perform this action."
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:227
+#: includes/forms/class-llms-form-post-type.php:230
 msgid "LifterLMS Forms"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:229
+#: includes/forms/class-llms-form-post-type.php:232
 msgid "Forms"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:230
+#: includes/forms/class-llms-form-post-type.php:233
 msgid "Form"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:231
+#: includes/forms/class-llms-form-post-type.php:234
 msgctxt "Admin menu name"
 msgid "Forms"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:232
-#: includes/forms/class-llms-form-post-type.php:233
+#: includes/forms/class-llms-form-post-type.php:235
+#: includes/forms/class-llms-form-post-type.php:236
 msgid "Add New Form"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:235
+#: includes/forms/class-llms-form-post-type.php:238
 #: includes/forms/class-llms-forms-admin-bar.php:62
 msgid "Edit Form"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:236
-#: includes/forms/class-llms-form-post-type.php:237
+#: includes/forms/class-llms-form-post-type.php:239
+#: includes/forms/class-llms-form-post-type.php:240
 msgid "View Form"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:238
+#: includes/forms/class-llms-form-post-type.php:241
 msgid "Search Forms"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:239
+#: includes/forms/class-llms-form-post-type.php:242
 msgid "No Forms found"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:240
+#: includes/forms/class-llms-form-post-type.php:243
 msgid "No Forms found in trash"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:286
+#: includes/forms/class-llms-form-post-type.php:289
 msgid "Determines the front-end location where the form is displayed."
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:289
+#: includes/forms/class-llms-form-post-type.php:292
 msgid "Determines whether or not to display the form's title on the front-end."
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:292
+#: includes/forms/class-llms-form-post-type.php:295
 msgid "Determines if the form is a core form required for basic site functionality."
 msgstr ""
 
 #. Translators: %s label of the controller field.
 #: includes/forms/class-llms-form-templates.php:141
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Confirm %s"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:336
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Have a voucher?"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:337
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Voucher Code"
 msgstr ""
 
@@ -7381,39 +7380,6 @@ msgstr ""
 
 #: includes/forms/class-llms-forms-dynamic-fields.php:299
 msgid "Current %s"
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:752
-msgid "Handles new user registration and existing user information updates during checkout and enrollment."
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:753
-msgid "Billing Information"
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:762
-msgid "Registration"
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:763
-msgid "Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used."
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:764
-#: templates/global/form-registration.php:77
-msgid "Register"
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:773
-msgid "Account"
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:774
-msgid "Handles user account information updates on the edit account area of the student dashboard."
-msgstr ""
-
-#: includes/forms/class-llms-forms.php:775
-msgid "Edit Account Information"
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:58
@@ -7723,6 +7689,24 @@ msgstr ""
 msgid "This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s."
 msgstr ""
 
+#: includes/functions/updates/llms-functions-updates-500.php:66
+msgid "Welcome to LifterLMS 5.0!"
+msgstr ""
+
+#: includes/functions/updates/llms-functions-updates-500.php:67
+msgid "This new version of LifterLMS brings you the power to build and customize your student information forms using a simple point and click interface constructed on top of the WordPress block editor. Customization like the removal of default fields, changing the text of field labels, or reordering fields within a form is all possible without any code or professional help."
+msgstr ""
+
+#. Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
+#: includes/functions/updates/llms-functions-updates-500.php:70
+msgid "%1$sGet Started%2$s"
+msgstr ""
+
+#. Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+#: includes/functions/updates/llms-functions-updates-500.php:76
+msgid "%1$sRead More%2$s"
+msgstr ""
+
 #: includes/functions/updates/llms-functions-updates-3130.php:52
 msgid "Welcome to LifterLMS 3.13.0! We've packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s."
 msgstr ""
@@ -7853,12 +7837,12 @@ msgid "Catalog &amp; Search"
 msgstr ""
 
 #: includes/llms.functions.core.php:586
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Catalog only"
 msgstr ""
 
 #: includes/llms.functions.core.php:587
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Search only"
 msgstr ""
 
@@ -8993,6 +8977,39 @@ msgstr ""
 msgid "Last Login Date"
 msgstr ""
 
+#: includes/schemas/llms-form-locations.php:22
+msgid "Handles new user registration and existing user information updates during checkout and enrollment."
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:23
+msgid "Billing Information"
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:42
+msgid "Registration"
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:43
+msgid "Handles new user registration and existing user information updates for open registration on the student dashboard and wherever the [lifterlms_registration] shortcode is used."
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:44
+#: templates/global/form-registration.php:77
+msgid "Register"
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:63
+msgid "Account"
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:64
+msgid "Handles user account information updates on the edit account area of the student dashboard."
+msgstr ""
+
+#: includes/schemas/llms-form-locations.php:65
+msgid "Edit Account Information"
+msgstr ""
+
 #: includes/schemas/llms-reusable-blocks.php:25
 msgctxt "Default form field reusable block title"
 msgid "Username (Reusable)"
@@ -9029,23 +9046,22 @@ msgid "Phone Number (Reusable)"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:31
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Username"
 msgstr ""
 
 #. Translators: %1$s = Min strength merge code; %2$s = min length merge code.
 #: includes/schemas/llms-user-information-fields.php:57
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
 msgid "A %1$s password is required with at least %2$s characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:85
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Display Name"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:95
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Address"
 msgstr ""
 
@@ -9292,12 +9308,12 @@ msgstr ""
 #: languages/countries-address-info.php:1275
 #: languages/countries-address-info.php:1280
 #: languages/countries-address-info.php:1285
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "City"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:125
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Select a Country"
 msgstr ""
 
@@ -9437,23 +9453,22 @@ msgstr ""
 #: languages/countries-address-info.php:1266
 #: languages/countries-address-info.php:1281
 #: languages/countries-address-info.php:1286
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:136
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Select a State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:143
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Postal / Zip Code"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:151
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Phone Number"
 msgstr ""
 
@@ -25910,43 +25925,43 @@ msgid "Świętokrzyskie Voivodeship"
 msgstr ""
 
 #: languages/states.php:3866
-msgid "Leiria District"
+msgid "Leiria"
 msgstr ""
 
 #: languages/states.php:3867
-msgid "Lisbon District"
+msgid "Lisbon"
 msgstr ""
 
 #: languages/states.php:3868
-msgid "Portalegre District"
+msgid "Portalegre"
 msgstr ""
 
 #: languages/states.php:3869
-msgid "Porto District"
+msgid "Porto"
 msgstr ""
 
 #: languages/states.php:3870
-msgid "Santarém District"
+msgid "Santarém"
 msgstr ""
 
 #: languages/states.php:3871
-msgid "Setúbal District"
+msgid "Setúbal"
 msgstr ""
 
 #: languages/states.php:3872
-msgid "Viana do Castelo District"
+msgid "Viana do Castelo"
 msgstr ""
 
 #: languages/states.php:3873
-msgid "Vila Real District"
+msgid "Vila Real"
 msgstr ""
 
 #: languages/states.php:3874
-msgid "Viseu District"
+msgid "Viseu"
 msgstr ""
 
 #: languages/states.php:3875
-msgid "Azores"
+msgid "Açores"
 msgstr ""
 
 #: languages/states.php:3876
@@ -25954,39 +25969,39 @@ msgid "Madeira"
 msgstr ""
 
 #: languages/states.php:3877
-msgid "Aveiro District"
+msgid "Aveiro"
 msgstr ""
 
 #: languages/states.php:3878
-msgid "Beja District"
+msgid "Beja"
 msgstr ""
 
 #: languages/states.php:3879
-msgid "Braga District"
+msgid "Braga"
 msgstr ""
 
 #: languages/states.php:3880
-msgid "Bragança District"
+msgid "Bragança"
 msgstr ""
 
 #: languages/states.php:3881
-msgid "Castelo Branco District"
+msgid "Castelo Branco"
 msgstr ""
 
 #: languages/states.php:3882
-msgid "Coimbra District"
+msgid "Coimbra"
 msgstr ""
 
 #: languages/states.php:3883
-msgid "Faro District"
+msgid "Faro"
 msgstr ""
 
 #: languages/states.php:3884
-msgid "Guarda District"
+msgid "Guarda"
 msgstr ""
 
 #: languages/states.php:3885
-msgid "Évora District"
+msgid "Évora"
 msgstr ""
 
 #: languages/states.php:3888
@@ -31212,7 +31227,7 @@ msgid "LifterLMS Blocks"
 msgstr ""
 
 #: libraries/lifterlms-blocks/includes/class-llms-blocks.php:74
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Custom User Information"
 msgstr ""
 
@@ -33662,6 +33677,14 @@ msgid "Search by membership title…"
 msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+msgid "User Email is a required field."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+msgid "Restore user email field?"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "Course Continue Button"
 msgstr ""
 
@@ -33815,13 +33838,13 @@ msgstr ""
 
 #. Translators: %d = Option index in the list of options.
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Option %d"
 msgstr ""
 
 #. Translators: %d = Option index in the list of options.
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:11
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:21
 msgid "option_%d"
 msgstr ""
 
@@ -33865,490 +33888,503 @@ msgstr ""
 msgid "Select a field"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
-msgid "Please choose a unique field name."
+#. Translators: %s = user-submitted value.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
+msgid "The value \"%s\" contains invalid characters. Only letters, numbers, underscores, and hyphens are allowed."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#. Translators: %s = user-submitted value.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:11
+msgid "The user meta key \"%s\" is not unique. Please choose a unique value."
+msgstr ""
+
+#. Translators: %s = user-submitted value.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+msgid "The ID \"%s\" is not unique. Please choose a unique field ID."
+msgstr ""
+
+#. Translators: %s = user-submitted value.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+msgid "The name \"%s\" is not unique. Please choose a globally unique field name."
+msgstr ""
+
+#. Translators: %s = user-submitted value.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+msgid "The chosen value \"%s\" is invalid."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+msgid "The value cannot be blank."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Required"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field is required."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field is optional."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field Width"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Determines the width of the form field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Placeholder"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Displays a placeholder option as the selected instead of a default value."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Confirmation Field"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "A Confirmation field is active."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "No confirmation field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Data Storage"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Usermeta Key"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Database field key name. Only accepts alphanumeric characters, hyphens, and underscores."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field Name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "The field's HTML name attribute."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field ID"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "The field's HTML id attribute."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Field Layout"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Columns"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "Stacked"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Input Confirmation Group"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Adds a required confirmation field to an input field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Remove confirmation field"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Checkboxes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A single checkbox toggle or a group of multiple checkboxes."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Radio"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A group of radio inputs which can be populated with any number of options."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Dropdown"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A select field which can be populated with any number of options."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Text"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "An input field which accepts any form of text."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A text input field which only accepts an email address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User password confirmation field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Number"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "An input field which only accepts numeric input."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "An input field which only accepts phone numbers."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Website Address / URL"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "An input field which only accepts a website address or URL."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A simple text input field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Minimum Value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Specify the minimum allowed value. Leave blank for no minimum."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Maximum Value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Specify the maximum allowed value. Leave blank for no maximum."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Textarea"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A text field accepting multiple lines of user information."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Rows"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Specify the number of text rows for the textarea input."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Voucher Code Redemption"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Allows user to redeem a voucher code during account registration."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Toggleable"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Field is revealed when the toggle is clicked."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Field is always visible."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Display Name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Allows a user to choose how their name will be displayed publicly on the site."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Login"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Field used to collect a user's account username. If this field is omitted a username will be automatically generated based off their email address. Users can always login using either their email address or username."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Email"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's account email address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's first name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's last name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's first and last name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Password"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:12
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's account password."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+msgid "A strong password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password strength meter description"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Enter a description for the password strength meter"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password strength meter"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password strength meter is enabled."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password strength meter is disabled."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Minimum Password Strength"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Display in the meter's description with: {min_strength}."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Minimum Password Length"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Display in the meter's description with: {min_length}."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Address"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A group of fields used to collect a user's full address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Street Address"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Collect a user's street address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's street address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Street Address Additional Information"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Apartment, suite, etc…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User City"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's billing city."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Country"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's billing country."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Postal Code"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A special field used to collect a user's postal or zip code."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "User Phone"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "A field used to collect a user's phone number."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "User Email is a required field."
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
-msgid "Restore user email field?"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Visible in the catalog and search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Only visible in the catalog."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Only visible in search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Hidden from catalog and search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Catalog & Search Visibility"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Catalog Visibility"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Click to copy."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "No fields found matching your search but you can use the shortcode below if the meta information exists in the database."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Shortcode"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Insert"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "LifterLMS User Information Shortcodes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Shortcodes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Filter by label, key, or ID…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Default value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Optional text displayed when no information exists or the user is logged out."
 msgstr ""
 
 #. Translators: %1$s = User's name; %2$s = User's id.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:14
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:23
 msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
 
 #. Translators: %d = The user ID.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "ID: %d"
 msgstr ""
 
 #. Translators: %d = The user ID.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Remove Instructor"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructor is visible on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructor is hidden on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Search…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Add"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "The form has been restored to the default template."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Undo"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Form Settings"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Display Form Title"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Not displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Revert to Default"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Replace the existing content of the form with the original default content."
 msgstr ""
