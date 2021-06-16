@@ -219,10 +219,9 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'desc'  => __( 'Since version 5.0, all user information fields are customized using the form editor.', 'lifterlms' ),
 				),
 				array(
-					'type' => 'custom-html',
+					'type'  => 'custom-html',
 					'value' => '<p><a class="button-primary" href="' . admin_url( 'edit.php?post_type=llms_form' ) . '">' . __( 'Edit Forms', 'lifterlms' ) . '</a></p>',
 				),
-
 
 				array(
 					'title' => __( 'Terms and Conditions', 'lifterlms' ),

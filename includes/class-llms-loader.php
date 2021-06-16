@@ -329,7 +329,6 @@ class LLMS_Loader {
 				define( $lib['const'], true );
 				require_once $lib['file'];
 			}
-
 		}
 
 		// Action Scheduler.
