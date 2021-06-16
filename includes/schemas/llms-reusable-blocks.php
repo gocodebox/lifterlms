@@ -58,6 +58,7 @@ return array(
 				'blockName' => 'llms/form-field-user-last-name',
 				'attrs'     => array(
 					'id'          => 'first_name',
+					'required'    => true,
 					'columns'     => 6,
 					'last_column' => false,
 				),
@@ -66,6 +67,7 @@ return array(
 				'blockName' => 'llms/form-field-user-last-name',
 				'attrs'     => array(
 					'id'          => 'last_name',
+					'required'    => true,
 					'columns'     => 6,
 					'last_column' => true,
 				),
@@ -91,6 +93,7 @@ return array(
 						'blockName' => 'llms/form-field-user-address-street-primary',
 						'attrs'     => array(
 							'id'          => 'llms_billing_address_1',
+							'required'    => true,
 							'columns'     => 8,
 							'last_column' => false,
 						),
@@ -99,6 +102,7 @@ return array(
 						'blockName' => 'llms/form-field-user-address-street-secondary',
 						'attrs'     => array(
 							'id'          => 'llms_billing_address_2',
+							'required'    => false,
 							'columns'     => 4,
 							'last_column' => true,
 						),
@@ -108,13 +112,15 @@ return array(
 			array(
 				'blockName' => 'llms/form-field-user-address-city',
 				'attrs'     => array(
-					'id' => 'llms_billing_city',
+					'id'       => 'llms_billing_city',
+					'required' => true,
 				),
 			),
 			array(
 				'blockName' => 'llms/form-field-user-address-country',
 				'attrs'     => array(
-					'id' => 'llms_billing_country',
+					'id'       => 'llms_billing_country',
+					'required' => true,
 				),
 			),
 			array(
@@ -124,6 +130,7 @@ return array(
 						'blockName' => 'llms/form-field-user-address-state',
 						'attrs'     => array(
 							'id'          => 'llms_billing_state',
+							'required'    => true,
 							'columns'     => 6,
 							'last_column' => false,
 						),
@@ -132,6 +139,7 @@ return array(
 						'blockName' => 'llms/form-field-user-address-postal-code',
 						'attrs'     => array(
 							'id'          => 'llms_billing_zip',
+							'required'    => true,
 							'columns'     => 6,
 							'last_column' => true,
 						),
@@ -144,7 +152,8 @@ return array(
 		'title'     => _x( 'Phone Number (Reusable)', 'Default form field reusable block title', 'lifterlms' ),
 		'blockName' => 'llms/form-field-user-phone',
 		'attrs'     => array(
-			'id' => 'llms_phone',
+			'id'       => 'llms_phone',
+			'required' => false,
 		),
 	),
 );
