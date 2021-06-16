@@ -67,6 +67,21 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Determines if the WP core requirements are met
+	 *
+	 * This is used to determine if the block editor can be used to manage forms and fields,
+	 * all frontend and server-side handling works on all core supported WP versions.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function are_requirements_met() {
+		global $wp_version;
+		return version_compare( $wp_version, self::MIN_WP_VERSION, '>=' );
+	}
+
+	/**
 	 * Determine if usernames are enabled on the site.
 	 *
 	 * This method is used to determine if a username can be used to login / reset a user's password.

@@ -106,6 +106,38 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test are_requirements_met()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_are_requirements_met() {
+
+		global $wp_version;
+		$temp = $wp_version;
+
+		$versions = array(
+			'5.3.1' => false,
+			'5.6.0' => false,
+			'5.6.5' => false,
+			'5.7.0' => true,
+			'5.7.2' => true,
+			'5.8.0' => true,
+		);
+
+		foreach ( $versions as $wp_version => $expect ) {
+
+			$this->assertEquals( $expect, LLMS_Forms::instance()->are_requirements_met(), $wp_version );
+
+		}
+
+		// Restore the version.
+		$wp_version = $temp;
+
+	}
+
+	/**
 	 * Test are_usernames_enabled() when at least one form with a username block exists.
 	 *
 	 * @since [version]
@@ -927,7 +959,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		$load = LLMS_Unit_Test_Util::call_method( $this->forms, 'load_reusable_blocks', array( $blocks ) );
 
 		// Make sure the loaded blocks match the following snapshot when serialized.
-		$expected = '<!-- wp:llms/form-field-confirm-group {"fieldLayout":"columns","llms_visibility":"logged_out"} --><!-- wp:llms/form-field-user-email {"field":"email","required":true,"label":"Email Address","name":"email_address","id":"email_address","data_store":"users","data_store_key":"user_email","llms_visibility":"logged_out","columns":6,"last_column":false,"isConfirmationControlField":true,"match":"email_address_confirm"} /--><!-- wp:llms/form-field-text {"field":"email","required":true,"label":"Confirm Email Address","name":"email_address_confirm","id":"email_address_confirm","data_store":false,"data_store_key":false,"llms_visibility":"logged_out","columns":6,"last_column":true,"isConfirmationField":true,"match":"email_address"} /--><!-- /wp:llms/form-field-confirm-group --><!-- wp:llms/form-field-user-address --><!-- wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-street-primary {"field":"text","label":"Address","name":"llms_billing_address_1","id":"llms_billing_address_1","data_store":"usermeta","data_store_key":"llms_billing_address_1","columns":8,"last_column":false} /--><!-- wp:llms/form-field-user-address-street-secondary {"field":"text","label":"","label_show_empty":true,"placeholder":"Apartment, suite, etc...","name":"llms_billing_address_2","id":"llms_billing_address_2","data_store":"usermeta","data_store_key":"llms_billing_address_2","columns":4,"last_column":true} /--><!-- /wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-city {"field":"text","label":"City","name":"llms_billing_city","id":"llms_billing_city","data_store":"usermeta","data_store_key":"llms_billing_city"} /--><!-- wp:llms/form-field-user-address-country {"field":"select","label":"Country","name":"llms_billing_country","id":"llms_billing_country","data_store":"usermeta","data_store_key":"llms_billing_country","options_preset":"countries","placeholder":"Select a Country","className":"llms-select2"} /--><!-- wp:llms/form-field-user-address-region --><!-- wp:llms/form-field-user-address-state {"field":"select","label":"State \/ Region","options_preset":"states","placeholder":"Select a State \/ Region","name":"llms_billing_state","id":"llms_billing_state","data_store":"usermeta","data_store_key":"llms_billing_state","columns":6,"last_column":false,"className":"llms-select2"} /--><!-- wp:llms/form-field-user-address-postal-code {"field":"text","label":"Postal \/ Zip Code","name":"llms_billing_zip","id":"llms_billing_zip","data_store":"usermeta","data_store_key":"llms_billing_zip","columns":6,"last_column":true} /--><!-- /wp:llms/form-field-user-address-region --><!-- /wp:llms/form-field-user-address -->';
+		$expected = '<!-- wp:llms/form-field-confirm-group {"fieldLayout":"columns","llms_visibility":"logged_out"} --><!-- wp:llms/form-field-user-email {"required":true,"id":"email_address","llms_visibility":"logged_out","name":"email_address","label":"Email Address","data_store":"users","data_store_key":"user_email","field":"email","columns":6,"last_column":false,"isConfirmationControlField":true,"match":"email_address_confirm"} /--><!-- wp:llms/form-field-text {"required":true,"id":"email_address_confirm","llms_visibility":"logged_out","name":"email_address_confirm","label":"Confirm Email Address","data_store":false,"data_store_key":false,"field":"email","columns":6,"last_column":true,"isConfirmationField":true,"match":"email_address"} /--><!-- /wp:llms/form-field-confirm-group --><!-- wp:llms/form-field-user-address --><!-- wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-street-primary {"id":"llms_billing_address_1","required":true,"columns":8,"last_column":false,"name":"llms_billing_address_1","label":"Address","data_store":"usermeta","data_store_key":"llms_billing_address_1","field":"text"} /--><!-- wp:llms/form-field-user-address-street-secondary {"id":"llms_billing_address_2","required":false,"columns":4,"last_column":true,"name":"llms_billing_address_2","label":"","label_show_empty":true,"data_store":"usermeta","data_store_key":"llms_billing_address_2","placeholder":"Apartment, suite, etc...","field":"text"} /--><!-- /wp:llms/form-field-user-address-street --><!-- wp:llms/form-field-user-address-city {"id":"llms_billing_city","required":true,"name":"llms_billing_city","label":"City","data_store":"usermeta","data_store_key":"llms_billing_city","field":"text"} /--><!-- wp:llms/form-field-user-address-country {"id":"llms_billing_country","required":true,"name":"llms_billing_country","label":"Country","data_store":"usermeta","data_store_key":"llms_billing_country","options_preset":"countries","placeholder":"Select a Country","field":"select","className":"llms-select2"} /--><!-- wp:llms/form-field-user-address-region --><!-- wp:llms/form-field-user-address-state {"id":"llms_billing_state","required":true,"columns":6,"last_column":false,"name":"llms_billing_state","label":"State \/ Region","data_store":"usermeta","data_store_key":"llms_billing_state","options_preset":"states","placeholder":"Select a State \/ Region","field":"select","className":"llms-select2"} /--><!-- wp:llms/form-field-user-address-postal-code {"id":"llms_billing_zip","required":true,"columns":6,"last_column":true,"name":"llms_billing_zip","label":"Postal \/ Zip Code","data_store":"usermeta","data_store_key":"llms_billing_zip","field":"text"} /--><!-- /wp:llms/form-field-user-address-region --><!-- /wp:llms/form-field-user-address -->';
 		$this->assertEquals( parse_blocks( $expected ), parse_blocks( serialize_blocks( $load ) ) );
 
 	}
