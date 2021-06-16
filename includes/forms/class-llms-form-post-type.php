@@ -223,9 +223,6 @@ class LLMS_Form_Post_Type {
 	 */
 	public function register_post_type() {
 
-		global $wp_version;
-		$show_ui = version_compare( $wp_version, $this->forms::MIN_WP_VERSION, '>=' );
-
 		$args = array(
 			'label'               => __( 'LifterLMS Forms', 'lifterlms' ),
 			'labels'              => array(
@@ -245,9 +242,9 @@ class LLMS_Form_Post_Type {
 			'public'              => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
-			'show_ui'             => $show_ui,
+			'show_ui'             => true,
 			'show_in_nav_menus'   => false,
-			'show_in_menu'        => $show_ui ? 'lifterlms' : false,
+			'show_in_menu'        => 'lifterlms',
 			'show_in_admin_bar'   => false,
 			'supports'            => array( 'title', 'editor', 'custom-fields' ),
 			'show_in_rest'        => true,
