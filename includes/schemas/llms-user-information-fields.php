@@ -53,13 +53,12 @@ return array(
 			'minlength' => 8,
 		),
 		'meter_description' => sprintf(
-			// Translators: %1$s = Min strength merge code; %2$s = min length merge code.
+			// Translators: %s = Minimum password strength.
 			__(
-				'A %1$s password is required with at least %2$s characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
+				'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
 				'lifterlms'
 			),
-			'{min_strength}',
-			'{min_length}'
+			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'strong' ) ),
 		),
 	),
 	array(
