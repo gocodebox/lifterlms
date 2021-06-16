@@ -194,11 +194,13 @@ class LLMS_Admin_Assets {
 
 			$this->maybe_enqueue_reporting( $screen );
 
-			wp_enqueue_script( 'top-modal' );
-
 			wp_enqueue_script( 'llms' );
 			wp_enqueue_script( 'llms-metaboxes' );
 
+			// Load forms advert/compat script.
+			if ( 'edit-llms_form' === $screen->id ) {
+				llms()->assets->enqueue_script( 'llms-admin-forms' );
+			}
 		}
 
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {

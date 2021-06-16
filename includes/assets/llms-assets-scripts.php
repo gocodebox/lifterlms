@@ -50,6 +50,9 @@ return array(
 	'llms-admin-setup'        => array(
 		'dependencies' => array( 'jquery' ),
 	),
+	'llms-admin-forms'        => array(
+		'dependencies' => array( 'wp-i18n' ),
+	),
 
 	// Vendor.
 	'llms-iziModal'           => array(
