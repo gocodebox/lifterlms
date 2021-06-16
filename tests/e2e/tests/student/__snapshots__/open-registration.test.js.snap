@@ -1,28 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 1`] = `"Province"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 1`] = `"Province*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 2`] = `"City"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 2`] = `"City*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 3`] = `"Postal code"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 3`] = `"Postal code*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 4`] = `"Region"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 4`] = `"Region*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 5`] = `"District"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 5`] = `"District*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 6`] = `"Postal code"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 6`] = `"Postal code*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 7`] = `"State"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 7`] = `"State*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 8`] = `"City"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 8`] = `"City*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 9`] = `"ZIP code"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 9`] = `"ZIP code*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 10`] = `"Emirate"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 10`] = `"Emirate*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 11`] = `"City"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 11`] = `"City*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 12`] = `"Postal code"`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 12`] = `"Postal code*"`;
 
 exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: China 1`] = `
 Object {
