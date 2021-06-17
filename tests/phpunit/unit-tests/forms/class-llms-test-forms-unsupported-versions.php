@@ -50,14 +50,23 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	 */
 	public function test_constructor() {
 
-		$this->assertFalse( has_action( 'current_screen', array( $this->main, 'init' ) ) );
-
 		global $wp_version;
 		$temp = $wp_version;
-		$wp_version = '5.6.2';
 
-		$this->init_main();
-		$this->assertEquals( 10, has_action( 'current_screen', array( $this->main, 'init' ) ) );
+		$versions = array(
+			'5.8.0' => false,
+			'5.7.2' => false,
+			'5.7.0' => false,
+			'5.6.2' => 10,
+			'5.6.0' => 10,
+			'5.5.0' => 10,
+		);
+
+		foreach ( $versions as $wp_version => $expect ) {
+			$this->init_main();
+			$this->assertEquals( $expect, has_action( 'current_screen', array( $this->main, 'init' ) ) );
+			remove_action( 'current_screen', array( $this->main, 'init' ) );
+		}
 
 		$wp_version = $temp;
 
