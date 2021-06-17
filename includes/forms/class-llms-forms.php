@@ -78,7 +78,7 @@ class LLMS_Forms {
 	 */
 	public function are_requirements_met() {
 		global $wp_version;
-		return version_compare( $wp_version, self::MIN_WP_VERSION, '>=' );
+		return version_compare( $wp_version, self::MIN_WP_VERSION, '>=' ) || is_plugin_active( 'gutenberg/gutenberg.php' );
 	}
 
 	/**
