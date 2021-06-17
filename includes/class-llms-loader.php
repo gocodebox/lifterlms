@@ -232,6 +232,7 @@ class LLMS_Loader {
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since [version] Include `LLMS_Forms_Unsupported_Versions` class.
 	 *
 	 * @return void
 	 */
@@ -258,6 +259,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
@@ -327,7 +329,6 @@ class LLMS_Loader {
 				define( $lib['const'], true );
 				require_once $lib['file'];
 			}
-
 		}
 
 		// Action Scheduler.
