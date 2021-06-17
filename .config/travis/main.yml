@@ -89,7 +89,7 @@ install:
       sudo mv docker-compose /usr/local/bin
       nvm install --lts
       npm ci
-      [[ -n $DOCKER_USERNAME ]] && [[ -n $DOCKER_PASSWORD ]] && docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+      [[ -n $DOCKER_USERNAME ]] && [[ -n $DOCKER_PASSWORD ]] && echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       composer run env up
       composer run env:setup
       if [ "latest" != $WP_VERSION ]; then
