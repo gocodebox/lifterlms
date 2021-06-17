@@ -121,13 +121,12 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	 */
 	public function test_init_for_form_post() {
 
-		set_current_screen( 'llms_form' );
-
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'http://example.org/wp-admin/edit.php?post_type=llms_form [302] YES' );
 
 		try {
 
+			set_current_screen( 'llms_form' );
 			$this->main->init();
 
 		} catch ( LLMS_Unit_Test_Exception_Redirect $exception ) {
