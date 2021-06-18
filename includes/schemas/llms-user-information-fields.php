@@ -58,7 +58,7 @@ return array(
 				'A %s password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols.',
 				'lifterlms'
 			),
-			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'strong' ) ),
+			llms_get_minimum_password_strength_name( get_option( 'lifterlms_registration_password_min_strength', 'strong' ) )
 		),
 	),
 	array(

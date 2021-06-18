@@ -208,10 +208,21 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type' => 'sectionstart',
 				),
 				array(
-					'title' => __( 'User Privacy Options', 'lifterlms' ),
+					'title' => __( 'User Information & Privacy Options', 'lifterlms' ),
 					'type'  => 'title',
 					'id'    => 'user_info_field_options_title',
 				),
+
+				array(
+					'title' => __( 'User Information Field Settings', 'lifterlms' ),
+					'type'  => 'subtitle',
+					'desc'  => __( 'Since version 5.0, all user information fields are customized using the form editor.', 'lifterlms' ),
+				),
+				array(
+					'type'  => 'custom-html',
+					'value' => '<p><a class="button-primary" href="' . admin_url( 'edit.php?post_type=llms_form' ) . '">' . __( 'Edit Forms', 'lifterlms' ) . '</a></p>',
+				),
+
 				array(
 					'title' => __( 'Terms and Conditions', 'lifterlms' ),
 					'type'  => 'subtitle',
