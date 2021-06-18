@@ -107,6 +107,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.4.0 Enqueue the main `llms` script.
 	 * @since [version] Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
+	 *               Add `llms-admin-forms` on the forms post table screen.
 	 *
 	 * @return void
 	 */
@@ -194,11 +195,13 @@ class LLMS_Admin_Assets {
 
 			$this->maybe_enqueue_reporting( $screen );
 
-			wp_enqueue_script( 'top-modal' );
-
 			wp_enqueue_script( 'llms' );
 			wp_enqueue_script( 'llms-metaboxes' );
 
+			// Load forms advert/compat script.
+			if ( 'edit-llms_form' === $screen->id ) {
+				llms()->assets->enqueue_script( 'llms-admin-forms' );
+			}
 		}
 
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
