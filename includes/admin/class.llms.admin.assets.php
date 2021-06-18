@@ -107,6 +107,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.4.0 Enqueue the main `llms` script.
 	 * @since [version] Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
+	 *               Add `llms-admin-forms` on the forms post table screen.
 	 *
 	 * @return void
 	 */
