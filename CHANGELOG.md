@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v5.0.0-rc.2 - 2021-06-18
+------------------------
+
++ Remove password description merge codes from reusable block schema.
++ Explicitly define required field attributes on reusable block schema.
++ Requires WP 5.7 or later to edit forms & show an upgrade nudge when requirements are not met.
++ Add a link from the (now) legacy account settings area to help experienced users find the new form building area
++ Add a (subtle) custom fields add-on upgrade nudge when viewing the forms list on the admin panel
++ Update LifterLMS Blocks to 2.0.0-rc.2
+
+
 v5.0.0-rc.1 - 2021-06-15
 ------------------------
 
