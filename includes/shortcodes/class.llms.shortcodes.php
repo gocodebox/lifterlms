@@ -14,10 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Shortcodes
  *
  * @since 1.0.0
- * @since 3.11.1 Unknown.
- * @since 3.23.0 Unknown.
- * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
- *               Use strict comparisons where possible/needed.
  * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
@@ -64,6 +60,7 @@ class LLMS_Shortcodes {
 		// Include abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
 
 		foreach ( $scs as $class ) {
 
@@ -82,6 +79,12 @@ class LLMS_Shortcodes {
 				require_once $path;
 			}
 		}
+
+		/**
+		 * @deprecated  2.0.0
+		 * @todo        deprecate
+		 */
+		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
 		// Old method.
 		$shortcodes = array(
@@ -104,7 +107,7 @@ class LLMS_Shortcodes {
 				/**
 				 * Filters the shortcode tag
 				 *
-				 * The dynamic portion fo the hook name, `$shortcode` refers to the shortcode tag itself.
+				 * The dynamic portion of the hook name, `$shortcode` refers to the shortcode tag itself.
 				 *
 				 * @since unknown
 				 *
@@ -558,7 +561,7 @@ class LLMS_Shortcodes {
 	 * Output a Pricing Table anywhere a shortcode can be output
 	 *
 	 * @since 3.2.5
-	 * @since 3.23.0 Unknown
+	 * @since 3.23.0 Unknown.
 	 * @since 3.38.0 Use `in_array()` with strict comparison.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added session cleanup cron.
  *              Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
+ * @since [version] Install forms during installation.
  */
 class LLMS_Install {
 
@@ -101,6 +102,11 @@ class LLMS_Install {
 		'4.15.0' => array(
 			'llms_update_4150_remove_orphan_access_plans',
 			'llms_update_4150_update_db_version',
+		),
+		'5.0.0'  => array(
+			'llms_update_500_legacy_options_autoload_off',
+			'llms_update_500_update_db_version',
+			'llms_update_500_add_admin_notice',
 		),
 	);
 
@@ -622,6 +628,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Install forms.
 	 *
 	 * @return void
 	 */
@@ -648,6 +655,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		self::create_files();
 		self::create_difficulties();
 		self::create_visibilities();
+
+		LLMS_Forms::instance()->install();
 
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
@@ -866,6 +875,37 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 	}
 
+	/**
+	 * Get the WP User ID of the first available user who can 'manage_options'
+	 *
+	 * @since [version]
+	 *
+	 * @return int Returns the ID of the current user if they can 'manage_options'.
+	 *             Otherwise returns the ID of the first Administrator if they can 'manage_options'.
+	 *             Returns 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+	 */
+	public static function get_can_install_user_id() {
+
+		$capability = 'manage_options';
+
+		if ( current_user_can( $capability ) ) {
+			return get_current_user_id();
+		}
+
+		// Get the first user with administrator role.
+		// Here, for simplicity, we're assuming the administrator's role capabilities are the original ones.
+		$first_admin_user = get_users(
+			array(
+				'role'    => 'Administrator',
+				'number'  => 1,
+				'orderby' => 'ID',
+			)
+		);
+
+		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
+		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
+
+	}
 }
 
 LLMS_Install::init();

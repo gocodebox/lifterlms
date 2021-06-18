@@ -16,10 +16,6 @@
 		this.$widgets      = $( '.llms-widget' );
 		this.$info_toggles = $( '.llms-widget-info-toggle' );
 
-
-
-
-
 		this.init = function() {
 			this.bind();
 		};

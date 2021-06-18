@@ -1,0 +1,1569 @@
+# Copyright (C) 2019-2021 LifterLMS
+# This file is distributed under the same license as the LifterLMS REST API plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LifterLMS REST API 1.0.0-beta.19\n"
+"Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
+"Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
+"Language-Team: Team LifterLMS <team@lifterlms.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-04-13T10:38:14-06:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: llms-dev 1.0.0\n"
+"X-Domain: lifterlms\n"
+
+#. Plugin Name of the plugin
+#: includes/class-llms-rest-authentication.php:285
+msgid "LifterLMS REST API"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://lifterlms.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "REST API feature plugin for the LifterLMS Core."
+msgstr ""
+
+#. Author of the plugin
+msgid "LifterLMS"
+msgstr ""
+
+#. Translators: %s = method name.
+#: includes/abstracts/class-llms-rest-controller-stubs.php:56
+#: includes/abstracts/class-llms-rest-controller-stubs.php:72
+msgid "Method '%s' not implemented. Must be overridden in subclass."
+msgstr ""
+
+#. Translators: %s = method name.
+#: includes/abstracts/class-llms-rest-controller-stubs.php:90
+#: includes/abstracts/class-llms-rest-controller-stubs.php:119
+#: includes/abstracts/class-llms-rest-controller-stubs.php:138
+#: includes/abstracts/class-llms-rest-controller-stubs.php:156
+#: includes/abstracts/class-llms-rest-controller-stubs.php:182
+#: includes/abstracts/class-llms-rest-controller-stubs.php:207
+#: includes/abstracts/class-llms-rest-controller-stubs.php:238
+msgid "Method '%s' must be overridden."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:65
+msgid "Cannot create an existing resource."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:204
+msgid "Column names to be searched. Accepts a single column or a comma separated list of columns."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:217
+msgid "Order sort attribute ascending or descending."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:225
+msgid "Sort collection by object attribute."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:233
+msgid "Limit results to a list of ids. Accepts a single id or a comma separated list of ids."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:242
+msgid "Exclude a list of ids from results. Accepts a single id or a comma separated list of ids."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:306
+msgid "The page number requested is larger than the number of pages available."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:382
+#: includes/abstracts/class-llms-rest-controller.php:414
+msgid "You must provide a valid set of columns to search into."
+msgstr ""
+
+#. Translators: %1$s comma separated list of search columns.
+#: includes/abstracts/class-llms-rest-controller.php:397
+msgid "You are not allowed to search into the provided column(s): %1$s"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-controller.php:685
+msgid "Unique identifier for the resource."
+msgstr ""
+
+#. Translators: %s = name of the resource type (for example: "API Key").
+#: includes/abstracts/class-llms-rest-database-resource.php:105
+msgid "Cannot create a new %s with a pre-defined ID."
+msgstr ""
+
+#. Translators: %1$s = name of the resource type; %2$s = field name.
+#: includes/abstracts/class-llms-rest-database-resource.php:118
+msgid "%1$s \"%2$s\" is required."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-database-resource.php:193
+msgid "Resource"
+msgstr ""
+
+#. Translators: %s = name of the resource type (for example: "API Key").
+#: includes/abstracts/class-llms-rest-database-resource.php:212
+msgid "No %s ID was supplied."
+msgstr ""
+
+#. Translators: %s = name of the resource type (for example: "API Key").
+#: includes/abstracts/class-llms-rest-database-resource.php:218
+msgid "The requested %s could not be located."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:86
+msgid "Bypass the trash and force course deletion."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:108
+msgid "Post password. Required if the post is password protected."
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:190
+msgid "Cannot create existing %s."
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:195
+msgid "Sorry, you are not allowed to create %s as this user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:199
+#: includes/abstracts/class-llms-rest-posts-controller.php:489
+msgid "Sorry, you are not allowed to assign the provided terms."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:337
+msgid "Incorrect password."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:368
+msgid "Limit result set to posts assigned one or more statuses."
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:485
+msgid "Sorry, you are not allowed to update %s as this user."
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:635
+msgid "Sorry, you are not allowed to delete %s as this user."
+msgstr ""
+
+#. translators: %1$s: post type name, %2$s: force=true
+#: includes/abstracts/class-llms-rest-posts-controller.php:686
+msgid "The %1$s does not support trashing. Set '%2$s' to delete."
+msgstr ""
+
+#. translators: %s: post type name
+#: includes/abstracts/class-llms-rest-posts-controller.php:710
+msgid "The %s cannot be deleted."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1091
+msgid "Unique Identifier. The WordPress Post ID."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1097
+#: includes/server/class-llms-rest-students-progress-controller.php:230
+#: includes/server/class-llms-rest-webhooks-controller.php:182
+msgid "Creation date. Format: Y-m-d H:i:s"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1102
+#: includes/abstracts/class-llms-rest-posts-controller.php:1119
+msgid "Creation date (in GMT). Format: Y-m-d H:i:s"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1107
+#: includes/server/class-llms-rest-students-progress-controller.php:239
+#: includes/server/class-llms-rest-webhooks-controller.php:189
+msgid "Date last modified. Format: Y-m-d H:i:s"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1113
+msgid "Date last modified (in GMT). Format: Y-m-d H:i:s"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1128
+msgid "Post title."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1138
+msgid "Raw title. Useful when displaying title in the WP Block Editor. Only returned in edit context."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1143
+msgid "Rendered title."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1152
+msgid "The HTML content of the post."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1161
+msgid "Rendered HTML content."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1167
+msgid "Raw HTML content. Useful when displaying title in the WP Block Editor. Only returned in edit context."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1172
+msgid "Whether the content is protected with a password."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1181
+msgid "The HTML excerpt of the post."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1189
+msgid "Rendered HTML excerpt."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1195
+msgid "Raw HTML excerpt. Useful when displaying title in the WP Block Editor. Only returned in edit context."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1200
+msgid "Whether the excerpt is protected with a password."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1208
+msgid "Post URL."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1215
+msgid "Post URL slug."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1223
+msgid "LifterLMS custom post type"
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1229
+msgid "The publication status of the post."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1243
+msgid "Password used to protect access to the content."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1248
+msgid "Featured image ID."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1253
+msgid "Post comment status. Default comment status dependent upon general WordPress post discussion settings."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1260
+msgid "Post ping status. Default ping status dependent upon general WordPress post discussion settings."
+msgstr ""
+
+#. translators: %s: post type
+#: includes/abstracts/class-llms-rest-posts-controller.php:1292
+msgid "The %s cannot be retrieved."
+msgstr ""
+
+#. translators: %s: post type
+#: includes/abstracts/class-llms-rest-posts-controller.php:1318
+msgid "The %s cannot be created."
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:1500
+msgid "Sorry, you are not allowed to create private %s."
+msgstr ""
+
+#. Translators: $s = The post type name.
+#: includes/abstracts/class-llms-rest-posts-controller.php:1507
+msgid "Sorry, you are not allowed to publish %s."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1540
+msgid "Invalid featured media ID."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-posts-controller.php:1809
+msgid "Status is forbidden."
+msgstr ""
+
+#. Translators: %s = role key.
+#: includes/abstracts/class-llms-rest-users-controller.php:90
+msgid "The role %s does not exist."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:104
+#: includes/abstracts/class-llms-rest-users-controller.php:114
+msgid "You are not allowed to give users this role."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:163
+msgid "Invalid user ID for reassignment."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:173
+msgid "The user could not be deleted."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:204
+msgid "Include only users keys matching matching a specific role. Accepts a single role or a comma separated list of roles."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:227
+msgid "Reassign the deleted user's posts and links to this user ID."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:263
+msgid "Unique identifier for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:269
+msgid "Login name for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:277
+msgid "Display name for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:285
+msgid "First name for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:293
+msgid "Last name for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:301
+msgid "The email address for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:308
+msgid "URL of the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:314
+msgid "Description of the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:319
+msgid "The nickname for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:327
+msgid "Registration date for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:334
+msgid "Roles assigned to the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:344
+msgid "Password for the user (never included)."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:352
+msgid "User address line 1."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:360
+msgid "User address line 2."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:368
+msgid "User address city name."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:376
+msgid "User address ISO code for the state, province, or district."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:384
+msgid "User address postal code."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:392
+msgid "User address ISO code for the country."
+msgstr ""
+
+#. Translators: %d = avatar image size in pixels.
+#: includes/abstracts/class-llms-rest-users-controller.php:408
+msgid "Avatar URL with image size of %d pixels."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:416
+msgid "Avatar URLs for the user."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:630
+msgid "Passwords cannot contain the \"\\\" character."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:654
+msgid "Username contains invalid characters."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:666
+msgid "Username is not allowed."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:741
+msgid "Invalid email address."
+msgstr ""
+
+#: includes/abstracts/class-llms-rest-users-controller.php:746
+msgid "Username is not editable."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-form-controller.php:47
+msgid "The API Key has been successfully deleted."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-form-controller.php:55
+msgid "The webhook has been successfully deleted."
+msgstr ""
+
+#. Translators: %s = Consumer Key.
+#: includes/admin/class-llms-rest-admin-form-controller.php:86
+msgid "Consumer Key: %s"
+msgstr ""
+
+#. Translators: %s = Consumer Secret.
+#: includes/admin/class-llms-rest-admin-form-controller.php:89
+msgid "Consumer Secret: %s"
+msgstr ""
+
+#. Translators: %s = Webhook ID.
+#: includes/admin/class-llms-rest-admin-form-controller.php:129
+msgid "\"%s\" is not a valid Webhook."
+msgstr ""
+
+#. Translators: %1$s = error message; %2$s = error code.
+#. Translators: %1$s = Error message; %2$s = Error code.
+#: includes/admin/class-llms-rest-admin-form-controller.php:141
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:249
+msgid "Error: %1$s [Code: %2$s]"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:54
+msgid "API Key Details"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:54
+#: includes/admin/class-llms-rest-admin-settings-page.php:81
+msgid "API Keys"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:57
+msgid "Add API Key"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:71
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:149
+msgid "Description"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:72
+msgid "A friendly, human-readable, name used to identify the key."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:82
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:151
+msgid "User"
+msgstr ""
+
+#. Translators: %1$s = opening anchor tag to capabilities doc; %2$s closing anchor tag.
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:86
+msgid "The owner is used to determine what user %1$scapabilities%2$s are available to the API key."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:91
+msgid "Select a user"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:99
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:152
+msgid "Permissions"
+msgstr ""
+
+#. Translators: %1$s = opening anchor tag to doc; %2$s closing anchor tag.
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:102
+msgid "Determines what kind of requests can be made with the API key. %1$sRead more%2$s."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:115
+msgid "Consumer key ending in"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:126
+msgid "Last accessed at"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:140
+msgid "Make sure to copy or download the consumer key and consumer secret. After leaving this page they will not be displayed again."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:144
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:150
+msgid "Consumer key"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:156
+msgid "Consumer secret"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:184
+msgid "Download Keys"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:186
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:122
+msgid "Save"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:190
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:50
+msgid "Revoke"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:205
+msgid "Invalid api key."
+msgstr ""
+
+#. Translators: %s = Invalid API Key ID.
+#: includes/admin/class-llms-rest-admin-settings-api-keys.php:294
+msgid "\"%s\" is not a valid API Key."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-page.php:31
+msgid "REST API"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-page.php:85
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:44
+msgid "Webhooks"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:44
+msgid "Webhook Details"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:47
+msgid "Add Webhook"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:60
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:136
+msgid "Name"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:61
+msgid "A friendly, human-readable, name used to identify the webhook."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:69
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:137
+msgid "Status"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:83
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:138
+msgid "Topic"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:92
+#: includes/class-llms-rest-webhooks.php:231
+msgid "Action"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:94
+msgid "Any registered WordPress, plugin, or theme action hook."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:100
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:139
+msgid "Delivery URL"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:102
+msgid "URL where the webhook payload will be delivered."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:113
+msgid "Secret Key"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:115
+msgid "The secret key can be used to verify received payloads originated from this website."
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:125
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:51
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/class-llms-rest-admin-settings-webhooks.php:152
+msgid "Invalid webhook."
+msgstr ""
+
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:49
+#: includes/admin/tables/class-llms-rest-table-webhooks.php:50
+msgid "View/Edit"
+msgstr ""
+
+#: includes/admin/tables/class-llms-rest-table-api-keys.php:153
+msgid "Last Access"
+msgstr ""
+
+#: includes/class-llms-rest-api-keys.php:138
+msgid "API Key"
+msgstr ""
+
+#: includes/class-llms-rest-api-keys.php:150
+msgid "Read"
+msgstr ""
+
+#: includes/class-llms-rest-api-keys.php:151
+msgid "Write"
+msgstr ""
+
+#: includes/class-llms-rest-api-keys.php:152
+msgid "Read / Write"
+msgstr ""
+
+#. Translators: %s = Invalid user id.
+#: includes/class-llms-rest-api-keys.php:176
+msgid "\"%s\" is not a valid user ID."
+msgstr ""
+
+#: includes/class-llms-rest-api-keys.php:181
+msgid "An API Description is required."
+msgstr ""
+
+#. Translators: %s = Invalid permission string.
+#: includes/class-llms-rest-api-keys.php:187
+msgid "\"%s\" is not a valid permission."
+msgstr ""
+
+#. Translators: %s = created date.
+#: includes/class-llms-rest-webhooks.php:126
+msgid "Webhook created on %s"
+msgstr ""
+
+#. Translators: Date format.
+#: includes/class-llms-rest-webhooks.php:128
+msgctxt "Webhook created on date parsed by strftime"
+msgid "%b %d, %Y @ %I:%M %p"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:144
+msgid "Webhook"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:166
+msgid "Active"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:167
+msgid "Paused"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:168
+msgid "Disabled"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:195
+msgid "Course created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:196
+msgid "Course updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:197
+msgid "Course deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:198
+msgid "Course restored"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:199
+msgid "Section created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:200
+msgid "Section updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:201
+msgid "Section deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:202
+msgid "Lesson created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:203
+msgid "Lesson updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:204
+msgid "Lesson deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:205
+msgid "Lesson restored"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:206
+msgid "Membership created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:207
+msgid "Membership updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:208
+msgid "Membership deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:209
+msgid "Membership restored"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:210
+msgid "Access Plan created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:211
+msgid "Access Plan updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:212
+msgid "Access Plan deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:213
+msgid "Order created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:214
+msgid "Order updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:215
+msgid "Order deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:216
+msgid "Order restored"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:217
+msgid "Transaction created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:218
+msgid "Transaction updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:219
+msgid "Transaction deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:220
+msgid "Student created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:221
+msgid "Student updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:222
+msgid "Student deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:223
+msgid "Enrollment created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:224
+msgid "Enrollment updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:225
+msgid "Enrollment deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:226
+msgid "Progress updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:227
+msgid "Progress deleted"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:228
+msgid "Instructor created"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:229
+msgid "Instructor updated"
+msgstr ""
+
+#: includes/class-llms-rest-webhooks.php:230
+msgid "Instructor deleted"
+msgstr ""
+
+#. Translators: %s = Invalid permission string.
+#: includes/class-llms-rest-webhooks.php:435
+msgid "\"%s\" is not a valid status."
+msgstr ""
+
+#. Translators: %s = Invalid permission string.
+#: includes/class-llms-rest-webhooks.php:441
+msgid "\"%s\" is not a valid topic."
+msgstr ""
+
+#. Translators: %s = field name.
+#: includes/class-llms-rest-webhooks.php:448
+msgid "\"%s\" is required."
+msgstr ""
+
+#: includes/models/class-llms-rest-api-key.php:128
+msgid "None"
+msgstr ""
+
+#. Translators: %1$s: Last access date; %2$s: Last access time.
+#: includes/models/class-llms-rest-api-key.php:132
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: includes/models/class-llms-rest-webhook.php:136
+msgid "M j, Y @ H:i"
+msgstr ""
+
+#. Translators: %s = Error message.
+#: includes/models/class-llms-rest-webhook.php:409
+msgid "Could not reach the delivery url: \"%s\"."
+msgstr ""
+
+#. Translators: %d = Response code.
+#: includes/models/class-llms-rest-webhook.php:414
+msgid "The delivery url returned the response code \"%d\"."
+msgstr ""
+
+#: includes/server/class-llms-rest-access-plans-controller.php:92
+msgid "Retrieve access plans for a specific list of one or more posts. Accepts a course/membership id or comma separated list of course/membership ids."
+msgstr ""
+
+#. Translators: %1$d = access plans limit per product, %2$s access plan post type plural name, %3$s product post type singular name.
+#: includes/server/class-llms-rest-access-plans-controller.php:744
+msgid "Only %1$d %2$s allowed per %3$s"
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:86
+msgid "Include only API keys matching a specific permission."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:92
+msgid "Include only keys for the specified user(s). Accepts a single id or a comma separated list of ids."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:97
+msgid "Exclude keys for the specified user(s). Accepts a single id or a comma separated list of ids."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:120
+#: includes/server/class-llms-rest-webhooks-controller.php:147
+msgid "Friendly, human-readable name or description."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:129
+msgid "Determines the capabilities and permissions of the key."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:136
+msgid "The WordPress User ID of the key owner."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:146
+msgid "The last 7 characters of the Consumer Key."
+msgstr ""
+
+#: includes/server/class-llms-rest-api-keys-controller.php:152
+msgid "The date the key was last used. Format: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:110
+#: includes/server/class-llms-rest-courses-controller.php:130
+msgid "Unique Course Identifier. The WordPress Post ID"
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:176
+msgid "Visibility of the course in catalogs and search results."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:184
+msgid "List of course categories."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:192
+msgid "List of course tags."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:200
+msgid "List of course difficulties."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:208
+msgid "List of course tracks."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:216
+msgid "List of course instructors. Defaults to current user when creating a new post."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:227
+#: includes/server/class-llms-rest-lessons-controller.php:370
+msgid "URL to an oEmbed enable audio URL."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:236
+#: includes/server/class-llms-rest-lessons-controller.php:379
+msgid "URL to an oEmbed enable video URL."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:245
+msgid "Determines if an enrollment capacity limit is enabled."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:250
+msgid "Number of students who can be enrolled in the course before enrollment closes."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:258
+msgid "Message displayed when enrollment capacity has been reached."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:267
+#: includes/server/class-llms-rest-courses-controller.php:327
+#: includes/server/class-llms-rest-courses-controller.php:362
+#: includes/server/class-llms-rest-courses-controller.php:396
+#: includes/server/class-llms-rest-courses-controller.php:430
+#: includes/server/class-llms-rest-courses-controller.php:464
+#: includes/server/class-llms-rest-memberships-controller.php:189
+msgid "Raw message content."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:272
+#: includes/server/class-llms-rest-courses-controller.php:333
+#: includes/server/class-llms-rest-courses-controller.php:367
+#: includes/server/class-llms-rest-courses-controller.php:401
+#: includes/server/class-llms-rest-courses-controller.php:435
+#: includes/server/class-llms-rest-courses-controller.php:469
+#: includes/server/class-llms-rest-memberships-controller.php:194
+msgid "Rendered message content."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:280
+msgid "Course ID of the prerequisite course."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:288
+msgid "Term ID of a prerequisite track."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:296
+msgid "User defined course length."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:305
+msgid "Raw length description."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:310
+msgid "Rendered length description."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:318
+msgid "Message displayed when non-enrolled visitors try to access restricted course content (lessons, quizzes, etc..) directly."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:328
+#: includes/server/class-llms-rest-courses-controller.php:339
+msgid "You must enroll in this course to access course content."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:342
+msgid ""
+"Date when the course closes. After this date enrolled students may no longer view and interact with the restricted course content.\n"
+"\t\t\t\t\tIf blank the course is open indefinitely after the the access_opens_date has passed.\n"
+"\t\t\t\t\tDoes not affect course enrollment, see enrollment_opens_date to control the course enrollment close date.\n"
+"\t\t\t\t\tFormat: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:353
+msgid "Message displayed to enrolled students when the course is accessed after the access_closes_date has passed."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:373
+msgid "This course closed on [lifterlms_course_info id=\"{{course_id}}\" key=\"end_date\"]."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:376
+msgid ""
+"Date when the course opens, allowing enrolled students to begin to view and interact with the restricted course content.\n"
+"\t\t\t\t\tIf blank the course is open until after the access_closes_date has passed.\n"
+"\t\t\t\t\tDoes not affect course enrollment, see enrollment_opens_date to control the course enrollment start date.\n"
+"\t\t\t\t\tFormat: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:387
+msgid "Message displayed to enrolled students when the course is accessed before the access_opens_date has passed."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:407
+msgid "This course opens on [lifterlms_course_info id=\"{{course_id}}\" key=\"start_date\"]."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:410
+msgid ""
+"Date when the course enrollment closes.\n"
+"\t\t\t\t\tIf blank course enrollment is open indefinitely after the the enrollment_opens_date has passed.\n"
+"\t\t\t\t\tDoes not affect course content access, see access_opens_date to control course access close date.\n"
+"\t\t\t\t\tFormat: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:421
+msgid "Message displayed to visitors when attempting to enroll into a course after the enrollment_closes_date has passed."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:441
+msgid "Enrollment in this course closed on [lifterlms_course_info id=\"{{course_id}}\" key=\"enrollment_end_date\"]."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:444
+msgid ""
+"Date when the course enrollment opens.\n"
+"\t\t\t\t\tIf blank course enrollment is open until after the enrollment_closes_date has passed.\n"
+"\t\t\t\t\tDoes not affect course content access, see access_opens_date to control course access start date.\n"
+"\t\t\t\t\tFormat: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:455
+msgid "Message displayed to visitors when attempting to enroll into a course before the enrollment_opens_date has passed."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:475
+msgid "Enrollment in this course opens on [lifterlms_course_info id=\"{{course_id}}\" key=\"enrollment_start_date\"]."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:478
+msgid "The WordPress page ID of the sales page. Required when sales_page_type equals page. Only returned when the sales_page_type equals page."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:489
+msgid "Determines the type of sales page content to display.<br> - <code>none</code> displays the course content.<br> - <code>content</code> displays alternate content from the <code>excerpt</code> property.<br> - <code>page</code> redirects to the WordPress page defined in <code>content_page_id</code>.<br> - <code>url</code> redirects to the URL defined in <code>content_page_url</code>"
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:499
+msgid "The URL of the sales page content. Required when <code>content_type</code> equals <code>url</code>. Only returned when the <code>content_type</code> equals <code>url</code>."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:511
+msgid "When true the video_embed will be used on the course tiles (on the catalog, for example) instead of the featured image."
+msgstr ""
+
+#: includes/server/class-llms-rest-courses-controller.php:1195
+#: includes/server/class-llms-rest-memberships-controller.php:64
+msgid "Limit results to a specific student or a list of students. Accepts a single student id or a comma separated list of student ids."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:91
+msgid "The trigger of the enrollment to act on."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:138
+msgid "Unique course or membership Identifier. The WordPress Post `ID.`"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:281
+msgid "Cannot create existing enrollment. Use the PATCH method if you want to update an existing enrollment"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:285
+msgid "Sorry, you are not allowed to create an enrollment as this user."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:331
+msgid "The enrollment could not be created"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:367
+msgid "Sorry, you are not allowed to update an enrollment as this user."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:417
+msgid "The enrollment status could not be updated"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:431
+msgid "The enrollment creation date could not be updated"
+msgstr ""
+
+#. Translators: %s = The post type name.
+#: includes/server/class-llms-rest-enrollments-controller.php:471
+msgid "Sorry, you are not allowed to delete enrollments as this user."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:511
+msgid "The enrollment cannot be deleted."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:643
+msgid "Filter results to records matching the specified status."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:650
+msgid "Limit results to a specific course or membership or a list of courses and/or memberships. Accepts a single post id or a comma separated list of post ids."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:675
+#: includes/server/class-llms-rest-students-progress-controller.php:224
+msgid "The ID of the course/membership."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:681
+#: includes/server/class-llms-rest-students-progress-controller.php:218
+msgid "The ID of the student."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:687
+msgid "Creation date. Format: `Y-m-d H:i:s`"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:692
+msgid "Date last modified. Format: `Y-m-d H:i:s`"
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:698
+#: includes/server/class-llms-rest-students-progress-controller.php:246
+msgid "The status of the enrollment."
+msgstr ""
+
+#: includes/server/class-llms-rest-enrollments-controller.php:704
+msgid "The enrollment trigger. Default is `any`."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:65
+msgid "You are not allowed to create new instructors."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:83
+msgid "You are not allowed to delete this instructor."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:102
+msgid "Retrieve only instructors for the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:110
+msgid "Exclude instructors who do not have permissions for the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:132
+msgid "You are not allowed to view this instructor."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:168
+msgid "You are not allowed to list instructors."
+msgstr ""
+
+#: includes/server/class-llms-rest-instructors-controller.php:256
+msgid "You are not allowed to edit this instructor."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:161
+msgid "Invalid course_id param. It must be a valid Course ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:172
+#: includes/server/class-llms-rest-sections-controller.php:216
+msgid "Invalid order param. It must be greater than 0."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:193
+msgid "Invalid drip_days param. It must be greater than 0."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:326
+msgid "WordPress post ID of the parent item. Must be a Section ID. 0 indicates an \"orphaned\" lesson which can be edited and viewed by instructors and admins but cannot be read by students."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:334
+msgid "WordPress post ID of the lesson's parent course."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:343
+msgid "Order of the lesson within its immediate parent."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:353
+msgid "Lesson ID of the prerequisite lesson."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:361
+msgid "Determines the weight of the lesson when grading the course."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:388
+msgid "The date and time when the lesson becomes available. Applicable only when drip_method is date. Format: Y-m-d H:i:s."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:396
+msgid "Number of days to wait before allowing access to the lesson. Applicable only when drip_method is enrollment, start, or prerequisite."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:405
+msgid ""
+"Determine the method with which to make the lesson content available.\n"
+"\t\t\t\t\t<ul>\n"
+"\t\t\t\t\t\t<li>none: Drip is disabled; the lesson is immediately available.</li>\n"
+"\t\t\t\t\t\t<li>date: Lesson is made available at a specific date and time.</li>\n"
+"\t\t\t\t\t\t<li>enrollment: Lesson is made available a specific number of days after enrollment into the course.</li>\n"
+"\t\t\t\t\t\t<li>start: Lesson is made available a specific number of days after the course's start date. Only available on courses with a access_opens_date.</li>\n"
+"\t\t\t\t\t\t<li>prerequisite: Lesson is made available a specific number of days after the prerequisite lesson is completed.</li>\n"
+"\t\t\t\t\t</ul>"
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:422
+msgid "Denotes a lesson that's publicly accessible regardless of course enrollment."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:428
+msgid "Associate a quiz with this lesson."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:437
+msgid "Determines if a quiz is enabled for the lesson."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:443
+msgid "The post ID of the associated quiz."
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:452
+msgid ""
+"Determines lesson progression requirements related to the quiz.\n"
+"\t\t\t\t\t\t\t<ul>\n"
+"\t\t\t\t\t\t\t\t<li>complete: The quiz must be completed (with any grade) to progress the lesson.</li>\n"
+"\t\t\t\t\t\t\t\t<li>pass: A passing grade must be earned to progress the lesson.</li>\n"
+"\t\t\t\t\t\t\t</ul>"
+msgstr ""
+
+#: includes/server/class-llms-rest-lessons-controller.php:517
+msgid "Filter lessons by the parent post (section) ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:122
+msgid "List of courses to automatically enroll students into when they're enrolled into the membership."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:134
+msgid "Visibility of the membership in catalogs and search results."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:142
+msgid "List of membership categories."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:151
+msgid "List of post instructors. Defaults to current user when creating a new post."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:166
+msgid "Determines the action to take when content restricted by the membership is accessed by a non-member. - `none`: Remain on page and display the message `restriction_message`. - `membership`: Redirect to the membership's permalink. - `page`: Redirect to the permalink of the page identified by `restriction_page_id`. - `custom`: Redirect to the URL identified by `restriction_url`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:177
+msgid "Message to display to non-members after a `restriction_action` redirect. When `restriction_action` is `none` replaces the page content with this message."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:200
+msgid "You must belong to the [lifterlms_membership_link id=\"{{membership_id}}\"] membership to access this content."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:207
+msgid "WordPress page ID used for redirecting non-members when `restriction_action` is `page`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:219
+msgid "URL used for redirecting non-members when `restriction_action` is `custom`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:232
+msgid "The WordPress page ID of the sales page. Required when `sales_page_type` equals `page`. Only returned when the `sales_page_type` equals `page`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:244
+msgid "Defines alternate content displayed to visitors and non-enrolled students when accessing the post. - `none` displays the post content. - `content` displays alternate content from the `excerpt` property. - `page` redirects to the WordPress page defined in `content_page_id`. - `url` redirects to the URL defined in `content_page_url`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:255
+msgid "The URL of the sales page content. Required when `sales_page_type` equals `url`. Only returned when the `sales_page_type` equals `url`."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:268
+msgid "List of membership tags."
+msgstr ""
+
+#: includes/server/class-llms-rest-memberships-controller.php:549
+msgid "Unique Membership Identifier. The WordPress Post ID"
+msgstr ""
+
+#. translators: %1$s the post type name.
+#: includes/server/class-llms-rest-sections-controller.php:112
+msgid "Unique %1$s Identifier. The WordPress Post ID"
+msgstr ""
+
+#: includes/server/class-llms-rest-sections-controller.php:205
+msgid "Invalid parent_id param. It must be a valid Course ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-sections-controller.php:238
+msgid "Section Title"
+msgstr ""
+
+#: includes/server/class-llms-rest-sections-controller.php:242
+msgid "WordPress post ID of the parent item. Must be a Course ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-sections-controller.php:253
+msgid "Order of the section within the course."
+msgstr ""
+
+#: includes/server/class-llms-rest-sections-controller.php:321
+msgid "Filter sections by the parent post (course) ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:75
+msgid "You are not allowed to create new students."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:93
+msgid "You are not allowed to delete this student."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:114
+msgid "Retrieve only students enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:122
+msgid "Retrieve only students not enrolled in the specified course(s) and/or membership(s). Accepts a single WP Post ID or a comma separated list of IDs."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:168
+msgid "You are not allowed to view this student."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:186
+msgid "You are not allowed to filter students by role."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:190
+msgid "You are not allowed to list students."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-controller.php:386
+msgid "You are not allowed to edit this student."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-progress-controller.php:253
+msgid "Student's progress as a percentage."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-progress-controller.php:414
+msgid "Unique identifier for the student. The WP User ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-progress-controller.php:418
+msgid "Unique course, lesson, or section Identifer. The WordPress Post ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-students-progress-controller.php:512
+msgid "Created date cannot be in the future."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:117
+msgid "Include only webhooks matching a specific status."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:141
+msgid "Webhook ID."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:155
+msgid "The status of the webhook."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:162
+msgid "The webhook topic"
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:171
+msgid "The webhook payload delivery URL."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:177
+msgid "An optional secret key used to generate the delivery signature."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:196
+msgid "The parsed resource from the `topic`."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:202
+msgid "The parsed event from the `topic`."
+msgstr ""
+
+#: includes/server/class-llms-rest-webhooks-controller.php:208
+msgid "List of WordPress action hook associated with the webhook."
+msgstr ""
+
+#: includes/server/llms-rest-server-functions.php:29
+msgid "You are not authorized to perform this request."
+msgstr ""
+
+#: includes/server/llms-rest-server-functions.php:34
+msgid "The API credentials were invalid."
+msgstr ""
+
+#: includes/server/llms-rest-server-functions.php:53
+msgid "Invalid or malformed request syntax."
+msgstr ""
+
+#: includes/server/llms-rest-server-functions.php:68
+msgid "The requested resource could not be found."
+msgstr ""
+
+#: includes/server/llms-rest-server-functions.php:82
+msgid "Internal Server Error."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:19
+msgid "Access plan price."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:28
+msgid "Access expiration type. `lifetime` provides access until cancelled or until a recurring payment fails. `limited-period` provides access for a limited period as specified by `access_length` and `access_period` `limited-date` provides access until the date specified by access_expires_date`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:39
+msgid "Date when access expires. Only applicable when `access_expiration` is `limited-date`. `Format: Y-m-d H:i:s`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:44
+msgid "Determine the length of access from time of purchase. Only applicable when `access_expiration` is `limited-period`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:54
+msgid "Determine the length of access from time of purchase. Only applicable when `access_expiration` is `limited-period`"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:61
+msgid "Restrict usage of this access plan to students enrolled in at least one of the specified memberships."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:75
+msgid "Text of the \"Purchase\" button"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:77
+msgid "Buy Now"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:81
+msgid "Billing frequency [0-6]. `0` denotes a one-time payment. `>= 1` denotes a recurring plan."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:89
+msgid "Must be an integer in the range 0-6"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:96
+msgid "For recurring plans only. Determines the number of intervals a plan should run for. `0` denotes the plan should run until cancelled."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:105
+msgid "For recurring plans only. Determines the interval of recurring payments."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:112
+msgid "Determines the course or membership which can be accessed through the plan."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:120
+msgid "Must be a valid course or membership ID"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:127
+msgid "Use this plans's redirect settings when purchasing a Membership this plan is restricted to. Applicable only when `availability_restrictions` exist for the plan"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:133
+msgid "WordPress page ID to use for checkout success redirection. Applicable only when `redirect_type` is page."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:142
+msgid "Determines the redirection behavior of the user's browser upon successful checkout or registration through the plan. `self`: Redirect to the permalink of the specified `post_id`. `page`: Redirect to the permalink of the WordPress page specified by `redirect_page_id`. `url`: Redirect to the URL specified by `redirect_url`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:153
+msgid "URL to use for checkout success redirection. Applicable only when `redirect_type` is `url`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:162
+msgid "Used to automatically end a scheduled sale. If empty, the plan remains on sale indefinitely. Only applies when `sale_enabled` is `true`. Format: `Y-m-d H:i:s`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:167
+msgid "Used to automatically start a scheduled sale. If empty, the plan is on sale immediately. Only applies when `sale_enabled` is `true`. Format: `Y-m-d H:i:s`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:172
+msgid "Mark the plan as \"On Sale\" allowing for temporary price adjustments."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:178
+msgid "Sale price. Only applies when `sale_enabled` is `true`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:186
+msgid "External identifier"
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:191
+msgid "Enable a trial period for a recurring access plan."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:197
+#: includes/server/schemas/schema-access-plans.php:207
+msgid "Determines the length of trial access. Only applies when `trial_enabled` is `true`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:219
+msgid "Determines the price of the trial period. Only applies when `trial_enabled` is `true`."
+msgstr ""
+
+#: includes/server/schemas/schema-access-plans.php:228
+msgid "Access plan visibility."
+msgstr ""

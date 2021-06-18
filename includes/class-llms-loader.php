@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -89,6 +89,7 @@ class LLMS_Loader {
 	 * @since 4.4.0 Include `LLMS_Assets` class.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
+	 * @since [version] Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 *
 	 * @return void
 	 */
@@ -141,6 +142,18 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
+
+		// Forms.
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-field.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-handler.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-post-type.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-templates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-validator.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-admin-bar.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-classic-editor.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-data.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-dynamic-fields.php';
 
 		// Classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.assets.php';
@@ -219,6 +232,7 @@ class LLMS_Loader {
 	 * @since 4.7.0 Always load `LLMS_Admin_Reporting`.
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
+	 * @since [version] Include `LLMS_Forms_Unsupported_Versions` class.
 	 *
 	 * @return void
 	 */
@@ -245,6 +259,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 
 		// Admin classes (files to be renamed).
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
@@ -254,6 +269,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.reviews.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.user.custom.fields.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.student.bulk.enroll.php';
 
 		// Post types.
@@ -283,25 +299,43 @@ class LLMS_Loader {
 	 *
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
+	 * @since [version] Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
 	 *
 	 * @return void
 	 */
 	public function includes_libraries() {
 
-		// Block library.
-		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
-			define( 'LLMS_BLOCKS_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
-		}
+		$libs = array(
+			array(
+				'const' => 'LLMS_BLOCKS_LIB',
+				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
+			),
+			array(
+				'const' => 'LLMS_REST_API_LIB',
+				'test'  => ! class_exists( 'LifterLMS_REST_API' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php',
+			),
+			array(
+				'const' => 'LLMS_HELPER_LIB',
+				'test'  => ! class_exists( 'LifterLMS_Helper' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-helper/lifterlms-helper.php',
+			),
+		);
 
-		// Rest API.
-		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
-			define( 'LLMS_REST_API_LIB', true );
-			require_once LLMS_PLUGIN_DIR . 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
+		foreach ( $libs as $lib ) {
+
+			if ( $lib['test'] ) {
+				define( $lib['const'], true );
+				require_once $lib['file'];
+			}
 		}
 
 		// Action Scheduler.
 		require_once LLMS_PLUGIN_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+
+		// WP Background Processing.
+		require_once LLMS_PLUGIN_DIR . 'vendor/deliciousbrains/wp-background-processing/wp-background-processing.php';
 
 	}
 
@@ -309,6 +343,7 @@ class LLMS_Loader {
 	 * Includes that are required only on the frontend
 	 *
 	 * @since 4.0.0
+	 * @since [version] Removed deprecated classes: LLMS_Frontend_Forms & LLMS_Frontend_Password.
 	 *
 	 * @return void
 	 */
@@ -317,10 +352,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.frontend.assets.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.https.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.template.loader.php';
-
-		// Form controllers.
-		require_once LLMS_PLUGIN_DIR . 'includes/forms/frontend/class.llms.frontend.forms.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/forms/frontend/class.llms.frontend.password.php';
 
 	}
 
