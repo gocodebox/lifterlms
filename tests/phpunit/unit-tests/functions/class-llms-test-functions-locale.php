@@ -5,15 +5,15 @@
  * @group functions
  * @group locale
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the get_lifterlms_countries() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 * test the get_lifterlms_country() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Moved from currency tests file.
+	 * @since 5.0.0 Moved from currency tests file.
 	 *
 	 * @return void
 	 */
@@ -63,7 +63,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_country_locale() function
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.24.1
 	 * @since 3.28.2 Unknown.
-	 * @since [version] Moved from currency tests file.
+	 * @since 5.0.0 Moved from currency tests file.
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	 * test the get_lifterlms_countries() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Updated name when adding test for the base function
+	 * @since 5.0.0 Updated name when adding test for the base function
 	 *
 	 * @return void
 	 */

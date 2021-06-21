@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Form_Field class
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Form_Field {
 
@@ -74,7 +74,7 @@ class LLMS_Form_Field {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array      $settings    Field settings.
 	 * @param int|object $data_source Optional. Data source where to get field value from. Default is `null`.
@@ -87,7 +87,7 @@ class LLMS_Form_Field {
 		/**
 		 * Filters the settings of a LifterLMS Form Field
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array           $settings Field settings.
 		 * @param LLMS_Form_Field $field    Form field class instance.
@@ -103,7 +103,7 @@ class LLMS_Form_Field {
 	/**
 	 * Define the source of the data
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int|object $data_source Data source where to get field value from.
 	 * @return void
@@ -130,7 +130,7 @@ class LLMS_Form_Field {
 	/**
 	 * Merge an array of classes into a string or array of classes
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string[]|string $classes  Classes.
 	 * @param string[]        $defaults Default classes.
@@ -152,7 +152,7 @@ class LLMS_Form_Field {
 	/**
 	 * Get default field settings.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -192,7 +192,7 @@ class LLMS_Form_Field {
 	 * The legacy "min_length", "max_length", and "style" settings should now
 	 * be passed via the "attributes" setting.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -212,7 +212,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve HTML for the fields description
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -225,7 +225,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve the full HTML for the field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -236,7 +236,7 @@ class LLMS_Form_Field {
 		 *
 		 * Returning a non-empty string will override default HTML generation and use the returned HTML instead.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string          $html     Override html.
 		 * @param array           $settings Array of field settings initially passed to the class constructor.
@@ -356,7 +356,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve an array of HTML attributes which should be added to the main field element.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -401,7 +401,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve the field's HTML.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -413,7 +413,7 @@ class LLMS_Form_Field {
 		 * Allows a 3rd party to replace the HTML generation method with entirely custom HTML
 		 * by returning a non-null value.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string          $pre       The pre-rendered HTML content. Default `null`.
 		 * @param array           $settings  The prepared field settings array.
@@ -458,7 +458,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve the HTML for the fields label.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -491,7 +491,7 @@ class LLMS_Form_Field {
 	/**
 	 * Determines if the label element should be rendered before the field or after it.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -512,7 +512,7 @@ class LLMS_Form_Field {
 	 *
 	 * This function works recursively to build optgroups.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $options      Prepared options array.
 	 * @param mixed $selected_val The value of the option that should be marked as "selected".
@@ -545,7 +545,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve the html for all options in a select field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -567,7 +567,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve the field settings array.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -578,7 +578,7 @@ class LLMS_Form_Field {
 	/**
 	 * Determines if the field is a group of checkboxes or radios.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return bool
 	 */
@@ -591,7 +591,7 @@ class LLMS_Form_Field {
 	/**
 	 * Prepares the field for rendering by configuring all of it's settings.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -651,7 +651,7 @@ class LLMS_Form_Field {
 	 * The "key" property may be omitted, in which case the "label" will be
 	 * duplicated as the option's "value".
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $raw Raw field data.
 	 * @return array
@@ -709,7 +709,7 @@ class LLMS_Form_Field {
 	/**
 	 * Retrieve options list data based on the options_preset settings.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -732,7 +732,7 @@ class LLMS_Form_Field {
 				/**
 				 * Define custom / 3rd party presets
 				 *
-				 * @since [version]
+				 * @since 5.0.0
 				 *
 				 * @param array $options              Array of options.
 				 * @param array $settings             Prepared field settings.
@@ -754,7 +754,7 @@ class LLMS_Form_Field {
 	/**
 	 * Additional preparation for the password strength meter.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -772,7 +772,7 @@ class LLMS_Form_Field {
 		/**
 		 * Modify password strength meter settings
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array $meter_settings {
 		 *     Hash of meter configuration options.
@@ -804,7 +804,7 @@ class LLMS_Form_Field {
 	 *
 	 * Ensures fields stored on the wp_users table have the proper default `data_store`.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -846,7 +846,7 @@ class LLMS_Form_Field {
 	/**
 	 * Prepare the field's value.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -897,7 +897,7 @@ class LLMS_Form_Field {
 	/**
 	 * Additional preparation for the special voucher field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -918,7 +918,7 @@ class LLMS_Form_Field {
 	/**
 	 * Prepare CSS wrapper classes for the field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -957,7 +957,7 @@ class LLMS_Form_Field {
 	/**
 	 * Render/output the field's html.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

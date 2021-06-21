@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Load, access, and manage LifterLMS Processors
  *
  * @since 3.15.0
- * @since [version] Removed private method `includes()`.
+ * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
  */
 class LLMS_Processors {
@@ -65,7 +65,7 @@ class LLMS_Processors {
 	 * Constructor
 	 *
 	 * @since 3.15.0
-	 * @since [version] Remove call to removed method `includes()`.
+	 * @since 5.0.0 Remove call to removed method `includes()`.
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Processors {
 		 *
 		 * Third parties can use this filter to load custom processors.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @see llms_load_processor_path To add a custom load path for the loaded processor.
 		 *
@@ -145,7 +145,7 @@ class LLMS_Processors {
 		 * loaded from the LifterLMS core's processor directory by replacing underscores with dots
 		 * and prepending `class.llms.processor.` and appending `.php`.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @see llms_load_processors For a filter used to register custom processors.
 		 *

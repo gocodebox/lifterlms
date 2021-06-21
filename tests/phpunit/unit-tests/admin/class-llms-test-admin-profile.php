@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_profile
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Set Up Before Class
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	/**
 	 * Set-Up
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -55,7 +55,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	/**
 	 * Test current_user_can_edit_admin_custom_fields() method
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -98,7 +98,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_user_meta_fields()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

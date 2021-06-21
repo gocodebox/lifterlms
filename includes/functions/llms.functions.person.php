@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -193,7 +193,7 @@ function llms_get_instructor( $user = null ) {
  * Retrieve the translated name of minimum accepted password strength for student passwords
  *
  * @since 3.0.0
- * @since [version] Remove database call to deprecated option and add the $strength parameter.
+ * @since 5.0.0 Remove database call to deprecated option and add the $strength parameter.
  *
  * @param string $strength Optional. Password strength value to translate. Default is 'strong'.
  * @return string
@@ -214,7 +214,7 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 	 *
 	 * The dynamic portion of this hook, `$strength`, can be either "strong", "medium", "weak" or "very-weak".
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param $string $name Translated name of the password strength value.
 	 */
@@ -239,7 +239,7 @@ function llms_get_student( $user = null ) {
 /**
  * Retrieve a list of disallowed usernames.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return string[]
  */
@@ -251,7 +251,7 @@ function llms_get_usernames_blocklist() {
 	 * Deprecated filter.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
+	 * @deprecated 5.0.0 Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
 	 *
 	 * @param string[] $list List of banned usernames.
 	 */
@@ -263,7 +263,7 @@ function llms_get_usernames_blocklist() {
 	 * If a user attempts to create a new account with any username found in this list they will receive an error and will not
 	 * be able to register the account.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string[] $list List of banned usernames.
 	 */
@@ -352,7 +352,7 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  * This is the cookie set when a user uses the password reset link found in a reset password email. The query string
  * vars in the link (user login and reset key) are parsed and stored in this cookie.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
  *                        returns a WP_Error.
@@ -389,7 +389,7 @@ function llms_parse_password_reset_cookie() {
  * Register a new user
  *
  * @since 3.0.0
- * @since [version] Use `LLMS_Form_Handler()` for registration.
+ * @since 5.0.0 Use `LLMS_Form_Handler()` for registration.
  *
  * @param array  $data   Array of registration data.
  * @param string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
@@ -413,7 +413,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 		/**
 		 * Filters whether or not a new user should be "remembered" when signing on during account creation
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param boolean $remember If `true` (default), the user signon will be set to "remember".
 		 * @param string  $screen   Current validation template, either "registration" or "checkout".
@@ -439,7 +439,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 /**
  * Set or unset a user's password reset cookie.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $val Cookie value.
  * @return boolean
@@ -511,7 +511,7 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.
- * @since [version] Updated to utilize LLMS_Form_Handler class.
+ * @since 5.0.0 Updated to utilize LLMS_Form_Handler class.
  *
  * @param array  $data Array of user data.
  * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'

@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.9.0
  * @since 3.37.8 Add admin reporting actions handler.
- * @since [version] Removed previously deprecated method `LLMS_Controller_Quizzes::take_quiz()`.
+ * @since 5.0.0 Removed previously deprecated method `LLMS_Controller_Quizzes::take_quiz()`.
  */
 class LLMS_Controller_Quizzes {
 

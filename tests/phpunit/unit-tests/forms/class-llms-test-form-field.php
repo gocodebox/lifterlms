@@ -6,15 +6,15 @@
  *
  * @group form_field
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Retrive a new user with specified user meta data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $meta_key Meta key name.
 	 * @param string $meta_val Meta value (optional).
@@ -34,7 +34,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output of a hidden input field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output of a select field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -98,7 +98,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test select field with user data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test select field with an option group.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -177,7 +177,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test radio field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -206,7 +206,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test radio field with a user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test a radio group field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -271,7 +271,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test a checkbox field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -300,7 +300,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test checkbox with a user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -326,7 +326,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test checkbox group.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -384,7 +384,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test button field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -405,7 +405,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test submit button field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -426,7 +426,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test reset button field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -446,7 +446,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output of a text input field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -463,7 +463,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test email field type.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -482,7 +482,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test tel field type.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -501,7 +501,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test number field type.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -520,7 +520,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test textarea field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -539,7 +539,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test textarea field with user data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -559,7 +559,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test custom html field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -579,7 +579,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test attributes setting.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -596,7 +596,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test columns setting.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -619,7 +619,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test id setting.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -633,7 +633,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test wrapper classes setting.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -652,7 +652,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `value` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -676,7 +676,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `name` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -696,7 +696,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `placeholder` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -709,7 +709,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `style` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -729,7 +729,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field description.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -746,7 +746,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `required` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -768,7 +768,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `label` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -782,7 +782,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * No label element output when label is empty.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -795,7 +795,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Output an empty label element if `label_show_empty` is true and `label` is empty.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -808,7 +808,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field `disabled` attribute.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -852,7 +852,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() with default values.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -876,7 +876,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter with custom values
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -903,7 +903,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() to ensure the minimum accepted value is 6
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -928,7 +928,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() for script enqueue
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -953,7 +953,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_value() for a password field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -973,7 +973,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_value() with user-posted data
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -996,7 +996,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test field html generated on submision when value is an array
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1062,7 +1062,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test llms_form_field when passing an user
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1118,7 +1118,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test LLMS_Form_Field data_source and data_source_type props setting
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

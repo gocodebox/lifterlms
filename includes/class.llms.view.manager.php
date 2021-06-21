@@ -107,7 +107,7 @@ class LLMS_View_Manager {
 	 * If open registration is disabled, adds an action to output an info notice at the start
 	 * of the form alerting users that they're viewing a preview.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $status Current open registration status.
 	 * @return string
@@ -406,7 +406,7 @@ class LLMS_View_Manager {
 	/**
 	 * Output a notice alerting users that open registration is currently disabled
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

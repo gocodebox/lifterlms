@@ -8,8 +8,8 @@
  *
  * @since 3.4.0
  * @since 3.30.0 Added redirect field.
- * @since [version] Use `LLMS_Forms::get_free_enroll_form_html()` in favor of deprecated `LLMS_Person_Handler::get_available_fields()`.
- * @version [version]
+ * @since 5.0.0 Use `LLMS_Forms::get_free_enroll_form_html()` in favor of deprecated `LLMS_Person_Handler::get_available_fields()`.
+ * @version 5.0.0
  *
  * @property LLMS_Access_Plan $plan Instance of the plan object.
  */

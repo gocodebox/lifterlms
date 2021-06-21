@@ -18,7 +18,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * @since Unknown.
 	 * @since 3.37.4 Don't test against core metadata.
 	 * @since 4.7.0 Update to accommodate changes in results data (and test to maintain backwards compat).
-	 * @since [version] Ignore core custom field data for custom data assertions.
+	 * @since 5.0.0 Ignore core custom field data for custom data assertions.
 	 *
 	 * @return void
 	 */

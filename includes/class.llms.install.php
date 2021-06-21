@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              Added session cleanup cron.
  *              Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
- * @since [version] Install forms during installation.
+ * @since 5.0.0 Install forms during installation.
  */
 class LLMS_Install {
 
@@ -628,7 +628,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Install forms.
+	 * @since 5.0.0 Install forms.
 	 *
 	 * @return void
 	 */
@@ -878,7 +878,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Get the WP User ID of the first available user who can 'manage_options'
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return int Returns the ID of the current user if they can 'manage_options'.
 	 *             Otherwise returns the ID of the first Administrator if they can 'manage_options'.

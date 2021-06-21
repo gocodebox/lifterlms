@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -69,7 +69,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
-	 * @since [version] Use `LLMS_Assets` for registration/enqueue of
+	 * @since 5.0.0 Use `LLMS_Assets` for registration/enqueue of
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
 	 * @since 4.4.0 Enqueue the main `llms` script.
-	 * @since [version] Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
+	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
 	 *               Add `llms-admin-forms` on the forms post table screen.
 	 *
@@ -247,7 +247,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.7.5 Unknown.
 	 * @since 4.4.0 Add `ajax_nonce`.
 	 * @since 4.5.1 Add an analytics localization object.
-	 * @since [version] Output Form location information as a window variable for block editor utilization.
+	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
 	 *
 	 * @return void
 	 */

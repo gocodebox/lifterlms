@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter.
 	 *
 	 * @since 3.4.3
-	 * @since [version] Remove password strength enqueue script.
+	 * @since 5.0.0 Remove password strength enqueue script.
 	 *
 	 * @return string
 	 */

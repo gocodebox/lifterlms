@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @since [version] Moved setup logic for passed arguments to the function llms_get_login_form().
- * @version [version]
+ * @since 5.0.0 Moved setup logic for passed arguments to the function llms_get_login_form().
+ * @version 5.0.0
  *
  * @param string $message (Optional) Messages to display before login form.
  * @param string $redirect (Optional) URL to redirect to after login.

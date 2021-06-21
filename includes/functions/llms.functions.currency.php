@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since Unknown
  * @since 3.24.0 Unknown.
- * @deprecated [version] Function `llms_format_decimal()` is deprecated with no replacement.
+ * @deprecated 5.0.0 Function `llms_format_decimal()` is deprecated with no replacement.
  *
  * @param int     $number     Price value.
  * @param boolean $dp         Decimal points.
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 
-	_deprecated_function( 'llms_format_decimal()', '[version]' );
+	_deprecated_function( 'llms_format_decimal()', '5.0.0' );
 
 	// Remove locale from string.
 	if ( ! is_float( $number ) ) {
@@ -105,7 +105,7 @@ function get_lifterlms_currency_name( $currency = '' ) {
  *
  * @since Unknown
  * @since 3.0.0 Unknown.
- * @since [version] Use currency list provided in `languages/currencies.php`.
+ * @since 5.0.0 Use currency list provided in `languages/currencies.php`.
  *
  * @return array
  */
@@ -129,7 +129,7 @@ function get_lifterlms_currencies() {
  *
  * @since Unknown
  * @since 3.30.3 Removed duplicate key "MAD".
- * @since [version] Retrieve symbols list from `llms_get_currency_symbols()`.
+ * @since 5.0.0 Retrieve symbols list from `llms_get_currency_symbols()`.
  *              If a symbol cannot be found for the supplied currency code, return the code instead of an empty string.
  *
  * @param  string $currency Currency Code.
@@ -233,7 +233,7 @@ function get_lifterlms_thousand_separator() {
  *
  * Retrieves the symbols list from `languages/currency-symbols.php`.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return array Array of currency codes to their symbols. Any non-Latin characters found in a symbol are returned as an HTML character entity code.
  */

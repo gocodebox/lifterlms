@@ -1,8 +1,8 @@
 /**
  * Show an upgrade to custom fields notice when viewing the forms post type table
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 ( function() {
@@ -20,7 +20,7 @@
 	/**
 	 * Create the disabled "Add New Form" button
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {Element} Button DOM node.
 	 */
@@ -40,7 +40,7 @@
 	/**
 	 * Create the toggle "Help" icon button
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {Element} Button DOM node.
 	 */
@@ -77,7 +77,7 @@
 	/**
 	 * Create the help notice node
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {Element} Notice div DOM node.
 	 */
@@ -99,7 +99,7 @@
 	/**
 	 * Callback function for toggling the help notice dispaly
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */
@@ -121,7 +121,7 @@
 	 *
 	 * Creates and add elements to the dom and binds UI events.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Forms class
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Forms {
 
@@ -39,7 +39,7 @@ class LLMS_Forms {
 	/**
 	 * Get Main Singleton Instance.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return LLMS_Forms
 	 */
@@ -53,7 +53,7 @@ class LLMS_Forms {
 	/**
 	 * Private Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Forms {
 	 * This is used to determine if the block editor can be used to manage forms and fields,
 	 * all frontend and server-side handling works on all core supported WP versions.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean
 	 */
@@ -96,7 +96,7 @@ class LLMS_Forms {
 	 * This isn't perfect. We're well aware. But usernames are kind of silly anyway, right? Just use the email
 	 * address like your average website owner and stop pretending usernames matter.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return bool
 	 */
@@ -112,7 +112,7 @@ class LLMS_Forms {
 		 * leaving username field blocks on one or more forms. If you decide to explicitly disable via
 		 * this filter you should also remove all the username blocks from all of your forms.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param boolean $enabled Whether or not usernames are enabled.
 		 */
@@ -123,7 +123,7 @@ class LLMS_Forms {
 	/**
 	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block A WP Block array.
 	 * @return array
@@ -140,7 +140,7 @@ class LLMS_Forms {
 		/**
 		 * Filter an LLMS_Form_Field settings array after conversion from a field block
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array $attrs An array of LLMS_Form_Field settings.
 		 * @param array $block A WP Block array.
@@ -162,7 +162,7 @@ class LLMS_Forms {
 	 * as required that means that it's required only to logged out users and the field becomes "optional"
 	 * (for validation purposes) to logged in users.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[]     $blocks     Array of parsed block arrays.
 	 * @param string|null $visibility The llms_visibility attribute of the parent block which is applied to all innerBlocks
@@ -197,7 +197,7 @@ class LLMS_Forms {
 	 * This method accepts an associative array
 	 * in one format or the other and converts it from the original format to the opposite format.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array  $map            Associative array of settings.
 	 * @param string $orignal_format The original format of the submitted `$map`. Either "field" for
@@ -234,7 +234,7 @@ class LLMS_Forms {
 	/**
 	 * Converts an array of LLMS_Form_Field settings to a block attributes array
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $settings An array of LLMS_Form_Field settings.
 	 * @return array An array of WP_Block attributes.
@@ -246,7 +246,7 @@ class LLMS_Forms {
 	/**
 	 * Create a form for a given location with the provided data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location_id Location id.
 	 * @param bool   $recreate    If `true` and the form already exists, will recreate the existing form using the existing form's id.
@@ -283,7 +283,7 @@ class LLMS_Forms {
 		/**
 		 * Filter arguments used to install a new form.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array  $args        Array of arguments to be passed to wp_insert_post
 		 * @param string $location_id Location ID/name.
@@ -298,7 +298,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve the form management user capability.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -311,7 +311,7 @@ class LLMS_Forms {
 	 *
 	 * Searches innerBlocks arrays recursively.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
@@ -340,7 +340,7 @@ class LLMS_Forms {
 	 *
 	 * Used to validate uniqueness of custom field data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string[]
 	 */
@@ -368,7 +368,7 @@ class LLMS_Forms {
 		/**
 		 * Filters the list of field names used by LifterLMS forms
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string[] $names List of registered field names.
 		 */
@@ -379,7 +379,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve an array of parsed blocks for the form at a given location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter.
@@ -403,7 +403,7 @@ class LLMS_Forms {
 		 * This hook can be used to programmatically modify, insert, or remove
 		 * blocks (fields) from a form.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array[] $blocks   Array of parsed WP_Block arrays.
 		 * @param string  $location The request form location ID.
@@ -418,7 +418,7 @@ class LLMS_Forms {
 	 *
 	 * This method is used by the LLMS_Form_Handler to perform validations on user-submitted data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
@@ -436,7 +436,7 @@ class LLMS_Forms {
 		/**
 		 * Modify the parsed array of LifterLMS Form Fields
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array[] $fields   Array of LifterLMS Form Field settings data.
 		 * @param string  $location Form location, one of: "checkout", "registration", or "account".
@@ -449,7 +449,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return false|array
@@ -471,7 +471,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve a field item from a list of fields by a key/value pair.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $fields List of LifterLMS Form Fields.
 	 * @param string  $key    Setting key to search for.
@@ -496,7 +496,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve the rendered HTML for the form at a given location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter in `get_form_post()`.
@@ -528,7 +528,7 @@ class LLMS_Forms {
 		/**
 		 * Modify the parsed array of LifterLMS Form Fields.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string $html     Form fields HTML.
 		 * @param string $location Form location, one of: "checkout", "registration", or "account".
@@ -541,7 +541,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve the WP Post for the form at a given location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter.
@@ -554,7 +554,7 @@ class LLMS_Forms {
 		/**
 		 * Skip core lookup of the form for the request location and return a custom form post.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param null|WP_Post $post     Return a WP_Post object to short-circuit default lookup query.
 		 * @param string       $location Form location. Either "checkout", "registration", or "account".
@@ -591,7 +591,7 @@ class LLMS_Forms {
 		/**
 		 * Filters the returned `llms_form` post object
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param WP_Post|boolean $post     The post object of the form or `false` if no form could be located.
 		 * @param string       $location Form location. Either "checkout", "registration", or "account".
@@ -604,7 +604,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve additional fields added to the form programmatically.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter.
@@ -616,7 +616,7 @@ class LLMS_Forms {
 		 * Filter to add custom fields to a form programmatically.
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from deprecated function `LLMS_Person_Handler::get_available_fields()`.
+		 * @since 5.0.0 Moved from deprecated function `LLMS_Person_Handler::get_available_fields()`.
 		 *
 		 * @param array[] $fields   Array of field array suitable to pass to `llms_form_field()`.
 		 * @param string  $location Form location, one of: "checkout", "registration", or "account".
@@ -631,7 +631,7 @@ class LLMS_Forms {
 	 *
 	 * Gets the HTML for each field from `llms_form_field()` and wraps it as a `wp/html` block.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
 	 * @param array  $args     Additional arguments passed to the short-circuit filter.
@@ -656,7 +656,7 @@ class LLMS_Forms {
 	 * Retrieves an array of `LLMS_Form_Field` settings, generates the HTML
 	 * for the field, and wraps it in a `wp:html` block.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $settings Form field settings (passed to `llms_form_field()`).
 	 * @return string
@@ -675,7 +675,7 @@ class LLMS_Forms {
 	 * will be enrolled into the course with a single click (no need to head to the checkout page) and users
 	 * who are missing r equired information will be directed to the checkout page.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -706,7 +706,7 @@ class LLMS_Forms {
 		/**
 		 * Filter the list of LLMS_Form_Fields used to generate the "free enrollment" form
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array[]          $fields List of LLMS_Form_Field settings arrays.
 		 * @param LLMS_Access_Plan $plan   Access plan being used for enrollment.
@@ -718,7 +718,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve the HTML of form fields used for the "free enrollment" form
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @see LLMS_Forms::get_free_enroll_form_fields()
 	 *
@@ -739,7 +739,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve information on all the available form locations.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array[] {
 	 *     An associative array. The array key is the location ID and each array is a location definition array.
@@ -762,7 +762,7 @@ class LLMS_Forms {
 		 *
 		 * NOTE: Removing core forms (as well as modifying the ids / keys) may cause areas of LifterLMS to stop working.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param  array[] $locations Associative array of form location information.
 		 */
@@ -773,7 +773,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieve the forms post type name.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -784,7 +784,7 @@ class LLMS_Forms {
 	/**
 	 * Determine if a block is visible based on LifterLMS Visibility Settings.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block Parsed block array.
 	 * @return bool
@@ -807,7 +807,7 @@ class LLMS_Forms {
 		/**
 		 * Filter whether or not the block is visible.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param bool  $visible Whether or not the block is visible.
 		 * @param array $block   Parsed block array.
@@ -819,7 +819,7 @@ class LLMS_Forms {
 	/**
 	 * Installation function to install core forms.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param bool $recreate Whether or not to recreate an existing form. This is passed to `LLMS_Forms::create()`.
 	 * @return WP_Post[] Array of created posts. Array key is the location id and array value is the WP_Post object.
@@ -839,7 +839,7 @@ class LLMS_Forms {
 	/**
 	 * Determines if a location is a valid & registered form location
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location The location id.
 	 * @return boolean
@@ -858,7 +858,7 @@ class LLMS_Forms {
 	 * This function will replace each reusable block with the parsed blocks
 	 * from it's reference post.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks List of WP_Block arrays.
 	 * @return array[]
@@ -896,7 +896,7 @@ class LLMS_Forms {
 	/**
 	 * Load form autosaves when previewing a form
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_Post|boolean $post WP_Post object for the llms_form post or `false` if no form found.
 	 * @return WP_Post|boolean
@@ -925,7 +925,7 @@ class LLMS_Forms {
 	 * This method parses the blocks, loads block data from any reusable blocks,
 	 * and cascades visibility attributes onto a block's innerBlocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $content Post content HTML.
 	 * @return array[] Array of parsed block arrays.
@@ -954,7 +954,7 @@ class LLMS_Forms {
 	 *
 	 * Backwards incompatible changes and/or method removal may occur without notice.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @access private
 	 *
@@ -976,7 +976,7 @@ class LLMS_Forms {
 	/**
 	 * Render form field blocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $html  Block HTML.
 	 * @param array  $block Array of block information.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
  * @since 4.2.0 Added logic to set the order status to 'cancelled' when an enrollment linked to an order is deleted.
  *              Also `llms_unenroll_on_error_order` fiter hook added.
- * @since [version] Build customer data using LLMS_Forms fields information.
+ * @since 5.0.0 Build customer data using LLMS_Forms fields information.
  */
 class LLMS_Controller_Orders {
 
@@ -202,7 +202,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.27.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Build customer data using LLMS_Forms fields information.
+	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 *
 	 * @return void
 	 */

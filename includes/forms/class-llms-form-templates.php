@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * Handles creation of reusable blocks for the core/default fields used
  * by the default checkout, registration, and account edit forms.
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Form_Templates {
 
 	/**
 	 * Transform a block definition into a confirm group
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block A WP_Block definition array.
 	 * @return array
@@ -61,7 +61,7 @@ class LLMS_Form_Templates {
 	 * This method will attempt to use an existing reusable block field
 	 * if it already exists and will only create it if one isn't found.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return int Returns the WP_Post ID of the the wp_block post type or `0` on failure.
@@ -100,7 +100,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Locates an existing wp_block post by field id
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return WP_Post|boolean Returns the post object or false if not found.
@@ -124,7 +124,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Creates a WP_Block array definition for the confirmation (controlled) block in a confirm group
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block A WP_Block definition array for the primary/default block in the group.
 	 * @return array A new WP_Block definition array for the controlled block.
@@ -157,7 +157,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Creates a WP_Block array definition for the primary (controller) block in a confirm group
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block A WP_Block definition array for the primary/default block in the group.
 	 * @return array A new WP_Block definition array for the controller block.
@@ -185,7 +185,7 @@ class LLMS_Form_Templates {
 	 * This method will attempt to use an existing wp_block for the given field id
 	 * if it exists, and when not found creates a new one.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return array A WP_Block definition array.
@@ -204,7 +204,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieves the schema definition for a default/core reusable block
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return array The block definition schema. This is a WP_Block array definition but missing some data that is automatically populated before serialization.
@@ -220,7 +220,7 @@ class LLMS_Form_Templates {
 		 *
 		 * This hook can be used to add definitions for custom (non-core) fields or to modify a core definition.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array  $definition The schema definition.
 		 * @param string $field_id   The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
@@ -240,7 +240,7 @@ class LLMS_Form_Templates {
 	 * When a match is found, the information field data is merged into the block data and the settings are converted from field settings
 	 * to block attributes.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block A partial WP_Block array used to create a reusable block.
 	 * @return array
@@ -266,7 +266,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieve the block template HTML for a given location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
 	 * @return string
@@ -317,7 +317,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieve block for the voucher row.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -348,7 +348,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Recursively prepare a list of blocks to ensure it can be passed into serialize_blocks() without error
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks Array of WP_Block definition arrays.
 	 * @return array[]

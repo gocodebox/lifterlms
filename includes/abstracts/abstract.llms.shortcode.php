@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.4.3
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -178,7 +178,7 @@ abstract class LLMS_Shortcode {
 	 *
 	 * @since 3.4.3
 	 * @since 3.5.1 Unknown.
-	 * @since [version] Merge attributes in a separate method.
+	 * @since 5.0.0 Merge attributes in a separate method.
 	 *
 	 * @param    array  $atts     user submitted shortcode attributes
 	 * @param    string $content  user submitted content
@@ -201,7 +201,7 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Merge user attributes with default attributes.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $atts User-submitted shortcode attributes.
 	 *

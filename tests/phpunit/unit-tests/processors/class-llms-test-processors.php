@@ -6,14 +6,14 @@
  *
  * @group processors
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -25,7 +25,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	/**
 	 * Test instance()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -47,7 +47,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	/**
 	 * Test load_processor()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

@@ -7,8 +7,8 @@
  *
  * @package LifterLMS/Schemas
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  *
  * @see LLMS_Forms::get_locations() The core method used to retrieve the form locations schema.
  * @see llms_forms_get_locations Filter the form locations schema.

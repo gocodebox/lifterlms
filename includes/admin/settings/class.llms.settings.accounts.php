@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @since 1.0.0
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.37.3 Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
-	 * @since [version] Removed field display settings.
+	 * @since 5.0.0 Removed field display settings.
 	 *               Reorganized open registration setting.
 	 *               Renamed "User Information Options" to "User Privacy Options".
 	 *

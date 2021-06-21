@@ -7,15 +7,15 @@
  * @group helper
  * @group packages
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Helper extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test helper lib exists and is loaded.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

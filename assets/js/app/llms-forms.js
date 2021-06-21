@@ -3,8 +3,8 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 LLMS.Forms = {
@@ -49,7 +49,7 @@ LLMS.Forms = {
 	/**
 	 * Init
 	 *
- 	 * @since [version]
+ 	 * @since 5.0.0
  	 *
  	 * @return {void}
 	 */
@@ -78,7 +78,7 @@ LLMS.Forms = {
 	/**
 	 * Bind DOM events for the edit account screen.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */
@@ -96,7 +96,7 @@ LLMS.Forms = {
 	/**
 	 * Bind DOM Events fields with dynamic localization values and language.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */
@@ -135,7 +135,7 @@ LLMS.Forms = {
 	/**
 	 * Ensure "matching" fields match.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {Void}
 	 */
@@ -175,7 +175,7 @@ LLMS.Forms = {
 	/**
 	 * Bind DOM events for voucher toggles UX.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */
@@ -195,7 +195,7 @@ LLMS.Forms = {
 	 * Looks for a WP column wrapper and falls back to the field's
 	 * wrapper div.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} $field jQuery dom object.
 	 * @return {Object}
@@ -216,7 +216,7 @@ LLMS.Forms = {
 	 *
 	 * Removes any children HTML elements (eg: required span elements) and returns only the labels text.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} $label jQuery object for a label element.
 	 * @return {String}
@@ -232,7 +232,7 @@ LLMS.Forms = {
 	/**
 	 * Callback function to handle the "toggle" button links for changing email address and password on account edit forms
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} event Native JS event object.
 	 * @return {void}
@@ -265,7 +265,7 @@ LLMS.Forms = {
 	 *
 	 * Moves All optgroup elements into a hidden & disabled select element.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {void}
 	 */
@@ -283,7 +283,7 @@ LLMS.Forms = {
 	/**
 	 * Updates the text of a label for a given field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} $field jQuery object of the form field.
 	 * @param {String} text Label text.
@@ -306,7 +306,7 @@ LLMS.Forms = {
 	 * hides or shows zip fields based on whether or not
 	 * they are required for the given country.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {String} country_code Currently selected country code.
 	 * @return {void}
@@ -330,7 +330,7 @@ LLMS.Forms = {
 	/**
 	 * Update locale info for a given field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object}         $field The jQuery object for the field.
 	 * @param {String|Boolean} label  The text of the label, or `false` when the field isn't supported.
@@ -356,7 +356,7 @@ LLMS.Forms = {
 	 * If there are no states for the given country the state
 	 * field will be hidden.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {String} country_code Currently selected country code.
 	 * @return {void}
@@ -385,7 +385,7 @@ LLMS.Forms = {
 	 * It also hides the parent element, and adds an empty hidden input field
 	 * with the same 'name' as teh being disabled field so to be sure to clear the field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} $field The jQuery object for the field.
 	 */
@@ -404,7 +404,7 @@ LLMS.Forms = {
 	 * It also shows the parent element, and removes the empty hidden input field
 	 * previously added by disable_field().
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {Object} $field The jQuery object for the field.
 	 */

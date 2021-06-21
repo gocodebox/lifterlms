@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Global
  *
  * @since 3.0.0
- * @since [version] Utilize fields from LLMS_Forms.
- * @version [version]
+ * @since 5.0.0 Utilize fields from LLMS_Forms.
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

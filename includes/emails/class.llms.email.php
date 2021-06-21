@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -257,7 +257,7 @@ class LLMS_Email {
 	 *  Finds and replaces merge fields with appropriate data.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Process shortocdes when formatting a string.
+	 * @since 5.0.0 Process shortocdes when formatting a string.
 	 *
 	 * @param string $string String to be formatted.
 	 * @return string

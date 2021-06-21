@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Locales
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Provides a list of language and address information for supported countries.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @see languages/countries-address-info.php
  *
@@ -28,7 +28,7 @@ function llms_get_countries_address_info() {
 	/**
 	 * Modify the default states list.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $info Multi-dimensional array. See "languages/address-countries-address-info.php" for details.
 	 */
@@ -39,7 +39,7 @@ function llms_get_countries_address_info() {
 /**
  * Retrieve locale information for a specific country
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $code Country code.
  * @return array
@@ -65,7 +65,7 @@ function llms_get_country_name( $code ) {
 /**
  * Retrieve a list of states for a given country.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $code Country code.
  * @return array
@@ -78,7 +78,7 @@ function llms_get_country_states( $code ) {
 /**
  * Retrieve a list of states organized by country.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @see languages/states.php
  *
@@ -104,7 +104,7 @@ function llms_get_states() {
  *
  * @since 1.0.0
  * @since 3.28.2 Updated country list.
- * @since [version] Moved from llms.functions.currency.php.
+ * @since 5.0.0 Moved from llms.functions.currency.php.
  *               Use country list stored in file at languages/countries.php.
  *
  * @return array
@@ -130,7 +130,7 @@ function get_lifterlms_countries() {
  * Get the default LifterLMS country as configured in site settings.
  *
  * @since 3.0.0
- * @since [version] Moved from llms.functions.currency.php.
+ * @since 5.0.0 Moved from llms.functions.currency.php.
  *
  * @return string Country code.
  */

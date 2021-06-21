@@ -12,8 +12,8 @@
  *
  * @package LifterLMS/Schemas
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  *
  * @see llms_get_user_information_fields() Retrieves the (filtered) schema.
  * @see llms_get_user_information_field() Retrieve a single field from this schema by ID.

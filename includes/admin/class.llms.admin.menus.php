@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.19 Load tools on the status page.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Add custom LifterLMS submenu item sorting.
+ * @since 5.0.0 Add custom LifterLMS submenu item sorting.
  */
 class LLMS_Admin_Menus {
 
@@ -81,7 +81,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 1.0.0
 	 * @since 3.2.0 Unknown.
-	 * @since [version] Adds custom sorting for LifterLMS submenu items.
+	 * @since 5.0.0 Adds custom sorting for LifterLMS submenu items.
 	 *
 	 * @param bool $flag Flag from core filter (always false).
 	 * @return bool

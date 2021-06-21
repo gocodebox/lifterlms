@@ -170,7 +170,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test the lost password form returns an error if missing a required field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -249,7 +249,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() returns errors for an invalid username.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return vod
 	 */
@@ -274,7 +274,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() when WP core get_password_reset_key() returns an error or password reset is disabled via filters.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -305,7 +305,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() success.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -688,7 +688,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password() submitted passwords don't match.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -715,7 +715,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password() with an expired password reset key.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -843,7 +843,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password_link_redirect(): no redirect when not on the account page.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -860,7 +860,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password_link_redirect(): no redirect when missing key and/or login params.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -894,7 +894,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password_link_redirect(): redirect & set the cookie (even if it's an invalid user.)
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -929,7 +929,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password_link_redirect(): redirect & set the cookie with a valid user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -965,7 +965,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test account update form submission handler when form is not submitted
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -981,7 +981,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test account update form submission handler when user is not logged in
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1002,7 +1002,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test account update form submission handler when missing required fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1031,7 +1031,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test account update form submission handler
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

@@ -7,14 +7,14 @@
  * @group functions
  * @group user_info_fields
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_user_information_field()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -38,7 +38,7 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_user_information_fields()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

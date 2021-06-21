@@ -7,9 +7,9 @@
  * @since 1.0.0
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
- * @since [version] Use LLMS_Forms to output form fields and title.
+ * @since 5.0.0 Use LLMS_Forms to output form fields and title.
  *               Add field label displays when form information is output.
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

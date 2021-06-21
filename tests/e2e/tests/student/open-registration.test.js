@@ -5,7 +5,7 @@
  * @since 3.37.14 Fix package references.
  * @since 4.5.0 Use package functions.
  * @since 4.12.0 Added registration test with a voucher.
- * @since [version] Added tests for form field localization (country, state, etc...).
+ * @since 5.0.0 Added tests for form field localization (country, state, etc...).
  */
 
 import {

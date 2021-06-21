@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 $.extend( LLMS.PasswordStrength, {
@@ -43,7 +43,7 @@ $.extend( LLMS.PasswordStrength, {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown
-	 * @since [version] Move reference setup to `setup_references()`.
+	 * @since 5.0.0 Move reference setup to `setup_references()`.
 	 *              Use `LLMS.wait_for()` for dependency waiting.
 	 *
 	 * @return {Void}
@@ -97,7 +97,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * and update elements depending on the current strength
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allow password confirmation to be optional when checking strength.
+	 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get the list of blocklisted strings
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -186,7 +186,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve current strength as a number, a slug, or a translated text string
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allow password confirmation to be optional when checking strength.
+	 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
 	 *
 	 * @param {String} format Derived return format [int|slug|text] defaults to int.
 	 * @return mixed
@@ -236,7 +236,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Retrieve the minimum password strength for the current form.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
+	 * @since 5.0.0 Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
 	 *
 	 * @return {string}
 	 */
@@ -247,7 +247,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get a setting and fallback to a default value.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param {String} key Setting key.
 	 * @param {mixed} default_val Default value when the requested setting cannot be located.
@@ -330,7 +330,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Setup jQuery references to DOM elements needed to power the password meter.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return {Boolean} Returns `true` if a meter element and password field are found, otherwise returns `false`.
 	 */
@@ -355,7 +355,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Form submission handler for registration and update forms
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
+	 * @since 5.0.0 Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
 	 *
 	 * @param obj e Event data.
 	 * @return void
@@ -385,7 +385,7 @@ $.extend( LLMS.PasswordStrength, {
 	 * Get the list of blocklist strings
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version] `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
+	 * @deprecated 5.0.0 `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
 	 *
 	 * @return array
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manage data associated with llms_form posts
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Forms_Data {
 
@@ -27,7 +27,7 @@ class LLMS_Forms_Data {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Forms_Data {
 	 *
 	 * Checks into innerBlocks recursively.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks Array of WP_Block definition arrays.
 	 * @return boolean Returns `true` when a username block is found, otherwise returns `false`.
@@ -74,7 +74,7 @@ class LLMS_Forms_Data {
 	 *
 	 * Callback function for save_post_llms_forms and delete_post hooks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int     $post_id ID of the form being saved.
 	 * @param WP_Post $post    Form post object.

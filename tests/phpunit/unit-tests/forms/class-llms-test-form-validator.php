@@ -7,8 +7,8 @@
  * @group forms
  * @group form_validator
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 
@@ -20,7 +20,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * @link https://github.com/WordPress/wordpress-develop/blob/master/tests/phpunit/tests/formatting/SanitizeTextField.php Most data adapted from WP Core tests.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test reducing a fields array down to only the required fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_fields() when no user input is supplied.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test sanitize_field() for text fields / default case.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test sanitize_field() for fields whose values are arrays.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -205,7 +205,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Sanitize email fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test email validation.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -275,7 +275,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_field_attribute_minlength()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -314,7 +314,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_field() for a field with an html minlength attribute
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -349,7 +349,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test special validation for the current password field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -376,7 +376,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test special validation for user emails. They must be unique.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -399,7 +399,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test special validation for the username field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -432,7 +432,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Sanitize telephone fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -463,7 +463,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test telephone validation.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -501,7 +501,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * We don't need super thorough tests here as we're using a WP Core function.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -543,7 +543,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * We don't need super thorough tests here as we're using a WP Core function.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -603,7 +603,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_field() for a URL field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -636,7 +636,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Sanitize number fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -673,7 +673,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test number field validation.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -737,7 +737,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 *
 	 * When min|max attributes are set but empty (like empty string): default.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -772,7 +772,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test special voucher field validation.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -804,7 +804,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test checking matching fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -835,7 +835,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test checking matching fields when the matching field doesn't exist in the form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -860,7 +860,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test checking matchind fields when user data is mismatched.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -895,7 +895,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_required_fields()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -931,7 +931,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	/**
 	 * Test validity of form based on presence of all required fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

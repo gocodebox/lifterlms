@@ -6,15 +6,15 @@
  *
  * @group form_templates
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Ensures the generated block content of a reusable block matches the stored "snapshot"
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $id     Field ID.
 	 * @param string $actual Actual generated content to compare to the expected "snapshot"
@@ -43,7 +43,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve a list of field ids as they are to be stored on a template at a given location
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location A form location ID.
 	 * @return string[]
@@ -74,7 +74,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test create_reusable_block()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_template() for the account location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_template() for the checkout location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_template() for the registration location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -205,7 +205,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_voucher_block() when the voucher field is disabled
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -221,7 +221,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_voucher_block() when voucher submission is optional.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -252,7 +252,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_voucher_block() when voucher submission is required.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -283,7 +283,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_blocks(): Missing properties automatically added.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -307,7 +307,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_blocks(): Existing props not overwritten.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_blocks(): Works recursively on inner blocks and fills innerContent.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

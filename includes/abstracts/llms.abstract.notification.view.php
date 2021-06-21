@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
 	 * @since 3.37.19 Moved the retrieval of the associated llms post into a protected method.
-	 * @since [version] Force [llms-user] shortocde to the user ID of the user who triggered the notification.
+	 * @since 5.0.0 Force [llms-user] shortocde to the user ID of the user who triggered the notification.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.
@@ -191,7 +191,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Destructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -202,7 +202,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Set the user ID used by [llms-user] to the user triggering the notification.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int $uid WP_User ID of the current user.
 	 * @return int

@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	 *
 	 * Include abstract class.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a list of core reusable block post ids
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return int[]
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a list of LLMS Form post objects
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return WP_Post[]
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_reusable_blcoks()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

@@ -6,7 +6,7 @@
  * @group currency
  *
  * @since 3.24.1
- * @since [version] Moved country-related function tests to locale functions test file.
+ * @since 5.0.0 Moved country-related function tests to locale functions test file.
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
@@ -63,7 +63,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the get_lifterlms_currency() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Update language.
+	 * @since 5.0.0 Update language.
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the get_lifterlms_currencies() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Update test to ensure result matches source data array.
+	 * @since 5.0.0 Update test to ensure result matches source data array.
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the get_lifterlms_currency_symbol() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Update character entity used for the pound.
+	 * @since 5.0.0 Update character entity used for the pound.
 	 *
 	 * @return void
 	 */
@@ -264,7 +264,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the llms_price() function
 	 *
 	 * @since 3.24.1
-	 * @since [version] Update currency symbol entities.
+	 * @since 5.0.0 Update currency symbol entities.
 	 *
 	 * @return void
 	 */

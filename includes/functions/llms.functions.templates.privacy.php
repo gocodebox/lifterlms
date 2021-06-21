@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.18.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,7 +71,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
  *
  * @since 3.0.0
  * @since 3.18.1 Unknown.
- * @since [version] Update to support changes to `llms_form_field()`.
+ * @since 5.0.0 Update to support changes to `llms_form_field()`.
  *
  * @param boolean $echo Echo the data if true, return otherwise.
  * @return string

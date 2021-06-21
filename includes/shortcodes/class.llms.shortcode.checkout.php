@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.36.3 Added l10n function to membership restriction error message.
  * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
- * @since [version] Add support for LLMS_Form field management.
+ * @since 5.0.0 Add support for LLMS_Form field management.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -148,7 +148,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
+	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -226,7 +226,7 @@ class LLMS_Shortcode_Checkout {
 				 * Filter the number of columns used to render the checkout/enrollment form.
 				 *
 				 * @since Unknown.
-				 * @since [version] Added `$form_location` parameter.
+				 * @since 5.0.0 Added `$form_location` parameter.
 				 *
 				 * @param int $cols Number of columns. Accepts 1 or 2.
 				 * @param LLMS_Access_Plan $plan Access plan object.
@@ -275,7 +275,7 @@ class LLMS_Shortcode_Checkout {
 	/**
 	 * Setup attributes for plan and form information.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int   $plan_id LLMS_Access_Plan post id.
 	 * @param array $atts Existing attributes.

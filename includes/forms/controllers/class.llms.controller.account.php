@@ -24,7 +24,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 3.7.0
 	 * @since 3.10.0 Add student subscription cancellation handler.
-	 * @since [version] Add reset password link redirection handler.
+	 * @since 5.0.0 Add reset password link redirection handler.
 	 *
 	 * @return void
 	 */
@@ -277,7 +277,7 @@ class LLMS_Controller_Account {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
 	 * @since 4.21.0 Use `addslashes()` and `FILTER_UNSAFE_RAW` to mimic magic quotes behavior of the WP core reset flow.
-	 * @since [version] Refactored to move reset logic into it's own method.
+	 * @since 5.0.0 Refactored to move reset logic into it's own method.
 	 *
 	 * @return null|WP_Error|true Returns `null` for nonce errors or when the form hasn't been submitted, an error object when
 	 *                            errors are encountered, and `true` on success.
@@ -302,7 +302,7 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle the submission of the password reset form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
 	 */
@@ -316,14 +316,14 @@ class LLMS_Controller_Account {
 		/**
 		 * Fire an action before the user password reset form is handled.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 */
 		do_action( 'llms_before_user_reset_password_submit' );
 
 		/**
 		 * Add custom validations to the password reset form.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param WP_Error|true $valid Whether or not the submitted data is valid. Return `true` for valid data or a `WP_Error` when invalid.
 		 */
@@ -359,7 +359,7 @@ class LLMS_Controller_Account {
 		/**
 		 * Fire an action the the user's password is reset.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param WP_User $user User object.
 		 */
@@ -376,7 +376,7 @@ class LLMS_Controller_Account {
 	 * (which is accessed later to populate the hidden fields on the reset form) and then
 	 * redirect to the password reset form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -397,7 +397,7 @@ class LLMS_Controller_Account {
 	/**
 	 * Validates the password reset form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $posted_data User submitted data.
 	 * @return WP_Error|true

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve a single user information field by its ID attribute.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $name The field's name.
  * @return array|boolean Returns the field settings array or `false` when the field cannot be found.
@@ -30,7 +30,7 @@ function llms_get_user_information_field( $name ) {
 /**
  * Retrieve the filtered user information field schema
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return array[] A list of LLMS_Form_Field settings arrays.
  */
@@ -45,7 +45,7 @@ function llms_get_user_information_fields() {
 	 * LifterLMS relies on these fields so removal or modification of attributes (like `name`,
 	 * `id`, and `data_store*`) may cause LifterLMS to break in unexpected ways.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $fields List of field definitions.
 	 */
@@ -59,7 +59,7 @@ function llms_get_user_information_fields() {
  * This is used for JS localization purposes and returns a reduced set of data as used by
  * the editor for validation purposes.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return array[]
  */
@@ -70,7 +70,7 @@ function llms_get_user_information_fields_for_editor() {
 	/**
 	 * Filters the list of keys included for user information fields when localized into the block editor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string[] $keys Array of key names.
 	 */

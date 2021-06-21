@@ -376,8 +376,8 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @package LifterLMS/Scripts
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 5.0.0
+	 * @version 5.0.0
 	 */
 	
 	LLMS.Forms = {
@@ -422,7 +422,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Init
 		 *
-	 	 * @since [version]
+	 	 * @since 5.0.0
 	 	 *
 	 	 * @return {void}
 		 */
@@ -451,7 +451,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind DOM events for the edit account screen.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {void}
 		 */
@@ -469,7 +469,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind DOM Events fields with dynamic localization values and language.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {void}
 		 */
@@ -508,7 +508,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Ensure "matching" fields match.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {Void}
 		 */
@@ -548,7 +548,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind DOM events for voucher toggles UX.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {void}
 		 */
@@ -568,7 +568,7 @@ var LLMS = window.LLMS || {};
 		 * Looks for a WP column wrapper and falls back to the field's
 		 * wrapper div.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} $field jQuery dom object.
 		 * @return {Object}
@@ -589,7 +589,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * Removes any children HTML elements (eg: required span elements) and returns only the labels text.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} $label jQuery object for a label element.
 		 * @return {String}
@@ -605,7 +605,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Callback function to handle the "toggle" button links for changing email address and password on account edit forms
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} event Native JS event object.
 		 * @return {void}
@@ -638,7 +638,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * Moves All optgroup elements into a hidden & disabled select element.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {void}
 		 */
@@ -656,7 +656,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Updates the text of a label for a given field.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} $field jQuery object of the form field.
 		 * @param {String} text Label text.
@@ -679,7 +679,7 @@ var LLMS = window.LLMS || {};
 		 * hides or shows zip fields based on whether or not
 		 * they are required for the given country.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {String} country_code Currently selected country code.
 		 * @return {void}
@@ -703,7 +703,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Update locale info for a given field.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object}         $field The jQuery object for the field.
 		 * @param {String|Boolean} label  The text of the label, or `false` when the field isn't supported.
@@ -729,7 +729,7 @@ var LLMS = window.LLMS || {};
 		 * If there are no states for the given country the state
 		 * field will be hidden.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {String} country_code Currently selected country code.
 		 * @return {void}
@@ -758,7 +758,7 @@ var LLMS = window.LLMS || {};
 		 * It also hides the parent element, and adds an empty hidden input field
 		 * with the same 'name' as teh being disabled field so to be sure to clear the field.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} $field The jQuery object for the field.
 		 */
@@ -777,7 +777,7 @@ var LLMS = window.LLMS || {};
 		 * It also shows the parent element, and removes the empty hidden input field
 		 * previously added by disable_field().
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {Object} $field The jQuery object for the field.
 		 */
@@ -1223,7 +1223,7 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 3.0.0
-	 * @version [version]
+	 * @version 5.0.0
 	 */
 	
 	$.extend( LLMS.PasswordStrength, {
@@ -1262,7 +1262,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.0.0
 		 * @since 3.7.0 Unknown
-		 * @since [version] Move reference setup to `setup_references()`.
+		 * @since 5.0.0 Move reference setup to `setup_references()`.
 		 *              Use `LLMS.wait_for()` for dependency waiting.
 		 *
 		 * @return {Void}
@@ -1316,7 +1316,7 @@ var LLMS = window.LLMS || {};
 		 * and update elements depending on the current strength
 		 *
 		 * @since 3.0.0
-		 * @since [version] Allow password confirmation to be optional when checking strength.
+		 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
 		 *
 		 * @return void
 		 */
@@ -1380,7 +1380,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the list of blocklisted strings
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return array
 		 */
@@ -1405,7 +1405,7 @@ var LLMS = window.LLMS || {};
 		 * Retrieve current strength as a number, a slug, or a translated text string
 		 *
 		 * @since 3.0.0
-		 * @since [version] Allow password confirmation to be optional when checking strength.
+		 * @since 5.0.0 Allow password confirmation to be optional when checking strength.
 		 *
 		 * @param {String} format Derived return format [int|slug|text] defaults to int.
 		 * @return mixed
@@ -1455,7 +1455,7 @@ var LLMS = window.LLMS || {};
 		 * Retrieve the minimum password strength for the current form.
 		 *
 		 * @since 3.0.0
-		 * @since [version] Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
+		 * @since 5.0.0 Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
 		 *
 		 * @return {string}
 		 */
@@ -1466,7 +1466,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get a setting and fallback to a default value.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param {String} key Setting key.
 		 * @param {mixed} default_val Default value when the requested setting cannot be located.
@@ -1549,7 +1549,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Setup jQuery references to DOM elements needed to power the password meter.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @return {Boolean} Returns `true` if a meter element and password field are found, otherwise returns `false`.
 		 */
@@ -1574,7 +1574,7 @@ var LLMS = window.LLMS || {};
 		 * Form submission handler for registration and update forms
 		 *
 		 * @since 3.0.0
-		 * @since [version] Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
+		 * @since 5.0.0 Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
 		 *
 		 * @param obj e Event data.
 		 * @return void
@@ -1604,7 +1604,7 @@ var LLMS = window.LLMS || {};
 		 * Get the list of blocklist strings
 		 *
 		 * @since 3.0.0
-		 * @deprecated [version] `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
+		 * @deprecated 5.0.0 `LLMS.PasswordStrength.get_blacklist()` is deprecated in favor of `LLMS.PasswordStrength.get_blocklist()`.
 		 *
 		 * @return array
 		 */
@@ -2135,8 +2135,8 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @since 3.7.0
 	 * @since 3.10.0 Bind events on the orders screen.
-	 * @since [version] Removed redundant password toggle logic for edit account screen.
-	 * @version [version]
+	 * @since 5.0.0 Removed redundant password toggle logic for edit account screen.
+	 * @version 5.0.0
 	 */
 	LLMS.StudentDashboard = {
 	
@@ -2152,7 +2152,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.7.0
 		 * @since 3.10.0 Unknown
-		 * @since [version] Removed password toggle logic.
+		 * @since 5.0.0 Removed password toggle logic.
 		 *
 		 * @return void
 		 */
@@ -2172,7 +2172,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.7.0
 		 * @since 3.7.4 Unknown.
-		 * @since [version] Removed password toggle logic.
+		 * @since 5.0.0 Removed password toggle logic.
 		 *
 		 * @return   void
 		 */
@@ -2244,7 +2244,7 @@ var LLMS = window.LLMS || {};
 	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
 	 * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
 	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
-	 * @since [version] Set `settings` as an empty object when no settings supplied.
+	 * @since 5.0.0 Set `settings` as an empty object when no settings supplied.
 	 *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 	 */
 	LLMS.Tracking = function( settings ) {
@@ -2260,7 +2260,7 @@ var LLMS = window.LLMS || {};
 		 * Initialize / Bind all tracking event listeners.
 		 *
 		 * @since 3.36.0
-		 * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+		 * @since 5.0.0 Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 		 *
 		 * @return {void}
 		 */

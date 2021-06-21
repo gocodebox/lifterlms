@@ -8,8 +8,8 @@
  * @group updates
  * @group updates_500
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_500_legacy_options_autoload_off() method
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_500_update_db_version()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_500_add_admin_notice()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

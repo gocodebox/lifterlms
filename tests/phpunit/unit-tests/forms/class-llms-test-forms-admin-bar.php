@@ -7,7 +7,7 @@
  * @group forms
  * @group forms_admin_bar
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 
@@ -21,7 +21,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	/**
 	 * Initiate (and retrieve) an instance of WP_Admin_Bar
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return WP_Admin_Bar
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	/**
 	 * Test add_menu_items() when nothing should be added
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	/**
 	 * Test add_menu_items()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	/**
 	 * Test get_current_location()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 	/**
 	 * Test should_display() on checkout page
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

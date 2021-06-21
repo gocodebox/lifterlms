@@ -7,15 +7,15 @@
  * @group forms
  * @group forms_classic
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Forms_Classic_Editor extends LLMS_UnitTestCase {
 
 	/**
 	 * Test init()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Forms_Classic_Editor extends LLMS_UnitTestCase {
 	/**
 	 * Test force_block_editor()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Forms_Classic_Editor extends LLMS_UnitTestCase {
 	/**
 	 * Test disable_classic_editor()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

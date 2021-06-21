@@ -30,7 +30,7 @@
  * @see llms_get_currency_symbols()
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

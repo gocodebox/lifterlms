@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Certificates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -205,7 +205,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
-	 * @since [version] Merge the [llms-user] (and others) shortcode.
+	 * @since 5.0.0 Merge the [llms-user] (and others) shortcode.
 	 *
 	 * @return string
 	 */
@@ -255,7 +255,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * Set the user ID used by [llms-user] to the user earning the certificate.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int $uid WP_User ID of the current user.
 	 * @return int

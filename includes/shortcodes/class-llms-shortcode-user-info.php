@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Shortcodes/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Shortcode: [llms-user]
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 
@@ -29,7 +29,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	/**
 	 * Retrieves a list of keys that cannot be displayed by the shortcode.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string[]
 	 */
@@ -38,7 +38,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		/**
 		 * Filters the list of keys which cannot be displayed using the [user] shortcode
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string[] $keys List of user and usermeta keys.
 		 */
@@ -50,7 +50,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -67,7 +67,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -76,7 +76,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 		/**
 		 * Filters the user used to retrieve user information displayed by the [llms-user] shortcode
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param integer $user_id The WP_User ID of the currently logged-in user or `0` if no user logged in.
 		 */
@@ -103,7 +103,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	/**
 	 * Merge user attributes with default attributes.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $atts User-submitted shortcode attributes.
 	 *

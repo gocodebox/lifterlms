@@ -11,7 +11,7 @@
  * @group functions_orders
  *
  * @since 3.27.0
- * @since [version] Updated for form handler error codes & install forms on setup.
+ * @since 5.0.0 Updated for form handler error codes & install forms on setup.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -151,7 +151,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0
-	 * @since [version] Install forms & Updated expected error code.
+	 * @since 5.0.0 Install forms & Updated expected error code.
 	 *               Only logged in users can edit themselves.
 	 * @return void
 	 */

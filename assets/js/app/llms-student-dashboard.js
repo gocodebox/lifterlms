@@ -5,8 +5,8 @@
  *
  * @since 3.7.0
  * @since 3.10.0 Bind events on the orders screen.
- * @since [version] Removed redundant password toggle logic for edit account screen.
- * @version [version]
+ * @since 5.0.0 Removed redundant password toggle logic for edit account screen.
+ * @version 5.0.0
  */
 LLMS.StudentDashboard = {
 
@@ -22,7 +22,7 @@ LLMS.StudentDashboard = {
 	 *
 	 * @since 3.7.0
 	 * @since 3.10.0 Unknown
-	 * @since [version] Removed password toggle logic.
+	 * @since 5.0.0 Removed password toggle logic.
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ LLMS.StudentDashboard = {
 	 *
 	 * @since 3.7.0
 	 * @since 3.7.4 Unknown.
-	 * @since [version] Removed password toggle logic.
+	 * @since 5.0.0 Removed password toggle logic.
 	 *
 	 * @return   void
 	 */

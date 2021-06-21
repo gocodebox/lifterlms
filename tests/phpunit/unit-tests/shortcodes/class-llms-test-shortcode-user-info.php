@@ -7,8 +7,8 @@
  * @group shortcodes
  * @group userinfo_shortcode
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 
@@ -21,7 +21,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test setting attributes with no key for the first attribute (field name).
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test setting attributes when the field name is passed.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test get_output() with logged out user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test get_output() with logged in user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Test_Shortcode_User_Info extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test output when filtering the user to display another user's information
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

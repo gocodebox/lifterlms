@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Handle post type registration and interactions
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Form_Post_Type {
 
@@ -38,7 +38,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Form_Post_Type {
 		/**
 		 * Filters the capability required to manage LifterLMS Forms
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string $capability The user capability. Default: "manage_lifterlms".
 		 */
@@ -74,7 +74,7 @@ class LLMS_Form_Post_Type {
 	 *
 	 * This enabled the "Preview in new tab" functionality of the block editor to be used to preview LifterLMS form posts.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_REST_Response $response Response object.
 	 * @param WP_Post_Type     $post_type Post Type object.
@@ -91,7 +91,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Retrieve a permalink for a given form post.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_Post $post Form post object.
 	 * @return string|false Permalink to the form or `false` if no permalink exists for the given location.
@@ -109,7 +109,7 @@ class LLMS_Form_Post_Type {
 		/**
 		 * Filters the permalink for a LifterLMS form
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string|false $url      The form's URL.
 		 * @param string       $location The location ID for the form.
@@ -122,7 +122,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Retrieve permalink for the account edit form
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -133,7 +133,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Retrieve permalink for the checkout form
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -164,7 +164,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Retrieve permalink for the registration form
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string|false Permalink or `false` when open registration is disabled.
 	 */
@@ -180,7 +180,7 @@ class LLMS_Form_Post_Type {
 	 * We do not allow the "core" forms to be deleted. This action prevents both
 	 * deletion and trash actions when run against one of the core form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param null|bool $prevent Whether or not the action has been prevented.
 	 * @param WP_Post   $post    The form post object.
@@ -198,7 +198,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Modify the permalink of a given form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $permalink Default permalink.
 	 * @param WP_Post $post      Post object.
@@ -217,7 +217,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Register the forms post type.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -275,7 +275,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Register custom postmeta properties for the forms post type.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -318,7 +318,7 @@ class LLMS_Form_Post_Type {
 	/**
 	 * Meta field update authorization callback.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param bool   $allowed   Is the update allowed.
 	 * @param string $meta_key  Meta keyname.

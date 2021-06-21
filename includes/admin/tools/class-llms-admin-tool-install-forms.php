@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin tool to reinstall / revert user information forms to their default states
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 
@@ -29,7 +29,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -42,7 +42,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -53,7 +53,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieves a list of core reusable blocks ordered by their field ID.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return int[] List of the WP_Post IDs.
 	 */
@@ -91,7 +91,7 @@ class LLMS_Admin_Tool_Install_Forms extends LLMS_Abstract_Admin_Tool {
 	 * Deletes all core reusable blocks and then recreates the core forms,
 	 * which additionally recreates the core reusable blocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean
 	 */

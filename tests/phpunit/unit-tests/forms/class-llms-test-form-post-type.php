@@ -6,8 +6,8 @@
  *
  * @group forms
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
@@ -21,7 +21,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test class properties.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test enabled_post_type_visibility() when skipping the override
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test permalink retrieval for account updates.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test permalink retrieval for checkout when no access plans exist.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test permalink retrieval for checkout with access plans.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test permalink retrieval for registration form when open registration is not enabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -148,7 +148,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test permalink retrieval for registration form when open registration is enabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_deletion() for other post types
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_deletion() for non-core forms
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_deletion() for core forms that cannot be deleted.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -208,7 +208,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test meta_auth_callback()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -241,7 +241,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test post type registration.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -275,7 +275,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test custom meta prop registration.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

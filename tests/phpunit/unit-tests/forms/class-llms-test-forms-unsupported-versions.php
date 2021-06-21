@@ -7,15 +7,15 @@
  * @group forms
  * @group forms_unsupported_versions
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up before class
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	/**
 	 * Construct a new main class for testing.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	/**
 	 * Test init() when nothing should happen
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	/**
 	 * Test init() for the forms post table list
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	/**
 	 * Test init() when accessing a form block editor directly
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

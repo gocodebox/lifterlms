@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes/Forms
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manage dynamically generated fields added to the form outside of the block editor
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Forms_Dynamic_Fields {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Creates a new HTML block with the given settings and inserts it into an existing blocks array at the specified location
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks         Array of WP_Block arrays.
 	 * @param array   $block_settings Block attributes used to generate a new custom HTML field block.
@@ -67,7 +67,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * the block. If the password block is within a group it'll output it after the
 	 * group block.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks WP_Block list.
 	 * @return array[]
@@ -105,7 +105,7 @@ class LLMS_Forms_Dynamic_Fields {
 		/**
 		 * Filters the settings used to create the dynamic password strength meter block
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array $meter_settings Array or block attributes/settings.
 		 */
@@ -121,7 +121,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * There's a gotcha with this function... if a user password field is placed within a wp core columns block
 	 * the password strength meter will be added outside the column the password is contained within.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $id           ThHe ID of the field to find.
 	 * @param array[] $blocks       WP_Block list.
@@ -154,7 +154,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Retrieve the HTML for a field toggle button link
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $fields      A comma-separated list of selectors for the controlled fields.
 	 * @param string $field_label Label for the original field.
@@ -180,7 +180,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Adds a toggle button for each set of fields, when the toggle is clicked the fields are revealed and enabled
 	 * so they can be used. Ensuring that the fields are only required when they're being explicitly changed.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param [type] $blocks [description]
 	 * @param [type] $location [description]
@@ -208,7 +208,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Modifies block settings for toggle-controlled fields
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $blocks Array of WP_Block arrays.
 	 * @return array[]
@@ -240,7 +240,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Adds a toggle link button allowing the user to change their email address
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $email  Email field data as located by LLMS_Forms_Dynamic_Fields::find_block().
 	 * @param array[] $blocks Array of WP_Block arrays.
@@ -264,7 +264,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Adds a current password field and a toggle link button allowing the user to change their password
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $password Password field data as located by LLMS_Forms_Dynamic_Fields::find_block().
 	 * @param array[] $blocks   Array of WP_Block arrays.
@@ -286,7 +286,7 @@ class LLMS_Forms_Dynamic_Fields {
 		/**
 		 * Filters the settings used to create the dynamic password strength meter block
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array $settings Array or block attributes/settings.
 		 */

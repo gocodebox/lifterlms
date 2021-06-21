@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
- * @since [version] Remove previously deprecated method `LLMS_Quiz::get_lessons()`.
+ * @since 5.0.0 Remove previously deprecated method `LLMS_Quiz::get_lessons()`.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 

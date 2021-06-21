@@ -9,7 +9,7 @@
  * @since 3.29.4 Unknown.
  * @since 3.37.17 Add voucher-related tests.
  * @since 4.5.0 Added tests on account.signon event recorded on user registration.
- * @since [version] Update to work with changes from LLMS_Forms.
+ * @since 5.0.0 Update to work with changes from LLMS_Forms.
  *               Add tests for the LLMS_Person_Handler::get_login_forms() method.
  *               Login tests don't rely on deprecated option `lifterlms_registration_generate_username`.
  *               Remove tests handled by LLMS_Form_Handler: test_validate_fields_with_voucher_not_found, test_validate_fields_with_voucher_code_deleted, test_validate_fields_with_voucher_post_deleted, test_validate_fields_with_voucher_redemptions_maxed
@@ -67,7 +67,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 *
 	 * It should return an array of LifterLMS Form Fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 *
 	 * It should return an array of LifterLMS Form Fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -114,7 +114,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 *
 	 * It should return an array of LifterLMS Form Fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_login_fields() when usernames are enabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -150,7 +150,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_login_fields() when usernames are disabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_lost_password_fields() when usernames are enabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -185,7 +185,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_lost_password_fields() when usernames are disabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_password_reset_fields() when "custom" password reset fields exist on the checkout form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -232,7 +232,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -265,7 +265,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test logging in with a username.
 	 *
 	 * @since 3.29.4
-	 * @since [version] Remove deprecated option `lifterlms_registration_generate_username` and allow username login via filter.
+	 * @since 5.0.0 Remove deprecated option `lifterlms_registration_generate_username` and allow username login via filter.
 	 *
 	 * @return  void
 	 */
@@ -372,7 +372,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test logging in with a username.
 	 *
 	 * @since 3.29.4
-	 * @since [version] Remove deprecated option `lifterlms_registration_generate_username`.
+	 * @since 5.0.0 Remove deprecated option `lifterlms_registration_generate_username`.
 	 *
 	 * @return void
 	 */
@@ -447,7 +447,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test account.signon event recorded on user registration
 	 *
 	 * @since 4.5.0
-	 * @since [version] Add email confirm fields to reflect new form defaults.
+	 * @since 5.0.0 Add email confirm fields to reflect new form defaults.
 	 */
 	public function test_account_signon_event_recorded_on_registration_signon() {
 
@@ -489,7 +489,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * This test remains to ensure backwards compatibility.
 	 *
 	 * @since 3.26.1
-	 * @since [version] Create forms before running & update error codes to match updated codes.
+	 * @since 5.0.0 Create forms before running & update error codes to match updated codes.
 	 *
 	 * @expectedDeprecated LLMS_Person_Handler::update()
 	 *

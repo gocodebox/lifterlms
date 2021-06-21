@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -115,7 +115,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	/**
 	 * Send email
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean
 	 */
@@ -134,7 +134,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	/**
 	 * Set the user ID used by [llms-user] to the user receiving the email.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int $uid WP_User ID of the current user.
 	 * @return int

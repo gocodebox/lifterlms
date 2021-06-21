@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.37.19
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -95,7 +95,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 * Processes the tool if the submitted tool matches the tool's ID.
 	 *
 	 * @since 3.37.19
-	 * @since [version] Add before and after action hooks.
+	 * @since 5.0.0 Add before and after action hooks.
 	 *
 	 * @param string tool_id ID of the submitted tool.
 	 * @return mixed|false
@@ -110,7 +110,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 			 * The dynamic portion of this hook `${tool_id}` refers to the unique ID
 			 * of the admin tool.
 			 *
-			 * @since [version]
+			 * @since 5.0.0
 			 *
 			 * @param object $tool_class Instance of the extending tool class.
 			 */
@@ -124,7 +124,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 			 * The dynamic portion of this hook `${tool_id}` refers to the unique ID
 			 * of the admin tool.
 			 *
-			 * @since [version]
+			 * @since 5.0.0
 			 *
 			 * @param object $tool_class Instance of the extending tool class.
 			 */

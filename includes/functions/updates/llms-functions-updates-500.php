@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Turn off autoload for accounting legacy options
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return bool True if it needs to run again, false otherwise.
  */
@@ -45,7 +45,7 @@ function llms_update_500_legacy_options_autoload_off() {
 /**
  * Admin welcome notice
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return void
  */
@@ -94,7 +94,7 @@ function llms_update_500_add_admin_notice() {
 /**
  * Update db version to 5.0.0
  *
- * @since [version]]
+ * @since 5.0.0]
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */

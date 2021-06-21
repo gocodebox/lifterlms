@@ -9,7 +9,7 @@
  * @since 3.4.3
  * @since 3.24.1 Unknown.
  * @since 4.0.0 Add tests for `get_course_id()` method.
- * @since [version] Don't need to test for password strength enqueue anymore.
+ * @since 5.0.0 Don't need to test for password strength enqueue anymore.
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
@@ -85,7 +85,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.4.3
 	 * @since 4.4.0 Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
-	 * @since [version] Don't need to test for password strength enqueue anymore.
+	 * @since 5.0.0 Don't need to test for password strength enqueue anymore.
 	 *
 	 * @return void
 	 */

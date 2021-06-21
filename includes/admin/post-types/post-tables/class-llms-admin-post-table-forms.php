@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Post_Table_Forms
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Admin_Post_Table_Forms {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return  void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Admin_Post_Table_Forms {
 	/**
 	 * Add Custom Columns
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $columns Array of default columns.
 	 * @return array
@@ -57,7 +57,7 @@ class LLMS_Admin_Post_Table_Forms {
 	/**
 	 * Manage available bulk actions.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $actions Array of actions.
 	 * @return array
@@ -70,7 +70,7 @@ class LLMS_Admin_Post_Table_Forms {
 	/**
 	 * Manage content of custom columns
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $column Table column name.
 	 * @param int    $post_id WP Post ID of the form for the current row.
@@ -95,7 +95,7 @@ class LLMS_Admin_Post_Table_Forms {
 	/**
 	 * Manage available bulk actions.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $actions Array of actions.
 	 * @return array
@@ -126,7 +126,7 @@ class LLMS_Admin_Post_Table_Forms {
 	/**
 	 * Ensure only core forms are displayed in the forms list.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_Query $query Query object.
 	 * @return void

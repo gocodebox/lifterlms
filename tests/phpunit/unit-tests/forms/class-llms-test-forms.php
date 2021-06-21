@@ -6,15 +6,15 @@
  *
  * @group forms
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve an array of form locations to run tests against.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string[]
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Assert that an array looks like a WordPress block array.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $block Block settings array.
 	 * @return void
@@ -79,7 +79,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Assert that an array looks like a LifterLMS Form Field settings array.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $field Field settings array.
 	 * @return void
@@ -95,7 +95,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test singleton instance.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test are_requirements_met()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test are_usernames_enabled() when at least one form with a username block exists.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test are_usernames_enabled() when no forms with usernames exist.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test are_usernames_enabled() when there's a mixture of forms with and without usernames.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -204,7 +204,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test block_to_field_settings(): ensure keys are renamed properly.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -233,7 +233,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test block_to_field_settings(): no keys to rename so attributes don't change.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -254,7 +254,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test block_to_field_settings(): has visibility but the field isn't required so we don't do anything.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test block_to_field_settings(): has visibility and field is required so the required should be switched to optional.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -301,7 +301,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test cascade_visibility_attrs() for blocks with no innerBlocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test cascade_visibility_attrs() for blocks with innerBlocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -365,7 +365,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test creation for an invalid location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -378,7 +378,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test convert_settings_to_block_attrs()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -405,7 +405,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test convert_settings_format() for a block -> field transformation
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -432,7 +432,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test creating/updating forms.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -472,7 +472,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test forms author on install
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -557,7 +557,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_capability() method
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -569,7 +569,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_fields_settings_from_blocks() method
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -609,7 +609,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_free_enroll_form_fields()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -646,7 +646,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't retrieve blocks for an invalid location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -659,7 +659,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't retrieve blocks for a location that hasn't been installed yet.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -674,7 +674,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_form_blocks() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -697,7 +697,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't retrieve fields for an invalid location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -708,7 +708,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't retrieve fields for a location that hasn't been installed yet.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -721,7 +721,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_form_fields() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -741,7 +741,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't get form html for an invalid form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -754,7 +754,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't get form html for a form that hasn't been installed.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -769,7 +769,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_form_html() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @todo  this test can assert a lot more and should.
 	 *
@@ -789,7 +789,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Can't retrieve a post for an invalid location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -802,7 +802,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_form_post() for forms when they're not installed.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -817,7 +817,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_form_post()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -833,7 +833,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test get_locations() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -856,7 +856,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_post_type() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -867,7 +867,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * test the install() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -893,7 +893,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_block_visible() when no visibility settings exist on the block.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -907,7 +907,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_block_visible() when there are visibility settings which would affect the visibility of the block.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -928,7 +928,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_location_valid()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -945,7 +945,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test load_reusable_blocks() default successful behavior.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -967,7 +967,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test load_reusable_blocks(): a non-existent block is passed in
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -989,7 +989,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test load_reusable_blocks(): when the reusable block is not published.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1011,7 +1011,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_load_preview() when no post is found
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1022,7 +1022,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_load_preview() when not previewing
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1034,7 +1034,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_load_preview() when current user can't preview
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1052,7 +1052,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_load_preview() when there is a preview
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1071,7 +1071,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test block field render function for non-field blocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1086,7 +1086,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test rendering a field block as a field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -1105,7 +1105,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test rendering a field block which contains fields in the inner blocks
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

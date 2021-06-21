@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -100,7 +100,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
-	 * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+	 * @since 5.0.0 Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Frontend_Assets {
 	 * @since 4.4.0 Enqueue & register scripts using `LLMS_Assets` methods.
 	 *              Add Add `window.llms.ajax_nonce` data to replace `wp_ajax_data.nonce`.
 	 *              Moved inline scripts to `enqueue_inline_scripts()`.
-	 * @since [version] Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
+	 * @since 5.0.0 Enqueue locale data and dependencies on account and checkout pages for searchable dropdowns for country & state.
 	 *               Remove password strength inline enqueue.
 	 *
 	 * @return void
@@ -215,7 +215,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue dependencies and inline script data for form localization
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

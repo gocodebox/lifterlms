@@ -8,7 +8,7 @@
  *
  * @since 3.19.4
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
- * @since [version] Install forms during setup.
+ * @since 5.0.0 Install forms during setup.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
-	 * @since [version] Install forms during setup.
+	 * @since 5.0.0 Install forms during setup.
 	 *
 	 * @return void
 	 */

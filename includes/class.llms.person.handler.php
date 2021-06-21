@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
- * @since [version] Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
+ * @since 5.0.0 Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
  */
 class LLMS_Person_Handler {
 
@@ -36,7 +36,7 @@ class LLMS_Person_Handler {
 	/**
 	 * Locate password fields from a given form location.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $location From location.
 	 * @return false|array[]
@@ -135,7 +135,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.0.4 Unknown.
-	 * @since [version] Remove usage of the deprecated `lifterlms_registration_generate_username`.
+	 * @since 5.0.0 Remove usage of the deprecated `lifterlms_registration_generate_username`.
 	 *
 	 * @param string $layout Form layout. Accepts "columns" (default) or "stacked".
 	 * @return array[] An array of form field arrays.
@@ -205,7 +205,7 @@ class LLMS_Person_Handler {
 	 * Used to generate the form where a username/email is entered to start the password reset process.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use LLMS_Forms::are_usernames_enabled() in favor of deprecated option "lifterlms_registration_generate_username".
+	 * @since 5.0.0 Use LLMS_Forms::are_usernames_enabled() in favor of deprecated option "lifterlms_registration_generate_username".
 	 *               Remove field values set to the default value for a form field.
 	 *
 	 * @return array[] An array of form field arrays.
@@ -269,7 +269,7 @@ class LLMS_Person_Handler {
 	 * checkout or registration forms.
 	 *
 	 * @since 3.7.0
-	 * @since [version] Removed optional parameters
+	 * @since 5.0.0 Removed optional parameters
 	 *
 	 * @return array[]
 	 */
@@ -319,7 +319,7 @@ class LLMS_Person_Handler {
 	 * in the LLMS_Person_Handler::get_password_fields() method.
 	 *
 	 * @since Unknown
-	 * @since [version] Get fields from the checkout or registration forms before falling back to default fields.
+	 * @since 5.0.0 Get fields from the checkout or registration forms before falling back to default fields.
 	 *               Changed filter on return from "lifterlms_lost_password_fields" to "llms_password_reset_fields".
 	 *
 	 * @param string $key User password reset key, usually populated via $_GET vars.
@@ -365,7 +365,7 @@ class LLMS_Person_Handler {
 		/**
 		 * Filter password reset form fields.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array[] $fields Array of form field arrays.
 		 * @param string $key User password reset key, usually populated via $_GET vars.
@@ -383,7 +383,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.29.4 Unknown.
-	 * @since [version] Removed email lookup logic since `wp_authenticate()` supports email addresses as `user_login` since WP 4.5.
+	 * @since 5.0.0 Removed email lookup logic since `wp_authenticate()` supports email addresses as `user_login` since WP 4.5.
 	 *
 	 * @param array $data {
 	 *     User login information.
@@ -483,7 +483,7 @@ class LLMS_Person_Handler {
 	/**
 	 * Validate login form fields
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array $data Array of user-submitted data, usually from `$_POST`.
 	 * @return WP_Error|true Returns an error object or `true` if the submission is valid.
@@ -535,14 +535,14 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown.
-	 * @deprecated [version] `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
+	 * @deprecated 5.0.0 `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
 	 *
 	 * @param string    $screen Name os the screen [account|checkout|registration].
 	 * @param array|int $data   Array of data to fill fields with or a WP User ID.
 	 * @return array
 	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
-		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '[version]', 'LLMS_Forms::get_form_fields()' );
+		_deprecated_function( 'LLMS_Person_Handler::get_available_fields()', '5.0.0', 'LLMS_Forms::get_form_fields()' );
 		return LLMS_Forms::instance()->get_form_fields( $screen );
 	}
 
@@ -552,7 +552,7 @@ class LLMS_Person_Handler {
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
 	 * @since 4.5.0 Use `wp_signon()` in favor of `llms_set_person_auth_cookie()` to sign on upon registration.
-	 * @deprecated [version] `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
+	 * @deprecated 5.0.0 `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
 	 *
 	 * @param array  $data Associative array of form data.
 	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
@@ -560,7 +560,7 @@ class LLMS_Person_Handler {
 	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
-		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
+		llms_deprecated_function( 'LLMS_Person_Handler::register()', '5.0.0', 'llms_register_user()' );
 		return llms_register_user( $data, $screen, $signon );
 	}
 
@@ -570,7 +570,7 @@ class LLMS_Person_Handler {
 	 * This private method can be removed when LLMS_Person_Handler::validate_fields() is removed.
 	 *
 	 * @since 3.19.4
-	 * @deprecated [version] Private method LLMS_Person_Handler::sanitize_field() is deprecated with no replacement.
+	 * @deprecated 5.0.0 Private method LLMS_Person_Handler::sanitize_field() is deprecated with no replacement.
 	 *
 	 * @param string $val        Unsanitized user data.
 	 * @param string $field_type Field type, allows additional sanitization to run based on field type.
@@ -592,14 +592,14 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown.
-	 * @deprecated [version] `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
+	 * @deprecated 5.0.0 `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
 	 *
 	 * @param array  $data Associative array of form data.
 	 * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
 	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
 	 */
 	public static function update( $data = array(), $screen = 'update' ) {
-		llms_deprecated_function( 'LLMS_Person_Handler::update()', '[version]', 'llms_update_user()' );
+		llms_deprecated_function( 'LLMS_Person_Handler::update()', '5.0.0', 'llms_update_user()' );
 		return llms_update_user( $data, $screen );
 	}
 
@@ -608,7 +608,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
-	 * @deprecated [version] LLMS_Person_Handler::validate_fields() is deprecated with no replacement.
+	 * @deprecated 5.0.0 LLMS_Person_Handler::validate_fields() is deprecated with no replacement.
 	 *
 	 * @param array  $data {
 	 *      User data array.
@@ -633,7 +633,7 @@ class LLMS_Person_Handler {
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
-		llms_deprecated_function( 'LLMS_Person_Handler::validate_fields()', '[version]' );
+		llms_deprecated_function( 'LLMS_Person_Handler::validate_fields()', '5.0.0' );
 
 		if ( 'login' === $screen ) {
 
@@ -790,13 +790,13 @@ class LLMS_Person_Handler {
 	 * Output Voucher toggle JS in a quick and shameful manner
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version] LLMS_Person_Handler::voucher_toggle_script() is deprecated with no replacement.
+	 * @deprecated 5.0.0 LLMS_Person_Handler::voucher_toggle_script() is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public static function voucher_toggle_script() {
 
-		llms_deprecated_function( 'LLMS_Person_Handler::voucher_toggle_script()', '[version]' );
+		llms_deprecated_function( 'LLMS_Person_Handler::voucher_toggle_script()', '5.0.0' );
 		if ( empty( self::$voucher_script_output ) ) {
 
 			self::$voucher_script_output = true;

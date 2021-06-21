@@ -5,9 +5,9 @@
  * @package LifterLMS/Templates/Checkout
  *
  * @since 1.0.0
- * @since [version] Moved all variable declarations to the checkout shortcode controller.
+ * @since 5.0.0 Moved all variable declarations to the checkout shortcode controller.
  *               Updated to utilize fields from LLMS_Forms class.
- * @version [version]
+ * @version 5.0.0
  *
  * @param int $cols Number of columns to use for the form layout.
  * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.

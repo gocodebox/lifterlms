@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Form_Handler class.
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Form_Validator {
 
 	/**
 	 * Filters a list of fields down to only the required fields.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array[] $fields Array of LifterLMS Form Field settings arrays.
 	 * @return array[]
@@ -39,7 +39,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Sanitize a single field according to its type
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param mixed $posted_value User-submitted (dirty) value.
 	 * @param array $field        LifterLMS field settings.
@@ -72,7 +72,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Sanitize a number field
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return string
@@ -84,7 +84,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Sanitize a telephone field
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return string
@@ -97,7 +97,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Sanitize all user-submitted data according to field settings
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param array[] $fields      LifterLMS form fields settings.
@@ -122,7 +122,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate a posted value
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param mixed $posted_value Posted data.
 	 * @param array $field        LifterLMS Form Field settings array.
@@ -178,7 +178,7 @@ class LLMS_Form_Validator {
 	 *
 	 * Used by the User Password field.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted value.
 	 * @param int    $minlength    The minimum string length as parsed from the field block.
@@ -205,7 +205,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate an email field
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -227,7 +227,7 @@ class LLMS_Form_Validator {
 	 * Ensures the posted valued is numeric and, where applicable, ensures that the number falls
 	 * within minimum and maximum value requirements.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @param array  $field        The LLMS_Form_Field settings array.
@@ -256,7 +256,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate a logged-in users current password
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -278,7 +278,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate a telephone field
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -297,7 +297,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate a url field
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -318,7 +318,7 @@ class LLMS_Form_Validator {
 	 *
 	 * User emails must be unique.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -337,7 +337,7 @@ class LLMS_Form_Validator {
 	 * Ensures that a username isn't found in the LifterLMS username blocklist, that it meets the default
 	 * WP core username criteria and that the username doesn't already exist.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -355,7 +355,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate a voucher field ensuring it's a valid and usable voucher code
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $posted_value User-submitted (dirty) value.
 	 * @return WP_Error|boolean Returns `true` for a valid submission, otherwise an error.
@@ -375,7 +375,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Validate submitted field values.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data Array of posted data.
 	 * @param array[] $fields      Array of LifterLMS Form Fields.
@@ -414,7 +414,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Ensure matching fields match one another.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data Array of posted data.
 	 * @param array[] $fields      Array of LifterLMS form fields.
@@ -471,7 +471,7 @@ class LLMS_Form_Validator {
 	/**
 	 * Ensure that all of the forms required fields are present in the submitted data.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data User data (likely from $_POST).
 	 * @param array[] $fields      Array of LifterLMS form fields.

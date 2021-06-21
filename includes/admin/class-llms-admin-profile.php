@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since [verson]
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Applies to edit-user.php & profile.php.
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Admin_Profile {
 
@@ -36,7 +36,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Add user meta fields to the profile screens
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_User $user Instance of WP_User for the user being updated.
 	 * @return bool `true` if fields were added, `false` otherwise.
@@ -93,7 +93,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Maybe save user meta fields
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int $user_id WP_User ID for the user being updated.
 	 * @return void
@@ -135,7 +135,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Maybe print validation errors
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
 	 * @return void
@@ -151,7 +151,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Check whether the current user can edit users custom fields
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean
 	 */
@@ -162,7 +162,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Merge llms fields errors into the passed WP_Error
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 * @todo Remove the fallback when minimum required WP version will be 5.6+.
 	 *
 	 * @param WP_Error $errors Instance of WP_Error, passed by reference.
@@ -198,7 +198,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Get fields to be added in the profile screen
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -215,7 +215,7 @@ class LLMS_Admin_Profile {
 	/**
 	 * Setup fields to be added to the profile screen
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -230,7 +230,7 @@ class LLMS_Admin_Profile {
 		 * By default WP core fields are excluded as they are automatically rendered on the screen
 		 * by the WP core.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param string[] $fields A list of field ids to be excluded.
 		 */
@@ -266,7 +266,7 @@ class LLMS_Admin_Profile {
 		/**
 		 * Fields to be added in the profile screen
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param array[] $fields Array of fields.
 		 */

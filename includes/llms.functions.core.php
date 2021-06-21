@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -772,7 +772,7 @@ function llms_get_ip_address() {
 /**
  * Retrieves and filters the value open registration option
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @return string The value of the open registration status. Either "yes" for enabled or "no" for disabled.
  */

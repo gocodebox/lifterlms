@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes/Forms
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * WordPress version is 5.7. Class methods are public in order to function within the WordPress API
  * but should be considered private for this reason.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @access private
  */
@@ -26,7 +26,7 @@ class LLMS_Forms_Unsupported_Versions {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @access private
 	 *
@@ -45,7 +45,7 @@ class LLMS_Forms_Unsupported_Versions {
 	/**
 	 * Add actions depending on the current screen
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @access private
 	 *
@@ -71,7 +71,7 @@ class LLMS_Forms_Unsupported_Versions {
 	/**
 	 * Output an admin error notice alerting users when requirements are not met.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @access private
 	 *
@@ -90,7 +90,7 @@ class LLMS_Forms_Unsupported_Versions {
 	/**
 	 * Output dirty inline CSS to prevent interaction with the posts table list
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @access private
 	 *

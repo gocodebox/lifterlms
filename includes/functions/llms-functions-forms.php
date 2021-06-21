@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Forms
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.19.4 Unknown.
- * @since [version] Move from file: llms.functions.core.php.
+ * @since 5.0.0 Move from file: llms.functions.core.php.
  *               Utilize `LLMS_Form_Field` class for field generation and output.
  *
  * @param array      $field       Field settings.
@@ -46,7 +46,7 @@ function llms_form_field( $field = array(), $echo = true, $data_source = null ) 
 /**
  * Retrieve the form post for a form at a given location.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $location Form location, one of: "checkout", "registration", or "account".
  * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
@@ -59,7 +59,7 @@ function llms_get_form( $location, $args = array() ) {
 /**
  * Retrieve the HTML for a form at the given location.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $location Form location, one of: "checkout", "registration", or "account".
  * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
@@ -74,7 +74,7 @@ function llms_get_form_html( $location, $args = array() ) {
  *
  * Returns an empty string if the form is disabled via form settings.
  *
- * @since [version]
+ * @since 5.0.0
  *
  * @param string $location Form location, one of: "checkout", "registration", or "account".
  * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
@@ -98,7 +98,7 @@ function llms_get_form_title( $location, $args = array() ) {
  *
  * @since 1.0.0
  * @since 3.19.4 Unknown
- * @since [version] Moved logic and filters for the $message, $redirect, and $layout parameters from the template into the function.
+ * @since 5.0.0 Moved logic and filters for the $message, $redirect, and $layout parameters from the template into the function.
  *
  * @param string $message  Optional. Messages to display before login form via llms_add_notice().
  * @param string $redirect Optional. URL to redirect to after login. Defaults to current page url.
@@ -115,7 +115,7 @@ if ( ! function_exists( 'llms_get_login_form' ) ) {
 		 * displayed to logged out users.
 		 *
 		 * @since 4.16.0
-		 * @since [version] Moved from template `global/form-login.php`/.
+		 * @since 5.0.0 Moved from template `global/form-login.php`/.
 		 *
 		 * @param boolean $hide_form Whether or not to hide the form. If `true`, the form is hidden, otherwise it is displayed.
 		 */

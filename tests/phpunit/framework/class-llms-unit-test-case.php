@@ -10,7 +10,7 @@
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
  * @since 4.0.0 Added create_mock_session-data() class.
  * @since 4.7.0 Disabled image sideloading during mock course generation.
- * @since [version] Automatically clear notices on teardown.
+ * @since 5.0.0 Automatically clear notices on teardown.
  *               Add a method to generate mock vouchers.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
@@ -460,7 +460,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Generate a mock voucher.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param int $codes Number of codes to create for the voucher.
 	 * @param int $uses Number of uses for each code.

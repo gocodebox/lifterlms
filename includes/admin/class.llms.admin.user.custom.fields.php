@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version [version]
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
 	 * @since 4.14.0 Add personal options hook.
-	 * @since [version] Custom fields (legacy), are now printed with priority 11 instead of 10.
+	 * @since 5.0.0 Custom fields (legacy), are now printed with priority 11 instead of 10.
 	 * @return void
 	 */
 	public function __construct() {
@@ -106,7 +106,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Removed LLMS core fields and deprecate the filter usage.
+	 * @since 5.0.0 Removed LLMS core fields and deprecate the filter usage.
 	 *
 	 * @return array
 	 */
@@ -160,7 +160,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Do not include user-edit template if no fields to show.
+	 * @since 5.0.0 Do not include user-edit template if no fields to show.
 	 *
 	 * @param WP_User|int $user Instance of WP_User or WP User ID.
 	 * @return void

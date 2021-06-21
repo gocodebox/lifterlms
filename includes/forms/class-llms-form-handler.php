@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Form_Handler class.
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Form_Handler {
 
@@ -34,7 +34,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Get Main Singleton Instance.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return LLMS_Form_Handler
 	 */
@@ -48,7 +48,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Private Constructor.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -67,7 +67,7 @@ class LLMS_Form_Handler {
 	 *
 	 * Ensures the form exists and that the current user can access the form.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $action   User action to be performed. Either "update" (for an existing user) or "registration" for a new user.
 	 * @param string $location Form location ID.
@@ -95,7 +95,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Insert user data into the database.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $action      Type of insert action. Either "registration" for a new user or "update" for an existing one.
 	 * @param array   $posted_data User-submitted form data.
@@ -123,7 +123,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Modify LifterLMS Fields prior to performing submit handler validations.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.
@@ -171,7 +171,7 @@ class LLMS_Form_Handler {
 	 * and zip code fields when a user has chosen a country that doesn't use states and/or
 	 * zip codes.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.
@@ -210,7 +210,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Prepares user-submitted data for insertion into the database.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data Sanitized & validated user-submitted form data.
 	 * @param array[] $fields      LifterLMS form fields list.
@@ -278,7 +278,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from `LLMS_Person_Handler::insert_data()`.
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::insert_data()`.
 		 *
 		 * @param array $user_data Array of user data.
 		 * @param array $posted_data Array of user-submitted data.
@@ -292,7 +292,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from `LLMS_Person_Handler::insert_data()`.
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::insert_data()`.
 		 *
 		 * @param array $user_meta Array of user meta data.
 		 * @param array $posted_data Array of user-submitted data.
@@ -307,7 +307,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Form submission handler
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.
@@ -334,7 +334,7 @@ class LLMS_Form_Handler {
 
 	/**
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.
@@ -350,7 +350,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
 		 *               Added parameters `$fields` and `$args`.
 		 *               Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
 		 *               of `$posted_data` and `$fields` via hooks.
@@ -387,7 +387,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param WP_Error|true $valid       Error object containing validation errors or true when the data is valid.
 		 * @param array         $posted_data Array of user-submitted data.
@@ -404,7 +404,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
 		 *               Added parameters `$fields` and `$args`.
 		 *
 		 * @param array   $posted_data Array of user-submitted data.
@@ -424,7 +424,7 @@ class LLMS_Form_Handler {
 			 * Deprecated user creation hook
 			 *
 			 * @since Unknown.
-			 * @deprecated [version]
+			 * @deprecated 5.0.0
 			 *
 			 * @param int    $user_id     WP_User ID of the newly created user.
 			 * @param array  $posted_data Array of user-submitted data.
@@ -436,7 +436,7 @@ class LLMS_Form_Handler {
 			 * Fire an action after a user has been registered
 			 *
 			 * @since 3.0.0
-			 * @since [version] Moved from `LLMS_Person_Handler::register()`.
+			 * @since 5.0.0 Moved from `LLMS_Person_Handler::register()`.
 			 *
 			 * @param int    $user_id     WP_User ID of the user.
 			 * @param array  $posted_data Array of user submitted data.
@@ -450,7 +450,7 @@ class LLMS_Form_Handler {
 			 * Fire an action after a user has been updated
 			 *
 			 * @since 3.0.0
-			 * @since [version] Moved from `LLMS_Person_Handler::update()`.
+			 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()`.
 			 *
 			 * @param int    $user_id     WP_User ID of the user.
 			 * @param array  $posted_data Array of user submitted data.
@@ -467,7 +467,7 @@ class LLMS_Form_Handler {
 	/**
 	 * Ensure all errors objects encountered during form submission are filterable.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param WP_Error $error Error object.
 	 * @param array    $posted_data User-submitted form data.
@@ -482,7 +482,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since [version] Moved from `LLMS_Person_Handler::insert_data()`.
+		 * @since 5.0.0 Moved from `LLMS_Person_Handler::insert_data()`.
 		 *
 		 * @param WP_Error $error Error object.
 		 * @param array $posted_data Array of user-submitted data.

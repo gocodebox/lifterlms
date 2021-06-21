@@ -10,7 +10,7 @@
  * @since 3.37.8 Fix directory path to uninstall.php.
  * @since 4.0.0 Test creation of all tables; fix caching issue when testing full install; add new cron test.
  * @since 4.5.0 Test log backup cron.
- * @since [version] Added tests for the get_can_install_user_id() method.
+ * @since 5.0.0 Added tests for the get_can_install_user_id() method.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -330,7 +330,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	/**
 	 * Test get_can_install_user_id() method
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

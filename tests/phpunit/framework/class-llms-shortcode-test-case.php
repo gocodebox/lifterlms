@@ -3,8 +3,8 @@
  * Unit Test Case with tests and utilities specific to testing LifterLMS Shortcodes
  *
  * @since 3.24.1
- * @since [version] Add helper method `get_class()`.
- * @version [version]
+ * @since 5.0.0 Add helper method `get_class()`.
+ * @version 5.0.0
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -21,7 +21,7 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve an instance of the shortcode generator class.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return obj
 	 */
@@ -34,7 +34,7 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Assertion to expect the output of a given shortcode string.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $expect Expected shortcode output.
 	 * @param string $shortcode Shortcode string (to be wrapped in `do_shortcode()`).

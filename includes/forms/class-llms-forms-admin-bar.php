@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add WP Admin Bar Nodes to enable editing of the currently-viewed form by a qualifying user
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Forms_Admin_Bar {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Forms_Admin_Bar {
 	 * Must be on a checkout screen, the "edit account" tab of the dashboard,
 	 * or be viewing as a visitor on the main dashboard page with open registration enabled.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string|boolean Returns the location id as a string or `false` if not on a form location screen.
 	 */
@@ -114,7 +114,7 @@ class LLMS_Forms_Admin_Bar {
 		/**
 		 * Filters whether or not the "Edit Form" WP_Admin_Bar node is displayed
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param boolean $display Whether or not to display the node.
 		 */

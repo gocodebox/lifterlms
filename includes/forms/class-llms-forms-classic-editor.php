@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Forms_Classic_Editor
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Forms_Classic_Editor {
 
 	/**
 	 * Static "constructor"
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Forms_Classic_Editor {
 	 * when the default editor for all users is the classic editor and users are not
 	 * allowed to switch editors.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/use_block_editor_for_post_type
 	 *
@@ -58,7 +58,7 @@ class LLMS_Forms_Classic_Editor {
 	 * The classic editor uses this filter to determine which editors are available for the given custom
 	 * post type when users are allowed to choose which editor to use.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array  $editors   Associative array. The array key identifies the editor and the array value is a boolean
 	 *                          specifying whether or not the editor is enabled for the given post type.

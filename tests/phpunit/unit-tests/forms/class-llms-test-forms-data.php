@@ -6,15 +6,15 @@
  *
  * @group forms_data
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Forms_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

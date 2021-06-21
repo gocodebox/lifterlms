@@ -8,15 +8,15 @@
  * @group forms
  * @group functions
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_form() function.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_form_html() function.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_form_title() method.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_login_form() for a logged out user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_login_form() for a logged in user.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

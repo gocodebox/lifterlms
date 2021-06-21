@@ -75,7 +75,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	 * Test llms_get_add_on()
 	 *
 	 * @since 4.21.3
-	 * @since [version] Stop testing against Helper_Add_on.
+	 * @since 5.0.0 Stop testing against Helper_Add_on.
 	 *
 	 * @return void
 	 */
