@@ -114,18 +114,17 @@ class LLMS_Form_Templates {
 
 	}
 
-	private static function get_block_data( $field_id ) {
+	private static function get_block_data( $field_id, $confirm = true ) {
 
 		$block = self::get_reusable_block_schema( $field_id );
 		$title = $block['title'];
 		unset( $block['title'] );
 
-		if ( ! empty( $block['confirm'] ) ) {
+		if ( $confirm && ! empty( $block['confirm'] ) ) {
 			$block = self::add_confirm_group( $block );
 		}
 
-		$block = self::prepare_blocks( $block );
-
+		$block = self::prepare_blocks( array( $block ) );
 		return compact( 'title', 'block' );
 
 	}
@@ -295,7 +294,9 @@ class LLMS_Form_Templates {
 		 */
 		$use_reusable = apply_filters( 'llms_blocks_template_use_reusable_blocks', ( 'not-set' === get_option( 'lifterlms_registration_generate_username', 'not-set' ) ) );
 
-		return serialize_blocks( array_filter( self::get_template_blocks( $location, $use_reusable ) ) );
+		$blocks = self::get_template_blocks( $location, $use_reusable );
+
+		return serialize_blocks( $blocks );
 
 	}
 
@@ -305,12 +306,33 @@ class LLMS_Form_Templates {
 			return self::get_reusable_block( $field_id );
 		}
 
-		$block_data = self::get_block_data( $field_id );
 		$legacy_opt = self::get_legacy_options( $field_id, $location );
+		$block_data = self::get_block_data( $field_id, ( 'email' === $field_id && 'yes' === $legacy_opt ) );
+		if ( 'hidden' === $legacy_opt ) {
+			return array();
+		}
 
-		// var_dump( $block_data['block'] );
+		$block = $block_data['block'][0];
 
-		return $block_data['block'];
+		if ( in_array( $legacy_opt, array( 'required', 'optional' ), true ) ) {
+			$block = self::set_required_atts( $block, ( 'required' === $legacy_opt ) );
+		}
+
+		return $block;
+
+	}
+
+	private static function set_required_atts( $block, $required ) {
+
+		if ( isset( $block['attrs']['required'] ) ) {
+			$block['attrs']['required'] = $required;
+		}
+
+		foreach ( $block['innerBlocks'] as &$innerBlock ) {
+			$innerBlock = self::set_required_atts( $innerBlock, $required );
+		}
+
+		return $block;
 
 	}
 
@@ -318,7 +340,7 @@ class LLMS_Form_Templates {
 
 		$name_map = array(
 			'address' => 'address',
-			// 'email'   => 'email_confirmation',
+			'email'   => 'email_confirmation',
 			'name'    => 'names',
 			'phone'   => 'phone',
 		);
@@ -331,22 +353,6 @@ class LLMS_Form_Templates {
 			$val = get_option( $key );
 
 		}
-
-// lifterlms_user_info_field_address_account_visibility	             required
-// lifterlms_user_info_field_address_checkout_visibility	             required
-// lifterlms_user_info_field_address_registration_visibility	         optional
-
-// lifterlms_user_info_field_email_confirmation_account_visibility	     yes
-// lifterlms_user_info_field_email_confirmation_checkout_visibility	 yes
-// lifterlms_user_info_field_email_confirmation_registration_visibility no
-
-// lifterlms_user_info_field_names_account_visibility	                 required
-// lifterlms_user_info_field_names_checkout_visibility	                 required
-// lifterlms_user_info_field_names_registration_visibility	             required
-
-// lifterlms_user_info_field_phone_account_visibility	                 optional
-// lifterlms_user_info_field_phone_checkout_visibility	                 optional
-// lifterlms_user_info_field_phone_registration_visibility	             hidden
 
 		return $val;
 
@@ -361,7 +367,7 @@ class LLMS_Form_Templates {
 	 * @return array[]
 	 */
 	private static function get_template_blocks( $location, $reusable ) {
-$reusable = true;
+
 		$blocks = array();
 
 		// Email and password are added in different locations depending on the form.
@@ -394,9 +400,7 @@ $reusable = true;
 			$blocks = array_merge( $blocks, $base );
 		}
 
-		var_dump( $blocks ); die;
-
-		return $blocks;
+		return array_filter( $blocks );
 
 	}
 
