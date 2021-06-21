@@ -146,7 +146,9 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_get_template_checkout() {
+	public function test_get_template_checkout_clean() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
 
 		$expected = array(
 			'email',
@@ -165,6 +167,8 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 
 		delete_option( 'lifterlms_registration_generate_username' );
 
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
+
 	}
 
 	/**
@@ -174,7 +178,9 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_get_template_registration() {
+	public function test_get_template_registration_clean() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
 
 		$expected = array(
 			'email',
@@ -199,6 +205,8 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
 
 		delete_option( 'lifterlms_registration_generate_username' );
+
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
 
 	}
 
