@@ -360,6 +360,11 @@ class LLMS_Form_Templates {
 			self::get_block( 'password', $location, $reusable ),
 		);
 
+		// Username only added when option is off on legacy sites.
+		if ( 'account' !== $location && ! llms_parse_bool( get_option( 'lifterlms_registration_generate_username', 'yes' ) ) ) {
+			array_unshift( $base, self::get_reusable_block( 'username' ) );
+		}
+
 		// Email and password go first on checkout/reg forms.
 		if ( 'account' !== $location ) {
 			$blocks = array_merge( $base, $blocks );
