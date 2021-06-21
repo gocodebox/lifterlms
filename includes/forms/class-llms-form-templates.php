@@ -114,6 +114,50 @@ class LLMS_Form_Templates {
 
 	}
 
+	/**
+	 * Retrieve a block array for use in a template
+	 *
+	 * Returns a reusable block when `$reusable` is `true` or returns a regular
+	 * block modified by legacy options for the given location when `$reusable` is `false`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @param string  $location Form location. Accepts "checkout", "registration", or "account".
+	 * @param boolean $reusable Whether or not a reusable block should be retrieved.
+	 * @return array
+	 */
+	private static function get_block( $field_id, $location, $reusable ) {
+
+		if ( $reusable ) {
+			return self::get_reusable_block( $field_id );
+		}
+
+		$legacy_opt = self::get_legacy_options( $field_id, $location );
+		$block_data = self::get_block_data( $field_id, ( 'email' === $field_id && 'yes' === $legacy_opt ) );
+		if ( 'hidden' === $legacy_opt ) {
+			return array();
+		}
+
+		$block = $block_data['block'][0];
+
+		if ( in_array( $legacy_opt, array( 'required', 'optional' ), true ) ) {
+			$block = self::set_required_atts( $block, ( 'required' === $legacy_opt ) );
+		}
+
+		return $block;
+
+	}
+
+	/**
+	 * Retrieve data for a given field by id
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @param boolean $confirm  If `true` and the schema includes a confirmation field, will convert the field to a confirm group.
+	 * @return array Returns an array containing the block data and title.
+	 */
 	private static function get_block_data( $field_id, $confirm = true ) {
 
 		$block = self::get_reusable_block_schema( $field_id );
@@ -188,6 +232,37 @@ class LLMS_Form_Templates {
 	}
 
 	/**
+	 * Retrieves legacy options value for a given field and location
+	 *
+	 * @since [version]
+	 *
+	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
+	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
+	 * @return string
+	 */
+	private static function get_legacy_options( $field_id, $location ) {
+
+		$name_map = array(
+			'address' => 'address',
+			'email'   => 'email_confirmation',
+			'name'    => 'names',
+			'phone'   => 'phone',
+		);
+
+		$val = '';
+
+		if ( array_key_exists( $field_id, $name_map ) ) {
+
+			$key = sprintf( 'lifterlms_user_info_field_%1$s_%2$s_visibility', $name_map[ $field_id ], $location );
+			$val = get_option( $key );
+
+		}
+
+		return $val;
+
+	}
+
+	/**
 	 * Retrieves a core/block WP_Block array for a given default/core field
 	 *
 	 * This method will attempt to use an existing wp_block for the given field id
@@ -238,40 +313,6 @@ class LLMS_Form_Templates {
 	}
 
 	/**
-	 * Prepares block attributes for a given reusable block
-	 *
-	 * This method loads a reusable block from the blocks schema and attempts to locate a user information field
-	 * for the given field block from the user information fields schema.
-	 *
-	 * The field is matched by the block's "id" attribute which should match a user information field's "name" attribute.
-	 *
-	 * When a match is found, the information field data is merged into the block data and the settings are converted from field settings
-	 * to block attributes.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param array $block A partial WP_Block array used to create a reusable block.
-	 * @return array
-	 */
-	private static function prepare_block_attrs( $block ) {
-
-		if ( ! empty( $block['innerBlocks'] ) ) {
-			foreach ( $block['innerBlocks'] as &$inner_block ) {
-				$inner_block = self::prepare_block_attrs( $inner_block );
-			}
-		} elseif ( ! empty( $block['attrs']['id'] ) ) {
-
-			// If we find a field, merge the block into the field and convert it to block attributes.
-			$field          = llms_get_user_information_field( $block['attrs']['id'] );
-			$block['attrs'] = $field ? LLMS_Forms::instance()->convert_settings_to_block_attrs( wp_parse_args( $field, $block['attrs'] ) ) : $block['attrs'];
-
-		}
-
-		return $block;
-
-	}
-
-	/**
 	 * Retrieve the block template HTML for a given location.
 	 *
 	 * @since 5.0.0
@@ -300,70 +341,13 @@ class LLMS_Form_Templates {
 
 	}
 
-	private static function get_block( $field_id, $location, $reusable ) {
-
-		if ( $reusable ) {
-			return self::get_reusable_block( $field_id );
-		}
-
-		$legacy_opt = self::get_legacy_options( $field_id, $location );
-		$block_data = self::get_block_data( $field_id, ( 'email' === $field_id && 'yes' === $legacy_opt ) );
-		if ( 'hidden' === $legacy_opt ) {
-			return array();
-		}
-
-		$block = $block_data['block'][0];
-
-		if ( in_array( $legacy_opt, array( 'required', 'optional' ), true ) ) {
-			$block = self::set_required_atts( $block, ( 'required' === $legacy_opt ) );
-		}
-
-		return $block;
-
-	}
-
-	private static function set_required_atts( $block, $required ) {
-
-		if ( isset( $block['attrs']['required'] ) ) {
-			$block['attrs']['required'] = $required;
-		}
-
-		foreach ( $block['innerBlocks'] as &$innerBlock ) {
-			$innerBlock = self::set_required_atts( $innerBlock, $required );
-		}
-
-		return $block;
-
-	}
-
-	private static function get_legacy_options( $field_id, $location ) {
-
-		$name_map = array(
-			'address' => 'address',
-			'email'   => 'email_confirmation',
-			'name'    => 'names',
-			'phone'   => 'phone',
-		);
-
-		$val = '';
-
-		if ( array_key_exists( $field_id, $name_map ) ) {
-
-			$key = sprintf( 'lifterlms_user_info_field_%1$s_%2$s_visibility', $name_map[ $field_id ], $location );
-			$val = get_option( $key );
-
-		}
-
-		return $val;
-
-	}
-
 	/**
 	 * Retrieve a list of blocks for the given template
 	 *
 	 * @since [version]
 	 *
-	 * @param string $location Form location id.
+	 * @param string  $location Form location id.
+	 * @param boolean $reusable Whether or not reusable blocks should be used.
 	 * @return array[]
 	 */
 	private static function get_template_blocks( $location, $reusable ) {
@@ -436,6 +420,40 @@ class LLMS_Form_Templates {
 	}
 
 	/**
+	 * Prepares block attributes for a given reusable block
+	 *
+	 * This method loads a reusable block from the blocks schema and attempts to locate a user information field
+	 * for the given field block from the user information fields schema.
+	 *
+	 * The field is matched by the block's "id" attribute which should match a user information field's "name" attribute.
+	 *
+	 * When a match is found, the information field data is merged into the block data and the settings are converted from field settings
+	 * to block attributes.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $block A partial WP_Block array used to create a reusable block.
+	 * @return array
+	 */
+	private static function prepare_block_attrs( $block ) {
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as &$inner_block ) {
+				$inner_block = self::prepare_block_attrs( $inner_block );
+			}
+		} elseif ( ! empty( $block['attrs']['id'] ) ) {
+
+			// If we find a field, merge the block into the field and convert it to block attributes.
+			$field          = llms_get_user_information_field( $block['attrs']['id'] );
+			$block['attrs'] = $field ? LLMS_Forms::instance()->convert_settings_to_block_attrs( wp_parse_args( $field, $block['attrs'] ) ) : $block['attrs'];
+
+		}
+
+		return $block;
+
+	}
+
+	/**
 	 * Recursively prepare a list of blocks to ensure it can be passed into serialize_blocks() without error
 	 *
 	 * @since 5.0.0
@@ -465,6 +483,28 @@ class LLMS_Form_Templates {
 		}
 
 		return $blocks;
+
+	}
+
+	/**
+	 * Modifies the `required` block attribute
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block    A WP_Block definition array.
+	 * @param boolean $required Desired value of the required attribute.
+	 */
+	private static function set_required_atts( $block, $required ) {
+
+		if ( isset( $block['attrs']['required'] ) ) {
+			$block['attrs']['required'] = $required;
+		}
+
+		foreach ( $block['innerBlocks'] as &$inner_block ) {
+			$inner_block = self::set_required_atts( $inner_block, $required );
+		}
+
+		return $block;
 
 	}
 
