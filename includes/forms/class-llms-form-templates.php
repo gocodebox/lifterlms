@@ -73,18 +73,11 @@ class LLMS_Form_Templates {
 			return $existing->ID;
 		}
 
-		$block      = self::get_reusable_block_schema( $field_id );
-		$post_title = $block['title'];
-
-		unset( $block['title'] );
-
-		if ( ! empty( $block['confirm'] ) ) {
-			$block = self::add_confirm_group( $block );
-		}
+		$block_data = self::get_block_data( $field_id );
 
 		$args = array(
-			'post_title'   => $post_title,
-			'post_content' => serialize_blocks( self::prepare_blocks( array( $block ) ) ),
+			'post_title'   => $block_data['title'],
+			'post_content' => serialize_blocks( $block_data['block'] ),
 			'post_status'  => 'publish',
 			'post_type'    => 'wp_block',
 			'meta_input'   => array(
@@ -118,6 +111,22 @@ class LLMS_Form_Templates {
 		);
 
 		return $query->posts ? $query->posts[0] : false;
+
+	}
+
+	private static function get_block_data( $field_id ) {
+
+		$block = self::get_reusable_block_schema( $field_id );
+		$title = $block['title'];
+		unset( $block['title'] );
+
+		if ( ! empty( $block['confirm'] ) ) {
+			$block = self::add_confirm_group( $block );
+		}
+
+		$block = self::prepare_blocks( $block );
+
+		return compact( 'title', 'block' );
 
 	}
 
@@ -273,33 +282,108 @@ class LLMS_Form_Templates {
 	 */
 	public static function get_template( $location ) {
 
+		/**
+		 * Filters whether or not reusable blocks should be used when generating a form template
+		 *
+		 * By default when migrating from 4.x, non-reusable blocks will be used in order to ensure legacy settings
+		 * are transferred during an upgrade to 5.x. However, on a "clean" install of 5.x, reusable blocks will be
+		 * used in favor of regular blocks.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $use_reusable Whether or not to use reusable blocks.
+		 */
+		$use_reusable = apply_filters( 'llms_blocks_template_use_reusable_blocks', ( 'not-set' === get_option( 'lifterlms_registration_generate_username', 'not-set' ) ) );
+
+		return serialize_blocks( array_filter( self::get_template_blocks( $location, $use_reusable ) ) );
+
+	}
+
+	private static function get_block( $field_id, $location, $reusable ) {
+
+		if ( $reusable ) {
+			return self::get_reusable_block( $field_id );
+		}
+
+		$block_data = self::get_block_data( $field_id );
+		$legacy_opt = self::get_legacy_options( $field_id, $location );
+
+		// var_dump( $block_data['block'] );
+
+		return $block_data['block'];
+
+	}
+
+	private static function get_legacy_options( $field_id, $location ) {
+
+		$name_map = array(
+			'address' => 'address',
+			// 'email'   => 'email_confirmation',
+			'name'    => 'names',
+			'phone'   => 'phone',
+		);
+
+		$val = '';
+
+		if ( array_key_exists( $field_id, $name_map ) ) {
+
+			$key = sprintf( 'lifterlms_user_info_field_%1$s_%2$s_visibility', $name_map[ $field_id ], $location );
+			$val = get_option( $key );
+
+		}
+
+// lifterlms_user_info_field_address_account_visibility	             required
+// lifterlms_user_info_field_address_checkout_visibility	             required
+// lifterlms_user_info_field_address_registration_visibility	         optional
+
+// lifterlms_user_info_field_email_confirmation_account_visibility	     yes
+// lifterlms_user_info_field_email_confirmation_checkout_visibility	 yes
+// lifterlms_user_info_field_email_confirmation_registration_visibility no
+
+// lifterlms_user_info_field_names_account_visibility	                 required
+// lifterlms_user_info_field_names_checkout_visibility	                 required
+// lifterlms_user_info_field_names_registration_visibility	             required
+
+// lifterlms_user_info_field_phone_account_visibility	                 optional
+// lifterlms_user_info_field_phone_checkout_visibility	                 optional
+// lifterlms_user_info_field_phone_registration_visibility	             hidden
+
+		return $val;
+
+	}
+
+	/**
+	 * Retrieve a list of blocks for the given template
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location Form location id.
+	 * @return array[]
+	 */
+	private static function get_template_blocks( $location, $reusable ) {
+$reusable = true;
 		$blocks = array();
 
 		// Email and password are added in different locations depending on the form.
 		$base = array(
-			self::get_reusable_block( 'email' ),
-			self::get_reusable_block( 'password' ),
+			self::get_block( 'email', $location, $reusable ),
+			self::get_block( 'password', $location, $reusable ),
 		);
-
-		// Username only added when option is off on legacy sites.
-		if ( 'account' !== $location && ! llms_parse_bool( get_option( 'lifterlms_registration_generate_username', 'yes' ) ) ) {
-			array_unshift( $base, self::get_reusable_block( 'username' ) );
-		}
 
 		// Email and password go first on checkout/reg forms.
 		if ( 'account' !== $location ) {
 			$blocks = array_merge( $base, $blocks );
 		}
 
-		$blocks[] = self::get_reusable_block( 'name' );
+		$blocks[] = self::get_block( 'name', $location, $reusable );
 
 		// Display name on account only, users can add to other forms if desired.
 		if ( 'account' === $location ) {
-			$blocks[] = self::get_reusable_block( 'display_name' );
+			$blocks[] = self::get_block( 'display_name', $location, $reusable );
 		}
 
-		$blocks[] = self::get_reusable_block( 'address' );
-		$blocks[] = self::get_reusable_block( 'phone' );
+		$blocks[] = self::get_block( 'address', $location, $reusable );
+		$blocks[] = self::get_block( 'phone', $location, $reusable );
 
 		if ( 'registration' === $location ) {
 			$blocks[] = self::get_voucher_block();
@@ -310,7 +394,9 @@ class LLMS_Form_Templates {
 			$blocks = array_merge( $blocks, $base );
 		}
 
-		return serialize_blocks( array_filter( $blocks ) );
+		var_dump( $blocks ); die;
+
+		return $blocks;
 
 	}
 
