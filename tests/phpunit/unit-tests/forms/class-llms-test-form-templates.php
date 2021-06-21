@@ -50,8 +50,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 */
 	private function get_template_field_id_list( $location ) {
 
-		$res    = LLMS_Form_Templates::get_template( $location );
-		$blocks = parse_blocks( $res );
+		$blocks = $this->get_template( $location );
 		$list   = array();
 
 		foreach ( $blocks as $block ) {
@@ -61,13 +60,32 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 			} elseif ( 'llms/form-field-redeem-voucher' === $block['blockName'] ) {
 				$list[] = 'voucher';
 			} else {
-				// This shouldn't happen but when we compare against the list we'll see what doesn't belong.
 				$list[] = $block['blockName'];
 			}
 
 		}
 
 		return $list;
+
+	}
+
+	private function get_template( $location ) {
+
+		$res = LLMS_Form_Templates::get_template( $location );
+		return parse_blocks( $res );
+
+	}
+
+	private function get_block_from_template( $location, $name ) {
+		$blocks = $this->get_template( $location );
+
+		foreach ( $blocks as $block ) {
+			if ( $name === $block['blockName'] ) {
+				return $block;
+			}
+		}
+
+		return false;
 
 	}
 
@@ -118,13 +136,15 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test get_template() for the account location.
+	 * Test get_template() for the account location during a clean installation.
 	 *
 	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
-	public function test_get_template_account() {
+	public function test_get_template_account_clean() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
 
 		$expected = array(
 			'name',
@@ -137,10 +157,61 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 
 		$this->assertEquals( $expected, $this->get_template_field_id_list( 'account' ) );
 
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
+
 	}
 
 	/**
-	 * Test get_template() for the checkout location.
+	 * Test get_template() for the account location during an upgrade.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_template_account_update() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+		$opts = array(
+			'lifterlms_user_info_field_email_confirmation_account_visibility' => 'no',
+			'lifterlms_user_info_field_address_account_visibility'            => 'hidden',
+			'lifterlms_user_info_field_names_account_visibility'              => 'optional',
+			'lifterlms_user_info_field_phone_account_visibility'              => 'required',
+		);
+
+		foreach ( $opts as $key => $val ) {
+			update_option( $key, $val );
+		}
+
+		// Expected List.
+		$expected = array(
+			'llms/form-field-user-name',
+			'llms/form-field-user-display-name',
+			'llms/form-field-user-phone',
+			'llms/form-field-user-email',
+			'llms/form-field-user-password',
+		);
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'account' ) );
+
+		// No confirm field on email.
+		$email = $this->get_block_from_template( 'account', 'llms/form-field-user-email' );
+		$this->assertEquals( array(), $email['innerBlocks'] );
+
+		// Names are optional.
+		$name = $this->get_block_from_template( 'account', 'llms/form-field-user-name' );
+		$this->assertFalse( $name['innerBlocks'][0]['attrs']['required'] );
+		$this->assertFalse( $name['innerBlocks'][1]['attrs']['required'] );
+
+		// Phone is required.
+		$phone = $this->get_block_from_template( 'account', 'llms/form-field-user-phone' );
+		$this->assertTrue( $phone['attrs']['required'] );
+
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+	}
+
+	/**
+	 * Test get_template() for the checkout location during a clean installation.
 	 *
 	 * @since 5.0.0
 	 *
@@ -172,7 +243,55 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test get_template() for the registration location.
+	 * Test get_template() for the checkout location during an upgrade.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_template_checkout_update() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+		$opts = array(
+			'lifterlms_user_info_field_email_confirmation_checkout_visibility' => 'no',
+			'lifterlms_user_info_field_address_checkout_visibility'            => 'hidden',
+			'lifterlms_user_info_field_names_checkout_visibility'              => 'optional',
+			'lifterlms_user_info_field_phone_checkout_visibility'              => 'required',
+		);
+
+		foreach ( $opts as $key => $val ) {
+			update_option( $key, $val );
+		}
+
+		// Expected List.
+		$expected = array(
+			'llms/form-field-user-email',
+			'llms/form-field-user-password',
+			'llms/form-field-user-name',
+			'llms/form-field-user-phone',
+		);
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'checkout' ) );
+
+		// No confirm field on email.
+		$email = $this->get_block_from_template( 'checkout', 'llms/form-field-user-email' );
+		$this->assertEquals( array(), $email['innerBlocks'] );
+
+		// Names are optional.
+		$name = $this->get_block_from_template( 'checkout', 'llms/form-field-user-name' );
+		$this->assertFalse( $name['innerBlocks'][0]['attrs']['required'] );
+		$this->assertFalse( $name['innerBlocks'][1]['attrs']['required'] );
+
+		// Phone is required.
+		$phone = $this->get_block_from_template( 'checkout', 'llms/form-field-user-phone' );
+		$this->assertTrue( $phone['attrs']['required'] );
+
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+	}
+
+	/**
+	 * Test get_template() for the registration location during a clean installation.
 	 *
 	 * @since 5.0.0
 	 *
@@ -209,6 +328,56 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_true' );
 
 	}
+
+	/**
+	 * Test get_template() for the registration location during an upgrade.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_template_registration_update() {
+
+		add_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+		$opts = array(
+			'lifterlms_user_info_field_email_confirmation_registration_visibility' => 'yes',
+			'lifterlms_user_info_field_address_registration_visibility'            => 'required',
+			'lifterlms_user_info_field_names_registration_visibility'              => 'hidden',
+			'lifterlms_user_info_field_phone_registration_visibility'              => 'hidden',
+		);
+
+		foreach ( $opts as $key => $val ) {
+			update_option( $key, $val );
+		}
+
+		// Expected List.
+		$expected = array(
+			'llms/form-field-confirm-group', // Email
+			'llms/form-field-user-password',
+			'llms/form-field-user-address',
+			'voucher',
+		);
+		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
+
+		// Confirm field on email.
+		$email = $this->get_block_from_template( 'registration', 'llms/form-field-confirm-group' );
+		$this->assertEquals( 'llms/form-field-user-email', $email['innerBlocks'][0]['blockName'] );
+		$this->assertEquals( 'llms/form-field-text', $email['innerBlocks'][1]['blockName'] );
+
+		// Address is required are optional.
+		$address = $this->get_block_from_template( 'registration', 'llms/form-field-user-address' );
+		$this->assertTrue( $address['innerBlocks'][0]['innerBlocks'][0]['attrs']['required'] ); // Line 1.
+		$this->assertFalse( $address['innerBlocks'][0]['innerBlocks'][1]['attrs']['required'] ); // Line 2.
+		$this->assertTrue( $address['innerBlocks'][1]['attrs']['required'] ); // City.
+		$this->assertTrue( $address['innerBlocks'][2]['attrs']['required'] ); // Country.
+		$this->assertTrue( $address['innerBlocks'][3]['innerBlocks'][0]['attrs']['required'] ); // State.
+		$this->assertTrue( $address['innerBlocks'][3]['innerBlocks'][1]['attrs']['required'] ); // Postal code.
+
+		remove_filter( 'llms_blocks_template_use_reusable_blocks', '__return_false' );
+
+	}
+
 
 	/**
 	 * Test get_voucher_block() when the voucher field is disabled

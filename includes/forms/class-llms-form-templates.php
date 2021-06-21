@@ -501,7 +501,7 @@ class LLMS_Form_Templates {
 	 */
 	private static function set_required_atts( $block, $required ) {
 
-		if ( isset( $block['attrs']['required'] ) ) {
+		if ( isset( $block['attrs']['required'] ) && 'llms/form-field-user-address-street-secondary' !== $block['blockName'] ) {
 			$block['attrs']['required'] = $required;
 		}
 
