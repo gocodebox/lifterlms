@@ -569,7 +569,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added shortcode processing in LifterLMS-generated emails.
 + If a symbol cannot be found for the supplied currency code, return the code instead of an empty string.
 
-
 ##### Bug Fixes
 
 + Changed the filter on return of `LLMS_Person_Handler::get_password_reset_fields()` from `lifterlms_lost_password_fields` to `llms_password_reset_fields`.
@@ -585,6 +584,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 ##### Library & Vendor Updates
 
++ Updates LifterLMS Blocks to version 2.0.0.
 + Load core libraries from new location and load WP Background Processing lib.
 + The vendor script dependency `topModal.js` has been removed.
 
