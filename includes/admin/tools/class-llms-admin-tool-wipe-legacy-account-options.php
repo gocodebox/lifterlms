@@ -133,9 +133,11 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 			global $wpdb;
 
 			return ! empty(
-				$wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options}
-				WHERE option_name='lifterlms_registration_generate_username'" )
-			);
+				$wpdb->get_var(
+					"SELECT COUNT(*) FROM {$wpdb->options}
+				WHERE option_name='lifterlms_registration_generate_username'"
+				)
+			); // no-cache ok.
 
 		}
 
