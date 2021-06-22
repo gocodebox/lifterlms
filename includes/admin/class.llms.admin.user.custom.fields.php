@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version 4.14.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
 	 * @since 4.14.0 Add personal options hook.
-	 *
+	 * @since 5.0.0 Custom fields (legacy), are now printed with priority 11 instead of 10.
 	 * @return void
 	 */
 	public function __construct() {
@@ -40,8 +40,9 @@ class LLMS_Admin_User_Custom_Fields {
 			'edit_user_profile',
 			'user_new_form',
 		);
+
 		foreach ( $field_actions as $action ) {
-			add_action( $action, array( $this, 'output_custom_fields' ), 10, 1 );
+			add_action( $action, array( $this, 'output_custom_fields' ), 11, 1 );
 			add_action( $action, array( $this, 'output_instructors_assistant_fields' ), 10, 1 );
 		}
 
@@ -56,6 +57,7 @@ class LLMS_Admin_User_Custom_Fields {
 		add_action( 'personal_options', array( $this, 'output_personal_options' ) );
 
 	}
+
 
 	/**
 	 * Validate custom fields
@@ -104,75 +106,20 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
+	 * @since 5.0.0 Removed LLMS core fields and deprecate the filter usage.
 	 *
 	 * @return array
 	 */
 	public function get_fields() {
 
-		$fields = apply_filters(
+		$this->fields = apply_filters_deprecated(
 			'lifterlms_get_user_custom_fields',
 			array(
-
-				'llms_billing_address_1' => array(
-					'description' => '',
-					'label'       => __( 'Billing Address 1', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_address_2' => array(
-					'description' => '',
-					'label'       => __( 'Billing Address 2', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_city'      => array(
-					'description' => '',
-					'label'       => __( 'Billing City', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_state'     => array(
-					'description' => '',
-					'label'       => __( 'Billing State', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_zip'       => array(
-					'description' => '',
-					'label'       => __( 'Billing Zip Code', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_billing_country'   => array(
-					'description' => '',
-					'label'       => __( 'Billing Country', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-				'llms_phone'             => array(
-					'description' => '',
-					'label'       => __( 'Phone', 'lifterlms' ),
-					'required'    => false,
-					'type'        => 'text',
-					'value'       => '',
-				),
-
-			)
+				array(),
+			),
+			'5.0.0',
+			'llms_admin_profile_fields'
 		);
-
-		$this->fields = $fields;
 
 		return $this->fields;
 
@@ -213,6 +160,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.24.0 Unknown.
+	 * @since 5.0.0 Do not include user-edit template if no fields to show.
 	 *
 	 * @param WP_User|int $user Instance of WP_User or WP User ID.
 	 * @return void
@@ -225,10 +173,14 @@ class LLMS_Admin_User_Custom_Fields {
 			$this->get_fields();
 		}
 
+		if ( empty( $this->fields ) ) {
+			return;
+		}
+
 		llms_get_template(
 			'admin/user-edit.php',
 			array(
-				'section_title' => __( 'LifterLMS Profile', 'lifterlms' ),
+				'section_title' => __( 'LifterLMS Profile (legacy fields)', 'lifterlms' ),
 				'fields'        => $this->fields,
 			)
 		);
@@ -335,9 +287,9 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Output JS to handle user interaction with the instructor's parent field
 	 *
-	 * @since 3.13.0
-	 *
 	 * Display custom field ONLY when creating/editing an instructor's assistant.
+	 *
+	 * @since 3.13.0
 	 *
 	 * @return void
 	 */

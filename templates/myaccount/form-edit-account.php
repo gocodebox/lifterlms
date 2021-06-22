@@ -2,14 +2,15 @@
 /**
  * Account Edit Template / Form
  *
- * @since    1.0.0
- * @version  3.19.4
+ * @since 1.0.0
+ * @since 5.0.0 Utilize fields from LLMS_Forms.
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$req_method = ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : false;
-$field_data = 'post' === strtolower( $req_method ) ? $_POST : get_current_user_id(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
+$form_title  = llms_get_form_title( 'account' );
+$form_fields = llms_get_form_html( 'account' );
 ?>
 
 <?php llms_print_notices(); ?>
@@ -20,6 +21,10 @@ $field_data = 'post' === strtolower( $req_method ) ? $_POST : get_current_user_i
 
 <div class="llms-person-form-wrapper">
 
+	<?php if ( $form_title ) : ?>
+		<h4 class="llms-form-heading"><?php echo $form_title; ?></h4>
+	<?php endif; ?>
+
 	<form method="post" class="llms-person-form edit-account">
 
 		<?php do_action( 'lifterlms_edit_account_start' ); ?>
@@ -28,9 +33,7 @@ $field_data = 'post' === strtolower( $req_method ) ? $_POST : get_current_user_i
 
 			<?php do_action( 'lifterlms_before_update_fields' ); ?>
 
-			<?php foreach ( LLMS_Person_Handler::get_available_fields( 'account', $field_data ) as $field ) : ?>
-				<?php llms_form_field( $field ); ?>
-			<?php endforeach; ?>
+			<?php echo $form_fields; ?>
 
 			<?php do_action( 'lifterlms_after_update_fields' ); ?>
 

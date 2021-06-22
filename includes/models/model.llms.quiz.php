@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.3.0
- * @version 4.14.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  * @since 4.0.0 Remove deprecated methods.
  * @since 4.2.0 Added a parameter to the `is_orphan()` method to deeply check the quiz is not really attached to any lesson.
+ * @since 5.0.0 Remove previously deprecated method `LLMS_Quiz::get_lessons()`.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -290,45 +291,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		$q = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'questions', true );
 		return $q ? $q : array();
-
-	}
-
-	/**
-	 * Retrieve lessons this quiz is assigned to.
-	 *
-	 * @since Unknown
-	 * @deprecated 4.14.0 Method `LLMS_Quiz::get_lessons()` is deprecated with no replacement.
-	 *
-	 * @param string $return Optional. Format of the return [ids|lessons]. Default `'ids'`.
-	 * @return array Array of WP_Post IDs (lesson post types).
-	 */
-	public function get_lessons( $return = 'ids' ) {
-
-		_deprecated_function( 'LLMS_Quiz::get_lessons()', '4.14.0' );
-
-		global $wpdb;
-		$query = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT post_id
-			 FROM {$wpdb->postmeta}
-			 WHERE meta_key = '_llms_assigned_quiz'
-			   AND meta_value = %d;",
-				$this->get( 'id' )
-			)
-		);
-
-		// return just the ids.
-		if ( 'ids' === $return ) {
-			return $query;
-		}
-
-		// setup lesson objects.
-		$ret = array();
-		foreach ( $query as $id ) {
-			$ret[] = llms_get_post( $id );
-		}
-
-		return $ret;
 
 	}
 

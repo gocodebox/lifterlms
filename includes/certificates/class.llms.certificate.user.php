@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Certificates
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -203,11 +203,15 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * get_content_html function.
 	 *
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @since 1.0.0
+	 * @since 3.17.4 Unknown.
+	 * @since 5.0.0 Merge the [llms-user] (and others) shortcode.
+	 *
+	 * @return string
 	 */
 	public function get_content_html() {
+
+		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
 
 		$codes = apply_filters(
 			'llms_certificate_merge_codes',
@@ -229,16 +233,35 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 		$content = $this->format_string( $this->content );
 
+		// In certain circumstances shortcodes won't be registered yet.
+		LLMS_Shortcodes::init();
+
 		ob_start();
 		llms_get_template(
 			$this->template_html,
 			array(
-				'email_message' => $content,
+				'email_message' => do_shortcode( $content ),
 				'title'         => $this->title,
 				'image'         => $this->image,
 			)
 		);
+
+		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'set_shortcode_user' ) );
+
 		return ob_get_clean();
+
+	}
+
+	/**
+	 * Set the user ID used by [llms-user] to the user earning the certificate.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param int $uid WP_User ID of the current user.
+	 * @return int
+	 */
+	public function set_shortcode_user( $uid ) {
+		return $this->userid;
 	}
 
 }

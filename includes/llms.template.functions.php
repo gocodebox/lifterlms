@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 4.11.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1067,34 +1067,6 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
 		return $default;
 	}
 }
-
-
-
-
-/**
- * Displays Login Form
- *
- * @param    string  $message Messages to display before login form
- * @param    string  $redirect URL to redirect to after login
- * @param    type    $layout Form layout [columns|stacked]
- * @since    1.0.0
- * @version  3.19.4
- */
-if ( ! function_exists( 'llms_get_login_form' ) ) {
-	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
-
-		llms_get_template(
-			'global/form-login.php',
-			array(
-				'message'  => $message,
-				'redirect' => $redirect,
-				'layout'   => $layout,
-			)
-		);
-	}
-}
-
-
 
 /**
  * Add various css classes to LifterLMS post types when `post_class()` is called

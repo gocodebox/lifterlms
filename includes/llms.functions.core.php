@@ -5,15 +5,18 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.13.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-forms.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
+require_once 'functions/llms-functions-user-information-fields.php';
 
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
@@ -113,7 +116,7 @@ if ( ! function_exists( 'llms_content' ) ) {
 }
 
 /**
- * Provide deprecation warnings
+ * Mark a function as deprecated and inform when it is used.
  *
  * This function uses WP core's `_deprecated_function()`, logging to the LifterLMS log file
  * located at `wp-content/updloads/llms-logs/llms-{$hash}.log` instead of `wp-content/debug.log`.
@@ -678,177 +681,6 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 }
 
 /**
- * Generate the HTML for a form field
- *
- * @since 3.0.0
- * @since 3.19.4 Unknown
- * @since 4.3.0 Escape field values during output.
- *              Added filter `llms_form_field_args`.
- *
- * @param array   $field Field data.
- * @param boolean $echo  Whether or not to output (echo) the HTML.
- * @return string
- */
-function llms_form_field( $field = array(), $echo = true ) {
-
-	$field = wp_parse_args(
-		$field,
-		array(
-			'columns'         => 12,
-			'classes'         => '',
-			'description'     => '',
-			'default'         => '',
-			'disabled'        => false,
-			'id'              => '',
-			'label'           => '',
-			'last_column'     => true,
-			'match'           => '',
-			'max_length'      => '',
-			'min_length'      => '',
-			'name'            => '',
-			'options'         => array(),
-			'placeholder'     => '',
-			'required'        => false,
-			'selected'        => '',
-			'style'           => '',
-			'type'            => 'text',
-			'value'           => '',
-			'wrapper_classes' => '',
-		)
-	);
-
-	/**
-	 * Filter arguments used to generate a LifterLMS form field
-	 *
-	 * This filter runs after submitted fields arguments are merged with defaults
-	 * and the field attributes are generated and rendered.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param array $field Field data arguments.
-	 */
-	$field = apply_filters( 'llms_form_field_args', $field );
-
-	// Setup the field value (if one exists).
-	if ( '' !== $field['value'] ) {
-		$field['value'] = $field['value'];
-	} elseif ( '' !== $field['default'] ) {
-		$field['value'] = $field['default'];
-	}
-	$value_attr = ( '' !== $field['value'] ) ? ' value="' . esc_attr( $field['value'] ) . '"' : '';
-
-	// Use id as the name if name isn't specified.
-	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
-
-	/**
-	 * Allow items to not have a name attr (eg: not be posted via form submission).
-	 *
-	 * Example use case found in Stripe CC fields which are excluded from $_POST.
-	 */
-	$name_attr = false === $field['name'] ? '' : ' name="' . $field['name'] . '"';
-
-	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
-
-	// Add inline css if set.
-	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
-
-	// Add space to classes.
-	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
-	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
-
-	// Add column information to the wrapper.
-	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
-	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
-
-	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
-
-	// Required attributes and content.
-	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
-	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
-	$required_attr = $field['required'] ? ' required="required"' : '';
-
-	// Setup the label.
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
-
-	// Disabled field.
-	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
-
-	// Min & Max values.
-	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
-	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
-
-	// Setup the return value.
-	$html = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
-
-	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
-		$html .= $label;
-	}
-
-	switch ( $field['type'] ) {
-
-		case 'button':
-		case 'reset':
-		case 'submit':
-			$html .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
-			break;
-
-		case 'checkbox':
-		case 'radio':
-			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$html   .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
-			$html   .= $label;
-			break;
-
-		case 'html':
-			$html .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
-			break;
-
-		case 'select':
-			$html .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
-			foreach ( $field['options'] as $k => $v ) {
-				$html .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
-			}
-			$html .= '</select>';
-			break;
-
-		case 'textarea':
-			$html .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . esc_html( $field['value'] ) . '</textarea>';
-			break;
-
-		default:
-			$html .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
-
-	}
-
-	if ( 'hidden' !== $field['type'] ) {
-		$html .= $desc;
-	}
-
-	$html .= '</div>';
-
-	if ( $field['last_column'] ) {
-		$html .= '<div class="clear"></div>';
-	}
-
-	/**
-	 * Modify the HTML output of a form field
-	 *
-	 * @since Unknown
-	 *
-	 * @param string $html  HTML string for the field.
-	 * @param array  $field Form field options used to generate the field.
-	 */
-	$html = apply_filters( 'llms_form_field', $html, $field );
-
-	if ( $echo ) {
-		echo $html;
-	}
-
-	return $html;
-
-}
-
-/**
  * Get a list of available course / membership enrollment statuses
  *
  * @since 3.0.0
@@ -934,6 +766,28 @@ function llms_get_ip_address() {
 	}
 
 	return $ip;
+
+}
+
+/**
+ * Retrieves and filters the value open registration option
+ *
+ * @since 5.0.0
+ *
+ * @return string The value of the open registration status. Either "yes" for enabled or "no" for disabled.
+ */
+function llms_get_open_registration_status() {
+
+	$status = get_option( 'lifterlms_enable_myaccount_registration', 'no' );
+
+	/**
+	 * Filter the value of the open registration setting
+	 *
+	 * @since 3.37.10
+	 *
+	 * @param string $status The current value of the open registration option. Either "yes" for enabled or "no" for disabled.
+	 */
+	return apply_filters( 'llms_enable_open_registration', $status );
 
 }
 
@@ -1184,7 +1038,7 @@ function llms_maybe_define_constant( $name, $value ) {
 /**
  * Parse booleans
  *
- * Mostly used to parse yes/no bools stored in various meta data fields.
+ * Mostly used to parse yes/no bools stored in various meta data fields
  *
  * @since 3.16.0
  *

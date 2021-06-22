@@ -2,40 +2,47 @@
 /**
  * Checkout Form
  *
- * @since    1.0.0
- * @version  3.27.0
+ * @package LifterLMS/Templates/Checkout
+ *
+ * @since 1.0.0
+ * @since 5.0.0 Moved all variable declarations to the checkout shortcode controller.
+ *               Updated to utilize fields from LLMS_Forms class.
+ * @version 5.0.0
+ *
+ * @param int $cols Number of columns to use for the form layout.
+ * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
+ * @param string $selected_gateway ID of the currently selected/default payment gateway.
+ * @param string $order_key Current order key. Empty string for new orders.
+ * @param LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan $plan Access plan object.
+ * @param LLMS_Product $product Product object.
+ * @param bool $is_free Whether or not the access plan is a free plan.
+ * @param string $form_location Form location id.
+ * @param string $form_fitle Form title.
+ * @param array $form_fields Array of LifterLMS Form Fields.
  */
 
 defined( 'ABSPATH' ) || exit;
-
-$free   = $plan->has_free_checkout();
-$fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 ?>
 
 <?php do_action( 'lifterlms_pre_checkout_form' ); ?>
 
-<form action="" class="llms-checkout llms-checkout-cols-<?php echo apply_filters( 'llms_checkout_columns', ( $free || ! $fields ) ? 1 : $cols, $plan ); ?>" method="POST" id="llms-product-purchase-form">
+<form action="" class="llms-checkout llms-checkout-cols-<?php echo $cols; ?>" method="POST" id="llms-product-purchase-form">
 
 	<?php do_action( 'lifterlms_before_checkout_form' ); ?>
 
-	<?php if ( $fields ) : ?>
+	<?php if ( $form_fields ) : ?>
 		<div class="llms-checkout-col llms-col-1">
 
 			<section class="llms-checkout-section billing-information">
 
-				<h4 class="llms-form-heading">
-					<?php if ( ! $free ) : ?>
-						<?php _e( 'Billing Information', 'lifterlms' ); ?>
-					<?php else : ?>
-						<?php _e( 'Student Information', 'lifterlms' ); ?>
-					<?php endif; ?>
-				</h4>
+				<?php if ( $form_title ) : ?>
+					<h4 class="llms-form-heading"><?php echo $form_title; ?></h4>
+				<?php endif; ?>
 
 				<div class="llms-checkout-section-content llms-form-fields">
 					<?php do_action( 'lifterlms_checkout_before_billing_fields' ); ?>
-					<?php foreach ( $fields as $field ) : ?>
-						<?php llms_form_field( $field ); ?>
-					<?php endforeach; ?>
+					<?php echo $form_fields; ?>
 					<?php do_action( 'lifterlms_checkout_after_billing_fields' ); ?>
 				</div>
 
@@ -46,7 +53,7 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 
 	<div class="llms-checkout-col llms-col-2">
 
-		<?php if ( ! $free ) : ?>
+		<?php if ( ! $is_free ) : ?>
 			<section class="llms-checkout-section order-summary">
 
 				<h4 class="llms-form-heading"><?php _e( 'Order Summary', 'lifterlms' ); ?></h4>
@@ -82,7 +89,7 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 		<section class="llms-checkout-section payment-details">
 
 			<h4 class="llms-form-heading">
-				<?php if ( ! $free ) : ?>
+				<?php if ( ! $is_free ) : ?>
 					<?php _e( 'Payment Details', 'lifterlms' ); ?>
 				<?php else : ?>
 					<?php _e( 'Enrollment Confirmation', 'lifterlms' ); ?>
@@ -121,13 +128,10 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 					<?php
 					llms_form_field(
 						array(
-							'columns'     => 12,
-							'classes'     => 'llms-button-action',
-							'id'          => 'llms_create_pending_order',
-							'value'       => apply_filters( 'lifterlms_checkout_buy_button_text', ! $free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
-							'last_column' => true,
-							'required'    => false,
-							'type'        => 'submit',
+							'classes' => 'llms-button-action',
+							'id'      => 'llms_create_pending_order',
+							'value'   => apply_filters( 'lifterlms_checkout_buy_button_text', ! $is_free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
+							'type'    => 'submit',
 						)
 					);
 					?>

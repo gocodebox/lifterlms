@@ -9,13 +9,10 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.3
- * @version 3.16.10
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
-
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
 /**
  * LLMS_Background_Updater

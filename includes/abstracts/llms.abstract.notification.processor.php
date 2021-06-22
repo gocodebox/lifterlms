@@ -5,13 +5,10 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.38.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
-
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
 /**
  * LifterLMS Notification Background Processor abstract class
