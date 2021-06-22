@@ -41,7 +41,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 * @return string
 	 */
 	protected function get_description() {
-		return __( 'Remove legacy pre LifterLMS 5.0 user information fields options.', 'lifterlms' );
+		return __( 'Removes all options used to control the visibility of user information fields prior to version 5.0. Since version 5.0 these options are only used when restoring forms to their original default values.', 'lifterlms' );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 * @return string
 	 */
 	protected function get_label() {
-		return __( 'Wipe Legacy User Information options', 'lifterlms' );
+		return __( 'Delete Legacy User Information Options', 'lifterlms' );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 * @return string
 	 */
 	protected function get_text() {
-		return __( 'Wipe Legacy Options', 'lifterlms' );
+		return __( 'Delete Legacy Options', 'lifterlms' );
 	}
 
 	/**
