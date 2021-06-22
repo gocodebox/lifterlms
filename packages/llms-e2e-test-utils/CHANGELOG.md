@@ -1,6 +1,12 @@
 LifterLMS E2E Test Utils CHANGELOG
 ==================================
 
+v2.3.0 - 2021-06-22
+-------------------
+
++ Bugfix: Focus on the search selector prior to typing in select2 search fields.
+
+
 v2.2.2 - 2021-02-04
 -------------------
 

@@ -2,7 +2,7 @@
  * Select a value from a select2 dropdown field
  *
  * @since 2.2.1
- * @since [version] Focus on the search selector prior to typing.
+ * @since 2.3.0 Focus on the search selector prior to typing.
  *
  * @param {String} selector Query selector for the select element.
  * @param {String} value    Option value to select.
