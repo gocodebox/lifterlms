@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase {
 
@@ -35,7 +35,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	 *
 	 * Include abstract class
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -51,7 +51,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Tear Down
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -157,7 +157,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Test can_load()
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -184,7 +184,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Add legacy options to the WP options table
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	/**
 	 * Remove legacy options to the WP options table
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return void
 	 */

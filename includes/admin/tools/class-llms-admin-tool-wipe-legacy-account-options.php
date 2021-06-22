@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.0.0
+ * @version 5.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin tool to wipe legacy account options
  *
- * @since [version]
+ * @since 5.0.0
  */
 class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_Tool {
 
@@ -36,7 +36,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -49,7 +49,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -74,7 +74,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 * Deletes all core reusable blocks and then recreates the core forms,
 	 * which additionally recreates the core reusable blocks.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean
 	 */
@@ -123,7 +123,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 *
 	 * This tool should only load if there are legacy options (we only check 'lifterlms_registration_generate_username').
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

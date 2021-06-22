@@ -120,7 +120,7 @@ class LLMS_Form_Templates {
 	 * Returns a reusable block when `$reusable` is `true` or returns a regular
 	 * block modified by legacy options for the given location when `$reusable` is `false`.
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @param string  $location Form location. Accepts "checkout", "registration", or "account".
@@ -152,7 +152,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieve data for a given field by id
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @param boolean $confirm  If `true` and the schema includes a confirmation field, will convert the field to a confirm group.
@@ -234,7 +234,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieves legacy option's value for a given field and location
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
@@ -329,7 +329,7 @@ class LLMS_Form_Templates {
 		 * are transferred during an upgrade to 5.x. However, on a "clean" install of 5.x, reusable blocks will be
 		 * used in favor of regular blocks.
 		 *
-		 * @since [version]
+		 * @since 5.0.0
 		 *
 		 * @param boolean $use_reusable Whether or not to use reusable blocks.
 		 */
@@ -344,7 +344,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Retrieve a list of blocks for the given template
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param string  $location Form location id.
 	 * @param boolean $reusable Whether or not reusable blocks should be used.
@@ -494,7 +494,7 @@ class LLMS_Form_Templates {
 	/**
 	 * Modifies the `required` block attribute
 	 *
-	 * @since [version]
+	 * @since 5.0.0
 	 *
 	 * @param array   $block    A WP_Block definition array.
 	 * @param boolean $required Desired value of the required attribute.
