@@ -133,8 +133,10 @@ class LLMS_Form_Templates {
 			return self::get_reusable_block( $field_id );
 		}
 
+		// Add a confirm group for email when confirmation is set or for password fields.
+		$confirm    = ( ( 'email' === $field_id && 'yes' === $legacy_opt ) || 'password' === $field_id );
 		$legacy_opt = self::get_legacy_option( $field_id, $location );
-		$block_data = self::get_block_data( $field_id, ( 'email' === $field_id && 'yes' === $legacy_opt ) );
+		$block_data = self::get_block_data( $field_id, $confirm );
 		if ( 'hidden' === $legacy_opt ) {
 			return array();
 		}
