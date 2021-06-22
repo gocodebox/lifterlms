@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-21T12:26:36-06:00\n"
+"POT-Creation-Date: 2021-06-22T10:26:21-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -3880,6 +3880,18 @@ msgstr ""
 msgid "Reset Automatic Payments Status"
 msgstr ""
 
+#: includes/admin/tools/class-llms-admin-tool-wipe-legacy-account-options.php:44
+msgid "Removes all options used to control the visibility of user information fields prior to version 5.0. Since version 5.0 these options are only used when restoring forms to their original default values."
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-wipe-legacy-account-options.php:57
+msgid "Delete Legacy User Information Options"
+msgstr ""
+
+#: includes/admin/tools/class-llms-admin-tool-wipe-legacy-account-options.php:68
+msgid "Delete Legacy Options"
+msgstr ""
+
 #: includes/admin/views/access-plans/access-plan.php:51
 msgid "Unnamed Access Plan"
 msgstr ""
@@ -7309,17 +7321,17 @@ msgid "Determines if the form is a core form required for basic site functionali
 msgstr ""
 
 #. Translators: %s label of the controller field.
-#: includes/forms/class-llms-form-templates.php:141
+#: includes/forms/class-llms-form-templates.php:193
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Confirm %s"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:336
+#: includes/forms/class-llms-form-templates.php:415
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:337
+#: includes/forms/class-llms-form-templates.php:416
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
