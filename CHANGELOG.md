@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v5.0.0 - 2021-06-21
+v5.0.0 - 2021-06-22
 -------------------
 
 ##### User Information Form Builder
