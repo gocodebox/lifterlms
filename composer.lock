@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c158cdf83c52b74e96d8f7e77dba2156",
+    "content-hash": "a099783688525c454159aec18cf9cf2d",
     "packages": [
         {
             "name": "composer/installers",
@@ -309,16 +309,16 @@
         },
         {
             "name": "woocommerce/action-scheduler",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/action-scheduler.git",
-                "reference": "12c91fd20af0cdfb6107b8db9df78d133f512b04"
+                "reference": "3c24064f115cd55e972d73d5d48f14133ac60b0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/12c91fd20af0cdfb6107b8db9df78d133f512b04",
-                "reference": "12c91fd20af0cdfb6107b8db9df78d133f512b04",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/3c24064f115cd55e972d73d5d48f14133ac60b0d",
+                "reference": "3c24064f115cd55e972d73d5d48f14133ac60b0d",
                 "shasum": ""
             },
             "require-dev": {
@@ -342,9 +342,9 @@
             "homepage": "https://actionscheduler.org/",
             "support": {
                 "issues": "https://github.com/woocommerce/action-scheduler/issues",
-                "source": "https://github.com/woocommerce/action-scheduler/tree/3.2.0"
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.2.1"
             },
-            "time": "2021-06-03T16:41:18+00:00"
+            "time": "2021-06-21T20:21:35+00:00"
         }
     ],
     "packages-dev": [

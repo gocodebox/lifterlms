@@ -32,7 +32,7 @@
     "deliciousbrains/wp-background-processing": "1.0.2",
     "lifterlms/lifterlms-blocks": "2.0.1",
     "lifterlms/lifterlms-rest": "1.0.0-beta.19",
-    "woocommerce/action-scheduler": "3.2.0",
+    "woocommerce/action-scheduler": "3.2.1",
     "lifterlms/lifterlms-helper": "3.3.0"
   },
   "require-dev": {

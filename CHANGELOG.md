@@ -50,6 +50,7 @@ v5.0.0 - 2021-06-21
 ##### Library & Vendor Updates
 
 + Updates LifterLMS Blocks to version 2.0.1.
++ Updates woocommerce/actions-scheduler to version 3.2.1.
 + Load core libraries from new location and load WP Background Processing lib.
 + The vendor script dependency `topModal.js` has been removed.
 
