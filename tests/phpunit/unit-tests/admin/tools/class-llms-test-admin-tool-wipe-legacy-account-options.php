@@ -171,6 +171,14 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 		$this->assertTrue(
 			LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' )
 		);
+
+		// Check that the tool doesn't load after it has been handled.
+		LLMS_Unit_Test_Util::call_method( $this->main, 'handle' );
+
+		$this->assertFalse(
+			LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' )
+		);
+
 	}
 
 	/**

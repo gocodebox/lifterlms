@@ -18,11 +18,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_Tool {
 
 	/**
-	 * Tool ID.
+	 * Tool ID
 	 *
 	 * @var string
 	 */
 	protected $id = 'wipe-legacy-account-options';
+
+	/**
+	 * Skip cache when checking if should load
+	 *
+	 * @var boolean
+	 */
+	private $skip_cache = false;
 
 	/**
 	 * Retrieve a description of the tool
@@ -105,6 +112,8 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 			)
 		); // db call ok; no-cache ok.
 
+		$this->skip_cache = true;
+
 		return true;
 
 	}
@@ -119,6 +128,17 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */
 	protected function should_load() {
+
+		if ( $this->skip_cache ) {
+			global $wpdb;
+
+			return ! empty(
+				$wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options}
+				WHERE option_name='lifterlms_registration_generate_username'" )
+			);
+
+		}
+
 		return ( 'not-set' !== get_option( 'lifterlms_registration_generate_username', 'not-set' ) );
 
 	}
