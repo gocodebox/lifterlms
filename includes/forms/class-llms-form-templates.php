@@ -133,7 +133,7 @@ class LLMS_Form_Templates {
 			return self::get_reusable_block( $field_id );
 		}
 
-		$legacy_opt = self::get_legacy_options( $field_id, $location );
+		$legacy_opt = self::get_legacy_option( $field_id, $location );
 		$block_data = self::get_block_data( $field_id, ( 'email' === $field_id && 'yes' === $legacy_opt ) );
 		if ( 'hidden' === $legacy_opt ) {
 			return array();
@@ -232,7 +232,7 @@ class LLMS_Form_Templates {
 	}
 
 	/**
-	 * Retrieves legacy options value for a given field and location
+	 * Retrieves legacy option's value for a given field and location
 	 *
 	 * @since [version]
 	 *
@@ -240,7 +240,7 @@ class LLMS_Form_Templates {
 	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
 	 * @return string
 	 */
-	private static function get_legacy_options( $field_id, $location ) {
+	private static function get_legacy_option( $field_id, $location ) {
 
 		$name_map = array(
 			'address' => 'address',
