@@ -189,9 +189,14 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 			'llms/form-field-user-display-name',
 			'llms/form-field-user-phone',
 			'llms/form-field-user-email',
-			'llms/form-field-user-password',
+			'llms/form-field-confirm-group',
 		);
 		$this->assertEquals( $expected, $this->get_template_field_id_list( 'account' ) );
+
+		// Password has confirm group.
+		$pass = $this->get_block_from_template( 'account', 'llms/form-field-confirm-group' );
+		$this->assertEquals( 'llms/form-field-user-password', $pass['innerBlocks'][0]['blockName'] );
+		$this->assertEquals( 'llms/form-field-text', $pass['innerBlocks'][1]['blockName'] );
 
 		// No confirm field on email.
 		$email = $this->get_block_from_template( 'account', 'llms/form-field-user-email' );
@@ -267,11 +272,16 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		// Expected List.
 		$expected = array(
 			'llms/form-field-user-email',
-			'llms/form-field-user-password',
+			'llms/form-field-confirm-group',
 			'llms/form-field-user-name',
 			'llms/form-field-user-phone',
 		);
 		$this->assertEquals( $expected, $this->get_template_field_id_list( 'checkout' ) );
+
+		// Password has confirm group.
+		$pass = $this->get_block_from_template( 'account', 'llms/form-field-confirm-group' );
+		$this->assertEquals( 'llms/form-field-user-password', $pass['innerBlocks'][0]['blockName'] );
+		$this->assertEquals( 'llms/form-field-text', $pass['innerBlocks'][1]['blockName'] );
 
 		// No confirm field on email.
 		$email = $this->get_block_from_template( 'checkout', 'llms/form-field-user-email' );
@@ -354,16 +364,23 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		// Expected List.
 		$expected = array(
 			'llms/form-field-confirm-group', // Email
-			'llms/form-field-user-password',
+			'llms/form-field-confirm-group', // Password
 			'llms/form-field-user-address',
 			'voucher',
 		);
 		$this->assertEquals( $expected, $this->get_template_field_id_list( 'registration' ) );
 
+		$blocks = $this->get_template( 'registration' );
+
 		// Confirm field on email.
-		$email = $this->get_block_from_template( 'registration', 'llms/form-field-confirm-group' );
+		$email = $blocks[0];
 		$this->assertEquals( 'llms/form-field-user-email', $email['innerBlocks'][0]['blockName'] );
 		$this->assertEquals( 'llms/form-field-text', $email['innerBlocks'][1]['blockName'] );
+
+		// Password has confirm group.
+		$pass = $blocks[1];
+		$this->assertEquals( 'llms/form-field-user-password', $pass['innerBlocks'][0]['blockName'] );
+		$this->assertEquals( 'llms/form-field-text', $pass['innerBlocks'][1]['blockName'] );
 
 		// Address is required are optional.
 		$address = $this->get_block_from_template( 'registration', 'llms/form-field-user-address' );
