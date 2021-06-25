@@ -93,10 +93,10 @@ install:
       composer run env up
       composer run env:setup
       if [ "latest" != $WP_VERSION ]; then
-        ./vendor/bin/llms-env wp core update --version=$WP_VERSION --force
-        ./vendor/bin/llms-env wp core update-db
+        ./vendor/bin/llms-env version $WP_VERSION
       fi;
-      ./vendor/bin/llms-env wp core version
+      WP_VERSION_REAL=$( ./vendor/bin/llms-env wp core version )
+      echo $WP_VERSION_REAL
     elif [ "1" = "$PHPCS" ]; then
       echo "Nothing to install"
     elif [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
@@ -108,7 +108,7 @@ install:
 script:
   - |
     if [ "E2E" = "$LLMS_TRAVIS_TESTS" ]; then
-      npm run test
+      WP_VERSION=$WP_VERSION_REAL npm run test
     elif [ "1" = "$PHPCS" ]; then
       if [ "trunk" = "$TRAVIS_BRANCH" ]; then
         composer run-script check-cs-errors
