@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.3
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.0.1 - 2021-06-28 =
+
+##### Updates
+
++ Update to [LifterLMS Blocks v2.1.0](https://make.lifterlms.com/2021/06/28/lifterlms-blocks-version-2-1-0/).
++ Added a new filter to allow programmatically alter required field validation results.
+
+##### Bugfixes
+
++ Fixed an issue causing preventing form layout options from working when passed into shortcodes.
++ Fixed an issue preventing custom radio, select, and dropdown fields from working during checkout.
++ Fixed an accessibility issue encountered during password strength validation.
+
+
 = v5.0.0 - 2021-06-22 =
 
 ##### User Information Form Builder
@@ -744,20 +758,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 + quiz/meta-information.php
 + quiz/results.php
 + quiz/start-button.php
-
-
-= v4.16.0 - 2021-02-18 =
-
-##### Updates
-
-+ Added preview management to the student dashboard to allow previewing of the dashboard as a site visitor.
-+ Added a new filter to allow customization of courses output by the [lifterlms_courses] shortcode. Thanks [@reedhewitt](https://github.com/reedhewitt)!
-+ Added compatibility code to reduce plugin conflicts encountered in the course builder. Resolves a conflict encountered when building quizzes with Yoast SEO installed.
-
-##### Bug fixes
-
-+ Fixed undefined variable error encountered when creating custom notification types. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed incorrect variables passed to `sprintf()` in logging functions used by the course data background processor. Thanks [@pondermatic](https://github.com/pondermatic)!
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
