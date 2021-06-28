@@ -363,6 +363,20 @@ class LLMS_Form_Handler {
 
 		// Check for all required fields.
 		$required = $this->validator->validate_required_fields( $posted_data, $fields );
+
+		/**
+		 * Filter the required fields validity of the form submission
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
+		 * @since [version]
+		 *
+		 * @param WP_Error|true $valid       Error object containing required validation errors or true when the data is valid.
+		 * @param array         $posted_data Array of user-submitted data.
+		 * @param string        $location    Form location.
+		 */
+		$required = apply_filters( "lifterlms_user_${action}_required_data", $required, $posted_data, $location );
+
 		if ( is_wp_error( $required ) ) {
 			return $this->submit_error( $required, $posted_data, $action );
 		}
@@ -387,7 +401,7 @@ class LLMS_Form_Handler {
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
-		 * @since 5.0.0
+		 * @since 5.0.0 Unknown.
 		 *
 		 * @param WP_Error|true $valid       Error object containing validation errors or true when the data is valid.
 		 * @param array         $posted_data Array of user-submitted data.
