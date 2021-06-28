@@ -8,7 +8,6 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version 5.0.0
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -77,6 +76,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 * Test add_password_strength_meter() when meter is enabled
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.1 Add aria attribute to expected response.
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 		// Password block is unaffected.
 		$this->assertEquals( $blocks[0], $res[0] );
 
-		$this->assertEquals( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last"><div class="llms-field-html llms-password-strength-meter" id="llms-password-strength-meter"></div><span class="llms-description">test</span></div><div class="clear"></div>', trim( $res[1]['innerHTML'] ) );
+		$this->assertEquals( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last"><div aria-live="polite" class="llms-field-html llms-password-strength-meter" id="llms-password-strength-meter"></div><span class="llms-description">test</span></div><div class="clear"></div>', trim( $res[1]['innerHTML'] ) );
 
 		// Block after password is in the new last position, unaffected.
 		$this->assertEquals( $blocks[1], $res[2] );
@@ -101,6 +101,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 * Test add_password_strength_meter() when meter is enabled on the account edit screen
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.1 Add aria attribute to expected response.
 	 *
 	 * @return void
 	 */
@@ -114,7 +115,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 		$this->assertEquals( $blocks[0], $res[0] );
 
 		// Differs from above test because of the `llms-visually-hidden-field` class.
-		$this->assertEquals( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last llms-visually-hidden-field"><div class="llms-field-html llms-password-strength-meter" id="llms-password-strength-meter"></div><span class="llms-description">test</span></div><div class="clear"></div>', trim( $res[1]['innerHTML'] ) );
+		$this->assertEquals( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last llms-visually-hidden-field"><div aria-live="polite" class="llms-field-html llms-password-strength-meter" id="llms-password-strength-meter"></div><span class="llms-description">test</span></div><div class="clear"></div>', trim( $res[1]['innerHTML'] ) );
 
 		// Block after password is in the new last position, unaffected.
 		$this->assertEquals( $blocks[1], $res[2] );
