@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Forms
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 5.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.19.4 Unknown.
  * @since 5.0.0 Move from file: llms.functions.core.php.
- *               Utilize `LLMS_Form_Field` class for field generation and output.
+ *              Utilize `LLMS_Form_Field` class for field generation and output.
  *
  * @param array      $field       Field settings.
  * @param boolean    $echo        Optional. Whether or not to output (echo) the field HTML. Default is `true`.
@@ -102,11 +102,11 @@ function llms_get_form_title( $location, $args = array() ) {
  *
  * @param string $message  Optional. Messages to display before login form via llms_add_notice().
  * @param string $redirect Optional. URL to redirect to after login. Defaults to current page url.
- * @param string $layout   Optional. Form layout. Accepts either 'columns' (default) or 'stacked'.
+ * @param string $layout   Optional. Form layout. Accepts either 'columns' (default) or 'stacked'. Default is 'columns'.
  * @return void
  */
 if ( ! function_exists( 'llms_get_login_form' ) ) {
-	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
+	function llms_get_login_form( $message = null, $redirect = null, $layout = 'columns' ) {
 
 		/**
 		 * Filters whether or not the login form should be displayed
@@ -129,9 +129,9 @@ if ( ! function_exists( 'llms_get_login_form' ) ) {
 		 * @since Unknown
 		 *
 		 * @param string $layout Form layout. Accepts "columns" (default) for a side-by-side layout
-		 *                       for form fields or "stacked" so fields sit on top of each other.
+		 *                       for form fields or "stacked" so fields sit on top of each other. Default is 'columns'.
 		 */
-		$layout = apply_filters( 'llms_login_form_layout', 'columns' );
+		$layout = apply_filters( 'llms_login_form_layout', $layout );
 
 		if ( ! empty( $message ) ) {
 			llms_add_notice( $message, 'notice' );

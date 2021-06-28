@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Forms
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 5.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -68,6 +68,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * group block.
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.1 Add `aria-live=polite` to ensure password strength is announced for screen readers.
 	 *
 	 * @param array[] $blocks WP_Block list.
 	 * @return array[]
@@ -96,6 +97,9 @@ class LLMS_Forms_Dynamic_Fields {
 			'min_length'      => ! empty( $block['attrs']['html_attrs']['minlength'] ) ? $block['attrs']['html_attrs']['minlength'] : '',
 			'min_strength'    => ! empty( $block['attrs']['min_strength'] ) ? $block['attrs']['min_strength'] : '',
 			'llms_visibility' => ! empty( $block['attrs']['llms_visibility'] ) ? $block['attrs']['llms_visibility'] : '',
+			'attributes'      => array(
+				'aria-live' => 'polite',
+			),
 		);
 
 		if ( 'account' === $location ) {

@@ -1,3 +1,0 @@
-import:
-  - .config/travis/main.yml
-  - .config/travis/e2e.yml

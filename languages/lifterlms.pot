@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LifterLMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.0.0\n"
+"Project-Id-Version: LifterLMS 5.0.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-22T10:26:21-06:00\n"
+"POT-Creation-Date: 2021-06-28T16:45:06-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -246,7 +246,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.controller.php:309
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
 #: includes/llms.functions.core.php:647
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Author"
 msgstr ""
 
@@ -1935,7 +1935,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.courses.php:311
 #: includes/admin/reporting/tables/llms.table.memberships.php:311
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Instructors"
 msgstr ""
 
@@ -1957,13 +1957,13 @@ msgid "Instructor"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:83
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Label"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:92
 #: includes/admin/views/access-plans/access-plan.php:102
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Visibility"
 msgstr ""
 
@@ -2337,6 +2337,7 @@ msgstr ""
 #: includes/class.llms.post-types.php:968
 #: includes/class.llms.post-types.php:1006
 #: includes/forms/class-llms-form-post-type.php:234
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Edit"
 msgstr ""
 
@@ -2415,7 +2416,7 @@ msgid "Add New"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Location"
 msgstr ""
 
@@ -7179,69 +7180,69 @@ msgstr ""
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:309
+#: includes/controllers/class.llms.controller.orders.php:311
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:434
+#: includes/controllers/class.llms.controller.orders.php:440
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:441
+#: includes/controllers/class.llms.controller.orders.php:447
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
 #. Translators: %d = The deleted user's ID..
-#: includes/controllers/class.llms.controller.orders.php:505
+#: includes/controllers/class.llms.controller.orders.php:511
 msgid "Recurring charge skipped. The user (#%d) no longer exists."
 msgstr ""
 
 #. Translators: %s = error message encountered while loading the gateway..
-#: includes/controllers/class.llms.controller.orders.php:529
+#: includes/controllers/class.llms.controller.orders.php:535
 msgid "Recurring charge was not processed due to an error encountered while loading the payment gateway: %s."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:542
+#: includes/controllers/class.llms.controller.orders.php:548
 msgid "Recurring charge skipped because recurring payments are disabled for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:551
+#: includes/controllers/class.llms.controller.orders.php:557
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:578
+#: includes/controllers/class.llms.controller.orders.php:584
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:583
+#: includes/controllers/class.llms.controller.orders.php:589
 #: templates/myaccount/view-order.php:16
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:585
+#: includes/controllers/class.llms.controller.orders.php:591
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:708
+#: includes/controllers/class.llms.controller.orders.php:717
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:740
+#: includes/controllers/class.llms.controller.orders.php:749
 #: includes/functions/llms.functions.order.php:34
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:745
+#: includes/controllers/class.llms.controller.orders.php:754
 #: includes/functions/llms.functions.order.php:40
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:750
+#: includes/controllers/class.llms.controller.orders.php:759
 #: includes/functions/llms.functions.order.php:46
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:755
+#: includes/controllers/class.llms.controller.orders.php:764
 #: includes/functions/llms.functions.order.php:52
 msgid "An invalid payment method was selected."
 msgstr ""
@@ -7321,17 +7322,17 @@ msgid "Determines if the form is a core form required for basic site functionali
 msgstr ""
 
 #. Translators: %s label of the controller field.
-#: includes/forms/class-llms-form-templates.php:193
+#: includes/forms/class-llms-form-templates.php:195
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Confirm %s"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:415
+#: includes/forms/class-llms-form-templates.php:417
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:416
+#: includes/forms/class-llms-form-templates.php:418
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
@@ -7395,17 +7396,17 @@ msgstr ""
 msgid "%s is a required field."
 msgstr ""
 
-#: includes/forms/class-llms-forms-dynamic-fields.php:166
+#: includes/forms/class-llms-forms-dynamic-fields.php:170
 msgctxt "Toggle button for changing email or password"
 msgid "Change %s"
 msgstr ""
 
-#: includes/forms/class-llms-forms-dynamic-fields.php:167
+#: includes/forms/class-llms-forms-dynamic-fields.php:171
 msgctxt "Cancel password or email address change button text"
 msgid "Cancel"
 msgstr ""
 
-#: includes/forms/class-llms-forms-dynamic-fields.php:299
+#: includes/forms/class-llms-forms-dynamic-fields.php:303
 msgid "Current %s"
 msgstr ""
 
@@ -33855,36 +33856,52 @@ msgstr ""
 msgid "Add optional placeholder text"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+#. Translators: %1$s = User's name; %2$s = User's id.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+msgctxt "User search result label"
+msgid "%1$s (ID# %2$d)"
+msgstr ""
+
+#. Translators: %1$s = User's name; %2$s = User's id.
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+msgid "Reorder instructor"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+msgid "Reorder option"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
 msgid "Make default"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-msgid "Option text"
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+msgid "Option label"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-msgid "Saved value"
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+msgid "Database key value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
 msgid "Delete Option"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-msgid "Options"
-msgstr ""
-
 #. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Option %d"
 msgstr ""
 
 #. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:21
 msgid "option_%d"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+msgid "Options"
 msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
@@ -34368,66 +34385,58 @@ msgstr ""
 msgid "Optional text displayed when no information exists or the user is logged out."
 msgstr ""
 
-#. Translators: %1$s = User's name; %2$s = User's id.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:23
-msgctxt "User search result label"
-msgid "%1$s (ID# %2$d)"
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+msgid "Primary Instructor"
 msgstr ""
 
-#. Translators: %d = The user ID.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
-msgid "ID: %d"
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+msgid "Edit instructor"
 msgstr ""
 
-#. Translators: %d = The user ID.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
-msgid "Remove Instructor"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Instructor is visible on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Instructor is hidden on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+msgid "Remove"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Search…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
-msgid "Add"
-msgstr ""
-
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "The form has been restored to the default template."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Undo"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Form Settings"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Display Form Title"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Not displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Revert to Default"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Replace the existing content of the form with the original default content."
 msgstr ""
