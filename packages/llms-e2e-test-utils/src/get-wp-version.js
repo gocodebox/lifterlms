@@ -10,7 +10,7 @@
  * For example: block editor selectors change between WP core version, some features
  * aren't available on older versions, etc...
  *
- * @since [version]
+ * @since 5.0.1
  *
  * @see [Reference]
  * @link [URL]

@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -204,7 +204,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.27.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
-	 * @since [version] Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
+	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
 	 *
 	 * @return void
 	 */

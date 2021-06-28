@@ -369,7 +369,7 @@ class LLMS_Form_Handler {
 		 *
 		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
-		 * @since [version]
+		 * @since 5.0.1
 		 *
 		 * @param WP_Error|true $valid       Error object containing required validation errors or true when the data is valid.
 		 * @param array         $posted_data Array of user-submitted data.

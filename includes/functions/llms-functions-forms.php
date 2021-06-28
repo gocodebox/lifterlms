@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.0.1
  */
 
 defined( 'ABSPATH' ) || exit;

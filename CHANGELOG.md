@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v5.0.1 - 2021-06-28
+-------------------
+
+##### Updates
+
++ Update to [LifterLMS Blocks v2.1.0](https://make.lifterlms.com/2021/06/28/lifterlms-blocks-version-2-1-0/).
++ Added a new filter to allow programmatically alter required field validation results.
+
+##### Bugfixes
+
++ Fixed an issue causing preventing form layout options from working when passed into shortcodes.
++ Fixed an issue preventing custom radio, select, and dropdown fields from working during checkout.
++ Fixed an accessibility issue encountered during password strength validation.
+
+
 v5.0.0 - 2021-06-22
 -------------------
 

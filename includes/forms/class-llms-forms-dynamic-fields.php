@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -68,7 +68,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * group block.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Add `aria-live=polite` to ensure password strength is announced for screen readers.
+	 * @since 5.0.1 Add `aria-live=polite` to ensure password strength is announced for screen readers.
 	 *
 	 * @param array[] $blocks WP_Block list.
 	 * @return array[]
