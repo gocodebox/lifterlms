@@ -161,8 +161,8 @@ class LLMS_Query {
 		global $wp;
 
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			if ( isset( $_GET[ $var ] ) ) {
-				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) );
+			if ( isset( $_GET[ $var ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
 			}
@@ -244,10 +244,10 @@ class LLMS_Query {
 
 			}
 
-			// do it once.
+			// Do it once.
 			$done = true;
 
-		}// End if().
+		}
 
 		if ( $modify_tax_query ) {
 
