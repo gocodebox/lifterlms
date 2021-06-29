@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -209,9 +209,10 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
+	 * @since [version] Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
 	 *
-	 * @param    array $field  array of field settings
-	 * @return   void
+	 * @param array $field  array of field settings
+	 * @return void
 	 */
 	public static function output_field( $field ) {
 
@@ -379,6 +380,11 @@ class LLMS_Admin_Settings {
 
 				$secure_val   = isset( $field['secure_option'] ) ? llms_get_secure_option( $field['secure_option'], false ) : false;
 				$option_value = ( false !== $secure_val ) ? str_repeat( '*', strlen( $secure_val ) ) : $option_value;
+
+				// Ensure slugs with non-latin characters are not displayed as urlencoded strings.
+				if ( ! empty( $field['sanitize'] && 'slug' === $field['sanitize'] ) ) {
+					$option_value = urldecode( $option_value );
+				}
 
 				?>
 				<tr valign="top" class="<?php echo $disabled_class; ?>">
