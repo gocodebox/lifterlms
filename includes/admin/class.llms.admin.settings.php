@@ -382,7 +382,7 @@ class LLMS_Admin_Settings {
 				$option_value = ( false !== $secure_val ) ? str_repeat( '*', strlen( $secure_val ) ) : $option_value;
 
 				// Ensure slugs with non-latin characters are not displayed as urlencoded strings.
-				if ( ! empty( $field['sanitize'] && 'slug' === $field['sanitize'] ) ) {
+				if ( ! empty( $field['sanitize'] ) && 'slug' === $field['sanitize'] ) {
 					$option_value = urldecode( $option_value );
 				}
 
