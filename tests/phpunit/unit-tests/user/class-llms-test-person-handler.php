@@ -233,6 +233,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Made sure no users are logged in before retrieving password reset fields.
 	 *
 	 * @return void
 	 */
@@ -249,6 +250,9 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 			$this->assertEquals( 'registration', $location );
 			return $fields;
 		}, 10, 4 );
+
+		// Log out.
+		wp_set_current_user( null );
 
 		$expect = array(
 			'password',

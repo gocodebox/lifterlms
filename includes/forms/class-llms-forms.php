@@ -327,8 +327,9 @@ class LLMS_Forms {
 	 * Searches innerBlocks arrays recursively.
 	 *
 	 * @since 5.0.0
+	 * @since [version] First check block's innerBlock attribute exists when checking for inner blocks.
 	 *
-	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
+	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
 	private function get_field_blocks( $blocks ) {
@@ -337,7 +338,7 @@ class LLMS_Forms {
 
 		foreach ( $blocks as $block ) {
 
-			if ( $block['innerBlocks'] ) {
+			if ( ! empty( $block['innerBlocks'] ) ) {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
 			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
 				$fields[] = $block;
@@ -442,6 +443,7 @@ class LLMS_Forms {
 	public function get_form_fields( $location, $args = array() ) {
 
 		$blocks = $this->get_form_blocks( $location, $args );
+
 		if ( false === $blocks ) {
 			return false;
 		}
@@ -1042,7 +1044,7 @@ class LLMS_Forms {
 		}
 
 		// Add email block.
-		array_unshift( $blocks, LLMS_Form_Templates::get_block( 'email', $location, true ) );
+		array_unshift( $blocks, LLMS_Form_Templates::get_block( 'email', $location, false ) );
 
 		return $blocks;
 
