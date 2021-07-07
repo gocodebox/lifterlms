@@ -319,8 +319,11 @@ class LLMS_Form_Handler {
 		// Determine the user action to perform.
 		$action = get_current_user_id() ? 'update' : 'registration';
 
-		// Load the form.
+		// Load the form, filtering out invisible fields.
+		add_filter( 'llms_filter_out_invisible_field', '__return_true', 999 );
 		$fields = $this->get_fields( $action, $location, $args );
+		remove_filter( 'llms_filter_out_invisible_field', '__return_true', 999 );
+
 		if ( is_wp_error( $fields ) ) {
 			return $this->submit_error( $fields, $posted_data, $action );
 		}
@@ -333,6 +336,7 @@ class LLMS_Form_Handler {
 	}
 
 	/**
+	 * Form fields submission
 	 *
 	 * @since 5.0.0
 	 *
@@ -351,9 +355,9 @@ class LLMS_Form_Handler {
 		 *
 		 * @since 3.0.0
 		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
-		 *               Added parameters `$fields` and `$args`.
-		 *               Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
-		 *               of `$posted_data` and `$fields` via hooks.
+		 *              Added parameters `$fields` and `$args`.
+		 *              Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
+		 *              of `$posted_data` and `$fields` via hooks.
 		 *
 		 * @param array   $posted_data Array of user-submitted data (passed by reference).
 		 * @param string  $location    Form location.

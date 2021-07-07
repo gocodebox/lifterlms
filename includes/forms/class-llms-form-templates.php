@@ -121,13 +121,14 @@ class LLMS_Form_Templates {
 	 * block modified by legacy options for the given location when `$reusable` is `false`.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Method access set to public.
 	 *
 	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @param string  $location Form location. Accepts "checkout", "registration", or "account".
 	 * @param boolean $reusable Whether or not a reusable block should be retrieved.
 	 * @return array
 	 */
-	private static function get_block( $field_id, $location, $reusable ) {
+	public static function get_block( $field_id, $location, $reusable ) {
 
 		if ( $reusable ) {
 			return self::get_reusable_block( $field_id );
