@@ -1020,7 +1020,7 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Maybe add the required email block to a given form
+	 * Maybe add the required email block to a form
 	 *
 	 * That's for checkout or registration forms for non logged in users.
 	 *
