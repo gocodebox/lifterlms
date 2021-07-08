@@ -1,29 +1,21 @@
 <?php
 /**
- * Query base class
- *
- * Handles queries and endpoints.
+ * LLMS_Query class file.
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Query class.
+ * Query base class
+ *
+ * Handles queries and endpoints.
  *
  * @since 1.0.0
- * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
- * @since 3.33.0 Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
- * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
- *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
- *               but since themes are loaded after plugins it overrode our one.
- * @since 3.36.4 Don't remove `pre_get_posts` callback from within the callback itself.
- *               Rather use a static variable to make sure the business logic of the callback
- *               is executed only once.
  * @since 4.0.0 Remove previously deprecated methods.
  */
 class LLMS_Query {
@@ -68,20 +60,21 @@ class LLMS_Query {
 	 *
 	 * @since 1.0.0
 	 * @since 3.28.2 Handle dashboard tab pagination via a rewrite rule.
+	 * @since [version] Add support for slugs with non-latin characters.
 	 *
 	 * @return void
 	 */
 	public function add_endpoints() {
 
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			add_rewrite_endpoint( $var, EP_PAGES );
+			add_rewrite_endpoint( $var, EP_PAGES, $key );
 		}
 
 		global $wp_rewrite;
 		foreach ( LLMS_Student_Dashboard::get_tabs() as $id => $tab ) {
 			if ( ! empty( $tab['paginate'] ) ) {
-				$regex    = sprintf( '(.?.+?)/%1$s/%2$s/?([0-9]{1,})/?$', $tab['endpoint'], $wp_rewrite->pagination_base );
-				$redirect = sprintf( 'index.php?pagename=$matches[1]&%s=$matches[3]&paged=$matches[2]', $tab['endpoint'] );
+				$regex    = sprintf( '(.?.+?)/%1$s/%2$s/?([0-9]{1,})/?$', urldecode( $tab['endpoint'] ), $wp_rewrite->pagination_base );
+				$redirect = sprintf( 'index.php?pagename=$matches[1]&%s=$matches[3]&paged=$matches[2]', $id );
 				add_rewrite_rule( $regex, $redirect, 'top' );
 			}
 		}
@@ -102,7 +95,7 @@ class LLMS_Query {
 	/**
 	 * Get a taxonomy query that filters out courses & memberships based on catalog / search visibility settings
 	 *
-	 * @since    3.6.0
+	 * @since 3.6.0
 	 *
 	 * @param array $query Existing taxonomy query from the global $wp_query.
 	 * @return array
@@ -168,8 +161,8 @@ class LLMS_Query {
 		global $wp;
 
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			if ( isset( $_GET[ $var ] ) ) {
-				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) );
+			if ( isset( $_GET[ $var ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
 			}
@@ -251,10 +244,10 @@ class LLMS_Query {
 
 			}
 
-			// do it once.
+			// Do it once.
 			$done = true;
 
-		}// End if().
+		}
 
 		if ( $modify_tax_query ) {
 
@@ -308,4 +301,3 @@ class LLMS_Query {
 }
 
 return new LLMS_Query();
-
