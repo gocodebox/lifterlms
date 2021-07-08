@@ -327,11 +327,12 @@ class LLMS_Forms {
 	 *
 	 * @since 5.0.0
 	 * @since [version] First check block's innerBlock attribute exists when checking for inner blocks.
+	 *              Also made the access visibility public.
 	 *
 	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
-	private function get_field_blocks( $blocks ) {
+	public function get_field_blocks( $blocks ) {
 
 		$fields = array();
 
@@ -801,11 +802,12 @@ class LLMS_Forms {
 	 * Determine if a block is visible based on LifterLMS Visibility Settings.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Changed access visibility to public.
 	 *
 	 * @param array $block Parsed block array.
 	 * @return bool
 	 */
-	private function is_block_visible( $block ) {
+	public function is_block_visible( $block ) {
 
 		// Make the block return `true` if it's visible, it will already automatically return an empty string if it's invisible.
 		add_filter( 'render_block', '__return_true', 5 );

@@ -228,8 +228,8 @@ class LLMS_Forms_Dynamic_Fields {
 			return $blocks;
 		}
 
-		foreach ( $this->get_field_blocks( $blocks ) as $field_block ) {
-			if ( isset( $field_block['attrs']['id'] ) && 'email_address' === $field_block['attrs']['id'] && LLMS_Forms::$instance()->is_block_visible( $field_block ) ) {
+		foreach ( LLMS_Forms::instance()->get_field_blocks( $blocks ) as $field_block ) {
+			if ( isset( $field_block['attrs']['id'] ) && 'email_address' === $field_block['attrs']['id'] && LLMS_Forms::instance()->is_block_visible( $field_block ) ) {
 				return $blocks; // All good.
 			}
 		}
