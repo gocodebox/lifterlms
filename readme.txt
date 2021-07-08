@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.3
 Tested up to: 5.7
 Requires PHP: 7.3
-Stable tag: 5.0.1
+Stable tag: 5.0.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.0.2 - 2021-07-08 =
+
+##### LifterLMS Blocks
+
++ Upgraded to [version 2.1.1](https://make.lifterlms.com/2021/07/08/lifterlms-blocks-version-2-1-1/).
+
+##### Bug Fixes
+
++ Fixed issue with non-Latin characters in dashboard endpoint URL slugs.
++ Fixed issue preventing address localization when using the [lifterlms_registration] shortcode.
+
+
 = v5.0.1 - 2021-06-28 =
 
 ##### Updates
@@ -737,27 +749,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 + Added a tie-breaker when there are multiple enrollment statuses with the same date & time. Thanks [@pondermatic](https://github.com/pondermatic)!
 + On admin order pages and tables don't print links for deleted students.
 + Fixed an issue on admin order pages when viewing an order for a deleted student.
-
-
-= v4.17.0 - 2021-02-22 =
-
-##### Updates
-
-+ The post type feature "llms-sales-page" has been added to course and membership post types, signifying they support custom sales pages.
-
-##### Bug fixes
-
-+ Fixed compatibility issues with Yoast SEO 15.8.
-+ Fixed duplicate action hook in `content-no-access-after.php` template.
-+ Added early returns to several templates to prevent undefined variables errors.
-+ Fixed an undefined variable encountered in course builder JS debug logging.
-
-##### Templates Updated
-
-+ content-no-access-after.php
-+ quiz/meta-information.php
-+ quiz/results.php
-+ quiz/start-button.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
