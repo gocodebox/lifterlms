@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v5.0.2 - 2021-07-08
+-------------------
+
+##### LifterLMS Blocks
+
++ Upgraded to [version 2.1.1](https://make.lifterlms.com/2021/07/08/lifterlms-blocks-version-2-1-1/).
+
+##### Bug Fixes
+
++ Fixed issue with non-Latin characters in dashboard endpoint URL slugs.
++ Fixed issue preventing address localization when using the [lifterlms_registration] shortcode.
+
+
 v5.0.1 - 2021-06-28
 -------------------
 

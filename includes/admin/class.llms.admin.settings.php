@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -209,7 +209,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
-	 * @since [version] Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
+	 * @since 5.0.2 Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
 	 *
 	 * @param array $field Array of field settings.
 	 * @return void

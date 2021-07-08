@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.0.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -60,7 +60,7 @@ class LLMS_Query {
 	 *
 	 * @since 1.0.0
 	 * @since 3.28.2 Handle dashboard tab pagination via a rewrite rule.
-	 * @since [version] Add support for slugs with non-latin characters.
+	 * @since 5.0.2 Add support for slugs with non-latin characters.
 	 *
 	 * @return void
 	 */

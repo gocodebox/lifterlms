@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.0.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,7 +35,7 @@ class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 	 *
 	 * @since 3.4.3
 	 * @since 5.0.0 Remove password strength enqueue script.
-	 * @since [version] Added select enqueue script and inline script for address info.
+	 * @since 5.0.2 Added select enqueue script and inline script for address info.
 	 *
 	 * @return string
 	 */

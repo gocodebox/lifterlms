@@ -27,7 +27,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Assertion helper to ensure that the `$wp_query->query` variables equal an expected array
 	 *
-	 * @since [version]
+	 * @since 5.0.2
 	 *
 	 * @param array  $expected Expected query array.
 	 * @param string $message  Error message.
@@ -56,7 +56,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 * It additionally tests pagination for endpoints that utilize pagination work regardless of the customized
 	 * slug.
 	 *
-	 * @since [version]
+	 * @since 5.0.2
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1639
 	 *
