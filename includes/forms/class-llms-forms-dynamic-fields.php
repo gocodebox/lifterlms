@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Forms
  *
  * @since 5.0.0
- * @version 5.0.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,13 +21,14 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added logic to make sure checkout and registration forms for logged out users always have the email block.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10, 2 );
-
+		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_email_field_block' ), 10, 3 );
 		add_filter( 'llms_get_form_blocks', array( $this, 'modify_account_form' ), 15, 2 );
 
 	}
@@ -204,6 +205,37 @@ class LLMS_Forms_Dynamic_Fields {
 			$field  = $this->find_block( $id, $blocks );
 			$blocks = $field ? $this->{"toggle_for_$id"}( $field, $blocks ) : $blocks;
 		}
+
+		return $blocks;
+
+	}
+
+	/**
+	 * Maybe add the required email block to a form
+	 *
+	 * That's for checkout or registration forms for non logged in users.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $blocks   Array of parsed WP_Block arrays.
+	 * @param string  $location The request form location ID.
+	 * @param array   $args     Additional arguments passed to the short-circuit filter.
+	 * @return array[]
+	 */
+	public function maybe_add_required_email_field_block( $blocks, $location, $args ) {
+
+		if ( is_user_logged_in() || ! in_array( $location, array( 'checkout', 'registration' ), true ) ) {
+			return $blocks;
+		}
+
+		foreach ( $this->get_field_blocks( $blocks ) as $field_block ) {
+			if ( isset( $field_block['attrs']['id'] ) && 'email_address' === $field_block['attrs']['id'] && LLMS_Forms::$instance()->is_block_visible( $field_block ) ) {
+				return $blocks; // All good.
+			}
+		}
+
+		// Add email block.
+		array_unshift( $blocks, LLMS_Form_Templates::get_block( 'email', $location, false ) );
 
 		return $blocks;
 

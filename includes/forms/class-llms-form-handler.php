@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -308,6 +308,7 @@ class LLMS_Form_Handler {
 	 * Form submission handler
 	 *
 	 * @since 5.0.0
+	 * @since [version] Remove invisible fields from when loading the form.
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.

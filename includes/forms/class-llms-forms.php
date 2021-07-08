@@ -54,7 +54,6 @@ class LLMS_Forms {
 	 * Private Constructor
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to make sure checkout and registration forms for logged out users always have the email block.
 	 *
 	 * @return void
 	 */
@@ -65,7 +64,6 @@ class LLMS_Forms {
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
 		add_filter( 'llms_get_form_post', array( $this, 'maybe_load_preview' ) );
 
-		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_email_field_block' ), 999, 3 );
 	}
 
 	/**
@@ -126,6 +124,7 @@ class LLMS_Forms {
 	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added logic to remove invisible fields.
 	 *
 	 * @param array $block A WP Block array.
 	 * @return array
@@ -141,7 +140,7 @@ class LLMS_Forms {
 		 *
 		 * @param $filter Whether or not invisible fields should be included. Default is `false`.
 		 */
-		if ( ! $is_visible && apply_filters( 'llms_filter_out_invisible_field', false ) ) {
+		if ( ! $is_visible && apply_filters( 'llms_forms_remove_invisible_field', false ) ) {
 			return array();
 		}
 
@@ -1016,37 +1015,6 @@ class LLMS_Forms {
 		$attrs = $this->block_to_field_settings( $block );
 
 		return llms_form_field( $attrs, false );
-
-	}
-
-	/**
-	 * Maybe add the required email block to a form
-	 *
-	 * That's for checkout or registration forms for non logged in users.
-	 *
-	 * @since [version]
-	 *
-	 * @param array[] $blocks   Array of parsed WP_Block arrays.
-	 * @param string  $location The request form location ID.
-	 * @param array   $args     Additional arguments passed to the short-circuit filter.
-	 * @return array[]
-	 */
-	public function maybe_add_required_email_field_block( $blocks, $location, $args ) {
-
-		if ( is_user_logged_in() || ! in_array( $location, array( 'checkout', 'registration' ), true ) ) {
-			return $blocks;
-		}
-
-		foreach ( $this->get_field_blocks( $blocks ) as $field_block ) {
-			if ( isset( $field_block['attrs']['id'] ) && 'email_address' === $field_block['attrs']['id'] && $this->is_block_visible( $field_block ) ) {
-				return $blocks; // All good.
-			}
-		}
-
-		// Add email block.
-		array_unshift( $blocks, LLMS_Form_Templates::get_block( 'email', $location, false ) );
-
-		return $blocks;
 
 	}
 
