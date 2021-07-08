@@ -320,9 +320,9 @@ class LLMS_Form_Handler {
 		$action = get_current_user_id() ? 'update' : 'registration';
 
 		// Load the form, filtering out invisible fields.
-		add_filter( 'llms_filter_out_invisible_field', '__return_true', 999 );
+		add_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
 		$fields = $this->get_fields( $action, $location, $args );
-		remove_filter( 'llms_filter_out_invisible_field', '__return_true', 999 );
+		remove_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
 
 		if ( is_wp_error( $fields ) ) {
 			return $this->submit_error( $fields, $posted_data, $action );

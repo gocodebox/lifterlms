@@ -305,7 +305,7 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $fields Form Fields.
+	 * @param array $fields_html Form Fields.
 	 * @return array
 	 */
 	private static function clean_form_fields( $fields_html ) {
