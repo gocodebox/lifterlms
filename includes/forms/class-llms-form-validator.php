@@ -384,7 +384,7 @@ class LLMS_Form_Validator {
 	 */
 	public function validate_fields( $posted_data, $fields ) {
 
-		if ( empty( $posted_data ) && ! empty( $fields )  ) {
+		if ( empty( $posted_data ) && ! empty( $fields ) ) {
 			return new WP_Error( 'llms-form-no-input', __( 'Cannot validate a form with no user input.', 'lifterlms' ) );
 		}
 
