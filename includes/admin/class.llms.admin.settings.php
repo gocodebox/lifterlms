@@ -211,7 +211,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
 	 * @since [version] Pass any option value sanitized as a "slug" through `urldecode()` prior to displaying it.
 	 *
-	 * @param array $field  array of field settings
+	 * @param array $field Array of field settings.
 	 * @return void
 	 */
 	public static function output_field( $field ) {

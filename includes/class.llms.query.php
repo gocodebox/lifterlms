@@ -60,7 +60,7 @@ class LLMS_Query {
 	 *
 	 * @since 1.0.0
 	 * @since 3.28.2 Handle dashboard tab pagination via a rewrite rule.
-	 * @since [version] Add support for slugs with non-latin Characters.
+	 * @since [version] Add support for slugs with non-latin characters.
 	 *
 	 * @return void
 	 */
@@ -301,4 +301,3 @@ class LLMS_Query {
 }
 
 return new LLMS_Query();
-
