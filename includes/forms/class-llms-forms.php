@@ -138,7 +138,9 @@ class LLMS_Forms {
 		 * If the block is not visible (according to LLMS block-level visibility settings)
 		 * it will return an empty array (signaling the field to be removed).
 		 *
-		 * @param $filter Whether or not invisible fields should be included. Default is `false`.
+		 * @since [version]
+		 *
+		 * @param boolean $filter Whether or not invisible fields should be included. Default is `false`.
 		 */
 		if ( ! $is_visible && apply_filters( 'llms_forms_remove_invisible_field', false ) ) {
 			return array();

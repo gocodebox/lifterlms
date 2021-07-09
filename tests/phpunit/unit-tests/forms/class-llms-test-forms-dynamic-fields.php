@@ -238,16 +238,16 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 		wp_set_current_user( null );
 
 		// Email field not added to forms which are not checkout or registration.
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'what', array() ) );
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'account', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'what', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'account', array() ) );
 
 		// Email field added to checkout form.
-		$checkout_blocks = $this->forms->maybe_add_required_email_field_block( array(), 'checkout', array() );
+		$checkout_blocks = $this->main->maybe_add_required_email_field_block( array(), 'checkout', array() );
 		$this->assertNotEmpty( $checkout_blocks );
 		$this->assertEquals( 'email_address', $checkout_blocks[0]['attrs']['id'] );
 
 		// Email field added to registration form.
-		$registration_blocks = $this->forms->maybe_add_required_email_field_block( array(), 'registration', array() );
+		$registration_blocks = $this->main->maybe_add_required_email_field_block( array(), 'registration', array() );
 		$this->assertNotEmpty( $registration_blocks );
 		$this->assertEquals( 'email_address', $registration_blocks[0]['attrs']['id'] );
 
@@ -255,10 +255,10 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
 		// Email field not added to any forms for logged in users.
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'what', array() ) );
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'account', array() ) );
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'checkout', array() ) );
-		$this->assertEmpty( $this->forms->maybe_add_required_email_field_block( array(), 'registration', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'what', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'account', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'checkout', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'registration', array() ) );
 
 		// Make sure no user is logged in.
 		wp_set_current_user( null );
