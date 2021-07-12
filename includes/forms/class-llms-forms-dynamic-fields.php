@@ -262,12 +262,12 @@ class LLMS_Forms_Dynamic_Fields {
 			}
 		}
 
-		// Maybe add field blocks.
+		$_blocks = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
-			array_push( $blocks, LLMS_Form_Templates::get_block( $block_to_add, $location, false ) );
+			$_blocks[] = LLMS_Form_Templates::get_block( $block_to_add, $location, true );
 		}
 
-		return $blocks;
+		return empty( $_blocks ) ? $blocks : array_merge( $blocks, LLMS_Forms::instance()->load_reusable_blocks( $_blocks ) );
 
 	}
 

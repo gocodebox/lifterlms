@@ -879,11 +879,12 @@ class LLMS_Forms {
 	 * from it's reference post.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Access turned to public.
 	 *
 	 * @param array[] $blocks List of WP_Block arrays.
 	 * @return array[]
 	 */
-	private function load_reusable_blocks( $blocks ) {
+	public function load_reusable_blocks( $blocks ) {
 
 		$loaded = array();
 
