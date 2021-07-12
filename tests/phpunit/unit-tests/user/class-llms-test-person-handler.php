@@ -245,7 +245,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		) );
 
 		LLMS_Forms::instance()->create( 'registration', true );
-
+		// Avoid auto adding of fields like password/email.
+		add_filter( 'llms_forms_required_block_fields', '__return_empty_array' );
 		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
 			$this->assertEquals( 'registration', $location );
 			return $fields;
@@ -264,6 +265,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		);
 		$this->assertEquals( $expect, wp_list_pluck( LLMS_Person_Handler::get_password_reset_fields(), 'id' ) );
 
+		remove_filter( 'llms_forms_required_block_fields', '__return_empty_array' );
+
 	}
 
 	/**
@@ -275,6 +278,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_get_password_reset_fields_from_fallback() {
 
+		// Avoid auto adding of fields like password/email.
+		add_filter( 'llms_forms_required_block_fields', '__return_empty_array' );
 		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
 			$this->assertEquals( 'fallback', $location );
 			return $fields;
@@ -289,6 +294,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 			'llms_reset_login',
 		);
 		$this->assertEquals( $expect, wp_list_pluck( LLMS_Person_Handler::get_password_reset_fields(), 'id' ) );
+
+		remove_filter( 'llms_forms_required_block_fields', '__return_empty_array' );
 
 	}
 

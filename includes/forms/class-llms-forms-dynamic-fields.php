@@ -21,14 +21,14 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to make sure checkout and registration forms for logged out users always have the email block.
+	 * @since [version] Added logic to make sure forms have alle the required fields
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10, 2 );
-		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_email_field_block' ), 10, 3 );
+		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_block_fields' ), 10, 3 );
 		add_filter( 'llms_get_form_blocks', array( $this, 'modify_account_form' ), 15, 2 );
 
 	}
@@ -211,9 +211,7 @@ class LLMS_Forms_Dynamic_Fields {
 	}
 
 	/**
-	 * Maybe add the required email block to a form
-	 *
-	 * That's for checkout or registration forms for non logged in users.
+	 * Maybe add the required email and password block to a form
 	 *
 	 * @since [version]
 	 *
@@ -222,20 +220,52 @@ class LLMS_Forms_Dynamic_Fields {
 	 * @param array   $args     Additional arguments passed to the short-circuit filter.
 	 * @return array[]
 	 */
-	public function maybe_add_required_email_field_block( $blocks, $location, $args ) {
+	public function maybe_add_required_block_fields( $blocks, $location, $args ) {
 
-		if ( is_user_logged_in() || ! in_array( $location, array( 'checkout', 'registration' ), true ) ) {
+		$fields_to_require = array();
+
+		if ( ( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
+				( is_user_logged_in() && 'account' === $location ) ) {
+			$fields_to_require = array(
+				// Field ID => block name.
+				'email_address' => 'email',
+				'password'      => 'password',
+			);
+		}
+
+		/**
+		 * Filters the required block fields to add to the form
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields   Array of field_id => block_name required.
+		 * @param array[] $blocks   Array of parsed WP_Block arrays.
+		 * @param string  $location The request form location ID.
+		 * @param array   $args     Additional arguments passed to the short-circuit filter.
+		 */
+		$fields_to_require = apply_filters( 'llms_forms_required_block_fields', $fields_to_require, $blocks, $location, $args );
+
+		if ( empty( $fields_to_require ) ) {
 			return $blocks;
 		}
 
-		foreach ( LLMS_Forms::instance()->get_field_blocks( $blocks ) as $field_block ) {
-			if ( isset( $field_block['attrs']['id'] ) && 'email_address' === $field_block['attrs']['id'] && LLMS_Forms::instance()->is_block_visible( $field_block ) ) {
-				return $blocks; // All good.
+		foreach ( $fields_to_require as $field_id => $field_block_name ) {
+
+			$block = $this->find_block( $field_id, $blocks );
+			if ( ! empty( $block ) && LLMS_Forms::instance()->is_block_visible( $block[1] ) ) {
+				// TODO:  Make invisible block visible:
+				// Meaning making all the parents childrens but this block invisible, and make all the parents visible.
+				unset( $fields_to_require[ $field_id ] );
+				if ( empty( $fields_to_require ) ) {
+					break;
+				}
 			}
 		}
 
-		// Add email block.
-		array_unshift( $blocks, LLMS_Form_Templates::get_block( 'email', $location, false ) );
+		// Maybe add field blocks.
+		foreach ( $fields_to_require as $field_id => $block_to_add ) {
+			array_push( $blocks, LLMS_Form_Templates::get_block( $block_to_add, $location, false ) );
+		}
 
 		return $blocks;
 

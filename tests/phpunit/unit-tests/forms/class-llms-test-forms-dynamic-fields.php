@@ -23,7 +23,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
 		parent::setUp();
 		$this->main = new LLMS_Forms_Dynamic_fields();
-
+		$this->forms = LLMS_Forms::instance();
 	}
 
 	/**
@@ -226,43 +226,123 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test required email field block added to form blocks
+	 * Test required fields block added to form blocks
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_maybe_add_required_email_field_block() {
+	public function test_maybe_add_required_block_fields() {
 
 		// Make sure no user is logged in.
 		wp_set_current_user( null );
 
-		// Email field not added to forms which are not checkout or registration.
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'what', array() ) );
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'account', array() ) );
+		// Email and pw fields not added to forms which are not checkout or registration.
+		$this->assertEmpty( $this->main->maybe_add_required_block_fields( array(), 'what', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_block_fields( array(), 'account', array() ) );
 
-		// Email field added to checkout form.
-		$checkout_blocks = $this->main->maybe_add_required_email_field_block( array(), 'checkout', array() );
-		$this->assertNotEmpty( $checkout_blocks );
-		$this->assertEquals( 'email_address', $checkout_blocks[0]['attrs']['id'] );
+		// Email and pw fields added to checkout form.
+		$checkout_blocks = $this->main->maybe_add_required_block_fields( array(), 'checkout', array() );
+		foreach ( array( 'email_address', 'password' ) as $id ) {
+			$this->assertNotEmpty(
+				LLMS_Unit_Test_Util::call_method(
+					$this->main,
+					'find_block',
+					array(
+						$id,
+						$checkout_blocks
+					)
+				),
+				$id
+			);
+		}
 
-		// Email field added to registration form.
-		$registration_blocks = $this->main->maybe_add_required_email_field_block( array(), 'registration', array() );
-		$this->assertNotEmpty( $registration_blocks );
-		$this->assertEquals( 'email_address', $registration_blocks[0]['attrs']['id'] );
+		// Email and pw fields added to registration form.
+		$registration_blocks = $this->main->maybe_add_required_block_fields( array(), 'registration', array() );
+		foreach ( array( 'email_address', 'password' ) as $id ) {
+			$this->assertNotEmpty(
+				LLMS_Unit_Test_Util::call_method(
+					$this->main,
+					'find_block',
+					array(
+						$id,
+						$registration_blocks
+					)
+				),
+				$id
+			);
+		}
 
 		// Log in.
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
-		// Email field not added to any forms for logged in users.
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'what', array() ) );
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'account', array() ) );
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'checkout', array() ) );
-		$this->assertEmpty( $this->main->maybe_add_required_email_field_block( array(), 'registration', array() ) );
+		// Email and pw field not added to any forms except account for logged in users.
+		$this->assertEmpty( $this->main->maybe_add_required_block_fields( array(), 'what', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_block_fields( array(), 'checkout', array() ) );
+		$this->assertEmpty( $this->main->maybe_add_required_block_fields( array(), 'registration', array() ) );
+
+		$account_blocks = $this->main->maybe_add_required_block_fields( array(), 'account', array() );
+		foreach ( array( 'email_address', 'password' ) as $id ) {
+			$this->assertNotEmpty(
+				LLMS_Unit_Test_Util::call_method(
+					$this->main,
+					'find_block',
+					array(
+						$id,
+						$account_blocks
+					)
+				),
+				$id
+			);
+		}
 
 		// Make sure no user is logged in.
 		wp_set_current_user( null );
 
 	}
 
+	/**
+	 * Test required fields blocks not added to form blocks if they already have them.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_add_required_block_fields_check_not_dupes() {
+
+		foreach ( array( 'email_address', 'password' ) as $id ) {
+			foreach ( array( 'checkout', 'registration', 'account' ) as $location ) {
+				$this->forms->create( $location, false );
+				$blocks = $this->forms->get_form_blocks( $location );
+				$block  = LLMS_Unit_Test_Util::call_method(
+					$this->main,
+					'find_block',
+					array(
+						$id,
+						$blocks
+					)
+				);
+				$this->assertNotEmpty(
+					$block,
+					"{$location}:{$id}"
+				);
+
+				// Check again for dupes.
+				array_splice( $blocks, $block[0], 1 ); // Remove just found block.
+
+				$this->assertEmpty(
+					LLMS_Unit_Test_Util::call_method(
+						$this->main,
+						'find_block',
+						array(
+							$id,
+							$blocks
+						),
+					),
+					"{$location}:{$id}"
+				);
+
+			}
+		}
+	}
 }
