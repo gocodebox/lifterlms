@@ -341,10 +341,9 @@ class LLMS_Forms_Dynamic_Fields {
 		foreach ( $blocks as $index => $block ) {
 
 			if ( $block['innerBlocks'] ) {
-				if ( 'llms/form-field-confirm-group' === $block['blockName'] ) {
-					if ( $this->find_block( $id, $block['innerBlocks'] ) ) {
-						return $block;
-					}
+				if ( ( 'llms/form-field-confirm-group' === $block['blockName'] ) &&
+						$this->find_block( $id, $block['innerBlocks'] ) ) {
+					return $block;
 				}
 				$inner = $this->get_confirm_group( $id, $block['innerBlocks'] );
 				if ( false !== $inner ) {
