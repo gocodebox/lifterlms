@@ -308,11 +308,11 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_maybe_add_required_block_fields_check_not_dupes() {
+	public function test_maybe_add_required_block_fields_check_no_dupes() {
 
 		foreach ( array( 'email_address', 'password' ) as $id ) {
 			foreach ( array( 'checkout', 'registration', 'account' ) as $location ) {
-				$this->forms->create( $location, false );
+				$this->forms->create( $location, true );
 				$blocks = $this->forms->get_form_blocks( $location );
 				$block  = LLMS_Unit_Test_Util::call_method(
 					$this->main,

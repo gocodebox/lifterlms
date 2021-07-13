@@ -21,7 +21,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to make sure forms have alle the required fields
+	 * @since [version] Added logic to make sure forms have alle the required fields.
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string  $id           ThHe ID of the field to find.
+	 * @param string  $id           The ID of the field to find.
 	 * @param array[] $blocks       WP_Block list.
 	 * @param integer $parent_index Top level index of the parent block. Used to hold a reference to the current index within the toplevel
 	 *                              blocks of the form when looking into the innerBlocks of a block.
@@ -187,8 +187,8 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param [type] $blocks [description]
-	 * @param [type] $location [description]
+	 * @param array[] $blocks   Array of parsed WP_Block arrays.
+	 * @param string  $location The form location ID.
 	 *
 	 * @return array[]
 	 */
@@ -252,23 +252,108 @@ class LLMS_Forms_Dynamic_Fields {
 		foreach ( $fields_to_require as $field_id => $field_block_name ) {
 
 			$block = $this->find_block( $field_id, $blocks );
-			if ( ! empty( $block ) && LLMS_Forms::instance()->is_block_visible( $block[1] ) ) {
-				// TODO:  Make invisible block visible:
-				// Meaning making all the parents childrens but this block invisible, and make all the parents visible.
+
+			if ( ! empty( $block ) ) {
+
+				$blocks = $this->make_block_visible( $block[1], $blocks, $block[0] );
+
 				unset( $fields_to_require[ $field_id ] );
-				if ( empty( $fields_to_require ) ) {
-					break;
+				if ( empty( $fields_to_require ) ) { // All the required blocks are present.
+					return $blocks;
 				}
 			}
 		}
 
-		$_blocks = array();
+		$blocks_to_add = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
-			$_blocks[] = LLMS_Form_Templates::get_block( $block_to_add, $location, true );
+			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, true );
 		}
 
-		return empty( $_blocks ) ? $blocks : array_merge( $blocks, LLMS_Forms::instance()->load_reusable_blocks( $_blocks ) );
+		return array_merge(
+			$blocks,
+			LLMS_Forms::instance()->load_reusable_blocks( $blocks_to_add )
+		);
 
+	}
+
+	/**
+	 * Make a block visible within its list of blocks
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block       Parsed WP_Block array.
+	 * @param array[] $blocks      Array of parsed WP_Block arrays.
+	 * @param int     $block_index Optional. Index of the block withing the `$blocks` list. Default is 0.
+	 * @return array[]
+	 */
+	private function make_block_visible( $block, $blocks, $block_index = 0 ) {
+
+		if ( LLMS_Forms::instance()->is_block_visible( $block ) ) {
+			return $blocks;
+		}
+
+		// If the block has a confirm group, use that.
+		$confirm = $this->get_confirm_group( $block['attrs']['id'], array( $blocks[ $block_index ] ) );
+
+		$block_to_add = empty( $confirm ) ? $block : $confirm;
+		// Make the block and its children visible.
+		$block_to_add = $this->make_all_visible( $block_to_add );
+
+		// Replace the invisible with the visible block.
+		array_splice( $blocks, $block_index, 1, array( $block_to_add ) );
+
+		return $blocks;
+
+	}
+
+	/**
+	 * Make the block and its children visible
+	 *
+	 * @since [version]
+	 *
+	 * @param array $block A parsed WP_Block.
+	 * @return array
+	 */
+	private function make_all_visible( $block ) {
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as $index => $inner_block ) {
+				$block['innerBlocks'][ $index ] = $this->make_all_visible( $block['innerBlocks'][ $index ] );
+			}
+		}
+
+		$block['attrs']['llms_visibility'] = '';
+
+		return $block;
+	}
+
+	/**
+	 * Get confirm group in a list of blocks for a given block id
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $id     The ID of the field to find the confirm group for.
+	 * @param array[] $blocks WP_Block list.
+	 * @return array
+	 */
+	private function get_confirm_group( $id, $blocks ) {
+
+		foreach ( $blocks as $index => $block ) {
+
+			if ( $block['innerBlocks'] ) {
+				if ( 'llms/form-field-confirm-group' === $block['blockName'] ) {
+					if ( $this->find_block( $id, $block['innerBlocks'] ) ) {
+						return $block;
+					}
+				}
+				$inner = $this->get_confirm_group( $id, $block['innerBlocks'] );
+				if ( false !== $inner ) {
+					return $inner;
+				}
+			}
+
+		}
+		return false;
 	}
 
 	/**
