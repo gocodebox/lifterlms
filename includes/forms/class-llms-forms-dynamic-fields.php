@@ -283,12 +283,12 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @param array   $block       Parsed WP_Block array.
 	 * @param array[] $blocks      Array of parsed WP_Block arrays.
-	 * @param int     $block_index Optional. Index of the block withing the `$blocks` list. Default is 0.
+	 * @param int     $block_index Optional. Index of the block within the `$blocks` list. Default is 0.
 	 * @return array[]
 	 */
 	private function make_block_visible( $block, $blocks, $block_index = 0 ) {
 
-		if ( LLMS_Forms::instance()->is_block_visible( $block ) ) {
+		if ( LLMS_Forms::instance()->is_block_visible_in_list( $block, array( $blocks[ $block_index ] ) ) ) {
 			return $blocks;
 		}
 

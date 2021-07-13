@@ -310,10 +310,16 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 */
 	public function test_maybe_add_required_block_fields_check_no_dupes() {
 
-		foreach ( array( 'email_address', 'password' ) as $id ) {
-			foreach ( array( 'checkout', 'registration', 'account' ) as $location ) {
-				$this->forms->create( $location, true );
-				$blocks = $this->forms->get_form_blocks( $location );
+		foreach ( array( 'checkout', 'registration', 'account' ) as $location ) {
+			if ( 'account' === $location ) {
+				wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+			}
+
+			$this->forms->create( $location, true );
+			$blocks = $this->forms->get_form_blocks( $location );
+
+			foreach ( array( 'email_address', 'password' ) as $id ) {
+
 				$block  = LLMS_Unit_Test_Util::call_method(
 					$this->main,
 					'find_block',
@@ -328,7 +334,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 				);
 
 				// Check again for dupes.
-				array_splice( $blocks, $block[0], 1 ); // Remove just found block.
+				array_splice( $blocks, $block[0], 1); // Remove just found block.
 
 				$this->assertEmpty(
 					LLMS_Unit_Test_Util::call_method(
@@ -341,8 +347,14 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 					),
 					"{$location}:{$id}"
 				);
-
 			}
+
+			if ( 'account' === $location ) {
+				wp_set_current_user( null );
+			}
+
 		}
+
 	}
+
 }

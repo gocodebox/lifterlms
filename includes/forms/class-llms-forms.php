@@ -125,13 +125,16 @@ class LLMS_Forms {
 	 *
 	 * @since 5.0.0
 	 * @since [version] Added logic to remove invisible fields.
+	 *              Added `$block_list` param.
 	 *
-	 * @param array $block A WP Block array.
+	 * @param array   $block      A WP Block array.
+	 * @param array[] $block_list Optional. The list of WP Block array `$block` comes from. Default is empty array.
 	 * @return array
 	 */
-	private function block_to_field_settings( $block ) {
+	private function block_to_field_settings( $block, $block_list = array() ) {
 
-		$is_visible = $this->is_block_visible( $block );
+		$is_visible = $this->is_block_visible_in_list( $block, $block_list );
+
 		/**
 		 * Filters whether or not invisible fields should be included
 		 *
@@ -140,9 +143,11 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean $filter Whether or not invisible fields should be included. Default is `false`.
+		 * @param boolean $filter     Whether or not invisible fields should be included. Default is `false`.
+		 * @param array   $block      A WP Block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
-		if ( ! $is_visible && apply_filters( 'llms_forms_remove_invisible_field', false ) ) {
+		if ( ! $is_visible && apply_filters( 'llms_forms_remove_invisible_field', false, $block, $block_list ) ) {
 			return array();
 		}
 
@@ -157,11 +162,13 @@ class LLMS_Forms {
 		 * Filter an LLMS_Form_Field settings array after conversion from a field block
 		 *
 		 * @since 5.0.0
+		 * @since [version] Added `$block_list` param.
 		 *
-		 * @param array $attrs An array of LLMS_Form_Field settings.
-		 * @param array $block A WP Block array.
+		 * @param array   $attrs      An array of LLMS_Form_Field settings.
+		 * @param array   $block      A WP Block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
-		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block );
+		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block, $block_list );
 
 	}
 
@@ -469,6 +476,8 @@ class LLMS_Forms {
 	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
 	 *
 	 * @since 5.0.0
+	 * @since [version] Pass the whole list of blocks to the `$this->block_to_field_settings()` method
+	 *              To better check whether a block is visible.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return false|array
@@ -476,8 +485,10 @@ class LLMS_Forms {
 	public function get_fields_settings_from_blocks( $blocks ) {
 
 		$fields = array();
-		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
-			$settings = $this->block_to_field_settings( $block );
+		$blocks = $this->get_field_blocks( $blocks );
+
+		foreach ( $blocks as $block ) {
+			$settings = $this->block_to_field_settings( $block, $blocks );
 			if ( $settings ) {
 				$field    = new LLMS_Form_Field( $settings );
 				$fields[] = $field->get_settings();
@@ -695,6 +706,7 @@ class LLMS_Forms {
 	 * who are missing r equired information will be directed to the checkout page.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -702,9 +714,9 @@ class LLMS_Forms {
 	public function get_free_enroll_form_fields( $plan ) {
 
 		// Convert all fields to hidden fields and remove any fields hidden by LLMS block-level visibility settings.
-		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
 		$fields = $this->get_form_fields( 'checkout', compact( 'plan' ) );
-		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
 
 		// Add additional fields required for form processing.
 		$fields[] = array(
@@ -804,12 +816,11 @@ class LLMS_Forms {
 	 * Determine if a block is visible based on LifterLMS Visibility Settings.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Changed access visibility to public.
 	 *
 	 * @param array $block Parsed block array.
 	 * @return bool
 	 */
-	public function is_block_visible( $block ) {
+	private function is_block_visible( $block ) {
 
 		// Make the block return `true` if it's visible, it will already automatically return an empty string if it's invisible.
 		add_filter( 'render_block', '__return_true', 5 );
@@ -835,6 +846,26 @@ class LLMS_Forms {
 		return apply_filters( 'llms_forms_is_block_visible', llms_parse_bool( $render ), $block );
 
 	}
+
+	/**
+	 * Determine if a block is visible in the list its contained based on LifterLMS Visibility Settings
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @return bool
+	 */
+	public function is_block_visible_in_list( $block, $block_list ) {
+		// Currently not working as it should!
+		// TODO:
+		// return early if the block itself is not visible
+		// get all the parents of the given block and check none of them is not visible.
+		// if so, return true, otherwise return false.
+		return $this->is_block_visible( $block );
+
+	}
+
 
 	/**
 	 * Installation function to install core forms.
@@ -976,16 +1007,17 @@ class LLMS_Forms {
 	 * Backwards incompatible changes and/or method removal may occur without notice.
 	 *
 	 * @since 5.0.0
-	 *
+	 * @since [versino] Added `$block_list` param.
 	 * @access private
 	 *
-	 * @param array $attrs LLMS_Form_Field settings array for the field.
-	 * @param array $block WP_Block settings array.
+	 * @param array   $attrs      LLMS_Form_Field settings array for the field.
+	 * @param array   $block      WP_Block settings array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
 	 * @return array
 	 */
-	public function prepare_field_for_free_enroll_form( $attrs, $block ) {
+	public function prepare_field_for_free_enroll_form( $attrs, $block, $block_list ) {
 
-		if ( ! $this->is_block_visible( $block ) ) {
+		if ( ! $this->is_block_visible_in_list( $block, $block_list ) ) {
 			return array();
 		}
 
