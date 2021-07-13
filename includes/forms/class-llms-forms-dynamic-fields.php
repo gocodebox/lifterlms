@@ -351,8 +351,8 @@ class LLMS_Forms_Dynamic_Fields {
 					return $inner;
 				}
 			}
-
 		}
+
 		return false;
 	}
 
