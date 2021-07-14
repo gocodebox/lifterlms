@@ -856,7 +856,8 @@ class LLMS_Forms {
 	 *
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
-	 * @return bool
+	 * @return bool Returns `true` if `$block` (and all its parents) are visible. Returns `false` when `$block`
+	 *              or any of its parents are hidden or when `$block` is not found within `$block_list`.
 	 */
 	public function is_block_visible_in_list( $block, $block_list ) {
 
@@ -864,11 +865,12 @@ class LLMS_Forms {
 			return $this->is_block_visible( $block );
 		}
 
-		$path = $this->get_block_path( $block, $block_list );
+		$path       = $this->get_block_path( $block, $block_list );
+		$is_visible = ! empty( $path ); // Assume the block is visible until proven hidden, except when path is empty.
 		foreach ( $path as $block ) {
 			if ( ! $this->is_block_visible( $block ) ) {
-				/* This filter is defined below. */
-				return apply_filters( 'llms_forms_is_block_visible', false, $block, $block_list );
+				$is_visible = false;
+				break;
 			}
 		}
 
@@ -877,11 +879,11 @@ class LLMS_Forms {
 		 *
 		 * @since [version]
 		 *
-		 * @param bool    $visible    Whether or not the block is visible.
+		 * @param bool    $is_visible Whether or not the block is visible.
 		 * @param array   $block      Parsed block array.
 		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
-		return apply_filters( 'llms_forms_is_block_visible', true, $block, $block_list );
+		return apply_filters( 'llms_forms_is_block_visible', $is_visible, $block, $block_list );
 
 	}
 
@@ -899,37 +901,47 @@ class LLMS_Forms {
 
 		foreach ( $block_list as $_block ) {
 
+			// Found the block.
 			if ( $block === $_block ) {
 				return array( $block );
 			}
 
-			if ( ! empty( $_block['innerBlocks'] ) ) {
-				foreach ( $_block['innerBlocks'] as $inner_block ) {
+			// No innerblocks, proceed to the next block.
+			if ( empty( $_block['innerBlocks'] ) ) {
+				continue;
+			}
 
-					// The inner block needs to be merged to the path.
-					$to_merge = array( $inner_block );
+			// Look in innerblocks for the block.
+			foreach ( $_block['innerBlocks'] as $inner_block ) {
 
-					if ( $block === $inner_block ) { // Inner block is the one we're looking for.
-						$path     = array( $block );
-						$to_merge = array(); // Inner block equals the path, no need to merge it.
-					} else {
-						$path = $this->get_block_path( $block, array( $inner_block ), $iterations + 1 );
+				// The inner block needs to be merged to the path.
+				$to_merge = array( $inner_block );
+
+				if ( $block === $inner_block ) { // Inner block is the one we're looking for.
+					$path     = array( $block );
+					$to_merge = array(); // Inner block equals the path, no need to merge it.
+				} else {
+					$path = $this->get_block_path( $block, array( $inner_block ), $iterations + 1 );
+				}
+
+				if ( $path ) {
+
+					// First iteration, append first block too.
+					if ( ! $iterations ) {
+						$to_merge[] = $_block;
 					}
 
-					if ( $path ) {
-						// First iteration, append first block too.
-						if ( ! $iterations ) {
-							$to_merge[] = $_block;
-						}
+					// Merge.
+					return array_merge( $path, $to_merge );
 
-						// Merge.
-						return array_merge( $path, $to_merge );
-					}
 				}
 			}
+
 		}
 
-		return false;
+		// Block not found in the list.
+		return array();
+
 	}
 
 	/**
