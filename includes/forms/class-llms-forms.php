@@ -848,7 +848,9 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Determine if a block is visible in the list its contained based on LifterLMS Visibility Settings
+	 * Determine if a block is visible in the list it's contained based on LifterLMS Visibility Settings
+	 *
+	 * Fall back on `$this->is_block_visible()` if empty `$block_list` is provided.
 	 *
 	 * @since [version]
 	 *
@@ -857,15 +859,78 @@ class LLMS_Forms {
 	 * @return bool
 	 */
 	public function is_block_visible_in_list( $block, $block_list ) {
-		// Currently not working as it should!
-		// TODO:
-		// return early if the block itself is not visible
-		// get all the parents of the given block and check none of them is not visible.
-		// if so, return true, otherwise return false.
-		return $this->is_block_visible( $block );
+
+		if ( empty( $block_list ) ) {
+			return $this->is_block_visible( $block );
+		}
+
+		$path = $this->get_block_path( $block, $block_list );
+		foreach ( $path as $block ) {
+			if ( ! $this->is_block_visible( $block ) ) {
+				/* This filter is defined below. */
+				return apply_filters( 'llms_forms_is_block_visible', false, $block, $block_list );
+			}
+		}
+
+		/**
+		 * Filter whether or not the block is visible in the list of blocks it's contained.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool    $visible    Whether or not the block is visible.
+		 * @param array   $block      Parsed block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
+		 */
+		return apply_filters( 'llms_forms_is_block_visible', true, $block, $block_list );
 
 	}
 
+	/**
+	 * Returns a list of block parents plus the block itself in reverse order
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @param int     $iterations Stores the number of iterations.
+	 * @return bool
+	 */
+	private function get_block_path( $block, $block_list, $iterations = 0 ) {
+
+		foreach ( $block_list as $_block ) {
+
+			if ( $block === $_block ) {
+				return array( $block );
+			}
+
+			if ( ! empty( $_block['innerBlocks'] ) ) {
+				foreach ( $_block['innerBlocks'] as $inner_block ) {
+
+					// The inner block needs to be merged to the path.
+					$to_merge = array( $inner_block );
+
+					if ( $block === $inner_block ) { // Inner block is the one we're looking for.
+						$path     = array( $block );
+						$to_merge = array(); // Inner block equals the path, no need to merge it.
+					} else {
+						$path = $this->get_block_path( $block, array( $inner_block ), $iterations + 1 );
+					}
+
+					if ( $path ) {
+						// First iteration, append first block too.
+						if ( ! $iterations ) {
+							$to_merge[] = $_block;
+						}
+
+						// Merge.
+						return array_merge( $path, $to_merge );
+					}
+				}
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * Installation function to install core forms.
