@@ -94,11 +94,12 @@ class LLMS_Form_Templates {
 	 * Locates an existing wp_block post by field id
 	 *
 	 * @since 5.0.0
+	 * @since [version] Method access changed from private to public.
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return WP_Post|boolean Returns the post object or false if not found.
 	 */
-	private static function find_reusable_block( $field_id ) {
+	public static function find_reusable_block( $field_id ) {
 
 		$query = new WP_Query(
 			array(
