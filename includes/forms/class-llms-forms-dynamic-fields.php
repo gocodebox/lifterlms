@@ -171,8 +171,7 @@ class LLMS_Forms_Dynamic_Fields {
 
 		if (
 			( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
-			( is_user_logged_in() && 'account' === $location ) )
-		{
+			( is_user_logged_in() && 'account' === $location ) ) {
 			$fields = array(
 				// Field ID => block name.
 				'email_address' => 'email',

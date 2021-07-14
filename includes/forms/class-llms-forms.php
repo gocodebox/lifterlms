@@ -936,7 +936,6 @@ class LLMS_Forms {
 
 				}
 			}
-
 		}
 
 		// Block not found in the list.
