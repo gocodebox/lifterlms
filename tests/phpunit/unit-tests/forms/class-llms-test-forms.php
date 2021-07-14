@@ -927,7 +927,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_block_visible_in_list()
 	 *
-	 * This additionally covers conditions in get_block_path()
+	 * This additionally covers conditions in get_block_path().
 	 *
 	 * @since [version]
 	 *
