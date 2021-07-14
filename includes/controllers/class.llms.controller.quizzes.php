@@ -1,20 +1,19 @@
 <?php
 /**
- * Quiz related controller
+ * LLMS_Controller_Quizzes class file
  *
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Quizzes class
+ * Quiz related form controller
  *
  * @since 3.9.0
- * @since 3.37.8 Add admin reporting actions handler.
  * @since 5.0.0 Removed previously deprecated method `LLMS_Controller_Quizzes::take_quiz()`.
  */
 class LLMS_Controller_Quizzes {
@@ -40,6 +39,7 @@ class LLMS_Controller_Quizzes {
 	 * On the quiz reporting screen this allows orphaned quizzes to be deleted.
 	 *
 	 * @since 3.37.8
+	 * @since [version] Use a deep orphan check to determine if the quiz can be deleted.
 	 *
 	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
 	 *                            `false` if an error was encountered.
@@ -54,7 +54,7 @@ class LLMS_Controller_Quizzes {
 		$id = llms_filter_input( INPUT_POST, 'llms_del_quiz', FILTER_SANITIZE_NUMBER_INT );
 		if ( $id && 'llms_quiz' === get_post_type( $id ) ) {
 			$quiz = llms_get_post( $id );
-			if ( $quiz && ( $quiz->is_orphan() || ! $quiz->get_course() ) ) {
+			if ( $quiz && ( $quiz->is_orphan( true ) || ! $quiz->get_course() ) ) {
 				return wp_delete_post( $id, true );
 			}
 		}

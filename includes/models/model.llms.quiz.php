@@ -162,7 +162,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		/**
 		 * This is to take into account possible data inconsistency.
-		 * see https://github.com/gocodebox/lifterlms/issues/1039
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1039
 		 */
 		if ( $deep ) {
 			$lesson = llms_get_post( $parent_id );
