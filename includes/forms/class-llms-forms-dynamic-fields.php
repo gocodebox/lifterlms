@@ -21,7 +21,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to make sure forms have alle the required fields.
+	 * @since [version] Added logic to make sure forms have all the required fields.
 	 *
 	 * @return void
 	 */
@@ -157,6 +157,43 @@ class LLMS_Forms_Dynamic_Fields {
 	}
 
 	/**
+	 * Retrieve the fields required for a given location based on user state
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location The request form location ID.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
+	 * @return array[] Array of field_id => block_name required or an empty array if no fields required.
+	 */
+	private function get_required_fields_for_location( $location, $args ) {
+
+		$fields = array();
+
+		if (
+			( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
+			( is_user_logged_in() && 'account' === $location ) )
+		{
+			$fields = array(
+				// Field ID => block name.
+				'email_address' => 'email',
+				'password'      => 'password',
+			);
+		}
+
+		/**
+		 * Filters the required block fields to add to the form
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields   Array of field_id => block_name required.
+		 * @param string  $location The request form location ID.
+		 * @param array   $args     Additional arguments passed to the short-circuit filter.
+		 */
+		return apply_filters( 'llms_forms_required_block_fields', $fields, $location, $args );
+
+	}
+
+	/**
 	 * Retrieve the HTML for a field toggle button link
 	 *
 	 * @since 5.0.0
@@ -222,29 +259,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 */
 	public function maybe_add_required_block_fields( $blocks, $location, $args ) {
 
-		$fields_to_require = array();
-
-		if ( ( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
-				( is_user_logged_in() && 'account' === $location ) ) {
-			$fields_to_require = array(
-				// Field ID => block name.
-				'email_address' => 'email',
-				'password'      => 'password',
-			);
-		}
-
-		/**
-		 * Filters the required block fields to add to the form
-		 *
-		 * @since [version]
-		 *
-		 * @param array[] $fields   Array of field_id => block_name required.
-		 * @param array[] $blocks   Array of parsed WP_Block arrays.
-		 * @param string  $location The request form location ID.
-		 * @param array   $args     Additional arguments passed to the short-circuit filter.
-		 */
-		$fields_to_require = apply_filters( 'llms_forms_required_block_fields', $fields_to_require, $blocks, $location, $args );
-
+		$fields_to_require = $this->get_required_fields_for_location( $location, $args );
 		if ( empty( $fields_to_require ) ) {
 			return $blocks;
 		}
@@ -266,7 +281,9 @@ class LLMS_Forms_Dynamic_Fields {
 
 		$blocks_to_add = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
-			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, true );
+			// If a reusable block exists for the field, use it. Otherwise use a dynamically generated block from the template schema.
+			$use_reusable    = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
+			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
 		}
 
 		return array_merge(
