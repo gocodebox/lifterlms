@@ -171,7 +171,7 @@ class LLMS_Forms_Dynamic_Fields {
 
 		if (
 			( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
-			( is_user_logged_in() && 'account' === $location ) ) {
+				( is_user_logged_in() && 'account' === $location ) ) {
 			$fields = array(
 				// Field ID => block name.
 				'email_address' => 'email',
@@ -268,7 +268,8 @@ class LLMS_Forms_Dynamic_Fields {
 			$block = $this->find_block( $field_id, $blocks );
 
 			if ( ! empty( $block ) ) {
-				$blocks = $this->make_block_visible( $block[1], $blocks, $block[0] );
+				// Fields in non checkout forms are always visible - see LLMS_Forms::get_form_html().
+				$blocks = 'checkout' === $location ? $this->make_block_visible( $block[1], $blocks, $block[0] ) : $blocks;
 
 				unset( $fields_to_require[ $field_id ] );
 				if ( empty( $fields_to_require ) ) { // All the required blocks are present.
@@ -300,7 +301,6 @@ class LLMS_Forms_Dynamic_Fields {
 	 * @param array[] $blocks      Array of parsed WP_Block arrays.
 	 * @param int     $block_index Index of the block within the `$blocks` list.
 	 *                             If the block is in a group, this is the the index of the item's parent.
-	 *
 	 * @return array[]
 	 */
 	private function make_block_visible( $block, $blocks, $block_index ) {
