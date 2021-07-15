@@ -925,6 +925,176 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test is_block_visible_in_list()
+	 *
+	 * This additionally covers conditions in get_block_path().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_block_visible_in_list() {
+
+		$hidden_json = '{"llms_visibility":"logged_in","llms_visibility_in":"any_course"}';
+
+		$visible = '<!-- wp:paragraph -->\n<p>Test</p>\n<!-- /wp:paragraph -->';
+		$hidden  = sprintf( '<!-- wp:paragraph %s -->\n<p>Test</p>\n<!-- /wp:paragraph -->', $hidden_json );
+
+		/**
+		 * List of tests to run
+		 *
+		 * @param array[] {
+		 *     @type string $0 Test description / message. Passed to the assertion for debugging failed tests.
+		 *     @type string $1 Block markup for the block being tested.
+		 *     @type string $2 List of blocks for use as second parameter. The HTML from $1 must be found in this list!
+		 *     @type bool   $3 The expected result of `is_block_visible_in_list()`.
+		 * }
+		 */
+		$tests = array(
+
+			array(
+				'Block not found in the list',
+				$visible,
+				$hidden,
+				false,
+			),
+
+			array(
+				'Empty list falls back to `is_block_visible()`: is visible',
+				$visible,
+				'',
+				true,
+			),
+
+			array(
+				'Empty list falls back to `is_block_visible()`: not visible',
+				$hidden,
+				'',
+				false,
+			),
+
+			array(
+				'Flat list: is visible',
+				$visible,
+				$hidden . $visible,
+				true,
+			),
+
+			array(
+				'Flat list: not visible',
+				$hidden,
+				$visible . $hidden,
+				false,
+			),
+
+			array(
+				'Visible in a group',
+				$visible,
+				sprintf( '<!-- wp:group -->\n<div class="wp-block-group">%s</div>\n<!-- /wp:group -->', $visible ),
+				true,
+			),
+
+			array(
+				'Hidden in a group',
+				$hidden,
+				sprintf( '<!-- wp:group -->\n<div class="wp-block-group">%s</div>\n<!-- /wp:group -->', $hidden ),
+				false,
+			),
+
+			array(
+				'Visible in a hidden group',
+				$visible,
+				sprintf( '<!-- wp:group %1$s -->\n<div class="wp-block-group">%2$s</div>\n<!-- /wp:group -->', $hidden_json, $visible ),
+				false,
+			),
+
+			array(
+				'Hidden in a hidden group',
+				$hidden,
+				sprintf( '<!-- wp:group %1$s -->\n<div class="wp-block-group">%2$s</div>\n<!-- /wp:group -->', $hidden_json, $hidden ),
+				false,
+			),
+
+			array(
+				'Multiple parents: visible -> visible -> visible',
+				$visible,
+				sprintf( '<!-- wp:columns -->\n<div class="wp-block-columns"><!-- wp:column -->\n<div class="wp-block-column">%s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $visible ),
+				true,
+			),
+
+			array(
+				'Multiple parents: hidden -> hidden -> hidden',
+				$hidden,
+				sprintf( '<!-- wp:columns %2$s -->\n<div class="wp-block-columns"><!-- wp:column %2$s -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $hidden, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Multiple parents: visible -> visible -> hidden',
+				$hidden,
+				sprintf( '<!-- wp:columns -->\n<div class="wp-block-columns"><!-- wp:column -->\n<div class="wp-block-column">%s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $hidden ),
+				false,
+			),
+
+			array(
+				'Multiple parents: visible -> hidden -> hidden',
+				$hidden,
+				sprintf( '<!-- wp:columns -->\n<div class="wp-block-columns"><!-- wp:column %2$s -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $hidden, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Multiple parents: hidden -> hidden -> visible',
+				$visible,
+				sprintf( '<!-- wp:columns %2$s -->\n<div class="wp-block-columns"><!-- wp:column %2$s -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $visible, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Multiple parents: hidden -> visible -> visible',
+				$visible,
+				sprintf( '<!-- wp:columns %2$s -->\n<div class="wp-block-columns"><!-- wp:column -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $visible, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Multiple parents: hidden -> visible -> hidden',
+				$hidden,
+				sprintf( '<!-- wp:columns %2$s -->\n<div class="wp-block-columns"><!-- wp:column -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $hidden, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Multiple parents: visible -> hidden -> visible',
+				$visible,
+				sprintf( '<!-- wp:columns -->\n<div class="wp-block-columns"><!-- wp:column %2$s -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $visible, $hidden_json ),
+				false,
+			),
+
+			array(
+				'Break Stuff',
+				$visible,
+				sprintf( '<!-- wp:columns -->\n<div class="wp-block-columns"><!-- wp:column %2$s -->\n<div class="wp-block-column">%1$s</div>\n<!-- /wp:column --></div>\n<!-- /wp:columns -->', $visible, $hidden_json ),
+				false,
+			),
+
+		);
+
+		foreach ( $tests as $data ) {
+
+			$msg    = $data[0];
+			$block  = parse_blocks( $data[1] )[0];
+			$list   = parse_blocks( $data[2] );
+			$expect = $data[3];
+
+			$this->assertEquals( $expect, $this->forms->is_block_visible_in_list( $block, $list ), $msg );
+
+		}
+
+
+	}
+
+	/**
 	 * Test is_location_valid()
 	 *
 	 * @since 5.0.0
