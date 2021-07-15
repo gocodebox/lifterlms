@@ -313,20 +313,46 @@ class LLMS_Forms_Dynamic_Fields {
 		$confirm = $this->get_confirm_group( $block['attrs']['id'], array( $blocks[ $block_index ] ) );
 
 		$block_to_add = empty( $confirm ) ? $block : $confirm;
-		// Make the block and its children visible.
-		$block_to_add = $this->make_all_visible( $block_to_add );
 
+		$replace = true;
 		// Insert the visible block before the invisible one if the block is in a group,
 		// so to avoid the replacement of the whole group which might contain other required fields.
 		// But replace the invisible with the visible if otherwise.
-		if ( $block === $blocks[ $block_index ] ) {
-			$replace = true;
+		if ( $block_to_add !== $blocks[ $block_index ] ) {
+			$replace = false;
+			$this->remove_block( $block_to_add, $blocks );
 		}
+
+		// Make the block to add and its children visible.
+		$block_to_add = $this->make_all_visible( $block_to_add );
 
 		array_splice( $blocks, $block_index, (int) ( ! empty( $replace ) ), array( $block_to_add ) );
 
 		return $blocks;
 
+	}
+
+	/**
+	 * Remove block from the list which contains it.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block  Parsed WP_Block array.
+	 * @param array[] $blocks Array of parsed WP_Block arrays (passed by reference).
+	 * @return bool
+	 */
+	private function remove_block( $block, &$blocks ) {
+		foreach ( $blocks as $index => &$_block ) {
+			if ( $_block === $block ) {
+				$blocks[ $index ] = array(); // Cannot just unset it, wp-core breaks when rendering the parent with an empty 'innerBlocks'.
+				return true;
+			}
+			if ( ! empty( $_block['innerBlocks'] ) ) {
+				return $this->remove_block( $block, $_block['innerBlocks'] );
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -341,7 +367,7 @@ class LLMS_Forms_Dynamic_Fields {
 
 		if ( ! empty( $block['innerBlocks'] ) ) {
 			foreach ( $block['innerBlocks'] as $index => $inner_block ) {
-				$block['innerBlocks'][ $index ] = $this->make_all_visible( $block['innerBlocks'][ $index ] );
+				$block['innerBlocks'][ $index ] = $this->make_all_visible( $inner_block );
 			}
 		}
 
