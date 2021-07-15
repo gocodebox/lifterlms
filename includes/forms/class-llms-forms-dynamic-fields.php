@@ -268,7 +268,6 @@ class LLMS_Forms_Dynamic_Fields {
 			$block = $this->find_block( $field_id, $blocks );
 
 			if ( ! empty( $block ) ) {
-
 				$blocks = $this->make_block_visible( $block[1], $blocks, $block[0] );
 
 				unset( $fields_to_require[ $field_id ] );
@@ -299,10 +298,12 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @param array   $block       Parsed WP_Block array.
 	 * @param array[] $blocks      Array of parsed WP_Block arrays.
-	 * @param int     $block_index Optional. Index of the block within the `$blocks` list. Default is 0.
+	 * @param int     $block_index Index of the block within the `$blocks` list.
+	 *                             If the block is in a group, this is the the index of the item's parent.
+	 *
 	 * @return array[]
 	 */
-	private function make_block_visible( $block, $blocks, $block_index = 0 ) {
+	private function make_block_visible( $block, $blocks, $block_index ) {
 
 		if ( LLMS_Forms::instance()->is_block_visible_in_list( $block, array( $blocks[ $block_index ] ) ) ) {
 			return $blocks;
@@ -315,8 +316,14 @@ class LLMS_Forms_Dynamic_Fields {
 		// Make the block and its children visible.
 		$block_to_add = $this->make_all_visible( $block_to_add );
 
-		// Replace the invisible with the visible block.
-		array_splice( $blocks, $block_index, 1, array( $block_to_add ) );
+		// Insert the visible block before the invisible one if the block is in a group,
+		// so to avoid the replacement of the whole group which might contain other required fields.
+		// But replace the invisible with the visible if otherwise.
+		if ( $block === $blocks[ $block_index ] ) {
+			$replace = true;
+		}
+
+		array_splice( $blocks, $block_index, (int) ( ! empty( $replace ) ), array( $block_to_add ) );
 
 		return $blocks;
 
