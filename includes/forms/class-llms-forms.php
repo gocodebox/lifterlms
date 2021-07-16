@@ -895,7 +895,7 @@ class LLMS_Forms {
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
 	 * @param int     $iterations Stores the number of iterations.
-	 * @return array[] List of WP_Block arrays describing or an empty array if $block cannot be found within $block_list
+	 * @return array[] List of WP_Block arrays or an empty array if $block cannot be found within $block_list
 	 */
 	private function get_block_path( $block, $block_list, $iterations = 0 ) {
 
