@@ -389,6 +389,7 @@ class LLMS_Forms_Dynamic_Fields {
 		foreach ( $parent['innerContent'] as $chunk_index => $chunk ) {
 			if ( ! is_string( $chunk ) && $inner_block_index === $inner_block_in_content_index++ ) {
 				array_splice( $parent['innerContent'], $chunk_index, 1 ); // Remove and re-index.
+				break;
 			}
 		}
 

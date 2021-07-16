@@ -895,7 +895,7 @@ class LLMS_Forms {
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
 	 * @param int     $iterations Stores the number of iterations.
-	 * @return array[] List of WP_Block arrays or an empty array if $block cannot be found within $block_list
+	 * @return array[] List of WP_Block arrays or an empty array if `$block` cannot be found within `$block_list`.
 	 */
 	private function get_block_path( $block, $block_list, $iterations = 0 ) {
 
@@ -939,6 +939,52 @@ class LLMS_Forms {
 		}
 
 		// Block not found in the list.
+		return array();
+
+	}
+
+	/**
+	 * Returns a filtered version of `$block_list` containing only the passed `$block` and its parents.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @return array[] Filtered version of `$block_list` containing only the passed `$block` and its parents.
+	 *                 Or an empty array if `$block` cannot be found within `$block_list`.
+	 */
+	private function get_block_tree( $block, $block_list ) {
+
+		foreach ( $block_list as &$_block ) {
+
+			// Found the block.
+			if ( $block === $_block ) {
+				return array( $block );
+			}
+
+			if ( ! empty( $_block['innerBlocks'] ) ) {
+				$tree = $this->get_block_tree( $block, $_block['innerBlocks'] );
+			}
+
+			if ( ! empty( $tree ) ) { // Break as soon as the desired block is removed from one of the innerBlocks.
+				if ( $_block['innerBlocks'] !== $tree ) { // Update innerBlocks/innerContent structure if needed.
+					$_block['innerBlocks'] = $tree;
+					// Update innerContent to reflect the innerBlocks changes = only 1 innerBlock.
+					$inner_block_in_content_index = 0;
+					foreach ( $_block['innerContent'] as $index => $chunk ) {
+						if ( ! is_string( $chunk ) && $inner_block_in_content_index++ ) {
+							unset( $_block['innerContent'][ $index ] );
+						}
+					}
+					// Re-index.
+					$_block['innerContent'] = array_values( $_block[ 'innerContent' ] );
+				}
+
+				return array( $_block );
+			}
+
+		}
+
 		return array();
 
 	}
