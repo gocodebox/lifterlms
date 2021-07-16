@@ -270,7 +270,6 @@ class LLMS_Forms_Dynamic_Fields {
 			if ( ! empty( $block ) ) {
 				// Fields in non checkout forms are always visible - see LLMS_Forms::get_form_html().
 				$blocks = 'checkout' === $location ? $this->make_block_visible( $block[1], $blocks, $block[0] ) : $blocks;
-
 				unset( $fields_to_require[ $field_id ] );
 				if ( empty( $fields_to_require ) ) { // All the required blocks are present.
 					return $blocks;
@@ -281,8 +280,10 @@ class LLMS_Forms_Dynamic_Fields {
 		$blocks_to_add = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
 			// If a reusable block exists for the field, use it. Otherwise use a dynamically generated block from the template schema.
-			$use_reusable    = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
-			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
+			$use_reusable = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
+			$block_to_add = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
+			// Make sure the reusable block is visible.
+			$blocks_to_add[] = $use_reusable ? $this->make_all_visible( $block_to_add ) : $block_to_add;
 		}
 
 		return array_merge(
@@ -339,20 +340,58 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @param array   $block  Parsed WP_Block array.
 	 * @param array[] $blocks Array of parsed WP_Block arrays (passed by reference).
+	 * @param array   $parent Optional. Parsed WP_Block array representing the parent block of the `$blocks`, in case this is a list of inner blocks. Default null.
+	 *                        Passed by reference.
 	 * @return bool
 	 */
-	private function remove_block( $block, &$blocks ) {
+	private function remove_block( $block, &$blocks, &$parent = null ) {
+
 		foreach ( $blocks as $index => &$_block ) {
+
 			if ( $_block === $block ) {
-				$blocks[ $index ] = array(); // Cannot just unset it, wp-core breaks when rendering the parent with an empty 'innerBlocks'.
+				array_splice( $blocks, $index, 1 ); // Remove and re-index.
+				// If we're removing an innerBlock we need to update the innerContent too, to avoid wp calling the render method on nulls.
+				if ( ! is_null( $parent ) ) {
+					$this->remove_inner_block_from_inner_content( $index, $parent );
+				}
 				return true;
 			}
+
 			if ( ! empty( $_block['innerBlocks'] ) ) {
-				return $this->remove_block( $block, $_block['innerBlocks'] );
+				$removed = $this->remove_block( $block, $_block['innerBlocks'], $_block );
+			}
+			if ( ! empty( $removed ) ) { // Break as soon as the desired block is removed from one of the innerBlocks.
+				return true;
 			}
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Remove inner block reference from inner content
+	 *
+	 * See WP_Block::inner_content documentation.
+	 *
+	 * The inner_content block's property is an array of string fragments and null markers where inner blocks were found.
+	 * So here we cycle over the block's parent innerContent field looking for references to innerBlocks (null).
+	 * When we found a positional correspondance between the removed innerBlock and its refernce in innerContent we remove the latter too.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $inner_block_index The index of the inner block in the block's innerBlocks list.
+	 * @param array $parent            Parsed WP_Block array representing the inner blocks parent. Passed by reference.
+	 */
+	private function remove_inner_block_from_inner_content( $inner_block_index, &$parent ) {
+
+		$inner_block_in_content_index = 0;
+		foreach ( $parent['innerContent'] as $chunk_index => $chunk ) {
+			if ( ! is_string( $chunk ) && $inner_block_index === $inner_block_in_content_index++ ) {
+				array_splice( $parent['innerContent'], $chunk_index, 1 ); // Remove and re-index.
+			}
+		}
+
 	}
 
 	/**
