@@ -977,12 +977,11 @@ class LLMS_Forms {
 						}
 					}
 					// Re-index.
-					$_block['innerContent'] = array_values( $_block[ 'innerContent' ] );
+					$_block['innerContent'] = array_values( $_block['innerContent'] );
 				}
 
 				return array( $_block );
 			}
-
 		}
 
 		return array();
