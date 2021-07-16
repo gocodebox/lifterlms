@@ -357,4 +357,62 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test remove_block
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_remove_block() {
+
+		$this->forms->create( 'checkout', true );
+		$blocks = $this->forms->get_form_blocks( 'checkout' );
+
+		// Remove a field block, e.g. the email one
+		//$email_field = $this->forms->get_field_by( $this->forms->get_form_fields( 'checkout' ), 'email_address' );
+		$email_field_block = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'find_block',
+			array(
+				'email_address',
+				$blocks
+			)
+		)[1];
+
+		$removed = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'remove_block',
+			array(
+				$email_field_block,
+				&$blocks
+			)
+		);
+
+		$this->assertTrue( $removed );
+
+		$this->assertFalse(
+			LLMS_Unit_Test_Util::call_method(
+				$this->main,
+				'find_block',
+				array(
+					'email_address',
+					$blocks
+				)
+			)
+		);
+
+		$this->assertFalse(
+			LLMS_Unit_Test_Util::call_method(
+				$this->main,
+				'remove_block',
+				array(
+					$email_field_block,
+					&$blocks
+				)
+			)
+		);
+
+	}
+
 }
