@@ -20,9 +20,6 @@ install:
 
 # Test against the "nightly" dev branch of the the LifterLMS core.
 jobs:
-  allow_failures:
-  - env: LLMS_BRANCH=dev WP_VERSION=latest
-
   include:
-  - php: "7.4"
+  - php: "8.0"
     env:  LLMS_BRANCH=dev WP_VERSION=latest
