@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -376,6 +376,7 @@ class LLMS_Form_Validator {
 	 * Validate submitted field values.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Don't validate form with no user input only if the form is not empty itself (e.g. contains only invisible fields).
 	 *
 	 * @param array   $posted_data Array of posted data.
 	 * @param array[] $fields      Array of LifterLMS Form Fields.
@@ -383,7 +384,7 @@ class LLMS_Form_Validator {
 	 */
 	public function validate_fields( $posted_data, $fields ) {
 
-		if ( empty( $posted_data ) ) {
+		if ( empty( $posted_data ) && ! empty( $fields ) ) {
 			return new WP_Error( 'llms-form-no-input', __( 'Cannot validate a form with no user input.', 'lifterlms' ) );
 		}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,16 +124,37 @@ class LLMS_Forms {
 	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added logic to remove invisible fields.
+	 *              Added `$block_list` param.
 	 *
-	 * @param array $block A WP Block array.
+	 * @param array   $block      A WP Block array.
+	 * @param array[] $block_list Optional. The list of WP Block array `$block` comes from. Default is empty array.
 	 * @return array
 	 */
-	private function block_to_field_settings( $block ) {
+	private function block_to_field_settings( $block, $block_list = array() ) {
+
+		$is_visible = $this->is_block_visible_in_list( $block, $block_list );
+
+		/**
+		 * Filters whether or not invisible fields should be included
+		 *
+		 * If the block is not visible (according to LLMS block-level visibility settings)
+		 * it will return an empty array (signaling the field to be removed).
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $filter     Whether or not invisible fields should be included. Default is `false`.
+		 * @param array   $block      A WP Block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
+		 */
+		if ( ! $is_visible && apply_filters( 'llms_forms_remove_invisible_field', false, $block, $block_list ) ) {
+			return array();
+		}
 
 		$attrs = $this->convert_settings_format( $block['attrs'], 'block' );
 
 		// If the field is required and hidden it's impossible for the user to fill it out so it gets marked as optional at runtime.
-		if ( ! empty( $attrs['required'] ) && ! $this->is_block_visible( $block ) ) {
+		if ( ! empty( $attrs['required'] ) && ! $is_visible ) {
 			$attrs['required'] = false;
 		}
 
@@ -141,11 +162,13 @@ class LLMS_Forms {
 		 * Filter an LLMS_Form_Field settings array after conversion from a field block
 		 *
 		 * @since 5.0.0
+		 * @since [version] Added `$block_list` param.
 		 *
-		 * @param array $attrs An array of LLMS_Form_Field settings.
-		 * @param array $block A WP Block array.
+		 * @param array   $attrs      An array of LLMS_Form_Field settings.
+		 * @param array   $block      A WP Block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
 		 */
-		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block );
+		return apply_filters( 'llms_forms_block_to_field_settings', $attrs, $block, $block_list );
 
 	}
 
@@ -312,17 +335,19 @@ class LLMS_Forms {
 	 * Searches innerBlocks arrays recursively.
 	 *
 	 * @since 5.0.0
+	 * @since [version] First check block's innerBlock attribute exists when checking for inner blocks.
+	 *              Also made the access visibility public.
 	 *
-	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
+	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
-	private function get_field_blocks( $blocks ) {
+	public function get_field_blocks( $blocks ) {
 
 		$fields = array();
 
 		foreach ( $blocks as $block ) {
 
-			if ( $block['innerBlocks'] ) {
+			if ( ! empty( $block['innerBlocks'] ) ) {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
 			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
 				$fields[] = $block;
@@ -427,6 +452,7 @@ class LLMS_Forms {
 	public function get_form_fields( $location, $args = array() ) {
 
 		$blocks = $this->get_form_blocks( $location, $args );
+
 		if ( false === $blocks ) {
 			return false;
 		}
@@ -450,6 +476,8 @@ class LLMS_Forms {
 	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
 	 *
 	 * @since 5.0.0
+	 * @since [version] Pass the whole list of blocks to the `$this->block_to_field_settings()` method
+	 *              To better check whether a block is visible.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return false|array
@@ -457,8 +485,10 @@ class LLMS_Forms {
 	public function get_fields_settings_from_blocks( $blocks ) {
 
 		$fields = array();
-		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
-			$settings = $this->block_to_field_settings( $block );
+		$blocks = $this->get_field_blocks( $blocks );
+
+		foreach ( $blocks as $block ) {
+			$settings = $this->block_to_field_settings( $block, $blocks );
 			if ( $settings ) {
 				$field    = new LLMS_Form_Field( $settings );
 				$fields[] = $field->get_settings();
@@ -676,6 +706,7 @@ class LLMS_Forms {
 	 * who are missing r equired information will be directed to the checkout page.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -683,9 +714,9 @@ class LLMS_Forms {
 	public function get_free_enroll_form_fields( $plan ) {
 
 		// Convert all fields to hidden fields and remove any fields hidden by LLMS block-level visibility settings.
-		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
 		$fields = $this->get_form_fields( 'checkout', compact( 'plan' ) );
-		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 2 );
+		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
 
 		// Add additional fields required for form processing.
 		$fields[] = array(
@@ -817,6 +848,147 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Determine if a block is visible in the list it's contained based on LifterLMS Visibility Settings
+	 *
+	 * Fall back on `$this->is_block_visible()` if empty `$block_list` is provided.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @return bool Returns `true` if `$block` (and all its parents) are visible. Returns `false` when `$block`
+	 *              or any of its parents are hidden or when `$block` is not found within `$block_list`.
+	 */
+	public function is_block_visible_in_list( $block, $block_list ) {
+
+		if ( empty( $block_list ) ) {
+			return $this->is_block_visible( $block );
+		}
+
+		$path       = $this->get_block_path( $block, $block_list );
+		$is_visible = ! empty( $path ); // Assume the block is visible until proven hidden, except when path is empty.
+		foreach ( $path as $block ) {
+			if ( ! $this->is_block_visible( $block ) ) {
+				$is_visible = false;
+				break;
+			}
+		}
+
+		/**
+		 * Filter whether or not the block is visible in the list of blocks it's contained.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool    $is_visible Whether or not the block is visible.
+		 * @param array   $block      Parsed block array.
+		 * @param array[] $block_list The list of WP Block array `$block` comes from.
+		 */
+		return apply_filters( 'llms_forms_is_block_visible', $is_visible, $block, $block_list );
+
+	}
+
+	/**
+	 * Returns a list of block parents plus the block itself in reverse order
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @param int     $iterations Stores the number of iterations.
+	 * @return array[] List of WP_Block arrays or an empty array if `$block` cannot be found within `$block_list`.
+	 */
+	private function get_block_path( $block, $block_list, $iterations = 0 ) {
+
+		foreach ( $block_list as $_block ) {
+
+			// Found the block.
+			if ( $block === $_block ) {
+				return array( $block );
+			}
+
+			// No innerblocks, proceed to the next block.
+			if ( empty( $_block['innerBlocks'] ) ) {
+				continue;
+			}
+
+			// Look in innerblocks for the block.
+			foreach ( $_block['innerBlocks'] as $inner_block ) {
+
+				// The inner block needs to be merged to the path.
+				$to_merge = array( $inner_block );
+
+				if ( $block === $inner_block ) { // Inner block is the one we're looking for.
+					$path     = array( $block );
+					$to_merge = array(); // Inner block equals the path, no need to merge it.
+				} else {
+					$path = $this->get_block_path( $block, array( $inner_block ), $iterations + 1 );
+				}
+
+				if ( $path ) {
+
+					// First iteration, append first block too.
+					if ( ! $iterations ) {
+						$to_merge[] = $_block;
+					}
+
+					// Merge.
+					return array_merge( $path, $to_merge );
+
+				}
+			}
+		}
+
+		// Block not found in the list.
+		return array();
+
+	}
+
+	/**
+	 * Returns a filtered version of `$block_list` containing only the passed `$block` and its parents.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $block      Parsed block array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
+	 * @return array[] Filtered version of `$block_list` containing only the passed `$block` and its parents.
+	 *                 Or an empty array if `$block` cannot be found within `$block_list`.
+	 */
+	private function get_block_tree( $block, $block_list ) {
+
+		foreach ( $block_list as &$_block ) {
+
+			// Found the block.
+			if ( $block === $_block ) {
+				return array( $block );
+			}
+
+			if ( ! empty( $_block['innerBlocks'] ) ) {
+				$tree = $this->get_block_tree( $block, $_block['innerBlocks'] );
+			}
+
+			if ( ! empty( $tree ) ) { // Break as soon as the desired block is removed from one of the innerBlocks.
+				if ( $_block['innerBlocks'] !== $tree ) { // Update innerBlocks/innerContent structure if needed.
+					$_block['innerBlocks'] = $tree;
+					// Update innerContent to reflect the innerBlocks changes = only 1 innerBlock.
+					$inner_block_in_content_index = 0;
+					foreach ( $_block['innerContent'] as $index => $chunk ) {
+						if ( ! is_string( $chunk ) && $inner_block_in_content_index++ ) {
+							unset( $_block['innerContent'][ $index ] );
+						}
+					}
+					// Re-index.
+					$_block['innerContent'] = array_values( $_block['innerContent'] );
+				}
+
+				return array( $_block );
+			}
+		}
+
+		return array();
+
+	}
+
+	/**
 	 * Installation function to install core forms.
 	 *
 	 * @since 5.0.0
@@ -859,11 +1031,12 @@ class LLMS_Forms {
 	 * from it's reference post.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Access turned to public.
 	 *
 	 * @param array[] $blocks List of WP_Block arrays.
 	 * @return array[]
 	 */
-	private function load_reusable_blocks( $blocks ) {
+	public function load_reusable_blocks( $blocks ) {
 
 		$loaded = array();
 
@@ -955,16 +1128,17 @@ class LLMS_Forms {
 	 * Backwards incompatible changes and/or method removal may occur without notice.
 	 *
 	 * @since 5.0.0
-	 *
+	 * @since [versino] Added `$block_list` param.
 	 * @access private
 	 *
-	 * @param array $attrs LLMS_Form_Field settings array for the field.
-	 * @param array $block WP_Block settings array.
+	 * @param array   $attrs      LLMS_Form_Field settings array for the field.
+	 * @param array   $block      WP_Block settings array.
+	 * @param array[] $block_list The list of WP Block array `$block` comes from.
 	 * @return array
 	 */
-	public function prepare_field_for_free_enroll_form( $attrs, $block ) {
+	public function prepare_field_for_free_enroll_form( $attrs, $block, $block_list ) {
 
-		if ( ! $this->is_block_visible( $block ) ) {
+		if ( ! $this->is_block_visible_in_list( $block, $block_list ) ) {
 			return array();
 		}
 
