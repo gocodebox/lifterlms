@@ -280,15 +280,18 @@ class LLMS_Forms_Dynamic_Fields {
 		$blocks_to_add = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
 			// If a reusable block exists for the field, use it. Otherwise use a dynamically generated block from the template schema.
-			$use_reusable = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
-			$block_to_add = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
-			// Make sure the reusable block is visible.
-			$blocks_to_add[] = $use_reusable ? $this->make_all_visible( $block_to_add ) : $block_to_add;
+			$use_reusable    = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
+			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
 		}
+
+		// Load reusable.
+		$blocks_to_add = LLMS_Forms::instance()->load_reusable_blocks( $blocks_to_add );
+		// Make blocks to add visible.
+		$blocks_to_add = 'checkout' === $location ? array_map( array( $this, 'make_all_visible' ), $blocks_to_add ) : $blocks_to_add;
 
 		return array_merge(
 			$blocks,
-			LLMS_Forms::instance()->load_reusable_blocks( $blocks_to_add )
+			$blocks_to_add
 		);
 
 	}
@@ -410,10 +413,10 @@ class LLMS_Forms_Dynamic_Fields {
 				$block['innerBlocks'][ $index ] = $this->make_all_visible( $inner_block );
 			}
 		}
-
 		$block['attrs']['llms_visibility'] = '';
 
 		return $block;
+
 	}
 
 	/**
