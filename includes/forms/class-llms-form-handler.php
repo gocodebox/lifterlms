@@ -308,7 +308,7 @@ class LLMS_Form_Handler {
 	 * Form submission handler
 	 *
 	 * @since 5.0.0
-	 * @since [version] Remove invisible fields from when loading the form.
+	 * @since [version] Remove invisible fields from when loading the checkout form.
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.
@@ -320,10 +320,14 @@ class LLMS_Form_Handler {
 		// Determine the user action to perform.
 		$action = get_current_user_id() ? 'update' : 'registration';
 
-		// Load the form, filtering out invisible fields.
-		add_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
+		// Load the form, filtering out invisible fields, only for checkout form.
+		if ( 'checkout' === $location ) {
+			add_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
+		}
 		$fields = $this->get_fields( $action, $location, $args );
-		remove_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
+		if ( 'checkout' === $location ) {
+			remove_filter( 'llms_forms_remove_invisible_field', '__return_true', 999 );
+		}
 
 		if ( is_wp_error( $fields ) ) {
 			return $this->submit_error( $fields, $posted_data, $action );
