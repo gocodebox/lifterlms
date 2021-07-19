@@ -124,6 +124,7 @@ class LLMS_Form_Handler {
 	 * Modify LifterLMS Fields prior to performing submit handler validations.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Do not allow submitting a password change without providing a `password_current`
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.
@@ -140,12 +141,24 @@ class LLMS_Form_Handler {
 		 * If email address and passwords aren't submitted we can mark them as "optional" fields.
 		 *
 		 * These fields are dynamically toggled and disabled if they're not modified.
+		 * Process `password_current` as last as it depends on `password` field submission.
 		 */
 		foreach ( array( 'email_address', 'password', 'password_current' ) as $field_id ) {
 
 			// If the field exists and it's not included (or empty) in the posted data.
 			$index = LLMS_Forms::instance()->get_field_by( $fields, 'id', $field_id, 'index' );
 			if ( false !== $index && empty( $posted_data[ $fields[ $index ]['name'] ] ) ) {
+
+				// When updating a password, the `password_current` is mandatory.
+				if ( 'account' === $location && 'password_current' === $field_id ) {
+					// Get `password` field.
+					$password_index = LLMS_Forms::instance()->get_field_by( $fields, 'id', 'password', 'index' );
+					// If a `passowrd` feld has been submitted then the `password_current` cannot be skipped.
+					if ( false !== $password_index &&
+							! empty( $posted_data[ $fields[ $password_index ]['name'] ] ) ) {
+						continue;
+					}
+				}
 
 				// Remove the field so we don't accidentally save an empty value later.
 				unset( $posted_data[ $fields[ $index ]['name'] ] );
