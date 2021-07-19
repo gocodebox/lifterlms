@@ -320,7 +320,7 @@ class LLMS_Person_Handler {
 	 *
 	 * @since Unknown
 	 * @since 5.0.0 Get fields from the checkout or registration forms before falling back to default fields.
-	 *               Changed filter on return from "lifterlms_lost_password_fields" to "llms_password_reset_fields".
+	 *              Changed filter on return from "lifterlms_lost_password_fields" to "llms_password_reset_fields".
 	 *
 	 * @param string $key User password reset key, usually populated via $_GET vars.
 	 * @param string $login User login (username), usually populated via $_GET vars.
@@ -367,12 +367,12 @@ class LLMS_Person_Handler {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param array[] $fields Array of form field arrays.
-		 * @param string $key User password reset key, usually populated via $_GET vars.
-		 * @param string $login User login (username), usually populated via $_GET vars.
-		 * @param string $location Location where the fields were retrieved from. Either "checkout", "registration", or "fallback".
-		 *                         Fallback denotes that no password field was located in either of the previous forms so a default
-		 *                         set of fields is generated programmatically.
+		 * @param array[] $fields   Array of form field arrays.
+		 * @param string  $key      User password reset key, usually populated via $_GET vars.
+		 * @param string  $login    User login (username), usually populated via $_GET vars.
+		 * @param string  $location Location where the fields were retrieved from. Either "checkout", "registration", or "fallback".
+		 *                          Fallback denotes that no password field was located in either of the previous forms so a default
+		 *                          set of fields is generated programmatically.
 		 */
 		return apply_filters( 'llms_password_reset_fields', $fields, $key, $login, $location );
 

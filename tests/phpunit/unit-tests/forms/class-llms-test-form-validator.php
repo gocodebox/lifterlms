@@ -8,7 +8,7 @@
  * @group form_validator
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 
@@ -147,15 +147,21 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 * Test validate_fields() when no user input is supplied.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added test when the form field is not empty.
 	 *
 	 * @return void
 	 */
 	public function test_validate_fields_empty_input() {
 
+		// Empty input - empty form => validates.
 		$res = $this->main->validate_fields( array(), array() );
+		$this->assertTrue( $res );
 
+		// Empty input - not empty form => doesn't validate.
+		$res = $this->main->validate_fields( array(), array( $this->get_field_arr( 'text' ) ) );
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms-form-no-input', $res );
+
 	}
 
 	/**
