@@ -296,6 +296,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @since 5.0.0
 	 * @since [version] Provide `password_current` when updating the `password`.
+	 *
 	 * @return void
 	 */
 	public function test_submit_success() {
@@ -328,6 +329,78 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$args['password_current'] = $args['password'];
 		$this->assertSame( $ret, $this->handler->submit( $args, 'account' ) );
 		$this->assertEquals( $args['first_name'], $user->first_name );
+
+	}
+
+
+	/**
+	 * Test submit password change without providing, or with wrong current password
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_password_update_wrong_current_password() {
+
+		$args = $this->get_data_for_form_submit(
+			array(
+				'display_name' => 'Disp', // Required on update.
+			)
+		);
+
+		// Register.
+		$ret = $this->handler->submit( $args, 'checkout' );
+
+		$this->assertTrue( is_int( $ret ) );
+		$user = new WP_User( $ret );
+
+		// Update.
+		wp_set_current_user( $ret );
+		$args['first_name'] = 'Maude';
+		unset($args['password']);
+		unset($args['password_confirm']);
+
+		$this->assertSame( $ret, $this->handler->submit( $args, 'account' ) );
+		$this->assertEquals( $args['first_name'], $user->first_name );
+
+	}
+
+	/**
+	 * Test submitting account update without password update
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_account_update_no_password() {
+
+		$args = $this->get_data_for_form_submit(
+			array(
+				'display_name' => 'Disp', // Required on update.
+			)
+		);
+
+		// Register.
+		$ret = $this->handler->submit( $args, 'checkout' );
+
+		$this->assertTrue( is_int( $ret ) );
+		$user = new WP_User( $ret );
+
+		// Update.
+		wp_set_current_user( $ret );
+
+		// No current password provided.
+		$ret = $this->handler->submit( $args, 'account' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+		$this->assertWPErrorMessageEquals( 'Current Password is a required field.', $ret );
+
+		// Provide a wrong current password.
+		$args['password_current'] = $args['password'] . "-wrong";
+		$ret = $this->handler->submit( $args, 'account' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( 'The submitted password was not correct.', $ret );
 
 	}
 
