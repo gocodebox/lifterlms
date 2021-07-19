@@ -8,7 +8,7 @@
  * @group form_handler
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
@@ -295,7 +295,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 * Test successful submission for a new users.
 	 *
 	 * @since 5.0.0
-	 *
+	 * @since [version] Provide `password_current` when updating the `password`.
 	 * @return void
 	 */
 	public function test_submit_success() {
@@ -324,6 +324,8 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		wp_set_current_user( $ret );
 		$args['first_name'] = 'Maude';
 		$args['display_name'] = $user->display_name;
+		// Current password is required when updating the password.
+		$args['password_current'] = $args['password'];
 		$this->assertSame( $ret, $this->handler->submit( $args, 'account' ) );
 		$this->assertEquals( $args['first_name'], $user->first_name );
 
