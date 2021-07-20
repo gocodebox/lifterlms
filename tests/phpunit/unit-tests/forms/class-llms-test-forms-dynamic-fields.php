@@ -1,6 +1,6 @@
 <?php
 /**
- * Test LLMS_Forms Singleton
+ * Test LLMS_Forms_Dynamic_Fields Singleton
  *
  * @package LifterLMS/Tests
  *
@@ -8,7 +8,7 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version 5.1.0
+ * @version [version]
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -216,7 +216,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
 	public function test_modify_account_form() {
 
-		$fields = LLMS_Unit_Test_Util::call_method( LLMS_Forms::instance(), 'load_reusable_blocks', array( parse_blocks( LLMS_Form_Templates::get_template( 'account' ) ) ) );
+		$fields = LLMS_Unit_Test_Util::call_method( $this->forms, 'load_reusable_blocks', array( parse_blocks( LLMS_Form_Templates::get_template( 'account' ) ) ) );
 
 
 		$res = $this->main->modify_account_form( $fields, 'account' );
@@ -302,6 +302,175 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test required fields made visible if they were not
+	 *
+	 * This additionally covers `LLMS_Forms_Dynamic_Fields::make_block_visible()` and `LLMS_Forms_Dynamic_Fields::get_confirm_group()`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_add_required_block_fields_not_visible_fields() {
+
+		// Make sure no user is logged in.
+		wp_set_current_user( null );
+
+		// Only visible to logged in users, for testing purposes.
+		$email_confirm_original_block = array( // Use a confirm block to cover `LLMS_Forms_Dynamic_Fields::get_confirm_group()`.
+			'blockName'    => 'llms/form-field-confirm-group',
+			'attrs'        => array(
+				'fieldLayout'     => 'columns',
+				'llms_visibility' => 'logged_in',
+			),
+			'innerBlocks'  => array(
+				array(
+					'blockName'    => 'llms/form-field-user-email',
+					'attrs'        => array(
+						'required'                  => true,
+						'llms_visibility'           => 'logged_in',
+						'id'                        => 'email_address',
+						'name'                      => 'email_address',
+						'label'                     => 'Email Address',
+						'data_store'                => 'users',
+						'data_store_key'            => 'user_email',
+						'field'                     => 'email',
+						'isConfimationControlField' => true,
+						'match'                     => 'email_address_confirm',
+						'isOriginal'                => true, // For testing purposes.
+					),
+					'innerBlocks'  => array(),
+					'innerHTML'    => '',
+					'innerContent' => array(),
+				),
+				array(
+					'blockName'    => 'llms/form-field-text',
+					'attrs'        => array(
+						'required'                  => true,
+						'id'                        => 'email_address_confirm',
+						'name'                      => 'email_address_confirm',
+						'label'                     => 'Confirm Email Address',
+						'data_store'                => '',
+						'data_store_key'            => '',
+						'field'                     => 'email',
+						'isConfimationControlField' => true,
+						'match'                     => 'email_address_confirm',
+					),
+					'innerBlocks'  => array(),
+					'innerHTML'    => '',
+					'innerContent' => array(),
+				),
+			),
+			'innerHTML'    => '',
+			'innerContent' => array(
+				null,
+				null,
+			),
+		);
+
+		// Only visible to logged in users, for testing purposes.
+		$password_original_block = array(
+			'blockName'    => 'llms/form-field-user-password',
+			'attrs'        => array(
+				'required'                  => true,
+				'llms_visibility'           => 'logged_in',
+				'id'                        => 'password',
+				'name'                      => 'password',
+				'label'                     => 'Password',
+				'data_store'                => 'users',
+				'data_store_key'            => 'user_pass',
+				'field'                     => 'password',
+				'isOriginal'                => true, // For testing purposes.
+			),
+			'innerBlocks'  => array(),
+			'innerHTML'    => '',
+			'innerContent' => array(),
+		);
+
+		$blocks = $this->main->maybe_add_required_block_fields(
+			array(
+				$email_confirm_original_block,
+				$password_original_block
+			),
+			'checkout',
+			array()
+		);
+
+
+		// Check the email block is visible.
+		$email_block = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'find_block',
+			array(
+				'email_address',
+				$blocks
+			)
+		);
+		$this->assertNotEmpty( $email_block );
+		$this->assertTrue( $this->forms->is_block_visible_in_list( $email_block[1], $blocks ) );
+
+		// Check the password is visible.
+		$password_block = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'find_block',
+			array(
+				'password',
+				$blocks
+			)
+		);
+		$this->assertNotEmpty( $password_block );
+		$this->assertTrue( $this->forms->is_block_visible_in_list( $password_block[1], $blocks ) );
+
+		// Check both email and password block are the original ones (not replaced, only made visibile).
+		$this->assertTrue( $email_block[1]['attrs']['isOriginal'] );
+		$this->assertTrue( $password_block[1]['attrs']['isOriginal'] );
+
+		// Move the password block into a group block, so to test it's correctly extrapolated from its parent.
+		$blocks = $this->main->maybe_add_required_block_fields(
+			array(
+				$email_confirm_original_block,
+				array(
+					'blockName'    => 'core/group',
+					'attrs'        => array(
+						'isPasswordParent' => true,
+					),
+					'innerBlocks'  => array(
+						$password_original_block
+					),
+					'innerHTML'    => '',
+					'innerContent' => array(
+						null
+					),
+				)
+			),
+			'checkout',
+			array()
+		);
+
+		// Check the password is visible.
+		$password_block = LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'find_block',
+			array(
+				'password',
+				$blocks
+			)
+		);
+		$this->assertNotEmpty( $password_block );
+		$this->assertTrue( $this->forms->is_block_visible_in_list( $password_block[1], $blocks ) );
+		// It's the original one.
+		$this->assertTrue( $password_block[1]['attrs']['isOriginal'] );
+		// Check it has no parents anymore.
+		$this->assertTrue( $this->forms->is_block_visible_in_list( $password_block[1], $blocks ) );
+		// Check its former parent is now empty.
+		foreach ( $blocks as $block ) {
+			if ( 'core/group' === $block['blockName'] && ! empty( $block['attrs']['isPasswordParent'] ) ) {
+				$this->assertEmpty( $block['innerBlocks'] );
+			}
+		}
+
+	}
+
+	/**
 	 * Test required fields blocks not added to form blocks if they already have them.
 	 *
 	 * @since 5.1.0
@@ -369,8 +538,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 		$this->forms->create( 'checkout', true );
 		$blocks = $this->forms->get_form_blocks( 'checkout' );
 
-		// Remove a field block, e.g. the email one
-		//$email_field = $this->forms->get_field_by( $this->forms->get_form_fields( 'checkout' ), 'email_address' );
+		// Remove a field block, e.g. the email one.
 		$email_field_block = LLMS_Unit_Test_Util::call_method(
 			$this->main,
 			'find_block',
