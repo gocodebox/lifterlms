@@ -8,7 +8,7 @@
  * @group form_handler
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
@@ -295,7 +295,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 * Test successful submission for a new users.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Provide `password_current` when updating the `password`.
+	 * @since 5.1.0 Provide `password_current` when updating the `password`.
 	 *
 	 * @return void
 	 */
@@ -336,7 +336,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submit password change without providing, or with wrong current password
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */
@@ -368,7 +368,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test submitting account update without password update
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */

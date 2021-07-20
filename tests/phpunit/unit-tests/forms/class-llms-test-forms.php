@@ -929,7 +929,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 *
 	 * This additionally covers conditions in get_block_path().
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */

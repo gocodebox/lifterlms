@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,7 +94,7 @@ class LLMS_Form_Templates {
 	 * Locates an existing wp_block post by field id
 	 *
 	 * @since 5.0.0
-	 * @since [version] Method access changed from private to public.
+	 * @since 5.1.0 Method access changed from private to public.
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return WP_Post|boolean Returns the post object or false if not found.
@@ -122,7 +122,7 @@ class LLMS_Form_Templates {
 	 * block modified by legacy options for the given location when `$reusable` is `false`.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Method access set to public.
+	 * @since 5.1.0 Method access set to public.
 	 *
 	 * @param string  $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @param string  $location Form location. Accepts "checkout", "registration", or "account".

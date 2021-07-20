@@ -233,7 +233,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Made sure no users are logged in before retrieving password reset fields.
+	 * @since 5.1.0 Made sure no users are logged in before retrieving password reset fields.
 	 *               And avoid auto-adding of required fields like password/email when retrieving form's fields.
 	 *
 	 * @return void
@@ -274,7 +274,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Avoid auto-adding of required fields like password/email when retrieving form's fields.
+	 * @since 5.1.0 Avoid auto-adding of required fields like password/email when retrieving form's fields.
 	 *
 	 * @return void
 	 */

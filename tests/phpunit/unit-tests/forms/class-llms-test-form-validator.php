@@ -8,7 +8,7 @@
  * @group form_validator
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 
@@ -147,7 +147,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 * Test validate_fields() when no user input is supplied.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added test when the form field is not empty.
+	 * @since 5.1.0 Added test when the form field is not empty.
 	 *
 	 * @return void
 	 */

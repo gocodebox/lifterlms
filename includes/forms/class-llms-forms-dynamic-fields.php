@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to make sure forms have all the required fields.
+	 * @since 5.1.0 Added logic to make sure forms have all the required fields.
 	 *
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Retrieve the fields required for a given location based on user state
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param string $location The request form location ID.
 	 * @param array  $args     Additional arguments passed to the short-circuit filter.
@@ -182,7 +182,7 @@ class LLMS_Forms_Dynamic_Fields {
 		/**
 		 * Filters the required block fields to add to the form
 		 *
-		 * @since [version]
+		 * @since 5.1.0
 		 *
 		 * @param array[] $fields   Array of field_id => block_name required.
 		 * @param string  $location The request form location ID.
@@ -249,7 +249,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Maybe add the required email and password block to a form
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array[] $blocks   Array of parsed WP_Block arrays.
 	 * @param string  $location The request form location ID.
@@ -299,7 +299,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Make a block visible within its list of blocks
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array   $block       Parsed WP_Block array.
 	 * @param array[] $blocks      Array of parsed WP_Block arrays.
@@ -339,7 +339,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Remove block from the list which contains it.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array   $block  Parsed WP_Block array.
 	 * @param array[] $blocks Array of parsed WP_Block arrays (passed by reference).
@@ -381,7 +381,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * So here we cycle over the block's parent innerContent field looking for references to innerBlocks (null).
 	 * When we found a positional correspondance between the removed innerBlock and its refernce in innerContent we remove the latter too.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param int   $inner_block_index The index of the inner block in the block's innerBlocks list.
 	 * @param array $parent            Parsed WP_Block array representing the inner blocks parent. Passed by reference.
@@ -401,7 +401,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Make the block and its children visible
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array $block A parsed WP_Block.
 	 * @return array
@@ -422,7 +422,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Get confirm group in a list of blocks for a given block id
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param string  $id     The ID of the field to find the confirm group for.
 	 * @param array[] $blocks WP_Block list.

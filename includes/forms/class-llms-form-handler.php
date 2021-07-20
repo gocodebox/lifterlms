@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_Form_Handler {
 	 * Modify LifterLMS Fields prior to performing submit handler validations.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Do not allow submitting a password change without providing a `password_current`
+	 * @since 5.1.0 Do not allow submitting a password change without providing a `password_current`
 	 *
 	 * @param array   $posted_data User submitted form data (passed by reference).
 	 * @param string  $location    Form location ID.
@@ -321,7 +321,7 @@ class LLMS_Form_Handler {
 	 * Form submission handler
 	 *
 	 * @since 5.0.0
-	 * @since [version] Remove invisible fields from when loading the checkout form.
+	 * @since 5.1.0 Remove invisible fields from when loading the checkout form.
 	 *
 	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location    Form location ID.
@@ -357,7 +357,7 @@ class LLMS_Form_Handler {
 	 * Form fields submission
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
+	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.

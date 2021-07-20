@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,7 +39,7 @@ class LLMS_Controller_Quizzes {
 	 * On the quiz reporting screen this allows orphaned quizzes to be deleted.
 	 *
 	 * @since 3.37.8
-	 * @since [version] Use a deep orphan check to determine if the quiz can be deleted.
+	 * @since 5.1.0 Use a deep orphan check to determine if the quiz can be deleted.
 	 *
 	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
 	 *                            `false` if an error was encountered.

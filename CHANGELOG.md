@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v5.1.0 - 2021-07-19
+-------------------
+
+##### Updates
+
++ **Raised the minimum required WordPress core version to 5.8!**
++ Adds WordPress core 5.8 compatibility.
++ Improved user information forms required field validation.
++ Added functionality to ensure that user email and password fields are *always* displayed to logged out users on checkout and registration forms.
++ Added functionality to ensure that user email and password fields are *always* displayed on the account edit form.
++ [LifterLMS Blocks version 2.2.0](https://make.lifterlms.com/2021/07/19/lifterlms-blocks-version-2-2-0/)
+
+##### Bug fixes
+
++ Fixed an issue preventing certain orphaned quizzes from being deleted.
++ Prevent users from submitting a password change without submitting their current password.
++ Allow logged in users to checkout when no form fields are set to display.
+
+
 v5.0.2 - 2021-07-08
 -------------------
 

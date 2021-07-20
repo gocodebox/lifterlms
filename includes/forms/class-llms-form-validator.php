@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -376,7 +376,7 @@ class LLMS_Form_Validator {
 	 * Validate submitted field values.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Don't validate form with no user input only if the form is not empty itself (e.g. contains only invisible fields).
+	 * @since 5.1.0 Don't validate form with no user input only if the form is not empty itself (e.g. contains only invisible fields).
 	 *
 	 * @param array   $posted_data Array of posted data.
 	 * @param array[] $fields      Array of LifterLMS Form Fields.

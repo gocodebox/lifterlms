@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_Forms {
 	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added logic to remove invisible fields.
+	 * @since 5.1.0 Added logic to remove invisible fields.
 	 *              Added `$block_list` param.
 	 *
 	 * @param array   $block      A WP Block array.
@@ -141,7 +141,7 @@ class LLMS_Forms {
 		 * If the block is not visible (according to LLMS block-level visibility settings)
 		 * it will return an empty array (signaling the field to be removed).
 		 *
-		 * @since [version]
+		 * @since 5.1.0
 		 *
 		 * @param boolean $filter     Whether or not invisible fields should be included. Default is `false`.
 		 * @param array   $block      A WP Block array.
@@ -162,7 +162,7 @@ class LLMS_Forms {
 		 * Filter an LLMS_Form_Field settings array after conversion from a field block
 		 *
 		 * @since 5.0.0
-		 * @since [version] Added `$block_list` param.
+		 * @since 5.1.0 Added `$block_list` param.
 		 *
 		 * @param array   $attrs      An array of LLMS_Form_Field settings.
 		 * @param array   $block      A WP Block array.
@@ -335,7 +335,7 @@ class LLMS_Forms {
 	 * Searches innerBlocks arrays recursively.
 	 *
 	 * @since 5.0.0
-	 * @since [version] First check block's innerBlock attribute exists when checking for inner blocks.
+	 * @since 5.1.0 First check block's innerBlock attribute exists when checking for inner blocks.
 	 *              Also made the access visibility public.
 	 *
 	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
@@ -476,7 +476,7 @@ class LLMS_Forms {
 	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
 	 *
 	 * @since 5.0.0
-	 * @since [version] Pass the whole list of blocks to the `$this->block_to_field_settings()` method
+	 * @since 5.1.0 Pass the whole list of blocks to the `$this->block_to_field_settings()` method
 	 *              To better check whether a block is visible.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
@@ -706,7 +706,7 @@ class LLMS_Forms {
 	 * who are missing r equired information will be directed to the checkout page.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
+	 * @since 5.1.0 Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -852,7 +852,7 @@ class LLMS_Forms {
 	 *
 	 * Fall back on `$this->is_block_visible()` if empty `$block_list` is provided.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
@@ -877,7 +877,7 @@ class LLMS_Forms {
 		/**
 		 * Filter whether or not the block is visible in the list of blocks it's contained.
 		 *
-		 * @since [version]
+		 * @since 5.1.0
 		 *
 		 * @param bool    $is_visible Whether or not the block is visible.
 		 * @param array   $block      Parsed block array.
@@ -890,7 +890,7 @@ class LLMS_Forms {
 	/**
 	 * Returns a list of block parents plus the block itself in reverse order
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
@@ -946,7 +946,7 @@ class LLMS_Forms {
 	/**
 	 * Returns a filtered version of `$block_list` containing only the passed `$block` and its parents.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array   $block      Parsed block array.
 	 * @param array[] $block_list The list of WP Block array `$block` comes from.
@@ -1031,7 +1031,7 @@ class LLMS_Forms {
 	 * from it's reference post.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Access turned to public.
+	 * @since 5.1.0 Access turned to public.
 	 *
 	 * @param array[] $blocks List of WP_Block arrays.
 	 * @return array[]

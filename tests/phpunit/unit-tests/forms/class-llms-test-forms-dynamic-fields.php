@@ -8,7 +8,7 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.0
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -228,7 +228,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test required fields block added to form blocks
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */
@@ -304,7 +304,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test required fields blocks not added to form blocks if they already have them.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */
@@ -360,7 +360,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test remove_block
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */

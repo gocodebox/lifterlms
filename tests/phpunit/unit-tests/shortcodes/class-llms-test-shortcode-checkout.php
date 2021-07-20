@@ -4,15 +4,15 @@
  *
  * @group shortcodes
  *
- * @since [version]
- * @version [version]
+ * @since 5.1.0
+ * @version 5.1.0
  */
 class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 
 	/**
 	 * Test shortcode registration
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */
@@ -23,7 +23,7 @@ class LLMS_Test_Shortcode_Checkout extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test clean_form_fields
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @return void
 	 */

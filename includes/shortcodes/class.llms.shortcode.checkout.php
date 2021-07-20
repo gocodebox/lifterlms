@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -276,7 +276,7 @@ class LLMS_Shortcode_Checkout {
 	 * Setup attributes for plan and form information
 	 *
 	 * @since 5.0.0
-	 * @since [version] Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
+	 * @since 5.1.0 Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
 	 *
 	 * @param int   $plan_id LLMS_Access_Plan post id.
 	 * @param array $atts Existing attributes.
@@ -303,7 +303,7 @@ class LLMS_Shortcode_Checkout {
 	 * Properly detects empty form fields when the html is only composed of blanks and empty paragraphs.
 	 * In this case the form fields html is turned into an empty string.
 	 *
-	 * @since [version]
+	 * @since 5.1.0
 	 *
 	 * @param array $fields_html Form Fields.
 	 * @return array
