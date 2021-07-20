@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,6 +62,7 @@ class LLMS_Form_Templates {
 	 * if it already exists and will only create it if one isn't found.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Run serialized block content through `wp_slash()` to preserve special characters converted to character codes.
 	 *
 	 * @param string $field_id The field's identifier as found in the block schema list returned by LLMS_Form_Templates::get_reusable_block_schema().
 	 * @return int Returns the WP_Post ID of the the wp_block post type or `0` on failure.
@@ -77,7 +78,7 @@ class LLMS_Form_Templates {
 
 		$args = array(
 			'post_title'   => $block_data['title'],
-			'post_content' => serialize_blocks( $block_data['block'] ),
+			'post_content' => wp_slash( serialize_blocks( $block_data['block'] ) ),
 			'post_status'  => 'publish',
 			'post_type'    => 'wp_block',
 			'meta_input'   => array(
