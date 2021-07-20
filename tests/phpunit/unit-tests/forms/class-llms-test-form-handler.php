@@ -334,7 +334,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
 
 	/**
-	 * Test submit password change without providing, or with wrong current password
+	 * Test submitting account update without password update
 	 *
 	 * @since 5.1.0
 	 *
@@ -366,7 +366,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test submitting account update without password update
+	 * Test submit password change without providing, or with wrong current password
 	 *
 	 * @since 5.1.0
 	 *
