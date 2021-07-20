@@ -7,6 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
+ * @version [version]
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
@@ -1091,6 +1092,152 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 		}
 
+
+	}
+
+	/**
+	 * Test get_block_tree()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_block_tree() {
+
+		$test_block_json  = '<!-- wp:paragraph -->\n<p>Test</p>\n<!-- /wp:paragraph -->';
+		$group_block_json = '<!-- wp:group -->\n<div class="wp-block-group">%1$s</div>\n<!-- /wp:group -->';
+
+		$test_block_as_parent_json  = sprintf( $group_block_json, $test_block_json );
+
+		/**
+		 * List of tests to run
+		 *
+		 * @param array[] {
+		 *     @type string $0 Test description / message. Passed to the assertion for debugging failed tests.
+		 *     @type string $1 Block markup for the block being tested.
+		 *     @type string $2 List of blocks for use as second parameter. The HTML from $1 must be found in this list!
+		 *     @type bool   $3 The expected result of `get_block_tree()`.
+		 * }
+		 */
+		$tests = array(
+
+			array(
+				'Block in a tree with two levels, with the leaf\'s parent branch having one sibling',
+				$test_block_json,
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						$test_block_json
+					) .
+					sprintf(
+						$group_block_json,
+						'Suppressed'
+					)
+				),
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						$test_block_json
+					)
+				)
+			),
+
+			array(
+				'Block in a tree with two levels, with the leaf\'s gran parent\'s branch having one sibling',
+				$test_block_json,
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						'Suppressed'
+					) .
+					sprintf(
+						$group_block_json,
+						sprintf(
+							$group_block_json,
+							$test_block_json
+						)
+					)
+				),
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						sprintf(
+							$group_block_json,
+							$test_block_json
+						)
+					)
+				),
+			),
+
+			array(
+				'No block found',
+				$test_block_json,
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						'Something'
+					) .
+					sprintf(
+						$group_block_json,
+						sprintf(
+							$group_block_json,
+							'Something Else'
+						)
+					)
+				),
+				''
+			),
+
+			array(
+				'Block as first of the list',
+				$test_block_json,
+				$test_block_json,
+				$test_block_json
+			),
+
+			array(
+				'Block\'s children preserved',
+				$test_block_as_parent_json,
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						$test_block_as_parent_json
+					) .
+					sprintf(
+						$group_block_json,
+						'Suppressed'
+					)
+				),
+				sprintf(
+					$group_block_json,
+					sprintf(
+						$group_block_json,
+						$test_block_as_parent_json
+					)
+				),
+			),
+
+		);
+
+		foreach ( $tests as $data ) {
+
+			$msg    = $data[0];
+			$block  = parse_blocks( $data[1] )[0];
+			$list   = parse_blocks( $data[2] );
+			$expect = parse_blocks( $data[3] );
+
+			$this->assertEquals(
+				$expect,
+				LLMS_Unit_Test_Util::call_method( $this->forms, 'get_block_tree', array( $block, $list ), $msg )
+			);
+
+		}
 
 	}
 
