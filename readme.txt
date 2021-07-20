@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.3
-Tested up to: 5.7
+Requires at least: 5.4
+Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.0.2
+Stable tag: 5.1.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,24 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.1.0 - 2021-07-19 =
+
+##### Updates
+
++ **Raised the minimum required WordPress core version to 5.8!**
++ Adds WordPress core 5.8 compatibility.
++ Improved user information forms required field validation.
++ Added functionality to ensure that user email and password fields are *always* displayed to logged out users on checkout and registration forms.
++ Added functionality to ensure that user email and password fields are *always* displayed on the account edit form.
++ [LifterLMS Blocks version 2.2.0](https://make.lifterlms.com/2021/07/19/lifterlms-blocks-version-2-2-0/)
+
+##### Bug fixes
+
++ Fixed an issue preventing certain orphaned quizzes from being deleted.
++ Prevent users from submitting a password change without submitting their current password.
++ Allow logged in users to checkout when no form fields are set to display.
+
+
 = v5.0.2 - 2021-07-08 =
 
 ##### LifterLMS Blocks
@@ -733,22 +751,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 ##### Bug fixes
 
 + Fixed an issue causing TinyMCE editor instances to be unusable within metaboxes when using the block editor.
-
-
-= v4.18.0 - 2021-03-04 =
-
-**This is the last release of LifterLMS that will declare support for PHP 7.2. PHP 7.2 reached its official [end of life](https://www.php.net/eol.php) on November 30, 2020. With the next release of LifterLMS the minimum supported PHP version will be raised to 7.3. If you're currently using PHP 7.2 please contact your host and request an upgrade to a [supported PHP version](https://www.php.net/supported-versions) as soon as possible!**
-
-##### Updates
-
-+ Tested up to WordPress core version 5.7
-+ Updated several occurrences of `json_encode()` with preferred `wp_json_encode()`.
-
-##### Bug fixes
-
-+ Added a tie-breaker when there are multiple enrollment statuses with the same date & time. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ On admin order pages and tables don't print links for deleted students.
-+ Fixed an issue on admin order pages when viewing an order for a deleted student.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

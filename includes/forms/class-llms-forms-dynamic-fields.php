@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Forms
  *
  * @since 5.0.0
- * @version 5.0.1
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,13 +21,14 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Constructor
 	 *
 	 * @since 5.0.0
+	 * @since 5.1.0 Added logic to make sure forms have all the required fields.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		add_filter( 'llms_get_form_blocks', array( $this, 'add_password_strength_meter' ), 10, 2 );
-
+		add_filter( 'llms_get_form_blocks', array( $this, 'maybe_add_required_block_fields' ), 10, 3 );
 		add_filter( 'llms_get_form_blocks', array( $this, 'modify_account_form' ), 15, 2 );
 
 	}
@@ -127,7 +128,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string  $id           ThHe ID of the field to find.
+	 * @param string  $id           The ID of the field to find.
 	 * @param array[] $blocks       WP_Block list.
 	 * @param integer $parent_index Top level index of the parent block. Used to hold a reference to the current index within the toplevel
 	 *                              blocks of the form when looking into the innerBlocks of a block.
@@ -152,6 +153,42 @@ class LLMS_Forms_Dynamic_Fields {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Retrieve the fields required for a given location based on user state
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string $location The request form location ID.
+	 * @param array  $args     Additional arguments passed to the short-circuit filter.
+	 * @return array[] Array of field_id => block_name required or an empty array if no fields required.
+	 */
+	private function get_required_fields_for_location( $location, $args ) {
+
+		$fields = array();
+
+		if (
+			( ! is_user_logged_in() && in_array( $location, array( 'checkout', 'registration' ), true ) ) ||
+				( is_user_logged_in() && 'account' === $location ) ) {
+			$fields = array(
+				// Field ID => block name.
+				'email_address' => 'email',
+				'password'      => 'password',
+			);
+		}
+
+		/**
+		 * Filters the required block fields to add to the form
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param array[] $fields   Array of field_id => block_name required.
+		 * @param string  $location The request form location ID.
+		 * @param array   $args     Additional arguments passed to the short-circuit filter.
+		 */
+		return apply_filters( 'llms_forms_required_block_fields', $fields, $location, $args );
 
 	}
 
@@ -186,8 +223,8 @@ class LLMS_Forms_Dynamic_Fields {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param [type] $blocks [description]
-	 * @param [type] $location [description]
+	 * @param array[] $blocks   Array of parsed WP_Block arrays.
+	 * @param string  $location The form location ID.
 	 *
 	 * @return array[]
 	 */
@@ -207,6 +244,207 @@ class LLMS_Forms_Dynamic_Fields {
 
 		return $blocks;
 
+	}
+
+	/**
+	 * Maybe add the required email and password block to a form
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array[] $blocks   Array of parsed WP_Block arrays.
+	 * @param string  $location The request form location ID.
+	 * @param array   $args     Additional arguments passed to the short-circuit filter.
+	 * @return array[]
+	 */
+	public function maybe_add_required_block_fields( $blocks, $location, $args ) {
+
+		$fields_to_require = $this->get_required_fields_for_location( $location, $args );
+		if ( empty( $fields_to_require ) ) {
+			return $blocks;
+		}
+
+		foreach ( $fields_to_require as $field_id => $field_block_name ) {
+
+			$block = $this->find_block( $field_id, $blocks );
+
+			if ( ! empty( $block ) ) {
+				// Fields in non checkout forms are always visible - see LLMS_Forms::get_form_html().
+				$blocks = 'checkout' === $location ? $this->make_block_visible( $block[1], $blocks, $block[0] ) : $blocks;
+				unset( $fields_to_require[ $field_id ] );
+				if ( empty( $fields_to_require ) ) { // All the required blocks are present.
+					return $blocks;
+				}
+			}
+		}
+
+		$blocks_to_add = array();
+		foreach ( $fields_to_require as $field_id => $block_to_add ) {
+			// If a reusable block exists for the field, use it. Otherwise use a dynamically generated block from the template schema.
+			$use_reusable    = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
+			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
+		}
+
+		// Load reusable.
+		$blocks_to_add = LLMS_Forms::instance()->load_reusable_blocks( $blocks_to_add );
+		// Make blocks to add visible.
+		$blocks_to_add = 'checkout' === $location ? array_map( array( $this, 'make_all_visible' ), $blocks_to_add ) : $blocks_to_add;
+
+		return array_merge(
+			$blocks,
+			$blocks_to_add
+		);
+
+	}
+
+	/**
+	 * Make a block visible within its list of blocks
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array   $block       Parsed WP_Block array.
+	 * @param array[] $blocks      Array of parsed WP_Block arrays.
+	 * @param int     $block_index Index of the block within the `$blocks` list.
+	 *                             If the block is in a group, this is the the index of the item's parent.
+	 * @return array[]
+	 */
+	private function make_block_visible( $block, $blocks, $block_index ) {
+
+		if ( LLMS_Forms::instance()->is_block_visible_in_list( $block, array( $blocks[ $block_index ] ) ) ) {
+			return $blocks;
+		}
+
+		// If the block has a confirm group, use that.
+		$confirm = $this->get_confirm_group( $block['attrs']['id'], array( $blocks[ $block_index ] ) );
+
+		$block_to_add = empty( $confirm ) ? $block : $confirm;
+
+		$replace = true;
+		// Insert the visible block before the invisible one if the block is in a group,
+		// so to avoid the replacement of the whole group which might contain other required fields.
+		// But replace the invisible with the visible if otherwise.
+		if ( $block_to_add !== $blocks[ $block_index ] ) {
+			$replace = false;
+			$this->remove_block( $block_to_add, $blocks );
+		}
+
+		// Make the block to add and its children visible.
+		$block_to_add = $this->make_all_visible( $block_to_add );
+
+		array_splice( $blocks, $block_index, (int) ( ! empty( $replace ) ), array( $block_to_add ) );
+
+		return $blocks;
+
+	}
+
+	/**
+	 * Remove block from the list which contains it.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array   $block  Parsed WP_Block array.
+	 * @param array[] $blocks Array of parsed WP_Block arrays (passed by reference).
+	 * @param array   $parent Optional. Parsed WP_Block array representing the parent block of the `$blocks`, in case this is a list of inner blocks. Default null.
+	 *                        Passed by reference.
+	 * @return bool
+	 */
+	private function remove_block( $block, &$blocks, &$parent = null ) {
+
+		foreach ( $blocks as $index => &$_block ) {
+
+			if ( $_block === $block ) {
+				array_splice( $blocks, $index, 1 ); // Remove and re-index.
+				// If we're removing an innerBlock we need to update the innerContent too, to avoid wp calling the render method on nulls.
+				if ( ! is_null( $parent ) ) {
+					$this->remove_inner_block_from_inner_content( $index, $parent );
+				}
+				return true;
+			}
+
+			if ( ! empty( $_block['innerBlocks'] ) ) {
+				$removed = $this->remove_block( $block, $_block['innerBlocks'], $_block );
+			}
+			if ( ! empty( $removed ) ) { // Break as soon as the desired block is removed from one of the innerBlocks.
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Remove inner block reference from inner content
+	 *
+	 * See WP_Block::inner_content documentation.
+	 *
+	 * The inner_content block's property is an array of string fragments and null markers where inner blocks were found.
+	 * So here we cycle over the block's parent innerContent field looking for references to innerBlocks (null).
+	 * When we found a positional correspondance between the removed innerBlock and its refernce in innerContent we remove the latter too.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param int   $inner_block_index The index of the inner block in the block's innerBlocks list.
+	 * @param array $parent            Parsed WP_Block array representing the inner blocks parent. Passed by reference.
+	 */
+	private function remove_inner_block_from_inner_content( $inner_block_index, &$parent ) {
+
+		$inner_block_in_content_index = 0;
+		foreach ( $parent['innerContent'] as $chunk_index => $chunk ) {
+			if ( ! is_string( $chunk ) && $inner_block_index === $inner_block_in_content_index++ ) {
+				array_splice( $parent['innerContent'], $chunk_index, 1 ); // Remove and re-index.
+				break;
+			}
+		}
+
+	}
+
+	/**
+	 * Make the block and its children visible
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $block A parsed WP_Block.
+	 * @return array
+	 */
+	private function make_all_visible( $block ) {
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			foreach ( $block['innerBlocks'] as $index => $inner_block ) {
+				$block['innerBlocks'][ $index ] = $this->make_all_visible( $inner_block );
+			}
+		}
+		$block['attrs']['llms_visibility'] = '';
+
+		return $block;
+
+	}
+
+	/**
+	 * Get confirm group in a list of blocks for a given block id
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string  $id     The ID of the field to find the confirm group for.
+	 * @param array[] $blocks WP_Block list.
+	 * @return array
+	 */
+	private function get_confirm_group( $id, $blocks ) {
+
+		foreach ( $blocks as $index => $block ) {
+
+			if ( $block['innerBlocks'] ) {
+				if ( ( 'llms/form-field-confirm-group' === $block['blockName'] ) &&
+						$this->find_block( $id, $block['innerBlocks'] ) ) {
+					return $block;
+				}
+				$inner = $this->get_confirm_group( $id, $block['innerBlocks'] );
+				if ( false !== $inner ) {
+					return $inner;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

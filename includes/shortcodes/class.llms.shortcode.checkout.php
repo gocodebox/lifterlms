@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version 5.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -273,9 +273,10 @@ class LLMS_Shortcode_Checkout {
 	}
 
 	/**
-	 * Setup attributes for plan and form information.
+	 * Setup attributes for plan and form information
 	 *
 	 * @since 5.0.0
+	 * @since 5.1.0 Properly detect empty form fields when the html is only composed of blanks and empty paragraphs.
 	 *
 	 * @param int   $plan_id LLMS_Access_Plan post id.
 	 * @param array $atts Existing attributes.
@@ -291,9 +292,27 @@ class LLMS_Shortcode_Checkout {
 
 		$atts['form_location'] = 'checkout';
 		$atts['form_title']    = llms_get_form_title( $atts['form_location'], array( 'plan' => $plan ) );
-		$atts['form_fields']   = llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) );
+		$atts['form_fields']   = self::clean_form_fields( llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) ) );
 
 		return $atts;
 	}
 
+	/**
+	 * Clean form fields html
+	 *
+	 * Properly detects empty form fields when the html is only composed of blanks and empty paragraphs.
+	 * In this case the form fields html is turned into an empty string.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $fields_html Form Fields.
+	 * @return array
+	 */
+	private static function clean_form_fields( $fields_html ) {
+		// If fields html has only blanks and emoty paragraphs (autop?), clean it.
+		if ( empty( preg_replace( '/(\s)*(<p><\/p>)*/m', '', $fields_html ) ) ) {
+			$fields_html = '';
+		}
+		return $fields_html;
+	}
 }

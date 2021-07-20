@@ -2,7 +2,7 @@
 /**
  * Setup and render form fields.
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since 5.0.0
  * @version 5.0.0
