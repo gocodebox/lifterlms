@@ -369,7 +369,6 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
-	 * @since [version] Unschedule upcoming payment reminder.
 	 *
 	 * @param LLMS_Order $order Instance of an LLMS_Order.
 	 * @return void
@@ -377,8 +376,6 @@ class LLMS_Controller_Orders {
 	public function error_order( $order ) {
 
 		$order->unschedule_recurring_payment();
-
-		$order->unschedule_upcoming_payment_reminder();
 
 		/**
 		 * Determine if student should be unenrolled on order error.
@@ -469,7 +466,6 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Unschedule upcoming payment reminder.
 	 *
 	 * @param int $order_id WP_Post ID of the LLMS Order.
 	 * @return void
@@ -497,7 +493,6 @@ class LLMS_Controller_Orders {
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
 		$order->add_note( $note );
 		$order->unschedule_recurring_payment();
-		$order->unschedule_upcoming_payment_reminder();
 
 		if ( $new_order_status ) {
 			$order->set_status( $new_order_status );
@@ -509,7 +504,6 @@ class LLMS_Controller_Orders {
 	 * Unschedule recurring payments and schedule access expiration
 	 *
 	 * @since 3.19.0
-	 * @since [version] Unschedule upcoming payment reminder.
 	 *
 	 * @param LLMS_Order $order LLMS_Order object.
 	 * @return void
@@ -520,7 +514,6 @@ class LLMS_Controller_Orders {
 		$order->set( 'date_access_expires', $date );
 
 		$order->unschedule_recurring_payment();
-		$order->unschedule_upcoming_payment_reminder();
 		$order->maybe_schedule_expiration();
 
 	}
@@ -665,7 +658,6 @@ class LLMS_Controller_Orders {
 		return true;
 
 	}
-
 
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order

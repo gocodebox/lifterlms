@@ -211,7 +211,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	public function schedule_upcoming_payment_reminder( $order, $date = 0 ) {
 
 		// Unschedule upcoming payment reminder (does nothing if no action scheduled).
-		$this->unschedule_upcoming_payment_reminder();
+		$this->unschedule_upcoming_payment_reminder( $order );
 
 		// Convert our reminder date to Unix Time and UTC before passing to the scheduler.
 		$reminder_date = $date ? $date : get_gmt_from_date(
