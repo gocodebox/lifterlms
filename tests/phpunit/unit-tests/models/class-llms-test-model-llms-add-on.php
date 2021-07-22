@@ -261,4 +261,20 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test uninstall() for an add-on that isn't installed
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_uninstall_error_addon_not_installed() {
+
+		$addon = llms_get_add_on( 'lifterlms-groups', 'slug' );
+		$res   = $addon->uninstall();
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'not-installed', $res );
+
+	}
+
 }

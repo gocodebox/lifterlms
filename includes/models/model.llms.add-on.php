@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version 4.21.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -448,6 +448,40 @@ class LLMS_Add_On {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Uninstall an add-on
+	 *
+	 * @since [version]
+	 *
+	 * @return string|WP_Error
+	 */
+	public function uninstall() {
+
+		$ret = sprintf( __( '%s was successfully uninstalled.', 'lifterlms' ), $this->get( 'title' ) );
+
+		if ( ! $this->is_installed() ) {
+			$ret = new WP_Error( 'not-installed', sprintf( __( '%s is not installed.', 'lifterlms' ), $this->get( 'title' ) ) );
+		} elseif ( $this->is_active() ) {
+			$ret = new WP_Error( 'uninstall-active', sprintf( __( '%s is active and cannot be uninstalled.', 'lifterlms' ), $this->get( 'title' ) ) );
+		} else {
+
+			$type = $this->get_type();
+			$file = $this->get( 'update_file' );
+			if ( 'plugin' === $type ) {
+				uninstall_plugin( $file );
+				$del = delete_plugins( array( $file ) );
+				$ret = is_wp_error( $del ) ? $del : $ret;
+			} elseif ( 'theme' === $type ) {
+				$del = delete_theme( $file );
+				$ret = is_wp_error( $del ) ? $del : $ret;
+			}
+
+		}
+
+		return $ret;
 
 	}
 
