@@ -478,7 +478,6 @@ class LLMS_Add_On {
 				$del = delete_theme( $file );
 				$ret = is_wp_error( $del ) ? $del : $ret;
 			}
-
 		}
 
 		return $ret;
