@@ -452,7 +452,7 @@ class LLMS_Add_On {
 	}
 
 	/**
-	 * Uninstall an add-on
+	 * Uninstall an add-on and permanently deletes its files
 	 *
 	 * @since [version]
 	 *
@@ -470,14 +470,14 @@ class LLMS_Add_On {
 
 			$type = $this->get_type();
 			$file = $this->get( 'update_file' );
+			$del  = null;
 			if ( 'plugin' === $type ) {
 				uninstall_plugin( $file );
 				$del = delete_plugins( array( $file ) );
-				$ret = is_wp_error( $del ) ? $del : $ret;
 			} elseif ( 'theme' === $type ) {
 				$del = delete_theme( $file );
-				$ret = is_wp_error( $del ) ? $del : $ret;
 			}
+			$ret = is_wp_error( $del ) ? $del : $ret;
 		}
 
 		return $ret;
