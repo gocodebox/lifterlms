@@ -2,14 +2,14 @@ name: Move new issues into Triage
 
 on:
   issues:
-    types: [opened]
+    types: [ opened ]
 
 jobs:
-  automate-project-columns:
+  add-to-project:
     runs-on: ubuntu-latest
     steps:
       - uses: alex-page/github-project-automation-plus@v0.8.1
         with:
           project: Triage
           column: Awaiting Triage
-          repo-token: ${{ secrets.ISSUE_TRIAGE_WORKFLOW }}
+          repo-token: ${{ secrets.ORG_WORKFLOWS }}
