@@ -368,6 +368,18 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
+	 * Get an array of additional options to be added to the notification view in the admin panel
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Type of the notification.
+	 * @return array
+	 */
+	public function get_additional_options( $type ) {
+		return apply_filters( 'llms_notification_' . $this->id . '_additional_options', $this->set_additional_options( $type ), $this, $type );
+	}
+
+	/**
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
 	 * @param    string $type  notification type [basic|email]
@@ -535,6 +547,19 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			'basic' => __( 'Basic', 'lifterlms' ),
 			'email' => __( 'Email', 'lifterlms' ),
 		);
+	}
+
+
+	/**
+	 * Set additional options to be added to the notification view in the admin panel
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Type of the notification.
+	 * @return array
+	 */
+	protected function set_additional_options( $type ) {
+		return array();
 	}
 
 	/**

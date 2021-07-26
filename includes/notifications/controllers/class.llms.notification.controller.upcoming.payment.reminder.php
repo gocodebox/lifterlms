@@ -45,7 +45,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		parent::add_actions();
 
 		// Add actions to recurring payment scheduling/unscheduling.
-		add_action( 'llms_charge_recurring_payment_scheduled', array( $this, 'schedule_upcoming_payment_reminder' ), 10, 2 );
+		add_action( 'llms_charge_recurring_payment_scheduled', array( $this, 'schedule_upcoming_payment_reminder' ) );
 		add_action( 'llms_charge_recurring_payment_unscheduled', array( $this, 'unschedule_upcoming_payment_reminder' ) );
 
 	}
@@ -246,7 +246,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	public function get_upcoming_payment_reminder_date( $order, $date = 0, $format = 'Y-m-d H:i:s' ) {
 
 		$next_payment_date = $date ? $date : $order->get_next_payment_due_date( $format );
-
 		if ( ! $next_payment_date || is_wp_error( $next_payment_date ) ) {
 			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
 		}
@@ -259,7 +258,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		 * @param int        $days  The number of days before the upcoming payment due date when to notify the customer.
 		 * @param LLMS_Order $order Order object.
 		 */
-		$days = apply_filters( 'llms_order_payment_reminder_days', 1, $order );
+		$days = apply_filters( 'llms_order_payment_reminder_days', $this->get_option( 'reminder_days' ), $order );
 
 		// Sanitize: makes sure it's always a negative number.
 		$days = -1 * min( 1, absint( $days ) );
@@ -279,6 +278,31 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		$upcoming_payment_reminder_time = apply_filters( 'llms_order_get_next_upcoming_payment_reminder_date', strtotime( "{$days} day", strtotime( $next_payment_date ) ), $order, $format );
 
 		return date_i18n( $format, $upcoming_payment_reminder_time );
+
+	}
+
+	/**
+	 * Set array of additional options to be added to the notification view in the admin panel
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Type of the notification.
+	 * @return array
+	 */
+	protected function set_additional_options( $type ) {
+
+		return array(
+			array(
+				'id'                => $this->get_option_name( 'reminder_days' ),
+				'title'             => __( 'Reminder days', 'lifterlms' ),
+				'desc'              => '<br>' . __( 'The number of days before the upcoming payment due date when to notify the customer', 'lifterlms' ),
+				'type'              => 'number',
+				'value'             => $this->get_option( 'reminder_days', 1 ),
+				'custom_attributes' => array(
+					'min' => 1,
+				),
+			),
+		);
 
 	}
 
