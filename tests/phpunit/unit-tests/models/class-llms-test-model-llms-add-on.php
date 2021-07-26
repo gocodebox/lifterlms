@@ -14,7 +14,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve a mock plugin add-on for testing
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @param boolean $install  If true, calls `install_mock_addon()` to physically install the mock plugin.
 	 * @param boolean $activate If true and `$install` is also true, activates the mock plugin following installation.
@@ -294,7 +294,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test uninstall() for an add-on that isn't installed
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return void
 	 */
@@ -310,7 +310,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test uninstall() error for an active add-on.
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return void
 	 */
@@ -326,7 +326,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test uninstall() error for an invalid add-on type.
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return void
 	 */
@@ -342,7 +342,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	/**
 	 * Test uninstall() success for a plugin add-on
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return void
 	 */

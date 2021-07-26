@@ -8,7 +8,7 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.1.1
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -306,7 +306,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 *
 	 * This additionally covers `LLMS_Forms_Dynamic_Fields::make_block_visible()` and `LLMS_Forms_Dynamic_Fields::get_confirm_group()`.
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return void
 	 */

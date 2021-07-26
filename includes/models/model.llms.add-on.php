@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version [version]
+ * @version 5.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -454,7 +454,7 @@ class LLMS_Add_On {
 	/**
 	 * Verifies the add-on can be uninstalled, and performs the uninstall (permanently deleting its files)
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return string|WP_Error Success message or an error object.
 	 */
@@ -479,7 +479,7 @@ class LLMS_Add_On {
 	/**
 	 * Actually performs the uninstall
 	 *
-	 * @since [version]
+	 * @since 5.1.1
 	 *
 	 * @return string|WP_Error Success message or an error object.
 	 */
