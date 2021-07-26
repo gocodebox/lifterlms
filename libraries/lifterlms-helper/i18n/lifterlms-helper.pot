@@ -1,0 +1,325 @@
+# Copyright (C) 2015-2021 LifterLMS
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: LifterLMS Helper 3.3.1\n"
+"Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
+"Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
+"Language-Team: Team LifterLMS <team@lifterlms.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-07-26T13:21:03-06:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: llms-dev 1.0.0\n"
+"X-Domain: lifterlms-helper\n"
+
+#. Plugin Name of the plugin
+msgid "LifterLMS Helper"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://lifterlms.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Update, install, and beta test LifterLMS and LifterLMS add-ons"
+msgstr ""
+
+#. Author of the plugin
+msgid "LifterLMS"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://lifterlms.com"
+msgstr ""
+
+#. Translators: %s = License key.
+#: includes/class-llms-helper-admin-add-ons.php:197
+msgid "\"%s\" has been saved!"
+msgstr ""
+
+#. Translators: %s = License Key
+#: includes/class-llms-helper-admin-add-ons.php:226
+msgid "License key \"%s\" was removed from this site."
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:273
+msgid "My License Keys"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:280
+msgid "Manage Saved License Keys"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:292
+msgid "Remove Selected"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:296
+msgid "Add New License Keys"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:297
+msgid "Enter each license on a new line"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:299
+msgid "Add New"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:331
+#: includes/models/class-llms-helper-add-on.php:129
+msgid "Install"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:333
+msgid "View add-on details"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:365
+msgid "Update"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:367
+msgid "View update details"
+msgstr ""
+
+#: includes/class-llms-helper-admin-add-ons.php:391
+msgid "My Add-Ons"
+msgstr ""
+
+#: includes/class-llms-helper-betas.php:46
+msgid "Beta Testing"
+msgstr ""
+
+#: includes/class-llms-helper-install.php:95
+msgid "Welcome to the LifterLMS Helper"
+msgstr ""
+
+#: includes/class-llms-helper-install.php:96
+msgid "This plugin allows your website to interact with your subscriptions at LifterLMS.com to ensure your add-ons stay up to date."
+msgstr ""
+
+#. Translators: %1$s = Opening anchor tag; %2$s = closing anchor tag.
+#: includes/class-llms-helper-install.php:98
+msgid "You can activate your add-ons from the %1$sAdd-Ons & More%2$s screen."
+msgstr ""
+
+#. Translators: %d = Number of keys that have been migrated.
+#: includes/class-llms-helper-install.php:134
+msgid "%d license has been automatically migrated from the previous version of the LifterLMS Helper"
+msgid_plural "%d licenses have been automatically migrated from the previous version of the LifterLMS Helper."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %s = License Key
+#: includes/class-llms-helper-keys.php:127
+msgid "The license \"%s\" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:91
+msgid "Invalid add-on ID."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:95
+msgid "Invalid action."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:99
+msgid "Add-on cannot be installable."
+msgstr ""
+
+#. Translators: %s = Add-on name.
+#: includes/class-llms-helper-upgrader.php:105
+msgid "%s is already installed"
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:114
+msgid "An error occured while attempting to retrieve add-on download information. Please try again."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:133
+msgid "The requested action is not possible."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:150
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr ""
+
+#: includes/class-llms-helper-upgrader.php:174
+msgid "Your LifterLMS add-on is currently unlicensed and cannot be updated!"
+msgstr ""
+
+#. Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
+#: includes/class-llms-helper-upgrader.php:179
+msgid "If you already have a license, you can activate it on the %1$sadd-ons management screen%2$s."
+msgstr ""
+
+#. Translators: %s = URI to licensing FAQ.
+#: includes/class-llms-helper-upgrader.php:184
+msgid "Learn more about LifterLMS add-on licensing at %s."
+msgstr ""
+
+#. Translators: %s = URL for the changelog website.
+#: includes/class-llms-helper-upgrader.php:411
+msgid "There was an error retrieving the changelog.<br>Try visiting %s for recent changelogs."
+msgstr ""
+
+#. Translators: %1$s - Version number; %2$s - Release date.
+#: includes/class-llms-helper-upgrader.php:450
+msgid "Version %1$s - %2$s"
+msgstr ""
+
+#. Translators: %s = URL to the full changelog.
+#: includes/class-llms-helper-upgrader.php:457
+msgid "View the full changelog at %s."
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:80
+msgid "Unable to locate a license key for the selected add-on."
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:121
+msgid "Active"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:122
+msgid "Inactive"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:124
+msgid "Installed"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:125
+msgid "Not Installed"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:127
+msgid "Activate"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:128
+msgid "Deactivate"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:131
+#: includes/views/beta-testing.php:75
+msgid "N/A"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:133
+msgid "Licensed"
+msgstr ""
+
+#: includes/models/class-llms-helper-add-on.php:134
+msgid "Unlicensed"
+msgstr ""
+
+#. Translators: %s = Add-on name
+#: includes/models/class-llms-helper-add-on.php:177
+msgid "%s was successfully installed."
+msgstr ""
+
+#. Translators: %s = Add-on name
+#: includes/models/class-llms-helper-add-on.php:186
+msgid "Could not install %s."
+msgstr ""
+
+#. Translators: %s = Add-on name
+#: includes/models/class-llms-helper-add-on.php:242
+msgid "%s was successfully updated."
+msgstr ""
+
+#. Translators: %s = Add-on name
+#: includes/models/class-llms-helper-add-on.php:251
+msgid "Could not update %s."
+msgstr ""
+
+#: includes/views/beta-testing.php:17
+msgid "Beta Testing Warnings and FAQs"
+msgstr ""
+
+#: includes/views/beta-testing.php:19
+msgid "Always test with caution!"
+msgstr ""
+
+#: includes/views/beta-testing.php:20
+msgid "Beta releases may not be stable. We may not be able to fix issues caused by using a beta release. We urge you to only use beta versions in testing environments!"
+msgstr ""
+
+#: includes/views/beta-testing.php:21
+msgid "Subscribing to the <em>beta channel</em> for LifterLMS or any available add-ons will allow you to automatically update to the latest beta release for the given plugin or theme."
+msgstr ""
+
+#: includes/views/beta-testing.php:22
+msgid "When no beta versions are available, automatic updates will be to the latest stable version of the plugin or theme."
+msgstr ""
+
+#: includes/views/beta-testing.php:24
+msgid "Rolling back and restoring data"
+msgstr ""
+
+#: includes/views/beta-testing.php:25
+msgid "This plugin does not provide you with the ability to rollback from a beta version."
+msgstr ""
+
+#: includes/views/beta-testing.php:26
+msgid "To rollback you should subscribe to the stable channel, delete the beta version of the plugin, and then re-install the latest version. If a database migration was run you should also restore your database from a backup."
+msgstr ""
+
+#: includes/views/beta-testing.php:28
+msgid "Reporting bugs and contributing"
+msgstr ""
+
+#. Translators: %1$s = Opening anchor link; %2$s = closing anchor link.
+#: includes/views/beta-testing.php:32
+msgid "We welcome contributions of all kinds, review our contribution guidelines on %1$sGitHub%2$s to get started."
+msgstr ""
+
+#. Translators: %s = Link to bug report.
+#: includes/views/beta-testing.php:38
+msgid "If you encounter a bug while beta testing, please report it at %s."
+msgstr ""
+
+#: includes/views/beta-testing.php:42
+msgid "Still have questions?"
+msgstr ""
+
+#. Translators: %s = Link to guide.
+#: includes/views/beta-testing.php:46
+msgid "Check out our Guide to Beta Testing at %s."
+msgstr ""
+
+#: includes/views/beta-testing.php:55
+msgid "Name"
+msgstr ""
+
+#: includes/views/beta-testing.php:56
+msgid "Channel"
+msgstr ""
+
+#: includes/views/beta-testing.php:57
+msgid "Installed Version"
+msgstr ""
+
+#: includes/views/beta-testing.php:58
+msgid "Beta Version"
+msgstr ""
+
+#: includes/views/beta-testing.php:70
+msgid "Stable"
+msgstr ""
+
+#: includes/views/beta-testing.php:71
+msgid "Beta"
+msgstr ""
+
+#: includes/views/beta-testing.php:81
+msgid "Save & Update"
+msgstr ""
+
+#: includes/views/beta-testing.php:88
+msgid "Are you sure you want to enable or disable beta testing for these plugins and themes?"
+msgstr ""

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.22.0
- * @version 4.21.3
+ * @version 5.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -448,6 +448,65 @@ class LLMS_Add_On {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Verifies the add-on can be uninstalled, and performs the uninstall (permanently deleting its files)
+	 *
+	 * @since 5.1.1
+	 *
+	 * @return string|WP_Error Success message or an error object.
+	 */
+	public function uninstall() {
+
+		$title = $this->get( 'title' );
+
+		if ( ! $this->is_installed() ) {
+			// Translators: %s = Add-on title.
+			return new WP_Error( 'not-installed', sprintf( __( '%s is not installed.', 'lifterlms' ), $title ) );
+		}
+
+		if ( $this->is_active() ) {
+			// Translators: %s = Add-on title.
+			return new WP_Error( 'uninstall-active', sprintf( __( '%s is active and cannot be uninstalled.', 'lifterlms' ), $title ) );
+		}
+
+		return $this->uninstall_real();
+
+	}
+
+	/**
+	 * Actually performs the uninstall
+	 *
+	 * @since 5.1.1
+	 *
+	 * @return string|WP_Error Success message or an error object.
+	 */
+	private function uninstall_real() {
+
+		$type = $this->get_type();
+
+		if ( ! in_array( $type, array( 'plugin', 'theme' ), true ) ) {
+			// Translators: %s = add-on type.
+			return new WP_Error( 'uninstall-invalid-type', sprintf( __( 'Cannot uninstall "%s" type add-ons.', 'lifterlms' ), $type ) );
+		}
+
+		$file = $this->get( 'update_file' );
+
+		if ( 'plugin' === $type ) {
+			uninstall_plugin( $file );
+			$del = delete_plugins( array( $file ) );
+		} else {
+			$del = delete_theme( $file );
+		}
+
+		if ( is_wp_error( $del ) ) {
+			return $del;
+		}
+
+		// Translators: %s = Add-on title.
+		return sprintf( __( '%s was successfully uninstalled.', 'lifterlms' ), $this->get( 'title' ) );
 
 	}
 
