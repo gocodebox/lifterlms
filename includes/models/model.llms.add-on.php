@@ -486,16 +486,19 @@ class LLMS_Add_On {
 	private function uninstall_real() {
 
 		$type = $this->get_type();
+
+		if ( ! in_array( $type, array( 'plugin', 'theme' ), true ) ) {
+			// Translators: %s = add-on type.
+			return new WP_Error( 'uninstall-invalid-type', sprintf( __( 'Cannot uninstall "%s" type add-ons.', 'lifterlms' ), $type ) );
+		}
+
 		$file = $this->get( 'update_file' );
-		$del  = null;
+
 		if ( 'plugin' === $type ) {
 			uninstall_plugin( $file );
 			$del = delete_plugins( array( $file ) );
-		} elseif ( 'theme' === $type ) {
-			$del = delete_theme( $file );
 		} else {
-			// Translators: %s = add-on type.
-			return new WP_Error( 'uninstall-invalid-type', sprintf( __( 'Cannot uninstall "%s" type add-ons.', 'lifterlms' ), $type ) );
+			$del = delete_theme( $file );
 		}
 
 		if ( is_wp_error( $del ) ) {
