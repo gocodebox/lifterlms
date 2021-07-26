@@ -1,15 +1,15 @@
 # Copyright (C) 2014-2021 LifterLMS
-# This file is distributed under the same license as the LifterLMS plugin.
+# This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.1.0\n"
+"Project-Id-Version: LifterLMS 5.1.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-19T18:02:21-06:00\n"
+"POT-Creation-Date: 2021-07-26T15:57:47-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -7322,17 +7322,17 @@ msgid "Determines if the form is a core form required for basic site functionali
 msgstr ""
 
 #. Translators: %s label of the controller field.
-#: includes/forms/class-llms-form-templates.php:197
+#: includes/forms/class-llms-form-templates.php:198
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Confirm %s"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:419
+#: includes/forms/class-llms-form-templates.php:420
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/forms/class-llms-form-templates.php:420
+#: includes/forms/class-llms-form-templates.php:421
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
@@ -8023,6 +8023,26 @@ msgstr ""
 
 #: includes/models/model.llms.add-on.php:227
 msgid "Unlicensed"
+msgstr ""
+
+#. Translators: %s = Add-on title.
+#: includes/models/model.llms.add-on.php:467
+msgid "%s is not installed."
+msgstr ""
+
+#. Translators: %s = Add-on title.
+#: includes/models/model.llms.add-on.php:472
+msgid "%s is active and cannot be uninstalled."
+msgstr ""
+
+#. Translators: %s = add-on type.
+#: includes/models/model.llms.add-on.php:492
+msgid "Cannot uninstall \"%s\" type add-ons."
+msgstr ""
+
+#. Translators: %s = Add-on title.
+#: includes/models/model.llms.add-on.php:509
+msgid "%s was successfully uninstalled."
 msgstr ""
 
 #: includes/models/model.llms.coupon.php:126

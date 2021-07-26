@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v5.1.1 - 2021-07-26
+-------------------
+
++ Bugfix: Fixed a bug causing malformed character codes to be rendered in forms when installing forms with translated labels.
++ [LifterLMS Helper version 3.3.1](https://make.lifterlms.com/2021/07/26/lifterlms-helper-version-3-3-1/)
+
+
 v5.1.0 - 2021-07-19
 -------------------
 
