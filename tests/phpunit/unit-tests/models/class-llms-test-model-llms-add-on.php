@@ -12,6 +12,36 @@
 class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 
 	/**
+	 * Retrieve a mock plugin add-on for testing
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $install  If true, calls `install_mock_addon()` to physically install the mock plugin.
+	 * @param boolean $activate If true and `$install` is also true, activates the mock plugin following installation.
+	 * @return LLMS_Add_On
+	 */
+	private function get_mock_addon( $install = false, $activate = false ) {
+
+		$asset = 'lifterlms-mock-addon.php';
+		$dir   = 'lifterlms-mock-addon/';
+		$file  = $dir . $asset;
+		if ( $install ) {
+			LLMS_Unit_Test_Files::copy_asset( $asset, trailingslashit( WP_PLUGIN_DIR  ). $dir );
+			if ( $activate ) {
+				activate_plugin( $file );
+			}
+		}
+
+		return new LLMS_Add_On( array(
+			'title'       => 'LLMS Mock Add-on',
+			'update_file' => $file,
+			'id'          => 'lifterlms-com-mock-addon',
+			'type'        => 'plugin',
+		) );
+
+	}
+
+	/**
 	 * Test constructor with an addon array passed in.
 	 *
 	 * @since 4.21.3
@@ -261,4 +291,66 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test uninstall() for an add-on that isn't installed
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_uninstall_error_addon_not_installed() {
+
+		$addon = llms_get_add_on( 'lifterlms-groups', 'slug' );
+		$res   = $addon->uninstall();
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'not-installed', $res );
+
+	}
+
+	/**
+	 * Test uninstall() error for an active add-on.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_uninstall_error_is_activate() {
+
+		$addon = $this->get_mock_addon( true, true );
+		$res   = $addon->uninstall();
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'uninstall-active', $res );
+
+	}
+
+	/**
+	 * Test uninstall() error for an invalid add-on type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_uninstall_real_error_invalid_type() {
+
+		$addon = new LLMS_Add_On( array( 'type' => 'fake' ) );
+		$res = LLMS_Unit_Test_Util::call_method( $addon, 'uninstall_real' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'uninstall-invalid-type', $res );
+
+	}
+
+	/**
+	 * Test uninstall() success for a plugin add-on
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_uninstall_plugin_real_success() {
+
+		$addon = $this->get_mock_addon( true, false );
+		$res   = LLMS_Unit_Test_Util::call_method( $addon, 'uninstall_real' );
+		$this->assertEquals( 'LLMS Mock Add-on was successfully uninstalled.', $res );
+
+	}
 }
