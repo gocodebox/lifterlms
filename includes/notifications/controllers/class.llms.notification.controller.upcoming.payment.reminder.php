@@ -45,7 +45,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		parent::add_actions();
 
 		// Add actions to recurring payment scheduling/unscheduling.
-		add_action( 'llms_charge_recurring_payment_scheduled', array( $this, 'schedule_upcoming_payment_reminder' ) );
+		add_action( 'llms_charge_recurring_payment_scheduled', array( $this, 'schedule_upcoming_payment_reminder' ), 10, 2 );
 		add_action( 'llms_charge_recurring_payment_unscheduled', array( $this, 'unschedule_upcoming_payment_reminder' ) );
 
 	}
@@ -188,9 +188,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 */
 	public function unschedule_upcoming_payment_reminder( $order ) {
 
-		$action_args = array(
-			'order_id' => $order->get( 'id' ),
-		);
+		$action_args = $this->get_recurring_payment_reminder_action_args( $order );
 
 		if ( as_next_scheduled_action( 'llms_send_upcoming_payment_reminder_notification', $action_args ) ) {
 			as_unschedule_action( 'llms_send_upcoming_payment_reminder_notification', $action_args );
@@ -199,32 +197,36 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	}
 
 	/**
-	 * Undocumented function
+	 * Schedule upcoming payment reminder notification
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
-	 * @param integer    $date  Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
-	 *                          When not provided it'll be calculated from the order.
-	 * @return void
+	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
+	 * @param integer    $payment_date Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
+	 *                                 When not provided it'll be calculated from the order.
+	 * @return WP_Error|integer WP_Error either if there's no reminder date or if it's passed. Otherwise returns the return value of `as_schedule_single_action`: the action's ID.
 	 */
-	public function schedule_upcoming_payment_reminder( $order, $date = 0 ) {
+	public function schedule_upcoming_payment_reminder( $order, $payment_date = 0 ) {
+
+		$action_args = $this->get_recurring_payment_reminder_action_args( $order );
 
 		// Unschedule upcoming payment reminder (does nothing if no action scheduled).
 		$this->unschedule_upcoming_payment_reminder( $order );
 
 		// Convert our reminder date to Unix Time and UTC before passing to the scheduler.
-		$reminder_date = $date ? $date : get_gmt_from_date(
-			$this->get_upcoming_payment_reminder_date( $order ),
-			'U'
-		);
+		$reminder_date = $this->get_upcoming_payment_reminder_date( $order, $payment_date );
+		// If no reminder date.
+		if ( is_wp_error( $reminder_date ) ) {
+			return $reminder_date;
+		}
 
-		$action_args = array(
-			'order_id' => $order->get( 'id' ),
-		);
+		// Or reminder date set in the past.
+		if ( $reminder_date < llms_current_time( 'U', true ) ) {
+			return new WP_Error( 'upcoming-payment-reminder-passed', __( 'Upcoming payment reminder passed', 'lifterlms' ) );
+		}
 
 		// Schedule upcoming payment reminder.
-		as_schedule_single_action(
+		return as_schedule_single_action(
 			$reminder_date,
 			'llms_send_upcoming_payment_reminder_notification',
 			$action_args
@@ -237,17 +239,16 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * @since [version]
 	 *
-	 * @param LLMS_Order $order  Instance of the LLMS_Order which we'll calculate the reminder date from.
-	 * @param integer    $date   Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
-	 *                           When not provided it'll be calculated from the order.
-	 * @param string     $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
-	 * @return WP_Error|string
+	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
+	 * @param integer    $payment_date Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
+	 *                                 When not provided it'll be calculated from the order.
+	 * @return WP_Error|integer Returns a WP_Eerror if there's no payment scheduled, otherwise the reminder date in Unix format and UTC.
 	 */
-	public function get_upcoming_payment_reminder_date( $order, $date = 0, $format = 'Y-m-d H:i:s' ) {
+	public function get_upcoming_payment_reminder_date( $order, $payment_date = 0 ) {
 
-		$next_payment_date = $date ? $date : $order->get_next_payment_due_date( $format );
-		if ( ! $next_payment_date || is_wp_error( $next_payment_date ) ) {
-			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
+		$next_payment_date = $payment_date ? $payment_date : $order->get_recurring_payment_due_date_for_scheduler();
+		if ( is_wp_error( $next_payment_date ) ) {
+			return $next_payment_date;
 		}
 
 		/**
@@ -255,30 +256,40 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		 *
 		 * @since [version]
 		 *
-		 * @param int        $days  The number of days before the upcoming payment due date when to notify the customer.
+		 * @param integer    $days  The number of days before the upcoming payment due date when to notify the customer.
 		 * @param LLMS_Order $order Order object.
 		 */
-		$days = apply_filters( 'llms_order_payment_reminder_days', $this->get_option( 'reminder_days' ), $order );
+		$days = apply_filters( 'llms_notification_upcoming_payment_reminder_reminder_days', $this->get_option( 'reminder_days' ), $order );
 
 		// Sanitize: makes sure it's always a negative number.
-		$days = -1 * min( 1, absint( $days ) );
+		$days = -1 * max( 1, absint( $days ) );
 
 		/**
 		 * Filters the next upcoming payment reminder date
 		 *
-		 * A timestamp should always be returned as the conversion to the requested format
-		 * will be performed on the returned value.
-		 *
 		 * @since [version]
 		 *
-		 * @param int        $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
+		 * @param integer    $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
 		 * @param LLMS_Order $order                          Order object.
-		 * @param string     $format                         Requested date format.
 		 */
-		$upcoming_payment_reminder_time = apply_filters( 'llms_order_get_next_upcoming_payment_reminder_date', strtotime( "{$days} day", strtotime( $next_payment_date ) ), $order, $format );
+		$upcoming_payment_reminder_time = apply_filters( 'llms_notification_upcoming_payment_reminder_reminder_date', strtotime( "{$days} day", $next_payment_date ), $order );
 
-		return date_i18n( $format, $upcoming_payment_reminder_time );
+		return $upcoming_payment_reminder_time;
 
+	}
+
+
+	/**
+	 * Retrieve arguments passed to order-related events processed by the action scheduler
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
+	 */
+	private function get_recurring_payment_reminder_action_args( $order ) {
+		return array(
+			'order_id' => $order->get( 'id' ),
+		);
 	}
 
 	/**
@@ -295,7 +306,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 			array(
 				'id'                => $this->get_option_name( 'reminder_days' ),
 				'title'             => __( 'Reminder days', 'lifterlms' ),
-				'desc'              => '<br>' . __( 'The number of days before the upcoming payment due date when to notify the customer', 'lifterlms' ),
+				'desc'              => '<br>' . __( 'The number of days before the upcoming payment due date when to notify the customer.', 'lifterlms' ),
 				'type'              => 'number',
 				'value'             => $this->get_option( 'reminder_days', 1 ),
 				'custom_attributes' => array(

@@ -21,7 +21,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $id;
 

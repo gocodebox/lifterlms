@@ -1766,33 +1766,23 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
 	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
 	 *                                   Only applies when the `$next_payment_date` is provided.
-	 * @return void
+	 * @return WP_Error|integer WP_Error if the plan ended. Otherwise returns the return value of `as_schedule_single_action`: the action's ID.
 	 */
 	public function schedule_recurring_payment( $next_payment_date = false, $gmt = false ) {
-
-		$date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
-
-		if ( ! $date || is_wp_error( $date ) ) {
-			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
-		}
-
-		// Convert our date to Unix time and UTC before passing to the scheduler.
-
-		// No date passed, or date passed was not in gmt.
-		if ( ( $next_payment_date && ! $gmt ) || ! $next_payment_date ) {
-			$date = get_gmt_from_date( $date, 'U' );
-		} else {
-			// Get timestamp.
-			$date = date_format( date_create( $date ), 'U' );
-		}
 
 		// Unschedule the next action (does nothing if no action scheduled).
 		$this->unschedule_recurring_payment();
 
+		$date = $this->get_recurring_payment_due_date_for_scheduler( $next_payment_date, $gmt );
+
+		if ( is_wp_error( $date ) ) {
+			return $date;
+		}
+
 		$action_args = $this->get_action_args();
 
 		// Schedule the payment.
-		as_schedule_single_action(
+		$action_id = as_schedule_single_action(
 			$date,
 			'llms_charge_recurring_payment',
 			$action_args
@@ -1804,10 +1794,44 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @since [version]
 		 *
 		 * @param LLMS_Order $order       LLMS_Order instance.
-		 * @param int        $date        Timestamp of the recurring payment date UTC.
+		 * @param integer    $date        Timestamp of the recurring payment date UTC.
 		 * @param array      $action_args Arguments passed to the scheduler.
+		 * @param integer    $action_id   Scheduled action ID.
 		 */
-		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args );
+		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args, $action_id );
+
+		return $action_id;
+
+	}
+
+	/**
+	 * Returns the recurring payment due date in a suitable format for the scheduler.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                   Only applies when the `$next_payment_date` is provided.
+	 * @return WP_Error|integer
+	 */
+	public function get_recurring_payment_due_date_for_scheduler( $next_payment_date = false, $gmt = false ) {
+
+		$date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
+
+		if ( ! $date || is_wp_error( $date ) ) {
+			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
+		}
+
+		// Convert our date to Unix time and UTC before passing to the scheduler.
+		// No date passed, or date passed was not in gmt.
+		if ( ! $next_payment_date || ( $next_payment_date && ! $gmt ) ) {
+			$date = get_gmt_from_date( $date, 'U' );
+		} else {
+			// Get timestamp.
+			$date = date_format( date_create( $date ), 'U' );
+		}
+
+		return (int) $date;
 
 	}
 
