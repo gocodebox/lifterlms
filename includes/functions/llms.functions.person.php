@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -353,6 +353,7 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  * vars in the link (user login and reset key) are parsed and stored in this cookie.
  *
  * @since 5.0.0
+ * @since [version] Fixed typos in error messages.
  *
  * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
  *                        returns a WP_Error.
@@ -360,12 +361,12 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
 function llms_parse_password_reset_cookie() {
 
 	if ( ! isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) ) {
-		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please rest your password again if needed.', 'lifterlms' ) );
+		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please reset your password again if needed.', 'lifterlms' ) );
 	}
 
 	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	if ( 2 !== count( $parsed ) ) {
-		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please rest your password again if needed.', 'lifterlms' ) );
+		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please reset your password again if needed.', 'lifterlms' ) );
 	}
 
 	$uid = $parsed[0];
