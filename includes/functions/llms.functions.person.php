@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.1.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -353,7 +353,7 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  * vars in the link (user login and reset key) are parsed and stored in this cookie.
  *
  * @since 5.0.0
- * @since [version] Fixed typos in error messages.
+ * @since 5.1.2 Fixed typos in error messages.
  *
  * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
  *                        returns a WP_Error.

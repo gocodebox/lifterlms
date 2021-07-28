@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v5.1.2 - 2021-07-28
+-------------------
+
++ Bugfix: Pass second parameter to the `get_the_excerpt` filter.
++ Fix: Corrected typos in error messages encountered during password reset.
+
+
 v5.1.1 - 2021-07-26
 -------------------
 
