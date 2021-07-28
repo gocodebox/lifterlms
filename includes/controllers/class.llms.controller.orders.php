@@ -129,15 +129,9 @@ class LLMS_Controller_Orders {
 		 *
 		 * @since 3.34.4
 		 *
-<<<<<<< HEAD
-		 * @param bool       $can_be_confirmed   True if the order can be confirmed, false otherwise.
-		 * @param LLMS_Order $order              Order object.
-		 * @param string     $gateway_id Payment gateway ID.
-=======
 		 * @param bool       $can_be_confirmed True if the order can be confirmed, false otherwise.
 		 * @param LLMS_Order $order            Order object.
 		 * @param string     $gateway_id       Payment gateway ID.
->>>>>>> 13f82ffbc (docs)
 		 */
 		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
