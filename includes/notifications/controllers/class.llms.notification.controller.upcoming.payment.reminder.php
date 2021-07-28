@@ -251,9 +251,9 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @param integer    $payment_date Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
 	 *                                 When not provided it'll be calculated from the order.
-	 * @return WP_Error|integer Returns a WP_Eerror if there's no payment scheduled, otherwise the reminder date in Unix format and UTC.
+	 * @return WP_Error|integer Returns a WP_Error if there's no payment scheduled, otherwise the reminder date in Unix format and UTC.
 	 */
-	public function get_upcoming_payment_reminder_date( $order, $payment_date = 0 ) {
+	private function get_upcoming_payment_reminder_date( $order, $payment_date = 0 ) {
 
 		$next_payment_date = $payment_date ? $payment_date : $order->get_recurring_payment_due_date_for_scheduler();
 		if ( is_wp_error( $next_payment_date ) ) {
