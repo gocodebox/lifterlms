@@ -1818,12 +1818,15 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
 
-		if ( ! $date || is_wp_error( $date ) ) {
-			return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
+		if ( ! $date ) {
+			return new WP_Error( 'invalid-recurring-payment-date', __( 'Next recurring payment due date is not valid', 'lifterlms' ) );
+		}
+		if ( is_wp_error( $date ) ) {
+			return $date;
 		}
 
 		// Convert our date to Unix time and UTC before passing to the scheduler.
-		// No date passed, or date passed was not in gmt.
+		// No date parameter passed, or passed date parameter was not in gmt.
 		if ( ! $next_payment_date || ( $next_payment_date && ! $gmt ) ) {
 			$date = get_gmt_from_date( $date, 'U' );
 		} else {
