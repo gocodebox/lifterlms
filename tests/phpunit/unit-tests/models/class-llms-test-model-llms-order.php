@@ -1308,4 +1308,56 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+
+	/**
+	 * Test get_recurring_payment_due_date_for_scheduler() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_recurring_payment_due_date_for_scheduler() {
+
+		$order = $this->get_mock_order();
+
+		$now = current_time( 'timestamp' );
+		llms_mock_current_time( $now );
+
+		// One time payment plan.
+		$plan = $this->get_plan( '25.99', 0 );
+
+		$order = $this->get_mock_order( $plan );
+
+		$this->assertWPErrorCodeEquals( 'not-recurring', $order->get_recurring_payment_due_date_for_scheduler() );
+
+		// Check order with invalid status.
+		$plan = $this->get_plan();
+
+		$plan->set( 'frequency', 1 ); // Every.
+		$plan->set( 'period', 'month' ); // Month.
+		$plan->set( 'length', 3 ); // for 3 total payments.
+		$order = $this->get_mock_order( $plan );
+
+		$original_status = $order->get( 'status' );
+		$order->set( 'status', 'some-invalid' );
+		$this->assertWPErrorCodeEquals( 'invalid-status', $order->get_recurring_payment_due_date_for_scheduler() );
+		$order->set( 'status', $original_status);
+
+		// Check providing a (boolean) false date.
+		$this->assertWPErrorCodeEquals( 'invalid-recurring-payment-date', $order->get_recurring_payment_due_date_for_scheduler( 0 ) );
+
+		// Check the returning timestamp is the order next payment due date converted to UTC.
+		$this->assertEquals(
+			get_gmt_from_date( $order->get_next_payment_due_date(), 'U' ),
+			$order->get_recurring_payment_due_date_for_scheduler()
+		);
+
+		// Pretend we the next payment due date was UTC.
+		$this->assertEquals(
+			date_format( date_create( $order->get_next_payment_due_date() ), 'U' ),
+			$order->get_recurring_payment_due_date_for_scheduler( false, true )
+		);
+
+	}
+
 }

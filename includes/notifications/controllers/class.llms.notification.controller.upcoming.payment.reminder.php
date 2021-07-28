@@ -330,7 +330,6 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
 	 * Retrieves 25 recurring orders with an existing next payment date.
-	 * Orders related to ended plans are retrieved as well.
 	 *
 	 * @since [version]
 	 *
@@ -343,6 +342,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 			array(
 				'post_type'      => 'llms_order',
 				'posts_per_page' => 25,
+				'post_status'    => array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ),
 				'meta_query'     => array(
 					'relation' => 'and',
 					array(
