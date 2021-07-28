@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 4.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -402,6 +402,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.34.0
 	 * @since 4.10.0 Add `post_name` as a property to skip scrubbing and add a filter on the list of properties to skip scrubbing.
+	 * @since [version] Pass second paramater to the `get_the_excerpt` filter hook (the WP_Post object), introduced in WordPress 4.5.0.
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
@@ -430,7 +431,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 				case 'excerpt':
 					/* This is a WordPress filter. */
-					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
+					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key, $this->post );
 					break;
 
 				case 'ping_status':
