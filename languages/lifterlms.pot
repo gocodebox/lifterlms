@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.1.1\n"
+"Project-Id-Version: LifterLMS 5.1.2\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-26T15:57:47-06:00\n"
+"POT-Creation-Date: 2021-07-28T16:59:14-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -176,15 +176,15 @@ msgstr ""
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1223
+#: includes/abstracts/abstract.llms.post.model.php:1224
 msgid "Empty data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1308
+#: includes/abstracts/abstract.llms.post.model.php:1309
 msgid "Invalid data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1337
+#: includes/abstracts/abstract.llms.post.model.php:1338
 msgid "Cannot insert/update the %s meta"
 msgstr ""
 
@@ -7475,7 +7475,7 @@ msgid "Your password has been updated."
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:341
-#: includes/functions/llms.functions.person.php:380
+#: includes/functions/llms.functions.person.php:381
 msgid "This password reset key is invalid or has already been used. Please reset your password again if needed."
 msgstr ""
 
@@ -7628,12 +7628,12 @@ msgstr ""
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:363
-msgid "The password reset key could not be found. Please rest your password again if needed."
+#: includes/functions/llms.functions.person.php:364
+msgid "The password reset key could not be found. Please reset your password again if needed."
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:368
-msgid "The password reset key is in an invalid format. Please rest your password again if needed."
+#: includes/functions/llms.functions.person.php:369
+msgid "The password reset key is in an invalid format. Please reset your password again if needed."
 msgstr ""
 
 #: includes/functions/llms.functions.privacy.php:41

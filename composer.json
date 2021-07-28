@@ -77,6 +77,7 @@
       "/vendor/**/**/*.md",
       "/vendor/**/**/.*",
       "/vendor/composer/installers",
+      "/vendor/composer/lifters",
 
       "!/assets/maps/js/vendor",
       "!/assets/vendor",
