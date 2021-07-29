@@ -1,6 +1,7 @@
-// Color map.
+// Color Map.
 $colors: (
 
+	// LifterLMS Brand Colors.
 	llms-blue: #466dd8,
 	llms-blue-alt: #2295ff,
 	llms-orange: #f8954f,
@@ -84,4 +85,16 @@ $colors: (
 
   @warn "Unknown `#{$key}` in $colors.";
   @return null;
+}
+
+
+@function llms-gradient() {
+	@return linear-gradient( 45deg, llms-color( llms-blue-alt ), llms-color( llms-blue ) );
+}
+
+// Use the LifterLMS brand gradient as the background of an element.
+// e.g.: `@include llms-gradient-bg()`
+@mixin llms-gradient-bg() {
+	background: llms-color( llms-blue );
+	background: llms-gradient();
 }
