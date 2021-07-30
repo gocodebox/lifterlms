@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 4.17.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -984,6 +984,7 @@ class LLMS_Admin_Builder {
 	 * Update lesson from heartbeat data
 	 *
 	 * @since 3.16.0
+	 * @since [version] Made sure a lesson moved in a just created section is correctly assigned to it.
 	 *
 	 * @param array        $lessons Lesson data from heartbeat.
 	 * @param LLMS_Section $section instance of the parent LLMS_Section.
@@ -1016,14 +1017,6 @@ class LLMS_Admin_Builder {
 					)
 				);
 
-				/**
-				 * If the parent section was just created the lesson will have a temp id
-				 * replace it with the newly created section's real ID.
-				 */
-				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
-					$lesson_data['parent_section'] = $section->get( 'id' );
-				}
-
 				$created = true;
 
 			} else {
@@ -1040,6 +1033,14 @@ class LLMS_Admin_Builder {
 
 			} else {
 
+				/**
+				 * If the parent section was just created the lesson will have a temp id
+				 * replace it with the newly created section's real ID.
+				 */
+				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
+					$lesson_data['parent_section'] = $section->get( 'id' );
+				}
+
 				// Return the real ID (important when creating a new lesson).
 				$res['id'] = $lesson->get( 'id' );
 
@@ -1055,7 +1056,7 @@ class LLMS_Admin_Builder {
 
 				// Update all updatable properties.
 				foreach ( $properties as $prop ) {
-					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props ) ) {
+					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props, true ) ) {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
