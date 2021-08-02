@@ -23,14 +23,12 @@ describe( 'StudentDashboard/RedeemVoucher', () => {
 	it ( 'Should redeem a valid voucher', async () => {
 
 		// Setup.
-		const
-			codes   = await createVoucher( { codes: 1, uses: 1 } ),
-			student = await createUser();
+		const codes = await createVoucher( { codes: 1, uses: 1 } );
 
 		await logoutUser();
 
 		// Use the voucher.
-		await loginStudent( student.email, student.password );
+		await loginStudent( 'voucher@email.tld', 'password' );
 		await visitPage( 'dashboard/redeem-voucher' );
 		await fillField( '#llms-voucher-code', codes[0] );
 		await clickAndWait( '#llms-redeem-voucher-submit' );
@@ -45,10 +43,9 @@ describe( 'StudentDashboard/RedeemVoucher', () => {
 
 	it ( 'Should display an error for an invalid voucher', async() => {
 
-		const student = await createUser();
 		await logoutUser();
 
-		await loginStudent( student.email, student.password );
+		await loginStudent( 'voucher@email.tld', 'password' );
 		await visitPage( 'dashboard/redeem-voucher' );
 		await fillField( '#llms-voucher-code', 'fakecode' );
 		await clickAndWait( '#llms-redeem-voucher-submit' );
