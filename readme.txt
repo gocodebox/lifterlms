@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.1.2
+Stable tag: 5.1.3
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,12 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.1.3 - 2021-08-03 =
+
++ Bugfix: Fixed an issue where a white box would be output over the certificate background image.
++ Bugfix: Fixed an issue in the course builder causing lessons to be orphaned from a course when moved into an unsaved section.
+
+
 = v5.1.2 - 2021-07-28 =
 
 + Bugfix: Pass second parameter to the `get_the_excerpt` filter.
@@ -727,22 +733,6 @@ This releases fixes two security issues affecting LifterLMS versions 4.21.0 and 
 
 + Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting a way to store XSS.
 + Thank you to Ashish Jha from [Bluefire Redteam](https://www.bluefire-redteam.com/) for reporting a reflected XSS issue on checkout screens.
-
-
-= v4.21.0 - 2021-04-19 =
-
-##### Updates
-
-+ Certificate exports will now automatically include (most) externally hosted images and stylesheets.
-+ Opt-in forward compatibility changes have been made to the `LLMS_Abstract_Options_Data` class.
-
-##### Bugfixes
-
-+ Fixed an issue causing one-time payment orders from being included in totals on some reporting screens.
-+ Fixed an issue causing student enrollment counts to be incorrect under some circumstances.
-+ Fixed issues resulting in unnecessary duplicated instances of course background data processing.
-+ Fixed an error encountered when a course is deleted prior to its background data being processed.
-+ Fixed an escaping issue causing passwords with a backslash character from being usable following a password reset.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

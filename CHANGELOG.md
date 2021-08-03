@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v5.1.3 - 2021-08-03
+-------------------
+
++ Bugfix: Fixed an issue where a white box would be output over the certificate background image.
++ Bugfix: Fixed an issue in the course builder causing lessons to be orphaned from a course when moved into an unsaved section.
+
+
 v5.1.2 - 2021-07-28
 -------------------
 

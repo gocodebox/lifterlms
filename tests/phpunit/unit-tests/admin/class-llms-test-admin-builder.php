@@ -10,7 +10,7 @@
  * @since 3.37.12
  * @since 4.14.0 Added tests on the autosave option.
  * @since 4.16.0 Added tests on 'the_title' and 'the_content' filters not affecting the save.
- * @since [version] Added tests on lesson moved into a brand new section.
+ * @since 5.1.3 Added tests on lesson moved into a brand new section.
  */
 class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
@@ -443,7 +443,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test a lesson is correctly "moved" into a brand new section :)
 	 *
-	 * @since [version]
+	 * @since 5.1.3
 	 *
 	 * @return void
 	 */
