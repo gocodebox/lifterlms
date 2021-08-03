@@ -313,7 +313,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 
 		return array(
 			array(
-				'id'                => $this->get_option_name( 'reminder_days' ),
+				'id'                => $this->get_option_name( $type . '_reminder_days' ),
 				'title'             => __( 'Reminder days', 'lifterlms' ),
 				'desc'              => '<br>' . __( 'The number of days before the upcoming payment due date when to notify the customer.', 'lifterlms' ),
 				'type'              => 'number',

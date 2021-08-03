@@ -66,7 +66,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	private function set_body_basic() {
-		return esc_html__( 'You will be charged for your subscription tomorrow.', 'lifterlms' );
+		return sprintf( esc_html__( 'You will be charged for your subscription to %1$s tomorrow.', 'lifterlms' ),  '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 		<p>
 		<?php
 			// Translators: %1$s = The product title, %2$s The upcoming payment due date.
-			printf( __( 'You will be charged for your subscription to %1$s tomorrow on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+			printf( __( 'You will be charged for your subscription to %1$s on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
 		?>
 		</p>
 		<h4>
@@ -241,7 +241,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 */
 	protected function set_subject() {
 		// Translators: %s = The product title.
-		return sprintf( __( 'You will be charged for your subscription to %1$s tomorrow', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		return sprintf( __( 'Upcoming payment reminder for your subscription to %1$s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
@@ -252,12 +252,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	protected function set_title() {
-		if ( 'email' === $this->notification->get( 'type' ) ) {
-			// Translators: %s = The order ID.
-			return sprintf( __( 'You will be charged for your subscription tomorrow. Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
-		}
-		// Translators: %s = The product title.
-		return sprintf( __( 'You will be charged for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		return __( 'Upcoming Subscription Payment', 'lifterlms' );
 	}
 
 }
