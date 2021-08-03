@@ -215,12 +215,18 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Adds subscribers before sending a notifications
 	 *
 	 * @since 3.8.0
+	 * @since [version] Added parameter to only send notifications of specific types.
 	 *
+	 * @param null|string[] $filter_types Optional. Array of notification types to be sent. Default is `null`.
+	 *                                    When not provided (`null`) all the types.
 	 * @return void
 	 */
-	private function add_subscriptions() {
+	private function add_subscriptions( $filter_types = null ) {
 
 		foreach ( array_keys( $this->get_supported_types() ) as $type ) {
+			if ( ! is_null( $filter_types ) && ! in_array( $type, $filter_types, true ) ) {
+				continue;
+			}
 
 			foreach ( $this->get_subscribers_settings( $type ) as $subscriber_key => $enabled ) {
 
@@ -478,17 +484,19 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
+	 * @since [version] Added parameter to only send notifications of specific types.
 	 *
-	 * @param bool $force Optional. If true, will force a send even if duplicates. Default is `false`.
-	 *                    Only applies to controllers that flag $this->auto_dupcheck to true.
+	 * @param bool          $force        Optional. If true, will force a send even if duplicates. Default is `false`.
+	 *                                    Only applies to controllers that flag $this->auto_dupcheck to true.
+	 * @param null|string[] $filter_types Optional. Array of notification types to be sent. Default is `null`.
+	 *                                    When not provided (`null`) all the types.
 	 * @return void
 	 */
-	public function send( $force = false ) {
+	public function send( $force = false, $filter_types = null ) {
 
-		$this->add_subscriptions();
+		$this->add_subscriptions( $filter_types );
 
 		foreach ( $this->get_subscriptions() as $subscriber => $types ) {
-
 			foreach ( $types as $type ) {
 
 				$this->send_one( $type, $subscriber, $force );

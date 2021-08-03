@@ -19,6 +19,13 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	private $controller;
 
 	/**
+	 * Supported notification types.
+	 *
+	 * @var string[]
+	 */
+	private $types;
+
+	/**
 	 * Consider dates equal within 60 seconds
 	 *
 	 * @var int
@@ -35,6 +42,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	public function setUp() {
 		parent::setup();
 		$this->controller = LLMS_Notification_Controller_Upcoming_Payment_Reminder::instance();
+		$this->types      = array_keys( $this->controller->get_supported_types() );
 	}
 
 	/**
@@ -56,32 +64,45 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 		LLMS_Site::update_feature( 'recurring_payments', true );
 
 		// Check notification sent for existing order and student.
-		$this->assertTrue( $this->controller->action_callback( $order->get( 'id' ) ) );
+		foreach ( $this->types as $type ) {
+			$this->assertTrue( $this->controller->action_callback( $order->get( 'id' ), $type ), $type );
+		}
 
 		// Check notification not sent for error gateway.
 		$order->set( 'payment_gateway', 'garbage' );
-		$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) ) );
+		foreach ( $this->types as $type ) {
+			$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ), $type ), $type );
+		}
 
 		// Check notification not sent for gateway that do not support recurring payments.
 		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$manual->supports['recurring_payments'] = false;
 		$order->set( 'gateway', 'manual' );
-		$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) ) );
+		foreach ( $this->types as $type ) {
+			$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ), $type ), $type );
+		}
 
 		// Re-set recurring payments support for the manual gateway.
 		$manual->supports['recurring_payments'] = true;
 
 		// Check notification not sent for unexisting order.
-		$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) + 1  ) );
-		$this->assertFalse( $this->controller->action_callback( $post_id ) );
+		foreach ( $this->types as $type ) {
+			$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) + 1, $type ), $type );
+			$this->assertFalse( $this->controller->action_callback( $post_id, $type ), $type );
+		}
 
 		// Check notication not sent for unexisting student.
 		$order->set( 'user_id', $order->get( 'user_id' ) + 1 );
-		$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) ) );
+		foreach ( $this->types as $type ) {
+			$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ), $type ), $type );
+		}
 
 		LLMS_Site::update_feature( 'recurring_payments', false );
+
 		// Check notification not sent for staging sites.
-		$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ) ) );
+		foreach ( $this->types as $type ) {
+			$this->assertFalse( $this->controller->action_callback( $order->get( 'id' ), $type ), $type );
+		}
 
 		LLMS_Site::update_feature( 'recurring_payments', $recurring_payments_site_feature );
 
@@ -105,30 +126,38 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 		$next_payment_date = $order->get_recurring_payment_due_date_for_scheduler();
 
 		// Reminder days (prior to the payment due date): default is 1.
-		$this->assertEquals(
-			strtotime( "-1 day", $next_payment_date ),
-			LLMS_Unit_Test_Util::call_method(
-				$this->controller,
-				'get_upcoming_payment_reminder_date',
-				array( $order )
-			)
-		);
+		foreach ( $this->types as $type ) {
+			$this->assertEquals(
+				strtotime( "-1 day", $next_payment_date ),
+				LLMS_Unit_Test_Util::call_method(
+					$this->controller,
+					'get_upcoming_payment_reminder_date',
+					array( $order, $type )
+				),
+				$type
+			);
+		}
 
-		// Test 10 days before.
-		$days_option = $this->controller->get_option( 'reminder_days' );
-		$this->controller->set_option( 'reminder_days', 10 );
+		// Reminder days (prior to the payment due date): 10 and 11.
+		$i = 0;
+		foreach ( $this->types as $type ) {
 
-		// Reminder days (prior to the payment due date):10.
-		$this->assertEquals(
-			strtotime( "-10 day", $next_payment_date ),
-			LLMS_Unit_Test_Util::call_method(
-				$this->controller,
-				'get_upcoming_payment_reminder_date',
-				array( $order )
-			)
-		);
+			$days_option = LLMS_Unit_Test_Util::call_method( $this->controller, 'get_reminder_days', array( $type ) );
+			$days = 10 + $i++;
+			$this->controller->set_option( $type . '_reminder_days', $days );
 
-		$this->controller->set_option( 'reminder_days', $days_option );
+			$this->assertEquals(
+				strtotime( "-{$days} day", $next_payment_date ),
+				LLMS_Unit_Test_Util::call_method(
+					$this->controller,
+					'get_upcoming_payment_reminder_date',
+					array( $order, $type )
+				),
+				$type
+			);
+
+			$this->controller->set_option( $type . '_reminder_days', $days_option );
+		}
 
 	}
 
@@ -147,51 +176,61 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 
 		$order = $this->get_mock_order( $plan );
 
-		// Upcoming payment reminder is unscheduled.
-		$this->assertFalse(
-			as_next_scheduled_action(
-				'llms_send_upcoming_payment_reminder_notification',
-				array(
-					'order_id' => $order->get( 'id' ),
-				)
-			)
-		);
+		// Upcoming payment reminders are unscheduled.
+		foreach ( $this->types as $type ) {
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+						'type'     => $type,
+					)
+				),
+				$type
+			);
+		}
 
 		$next_payment_date = $order->get_recurring_payment_due_date_for_scheduler();
 
 		// Schedule.
-		$this->controller->schedule_upcoming_payment_reminder( $order, $next_payment_date );
+		$this->controller->schedule_upcoming_payment_reminders( $order, $next_payment_date );
 
 		// Check next payment reminder scheduled 1 day prior to payment due date.
-		$this->assertEquals(
-			(float) strtotime( "-1 day", $next_payment_date ),
-			as_next_scheduled_action(
-				'llms_send_upcoming_payment_reminder_notification',
-				array(
-					'order_id' => $order->get( 'id' ),
-				)
-			),
-			'',
-			$this->date_delta
-		);
+		foreach ( $this->types as $type ) {
+			$this->assertEquals(
+				(float) strtotime( "-1 day", $next_payment_date ),
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+						'type'     => $type,
+					)
+				),
+				$type,
+				$this->date_delta
+			);
+		}
 
 		// Unschedule.
-		$this->controller->unschedule_upcoming_payment_reminder( $order );
+		$this->controller->unschedule_upcoming_payment_reminders( $order );
 
 		// Fast forward.
 		llms_mock_current_time( date( 'Y-m-d', $next_payment_date + WEEK_IN_SECONDS ) );
 
 		// Try to schedule a notification that should be happen 1 week - 1 day in the past.
-		$this->assertWPErrorCodeEquals( 'upcoming-payment-reminder-passed', $this->controller->schedule_upcoming_payment_reminder( $order, $next_payment_date ) );
-
-		$this->assertFalse(
-			as_next_scheduled_action(
-				'llms_send_upcoming_payment_reminder_notification',
-				array(
-					'order_id' => $order->get( 'id' ),
-				)
-			)
-		);
+		foreach ( $this->types as $type ) {
+			$this->assertWPErrorCodeEquals( 'upcoming-payment-reminder-passed', $this->controller->schedule_upcoming_payment_reminder( $order, $type, $next_payment_date ) );
+			$this->assertFalse(
+				as_next_scheduled_action(
+					'llms_send_upcoming_payment_reminder_notification',
+					array(
+						'order_id' => $order->get( 'id' ),
+						'type'     => $type,
+					)
+				),
+				$type
+			);
+		}
 
 	}
 
