@@ -263,12 +263,14 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		/**
 		 * Filters the number of days before the upcoming payment due date when to notify the customer
 		 *
+		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
+		 *
 		 * @since [version]
 		 *
 		 * @param integer    $days  The number of days before the upcoming payment due date when to notify the customer.
 		 * @param LLMS_Order $order Order object.
 		 */
-		$days = apply_filters( 'llms_notification_upcoming_payment_reminder_reminder_days', $this->get_option( 'reminder_days' ), $order );
+		$days = apply_filters( "llms_notification_{$this->id}_reminder_days", $this->get_option( 'reminder_days' ), $order );
 
 		// Sanitize: makes sure it's always a negative number.
 		$days = -1 * max( 1, absint( $days ) );
@@ -276,12 +278,14 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		/**
 		 * Filters the next upcoming payment reminder date
 		 *
+		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
+		 *
 		 * @since [version]
 		 *
 		 * @param integer    $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
 		 * @param LLMS_Order $order                          Order object.
 		 */
-		$upcoming_payment_reminder_time = apply_filters( 'llms_notification_upcoming_payment_reminder_reminder_date', strtotime( "{$days} day", $next_payment_date ), $order );
+		$upcoming_payment_reminder_time = apply_filters( "llms_notification_{$this->id}_reminder_date", strtotime( "{$days} day", $next_payment_date ), $order );
 
 		return $upcoming_payment_reminder_time;
 
@@ -313,7 +317,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 
 		return array(
 			array(
-				'id'                => $this->get_option_name( $type . '_reminder_days' ),
+				'id'                => $this->get_option_name( 'reminder_days' ),
 				'title'             => __( 'Reminder days', 'lifterlms' ),
 				'desc'              => '<br>' . __( 'The number of days before the upcoming payment due date when to notify the customer.', 'lifterlms' ),
 				'type'              => 'number',

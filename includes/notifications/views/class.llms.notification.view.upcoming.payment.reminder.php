@@ -66,7 +66,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * @return string
 	 */
 	private function set_body_basic() {
-		return sprintf( esc_html__( 'You will be charged for your subscription to %1$s tomorrow.', 'lifterlms' ),  '{{PRODUCT_TITLE}}' );
+		return sprintf( esc_html__( 'You will be charged for your subscription to %1$s tomorrow.', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
