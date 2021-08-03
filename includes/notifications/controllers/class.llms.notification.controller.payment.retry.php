@@ -20,7 +20,7 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	/**
 	 * Trigger Identifier
 	 *
-	 * @var id
+	 * @var string
 	 */
 	public $id = 'payment_retry';
 
