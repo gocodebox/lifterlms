@@ -33,7 +33,7 @@
     "lifterlms/lifterlms-blocks": "2.2.0",
     "lifterlms/lifterlms-rest": "1.0.0-beta.19",
     "woocommerce/action-scheduler": "3.2.1",
-    "lifterlms/lifterlms-helper": "3.3.1"
+    "lifterlms/lifterlms-helper": "3.4.0"
   },
   "require-dev": {
     "lifterlms/lifterlms-tests": "dev-trunk",
@@ -95,8 +95,9 @@
     "env": "\"vendor/bin/llms-env\"",
     "env:setup": [
       "\"vendor/bin/llms-env\" wp plugin activate lifterlms",
-      "echo The next line is a workaround for https://core.trac.wordpress.org/ticket/52086",
-      "\"vendor/bin/llms-env\" wp config set SCRIPT_DEBUG true --raw"
+      "echo The next two lines are a workaround for https://core.trac.wordpress.org/ticket/52086",
+      "\"vendor/bin/llms-env\" wp config set SCRIPT_DEBUG true --raw",
+      "\"vendor/bin/llms-env\" wp user create voucher voucher@email.tld --role=student --user_pass=password"
     ],
     "fix-cs": "\"vendor/bin/phpcbf\"",
     "post-install-cmd": "@post-update-install-cmd",

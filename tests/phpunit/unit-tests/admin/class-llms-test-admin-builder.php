@@ -10,6 +10,7 @@
  * @since 3.37.12
  * @since 4.14.0 Added tests on the autosave option.
  * @since 4.16.0 Added tests on 'the_title' and 'the_content' filters not affecting the save.
+ * @since 5.1.3 Added tests on lesson moved into a brand new section.
  */
 class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
@@ -437,6 +438,53 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 			}
 			$li++;
 		}
+	}
+
+	/**
+	 * Test a lesson is correctly "moved" into a brand new section :)
+	 *
+	 * @since 5.1.3
+	 *
+	 * @return void
+	 */
+	public function test_move_lesson_in_a_brand_new_section() {
+
+		// Create a Course with a Lesson.
+		$course = $this->factory->course->create_and_get( array(
+			'sections' => 1,
+			'lessons'  => 1,
+			'quizzes'  => 0,
+		) );
+		$lesson = $course->get_lessons()[0];
+
+		// Create a section.
+		$section_id = $this->factory->post->create( array( 'post_type' => 'section' ) );
+		$section    = llms_get_post( $section_id );
+		// Add the section to the course above.
+		$section->set_parent_course( $course->get( 'id' ) );
+
+		// Simulate the course lesson moved from its section to the brand new one.
+		// Build builder data.
+		$lessons_data_from_builder = array(
+			array(
+            	'parent_section' => 'temp_108', // temp parent section.
+				'id'             => $lesson->get( 'id' ),
+			),
+		);
+
+		LLMS_Unit_Test_Util::call_method(
+			$this->main,
+			'update_lessons',
+			array(
+				$lessons_data_from_builder,
+				$section // The just created section parent.
+			)
+		);
+
+		// Check lesson parents.
+		$this->assertEquals( $course->get( 'id' ), $lesson->get_parent_course() );
+		$this->assertEquals( $section->get( 'id' ), $lesson->get_parent_section() );
+
 	}
 
 	/**

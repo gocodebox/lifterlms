@@ -112,14 +112,17 @@ body {
 		display: none !important;
 	}
 
-	/* make sure a .container parent doesn't shif the certificate see: https://github.com/gocodebox/lifterlms/issues/1163 */
+	/* make sure a .container parent doesn't shift the certificate see: https://github.com/gocodebox/lifterlms/issues/1163 */
+	.single-llms_my_certificate .container,
 	.single-llms_certificate .container {
 		width: 100%;
 	}
 
 	/* make only the certificate container and its children visible */
-	.llms-certificate-container, .llms-certificate-container * {
+	.llms-certificate-container,
+	.llms-certificate-container * {
 		visibility: visible !important;
+		background: transparent none;
 	}
 
 	/* position certificate absolutely and center horizontally */
