@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 5.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -300,7 +300,7 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 * @since 5.0.0 Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
-	 * @since [version] Add keys to the $libs array and pass them through a filter.
+	 * @since 5.1.3 Add keys to the $libs array and pass them through a filter.
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_Loader {
 		/**
 		 * Filters the list of LifterLMS libraries to be loaded.
 		 *
-		 * @since [version]
+		 * @since 5.1.3
 		 *
 		 * @param array $libs Array of library data. Array key is a unique ID for the library and each array contains the following keys:
 		 *                    @type string $const Name of the constant used to identify if the library is loaded as a library.
