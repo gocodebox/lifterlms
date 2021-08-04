@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.0.0
+ * @version 5.1.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -300,29 +300,41 @@ class LLMS_Loader {
 	 * @since 4.0.0
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 * @since 5.0.0 Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
+	 * @since 5.1.3 Add keys to the $libs array and pass them through a filter.
 	 *
 	 * @return void
 	 */
 	public function includes_libraries() {
 
 		$libs = array(
-			array(
+			'blocks' => array(
 				'const' => 'LLMS_BLOCKS_LIB',
 				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
 			),
-			array(
+			'rest'   => array(
 				'const' => 'LLMS_REST_API_LIB',
 				'test'  => ! class_exists( 'LifterLMS_REST_API' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php',
 			),
-			array(
+			'helper' => array(
 				'const' => 'LLMS_HELPER_LIB',
 				'test'  => ! class_exists( 'LifterLMS_Helper' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-helper/lifterlms-helper.php',
 			),
 		);
 
+		/**
+		 * Filters the list of LifterLMS libraries to be loaded.
+		 *
+		 * @since 5.1.3
+		 *
+		 * @param array $libs Array of library data. Array key is a unique ID for the library and each array contains the following keys:
+		 *                    @type string $const Name of the constant used to identify if the library is loaded as a library.
+		 *                    @type bool   $test  A test which is evaluated to determine if the library should be loaded. Returning `false` causes the library not to load.
+		 *                    @type string $file  Path to the main library file's location in the LifterLMS core plugin.
+		 */
+		$libs = apply_filters( 'llms_included_libs', $libs );
 		foreach ( $libs as $lib ) {
 
 			if ( $lib['test'] ) {
