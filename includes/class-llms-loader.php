@@ -312,7 +312,7 @@ class LLMS_Loader {
 				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
 			),
-			'rest' => array(
+			'rest'   => array(
 				'const' => 'LLMS_REST_API_LIB',
 				'test'  => ! class_exists( 'LifterLMS_REST_API' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-rest/lifterlms-rest.php',
