@@ -51,6 +51,8 @@ class LLMS_DB_Upgrader {
 	 */
 	public function __construct( $db_version, $updates = null ) {
 
+		$this->updater = LLMS_Install::$background_updater;
+
 		// Background updates may trigger a notice during a cron and notices might not be available.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
@@ -118,8 +120,6 @@ class LLMS_DB_Upgrader {
 	 */
 	public function enqueue_updates() {
 
-		$this->init_bg_updater();
-
 		$queued = false;
 		foreach ( $this->get_required_updates() as $version => $info ) {
 			foreach ( $info['updates'] as $callback ) {
@@ -141,7 +141,10 @@ class LLMS_DB_Upgrader {
 			$this->show_notice_started();
 			$this->updater->push_to_queue( array( $this, 'show_notice_complete' ) );
 		}
-		$this->updater->save()->dispatch();
+
+		$this->updater->save();
+
+		add_action( 'shutdown', array( 'LLMS_Install', 'dispatch_db_updates' ) );
 
 	}
 
@@ -204,49 +207,6 @@ class LLMS_DB_Upgrader {
 	}
 
 	/**
-	 * Initialize the LLMS_Backgound_Updater class
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	protected function init_bg_updater() {
-
-		if ( empty( $this->updater ) ) {
-			require_once LLMS_PLUGIN_DIR . '/includes/class.llms.background.updater.php';
-			$this->updater = new LLMS_Background_Updater();
-		}
-
-	}
-
-	/**
-	 * Output JS needed by the upgrade noticed displayed via show_notice_pending().
-	 *
-	 * This public callback method is marked as private as it is intended for internal use only and
-	 * may be altered or removed without deprecation warnings.
-	 *
-	 * @since [version]
-	 *
-	 * @access private
-	 *
-	 * @return void
-	 */
-	public function notice_pending_footer_scripts() {
-		?>
-		<script type="text/javascript">
-			( function() {
-				document.getElementById( 'llms-start-updater' ).onclick = function( e ) {
-					var confirm = window.confirm( '<?php echo esc_js( __( 'We strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'lifterlms' ) ); ?>' );
-					if ( ! confirm ) {
-						e.preventDefault();
-					}
-				};
-			} )();
-		</script>
-		<?php
-	}
-
-	/**
 	 * Show the db upgrade admin notice.
 	 *
 	 * Users can click this notice to start the database upgrade(s).
@@ -263,16 +223,12 @@ class LLMS_DB_Upgrader {
 			LLMS_Admin_Notices::delete_notice( $notice_id );
 		}
 
-		ob_start();
-		include LLMS_PLUGIN_DIR . 'includes/admin/views/notices/db-update.php';
-		$html = ob_get_clean();
-		add_action( 'admin_print_footer_scripts', array( $this, 'notice_footer_scripts' ) );
-
 		LLMS_Admin_Notices::add_notice(
 			$notice_id,
 			array(
-				'dismissible' => false,
-				'html'        => $html,
+				'dismissible'  => false,
+				'template'     => 'db-update.php',
+				'default_path' => LLMS_PLUGIN_DIR . 'includes/admin/views/notices/',
 			)
 		);
 
