@@ -27,8 +27,6 @@ class LLMS_Install {
 	/**
 	 * Instances of the bg updater.
 	 *
-	 * @deprecated [version] Class property `LLMS_Install::$background_updater` is deprecated with no replace.
-	 *
 	 * @var LLMS_Background_Updater
 	 */
 	public static $background_updater;
@@ -40,7 +38,6 @@ class LLMS_Install {
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.3 Unknown.
-	 * @since [version] Don't initialize deprecated class property $background_updater.
 	 *
 	 * @return void
 	 */
@@ -49,6 +46,7 @@ class LLMS_Install {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		require_once 'admin/llms.functions.admin.php';
 
+		add_action( 'init', array( __CLASS__, 'init_background_updater' ), 4 );
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'update_actions' ) );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
@@ -326,6 +324,17 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Dispatches the bg updater
+	 *
+	 * @since 3.4.3
+	 *
+	 * @return void
+	 */
+	public static function dispatch_db_updates() {
+		self::$background_updater->save()->dispatch();
+	}
+
+	/**
 	 * Retrieve the default difficulty terms that should be created on a fresh install
 	 *
 	 * @since 3.3.1
@@ -483,6 +492,22 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
+	 * Initializes the bg updater class
+	 *
+	 * @since 3.4.3
+	 * @since 3.6.0 Unknown.
+	 * @since [version] Use `LLMS_PLUGIN_DIR` to include required class file.
+	 *
+	 * @return void
+	 */
+	public static function init_background_updater() {
+
+		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.background.updater.php';
+		self::$background_updater = new LLMS_Background_Updater();
+
+	}
+
+	/**
 	 * Core install function
 	 *
 	 * @since 1.0.0
@@ -616,7 +641,9 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 			wp_die( __( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
 		}
 
-		$upgrader = new LLMS_DB_Upgrader( llms_filter_input( INPUT_GET, 'db_version', FILTER_SANITIZE_STRING ) );
+		LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
+
+		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
 		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update', 'db_version' ) ) );
 
@@ -712,23 +739,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
-	 * Initializes the bg updater class
-	 *
-	 * @since 3.4.3
-	 * @since 3.6.0 Unknown.
-	 * @deprecated [version] LLMS_Install::init_background_updater() is deprecated with no replacement.
-	 *
-	 * @return void
-	 */
-	public static function init_background_updater() {
-
-		_deprecated_function( 'LLMS_Install::init_background_updater()', '[version]' );
-		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
-		self::$background_updater = new LLMS_Background_Updater();
-
-	}
-
-	/**
 	 * Queue all required db updates into the bg update queue
 	 *
 	 * @since 3.0.0
@@ -743,19 +753,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
 
-	}
-
-	/**
-	 * Dispatches the bg updater
-	 *
-	 * @since 3.4.3
-	 * @deprecated [version] LLMS_Install::dispatch_db_updates() is deprecated with no replacement.
-	 *
-	 * @return void
-	 */
-	public static function dispatch_db_updates() {
-		_deprecated_function( 'LLMS_Install::dispatch_db_updates()', '[version]' );
-		self::$background_updater->save()->dispatch();
 	}
 
 	/**
