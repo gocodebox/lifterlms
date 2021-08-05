@@ -645,7 +645,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
-		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update', 'db_version' ) ) );
+		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update' ) ) );
 
 	}
 
