@@ -1,8 +1,6 @@
 <?php
 /**
- * Review Request
- *
- * We're needy. Please tell us you like us, it means a lot.
+ * Pending database update notice.
  *
  * @package LifterLMS/Admin/Views
  *
@@ -11,7 +9,9 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-$url = wp_nonce_url( add_query_arg( 'db_version', $this->db_version ), 'do_db_updates', 'llms-db-update' );
+
+$base_url = wp_doing_ajax() || ! is_admin() ? admin_url() : str_replace( '/wp-admin/', '', $_SERVER['REQUEST_URI'] );
+$url      = wp_nonce_url( $base_url, 'do_db_updates', 'llms-db-update' );
 ?>
 
 <p><strong><?php _e( 'The LifterLMS database needs to be updated to the latest version.', 'lifterlms' ); ?></strong></p>
@@ -20,3 +20,14 @@ $url = wp_nonce_url( add_query_arg( 'db_version', $this->db_version ), 'do_db_up
 <p><?php printf( __( 'See the %1$sdatabase update log%2$s for a complete list of changes scheduled for each upgrade.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/" target="_blank">', '</a>' ); ?></p>
 
 <p><a class="button-primary" id="llms-start-updater" href="<?php echo $url; ?>"><?php _e( 'Run the Updater', 'lifterlms' ); ?></a></p>
+
+<script>
+	( function() {
+		document.getElementById( 'llms-start-updater' ).onclick = function( e ) {
+			var confirm = window.confirm( '<?php echo esc_js( __( 'We strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'lifterlms' ) ); ?>' );
+			if ( ! confirm ) {
+				e.preventDefault();
+			}
+		};
+	} )();
+</script>
