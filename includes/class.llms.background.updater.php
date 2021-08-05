@@ -196,4 +196,24 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	}
 
+	/**
+	 * Save queue
+	 *
+	 * Overwrites parent method to empty `$this->data` following a save.
+	 *
+	 * This ensures save() can be called multiple times without recording duplicates.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Background_Updater
+	 */
+	public function save() {
+
+		parent::save();
+		// Reset data to avoid duplicates if save() is called more than once.
+		$this->data = array();
+
+		return $this;
+	}
+
 }
