@@ -64,7 +64,6 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	protected function complete() {
 		$this->log( 'Update complete' );
 		LLMS_Install::update_db_version();
-		LLMS_Install::update_notice();
 		parent::complete();
 	}
 
