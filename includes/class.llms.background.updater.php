@@ -171,6 +171,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 *
 	 * @since 3.4.3
 	 * @since 3.16.10 Unknown.
+	 * @since [version] Use `llms_get_callable_name()` to log callback.
 	 *
 	 * @param mixed $callback PHP callable (function name, callable array, etc...).
 	 * @return mixed Returns `false` when the callback is complete (removes it from the queue).
@@ -178,17 +179,17 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 */
 	protected function task( $callback ) {
 
-		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms.functions.updates.php';
 
+		$callback_name = llms_get_callable_name( $callback );
 		if ( is_callable( $callback ) ) {
-			$this->log( sprintf( 'Running %s callback', $callback ) );
+ 			$this->log( sprintf( 'Running %s callback', $callback_name ) );
 			if ( call_user_func( $callback ) ) {
 				return $callback;
 			}
-			$this->log( sprintf( 'Finished %s callback', $callback ) );
-
+			$this->log( sprintf( 'Finished %s callback', $callback_name ) );
 		} else {
-			$this->log( sprintf( 'Could not find %s callback', $callback ) );
+			$this->log( sprintf( 'Could not find %s callback', $callback_name ) );
 		}
 
 		return false;
