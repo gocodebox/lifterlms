@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 4.12.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -112,6 +112,43 @@ function llms_backup_logs() {
 }
 add_action( 'llms_backup_logs', 'llms_backup_logs' );
 
+/**
+ * Retrieve a string representing a PHP callable
+ *
+ * This can be used to log callables regardless of the callable format.
+ *
+ * @since [version]
+ *
+ * @param mixed $callable PHP callable.
+ * @return string
+ */
+function llms_get_callable_name( $callable ) {
+
+	// Function name or static class -> method: 'function' or 'class::method'.
+	if ( is_string( $callable ) ) {
+		return $callable;
+	}
+
+	if ( is_array( $callable ) && ! empty( $callable ) ) {
+
+		// Class and class method: [ $class, 'method' ].
+		if ( is_object( $callable[0] ) ) {
+			return get_class( $callable[0] )  . '->' . $callable[1];
+		}
+
+		// Static class + method: [ 'class', 'method' ].
+		return implode( '::', $callable );
+
+	}
+
+	// Invokable class: $class.
+	if ( is_object( $callable ) ) {
+		return get_class( $callable );
+	}
+
+	return 'Unknown';
+
+}
 
 /**
  * Retrieve the full path to the log file for a given log handle
