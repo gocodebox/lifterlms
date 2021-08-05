@@ -183,7 +183,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 		$callback_name = llms_get_callable_name( $callback );
 		if ( is_callable( $callback ) ) {
- 			$this->log( sprintf( 'Running %s callback', $callback_name ) );
+			$this->log( sprintf( 'Running %s callback', $callback_name ) );
 			if ( call_user_func( $callback ) ) {
 				return $callback;
 			}

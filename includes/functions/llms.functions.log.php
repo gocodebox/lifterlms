@@ -133,7 +133,7 @@ function llms_get_callable_name( $callable ) {
 
 		// Class and class method: [ $class, 'method' ].
 		if ( is_object( $callable[0] ) ) {
-			return get_class( $callable[0] )  . '->' . $callable[1];
+			return get_class( $callable[0] ) . '->' . $callable[1];
 		}
 
 		// Static class + method: [ 'class', 'method' ].
