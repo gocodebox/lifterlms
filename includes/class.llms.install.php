@@ -1,114 +1,37 @@
 <?php
 /**
- * Plugin installation
+ * LLMS_Install class file
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Install
+ * Install LifterLMS
+ *
+ * Creates required pages, cronjobs, options, tables, and more.
+ *
+ * Additionally handles running database updates and migrations required with plugin updates.
  *
  * @since 1.0.0
- * @since 3.28.0 Unknown.
- * @since 3.34.0 Added filter to the return of the get_schema() method.
- * @since 3.36.0 Added `wp_lifterlms_events` table.
- * @since 4.0.0 Added `wp_lifterlms_sessions` table.
- *              Added session cleanup cron.
- *              Added db update functions for session manager library cleanup.
+ * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
- * @since 5.0.0 Install forms during installation.
+ * @since [version] Removed private class property $db_updates.
  */
 class LLMS_Install {
 
-	public static $background_updater;
-
 	/**
-	 * Database update functions
+	 * Instances of the bg updater.
 	 *
-	 * Array key is the database version and array values are
-	 * arrays of callback functions for the update.
+	 * @deprecated [version] Class property `LLMS_Install::$background_updater` is deprecated with no replace.
 	 *
-	 * @var array
+	 * @var LLMS_Background_Updater
 	 */
-	private static $db_updates = array(
-		'3.0.0'  => array(
-			'llms_update_300_create_access_plans',
-			'llms_update_300_del_deprecated_options',
-			'llms_update_300_migrate_account_field_options',
-			'llms_update_300_migrate_coupon_data',
-			'llms_update_300_migrate_course_postmeta',
-			'llms_update_300_migrate_lesson_postmeta',
-			'llms_update_300_migrate_order_data',
-			'llms_update_300_migrate_email_postmeta',
-			'llms_update_300_update_orders',
-			'llms_update_300_update_db_version',
-		),
-		'3.0.3'  => array(
-			'llms_update_303_update_students_role',
-			'llms_update_303_update_db_version',
-		),
-		'3.4.3'  => array(
-			'llms_update_343_update_relationships',
-			'llms_update_343_update_db_version',
-		),
-		'3.6.0'  => array(
-			'llms_update_360_set_product_visibility',
-			'llms_update_360_update_db_version',
-		),
-		'3.8.0'  => array(
-			'llms_update_380_set_access_plan_visibility',
-			'llms_update_380_update_db_version',
-		),
-		'3.12.0' => array(
-			'llms_update_3120_update_order_end_dates',
-			'llms_update_3120_update_integration_options',
-			'llms_update_3120_update_db_version',
-		),
-		'3.13.0' => array(
-			'llms_update_3130_create_default_instructors',
-			'llms_update_3130_builder_notice',
-			'llms_update_3130_update_db_version',
-		),
-		'3.16.0' => array(
-			'llms_update_3160_update_quiz_settings',
-			'llms_update_3160_lesson_to_quiz_relationships_migration',
-			'llms_update_3160_attempt_migration',
-			'llms_update_3160_ensure_no_dupe_question_rels',
-			'llms_update_3160_ensure_no_lesson_dupe_rels',
-			'llms_update_3160_update_question_data',
-			'llms_update_3160_update_attempt_question_data',
-			'llms_update_3160_update_quiz_to_lesson_rels',
-			'llms_update_3160_builder_notice',
-			'llms_update_3160_update_db_version',
-		),
-		'3.28.0' => array(
-			'llms_update_3280_clear_session_cleanup_cron',
-			'llms_update_3280_update_db_version',
-		),
-		'4.0.0'  => array(
-			'llms_update_400_remove_session_options',
-			'llms_update_400_clear_session_cron',
-			'llms_update_400_update_db_version',
-		),
-		'4.5.0'  => array(
-			'llms_update_450_migrate_events_open_sessions',
-			'llms_update_450_update_db_version',
-		),
-		'4.15.0' => array(
-			'llms_update_4150_remove_orphan_access_plans',
-			'llms_update_4150_update_db_version',
-		),
-		'5.0.0'  => array(
-			'llms_update_500_legacy_options_autoload_off',
-			'llms_update_500_update_db_version',
-			'llms_update_500_add_admin_notice',
-		),
-	);
+	public static $background_updater;
 
 	/**
 	 * Initialize the install class
@@ -117,6 +40,7 @@ class LLMS_Install {
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.3 Unknown.
+	 * @since [version] Don't initialize deprecated class property $background_updater.
 	 *
 	 * @return void
 	 */
@@ -125,7 +49,6 @@ class LLMS_Install {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		require_once 'admin/llms.functions.admin.php';
 
-		add_action( 'init', array( __CLASS__, 'init_background_updater' ), 4 );
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'update_actions' ) );
 		add_action( 'admin_init', array( __CLASS__, 'wizard_redirect' ) );
@@ -278,10 +201,10 @@ class LLMS_Install {
 
 		foreach ( $files as $file ) {
 			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
-				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' );
+				$file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
 				if ( $file_handle ) {
-					fwrite( $file_handle, $file['content'] );
-					fclose( $file_handle );
+					fwrite( $file_handle, $file['content'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
+					fclose( $file_handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 				}
 			}
 		}
@@ -400,55 +323,6 @@ class LLMS_Install {
 				wp_insert_term( $term, 'llms_product_visibility' );
 			}
 		}
-	}
-
-	/**
-	 * Queue all required db updates into the bg update queue
-	 *
-	 * @since 3.0.0
-	 * @since 3.4.3 Unknown.
-	 *
-	 * @return void
-	 */
-	public static function db_updates() {
-
-		$current_db_version = get_option( 'lifterlms_db_version' );
-		$queued             = false;
-
-		foreach ( self::$db_updates as $version => $callbacks ) {
-
-			if ( version_compare( $current_db_version, $version, '<' ) ) {
-
-				foreach ( $callbacks as $callback ) {
-
-					self::$background_updater->log( sprintf( 'Queuing %s - %s', $version, $callback ) );
-					self::$background_updater->push_to_queue( $callback );
-					$queued = true;
-
-				}
-			}
-		}
-
-		if ( $queued ) {
-			add_action( 'shutdown', array( __CLASS__, 'dispatch_db_updates' ) );
-		}
-
-	}
-
-	/**
-	 * Dispatches the bg updater
-	 *
-	 * Prevents small database updates from displaying the "updating" admin notice
-	 * instead of the "completed" notice.
-	 * These small updates would finish on a second thread faster than the main
-	 * thread and the wrong notice would be displayed.
-	 *
-	 * @since 3.4.3
-	 *
-	 * @return void
-	 */
-	public static function dispatch_db_updates() {
-		self::$background_updater->save()->dispatch();
 	}
 
 	/**
@@ -609,26 +483,12 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
-	 * Initializes the bg updater class
-	 *
-	 * @since 3.4.3
-	 * @since 3.6.0 Unknown.
-	 *
-	 * @return void
-	 */
-	public static function init_background_updater() {
-
-		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
-		self::$background_updater = new LLMS_Background_Updater();
-
-	}
-
-	/**
 	 * Core install function
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 5.0.0 Install forms.
+	 * @since [version] Moved DB update logic to LLMS_Install::run_db_updates().
 	 *
 	 * @return void
 	 */
@@ -638,6 +498,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 			return;
 		}
 
+		/**
+		 * Action run immediately prior to LLMS_Install::install() routine.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_before_install' );
 
 		LLMS_Site::set_lock_url();
@@ -663,27 +528,19 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
-
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
-
 		}
 
-		// Show the update notice since there are db updates to run.
-		$versions = array_keys( self::$db_updates );
-		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
-
-			self::update_notice();
-
-		} else {
-
-			self::update_db_version();
-
-		}
-
+		self::run_db_updates( $db_version );
 		self::update_llms_version();
 
 		flush_rewrite_rules();
 
+		/**
+		 * Action run immediately after the LLMS_Install::install() routine has completed.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_after_install' );
 
 	}
@@ -712,110 +569,56 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
+	 * Run database updates
+	 *
+	 * If no updates are required for the current version, records the DB version as the current
+	 * plugin version.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $db_version The DB version to upgrade from.
+	 * @return void
+	 */
+	private static function run_db_updates( $db_version ) {
+
+		if ( ! is_null( $db_version ) ) {
+
+			// Load the upgrader.
+			$upgrader = new LLMS_DB_Upgrader( $db_version );
+			if ( $upgrader->update() ) {
+				return;
+			}
+		}
+
+		self::update_db_version();
+
+	}
+
+	/**
 	 * Handle form submission of update related actions
 	 *
 	 * @since 3.4.3
+	 * @since [version] Use `LLMS_DB_Upgrader` and remove the "force upgrade" action handler.
 	 *
 	 * @return void
 	 */
 	public static function update_actions() {
 
-		// Start the updater if the run button was clicked.
-		if ( ! empty( $_GET['llms-db-update'] ) ) {
-
-			if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
-			}
-
-			// Prevent page refreshes from triggering a second queue / batch.
-			if ( ! self::$background_updater->is_updating() ) {
-				self::db_updates();
-			}
-
-			self::update_notice();
-
+		if ( empty( $_GET['llms-db-update'] ) ) {
+			return;
 		}
 
-		// Force update triggered.
-		if ( ! empty( $_GET['llms-force-db-update'] ) ) {
-
-			if ( ! llms_verify_nonce( 'llms-force-db-update', 'force_db_updates', 'GET' ) ) {
-				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
-			}
-
-			do_action( 'wp_llms_bg_updater_cron' );
-
-			wp_redirect( admin_url( 'admin.php?page=llms-settings' ) );
-
-			exit;
-
+		if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
+			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
-	}
-
-	/**
-	 * Stores an admin notice for the current state of the background updater
-	 *
-	 * @since 3.4.3
-	 *
-	 * @return void
-	 */
-	public static function update_notice() {
-
-		include_once 'admin/class.llms.admin.notices.php';
-
-		if ( LLMS_Admin_Notices::has_notice( 'bg-db-update' ) ) {
-			LLMS_Admin_Notices::delete_notice( 'bg-db-update' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
 		}
 
-		if ( version_compare( get_option( 'lifterlms_db_version' ), LLMS()->version, '<' ) ) {
-
-			if ( ! self::$background_updater ) {
-				self::init_background_updater();
-			}
-
-			// Update is running or button was just pressed.
-			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
-
-				LLMS_Admin_Notices::add_notice(
-					'bg-db-update',
-					array(
-						'dismissible' => false,
-						'template'    => 'admin/notices/db-updating.php',
-					)
-				);
-
-			} else {
-
-				LLMS_Admin_Notices::add_notice(
-					'bg-db-update',
-					array(
-						'dismissible' => false,
-						'template'    => 'admin/notices/db-update.php',
-					)
-				);
-
-			}
-		} else {
-
-			LLMS_Admin_Notices::add_notice(
-				'bg-db-update',
-				__( 'The LifterLMS database update is complete.', 'lifterlms' ),
-				array(
-					'dismissible'      => true,
-					'dismiss_for_days' => 0,
-				)
-			);
-
-		}
+		$upgrader = new LLMS_DB_Upgrader( llms_filter_input( INPUT_GET, 'db_version', FILTER_SANITIZE_STRING ) );
+		$upgrader->enqueue_updates();
+		llms_redirect_and_exit( remove_query_arg( array( 'llms-db-update', 'db_version' ) ) );
 
 	}
 
@@ -852,6 +655,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
+	 * @since [version] Use strict array comparison and `wp_safe_redirect()` in favor of `wp_redirect()`.
 	 *
 	 * @return void
 	 */
@@ -861,13 +665,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 			delete_transient( '_llms_first_time_setup_redirect' );
 
-			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
+			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'llms-setup' ), true ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || apply_filters( 'llms_prevent_automatic_wizard_redirect', false ) ) {
 				return;
 			}
 
 			if ( current_user_can( 'install_plugins' ) ) {
 
-				wp_redirect( admin_url() . '?page=llms-setup' );
+				wp_safe_redirect( admin_url() . '?page=llms-setup' );
 				exit;
 
 			}
@@ -906,6 +710,66 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
 
 	}
+
+	/**
+	 * Initializes the bg updater class
+	 *
+	 * @since 3.4.3
+	 * @since 3.6.0 Unknown.
+	 * @deprecated [version] LLMS_Install::init_background_updater() is deprecated with no replacement.
+	 *
+	 * @return void
+	 */
+	public static function init_background_updater() {
+
+		_deprecated_function( 'LLMS_Install::init_background_updater()', '[version]' );
+		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
+		self::$background_updater = new LLMS_Background_Updater();
+
+	}
+
+	/**
+	 * Queue all required db updates into the bg update queue
+	 *
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 * @deprecated [version] LLMS_Install::db_updates() is deprecated, use LLMS_DB_Upgrader::enqueue_updates() instead.
+	 *
+	 * @return void
+	 */
+	public static function db_updates() {
+
+		_deprecated_function( 'LLMS_Install::db_updates()', '[version]', 'LLMS_DB_Upgrader::enqueue_updates()' );
+		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
+		$upgrader->enqueue_updates();
+
+	}
+
+	/**
+	 * Dispatches the bg updater
+	 *
+	 * @since 3.4.3
+	 * @deprecated [version] LLMS_Install::dispatch_db_updates() is deprecated with no replacement.
+	 *
+	 * @return void
+	 */
+	public static function dispatch_db_updates() {
+		_deprecated_function( 'LLMS_Install::dispatch_db_updates()', '[version]' );
+		self::$background_updater->save()->dispatch();
+	}
+
+	/**
+	 * Stores an admin notice for the current state of the background updater
+	 *
+	 * @since 3.4.3
+	 * @deprecated [version] LLMS_Install::update_notice() is deprecated with no replacement.
+	 *
+	 * @return void
+	 */
+	public static function update_notice() {
+		_deprecated_function( 'LLMS_Install::update_notice()', '[version]' );
+	}
+
 }
 
 LLMS_Install::init();
