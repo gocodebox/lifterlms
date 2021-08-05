@@ -232,6 +232,7 @@ class LLMS_Admin_Notices {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Unslash input data.
+	 * @since [version] Remove notice and notice query string vars and redirect after clearing.
 	 *
 	 * @return void
 	 */
@@ -251,6 +252,7 @@ class LLMS_Admin_Notices {
 				$action = 'remind';
 			}
 			self::delete_notice( $notice, $action );
+			llms_redirect_and_exit( remove_query_arg( array( 'llms-hide-notice', 'llms-remind-notice', '_llms_notice_nonce' ) ) );
 		}
 	}
 
