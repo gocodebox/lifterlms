@@ -108,6 +108,9 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 
 		$this->assertEquals( array( 'update_auto' ), $batch );
 
+		// Reinit the updater for future tests.
+		LLMS_Install::init_background_updater();
+
 	}
 
 	/**
@@ -165,6 +168,9 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 		// Rest of the callbacks.
 		$this->assertEquals( $expected_batch, $batch );
 
+		// Reinit the updater for future tests.
+		LLMS_Install::init_background_updater();
+
 	}
 
 	/**
@@ -217,23 +223,6 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test init_bg_updater()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_init_bg_updater() {
-
-		$upgrader = new LLMS_DB_Upgrader( '1.2.3' );
-		LLMS_Unit_Test_Util::call_method( $upgrader, 'init_bg_updater' );
-
-		$updater = LLMS_Unit_Test_Util::get_private_property_value( $upgrader, 'updater' );
-		$this->assertInstanceOf( 'LLMS_Background_Updater', $updater );
-
-	}
-
-	/**
 	 * Test show_notice_complete()
 	 *
 	 * @since [version]
@@ -263,20 +252,12 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 
 		$upgrader = new LLMS_DB_Upgrader( '1.2.3' );
 
-		// Remove action so we can make sure it's added.
-		remove_action( 'admin_print_footer_scripts', array( $upgrader, 'notice_footer_scripts' ) );
-
 		// Add a fake notice so we can make sure it's deleted.
 		LLMS_Admin_Notices::add_notice( 'bg-db-update', 'deleted' );
 		LLMS_Unit_Test_Util::call_method( $upgrader, 'show_notice_pending' );
 
-		// Has noticed.
-		$notice = LLMS_Admin_Notices::get_notice( 'bg-db-update' );
-		$this->assertStringContains( 'The LifterLMS database needs to be updated to the latest version.', $notice['html'] );
-		$this->assertStringContains( '<a class="button-primary" id="llms-start-updater"', $notice['html'] );
-
-		// Action added.
-		$this->assertEquals( 10, has_action( 'admin_print_footer_scripts', array( $upgrader, 'notice_footer_scripts' ) ) );
+		// Has notice.
+		$this->assertTrue( LLMS_Admin_Notices::has_notice( 'bg-db-update' ) );
 
 	}
 
