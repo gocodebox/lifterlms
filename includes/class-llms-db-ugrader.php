@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since 4.4.0
- * @version 4.9.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -113,10 +113,7 @@ class LLMS_DB_Upgrader {
 	 *
 	 * @since [version]
 	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @return [type] [description]
+	 * @return void
 	 */
 	public function enqueue_updates() {
 
@@ -282,6 +279,7 @@ class LLMS_DB_Upgrader {
 		);
 
 	}
+	
 	/**
 	 * Start the update
 	 *
