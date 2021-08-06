@@ -108,14 +108,12 @@
     ],
     "tests-remove": "\"vendor/bin/llms-tests\" teardown ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1}",
     "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false \"${WP_TESTS_VERSION}\"",
-    "tests-install-php8": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-trunk} false trunk",
     "tests-reinstall": [
       "@tests-remove",
       "@tests-install"
     ],
     "tests": "\"vendor/bin/phpunit\"",
-    "tests-run": "\"vendor/bin/phpunit\"",
-    "install-php8": "composer install --ignore-platform-reqs"
+    "tests-run": "\"vendor/bin/phpunit\""
   },
   "extra": {
     "installer-paths": {
