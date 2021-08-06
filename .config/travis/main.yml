@@ -71,7 +71,12 @@ before_install:
   # Raise PHP memory limit to 2048MB
   - echo 'memory_limit = 2048M' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Install composer deps.
-  - composer install
+  - |
+    if [ "8" != $( php -r "echo PHP_MAJOR_VERSION;" ) ]; then
+      composer install
+    else
+      composer run install-php8
+    fi
 
 install:
   - |
