@@ -108,9 +108,9 @@ class LLMS_Install {
 			'llms_update_500_update_db_version',
 			'llms_update_500_add_admin_notice',
 		),
-		'5.1.4'  => array(
-			'llms_update_514_upcoming_reminder_notification_backward_compat',
-			'llms_update_514_update_db_version',
+		'5.2.0'  => array(
+			'llms_update_520_upcoming_reminder_notification_backward_compat',
+			'llms_update_520_update_db_version',
 		),
 	);
 

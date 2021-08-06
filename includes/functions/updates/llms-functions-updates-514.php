@@ -1,6 +1,6 @@
 <?php
 /**
- * Update functions for version 5.1.4
+ * Update functions for version 5.2.0
  *
  * @package LifterLMS/Functions/Updates
  *
@@ -11,13 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Turn off autoload for accounting legacy options
+ * Explicitly set no subscribers for the new upcoming payment reminder notification
  *
- * @since 5.1.4
+ * @since [version]
  *
  * @return bool True if it needs to run again, false otherwise.
  */
-function llms_update_514_upcoming_reminder_notification_backward_compat() {
+function llms_update_520_upcoming_reminder_notification_backward_compat() {
 
 	$subscribers_for_type = array(
 		'email' => array(
@@ -39,12 +39,12 @@ function llms_update_514_upcoming_reminder_notification_backward_compat() {
 }
 
 /**
- * Update db version to 5.1.4
+ * Update db version to 5.2.0
  *
  * @since [version]
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
-function llms_update_514_update_db_version() {
-	LLMS_Install::update_db_version( '5.1.4' );
+function llms_update_520_update_db_version() {
+	LLMS_Install::update_db_version( '5.2.0' );
 }
