@@ -1,17 +1,17 @@
 <?php
 /**
-* Test updates functions when updating to 5.1.4
+* Test updates functions when updating to 5.2.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
  * @group functions
  * @group updates
- * @group updates_514
+ * @group updates_520
  *
  * @since [version]
  * @version [version]
  */
-class LLMS_Test_Functions_Updates_514 extends LLMS_UnitTestCase {
+class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class
@@ -24,17 +24,17 @@ class LLMS_Test_Functions_Updates_514 extends LLMS_UnitTestCase {
 	 */
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-514.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-520.php';
 	}
 
 	/**
-	 * Test llms_update_514_upcoming_reminder_notification_backward_compat() method
+	 * Test llms_update_520_upcoming_reminder_notification_backward_compat() method
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_llms_update_514_upcoming_reminder_notification_backward_compat() {
+	public function test_llms_update_520_upcoming_reminder_notification_backward_compat() {
 
 		$subscribers_for_type = array(
 			'email' => array(
@@ -55,7 +55,7 @@ class LLMS_Test_Functions_Updates_514 extends LLMS_UnitTestCase {
 		}
 
 		// Run the update.
-		llms_update_514_upcoming_reminder_notification_backward_compat();
+		llms_update_520_upcoming_reminder_notification_backward_compat();
 
 		foreach ( $subscribers_for_type as $type => $subscribers ) {
 			$this->assertEquals(
@@ -77,22 +77,22 @@ class LLMS_Test_Functions_Updates_514 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_update_500_update_db_version()
+	 * Test llms_update_520_update_db_version()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_update_db_version() {
+	public function test_update_520_update_db_version() {
 
 		$orig = get_option( 'lifterlms_db_version' );
 
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
 
-		llms_update_514_update_db_version();
+		llms_update_520_update_db_version();
 
-		$this->assertEquals( '5.1.4', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '5.2.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
