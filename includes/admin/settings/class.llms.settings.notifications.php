@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.8.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +23,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * @var LLMS_Abstract_Notification_View
+	 *
 	 * @since 3.8.0
 	 */
 	public $view;
@@ -30,8 +31,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -52,10 +55,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Get a breadcrumb custom html for use on notification settings screens (not on the table)
 	 *
-	 * @param    string $current_title  the title of the current notification
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $current_title The title of the current notification.
+	 * @return array
 	 */
 	private function get_breadcrumbs( $current_title ) {
 		return array(
@@ -68,10 +71,12 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Get settings specific to the current notification type
 	 *
-	 * @param    obj $controller  instance of an LLMS_Notification_Controller
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Merge controller additional options.
+	 *
+	 * @param LLMS_Notification_Controller $controller Instance of an LLMS_Notification_Controller extending class.
+	 * @return array
 	 */
 	private function get_notification_settings( $controller ) {
 
@@ -125,6 +130,9 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				);
 			}
 		}
+
+		// Add additional controller options.
+		$settings = array_merge( $settings, $controller->get_additional_options( $type ) );
 
 		if ( $controller->is_testable( $type ) ) {
 			foreach ( $controller->get_test_settings( $type ) as $setting ) {
@@ -200,10 +208,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Disable save button on the main notification tab (list)
 	 *
-	 * @param    bool $bool  default display value (true)
-	 * @return   boolean
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param bool $bool Default display value (true).
+	 * @return boolean
 	 */
 	public function maybe_disable_save( $bool ) {
 
@@ -214,9 +222,9 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Output a merge code button in the WYSIWYG editor
 	 *
-	 * @since    3.8.0
+	 * @since 3.8.0
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function merge_code_button() {
 
@@ -230,7 +238,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function before_save() {
 
@@ -253,7 +261,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function after_save() {
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin tool used to autmoatically reschedule recurring orders missing a pending scheduled payment action
+ * Admin tool used to automatically reschedule recurring orders missing a pending scheduled payment action
  *
  * @package LifterLMS/Admin/Tools/Classes
  *

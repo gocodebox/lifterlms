@@ -152,9 +152,9 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Retrieve the payment gateway instance for the transactions payment gateway
 	 *
-	 * @return   LLMS_Gateway or WP_Error
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return LLMS_Payment_Gateway or WP_Error
 	 */
 	public function get_gateway() {
 		$gateways = LLMS()->payment_gateways();

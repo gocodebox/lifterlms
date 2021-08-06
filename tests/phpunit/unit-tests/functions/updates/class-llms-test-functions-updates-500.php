@@ -1,6 +1,6 @@
 <?php
 /**
-* Test updates functions when updating to 4.15.0
+* Test updates functions when updating to 5.0.0
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
@@ -9,7 +9,8 @@
  * @group updates_500
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @since [version] Removed tearDown override, we don't need to remove any transient related to this update as we don't create it.
+ * @version [version]
  */
 class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 
@@ -26,20 +27,6 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 		parent::setupBeforeClass();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-500.php';
 	}
-
-	/**
-	 * Teardown the test case
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public function tearDown() {
-		parent::tearDown();
-		// Delete transients.
-		delete_transient( 'llms_update_500_autoload_off_legacy_options' );
-	}
-
 
 	/**
 	 * Test llms_update_500_legacy_options_autoload_off() method

@@ -1,21 +1,21 @@
 <?php
 /**
- * Notification View: Payment Due
+ * Notification View: Upcoming Payment Reminder
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
- * @since 3.10.0
+ * @since [version]
  * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification View: Payment Due
+ * Notification View: Payment Retry
  *
- * @since 3.10.0
+ * @since [version]
  */
-class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notification_View {
+class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
@@ -24,11 +24,12 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	 */
 	protected $basic_options = array(
 		/**
-		 * Time in milliseconds to show a notification before automatically dismissing it
+		 * Time in milliseconds to show a notification
+		 * before automatically dismissing it.
 		 */
 		'auto_dismiss' => 10000,
 		/**
-		 * Enables manual dismissal of notifications
+		 * Enables manual dismissal of notifications.
 		 */
 		'dismissible'  => true,
 	);
@@ -39,12 +40,12 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	 *
 	 * @var string
 	 */
-	public $trigger_id = 'manual_payment_due';
+	public $trigger_id = 'upcoming_payment_reminder';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
@@ -60,19 +61,23 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup default notification body for basic notifications
 	 *
-	 * @since 3.10.0
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	private function set_body_basic() {
-		return __( 'Head over to your dashboard for payment instructions.', 'lifterlms' );
+		return sprintf( esc_html__( 'You will be charged for your subscription to %1$s tomorrow.', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
 	 * Setup default notification body for email notifications
 	 *
-	 * @since 3.10.0
-	 * @since [version] Build the table with mailer helper.
+	 * @since [version]
+	 *
+	 * @return string
 	 */
 	private function set_body_email() {
+
 		$mailer = LLMS()->mailer();
 
 		$rows = array(
@@ -83,12 +88,27 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 		);
 
 		ob_start();
-		?><p><?php printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
-		<p><?php printf( __( 'A payment for your subscription to %1$s is due.', 'lifterlms' ), '{{PRODUCT_TITLE}}' ); ?></p>
-		<p><?php printf( __( 'Sign in to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
-		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
+		?>
+		<p>
+		<?php
+			// Translators: %s= The customer name.
+			printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' );
+		?>
+		</p>
+		<p>
+		<?php
+			// Translators: %1$s = The product title, %2$s The upcoming payment due date.
+			printf( __( 'You will be charged for your subscription to %1$s on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' );
+		?>
+		</p>
+		<h4>
+		<?php
+			// Translators: %s= The order ID.
+			printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
+		?>
+		</h4>
 		<?php echo $mailer->get_table_html( $rows ); ?>
-		<p><a href="{{ORDER_URL}}"><?php _e( 'Pay Invoice', 'lifterlms' ); ?></a></p>
+		<p><a href="{{ORDER_URL}}"><?php _e( 'Update Payment Method', 'lifterlms' ); ?></a></p>
 		<?php
 		return ob_get_clean();
 	}
@@ -96,19 +116,19 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup footer content for output
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{ORDER_URL}}' );
-		return '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Pay Now', 'lifterlms' ) . '</a>';
+		return '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Update Payment Method', 'lifterlms' ) . '</a>';
 	}
 
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
@@ -119,7 +139,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return array
 	 */
@@ -142,8 +162,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @since 3.10.0
-	 * @since [version] Retrieve the customer's full address using the proper order's method.
+	 * @since [version]
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -207,7 +226,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 				}
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
@@ -216,28 +235,24 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
 	protected function set_subject() {
-		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		// Translators: %s = The product title.
+		return sprintf( __( 'Upcoming payment reminder for your subscription to %1$s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
 	}
 
 	/**
 	 * Setup notification title for output
 	 *
-	 * @since 3.10.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
 	protected function set_title() {
-		if ( 'email' === $this->notification->get( 'type' ) ) {
-			// Translators: %s = The order ID.
-			return sprintf( __( 'Payment Due for Order #%s', 'lifterlms' ), '{{ORDER_ID}}' );
-		}
-		// Translators: %s = The product title.
-		return sprintf( __( 'A payment is due for your subscription to %s', 'lifterlms' ), '{{PRODUCT_TITLE}}' );
+		return __( 'Upcoming Subscription Payment', 'lifterlms' );
 	}
 
 }

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -169,12 +169,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Add an admin-only note to the order visible on the admin panel
 	 * notes are recorded using the wp comments API & DB
 	 *
-	 * @since    3.0.0
+	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize $_SERVER data.
 	 *
-	 * @param    string  $note           note content
-	 * @param    boolean $added_by_user  if this is an admin-submitted note adds user info to note meta
-	 * @return   null|int                   null on error or WP_Comment ID of the note
+	 * @param string  $note          Note content.
+	 * @param boolean $added_by_user Optional. If this is an admin-submitted note adds user info to note meta. Default is false.
+	 * @return null|int Null on error or WP_Comment ID of the note.
 	 */
 	public function add_note( $note, $added_by_user = false ) {
 
@@ -228,9 +228,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Called after inserting a new order into the database
 	 *
-	 * @return  void
-	 * @since   3.0.0
-	 * @version 3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	protected function after_create() {
 		// Add a random key that can be passed in the URL and whatever.
@@ -238,12 +238,13 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Calculate the date when billing should
-	 * applicable to orders created from plans with a set # of billing intervals
+	 * Calculate the date when billing should be
 	 *
-	 * @return   int
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * Applicable to orders created from plans with a set # of billing intervals.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return int
 	 */
 	private function calculate_billing_end_date() {
 
@@ -376,10 +377,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Calculate the end date of the trial
 	 *
-	 * @param    string $format  desired return format of the date
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param string $format Optional. Desired return format of the date. Defalt is 'Y-m-d H:i:s'.
+	 * @return string
 	 */
 	private function calculate_trial_end_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -399,9 +400,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the order can be retried for recurring payments
 	 *
-	 * @return   boolean
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 * @since [version] Use stric type comparison.
+	 *
+	 * @return boolean
 	 */
 	public function can_be_retried() {
 
@@ -415,7 +417,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		// Only active & on-hold orders qualify for a retry.
-		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) {
+		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ), true ) ) {
 			return false;
 		}
 
@@ -433,9 +435,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if an order can be resubscribed to
 	 *
-	 * @return   bool
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @since 3.19.0
+	 * @since [version] Use stric type comparison.
+	 *
+	 * @return bool
 	 */
 	public function can_resubscribe() {
 
@@ -451,7 +454,7 @@ class LLMS_Order extends LLMS_Post_Model {
 					'llms-pending-cancel',
 				)
 			);
-			$ret              = in_array( $this->get( 'status' ), $allowed_statuses );
+			$ret              = in_array( $this->get( 'status' ), $allowed_statuses, true );
 
 		}
 
@@ -462,9 +465,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Generate an order key for the order
 	 *
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return string
 	 */
 	public function generate_order_key() {
 		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ) );
@@ -472,15 +475,17 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine the date when access will expire
-	 * based on the access settings of the access plan
-	 * at the $start_date of access
 	 *
-	 * @param    string $format  date format
-	 * @return   string              date string
-	 *                               "Lifetime Access" for plans with lifetime access
-	 *                               "To be Determined" for limited date when access hasn't started yet
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * Based on the access settings of the access plan
+	 * at the `$start_date` of access.
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string $format Optional. Date format. Default is 'Y-m-d'.
+	 * @return string Date string.
+	 *                "Lifetime Access" for plans with lifetime access.
+	 *                "To be Determined" for limited date when access hasn't started yet.
 	 */
 	public function get_access_expiration_date( $format = 'Y-m-d' ) {
 
@@ -517,14 +522,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the current status of a student's access based on the access plan data
-	 * stored on the order at the time of purchase
+	 * Get the current status of a student's access
 	 *
-	 * @return   string        'inactive' if the order is refunded, failed, pending, etc...
-	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
-	 *                         'active'   otherwise
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * Based on the access plan data stored on the order at the time of purchase.
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 * @since [version] Use stric type comparison.
+	 *
+	 * @return string 'inactive' If the order is refunded, failed, pending, etc...
+	 *                'expired'  If access has expired according to $this->get_access_expiration_date()
+	 *                'active'   Otherwise.
 	 */
 	public function get_access_status() {
 
@@ -546,7 +554,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		// If the order doesn't have one of the allowed statuses.
 		// Return 'inactive' and don't bother checking expiration data.
-		if ( ! in_array( $this->get( 'status' ), $statuses ) ) {
+		if ( ! in_array( $this->get( 'status' ), $statuses, true ) ) {
 
 			return 'inactive';
 
@@ -594,10 +602,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get the formatted coupon amount with a currency symbol or percentage
 	 *
-	 * @param    string $payment  coupon discount type, either 'regular' or 'trial'
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $payment Coupon discount type, either 'regular' or 'trial'.
+	 * @return string
 	 */
 	public function get_coupon_amount( $payment = 'regular' ) {
 
@@ -620,9 +628,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the customer's full name
 	 *
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.18.0
+	 * @since 3.0.0
+	 * @since 3.18.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_customer_name() {
 		if ( 'yes' === $this->get( 'anonymized' ) ) {
@@ -632,13 +641,37 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * An array of default arguments to pass to $this->create()
-	 * when creating a new post
+	 * Retrieve the customer's full billing address
 	 *
-	 * @param    string $title   Title to create the post with
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_customer_full_address() {
+
+		$billing_address_1 = $this->get( 'billing_address_1' );
+		if ( empty( $billing_address_1 ) ) {
+			return '';
+		}
+
+		$address   = array(
+			trim( $billing_address_1 . ' ' . $this->get( 'billing_address_2' ) ),
+		);
+		$address[] = trim( $this->get( 'billing_city' ) . ' ' . $this->get( 'billing_state' ) );
+		$address[] = $this->get( 'billing_zip' );
+		$address[] = llms_get_country_name( $this->get( 'billing_country' ) );
+
+		return implode( ', ', array_filter( $address ) );
+	}
+
+	/**
+	 * An array of default arguments to pass to $this->create() when creating a new post
+	 *
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @param string $title Title to create the post with.
+	 * @return array
 	 */
 	protected function get_creation_args( $title = '' ) {
 
@@ -666,9 +699,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the payment gateway instance for the order's selected payment gateway
 	 *
-	 * @return   instance of an LLMS_Gateway
-	 * @since    1.0.0
-	 * @version  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @return LLMS_Payment_Gateway|WP_Error Instance of the LLMS_Payment_Gateway extending class used for the payment.
+	 *                                       WP_Error if the gateway cannot be located, e.g. because it's no longer enabled.
 	 */
 	public function get_gateway() {
 		$gateways = LLMS()->payment_gateways();
@@ -682,11 +716,12 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get the initial payment amount due on checkout
-	 * This will always be the value of "total" except when the product has a trial
 	 *
-	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * This will always be the value of "total" except when the product has a trial.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return mixed
 	 */
 	public function get_initial_price( $price_args = array(), $format = 'html' ) {
 
@@ -702,13 +737,14 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get an array of the order notes
-	 * Each note is actually a WordPress comment
 	 *
-	 * @param    integer $number  number of comments to return
-	 * @param    integer $page    page number for pagination
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Each note is actually a WordPress comment.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param integer $number Number of comments to return.
+	 * @param integer $page   Page number for pagination.
+	 * @return array
 	 */
 	public function get_notes( $number = 10, $page = 1 ) {
 
@@ -728,9 +764,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve an LLMS_Post_Model object for the associated product
 	 *
-	 * @return   obj       LLMS_Course / LLMS_Membership instance
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return LLMS_Post_Model|WP_Post|null|false LLMS_Post_Model extended object (LLMS_Course|LLMS_Membership),
+	 *                                            null if WP get_post() fails,
+	 *                                            false if LLMS_Post_Model extended class isn't found.
 	 */
 	public function get_product() {
 		return llms_get_post( $this->get( 'product_id' ) );
@@ -739,11 +777,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the last (most recent) transaction processed for the order
 	 *
-	 * @param    array|string $status  filter by status (see transaction statuses)
-	 * @param    array|string $type    filter by type [recurring|single|trial]
-	 * @return   obj|false              instance of the LLMS_Transaction or false if none found
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array|string $status Optional. Filter by status (see transaction statuses). By default looks for any status.
+	 * @param array|string $type   Optional. Filter by type [recurring|single|trial]. By default looks for any type.
+	 * @return LLMS_Transaction|false instance of the LLMS_Transaction or false if none found
 	 */
 	public function get_last_transaction( $status = 'any', $type = 'any' ) {
 		$txns = $this->get_transactions(
@@ -762,12 +800,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the date of the last (most recent) transaction
 	 *
-	 * @param    array|string $status  filter by status (see transaction statuses)
-	 * @param    array|string $type    filter by type [recurring|single|trial]
-	 * @param    string       $format  date format of the return
-	 * @return   string|false           date or false if none found
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array|string $status Optional. Filter by status (see transaction statuses). Default is 'llms-txn-succeeded'.
+	 * @param array|string $type   Optional. Filter by type [recurring|single|trial]. By default looks for any type.
+	 * @param string       $format Optional. Date format of the return. Default is 'Y-m-d H:i:s'.
+	 * @return string|false Date or false if none found.
 	 */
 	public function get_last_transaction_date( $status = 'llms-txn-succeeded', $type = 'any', $format = 'Y-m-d H:i:s' ) {
 		$txn = $this->get_last_transaction( $status, $type );
@@ -783,8 +821,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Use stric type comparisons.
 	 *
-	 * @param string $format Date return format.
+	 * @param string $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
 	 * @return string
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
@@ -792,7 +831,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// Single payments will never have a next payment date.
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ) ) ) {
+		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ), true ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
@@ -814,9 +853,9 @@ class LLMS_Order extends LLMS_Post_Model {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param int $next_payment_time Unix timestamp for the next payment due date.
-		 * @param LLMS_Order $order Order object.
-		 * @param string $format Requested date format.
+		 * @param int        $next_payment_time Unix timestamp for the next payment due date.
+		 * @param LLMS_Order $order             Order object.
+		 * @param string     $format            Requested date format.
 		 */
 		$next_payment_time = apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_time, $this, $format );
 
@@ -829,7 +868,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment" and "llms_access_plan_expiration".
+	 * @param string $action Action hook ID. Core actions are "llms_charge_recurring_payment", "llms_access_plan_expiration".
 	 * @return int|false Returns the timestamp of the next action as an integer or `false` when no action exist.
 	 */
 	public function get_next_scheduled_action_time( $action ) {
@@ -839,9 +878,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get configured payment retry rules
 	 *
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return array
 	 */
 	private function get_retry_rules() {
 
@@ -878,8 +917,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.35.0 Prepare SQL query properly.
 	 *
-	 * @param    stirng $type  'amount' or 'refund_amount'
-	 * @return   float
+	 * @param string $type Optional. Type can be 'amount' or 'refund_amount'. Default is 'amount'.
+	 * @return float
 	 */
 	public function get_transaction_total( $type = 'amount' ) {
 
@@ -925,13 +964,14 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get the start date for the order
-	 * gets the date of the first initially successful transaction
-	 * if none found, uses the created date of the order
 	 *
-	 * @param    string $format  desired return format of the date
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Gets the date of the first initially successful transaction
+	 * if none found, uses the created date of the order.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $format Optional. Desired return format of the date. Default is 'Y-m-d H:i:s'.
+	 * @return string
 	 */
 	public function get_start_date( $format = 'Y-m-d H:i:s' ) {
 		// Get the first recorded transaction.
@@ -960,6 +1000,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
+	 * @since [version] Use stric type comparisons.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.
@@ -981,11 +1022,11 @@ class LLMS_Order extends LLMS_Post_Model {
 				$args,
 				array(
 					'status'   => 'any', // String or array or post statuses.
-					'type'     => 'any',   // String or array of transaction types [recurring|single|trial].
-					'per_page' => 50,  // Int, number of transactions to return.
-					'paged'    => 1,      // Int, page number of transactions to return.
+					'type'     => 'any', // String or array of transaction types [recurring|single|trial].
+					'per_page' => 50, // Int, number of transactions to return.
+					'paged'    => 1, // Int, page number of transactions to return.
 					'order'    => 'DESC',
-					'orderby'  => 'date',  // Field to order results by.
+					'orderby'  => 'date', // Field to order results by.
 				)
 			)
 		);
@@ -997,12 +1038,12 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( 'any' !== $statuses ) {
 
 			// If status is a string, ensure it's a valid status.
-			if ( is_string( $status ) && in_array( $status, $statuses ) ) {
+			if ( is_string( $status ) && in_array( $status, $statuses, true ) ) {
 				$statuses = array( $status );
 			} elseif ( is_array( $status ) ) {
 				$temp = array();
 				foreach ( $status as $stat ) {
-					if ( in_array( $stat, $statuses ) ) {
+					if ( in_array( (string) $stat, $statuses, true ) ) {
 						$temp[] = $stat;
 					}
 				}
@@ -1086,10 +1127,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the date when a trial will end
 	 *
-	 * @param    string $format  date return format
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
+	 * @return string
 	 */
 	public function get_trial_end_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -1117,10 +1158,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Gets the total revenue of an order
 	 *
-	 * @param    string $type    revenue type [grosse|net]
-	 * @return   float
-	 * @since    3.0.0
-	 * @version  3.1.3 - handle legacy orders
+	 * @since 3.0.0
+	 * @since 3.1.3 Handle legacy orders.
+	 *
+	 * @param string $type Optional. Revenue type [grosse|net]. Default is 'net'.
+	 * @return float
 	 */
 	public function get_revenue( $type = 'net' ) {
 
@@ -1148,9 +1190,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get a link to view the order on the student dashboard
 	 *
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_view_link() {
 
@@ -1162,9 +1205,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the student associated with this order has access
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_access() {
 		return ( 'active' === $this->get_access_status() ) ? true : false;
@@ -1173,21 +1216,20 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if a coupon was used
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_coupon() {
 		return ( 'yes' === $this->get( 'coupon_used' ) );
 	}
 
 	/**
-	 * Determine if there was a discount applied to this order
-	 * via either a sale or a coupon
+	 * Determine if there was a discount applied to this order via either a sale or a coupon
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_discount() {
 		return ( $this->has_coupon() || $this->has_sale() );
@@ -1196,9 +1238,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the access plan was on sale during the purchase
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_sale() {
 		return ( 'yes' === $this->get( 'on_sale' ) );
@@ -1207,9 +1249,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if there's a payment scheduled for the order
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function has_scheduled_payment() {
 		$date = $this->get_next_payment_due_date();
@@ -1219,9 +1261,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the order has a trial
 	 *
-	 * @return   boolean     true if has a trial, false if it doesn't
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean True if has a trial, false if it doesn't.
 	 */
 	public function has_trial() {
 		return ( $this->is_recurring() && 'yes' === $this->get( 'trial_offer' ) );
@@ -1230,9 +1272,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the trial period has ended for the order
 	 *
-	 * @return   boolean     true if ended, false if not ended
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @return boolean True if ended, false if not ended.
 	 */
 	public function has_trial_ended() {
 		return ( llms_current_time( 'timestamp' ) >= $this->get_trial_end_date( 'U' ) );
@@ -1240,16 +1283,18 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Initialize a pending order
-	 * Used during checkout
-	 * Assumes all data passed in has already been validated
 	 *
-	 * @param    obj   $person   LLMS_Student
-	 * @param    obj   $plan     LLMS_Access_Plan
-	 * @param    obj   $gateway  LLMS_Gateway
-	 * @param    mixed $coupon   LLMS_Coupon or false
-	 * @return   obj               $this
-	 * @since    3.8.0
-	 * @version  3.10.0
+	 * Used during checkout.
+	 * Assumes all data passed in has already been validated.
+	 *
+	 * @since 3.8.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @param LLMS_Student         $person  The LLMS_Student placing the order.
+	 * @param LLMS_Access_Plan     $plan    The purchase LLMS_Access_Plan.
+	 * @param LLMS_Payment_Gateway $gateway The LLMS_Payment_Gateway used.
+	 * @param LLMS_Coupon          $coupon  LLMS_Coupon if a coupon was used or false.
+	 * @return LLMS_Order
 	 */
 	public function init( $person, $plan, $gateway, $coupon = false ) {
 
@@ -1366,9 +1411,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the order is a legacy order migrated from 2.x
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function is_legacy() {
 		return ( 'publish' === $this->get( 'status' ) );
@@ -1377,9 +1422,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if the order is recurring or singular
 	 *
-	 * @return   boolean      true if recurring, false if not
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean True if recurring, false if not.
 	 */
 	public function is_recurring() {
 		return $this->get( 'order_type' ) === 'recurring';
@@ -1409,12 +1454,13 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Schedules the next payment due on a recurring order
 	 *
-	 * Can be called without consequence on a single payment order
-	 * Will always unschedule the scheduled action (if one exists) before scheduling another
+	 * Can be called without consequence on a single payment order.
+	 * Will always unschedule the scheduled action (if one exists) before scheduling another.
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 4.7.0 Add `plan_ended` metadata when a plan ends.
+	 * @since [version] Move scheduling recurring payment into a proper method.
 	 *
 	 * @return void
 	 */
@@ -1433,20 +1479,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// Unschedule and reschedule.
 		if ( $date && ! is_wp_error( $date ) ) {
 
-			// Unschedule the next action (does nothing if no action scheduled).
-			$this->unschedule_recurring_payment();
-
-			// Convert our date to UTC before passing to the scheduler.
-			$date = get_gmt_from_date( $date, 'U' );
-
-			// Schedule the payment.
-			as_schedule_single_action(
-				$date,
-				'llms_charge_recurring_payment',
-				array(
-					'order_id' => $this->get( 'id' ),
-				)
-			);
+			$this->schedule_recurring_payment( $date );
 
 		} elseif ( is_wp_error( $date ) ) {
 
@@ -1467,9 +1500,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Handles scheduling recurring payment retries when the gateway supports them
 	 *
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function maybe_schedule_retry() {
 
@@ -1527,10 +1560,10 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Record a transaction for the order
 	 *
-	 * @param    array $data    optional array of additional data to store for the transaction
-	 * @return   obj        instance of LLMS_Transaction for the created transaction
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array $data Optional array of additional data to store for the transaction.
+	 * @return LLMS_Transaction Instance of LLMS_Transaction for the created transaction.
 	 */
 	public function record_transaction( $data = array() ) {
 
@@ -1574,15 +1607,17 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Date field setter for date fields that require things to be updated when their value changes
+	 *
 	 * This is mainly used to allow updating dates which are editable from the admin panel which
-	 * should trigger additional actions when updated
+	 * should trigger additional actions when updated.
 	 *
-	 * Settable dates: date_next_payment, date_trial_end, date_access_expires
+	 * Settable dates: date_next_payment, date_trial_end, date_access_expires.
 	 *
-	 * @param    string $date_key  date field to set
-	 * @param    string $date_val  date string or a unix time stamp
-	 * @since    3.10.0
-	 * @version  3.19.0
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string $date_key Date field to set.
+	 * @param string $date_val Date string or a unix time stamp.
 	 */
 	public function set_date( $date_key, $date_val ) {
 
@@ -1615,10 +1650,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Update the status of an order
 	 *
-	 * @param    string $status  status name, accepts unprefixed statuses
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.10.0
+	 * @since 3.8.0
+	 * @since 3.10.0 Unknown.
+	 * @since [version] Prefer `array_key_exists( $key, $keys )` over `in_array( $key, array_keys( $assoc_array ) )`.
+	 *
+	 * @param string $status Status name, accepts unprefixed statuses.
+	 * @return void
 	 */
 	public function set_status( $status ) {
 
@@ -1626,21 +1663,20 @@ class LLMS_Order extends LLMS_Post_Model {
 			$status = 'llms-' . $status;
 		}
 
-		$statuses = array_keys( llms_get_order_statuses( $this->get( 'order_type' ) ) );
-
-		if ( in_array( $status, $statuses ) ) {
+		if ( array_key_exists( $status, llms_get_order_statuses( $this->get( 'order_type' ) ) ) ) {
 			$this->set( 'status', $status );
 		}
 
 	}
 
 	/**
-	 * Record the start date of the access plan and schedule expiration
-	 * if expiration is required in the future
+	 * Record the start date of the access plan and schedule expiration if expiration is required in the future
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 * @since [version] Use strict type comparision.
+	 *
+	 * @return void
 	 */
 	public function start_access() {
 
@@ -1657,7 +1693,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		$this->unschedule_expiration();
 
 		// Setup expiration.
-		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
+		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ), true ) ) {
 
 			$expires_date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );
 			$this->set( 'date_access_expires', $expires_date );
@@ -1700,8 +1736,105 @@ class LLMS_Order extends LLMS_Post_Model {
 	public function unschedule_recurring_payment() {
 
 		if ( $this->get_next_scheduled_action_time( 'llms_charge_recurring_payment' ) ) {
-			as_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
+
+			$action_args = $this->get_action_args();
+
+			as_unschedule_action( 'llms_charge_recurring_payment', $action_args );
+
+			/**
+			 * Fired after a recurring payment is unscheduled
+			 *
+			 * @since [version]
+			 *
+			 * @param LLMS_Order $order       LLMS_Order instance.
+			 * @param int        $date        Timestamp of the recurring payment date UTC.
+			 * @param array      $action_args Arguments passed to the scheduler.
+			 */
+			do_action( 'llms_charge_recurring_payment_unscheduled', $this, $action_args );
+
 		}
+
+	}
+
+	/**
+	 * Schedule recurring payment
+	 *
+	 * It will unschedule the next recurring payment action, if any, before scheduling.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                   Only applies when the `$next_payment_date` is provided.
+	 * @return WP_Error|integer WP_Error if the plan ended. Otherwise returns the return value of `as_schedule_single_action`: the action's ID.
+	 */
+	public function schedule_recurring_payment( $next_payment_date = false, $gmt = false ) {
+
+		// Unschedule the next action (does nothing if no action scheduled).
+		$this->unschedule_recurring_payment();
+
+		$date = $this->get_recurring_payment_due_date_for_scheduler( $next_payment_date, $gmt );
+
+		if ( is_wp_error( $date ) ) {
+			return $date;
+		}
+
+		$action_args = $this->get_action_args();
+
+		// Schedule the payment.
+		$action_id = as_schedule_single_action(
+			$date,
+			'llms_charge_recurring_payment',
+			$action_args
+		);
+
+		/**
+		 * Fired after a recurring payment is scheduled
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Order $order       LLMS_Order instance.
+		 * @param integer    $date        Timestamp of the recurring payment date UTC.
+		 * @param array      $action_args Arguments passed to the scheduler.
+		 * @param integer    $action_id   Scheduled action ID.
+		 */
+		do_action( 'llms_charge_recurring_payment_scheduled', $this, $date, $action_args, $action_id );
+
+		return $action_id;
+
+	}
+
+	/**
+	 * Returns the recurring payment due date in a suitable format for the scheduler.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
+	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
+	 *                                   Only applies when the `$next_payment_date` is provided.
+	 * @return WP_Error|integer
+	 */
+	public function get_recurring_payment_due_date_for_scheduler( $next_payment_date = false, $gmt = false ) {
+
+		$date = false === $next_payment_date ? $this->get_next_payment_due_date() : $next_payment_date;
+
+		if ( ! $date ) {
+			return new WP_Error( 'invalid-recurring-payment-date', __( 'Next recurring payment due date is not valid', 'lifterlms' ) );
+		}
+		if ( is_wp_error( $date ) ) {
+			return $date;
+		}
+
+		// Convert our date to Unix time and UTC before passing to the scheduler.
+		// No date parameter passed, or passed date parameter was not in gmt.
+		if ( ! $next_payment_date || ( $next_payment_date && ! $gmt ) ) {
+			$date = get_gmt_from_date( $date, 'U' );
+		} else {
+			// Get timestamp.
+			$date = date_format( date_create( $date ), 'U' );
+		}
+
+		return (int) $date;
 
 	}
 
