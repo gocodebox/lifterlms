@@ -1,7 +1,7 @@
 name: PR Ready for Review
 
 on:
-  pull_request:
+  pull_request_target:
     types: [ ready_for_review, review_requested ]
 
 jobs:
@@ -13,4 +13,3 @@ jobs:
           project: Active
           column: Ready for Review
           repo-token: ${{ secrets.ORG_WORKFLOWS }}
-      
