@@ -5,6 +5,7 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.4.3
+ * @deprecated [version] Template admin/notices/db-updating.php is deprecated with no replacement.
  * @version 3.4.3
  */
 
@@ -13,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) {
 	exit;
 }
+_deprecated_file( __FILE__, 'version' );
 $progress = LLMS_Install::$background_updater->get_progress() . '%';
 ?>
 <p><strong><?php _e( 'LifterLMS database update', 'lifterlms' ); ?></strong> &ndash; <?php _e( 'Your database is being upgraded in the background.', 'lifterlms' ); ?></p>
