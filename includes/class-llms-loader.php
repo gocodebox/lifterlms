@@ -90,6 +90,7 @@ class LLMS_Loader {
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
+	 * @since [version] Include `LLMS_DB_Upgrader`.
 	 *
 	 * @return void
 	 */
@@ -134,6 +135,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-db-ugrader.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-core.php';

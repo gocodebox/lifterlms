@@ -83,6 +83,57 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_callable_name()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_callable_name() {
+
+		$tests = array(
+			array(
+				'llms',
+				'llms',
+			),
+			array(
+				'LLMS_Install::install',
+				'LLMS_Install::install',
+			),
+			array(
+				array( llms(), 'init' ),
+				'LifterLMS->init',
+			),
+			array(
+				array( 'LLMS_Install', 'install' ),
+				'LLMS_Install::install',
+			),
+			array(
+				llms(),
+				'LifterLMS',
+			),
+			array(
+				function() {},
+				'Closure'
+			),
+			array(
+				array(),
+				'Unknown',
+			),
+		);
+
+		foreach ( $tests as $test ) {
+
+			$callable = $test[0];
+			$expected = $test[1];
+
+			$this->assertEquals( $expected, llms_get_callable_name( $callable ), $expected );
+
+		}
+
+	}
+
+	/**
 	 * Test llms_get_log_path()
 	 *
 	 * @since 4.5.0

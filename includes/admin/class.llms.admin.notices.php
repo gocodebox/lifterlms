@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -232,6 +232,7 @@ class LLMS_Admin_Notices {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Unslash input data.
+	 * @since [version] Remove notice and notice query string vars and redirect after clearing.
 	 *
 	 * @return void
 	 */
@@ -251,6 +252,7 @@ class LLMS_Admin_Notices {
 				$action = 'remind';
 			}
 			self::delete_notice( $notice, $action );
+			llms_redirect_and_exit( remove_query_arg( array( 'llms-hide-notice', 'llms-remind-notice', '_llms_notice_nonce' ) ) );
 		}
 	}
 
@@ -287,6 +289,7 @@ class LLMS_Admin_Notices {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
+	 * @since [version] Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return void
@@ -316,7 +319,7 @@ class LLMS_Admin_Notices {
 
 				<?php if ( ! empty( $notice['template'] ) ) : ?>
 
-					<?php llms_get_template( $notice['template'], $notice['template_path'], $notice['default_path'] ); ?>
+					<?php llms_get_template( $notice['template'], array(), $notice['template_path'], $notice['default_path'] ); ?>
 
 				<?php elseif ( ! empty( $notice['html'] ) ) : ?>
 
