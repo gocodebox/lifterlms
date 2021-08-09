@@ -619,9 +619,10 @@ class LLMS_Controller_Orders {
 			llms_log(
 				sprintf(
 					// Translators: %d = The WP Post ID of the order.
-					__( 'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.', 'recurring-payments' ),
+					__( 'Recurring charge for order #%d could not be processed because the gateway no longer supports recurring payments.', 'lifterlms' ),
 					$order_id
-				)
+				),
+				'recurring-payments'
 			);
 
 			$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled for the payment gateway.', 'lifterlms' ) );
