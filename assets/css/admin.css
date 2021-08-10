@@ -2673,7 +2673,7 @@ a.llms-view-as {
   .wrap.llms-reporting .llms-setting-group input[type="tel"],
   .wrap.llms-reporting .llms-setting-group input[type="color"],
   .wrap.llms-reporting .llms-setting-group select,
-  .wrap.llms-reporting .llms-setting-group textarea,
+  .wrap.llms-reporting .llms-setting-group textarea:not(.wp-editor-area),
   .wrap.lifterlms-settings .llms-setting-group input[type="text"],
   .wrap.lifterlms-settings .llms-setting-group input[type="password"],
   .wrap.lifterlms-settings .llms-setting-group input[type="datetime"],
@@ -2689,7 +2689,7 @@ a.llms-view-as {
   .wrap.lifterlms-settings .llms-setting-group input[type="tel"],
   .wrap.lifterlms-settings .llms-setting-group input[type="color"],
   .wrap.lifterlms-settings .llms-setting-group select,
-  .wrap.lifterlms-settings .llms-setting-group textarea {
+  .wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area) {
     width: 50%; }
     .wrap.llms-reporting .llms-setting-group input[type="text"].medium,
     .wrap.llms-reporting .llms-setting-group input[type="password"].medium,
@@ -2706,7 +2706,7 @@ a.llms-view-as {
     .wrap.llms-reporting .llms-setting-group input[type="tel"].medium,
     .wrap.llms-reporting .llms-setting-group input[type="color"].medium,
     .wrap.llms-reporting .llms-setting-group select.medium,
-    .wrap.llms-reporting .llms-setting-group textarea.medium,
+    .wrap.llms-reporting .llms-setting-group textarea:not(.wp-editor-area).medium,
     .wrap.lifterlms-settings .llms-setting-group input[type="text"].medium,
     .wrap.lifterlms-settings .llms-setting-group input[type="password"].medium,
     .wrap.lifterlms-settings .llms-setting-group input[type="datetime"].medium,
@@ -2722,7 +2722,7 @@ a.llms-view-as {
     .wrap.lifterlms-settings .llms-setting-group input[type="tel"].medium,
     .wrap.lifterlms-settings .llms-setting-group input[type="color"].medium,
     .wrap.lifterlms-settings .llms-setting-group select.medium,
-    .wrap.lifterlms-settings .llms-setting-group textarea.medium {
+    .wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).medium {
       width: 30%; }
     .wrap.llms-reporting .llms-setting-group input[type="text"].small,
     .wrap.llms-reporting .llms-setting-group input[type="password"].small,
@@ -2739,7 +2739,7 @@ a.llms-view-as {
     .wrap.llms-reporting .llms-setting-group input[type="tel"].small,
     .wrap.llms-reporting .llms-setting-group input[type="color"].small,
     .wrap.llms-reporting .llms-setting-group select.small,
-    .wrap.llms-reporting .llms-setting-group textarea.small,
+    .wrap.llms-reporting .llms-setting-group textarea:not(.wp-editor-area).small,
     .wrap.lifterlms-settings .llms-setting-group input[type="text"].small,
     .wrap.lifterlms-settings .llms-setting-group input[type="password"].small,
     .wrap.lifterlms-settings .llms-setting-group input[type="datetime"].small,
@@ -2755,7 +2755,7 @@ a.llms-view-as {
     .wrap.lifterlms-settings .llms-setting-group input[type="tel"].small,
     .wrap.lifterlms-settings .llms-setting-group input[type="color"].small,
     .wrap.lifterlms-settings .llms-setting-group select.small,
-    .wrap.lifterlms-settings .llms-setting-group textarea.small {
+    .wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).small {
       width: 20%; }
     .wrap.llms-reporting .llms-setting-group input[type="text"].tiny,
     .wrap.llms-reporting .llms-setting-group input[type="password"].tiny,
@@ -2772,7 +2772,7 @@ a.llms-view-as {
     .wrap.llms-reporting .llms-setting-group input[type="tel"].tiny,
     .wrap.llms-reporting .llms-setting-group input[type="color"].tiny,
     .wrap.llms-reporting .llms-setting-group select.tiny,
-    .wrap.llms-reporting .llms-setting-group textarea.tiny,
+    .wrap.llms-reporting .llms-setting-group textarea:not(.wp-editor-area).tiny,
     .wrap.lifterlms-settings .llms-setting-group input[type="text"].tiny,
     .wrap.lifterlms-settings .llms-setting-group input[type="password"].tiny,
     .wrap.lifterlms-settings .llms-setting-group input[type="datetime"].tiny,
@@ -2788,7 +2788,7 @@ a.llms-view-as {
     .wrap.lifterlms-settings .llms-setting-group input[type="tel"].tiny,
     .wrap.lifterlms-settings .llms-setting-group input[type="color"].tiny,
     .wrap.lifterlms-settings .llms-setting-group select.tiny,
-    .wrap.lifterlms-settings .llms-setting-group textarea.tiny {
+    .wrap.lifterlms-settings .llms-setting-group textarea:not(.wp-editor-area).tiny {
       width: 10%; }
 
 @media only screen and (min-width: 782px) {
