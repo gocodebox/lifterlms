@@ -1148,7 +1148,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the student's original registration date in the chosen format.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 * @since [version] Changed the date to be relative to the local time zone.
 	 *
 	 * @param string $format Any date format that can be passed to date().
