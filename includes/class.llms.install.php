@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
- * @since [version] Removed private class property $db_updates.
+ * @since 5.2.0 Removed private class property $db_updates.
  */
 class LLMS_Install {
 
@@ -496,7 +496,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 3.4.3
 	 * @since 3.6.0 Unknown.
-	 * @since [version] Use `LLMS_PLUGIN_DIR` to include required class file.
+	 * @since 5.2.0 Use `LLMS_PLUGIN_DIR` to include required class file.
 	 *
 	 * @return void
 	 */
@@ -513,7 +513,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 5.0.0 Install forms.
-	 * @since [version] Moved DB update logic to LLMS_Install::run_db_updates().
+	 * @since 5.2.0 Moved DB update logic to LLMS_Install::run_db_updates().
 	 *
 	 * @return void
 	 */
@@ -599,7 +599,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * If no updates are required for the current version, records the DB version as the current
 	 * plugin version.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $db_version The DB version to upgrade from.
 	 * @return void
@@ -623,7 +623,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * Handle form submission of update related actions
 	 *
 	 * @since 3.4.3
-	 * @since [version] Use `LLMS_DB_Upgrader` and remove the "force upgrade" action handler.
+	 * @since 5.2.0 Use `LLMS_DB_Upgrader` and remove the "force upgrade" action handler.
 	 *
 	 * @return void
 	 */
@@ -682,7 +682,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
-	 * @since [version] Use strict array comparison and `wp_safe_redirect()` in favor of `wp_redirect()`.
+	 * @since 5.2.0 Use strict array comparison and `wp_safe_redirect()` in favor of `wp_redirect()`.
 	 *
 	 * @return void
 	 */
@@ -743,13 +743,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.3 Unknown.
-	 * @deprecated [version] LLMS_Install::db_updates() is deprecated, use LLMS_DB_Upgrader::enqueue_updates() instead.
+	 * @deprecated 5.2.0 LLMS_Install::db_updates() is deprecated, use LLMS_DB_Upgrader::enqueue_updates() instead.
 	 *
 	 * @return void
 	 */
 	public static function db_updates() {
 
-		_deprecated_function( 'LLMS_Install::db_updates()', '[version]', 'LLMS_DB_Upgrader::enqueue_updates()' );
+		_deprecated_function( 'LLMS_Install::db_updates()', '5.2.0', 'LLMS_DB_Upgrader::enqueue_updates()' );
 		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
 		$upgrader->enqueue_updates();
 
@@ -759,12 +759,12 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * Stores an admin notice for the current state of the background updater
 	 *
 	 * @since 3.4.3
-	 * @deprecated [version] LLMS_Install::update_notice() is deprecated with no replacement.
+	 * @deprecated 5.2.0 LLMS_Install::update_notice() is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public static function update_notice() {
-		_deprecated_function( 'LLMS_Install::update_notice()', '[version]' );
+		_deprecated_function( 'LLMS_Install::update_notice()', '5.2.0' );
 	}
 
 }

@@ -5,7 +5,7 @@
  * @since 3.5.0
  * @since 3.33.0 Add delete enrollment tests.
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
- * @since [version] Added tests on `get_registration_date`.
+ * @since 5.2.0 Added tests on `get_registration_date`.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -476,7 +476,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test LLMS_Student::get_registration_date().
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 */
 	public function test_get_registration_date() {
 

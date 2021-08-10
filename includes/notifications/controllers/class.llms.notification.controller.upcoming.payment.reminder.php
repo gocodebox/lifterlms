@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Notifications/Controllers/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.2.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification Controller: Upcoming Payment Reminder
  *
- * @since [version]
+ * @since 5.2.0
  */
 class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstract_Notification_Controller {
 
@@ -53,7 +53,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Add an action to trigger the notification to send
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Callback function called when the upcoming payment reminder notification is fired
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param int    $order_id WP Post ID of the order.
 	 * @param string $type     The notification type identifier.
@@ -122,7 +122,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $subscriber Subscriber type string.
 	 * @return int|false
@@ -161,7 +161,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * Used on settings screens.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -172,7 +172,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type The notification type identifier.
 	 * @return array
@@ -204,7 +204,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * Does nothing if no payments are scheduled.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @return void
@@ -224,7 +224,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * Does nothing if no payments are scheduled.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @param string     $type  The notification type identifier.
@@ -243,7 +243,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Schedule upcoming payment reminder notification
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @param int        $payment_date Optional. The upcoming payment due date in Unix time format and UTC. Default is 0.
@@ -265,7 +265,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Schedule upcoming payment reminder notification
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @param string     $type         The notification type identifier.
@@ -305,7 +305,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Retrieve the date to remind user before actual payment
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order        Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 * @param string     $type         The notification type identifier.
@@ -325,7 +325,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		 *
 		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
 		 *
-		 * @since [version]
+		 * @since 5.2.0
 		 *
 		 * @param integer    $days  The number of days before the upcoming payment due date when to notify the customer.
 		 * @param LLMS_Order $order Order object.
@@ -341,7 +341,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 		 *
 		 * The dynamic portion of this filter, `$this->id`, refers to the notification trigger identifier.
 		 *
-		 * @since [version]
+		 * @since 5.2.0
 		 *
 		 * @param integer    $upcoming_payment_reminder_time Unix timestamp for the next payment due date.
 		 * @param LLMS_Order $order                          Order object.
@@ -357,7 +357,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Retrieve arguments passed to order-related events processed by the action scheduler
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param LLMS_Order $order Instance of the LLMS_Order which we'll schedule the payment reminder for.
 	 */
@@ -371,7 +371,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Set array of additional options to be added to the notification view in the admin panel
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type Type of the notification.
 	 * @return array
@@ -398,7 +398,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	 *
 	 * Retrieves 25 recurring orders with an existing next payment date.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @return array
@@ -467,7 +467,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Send a test notification to the currently logged in users
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @param array  $data Array of test notification data as specified by $this->get_test_data().
@@ -491,7 +491,7 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 	/**
 	 * Undocumented function
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type    The notification type identifier.
 	 * @param int    $default Opional. The default value. Default is `1`.

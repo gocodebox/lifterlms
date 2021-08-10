@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,7 +72,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * Setup default notification body for email notifications
 	 *
 	 * @since 3.10.0
-	 * @since [version] Build the table with mailer helper.
+	 * @since 5.2.0 Build the table with mailer helper.
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * Replace merge codes with actual values
 	 *
 	 * @since 3.10.0
-	 * @since [version] Retrieve the customer's full address using the proper order's method.
+	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string

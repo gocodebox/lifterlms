@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.0.0
- * @deprecated [version] Template admin/notices/db-update.php is deprecated in favor of includes/admin/views/db-update.php.
- * @version [version]
+ * @deprecated 5.2.0 Template admin/notices/db-update.php is deprecated in favor of includes/admin/views/db-update.php.
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;

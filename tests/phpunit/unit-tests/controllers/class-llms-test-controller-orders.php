@@ -164,7 +164,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 3.36.1 Make sure to schedule a recurring payment when setting an order as active so that,
 	 *               when subsequently we error the order, checking the recurring payment is unscheduled makes sense.
-	 * @since [version] Test upcoming payment reminder.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -239,7 +239,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.1 Check recurring payment is unscheduled.
-	 * @since [version] Test upcoming payment reminder.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Test upcoming payment reminder.
+	 * @since 5.2.0 Test upcoming payment reminder.
 	 *
 	 * @return void
 	 */

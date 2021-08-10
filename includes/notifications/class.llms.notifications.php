@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -331,7 +331,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Added 'upcoming_payment_reminder'.
+	 * @since 5.2.0 Added 'upcoming_payment_reminder'.
 	 *
 	 * @return void
 	 */

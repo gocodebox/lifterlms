@@ -90,7 +90,7 @@ class LLMS_Loader {
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
-	 * @since [version] Include `LLMS_DB_Upgrader`.
+	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
 	 *
 	 * @return void
 	 */
