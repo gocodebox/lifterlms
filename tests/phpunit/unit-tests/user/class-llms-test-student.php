@@ -542,7 +542,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 				'role'            => 'student',
 				'user_registered' => $test['user_registered'],
 			) );
-			$student = new LLMS_Student( $user_id );
+			$student = llms_get_student( $user_id );
 
 			# Test.
 			$actual_registration_date = $student->get_registration_date( 'Y-m-d' );
