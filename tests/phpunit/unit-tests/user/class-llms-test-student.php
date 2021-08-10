@@ -5,6 +5,7 @@
  * @since 3.5.0
  * @since 3.33.0 Add delete enrollment tests.
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
+ * @since [version] Added tests on `get_registration_date`.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -468,6 +469,84 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 				$this->assertEquals( 60, $student->get_progress( $section_id, 'section' ) );
 			}
 
+		}
+
+	}
+
+	/**
+	 * Test LLMS_Student::get_registration_date().
+	 *
+	 * @since [version]
+	 */
+	public function test_get_registration_date() {
+
+		$tests = array(
+			'UTC@20' => array(
+				'timezone_string'            => 'UTC',
+				'user_registered'            => '2021-01-10 20:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'UTC@04' => array(
+				'timezone_string'            => 'UTC',
+				'user_registered'            => '2021-01-10 04:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'-5@20' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 20:00:00',
+				'expected_registration_date' => '2021-06-10',
+			),
+			'-5@04' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 04:00:00',
+				'expected_registration_date' => '2021-06-09',
+			),
+			'-5@05' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-06-10 05:00:00',
+				'expected_registration_date' => '2021-06-10',
+			),
+			'-6@20' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 20:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'-6@04' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 04:00:00',
+				'expected_registration_date' => '2021-01-09',
+			),
+			'-6@06' => array(
+				'timezone_string'            => 'America/Chicago',
+				'user_registered'            => '2021-01-10 06:00:00',
+				'expected_registration_date' => '2021-01-10',
+			),
+			'+9@20' => array(
+				'timezone_string'            => 'Asia/Tokyo',
+				'user_registered'            => '2021-08-10 20:00:00',
+				'expected_registration_date' => '2021-08-11',
+			),
+			'+9@04' => array(
+				'timezone_string'            => 'Asia/Tokyo',
+				'user_registered'            => '2021-08-10 04:00:00',
+				'expected_registration_date' => '2021-08-10',
+			),
+		);
+
+		foreach ( $tests as $test_name => $test ) {
+			# Set the server's local time zone.
+			update_option( 'timezone_string', $test['timezone_string'] );
+
+			# Register a new student.
+			$user_id = $this->factory->user->create( array(
+				'role'            => 'student',
+				'user_registered' => $test['user_registered'],
+			) );
+			$student = new LLMS_Student( $user_id );
+
+			# Test.
+			$actual_registration_date = $student->get_registration_date( 'Y-m-d' );
+			$this->assertEquals( $test['expected_registration_date'], $actual_registration_date, $test_name );
 		}
 
 	}
