@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -61,7 +61,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 * Setup body for email notification
 	 *
 	 * @since 3.24.0
-	 * @since [version] Build the table with mailer helper.
+	 * @since 5.2.0 Build the table with mailer helper.
 	 *
 	 * @return string
 	 */

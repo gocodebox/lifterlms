@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.3
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -171,7 +171,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 *
 	 * @since 3.4.3
 	 * @since 3.16.10 Unknown.
-	 * @since [version] Use `llms_get_callable_name()` to log callback.
+	 * @since 5.2.0 Use `llms_get_callable_name()` to log callback.
 	 *
 	 * @param mixed $callback PHP callable (function name, callable array, etc...).
 	 * @return mixed Returns `false` when the callback is complete (removes it from the queue).
@@ -203,7 +203,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 *
 	 * This ensures save() can be called multiple times without recording duplicates.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return LLMS_Background_Updater
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.2.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View: Payment Retry
  *
- * @since [version]
+ * @since 5.2.0
  */
 class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Notification_View {
 
@@ -45,7 +45,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup body content for output
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -61,7 +61,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup default notification body for basic notifications
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -72,7 +72,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup default notification body for email notifications
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -116,7 +116,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup footer content for output
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -128,7 +128,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -139,7 +139,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return array
 	 */
@@ -162,7 +162,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -235,7 +235,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -247,7 +247,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	/**
 	 * Setup notification title for output
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */

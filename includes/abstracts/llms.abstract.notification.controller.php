@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,7 +215,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Adds subscribers before sending a notifications
 	 *
 	 * @since 3.8.0
-	 * @since [version] Added parameter to only send notifications of specific types.
+	 * @since 5.2.0 Added parameter to only send notifications of specific types.
 	 *
 	 * @param null|string[] $filter_types Optional. Array of notification types to be sent. Default is `null`.
 	 *                                    When not provided (`null`) all the types.
@@ -406,7 +406,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Get an array of additional options to be added to the notification view in the admin panel
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type Type of the notification.
 	 * @return array
@@ -484,7 +484,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Added parameter to only send notifications of specific types.
+	 * @since 5.2.0 Added parameter to only send notifications of specific types.
 	 *
 	 * @param bool          $force        Optional. If true, will force a send even if duplicates. Default is `false`.
 	 *                                    Only applies to controllers that flag $this->auto_dupcheck to true.
@@ -604,7 +604,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	/**
 	 * Set additional options to be added to the notification view in the admin panel
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string $type Type of the notification.
 	 * @return array
@@ -617,7 +617,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Subscribe a user to a notification type
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use strict type comparison.
+	 * @since 5.2.0 Use strict type comparison.
 	 *
 	 * @param mixed  $subscriber WP User ID, email address, etc...
 	 * @param string $type       Identifier for a subscription type eg: basic.
@@ -644,7 +644,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Determine if a given notification type is supported
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use strict type comparison.
+	 * @since 5.2.0 Use strict type comparison.
 	 *
 	 * @param string $type Notification type id.
 	 * @return boolean

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -73,7 +73,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Merge controller additional options.
+	 * @since 5.2.0 Merge controller additional options.
 	 *
 	 * @param LLMS_Notification_Controller $controller Instance of an LLMS_Notification_Controller extending class.
 	 * @return array

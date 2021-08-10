@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -401,7 +401,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if the order can be retried for recurring payments
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use stric type comparison.
+	 * @since 5.2.0 Use stric type comparison.
 	 *
 	 * @return boolean
 	 */
@@ -436,7 +436,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if an order can be resubscribed to
 	 *
 	 * @since 3.19.0
-	 * @since [version] Use stric type comparison.
+	 * @since 5.2.0 Use stric type comparison.
 	 *
 	 * @return bool
 	 */
@@ -528,7 +528,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Use stric type comparison.
+	 * @since 5.2.0 Use stric type comparison.
 	 *
 	 * @return string 'inactive' If the order is refunded, failed, pending, etc...
 	 *                'expired'  If access has expired according to $this->get_access_expiration_date()
@@ -643,7 +643,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the customer's full billing address
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -821,7 +821,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Use stric type comparisons.
+	 * @since 5.2.0 Use stric type comparisons.
 	 *
 	 * @param string $format Optional. Date return format. Default is 'Y-m-d H:i:s'.
 	 * @return string
@@ -1000,7 +1000,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
-	 * @since [version] Use stric type comparisons.
+	 * @since 5.2.0 Use stric type comparisons.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.
@@ -1460,7 +1460,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 * @since 4.7.0 Add `plan_ended` metadata when a plan ends.
-	 * @since [version] Move scheduling recurring payment into a proper method.
+	 * @since 5.2.0 Move scheduling recurring payment into a proper method.
 	 *
 	 * @return void
 	 */
@@ -1652,7 +1652,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Prefer `array_key_exists( $key, $keys )` over `in_array( $key, array_keys( $assoc_array ) )`.
+	 * @since 5.2.0 Prefer `array_key_exists( $key, $keys )` over `in_array( $key, array_keys( $assoc_array ) )`.
 	 *
 	 * @param string $status Status name, accepts unprefixed statuses.
 	 * @return void
@@ -1674,7 +1674,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Use strict type comparision.
+	 * @since 5.2.0 Use strict type comparision.
 	 *
 	 * @return void
 	 */
@@ -1744,7 +1744,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			/**
 			 * Fired after a recurring payment is unscheduled
 			 *
-			 * @since [version]
+			 * @since 5.2.0
 			 *
 			 * @param LLMS_Order $order       LLMS_Order instance.
 			 * @param int        $date        Timestamp of the recurring payment date UTC.
@@ -1761,7 +1761,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * It will unschedule the next recurring payment action, if any, before scheduling.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
 	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.
@@ -1791,7 +1791,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Fired after a recurring payment is scheduled
 		 *
-		 * @since [version]
+		 * @since 5.2.0
 		 *
 		 * @param LLMS_Order $order       LLMS_Order instance.
 		 * @param integer    $date        Timestamp of the recurring payment date UTC.
@@ -1807,7 +1807,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Returns the recurring payment due date in a suitable format for the scheduler.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param string  $next_payment_date Optional. Next payment date. If not provided it'll be retrieved using `$this->get_next_payment_due_date()`.
 	 * @param boolean $gmt               Optional. Whether the provided `$next_payment_date` date is gmt. Default is `false`.

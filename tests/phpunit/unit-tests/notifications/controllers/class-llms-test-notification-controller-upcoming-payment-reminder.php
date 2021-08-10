@@ -7,7 +7,7 @@
  * @group notification
  * @group notification_controller
  *
- * @since [version]
+ * @since 5.2.0
  */
 class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_UnitTestCase {
 
@@ -35,7 +35,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	/**
 	 * Set up
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	/**
 	 * Test action_callback() method
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	/**
 	 * Test get_upcoming_payment_reminder_test()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	/**
 	 * Test schedule_upcoming_payment_reminder()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */

@@ -85,7 +85,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_callable_name()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */

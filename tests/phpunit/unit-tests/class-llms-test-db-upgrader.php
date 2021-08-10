@@ -6,14 +6,14 @@
  *
  * @group upgrader
  *
- * @since [version]
+ * @since 5.2.0
  */
 class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 
 	/**
 	 * Test can_auto_update()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test constructor and get_updates()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test enuqeue_updates() when auto updating
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test enuqeue_updates() when manual updating is required
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test get_required_updates() and has_required_updates()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test show_notice_complete()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -244,7 +244,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test show_notice_pending()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -264,7 +264,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test update() when no updates are required.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -278,7 +278,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test update() when updates are required.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */

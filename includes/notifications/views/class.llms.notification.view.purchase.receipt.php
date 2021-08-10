@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 * Setup body content for output
 	 *
 	 * @since 3.8.0
-	 * @since [version] Build the table with mailer helper.
+	 * @since 5.2.0 Build the table with mailer helper.
 	 *
 	 * @return string
 	 */
@@ -107,7 +107,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 *
 	 * @since 3.8.0
 	 * @since 3.8.2 Unknown.
-	 * @since [version] Retrieve the customer's full address using the proper order's method.
+	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string

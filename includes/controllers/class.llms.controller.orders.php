@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -520,7 +520,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
-	 * @since [version] Fixed buggy logging on gateway error because it doesn't support recurring payments.
+	 * @since 5.2.0 Fixed buggy logging on gateway error because it doesn't support recurring payments.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.

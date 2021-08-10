@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -117,7 +117,7 @@ class LLMS_Emails {
 	 * Get css rules specific to the the email templates
 	 *
 	 * @since 3.8.0
-	 * @since [version] Early bail if no rule is provided.
+	 * @since 5.2.0 Early bail if no rule is provided.
 	 *
 	 * @param string  $rule Optional. Name of the css rule. Default is empty string.
 	 *                      If not provided an empty string will be returned/echoed.
@@ -246,7 +246,7 @@ class LLMS_Emails {
 	 *
 	 * It makes sure that all the required tags (table, tr, td) are set.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return array {
 	 *     Array of table style.
@@ -277,7 +277,7 @@ class LLMS_Emails {
 	/**
 	 * Return an associative array with the table's tags inline style
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -292,7 +292,7 @@ class LLMS_Emails {
 	/**
 	 * Return the table's `table` tag inline style
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -308,7 +308,7 @@ class LLMS_Emails {
 	/**
 	 * Return the table's `tr` tag inline style
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -319,7 +319,7 @@ class LLMS_Emails {
 	/**
 	 * Return the table's `td` tag inline style
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return string
 	 */
@@ -333,7 +333,7 @@ class LLMS_Emails {
 	/**
 	 * Returns the table html
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @param array $rows Array of rows to populate the table with.
 	 * @return string

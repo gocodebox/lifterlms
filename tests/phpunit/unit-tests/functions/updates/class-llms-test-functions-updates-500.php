@@ -9,8 +9,8 @@
  * @group updates_500
  *
  * @since 5.0.0
- * @since [version] Removed tearDown override, we don't need to remove any transient related to this update as we don't create it.
- * @version [version]
+ * @since 5.2.0 Removed tearDown override, we don't need to remove any transient related to this update as we don't create it.
+ * @version 5.2.0
  */
 class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 

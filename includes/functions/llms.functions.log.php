@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -117,7 +117,7 @@ add_action( 'llms_backup_logs', 'llms_backup_logs' );
  *
  * This can be used to log callables regardless of the callable format.
  *
- * @since [version]
+ * @since 5.2.0
  *
  * @param mixed $callable PHP callable.
  * @return string

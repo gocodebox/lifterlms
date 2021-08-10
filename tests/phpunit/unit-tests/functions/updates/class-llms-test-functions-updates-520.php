@@ -8,8 +8,8 @@
  * @group updates
  * @group updates_520
  *
- * @since [version]
- * @version [version]
+ * @since 5.2.0
+ * @version 5.2.0
  */
 class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_520_upcoming_reminder_notification_backward_compat() method
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_520_update_db_version()
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */

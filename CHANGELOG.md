@@ -1,6 +1,34 @@
 LifterLMS Changelog
 ===================
 
+v5.2.0 - 2021-08-10
+-------------------
+
+##### Upcoming Payment Reminder Notification
+
++ A new notification, the "Upcoming Payment Reminder" notification has been added. This notification sends a reminder to students a configurable number of days before a payment is do for a recurring subscription.
++ When upgrading to version 5.2.0, this notification will be automatically *disabled*, visit LifterLMS -> Settings -> Notifications and select the new notification to enable it after upgrading.
++ Props to [@niluzok](https://github.com/niluzok) for doing the initial work required to build this notification!
+
+##### Updates
+
++ Reworked the database upgrader script to allow for minor upgrades which don't require significant data migration to upgrade silently without requiring user consent to initiate.
++ Improved internal methods used to generate tables in the body of email notifications.
+
+##### Bug Fixes
+
++ Student registration date is now displayed in the site's timezone in favor of UTC time.
++ Properly pass options `template_path` and `default_path` to the template handler when creating an admin notice using a template.
++ Removed translation (and incorrect text domain) from a logging function encountered when a recurring payment errors as a result of the payment gateway having been deactivated.
+
+##### Deprecations
+
++ `LLMS_Install::db_updates()` is deprecated, use ``LLMS_DB_Upgrader::enqueue_updates()` instead.
++ `LLMS_Install::update_notice()` is deprecated with no replacement.
++ Template `admin/notices/db-update.php` is deprecated in favor of `includes/admin/views/db-update.php`.
++ Template `admin/notices/db-updating.php` is deprecated with no replacement.
+
+
 v5.1.3 - 2021-08-04
 -------------------
 

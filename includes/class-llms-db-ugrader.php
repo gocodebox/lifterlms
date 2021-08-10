@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.2.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Manage database updates and migrations
  *
- * @since [version]
+ * @since 5.2.0
  */
 class LLMS_DB_Upgrader {
 
@@ -41,7 +41,7 @@ class LLMS_DB_Upgrader {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @see includes/schemas/llms-db-updates.php For an example updates schema.
 	 *
@@ -70,7 +70,7 @@ class LLMS_DB_Upgrader {
 	 *
 	 * Auto updating is possible as long as none of the required updates are marked as "manual".
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return boolean Returns `true` when an auto-update is possible and `false` if manual updating
 	 *                 is required.
@@ -91,7 +91,7 @@ class LLMS_DB_Upgrader {
 		/**
 		 * Filters the list of database updates.
 		 *
-		 * @since [version]
+		 * @since 5.2.0
 		 *
 		 * @param boolean          $autoupdate Whether or not an automatic update can be run.
 		 * @param string           $db_version The specified DB that's being upgraded from.
@@ -111,7 +111,7 @@ class LLMS_DB_Upgrader {
 	 * + The "update started" notice will be immediately displayed/added.
 	 * + The "update complete" notice will be added to the end of the queue (and then displayed when the update is complete).
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -148,7 +148,7 @@ class LLMS_DB_Upgrader {
 	/**
 	 * Retrieves the updates list
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return array
 	 */
@@ -157,7 +157,7 @@ class LLMS_DB_Upgrader {
 		/**
 		 * Filters the list of database updates.
 		 *
-		 * @since [version]
+		 * @since 5.2.0
 		 *
 		 * @param array            $updates  List of updates to be run.
 		 * @param LLMS_DB_Upgrader $upgrader Instance of the database upgrader.
@@ -171,7 +171,7 @@ class LLMS_DB_Upgrader {
 	 *
 	 * All updates greater than the specified version will be returned.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return array[]
 	 */
@@ -192,7 +192,7 @@ class LLMS_DB_Upgrader {
 	/**
 	 * Determine whether or not there are required updates for a specified DB version.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return boolean Returns `true` if there are updates to run, otherwise returns `false`.
 	 */
@@ -208,7 +208,7 @@ class LLMS_DB_Upgrader {
 	 *
 	 * Users can click this notice to start the database upgrade(s).
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -234,7 +234,7 @@ class LLMS_DB_Upgrader {
 	/**
 	 * Show a notice when a manual update is started.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -258,7 +258,7 @@ class LLMS_DB_Upgrader {
 	 * may show up on the same page load which is confusing to look at it. If we just started and it's already done
 	 * when the next page loads we only need to see that update is complete.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return void
 	 */
@@ -287,7 +287,7 @@ class LLMS_DB_Upgrader {
 	 * it will show the update pending notice which will prompt an admin to manually
 	 * start the update.
 	 *
-	 * @since [version]
+	 * @since 5.2.0
 	 *
 	 * @return boolean Returns `false` if there are no updates to run and `true` otherwise.
 	 */

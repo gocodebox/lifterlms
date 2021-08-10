@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.4.3
- * @deprecated [version] Template admin/notices/db-updating.php is deprecated with no replacement.
+ * @deprecated 5.2.0 Template admin/notices/db-updating.php is deprecated with no replacement.
  * @version 3.4.3
  */
 

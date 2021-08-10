@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 5.2.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Explicitly set no subscribers for the new upcoming payment reminder notification
  *
- * @since [version]
+ * @since 5.2.0
  *
  * @return bool True if it needs to run again, false otherwise.
  */
@@ -41,7 +41,7 @@ function llms_update_520_upcoming_reminder_notification_backward_compat() {
 /**
  * Update db version to 5.2.0
  *
- * @since [version]
+ * @since 5.2.0
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
