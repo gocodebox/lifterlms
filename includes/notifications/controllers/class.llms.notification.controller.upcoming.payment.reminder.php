@@ -422,8 +422,8 @@ class LLMS_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_Abstra
 						'compare' => 'EXISTS',
 					),
 				),
-				'no_found_rows' => true,
-				'order_by' => 'ID',
+				'no_found_rows'  => true,
+				'order_by'       => 'ID',
 			)
 		);
 

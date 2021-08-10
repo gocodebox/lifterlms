@@ -279,7 +279,7 @@ class LLMS_DB_Upgrader {
 		);
 
 	}
-	
+
 	/**
 	 * Start the update
 	 *
