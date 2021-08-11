@@ -35,7 +35,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function tear_downAfterClass() {
+	public static function tear_down_after_class() {
 
 		remove_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
@@ -46,7 +46,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 				unset( LLMS()->payment_gateways()->payment_gateways[ $i ] );
 			}
 		}
-		parent::tear_downAfterClass();
+		parent::tear_down_after_class();
 
 	}
 

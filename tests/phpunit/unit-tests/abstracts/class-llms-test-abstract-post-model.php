@@ -35,9 +35,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function tear_downAfterClass() {
+	public static function tear_down_after_class() {
 
-		parent::tear_downAfterClass();
+		parent::tear_down_after_class();
 		unregister_post_type( 'mock_post_type' );
 
 	}
