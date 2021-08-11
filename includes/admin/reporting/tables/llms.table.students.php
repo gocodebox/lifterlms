@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0 Add "Last Seen" column.
  * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
  * @since 3.37.2 The post filter on the students table now limits post results based on instructor access.
+ * @since [version] Use the local time zone instead of UTC for `last_seen` in `get_data`.
  */
 class LLMS_Table_Students extends LLMS_Admin_Table {
 
@@ -108,6 +109,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
 	 * @since 4.7.0 Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
+	 * @since [version] Use the local time zone instead of UTC for `last_seen`.
 	 *
 	 * @param string       $key     The column id / key.
 	 * @param LLMS_Student $student Instance of the LLMS_Student.
@@ -186,7 +188,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					$value = $student->get( 'last_login' );
 				}
 
-				$value = $value ? date_i18n( get_option( 'date_format' ), is_numeric( $value ) ? $value : strtotime( $value ) ) : '&ndash;';
+				if ( $value ) {
+					$timestamp = is_numeric( $value ) ? $value : strtotime( $value );
+					$value     = wp_date( get_option( 'date_format' ), $timestamp );
+				} else {
+					$value = '&ndash;';
+				}
 
 				break;
 

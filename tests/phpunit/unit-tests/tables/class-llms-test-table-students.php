@@ -9,6 +9,7 @@
  * @since 3.28.0
  * @since 3.36.0 Add "last_seen" col.
  * @since 3.37.15 Add additional tests for new conditions in `generate_export_file()` method.
+ * @since [version] Add `test_get_data_last_seen`.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -25,6 +26,40 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test `LLMS_Table_Students::get_data( 'last_seen' )` and the effect of different WordPress time zones.
+	 *
+	 * @since [version]
+	 * @todo  Test using the last row in the `lifterlms_events` table.
+	 */
+	public function test_get_data_last_seen() {
+		# Set the current date and time in the UTC time zone.
+		llms_tests_mock_current_time( '2021-01-20 00:00:00' );
+
+		$table = new LLMS_Table_Students();
+		update_option( 'date_format', 'Y-m-d' );
+
+		# Register a new student.
+		$user_id = $this->factory->user->create( array( 'role' => 'student' ) );
+		$student = llms_get_student( $user_id );
+
+		# The student has never been seen.
+		$last_seen = $table->get_data( 'last_seen', $student );
+		$this->assertEquals( '&ndash;', $last_seen, 'User has never been seen.' );
+
+		# Log the user in.
+		llms_set_user_login_time( $student->get( 'user_login' ), $student->get_user() );
+
+		# Set the server's local time zone to before UTC.
+		update_option( 'timezone_string', 'America/Chicago' );
+		$last_seen = $table->get_data( 'last_seen', $student );
+		$this->assertEquals( '2021-01-19', $last_seen, 'User was seen yesterday.' );
+
+		# Set the server's local time zone to after UTC.
+		update_option( 'timezone_string', 'Asia/Tokyo' );
+		$last_seen = $table->get_data( 'last_seen', $student );
+		$this->assertEquals( '2021-01-20', $last_seen, 'User was seen today.' );
+	}
 
 	/**
 	 * test the get_export() method.
