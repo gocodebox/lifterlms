@@ -512,7 +512,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 						array(
 							$id,
 							$blocks
-						),
+						)
 					),
 					"{$location}:{$id}"
 				);
