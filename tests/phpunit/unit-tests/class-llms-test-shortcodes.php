@@ -86,6 +86,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * @since 3.4.3
 	 * @since 4.4.0 Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
 	 * @since 5.0.0 Don't need to test for password strength enqueue anymore.
+	 * @since [version] Use `assertStringContains()` in favor of `assertContains()`.
 	 *
 	 * @return void
 	 */
@@ -97,7 +98,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 		$obj = LLMS_Shortcode_Registration::instance();
 
 		// when logged out, there should be html content
-		$this->assertContains( 'llms-new-person-form-wrapper', $obj->output() );
+		$this->assertStringContains( 'llms-new-person-form-wrapper', $obj->output() );
 
 		// no html when logged in
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
@@ -110,6 +111,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * Test lifterlms_membership_link shortcode
 	 *
 	 * @since 3.4.3
+	 * @since [version] Use `assertStringContains()` in favor of `assertContains()`.
 	 *
 	 * @return void
 	 */
@@ -124,13 +126,13 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 		$obj = LLMS_Shortcode_Membership_Link::instance();
 
 		// test default settings
-		$this->assertContains( get_permalink( $mid ), $obj->output( array( 'id' => $mid ) ) );
-		$this->assertContains( get_the_title( $mid ), $obj->output( array( 'id' => $mid ) ) );
+		$this->assertStringContains( get_permalink( $mid ), $obj->output( array( 'id' => $mid ) ) );
+		$this->assertStringContains( get_the_title( $mid ), $obj->output( array( 'id' => $mid ) ) );
 
 		$this->assertEquals( $mid, $obj->get_attribute( 'id' ) );
 
 		// check non default content
-		$this->assertContains( 'Alternate Text', $obj->output( array( 'id' => $mid ), 'Alternate Text' ) );
+		$this->assertStringContains( 'Alternate Text', $obj->output( array( 'id' => $mid ), 'Alternate Text' ) );
 		$this->assertEquals( 'Alternate Text', $obj->get_content( 'Alternate Text' ) );
 
 	}
