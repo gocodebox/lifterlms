@@ -1,18 +1,21 @@
 <?php
 /**
  * Tests for the LLMS_Payment_Gateways class
- * @since    3.10.0
- * @version  3.10.0
+ *
+ * @group payment_gateways
+ *
+ * @since 3.10.0
  */
 class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Enable or disable a payment gateway by ID
-	 * @param    string     $id       gateway id
-	 * @param    string     $enabled  on|off
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @param string $id      Gateway id.
+	 * @param string $enabled Whether the gateway should be enabled or disabled. Accepts on or off.
+	 * @return void
 	 */
 	private function toggle_gateway( $id, $enabled = 'on' ) {
 
@@ -25,9 +28,10 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_enabled_payment_gateways function
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_get_enabled_payment_gateways() {
 
@@ -49,9 +53,10 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_default_gateway() function
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_get_default_gateway() {
 
@@ -63,9 +68,10 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_payment_gateways() method
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_get_payment_gateways() {
 
@@ -79,9 +85,10 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test has_gateways() method
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_has_gateways() {
 
@@ -103,9 +110,10 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_gateway_by_id()
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_get_gateway_by_id() {
 
