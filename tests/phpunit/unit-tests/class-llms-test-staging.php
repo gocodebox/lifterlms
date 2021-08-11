@@ -161,12 +161,13 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test handle_staging_notice_actions() with an invalid nonce.
 	 *
 	 * @since 4.12.0
-	 *
-	 * @expectedException WPDieException
+	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_handle_staging_notice_actions_invalid_nonce() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockGetRequest( array(
 			'llms-staging-status' => 'enable',
@@ -181,12 +182,13 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test handle_staging_notice_actions() with an invalid user.
 	 *
 	 * @since 4.12.0
-	 *
-	 * @expectedException WPDieException
+	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_handle_staging_notice_actions_invalid_user() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockGetRequest( array(
 			'llms-staging-status' => 'enable',

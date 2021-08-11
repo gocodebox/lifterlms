@@ -36,15 +36,14 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_no_nonce() {
 
+		$this->expectException( 'WPDieException' );
 		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
-
 
 	}
 
@@ -52,12 +51,13 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when invalid nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_invalid_nonce() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockPostRequest( array(
 			'_wpnonce' => 'fake',
@@ -70,12 +70,13 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no user permissions
 	 *
 	 * @since 3.37.14
-	 *
-	 * @expectedException WPDieException
+	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
 	public function test_do_tool_no_user_caps() {
+
+		$this->expectException( 'WPDieException' );
 
 		$this->mockPostRequest( array(
 			'_wpnonce' => wp_create_nonce( 'llms_tool' ),
