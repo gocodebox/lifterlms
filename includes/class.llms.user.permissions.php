@@ -1,11 +1,11 @@
 <?php
 /**
- * Filters and actions related to user permissions
+ * LLMS_User_Permissions class file
  *
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 4.10.0
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -55,6 +55,15 @@ class LLMS_User_Permissions {
 	 * @return array
 	 */
 	public function editable_roles( $all_roles ) {
+
+		/**
+		 * Prevent issues when other plugins call get_editable_roles() before `init`.
+		 *
+		 * @link https://github.com/gocodebox/lifterlms/issues/1727
+		 */
+		if ( ! function_exists( 'wp_get_current_user' ) ) {
+			return $all_roles;
+		}
 
 		if ( is_multisite() && is_super_admin() ) {
 			return $all_roles;

@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.0.0
- * @version 3.16.10
+ * @deprecated 5.2.0 Template admin/notices/db-update.php is deprecated in favor of includes/admin/views/db-update.php.
+ * @version 5.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) {
 	exit;
 }
+_deprecated_file( __FILE__, 'version', LLMS_PLUGIN_DIR . 'includes/admin/views/db-update.php' );
 ?>
 <p><strong><?php _e( 'The LifterLMS database needs to be updated to the latest version.', 'lifterlms' ); ?></strong></p>
 <p><?php _e( 'The update will only take a few minutes and it will run in the background. A notice like this will let you know when it\'s finished.', 'lifterlms' ); ?></p>

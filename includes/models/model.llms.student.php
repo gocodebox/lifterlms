@@ -25,6 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Remove previously deprecated methods.
  * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  *              Added new filter to allow customization of object completion data.
+ * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1145,12 +1146,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve the Students original registration date in chosen format
+	 * Retrieve the student's original registration date in the chosen format.
 	 *
-	 * @param    string $format  any date format that can be passed to date()
-	 * @return   string
-	 * @since    ??
-	 * @version  3.14.0
+	 * @since Unknown
+	 * @since 5.2.0 Changed the date to be relative to the local time zone.
+	 *
+	 * @param string $format Any date format that can be passed to date().
+	 * @return string
 	 */
 	public function get_registration_date( $format = '' ) {
 
@@ -1158,7 +1160,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$format = get_option( 'date_format' );
 		}
 
-		return date_i18n( $format, strtotime( $this->get( 'user_registered' ) ) );
+		return wp_date( $format, strtotime( $this->get( 'user_registered' ) ) );
 
 	}
 
