@@ -666,6 +666,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
+	 * @since [version] Use `assertEqualsWithDelta()` in favor of 4th parameter provided to `assertEquals()`.
 	 *
 	 * @return void
 	 */
@@ -683,7 +684,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			// Test due date with a trial.
 			$plan->set( 'trial_offer', 'yes' );
 			$order = $this->get_order( $plan );
-			$this->assertEquals( strtotime( $order->get_trial_end_date() ), strtotime( $order->get_next_payment_due_date() ), '', $this->date_delta );
+			$this->assertEqualsWithDelta( strtotime( $order->get_trial_end_date() ), strtotime( $order->get_next_payment_due_date() ), $this->date_delta );
 			$plan->set( 'trial_offer', 'no' );
 
 			// Perform calculation tests against different frequencies.
@@ -716,7 +717,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				) );
 				$order->maybe_schedule_payment( true );
 
-				$this->assertEquals( strtotime( date( 'Y-m-d H:i:s', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i:s' ) ), '', HOUR_IN_SECONDS * 2 );
+				$this->assertEqualsWithDelta( strtotime( date( 'Y-m-d H:i:s', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i:s' ) ), HOUR_IN_SECONDS * 2 );
 
 				// Plan ends so func should return a WP_Error.
 				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
