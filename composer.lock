@@ -881,12 +881,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "31c20a0215a1146f54e79ac623f5d13bc42c11e9"
+                "reference": "4e522a8dac0a599baef74f10e9bbe7d526142330"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/31c20a0215a1146f54e79ac623f5d13bc42c11e9",
-                "reference": "31c20a0215a1146f54e79ac623f5d13bc42c11e9",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/4e522a8dac0a599baef74f10e9bbe7d526142330",
+                "reference": "4e522a8dac0a599baef74f10e9bbe7d526142330",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +921,7 @@
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
                 "source": "https://github.com/gocodebox/lifterlms-tests/tree/trunk"
             },
-            "time": "2021-08-11T20:55:17+00:00"
+            "time": "2021-08-11T22:55:19+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -6010,5 +6010,5 @@
         "php": ">=7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
