@@ -108,6 +108,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run some tests on the initial setup of the order and the first payment.
 	 *
 	 * @since 3.37.6
+	 * @since [version] Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order The order.
 	 * @return void
@@ -131,7 +132,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 		// Next payment date.
 		$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
-		$this->assertEquals( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, $period, 5 ); // 5 seconds tolerance.
+		$this->assertEqualsWithDelta( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, 5, $period ); // 5 seconds tolerance.
 
 	}
 
@@ -142,6 +143,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
+	 * @since [version] Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
@@ -196,7 +198,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			);
 
 			// Ensure that the calculated next payment time is 1 period +/- 23:59:59 from the previous transaction.
-			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
+			$this->assertEqualsWithDelta( $expect, $next_payment_time, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0, $msg );
 
 			++$i;
 			$elapsed = microtime( true ) - $start;
