@@ -61,7 +61,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 
 		// Create.
 		$event = new LLMS_Event();
-		$event->set_up( $args );
+		$event->setUp( $args );
 		$this->assertTrue( $event->save() );
 		$id = $event->get( 'id' );
 		$this->assertTrue( is_numeric( $id ) );
@@ -121,7 +121,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		$event = new LLMS_Event();
 
 		// Set multiple metas.
-		$event->set_up( $args )->set_metas( $meta );
+		$event->setUp( $args )->set_metas( $meta );
 
 		// Get all metas.
 		$this->assertEquals( $meta, $event->get_meta() );
@@ -174,7 +174,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		);
 
 		$event = new LLMS_Event();
-		$event->set_up( $args )->save();
+		$event->setUp( $args )->save();
 
 		$event->set_metas( $meta, true );
 
