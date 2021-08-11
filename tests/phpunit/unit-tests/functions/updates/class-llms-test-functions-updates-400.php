@@ -21,8 +21,8 @@ class LLMS_Test_Functions_Updates_400 extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-400.php';
 	}
 

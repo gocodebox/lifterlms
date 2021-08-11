@@ -39,7 +39,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 		parent::setup();
 		$this->controller = LLMS_Notification_Controller_Upcoming_Payment_Reminder::instance();
 		$this->types      = array_keys( $this->controller->get_supported_types() );

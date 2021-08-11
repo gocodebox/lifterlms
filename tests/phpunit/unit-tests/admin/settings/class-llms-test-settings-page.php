@@ -19,9 +19,9 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/settings/class.llms.settings.page.php';
 
 		// Setup a mock settings page.

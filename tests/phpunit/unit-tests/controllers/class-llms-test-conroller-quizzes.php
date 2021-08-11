@@ -19,9 +19,9 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->controller = new LLMS_Controller_Quizzes();
 
 	}

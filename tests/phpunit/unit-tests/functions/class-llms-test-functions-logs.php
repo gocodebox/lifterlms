@@ -11,8 +11,8 @@
  */
 class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		add_filter( 'llms_log_max_filesize', array( $this, 'shrink_max_log_size' ) );
 	}
 
@@ -29,9 +29,9 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		foreach ( glob( LLMS_LOG_DIR . '*.log*' ) as $file ) {
 			unlink( $file );
 		}

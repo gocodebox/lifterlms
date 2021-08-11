@@ -17,9 +17,9 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_View_Manager();
 
 	}

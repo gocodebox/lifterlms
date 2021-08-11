@@ -17,9 +17,9 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = LLMS_Unit_Test_Util::call_method( llms(), 'init_assets' );
 
 	}
@@ -33,9 +33,9 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		foreach ( array_keys( LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'scripts' ) ) as $handle ) {
 			wp_dequeue_script( $handle );

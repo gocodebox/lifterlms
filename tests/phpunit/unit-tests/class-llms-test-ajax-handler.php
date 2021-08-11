@@ -20,18 +20,18 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 	}
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		add_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		remove_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
 	}
 

@@ -12,7 +12,7 @@
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.page.status.php';
 
@@ -25,9 +25,9 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = 'LLMS_Admin_Page_Status';
 
 	}

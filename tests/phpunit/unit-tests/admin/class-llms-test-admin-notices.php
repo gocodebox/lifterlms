@@ -18,8 +18,8 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 	}
 

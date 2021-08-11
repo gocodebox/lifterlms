@@ -18,9 +18,9 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->https = new LLMS_HTTPS();
 		$this->original_server = $_SERVER;
 
@@ -33,7 +33,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
 		$_SERVER = $this->original_server;
 

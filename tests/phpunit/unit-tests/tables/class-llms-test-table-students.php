@@ -17,9 +17,9 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 * @since   3.28.0
 	 * @version 3.28.0
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/llms.table.students.php';
 		$this->table = new LLMS_Table_Students();
 

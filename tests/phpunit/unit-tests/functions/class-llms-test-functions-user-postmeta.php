@@ -13,9 +13,9 @@
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$this->student = $this->get_mock_student();
 		$this->student_id = $this->student->get( 'id' );

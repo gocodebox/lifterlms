@@ -10,7 +10,7 @@
  * @since 3.35.0
  * @since 3.37.8 Update path to assets directory.
  * @since 4.7.0 Test success message generation.
- * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
+ * @since 4.8.0 Move includes to `set_up_before_class()` method.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -21,9 +21,9 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
@@ -36,13 +36,13 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Setup test case.
 	 *
 	 * @since 3.35.0
-	 * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
+	 * @since 4.8.0 Move includes to `set_up_before_class()` method.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->import = new LLMS_Admin_Import();
 
 	}
@@ -54,9 +54,9 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		unset( $_FILES['llms_import'] );
 
 	}

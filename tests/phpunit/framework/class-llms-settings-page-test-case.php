@@ -13,9 +13,9 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->page = new $this->classname();
 
 	}

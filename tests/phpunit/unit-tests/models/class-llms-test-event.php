@@ -19,8 +19,8 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 	}
 
 	/**
@@ -30,8 +30,8 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
 	}
@@ -61,7 +61,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 
 		// Create.
 		$event = new LLMS_Event();
-		$event->setUp( $args );
+		$event->set_up( $args );
 		$this->assertTrue( $event->save() );
 		$id = $event->get( 'id' );
 		$this->assertTrue( is_numeric( $id ) );
@@ -121,7 +121,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		$event = new LLMS_Event();
 
 		// Set multiple metas.
-		$event->setUp( $args )->set_metas( $meta );
+		$event->set_up( $args )->set_metas( $meta );
 
 		// Get all metas.
 		$this->assertEquals( $meta, $event->get_meta() );
@@ -174,7 +174,7 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 		);
 
 		$event = new LLMS_Event();
-		$event->setUp( $args )->save();
+		$event->set_up( $args )->save();
 
 		$event->set_metas( $meta, true );
 

@@ -39,9 +39,9 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-wipe-legacy-account-options.php';
@@ -55,9 +55,9 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Tool_Wipe_Legacy_Account_Options();
 
 	}
@@ -69,9 +69,9 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->delete_legacy_options();
 
 	}

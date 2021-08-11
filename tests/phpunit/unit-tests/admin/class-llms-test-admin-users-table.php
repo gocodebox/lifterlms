@@ -19,8 +19,8 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
 	}
@@ -32,9 +32,9 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		set_current_screen( 'users.php' );
 		$this->main = new LLMS_Admin_Users_Table();
 
@@ -48,9 +48,9 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		/**
 		 * Reset current screen

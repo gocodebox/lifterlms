@@ -38,9 +38,9 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		wp_set_current_user( null );
 
 	}

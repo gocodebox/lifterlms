@@ -19,9 +19,9 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->handler = LLMS_Form_Handler::instance();
 
 		// Actions aren't firing on unit tests without explicitly calling the constructor to add them. Not sure why.
@@ -38,9 +38,9 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		global $wpdb;
 		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );

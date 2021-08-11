@@ -18,8 +18,8 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->main = llms()->engagements();
 		reset_phpmailer_instance();
 	}
@@ -31,9 +31,9 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		reset_phpmailer_instance();
 
 	}

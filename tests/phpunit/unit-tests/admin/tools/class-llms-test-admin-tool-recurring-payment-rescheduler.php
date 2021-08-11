@@ -20,9 +20,9 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-recurring-payment-rescheduler.php';
@@ -36,9 +36,9 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->clear_cache();
 
 	}
@@ -97,8 +97,8 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_UnitTestCa
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->main = new LLMS_Admin_Tool_Recurring_Payment_Rescheduler();
 	}
 
