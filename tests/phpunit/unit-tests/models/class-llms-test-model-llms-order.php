@@ -736,7 +736,12 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Undocumented get_next_payment_due_date() method
+	 * Test get_next_payment_due_date() method for a payment plan
+	 *
+	 * Additionally tests calculate_next_payment_date() via action hooks.
+	 *
+	 * @since Unknown
+	 * @since [version] Updated to rely on number of successful transactions in favor of the current date.
 	 *
 	 * @return void
 	 */
@@ -752,29 +757,53 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$plan->set( 'period', 'week' ); // Week.
 		$plan->set( 'length', 3 ); // For 3 payments.
 
-		// Payment one is order date.
+		// Create the order.
 		$order = $this->get_order( $plan );
 
-		// Payment two.
+		// 3 total payments due.
+		$this->assertEquals( 3, $order->get_remaining_payments() );
+
+		// Make the initial payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Two payments remaining.
+		$this->assertEquals( 2, $order->get_remaining_payments() );
+
+		// Payment two is scheduled properly.
 		$expect = strtotime( "+3 weeks", $order->get_date( 'date', 'U' ) );
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// Time travel.
+		// Time travel to when the second payment is due.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// Reschedule next date.
-		$order->maybe_schedule_payment( true );
-		$expect += WEEK_IN_SECONDS * 3;
 
-		// Payment three.
+		// Record the second payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Only one payment remaining.
+		$this->assertEquals( 1, $order->get_remaining_payments() );
+
+		// Payment 3 is scheduled properly.
+		$expect += WEEK_IN_SECONDS * 3;
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// Time travel.
+		// Time travel to when the 3rd payment is due.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// Reschedule next date.
-		$order->maybe_schedule_payment( true );
 
-		// No more payments.
+		// Make the 3rd payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// No more payments due.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date( 'U' ), 'WP_Error' ) );
+		$this->assertEquals( 0, $order->get_remaining_payments() );
 
 	}
 

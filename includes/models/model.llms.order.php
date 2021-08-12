@@ -287,22 +287,23 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
 	 * @since 4.9.0 Fix comparison for PHP8 compat.
+	 * @since [version] Determine if a limited order has ended based on number of remaining payments in favor of current date/time.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.
 	 */
 	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
+		// If the limited plan has already ended return early.
+		$remaining = $this->get_remaining_payments();
+		if ( 0 === $remaining ) {
+			// This filter is documented below.
+			return apply_filters( 'llms_order_calculate_next_payment_date', '', $format, $this );
+		}
+
 		$start_time        = $this->get_date( 'date', 'U' );
-		$end_time          = $this->get_date( 'date_billing_end', 'U' );
 		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
 		$last_txn_time     = $this->get_last_transaction_date( 'llms-txn-succeeded', 'recurring', 'U' );
-
-		// Handles pre 3.10 orders where the `date_billing_end` property wasn't stored during init.
-		if ( ! $end_time && $this->get( 'billing_length' ) ) {
-			$end_time = $this->calculate_billing_end_date();
-			$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $end_time ) );
-		}
 
 		// If were on a trial and the trial hasn't ended yet next payment date is the date the trial ends.
 		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
@@ -362,13 +363,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
-		// If the next payment is after the end time (where applicable).
-		if ( $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
-			$ret = '';
-		} elseif ( $next_payment_time > 0 ) {
-			$ret = date( $format, $next_payment_time );
-		}
-
 		/**
 		 * Filter the calculated next payment date
 		 *
@@ -378,7 +372,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param string     $format The requested date format.
 		 * @param LLMS_Order $order  The order object.
 		 */
-		return apply_filters( 'llms_order_calculate_next_payment_date', $ret, $format, $this );
+		return apply_filters( 'llms_order_calculate_next_payment_date', date( $format, $next_payment_time ), $format, $this );
 
 	}
 
