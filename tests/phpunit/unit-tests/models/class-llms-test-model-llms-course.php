@@ -8,6 +8,7 @@
  * @since 3.4.0
  * @since 3.24.0 Add tests for the `get_available_points()` method.
  * @since 4.7.0 Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
+ * @since [version] Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -466,10 +467,10 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the has_sales_page_redirect method
-	 * @return   void
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Test the `has_sales_page_redirect` method.
+	 *
+	 * @since 3.20.0
+	 * @since [version] Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 
@@ -484,9 +485,16 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( false, $course->has_sales_page_redirect() );
 
 		$course->set( 'sales_page_content_type', 'url' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_url', 'https://lifterlms.com' );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
 
 		$course->set( 'sales_page_content_type', 'page' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$page_id = $this->factory()->post->create( array( 'post_type' => 'page' ) );
+		$course->set( 'sales_page_content_page_id', $page_id );
 		$this->assertEquals( true, $course->has_sales_page_redirect() );
 
 	}

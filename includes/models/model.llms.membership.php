@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
+ * @since [version] Check for an empty sales page URL or ID.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -304,16 +305,37 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	}
 
 	/**
-	 * Determine if sales page redirection is enabled
+	 * Determine if sales page redirection is enabled.
 	 *
 	 * @since 3.20.0
 	 * @since 3.38.1 Use strict array comparison.
+	 * @since [version] Check for an empty sales page URL or ID.
 	 *
 	 * @return string
 	 */
 	public function has_sales_page_redirect() {
 		$type = $this->get( 'sales_page_content_type' );
-		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ), true ), $this, $type );
+		switch ( $type ) {
+			case 'page':
+				$has_redirect = (bool) $this->get( 'sales_page_content_page_id' );
+				break;
+			case 'url':
+				$has_redirect = (bool) $this->get( 'sales_page_content_url' );
+				break;
+			default:
+				$has_redirect = false;
+		}
+
+		/**
+		 * Filters whether or not the course has a sales page redirect.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param boolean         $has_redirect Whether or not the course has a sales page redirect.
+		 * @param LLMS_Membership $course       Course object.
+		 * @param string          $type         The course's sales page content type property value.
+		 */
+		return apply_filters( 'llms_membership_has_sales_page_redirect', $has_redirect, $this, $type );
 	}
 
 	/**
