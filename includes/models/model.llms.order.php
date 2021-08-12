@@ -426,7 +426,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_retry' ) ) {
 				$can_retry = false;
 			}
-
 		}
 
 		/**

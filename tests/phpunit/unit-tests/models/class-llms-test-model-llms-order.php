@@ -554,6 +554,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the get_customer_name() method.
 	 *
 	 * @since Unknown
+	 * @since [version] Add assertion for anonymized order.
 	 *
 	 * @return void
 	 */
@@ -563,6 +564,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'billing_first_name', $first );
 		$this->obj->set( 'billing_last_name', $last );
 		$this->assertEquals( $first . ' ' . $last,  $this->obj->get_customer_name() );
+
+		$this->obj->set( 'anonymized', 'yes' );
+		$this->assertEquals( 'Anonymous', $this->obj->get_customer_name() );
+
 	}
 
 	/**
