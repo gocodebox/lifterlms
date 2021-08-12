@@ -996,31 +996,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test init() with a plan that has limited number of payments
-	 *
-	 * @since Unknown
-	 * @since [version] Test the expected date is recorded right.
-	 *
-	 * @return void
-	 */
-	public function test_init_with_limited_plan() {
-
-		$time = time();
-		llms_mock_current_time( $time );
-
-		// Test initialization of an order with a plan that ends.
-		$plan = $this->get_plan();
-		$plan->set( 'length', 5 );
-		$order = $this->get_order( $plan );
-
-		$date = strtotime( $order->get( 'date_billing_end' ) );
-
-		$this->assertNotEmpty( $date );
-		$this->assertEquals( $time + DAY_IN_SECONDS * 5, $date, '', 5 );
-
-	}
-
-	/**
 	 * Test the is_recurring() method.
 	 *
 	 * @since Unknown

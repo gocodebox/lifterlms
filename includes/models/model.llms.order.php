@@ -41,7 +41,6 @@ defined( 'ABSPATH' ) || exit;
  * @property   $coupon_value_trial  (float)  $trial_original_total - $trial_total
  * @property   $currency  (string)  Transaction's currency code
  * @property   $date_access_expires  (string)  Date when access should expire [format (datetime) Y-m-d H:i:s]
- * @property   $date_billing_end  (string)  Date when billing should cease, only when $billing_length is greater than 0 [format (datetime) Y-m-d H:i:s]
  * @property   $date_next_payment  (string)  Date when the next recurring payment is due use function get_next_payment_due_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
  * @property   $date_trial_end  (string)  Date when the trial ends for orders with a trial, use function get_trial_end_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
  * @property   $gateway_api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
@@ -80,6 +79,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  * @since 4.7.0 Added `plan_ended` meta property.
+ * @since [version] Removed usage of the meta property `date_billing_end`.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -159,7 +159,6 @@ class LLMS_Order extends LLMS_Post_Model {
 		'user_ip_address'      => 'text',
 
 		'date_access_expires'  => 'text',
-		'date_billing_end'     => 'text',
 		'date_next_payment'    => 'text',
 		'date_trial_end'       => 'text',
 
@@ -1337,6 +1336,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
+	 * @since [version] Don't set unused legacy property `date_billing_end`.
 	 *
 	 * @param LLMS_Student         $person  The LLMS_Student placing the order.
 	 * @param LLMS_Access_Plan     $plan    The purchase LLMS_Access_Plan.
@@ -1433,9 +1433,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'billing_length', $plan->get( 'length' ) );
 			$this->set( 'billing_period', $plan->get( 'period' ) );
 			$this->set( 'order_type', 'recurring' );
-			if ( $plan->get( 'length' ) ) {
-				$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $this->calculate_billing_end_date() ) );
-			}
 			$this->set( 'date_next_payment', $this->calculate_next_payment_date() );
 		} else {
 			$this->set( 'order_type', 'single' );
