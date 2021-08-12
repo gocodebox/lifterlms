@@ -778,6 +778,54 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_remaining_payments()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_remaining_payments() {
+
+		// Not recurring.
+		$this->assertFalse( $this->obj->get_remaining_payments() );
+
+		// No length.
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->assertFalse( $this->obj->get_remaining_payments() );
+
+		// Has length.
+		$this->obj->set( 'billing_length', 5 );
+		$this->assertEquals( 5, $this->obj->get_remaining_payments() );
+
+		// These statuses don't count.
+		foreach ( array( 'failed', 'pending' ) as $status ) {
+			$this->obj->record_transaction( array(
+				'status'       => "llms-txn-{$status}",
+				'payment_type' => 'recurring',
+			) );
+			$this->assertEquals( 5, $this->obj->get_remaining_payments() );
+		}
+
+		// Record a few successes.
+		$i = 1;
+		while ( $i <= 4 ) {
+			$this->obj->record_transaction( array(
+				'payment_type' => 'recurring',
+			) );
+			$this->assertEquals( 5 - $i, $this->obj->get_remaining_payments(), $i );
+			++$i;
+		}
+
+		// Refunds count?
+		$this->obj->record_transaction( array(
+			'status'       => 'llms-txn-refunded',
+			'payment_type' => 'recurring',
+		) );
+		$this->assertEquals( 0, $this->obj->get_remaining_payments() );
+
+	}
+
 	// public function test_get_transaction_total() {}
 
 	// public function test_get_start_date() {}
@@ -879,6 +927,28 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test has_plan_expiration()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_plan_expiration() {
+
+		// Single payment.
+		$this->assertFalse( $this->obj->has_plan_expiration() );
+
+		// Recurring with no length.
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->assertFalse( $this->obj->has_plan_expiration() );
+
+		// Has length.
+		$this->obj->set( 'billing_length', 1 );
+		$this->assertTrue( $this->obj->has_plan_expiration() );
+
+	}
+
+	/**
 	 * Test has_sale() method
 	 *
 	 * @return void
@@ -940,22 +1010,31 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( $order->has_trial() );
 		$this->assertNotEmpty( $order->get( 'date_trial_end' ) );
 
+
 	}
 
 	/**
 	 * Test init() with a plan that has limited number of payments
 	 *
 	 * @since Unknown
+	 * @since [version] Test the expected date is recorded right.
 	 *
 	 * @return void
 	 */
 	public function test_init_with_limited_plan() {
 
+		$time = time();
+		llms_mock_current_time( $time );
+
 		// Test initialization of an order with a plan that ends.
 		$plan = $this->get_plan();
 		$plan->set( 'length', 5 );
 		$order = $this->get_order( $plan );
-		$this->assertNotEmpty( $order->get( 'date_billing_end' ) );
+
+		$date = strtotime( $order->get( 'date_billing_end' ) );
+
+		$this->assertNotEmpty( $date );
+		$this->assertEquals( $time + DAY_IN_SECONDS * 5, $date, '', 5 );
 
 	}
 

@@ -238,13 +238,13 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Calculate the date when billing should be
+	 * Calculate the date when a recurring order should stop being billed
 	 *
 	 * Applicable to orders created from plans with a set # of billing intervals.
 	 *
 	 * @since 3.10.0
 	 *
-	 * @return int
+	 * @return int Calculated billing end date as a Unix timestamp.
 	 */
 	private function calculate_billing_end_date() {
 
@@ -267,6 +267,14 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
+		/**
+		 * Filters the calculated end date of a recurring plan with a limited number of billing intervals
+		 *
+		 * @since 3.10.0
+		 *
+		 * @param int        $end   End date as a UNIX timestamp.
+		 * @param LLMS_Order $order Order object.
+		 */
 		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
 
 	}
@@ -876,6 +884,41 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieves the number of payments remaining for a recurring plan with a limited number of payments
+	 *
+	 * @since [version]
+	 *
+	 * @return bool|int Returns `false` for invalid order types (single-payment orders or recurring orders
+	 *                  without a billing length). Otherwise returns the number of remaining payments as an integer.
+ 	 */
+	public function get_remaining_payments() {
+
+		$remaining = false;
+
+		if ( $this->has_plan_expiration() ) {
+			$len  = $this->get( 'billing_length' );
+			$txns = $this->get_transactions( array(
+				'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ), // Should refunded be included???
+				'per_page' => 1,
+				'type'     => 'recurring',
+			) );
+
+			$remaining = $len - $txns['total'];
+		}
+
+		/**
+		 * Filters the number of payments remaining for a recurring plan with a limited number of payments.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool|int   $remaining Number of remaining payments or `false` when called against invalid order types.
+		 * @param LLMS_Order $order     Order object.
+		 */
+		return apply_filters( 'llms_order_remaining_payments', $remaining, $this );
+
+	}
+
+	/**
 	 * Get configured payment retry rules
 	 *
 	 * @since 3.10.0
@@ -1233,6 +1276,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function has_discount() {
 		return ( $this->has_coupon() || $this->has_sale() );
+	}
+
+	/**
+	 * Determine if a recurring order has a limited number of payments
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean Returns `true` for recurring orders with a billing length and `false` otherwise.
+	 */
+	public function has_plan_expiration() {
+		return ( $this->is_recurring() && ( $this->get( 'billing_length' ) > 0 ) );
 	}
 
 	/**
