@@ -1,79 +1,80 @@
 <?php
 /**
- * LifterLMS Order Model
+ * LLMS_Order class/model file
  *
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Order model class
+ * LifterLMS order model
  *
- * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
- * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
- * @property   $access_length  (int)  Length of access from time of purchase, combine with $access_period. Only applicable when $access_expiration is "limited-period"
- * @property   $access_period  (string)  Time period of access from time of purchase, combine with $access_length. Only applicable when $access_expiration is "limited-period" [year|month|week|day]
- * @property   $anonymized  (string)  Determines if the order has been anonymized due to a personal information erasure request (yes|no)
- * @property   $billing_address_1  (string)  customer billing address line 1
- * @property   $billing_address_2  (string)  customer billing address line 2
- * @property   $billing_city  (string)  customer billing city
- * @property   $billing_country  (string)  customer billing country, 2-digit ISO code
- * @property   $billing_email  (string)  customer email address
- * @property   $billing_first_name  (string)  customer first name
- * @property   $billing_last_name  (string)  customer last name
- * @property   $billing_phone  (string)  customer phone number
- * @property   $billing_state  (string)  customer billing state
- * @property   $billing_zip  (string)  customer billing zip/postal code
- * @property   $billing_frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
- * @property   $billing_length  (int)  Number of intervals to run payment for, combine with $billing_period & $billing_frequency. 0 = forever / until cancelled. Only applicable if $billing_frequency is not 0.
- * @property   $billing_period  (string)  Interval period, combine with $length. Only applicable if $billing_frequency is not 0.  [year|month|week|day]
- * @property   $coupon_amount  (float)  Amount of the coupon (flat/percentage) in relation to the plan amount
- * @property   $coupon_amout_trial  (float)  Amount of the coupon (flat/percentage) in relation to the plan trial amount where applicable
- * @property   $coupon_code  (string)  Coupon Code Used
- * @property   $coupon_id  (int)  WP Post ID of the LifterLMS Coupon Used
- * @property   $coupon_type  (string)  Type of coupon used, either percent or dollar
- * @property   $coupon_used  (string)  Whether or not a coupon was used for the order [yes|no]
- * @property   $coupon_value  (float)  When on sale, $sale_price - $total; when not on sale $original_total - $total
- * @property   $coupon_value_trial  (float)  $trial_original_total - $trial_total
- * @property   $currency  (string)  Transaction's currency code
- * @property   $date_access_expires  (string)  Date when access should expire [format (datetime) Y-m-d H:i:s]
- * @property   $date_next_payment  (string)  Date when the next recurring payment is due use function get_next_payment_due_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
- * @property   $date_trial_end  (string)  Date when the trial ends for orders with a trial, use function get_trial_end_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
- * @property   $gateway_api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
- * @property   $gateway_customer_id  (string)  Gateway's unique ID for the customer who placed the order
- * @property   $gateway_source_id  (string)  Gateway's unique ID for the card or source to be used for recurring subscriptions (if recurring is supported)
- * @property   $gateway_subscription_id  (string)  Gateway's unique ID for the recurring subscription (if recurring is supported)
- * @property   $id  (int)  WP Post ID of the order
- * @property   $last_retry_rule  (int)  Rule number for current retry step for the order
- * @property   $on_sale  (string)  Whether or not sale pricing was used for the plan [yes|no]
- * @property   $order_key  (string) A unique identifier for the order that can be passed safely in URLs
- * @property   $order_type  (string)  Single or recurring order [single|recurring]
- * @property   $original_total  (float)  Price of the order before applicable sale and coupon adjustments
- * @property   $payment_gateway  (string)  LifterLMS Payment Gateway ID (eg "paypal" or "stripe")
- * @property   $plan_id  (int)  WP Post ID of the purchased access plan
- * @property   $plan_sku   (string)  SKU of the purchased access plan
- * @property   $plan_title  (string)  Title / Name of the purchased access plan
- * @property   $plan_ended  (string)  Whether or not the payment plan has ended [yes|no]. Only applicable when the plan is not "unlimited".
- * @property   $product_id  (int)  WP Post ID of the purchased product
- * @property   $product_sku   (string)  SKU of the purchased product
- * @property   $product_title  (string)  Title / Name of the purchased product
- * @property   $product_type  (string)  Type of product purchased (course or membership)
- * @property   $sale_price  (float)  Sale price before coupon adjustments
- * @property   $sale_value  (float)  $original_total - $sale_price
- * @property   $start_date  (string)  date when access was initially granted; this is used to determine when access expires
- * @property   $title  (string)  Post Title
- * @property   $total  (float)  Actual price of the order, after applicable sale & coupon adjustments
- * @property   $trial_length  (int)  Length of the trial. Combined with $trial_period to determine the actual length of the trial.
- * @property   $trial_offer  (string)  Whether or not there was a trial offer applied to the order [yes|no]
- * @property   $trial_original_total  (float)  Total price of the trial before applicable coupon adjustments
- * @property   $trial_period  (string)  Period for the trial period. [year|month|week|day]
- * @property   $trial_total  (float)  Total price of the trial after applicable coupon adjustments
- * @property   $user_id   (int)  customer WP User ID
- * @property   $user_ip_address  (string)  customer's IP address at time of purchase
+ * Provides CRUD operations for the `llms_order` post type.
+ *
+ * @property string $access_expiration       Access expiration type, accepts: lifetime (default), limited-period, or limited-date.
+ * @property string $access_expires          Date on which access expires in `m/d/Y` format. Only applicable when the `$access_expiration` property is set to "limited-date".
+ * @property int    $access_length           Length of access from time of purchase, combine with the `$access_period`. Only applicable when the `$access_expiration` property is set to "limited-period".
+ * @property string $access_period           Time period of access from time of purchase, combine with `$access_length`. Only applicable when the `$access_expiration` property is set to "limited-period". Accepts: year, month, week, or day.
+ * @property string $anonymized              Determines if the order has been anonymized due to a personal information erasure request. Accepts "yes" or "no".
+ * @property string $billing_address_1       Customer billing address line 1.
+ * @property string $billing_address_2       Customer billing address line 2.
+ * @property string $billing_city            Customer billing city.
+ * @property string $billing_country         Customer billing country, two character ISO code.
+ * @property string $billing_email           Customer email address.
+ * @property string $billing_first_name      Customer first name.
+ * @property string $billing_last_name       Customer last name.
+ * @property string $billing_phone           Customer phone number.
+ * @property string $billing_state           Customer billing state.
+ * @property string $billing_zip             Customer billing zip/postal code.
+ * @property int    $billing_frequency       The billing frequency interval. A value of `0` indicates a one-time payment. Accepts integers <= 6.
+ * @property int    $billing_length          Number of intervals to run payment for, combine with `$billing_period` & `$billing_frequency`. A value of `0` indicates that recurring payments run indefinitely (until cancelled). Only applicable if `$billing_frequency` is not 0.
+ * @property string $billing_period          The billing period. Combine with `$length`. Only applicable if `$billing_frequency` is not 0. Accepts: year, month, week, or day.
+ * @property float  $coupon_amount           Amount of the coupon (flat/percentage) in relation to the plan amount.
+ * @property float  $coupon_amout_trial      Amount of the coupon (flat/percentage) in relation to the plan trial amount where applicable.
+ * @property string $coupon_code             Coupon code applied to the order.
+ * @property int    $coupon_id               The WP_Post ID of the used coupon.
+ * @property string $coupon_type             Type of coupon used, either percent or dollar.
+ * @property string $coupon_used             Whether or not a coupon was used for the order. Accepts yes or no.
+ * @property float  $coupon_value            Value of the coupon. When on sale, `$sale_price` minus `$total`; when not on sale `$original_total` minus `$total`.
+ * @property float  $coupon_value_trial      Value of the coupon applied to the trial. The `$trial_original_total` minus `$trial_total`.
+ * @property string $currency                Transaction's currency code.
+ * @property string $date_access_expires     Date when access should expire as a datetime string: `Y-m-d H:i:s`.
+ * @property string $date_next_payment       Date when the next recurring payment is due as a datemtime string: `Y-m-d H:i:s`. Use function LLMS_Order::get_next_payment_due_date() instead of accessing directly!
+ * @property string $date_trial_end          Date when the trial ends for orders with a trial as a datemtime string: `Y-m-d H:i:s`. Use function LLMS_Order::get_trial_end_date() instead of accessing directly!
+ * @property string $gateway_api_mode        API Mode of the gateway when the transaction was made, either "test" or "live".
+ * @property string $gateway_customer_id     Gateway's unique ID for the customer who placed the order (if supported by the gateway).
+ * @property string $gateway_source_id       Gateway's unique ID for the card or source to be used for recurring subscriptions (if supported by gateway).
+ * @property string $gateway_subscription_id Gateway's unique ID for the recurring subscription (if supported by the gateway).
+ * @property int    $id                      The WP_Post ID of the order.
+ * @property int    $last_retry_rule         Rule number for current retry step for the order.
+ * @property string $on_sale                 Whether or not sale pricing was used for the plan, either "yes" or "no".
+ * @property string $order_key               A unique identifier for the order that can be passed safely in URLs.
+ * @property string $order_type              Single or recurring order, either "single" or "recurring".
+ * @property float  $original_total          Price of the order before applicable sale and coupon adjustments.
+ * @property string $payment_gateway         LifterLMS Payment Gateway ID (eg "paypal" or "stripe").
+ * @property int    $plan_id                 WP_Post ID of the purchased access plan.
+ * @property string $plan_sku                SKU of the purchased access plan.
+ * @property string $plan_title              Title / Name of the purchased access plan.
+ * @property string $plan_ended              Whether or not the payment plan has ended. Only applicable when the plan is not "unlimited". Accepts "yes" or "no".
+ * @property int    $product_id              WP_Post ID of the purchased course or membership product.
+ * @property string $product_sku             SKU of the purchased product.
+ * @property string $product_title           Title / Name of the purchased product.
+ * @property string $product_type            Type of product purchased (course or membership).
+ * @property float  $sale_price              Sale price before coupon adjustments.
+ * @property float  $sale_value              The value of the sale, `$original_total` - `$sale_price`.
+ * @property string $start_date              Date when access was initially granted; this is used to determine when access expires.
+ * @property float  $total                   Actual price of the order, after applicable sale & coupon adjustments.
+ * @property int    $trial_length            Length of the trial. Combined with $trial_period to determine the actual length of the trial.
+ * @property string $trial_offer             Whether or not there was a trial offer applied to the order, either yes or no.
+ * @property float  $trial_original_total    Total price of the trial before applicable coupon adjustments.
+ * @property string $trial_period            Period for the trial period. Accepts: year, month, week, or day.
+ * @property float  $trial_total             Total price of the trial after applicable coupon adjustments/
+ * @property int    $user_id                 Customer WP_User ID.
+ * @property string $user_ip_address         Customer's IP address at time of purchase.
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
