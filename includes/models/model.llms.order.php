@@ -884,18 +884,20 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @return bool|int Returns `false` for invalid order types (single-payment orders or recurring orders
 	 *                  without a billing length). Otherwise returns the number of remaining payments as an integer.
- 	 */
+	 */
 	public function get_remaining_payments() {
 
 		$remaining = false;
 
 		if ( $this->has_plan_expiration() ) {
 			$len  = $this->get( 'billing_length' );
-			$txns = $this->get_transactions( array(
-				'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ), // Should refunded be included???
-				'per_page' => 1,
-				'type'     => 'recurring',
-			) );
+			$txns = $this->get_transactions(
+				array(
+					'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ), // Should refunded be included???
+					'per_page' => 1,
+					'type'     => 'recurring',
+				)
+			);
 
 			$remaining = $len - $txns['total'];
 		}
