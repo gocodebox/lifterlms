@@ -257,54 +257,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test private calculate_next_payment_date() for a plan with an end date.
-	 *
-	 * @since 3.37.2
-	 *
-	 * @return void
-	 */
-	public function test_calculate_next_payment_date_with_end_date() {
-
-		$now = current_time( 'timestamp' );
-		llms_mock_current_time( $now );
-
-		$plan = $this->get_plan();
-
-		$plan->set( 'frequency', 1 ); // Every.
-		$plan->set( 'period', 'month' ); // Month.
-		$plan->set( 'length', 3 ); // for 3 total payments.
-		$order = $this->get_mock_order( $plan );
-
-		// Delete the end date to simulate pre 3.10 behavior.
-		// $order->set( 'date_billing_end', '' );
-
-		$first_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-
-		// End date is calculated and stored for future use.
-		$this->assertTrue( ! empty( $order->get( 'date_billing_end' ) ) );
-
-		// First recurring payment (the second payment) is 1 month from the order start date.
-		$this->assertEquals( strtotime( '+1 month', $order->get_date( 'date', 'U' ) ), strtotime( $first_recurring ) );
-
-		// Time travel to simulate the completion of the previous payment.
-		$now = strtotime( $first_recurring ) + 1;
-		llms_mock_current_time( $now );
-
-		// Second recurring payment (the final payment) is 1 month from the first recurring payment date.
-		$second_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-		$this->assertEquals( strtotime( '+1 month', strtotime( $first_recurring ) ), strtotime( $second_recurring ) );
-
-		// Time travel to simulate the completion of the previous payment.
-		$now = strtotime( $second_recurring );
-		llms_mock_current_time( $now );
-
-		// There is no 3rd recurring payment because it's after the end date.
-		$third_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-		$this->assertEquals( '', $third_recurring );
-
-	}
-
-	/**
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.
@@ -666,6 +618,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
+	 * @since [version] Don't rely on the date_billing_end property for ending a payment plan.
 	 *
 	 * @return void
 	 */
@@ -718,14 +671,14 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 				$this->assertEquals( strtotime( date( 'Y-m-d H:i:s', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i:s' ) ), '', HOUR_IN_SECONDS * 2 );
 
-				// Plan ends so func should return a WP_Error.
-				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
+				// Plan ended so func should return a WP_Error.
+				$order->set( 'billing_length', 1 );
 				$order->maybe_schedule_payment( true );
 				$date = $order->get_next_payment_due_date();
 				$this->assertIsWPError( $date );
 				$this->assertWPErrorCodeEquals( 'plan-ended', $date );
 				$this->assertEquals( 'yes', $order->get( 'plan_ended' ) );
-				$order->set( 'date_billing_end', 0 );
+				$order->set( 'billing_length', 0 );
 
 				$i++;
 
