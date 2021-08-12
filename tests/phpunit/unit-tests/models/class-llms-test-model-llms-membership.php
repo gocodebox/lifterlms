@@ -8,6 +8,7 @@
  * @since 3.20.0
  * @since 3.36.3 Remove redundant test method `test_get_sections()`,
  *               @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
+ * @since [version] Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
@@ -356,29 +357,35 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the has_sales_page_redirect method.
+	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0
-	 *
-	 * @return void
+	 * @since [version] Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 
-		$course = new LLMS_Membership( 'new', 'Membership Title' );
+		$membership = new LLMS_Membership( 'new', 'Membership Title' );
 
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'none' );
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'none' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'content' );
-		$this->assertEquals( false, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'content' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'url' );
-		$this->assertEquals( true, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_type', 'url' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
 
-		$course->set( 'sales_page_content_type', 'page' );
-		$this->assertEquals( true, $course->has_sales_page_redirect() );
+		$membership->set( 'sales_page_content_url', 'https://lifterlms.com' );
+		$this->assertEquals( true, $membership->has_sales_page_redirect() );
+
+		$membership->set( 'sales_page_content_type', 'page' );
+		$this->assertEquals( false, $membership->has_sales_page_redirect() );
+
+		$page_id = $this->factory()->post->create( array( 'post_type' => 'page' ) );
+		$membership->set( 'sales_page_content_page_id', $page_id );
+		$this->assertEquals( true, $membership->has_sales_page_redirect() );
 
 	}
 
