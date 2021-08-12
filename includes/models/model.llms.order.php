@@ -479,7 +479,16 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @return string
 	 */
 	public function generate_order_key() {
-		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ) );
+		/**
+		 * Modify the generated order key for the order.
+		 *
+		 * @since 3.0.0
+		 * @since [version] Added the `$order` parameter.
+		 *
+		 * @param string     $order_key The generated order key.
+		 * @param LLMS_Order $order_key Order object.
+		 */
+		return apply_filters( 'lifterlms_generate_order_key', uniqid( 'order-' ), $this );
 	}
 
 	/**
