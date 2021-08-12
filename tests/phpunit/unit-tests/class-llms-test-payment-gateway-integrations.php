@@ -15,6 +15,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Before the class runs, register the mock gateway.
 	 *
 	 * @since 3.37.6
+	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -24,7 +25,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		add_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
 		// We shouldn't be able to do this but currently we can so whatever.
-		LLMS()->payment_gateways()->__construct();
+		llms()->payment_gateways()->__construct();
 
 	}
 
@@ -32,6 +33,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * After the class runs, remove the mock gateway.
 	 *
 	 * @since 3.37.6
+	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -41,9 +43,9 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 		// The gateways class is a bit messed up and loads gateways weird.
 		// we need to remove the gateway manually so other tests don't break.
-		foreach ( LLMS()->payment_gateways()->payment_gateways as $i => $gateway ) {
+		foreach ( llms()->payment_gateways()->payment_gateways as $i => $gateway ) {
 			if ( 'mock' === $gateway->id ) {
-				unset( LLMS()->payment_gateways()->payment_gateways[ $i ] );
+				unset( llms()->payment_gateways()->payment_gateways[ $i ] );
 			}
 		}
 		parent::tearDownAfterClass();
@@ -59,7 +61,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'mock' );
+		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( 'mock' );
 	}
 
 	/**
