@@ -401,34 +401,43 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Determine if the order can be retried for recurring payments
 	 *
 	 * @since 3.10.0
-	 * @since 5.2.0 Use stric type comparison.
+	 * @since 5.2.0 Use strict type comparison.
+	 * @since [version] Combine conditions that return `false`.
 	 *
 	 * @return boolean
 	 */
 	public function can_be_retried() {
 
-		// Only recurring orders can be retried.
-		if ( ! $this->is_recurring() ) {
-			return false;
+		$can_retry = true;
+
+		if (
+			// Only recurring orders can be retried.
+			! $this->is_recurring() ||
+			// Recurring rety feature is disabled.
+			! llms_parse_bool( get_option( 'lifterlms_recurring_payment_retry', 'yes' ) ) ||
+			// Only active & on-hold orders qualify for a retry.
+			! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ), true )
+		) {
+			$can_retry = false;
+		} else {
+
+			// If the gateway isn't active or the gateway doesn't support recurring retries.
+			$gateway = $this->get_gateway();
+			if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_retry' ) ) {
+				$can_retry = false;
+			}
+
 		}
 
-		if ( 'yes' !== get_option( 'lifterlms_recurring_payment_retry', 'yes' ) ) {
-			return false;
-		}
-
-		// Only active & on-hold orders qualify for a retry.
-		if ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-on-hold' ), true ) ) {
-			return false;
-		}
-
-		// If the gateway isn't active or the gateway doesn't support recurring retries.
-		$gateway = $this->get_gateway();
-		if ( is_wp_error( $gateway ) || ! $gateway->supports( 'recurring_retry' ) ) {
-			return false;
-		}
-
-		// If we're here, we can retry.
-		return true;
+		/**
+		 * Filters whether or not a recurring order can be retried
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean    $can_retry Whether or not the order can be retried.
+		 * @param LLMS_Order $order     Order object.
+		 */
+		return apply_filters( 'llms_order_can_be_retried', $can_retry, $this );
 
 	}
 
