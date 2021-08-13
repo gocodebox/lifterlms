@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -585,6 +585,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.19 Use `in_array` with strict comparison.
+	 * @since [version] Only populate effectively used merged data.
 	 *
 	 * @param string $string An unmerged string.
 	 * @return string
@@ -608,7 +609,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 				}
 
-				$string = str_replace( $code, $this->$func( $code ), $string );
+				$string = preg_replace_callback(
+					'#' . preg_quote( $code, '#' ) . '#',
+					function ( $matches ) use ( $func ) {
+						return $this->$func( $matches[0] );
+					},
+					$string
+				);
 
 			}
 		}
