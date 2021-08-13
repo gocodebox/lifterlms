@@ -308,6 +308,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.
+	 * @since [version] Add assertions for checking against single payment orders and
+	 *        			when the recurring retry feature option is disabled.
 	 *
 	 * @return void
 	 */
@@ -315,24 +317,33 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		$order = $this->get_order();
 
-		// pending order can't be retried
+		// Pending order can't be retried.
 		$this->assertFalse( $order->can_be_retried() );
 
-		// active can be retried
+		// Active can be retried.
 		$order->set_status( 'llms-active' );
 
-		// gateway doesn't support retries
+		// Gateway doesn't support retries.
 		$this->assertFalse( $order->can_be_retried() );
 
-		// allow the gateway to support retries
+		// Allow the gateway to support retries.
 		$this->mock_gateway_support( 'recurring_retry' );
 
-		// can be retried now
+		// Can be retried now.
 		$this->assertTrue( $order->can_be_retried() );
 
-		// on hold can be retried
+		// On hold can be retried.
 		$order->set_status( 'llms-on-hold' );
 		$this->assertTrue( $order->can_be_retried() );
+
+		// Retry disabled.
+		update_option( 'lifterlms_recurring_payment_retry', 'no' );
+		$this->assertFalse( $order->can_be_retried() );
+		update_option( 'lifterlms_recurring_payment_retry', 'yes' );
+
+		// Single payment cannot be retried.
+		$order->set( 'order_type', 'single' );
+		$this->assertFalse( $order->can_be_retried() );
 
 	}
 
@@ -543,6 +554,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the get_customer_name() method.
 	 *
 	 * @since Unknown
+	 * @since [version] Add assertion for anonymized order.
 	 *
 	 * @return void
 	 */
@@ -552,6 +564,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'billing_first_name', $first );
 		$this->obj->set( 'billing_last_name', $last );
 		$this->assertEquals( $first . ' ' . $last,  $this->obj->get_customer_name() );
+
+		$this->obj->set( 'anonymized', 'yes' );
+		$this->assertEquals( 'Anonymous', $this->obj->get_customer_name() );
+
 	}
 
 	/**
