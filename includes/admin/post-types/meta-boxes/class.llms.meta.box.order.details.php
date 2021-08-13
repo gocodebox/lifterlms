@@ -63,14 +63,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			return;
 		}
 		$gateway = $order->get_gateway();
-
-		llms_get_template(
-			'admin/post-types/order-details.php',
-			array(
-				'gateway' => $gateway,
-				'order'   => $order,
-			)
-		);
+		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-order-details.php';
 
 	}
 

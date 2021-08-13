@@ -2,15 +2,10 @@
 /**
  * Order Details metabox for Order on Admin Panel
  *
- * @package LifterLMS/Templates/Admin
+ * @package LifterLMS/Admin/Views
  *
- * @since 3.0.0
- * @since 3.18.0 Unknown.
- * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
- * @since 4.18.0 Do not print dead link for removed students.
- *               Also replace occurrences of json_encode with safer wp_json_encode.
- * @since [version] Improve a11y of "editable" buttons by converting to a button (instead of a link) and adding screen reader text.
- * @version 4.18.0
+ * @since [version]
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,6 +161,18 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 				<?php _e( 'One-time', 'lifterlms' ); ?>
 			<?php endif; ?>
 		</div>
+
+		<?php if ( $order->has_plan_expiration() ) :
+			$period = llms_get_time_period_l10n( $order->get( 'billing_period' ) ); ?>
+			<div class="llms-metabox-field" data-llms-editable="billing_length" data-llms-editable-required="yes" data-llms-editable-type="number" data-llms-editable-value="<?php echo $order->get( 'billing_length' ); ?>">
+				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
+				<?php echo $order->get_remaining_payments(); ?>
+				<button class="llms-editable" title="<?php esc_attr_e( 'Edit remaining payments', 'lifterlms' ); ?>">
+					<span class="dashicons dashicons-edit"></span>
+					<span class="screen-reader-text"><?php _e( 'Edit remaining payments', 'lifterlms' ); ?></span>
+				</a>
+			</div>
+		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_after_payment_information', $order ); ?>
 
