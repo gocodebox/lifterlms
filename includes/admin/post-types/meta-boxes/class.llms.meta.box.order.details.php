@@ -1,6 +1,6 @@
 <?php
 /**
- * Order Details meta box
+ * LLMS_Meta_Box_Order_Details class
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Order_Details
+ * Order Details meta box
  *
  * @since 3.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
@@ -21,9 +21,9 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	/**
 	 * Configure the metabox settings
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
-	 * @since  3.0.0
-	 * @version  3.0.0
 	 */
 	public function configure() {
 
@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
 	 *
-	 * @since  3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array
 	 */
@@ -49,8 +49,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
+	 * Output metabox content
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
@@ -82,8 +81,8 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 * @since 3.10.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
-	 * @param    int $post_id  Post ID of the Order
-	 * @return   void
+	 * @param int $post_id Post ID of the Order.
+	 * @return void
 	 */
 	public function save( $post_id ) {
 
