@@ -19,15 +19,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.24.0 Unknown.
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Notifications instance()
  */
 class LLMS_Notifications {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var LLMS_Notifications
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Controller instances
@@ -63,20 +61,6 @@ class LLMS_Notifications {
 	 * @var string[]
 	 */
 	private $views = array();
-
-	/**
-	 * Main Instance
-	 *
-	 * @since 3.8.0
-	 *
-	 * @return LLMS_Notifications
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

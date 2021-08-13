@@ -24,15 +24,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Certificates instance()
  */
 class LLMS_Certificates {
 
-	/**
-	 * Instance
-	 *
-	 * @var LLMS_Certificates
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Array of Certificate types.
@@ -61,20 +59,6 @@ class LLMS_Certificates {
 	 * @var string[]
 	 */
 	private $export_blocked_image_hosts;
-
-	/**
-	 * Instance singleton
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return LLMS_Certificates
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

@@ -17,8 +17,13 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Achievements instance()
  */
 class LLMS_Achievements {
+
+	use LLMS_Trait_Singleton;
 
 	public $achievements;
 
@@ -29,14 +34,6 @@ class LLMS_Achievements {
 	private $_from_name;
 
 	private $_content_type;
-
-	protected static $_instance = null;
-
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self(); }
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

@@ -14,15 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Grades
  *
  * @since 3.24.0
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Grades instance()
  */
 class LLMS_Grades {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var  null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Determines the rounding precision used by grading functions
@@ -30,20 +28,6 @@ class LLMS_Grades {
 	 * @var  int
 	 */
 	private $rounding_precision = 2;
-
-	/**
-	 * Get Main Singleton Instance
-	 *
-	 * @return   LLMS_Grades
-	 * @since    3.24.0
-	 * @version  3.24.0
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private constructor

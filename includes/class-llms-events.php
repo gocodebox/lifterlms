@@ -19,15 +19,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Added `store_tracking_events()` method.
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Events instance()
  */
 class LLMS_Events {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * List of registered event types.
@@ -35,20 +33,6 @@ class LLMS_Events {
 	 * @var array
 	 */
 	protected $registered_events = array();
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return LLMS_Events
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private Constructor

@@ -23,21 +23,20 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test instance()
+	 * Test `instance()`.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Rename `_instance` property to `instance`.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
-	 *
-	 * @return void
 	 */
 	public function test_instance() {
 
 		$this->main->fake = 'mock';
 		$this->assertEquals( $this->main, LLMS_Processors::instance() );
 
-		LLMS_Unit_Test_Util::set_private_property( $this->main, '_instance', null );
+		LLMS_Unit_Test_Util::set_private_property( $this->main, 'instance', null );
 		$new_instance = LLMS_Processors::instance();
 		$this->assertInstanceOf( 'LLMS_Processors', $new_instance );
 		$this->assertTrue( ! isset( $new_instance->fake ) );

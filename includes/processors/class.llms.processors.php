@@ -18,8 +18,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.15.0
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Processors instance()
  */
 class LLMS_Processors {
+
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Processor classes that should be loaded
@@ -39,27 +44,6 @@ class LLMS_Processors {
 	 * @var LLMS_Abstract_Processor[]
 	 */
 	private $processors = array();
-
-	/**
-	 * Singleton instance of the class
-	 *
-	 * @var null
-	 */
-	protected static $_instance = null;
-
-	/**
-	 * Main instance
-	 *
-	 * @since 3.15.0
-	 *
-	 * @return LLMS_Processors
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

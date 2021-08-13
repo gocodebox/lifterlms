@@ -17,10 +17,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.18.2 Updated.
  * @since 3.33.1 Integrations are now loaded based on their defined priority.
  * @since 3.33.2 Integration priority checks are backwards compatible to handle deprecated legacy integrations.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Integrations instance()
  */
 class LLMS_Integrations {
 
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Array of integrations, regardless of availability
@@ -28,22 +31,6 @@ class LLMS_Integrations {
 	 * @var  LLMS_Abstract_Integration[]
 	 */
 	private $integrations = array();
-
-	/**
-	 * Instance Singleton Generator
-	 *
-	 * @return   LLMS_Integrations
-	 * @since    1.0.0
-	 * @version  1.0.0
-	 */
-	public static function instance() {
-
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

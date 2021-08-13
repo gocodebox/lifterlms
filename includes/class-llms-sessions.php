@@ -15,15 +15,13 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.36.0
  * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ *
+ * @method static LLMS_Sessions instance()
  */
 class LLMS_Sessions {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $_instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Current user id.
@@ -31,20 +29,6 @@ class LLMS_Sessions {
 	 * @var null
 	 */
 	protected $user_id = null;
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return LLMS_Sessions
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private Constructor.
