@@ -98,6 +98,116 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_time_period_l10n()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_time_period_l10n() {
+
+		/**
+		 * List of tests to run
+		 *
+		 * Each array contains two items:
+		 * 1) An array of arguments to pass to the function
+		 * 2) the expected string output.
+		 */
+		$tests = array(
+			array(
+				array( 'day' ),
+				'day',
+			),
+			array(
+				array( 'dAy' ),
+				'day',
+			),
+			array(
+				array( 'day', 1 ),
+				'day',
+			),
+			array(
+				array( 'day', 2 ),
+				'days',
+			),
+			array(
+				array( 'day', 100 ),
+				'days',
+			),
+			array(
+				array( 'week' ),
+				'week',
+			),
+			array(
+				array( 'WEEK' ),
+				'week',
+			),
+			array(
+				array( 'week', 1 ),
+				'week',
+			),
+			array(
+				array( 'week', 2 ),
+				'weeks',
+			),
+			array(
+				array( 'week', 25 ),
+				'weeks',
+			),
+			array(
+				array( 'month' ),
+				'month',
+			),
+			array(
+				array( 'Month' ),
+				'month',
+			),
+			array(
+				array( 'month', 1 ),
+				'month',
+			),
+			array(
+				array( 'month', 2 ),
+				'months',
+			),
+			array(
+				array( 'month', 17 ),
+				'months',
+			),
+			array(
+				array( 'year' ),
+				'year',
+			),
+			array(
+				array( 'yeAR' ),
+				'year',
+			),
+			array(
+				array( 'year', 1 ),
+				'year',
+			),
+			array(
+				array( 'year', 2 ),
+				'years',
+			),
+			array(
+				array( 'year', 999 ),
+				'years',
+			),
+			array(
+				array( 'UNSUPPORTED' ),
+				'UNSUPPORTED',
+			),
+		);
+
+		foreach ( $tests as $test ) {
+			list( $args, $expect ) = $test;
+			$this->assertEquals( $expect, llms_get_time_period_l10n( ...$args ) );
+		}
+
+	}
+
+	/**
 	 * test the get_lifterlms_countries() function
 	 *
 	 * @since 3.24.1
