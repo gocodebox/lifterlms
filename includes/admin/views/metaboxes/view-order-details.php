@@ -6,19 +6,14 @@
  *
  * @since [version]
  * @version [version]
+ *
+ * @property LLMS_Order           $order                     Order object.
+ * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.
+ * @property array                $switchable_gateways       List of gateways that the order can be switched to.
+ * @property array                $switchable_gateway_fields List of admin fields for the available switchable gateways.
  */
 
 defined( 'ABSPATH' ) || exit;
-is_admin() || exit;
-
-// Used to allow admins to switch payment gateways.
-$gateway_feature           = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
-$switchable_gateways       = array();
-$switchable_gateway_fields = array();
-foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
-	$switchable_gateways[ $id ]       = $gateway_obj->get_admin_title();
-	$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
-}
 ?>
 <div class="llms-metabox">
 

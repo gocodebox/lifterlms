@@ -62,7 +62,18 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		if ( ! $order || ! is_a( $order, 'LLMS_Order' ) ) {
 			return;
 		}
+
 		$gateway = $order->get_gateway();
+
+		// Setup a list of gateways that this order can be switched to.
+		$gateway_feature           = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
+		$switchable_gateways       = array();
+		$switchable_gateway_fields = array();
+		foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
+			$switchable_gateways[ $id ]       = $gateway_obj->get_admin_title();
+			$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
+		}
+
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/metaboxes/view-order-details.php';
 
 	}
