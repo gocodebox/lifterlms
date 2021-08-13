@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Loader
  *
  * @since 4.0.0
+ * @since [version] Add traits to `autoload()`.
  */
 class LLMS_Loader {
 
@@ -46,6 +47,7 @@ class LLMS_Loader {
 	 * @since 1.0.0
 	 * @since 3.15.0 Unknown.
 	 * @since 4.0.0 Moved from `LifterLMS` class.
+	 * @since [version] Add traits.
 	 *
 	 * @param string $class Class name being called.
 	 * @return void
@@ -72,6 +74,9 @@ class LLMS_Loader {
 		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
 			$path = LLMS_PLUGIN_DIR . '/includes/interfaces/';
 			$file = $fileize . '.php';
+		} elseif ( strpos( $class, 'llms_trait' ) === 0 ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/traits/';
+			$file = str_replace( '_', '-', $class ) . '.php';
 		} elseif ( strpos( $class, 'llms_' ) === 0 ) {
 			$path = LLMS_PLUGIN_DIR . '/includes/';
 		}
