@@ -156,6 +156,17 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Override to prevent output of skipped test since the test doesn't matter for this class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_edit_date() {
+		$this->assertTrue( true );
+	}
+
+	/**
 	 * Test get_access_period_name()
 	 *
 	 * @since [version]
