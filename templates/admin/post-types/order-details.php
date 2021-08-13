@@ -9,11 +9,11 @@
  * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
  * @since 4.18.0 Do not print dead link for removed students.
  *               Also replace occurrences of json_encode with safer wp_json_encode.
+ * @since [version] Improve a11y of "editable" buttons by converting to a button (instead of a link) and adding screen reader text.
  * @version 4.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
-
 is_admin() || exit;
 
 // Used to allow admins to switch payment gateways.
@@ -231,7 +231,13 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<div class="llms-metabox-section d-all">
 
-			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?><a class="llms-editable" href="#"><span class="dashicons dashicons-edit"></span></a></h4>
+			<h4>
+				<?php _e( 'Gateway Information', 'lifterlms' ); ?>
+				<button class="llms-editable" title="<?php esc_attr_e( 'Edit gateway information', 'lifterlms' ); ?>">
+					<span class="dashicons dashicons-edit"></span>
+					<span class="screen-reader-text"><?php _e( 'Edit gateway information', 'lifterlms' ); ?></span>
+				</button>
+			</h4>
 
 			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo wp_json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo wp_json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
