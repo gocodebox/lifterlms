@@ -144,7 +144,7 @@ defined( 'ABSPATH' ) || exit;
 				//phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number so it's throwing an error but it's not broken.
 				printf(
 					// Translators: %1$d = The order billing period; %2$s = The order billing frequency.
-					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ),
+					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), // phpcs:ignore: WordPress.WP.I18n.MismatchedPlaceholders
 					$order->get( 'billing_frequency' ),
 					$order->get( 'billing_period' )
 				);
@@ -158,8 +158,10 @@ defined( 'ABSPATH' ) || exit;
 			<?php endif; ?>
 		</div>
 
-		<?php if ( $order->has_plan_expiration() ) :
-			$remaining = $order->get_remaining_payments(); ?>
+		<?php
+		if ( $order->has_plan_expiration() ) :
+			$remaining = $order->get_remaining_payments();
+			?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
 				<span id="llms-remaining-payments-view"><?php echo $remaining; ?></span>
