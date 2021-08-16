@@ -16,10 +16,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
- * @since [version] Moved sales page properties and methods to `LLMS_Trait_Sales_Page`.
- *              Added `__construct()`.
+ * @since [version] Add `__construct()`.
+ *              Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
+ *              Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
  *
- * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
  * @property float  $average_progress           Calculated value of the overall average progress of all *enrolled* students in the course..
  * @property int    $capacity                   Number of students who can be enrolled in the course before enrollment closes.
@@ -42,13 +42,10 @@ defined( 'ABSPATH' ) || exit;
  * @property string $length                     User defined course length.
  * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
  * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
- * @property string $video_embed                URL to an oEmbed enable video URL.
  */
-class LLMS_Course extends LLMS_Post_Model implements
-	LLMS_Interface_Post_Audio,
-	LLMS_Interface_Post_Instructors,
-	LLMS_Interface_Post_Video {
+class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
+	use LLMS_Trait_Audio_Video_Embed;
 	use LLMS_Trait_Sales_Page;
 
 	/**
@@ -59,7 +56,6 @@ class LLMS_Course extends LLMS_Post_Model implements
 	protected $properties = array(
 
 		// Public.
-		'audio_embed'                => 'text',
 		'average_grade'              => 'float',
 		'average_progress'           => 'float',
 		'capacity'                   => 'absint',
@@ -83,7 +79,6 @@ class LLMS_Course extends LLMS_Post_Model implements
 		'tile_featured_video'        => 'yesno',
 		'time_period'                => 'yesno',
 		'start_date'                 => 'text',
-		'video_embed'                => 'text',
 
 		// Private.
 		'temp_calc_data'             => 'array',
@@ -139,6 +134,7 @@ class LLMS_Course extends LLMS_Post_Model implements
 	 */
 	public function __construct( $model, $args = array() ) {
 
+		$this->construct_audio_video_embed();
 		$this->construct_sales_page();
 		parent::__construct( $model, $args );
 	}
@@ -210,20 +206,6 @@ class LLMS_Course extends LLMS_Post_Model implements
 
 		return false;
 
-	}
-
-	/**
-	 * Attempt to get oEmbed for an audio provider
-	 *
-	 * Falls back to the [audio] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown
-	 *
-	 * @return string
-	 */
-	public function get_audio() {
-		return $this->get_embed( 'audio' );
 	}
 
 	/**
@@ -521,20 +503,6 @@ class LLMS_Course extends LLMS_Post_Model implements
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'id' ) );
-	}
-
-	/**
-	 * Attempt to get oEmbed for a video provider
-	 *
-	 * Falls back to the [video] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown.
-	 *
-	 * @return string
-	 */
-	public function get_video() {
-		return $this->get_embed( 'video' );
 	}
 
 	/**

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.11.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,8 +20,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
  *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
  *              Use strict comparisons where needed.
+ * @since [version] Add `__construct()`.
+ *              Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
  *
- * @property $audio_embed (string) Audio embed URL
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
  * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
  * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
@@ -37,11 +38,10 @@ defined( 'ABSPATH' ) || exit;
  * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
  * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
  * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
- * @property $video_embed (string) Video embed URL
  */
-class LLMS_Lesson
-extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
+class LLMS_Lesson extends LLMS_Post_Model {
+
+	use LLMS_Trait_Audio_Video_Embed;
 
 	protected $properties = array(
 
@@ -57,13 +57,11 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 		'parent_course'                    => 'absint',
 		'parent_section'                   => 'absint',
 
-		'audio_embed'                      => 'text',
 		'free_lesson'                      => 'yesno',
 		'has_prerequisite'                 => 'yesno',
 		'prerequisite'                     => 'absint',
 		'require_passing_grade'            => 'yesno',
 		'require_assignment_passing_grade' => 'yesno',
-		'video_embed'                      => 'text',
 		'points'                           => 'absint',
 
 		// Quizzes.
@@ -101,17 +99,17 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 	protected $model_post_type = 'lesson';
 
 	/**
-	 * Attempt to get oEmbed for an audio provider
+	 * Constructor for this class and the traits it uses.
 	 *
-	 * Falls back to the [audio] shortcode if the oEmbed fails.
+	 * @since [version]
 	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown
-	 *
-	 * @return string
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
 	 */
-	public function get_audio() {
-		return $this->get_embed( 'audio' );
+	public function __construct( $model, $args = array() ) {
+
+		$this->construct_audio_video_embed();
+		parent::__construct( $model, $args );
 	}
 
 	/**
@@ -382,20 +380,6 @@ implements LLMS_Interface_Post_Audio, LLMS_Interface_Post_Video {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Attempt to get oEmbed for a video provider
-	 *
-	 * Falls back to the [video] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown.
-	 *
-	 * @return string
-	 */
-	public function get_video() {
-		return $this->get_embed( 'video' );
 	}
 
 	/**
