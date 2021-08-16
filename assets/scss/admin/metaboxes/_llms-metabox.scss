@@ -51,6 +51,7 @@
 	}
 
 	a.llms-editable,
+	.llms-metabox-icon,
 	button.llms-editable {
 		color: $color-grey;
 		text-decoration: none;
@@ -64,12 +65,11 @@
 		background: none;
 		cursor: pointer;
 		padding: 0;
+		vertical-align: top;
 	}
 
 	h4 button.llms-editable {
 		float: right;
-		top: -2px;
-		position: relative;
 	}
 
 }

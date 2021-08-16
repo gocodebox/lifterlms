@@ -2,7 +2,7 @@
 #lifterlms-order-details {
 	.handlediv,
 	.handlediv.button-link,
-	.hndle.ui-sortable-handle { display: none;}
+	.postbox-header { display: none;}
 	.inside {
 		padding: 20px;
 		margin-top: 0;
@@ -41,5 +41,22 @@
 	background-color: #eaeaea;
 	.llms-metabox-section {
 		background-color: #eaeaea;
+	}
+}
+
+#llms-remaining-edit {
+	display: none;
+}
+.llms-remaining-edit--content {
+	label, span, textarea {
+		display: block;
+	}
+
+	label {
+		margin-bottom: 20px;
+	}
+
+	textarea, input {
+		width: 100%;
 	}
 }
