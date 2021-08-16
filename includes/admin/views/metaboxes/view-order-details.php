@@ -15,6 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
+
 <div class="llms-metabox">
 
 	<?php if ( 'test' === $order->get( 'gateway_api_mode' ) ) : ?>
@@ -158,14 +159,52 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 
 		<?php if ( $order->has_plan_expiration() ) :
-			$period = llms_get_time_period_l10n( $order->get( 'billing_period' ) ); ?>
-			<div class="llms-metabox-field" data-llms-editable="billing_length" data-llms-editable-required="yes" data-llms-editable-type="number" data-llms-editable-value="<?php echo $order->get( 'billing_length' ); ?>">
+			$remaining = $order->get_remaining_payments(); ?>
+			<div class="llms-metabox-field">
 				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
-				<?php echo $order->get_remaining_payments(); ?>
-				<button class="llms-editable" title="<?php esc_attr_e( 'Edit remaining payments', 'lifterlms' ); ?>">
-					<span class="dashicons dashicons-edit"></span>
-					<span class="screen-reader-text"><?php _e( 'Edit remaining payments', 'lifterlms' ); ?></span>
+				<span id="llms-remaining-payments-view"><?php echo $remaining; ?></span>
+
+				<?php add_thickbox(); ?>
+				<div id="llms-remaining-edit">
+					<div class="llms-remaining-edit--content">
+						<h4><?php _e( 'Modify Remaining Payments', 'lifterlms' ); ?></h4>
+
+						<label>
+							<span><?php _e( 'Remaining payments', 'lifterlms' ); ?></span>
+							<input type="number" id="llms-num-remaining-payments" value="<?php echo $remaining; ?>" min="1" step="1">
+						</label>
+
+						<label>
+							<span><?php _e( 'Order Note', 'lifterlms' ); ?></span>
+							<textarea id="llms-remaining-payments-note" rows="3"></textarea>
+							<em><?php _e( 'For internal use only, not visible to the customer.', 'lifterlms' ); ?></em>
+						</label>
+
+						<button id="llms-save-remaining-payments" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
+
+						<script>
+							(function(){
+								document.getElementById( 'llms-save-remaining-payments' ).addEventListener( 'click', function() {
+									tb_remove();
+									var remaining = document.getElementById( 'llms-num-remaining-payments' ).value,
+										note      = document.getElementById( 'llms-remaining-payments-note' ).value;
+
+									document.querySelector( 'input[name="_llms_remaining_payments"]' ).value = remaining;
+									document.querySelector( 'input[name="_llms_remaining_note"]' ).value = note;
+									document.getElementById( 'llms-remaining-payments-view' ).innerHTML = remaining;
+								} );
+							})();
+						</script>
+
+					</div>
+				</div>
+
+				<a href="#TB_inline?&width=300&height=400&inlineId=llms-remaining-edit" class="thickbox llms-metabox-icon">
+					<span class="dashicons dashicons-edit" role="img" aria-label="<?php esc_attr_e( 'Add additional payments', 'lifterlms' ); ?>"></span>
 				</a>
+
+				<input type="hidden" name="_llms_remaining_payments" value="<?php echo $remaining; ?>">
+				<input type="hidden" name="_llms_remaining_note">
 			</div>
 		<?php endif; ?>
 
