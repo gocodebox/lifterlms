@@ -157,13 +157,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		// Record that the payment plan has been modified.
 		$order->add_note(
 			sprintf(
-				/**
-				 * Translators:
-				 *   %1$d is the original billing length.
-				 *   %2$s is the billing period (adjusted for pluralization against the original billing length).
-				 *   %3$d is the new billing length.
-				 *   %4$s is the billing period (adjusted for pluralization against the new billing length).
- 				 */
+				// Translators: %1$d is the original billing length; %2$s is the billing period (adjusted for pluralization against the original billing length); %3$d is the new billing length; %4$s is the billing period (adjusted for pluralization against the new billing length).
 				__( 'The billing length of the order has been modified from %1$d %2$s to %3$d %4$s.', 'lifterlms' ),
 				$original,
 				llms_get_time_period_l10n( $period, $original ),
