@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 3.8.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Course Complete
  *
  * @since 3.8.0
- * @since 3.8.2 Unknown.
  */
 class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_View {
 
@@ -95,10 +94,12 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @since 3.8.0
+	 * @since 3.8.2 Unknown.
+	 * @since [version] Remove output of "you" when displaying notification to the receiving student.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -109,7 +110,7 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 				break;
 
 			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
+				$code = $this->user->get_name();
 				break;
 
 		}
