@@ -1946,13 +1946,24 @@ a.llms-view-as {
   top: 0;
   text-align: center; }
 
-#poststuff .llms-metabox a.llms-editable {
+#poststuff .llms-metabox a.llms-editable,
+#poststuff .llms-metabox .llms-metabox-icon,
+#poststuff .llms-metabox button.llms-editable {
   color: #999;
   text-decoration: none; }
-  #poststuff .llms-metabox a.llms-editable:hover {
+  #poststuff .llms-metabox a.llms-editable:hover,
+  #poststuff .llms-metabox .llms-metabox-icon:hover,
+  #poststuff .llms-metabox button.llms-editable:hover {
     color: #466dd8; }
 
-#poststuff .llms-metabox h4 a.llms-editable {
+#poststuff .llms-metabox button.llms-editable {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  vertical-align: top; }
+
+#poststuff .llms-metabox h4 button.llms-editable {
   float: right; }
 
 .llms-metabox-section {
@@ -2034,7 +2045,7 @@ a.llms-view-as {
 
 #lifterlms-order-details .handlediv,
 #lifterlms-order-details .handlediv.button-link,
-#lifterlms-order-details .hndle.ui-sortable-handle {
+#lifterlms-order-details .postbox-header {
   display: none; }
 
 #lifterlms-order-details .inside {
@@ -2067,6 +2078,18 @@ a.llms-view-as {
   background-color: #eaeaea; }
   .llms-manual-txn-form .llms-metabox-section {
     background-color: #eaeaea; }
+
+#llms-remaining-edit {
+  display: none; }
+
+.llms-remaining-edit--content label, .llms-remaining-edit--content span, .llms-remaining-edit--content textarea {
+  display: block; }
+
+.llms-remaining-edit--content label {
+  margin-bottom: 20px; }
+
+.llms-remaining-edit--content textarea, .llms-remaining-edit--content input {
+  width: 100%; }
 
 .llms-metabox #llms-new-access-plan-model {
   display: none; }
