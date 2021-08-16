@@ -14,14 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Certificate Earned
  *
  * @since 3.8.0
- * @since 3.17.6 Unknown.
  */
 class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
@@ -38,10 +37,19 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'certificate_earned';
 
+	/**
+	 * Retrieve the HTML for a mini cert.
+	 *
+	 * @since Unknown
+	 *
+	 * @param string $title   Certificate title.
+	 * @param string $content Certificate content.
+	 * @return string
+	 */
 	private function get_mini_html( $title, $content ) {
 		$attrs   = array(
 			'class' => array(),
@@ -78,9 +86,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		return '{{MINI_CERTIFICATE}}';
@@ -89,9 +97,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		$url = $this->set_merge_data( '{{CERTIFICATE_URL}}' );
@@ -101,9 +109,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'positive' );
@@ -112,9 +120,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -171,9 +179,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return '';
@@ -182,9 +190,9 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return __( 'You\'ve earned a certificate!', 'lifterlms' );
@@ -192,12 +200,10 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Define field support for the view
-	 * Extending classes can override this
-	 * 3rd parties should filter $this->get_supported_fields()
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_supported_fields() {
 		return array(
