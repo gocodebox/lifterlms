@@ -893,9 +893,9 @@ class LLMS_Order extends LLMS_Post_Model {
 			$len  = $this->get( 'billing_length' );
 			$txns = $this->get_transactions(
 				array(
-					'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ), // Should refunded be included???
+					'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
 					'per_page' => 1,
-					'type'     => 'recurring',
+					'type'     => array( 'recurring', 'single' ), // If a manual payment is recorded it's counted a single payment and that should count.
 				)
 			);
 
