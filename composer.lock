@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10545b27d72a4ca5cc61ac952d017be8",
+    "content-hash": "82993afe966f68183b7c73697f7417c3",
     "packages": [
         {
             "name": "composer/installers",
@@ -231,16 +231,16 @@
         },
         {
             "name": "lifterlms/lifterlms-helper",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-helper.git",
-                "reference": "a8a4857f0557eac990728ab2698bcc80e2ff06e9"
+                "reference": "f4159a428e2e68d05aabba51f35fe0314c9a4ed8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/a8a4857f0557eac990728ab2698bcc80e2ff06e9",
-                "reference": "a8a4857f0557eac990728ab2698bcc80e2ff06e9",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-helper/zipball/f4159a428e2e68d05aabba51f35fe0314c9a4ed8",
+                "reference": "f4159a428e2e68d05aabba51f35fe0314c9a4ed8",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             "description": "Update, install, and beta test LifterLMS and LifterLMS add-ons",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-helper/issues",
-                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.4.0"
+                "source": "https://github.com/gocodebox/lifterlms-helper/tree/3.4.1"
             },
-            "time": "2021-08-04T18:04:39+00:00"
+            "time": "2021-08-17T17:50:29+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
