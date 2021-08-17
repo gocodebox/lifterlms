@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.2.0\n"
+"Project-Id-Version: LifterLMS 5.2.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-08-10T16:18:52-06:00\n"
+"POT-Creation-Date: 2021-08-17T11:39:30-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -2655,7 +2655,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.courses.php:231
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:131
 #: includes/admin/reporting/tables/llms.table.students.php:601
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:56
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:55
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
@@ -4047,7 +4047,7 @@ msgid "Access Expiration"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:235
-#: includes/models/model.llms.order.php:498
+#: includes/models/model.llms.order.php:515
 msgid "Lifetime Access"
 msgstr ""
 
@@ -8058,7 +8058,7 @@ msgstr ""
 
 #: includes/models/model.llms.add-on.php:224
 #: libraries/lifterlms-helper/includes/models/class-llms-helper-add-on.php:133
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:76
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:75
 msgid "N/A"
 msgstr ""
 
@@ -8125,53 +8125,53 @@ msgctxt "default order note author"
 msgid "LifterLms"
 msgstr ""
 
-#: includes/models/model.llms.order.php:510
+#: includes/models/model.llms.order.php:527
 msgid "To be Determined"
 msgstr ""
 
-#: includes/models/model.llms.order.php:638
+#: includes/models/model.llms.order.php:655
 msgid "Anonymous"
 msgstr ""
 
-#: includes/models/model.llms.order.php:679
+#: includes/models/model.llms.order.php:696
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:679
+#: includes/models/model.llms.order.php:696
 msgctxt "Order date parsed by strftime"
 msgid "%1$b %2$d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.order.php:713
+#: includes/models/model.llms.order.php:730
 #: includes/models/model.llms.transaction.php:165
 msgid "Payment gateway %s could not be located or is no longer enabled"
 msgstr ""
 
-#: includes/models/model.llms.order.php:833
+#: includes/models/model.llms.order.php:850
 msgid "Order is not recurring"
 msgstr ""
 
-#: includes/models/model.llms.order.php:835
+#: includes/models/model.llms.order.php:852
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:844
+#: includes/models/model.llms.order.php:861
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1492
+#: includes/models/model.llms.order.php:1509
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1541
+#: includes/models/model.llms.order.php:1558
 msgid "Automatic retry attempt scheduled for %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1552
+#: includes/models/model.llms.order.php:1569
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1822
+#: includes/models/model.llms.order.php:1839
 msgid "Next recurring payment due date is not valid"
 msgstr ""
 
@@ -31569,86 +31569,86 @@ msgstr ""
 msgid "Could not update %s."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:18
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:17
 msgid "Beta Testing Warnings and FAQs"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:20
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:19
 msgid "Always test with caution!"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:21
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:20
 msgid "Beta releases may not be stable. We may not be able to fix issues caused by using a beta release. We urge you to only use beta versions in testing environments!"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:22
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:21
 msgid "Subscribing to the <em>beta channel</em> for LifterLMS or any available add-ons will allow you to automatically update to the latest beta release for the given plugin or theme."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:23
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:22
 msgid "When no beta versions are available, automatic updates will be to the latest stable version of the plugin or theme."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:25
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:24
 msgid "Rolling back and restoring data"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:26
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:25
 msgid "This plugin does not provide you with the ability to rollback from a beta version."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:27
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:26
 msgid "To rollback you should subscribe to the stable channel, delete the beta version of the plugin, and then re-install the latest version. If a database migration was run you should also restore your database from a backup."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:29
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:28
 msgid "Reporting bugs and contributing"
 msgstr ""
 
 #. Translators: %1$s = Opening anchor link; %2$s = closing anchor link.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:33
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:32
 msgid "We welcome contributions of all kinds, review our contribution guidelines on %1$sGitHub%2$s to get started."
 msgstr ""
 
 #. Translators: %s = Link to bug report.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:39
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:38
 msgid "If you encounter a bug while beta testing, please report it at %s."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:43
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:42
 msgid "Still have questions?"
 msgstr ""
 
 #. Translators: %s = Link to guide.
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:47
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:46
 msgid "Check out our Guide to Beta Testing at %s."
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:57
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:56
 msgid "Channel"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:58
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:57
 msgid "Installed Version"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:59
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:58
 msgid "Beta Version"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:71
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:70
 msgid "Stable"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:72
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:71
 msgid "Beta"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:82
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:81
 msgid "Save & Update"
 msgstr ""
 
-#: libraries/lifterlms-helper/includes/views/beta-testing.php:89
+#: libraries/lifterlms-helper/includes/views/beta-testing.php:88
 msgid "Are you sure you want to enable or disable beta testing for these plugins and themes?"
 msgstr ""
 
