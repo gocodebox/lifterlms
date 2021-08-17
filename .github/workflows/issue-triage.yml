@@ -10,6 +10,9 @@ jobs:
     env:
       PRIMARY_CODEOWNER: '@thomasplevy'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Add to "Triage" project
         uses: alex-page/github-project-automation-plus@v0.8.1
         with:
@@ -21,22 +24,23 @@ jobs:
         id: codeowners_file_exists
         uses: andstor/file-existence-action@v1
         with:
-          files: '.github/CODEOWNERS'
+          files: .github/CODEOWNERS
 
       - name: Parse CODEOWNERS file
         id: codeowner
         if: steps.codeowners_file_exists.outputs.files_exists == 'true'
         uses: SvanBoxel/codeowners-action@v1
+        with:
+          path: .github/CODEOWNERS
       
       - name: Update PRIMARY_CODEOWNER env var
         if: steps.codeowners_file_exists.outputs.files_exists == 'true'
         run: |
-          echo "PRIMARY_CODEOWNER=${{ steps.codeowners.outputs.codeowners['*'] }}" >> $GITHUB_ENV
+          echo PRIMARY_CODEOWNER=$( echo '${{ steps.codeowner.outputs.codeowners }}' | jq -r '."*"[0]' ) >> $GITHUB_ENV   
 
       - name: Strip @ from username
         run: |
           echo "PRIMARY_CODEOWNER=${PRIMARY_CODEOWNER#?}" >> $GITHUB_ENV
-          echo "Assigning issue to $PRIMARY_CODEOWNER"
 
       - name: Assign issue
         uses: pozil/auto-assign-issue@v1
