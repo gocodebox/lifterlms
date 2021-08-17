@@ -8,8 +8,17 @@ jobs:
   add-to-project:
     runs-on: ubuntu-latest
     steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.1
+      - name: Add to "Triage" project
+        uses: alex-page/github-project-automation-plus@v0.8.1
         with:
           project: Triage
           column: Awaiting Triage
           repo-token: ${{ secrets.ORG_WORKFLOWS }}
+
+      - name: Locate primary codeowner
+        uses: SvanBoxel/codeowners-action@v1
+        id: codeowner
+      
+      - name: Assign to primary codeowner
+        run: |
+          echo ${{ steps.codeowners.outputs.codeowners['*'] || @thomasplevy }};
