@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 4.12.0
+ * @version 5.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
+ * @since 5.2.1 Check for an empty sales page URL or ID.
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
@@ -651,17 +652,28 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Determine if sales page redirection is enabled
+	 * Determine if sales page redirection is enabled.
 	 *
 	 * @since 3.20.0
 	 * @since 3.23.0 Unknown.
 	 * @since 4.12.0 Use strict `in_array()` comparison.
+	 * @since 5.2.1 Check for an empty sales page URL or ID.
 	 *
 	 * @return boolean
 	 */
 	public function has_sales_page_redirect() {
 
 		$type = $this->get( 'sales_page_content_type' );
+		switch ( $type ) {
+			case 'page':
+				$has_redirect = (bool) $this->get( 'sales_page_content_page_id' );
+				break;
+			case 'url':
+				$has_redirect = (bool) $this->get( 'sales_page_content_url' );
+				break;
+			default:
+				$has_redirect = false;
+		}
 
 		/**
 		 * Filters whether or not the course has a sales page redirect.
@@ -672,7 +684,7 @@ implements LLMS_Interface_Post_Audio
 		 * @param LLMS_Course $course       Course object.
 		 * @param string      $type         The course's sales page content type property value.
 		 */
-		return apply_filters( 'llms_course_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ), true ), $this, $type );
+		return apply_filters( 'llms_course_has_sales_page_redirect', $has_redirect, $this, $type );
 
 	}
 
