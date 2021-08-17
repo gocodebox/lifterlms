@@ -24,11 +24,14 @@ defined( 'ABSPATH' ) || exit;
  */
 trait LLMS_Trait_Sales_Page {
 	/**
+	 * @inheritdoc
+	 */
+	abstract protected function add_properties( $props = array() );
+
+	/**
 	 * Setup properties used by this trait.
 	 *
 	 * **Must be called by the constructor of the class that uses this trait.**
-	 *
-	 * @see LLMS_Post_Model::add_properties()
 	 *
 	 * @since [version]
 	 */
@@ -42,9 +45,14 @@ trait LLMS_Trait_Sales_Page {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	abstract public function get( $key, $raw = false );
+
+	/**
 	 * Get the URL to a WP page or custom URL when sales page redirection is enabled.
 	 *
-	 * @see LLMS_Post_Model::$model_post_type
+	 * **The class that uses this trait must have the {@see LLMS_Post_Model::$model_post_type} property.**
 	 *
 	 * @since 3.20.0
 	 * @since [version] Check for an empty  URL or ID.
@@ -69,7 +77,10 @@ trait LLMS_Trait_Sales_Page {
 		/**
 		 * Filters the model's sales page URL
 		 *
-		 * @since Unknown.
+		 * The dynamic portion of the hook name, $this->model_post_type,
+		 * refers to the model's post type, e.g. 'course' or 'membership'.
+		 *
+		 * @since Unknown
 		 *
 		 * @param string          $url    Sales page URL.
 		 * @param LLMS_Post_Model $object The LLMS_Course or LLMS_Membership object.
@@ -83,7 +94,7 @@ trait LLMS_Trait_Sales_Page {
 	/**
 	 * Determine if sales page redirection is enabled.
 	 *
-	 * @see LLMS_Post_Model::$model_post_type
+	 * **The class that uses this trait must have the {@see LLMS_Post_Model::$model_post_type} property.**
 	 *
 	 * @since [version] Refactored from `LLMS_Course` and `LLMS_Membership`.
 	 *
@@ -106,10 +117,10 @@ trait LLMS_Trait_Sales_Page {
 		/**
 		 * Filters whether or not the model has a sales page redirect.
 		 *
-		 * The dynamic portion of the hook name, $this->model_post_type, refers to the model's post type,
-		 * e.g. 'course' or 'membership'.
+		 * The dynamic portion of the hook name, $this->model_post_type,
+		 * refers to the model's post type, e.g. 'course' or 'membership'.
 		 *
-		 * @since Unknown.
+		 * @since Unknown
 		 *
 		 * @param boolean         $has_redirect Whether or not the model has a sales page redirect.
 		 * @param LLMS_Post_Model $object       The LLMS_Course or LLMS_Membership object.
