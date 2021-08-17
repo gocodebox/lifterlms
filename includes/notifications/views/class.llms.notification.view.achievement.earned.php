@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Achievement Earned
  *
  * @since 3.8.0
- * @since 3.17.6 Unknown.
- * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {
 

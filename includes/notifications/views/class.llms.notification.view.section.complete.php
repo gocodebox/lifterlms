@@ -20,7 +20,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
@@ -37,16 +37,16 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'section_complete';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -58,9 +58,9 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -69,9 +69,9 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'positive' );
@@ -80,9 +80,9 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -138,9 +138,9 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{SECTION_TITLE}}' );
@@ -149,9 +149,9 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return sprintf( __( '%s Completed a Section', 'lifterlms' ), '{{STUDENT_NAME}}' );

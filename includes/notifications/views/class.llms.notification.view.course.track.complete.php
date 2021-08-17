@@ -14,14 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Course Track Complete
  *
  * @since 3.8.0
- * @since 3.8.2 Unknown.
  */
 class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
@@ -38,30 +37,32 @@ class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notific
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var string
 	 */
 	public $trigger_id = 'course_track_complete';
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
+			// Translators: %1$s = {{STUDENT_NAME}} merge code; %2$s = {{TRACK_TITLE}} merge code.
 			return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TRACK_TITLE}}' );
 		}
+		// Translators: %s = {{TRACK_TITLE}} merge code.
 		return sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{TRACK_TITLE}}' );
 	}
 
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -70,9 +71,9 @@ class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notific
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'positive' );
@@ -81,9 +82,9 @@ class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notific
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -124,22 +125,24 @@ class LLMS_Notification_View_Course_Track_Complete extends LLMS_Abstract_Notific
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
+		// Translators: %1$s = {{STUDENT_NAME}} merge code; %2$s = {{TRACK_TITLE}} merge code.
 		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{TRACK_TITLE}}' );
 	}
 
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
+		// Translators: %s = {{STUDENT_NAME}} merge code.
 		return sprintf( __( '%s Completed a Track', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 

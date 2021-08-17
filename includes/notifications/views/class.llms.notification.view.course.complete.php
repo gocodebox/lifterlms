@@ -44,9 +44,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -58,9 +58,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -69,9 +69,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'positive' );
@@ -80,9 +80,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -122,9 +122,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification subject for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{COURSE_TITLE}}' );
@@ -133,9 +133,9 @@ class LLMS_Notification_View_Course_Complete extends LLMS_Abstract_Notification_
 	/**
 	 * Setup notification title for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return sprintf( __( '%s Completed a Course', 'lifterlms' ), '{{STUDENT_NAME}}' );
