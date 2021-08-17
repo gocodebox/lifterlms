@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LifterLMS singleton trait.
+ * Tests for {@see LLMS_Trait_Singleton}.
  *
  * @group Traits
  *

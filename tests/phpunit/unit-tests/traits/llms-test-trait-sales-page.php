@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LifterLMS sales page trait.
+ * Tests for {@see LLMS_Trait_Sales_Page}.
  *
  * @group Traits
  * @group LLMS_Post_Model
