@@ -1,12 +1,14 @@
-name: Move new issues into Triage
+name: New Issue Triage and Assignment
 
 on:
   issues:
     types: [ opened ]
 
 jobs:
-  add-to-project:
+  handle-new-issue:
     runs-on: ubuntu-latest
+    env:
+      PRIMARY_CODEOWNER: '@thomasplevy'
     steps:
       - name: Add to "Triage" project
         uses: alex-page/github-project-automation-plus@v0.8.1
@@ -15,10 +17,29 @@ jobs:
           column: Awaiting Triage
           repo-token: ${{ secrets.ORG_WORKFLOWS }}
 
-      - name: Locate primary codeowner
-        uses: SvanBoxel/codeowners-action@v1
+      - name: Check CODEOWNERS file existence
+        id: codeowners_file_exists
+        uses: andstor/file-existence-action@v1
+        with:
+          files: '.github/CODEOWNERS'
+
+      - name: Parse CODEOWNERS file
         id: codeowner
+        if: steps.codeowners_file_exists.outputs.files_exists == 'true'
+        uses: SvanBoxel/codeowners-action@v1
       
-      - name: Assign to primary codeowner
+      - name: Update PRIMARY_CODEOWNER env var
+        if: steps.codeowners_file_exists.outputs.files_exists == 'true'
         run: |
-          echo ${{ steps.codeowners.outputs.codeowners['*'] || @thomasplevy }};
+          echo "PRIMARY_CODEOWNER=${{ steps.codeowners.outputs.codeowners['*'] }}" >> $GITHUB_ENV
+
+      - name: Strip @ from username
+        run: |
+          echo "PRIMARY_CODEOWNER=${PRIMARY_CODEOWNER#?}" >> $GITHUB_ENV
+          echo "Assigning issue to $PRIMARY_CODEOWNER"
+
+      - name: Assign issue
+        uses: pozil/auto-assign-issue@v1
+        with:
+          repo-token: ${{ secrets.ORG_WORKFLOWS }}
+          assignees: ${{ env.PRIMARY_CODEOWNER }}
