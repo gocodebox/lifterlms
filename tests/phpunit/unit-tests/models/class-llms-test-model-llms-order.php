@@ -308,7 +308,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.
-	 * @since [version] Add assertions for checking against single payment orders and
+	 * @since 5.2.1 Add assertions for checking against single payment orders and
 	 *        			when the recurring retry feature option is disabled.
 	 *
 	 * @return void
@@ -554,7 +554,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the get_customer_name() method.
 	 *
 	 * @since Unknown
-	 * @since [version] Add assertion for anonymized order.
+	 * @since 5.2.1 Add assertion for anonymized order.
 	 *
 	 * @return void
 	 */

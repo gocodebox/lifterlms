@@ -402,7 +402,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.10.0
 	 * @since 5.2.0 Use strict type comparison.
-	 * @since [version] Combine conditions that return `false`.
+	 * @since 5.2.1 Combine conditions that return `false`.
 	 *
 	 * @return boolean
 	 */
@@ -431,7 +431,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Filters whether or not a recurring order can be retried
 		 *
-		 * @since [version]
+		 * @since 5.2.1
 		 *
 		 * @param boolean    $can_retry Whether or not the order can be retried.
 		 * @param LLMS_Order $order     Order object.
@@ -482,7 +482,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * Modify the generated order key for the order.
 		 *
 		 * @since 3.0.0
-		 * @since [version] Added the `$order` parameter.
+		 * @since 5.2.1 Added the `$order` parameter.
 		 *
 		 * @param string     $order_key The generated order key.
 		 * @param LLMS_Order $order_key Order object.

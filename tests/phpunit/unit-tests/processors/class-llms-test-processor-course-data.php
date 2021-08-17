@@ -63,7 +63,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.12.0
 	 * @since 4.21.0 Assert student enrolled count early.
-	 * @since [version] Added 5 second delta on date comparison assertion.
+	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc() when there's no students in the course
 	 *
 	 * @since 4.21.0
- 	 * @since [version] Added 5 second delta on date comparison assertion.
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1596#issuecomment-821585937
 	 *
@@ -333,7 +333,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_calculation()
 	 *
 	 * @since 4.21.0
- 	 * @since [version] Added 5 second delta on date comparison assertions.
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
 	 *
 	 * @return void
 	 */
@@ -365,7 +365,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_calculation() to ensure duplicate events aren't scheduled regardless of ID variable type
 	 *
 	 * @since 4.21.0
- 	 * @since [version] Added 5 second delta on date comparison assertions.
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1600
 	 *

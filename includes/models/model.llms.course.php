@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
- * @since [version] Check for an empty sales page URL or ID.
+ * @since 5.2.1 Check for an empty sales page URL or ID.
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
@@ -657,7 +657,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.20.0
 	 * @since 3.23.0 Unknown.
 	 * @since 4.12.0 Use strict `in_array()` comparison.
-	 * @since [version] Check for an empty sales page URL or ID.
+	 * @since 5.2.1 Check for an empty sales page URL or ID.
 	 *
 	 * @return boolean
 	 */

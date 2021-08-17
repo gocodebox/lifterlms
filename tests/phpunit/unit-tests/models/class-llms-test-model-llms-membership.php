@@ -8,7 +8,7 @@
  * @since 3.20.0
  * @since 3.36.3 Remove redundant test method `test_get_sections()`,
  *               @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
- * @since [version] Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
+ * @since 5.2.1 Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
@@ -360,7 +360,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0
-	 * @since [version] Add checks for empty URL and page ID.
+	 * @since 5.2.1 Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 
