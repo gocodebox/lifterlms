@@ -142,7 +142,7 @@ function llms_get_time_period_l10n( $period, $length = 1 ) {
 	 * @param string $period Translated period name.
 	 * @param int    $length Period length, used for pluralization.
 	 */
-	return apply_filters( 'llmst_ime_period_l10n', $period, $length );
+	return apply_filters( 'llms_time_period_l10n', $period, $length );
 
 }
 

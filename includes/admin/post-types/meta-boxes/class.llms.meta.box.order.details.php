@@ -137,11 +137,11 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 			return -1;
 		}
 
-		$payments  = llms_filter_input( INPUT_POST, '_llms_remaining_payments', FILTER_SANITIZE_NUMBER_INT );
+		$payments  = (int) llms_filter_input( INPUT_POST, '_llms_remaining_payments', FILTER_SANITIZE_NUMBER_INT );
 		$remaining = $order->get_remaining_payments();
 
 		// Nothing to save.
-		if ( null === $payments || absint( $payments ) === $remaining || absint( $payments ) < 1 ) {
+		if ( $payments < 1 || $payments === $remaining ) {
 			return 0;
 		}
 
