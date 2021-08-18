@@ -71,6 +71,7 @@
       "!/libraries",
       "/libraries/README.md",
       "/libraries/**/composer.*",
+      "/libraries/**/i18n",
 
       "/vendor/bin",
       "/vendor/**/**/composer.*",
