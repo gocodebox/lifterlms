@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * **Classes that use this trait must call {@see LLMS_Trait_Audio_Video_Embed::construct_audio_video_embed}
  * in their constructor.**
  *
- * @since [version] Refactored from `LLMS_Course`, `LLMS_Lesson` and `LLMS_Post_Model`.
+ * @since [version]
  *
  * @property string $audio_embed URL to an oEmbed enable audio URL.
  * @property string $video_embed URL to an oEmbed enable video URL.

@@ -5,7 +5,8 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.1.3
+ * @since [version] Add traits to `autoload()`.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
