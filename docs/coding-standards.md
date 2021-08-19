@@ -29,6 +29,15 @@ class LLMS_AQ_Question_Types { [...] }
 class LLMS_SL_Story extends LLMS_Abstract_Database_Store { [...] }
 ```
 
+### Trait Names
+
+Trait names should use capitalized words separated by underscores.
+LifterLMS core trait names should be prefixed with `LLMS_Trait`.
+
+```php
+trait LLMS_Trait_Singleton { [...] }
+```
+
 ### Constants
 
 Constants should be in all upper-case with underscores separating words.
@@ -62,6 +71,13 @@ Files containing model classes should prepend `model-` instead of `class-`. For 
 
 ```
 model-llms-student.php
+```
+
+Trait file names should be based on the trait name with underscores replaced by hyphens and the file stored in the
+`includes/traits` directory. For example `LLMS_Trait_Singleton` becomes:
+
+```
+includes/traits/llms-trait-singleton.php
 ```
 
 ### Functions & Variables
