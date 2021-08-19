@@ -33,6 +33,15 @@ class LLMS_Certificates {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Certificates
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Array of Certificate types.
 	 *
 	 * @var array

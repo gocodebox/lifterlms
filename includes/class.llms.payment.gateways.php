@@ -24,6 +24,15 @@ class LLMS_Payment_Gateways {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Payment_Gateways
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Payment Gateways
 	 *
 	 * @var array

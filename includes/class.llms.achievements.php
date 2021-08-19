@@ -36,6 +36,15 @@ class LLMS_Achievements {
 	private $_content_type;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Achievements
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @since    1.0.0

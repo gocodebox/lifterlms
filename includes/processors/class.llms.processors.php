@@ -46,6 +46,15 @@ class LLMS_Processors {
 	private $processors = array();
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Processors
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 3.15.0

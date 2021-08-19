@@ -26,6 +26,15 @@ class LLMS_Emails {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Emails
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Class names of all emails
 	 *
 	 * @var string[]

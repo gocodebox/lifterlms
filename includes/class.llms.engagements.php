@@ -27,6 +27,15 @@ class LLMS_Engagements {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Engagements
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Enable debug logging
 	 *
 	 * @since 2.7.9

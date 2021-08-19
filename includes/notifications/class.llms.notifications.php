@@ -28,6 +28,15 @@ class LLMS_Notifications {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Notifications
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Controller instances
 	 *
 	 * @var LLMS_Abstract_Notification_Controller[]

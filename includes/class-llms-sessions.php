@@ -24,6 +24,15 @@ class LLMS_Sessions {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Sessions
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Current user id.
 	 *
 	 * @var null

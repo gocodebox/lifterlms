@@ -26,6 +26,15 @@ class LLMS_Integrations {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Integrations
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Array of integrations, regardless of availability
 	 *
 	 * @var  LLMS_Abstract_Integration[]

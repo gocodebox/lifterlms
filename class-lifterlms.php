@@ -39,6 +39,15 @@ final class LifterLMS {
 	public $version = '5.2.0';
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LifterLMS
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * LLMS_Assets instance
 	 *
 	 * @var LLMS_Assets

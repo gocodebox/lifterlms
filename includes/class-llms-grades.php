@@ -23,6 +23,15 @@ class LLMS_Grades {
 	use LLMS_Trait_Singleton;
 
 	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 *
+	 * @var LLMS_Grades
+	 */
+	protected static $_instance = null;
+
+	/**
 	 * Determines the rounding precision used by grading functions
 	 *
 	 * @var  int
