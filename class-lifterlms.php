@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @method static LifterLMS instance()
  */
-final class LifterLMS  {
+final class LifterLMS {
 
 	use LLMS_Trait_Singleton;
 

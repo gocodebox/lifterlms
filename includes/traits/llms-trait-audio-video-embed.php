@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Traits
  *
- * @since   [version]
+ * @since [version]
  * @version [version]
  */
 
