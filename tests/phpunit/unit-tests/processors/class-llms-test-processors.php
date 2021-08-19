@@ -7,6 +7,7 @@
  * @group processors
  *
  * @since 5.0.0
+ * @version [version]
  */
 class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 

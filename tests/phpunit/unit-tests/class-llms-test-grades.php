@@ -3,7 +3,7 @@
  * Tests for Grading methods
  * @group    grades
  * @since    3.24.0
- * @version  3.24.0
+ * @version  [version]
  */
 class LLMS_Test_Grades extends LLMS_UnitTestCase {
 

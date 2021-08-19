@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 4.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
