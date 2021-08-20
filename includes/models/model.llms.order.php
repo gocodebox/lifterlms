@@ -80,7 +80,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  * @since 4.7.0 Added `plan_ended` meta property.
- * @since [version] Removed usage of the meta property `date_billing_end`.
+ * @since [version] Removed usage of the meta property `date_billing_end` and removed private method `calculate_billing_end_date()`.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -235,48 +235,6 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected function after_create() {
 		// Add a random key that can be passed in the URL and whatever.
 		$this->set( 'order_key', $this->generate_order_key() );
-	}
-
-	/**
-	 * Calculate the date when a recurring order should stop being billed
-	 *
-	 * Applicable to orders created from plans with a set # of billing intervals.
-	 *
-	 * @since 3.10.0
-	 *
-	 * @return int Calculated billing end date as a Unix timestamp.
-	 */
-	private function calculate_billing_end_date() {
-
-		$end = 0;
-
-		$num_payments = $this->get( 'billing_length' );
-		if ( $num_payments ) {
-
-			$start = $this->get_date( 'date', 'U' );
-
-			$period    = $this->get( 'billing_period' );
-			$frequency = $this->get( 'billing_frequency' );
-
-			$end = $start;
-
-			$i = 0;
-			while ( $i < $num_payments ) {
-				$end = strtotime( '+' . $frequency . ' ' . $period, $end );
-				$i++;
-			}
-		}
-
-		/**
-		 * Filters the calculated end date of a recurring plan with a limited number of billing intervals
-		 *
-		 * @since 3.10.0
-		 *
-		 * @param int        $end   End date as a UNIX timestamp.
-		 * @param LLMS_Order $order Order object.
-		 */
-		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
-
 	}
 
 	/**
