@@ -19,8 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
- * @since [version] Moved sales page properties and methods to `LLMS_Trait_Sales_Page`.
- *              Added `__construct()`.
+ * @since [version] Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information

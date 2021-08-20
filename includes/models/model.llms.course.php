@@ -16,8 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
- * @since [version] Add `__construct()`.
- *              Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
+ * @since [version] Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
  *
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
