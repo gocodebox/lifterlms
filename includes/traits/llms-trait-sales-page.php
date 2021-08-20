@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * **This trait should only be used by classes that extend from the {@see LLMS_Post_Model} class.**
  * **Classes that use this trait must call {@see LLMS_Trait_Sales_Page::construct_sales_page} in their constructor.**
  *
- * @since [version] Refactored from `LLMS_Course` and `LLMS_Membership`.
+ * @since [version]
  *
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
