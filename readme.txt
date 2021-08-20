@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.2.0
+Stable tag: 5.2.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.2.1 - 2021-08-17 =
+
+##### Updates
+
++ [LifterLMS Helper Version 3.4.1](https://make.lifterlms.com/2021/08/17/lifterlms-helper-version-3-4-1/).
++ Made minor development-related changes to the `LLMS_Order` class.
+
+##### Bug Fixes
+
++ Fixed an issue encountered when a course or membership sales page redirect is enabled but no URL is saved.
+
+
 = v5.2.0 - 2021-08-10 =
 
 ##### Upcoming Payment Reminder Notification
@@ -733,24 +745,6 @@ The following have been deprecated and will be removed from LifterLMS in a major
   + `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
   + `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
   + `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
-
-
-= v4.21.2 - 2021-05-17 =
-
-##### Security Update
-
-This releases fixes a security issue affecting LifterLMS versions 4.21.1 and earlier:
-
-+ Thank you to [Amirmohammad vakili](https://www.linkedin.com/in/amirmuhammad-vakili-65a7a11b3/) for reporting an insecure direct object reference issue.
-
-##### Updates
-
-+ Added the `view_grades` capability which is used to determine whether or not a user has the ability to view another user's grades on the website's frontend.
-
-##### Bug fixes
-
-+ Fixed an issue causing PHP errors when attempting to access a quiz attempt that doesn't exist.
-+ Fixed a localization issue encountered when entering transaction amounts on the admin panel.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

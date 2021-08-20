@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
+ * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since [version] Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership

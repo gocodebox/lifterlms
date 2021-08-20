@@ -8,7 +8,7 @@
  * @since 3.4.0
  * @since 3.24.0 Add tests for the `get_available_points()` method.
  * @since 4.7.0 Add tests for `to_array_extra_blocks()` and `to_array_extra_images()`.
- * @since [version] Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
+ * @since 5.2.1 Add checks for empty URL and page ID in `test_has_sales_page_redirect()`.
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -470,7 +470,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * Test the `has_sales_page_redirect` method.
 	 *
 	 * @since 3.20.0
-	 * @since [version] Add checks for empty URL and page ID.
+	 * @since 5.2.1 Add checks for empty URL and page ID.
 	 */
 	public function test_has_sales_page_redirect() {
 

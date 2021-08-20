@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v5.2.1 - 2021-08-17
+-------------------
+
+##### Updates
+
++ [LifterLMS Helper Version 3.4.1](https://make.lifterlms.com/2021/08/17/lifterlms-helper-version-3-4-1/).
++ Made minor development-related changes to the `LLMS_Order` class.
+
+##### Bug Fixes
+
++ Fixed an issue encountered when a course or membership sales page redirect is enabled but no URL is saved.
+
+
 v5.2.0 - 2021-08-10
 -------------------
 
