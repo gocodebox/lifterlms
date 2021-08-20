@@ -28,7 +28,7 @@ class LLMS_Events {
 	/**
 	 * Singleton instance.
 	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Events
 	 */

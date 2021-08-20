@@ -26,7 +26,7 @@ class LLMS_Integrations {
 	/**
 	 * Singleton instance.
 	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::$instance}.
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Integrations
 	 */
