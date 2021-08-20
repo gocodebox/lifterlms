@@ -2,29 +2,20 @@
 /**
  * Order Details metabox for Order on Admin Panel
  *
- * @package LifterLMS/Templates/Admin
+ * @package LifterLMS/Admin/Views
  *
- * @since 3.0.0
- * @since 3.18.0 Unknown.
- * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
- * @since 4.18.0 Do not print dead link for removed students.
- *               Also replace occurrences of json_encode with safer wp_json_encode.
- * @version 4.18.0
+ * @since [version]
+ * @version [version]
+ *
+ * @property LLMS_Order           $order                     Order object.
+ * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.
+ * @property array                $switchable_gateways       List of gateways that the order can be switched to.
+ * @property array                $switchable_gateway_fields List of admin fields for the available switchable gateways.
  */
 
 defined( 'ABSPATH' ) || exit;
-
-is_admin() || exit;
-
-// Used to allow admins to switch payment gateways.
-$gateway_feature           = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
-$switchable_gateways       = array();
-$switchable_gateway_fields = array();
-foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
-	$switchable_gateways[ $id ]       = $gateway_obj->get_admin_title();
-	$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
-}
 ?>
+
 <div class="llms-metabox">
 
 	<?php if ( 'test' === $order->get( 'gateway_api_mode' ) ) : ?>
@@ -153,7 +144,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 				//phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number so it's throwing an error but it's not broken.
 				printf(
 					// Translators: %1$d = The order billing period; %2$s = The order billing frequency.
-					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ),
+					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), // phpcs:ignore: WordPress.WP.I18n.MismatchedPlaceholders
 					$order->get( 'billing_frequency' ),
 					$order->get( 'billing_period' )
 				);
@@ -166,6 +157,58 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 				<?php _e( 'One-time', 'lifterlms' ); ?>
 			<?php endif; ?>
 		</div>
+
+		<?php
+		if ( $order->has_plan_expiration() ) :
+			$remaining = $order->get_remaining_payments();
+			?>
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
+				<span id="llms-remaining-payments-view"><?php echo $remaining; ?></span>
+
+				<?php add_thickbox(); ?>
+				<div id="llms-remaining-edit">
+					<div class="llms-remaining-edit--content">
+						<h4><?php _e( 'Modify Remaining Payments', 'lifterlms' ); ?></h4>
+
+						<label>
+							<span><?php _e( 'Remaining payments', 'lifterlms' ); ?></span>
+							<input type="number" id="llms-num-remaining-payments" value="<?php echo $remaining; ?>" min="1" step="1">
+						</label>
+
+						<label>
+							<span><?php _e( 'Order Note', 'lifterlms' ); ?></span>
+							<textarea id="llms-remaining-payments-note" rows="3"></textarea>
+							<em><?php _e( 'For internal use only, not visible to the customer.', 'lifterlms' ); ?></em>
+						</label>
+
+						<button id="llms-save-remaining-payments" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
+
+						<script>
+							(function(){
+								document.getElementById( 'llms-save-remaining-payments' ).addEventListener( 'click', function() {
+									tb_remove();
+									var remaining = document.getElementById( 'llms-num-remaining-payments' ).value,
+										note      = document.getElementById( 'llms-remaining-payments-note' ).value;
+
+									document.querySelector( 'input[name="_llms_remaining_payments"]' ).value = remaining;
+									document.querySelector( 'input[name="_llms_remaining_note"]' ).value = note;
+									document.getElementById( 'llms-remaining-payments-view' ).innerHTML = remaining;
+								} );
+							})();
+						</script>
+
+					</div>
+				</div>
+
+				<a href="#TB_inline?&width=300&height=400&inlineId=llms-remaining-edit" class="thickbox llms-metabox-icon">
+					<span class="dashicons dashicons-edit" role="img" aria-label="<?php esc_attr_e( 'Add additional payments', 'lifterlms' ); ?>"></span>
+				</a>
+
+				<input type="hidden" name="_llms_remaining_payments" value="<?php echo $remaining; ?>">
+				<input type="hidden" name="_llms_remaining_note">
+			</div>
+		<?php endif; ?>
 
 		<?php do_action( 'lifterlms_order_meta_box_after_payment_information', $order ); ?>
 
@@ -231,7 +274,13 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<div class="llms-metabox-section d-all">
 
-			<h4><?php _e( 'Gateway Information', 'lifterlms' ); ?><a class="llms-editable" href="#"><span class="dashicons dashicons-edit"></span></a></h4>
+			<h4>
+				<?php _e( 'Gateway Information', 'lifterlms' ); ?>
+				<button class="llms-editable" title="<?php esc_attr_e( 'Edit gateway information', 'lifterlms' ); ?>">
+					<span class="dashicons dashicons-edit"></span>
+					<span class="screen-reader-text"><?php _e( 'Edit gateway information', 'lifterlms' ); ?></span>
+				</button>
+			</h4>
 
 			<div class="llms-metabox-field d-1of4" data-gateway-fields='<?php echo wp_json_encode( $switchable_gateway_fields ); ?>' data-llms-editable="payment_gateway" data-llms-editable-options='<?php echo wp_json_encode( $switchable_gateways ); ?>' data-llms-editable-type="select" data-llms-editable-value="<?php echo $order->get( 'payment_gateway' ); ?>">
 				<label><?php _e( 'Name:', 'lifterlms' ); ?></label>

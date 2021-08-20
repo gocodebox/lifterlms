@@ -155,7 +155,37 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_get_access_period_name() {}
+	/**
+	 * Override to prevent output of skipped test since the test doesn't matter for this class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_edit_date() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Test get_access_period_name()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_access_period_name() {
+
+		//  Use values from the plan.
+		$this->obj->set( 'access_period', 'week' );
+		$this->obj->set( 'access_length', 2 );
+		$this->assertEquals( 'weeks', $this->obj->get_access_period_name() );
+
+		// Pass in values.
+		$this->assertEquals( 'day', $this->obj->get_access_period_name( 'day', 1 ) );
+		$this->assertEquals( 'month', $this->obj->get_access_period_name( 'month', 1 ) );
+		$this->assertEquals( 'years', $this->obj->get_access_period_name( 'years', 25 ) );
+
+	}
 
 	/**
 	 * Test get_checkout_url()

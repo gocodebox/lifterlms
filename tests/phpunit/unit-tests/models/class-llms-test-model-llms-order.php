@@ -257,54 +257,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test private calculate_next_payment_date() for a plan with an end date.
-	 *
-	 * @since 3.37.2
-	 *
-	 * @return void
-	 */
-	public function test_calculate_next_payment_date_with_end_date() {
-
-		$now = current_time( 'timestamp' );
-		llms_mock_current_time( $now );
-
-		$plan = $this->get_plan();
-
-		$plan->set( 'frequency', 1 ); // Every.
-		$plan->set( 'period', 'month' ); // Month.
-		$plan->set( 'length', 3 ); // for 3 total payments.
-		$order = $this->get_mock_order( $plan );
-
-		// Delete the end date to simulate pre 3.10 behavior.
-		// $order->set( 'date_billing_end', '' );
-
-		$first_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-
-		// End date is calculated and stored for future use.
-		$this->assertTrue( ! empty( $order->get( 'date_billing_end' ) ) );
-
-		// First recurring payment (the second payment) is 1 month from the order start date.
-		$this->assertEquals( strtotime( '+1 month', $order->get_date( 'date', 'U' ) ), strtotime( $first_recurring ) );
-
-		// Time travel to simulate the completion of the previous payment.
-		$now = strtotime( $first_recurring ) + 1;
-		llms_mock_current_time( $now );
-
-		// Second recurring payment (the final payment) is 1 month from the first recurring payment date.
-		$second_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-		$this->assertEquals( strtotime( '+1 month', strtotime( $first_recurring ) ), strtotime( $second_recurring ) );
-
-		// Time travel to simulate the completion of the previous payment.
-		$now = strtotime( $second_recurring );
-		llms_mock_current_time( $now );
-
-		// There is no 3rd recurring payment because it's after the end date.
-		$third_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
-		$this->assertEquals( '', $third_recurring );
-
-	}
-
-	/**
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.
@@ -682,6 +634,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
+	 * @since [version] Don't rely on the date_billing_end property for ending a payment plan.
 	 *
 	 * @return void
 	 */
@@ -734,14 +687,14 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 				$this->assertEquals( strtotime( date( 'Y-m-d H:i:s', $future_expect ) ), strtotime( $order->get_next_payment_due_date( 'Y-m-d H:i:s' ) ), '', HOUR_IN_SECONDS * 2 );
 
-				// Plan ends so func should return a WP_Error.
-				$order->set( 'date_billing_end', date( 'Y-m-d H:i:s', $future_expect - DAY_IN_SECONDS ) );
+				// Plan ended so func should return a WP_Error.
+				$order->set( 'billing_length', 1 );
 				$order->maybe_schedule_payment( true );
 				$date = $order->get_next_payment_due_date();
 				$this->assertIsWPError( $date );
 				$this->assertWPErrorCodeEquals( 'plan-ended', $date );
 				$this->assertEquals( 'yes', $order->get( 'plan_ended' ) );
-				$order->set( 'date_billing_end', 0 );
+				$order->set( 'billing_length', 0 );
 
 				$i++;
 
@@ -752,7 +705,12 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Undocumented get_next_payment_due_date() method
+	 * Test get_next_payment_due_date() method for a payment plan
+	 *
+	 * Additionally tests calculate_next_payment_date() via action hooks.
+	 *
+	 * @since Unknown
+	 * @since [version] Updated to rely on number of successful transactions in favor of the current date.
 	 *
 	 * @return void
 	 */
@@ -768,29 +726,101 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$plan->set( 'period', 'week' ); // Week.
 		$plan->set( 'length', 3 ); // For 3 payments.
 
-		// Payment one is order date.
+		// Create the order.
 		$order = $this->get_order( $plan );
 
-		// Payment two.
+		// 3 total payments due.
+		$this->assertEquals( 3, $order->get_remaining_payments() );
+
+		// Make the initial payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Two payments remaining.
+		$this->assertEquals( 2, $order->get_remaining_payments() );
+
+		// Payment two is scheduled properly.
 		$expect = strtotime( "+3 weeks", $order->get_date( 'date', 'U' ) );
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// Time travel.
+		// Time travel to when the second payment is due.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// Reschedule next date.
-		$order->maybe_schedule_payment( true );
-		$expect += WEEK_IN_SECONDS * 3;
 
-		// Payment three.
+		// Record the second payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// Only one payment remaining.
+		$this->assertEquals( 1, $order->get_remaining_payments() );
+
+		// Payment 3 is scheduled properly.
+		$expect += WEEK_IN_SECONDS * 3;
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
-		// Time travel.
+		// Time travel to when the 3rd payment is due.
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
-		// Reschedule next date.
-		$order->maybe_schedule_payment( true );
 
-		// No more payments.
+		// Make the 3rd payment.
+		$order->record_transaction( array(
+			'payment_type' => 'recurring',
+			'status'       => 'llms-txn-succeeded',
+		) );
+
+		// No more payments due.
 		$this->assertTrue( is_a( $order->get_next_payment_due_date( 'U' ), 'WP_Error' ) );
+		$this->assertEquals( 0, $order->get_remaining_payments() );
+
+	}
+
+	/**
+	 * Test get_remaining_payments()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_remaining_payments() {
+
+		// Not recurring.
+		$this->assertFalse( $this->obj->get_remaining_payments() );
+
+		// No length.
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->assertFalse( $this->obj->get_remaining_payments() );
+
+		// Has length.
+		$this->obj->set( 'billing_length', 5 );
+		$this->assertEquals( 5, $this->obj->get_remaining_payments() );
+
+		// These statuses don't count.
+		foreach ( array( 'failed', 'pending' ) as $status ) {
+			$this->obj->record_transaction( array(
+				'status'       => "llms-txn-{$status}",
+				'payment_type' => 'recurring',
+			) );
+			$this->assertEquals( 5, $this->obj->get_remaining_payments() );
+		}
+
+		// Record a few successes.
+		$i = 1;
+		while ( $i <= 4 ) {
+			$this->obj->record_transaction( array(
+				'payment_type' => 'recurring',
+			) );
+			$this->assertEquals( 5 - $i, $this->obj->get_remaining_payments(), $i );
+			++$i;
+		}
+
+		// Refunds count?
+		$this->obj->record_transaction( array(
+			'status'       => 'llms-txn-refunded',
+			'payment_type' => 'recurring',
+		) );
+		$this->assertEquals( 0, $this->obj->get_remaining_payments() );
 
 	}
 
@@ -895,6 +925,28 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test has_plan_expiration()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_plan_expiration() {
+
+		// Single payment.
+		$this->assertFalse( $this->obj->has_plan_expiration() );
+
+		// Recurring with no length.
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->assertFalse( $this->obj->has_plan_expiration() );
+
+		// Has length.
+		$this->obj->set( 'billing_length', 1 );
+		$this->assertTrue( $this->obj->has_plan_expiration() );
+
+	}
+
+	/**
 	 * Test has_sale() method
 	 *
 	 * @return void
@@ -956,22 +1008,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( $order->has_trial() );
 		$this->assertNotEmpty( $order->get( 'date_trial_end' ) );
 
-	}
-
-	/**
-	 * Test init() with a plan that has limited number of payments
-	 *
-	 * @since Unknown
-	 *
-	 * @return void
-	 */
-	public function test_init_with_limited_plan() {
-
-		// Test initialization of an order with a plan that ends.
-		$plan = $this->get_plan();
-		$plan->set( 'length', 5 );
-		$order = $this->get_order( $plan );
-		$this->assertNotEmpty( $order->get( 'date_billing_end' ) );
 
 	}
 

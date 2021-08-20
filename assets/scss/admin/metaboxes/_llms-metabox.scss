@@ -50,7 +50,9 @@
 		text-align: center;
 	}
 
-	a.llms-editable {
+	a.llms-editable,
+	.llms-metabox-icon,
+	button.llms-editable {
 		color: $color-grey;
 		text-decoration: none;
 		&:hover {
@@ -58,7 +60,17 @@
 		}
 	}
 
-	h4 a.llms-editable { float: right; }
+	button.llms-editable {
+		border: none;
+		background: none;
+		cursor: pointer;
+		padding: 0;
+		vertical-align: top;
+	}
+
+	h4 button.llms-editable {
+		float: right;
+	}
 
 }
 

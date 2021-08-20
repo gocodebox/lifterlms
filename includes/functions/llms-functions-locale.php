@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Locales
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -96,6 +96,53 @@ function llms_get_states() {
 	 * @param array $states Multi-dimensional array. See "languages/states.php" for details.
 	 */
 	return apply_filters( 'lifterlms_states', $states );
+
+}
+
+/**
+ * Retrieve the translated (and optionally pluralized) name for a given time period string
+ *
+ * This is used primarily to display time period data which is stored directly in the database. When displaying
+ * to a user, we wish to ensure that the translated version is displayed instead of the raw and untranslated value
+ * stored in the database.
+ *
+ * @since [version]
+ *
+ * @param string  $period A time period string, accepts "day", "week", "month", or "year".
+ * @param integer $length The length of the period, passed to `_n()` and used for pluralization. Defaults to `1`.
+ * @return string The translated and pluralized time period string. Returns the submitted string for unsupported strings.
+ */
+function llms_get_time_period_l10n( $period, $length = 1 ) {
+
+	switch ( strtolower( $period ) ) {
+
+		case 'day':
+			$period = _n( 'day', 'days', $length, 'lifterlms' );
+			break;
+
+		case 'week':
+			$period = _n( 'week', 'weeks', $length, 'lifterlms' );
+			break;
+
+		case 'month':
+			$period = _n( 'month', 'months', $length, 'lifterlms' );
+			break;
+
+		case 'year':
+			$period = _n( 'year', 'years', $length, 'lifterlms' );
+			break;
+
+	}
+
+	/**
+	 * Filter the translated name for a given time period string.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $period Translated period name.
+	 * @param int    $length Period length, used for pluralization.
+	 */
+	return apply_filters( 'llms_time_period_l10n', $period, $length );
 
 }
 
