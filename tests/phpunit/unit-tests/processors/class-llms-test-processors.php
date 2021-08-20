@@ -38,6 +38,9 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 		$this->assertEquals( $this->main, LLMS_Processors::instance() );
 
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'instance', null );
+		if ( property_exists( $this->main, '_instance' ) ) {
+			LLMS_Unit_Test_Util::set_private_property( $this->main, '_instance', null );
+		}
 		$new_instance = LLMS_Processors::instance();
 		$this->assertInstanceOf( 'LLMS_Processors', $new_instance );
 		$this->assertTrue( ! isset( $new_instance->fake ) );
