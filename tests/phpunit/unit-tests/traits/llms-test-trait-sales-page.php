@@ -31,8 +31,8 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 
 			use LLMS_Trait_Sales_Page;
 
-			protected $db_post_type = 'mock_sales_page';
-			protected $model_post_type = 'mock_sales_page';
+			protected $db_post_type = 'course';
+			protected $model_post_type = 'course';
 
 			public function __construct( $model, $args = array() ) {
 

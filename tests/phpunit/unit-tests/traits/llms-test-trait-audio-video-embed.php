@@ -32,8 +32,8 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 
 			use LLMS_Trait_Audio_Video_Embed;
 
-			protected $db_post_type = 'audio_video_embed'; # Limited to 20 characters.
-			protected $model_post_type = 'audio_video_embed'; # Limited to 20 characters.
+			protected $db_post_type = 'course'; # Limited to 20 characters.
+			protected $model_post_type = 'course'; # Limited to 20 characters.
 
 			public function __construct( $model, $args = array() ) {
 
