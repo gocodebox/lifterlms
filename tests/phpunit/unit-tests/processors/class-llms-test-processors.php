@@ -30,6 +30,8 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
+	 *
+	 * @return void
 	 */
 	public function test_instance() {
 

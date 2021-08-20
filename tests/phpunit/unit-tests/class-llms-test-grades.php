@@ -11,6 +11,8 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.24.0
 	 * @since [version] Rename `_instance` property to `instance`.
+	 *
+	 * @return void
 	 */
 	public function test_instance() {
 
