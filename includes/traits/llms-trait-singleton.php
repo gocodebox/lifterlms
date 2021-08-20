@@ -34,7 +34,19 @@ trait LLMS_Trait_Singleton {
 	public static function instance() {
 
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
+
+			if ( property_exists( __CLASS__, '_instance') ) {
+
+				if ( is_null( self::$_instance ) ) {
+
+					self::$instance = new self();
+					self::$_instance = self::$instance;
+				} else {
+					self::$instance = self::$_instance;
+				}
+			} else {
+				self::$instance = new self();
+			}
 		}
 
 		return self::$instance;
