@@ -7,7 +7,6 @@
  * @group LLMS_Post_Model
  *
  * @since [version]
- * @version [version]
  */
 class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 

@@ -5,7 +5,6 @@
  * @group Traits
  *
  * @since [version]
- * @version [version]
  */
 class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 

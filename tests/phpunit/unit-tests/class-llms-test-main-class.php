@@ -11,7 +11,6 @@
  * @since 4.0.0 Add tests for `init_session()` method.
  *               Remove tests against removed LLMS_SVG_DIR constant.
  * @since 4.4.0 Add tests for `init_assets()` method.
- * @version [version]
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 

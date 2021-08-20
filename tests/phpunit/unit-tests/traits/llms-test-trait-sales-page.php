@@ -6,7 +6,6 @@
  * @group LLMS_Post_Model
  *
  * @since [version]
- * @version [version]
  */
 class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 
