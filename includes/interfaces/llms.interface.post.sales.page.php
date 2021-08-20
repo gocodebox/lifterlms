@@ -5,7 +5,7 @@
  * @package LifterLMS/Interfaces
  *
  * @since 3.20.0
- * @version 3.20.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
