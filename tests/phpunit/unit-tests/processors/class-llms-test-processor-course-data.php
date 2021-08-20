@@ -63,6 +63,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.12.0
 	 * @since 4.21.0 Assert student enrolled count early.
+	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
 	 *
 	 * @return void
 	 */
@@ -100,7 +101,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event scheduled.
-		$this->assertEquals( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
 
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'throttle_max_students', 500 );
 
@@ -139,6 +140,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test dispatch_calc() when there's no students in the course
 	 *
 	 * @since 4.21.0
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1596#issuecomment-821585937
 	 *
@@ -164,7 +166,8 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->main->dispatch_calc( $course_id );
 
 		foreach ( $metas as $key => $vals ) {
-			$this->assertEquals( $vals[1], $course->get( $key ), $key );
+			$delta = 'last_data_calc_run' === $key ? 5 : 0;
+			$this->assertEquals( $vals[1], $course->get( $key ), $key, $delta );
 		}
 
 	}
@@ -330,6 +333,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_calculation()
 	 *
 	 * @since 4.21.0
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
 	 *
 	 * @return void
 	 */
@@ -345,14 +349,14 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Schedule an event.
 		$this->main->schedule_calculation( $course_id, $expected_time );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		$this->logs->clear( 'processors' );
 
 		// No duplicate scheduled.
 		$this->main->schedule_calculation( $course_id );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
 		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
 
 	}
@@ -361,6 +365,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_calculation() to ensure duplicate events aren't scheduled regardless of ID variable type
 	 *
 	 * @since 4.21.0
+ 	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1600
 	 *
@@ -378,14 +383,14 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Schedule with an int.
 		$this->main->schedule_calculation( $course_id, $expected_time );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		$this->logs->clear( 'processors' );
 
 		// No duplicate should be scheduled if using a string later.
 		$this->main->schedule_calculation( (string) $course_id );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ) );
+		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
 		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
 
 	}

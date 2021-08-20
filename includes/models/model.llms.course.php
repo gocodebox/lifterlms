@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.2.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
+ * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since [version] Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
  *
