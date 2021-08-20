@@ -20,8 +20,6 @@ defined( 'ABSPATH' ) || exit;
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Events instance()
  */
 class LLMS_Events {
 

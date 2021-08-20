@@ -24,8 +24,6 @@ defined( 'ABSPATH' ) || exit;
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LifterLMS instance()
  */
 final class LifterLMS {
 

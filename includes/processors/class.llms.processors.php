@@ -19,8 +19,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Processors instance()
  */
 class LLMS_Processors {
 

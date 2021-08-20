@@ -18,8 +18,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 Integrations are now loaded based on their defined priority.
  * @since 3.33.2 Integration priority checks are backwards compatible to handle deprecated legacy integrations.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Integrations instance()
  */
 class LLMS_Integrations {
 

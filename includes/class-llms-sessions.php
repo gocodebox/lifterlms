@@ -16,8 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0
  * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Sessions instance()
  */
 class LLMS_Sessions {
 

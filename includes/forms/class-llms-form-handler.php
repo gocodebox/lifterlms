@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 5.0.0
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Form_Handler instance()
  */
 class LLMS_Form_Handler {
 

@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.24.0
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Grades instance()
  */
 class LLMS_Grades {
 

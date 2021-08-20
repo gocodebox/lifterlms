@@ -19,8 +19,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Engagements instance()
  */
 class LLMS_Engagements {
 

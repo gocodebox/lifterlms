@@ -29,7 +29,7 @@ trait LLMS_Trait_Singleton {
 	 *
 	 * @since [version]
 	 *
-	 * @return object
+	 * @return self
 	 */
 	public static function instance() {
 

@@ -18,8 +18,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.24.0 Unknown.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Achievements instance()
  */
 class LLMS_Achievements {
 

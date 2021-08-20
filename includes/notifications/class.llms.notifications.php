@@ -20,8 +20,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
  * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
- *
- * @method static LLMS_Notifications instance()
  */
 class LLMS_Notifications {
 
