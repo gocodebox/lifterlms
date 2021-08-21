@@ -33,10 +33,12 @@ trait LLMS_Trait_Audio_Video_Embed {
 	 */
 	protected function construct_audio_video_embed() {
 
-		$this->add_properties( array(
-			'audio_embed' => 'text',
-			'video_embed' => 'text',
-		) );
+		$this->add_properties(
+			array(
+				'audio_embed' => 'text',
+				'video_embed' => 'text',
+			)
+		);
 	}
 
 	/**

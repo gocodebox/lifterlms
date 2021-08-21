@@ -35,7 +35,7 @@ trait LLMS_Trait_Singleton {
 
 		if ( is_null( self::$instance ) ) {
 
-			if ( property_exists( __CLASS__, '_instance') ) {
+			if ( property_exists( __CLASS__, '_instance' ) ) {
 
 				if ( is_null( self::$_instance ) ) {
 

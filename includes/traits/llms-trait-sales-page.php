@@ -37,11 +37,13 @@ trait LLMS_Trait_Sales_Page {
 	 */
 	protected function construct_sales_page() {
 
-		$this->add_properties( array(
-			'sales_page_content_page_id' => 'absint',
-			'sales_page_content_type'    => 'string',
-			'sales_page_content_url'     => 'string',
-		) );
+		$this->add_properties(
+			array(
+				'sales_page_content_page_id' => 'absint',
+				'sales_page_content_type'    => 'string',
+				'sales_page_content_url'     => 'string',
+			)
+		);
 	}
 
 	/**
