@@ -17,7 +17,7 @@
 		}
 
 		&.status--waiting.correct,
-		&.status--waiting.incorrect, {
+		&.status--waiting.incorrect {
 			background: rgba( $color-orange, 0.2 );
 			.llms-status-icon {
 				background-color: $color-orange;
@@ -118,6 +118,14 @@
 					padding: 5px;
 				}
 			}
+		}
+
+		&.type--removed {
+			.llms-question-title {
+				font-style: italic;
+				font-weight: normal;
+			}
+			opacity: .5;
 		}
 
 	}

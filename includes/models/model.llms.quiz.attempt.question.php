@@ -49,6 +49,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * @since 3.16.8
 	 * @since 3.16.9 Unknown.
+	 * @since [version] Early bail for deleted questions.
 	 *
 	 * @return boolean
 	 */
@@ -56,7 +57,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		$question = $this->get_question();
 
-		if ( $this->get( 'points' ) >= 1 ) {
+		if ( $question && $this->get( 'points' ) >= 1 ) {
 
 			// The question is auto-gradable so it cannot be manually graded.
 			if ( $question->get_auto_grade_type() ) {
