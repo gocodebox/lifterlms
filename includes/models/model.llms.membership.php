@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
  * @since 5.2.1 Check for an empty sales page URL or ID.
- * @since [version] Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
+ * @since [version] Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -29,6 +29,9 @@ defined( 'ABSPATH' ) || exit;
  * @property $redirect_custom_url (string) Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'
  * @property $restriction_add_notice (string) Whether or not to add an on screen message when content is restricted by this membership [yes|no]
  * @property $restriction_notice (string) Notice to display when $restriction_add_notice is 'yes'
+ * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
+ * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
+ * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
  */
 class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 

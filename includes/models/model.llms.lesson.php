@@ -20,8 +20,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
  *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
  *              Use strict comparisons where needed.
- * @since [version] Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
+ * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *
+ * @property string $audio_embed URL to an oEmbed enable audio URL.
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
  * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
  * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
@@ -37,6 +38,7 @@ defined( 'ABSPATH' ) || exit;
  * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
  * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
  * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
+ * @property string $video_embed URL to an oEmbed enable video URL.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 

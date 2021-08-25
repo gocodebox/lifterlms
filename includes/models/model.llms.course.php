@@ -17,9 +17,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
  * @since 5.2.1 Check for an empty sales page URL or ID.
- * @since [version] Move audio and video embed properties and methods to `LLMS_Trait_Audio_Video_Embed`.
- *              Move sales page properties and methods to `LLMS_Trait_Sales_Page`.
+ * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
+ *              Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
+ * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
  * @property float  $average_progress           Calculated value of the overall average progress of all *enrolled* students in the course..
  * @property int    $capacity                   Number of students who can be enrolled in the course before enrollment closes.
@@ -40,8 +41,12 @@ defined( 'ABSPATH' ) || exit;
  * @property int    $prerequisite_track         WP Tax ID of a the prerequisite track.
  * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date..
  * @property string $length                     User defined course length.
+ * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
+ * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
+ * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
  * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
  * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
+ * @property string $video_embed                URL to an oEmbed enable video URL.
  */
 class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
 
