@@ -129,7 +129,7 @@ class LLMS_Post_Relationships {
 			add_filter( 'rest_request_after_callbacks', array( $this, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
 			wp_die(
-				$product->delete_product_with_active_subscriptions_error_message()
+				$this->delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) )
 			);
 		}
 
@@ -150,19 +150,37 @@ class LLMS_Post_Relationships {
 	 * @param WP_REST_Request                                  $request  Request used to generate the response.
 	 * @return WP_REST_Response|WP_HTTP_Response|WP_Error|mixed
 	 */
-	private function rest_filter_products_with_active_subscriptions_error_message( $response, $handler, $request ) {
+	public function rest_filter_products_with_active_subscriptions_error_message( $response, $handler, $request ) {
 
 		if ( is_wp_error( $response ) ) {
 			foreach ( $response->errors as $code => &$data ) {
 				// Error code can be produced by our rest-api or by wp core.
 				if ( in_array( $code, array( 'llms_rest_cannot_delete', 'rest_cannot_delete' ), true ) ) {
-					$data[0] = llms_get_product( $request['id'] )->delete_product_with_active_subscriptions_error_message();
+					$data[0] = $this->delete_product_with_active_subscriptions_error_message( $request['id'] );
 				}
 			}
 		}
 
 		return $response;
 
+	}
+
+	/**
+	 * Returns the error message to display when deleting a product with active subscriptions.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id The WP_Post ID of the product.
+	 * @return string
+	 */
+	public function delete_product_with_active_subscriptions_error_message( $post_id ) {
+		$post_type_object = get_post_type_object( get_post_type( $post_id ) );
+		$post_type_name   = $post_type_object->labels->name;
+		return sprintf(
+			// Translators: %s = The post type plural name.
+			__( 'Sorry, you are not allowed to delete %s with active subscriptions.', 'lifterlms' ),
+			$post_type_name
+		);
 	}
 
 	/**
