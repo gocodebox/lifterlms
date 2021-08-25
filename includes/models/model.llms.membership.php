@@ -22,13 +22,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since [version] Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
- * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
- * @property $instructors (array) Course instructor user information
- * @property $restriction_redirect_type (string) What type of redirect action to take when content is restricted by this membership [none|membership|page|custom]
- * @property $redirect_page_id (int) WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'
- * @property $redirect_custom_url (string) Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'
- * @property $restriction_add_notice (string) Whether or not to add an on screen message when content is restricted by this membership [yes|no]
- * @property $restriction_notice (string) Notice to display when $restriction_add_notice is 'yes'
+ * @property int[]  $auto_enroll                Array of course IDs that users will be autoenrolled in upon successful enrollment in this membership.
+ * @property array  $instructors                Course instructor user information.
+ * @property string $restriction_redirect_type  What type of redirect action to take when content is restricted by this membership [none|membership|page|custom].
+ * @property int    $redirect_page_id           WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'.
+ * @property string $redirect_custom_url        Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'.
+ * @property string $restriction_add_notice     Whether or not to add an on screen message when content is restricted by this membership [yes|no].
+ * @property string $restriction_notice         Notice to display when $restriction_add_notice is 'yes'.
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
  * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.

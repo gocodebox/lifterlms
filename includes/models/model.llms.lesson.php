@@ -22,23 +22,23 @@ defined( 'ABSPATH' ) || exit;
  *              Use strict comparisons where needed.
  * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *
- * @property string $audio_embed URL to an oEmbed enable audio URL.
- * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
- * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
- * @property $free_lesson (yesno) Yes if the lesson is free
- * @property $has_prerequisite (yesno) Yes if the lesson has a prereq lesson
- * @property $order (int) Lesson's order within its parent section
- * @property $points (absint) Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
- * @property $prerequisite (int) WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
- * @property $parent_course (int) WP Post ID of the course the lesson belongs to
- * @property $parent_section (int) WP Post ID of the section the lesson belongs to
- * @property $quiz (int) WP Post ID of the llms_quiz
- * @property $quiz_enabled (yesno) Whether or not the attached quiz is enabled for students
- * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
- * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
- * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
- * @property string $video_embed URL to an oEmbed enable video URL.
+ * @property string $audio_embed                      URL to an oEmbed enable audio URL.
+ * @property string $date_available                   Date when lesson becomes available, applies when $drip_method is "date".
+ * @property int    $days_before_available            The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start".
+ * @property string $drip_method                      What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite].
+ * @property string $free_lesson                      Yes if the lesson is free [yes|no].
+ * @property string $has_prerequisite                 Yes if the lesson has a prereq lesson [yes|no].
+ * @property int    $order                            Lesson's order within its parent section.
+ * @property int    $points                           Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses.
+ * @property int    $prerequisite                     WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'.
+ * @property int    $parent_course                    WP Post ID of the course the lesson belongs to.
+ * @property int    $parent_section                   WP Post ID of the section the lesson belongs to.
+ * @property int    $quiz                             WP Post ID of the llms_quiz.
+ * @property string $quiz_enabled                     Whether or not the attached quiz is enabled for students [yes|no].
+ * @property string $require_passing_grade            Whether of not students have to pass the quiz to advance to the next lesson [yes|no].
+ * @property string $require_assignment_passing_grade Whether of not students have to pass the assignment to advance to the next lesson [yes|no].
+ * @property string $time_available                   Optional time to make lesson available on $date_available when $drip_method is "date".
+ * @property string $video_embed                      URL to an oEmbed enable video URL.
  */
 class LLMS_Lesson extends LLMS_Post_Model {
 
