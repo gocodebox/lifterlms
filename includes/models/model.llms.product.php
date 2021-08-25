@@ -398,7 +398,42 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @return boolean
 	 */
 	public function has_active_subscriptions( $use_cache = true ) {
-		return true;
+
+		$found = false;
+		if ( $use_cache ) {
+			$subscriptions_count = wp_cache_get( $this->get( 'id' ), 'llms_product_subscriptions_count', true, $found );
+		}
+
+		if ( false === $found ) {
+
+			global $wpdb;
+
+			$subscriptions_count = $wpdb->get_var(
+				$wpdb->prepare(
+					"
+					SELECT COUNT(*) FROM {$wpdb->posts} as p
+					JOIN {$wpdb->postmeta} as pm1
+					JOIN {$wpdb->postmeta} as pm2
+					WHERE p.ID=pm1.post_id
+					AND pm1.post_id=pm2.post_id
+					AND pm1.meta_key='_llms_product_id' AND pm1.meta_value=%d
+					AND pm2.meta_key='_llms_order_type' AND pm2.meta_value='recurring'
+					AND p.post_status='llms-active'
+					",
+					$this->get( 'id' )
+				)
+			);
+
+			wp_cache_set(
+				$this->get( 'id' ),
+				$subscriptions_count,
+				'llms_product_subscriptions_count'
+			);
+
+		}
+
+		return (bool) $subscriptions_count;
+
 	}
 
 	/**
