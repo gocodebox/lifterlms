@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version 4.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -85,9 +85,83 @@ class LLMS_Post_Relationships {
 
 	);
 
+	/**
+	 * Construcor
+	 *
+	 * @since Unknown.
+	 * @since [version] Prevent course/membership with active subscriptions deletion.
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 
 		add_action( 'delete_post', array( $this, 'maybe_update_relationships' ) );
+		add_action( 'pre_delete_post', array( $this, 'maybe_prevent_product_deletion' ), 10, 2 );
+
+	}
+
+
+
+	/**
+	 * Filters whether a post deletion should take place.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool|null $delete Whether to go forward with deletion.
+	 * @param WP_Post   $post   Post object.
+	 * @return bool|null
+	 */
+	public function maybe_prevent_product_deletion( $delete, $post ) {
+
+		if ( ! in_array( get_post_type( $post ), array( 'course', 'llms_membership' ), true ) ) {
+			return $delete;
+		}
+
+		$product = llms_get_product( $post );
+
+		if ( empty( $product ) || ! $product->has_active_subscriptions() ) {
+			return $delete;
+		}
+
+		// If performing the deletion via REST API change the error message to reflect the reason for the prevention.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			// Filter the error message.
+			add_filter( 'rest_request_after_callbacks', array( $this, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
+		} else { // Deleting via wp-admin.
+			wp_die(
+				$product->delete_product_with_active_subscriptions_error_message()
+			);
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Filter the error message returned when trying to delete a product with active subscription.
+	 *
+	 * The original message is a standard permission denied message.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
+	 *                                                                   Usually a WP_REST_Response or WP_Error.
+	 * @param array                                            $handler  Route handler used for the request.
+	 * @param WP_REST_Request                                  $request  Request used to generate the response.
+	 * @return WP_REST_Response|WP_HTTP_Response|WP_Error|mixed
+	 */
+	private function rest_filter_products_with_active_subscriptions_error_message( $response, $handler, $request ) {
+
+		if ( is_wp_error( $response ) ) {
+			foreach ( $response->errors as $code => &$data ) {
+				// Error code can be produced by our rest-api or by wp core.
+				if ( in_array( $code, array( 'llms_rest_cannot_delete', 'rest_cannot_delete' ), true ) ) {
+					$data[0] = llms_get_product( $request['id'] )->delete_product_with_active_subscriptions_error_message();
+				}
+			}
+		}
+
+		return $response;
 
 	}
 
@@ -97,8 +171,8 @@ class LLMS_Post_Relationships {
 	 * @since 3.16.12
 	 * @since 3.37.8 Allow for deletion of related items outside the WP core posts table.
 	 *
-	 * @param obj   $post WP Post that's been deleted.
-	 * @param array $data Relationship data array.
+	 * @param WP_Post $post WP Post that's been deleted.
+	 * @param array   $data Relationship data array.
 	 * @return void
 	 */
 	private function delete_relationships( $post, $data ) {
@@ -118,10 +192,10 @@ class LLMS_Post_Relationships {
 	/**
 	 * Delete records from a table that are related to the deleted post.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
-	 * @param obj   $post WP Post that's been deleted.
-	 * @param array $data Relationship data array.
+	 * @param WP_Post $post WP Post that's been deleted.
+	 * @param array   $data Relationship data array.
 	 * @return void
 	 */
 	private function delete_table_records( $post, $data ) {
@@ -142,8 +216,8 @@ class LLMS_Post_Relationships {
 	 *
 	 * @since 3.37.8
 	 *
-	 * @param obj   $post WP Post that's been deleted.
-	 * @param array $data Relationship data array.
+	 * @param WP_Post $post WP Post that's been deleted.
+	 * @param array   $data Relationship data array.
 	 * @return void
 	 */
 	private function delete_wp_posts( $post, $data ) {
@@ -193,7 +267,7 @@ class LLMS_Post_Relationships {
 	private function get_related_posts( $post_id, $post_type, $meta_key ) {
 
 		global $wpdb;
-		return $wpdb->get_col(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT p.ID
 			 FROM {$wpdb->posts} AS p
@@ -206,18 +280,19 @@ class LLMS_Post_Relationships {
 				$post_type,
 				$post_id
 			)
-		);
+		); // db-call ok; no-cache ok.
 
 	}
 
 	/**
 	 * Check relationships and delete / update related posts when a post is deleted
-	 * Called on `delete_post` hook (before a post is deleted)
+	 *
+	 * Called on `delete_post` hook (before a post is deleted).
 	 *
 	 * @since 3.16.12
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param int $post_id  WP Post ID of the deleted post.
+	 * @param int $post_id WP Post ID of the deleted post.
 	 * @return void
 	 */
 	public function maybe_update_relationships( $post_id ) {
@@ -255,8 +330,8 @@ class LLMS_Post_Relationships {
 	 * @since 3.16.12
 	 * @since 3.24.0 Unknown.
 	 *
-	 * @param obj   $post WP Post that's been deleted.
-	 * @param array $data Relationship data array.
+	 * @param WP_Post $post WP Post that's been deleted.
+	 * @param array   $data Relationship data array.
 	 * @return void
 	 */
 	private function unset_relationships( $post, $data ) {
