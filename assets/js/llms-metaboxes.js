@@ -11,7 +11,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.0
  */
 ( function( $ ) {
 
@@ -526,7 +526,7 @@
 		 * @since 3.0.0
 		 * @since 3.13.0 Unknown.
 		 * @since 4.19.0 Add `this.bind_mce_fixes()`.
-		 * @since [version] Bind editables when editable buttons are present in addition to anchors.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
 		 *
 		 * @return   void
 		 */
@@ -770,7 +770,7 @@
 		 *
 		 * @since 3.10.0
 		 * @since 3.28.0 Unknown.
-		 * @since [version] Bind editables when editable buttons are present in addition to anchors.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
 		 *
 		 * @return void
 		 */

@@ -2602,6 +2602,11 @@ a.llms-view-as {
         list-style-type: none;
         margin: 0;
         padding: 5px; }
+    .llms-quiz-attempt-results .llms-quiz-attempt-question.type--removed {
+      opacity: .5; }
+      .llms-quiz-attempt-results .llms-quiz-attempt-question.type--removed .llms-question-title {
+        font-style: italic;
+        font-weight: normal; }
 
 .wrap.llms-reporting .llms-header,
 .wrap.lifterlms-settings .llms-header {

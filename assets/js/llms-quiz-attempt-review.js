@@ -3,7 +3,7 @@
  *
  * @since 3.16.0
  * @since 3.30.3 Unknown.
- * @version [version]
+ * @version 5.3.0
  */( function( $ ) {
 
 	/**
@@ -40,7 +40,7 @@
 		 *
 		 * @since 3.16.0
 		 * @since 3.30.3 When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
-		 * @since [version] Exclude removed question items.
+		 * @since 5.3.0 Exclude removed question items.
 		 *
 		 * @return {Grading}
 		 */

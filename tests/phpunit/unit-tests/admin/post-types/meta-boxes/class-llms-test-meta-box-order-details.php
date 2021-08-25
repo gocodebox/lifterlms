@@ -8,14 +8,14 @@
  * @group metaboxes
  * @group order_details
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() nonce-related errors
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() with an invalid order.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -67,7 +67,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() gateway data.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save() when remaining payment data is updated
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_remaining_payments() when no changes should occur.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_remaining_payments() when changes are made.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

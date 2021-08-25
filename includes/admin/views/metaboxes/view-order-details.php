@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  *
  * @property LLMS_Order           $order                     Order object.
  * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.

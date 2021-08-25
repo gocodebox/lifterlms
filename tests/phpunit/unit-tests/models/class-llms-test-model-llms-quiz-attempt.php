@@ -10,7 +10,7 @@
  * @since 4.0.0 Add tests for the answer_question() method.
  * @since 4.2.0 Added tests for the get_siblings() method.
  *              Added tests on lesson completion status when deleting attempts.
- * @since [version] Added tests on get_question_objects() when filtering out the removed questions.
+ * @since 5.3.0 Added tests on get_question_objects() when filtering out the removed questions.
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -639,7 +639,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Test get_question_objects() method when filtering out the removed questions.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -683,7 +683,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Returns a question object id given a LLMS_Quiz_Attempt
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param LLMS_Quiz_Attempt $attemt Attempt object.
 	 * @return void

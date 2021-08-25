@@ -4,8 +4,8 @@
  *
  * @since 3.16.0
  * @since 3.17.8 Unknown.
- * @since [version] Display removed questions too.
- * @version [version]
+ * @since 5.3.0 Display removed questions too.
+ * @version 5.3.0
  *
  * @param LLMS_Quiz_Attempt $attempt LLMS_Quiz_Attempt instance.
  */

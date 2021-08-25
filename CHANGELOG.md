@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v5.3.0 - 2021-08-25
+-------------------
+
+##### Updates
+
++ Improved logic used to determine when a limited length subscription has completed its payment schedule.
++ Improved accessibility of various icon buttons on the admin orders view/edit screen.
++ Improved display of quiz attempts containing questions which have been deleted from the database.
++ POT files from included library plugins (like LifterLMS REST) are now excluded from LifterLMS distributions.
+
+##### Bug Fixes
+
++ Fix untranslatable time period strings (day, week, month, and year) found on the admin orders view/edit screen.
++ Fixed an error encountered when attempting to grade a quiz attempt containing deleted questions.
+
+##### Deprecations
+
++ Removed usage and references to the `LLMS_Order` post meta property `date_billing_end`. To determine if a subscription has ended, use `LLMS_Order::get_remaining_payments()` instead.
++ Removed private method `LLMS_Order::calculate_billing_end_date()`.
+
+
 v5.2.1 - 2021-08-17
 -------------------
 
