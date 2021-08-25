@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 3.38.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -387,6 +387,35 @@ class LLMS_Product extends LLMS_Post_Model {
 			return;
 		}
 		wp_set_object_terms( $this->get( 'id' ), $visibility, 'llms_product_visibility', false );
+	}
+
+	/**
+	 * Check if there are active subscriptions for this product.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $use_cache Whether or not leveraging the cache.
+	 * @return boolean
+	 */
+	public function has_active_subscriptions( $use_cache = true ) {
+		return true;
+	}
+
+	/**
+	 * Returns the error message to display when deleting a product with active subscriptions.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function delete_product_with_active_subscriptions_error_message() {
+		$post_type_object = get_post_type_object( get_post_type( $this->get( 'id' ) ) );
+		$post_type_name   = $post_type_object->labels->name;
+		return sprintf(
+			// Translators: %s = The post type name.
+			__( 'Sorry, you are not allowed to delete %s with active subscriptions', 'lifterlms' ),
+			$post_type_name
+		);
 	}
 
 }
