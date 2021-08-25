@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Sales Page trait.
  *
  * **This trait should only be used by classes that extend from the {@see LLMS_Post_Model} class.**
- * **Classes that use this trait must call {@see LLMS_Trait_Sales_Page::construct_sales_page} in their constructor.**
+ * **Classes that use this trait must call {@see LLMS_Trait_Sales_Page::construct_sales_page()} in their constructor.**
  *
  * @since [version]
  *

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS audio video embed trait.
  *
- * **Classes that use this trait must call {@see LLMS_Trait_Audio_Video_Embed::construct_audio_video_embed}
+ * **Classes that use this trait must call {@see LLMS_Trait_Audio_Video_Embed::construct_audio_video_embed()}
  * in their constructor.**
  *
  * @since [version]
