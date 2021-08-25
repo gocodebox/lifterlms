@@ -65,50 +65,9 @@ trait LLMS_Trait_Audio_Video_Embed {
 	}
 
 	/**
-	 * Get media embeds.
-	 *
-	 * @since 3.17.0
-	 * @since 3.17.5 Unknown.
-	 * @since [version] Refactored from `LLMS_Post_Model`.
-	 *
-	 * @param string $type Optional. Embed type ['video'|'audio']. Default is 'video'.
-	 * @param string $prop Optional. Postmeta property name. Default is empty string.
-	 *                     If not supplied it will default to {$type}_embed.
-	 * @return string
+	 * @inheritdoc
 	 */
-	protected function get_embed( $type = 'video', $prop = '' ) {
-
-		$ret = '';
-
-		$prop = $prop ? $prop : $type . '_embed';
-		$url  = $this->get( $prop );
-		if ( $url ) {
-
-			$ret = wp_oembed_get( $url );
-
-			if ( ! $ret ) {
-
-				$ret = do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) );
-
-			}
-		}
-
-		/**
-		 * Filters the embed HTML.
-		 *
-		 * The first dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type.
-		 * For example "course", "lesson", "membership", etc...
-		 * The second dynamic portion of this hook, `$type`, refers to the embed type ['video'|'audio'].
-		 *
-		 * @since Unknown
-		 *
-		 * @param array           $embed     The embed html.
-		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
-		 * @param string          $type      Embed type ['video'|'audio'].
-		 * @param string          $prop      Postmeta property name.
-		 */
-		return apply_filters( "llms_{$this->model_post_type}_{$type}", $ret, $this, $type, $prop );
-	}
+	abstract protected function get_embed( $type = 'video', $prop = '' );
 
 	/**
 	 * Attempt to get oEmbed for a video provider.

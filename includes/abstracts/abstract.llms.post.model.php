@@ -44,7 +44,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  * @since 3.34.0 Refresh the whole $post property with the just updated instance of WP_Post after updating it.
  * @since 3.36.1 In `set_bulk()` method, use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
- * @since [version] Move `get_embed()` to `LLMS_Trait_Audio_Video_Embed`.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -811,6 +810,51 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
 		 */
 		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
+	}
+
+	/**
+	 * Get media embeds
+	 *
+	 * @since 3.17.0
+	 * @since 3.17.5 Unknown.
+	 *
+	 * @param string $type Optional. Embed type [video|audio]. Default is 'video'.
+	 * @param string $prop Optional. Postmeta property name. Default is empty string.
+	 *                     If not supplied it will default to {$type}_embed.
+	 * @return string
+	 */
+	protected function get_embed( $type = 'video', $prop = '' ) {
+
+		$ret = '';
+
+		$prop = $prop ? $prop : $type . '_embed';
+		$url  = $this->get( $prop );
+		if ( $url ) {
+
+			$ret = wp_oembed_get( $url );
+
+			if ( ! $ret ) {
+
+				$ret = do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) );
+
+			}
+		}
+		/**
+		 * Filters the embed html
+		 *
+		 * The first dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 * The second dynamic portion of this hook, `$type`, refers to the embed type [video|audio].
+		 *
+		 * @since Unknown
+		 *
+		 * @param array           $embed     The embed html.
+		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
+		 * @param string          $type      Embed type [video|audio].
+		 * @param string          $prop      Postmeta property name.
+		 */
+		return apply_filters( "llms_{$this->model_post_type}_{$type}", $ret, $this, $type, $prop );
+
 	}
 
 	/**
