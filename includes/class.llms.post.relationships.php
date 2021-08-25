@@ -124,7 +124,7 @@ class LLMS_Post_Relationships {
 		}
 
 		// If performing the deletion via REST API change the error message to reflect the reason for the prevention.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		if ( llms_is_rest() ) {
 			// Filter the error message.
 			add_filter( 'rest_request_after_callbacks', array( $this, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
