@@ -291,7 +291,7 @@ class LLMS_Admin_Settings {
 
 			case 'custom-html':
 				if ( ! empty( $field['value'] ) ) {
-					echo '<tr valign="top" class="' . $disabled_class . '"><td colspan="2">' . $field['value'] . '</tr></td>';
+					echo '<tr valign="top" class="' . $disabled_class . '"><td colspan="2">' . $field['value'] . '</td></tr>';
 				}
 				break;
 

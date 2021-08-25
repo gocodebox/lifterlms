@@ -731,7 +731,7 @@ abstract class LLMS_Payment_Gateway {
 		}
 
 		$name = $this->get_option_name( $key );
-		$val  = get_option( $name, $this->$key );
+		$val  = get_option( $name, isset( $this->$key ) ? $this->$key : '' );
 
 		return apply_filters( 'llms_get_gateway_' . $key, $val, $this->id );
 
