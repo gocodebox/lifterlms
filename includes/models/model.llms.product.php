@@ -436,21 +436,4 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	}
 
-	/**
-	 * Returns the error message to display when deleting a product with active subscriptions.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	public function delete_product_with_active_subscriptions_error_message() {
-		$post_type_object = get_post_type_object( get_post_type( $this->get( 'id' ) ) );
-		$post_type_name   = $post_type_object->labels->name;
-		return sprintf(
-			// Translators: %s = The post type name.
-			__( 'Sorry, you are not allowed to delete %s with active subscriptions', 'lifterlms' ),
-			$post_type_name
-		);
-	}
-
 }
