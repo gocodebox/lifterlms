@@ -23,11 +23,14 @@ defined( 'ABSPATH' ) || exit;
  */
 trait LLMS_Trait_Audio_Video_Embed {
 	/**
+	 * @inheritdoc
+	 */
+	abstract protected function add_properties( $props = array() );
+
+	/**
 	 * Setup properties used by this trait.
 	 *
 	 * **Must be called by the constructor of the class that uses this trait.**
-	 *
-	 * @see LLMS_Post_Model::add_properties()
 	 *
 	 * @since [version]
 	 */
@@ -40,6 +43,11 @@ trait LLMS_Trait_Audio_Video_Embed {
 			)
 		);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	abstract public function get( $key, $raw = false );
 
 	/**
 	 * Attempt to get oEmbed for an audio provider.
