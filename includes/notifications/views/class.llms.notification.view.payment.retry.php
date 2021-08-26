@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -148,6 +148,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 *
 	 * @since 3.10.0
 	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
+	 * @since [version] Account for deleted products.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -204,7 +205,9 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( is_a( $obj, 'WP_Post' ) ) {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED PRODUCT]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				} else {
 					$code = $obj->get_post_type_label( 'singular_name' );

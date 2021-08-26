@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 5.2.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -163,6 +163,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 * Replace merge codes with actual values
 	 *
 	 * @since 5.2.0
+	 * @since [version] Account for deleted products.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -219,7 +220,9 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( is_a( $obj, 'WP_Post' ) ) {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED PRODUCT]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				} else {
 					$code = $obj->get_post_type_label( 'singular_name' );
