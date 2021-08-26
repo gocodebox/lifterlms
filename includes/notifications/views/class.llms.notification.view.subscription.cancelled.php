@@ -87,10 +87,11 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 * @since [version] Account for deleted products.
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -124,11 +125,14 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( $obj ) {
-					$code = $obj->get_post_type_label( 'singular_name' );
-				} else {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED PRODUCT]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
+				} else {
+					$code = $obj->get_post_type_label( 'singular_name' );
 				}
+
 				break;
 
 		}// End switch().
