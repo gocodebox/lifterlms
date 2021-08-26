@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin tool which generates a report of limited billing orders affected by order end changes
  *
  * @since [version]
- * 
+ *
  * @link https://github.com/gocodebox/lifterlms/pull/1744
  */
 class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_Tool {
@@ -37,18 +37,20 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 
 		$csv = array();
 
-		$orders = new WP_Query( array(
-			'post_type'      => 'llms_order',
-			'post_status'    => array( 'llms-active', 'llms-on-hold' ),
-			'posts_per_page' => -1,
-			'meta_query'     => array(
-				array(
-					'key'     => '_llms_billing_length',
-					'value'   => 1,
-					'compare' => '>=',
+		$orders = new WP_Query(
+			array(
+				'post_type'      => 'llms_order',
+				'post_status'    => array( 'llms-active', 'llms-on-hold' ),
+				'posts_per_page' => -1,
+				'meta_query'     => array(
+					array(
+						'key'     => '_llms_billing_length',
+						'value'   => 1,
+						'compare' => '>=',
+					),
 				),
-			),
-		) );
+			)
+		);
 
 		foreach ( $orders->posts as $order ) {
 
@@ -77,14 +79,17 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		$csv = $this->get_csv();
 
 		// Add header row.
-		array_unshift( $csv, array(
-			'Order ID',
-			'Expected Payments',
-			'Total Payments',
-			'Successful Payments',
-			'Refunded Payments',
-			'Edit Link',
-		) );
+		array_unshift(
+			$csv,
+			array(
+				'Order ID',
+				'Expected Payments',
+				'Total Payments',
+				'Successful Payments',
+				'Refunded Payments',
+				'Edit Link',
+			)
+		);
 
 		// Create the CSV file.
 		ob_start();
@@ -92,7 +97,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		foreach ( $csv as $line ) {
 			fputcsv( $fh, $line );
 		}
-		fclose( $fh );
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 
 		return ob_get_clean();
 
@@ -111,7 +116,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 
 		$count = count( $this->get_csv() );
 
-		$desc  = sprintf(
+		$desc = sprintf(
 			// Translators: %1$s = opening anchor link to documentation; %2$s = closing anchor link.
 			__( 'The method used to determine when a limited-billing recurring order has completed its payment plan changed during version 5.3.0. This tool provides a report of orders which may been affected by this change. %1$sRead more%2$s about this change.', 'lifterlms' ),
 			'<a href="https://lifterlms.com/docs/###" target="_blank">',
@@ -169,8 +174,8 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		$successes = $this->get_txn_count_by_status( $order, 'llms-txn-succeeded' );
 		$total     = $refunds + $successes;
 
-		$ended     = llms_parse_bool( $order->get( 'plan_ended' ) );
-		$expected  = $order->get( 'billing_length' );
+		$ended    = llms_parse_bool( $order->get( 'plan_ended' ) );
+		$expected = $order->get( 'billing_length' );
 
 		if ( $refunds >= 1 || ( $ended && $total !== $expected ) ) {
 
@@ -254,7 +259,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		if ( ! headers_sent() ) { // This makes the method testable via phpunit.
 			header( 'Content-Type: text/csv' );
 			header( 'Content-Disposition: attachment; filename=orders.csv' );
-			header( 'Content-Length: '. strlen( $file ) );
+			header( 'Content-Length: ' . strlen( $file ) );
 			nocache_headers();
 		}
 
