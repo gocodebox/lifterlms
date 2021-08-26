@@ -6,10 +6,19 @@
  *
  * @group admin
  * @group admin_tools
+ * @group legacy_opts
  *
  * @since 5.0.0
+ * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
-class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase {
+class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Admin_Tool_Test_Case {
+
+	/**
+	 * Name of the class being tested.
+	 *
+	 * @var sting
+	 */
+	const CLASS_NAME = 'LLMS_Admin_Tool_Wipe_Legacy_Account_Options';
 
 	const LEGACY_OPTIONS = array(
 		'lifterlms_registration_generate_username',
@@ -31,38 +40,6 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 	);
 
 	/**
-	 * Setup before class
-	 *
-	 * Include abstract class
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public static function setUpBeforeClass() {
-
-		parent::setUpBeforeClass();
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-wipe-legacy-account-options.php';
-
-	}
-
-	/**
-	 * Setup the test case
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public function setUp() {
-
-		parent::setUp();
-		$this->main = new LLMS_Admin_Tool_Wipe_Legacy_Account_Options();
-
-	}
-
-	/**
 	 * Tear Down
 	 *
 	 * @since 5.0.0
@@ -73,52 +50,6 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_UnitTestCase
 
 		parent::tearDown();
 		$this->delete_legacy_options();
-
-	}
-
-
-	/**
-	 * Test get_description()
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_description() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_description' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_label()
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_label() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_label' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
-
-	}
-
-	/**
-	 * Test get_text()
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return void
-	 */
-	public function test_get_text() {
-
-		$res = LLMS_Unit_Test_Util::call_method( $this->main, 'get_text' );
-		$this->assertTrue( ! empty( $res ) );
-		$this->assertTrue( is_string( $res ) );
 
 	}
 
