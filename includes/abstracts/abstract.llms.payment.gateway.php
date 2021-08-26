@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,8 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.3 During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
  * @since 3.37.18 Allow redirection to external domains by disabling "safe" redirects.
  * @since 4.0.0 Removed deprecated completed transaction message parameter output.
+ * @since [version] Extend LLMS_Abstract_Options_Data for improved options interactions.
  */
-abstract class LLMS_Payment_Gateway {
+abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Optional gateway description for the admin panel
@@ -101,6 +102,13 @@ abstract class LLMS_Payment_Gateway {
 	public $logging_enabled = '';
 
 	/**
+	 * Option name prefix.
+	 *
+	 * @var string
+	 */
+	protected $option_prefix = 'llms_gateway_';
+
+	/**
 	 * Array of supported gateway features
 	 *
 	 * @var      array
@@ -150,6 +158,13 @@ abstract class LLMS_Payment_Gateway {
 	 * @since  3.0.0
 	 */
 	public $title = '';
+
+	/**
+	 * Option's data version
+	 *
+	 * @var integer
+	 */
+	protected $version = 2;
 
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
@@ -713,41 +728,76 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Get the value of an option from the database & fallback to default value if none found
+	 *
 	 * Optionally attempts to retrieve a secure key first, if secure key is provided.
 	 *
-	 * @param  string $key option key, ie "title".
-	 * @param  string $secure_key Secure option key, ie "TITLE".
+	 * The behavior of this function differs slightly from the parent method in that the second argument
+	 * in this method allows lookup of the secure key value.
+	 *
+	 * Default options are autoloaded via the get_option_default_value() method.
+	 *
+	 * @since 3.0.0
+	 * @since 3.29.0 Added secure option lookup via option second parameter.
+	 *
+	 * @param string $key option Option name / key, eg: "title".
+	 * @param string $secure_key Secure option name / key, eg: "TITLE".
 	 * @return mixed
-	 * @since    3.0.0
-	 * @version  3.29.0
 	 */
 	public function get_option( $key, $secure_key = false ) {
 
 		if ( $secure_key ) {
 			$secure_val = llms_get_secure_option( $secure_key );
 			if ( false !== $secure_val ) {
-				return $secure_val; // intentionally not filtered here.
+				return $secure_val; // Intentionally not filtered here.
 			}
 		}
 
-		$name = $this->get_option_name( $key );
-		$val  = get_option( $name, $this->$key );
+		$val = parent::get_option( $key );
 
-		return apply_filters( 'llms_get_gateway_' . $key, $val, $this->id );
+		/**
+		 * Filters the value of a gateway option
+		 *
+		 * The dynamic portion of the hook, `{$key}`, refers to the unprefixed
+		 * option name.
+		 *
+		 * @since Unknown
+		 *
+		 * @param mixed  $val        Option value.
+		 * @param string $gateway_id Payment gateway ID.
+		 */
+		return apply_filters( "llms_get_gateway_{$key}", $val, $this->id );
 
 	}
 
 	/**
-	 * Retrieve an option name specific to the gateway
-	 * Used to retrieve options from the wp_options table where applicable
+	 * Option default value autoloader
 	 *
-	 * @param  string $key option key, ie "title"
-	 * @return string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * This is a callback function for the WP core filter `default_option_{$option}`.
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed  $default_value        The default value. If no value is passed to `get_option()`, this will be an empty string.
+	 *                                     Otherwise it will be the default value passed to the method.
+	 * @param string $full_option_name     The full (prefixed) option name.
+	 * @param bool   $passed_default_value Whether or not a default value was passed to `get_option()`.
+	 * @return mixed The default option value.
 	 */
-	public function get_option_name( $key ) {
-		return 'llms_gateway_' . $this->id . '_' . $key;
+	public function get_option_default_value( $default_value, $full_option_name, $passed_default_value ) {
+		$unprefixed = str_replace( $this->get_option_prefix(), '', $full_option_name );
+		return isset( $this->$unprefixed ) ? $this->$unprefixed : '';
+	}
+
+	/**
+	 * Retrieve a prefix for options
+	 *
+	 * Appends the gateway's ID to the default option prefix, eg: "llms_gateway_manual_".
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_option_prefix() {
+		return parent::get_option_prefix() . $this->id . '_';
 	}
 
 	/**
