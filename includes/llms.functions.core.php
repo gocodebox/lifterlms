@@ -1083,21 +1083,44 @@ function llms_php_error_constant_to_code( $code ) {
 
 }
 
-/**
- * Redirect and exit
- *
- * Wrapper for WP core redirects which automatically calls `exit();`
- * and is pluggable (mainly for unit testing purposes).
- *
- * @since 3.19.4
- *
- * @param string $location Full URL to redirect to
- * @param array  $options  Optional. Array of options. Default is empty array.
- *                         $status int  HTTP status code of the redirect [default: 302].
- *                         $safe   bool If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true],
- * @return void
- */
+
+if ( ! function_exists( 'llms_exit' ) ) {
+	/**
+	 * Native php exit() wrapper
+	 *
+	 * This wrapper exists primarily to allow easy testing of code that calls exit().
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L164-L176
+	 *
+	 * @param int|string $status Exit status passed to `exit()`.
+	 * @return void
+	 */
+	function llms_exit( $status = null ) {
+		exit( $status );
+	}
+}
+
 if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
+	/**
+	 * Redirect and exit
+	 *
+	 * Wrapper for WP core redirects which automatically calls `exit();`.
+	 *
+	 * This function is redefined when running phpunit tests to make testing code that redirects (and exits).
+	 *
+	 * @since 3.19.4
+	 *
+	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L178-L199
+	 *
+	 * @param string $location Full URL to redirect to
+	 * @param array  $options  {
+	 *     Optional. Array of options. Default is empty array.
+	 *     @type int  $status HTTP status code of the redirect. Default: `302`.
+	 *     @type bool $safe   If true, use `wp_safe_redirect()` otherwise use `wp_redirect()`. Default: `true`.
+	 * @return void
+	 */
 	function llms_redirect_and_exit( $location, $options = array() ) {
 
 		$options = wp_parse_args(
