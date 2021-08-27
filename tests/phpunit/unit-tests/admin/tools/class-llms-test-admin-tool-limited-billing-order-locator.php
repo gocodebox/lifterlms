@@ -78,11 +78,11 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 		$this->assertEquals( 0, count( LLMS_Unit_Test_Util::call_method( $this->main, 'generate_csv' ) ) );
 
 		// Has length but wrong status.
-		$this->create_mock_orders( 1, array( '_llms_billing_length' => 2 ), array( 'post_status' => 'llms-cancelled' ) );
+		$this->create_mock_orders( 1, array( '_llms_billing_length' => 2, '_llms_date_billing_end' => '2021-05-05' ), array( 'post_status' => 'llms-cancelled' ) );
 		$this->assertEquals( 0, count( LLMS_Unit_Test_Util::call_method( $this->main, 'generate_csv' ) ) );
 
 		// Qualifying.
-		$this->create_mock_orders( 2, array( '_llms_billing_length' => 2, '_llms_plan_ended' => 'yes' ) );
+		$this->create_mock_orders( 2, array( '_llms_billing_length' => 2, '_llms_date_billing_end' => '2021-05-05', '_llms_plan_ended' => 'yes' ) );
 		$this->assertEquals( 2, count( LLMS_Unit_Test_Util::call_method( $this->main, 'generate_csv' ) ) );
 
 	}
@@ -126,9 +126,12 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	 */
 	public function test_get_order_missing_payments() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		LLMS_Post_Types::register_post_types();
+
 		$order_id = $this->create_mock_orders( 1, array( '_llms_billing_length' => 2, '_llms_plan_ended' => 'yes' ) )[0];
 		$order = llms_get_post( $order_id );
-		$expect = array( $order_id, 2, 1, 1, 0, get_edit_post_link( $order_id ) );
+		$expect = array( $order_id, 2, 1, 1, 0, get_edit_post_link( $order_id, 'raw' ) );
 		$order->record_transaction();
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_order_csv', array( $order ) ) );
 
@@ -143,9 +146,12 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	 */
 	public function test_get_order_has_refund() {
 
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		LLMS_Post_Types::register_post_types();
+
 		$order_id = $this->create_mock_orders( 1, array( '_llms_billing_length' => 5 ) )[0];
 		$order = llms_get_post( $order_id );
-		$expect = array( $order_id, 5, 1, 0, 1, get_edit_post_link( $order_id ) );
+		$expect = array( $order_id, 5, 1, 0, 1, get_edit_post_link( $order_id, 'raw' ) );
 		$order->record_transaction( array( 'status' => 'llms-txn-refunded' ) );
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_order_csv', array( $order ) ) );
 
@@ -194,7 +200,14 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	 */
 	public function test_handle() {
 
-		$orders = $this->create_mock_orders( 3, array( '_llms_billing_length' => 2, '_llms_plan_ended' => 'yes' ) );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		LLMS_Post_Types::register_post_types();
+
+		// Included.
+		$orders = $this->create_mock_orders( 3, array( '_llms_billing_length' => 2, '_llms_date_billing_end' => '2021-05-05', '_llms_plan_ended' => 'yes' ) );
+
+		// Not included bc it was created after the migration..
+		$this->create_mock_orders( 1, array( '_llms_billing_length' => 2, '_llms_plan_ended' => 'yes' ) );
 
 		try {
 
@@ -215,16 +228,12 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 				if ( 3 === $i ) {
 					$this->assertEmpty( $line );
 				} else {
-					$link = get_edit_post_link( $orders[ $i ] );
+					$link = get_edit_post_link( $orders[ $i ], 'raw' );
 					$this->assertEquals( "{$orders[ $i ]},2,0,0,0,{$link}", $line );
 				}
 			}
 
-
-
 		}
-
-
 
 	}
 
@@ -241,8 +250,12 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 		$this->create_mock_orders( 1 );
 		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
 
-		// Should load.
+		// Created after upgrade, shouldn't load.
 		$this->create_mock_orders( 1, array( '_llms_billing_length' => 2, '_llms_plan_ended' => 'yes' ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
+
+		// Should load.
+		$this->create_mock_orders( 1, array( '_llms_billing_length' => 2, '_llms_date_billing_end' => '2021-05-05', '_llms_plan_ended' => 'yes' ) );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_load' ) );
 
 	}
