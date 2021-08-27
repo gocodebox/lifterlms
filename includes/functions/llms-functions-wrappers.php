@@ -101,7 +101,7 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 	 *
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L178-L199
 	 *
-	 * @param string $location Full URL to redirect to
+	 * @param string $location Full URL to redirect to.
 	 * @param array  $options  {
 	 *     Optional. Array of options. Default is empty array.
 	 *
