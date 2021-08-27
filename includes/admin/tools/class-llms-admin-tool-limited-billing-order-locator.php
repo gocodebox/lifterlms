@@ -48,6 +48,10 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 						'value'   => 1,
 						'compare' => '>=',
 					),
+					array(
+						'key'     => '_llms_date_billing_end',
+						'compare' => 'EXISTS',
+					)
 				),
 			)
 		);
@@ -180,7 +184,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 		if ( $refunds >= 1 || ( $ended && $total !== $expected ) ) {
 
 			$id   = $order->get( 'id' );
-			$link = get_edit_post_link( $id );
+			$link = get_edit_post_link( $id, 'raw' );
 			return array( $id, $expected, $total, $successes, $refunds, $link );
 
 		}
