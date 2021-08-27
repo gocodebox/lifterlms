@@ -47,8 +47,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Optional gateway description for the frontend
 	 *
-	 * Can be modified by User on Settings Page.
-	 *
 	 * @var string
 	 */
 	public $description = '';
@@ -56,16 +54,12 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Order to display the gateway in on the frontend
 	 *
-	 * Can be modified by User on Settings Page.
-	 *
 	 * @var integer
 	 */
 	public $display_order = 1;
 
 	/**
 	 * Is the gateway enabled for payment processing?
-	 *
-	 * Can be modified by User on Settings Page.
 	 *
 	 * @var string
 	 */
@@ -139,8 +133,6 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Gateway title for the frontend
-	 *
-	 * Can be modified by User on Settings Page.
 	 *
 	 * @var string
 	 */
