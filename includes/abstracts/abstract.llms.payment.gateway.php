@@ -375,7 +375,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * @since 3.30.0
 	 *
-	 * @param LLMS_Order $order The order object
+	 * @param LLMS_Order $order The order object.
 	 * @return string
 	 */
 	protected function get_complete_transaction_redirect_url( $order ) {
