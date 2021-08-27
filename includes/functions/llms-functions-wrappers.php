@@ -104,8 +104,10 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 	 * @param string $location Full URL to redirect to
 	 * @param array  $options  {
 	 *     Optional. Array of options. Default is empty array.
+	 *
 	 *     @type int  $status HTTP status code of the redirect. Default: `302`.
 	 *     @type bool $safe   If true, use `wp_safe_redirect()` otherwise use `wp_redirect()`. Default: `true`.
+	 * }
 	 * @return void
 	 */
 	function llms_redirect_and_exit( $location, $options = array() ) {
@@ -119,7 +121,7 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 		);
 
 		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
-		call_user_func( $func, $location, $options['status'] );
+		$func( $location, $options['status'] );
 		exit();
 
 	}
