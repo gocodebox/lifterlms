@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 4.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,13 +19,18 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Added `store_tracking_events()` method.
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Events {
 
+	use LLMS_Trait_Singleton;
+
 	/**
-	 * Singleton instance
+	 * Singleton instance.
 	 *
-	 * @var null
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 *
+	 * @var LLMS_Events
 	 */
 	protected static $_instance = null;
 
@@ -35,20 +40,6 @@ class LLMS_Events {
 	 * @var array
 	 */
 	protected $registered_events = array();
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return LLMS_Events
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Private Constructor

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,8 +15,20 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.0.0 Unknown.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Payment_Gateways {
+
+	use LLMS_Trait_Singleton;
+
+	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 *
+	 * @var LLMS_Payment_Gateways
+	 */
+	protected static $_instance = null;
 
 	/**
 	 * Payment Gateways
@@ -24,28 +36,6 @@ class LLMS_Payment_Gateways {
 	 * @var array
 	 */
 	public $payment_gateways = array();
-
-	/**
-	 * Private instance of class
-	 *
-	 * @var null
-	 */
-	private static $_instance = null;
-
-	/**
-	 * Create instance of class
-	 *
-	 * @return self
-	 */
-	public static function instance() {
-
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-
-		return self::$_instance;
-
-	}
 
 	/**
 	 * Constructor

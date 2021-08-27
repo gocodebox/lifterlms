@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,8 +17,20 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.8.0 Unknown.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Emails {
+
+	use LLMS_Trait_Singleton;
+
+	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 *
+	 * @var LLMS_Emails
+	 */
+	protected static $_instance = null;
 
 	/**
 	 * Class names of all emails
@@ -26,27 +38,6 @@ class LLMS_Emails {
 	 * @var string[]
 	 */
 	public $emails;
-
-	/**
-	 * protected private instance of email
-	 *
-	 * @var LLMS_Emails
-	 */
-	protected static $_instance = null;
-
-	/**
-	 * Create instance of class
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return LLMS_Emails
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor
