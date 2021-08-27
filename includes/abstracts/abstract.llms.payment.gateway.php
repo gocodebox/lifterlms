@@ -429,13 +429,12 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Gateways can override this to return a URL to a customer permalink on the gateway's website
 	 *
-	 * If this is not defined, it will just return the supplied ID
+	 * If this is not defined, it will just return the supplied ID.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $customer_id Gateway's customer ID
-	 * @param string $api_mode    Link to either the live or test site for the gateway, where applicable
-	 *
+	 * @param string $customer_id Gateway's customer ID.
+	 * @param string $api_mode    Link to either the live or test site for the gateway, where applicable.
 	 * @return string
 	 */
 	public function get_customer_url( $customer_id, $api_mode = 'live' ) {
