@@ -247,10 +247,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Schedules payments and expiration for an order
-	 *
-	 * Retrieves orders from the `get_orders()` method and schedules a recurring payment
-	 * and expiration action based on its existing calculated order data.
+	 * Generate the CSV file an server it as a downloadable attachment
 	 *
 	 * @since [version]
 	 *
