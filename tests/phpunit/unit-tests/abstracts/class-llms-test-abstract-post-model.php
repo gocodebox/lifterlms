@@ -15,6 +15,12 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	private $post_type = 'mock_post_type';
 
 	/**
+	 * @since 4.10.0
+	 * @var LLMS_Post_Model
+	 */
+	protected $stub;
+
+	/**
 	 * Setup before class.
 	 *
 	 * @since 4.10.0
@@ -61,7 +67,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.10.0
 	 *
-	 * @return LLMS_Abstract_Generator_Posts
+	 * @return LLMS_Post_Model
 	 */
 	private function get_stub() {
 
