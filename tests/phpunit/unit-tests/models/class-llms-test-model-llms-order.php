@@ -634,7 +634,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown.
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
-	 * @since [version] Don't rely on the date_billing_end property for ending a payment plan.
+	 * @since 5.3.0 Don't rely on the date_billing_end property for ending a payment plan.
 	 *
 	 * @return void
 	 */
@@ -710,7 +710,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Additionally tests calculate_next_payment_date() via action hooks.
 	 *
 	 * @since Unknown
-	 * @since [version] Updated to rely on number of successful transactions in favor of the current date.
+	 * @since 5.3.0 Updated to rely on number of successful transactions in favor of the current date.
 	 *
 	 * @return void
 	 */
@@ -779,7 +779,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_remaining_payments()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -927,7 +927,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test has_plan_expiration()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

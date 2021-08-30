@@ -100,7 +100,7 @@ class LLMS_Test_Functions_Locale extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_time_period_l10n()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

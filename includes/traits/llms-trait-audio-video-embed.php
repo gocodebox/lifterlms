@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * **Classes that use this trait must call {@see LLMS_Trait_Audio_Video_Embed::construct_audio_video_embed()}
  * in their constructor.**
  *
- * @since [version]
+ * @since 5.3.0
  *
  * @property string $audio_embed URL to an oEmbed enable audio URL.
  * @property string $video_embed URL to an oEmbed enable video URL.
@@ -32,7 +32,7 @@ trait LLMS_Trait_Audio_Video_Embed {
 	 *
 	 * **Must be called by the constructor of the class that uses this trait.**
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	protected function construct_audio_video_embed() {
 
@@ -56,7 +56,7 @@ trait LLMS_Trait_Audio_Video_Embed {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.0 Unknown.
-	 * @since [version] Refactored from `LLMS_Course` and `LLMS_Lesson`.
+	 * @since 5.3.0 Refactored from `LLMS_Course` and `LLMS_Lesson`.
 	 *
 	 * @return string
 	 */
@@ -76,7 +76,7 @@ trait LLMS_Trait_Audio_Video_Embed {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.0 Unknown.
-	 * @since [version] Refactored from `LLMS_Course` and `LLMS_Lesson`.
+	 * @since 5.3.0 Refactored from `LLMS_Course` and `LLMS_Lesson`.
 	 *
 	 * @return string
 	 */

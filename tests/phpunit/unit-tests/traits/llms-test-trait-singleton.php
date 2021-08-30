@@ -4,7 +4,7 @@
  *
  * @group Traits
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 
@@ -14,7 +14,7 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 	 * Even though this property contains a string, it is documented as a class so that it can be used like this:
 	 * `$this->mock_class::instance()`
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @var LLMS_Trait_Singleton|object
 	 */
@@ -23,7 +23,7 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 * @noinspection PhpHierarchyChecksInspection
 	 */
 	public function setUp() {
@@ -68,7 +68,7 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 	 * Test the {@see LLMS_Trait_Singleton::instance()} method where the exhibiting class has a
 	 * deprecated `$_instance` property and may have it set by a 3rd party extended class.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_deprecated_instance() {
 
@@ -112,7 +112,7 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the {@see LLMS_Trait_Singleton::instance()} method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_instance() {
 

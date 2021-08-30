@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.0.0 Unknown.
- * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Payment_Gateways {
 
@@ -24,7 +24,7 @@ class LLMS_Payment_Gateways {
 	/**
 	 * Singleton instance.
 	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Payment_Gateways
 	 */

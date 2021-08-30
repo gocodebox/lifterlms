@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.24.0 Unknown.
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
- * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Notifications {
 
@@ -28,7 +28,7 @@ class LLMS_Notifications {
 	/**
 	 * Singleton instance.
 	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Notifications
 	 */

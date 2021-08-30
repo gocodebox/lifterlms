@@ -7,8 +7,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ if ( ! function_exists( 'llms_current_time' ) ) {
 	 * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
 	 *
 	 * @since 3.4.0
-	 * @since [version] Moved location from `includes/llms.functions.core.php`.
+	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/current_time/
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L2-L26
@@ -48,7 +48,7 @@ if ( ! function_exists( 'llms_exit' ) ) {
 	 *
 	 * This wrapper exists primarily to allow easy testing of code that calls exit().
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @link https://www.php.net/manual/en/function.exit.php
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L164-L176
@@ -69,7 +69,7 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	 * to allow easy mocking of form variables when testing form controller functions and methods.
 	 *
 	 * @since 3.29.0
-	 * @since [version] Moved location from `includes/llms.functions.core.php`.
+	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
 	 *
 	 * @link https://www.php.net/manual/en/function.filter-input.php
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L113-L162
@@ -97,7 +97,7 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 	 * This function is redefined when running phpunit tests to make testing code that redirects (and exits).
 	 *
 	 * @since 3.19.4
-	 * @since [version] Moved location from `includes/llms.functions.core.php`.
+	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed/framework/functions-llms-tests.php#L178-L199
 	 *
@@ -137,7 +137,7 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 * the returns of methods that set cookies and write tests for those functions.
 	 *
 	 * @since 4.0.0
-	 * @since [version] Moved location from `includes/llms.functions.core.php`.
+	 * @since 5.3.0 Moved location from `includes/llms.functions.core.php`.
 	 *
 	 * @link https://www.php.net/manual/en/function.setcookie.php
 	 * @link https://github.com/gocodebox/lifterlms-tests/blob/trunk/framework/functions-llms-tests.php#L81-L111

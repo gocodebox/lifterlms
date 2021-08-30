@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.4.0 Improve the query used to retrieve the previous/next so that we don't miss sibling lessons within the same section
  *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
  *              Use strict comparisons where needed.
- * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
+ * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *
  * @property string $audio_embed                      URL to an oEmbed enable audio URL.
  * @property string $date_available                   Date when lesson becomes available, applies when $drip_method is "date".
@@ -102,7 +102,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Constructor for this class and the traits it uses.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
 	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.

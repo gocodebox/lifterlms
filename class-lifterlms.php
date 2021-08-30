@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Update session management.
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
- * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 final class LifterLMS {
 
@@ -34,16 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '5.2.1';
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LifterLMS
-	 */
-	protected static $_instance = null;
+	public $version = '5.3.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -74,7 +65,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 * @since 4.13.0 Check site duplicate status on `admin_init`.
-	 * @since [version] Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
+	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 *
 	 * @return void
 	 */

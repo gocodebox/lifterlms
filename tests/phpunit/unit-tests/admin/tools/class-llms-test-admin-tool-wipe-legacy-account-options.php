@@ -9,7 +9,7 @@
  * @group legacy_opts
  *
  * @since 5.0.0
- * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
 class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Admin_Tool_Test_Case {
 

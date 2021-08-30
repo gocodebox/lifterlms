@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
  * @since 5.2.1 Check for an empty sales page URL or ID.
- * @since [version] Move sales page methods to `LLMS_Trait_Sales_Page`.
+ * @since 5.3.0 Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
  * @property int[]  $auto_enroll                Array of course IDs that users will be autoenrolled in upon successful enrollment in this membership.
  * @property array  $instructors                Course instructor user information.
@@ -69,7 +69,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	/**
 	 * Constructor for this class and the traits it uses.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
 	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.

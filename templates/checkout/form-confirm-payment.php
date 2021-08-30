@@ -9,8 +9,8 @@
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 5.0.0 Use LLMS_Forms to output form fields and title.
  *               Add field label displays when form information is output.
- * @since [version] Added clearfix to the payment details section to fix mobile layout issues.
- * @version [version]
+ * @since 5.3.0 Added clearfix to the payment details section to fix mobile layout issues.
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;

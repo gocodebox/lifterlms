@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.2.1
+Stable tag: 5.3.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,53 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.3.0 - 2021-08-31 =
+
+##### Updates
+
++ Improved logic used to determine when a limited length subscription has completed its payment schedule.
++ Improved accessibility of various icon buttons on the admin orders view/edit screen.
++ Improved display of quiz attempts containing questions which have been deleted from the database.
++ POT files from included library plugins (like LifterLMS REST) are now excluded from LifterLMS distributions.
+
+##### Development updates
+
++ Introduced `LLMS_Trait_Singleton` to replace redundant singleton pattern definitions across classes in the codebase.
++ Moveed the loading of the autoloader to the main `lifterlms.php` file.
++ Updated the `LLMS_Payment_Gateway` abstract class to utilize `LLMS_Abstract_Options_Data` for accessing gateway options.
++ Audio and video embed methods shared by `LLMS_Course` and `LLMS_Membership` have been relocated to `LLMS_Trait_Audio_Video_Embed`.
++ Sales page methods shared by `LLMS_Course` and `LLMS_Membership` have been relocated to `LLMS_Trait_Sales_Page`.
+
+##### Bug Fixes
+
++ Fixed a visual issue encountered on the payment confirmation screen on small screens / mobile devices.
++ Fix untranslatable time period strings (day, week, month, and year) found on the admin orders view/edit screen.
++ Fixed an error encountered when attempting to grade a quiz attempt containing deleted questions.
+
+##### Deprecations
+
++ Removed usage and references to the `LLMS_Order` post meta property `date_billing_end`. To determine if a subscription has ended, use `LLMS_Order::get_remaining_payments()` instead.
++ Removed private method `LLMS_Order::calculate_billing_end_date()`.
++ Deprecated the class property `$_instance` from the following classes, use the public method `instance()` instead:
+  + `LLMS_Achievements`
+  + `LLMS_Certificates`
+  + `LLMS_Emails`
+  + `LLMS_Engagements`
+  + `LLMS_Events`
+  + `LLMS_Grades`
+  + `LLMS_Integrations`
+  + `LLMS_Notifications`
+  + `LLMS_Payment_Gateways`
+  + `LLMS_Processors`
+  + `LLMS_Sessions`
+
+##### Templates Updated
+
++ templates/checkout/form-confirm-payment.php
++ templates/admin/reporting/tabs/quizzes/attempt.php
++ templates/quiz/results-attempt-questions-list.php
+
+
 = v5.2.1 - 2021-08-17 =
 
 ##### Updates
@@ -723,28 +770,6 @@ The following have been deprecated and will be removed from LifterLMS in a major
 + Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
 + Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
 + Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
-
-
-= v4.21.3 - 2021-05-31 =
-
-##### Updates
-
-+ Increase 3rd party support for WP core hook `lostpassword_post` hook.
-
-##### Bug fixes
-
-+ Props to [Hemant Patidar](https://www.linkedin.com/in/hemantsolo/) for discovering an issue preventing rate limiting in various security plugins from working on the LifterLMS password recovery form.
-+ Fixed an issue encountered when updating LifterLMS premium add-ons via the LifterLMS Helper encountered when API errors are occur.
-+ Updated the failure error code from 'activation' to 'deactivation' in the `LLMS_Add_On` class.
-+ Updated the API connection error message returned when using the `LLMS_Abstract_API_Handler` class.
-
-##### Deprecations
-
-+ Class `LLMS_Frontend_Password` is deprecated, see deprecated methods and their replacments below:
-
-  + `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
-  + `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
-  + `LLMS_Frontend_Password::reset_password()` is deprecated in favor of `reset_password()`.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

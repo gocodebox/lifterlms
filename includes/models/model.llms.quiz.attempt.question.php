@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * @since 3.16.8
 	 * @since 3.16.9 Unknown.
-	 * @since [version] Early bail for deleted questions.
+	 * @since 5.3.0 Early bail for deleted questions.
 	 *
 	 * @return boolean
 	 */
@@ -262,7 +262,7 @@ class LLMS_Quiz_Attempt_Question {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.9 Unknown.
-	 * @since [version] Account for deleted questions.
+	 * @since 5.3.0 Account for deleted questions.
 	 *
 	 * @return string Attempt's question status [graded|waiting|none].
 	 */

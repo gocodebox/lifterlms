@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 4.0.0 Removed deprecated completed transaction message parameter output.
- * @since [version] Extend LLMS_Abstract_Options_Data for improved options interactions.
+ * @since 5.3.0 Extend LLMS_Abstract_Options_Data for improved options interactions.
  */
 abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 
@@ -740,7 +740,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * This will be the FIRST gateway in the gateways that are enabled.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.0 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return boolean
 	 */
@@ -835,7 +835,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * This is a callback function for the WP core filter `default_option_{$option}`.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param mixed  $default_value        The default value. If no value is passed to `get_option()`, this will be an empty string.
 	 *                                     Otherwise it will be the default value passed to the method.
@@ -853,7 +853,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * Appends the gateway's ID to the default option prefix, eg: "llms_gateway_manual_".
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return string
 	 */

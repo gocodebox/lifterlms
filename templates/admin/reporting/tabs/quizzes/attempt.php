@@ -6,7 +6,7 @@
  *
  * @since 3.16.0
  * @since 3.17.3 Unknown.
- * @since [version] Do not show the "Start a review" button, if there are no existing questions to review.
+ * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Locales
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -106,7 +106,7 @@ function llms_get_states() {
  * to a user, we wish to ensure that the translated version is displayed instead of the raw and untranslated value
  * stored in the database.
  *
- * @since [version]
+ * @since 5.3.0
  *
  * @param string  $period A time period string, accepts "day", "week", "month", or "year".
  * @param integer $length The length of the period, passed to `_n()` and used for pluralization. Defaults to `1`.
@@ -137,7 +137,7 @@ function llms_get_time_period_l10n( $period, $length = 1 ) {
 	/**
 	 * Filter the translated name for a given time period string.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param string $period Translated period name.
 	 * @param int    $length Period length, used for pluralization.

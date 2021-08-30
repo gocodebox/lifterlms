@@ -5,7 +5,7 @@
  * @package LifterLMS/Interfaces
  *
  * @since 3.20.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Interface_Post_Sales_Page
  *
  * @since 3.20.0
- * @deprecated [version] Use {@see LLMS_Trait_Sales_Page}.
+ * @deprecated 5.3.0 Use {@see LLMS_Trait_Sales_Page}.
  */
 interface LLMS_Interface_Post_Sales_Page {
 

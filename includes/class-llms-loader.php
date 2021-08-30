@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Loader
  *
  * @since 4.0.0
- * @since [version] Add traits to `autoload()`.
+ * @since 5.3.0 Add traits to `autoload()`.
  */
 class LLMS_Loader {
 
@@ -47,7 +47,7 @@ class LLMS_Loader {
 	 * @since 1.0.0
 	 * @since 3.15.0 Unknown.
 	 * @since 4.0.0 Moved from `LifterLMS` class.
-	 * @since [version] Add traits.
+	 * @since 5.3.0 Add traits.
 	 *
 	 * @param string $class Class name being called.
 	 * @return void

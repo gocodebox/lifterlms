@@ -5,7 +5,7 @@
  * @group Traits
  * @group LLMS_Post_Model
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function setUp() {
 
@@ -44,7 +44,7 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the `construct_sales_page()` method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_construct_sales_page() {
 		/**
@@ -60,7 +60,7 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the `get_sales_page_url()` method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_get_sales_page_url() {
 
@@ -96,7 +96,7 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the `has_sales_page_redirect()` method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_has_sales_page_redirect() {
 

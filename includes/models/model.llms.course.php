@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
  * @since 5.2.1 Check for an empty sales page URL or ID.
- * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
+ * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
@@ -132,7 +132,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	/**
 	 * Constructor for this class and the traits it uses.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
 	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.

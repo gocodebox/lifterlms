@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,7 +166,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since 3.4.6
 	 * @since 3.23.0 Unknown.
-	 * @since [version] Use llms_get_time_period_l10n().
+	 * @since 5.3.0 Use llms_get_time_period_l10n().
 	 *
 	 * @param string $period Untranslated access period, if not supplied uses stored value for the plan.
 	 * @param int    $length Access length (for pluralization), if not supplied uses stored value for the plan.

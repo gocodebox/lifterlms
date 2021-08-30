@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,7 +80,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  * @since 4.7.0 Added `plan_ended` meta property.
- * @since [version] Removed usage of the meta property `date_billing_end` and removed private method `calculate_billing_end_date()`.
+ * @since 5.3.0 Removed usage of the meta property `date_billing_end` and removed private method `calculate_billing_end_date()`.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -245,7 +245,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
 	 * @since 4.9.0 Fix comparison for PHP8 compat.
-	 * @since [version] Determine if a limited order has ended based on number of remaining payments in favor of current date/time.
+	 * @since 5.3.0 Determine if a limited order has ended based on number of remaining payments in favor of current date/time.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.
@@ -855,7 +855,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieves the number of payments remaining for a recurring plan with a limited number of payments
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return bool|int Returns `false` for invalid order types (single-payment orders or recurring orders
 	 *                  without a billing length). Otherwise returns the number of remaining payments as an integer.
@@ -880,7 +880,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		/**
 		 * Filters the number of payments remaining for a recurring plan with a limited number of payments.
 		 *
-		 * @since [version]
+		 * @since 5.3.0
 		 *
 		 * @param bool|int   $remaining Number of remaining payments or `false` when called against invalid order types.
 		 * @param LLMS_Order $order     Order object.
@@ -1252,7 +1252,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if a recurring order has a limited number of payments
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return boolean Returns `true` for recurring orders with a billing length and `false` otherwise.
 	 */
@@ -1314,7 +1314,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Don't set unused legacy property `date_billing_end`.
+	 * @since 5.3.0 Don't set unused legacy property `date_billing_end`.
 	 *
 	 * @param LLMS_Student         $person  The LLMS_Student placing the order.
 	 * @param LLMS_Access_Plan     $plan    The purchase LLMS_Access_Plan.

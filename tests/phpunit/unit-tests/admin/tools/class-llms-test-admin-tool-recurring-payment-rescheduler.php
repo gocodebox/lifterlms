@@ -9,7 +9,7 @@
  * @group recurring_rescheduler
  *
  * @since 4.6.0
- * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
 class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Admin_Tool_Test_Case {
 
