@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version 4.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -66,6 +66,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Inform about deleted products.
 	 *
 	 * @param string $column  Custom column name.
 	 * @param int    $post_id ID of the individual post.
@@ -125,7 +126,11 @@ class LLMS_Admin_Post_Table_Orders {
 				break;
 
 			case 'product':
-				echo '<a href="' . admin_url( 'post.php?post=' . $order->get( 'product_id' ) . '&action=edit' ) . '">' . $order->get( 'product_title' ) . '</a>';
+				if ( llms_get_post( $order->get( 'product_id' ) ) ) {
+					echo '<a href="' . get_edit_post_link( $order->get( 'product_id' ) ) . '">' . $order->get( 'product_title' ) . '</a>';
+				} else {
+					echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' );
+				}
 				echo ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
 
 				break;
