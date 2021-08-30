@@ -46,7 +46,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 				<h4 class="llms-form-heading"><?php echo llms_get_form_title( 'checkout', array( 'plan' => $plan ) ); ?></h4>
 
-				<div class="llms-checkout-section-content">
+				<div class="llms-checkout-section-content llms-form-fields">
 					<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
 					<?php foreach ( $fields as $field ) : ?>
 							<?php if ( ! empty( $field['value'] ) && ! empty( $field['label'] ) ) : ?>
