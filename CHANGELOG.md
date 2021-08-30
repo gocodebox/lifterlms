@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v5.3.0 - 2021-08-30
+v5.3.0 - 2021-08-31
 -------------------
 
 ##### Updates
@@ -29,6 +29,18 @@ v5.3.0 - 2021-08-30
 
 + Removed usage and references to the `LLMS_Order` post meta property `date_billing_end`. To determine if a subscription has ended, use `LLMS_Order::get_remaining_payments()` instead.
 + Removed private method `LLMS_Order::calculate_billing_end_date()`.
++ Deprecated the class property `$_instance` from the following classes, use the public method `instance()` instead:
+  + `LLMS_Achievements`
+  + `LLMS_Certificates`
+  + `LLMS_Emails`
+  + `LLMS_Engagements`
+  + `LLMS_Events`
+  + `LLMS_Grades`
+  + `LLMS_Integrations`
+  + `LLMS_Notifications`
+  + `LLMS_Payment_Gateways`
+  + `LLMS_Processors`
+  + `LLMS_Sessions`
 
 ##### Templates Updated
 
