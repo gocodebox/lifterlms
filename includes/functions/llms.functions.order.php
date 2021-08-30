@@ -133,6 +133,30 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 }
 
 /**
+ * Get the possible statuses of a given order
+ *
+ * @since [version]
+ *
+ * @param LLMS_Order $order Order.
+ * @return array
+ */
+function llms_get_possible_order_statuses( $order ) {
+
+	$is_recurring = $order->is_recurring();
+	$statuses     = llms_get_order_statuses( $is_recurring ? 'recurring' : 'single' );
+
+	if ( $is_recurring && ! llms_get_post( $order->get( 'product_id' ) ) ) {
+		unset( $statuses['llms-active'] );
+		unset( $statuses['llms-on-hold'] );
+		unset( $statuses['llms-pending'] );
+		unset( $statuses['llms-pending-cancel'] );
+	}
+
+	return $statuses;
+
+}
+
+/**
  * Find an existing order for a given plan by a given user.
  *
  * @since 3.30.1

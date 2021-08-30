@@ -67,7 +67,11 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
-			<a href="<?php echo get_edit_post_link( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
+			<?php if ( llms_get_post( $order->get( 'product_id' ) ) ): ?>
+				<a href="<?php echo get_edit_post_link( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
+			<?php else: ?>
+				<?php echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' ); ?>
+			<?php endif; ?>
 			<small>(<?php echo ucfirst( $order->get( 'product_type' ) ); ?>)</small>
 		</div>
 
