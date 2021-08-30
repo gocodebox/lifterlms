@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,8 +14,11 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Forms class
  *
  * @since 5.0.0
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Forms {
+
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Minimum Supported WP Version required to manage forms with the block editor UI.
@@ -23,32 +26,11 @@ class LLMS_Forms {
 	const MIN_WP_VERSION = '5.7.0';
 
 	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $instance = null;
-
-	/**
 	 * Provide access to the post type manager class
 	 *
 	 * @var LLMS_Forms_Post_Type
 	 */
 	public $post_type_manager = null;
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return LLMS_Forms
-	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * Private Constructor

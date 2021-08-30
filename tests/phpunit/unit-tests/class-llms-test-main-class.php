@@ -27,15 +27,16 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the _instance variable
+	 * Test the `instance` property.
 	 *
 	 * @since 3.3.1
+	 * @since [version] Rename `_instance` property to `instance`.
 	 *
 	 * @return void
 	 */
 	public function test_llms_instance() {
 
-		$this->assertClassHasStaticAttribute( '_instance', 'LifterLMS' );
+		$this->assertClassHasStaticAttribute( 'instance', 'LifterLMS' );
 
 	}
 

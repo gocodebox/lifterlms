@@ -3,20 +3,21 @@
  * Tests for Grading methods
  * @group    grades
  * @since    3.24.0
- * @version  3.24.0
  */
 class LLMS_Test_Grades extends LLMS_UnitTestCase {
 
 	/**
-	 * test instance() method
-	 * @return   void
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * Test the `instance()` method.
+	 *
+	 * @since 3.24.0
+	 * @since [version] Rename `_instance` property to `instance`.
+	 *
+	 * @return void
 	 */
 	public function test_instance() {
 
 		$this->assertTrue( is_a( LLMS_Grades::instance(), 'LLMS_Grades' ) );
-		$this->assertClassHasStaticAttribute( '_instance', 'LLMS_Grades' );
+		$this->assertClassHasStaticAttribute( 'instance', 'LLMS_Grades' );
 
 	}
 

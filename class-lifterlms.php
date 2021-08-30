@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,8 +23,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Update session management.
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 final class LifterLMS {
+
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * LifterLMS Plugin Version.
@@ -34,7 +37,9 @@ final class LifterLMS {
 	public $version = '5.2.1';
 
 	/**
-	 * Singleton instance of LifterLMS.
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LifterLMS
 	 */
@@ -62,22 +67,6 @@ final class LifterLMS {
 	public $session = null;
 
 	/**
-	 * Main Instance of LifterLMS
-	 * Ensures only one instance of LifterLMS is loaded or can be loaded.
-	 *
-	 * @see      LLMS()
-	 * @return   LifterLMS - Main instance
-	 * @since    1.0.0
-	 * @version  1.0.0
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
-
-	/**
 	 * LifterLMS Constructor.
 	 *
 	 * @since 1.0.0
@@ -85,6 +74,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 * @since 4.13.0 Check site duplicate status on `admin_init`.
+	 * @since [version] Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 *
 	 * @return void
 	 */
@@ -98,8 +88,6 @@ final class LifterLMS {
 		 * so that our custom "safe" location will always load first.
 		 */
 		$this->localize();
-
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
 		$this->define_constants();
 

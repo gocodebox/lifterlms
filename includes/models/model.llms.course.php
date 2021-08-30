@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.2.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class methods.
  * @since 5.2.1 Check for an empty sales page URL or ID.
+ * @since [version] Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
+ *              Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
@@ -37,21 +39,19 @@ defined( 'ABSPATH' ) || exit;
  * @property array  $instructors                Course instructor user information.
  * @property int    $prerequisite               WP Post ID of a the prerequisite course.
  * @property int    $prerequisite_track         WP Tax ID of a the prerequisite track.
+ * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date..
+ * @property string $length                     User defined course length.
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
  * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
- * @property string $start_date                 Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date..
- * @property string $length                     User defined course length.
  * @property string $tile_featured_video        Displays the featured video instead of the featured image on course tiles [yes|no].
  * @property string $time_period                Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned).
  * @property string $video_embed                URL to an oEmbed enable video URL.
  */
-class LLMS_Course
-extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio
-		 , LLMS_Interface_Post_Instructors
-		 , LLMS_Interface_Post_Sales_Page
-		 , LLMS_Interface_Post_Video {
+class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
+
+	use LLMS_Trait_Audio_Video_Embed;
+	use LLMS_Trait_Sales_Page;
 
 	/**
 	 * Meta properties
@@ -61,7 +61,6 @@ implements LLMS_Interface_Post_Audio
 	protected $properties = array(
 
 		// Public.
-		'audio_embed'                => 'text',
 		'average_grade'              => 'float',
 		'average_progress'           => 'float',
 		'capacity'                   => 'absint',
@@ -82,13 +81,9 @@ implements LLMS_Interface_Post_Audio
 		'length'                     => 'text',
 		'prerequisite'               => 'absint',
 		'prerequisite_track'         => 'absint',
-		'sales_page_content_page_id' => 'absint',
-		'sales_page_content_type'    => 'string',
-		'sales_page_content_url'     => 'string',
 		'tile_featured_video'        => 'yesno',
 		'time_period'                => 'yesno',
 		'start_date'                 => 'text',
-		'video_embed'                => 'text',
 
 		// Private.
 		'temp_calc_data'             => 'array',
@@ -133,6 +128,21 @@ implements LLMS_Interface_Post_Audio
 	 * @var string
 	 */
 	public $sku;
+
+	/**
+	 * Constructor for this class and the traits it uses.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 */
+	public function __construct( $model, $args = array() ) {
+
+		$this->construct_audio_video_embed();
+		$this->construct_sales_page();
+		parent::__construct( $model, $args );
+	}
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
@@ -201,20 +211,6 @@ implements LLMS_Interface_Post_Audio
 
 		return false;
 
-	}
-
-	/**
-	 * Attempt to get oEmbed for an audio provider
-	 *
-	 * Falls back to the [audio] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown
-	 *
-	 * @return string
-	 */
-	public function get_audio() {
-		return $this->get_embed( 'audio' );
 	}
 
 	/**
@@ -332,44 +328,6 @@ implements LLMS_Interface_Post_Audio
 		}
 		return $quizzes;
 
-	}
-
-	/**
-	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
-	 *
-	 * @since 3.20.0
-	 * @since 3.23.0 Unknown.
-	 *
-	 * @return string
-	 */
-	public function get_sales_page_url() {
-
-		$type = $this->get( 'sales_page_content_type' );
-		switch ( $type ) {
-
-			case 'page':
-				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
-				break;
-
-			case 'url':
-				$url = $this->get( 'sales_page_content_url' );
-				break;
-
-			default:
-				$url = get_permalink( $this->get( 'id' ) );
-
-		}
-
-		/**
-		 * Filters the course's sales page URL
-		 *
-		 * @since Unknown
-		 *
-		 * @param string      $url    Sales page URL.
-		 * @param LLMS_Course $course The course object.
-		 * @param string      $type   The sales page content type.
-		 */
-		return apply_filters( 'llms_course_get_sales_page_url', $url, $this, $type );
 	}
 
 	/**
@@ -553,20 +511,6 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Attempt to get oEmbed for a video provider
-	 *
-	 * Falls back to the [video] shortcode if the oEmbed fails.
-	 *
-	 * @since 1.0.0
-	 * @since 3.17.0 Unknown.
-	 *
-	 * @return string
-	 */
-	public function get_video() {
-		return $this->get_embed( 'video' );
-	}
-
-	/**
 	 * Compare a course meta info date to the current date and get a bool
 	 *
 	 * @since 3.0.0
@@ -648,43 +592,6 @@ implements LLMS_Interface_Post_Audio
 		}
 
 		return false;
-
-	}
-
-	/**
-	 * Determine if sales page redirection is enabled.
-	 *
-	 * @since 3.20.0
-	 * @since 3.23.0 Unknown.
-	 * @since 4.12.0 Use strict `in_array()` comparison.
-	 * @since 5.2.1 Check for an empty sales page URL or ID.
-	 *
-	 * @return boolean
-	 */
-	public function has_sales_page_redirect() {
-
-		$type = $this->get( 'sales_page_content_type' );
-		switch ( $type ) {
-			case 'page':
-				$has_redirect = (bool) $this->get( 'sales_page_content_page_id' );
-				break;
-			case 'url':
-				$has_redirect = (bool) $this->get( 'sales_page_content_url' );
-				break;
-			default:
-				$has_redirect = false;
-		}
-
-		/**
-		 * Filters whether or not the course has a sales page redirect.
-		 *
-		 * @since Unknown.
-		 *
-		 * @param boolean     $has_redirect Whether or not the course has a sales page redirect.
-		 * @param LLMS_Course $course       Course object.
-		 * @param string      $type         The course's sales page content type property value.
-		 */
-		return apply_filters( 'llms_course_has_sales_page_redirect', $has_redirect, $this, $type );
 
 	}
 

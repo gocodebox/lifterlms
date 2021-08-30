@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -36,9 +36,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Autoloader.
-require_once 'vendor/autoload.php';
-
 if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 	define( 'LLMS_PLUGIN_FILE', __FILE__ );
 }
@@ -46,6 +43,10 @@ if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
 	define( 'LLMS_PLUGIN_DIR', dirname( __FILE__ ) . '/' );
 }
+
+// Autoloader.
+require_once LLMS_PLUGIN_DIR . 'vendor/autoload.php';
+require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
 if ( ! class_exists( 'LifterLMS' ) ) {
 	require_once LLMS_PLUGIN_DIR . 'class-lifterlms.php';

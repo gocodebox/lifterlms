@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 4.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,8 +18,20 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Engagements {
+
+	use LLMS_Trait_Singleton;
+
+	/**
+	 * Singleton instance.
+	 *
+	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 *
+	 * @var LLMS_Engagements
+	 */
+	protected static $_instance = null;
 
 	/**
 	 * Enable debug logging
@@ -28,25 +40,6 @@ class LLMS_Engagements {
 	 * @var boolean
 	 */
 	private $debug = false;
-
-	/**
-	 * Protected instance of class
-	 *
-	 * @var LLMS_Engagements
-	 */
-	protected static $_instance = null;
-
-	/**
-	 * Create instance of class
-	 *
-	 * @return LLMS_Engagements Instance of engagements class.
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor
