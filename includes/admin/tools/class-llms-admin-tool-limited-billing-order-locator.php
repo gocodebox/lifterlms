@@ -247,7 +247,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Generate the CSV file an server it as a downloadable attachment
+	 * Generate the CSV file an serve it as a downloadable attachment
 	 *
 	 * @since [version]
 	 *
