@@ -8,7 +8,7 @@
  * @group admin_tools
  * @group limited_billing
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool_Test_Case {
 
@@ -22,7 +22,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Clear cached tool data.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Create mock orders
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param int   $count Number of orders.
 	 * @param array $meta  Order meta data.
@@ -65,7 +65,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test generate_csv()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_order_csv(): doesn't quality because the order hasn't ended and there's no refunds
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_order_csv(): Doesn't qualify because it has ended but has the expected number of payments.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_order_csv(): Qualifies because it has ended and is missing a payment.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_order_csv(): Qualifies because it has a refund.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -160,7 +160,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_csv() when there's nothing cached.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -180,7 +180,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test get_csv() when there's cached results.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -240,7 +240,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	/**
 	 * Test should_load()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

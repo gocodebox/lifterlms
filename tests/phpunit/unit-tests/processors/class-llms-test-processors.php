@@ -26,7 +26,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	 * Test `instance()`.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Rename `_instance` property to `instance`.
+	 * @since 5.3.0 Rename `_instance` property to `instance`.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

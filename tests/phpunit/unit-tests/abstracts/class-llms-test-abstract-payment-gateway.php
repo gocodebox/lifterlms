@@ -7,14 +7,14 @@
  * @group abstracts
  * @group payment_gateway
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	 *   + get_option_name()
 	 *   + and set_option()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Tests/Framework
  *
- * @since [version]
+ * @since 5.3.0
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -25,7 +25,7 @@ class LLMS_Admin_Tool_Test_Case extends LLMS_UnitTestCase {
 	 *
 	 * Include abstract required classes.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Admin_Tool_Test_Case extends LLMS_UnitTestCase {
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Admin_Tool_Test_Case extends LLMS_UnitTestCase {
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_Admin_Tool_Test_Case extends LLMS_UnitTestCase {
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class LLMS_Admin_Tool_Test_Case extends LLMS_UnitTestCase {
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */

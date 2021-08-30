@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.15.0
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
- * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Processors {
 
@@ -46,7 +46,7 @@ class LLMS_Processors {
 	/**
 	 * Singleton instance.
 	 *
-	 * @deprecated [version] Use {@see LLMS_Trait_Singleton::instance()}.
+	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Processors
 	 */

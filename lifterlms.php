@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.0
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/

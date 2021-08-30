@@ -9,7 +9,7 @@
  * @group clear_sessions
  *
  * @since 4.0.0
- * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
 class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_Admin_Tool_Test_Case {
 

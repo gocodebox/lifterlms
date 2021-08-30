@@ -9,7 +9,7 @@
  * @group reset_payments
  *
  * @since 4.13.0
- * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
 class LLMS_Test_Admin_Tool_Reset_Automatic_Payments extends LLMS_Admin_Tool_Test_Case {
 

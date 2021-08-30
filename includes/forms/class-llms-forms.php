@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Forms class
  *
  * @since 5.0.0
- * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Forms {
 

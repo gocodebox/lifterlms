@@ -9,7 +9,7 @@
  * @group install_forms
  *
  * @since 5.0.0
- * @since [version] Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
+ * @since 5.3.0 Use `LLMS_Admin_Tool_Test_Case` and remove redundant methods/tests.
  */
 class LLMS_Test_Admin_Tool_Install_Forms extends LLMS_Admin_Tool_Test_Case {
 

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin tool which generates a report of limited billing orders affected by order end changes
  *
- * @since [version]
+ * @since 5.3.0
  *
  * @link https://github.com/gocodebox/lifterlms/pull/1744
  */
@@ -29,7 +29,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Query the database for orders that may be affected by the change
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return array[] Returns an array of arrays where each array represents a line in the generated CSV file.
 	 */
@@ -74,7 +74,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Create a csv "file" via output buffering and return it as a string
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return string
 	 */
@@ -112,7 +112,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return string
 	 */
@@ -147,7 +147,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return string
 	 */
@@ -166,7 +166,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	 *   + The plan is marked as "ended" and the total number of successful payments is not equal to the billing length.
 	 *     In this scenario admins will likely want to add additional payments and start the order again.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param LLMS_Order $order The order object.
 	 * @return array Array of information on the order to be stored in the generated CSV or an empty array of the order
@@ -196,7 +196,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Helper to get the number of transactions on an order for a given status
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @param LLMS_Order $order  The order object.
 	 * @param string     $status Transaction post status to query by.
@@ -219,7 +219,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return string
 	 */
@@ -230,7 +230,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Retrieve a list of orders
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return int[]
 	 */
@@ -249,7 +249,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	/**
 	 * Generate the CSV file an serve it as a downloadable attachment
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return void
 	 */
@@ -273,7 +273,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	 *
 	 * This tool should only load if there are orders that can be handled by the tool.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

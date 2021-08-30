@@ -6,7 +6,7 @@
  * @group Traits
  * @group LLMS_Post_Model
  *
- * @since [version]
+ * @since 5.3.0
  */
 class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function setUp() {
 
@@ -45,7 +45,7 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the {@see LLMS_Trait_Audio_Video_Embed::get_audio()} method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_get_audio() {
 
@@ -59,7 +59,7 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the {@see LLMS_Trait_Audio_Video_Embed::get_embed()} method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 * @throws ReflectionException
 	 */
 	public function test_get_embed() {
@@ -98,7 +98,7 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	/**
 	 * Test the {@see LLMS_Trait_Audio_Video_Embed::get_video()} method.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	public function test_get_video() {
 

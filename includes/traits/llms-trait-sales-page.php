@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * **This trait should only be used by classes that extend from the {@see LLMS_Post_Model} class.**
  * **Classes that use this trait must call {@see LLMS_Trait_Sales_Page::construct_sales_page()} in their constructor.**
  *
- * @since [version]
+ * @since 5.3.0
  *
  * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
  * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
@@ -33,7 +33,7 @@ trait LLMS_Trait_Sales_Page {
 	 *
 	 * **Must be called by the constructor of the class that uses this trait.**
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 */
 	protected function construct_sales_page() {
 
@@ -57,7 +57,7 @@ trait LLMS_Trait_Sales_Page {
 	 * **The class that uses this trait must have the {@see LLMS_Post_Model::$model_post_type} property.**
 	 *
 	 * @since 3.20.0
-	 * @since [version] Check for an empty  URL or ID.
+	 * @since 5.3.0 Check for an empty  URL or ID.
 	 *              Refactored from `LLMS_Course` and `LLMS_Membership`.
 	 *
 	 * @return string
@@ -98,7 +98,7 @@ trait LLMS_Trait_Sales_Page {
 	 *
 	 * **The class that uses this trait must have the {@see LLMS_Post_Model::$model_post_type} property.**
 	 *
-	 * @since [version] Refactored from `LLMS_Course` and `LLMS_Membership`.
+	 * @since 5.3.0 Refactored from `LLMS_Course` and `LLMS_Membership`.
 	 *
 	 * @return boolean
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 5.3.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS singleton trait.
  *
- * @since [version]
+ * @since 5.3.0
  */
 trait LLMS_Trait_Singleton {
 
@@ -27,7 +27,7 @@ trait LLMS_Trait_Singleton {
 	/**
 	 * Returns a singleton instance of the class that uses this trait.
 	 *
-	 * @since [version]
+	 * @since 5.3.0
 	 *
 	 * @return self
 	 */
