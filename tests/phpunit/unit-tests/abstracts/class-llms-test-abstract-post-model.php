@@ -112,4 +112,40 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test `set_bulk()` to ensure single quotes and double quotes are correctly slashed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_quotes() {
+
+		$content = 'Content with "Double" Quotes and \'Single\' Quotes';
+		$excerpt = 'Excerpt with "Double" Quotes and \'Single\' Quotes';
+		$title   = 'Title with "Double" Quotes and \'Single\' Quotes';
+
+		# Test with KSES filters
+		$this->stub->set_bulk( array(
+			'content' => $content,
+			'excerpt' => $excerpt,
+			'title'   => $title,
+		) );
+		$saved_post = get_post( $this->stub->get( 'id' ) );
+		$this->assertEquals( $content, $saved_post->post_content );
+		$this->assertEquals( $excerpt, $saved_post->post_excerpt );
+		$this->assertEquals( $title, $saved_post->post_title );
+
+		# Test without KSES filters
+		kses_remove_filters();
+		$this->stub->set_bulk( array(
+			'content' => $content,
+			'excerpt' => $excerpt,
+			'title'   => $title,
+		) );
+		$saved_post = get_post( $this->stub->get( 'id' ) );
+		$this->assertEquals( $content, $saved_post->post_content );
+		$this->assertEquals( $excerpt, $saved_post->post_excerpt );
+		$this->assertEquals( $title, $saved_post->post_title );
+	}
 }
