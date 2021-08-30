@@ -44,7 +44,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  * @since 3.34.0 Refresh the whole $post property with the just updated instance of WP_Post after updating it.
  * @since 3.36.1 In `set_bulk()` method, use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
- * @since [version] Fix quote slashing in `set_bulk()` when the user is not an admin.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
