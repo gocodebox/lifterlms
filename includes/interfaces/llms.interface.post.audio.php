@@ -5,7 +5,7 @@
  * @package LifterLMS/Interfaces
  *
  * @since 3.17.0
- * @version 3.17.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Interface_Post_Audio interface
  *
  * @since 3.17.0
+ * @deprecated [version] Use {@see LLMS_Trait_Audio_Video_Embed}.
  */
 interface LLMS_Interface_Post_Audio {
 

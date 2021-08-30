@@ -9,7 +9,8 @@
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 5.0.0 Use LLMS_Forms to output form fields and title.
  *               Add field label displays when form information is output.
- * @version 5.0.0
+ * @since [version] Added clearfix to the payment details section to fix mobile layout issues.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +47,7 @@ $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan'
 
 				<h4 class="llms-form-heading"><?php echo llms_get_form_title( 'checkout', array( 'plan' => $plan ) ); ?></h4>
 
-				<div class="llms-checkout-section-content">
+				<div class="llms-checkout-section-content llms-form-fields">
 					<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
 					<?php foreach ( $fields as $field ) : ?>
 							<?php if ( ! empty( $field['value'] ) && ! empty( $field['label'] ) ) : ?>

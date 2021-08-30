@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,15 +14,11 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Form_Handler class.
  *
  * @since 5.0.0
+ * @since [version] Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Form_Handler {
 
-	/**
-	 * Singleton instance
-	 *
-	 * @var null
-	 */
-	protected static $instance = null;
+	use LLMS_Trait_Singleton;
 
 	/**
 	 * Validation class instance
@@ -30,20 +26,6 @@ class LLMS_Form_Handler {
 	 * @var LLMS_Form_Validator
 	 */
 	protected $validator = null;
-
-	/**
-	 * Get Main Singleton Instance.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @return LLMS_Form_Handler
-	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * Private Constructor.

@@ -881,20 +881,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "2e73516d7cd3fefa576be0ef325b4d08151c7ccb"
+                "reference": "472c5a286e9f65e2be0c1d6b7edd8d5340d052ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/2e73516d7cd3fefa576be0ef325b4d08151c7ccb",
-                "reference": "2e73516d7cd3fefa576be0ef325b4d08151c7ccb",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed",
+                "reference": "472c5a286e9f65e2be0c1d6b7edd8d5340d052ed",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
                 "phpunit/phpunit": "^7.5",
                 "wp-cli/extension-command": "^2.1.0",
-                "wp-cli/wp-cli-tests": "^3.0.15",
-                "yoast/phpunit-polyfills": "^1.0"
+                "wp-cli/wp-cli-tests": "^3.0.15"
             },
             "default-branch": true,
             "bin": [
@@ -902,6 +901,11 @@
                 "bin/llms-env"
             ],
             "type": "library",
+            "extra": {
+                "llms": {
+                    "version": "2.1.0"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "LifterLMS\\Tests\\": "src/"
@@ -922,7 +926,7 @@
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
                 "source": "https://github.com/gocodebox/lifterlms-tests/tree/trunk"
             },
-            "time": "2021-08-06T18:15:42+00:00"
+            "time": "2021-08-26T17:24:44+00:00"
         },
         {
             "name": "mustache/mustache",

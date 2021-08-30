@@ -105,6 +105,7 @@ class LLMS_Template_Loader {
 			return;
 		}
 
+		/** @var LLMS_Trait_Sales_Page $post */
 		$post = llms_get_post( get_the_ID() );
 
 		if ( ! $post->has_sales_page_redirect() ) {
