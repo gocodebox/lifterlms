@@ -418,7 +418,7 @@ class LLMS_Product extends LLMS_Post_Model {
 					AND pm1.post_id=pm2.post_id
 					AND pm1.meta_key='_llms_product_id' AND pm1.meta_value=%d
 					AND pm2.meta_key='_llms_order_type' AND pm2.meta_value='recurring'
-					AND p.post_status='llms-active'
+					AND p.post_status IN ( 'llms-active', 'llms-pending', 'llms-on-hold' )
 					",
 					$this->get( 'id' )
 				)
