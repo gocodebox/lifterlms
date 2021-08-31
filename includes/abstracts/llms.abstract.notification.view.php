@@ -88,6 +88,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	protected $user;
 
 	/**
+	 * Merge codes
+	 *
+	 * @var $merge_codes
+	 */
+	protected $merge_codes;
+
+	/**
 	 * Replace merge codes with actual values
 	 *
 	 * @since 3.8.0
@@ -546,13 +553,17 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
+	 * @since [version] Cache merge codes.
 	 *
 	 * @return array
 	 */
 	public function get_merge_codes() {
-		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
-		asort( $codes );
-		return apply_filters( $this->get_filter( 'get_merge_codes' ), $codes, $this );
+		if ( ! isset( $this->merge_codes ) ) {
+			$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
+			asort( $codes );
+			$this->merge_codes = $codes;
+		}
+		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->merge_codes, $this );
 	}
 
 	/**
@@ -595,7 +606,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		// only merge if there's codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
-			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
+			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
 
 				// set defaults.
 				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
@@ -609,19 +620,33 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 				}
 
-				$string = preg_replace_callback(
-					'#' . preg_quote( $code, '#' ) . '#',
-					function ( $matches ) use ( $func ) {
-						return $this->$func( $matches[0] );
-					},
-					$string
-				);
+				$string = str_replace( $code, $this->$func( $code ), $string );
 
 			}
 		}
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
 
+	}
+
+	/**
+	 * Retrieve merge codes used in a given string.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string Text string whereto look for merge codes.
+	 * @return array Returns a list of merge codes actually used in the passed string.
+	 */
+	private function get_used_merge_codes( $string ) {
+
+		$merged_codes = array_keys( $this->get_merge_codes() );
+
+		return array_filter(
+			$merged_codes,
+			function ( $code ) use ( $string ) {
+				return false !== strpos( $string, $code );
+			}
+		);
 	}
 
 	/**
