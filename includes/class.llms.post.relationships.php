@@ -86,9 +86,9 @@ class LLMS_Post_Relationships {
 	);
 
 	/**
-	 * Construcor
+	 * Constructor
 	 *
-	 * @since Unknown.
+	 * @since 3.16.12
 	 * @since [version] Prevent course/membership with active subscriptions deletion.
 	 *
 	 * @return void
@@ -103,7 +103,7 @@ class LLMS_Post_Relationships {
 
 
 	/**
-	 * Filters whether a post deletion should take place.
+	 * Determine whether a product deletion should take place.
 	 *
 	 * @since [version]
 	 *
@@ -138,7 +138,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Filter the error message returned when trying to delete a product with active subscription.
+	 * Filter the error message returned when trying to delete a product with active subscription via REST API.
 	 *
 	 * The original message is a standard permission denied message.
 	 *
