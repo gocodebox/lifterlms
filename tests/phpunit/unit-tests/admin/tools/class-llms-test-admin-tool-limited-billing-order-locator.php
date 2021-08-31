@@ -219,7 +219,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 
 			$this->assertTrue( is_string( $csv ) );
 
-			$lines = explode( PHP_EOL, $csv );
+			$lines = explode( "\n", $csv );
 			$this->assertEquals( '"Order ID","Expected Payments","Total Payments","Successful Payments","Refunded Payments","Edit Link"', $lines[0] );
 			array_shift( $lines );
 
