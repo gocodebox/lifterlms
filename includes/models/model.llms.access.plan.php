@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 3.31.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -164,37 +164,20 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Get the translated and pluralized name of the plan's access period
 	 *
-	 * @since    3.4.6
-	 * @version  3.23.0
+	 * @since 3.4.6
+	 * @since 3.23.0 Unknown.
+	 * @since 5.3.0 Use llms_get_time_period_l10n().
 	 *
-	 * @param    string $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
-	 * @param    int    $length  (optional) access length (for pluralization), if not supplied uses stored value for the plan.
-	 * @return   string
+	 * @param string $period Untranslated access period, if not supplied uses stored value for the plan.
+	 * @param int    $length Access length (for pluralization), if not supplied uses stored value for the plan.
+	 * @return string
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
 		$period = $period ? $period : $this->get( 'access_period' );
 		$length = $length ? $length : $this->get( 'access_length' );
 
-		switch ( $period ) {
-
-			case 'year':
-				$period = _nx( 'year', 'years', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'month':
-				$period = _nx( 'month', 'months', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'week':
-				$period = _nx( 'week', 'weeks', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-			case 'day':
-				$period = _nx( 'day', 'days', $length, 'Access plan period', 'lifterlms' );
-				break;
-
-		}
+		$period = llms_get_time_period_l10n( $period, $length );
 
 		/**
 		 * Filter the translated name of an access plan's billing period.

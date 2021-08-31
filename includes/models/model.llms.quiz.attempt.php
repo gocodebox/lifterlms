@@ -544,15 +544,21 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Retrieve an array of attempt question objects
 	 *
 	 * @since 3.16.0
+	 * @since 5.3.0 Add a parameter to filter out removed questions.
 	 *
-	 * @param boolean $cache Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 * @param boolean $cache          Optional. If `true`, save data to to the object for future gets. Default `true`.
+	 *                                Cached questions won't take into account the `$filte_removed` parameter.
+	 * @param boolean $filter_removed Optional. If `true`, removed questions will be filtered out. Default `false`.
 	 * @return array
 	 */
-	public function get_question_objects( $cache = true ) {
+	public function get_question_objects( $cache = true, $filter_removed = false ) {
 
 		$questions = array();
 		foreach ( $this->get_questions( $cache ) as $qdata ) {
-			$questions[] = new LLMS_Quiz_Attempt_Question( $qdata );
+			$question = new LLMS_Quiz_Attempt_Question( $qdata );
+			if ( ! $filter_removed || $question->get_question() instanceof LLMS_Question ) {
+				$questions[] = $question;
+			}
 		}
 		return $questions;
 

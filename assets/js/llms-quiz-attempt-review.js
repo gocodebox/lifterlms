@@ -2,7 +2,8 @@
  * Quiz attempt review / grading UI & UX
  *
  * @since 3.16.0
- * @version 3.30.3
+ * @since 3.30.3 Unknown.
+ * @version 5.3.0
  */( function( $ ) {
 
 	/**
@@ -16,9 +17,9 @@
 		/**
 		 * Bind DOM events
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.9
+		 * @since 3.16.0
+		 * @since 3.16.9 Unknown.
+		 * @return {Void}
 		 */
 		function bind() {
 
@@ -39,12 +40,13 @@
 		 *
 		 * @since 3.16.0
 		 * @since 3.30.3 When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
+		 * @since 5.3.0 Exclude removed question items.
 		 *
-		 * @return Grading
+		 * @return {Grading}
 		 */
 		function setup_fields() {
 
-			$els = $( '.llms-quiz-attempt-question:not(.type--content)' );
+			$els = $( '.llms-quiz-attempt-question:not(.type--content):not(.type--removed)' );
 
 			if ( $els.length < 1 ) {
 				return;

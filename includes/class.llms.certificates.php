@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.21.0
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,11 +24,16 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
+ * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Certificates {
 
+	use LLMS_Trait_Singleton;
+
 	/**
-	 * Instance
+	 * Singleton instance.
+	 *
+	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
 	 *
 	 * @var LLMS_Certificates
 	 */
@@ -61,20 +66,6 @@ class LLMS_Certificates {
 	 * @var string[]
 	 */
 	private $export_blocked_image_hosts;
-
-	/**
-	 * Instance singleton
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return LLMS_Certificates
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-		return self::$_instance;
-	}
 
 	/**
 	 * Constructor

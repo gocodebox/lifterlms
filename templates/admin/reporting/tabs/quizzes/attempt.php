@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.16.0
- * @version 3.17.3
+ * @since 3.17.3 Unknown.
+ * @since 5.3.0 Do not show the "Start a review" button, if there are no existing questions to review.
  *
  * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
@@ -141,18 +142,18 @@ if ( $student ) {
 			<?php lifterlms_template_quiz_attempt_results_questions_list( $attempt ); ?>
 
 			<br><br><br>
-
-			<button class="llms-button-primary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_grade">
-				<span class="default">
-					<i class="fa fa-check-square-o" aria-hidden="true"></i>
-					<?php _e( 'Start a Review', 'lifterlms' ); ?>
-				</span>
-				<span class="save">
-					<i class="fa fa-floppy-o" aria-hidden="true"></i>
-					<?php _e( 'Save Review', 'lifterlms' ); ?>
-				</span>
+			<?php if ( $attempt->get_question_objects( true, true ) ) : // Show the start review button only if there are existing questions to review. ?>
+				<button class="llms-button-primary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_grade">
+					<span class="default">
+						<i class="fa fa-check-square-o" aria-hidden="true"></i>
+						<?php _e( 'Start a Review', 'lifterlms' ); ?>
+					</span>
+					<span class="save">
+						<i class="fa fa-floppy-o" aria-hidden="true"></i>
+						<?php _e( 'Save Review', 'lifterlms' ); ?>
+					</span>
 			</button>
-
+			<?php endif; ?>
 			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">
 				<i class="fa fa-trash-o" aria-hidden="true"></i>
 				<?php _e( 'Delete Attempt', 'lifterlms' ); ?>

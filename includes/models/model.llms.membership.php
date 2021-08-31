@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.2.1
+ * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,21 +20,22 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  * @since 4.0.0 Added MySQL 8.0 compatibility.
  * @since 5.2.1 Check for an empty sales page URL or ID.
+ * @since 5.3.0 Move sales page methods to `LLMS_Trait_Sales_Page`.
  *
- * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
- * @property $instructors (array) Course instructor user information
- * @property $restriction_redirect_type (string) What type of redirect action to take when content is restricted by this membership [none|membership|page|custom]
- * @property $redirect_page_id (int) WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'
- * @property $redirect_custom_url (string) Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'
- * @property $restriction_add_notice (string) Whether or not to add an on screen message when content is restricted by this membership [yes|no]
- * @property $restriction_notice (string) Notice to display when $restriction_add_notice is 'yes'
- * @property $sales_page_content_page_id (int) WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'
- * @property $sales_page_content_type (string) Sales page behavior [none,content,page,url]
- * @property $sales_page_content_url (string) Redirect URL for a sales page, when $sales_page_content_type is 'url'
+ * @property int[]  $auto_enroll                Array of course IDs that users will be autoenrolled in upon successful enrollment in this membership.
+ * @property array  $instructors                Course instructor user information.
+ * @property string $restriction_redirect_type  What type of redirect action to take when content is restricted by this membership [none|membership|page|custom].
+ * @property int    $redirect_page_id           WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'.
+ * @property string $redirect_custom_url        Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'.
+ * @property string $restriction_add_notice     Whether or not to add an on screen message when content is restricted by this membership [yes|no].
+ * @property string $restriction_notice         Notice to display when $restriction_add_notice is 'yes'.
+ * @property int    $sales_page_content_page_id WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'.
+ * @property string $sales_page_content_type    Sales page behavior [none,content,page,url].
+ * @property string $sales_page_content_url     Redirect URL for a sales page, when $sales_page_content_type is 'url'.
  */
-class LLMS_Membership
-extends LLMS_Post_Model
-implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
+class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
+
+	use LLMS_Trait_Sales_Page;
 
 	/**
 	 * Membership post meta.
@@ -49,9 +50,6 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 		'restriction_notice'         => 'html',
 		'restriction_redirect_type'  => 'text',
 		'redirect_custom_url'        => 'text',
-		'sales_page_content_page_id' => 'absint',
-		'sales_page_content_type'    => 'string',
-		'sales_page_content_url'     => 'string',
 	);
 
 	/**
@@ -67,6 +65,20 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * @var string
 	 */
 	protected $model_post_type = 'membership';
+
+	/**
+	 * Constructor for this class and the traits it uses.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 */
+	public function __construct( $model, $args = array() ) {
+
+		$this->construct_sales_page();
+		parent::__construct( $model, $args );
+	}
 
 	/**
 	 * Add courses to autoenrollment by id
@@ -230,34 +242,6 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	}
 
 	/**
-	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
-	 *
-	 * @since 3.20.0
-	 *
-	 * @return string
-	 */
-	public function get_sales_page_url() {
-
-		$type = $this->get( 'sales_page_content_type' );
-		switch ( $type ) {
-
-			case 'page':
-				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
-				break;
-
-			case 'url':
-				$url = $this->get( 'sales_page_content_url' );
-				break;
-
-			default:
-				$url = get_permalink( $this->get( 'id' ) );
-
-		}
-
-		return apply_filters( 'llms_membership_get_sales_page_url', $url, $this, $type );
-	}
-
-	/**
 	 * Retrieve the number of enrolled students in the membership.
 	 *
 	 * @since 3.32.0
@@ -302,40 +286,6 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 */
 	public function get_tags( $args = array() ) {
 		return wp_get_post_terms( $this->get( 'id' ), 'membership_tag', $args );
-	}
-
-	/**
-	 * Determine if sales page redirection is enabled.
-	 *
-	 * @since 3.20.0
-	 * @since 3.38.1 Use strict array comparison.
-	 * @since 5.2.1 Check for an empty sales page URL or ID.
-	 *
-	 * @return string
-	 */
-	public function has_sales_page_redirect() {
-		$type = $this->get( 'sales_page_content_type' );
-		switch ( $type ) {
-			case 'page':
-				$has_redirect = (bool) $this->get( 'sales_page_content_page_id' );
-				break;
-			case 'url':
-				$has_redirect = (bool) $this->get( 'sales_page_content_url' );
-				break;
-			default:
-				$has_redirect = false;
-		}
-
-		/**
-		 * Filters whether or not the course has a sales page redirect.
-		 *
-		 * @since Unknown.
-		 *
-		 * @param boolean         $has_redirect Whether or not the course has a sales page redirect.
-		 * @param LLMS_Membership $course       Course object.
-		 * @param string          $type         The course's sales page content type property value.
-		 */
-		return apply_filters( 'llms_membership_has_sales_page_redirect', $has_redirect, $this, $type );
 	}
 
 	/**

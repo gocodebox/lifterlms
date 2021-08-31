@@ -11,7 +11,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version 4.21.2
+ * @version 5.3.0
  */
 ( function( $ ) {
 
@@ -526,6 +526,7 @@
 		 * @since 3.0.0
 		 * @since 3.13.0 Unknown.
 		 * @since 4.19.0 Add `this.bind_mce_fixes()`.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
 		 *
 		 * @return   void
 		 */
@@ -580,7 +581,7 @@
 					func: 'bind_merge_code_buttons',
 			},
 				{
-					selector: $( 'a.llms-editable' ),
+					selector: $( 'a.llms-editable, button.llms-editable' ),
 					func: 'bind_editables',
 			},
 			];
@@ -767,9 +768,11 @@
 		/**
 		 * Bind llms-editable metabox fields and related dom interactions
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.28.0
+		 * @since 3.10.0
+		 * @since 3.28.0 Unknown.
+		 * @since 5.3.0 Bind editables when editable buttons are present in addition to anchors.
+		 *
+		 * @return void
 		 */
 		this.bind_editables = function() {
 
@@ -829,7 +832,7 @@
 
 			};
 
-			$( 'a.llms-editable' ).on( 'click', function( e ) {
+			$( 'a.llms-editable, button.llms-editable' ).on( 'click', function( e ) {
 
 				e.preventDefault();
 

@@ -5,12 +5,12 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 5.3.0
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
- * Version: 5.2.1
+ * Version: 5.3.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -36,9 +36,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Autoloader.
-require_once 'vendor/autoload.php';
-
 if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 	define( 'LLMS_PLUGIN_FILE', __FILE__ );
 }
@@ -46,6 +43,10 @@ if ( ! defined( 'LLMS_PLUGIN_FILE' ) ) {
 if ( ! defined( 'LLMS_PLUGIN_DIR' ) ) {
 	define( 'LLMS_PLUGIN_DIR', dirname( __FILE__ ) . '/' );
 }
+
+// Autoloader.
+require_once LLMS_PLUGIN_DIR . 'vendor/autoload.php';
+require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
 
 if ( ! class_exists( 'LifterLMS' ) ) {
 	require_once LLMS_PLUGIN_DIR . 'class-lifterlms.php';
