@@ -1209,6 +1209,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.34.0
 	 * @since 3.36.1 Use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
+	 * @since [version] Fix quote slashing when the user is not an admin.
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
@@ -1258,13 +1259,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				switch ( $key ) {
 
 					case 'content':
-						/* This is a WordPress core filter */
-						$val = apply_filters( 'content_save_pre', $val );
+						/** This is a WordPress core filter. {@see kses_init_filters()}*/
+						$val = stripslashes( apply_filters( 'content_save_pre', addslashes( $val ) ) );
 						break;
 
 					case 'excerpt':
-						/* This is a WordPress core filter */
-						$val = apply_filters( 'excerpt_save_pre', $val );
+						/** This is a WordPress core filter. {@see kses_init_filters()}*/
+						$val = stripslashes( apply_filters( 'excerpt_save_pre', addslashes( $val ) ) );
 						break;
 
 					case 'edit_date':
@@ -1275,8 +1276,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 						break;
 
 					case 'title':
-						/* This is a WordPress core filter */
-						$val = apply_filters( 'title_save_pre', $val );
+						/** This is a WordPress core filter. {@see kses_init_filters()}*/
+						$val = stripslashes( apply_filters( 'title_save_pre', addslashes( $val ) ) );
 						break;
 				}
 			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
