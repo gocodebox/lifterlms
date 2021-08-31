@@ -51,7 +51,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 					array(
 						'key'     => '_llms_date_billing_end',
 						'compare' => 'EXISTS',
-					)
+					),
 				),
 			)
 		);
