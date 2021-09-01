@@ -381,8 +381,8 @@ class LLMS_Engagements {
 		}
 
 		$parsed['user_id']         = absint( $args[0] );
-		$parsed['related_post_id'] = ! empty( $args[1] ) ? absint( $args[1] ) : '';
 		$parsed['trigger_type']    = $this->parse_hook_find_trigger_type( $action, $parsed['related_post_id'] );
+		$parsed['related_post_id'] = 'user_registration' !== $parsed['trigger_type'] ? absint( $args[1] ) : '';
 
 		return $parsed;
 
