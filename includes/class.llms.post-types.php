@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 4.17.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -345,6 +345,7 @@ class LLMS_Post_Types {
 	 * @since 3.37.12 Added 'revisions' support to course, lesson, and llms_mebership post types.
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
+	 * @since [version] Register `llms_my_achievement` and `llms_my_certificate` post types.
 	 *
 	 * @return void
 	 */
@@ -1039,6 +1040,21 @@ class LLMS_Post_Types {
 				)
 			)
 		);
+
+		/**
+		 * These post types are for the awarded versions (created from the template)
+		 *
+		 * Intermittent issues that I can't quite recreate seem to crop up as a result of these
+		 * post types not being registered.
+		 *
+		 * Additionally, it's semantically incorrect that these post types *don't exist* so
+		 */
+		$earned_engagement_args = array(
+			'public'             => false,
+			'publicly_queryable' => true,
+		);
+		self::register_post_type( 'llms_my_certificate', $earned_engagement_args );
+		self::register_post_type( 'llms_my_achievement', $earned_engagement_args );
 
 	}
 
