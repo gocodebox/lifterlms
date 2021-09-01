@@ -43,11 +43,15 @@ class LLMS_Engagements {
 	 *
 	 * Adds actions to events that trigger engagements.
 	 *
+	 * @since 2.3.0
+	 * @since [version] Added deprecation warning when using constant `LLMS_ENGAGEMENT_DEBUG`.
+	 *
 	 * @return void
 	 */
 	private function __construct() {
 
 		if ( defined( 'LLMS_ENGAGEMENT_DEBUG' ) && LLMS_ENGAGEMENT_DEBUG ) {
+			_deprecated_function( 'Constant: LLMS_ENGAGEMENT_DEBUG', '[version]' );
 			$this->debug = true;
 		}
 
@@ -329,23 +333,6 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Log debug data to the WordPress debug.log file
-	 *
-	 * @since 2.7.9
-	 * @since 3.12.0 Unknown.
-	 *
-	 * @param mixed $log Data to write to the log.
-	 * @return void
-	 */
-	public function log( $log ) {
-
-		if ( $this->debug ) {
-			llms_log( $log, 'engagements' );
-		}
-
-	}
-
-	/**
 	 * Parse incoming hook / callback data to determine if an engagement should be triggered from a given hook
 	 *
 	 * @since [version]
@@ -581,6 +568,26 @@ class LLMS_Engagements {
 
 			do_action( $data['handler_action'], $data['handler_args'] );
 
+		}
+
+	}
+
+	/**
+	 * Log debug data to the WordPress debug.log file
+	 *
+	 * @since 2.7.9
+	 * @since 3.12.0 Unknown.
+	 * @deprecated [version] Engagement debug logging is removed. Use `llms_log()` directly instead.
+	 *
+	 * @param mixed $log Data to write to the log.
+	 * @return void
+	 */
+	public function log( $log ) {
+
+		_deprecated_function( 'LLMS_Engagements::log()', '[version]', 'llms_log()' );
+
+		if ( $this->debug ) {
+			llms_log( $log, 'engagements' );
 		}
 
 	}
