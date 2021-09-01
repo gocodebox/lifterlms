@@ -28,7 +28,7 @@ class LLMS_Engagements {
 	 *
 	 * @var LLMS_Engagements
 	 */
-	protected static $_instance = null;
+	protected static $_instance = null; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore -- Deprecated.
 
 	/**
 	 * Enable debug logging
