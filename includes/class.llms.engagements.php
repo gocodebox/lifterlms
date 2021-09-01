@@ -212,6 +212,8 @@ class LLMS_Engagements {
 	/**
 	 * Include engagement types (excluding email)
 	 *
+	 * @since Unknown
+	 *
 	 * @return void
 	 */
 	public function init() {
@@ -224,42 +226,41 @@ class LLMS_Engagements {
 	/**
 	 * Award an achievement
 	 *
-	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
-	 *
 	 * @since 2.3.0
+	 * @since [version] Use `llms() in favor of deprecated `LLMS()` and removed engagement debug logging.
 	 *
-	 * @param array $args Indexed array of args.
-	 *                    0 => WP User ID
-	 *                    1 => WP Post ID of the email post
-	 *                    2 => WP Post ID of the related post that triggered the award
+	 * @param array $args {
+	 *     Indexed array of arguments.
 	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the achievement template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 * }
 	 * @return void
 	 */
 	public function handle_achievement( $args ) {
-		$this->log( '======== handle_achievement() =======' );
-		$this->log( $args );
-		$a = LLMS()->achievements();
-		$a->trigger_engagement( $args[0], $args[1], $args[2] );
+		$achievements = llms()->achievements();
+		$achievements->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
 
 	/**
 	 * Award a certificate
 	 *
-	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
-	 *
 	 * @since 2.3.0
+	 * @since [version] Use `llms() in favor of deprecated `LLMS()` and removed engagement debug logging.
 	 *
-	 * @param array $args  Indexed array of args.
-	 *                     0 => WP User ID
-	 *                     1 => WP Post ID of the email post
-	 *                     2 => WP Post ID of the related post that triggered the award
+	 * @param array $args {
+	 *     Indexed array of arguments.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the certificate template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 * }
 	 * @return void
 	 */
 	public function handle_certificate( $args ) {
-		$this->log( '======== handle_certificate() =======' );
-		$this->log( $args );
-		$c = LLMS()->certificates();
-		$c->trigger_engagement( $args[0], $args[1], $args[2] );
+		$certs = llms()->certificates();
+		$certs->trigger_engagement( $args[0], $args[1], $args[2] );
 	}
 
 	/**
