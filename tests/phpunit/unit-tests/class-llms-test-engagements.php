@@ -9,7 +9,7 @@
  * @since 4.4.1
  * @since 4.4.3 Test different emails triggered by the same post are correctly sent.
  */
-class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
+class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test case
@@ -181,6 +181,270 @@ class LLMS_Test_Engagements extends LLMS_Unit_Test_Case {
 		$sent = $mailer->get_sent();
 		$this->assertEquals( $user->user_email, $sent->to[0][0] );
 		$this->assertEquals( 'Engagement Email', $sent->subject );
+
+	}
+
+	/**
+	 * Test maybe_trigger_engagement() for the user registration trigger
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_trigger_engagement_user_registration() {
+
+		$this->run_engagement_tests( function( $engagement_type, $expected_action, $delay ) {
+
+			$engagement        = $this->create_mock_engagement( 'user_registration', $engagement_type, $delay );
+			$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+
+			$user = $this->factory->user->create();
+
+			$this->assertEngagementTriggered(
+				'lifterlms_created_person', // Trigger hook.
+				array( $user ), // Args passed to trigger hook.
+				$expected_action,
+				array( $user, $engagement_post_id, 'certificate' === $engagement_type ? $engagement_post_id : '' ), // Expected args passed to the expected action's callback.
+				$delay
+			);
+
+		} );
+
+	}
+
+	/**
+	 * Test maybe_trigger_engagement() for the completion hooks (course, section, lesson)
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_trigger_engagement_content_completed() {
+
+		foreach ( array( 'course', 'section', 'lesson', 'quiz' ) as $post_type ) {
+
+			$this->run_engagement_tests( function( $engagement_type, $expected_action, $delay ) use ( $post_type ) {
+
+				$engagement        = $this->create_mock_engagement( $post_type . '_completed', $engagement_type, $delay );
+				$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+				$related_post_id    = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+
+				$user = $this->factory->user->create();
+
+				$this->assertEngagementTriggered(
+					'lifterlms_' . $post_type . '_completed', // Trigger hook.
+					array( $user, $related_post_id ), // Args passed to trigger hook.
+					$expected_action,
+					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					$delay
+				);
+
+			} );
+
+		}
+
+	}
+
+	/**
+	 * Test maybe_trigger_engagement() for the enrollment hooks
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_trigger_engagement_enrollment() {
+
+		$tests = array(
+			'llms_user_enrolled_in_course'        => 'course',
+			'llms_user_added_to_membership_level' => 'membership',
+		);
+
+		foreach ( $tests as $trigger_hook => $post_type ) {
+
+			$this->run_engagement_tests( function( $engagement_type, $expected_action, $delay ) use ( $trigger_hook, $post_type ) {
+
+				$engagement        = $this->create_mock_engagement( $post_type . '_enrollment', $engagement_type, $delay );
+				$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+				$related_post_id    = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+
+				$user = $this->factory->user->create();
+
+				$this->assertEngagementTriggered(
+					$trigger_hook,
+					array( $user, $related_post_id ), // Args passed to trigger hook.
+					$expected_action,
+					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					$delay
+				);
+
+			} );
+
+		}
+
+	}
+
+	/**
+	 * Test maybe_trigger_engagement() for the purchase hooks
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_trigger_engagement_purchase() {
+
+		$tests = array(
+			'lifterlms_access_plan_purchased' => 'access_plan',
+			'lifterlms_product_purchased'     => 'course',
+			'lifterlms_product_purchased'     => 'membership',
+		);
+
+		foreach ( $tests as $trigger_hook => $post_type ) {
+
+			$this->run_engagement_tests( function( $engagement_type, $expected_action, $delay ) use ( $trigger_hook, $post_type ) {
+
+				$engagement        = $this->create_mock_engagement( $post_type . '_purchased', $engagement_type, $delay );
+				$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+				$related_post_id    = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+
+				$user = $this->factory->user->create();
+
+				$this->assertEngagementTriggered(
+					$trigger_hook,
+					array( $user, $related_post_id ), // Args passed to trigger hook.
+					$expected_action,
+					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					$delay
+				);
+
+			} );
+
+		}
+
+	}
+
+
+	private function run_engagement_tests( $callback ) {
+
+		$tests = array(
+			'achievement' => 'lifterlms_engagement_award_achievement',
+			'certificate' => 'lifterlms_engagement_award_certificate',
+			'email'       => 'lifterlms_engagement_send_email',
+		);
+
+		foreach ( $tests as $engagement_type => $expected_action ) {
+
+			$delay = 0;
+			while ( $delay <= 1 ) {
+				$callback( $engagement_type, $expected_action, $delay );
+				$delay++;
+			}
+
+		}
+
+	}
+
+	private function assertEngagementTriggered( $trigger_filter, $trigger_args, $expected_action, $expected_args, $delay = 0 ) {
+
+		// Record the number of run actions so we can ensure it was properly incremented.
+		$start_actions = did_action( $expected_action );
+
+		// Mock the `current_filter()` return.
+		global $wp_current_filter;
+		$wp_current_filter = array( $trigger_filter );
+
+		if ( ! $delay ) {
+
+			// Add an action to assert the expected arguments.
+			$callback = function( $args ) use ( $expected_args ) {
+				$this->assertEquals( $expected_args, $args );
+			};
+			add_action( $expected_action, $callback, 15 );
+
+		}
+
+		// Simulate trigger callback.
+		$this->main->maybe_trigger_engagement( ...$trigger_args );
+
+		if ( ! $delay ) {
+
+			// Assert the action ran.
+			$this->assertEquals( ++$start_actions, did_action( $expected_action ), $expected_action );
+
+			// Remove our assertion action.
+			remove_action( $expected_action, $callback, 15 );
+
+		} else {
+
+			$expected_args = array( $expected_args );
+			$event = wp_get_scheduled_event( $expected_action, $expected_args );
+			$this->assertTrue( is_object( $event ), $expected_action );
+			$this->assertEquals( $expected_action, $event->hook, $expected_action );
+			$this->assertEquals( $expected_args, $event->args, $expected_action );
+			$this->assertEquals( time() + ( DAY_IN_SECONDS * $delay ), $event->timestamp, $expected_action, 5 );
+		}
+
+	}
+
+	public function create_mock_engagement( $trigger_type, $engagement_type, $delay = 0 ) {
+
+		/**
+		 * Trigger Types
+		 *
+		 * user_registration
+		 *
+		 * course_completed
+		 * lesson_completed
+		 * section_completed
+		 *
+		 * course_track_completed
+		 *
+		 * quiz_completed
+		 * quiz_passed
+		 * quiz_failed
+		 *
+		 * course_enrollment
+		 * membership_enrollment
+		 *
+		 * access_plan_purchased
+		 * course_purchased
+		 * membership_purchased
+		 */
+
+		switch ( $trigger_type ) {
+			case 'user_registration':
+				$trigger_post = 0;
+				break;
+
+			case 'course_completed':
+			case 'lesson_completed':
+			case 'section_completed':
+			case 'quiz_completed':
+			case 'quiz_passed':
+			case 'quiz_failed':
+			case 'course_enrollment':
+			case 'membership_enrollment':
+			case 'access_plan_purchased':
+			case 'course_purchased':
+			case 'membership_purchased':
+				$post_type    = str_replace( array( '_completed', '_enrollment', '_passed', '_failed', '_purchased' ), '', $trigger_type );
+				$post_type    = in_array( $post_type, array( 'access_plan', 'membership', 'quiz' ), true ) ? 'llms_' . $post_type : $post_type;
+				$trigger_post = $this->factory->post->create( compact( 'post_type' ) );
+				break;
+		}
+
+		$engagement_create_func = "create_{$engagement_type}_template";
+		$engagement_post = $this->$engagement_create_func();
+
+		return $this->factory->post->create_and_get( array(
+			'post_type'  => 'llms_engagement',
+			'meta_input' => array(
+				'_llms_trigger_type'            => $trigger_type,
+				'_llms_engagement_trigger_post' => $trigger_post,
+				'_llms_engagement_type'         => $engagement_type,
+				'_llms_engagement'              => $engagement_post,
+				'_llms_engagement_delay'        => $delay,
+			)
+		) );
 
 	}
 
