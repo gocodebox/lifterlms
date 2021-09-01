@@ -1,8 +1,6 @@
 <?php
 /**
- * Engagements Class
- *
- * Finds and triggers the appropriate engagement
+ * LLMS_Engagements class file
  *
  * @package LifterLMS/Classes
  *
@@ -17,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
- * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  */
 class LLMS_Engagements {
@@ -88,18 +85,19 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.13.1 Unknown.
+	 * @since [version] Removed engagement debug logging & moved filter onto the return instead of calling in `maybe_trigger_engagement()`.
 	 *
-	 * @param string $trigger_type  Name of the trigger to look for.
-	 * @return array Array of objects.
-	 *               Array(
-	 *                  [0] => stdClass Object (
-	 *                      [engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
-	 *                      [trigger_id]    => 123, // this is the Post ID of the llms_engagement post
-	 *                      [trigger_event] => 'user_registration', // triggering action
-	 *                      [event_type]    => 'certificate', // engagement event action
-	 *                      [delay]         => 0, // time in days to delay the engagement
-	 *                   )
-	 *               )
+	 * @param string     $trigger_type    Name of the trigger to look for.
+	 * @param int|string $related_post_id The WP_Post ID of the related post or an empty string.
+	 * @return object[] {
+	 *     Array of objects from the database.
+	 *
+	 *     @type int    $engagement_id WP_Post ID of the engagement post (email, certificate, achievement).
+	 *     @type int    $trigger_id    WP_Post ID of the llms_engagement post.
+	 *     @type string $trigger_event The triggering action (user_registration, course_completed, etc...).
+	 *     @type string $event_type    The engagement event action (certificate, achievement, email).
+	 *     @type int    $delay         The engagement send delay (in days).
+	 * }
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
@@ -120,10 +118,8 @@ class LLMS_Engagements {
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		$r = $wpdb->get_results(
+		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				// The query.
 				"SELECT
 				  DISTINCT triggers.ID AS trigger_id
 				, triggers_meta.meta_value AS engagement_id
@@ -161,12 +157,18 @@ class LLMS_Engagements {
 			),
 			OBJECT
 		);
-
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		$this->log( '$wpdb->last_query' . $wpdb->last_query );
-
-		return apply_filters( 'lifterlms_get_engagements', $r, $trigger_type, $related_post_id );
+		/**
+		 * Filters the list of engagements to be triggered for a given trigger type and related post.
+		 *
+		 * @since [version]
+		 *
+		 * @param object[] $results         Array of engagement objects.
+		 * @param string   $trigger_type    Name of the engagement trigger.
+		 * @param int      $related_post_id WP_Post ID of the related post.
+		 */
+		return apply_filters( 'lifterlms_get_engagements', $results, $trigger_type, $related_post_id );
 
 	}
 
