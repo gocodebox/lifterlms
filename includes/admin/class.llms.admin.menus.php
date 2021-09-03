@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,6 +186,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *
 	 * @return void
 	 */
@@ -195,7 +196,8 @@ class LLMS_Admin_Menus {
 
 		$menu[51] = array( '', 'read', 'llms-separator', '', 'wp-menu-separator' );
 
-		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterlms-icon.png', 51 );
+		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) );
+		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', $icon_url, 51 );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
 
