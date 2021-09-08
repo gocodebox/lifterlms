@@ -3,6 +3,7 @@
  *
  * @since 2.2.1
  * @since 2.3.0 Focus on the search selector prior to typing.
+ * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {String} selector Query selector for the select element.
  * @param {String} value    Option value to select.
@@ -19,10 +20,8 @@ export async function select2Select( selector, value ) {
 	await page.waitForSelector( SEARCH_SELECTOR );
 	await page.focus( SEARCH_SELECTOR );
 
-	// await page.waitFor( 1000 );
-
 	await page.keyboard.type( value );
-	await page.waitFor( 1000 );
+	await page.waitForTimeout( 1000 );
 
 	await page.keyboard.press( 'Enter' );
 

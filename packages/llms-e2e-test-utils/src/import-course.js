@@ -10,6 +10,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @since 2.2.0
  * @since 2.2.0 Update to accommodate changes in the LifterLMS core.
+ * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {String}  importFile Filename of the import.
  * @param {String}  importPath Local path where the file is located. By default uses `tests/assets/`.
@@ -31,7 +32,7 @@ export async function importCourse( importFile, importPath = '', navigate = true
 	const fileUpload = await page.$( inputSelector );
 
 	fileUpload.uploadFile( file );
-	await page.waitFor( 1000 );
+	await page.waitForTimeout( 1000 );
 
 	await clickAndWait( '#llms-import-file-submit' );
 
