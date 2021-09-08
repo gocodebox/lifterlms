@@ -306,7 +306,6 @@ class LLMS_Admin_Notices {
 			if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
 				self::delete_notice( $notice_id );
 
-				/** @noinspection PhpUnnecessaryStopStatementInspection */
 				return;
 			}
 			?>
