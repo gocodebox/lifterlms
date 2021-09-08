@@ -169,7 +169,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			$chaos = rand( 0, HOUR_IN_SECONDS * $chaos_hours ) * ( rand( 0, 1 ) ? -1 : 1 );
 
 			// Time travel.
-			llms_mock_current_time( $scheduled_payment_time + $chaos );
+			llms_tests_mock_current_time( $scheduled_payment_time + $chaos );
 
 			// Run the transaction.
 			$this->gateway->handle_recurring_transaction( $order );
