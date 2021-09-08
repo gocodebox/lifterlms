@@ -8,8 +8,14 @@
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
  * @since 3.37.14 Reduce number of tests run for monthly and yearly chaotic simulations.
  * @since 4.3.1 Increased delta for `test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency()` and `test_recurring_lifecycle_for_month_plan_with_chaos()`.
+ * @since [version] Declare the `$gateway` property.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
+
+	/**
+	 * @var LLMS_Payment_Gateway|false
+	 */
+	protected $gateway;
 
 	/**
 	 * Before the class runs, register the mock gateway.
