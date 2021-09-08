@@ -33,6 +33,9 @@ config.testSequencer = require.resolve( './sequencer.js' );
 config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 
+// Our screenshot reporter relies on jasmine.
+config.testRunner = 'jest-jasmine2';
+
 /**
  * Jest Config
  *
