@@ -70,8 +70,8 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	 *
 	 * @since 3.37.6
 	 *
-	 * @param obj $order Instance LLMS_Order for the order being processed.
-	 * @return mixed
+	 * @param LLMS_Order $order Instance LLMS_Order for the order being processed.
+	 * @return void
 	 */
 	public function handle_recurring_transaction( $order ) {
 
