@@ -290,6 +290,7 @@ class LLMS_Admin_Notices {
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
 	 * @since 5.2.0 Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
+	 * @since [version] Delete empty notices and do not display them.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return void
@@ -300,14 +301,13 @@ class LLMS_Admin_Notices {
 
 			$notice = self::get_notice( $notice_id );
 
-			if ( empty( $notice ) ) {
-				return;
-			}
-
 			// Don't output those rogue empty notices I can't find.
 			// @todo find the source.
-			if ( empty( $notice['template'] ) && empty( $notice['html'] ) ) {
+			if ( empty( $notice ) || ( empty( $notice['template'] ) && empty( $notice['html'] ) ) ) {
 				self::delete_notice( $notice_id );
+
+				/** @noinspection PhpUnnecessaryStopStatementInspection */
+				return;
 			}
 			?>
 			<div class="notice notice-<?php echo $notice['type']; ?> llms-admin-notice" id="llms-notice<?php echo $notice_id; ?>" style="position:relative;">
