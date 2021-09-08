@@ -150,6 +150,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
+	 * @since [version] If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
