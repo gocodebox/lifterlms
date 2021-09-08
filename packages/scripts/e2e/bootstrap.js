@@ -2,9 +2,15 @@
  * Tests Bootstrap.
  */
 
-// Load the .llmsenv file.
-require('dotenv').config( {
-	path: `${ process.cwd() }/.llmsenv`,
+import { existsSync } from 'fs';
+
+// Load dotenv files.
+const envFiles = [ '.llmsenv', '.llmsenv.dist' ];
+envFiles.some( file => {
+	const path = `${ process.cwd() }/${ file }`;
+	if ( existsSync( file ) ) {
+		require( 'dotenv' ).config( { path } );
+	}
 } );
 
 // Setup the WP Base URL for e2e Tests.
