@@ -11,6 +11,7 @@ import {
  * Create and publish a new course
  *
  * @since 2.2.1
+ * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {Object} args {
  *     Creation arguments.
@@ -43,7 +44,7 @@ export async function createVoucher( { name = 'A Voucher', course = 'LifterLMS Q
 	await page.waitForSelector( '#llms_voucher_tbody tr' );
 
 	await clickAndWait( '#publish' );
-	await page.waitFor( 1000 ); // Non-interactive tests aren't publishing without a delay, not sure why.
+	await page.waitForTimeout( 1000 ); // Non-interactive tests aren't publishing without a delay, not sure why.
 
 	return await page.$$eval( '#llms_voucher_tbody input[name="llms_voucher_code[]"', inputs => inputs.map( input => input.value ) );
 
