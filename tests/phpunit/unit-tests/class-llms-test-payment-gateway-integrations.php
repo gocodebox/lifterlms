@@ -163,13 +163,13 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$i       = 2;
 		while ( $i <= $num + 1 && $elapsed <= $limit ) {
 
-			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
+			$scheduled_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
 			// Run the recurring payment randomly between 12 hours before and 12 hours after the scheduled payment time.
 			$chaos = rand( 0, HOUR_IN_SECONDS * $chaos_hours ) * ( rand( 0, 1 ) ? -1 : 1 );
 
 			// Time travel.
-			llms_mock_current_time( $next_payment_time + $chaos );
+			llms_mock_current_time( $scheduled_payment_time + $chaos );
 
 			// Run the transaction.
 			$this->gateway->handle_recurring_transaction( $order );
@@ -182,11 +182,15 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			$this->assertEquals( $i, $txns['total'] );
 
 			// Last transaction date should equal the chaos time, this way we can be sure it was the payment we thought it was.
-			$this->assertEquals( $last_txn->get_date( 'date', 'U' ), $next_payment_time + $chaos );
+			$this->assertEquals( $last_txn->get_date( 'date', 'U' ), $scheduled_payment_time + $chaos );
 
 			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
-			$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
+			if ( $chaos < 0 ) {
+				$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
+			} else {
+				$expect = strtotime( "+{$frequency} {$period}", $scheduled_payment_time );
+			}
 			$msg = sprintf(
 				'%1$s Payment #%2$d: Got %3$s and expected %4$s ( $chaos_hours = %5$d | $chaos = %6$s )',
 				ucfirst( $period ),
