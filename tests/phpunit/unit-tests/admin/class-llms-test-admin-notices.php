@@ -429,7 +429,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 		$this->assertOutputEmpty( array( 'LLMS_Admin_Notices', 'output_notice' ), array( $notice_id ) );
 
 		# Test where current user does have the 'manage_options' capability.
-		wp_set_current_user( 1 );
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 		$this->assertOutputContains( $notice_html, array( 'LLMS_Admin_Notices', 'output_notice' ), array( $notice_id ) );
 
 		# Test where the notice does not exist.
