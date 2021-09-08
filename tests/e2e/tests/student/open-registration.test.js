@@ -105,7 +105,6 @@ describe( 'OpenRegistration', () => {
 
 			const selectCountry = async ( country ) => {
 				await select2Select( '#llms_billing_country', country );
-				await page.waitForTimeout( 500 ); // Wait for dom to update?
 			};
 
 			const getStatesList = async () => {
