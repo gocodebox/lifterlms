@@ -163,7 +163,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$i       = 2;
 		while ( $i <= $num + 1 && $elapsed <= $limit ) {
 
-			$scheduled_payment_time = $order->get_date( 'date_next_payment', 'U' );
+			$scheduled_payment_time = (int) $order->get_date( 'date_next_payment', 'U' );
 
 			// Run the recurring payment randomly between 12 hours before and 12 hours after the scheduled payment time.
 			$chaos = rand( 0, HOUR_IN_SECONDS * $chaos_hours ) * ( rand( 0, 1 ) ? -1 : 1 );
