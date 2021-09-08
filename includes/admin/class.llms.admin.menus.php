@@ -196,7 +196,7 @@ class LLMS_Admin_Menus {
 
 		$menu[51] = array( '', 'read', 'llms-separator', '', 'wp-menu-separator' );
 
-		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) );
+		$icon_url = 'data:image/svg+xml;base64,' . base64_encode( file_get_contents( LLMS_PLUGIN_DIR . 'assets/images/lifterlms-icon-grey.svg' ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not a remote URL.
 		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', $icon_url, 51 );
 
 		add_submenu_page( 'lifterlms', __( 'LifterLMS Settings', 'lifterlms' ), __( 'Settings', 'lifterlms' ), 'manage_lifterlms', 'llms-settings', array( $this, 'settings_page_init' ) );
