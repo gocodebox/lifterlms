@@ -1,10 +1,3 @@
-/**
- * Test the Setup Wizard
- *
- * @since 3.37.8
- * @since 3.37.14 Fix package references.
- */
-
 import {
 	clickAndWait,
 	clickElementByText,
@@ -21,7 +14,7 @@ import {
 const addSection = async function( title ) {
 
 	await page.click( '#llms-new-section' );
-	await page.waitFor( 1000 );
+	await page.waitForTimeout( 1000 );
 	const selector = '#llms-sections li:last-child h2.llms-headline .llms-input';
 	await fillField( selector, title );
 	await page.$eval( selector, e => e.blur() );
@@ -34,12 +27,12 @@ const addSection = async function( title ) {
 // 		await clickElementByText( section_title, '#llms-sections > li h2.llms-headline .llms-input' );
 // 	}
 
-// 	await page.waitFor( 10000 );
+// 	await page.waitForTimout( 10000 );
 
 
 
 // 	// await page.click( '#llms-new-lesson' );
-// 	await page.waitFor( 1000 );
+// 	await page.waitForTimout( 1000 );
 
 // 	// await clickElementByText( 'New Lesson', '#llms-sections li.llms-lesson h3.llms-headline .llms-input' );
 
