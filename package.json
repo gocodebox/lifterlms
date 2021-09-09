@@ -37,14 +37,14 @@
   },
   "scripts": {
     "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme && npm run build:contributors",
-    "build:scripts": "gulp scripts && gulp js-additional && gulp js-builder",
+    "build:scripts": "gulp scripts && gulp js-additional && npm run build:scripts:dev && npm run build:scripts:min",
+    "build:scripts:dev": "WP_DEVTOOL=0 NODE_ENV=development wp-scripts build",
+    "build:scripts:min": "WP_DEVTOOL=0 NODE_ENV=production wp-scripts build",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
-    "build:scripts:dev": "NODE_ENV=development wp-scripts build",
-    "build:scripts:prod": "NODE_ENV=production wp-scripts build",
     "start": "wp-scripts start"
   }
 }
