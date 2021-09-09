@@ -11,6 +11,9 @@
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @version 3.37.11
  */
+
+import $ from 'jquery';
+
 define( [], function() {
 
 	return {

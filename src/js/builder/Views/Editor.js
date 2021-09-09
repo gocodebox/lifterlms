@@ -4,6 +4,9 @@
  * @since    3.16.0
  * @version  3.27.0
  */
+
+import $ from 'jquery';
+
 define( [
 		'Views/LessonEditor',
 		'Views/Quiz',

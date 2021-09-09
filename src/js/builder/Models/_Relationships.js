@@ -4,6 +4,8 @@
  * @since    3.16.0
  * @version  3.16.11
  */
+import $ from 'jquery';
+
 define( [], function() {
 
 	return {

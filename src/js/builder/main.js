@@ -5,6 +5,11 @@
  * @since 3.37.11 Added `_.getEditor()` helper.
  * @version 3.37.11
  */
+
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+
 require( [
 	'vendor/wp-hooks',
 	'vendor/backbone.collectionView',

@@ -5,6 +5,9 @@
 * http://github.com/rotundasoftware/backbone-collection-view
 */
 
+import Backbone from 'backbone';
+import _ from 'underscore';
+
 ( function( root, factory ) {
 	// UMD wrapper
 	if ( typeof define === 'function' && define.amd ) {
@@ -1231,7 +1234,7 @@
 	// Provide a container to store, retrieve and
 	// shut down child views.
 
-	ChildViewContainer = (function(Backbone, _){
+	var ChildViewContainer = (function(Backbone, _){
 
 		// Container Constructor
 		// ---------------------

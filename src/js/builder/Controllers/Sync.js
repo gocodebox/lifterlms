@@ -4,6 +4,9 @@
  * @since 3.16.0
  * @version 4.17.0
  */
+
+import $ from 'jquery';
+
 define( [], function() {
 
 	return function( Course, settings ) {

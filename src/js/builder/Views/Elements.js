@@ -4,6 +4,9 @@
  * @since    3.16.0
  * @version  3.16.12
  */
+
+import $ from 'jquery';
+
 define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/PostSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
 
 	return Backbone.View.extend( {

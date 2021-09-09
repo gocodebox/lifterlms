@@ -4,6 +4,9 @@
  * @since 3.17.0
  * @version 4.7.0
  */
+
+import $ from 'jquery';
+
 define( [], function() {
 
 	return Backbone.View.extend( _.defaults( {

@@ -4,6 +4,9 @@
  * @since    3.13.0
  * @version  3.16.0
  */
+
+import $ from 'jquery';
+
 define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivable ) {
 
 	return Backbone.CollectionView.extend( _.defaults( {

@@ -2,8 +2,11 @@
  * Post Popover Search content View
  *
  * @since 3.16.0
- * @version 4.4.0
+ * @version [version]
  */
+
+import $ from 'jquery';
+
 define( [], function() {
 
 	return Backbone.View.extend( {
@@ -11,9 +14,7 @@ define( [], function() {
 		/**
 		 * DOM Events
 		 *
-		 * @type     obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @type {Object}
 		 */
 		events: {
 			'select2:select': 'add_post',
@@ -22,17 +23,17 @@ define( [], function() {
 		/**
 		 * Wrapper Tag name
 		 *
-		 * @type  {String}
+		 * @type {String}
 		 */
 		tagName: 'select',
 
 		/**
 		 * Initializer
 		 *
-		 * @param    obj   data  customize the search box with data
-		 * @return   void
-		 * @since    3.16.12
-		 * @version  3.16.12
+		 * @since 3.16.12
+		 *
+		 * @param {Object} data Customize the search box with data.
+		 * @return {void}
 		 */
 		initialize: function( data ) {
 
@@ -44,9 +45,11 @@ define( [], function() {
 		/**
 		 * Select event, adds the existing lesson to the course
 		 *
-		 * @param    obj   event  select2:select event object
-		 * @since    3.16.0
-		 * @version  3.17.0
+		 * @since 3.16.0
+		 * @since 3.17.0 Unknown.
+		 *
+		 * @param {Object} event The select2:select event object.
+		 * @return {void}
 		 */
 		add_post: function( event ) {
 
@@ -66,7 +69,7 @@ define( [], function() {
 		 * @since 3.16.12 Unknown.
 		 * @since 4.4.0 Update ajax nonce source.
 		 *
-		 * @return void
+		 * @return {void}
 		 */
 		render: function() {
 			var self = this;
@@ -107,10 +110,12 @@ define( [], function() {
 		/**
 		 * Render a nicer UI for each search result in the in the Select2 search results
 		 *
-		 * @param    object   res  result data
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @since 3.16.0
+		 * @since 3.16.12 Unknown.
+		 * @since [version] Fixed a stray semicolon.
+		 *
+		 * @param {Object} res AJAX Result data.
+		 * @return {string} The text/html used to display the result.
 		 */
 		render_result: function( res ) {
 
@@ -121,7 +126,7 @@ define( [], function() {
 			}
 
 			var $side = $( '<aside class="llms-existing-action" />' ),
-				$main = $( '<div class="llms-existing-info" />' );
+				$main = $( '<div class="llms-existing-info" />' ),
 				icon  = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
 				text  = ( 'attach' === res.action ) ? LLMS.l10n.translate( 'Attach' ) : LLMS.l10n.translate( 'Clone' );
 
@@ -134,7 +139,9 @@ define( [], function() {
 				$main.append( '<h5>' + parent + '</em></h5>' );
 			} );
 
-			return $html.append( $side ).append( $main );
+			$html.append( $side ).append( $main );
+
+			return $html;
 
 		},
 

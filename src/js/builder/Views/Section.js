@@ -3,6 +3,9 @@
  * @since    3.13.0
  * @version  3.16.12
  */
+
+import $ from 'jquery';
+
 define( [
 		'Views/LessonList',
 		'Views/_Editable',

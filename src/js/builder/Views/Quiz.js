@@ -3,6 +3,9 @@
  * @since    3.16.0
  * @version  3.24.0
  */
+
+import $ from 'jquery';
+
 define( [
 		'Models/Quiz',
 		'Views/Popover',
