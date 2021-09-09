@@ -18,3 +18,7 @@ node_modules/
 # Non-distributable configs.
 phpunit.xml
 .llmsenv
+
+# (Some) sourcemaps.
+assets/js/llms-builder.js.map
+assets/css/builder.css.map
