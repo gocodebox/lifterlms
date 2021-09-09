@@ -4,32 +4,49 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version 1.2.3
+ * @version [version]
  */
 
 // Deps.
 const
-	cssExtract = require( 'mini-css-extract-plugin' ),
-	cssRTL     = require( 'webpack-rtl-plugin' ),
-	config     = require( '@wordpress/scripts/config/webpack.config' ),
-	depExtract = require( '@wordpress/dependency-extraction-webpack-plugin' )
-	path       = require( 'path' );
+	cssExtract     = require( 'mini-css-extract-plugin' ),
+	cssRTL         = require( 'webpack-rtl-plugin' ),
+	config         = require( '@wordpress/scripts/config/webpack.config' ),
+	depExtract     = require( '@wordpress/dependency-extraction-webpack-plugin' )
+	path           = require( 'path' ),
+	{ isFunction } = require( 'lodash' ),
+	{ NODE_ENV = 'production' } = process.env;
 
 /**
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
  *
  * @since 1.2.1
+ * @since [version] Added handling for WP Core scripts: backbone and underscore.
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
  */
 function requestToExternal( request ) {
 
-	if ( 'llms-quill' === request ) {
-		return 'Quill';
-	} else if ( 'llms-izimodal' === request ) {
-		return [ 'jQuery', 'iziModal' ];
-	} else if ( request.startsWith( 'llms/' ) || request.startsWith( 'LLMS/' ) ) {
+	switch ( request ) {
+		case 'llms-quill':
+			return 'Quill';
+			break;
+
+		case 'llms-izimodal':
+			return [ 'jQuery', 'iziModal' ];
+			break;
+
+		case 'backbone':
+			return 'Backbone';
+			break;
+
+		case 'underscore':
+			return '_';
+			break;
+	}
+
+	if ( request.startsWith( 'llms/' ) || request.startsWith( 'LLMS/' ) ) {
 		return request.split( '/' );
 	}
 
@@ -74,13 +91,15 @@ function setupEntry( js, srcPath ) {
  * Setup the `plugins` array of the webpack config file.
  *
  * @since 1.2.1
+ * @since [version] Allow filename modification via modifyFileName arg.
  *
- * @param {Object[]} plugins Array of plugin objects or classes.
- * @param {String[]} css     Array of CSS file slugs.
- * @param {String}   prefix  File prefix.
+ * @param {Object[]} plugins        Array of plugin objects or classes.
+ * @param {String[]} css            Array of CSS file slugs.
+ * @param {String}   prefix         File prefix.
+ * @param {Function} modifyFileName User-supplied function to customize the filename template.
  * @return {Object[]} Array of plugin objects or classes.
  */
-function setupPlugins( plugins, css, prefix ) {
+function setupPlugins( plugins, css, prefix, modifyFileName ) {
 
 	// Delete the css extractor implemented in the default config (we'll replace it with our own later).
 	plugins.forEach( ( plugin, index ) => {
@@ -93,12 +112,13 @@ function setupPlugins( plugins, css, prefix ) {
 
 		// Extract CSS.
 		plugins.push( new cssExtract( {
-			filename: `css/${ prefix }[name].css`,
+			filename: ( pathData ) => modifyFileName( `css/${ prefix }[name].css`, { ...pathData, filename: file, basename: file } ),
 		} ) );
 
 		// Generate an RTL CSS file.
 		plugins.push( new cssRTL( {
-			filename: `css/${ prefix }[name]-rtl.css`,
+			filename: modifyFileName( `css/${ prefix }[name]-rtl.css`, { filename: file, basename: file } ),
+			minify: 'production' === NODE_ENV,
 		} ) );
 
 	} );
@@ -128,23 +148,30 @@ function setupPlugins( plugins, css, prefix ) {
  * @since Unknown
  * @since 1.2.1 Reduce method size by using helper methods
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
+ * @since [version] Added optional minification suffix option.
  *
- * @param {String[]} options.css        Array of CSS file slugs.
- * @param {String[]} options.js         Array of JS file slugs.
- * @param {String}   options.prefix     File prefix.
- * @param {String}   options.outputPath Relative path to the output directory.
+ * @param {String[]} options.css            Array of CSS file slugs.
+ * @param {String[]} options.js             Array of JS file slugs.
+ * @param {String}   options.prefix         File prefix.
+ * @param {String}   options.outputPath     Relative path to the output directory.
+ * @param {String}   options.minSuffix      If specified and building in the 'production' environment, will append the suffix before the file extension.
+ * @param {Function} options.modifyFileName User-supplied function to customize the filename template.
  * @return {Object} A webpack.config.js object.
  */
-module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/', srcPath = 'src/' } ) => {
+module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/', srcPath = 'src/', minSuffix = '', modifyFileName = null } ) => {
+
+	minSuffix = 'production' === NODE_ENV ? minSuffix : '';
+
+	modifyFileName = isFunction( modifyFileName ) ? modifyFileName : ( filename ) => filename;
 
 	return {
 		...config,
 		entry: setupEntry( js, srcPath ),
 		output: {
-			filename: `js/${ prefix }[name].js`,
+			filename: ( pathData ) => modifyFileName( `js/${ prefix }[name]${ minSuffix }.js`, pathData ),
 			path: path.resolve( process.cwd(), outputPath ),
 		},
-		plugins: setupPlugins( config.plugins, css, prefix ),
+		plugins: setupPlugins( config.plugins, css, prefix, modifyFileName ),
 	};
 
 }
