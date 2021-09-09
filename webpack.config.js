@@ -7,6 +7,8 @@
  * @version [version]
  */
 
+const { npm_lifecycle_event } = process.env; // NPM script name.
+
 function modifyFileName( template, { filename } ) {
 	if ( template.includes( '.css' ) && 'builder' === filename ) {
 		template = template.replace( 'llms-', '' );
@@ -20,7 +22,7 @@ const
 	config   = generate( {
 		css: [ 'builder' ],
 		js: [ 'builder' ],
-		minSuffix: '.min',
+		minSuffix: 'start' === npm_lifecycle_event ? '' : '.min',
 		modifyFileName,
 	} );
 
