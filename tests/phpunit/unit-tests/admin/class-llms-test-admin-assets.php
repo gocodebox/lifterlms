@@ -41,13 +41,58 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 		 */
 		$handles = array(
 			'llms-google-charts',
-			'llms-analytics'
+			'llms-analytics',
+			'heartbeat',
+			'editor',
+			'llms-builder',
+			'llms-builder-styles'
 		);
 
 		foreach ( $handles as $handle ) {
 			wp_dequeue_script( $handle );
 			wp_deregister_script( $handle );
 		}
+
+	}
+
+	/**
+	 * Test builder_assets()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_builder_assets() {
+
+		LLMS_Unit_Test_Util::call_method( $this->main, 'builder_assets' );
+
+		$this->assertAssetIsEnqueued( 'script', 'heartbeat' );
+		$this->assertAssetIsEnqueued( 'script', 'editor' );
+
+		$this->assertAssetIsRegistered( 'script', 'llms-quill' );
+		$this->assertAssetIsRegistered( 'style', 'llms-quill-bubble' );
+
+		$this->assertAssetIsEnqueued( 'script', 'llms-builder' );
+		$this->assertAssetIsEnqueued( 'style', 'llms-builder-styles' );
+
+	}
+
+	/**
+	 * Test builder_assets() when the heartbeat is disabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_builder_assets_no_heartbeat() {
+
+		add_filter( 'llms_builder_use_heartbeat', '__return_false' );
+
+		LLMS_Unit_Test_Util::call_method( $this->main, 'builder_assets' );
+
+		$this->assertAssetNotEnqueued( 'script', 'heartbeat' );
+
+		remove_filter( 'llms_builder_use_heartbeat', '__return_false' );
 
 	}
 

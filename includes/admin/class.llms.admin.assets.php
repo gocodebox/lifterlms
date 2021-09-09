@@ -1,17 +1,17 @@
 <?php
 /**
- * Admin Assets
+ * LLMS_Admin_Assets class file
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Assets class
+ * Register, enqueue, and print admin scripts & styles
  *
  * @since 1.0.0
  */
@@ -108,6 +108,7 @@ class LLMS_Admin_Assets {
 	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
 	 *               Add `llms-admin-forms` on the forms post table screen.
+	 * @since [version] Move builder assets to `self::builder_assets()`.
 	 *
 	 * @return void
 	 */
@@ -211,26 +212,7 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
 
-			self::register_quill();
-
-			wp_enqueue_editor();
-
-			wp_enqueue_style( 'llms-builder-styles', LLMS_PLUGIN_URL . 'assets/css/builder' . LLMS_ASSETS_SUFFIX . '.css', array( 'llms-quill-bubble' ), LLMS()->version, 'screen' );
-			wp_style_add_data( 'llms-builder-styles', 'rtl', 'replace' );
-			wp_style_add_data( 'llms-builder-styles', 'suffix', LLMS_ASSETS_SUFFIX );
-
-			wp_enqueue_style( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.2.15' );
-			wp_style_add_data( 'webui-popover', 'suffix', LLMS_ASSETS_SUFFIX );
-
-			wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-			wp_enqueue_style( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.min.css', array(), '1.3.4' );
-			wp_enqueue_script( 'llms-datetimepicker', LLMS_PLUGIN_URL . 'assets/vendor/datetimepicker/jquery.datetimepicker.full' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.3.4', true );
-
-			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
-				wp_enqueue_script( 'heartbeat' );
-			}
-
-			wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . 'assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
+			self::builder_assets();
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 
@@ -291,6 +273,34 @@ class LLMS_Admin_Assets {
 		if ( ! empty( $screen->is_block_editor ) || 'customize' === $screen->base ) {
 			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_json_encode( wp_slash( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
 		}
+
+	}
+
+	/**
+	 * Register/enqueue course builder scripts & styles
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected static function builder_assets() {
+
+		/**
+		 * Filters whether or not the WP Heartbeat API should be used for autosaving course builder data.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean $use_heartbeat Whether or not the heartbeat should be used.
+		 */
+		$use_heartbeat = apply_filters( 'llms_builder_use_heartbeat', true );
+		if ( $use_heartbeat ) {
+			wp_enqueue_script( 'heartbeat' );
+		}
+
+		self::register_quill();
+		wp_enqueue_editor();
+		llms()->assets->enqueue_style( 'llms-builder-styles' );
+		llms()->assets->enqueue_script( 'llms-builder' );
 
 	}
 
