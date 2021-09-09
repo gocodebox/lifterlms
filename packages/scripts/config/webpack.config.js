@@ -99,7 +99,7 @@ function setupEntry( js, srcPath ) {
  * @param {Function} modifyFileName User-supplied function to customize the filename template.
  * @return {Object[]} Array of plugin objects or classes.
  */
-function setupPlugins( plugins, css, prefix, modifyFileName ) {
+function setupPlugins( plugins, css, prefix, minSuffix, modifyFileName ) {
 
 	// Delete the css extractor implemented in the default config (we'll replace it with our own later).
 	plugins.forEach( ( plugin, index ) => {
@@ -112,13 +112,13 @@ function setupPlugins( plugins, css, prefix, modifyFileName ) {
 
 		// Extract CSS.
 		plugins.push( new cssExtract( {
-			filename: ( pathData ) => modifyFileName( `css/${ prefix }[name].css`, { ...pathData, filename: file, basename: file } ),
+			filename: ( pathData ) => modifyFileName( `css/${ prefix }[name]${ minSuffix }.css`, { ...pathData, filename: file, basename: file } ),
 		} ) );
 
 		// Generate an RTL CSS file.
 		plugins.push( new cssRTL( {
-			filename: modifyFileName( `css/${ prefix }[name]-rtl.css`, { filename: file, basename: file } ),
-			minify: 'production' === NODE_ENV,
+			filename: modifyFileName( `css/${ prefix }[name]-rtl${ minSuffix }.css`, { filename: file, basename: file } ),
+			minify: minSuffix ? true : false,
 		} ) );
 
 	} );
@@ -171,7 +171,7 @@ module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/'
 			filename: ( pathData ) => modifyFileName( `js/${ prefix }[name]${ minSuffix }.js`, pathData ),
 			path: path.resolve( process.cwd(), outputPath ),
 		},
-		plugins: setupPlugins( config.plugins, css, prefix, modifyFileName ),
+		plugins: setupPlugins( config.plugins, css, prefix, minSuffix, modifyFileName ),
 	};
 
 }
