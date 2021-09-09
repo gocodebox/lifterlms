@@ -53,8 +53,18 @@ return array(
 	'llms-admin-forms'        => array(
 		'dependencies' => array( 'wp-i18n' ),
 	),
+	'llms-builder'            => array(
+		'asset_file'   => true,
+		'dependencies' => array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'llms-datetimepicker', 'llms-quill', 'post', 'webui-popover' )
+	),
 
 	// Vendor.
+	'llms-datetimepicker' => array(
+		'file_name' => 'jquery.datetimepicker.full',
+		'path'      => 'assets/vendor/datetimepicker',
+		'version'   => '1.3.4',
+		'dependencies' => array( 'jquery' ),
+	),
 	'llms-iziModal'           => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',

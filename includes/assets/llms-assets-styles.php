@@ -46,8 +46,19 @@ return array(
 	'llms-admin-importer' => array(
 		'file_name' => 'admin-importer',
 	),
+	'llms-builder-styles' => array(
+		'file_name'    => 'builder',
+		'dependencies' => array( 'llms-datetimepicker', 'llms-quill-bubble', 'webui-popover' ),
+	),
 
 	// Vendor.
+	'llms-datetimepicker' => array(
+		'file_name' => 'jquery.datetimepicker',
+		'path'      => 'assets/vendor/datetimepicker',
+		'version'   => '1.3.4',
+		'rtl'       => false,
+		'suffix'    => '.min', // We only have a minified version of this asset.
+	),
 	'llms-iziModal'       => array(
 		'file_name' => 'iziModal',
 		'path'      => 'assets/vendor/izimodal',
