@@ -409,6 +409,41 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test output_notice().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_notice() {
+
+		LLMS_Admin_Notices::init();
+
+		# Create a normal notice.
+		$notice_html = 'Have you heard of the band 999 MB? They haven\'t got a gig yet.';
+		$notice_id   = 'test-output-notice-normal';
+		LLMS_Admin_Notices::add_notice( $notice_id, $notice_html );
+		LLMS_Admin_Notices::save_notices();
+
+		# Test where current user does not have the 'manage_options' capability.
+		$this->assertOutputEmpty( array( 'LLMS_Admin_Notices', 'output_notice' ), array( $notice_id ) );
+
+		# Test where current user does have the 'manage_options' capability.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertOutputContains( $notice_html, array( 'LLMS_Admin_Notices', 'output_notice' ), array( $notice_id ) );
+
+		# Test where the notice does not exist.
+		$this->assertOutputEmpty( array( 'LLMS_Admin_Notices', 'output_notice' ), array( 'notice-does-not-exist' ) );
+
+		# Test where the notice html is empty.
+		$notice_id = 'test-output-notice-empty-html-empty-template';
+		LLMS_Admin_Notices::add_notice( $notice_id, '' );
+		LLMS_Admin_Notices::save_notices();
+		$this->assertOutputEmpty( array( 'LLMS_Admin_Notices', 'output_notice' ), array( $notice_id ) );
+
+	}
+
+	/**
 	 * Test save_notices()
 	 *
 	 * @since 4.13.0
