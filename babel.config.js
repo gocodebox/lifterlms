@@ -4,7 +4,7 @@
  * @package LifterLMS/Dev/Scripts
  *
  * @since Unknown
- * @version Unknown
+ * @version [version]
  */
 
 const presets = [
