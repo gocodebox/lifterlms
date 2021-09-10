@@ -53,6 +53,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test merging of defaults during construction
 	 *
 	 * @since 4.9.0
+	 * @since [version] Add `asset_file` prop to expected response.
 	 *
 	 * @return void
 	 */
@@ -68,7 +69,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			),
 			// Script specific defaults.
 			'script' => array(
-				'translate' => true, // All scripts in this plugin are translated.
+				'translate'  => true, // All scripts in this plugin are translated.
 			),
 		);
 
@@ -81,10 +82,11 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 				'version' => '93.29.107',
 			),
 			'script' => array(
-				'path' => 'assets/js',
-				'extension' => '.js',
-				'in_footer' => true,
-				'translate' => true,
+				'path'       => 'assets/js',
+				'extension'  => '.js',
+				'in_footer'  => true,
+				'translate'  => true,
+				'asset_file' => false,
 			),
 			'style' => array(
 				'path' => 'assets/css',
@@ -390,6 +392,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_scripts()
 	 *
 	 * @since 4.4.0
+ 	 * @since [version] Add `asset_file` prop to expected response.
 	 *
 	 * @return void
 	 */
@@ -405,6 +408,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'in_footer'    => true,
 			'path'         => 'assets/js',
 			'translate'    => false,
+			'asset_file'   => false,
 		);
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'script' ) ) );
 
@@ -830,7 +834,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_register_style_with_deps() {
 
 		// Deps are not registered.
-		$deps = array( 'llms-datetimepicker', 'llms-quill-bubble', 'webui-popover' );
+		$deps = array( 'llms-datetimepicker', 'webui-popover' );
 		foreach ( $deps as $dep ) {
 			$this->assertAssetNotRegistered( 'style', $dep );
 		}
