@@ -8,25 +8,28 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * Retrieve the Setup Wizard Page Title.
  *
  * @since 2.1.0
- *
- * @return {String}
+ * @return {string}
  */
-const getTitle = async function() {
-	return await page.$eval( '.llms-setup-content > form > h1', txt => txt.textContent );
-}
+const getTitle = async function () {
+	return await page.$eval(
+		'.llms-setup-content > form > h1',
+		( txt ) => txt.textContent
+	);
+};
 
 /**
  * Run (and test) the LifterLMS Setup Wizard
  *
  * @since 2.1.0
  * @since 2.2.0 Rework to accommodate setup wizard changes in LifterLMS core.
- *
- * @param {String[]} options.coursesToImport Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
+ * @param {string[]} options.coursesToImport Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
  * @param {boolean}  options.exit            Whether or not to exit the setup wizard at the conclusion of setup. If `true`, uses the "Exit" link to leave setup.`
  * @return {void}
  */
-export async function runSetupWizard( { coursesToImport = [ 'LifterLMS Quickstart Course' ], exit = false } = {} ) {
-
+export async function runSetupWizard( {
+	coursesToImport = [ 'LifterLMS Quickstart Course' ],
+	exit = false,
+} = {} ) {
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
@@ -50,25 +53,27 @@ export async function runSetupWizard( { coursesToImport = [ 'LifterLMS Quickstar
 	expect( await getTitle() ).toBe( 'Setup Complete!' );
 
 	// Import button should be disabled.
-	expect( await page.$eval( '#llms-setup-submit', el => el.disabled ) ).toBe( true );
+	expect(
+		await page.$eval( '#llms-setup-submit', ( el ) => el.disabled )
+	).toBe( true );
 
 	if ( exit ) {
 		// Exit the wizard.
 
 		await clickAndWait( '.llms-exit-setup' );
-		expect( await page.url().includes( '/admin.php?page=llms-settings' ) ).toBe( true );
-
+		expect(
+			await page.url().includes( '/admin.php?page=llms-settings' )
+		).toBe( true );
 	} else if ( ! coursesToImport ) {
 		// Start from scratch.
 
 		await clickAndWait( '.llms-setup-actions .llms-button-secondary' );
 		await dismissEditorWelcomeGuide();
-
 	} else if ( coursesToImport ) {
 		// Import courses.
 
 		// Select specified courses.
-		for ( let courseTitle of coursesToImport ) {
+		for ( const courseTitle of coursesToImport ) {
 			await clickElementByText( courseTitle, 'h3' );
 		}
 
@@ -77,23 +82,30 @@ export async function runSetupWizard( { coursesToImport = [ 'LifterLMS Quickstar
 		if ( 1 === coursesToImport.length ) {
 			// Single course imported.
 
-			expect( await page.$eval( '.block-editor h1.screen-reader-text', txt => txt.textContent ) ).toBe( 'Edit Course' );
+			expect(
+				await page.$eval(
+					'.block-editor h1.screen-reader-text',
+					( txt ) => txt.textContent
+				)
+			).toBe( 'Edit Course' );
 
 			await dismissEditorWelcomeGuide();
 
-			expect( await page.$eval( '.editor-post-title__input', txt => txt.value ) ).toBe( coursesToImport[0] );
-
+			expect(
+				await page.$eval(
+					'.editor-post-title__input',
+					( txt ) => txt.value
+				)
+			).toBe( coursesToImport[ 0 ] );
 		} else {
-
-			expect( await page.url().includes( '/edit.php?post_type=course' ) ).toBe( true );
+			expect(
+				await page.url().includes( '/edit.php?post_type=course' )
+			).toBe( true );
 
 			// All courses should be present in the post table list.
-			for ( let courseTitle of coursesToImport ) {
+			for ( const courseTitle of coursesToImport ) {
 				await findElementByText( courseTitle, '#the-list a.row-title' );
 			}
-
 		}
-
 	}
-
 }

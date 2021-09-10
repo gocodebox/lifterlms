@@ -9,15 +9,18 @@ import { pickBy } from 'lodash';
  *
  * @since 2.1.0
  * @since 2.1.2 Don't add null values to the query string.
- *
  * @param {Object} args {
- *     Settings page options.
- *
- *     @type {String} tab     Settings page tab ID.
- *     @type {String} section Settings page section ID.
+ *                      Settings page options.
+ *     @type {string} tab     Settings page tab ID.
+ *     @type {string} section Settings page section ID.
  * }
  * @return {Void}
  */
 export async function visitSettingsPage( { tab = null, section = null } = {} ) {
-	await visitAdminPage( 'admin.php', new URLSearchParams( pickBy( { page: 'llms-settings', tab, section } ) ).toString() );
+	await visitAdminPage(
+		'admin.php',
+		new URLSearchParams(
+			pickBy( { page: 'llms-settings', tab, section } )
+		).toString()
+	);
 }

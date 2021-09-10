@@ -11,10 +11,8 @@
  * aren't available on older versions, etc...
  *
  * @since 5.0.1
- *
  * @see [Reference]
  * @link [URL]
- *
  * @return {[type]} [description]
  */
 export function getWPVersion() {

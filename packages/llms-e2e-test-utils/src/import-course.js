@@ -11,14 +11,16 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * @since 2.2.0
  * @since 2.2.0 Update to accommodate changes in the LifterLMS core.
  * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
- *
- * @param {String}  importFile Filename of the import.
- * @param {String}  importPath Local path where the file is located. By default uses `tests/assets/`.
- * @param {Boolean} navigate   Whether or not to automatically navigate to the imported course when done.
+ * @param {string}  importFile Filename of the import.
+ * @param {string}  importPath Local path where the file is located. By default uses `tests/assets/`.
+ * @param {boolean} navigate   Whether or not to automatically navigate to the imported course when done.
  * @return {Void}
  */
-export async function importCourse( importFile, importPath = '', navigate = true ) {
-
+export async function importCourse(
+	importFile,
+	importPath = '',
+	navigate = true
+) {
 	importPath = importPath || `${ process.cwd() }/tests/assets/`;
 
 	const file = importPath + importFile;
@@ -27,7 +29,7 @@ export async function importCourse( importFile, importPath = '', navigate = true
 
 	await page.click( 'button.page-title-action' );
 
-	const inputSelector = 'input[name="llms_import"]'
+	const inputSelector = 'input[name="llms_import"]';
 	await page.waitForSelector( inputSelector );
 	const fileUpload = await page.$( inputSelector );
 
@@ -37,9 +39,6 @@ export async function importCourse( importFile, importPath = '', navigate = true
 	await clickAndWait( '#llms-import-file-submit' );
 
 	if ( navigate ) {
-
 		await clickAndWait( '.llms-admin-notice.notice-success a' );
-
 	}
-
 }

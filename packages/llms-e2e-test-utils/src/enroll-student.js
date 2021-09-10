@@ -13,13 +13,11 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @since 2.2.0
  * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
- *
  * @param {Integer} postId    WP_Post ID.
  * @param {Integer} studentId WP_User ID.
  * @return {Void}
  */
 export async function enrollStudent( postId, studentId ) {
-
 	await visitAdminPage( 'post.php', `post=${ postId }&action=edit` );
 
 	await setSelect2Option( '#llms-add-student-select', studentId );
@@ -28,6 +26,4 @@ export async function enrollStudent( postId, studentId ) {
 
 	// Lazy waiting for ajax save.
 	await page.waitForTimeout( 2000 );
-
 }
-

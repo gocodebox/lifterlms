@@ -6,13 +6,11 @@
  * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *              Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown
  *              to close after selecting an option.
- *
- * @param {String} selector Query selector for the select element.
- * @param {String} value    Option value to select.
+ * @param {string} selector Query selector for the select element.
+ * @param {string} value    Option value to select.
  * @return {Void}
  */
 export async function select2Select( selector, value ) {
-
 	// Wait for select2 to load on the element.
 	await page.waitForSelector( `${ selector }.select2-hidden-accessible` );
 
@@ -30,6 +28,7 @@ export async function select2Select( selector, value ) {
 	await page.keyboard.press( 'Enter' );
 
 	// Wait for the selection box to close.
-	await page.waitForSelector( `${ selector } + .select2-container .select2-selection[aria-expanded="false"]` );
-
-};
+	await page.waitForSelector(
+		`${ selector } + .select2-container .select2-selection[aria-expanded="false"]`
+	);
+}
