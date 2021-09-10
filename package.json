@@ -18,6 +18,7 @@
     "@babel/preset-env": "^7.10.1",
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
+    "@wordpress/docgen": "^1.18.0",
     "@wordpress/e2e-test-utils": "^4.3.1",
     "contributor-faces": "^1.1.0-0",
     "gulp": "^4.0.0",
@@ -42,6 +43,9 @@
     "build:pot": "gulp pot-js && llms-dev pot",
     "build:contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
-    "test:dev": "npm run test -- --puppeteer-interactive"
+    "test:dev": "npm run test -- --puppeteer-interactive",
+    "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js",
+    "pkg:fix:js": "npm run pkg:lint:js -- --fix",
+    "pkg:docgen": "docgen ./packages/llms-e2e-test-utils/src/index.js --output ./packages/llms-e2e-test-utils/README.md --to-token"
   }
 }
