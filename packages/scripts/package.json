@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@jest/test-sequencer": "^26.6.3",
+    "jest-jasmine2": "^27.1.1",
     "@wordpress/scripts": "^17.1.0",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
