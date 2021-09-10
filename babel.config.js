@@ -7,13 +7,6 @@
  * @version [version]
  */
 
-const presets = [
-	[
-		'@babel/preset-env',
-		{
-			modules: 'amd',
-		}
-	]
-];
+const presets = [ [ '@babel/preset-env', { modules: 'amd' } ] ];
 
 module.exports = { presets };
