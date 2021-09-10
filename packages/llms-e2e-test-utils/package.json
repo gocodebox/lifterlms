@@ -24,6 +24,9 @@
     "@wordpress/e2e-test-utils": ">=4.1.0",
     "css-xpath": "^1.0.0"
   },
+  "peerDependencies": {
+    "lodash": "^4.17.21"
+  },
   "publishConfig": {
     "access": "public"
   }
