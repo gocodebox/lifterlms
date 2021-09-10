@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/scripts",
-  "version": "1.3.7",
+  "version": "2.0.0-beta.0",
   "description": "Test, build, and development scripts for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -25,10 +25,10 @@
   },
   "dependencies": {
     "@jest/test-sequencer": "^26.6.3",
-    "jest-jasmine2": "^27.1.1",
     "@wordpress/scripts": "^17.1.0",
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
+    "jest-jasmine2": "^27.1.1",
     "mini-css-extract-plugin": "^0.9.0",
     "mkdirp": "^1.0.4",
     "sass": "^1.26.8",
