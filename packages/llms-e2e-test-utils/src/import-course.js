@@ -9,7 +9,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @since 2.2.0
  * @since 2.2.0 Update to accommodate changes in the LifterLMS core.
- * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {string}  importFile Filename of the import.
  * @param {string}  importPath Local path where the file is located. By default uses `tests/assets/`.

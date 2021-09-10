@@ -1,5 +1,13 @@
-LifterLMS E2E Test Utils CHANGELOG
+LifterLMS E2E Test Utils Changelog
 ==================================
+
+v3.0.0 - 2021-09-10
+-------------------
+
++ **[Breaking]** Minimum required Puppeteer version raised from 3.0.0 to 5.3.0.
++ Use `waitForTimeout()` in favor of deprecated `waitFor()`.
++ Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown to close after selecting an option.
+
 
 v2.3.0 - 2021-06-22
 -------------------

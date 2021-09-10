@@ -12,7 +12,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * area on the course or membership.
  *
  * @since 2.2.0
- * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {number} postId    WP_Post ID.
  * @param {number} studentId WP_User ID.

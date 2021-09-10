@@ -3,7 +3,7 @@
  *
  * @since 2.2.1
  * @since 2.3.0 Focus on the search selector prior to typing.
- * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *              Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown
  *              to close after selecting an option.
  * @param {string} selector Query selector for the select element.

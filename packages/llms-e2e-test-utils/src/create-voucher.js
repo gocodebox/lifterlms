@@ -9,7 +9,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * Create and publish a new course
  *
  * @since 2.2.1
- * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
  * @param {Object} args            Creation arguments.
  * @param {string} args.name       Voucher (post) title.
