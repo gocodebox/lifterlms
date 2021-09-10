@@ -1,6 +1,15 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v2.0.0 - 2021-09-10
+-------------------
+
++ **[Breaking]** Raised the minimum required `@wordpress/scripts` version to 17.1.0.
++ Explicitly defines `jest-jasmine2` as the test runner for Jest.
++ Adds env var loading from `.llmsenv` with a fallback to `.llmsenv.dist`. The former file intended to be excluded from version control systems.
++ Adds a default `.eslintrc.js` configuration intended for use by LifterLMS and LifterLMS projects (via `wp-scripts lint-js`).
+
+
 v1.3.3 - 2021-01-07
 -------------------
 
