@@ -2,7 +2,7 @@
  * Tests Bootstrap.
  */
 
-import { existsSync } from 'fs';
+const { existsSync } = require( 'fs' );
 
 // Load dotenv files.
 const envFiles = [ '.llmsenv', '.llmsenv.dist' ];
