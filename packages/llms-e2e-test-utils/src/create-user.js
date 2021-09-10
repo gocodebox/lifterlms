@@ -3,16 +3,17 @@ import { clickAndWait } from './click-and-wait';
 import { fillField } from './fill-field';
 
 // External dependencies.
-import url from 'url';
+import url from 'url'; // eslint-disable-line no-unused-vars
 import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
  * Asynchronously loop through an Object
  *
  * @since 1.0.0
+ *
  * @param {Object}   obj      Object to loop through.
  * @param {Function} callback Callback function, will be passed to params `key` and `val`.
- * @return {Void}
+ * @return {void}
  */
 const forEach = async ( obj, callback ) => {
 	const keys = Object.keys( obj );
@@ -27,8 +28,9 @@ const forEach = async ( obj, callback ) => {
  * @since 1.0.0
  * @since 2.2.0 Returns the WP_User ID in the return object.
  * @since 2.2.1 Options object is now optional.
+ *
  * @param {Object} opts Hash of user information used to create the new user.
- * @return {Object}
+ * @return {Object} Object of created user data.
  */
 export async function createUser( opts = {} ) {
 	await visitAdminPage( 'user-new.php' );
@@ -59,9 +61,9 @@ export async function createUser( opts = {} ) {
 
 	await clickAndWait( '#createusersub' );
 
-	// Add th user's ID.
-	const url = new URL( await page.url() );
-	opts.id = url.searchParams.get( 'id' );
+	// Add the user's ID.
+	const currUrl = new URL( await page.url() );
+	opts.id = currUrl.searchParams.get( 'id' );
 
 	return opts;
 }

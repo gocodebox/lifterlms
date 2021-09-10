@@ -10,14 +10,13 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @since 2.2.1
  * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
- * @param {Object} args {
- *                      Creation arguments.
- *     @type {string}  name       Voucher (post) title.
- *     @type {string}  course     Name of a course to add to the voucher.
- *     @type {string}  membership Name of a membership to add to the voucher.
- *     @type {Integer} codes      Number of codes to generate.
- *     @type {Integer} uses       Number of uses per code.
- * }
+ *
+ * @param {Object} args            Creation arguments.
+ * @param {string} args.name       Voucher (post) title.
+ * @param {string} args.course     Name of a course to add to the voucher.
+ * @param {string} args.membership Name of a membership to add to the voucher.
+ * @param {number} args.codes      Number of codes to generate.
+ * @param {number} args.uses       Number of uses per code.
  * @return {string[]} Array of the generated voucher codes.
  */
 export async function createVoucher( {

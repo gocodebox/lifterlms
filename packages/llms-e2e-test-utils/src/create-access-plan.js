@@ -1,20 +1,20 @@
 import { click } from './click';
 import { clickAndWait } from './click-and-wait';
+import { createCourse } from './create-course';
 import { fillField } from './fill-field';
 
-import { createCourse, visitAdminPage } from '@wordpress/e2e-test-utils';
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
  * Create and publish a new course
  *
  * @since 2.0.0
  * @since 2.2.2 Use `waitForSelector()`` in favor of `waitFor()`.
- * @param {Object} args {
- *                      Creation arguments.
- *     @type {Integer} postId Post ID of the plan's course or membership.
- *     @type {Float}   price  Plan price.
- *     @type {string}  title  Plan title.
- * }
+ *
+ * @param {Object} args        Creation arguments.
+ * @param {number} args.postId Post ID of the plan's course or membership.
+ * @param {number} args.price  Plan price.
+ * @param {string} args.title  Plan title.
  * @return {string} The created plan's purchase link URL.
  */
 export async function createAccessPlan( {

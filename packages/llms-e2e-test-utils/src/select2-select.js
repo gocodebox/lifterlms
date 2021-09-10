@@ -8,7 +8,7 @@
  *              to close after selecting an option.
  * @param {string} selector Query selector for the select element.
  * @param {string} value    Option value to select.
- * @return {Void}
+ * @return {void}
  */
 export async function select2Select( selector, value ) {
 	// Wait for select2 to load on the element.
