@@ -1,0 +1,22 @@
+name: Packages Lint
+
+on:
+  push:
+    paths:
+      - './packages/llms-e2e-test-utils/**/*.js'
+  pull_request:
+    paths:
+      - './packages/llms-e2e-test-utils/**/*.js'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+    - run: npm ci
+    - run: npm run pkg:lint:js
+
