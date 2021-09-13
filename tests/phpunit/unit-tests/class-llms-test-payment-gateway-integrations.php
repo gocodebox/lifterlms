@@ -8,7 +8,7 @@
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
  * @since 3.37.14 Reduce number of tests run for monthly and yearly chaotic simulations.
  * @since 4.3.1 Increased delta for `test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency()` and `test_recurring_lifecycle_for_month_plan_with_chaos()`.
- * @since [version] Declare the `$gateway` property.
+ * @since 5.3.1 Declare the `$gateway` property.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -150,7 +150,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
-	 * @since [version] If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
+	 * @since 5.3.1 If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.

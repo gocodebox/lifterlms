@@ -411,7 +411,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output_notice().
 	 *
-	 * @since [version]
+	 * @since 5.3.1
 	 *
 	 * @return void
 	 */
