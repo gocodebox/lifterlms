@@ -34,7 +34,7 @@ config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 
 // Our screenshot reporter relies on jasmine.
-config.testRunner = 'jest-jasmine2';
+config.testRunner = '<rootDir>/node_modules/jest-jasmine2';
 
 /**
  * Jest Config
