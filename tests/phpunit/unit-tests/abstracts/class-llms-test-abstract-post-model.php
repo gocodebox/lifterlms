@@ -115,7 +115,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test `set_bulk()` to ensure single quotes and double quotes are correctly slashed.
 	 *
-	 * @since [version]
+	 * @since 5.3.1
 	 *
 	 * @return void
 	 */

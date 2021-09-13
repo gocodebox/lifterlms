@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -186,7 +186,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
+	 * @since 5.3.1 Use encoded SVG LifterLMS icon so that WordPress can "paint" it.
 	 *
 	 * @return void
 	 */

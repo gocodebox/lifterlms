@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -290,7 +290,7 @@ class LLMS_Admin_Notices {
 	 * @since 3.0.0
 	 * @since 3.7.4 Unknown.
 	 * @since 5.2.0 Ensure `template_path` and `default_path` are properly passed to `llms_get_template()`.
-	 * @since [version] Delete empty notices and do not display them.
+	 * @since 5.3.1 Delete empty notices and do not display them.
 	 *
 	 * @param string $notice_id Notice id.
 	 * @return void

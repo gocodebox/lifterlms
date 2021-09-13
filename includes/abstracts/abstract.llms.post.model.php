@@ -1209,7 +1209,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.34.0
 	 * @since 3.36.1 Use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
-	 * @since [version] Fix quote slashing when the user is not an admin.
+	 * @since 5.3.1 Fix quote slashing when the user is not an admin.
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
