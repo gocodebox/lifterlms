@@ -2851,11 +2851,9 @@ a.llms-view-as {
 
 @media only screen and (min-width: 782px) {
   .wrap.lifterlms-settings .llms-header {
-    position: -webkit-sticky;
     position: sticky;
     top: 30px; }
   .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary {
-    position: -webkit-sticky;
     position: sticky;
     top: 93px; } }
 
