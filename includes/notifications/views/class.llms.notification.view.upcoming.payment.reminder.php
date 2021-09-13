@@ -221,7 +221,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
 				if ( empty( $obj ) ) {
-					$code = __( '[DELETED PRODUCT]', 'lifterlms' );
+					$code = __( '[DELETED ITEM]', 'lifterlms' );
 				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				} else {
