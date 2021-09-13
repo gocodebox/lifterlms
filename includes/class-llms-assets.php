@@ -465,7 +465,7 @@ class LLMS_Assets {
 	 * @return boolean
 	 */
 	public function is_inline_enqueued( $handle ) {
-		return in_array( $handle, array_keys( $this->inline ), true );
+		return array_key_exists( $handle, $this->inline );
 	}
 
 	/**
