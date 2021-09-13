@@ -14,7 +14,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 * Ensures the generated block content of a reusable block matches the stored "snapshot"
 	 *
 	 * @since 5.0.0
-	 * @since [version] Remove duplicate references to last-name block.
+	 * @since 5.3.1 Remove duplicate references to last-name block.
 	 *
 	 * @param string $id     Field ID.
 	 * @param string $actual Actual generated content to compare to the expected "snapshot"

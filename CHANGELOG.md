@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v5.3.1 - 2021-09-13
+-------------------
+
+##### Bug fixes
+
++ Fixed quote slashing for non-admin roles when editing content in the course builder.
++ The LifterLMS admin icon now uses an encoded SVG to improve admin color scheme compatibility.
++ Fixed an issue with empty admin notices.
+
+##### Dev updates
+
++ The creation date of `llms_orders` is now determined by `llms_current_time()`.
+
+
 v5.3.0 - 2021-08-31
 -------------------
 
