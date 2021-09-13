@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -646,6 +646,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
+	 * @since [version] Set the `post_date` property using `llms_current_time()`.
 	 *
 	 * @param string $title Title to create the post with.
 	 * @return array
