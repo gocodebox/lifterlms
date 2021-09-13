@@ -663,6 +663,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'ping_status'    => 'closed',
 				'post_author'    => 1,
 				'post_content'   => '',
+				'post_date'      => llms_current_time( 'mysql' ),
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),
