@@ -1,5 +1,8 @@
 /**
  * Tests Bootstrap.
+ *
+ * @since Unknown
+ * @version [version]
  */
 
 const { existsSync } = require( 'fs' );
