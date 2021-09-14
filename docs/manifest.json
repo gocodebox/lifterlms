@@ -2,7 +2,7 @@
 	"index": {
 		"title": "Developer Handbook",
 		"slug": "index",
-		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/README.md",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/handbook/docs/README.md",
 		"parent": null
 	},
 	"coding-standards": {
