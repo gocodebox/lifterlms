@@ -68,10 +68,9 @@ jobs:
       - name: Run test suite
         run: npm run test
 
-      - run: ls -all tmp/artifacts
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: error-artifacts
           path: tmp/artifacts
