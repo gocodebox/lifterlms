@@ -5,7 +5,8 @@ v2.0.0 - 2021-09-10
 -------------------
 
 + **[Breaking]** Raised the minimum required `@wordpress/scripts` version to 17.1.0.
-+ Explicitly defines `jest-jasmine2` as the test runner for Jest.
++ **[Breaking]** Removes the failed test screenshot reporter in favor of the reporter included with `@wordpress/scripts`.
++ **[Breaking]** Failed test screenshots are now stored in the `tmp/artifacts` directory.
 + Adds env var loading from `.llmsenv` with a fallback to `.llmsenv.dist`. The former file intended to be excluded from version control systems.
 + Adds a default `.eslintrc.js` configuration intended for use by LifterLMS and LifterLMS projects (via `wp-scripts lint-js`).
 
