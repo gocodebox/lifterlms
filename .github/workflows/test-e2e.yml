@@ -58,7 +58,7 @@ jobs:
           composer run env:setup
 
       - name: Update WP Version
-        run: composer run env ${{ matrix.WP }}
+        run: composer run env version ${{ matrix.WP }}
 
       - name: Set WP_VERSION env var
         run: |
@@ -72,5 +72,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Error Sceenshots and HTML Snapshots
+          name: error-artifacts
           path: tmp/artifacts
