@@ -1,0 +1,50 @@
+{
+	"index": {
+		"title": "Developer Handbook",
+		"slug": "index",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/README.md",
+		"parent": null
+	},
+	"coding-standards": {
+		"title": "Coding Standards",
+		"slug": "coding-standards",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/coding-standards.md",
+		"parent": null
+	},
+	"contributing": {
+		"title": "Contributing",
+		"slug": "contributing",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/.github/CONTRIBUTING.md",
+		"parent": ""
+	},
+	"documentation-standards": {
+		"title": "Documentation Standards",
+		"slug": "documentation-standards",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/documentation-standards.md",
+		"parent": ""
+	},
+	"e2e-tests-real": {
+		"title": "E2E Testing",
+		"slug": "e2e-tests",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/e2e-tests-real.md",
+		"parent": ""
+	},
+	"installing": {
+		"title": "Installing",
+		"slug": "installing",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/installing.md",
+		"parent": ""
+	},
+	"releases": {
+		"title": "Releases",
+		"slug": "releases",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/releases.md",
+		"parent": ""
+	},
+	"testing": {
+		"title": "Testing",
+		"slug": "phpunit-tests",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/phpunit/README.md",
+		"parent": ""
+	}
+}
