@@ -5,6 +5,8 @@
  * @version [version]
  */
 
+require( 'regenerator-runtime' );
+
 const { existsSync } = require( 'fs' );
 
 // Load dotenv files.
