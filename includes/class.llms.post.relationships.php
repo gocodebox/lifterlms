@@ -157,6 +157,7 @@ class LLMS_Post_Relationships {
 				// Error code can be produced by our rest-api or by wp core.
 				if ( in_array( $code, array( 'llms_rest_cannot_delete', 'rest_cannot_delete' ), true ) ) {
 					$data[0] = $this->delete_product_with_active_subscriptions_error_message( $request['id'] );
+					break;
 				}
 			}
 		}
