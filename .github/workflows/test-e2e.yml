@@ -66,3 +66,9 @@ jobs:
 
       - name: Run test suite
         run: npm run test
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Error Sceenshots and HTML Snapshots
+          path: tmp/artifacts
+          if-no-files-found: ignore
