@@ -46,6 +46,6 @@
     "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js",
     "pkg:fix:js": "npm run pkg:lint:js -- --fix",
     "pkg:docgen": "docgen ./packages/llms-e2e-test-utils/src/index.js --output ./packages/llms-e2e-test-utils/README.md --to-token",
-    "postinstall": "lerna bootstrap --hoist"
+    "pkg:hoist": "lerna bootstrap --hoist"
   }
 }
