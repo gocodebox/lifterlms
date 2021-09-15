@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version 3.40.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
- * @since 3.40.0 Refactor to utiize `LLMS_Abstract_Email_Provider`.
+ * @since 3.40.0 Refactor to utilize `LLMS_Abstract_Email_Provider`.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
@@ -124,6 +124,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.40.0 Abstract methods used to determine if SendWP is connected.
+	 * @since [version] Update the URL for managing an account.
 	 *
 	 * @return string
 	 */
@@ -139,7 +140,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 				$ret[] = sprintf(
 					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
 					__( '%1$sManage your account%2$s.', 'lifterlms' ),
-					'<a href="https://sendwp.com/account/" target="_blank" rel="noopener noreferrer">',
+					'<a href="https://app.sendwp.com/dashboard" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
 			} else {
