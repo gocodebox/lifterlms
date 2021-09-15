@@ -81,7 +81,7 @@ export async function runSetupWizard( {
 		}
 
 		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
-
+console.log( '1' );
 		if ( 1 === coursesToImport.length ) {
 			// Single course imported.
 
@@ -91,8 +91,10 @@ export async function runSetupWizard( {
 					( txt ) => txt.textContent
 				)
 			).toBe( 'Edit Course' );
+console.log( '2' );
 
 			await dismissEditorWelcomeGuide();
+console.log( '3' );
 
 			expect(
 				await page.$eval(
@@ -100,6 +102,7 @@ export async function runSetupWizard( {
 					( txt ) => txt.value
 				)
 			).toBe( coursesToImport[ 0 ] );
+console.log( '4' );
 		} else {
 			expect(
 				await page.url().includes( '/edit.php?post_type=course' )
