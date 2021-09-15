@@ -66,7 +66,7 @@ jobs:
           echo WP_VERSION=$( ./vendor/bin/llms-env wp core version ) >> $GITHUB_ENV
 
       - name: Run test suite
-        run: npm run test -- --silent --bail
+        run: npm run test -- --bail
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
