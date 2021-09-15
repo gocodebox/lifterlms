@@ -19,7 +19,7 @@ describe( 'SetupWizard', () => {
 
 	afterEach( async () => {
 
-		await waitForFetchRequests().then( vals => console.log( 'vals: ', vals ) ).catch( err => console.log( 'err:', err ) );
+		await waitForFetchRequests();
 	} );
 
 	it ( 'should load and run the entire setup wizard.', async () => {
