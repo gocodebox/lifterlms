@@ -6,6 +6,8 @@
  * @since 4.0.0-rc.1 Use `runSetupWizard()`.
  */
 
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
+
 import { runSetupWizard } from '@lifterlms/llms-e2e-test-utils';
 
 describe( 'SetupWizard', () => {
@@ -13,6 +15,8 @@ describe( 'SetupWizard', () => {
 	it ( 'should load and run the entire setup wizard.', async () => {
 
 		await runSetupWizard();
+
+		await page.waitForTimeout( 5000 );
 
 	} );
 
