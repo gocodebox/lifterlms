@@ -31,7 +31,6 @@ export function createWaitForFetchRequests() {
 
 	const listener = ( req ) => {
 		if ( req.resourceType() === 'fetch' ) {
-		console.log( req.url() );
 			const promise = page.waitForResponse(
 				// eslint-disable-next-line sitekit/acronym-case
 				( res ) => res.request()._requestId === req._requestId
@@ -40,7 +39,7 @@ export function createWaitForFetchRequests() {
 			// captured in no longer exists (e.g. previous page) which
 			// is necessary in some cases, and can be ignored since
 			// there is nothing to wait for any more.
-			responsePromises.push( promise.catch( () => {} ) );
+			responsePromises.push( promise );
 		}
 	};
 
@@ -48,7 +47,6 @@ export function createWaitForFetchRequests() {
 
 	return () => {
 		page.off( 'request', listener );
-console.log( responsePromises );
 		return Promise.all( responsePromises );
 	};
 }
