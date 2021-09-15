@@ -40,4 +40,8 @@ beforeAll( async() => {
 		console.log( message.type(), message.text() );
 	} );
 
+	page.on( 'pageerror', ( err ) => {
+		console.log( err.message );
+	} );
+
 } );
