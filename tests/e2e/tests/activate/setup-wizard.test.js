@@ -24,7 +24,7 @@ describe( 'SetupWizard', () => {
 
 	it ( 'should load and run the entire setup wizard.', async () => {
 
-		await runSetupWizard();
+		await runSetupWizard( { exit: true } );
 
 	} );
 
