@@ -55,6 +55,7 @@ jobs:
       - name: Start Docker environment
         run: |
           composer run env up
+          composer run env:setup
 
       - name: Update WP Version
         run: composer run env version ${{ matrix.WP }}
