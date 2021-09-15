@@ -60,55 +60,55 @@ export async function runSetupWizard( {
 	// 	await page.$eval( '#llms-setup-submit', ( el ) => el.disabled )
 	// ).toBe( true );
 
-	if ( exit ) {
-		// Exit the wizard.
+	// if ( exit ) {
+	// 	// Exit the wizard.
 
-		await clickAndWait( '.llms-exit-setup' );
-		expect(
-			await page.url().includes( '/admin.php?page=llms-settings' )
-		).toBe( true );
-	} else if ( ! coursesToImport ) {
-		// Start from scratch.
+	// 	await clickAndWait( '.llms-exit-setup' );
+	// 	expect(
+	// 		await page.url().includes( '/admin.php?page=llms-settings' )
+	// 	).toBe( true );
+	// } else if ( ! coursesToImport ) {
+	// 	// Start from scratch.
 
-		await clickAndWait( '.llms-setup-actions .llms-button-secondary' );
-		await dismissEditorWelcomeGuide();
-	} else if ( coursesToImport ) {
-		// Import courses.
+	// 	await clickAndWait( '.llms-setup-actions .llms-button-secondary' );
+	// 	await dismissEditorWelcomeGuide();
+	// } else if ( coursesToImport ) {
+	// 	// Import courses.
 
-		// Select specified courses.
-		for ( const courseTitle of coursesToImport ) {
-			await clickElementByText( courseTitle, 'h3' );
-		}
+	// 	// Select specified courses.
+	// 	for ( const courseTitle of coursesToImport ) {
+	// 		await clickElementByText( courseTitle, 'h3' );
+	// 	}
 
-		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+	// 	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 
-		if ( 1 === coursesToImport.length ) {
-			// Single course imported.
+	// 	if ( 1 === coursesToImport.length ) {
+	// 		// Single course imported.
 
-			expect(
-				await page.$eval(
-					'.block-editor h1.screen-reader-text',
-					( txt ) => txt.textContent
-				)
-			).toBe( 'Edit Course' );
+	// 		expect(
+	// 			await page.$eval(
+	// 				'.block-editor h1.screen-reader-text',
+	// 				( txt ) => txt.textContent
+	// 			)
+	// 		).toBe( 'Edit Course' );
 
-			await dismissEditorWelcomeGuide();
+	// 		await dismissEditorWelcomeGuide();
 
-			expect(
-				await page.$eval(
-					'.editor-post-title__input',
-					( txt ) => txt.value
-				)
-			).toBe( coursesToImport[ 0 ] );
-		} else {
-			expect(
-				await page.url().includes( '/edit.php?post_type=course' )
-			).toBe( true );
+	// 		expect(
+	// 			await page.$eval(
+	// 				'.editor-post-title__input',
+	// 				( txt ) => txt.value
+	// 			)
+	// 		).toBe( coursesToImport[ 0 ] );
+	// 	} else {
+	// 		expect(
+	// 			await page.url().includes( '/edit.php?post_type=course' )
+	// 		).toBe( true );
 
-			// All courses should be present in the post table list.
-			for ( const courseTitle of coursesToImport ) {
-				await findElementByText( courseTitle, '#the-list a.row-title' );
-			}
-		}
-	}
+	// 		// All courses should be present in the post table list.
+	// 		for ( const courseTitle of coursesToImport ) {
+	// 			await findElementByText( courseTitle, '#the-list a.row-title' );
+	// 		}
+	// 	}
+	// }
 }
