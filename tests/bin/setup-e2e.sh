@@ -15,3 +15,9 @@ $llmsenv wp user create voucher voucher@email.tld --role=student --user_pass=pas
 
 # StudentDashboardLogin -> should allow a user with valid credentials to login
 $llmsenv wp user create validcreds validcreds@email.tld --role=student --user_pass=password
+
+
+# 3. Set options.
+#################
+
+$llmenv wp option set can_compress_scripts 1
