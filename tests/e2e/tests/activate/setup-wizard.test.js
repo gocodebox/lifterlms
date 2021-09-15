@@ -17,12 +17,11 @@ describe( 'SetupWizard', () => {
 		waitForFetchRequests = createWaitForFetchRequests();
 	} );
 
-	afterEach( () => waitForFetchRequests() );
+	afterEach( async () => await waitForFetchRequests() );
 
 	it ( 'should load and run the entire setup wizard.', async () => {
 
 		await runSetupWizard();
-		await waitForFetchRequests();
 
 	} );
 
