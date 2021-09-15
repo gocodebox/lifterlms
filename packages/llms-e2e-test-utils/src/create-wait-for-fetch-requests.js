@@ -30,6 +30,7 @@ export function createWaitForFetchRequests() {
 	const responsePromises = [];
 
 	const listener = ( req ) => {
+		console.log( req.url(), req.resourceType() );
 		if ( req.resourceType() === 'fetch' ) {
 			const promise = page.waitForResponse(
 				// eslint-disable-next-line sitekit/acronym-case
