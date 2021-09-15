@@ -48,7 +48,7 @@ export function createWaitForFetchRequests() {
 
 	return () => {
 		page.off( 'request', listener );
-
+console.log( responsePromises );
 		return Promise.all( responsePromises );
 	};
 }
