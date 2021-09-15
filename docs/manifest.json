@@ -23,26 +23,32 @@
 		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/documentation-standards.md",
 		"parent": ""
 	},
-	"e2e-tests-real": {
-		"title": "E2E Testing",
-		"slug": "e2e-tests",
-		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/e2e-tests-real.md",
-		"parent": ""
-	},
 	"installing": {
 		"title": "Installing",
 		"slug": "installing",
 		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/installing.md",
 		"parent": ""
 	},
-	"releases": {
-		"title": "Releases",
-		"slug": "releases",
+	"releasing": {
+		"title": "Releasing",
+		"slug": "releasing",
 		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/releases.md",
 		"parent": ""
 	},
-	"testing": {
-		"title": "Testing",
+	"e2e-tests": {
+		"title": "Testing E2E Docker Site",
+		"slug": "e2e-tests",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/e2e/README.md",
+		"parent": ""
+	},
+	"e2e-tests-real": {
+		"title": "Testing E2E Staging Site",
+		"slug": "e2e-tests-real",
+		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/docs/e2e-tests-real.md",
+		"parent": ""
+	},
+	"phpunit-testing": {
+		"title": "Testing PHPUnit",
 		"slug": "phpunit-tests",
 		"markdown_source": "https://raw.githubusercontent.com/gocodebox/lifterlms/trunk/tests/phpunit/README.md",
 		"parent": ""
