@@ -7,9 +7,16 @@
  * @since [version] Ensure all `apiFetch()` requests are finished before completing the test.
  */
 
-import { createWaitForFetchRequests, runSetupWizard } from '@lifterlms/llms-e2e-test-utils';
+import { runSetupWizard } from '@lifterlms/llms-e2e-test-utils';
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 describe( 'SetupWizard', () => {
+
+	beforeEach( async () => {
+
+		await visitAdminPage( 'index.php' );
+
+	} );
 
 	it ( 'should load and run the entire setup wizard.', async () => {
 		await runSetupWizard();
