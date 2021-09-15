@@ -66,7 +66,7 @@ jobs:
           echo WP_VERSION=$( ./vendor/bin/llms-env wp core version ) >> $GITHUB_ENV
 
       - name: Run test suite
-        run: npm run test
+        run: npm run test -- --silent --bail
 
       - name: Debug artifacts
         if: failure()
