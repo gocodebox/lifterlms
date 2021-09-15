@@ -35,30 +35,37 @@ export async function runSetupWizard( {
 } = {} ) {
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
+console.log( '-7' );
 
 	// Step One.
 	expect( await getTitle() ).toBe( 'Welcome to LifterLMS!' );
+console.log( '-6' );
 
 	// Move to Step Two.
 	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 	expect( await getTitle() ).toBe( 'Page Setup' );
+console.log( '-4' );
 
 	// Move to Step Three.
 	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 	expect( await getTitle() ).toBe( 'Payments' );
+console.log( '-4' );
 
 	// Move to Step Four.
 	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 	expect( await getTitle() ).toBe( 'Help Improve LifterLMS & Get a Coupon' );
+console.log( '-3' );
 
 	// Move to Step Five.
 	await clickAndWait( '.llms-setup-actions .llms-button-secondary' ); // Skip the coupon.
 	expect( await getTitle() ).toBe( 'Setup Complete!' );
+console.log( '-2' );
 
 	// Import button should be disabled.
 	expect(
 		await page.$eval( '#llms-setup-submit', ( el ) => el.disabled )
 	).toBe( true );
+console.log( '-1' );
 
 	if ( exit ) {
 		// Exit the wizard.
@@ -74,7 +81,7 @@ export async function runSetupWizard( {
 		await dismissEditorWelcomeGuide();
 	} else if ( coursesToImport ) {
 		// Import courses.
-
+console.log( '0' );
 		// Select specified courses.
 		for ( const courseTitle of coursesToImport ) {
 			await clickElementByText( courseTitle, 'h3' );
