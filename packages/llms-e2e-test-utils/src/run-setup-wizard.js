@@ -36,29 +36,29 @@ export async function runSetupWizard( {
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
-	// Step One.
-	expect( await getTitle() ).toBe( 'Welcome to LifterLMS!' );
+	// // Step One.
+	// expect( await getTitle() ).toBe( 'Welcome to LifterLMS!' );
 
-	// Move to Step Two.
-	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
-	expect( await getTitle() ).toBe( 'Page Setup' );
+	// // Move to Step Two.
+	// await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+	// expect( await getTitle() ).toBe( 'Page Setup' );
 
-	// Move to Step Three.
-	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
-	expect( await getTitle() ).toBe( 'Payments' );
+	// // Move to Step Three.
+	// await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+	// expect( await getTitle() ).toBe( 'Payments' );
 
-	// Move to Step Four.
-	await clickAndWait( '.llms-setup-actions .llms-button-primary' );
-	expect( await getTitle() ).toBe( 'Help Improve LifterLMS & Get a Coupon' );
+	// // Move to Step Four.
+	// await clickAndWait( '.llms-setup-actions .llms-button-primary' );
+	// expect( await getTitle() ).toBe( 'Help Improve LifterLMS & Get a Coupon' );
 
-	// Move to Step Five.
-	await clickAndWait( '.llms-setup-actions .llms-button-secondary' ); // Skip the coupon.
-	expect( await getTitle() ).toBe( 'Setup Complete!' );
+	// // Move to Step Five.
+	// await clickAndWait( '.llms-setup-actions .llms-button-secondary' ); // Skip the coupon.
+	// expect( await getTitle() ).toBe( 'Setup Complete!' );
 
-	// Import button should be disabled.
-	expect(
-		await page.$eval( '#llms-setup-submit', ( el ) => el.disabled )
-	).toBe( true );
+	// // Import button should be disabled.
+	// expect(
+	// 	await page.$eval( '#llms-setup-submit', ( el ) => el.disabled )
+	// ).toBe( true );
 
 	if ( exit ) {
 		// Exit the wizard.
@@ -82,33 +82,33 @@ export async function runSetupWizard( {
 
 		await clickAndWait( '.llms-setup-actions .llms-button-primary' );
 
-		// if ( 1 === coursesToImport.length ) {
-		// 	// Single course imported.
+		if ( 1 === coursesToImport.length ) {
+			// Single course imported.
 
-		// 	expect(
-		// 		await page.$eval(
-		// 			'.block-editor h1.screen-reader-text',
-		// 			( txt ) => txt.textContent
-		// 		)
-		// 	).toBe( 'Edit Course' );
+			expect(
+				await page.$eval(
+					'.block-editor h1.screen-reader-text',
+					( txt ) => txt.textContent
+				)
+			).toBe( 'Edit Course' );
 
-		// 	await dismissEditorWelcomeGuide();
+			await dismissEditorWelcomeGuide();
 
-		// 	expect(
-		// 		await page.$eval(
-		// 			'.editor-post-title__input',
-		// 			( txt ) => txt.value
-		// 		)
-		// 	).toBe( coursesToImport[ 0 ] );
-		// } else {
-		// 	expect(
-		// 		await page.url().includes( '/edit.php?post_type=course' )
-		// 	).toBe( true );
+			expect(
+				await page.$eval(
+					'.editor-post-title__input',
+					( txt ) => txt.value
+				)
+			).toBe( coursesToImport[ 0 ] );
+		} else {
+			expect(
+				await page.url().includes( '/edit.php?post_type=course' )
+			).toBe( true );
 
-		// 	// All courses should be present in the post table list.
-		// 	for ( const courseTitle of coursesToImport ) {
-		// 		await findElementByText( courseTitle, '#the-list a.row-title' );
-		// 	}
-		// }
+			// All courses should be present in the post table list.
+			for ( const courseTitle of coursesToImport ) {
+				await findElementByText( courseTitle, '#the-list a.row-title' );
+			}
+		}
 	}
 }
