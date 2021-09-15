@@ -68,13 +68,6 @@ jobs:
       - name: Run test suite
         run: npm run test -- --silent --bail
 
-      - name: Debug artifacts
-        if: failure()
-        run: |
-          ls -all artifacts
-          ls -all tmp
-          ls -all tmp/artifacts
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         if: failure()
