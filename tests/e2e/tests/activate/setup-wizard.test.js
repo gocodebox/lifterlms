@@ -11,16 +11,16 @@ import { createWaitForFetchRequests, runSetupWizard } from '@lifterlms/llms-e2e-
 
 describe( 'SetupWizard', () => {
 
-	let waitForFetchRequests;
+	// let waitForFetchRequests;
 
-	beforeEach( async () => {
-		waitForFetchRequests = createWaitForFetchRequests();
-	} );
+	// beforeEach( async () => {
+	// 	waitForFetchRequests = createWaitForFetchRequests();
+	// } );
 
-	afterEach( async () => {
+	// afterEach( async () => {
 
-		await waitForFetchRequests();
-	} );
+	// 	await waitForFetchRequests();
+	// } );
 
 	it ( 'should load and run the entire setup wizard.', async () => {
 
