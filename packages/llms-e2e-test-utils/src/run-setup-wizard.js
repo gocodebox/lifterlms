@@ -34,13 +34,13 @@ export async function runSetupWizard( {
 	exit = false,
 } = {} ) {
 
-	await page.waitForTimeout( 3000 );
+	// await page.waitForTimeout( 3000 );
 
 	// Launch the Setup Wizard.
-	await visitAdminPage( 'index.php', 'page=llms-setup' );
+	await visitAdminPage( 'index.php' );
 	// await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
-	await page.waitForTimeout( 3000 );
+	// await page.waitForTimeout( 3000 );
 
 	// // Step One.
 	// expect( await getTitle() ).toBe( 'Welcome to LifterLMS!' );
