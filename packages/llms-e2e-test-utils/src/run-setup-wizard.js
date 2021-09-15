@@ -34,7 +34,8 @@ export async function runSetupWizard( {
 	exit = false,
 } = {} ) {
 	// Launch the Setup Wizard.
-	await visitAdminPage( 'admin.php', 'page=llms-setup' );
+	await visitAdminPage( 'index.php', 'page=llms-setup' );
+	// await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
 	// // Step One.
 	// expect( await getTitle() ).toBe( 'Welcome to LifterLMS!' );
