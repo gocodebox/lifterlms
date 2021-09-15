@@ -24,11 +24,7 @@ describe( 'SetupWizard', () => {
 
 	it ( 'should load and run the entire setup wizard.', async () => {
 
-		await page.waitFor( 3000 );
-
 		expect( 1 ).toBeTruthy();
-
-		await page.waitFor( 3000 );
 		// await runSetupWizard( { exit: true } );
 
 	} );
