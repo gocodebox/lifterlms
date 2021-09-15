@@ -39,7 +39,7 @@ export function createWaitForFetchRequests() {
 			// captured in no longer exists (e.g. previous page) which
 			// is necessary in some cases, and can be ignored since
 			// there is nothing to wait for any more.
-			responsePromises.push( promise );
+			responsePromises.push( promise.catch( () => {} ) );
 		}
 	};
 
