@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts/Partials
  *
  * @since 3.11.0
- * @version 3.23.0
+ * @version [version]
  */
 
 this.repeaters = {
@@ -70,6 +70,7 @@ this.repeaters = {
 	 *
 	 * @since 3.11.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Don't remove the model's mceEditor instance (it's removed before cloning a row now).
 	 *
 	 * @return {void}
 	 */
@@ -80,10 +81,7 @@ this.repeaters = {
 		self.$repeaters.each( function() {
 
 			var $repeater = $( this ),
-				$rows     = $repeater.find( '.llms-repeater-rows' ),
-				$model    = $repeater.find( '.llms-repeater-model' );
-
-			tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, $model.find( '.llms-mb-list.editor textarea' ).attr( 'id' ) );
+				$rows     = $repeater.find( '.llms-repeater-rows' );
 
 			// For the repeater + button.
 			$repeater.find( '.llms-repeater-new-btn' ).on( 'click', function() {
@@ -130,6 +128,7 @@ this.repeaters = {
 	 * Add a new row to a repeater rows group
 	 *
 	 * @since 3.11.0
+	 * @since [version] Use `self.clone_row()` to retrieve the model's base HTML for the row to be added.
 	 *
 	 * @param {Object}  $repeater A jQuery selector for the repeater to add a row to.
 	 * @param {Object}  data      Optional object of data to fill fields in the row with.
@@ -141,7 +140,7 @@ this.repeaters = {
 		var self      = this,
 			$rows     = $repeater.find( '.llms-repeater-rows' ),
 			$model    = $repeater.find( '.llms-repeater-model' ),
-			$row      = $model.find( '.llms-repeater-row' ).clone(),
+			$row      = self.clone_row( $model.find( '.llms-repeater-row' ) ),
 			new_index = $repeater.find( '.llms-repeater-row' ).length,
 			editor    = self.reindex( $row, new_index );
 
@@ -226,6 +225,25 @@ this.repeaters = {
 			}
 			$title.text( val );
 		} ).trigger( 'keyup' );
+
+	},
+
+	/**
+	 * Create a copy of the model's row after removing any tinyMCE editor instances present in the model.
+	 *
+	 * @since [version]
+	 *
+	 * @param {Object} $row A jQuery object of the row to be cloned.
+	 * @return {Object} A clone of the jQuery object.
+	 */
+	clone_row: function( $row ) {
+
+		$ed = $row.find( '.editor textarea' );
+		if ( $ed.length ) {
+			tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, $ed.attr( 'id' ) );
+		}
+
+		return $row.clone()
 
 	},
 
