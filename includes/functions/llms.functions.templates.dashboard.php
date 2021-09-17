@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @since 3.35.0 unslash `$_GET` data.
 	 * @since 3.37.10 Add filter `llms_enable_open_registration`.
 	 * @since 5.0.0 During password reset, retrieve reset key and login from cookie instead of query string.
-	 *                Use `llms_get_open_registration_status()`.
+	 *              Use `llms_get_open_registration_status()`.
 	 *
 	 * @param array $options Optional. Array of options. Default empty array.
 	 * @return void
@@ -54,7 +54,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		 *
 		 * @since 4.16.0
 		 *
-		 * @param type $arg Description.
+		 * @param bool $is_user_logged-in Whether or not the user is logged in.
 		 */
 		$display_dashboard = apply_filters( 'llms_display_student_dashboard', is_user_logged_in() );
 
@@ -206,11 +206,11 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
 			$order   = ! empty( $option[1] ) ? $option[1] : 'DESC';
 
-			// enrollment date will obey the results order.
+			// Enrollment date will obey the results order.
 			if ( 'date' === $orderby ) {
 				$orderby = 'post__in';
 			} elseif ( 'order' === $orderby ) {
-				// add secondary sorting by `post_title` when the primary sort is `menu_order`.
+				// Add secondary sorting by `post_title` when the primary sort is `menu_order`.
 				$orderby = 'menu_order post_title';
 			}
 
@@ -255,7 +255,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 			$query = new WP_Query( $query_args );
 
-			// prevent pagination on the preview.
+			// Prevent pagination on the preview.
 			if ( $preview ) {
 				$query->max_num_pages = 1;
 			}
@@ -283,7 +283,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 	 * @since 3.14.0
 	 * @since 3.14.8 Unknown.
 	 *
-	 * @param LLMS_Student $student Optinoal. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @return void
 	 */
 	function lifterlms_template_my_memberships_loop( $student = null ) {
@@ -315,7 +315,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				)
 			);
 
-			$query->max_num_pages = 1; // prevent pagination here.
+			$query->max_num_pages = 1; // Prevent pagination here.
 
 			lifterlms_loop( $query );
 
@@ -494,6 +494,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
+	 * @since [version] Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
 	 *
 	 * @return void
 	 */
@@ -507,7 +508,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		global $wp_query, $wp_rewrite;
 		$slug = $wp_query->query['my-grades'];
 
-		// list courses.
+		// List courses.
 		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
 
 			/**
@@ -550,7 +551,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			);
 			remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
-			// show single.
+			// Show single.
 		} else {
 
 			$course = get_posts(
@@ -565,11 +566,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
-			// get the latest achievement for the course.
+			// Get the latest achievement for the course.
 			$achievements       = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
 			$latest_achievement = false;
 			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
-				if ( in_array( $achievement->get( 'achievement_template' ), $achievements, true ) ) {
+				if ( in_array( (string) $achievement->get( 'achievement_template' ), $achievements, true ) ) {
 					$latest_achievement = $achievement;
 					break;
 				}
