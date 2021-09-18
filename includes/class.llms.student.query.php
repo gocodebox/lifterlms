@@ -150,7 +150,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.4.0
 	 * @since 3.13.0 Unknown.

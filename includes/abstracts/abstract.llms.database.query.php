@@ -279,7 +279,7 @@ abstract class LLMS_Database_Query {
 	abstract protected function parse_args();
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.8.0
 	 * @return string

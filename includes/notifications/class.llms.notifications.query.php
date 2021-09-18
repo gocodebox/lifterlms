@@ -191,7 +191,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
