@@ -287,9 +287,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		}
 
 		// add subscriber info if set
-		$subsciber = $this->get( 'subscriber' );
-		if ( $subsciber ) {
-			$where .= $wpdb->prepare( ' AND n.subscriber = %s', $subsciber );
+		$subscriber = $this->get( 'subscriber' );
+		if ( $subscriber ) {
+			$where .= $wpdb->prepare( ' AND n.subscriber = %s', $subscriber );
 		}
 
 		// add post and user id checks

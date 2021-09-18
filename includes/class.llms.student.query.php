@@ -242,7 +242,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the query HAVING clause
 		 *
-		 * @since Unknwon
+		 * @since Unknown
 		 *
 		 * @param string             $sql           The HAVING clause of the query.
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
@@ -272,9 +272,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$joins[] = $statment;
+				$joins[] = $statement;
 			}
 		}
 
@@ -337,7 +337,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Setup the SQL for the select statement
+	 * Set up the SQL for the select statement
 	 *
 	 * @since 3.13.0
 	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
@@ -367,9 +367,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$selects[] = $statment;
+				$selects[] = $statement;
 			}
 		}
 
