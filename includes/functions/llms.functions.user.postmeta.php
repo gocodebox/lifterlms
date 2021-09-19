@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.21.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -138,17 +138,19 @@ if ( ! function_exists( 'llms_update_user_postmeta' ) ) :
 	 * Update user postmeta data.
 	 *
 	 * @since 3.21.0
+	 * @since [version] Add optional $updated_date argument.
 	 *
-	 * @param int    $user_id    WP User ID.
-	 * @param int    $post_id    WP Post ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value (don't serialize serializable values).
-	 * @param bool   $unique     Optional. If true, updates existing value (if it exists).
-	 *                           If false, will add a new record (allowing multiple records with the same key to exist).
-	 *                           Deafult true.
+	 * @param int    $user_id      WP User ID.
+	 * @param int    $post_id      WP Post ID.
+	 * @param string $meta_key     Meta key.
+	 * @param mixed  $meta_value   Meta value (don't serialize serializable values).
+	 * @param bool   $unique       Optional. If true, updates existing value (if it exists).
+	 *                             If false, will add a new record (allowing multiple records with the same key to exist).
+	 *                             Default true.
+	 * @param string $updated_date The optional MySQL date to set the `updated_date` column. Defaults to `llms_current_time( 'mysql' )`.
 	 * @return bool
 	 */
-	function llms_update_user_postmeta( $user_id, $post_id, $meta_key, $meta_value, $unique = true ) {
+	function llms_update_user_postmeta( $user_id, $post_id, $meta_key, $meta_value, $unique = true, $updated_date = null ) {
 
 		$item = false;
 
@@ -171,8 +173,8 @@ if ( ! function_exists( 'llms_update_user_postmeta' ) ) :
 			$item = new LLMS_User_Postmeta();
 		}
 
-		// setup the data we want to store.
-		$updated_date = llms_current_time( 'mysql' );
+		// Set up the data we want to store.
+		$updated_date = $updated_date ?? llms_current_time( 'mysql' );
 		$meta_value   = maybe_serialize( $meta_value );
 		$item->setup( compact( 'user_id', 'post_id', 'meta_key', 'meta_value', 'updated_date' ) );
 		return $item->save();
@@ -198,10 +200,11 @@ if ( ! function_exists( 'llms_bulk_update_user_postmeta' ) ) :
 	 */
 	function llms_bulk_update_user_postmeta( $user_id, $post_id, $data = array(), $unique = true ) {
 
-		$res = array_fill_keys( array_keys( $data ), null );
-		$err = false;
+		$res          = array_fill_keys( array_keys( $data ), null );
+		$err          = false;
+		$updated_date = llms_current_time( 'mysql' );
 		foreach ( $data as $key => $val ) {
-			$update      = llms_update_user_postmeta( $user_id, $post_id, $key, $val, $unique );
+			$update      = llms_update_user_postmeta( $user_id, $post_id, $key, $val, $unique, $updated_date );
 			$res[ $key ] = $update;
 			if ( ! $update ) {
 				$err = true;
