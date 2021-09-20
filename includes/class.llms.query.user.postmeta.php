@@ -199,6 +199,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.15.0
+	 *
 	 * @return string
 	 */
 	protected function preprare_query() {

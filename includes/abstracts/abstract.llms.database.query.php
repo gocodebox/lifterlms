@@ -282,6 +282,7 @@ abstract class LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.8.0
+	 *
 	 * @return string
 	 */
 	abstract protected function preprare_query();

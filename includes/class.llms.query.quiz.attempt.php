@@ -136,6 +136,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.16.0
+	 *
 	 * @return string
 	 */
 	protected function preprare_query() {

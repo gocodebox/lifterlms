@@ -195,6 +195,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
+	 *
 	 * @return string
 	 */
 	protected function preprare_query() {
