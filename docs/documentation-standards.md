@@ -195,14 +195,17 @@ When updating an existing element:
 #### 1. Parameters and Returns
 
 Functions and methods should define all parameter arguments and returns with the `@param` and `@return` tags.
+There should be a blank line before the first `@param` line and before the `@return` line.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
 ```
+ *
  * @param string $var1 Description of the argument.
  * @param bool $var2 Description of the argument.
+ *
  * @return string
  */
 function my_function( $var1, $var2 = false ) {
@@ -252,6 +255,7 @@ A function or method which throws an exception should document the thrown except
 When present, the `@throws` tag should be added to the end of the docblock below the `@return` tag. An empty line should separate the `@return` and `@throws` tag.
 
 ```
+ *
  * @return string
  *
  * @throws Exception A description of the raised exception.
@@ -286,6 +290,7 @@ Functions and class methods should be formatted as follows:
  *
  * @param type $var Description.
  * @param type $var Optional. Description. Default.
+ *
  * @return type Description.
  */
 ```
