@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Database Query abstract class
+ * Database Query abstract class.
  *
  * @since 3.8.0
  * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.
@@ -20,84 +20,84 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Database_Query {
 
 	/**
-	 * Identify the extending query
+	 * Identify the extending query.
 	 *
 	 * @var string
 	 */
 	protected $id = 'database';
 
 	/**
-	 * Defines fields that can be sorted on via ORDER BY
+	 * Defines fields that can be sorted on via ORDER BY.
 	 *
 	 * @var array
 	 */
 	protected $allowed_sort_fields = null;
 
 	/**
-	 * Arguments: original merged into defaults
+	 * Arguments: original merged into defaults.
 	 *
 	 * @var array
 	 */
 	protected $arguments = array();
 
 	/**
-	 * Default arguments before merging with original
+	 * Default arguments before merging with original.
 	 *
 	 * @var  array
 	 */
 	protected $arguments_default = array();
 
 	/**
-	 * Original arguments before merging with defaults
+	 * Original arguments before merging with defaults.
 	 *
 	 * @var array
 	 */
 	protected $arguments_original = array();
 
 	/**
-	 * Total number of results matching query parameters
+	 * Total number of results matching query parameters.
 	 *
 	 * @var integer
 	 */
 	public $found_results = 0;
 
 	/**
-	 * Maximum number of pages of results based off per_page & found_results
+	 * Maximum number of pages of results based off per_page & found_results.
 	 *
 	 * @var integer
 	 */
 	public $max_pages = 0;
 
 	/**
-	 * Number of results on the current page
+	 * Number of results on the current page.
 	 *
 	 * @var integer
 	 */
 	public $number_results = 0;
 
 	/**
-	 * Array of query variables
+	 * Array of query variables.
 	 *
 	 * @var array
 	 */
 	public $query_vars = array();
 
 	/**
-	 * Array of results retrieved by the query
+	 * Array of results retrieved by the query.
 	 *
 	 * @var array
 	 */
 	public $results = array();
 
 	/**
-	 * The raw SQL query
+	 * The raw SQL query.
 	 *
 	 * @var string
 	 */
 	protected $sql = '';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.8.0
 	 *
@@ -117,7 +117,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Escape and add quotes to a string, useful for array mapping when building queries
+	 * Escape and add quotes to a string, useful for array mapping when building queries.
 	 *
 	 * @since 3.8.0
 	 *
@@ -129,7 +129,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve a query variable with an optional fallback / default
+	 * Retrieve a query variable with an optional fallback / default.
 	 *
 	 * @since 3.8.0
 	 *
@@ -147,7 +147,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve default arguments for the query
+	 * Retrieve default arguments for the query.
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Added new default arg `no_found_rows` set to false.
@@ -172,7 +172,7 @@ abstract class LLMS_Database_Query {
 		}
 
 		/**
-		 * Filters the query default args
+		 * Filters the query default args.
 		 *
 		 * @since 3.8.0
 		 *
@@ -183,7 +183,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Get a string used as filter names unique to the extending query
+	 * Get a string used as filter names unique to the extending query.
 	 *
 	 * @since 3.8.0
 	 *
@@ -197,7 +197,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve an array of results for the given query
+	 * Retrieve an array of results for the given query.
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Drop use of `this->get_filter('get_results')` in favor of `"llms_{$this->id}_query_get_results"`.
@@ -211,7 +211,7 @@ abstract class LLMS_Database_Query {
 		}
 
 		/**
-		 * Filters the query results
+		 * Filters the query results.
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
@@ -224,7 +224,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Get the number of results to skip for the query based on the current page and per_page vars
+	 * Get the number of results to skip for the query based on the current page and per_page vars.
 	 *
 	 * @since 3.8.0
 	 *
@@ -235,7 +235,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Determine if the query has at least one result
+	 * Determine if the query has at least one result.
 	 *
 	 * @since 3.16.0
 	 *
@@ -246,7 +246,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Determine if we're on the first page of results
+	 * Determine if we're on the first page of results.
 	 *
 	 * @since 3.8.0
 	 * @since 3.14.0 Unknown.
@@ -258,7 +258,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Determine if we're on the last page of results
+	 * Determine if we're on the last page of results.
 	 *
 	 * @since 3.8.0
 	 * @since 3.30.3 Return true if there are no results.
@@ -270,7 +270,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Parse arguments needed for the query
+	 * Parse arguments needed for the query.
 	 *
 	 * @since 3.8.0
 	 *
@@ -279,7 +279,7 @@ abstract class LLMS_Database_Query {
 	abstract protected function parse_args();
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.8.0
 	 *
@@ -288,7 +288,7 @@ abstract class LLMS_Database_Query {
 	abstract protected function preprare_query();
 
 	/**
-	 * Execute a query
+	 * Execute a query.
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Drop use of `$this->get_filter('prepare_query')` in favor of `"llms_{$this->id}_query_prepare_query"`.
@@ -302,7 +302,7 @@ abstract class LLMS_Database_Query {
 		$this->sql = $this->preprare_query();
 		if ( ! $this->get( 'suppress_filters' ) ) {
 			/**
-			 * Filters the query SQL
+			 * Filters the query SQL.
 			 *
 			 * The dynamic part of the filter `$this->id` identifies the extending query.
 			 *
@@ -322,7 +322,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Sanitize input to ensure an array of absints
+	 * Sanitize input to ensure an array of absints.
 	 *
 	 * @since 3.15.0
 	 * @since 3.24.0 Unknown.
@@ -377,7 +377,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Sets a query variable
+	 * Sets a query variable.
 	 *
 	 * @since 3.8.0
 	 *
@@ -390,7 +390,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Set variables related to total number of results and pages possible with supplied arguments
+	 * Set variables related to total number of results and pages possible with supplied arguments.
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
@@ -412,7 +412,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Setup arguments prior to a query
+	 * Setup arguments prior to a query.
 	 *
 	 * @since 3.8.0
 	 * @since 3.34.0 Sanitizes sort parameters.
@@ -428,7 +428,7 @@ abstract class LLMS_Database_Query {
 
 		if ( ! $this->get( 'suppress_filters' ) ) {
 			/**
-			 * Filters the parsed query arguments
+			 * Filters the parsed query arguments.
 			 *
 			 * The dynamic part of the filter `$this->id` identifies the extending query.
 			 *
@@ -453,7 +453,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the SELECT clause
+	 * Retrieve the prepared SQL for the SELECT clause.
 	 *
 	 * @since 4.5.1
 	 *
@@ -471,7 +471,7 @@ abstract class LLMS_Database_Query {
 		}
 
 		/**
-		 * Filters the query SELECT columns
+		 * Filters the query SELECT columns.
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
@@ -485,7 +485,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the LIMIT clause
+	 * Retrieve the prepared SQL for the LIMIT clause.
 	 *
 	 * @since 3.16.0
 	 * @since 4.5.1 Drop use of `$this->get_filter('limit')` in favor of `"llms_{$this->id}_query_limit"`.
@@ -499,7 +499,7 @@ abstract class LLMS_Database_Query {
 		$sql = $wpdb->prepare( 'LIMIT %d, %d', $this->get_skip(), $this->get( 'per_page' ) );
 
 		/**
-		 * Filters the query LIMIT clause
+		 * Filters the query LIMIT clause.
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
@@ -512,7 +512,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the ORDER BY clause
+	 * Retrieve the prepared SQL for the ORDER BY clause.
 	 *
 	 * @since 3.8.0
 	 * @since 3.34.0 Returns an empty string if no sort fields are available.
@@ -543,7 +543,7 @@ abstract class LLMS_Database_Query {
 		}
 
 		/**
-		 * Filters the query ORDER BY clause
+		 * Filters the query ORDER BY clause.
 		 *
 		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
