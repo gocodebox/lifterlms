@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Determine if a gateway can be used for a give LLMS_Access_Plan.
  *
  * @since 3.29.0
- * @version 3.29.0
  *
  * @param string           $gateway_id LLMS_Payment_Gateway ID.
  * @param LLMS_Access_Plan $plan The access plan.
@@ -59,7 +58,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 }
 
 /**
- * Retrieve an LLMS Order ID by the associated order_key
+ * Retrieve an LLMS Order ID by the associated order_key.
  *
  * @since 3.0.0
  * @since 3.30.1 Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
@@ -85,10 +84,10 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 }
 
 /**
- * Get the human readable status for a LifterLMS status
+ * Get the human readable status for a LifterLMS status.
  *
  * @since 3.0.0
- * @version 3.6.0
+ * @since 3.6.0 Unknown.
  *
  * @param string $status LifterLMS Order Status.
  * @return string
@@ -102,13 +101,13 @@ function llms_get_order_status_name( $status ) {
 }
 
 /**
- * Retrieve an array of registered and available LifterLMS Order Post Statuses
+ * Retrieve an array of registered and available LifterLMS Order Post Statuses.
  *
  * @since 3.0.0
- * @version 3.19.0
+ * @since 3.19.0 Unknown.
  *
- * @param string $order_type filter statuses which are specific to the supplied order type, defaults to any statuses.
- * @return array
+ * @param string $order_type Filter statuses which are specific to the supplied order type, defaults to any statuses.
+ * @return array[]
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
@@ -128,23 +127,32 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 			break;
 	}
 
+	/**
+	 * Filters the order statuses.
+	 *
+	 * @since Unknown.
+	 *
+	 * @param array[] $statuses   Array of order post status arrays.
+	 * @param string  $order_type The type of the order.
+	 */
 	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
 
 }
 
 /**
- * Get the possible statuses of a given order
+ * Get the possible statuses of a given order.
  *
  * @since [version]
  *
- * @param LLMS_Order $order Order.
- * @return array
+ * @param LLMS_Order $order The LLMS_Order instance.
+ * @return array[]
  */
 function llms_get_possible_order_statuses( $order ) {
 
 	$is_recurring = $order->is_recurring();
 	$statuses     = llms_get_order_statuses( $is_recurring ? 'recurring' : 'single' );
 
+	// Limit the possible status for recurring orders whose product ID doesn't exist anymore.
 	if ( $is_recurring && ! llms_get_post( $order->get( 'product_id' ) ) ) {
 		unset( $statuses['llms-active'] );
 		unset( $statuses['llms-on-hold'] );
@@ -160,7 +168,6 @@ function llms_get_possible_order_statuses( $order ) {
  * Find an existing order for a given plan by a given user.
  *
  * @since 3.30.1
- * @version 3.30.1
  *
  * @param int $user_id
  * @param int $plan_id
@@ -212,7 +219,9 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 function llms_setup_pending_order( $data = array() ) {
 
 	/**
-	 * @filter llms_before_setup_pending_order
+	 * Filters the order data before setting up the pending order
+	 *
+	 * @since Unknown.
 	 *
 	 * @param array $data Array of input data from a checkout form.
 	 */
