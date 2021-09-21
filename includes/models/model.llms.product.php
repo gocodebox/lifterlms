@@ -415,6 +415,7 @@ class LLMS_Product extends LLMS_Post_Model {
 					JOIN {$wpdb->postmeta} as pm1
 					JOIN {$wpdb->postmeta} as pm2
 					WHERE p.ID=pm1.post_id
+					AND p.post_type='llms_order'
 					AND pm1.post_id=pm2.post_id
 					AND pm1.meta_key='_llms_product_id' AND pm1.meta_value=%d
 					AND pm2.meta_key='_llms_order_type' AND pm2.meta_value='recurring'
