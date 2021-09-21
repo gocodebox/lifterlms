@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -494,7 +494,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
-	 * @since [version] Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
+	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
 	 *
 	 * @return void
 	 */
