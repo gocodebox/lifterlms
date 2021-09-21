@@ -10,17 +10,17 @@
 /**
  * Main LLMS Namespace
  *
- * @type     {Object}
- * @since    1.0.0
- * @version  3.24.3
+ * @since 1.0.0
+ * @version [version]
  */
+
 var LLMS = window.LLMS || {};
-(function($){
+( function( $ ){
 
 	'use strict';
 
 	/**
-	 * load all app modules
+	 * Load all app modules
 	 */
 	/**
 	 * Front End Achievements
@@ -377,7 +377,7 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 5.0.0
-	 * @version 5.0.0
+	 * @version [version]
 	 */
 	
 	LLMS.Forms = {
@@ -423,6 +423,7 @@ var LLMS = window.LLMS || {};
 		 * Init
 		 *
 	 	 * @since 5.0.0
+	 	 * @since [version] Move select2 dependency check into the `bind_l10_selects()` method.
 	 	 *
 	 	 * @return {void}
 		 */
@@ -439,12 +440,7 @@ var LLMS = window.LLMS || {};
 			self.bind_matching_fields();
 			self.bind_voucher_field();
 			self.bind_edit_account();
-	
-			LLMS.wait_for( function() {
-				return ( undefined !== $.fn.llmsSelect2 );
-			}, function() {
-				self.bind_l10n_selects();
-			} );
+			self.bind_l10n_selects();
 	
 		},
 	
@@ -470,6 +466,7 @@ var LLMS = window.LLMS || {};
 		 * Bind DOM Events fields with dynamic localization values and language.
 		 *
 		 * @since 5.0.0
+		 * @since [version] Bind select2-related events after ensuring select2 is available.
 		 *
 		 * @return {void}
 		 */
@@ -486,22 +483,30 @@ var LLMS = window.LLMS || {};
 				return;
 			}
 	
-			if ( self.$states.length ) {
-				self.prep_state_field();
-			}
+			var isSelect2Available = function() {
+				return ( undefined !== $.fn.llmsSelect2 );
+			};
 	
-			self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
+			LLMS.wait_for( isSelect2Available, function() {
 	
-			if ( window.llms.address_info ) {
-				self.address_info = JSON.parse( window.llms.address_info );
-			}
+				if ( self.$states.length ) {
+					self.prep_state_field();
+				}
 	
-			self.$countries.on( 'change', function() {
+				self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
 	
-				var val = $( this ).val();
-				self.update_locale_info( val );
+				if ( window.llms.address_info ) {
+					self.address_info = JSON.parse( window.llms.address_info );
+				}
 	
-			} ).trigger( 'change' );
+				self.$countries.on( 'change', function() {
+	
+					var val = $( this ).val();
+					self.update_locale_info( val );
+	
+				} ).trigger( 'change' );
+	
+			}, 'llmsSelect2' );
 	
 		},
 	
@@ -2512,7 +2517,9 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Initializes all classes within the LLMS Namespace
 	 *
-	 * @return {[type]} [description]
+	 * @since Unknown
+	 *
+	 * @return {void}
 	 */
 	LLMS.init = function() {
 
@@ -2537,10 +2544,11 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Determine if the current device is touch-enabled
 	 *
-	 * @see     https://stackoverflow.com/a/4819886/400568 [2018 Update]
-	 * @return  {Boolean}
-	 * @since   3.24.3
-	 * @version 3.24.3
+	 * @since 3.24.3
+	 *
+	 * @see {@link https://stackoverflow.com/a/4819886/400568}
+	 *
+	 * @return {Boolean} Whether or not the device is touch-enabled.
 	 */
 	LLMS.is_touch_device = function() {
 
@@ -2553,8 +2561,11 @@ var LLMS = window.LLMS || {};
 			return true;
 		}
 
-		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
-		// https://git.io/vznFH
+		/**
+		 * Include the 'heartz' as a way to have a non matching MQ to help terminate the join.
+		 *
+		 * @see {@link https://git.io/vznFH}
+		 */
 		var query = ['(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')'].join( '' );
 		return mq( query );
 
@@ -2563,67 +2574,71 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Wait for matchHeight to load
 	 *
-	 * @param    {Function}  cb  callback function to run when matchheight is ready
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.16.6
+	 * @since 3.0.0
+	 * @since 3.16.6 Unknown.
+	 * @since [version] Pass a dependency name to `wait_for()`.
+	 *
+	 * @param {Function} cb Callback function to run when matchheight is ready.
+	 * @return {void}
 	 */
 	LLMS.wait_for_matchHeight = function( cb ) {
 		this.wait_for( function() {
 			return ( undefined !== $.fn.matchHeight );
-		}, cb );
+		}, cb, 'matchHeight' );
 	}
 
 	/**
 	 * Wait for webuiPopover to load
 	 *
-	 * @param    {Function}  cb  callback function to run when matchheight is ready
-	 * @return   void
-	 * @since    3.9.1
-	 * @version  3.16.6
+	 * @since 3.9.1
+	 * @since 3.16.6 Unknown.
+	 *
+	 * @param {Function} cb Callback function to run when matchheight is ready.
+	 * @return {void}
 	 */
 	LLMS.wait_for_popover = function( cb ) {
 		this.wait_for( function() {
 			return ( undefined !== $.fn.webuiPopover );
-		}, cb );
+		}, cb, 'webuiPopover' );
 	}
 
 	/**
 	 * Wait for a dependency to load and then run a callback once it has
-	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things
 	 *
-	 * @param    {Function}    test  a function that returns a truthy if the dependency is loaded
-	 * @param    {Function}    cb    a callback function executed once the dependency is loaded
-	 * @return   void
-	 * @since    3.9.1
-	 * @version  3.9.1
+	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things.
+	 *
+	 * @since 3.9.1
+	 * @since [version] Added optional `name` parameter.
+	 *
+	 * @param {Function} test A function that returns a truthy if the dependency is loaded.
+	 * @param {Function} cb   A callback function executed once the dependency is loaded.
+	 * @param {string}   name The dependency name.
+	 * @return {void}
 	 */
-	LLMS.wait_for = function( test, cb ) {
+	LLMS.wait_for = function( test, cb, name ) {
 
 		var counter = 0,
 			interval;
 
+		name = name ? name : 'unnamed';
+
 		interval = setInterval( function() {
 
-			// if we get to 30 seconds log an error message
+			// If we get to 30 seconds log an error message.
 			if ( counter >= 300 ) {
 
-				console.log( 'could not load dependency' );
+				console.log( 'Unable to load dependency: ' + name );
 
-				// if we can't access ye, increment and wait...
+				// If we can't access yet, increment and wait...
 			} else {
 
-				// bind the events, we're good!
+				// Bind the events, we're good!
 				if ( test() ) {
-
 					cb();
-
 				} else {
-
-					console.log( 'waiting...' );
+					console.log( 'Waiting for dependency: ' + name );
 					counter++;
 					return;
-
 				}
 
 			}
@@ -2636,6 +2651,6 @@ var LLMS = window.LLMS || {};
 
 	LLMS.init( $ );
 
-})( jQuery );
+} )( jQuery );
 
 //# sourceMappingURL=../maps/js/llms.js.map
