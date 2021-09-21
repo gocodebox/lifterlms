@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 LLMS.Forms = {
@@ -50,6 +50,7 @@ LLMS.Forms = {
 	 * Init
 	 *
  	 * @since 5.0.0
+ 	 * @since [version] Move select2 dependency check into the `bind_l10_selects()` method.
  	 *
  	 * @return {void}
 	 */
@@ -66,12 +67,7 @@ LLMS.Forms = {
 		self.bind_matching_fields();
 		self.bind_voucher_field();
 		self.bind_edit_account();
-
-		LLMS.wait_for( function() {
-			return ( undefined !== $.fn.llmsSelect2 );
-		}, function() {
-			self.bind_l10n_selects();
-		} );
+		self.bind_l10n_selects();
 
 	},
 
@@ -97,6 +93,7 @@ LLMS.Forms = {
 	 * Bind DOM Events fields with dynamic localization values and language.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Bind select2-related events after ensuring select2 is available.
 	 *
 	 * @return {void}
 	 */
@@ -113,22 +110,30 @@ LLMS.Forms = {
 			return;
 		}
 
-		if ( self.$states.length ) {
-			self.prep_state_field();
-		}
+		var isSelect2Available = function() {
+			return ( undefined !== $.fn.llmsSelect2 );
+		};
 
-		self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
+		LLMS.wait_for( isSelect2Available, function() {
 
-		if ( window.llms.address_info ) {
-			self.address_info = JSON.parse( window.llms.address_info );
-		}
+			if ( self.$states.length ) {
+				self.prep_state_field();
+			}
 
-		self.$countries.on( 'change', function() {
+			self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
 
-			var val = $( this ).val();
-			self.update_locale_info( val );
+			if ( window.llms.address_info ) {
+				self.address_info = JSON.parse( window.llms.address_info );
+			}
 
-		} ).trigger( 'change' );
+			self.$countries.on( 'change', function() {
+
+				var val = $( this ).val();
+				self.update_locale_info( val );
+
+			} ).trigger( 'change' );
+
+		}, 'llmsSelect2' );
 
 	},
 
