@@ -59,7 +59,7 @@
 		 * @package LifterLMS/Scripts/Partials
 		 *
 		 * @since 3.11.0
-		 * @version [version]
+		 * @version 5.3.2
 		 */
 		
 		this.repeaters = {
@@ -125,7 +125,7 @@
 			 *
 			 * @since 3.11.0
 			 * @since 3.13.0 Unknown.
-			 * @since [version] Don't remove the model's mceEditor instance (it's removed before cloning a row now).
+			 * @since 5.3.2 Don't remove the model's mceEditor instance (it's removed before cloning a row now).
 			 *
 			 * @return {void}
 			 */
@@ -183,7 +183,7 @@
 			 * Add a new row to a repeater rows group
 			 *
 			 * @since 3.11.0
-			 * @since [version] Use `self.clone_row()` to retrieve the model's base HTML for the row to be added.
+			 * @since 5.3.2 Use `self.clone_row()` to retrieve the model's base HTML for the row to be added.
 			 *
 			 * @param {Object}  $repeater A jQuery selector for the repeater to add a row to.
 			 * @param {Object}  data      Optional object of data to fill fields in the row with.
@@ -286,7 +286,7 @@
 			/**
 			 * Create a copy of the model's row after removing any tinyMCE editor instances present in the model.
 			 *
-			 * @since [version]
+			 * @since 5.3.2
 			 *
 			 * @param {Object} $row A jQuery object of the row to be cloned.
 			 * @return {Object} A clone of the jQuery object.

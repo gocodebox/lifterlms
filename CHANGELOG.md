@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v5.3.2 - 2021-09-21
+-------------------
+
+##### Updates
+
++ Updated the SendWP integration account management URL.
+
+##### Bug fixes
+
++ Fixed issue encountered with TinyMCE editor instances in repeater metabox groups.
++ Fixed issue causing the latest achievement to not display when reviewing grades on the student dashboard.
+
+
 v5.3.1 - 2021-09-13
 -------------------
 

@@ -168,7 +168,7 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 	 * Test llms_get_user_postmeta().
 	 *
 	 * @since 3.21.0
-	 * @since [version] Add delta when comparing enrollment date with updated date.
+	 * @since 5.3.2 Add delta when comparing enrollment date with updated date.
 	 */
 	public function test_llms_get_user_postmeta() {
 
