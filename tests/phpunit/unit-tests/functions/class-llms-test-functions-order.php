@@ -12,6 +12,7 @@
  *
  * @since 3.27.0
  * @since 5.0.0 Updated for form handler error codes & install forms on setup.
+ * @since [version] Added tests for `llms_get_possible_order_statuses()`.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -262,6 +263,90 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$this->assertEquals( array( 'person', 'plan', 'gateway', 'coupon' ), array_keys( $setup ) );
 
 	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a recurring order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_recurring_order_statuses() {
+		$order = $this->get_mock_order();
+		$this->assertTrue( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'recurring' ),
+			llms_get_possible_order_statuses( $order )
+		);
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a single order.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_single_order_statuses() {
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'single' );
+		$this->assertFalse( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'single' ),
+			llms_get_possible_order_statuses( $order )
+		);
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a recurring order with deleted product.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_recurring_order_statuses_deleted_product() {
+
+		$order = $this->get_mock_order();
+
+		// Delete product.
+		wp_delete_post( $order->get( 'product_id' ) );
+
+		$this->assertTrue( $order->is_recurring() );
+		$this->assertEquals(
+			array(
+				'llms-expired',
+				'llms-cancelled',
+				'llms-refunded',
+				'llms-failed',
+			),
+			array_keys( llms_get_possible_order_statuses( $order ) )
+		);
+
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a single with deleted product.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_single_order_statuses_deleted_product() {
+
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'single' );
+
+		// Delete product.
+		wp_delete_post( $order->get( 'product_id' ) );
+
+		$this->assertFalse( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'single' ),
+			llms_get_possible_order_statuses( $order )
+		);
+
+	}
+
 
 	/**
 	 * Test llms_setup_pending_order() failure

@@ -190,7 +190,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 			$user_id,
 			$plan_id
 		)
-	);
+	); // db-cache ok.
 
 	// Return an int not a numeric string.
 	return $id ? absint( $id ) : $id;
