@@ -7,6 +7,7 @@
  * @since 3.16.12
  * @since 3.37.8 Added tests to remove quiz attempts upon quiz deletion.
  * @since 4.15.0 Added tests on access plans deletion upon quiz deletion.
+ * @since [version] Added tests for static method delete_product_with_active_subscriptions_error_message().
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -202,4 +203,40 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test delete_product_with_active_subscriptions_error_message().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_delete_product_with_active_subscriptions_error_message() {
+
+		$post_types = array(
+			'post',
+			'course',
+			'llms_membership',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			// Create product.
+			$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+			$post_type_object = get_post_type_object( $post_type );
+			$post_type_name   = $post_type_object->labels->name;
+
+			$this->assertEquals(
+				'post' !== $post_type ?
+					sprintf(
+						'Sorry, you are not allowed to delete %s with active subscriptions.',
+						$post_type_name
+					):
+					''
+				,
+				LLMS_Post_Relationships::delete_product_with_active_subscriptions_error_message( $post_id )
+			);
+		}
+
+	}
 }

@@ -129,7 +129,7 @@ class LLMS_Post_Relationships {
 			add_filter( 'rest_request_after_callbacks', array( $this, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
 			wp_die(
-				$this->delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) )
+				self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) )
 			);
 		}
 
@@ -156,7 +156,7 @@ class LLMS_Post_Relationships {
 			foreach ( $response->errors as $code => &$data ) {
 				// Error code can be produced by our rest-api or by wp core.
 				if ( in_array( $code, array( 'llms_rest_cannot_delete', 'rest_cannot_delete' ), true ) ) {
-					$data[0] = $this->delete_product_with_active_subscriptions_error_message( $request['id'] );
+					$data[0] = self::delete_product_with_active_subscriptions_error_message( $request['id'] );
 					break;
 				}
 			}
@@ -174,14 +174,22 @@ class LLMS_Post_Relationships {
 	 * @param int $post_id The WP_Post ID of the product.
 	 * @return string
 	 */
-	public function delete_product_with_active_subscriptions_error_message( $post_id ) {
-		$post_type_object = get_post_type_object( get_post_type( $post_id ) );
+	public static function delete_product_with_active_subscriptions_error_message( $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		if ( ! in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+			return '';
+		}
+
+		$post_type_object = get_post_type_object( $post_type );
 		$post_type_name   = $post_type_object->labels->name;
 		return sprintf(
 			// Translators: %s = The post type plural name.
 			__( 'Sorry, you are not allowed to delete %s with active subscriptions.', 'lifterlms' ),
 			$post_type_name
 		);
+
 	}
 
 	/**
