@@ -283,7 +283,7 @@ abstract class LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 *
-	 * @return void
+	 * @return string
 	 */
 	abstract protected function preprare_query();
 
@@ -434,7 +434,7 @@ abstract class LLMS_Database_Query {
 			 *
 			 * @since 4.5.1
 			 *
-			 * @param array               $ars           The query parse arguents.
+			 * @param array               $ars           The query parse arguments.
 			 * @param LLMS_Database_Query $db_query      The LLMS_Database_Query instance.
 			 * @param array               $original_args Original arguments before merging with defaults.
 			 * @param array               $default_args  Default arguments before merging with original.
