@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Table abstract class
+ * LLMS_Admin_Table abstract class.
  *
  * @since 3.2.0
  * @since 3.34.0 Added get_table_classes().
@@ -20,29 +20,30 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
 	 * @var  string
 	 */
 	protected $id = '';
 
 	/**
-	 * When pagination is enabled, the current page
+	 * When pagination is enabled, the current page.
 	 *
 	 * @var  integer
 	 */
 	protected $current_page = 1;
 
 	/**
-	 * Value of the field being filtered by
-	 * Only applicable if $filterby is set
+	 * Value of the field being filtered by.
+	 *
+	 * Only applicable if $filterby is set.
 	 *
 	 * @var  string
 	 */
 	protected $filter = '';
 
 	/**
-	 * Field results are filtered by
+	 * Field results are filtered by.
 	 *
 	 * @var  string
 	 */
@@ -56,102 +57,104 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	protected $is_exportable = false;
 
 	/**
-	 * When pagination enabled, determines if this is the last page of results
+	 * When pagination enabled, determines if this is the last page of results.
 	 *
 	 * @var  boolean
 	 */
 	protected $is_last_page = true;
 
 	/**
-	 * If true, tfoot will add ajax pagination links
+	 * If true, tfoot will add ajax pagination links.
 	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = false;
 
 	/**
-	 * Determine if the table is filterable
+	 * Determine if the table is filterable.
 	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = false;
 
 	/**
-	 * If true will be a table with a larger font size
+	 * If true will be a table with a larger font size.
 	 *
 	 * @var  bool
 	 */
 	protected $is_large = false;
 
 	/**
-	 * Determine of the table is searchable
+	 * Determine of the table is searchable.
 	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = false;
 
 	/**
-	 * If true, tbody will be zebra striped
+	 * If true, tbody will be zebra striped.
 	 *
 	 * @var  boolean
 	 */
 	protected $is_zebra = true;
 
 	/**
-	 * If an integer supplied, used to jump to last page
+	 * If an integer supplied, used to jump to last page.
 	 *
 	 * @var  int
 	 */
 	protected $max_pages = null;
 
 	/**
-	 * Results sort order
-	 * 'ASC' or 'DESC'
-	 * Only applicable of $orderby is not set
+	 * Results sort order.
+	 *
+	 * 'ASC' or 'DESC'.
+	 * Only applicable of $orderby is not set.
 	 *
 	 * @var  string
 	 */
 	protected $order = '';
 
 	/**
-	 * Field results are sorted by
+	 * Field results are sorted by.
 	 *
 	 * @var  string
 	 */
 	protected $orderby = '';
 
 	/**
-	 * Number of records to display per page
+	 * Number of records to display per page.
 	 *
 	 * @var int
 	 */
 	protected $per_page = -1;
 
 	/**
-	 * The search query submitted for a searchable table
+	 * The search query submitted for a searchable table.
 	 *
 	 * @var  string
 	 */
 	protected $search = '';
 
 	/**
-	 * Table Data
-	 * Array of objects or arrays
-	 * each item represents as row in the table's body, each item is a cell
+	 * Table Data.
+	 *
+	 * Array of objects or arrays.
+	 * Each item represents as row in the table's body, each item is a cell.
 	 *
 	 * @var  array
 	 */
 	protected $tbody_data = array();
 
 	/**
-	 * Table Title Displayed on Screen
+	 * Table Title Displayed on Screen.
 	 *
 	 * @var  string
 	 */
 	protected $title = '';
 
 	/**
-	 * Retrieve data for a cell
+	 * Retrieve data for a cell.
 	 *
 	 * @param    string $key   the column id / key
 	 * @param    mixed  $data  object / array of data that the function can use to extract the data
@@ -162,7 +165,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	abstract protected function get_data( $key, $data );
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
 	 * @param    array $args  array of query args
 	 * @return   void
@@ -172,7 +175,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	abstract public function get_results( $args = array() );
 
 	/**
-	 * Define the structure of arguments used to pass to the get_results method
+	 * Define the structure of arguments used to pass to the get_results method.
 	 *
 	 * @return   array
 	 * @since    2.3.0
@@ -181,7 +184,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	abstract public function set_args();
 
 	/**
-	 * Define the structure of the table
+	 * Define the structure of the table.
 	 *
 	 * @return   array
 	 * @since    3.2.0
@@ -190,7 +193,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	abstract protected function set_columns();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since    3.2.0
 	 * @version  3.28.0
@@ -201,9 +204,10 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Ensure that a valid array of data is passed to a query
+	 * Ensure that a valid array of data is passed to a query.
+	 *
 	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
-	 * to the get_results function
+	 * to the get_results function.
 	 *
 	 * @param    array $args  array of arguments
 	 * @return   array
@@ -225,8 +229,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Ensures that all data requested by $this->get_data if filterable
-	 * before being output on screen / in the export file
+	 * Ensures that all data requested by $this->get_data is filterable
+	 * before being output on screen / in the export file.
 	 *
 	 * @param    mixed  $value     value to be displayed
 	 * @param    string $key       column key / id
@@ -241,7 +245,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieve the arguments defined in `set_args`
+	 * Retrieve the arguments defined in `set_args`.
 	 *
 	 * @return   array
 	 * @since    3.2.0
@@ -270,7 +274,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieve the array of columns defined by set_columns
+	 * Retrieve the array of columns defined by set_columns.
 	 *
 	 * @return   array
 	 * @since    3.2.0
@@ -295,7 +299,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current page
+	 * Get the current page.
 	 *
 	 * @return   int
 	 * @since    3.2.0
@@ -306,7 +310,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get $this->empty_msg string
+	 * Get $this->empty_msg string.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -317,7 +321,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the text for the default/placeholder for a filterable column
+	 * Get the text for the default/placeholder for a filterable column.
 	 *
 	 * @param    string $column_id  id of the column
 	 * @return   string
@@ -335,7 +339,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current filter
+	 * Get the current filter.
 	 *
 	 * @return   string
 	 * @since    3.4.0
@@ -346,7 +350,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current field results are filtered by
+	 * Get the current field results are filtered by.
 	 *
 	 * @return   string
 	 * @since    3.4.0
@@ -357,7 +361,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieve a modified classname that can be passed via AJAX for new queries
+	 * Retrieve a modified classname that can be passed via AJAX for new queries.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -368,7 +372,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieve the max number of pages for the table
+	 * Retrieve the max number of pages for the table.
 	 *
 	 * @return   int
 	 * @since    3.15.0
@@ -379,7 +383,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current sort order
+	 * Get the current sort order.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -390,7 +394,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current field results are ordered by
+	 * Get the current field results are ordered by.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -401,7 +405,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the current number of results to display per page
+	 * Get the current number of results to display per page.
 	 *
 	 * @return  int
 	 * @since   3.28.0
@@ -412,8 +416,9 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Gets the opposite of the current order
-	 * Used to determine what order should be displayed when resorting
+	 * Gets the opposite of the current order.
+	 *
+	 * Used to determine what order should be displayed when resorting.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -431,7 +436,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Retrieves the current search query
+	 * Retrieves the current search query.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -475,7 +480,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get HTML for the filters displayed in the head of the table
+	 * Get HTML for the filters displayed in the head of the table.
 	 *
 	 * @return   string
 	 * @since    3.4.0
@@ -503,7 +508,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for the entire table
+	 * Get the HTML for the entire table.
 	 *
 	 * @since 3.2.0
 	 * @since 3.17.8 Unknown.
@@ -543,7 +548,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML of the search form for a searchable table
+	 * Get the HTML of the search form for a searchable table.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -560,7 +565,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -571,7 +576,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for the table's title
+	 * Get the HTML for the table's title.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -587,7 +592,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get $this->tbody_data array
+	 * Get $this->tbody_data array.
 	 *
 	 * @return   array
 	 * @since    3.2.0
@@ -598,7 +603,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a tbody element for the table
+	 * Get a tbody element for the table.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -622,7 +627,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a tfoot element for the table
+	 * Get a tfoot element for the table.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -671,7 +676,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a thead element for the table
+	 * Get a thead element for the table.
 	 *
 	 * @return   string
 	 * @since    3.2.0
@@ -706,7 +711,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get a CSS class list (as a string) for each TR
+	 * Get a CSS class list (as a string) for each TR.
 	 *
 	 * @param    mixed $row  object / array of data that the function can use to extract the data
 	 * @return   string
@@ -718,7 +723,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for a single row in the body of the table
+	 * Get the HTML for a single row in the body of the table.
 	 *
 	 * @param    mixed $row  array/object of data describing a single row in the table
 	 * @return   string
@@ -740,8 +745,9 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the total number of columns in the table
-	 * Useful for creating full with tds via colspan
+	 * Get the total number of columns in the table.
+	 *
+	 * Useful for creating full width tds via colspan.
 	 *
 	 * @return   int
 	 * @since    3.2.0
@@ -752,10 +758,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML to output a progress bar within a td
-	 * Improve ugly tables with a small visual flourish
+	 * Get the HTML to output a progress bar within a td.
+	 *
+	 * Improve ugly tables with a small visual flourish.
 	 * Useful when displaying a percentage within a table!
-	 * Bonus if the table sorts by that percentage column
+	 * Bonus if the table sorts by that percentage column.
 	 *
 	 * @param    float  $percentage  the percentage to be displayed
 	 * @param    string $text        text to display over the progress bar, defaults to $percentage
@@ -772,7 +779,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for a WP Post Link
+	 * Get the HTML for a WP Post Link.
 	 *
 	 * @param    int    $post_id  WP Post ID
 	 * @param    string $text     Optional text to display within the anchor, if none supplied $post_id if used
@@ -788,7 +795,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the title of the table
+	 * Get the title of the table.
 	 *
 	 * @return   string
 	 * @since    3.15.0
@@ -799,7 +806,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Get the HTML for a WP User Link
+	 * Get the HTML for a WP User Link.
 	 *
 	 * @param    int    $user_id  WP User ID
 	 * @param    string $text     Optional text to display within the anchor, if none supplied $user_id if used
@@ -815,7 +822,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Determine if a column is visible based on the current context
+	 * Determine if a column is visible based on the current context.
 	 *
 	 * @param    [type] $data     array of a single column's data from set_columns()
 	 * @param    string $context  context [display|export]
@@ -839,7 +846,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Return protected is_last_page var
+	 * Return protected is_last_page var.
 	 *
 	 * @return   bool
 	 * @since    3.15.0
@@ -850,7 +857,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Allow custom hooks to be registered for use within the class
+	 * Allow custom hooks to be registered for use within the class.
 	 *
 	 * @return   void
 	 * @since    3.2.0
@@ -859,7 +866,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	protected function register_hooks() {}
 
 	/**
-	 * Setter
+	 * Setter.
 	 *
 	 * @param    string $key  variable name
 	 * @param    mixed  $val  variable data
@@ -871,7 +878,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
-	 * Empty message displayed when no results are found
+	 * Empty message displayed when no results are found.
 	 *
 	 * @return   string
 	 * @since    3.2.0

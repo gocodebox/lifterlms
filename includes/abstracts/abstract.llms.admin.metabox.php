@@ -16,7 +16,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 }
 
 /**
- * Admin metabox abstract class
+ * Admin metabox abstract class.
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
@@ -29,7 +29,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 abstract class LLMS_Admin_Metabox {
 
 	/**
-	 * Metabox ID
+	 * Metabox ID.
 	 *
 	 * Define this in extending class's $this->configure() method.
 	 *
@@ -38,7 +38,7 @@ abstract class LLMS_Admin_Metabox {
 	public $id;
 
 	/**
-	 * Post Types this metabox should be added to
+	 * Post Types this metabox should be added to.
 	 *
 	 * Can be a string of a single post type or an indexed array of multiple post types.
 	 * Define this in extending class's $this->configure() method.
@@ -48,7 +48,7 @@ abstract class LLMS_Admin_Metabox {
 	public $screens = array();
 
 	/**
-	 * Title of the metabox
+	 * Title of the metabox.
 	 *
 	 * Define this in extending class's $this->configure() method.
 	 *
@@ -57,14 +57,14 @@ abstract class LLMS_Admin_Metabox {
 	public $title;
 
 	/**
-	 * Capability to check in order to display the metabox to the user
+	 * Capability to check in order to display the metabox to the user.
 	 *
 	 * @var string
 	 */
 	public $capability = 'edit_post';
 
 	/**
-	 * Optional context to register the metabox with
+	 * Optional context to register the metabox with.
 	 *
 	 * Accepts anything that can be passed to WP core add_meta_box() function: 'normal', 'side', 'advanced'.
 	 *
@@ -75,7 +75,7 @@ abstract class LLMS_Admin_Metabox {
 	public $context = 'normal';
 
 	/**
-	 * Optional priority for the metabox
+	 * Optional priority for the metabox.
 	 *
 	 * Accepts anything that can be passed to WP core add_meta_box() function: 'default', 'high', 'low'.
 	 *
@@ -86,21 +86,21 @@ abstract class LLMS_Admin_Metabox {
 	public $priority = 'default';
 
 	/**
-	 * Instance of WP_Post for the current post
+	 * Instance of WP_Post for the current post.
 	 *
 	 * @var WP_Post
 	 */
 	public $post;
 
 	/**
-	 * Meta Key Prefix for all elements in the metabox
+	 * Meta Key Prefix for all elements in the metabox.
 	 *
 	 * @var string
 	 */
 	public $prefix = '_llms_';
 
 	/**
-	 * Array of error message strings to be displayed after an update attempt
+	 * Array of error message strings to be displayed after an update attempt.
 	 *
 	 * @var array
 	 */
@@ -114,7 +114,7 @@ abstract class LLMS_Admin_Metabox {
 	protected $error_opt_key = '';
 
 	/**
-	 * HTML for the Metabox Content
+	 * HTML for the Metabox Content.
 	 *
 	 * Content handled by $this->process_fields().
 	 *
@@ -123,7 +123,7 @@ abstract class LLMS_Admin_Metabox {
 	private $content = '';
 
 	/**
-	 * HTML for the Metabox Navigation
+	 * HTML for the Metabox Navigation.
 	 *
 	 * Content handled by $this->process_fields().
 	 *
@@ -132,7 +132,7 @@ abstract class LLMS_Admin_Metabox {
 	private $navigation = '';
 
 	/**
-	 * The number of tabs registered to the metabox
+	 * The number of tabs registered to the metabox.
 	 *
 	 * This will be calculated automatically.
 	 *
@@ -143,7 +143,7 @@ abstract class LLMS_Admin_Metabox {
 	private $total_tabs = 0;
 
 	/**
-	 * Metabox Version Number
+	 * Metabox Version Number.
 	 *
 	 * @var integer
 	 */

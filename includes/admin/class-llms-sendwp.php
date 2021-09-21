@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version [version]
+ * @version 5.3.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.40.0 Abstract methods used to determine if SendWP is connected.
-	 * @since [version] Update the URL for managing an account.
+	 * @since 5.3.2 Update the URL for managing an account.
 	 *
 	 * @return string
 	 */
