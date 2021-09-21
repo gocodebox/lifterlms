@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.3.1
+Stable tag: 5.3.2
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.3.2 - 2021-09-21 =
+
+##### Updates
+
++ Updated the SendWP integration account management URL.
+
+##### Bug fixes
+
++ Fixed issue encountered with TinyMCE editor instances in repeater metabox groups.
++ Fixed issue causing the latest achievement to not display when reviewing grades on the student dashboard.
+
+
 = v5.3.1 - 2021-09-13 =
 
 ##### Bug fixes
@@ -683,20 +695,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Fixed issue with non-Latin characters in dashboard endpoint URL slugs.
 + Fixed issue preventing address localization when using the [lifterlms_registration] shortcode.
-
-
-= v5.0.1 - 2021-06-28 =
-
-##### Updates
-
-+ Update to [LifterLMS Blocks v2.1.0](https://make.lifterlms.com/2021/06/28/lifterlms-blocks-version-2-1-0/).
-+ Added a new filter to allow programmatically alter required field validation results.
-
-##### Bugfixes
-
-+ Fixed an issue causing preventing form layout options from working when passed into shortcodes.
-+ Fixed an issue preventing custom radio, select, and dropdown fields from working during checkout.
-+ Fixed an accessibility issue encountered during password strength validation.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
