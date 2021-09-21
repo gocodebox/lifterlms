@@ -21,8 +21,8 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 *
 	 * @return void;
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		foreach ( $this->themes as $theme ) {
 			$this->_delete_theme_override_directory( $theme );
 		}

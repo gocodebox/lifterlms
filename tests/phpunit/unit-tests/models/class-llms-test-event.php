@@ -19,8 +19,8 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 	}
 
 	/**
@@ -30,8 +30,8 @@ class LLMS_Test_Event extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events" );
 	}

@@ -20,9 +20,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		llms_maybe_define_constant( 'LLMS_PROCESSORS_DEBUG', true );
 
 	}
@@ -34,9 +34,9 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$this->main          = llms()->processors()->get( 'course_data' );
 		$this->schedule_hook = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'cron_hook_identifier' );
@@ -50,11 +50,11 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
 		$this->main->cancel_process();
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'data', array() );
-		parent::tearDown();
+		parent::tear_down();
 
 	}
 

@@ -11,9 +11,9 @@
  */
 class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Form_Post_Type( LLMS_Forms::instance() );
 
 	}

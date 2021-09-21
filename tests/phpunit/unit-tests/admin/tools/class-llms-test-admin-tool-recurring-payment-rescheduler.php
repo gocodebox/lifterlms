@@ -27,9 +27,9 @@ class LLMS_Test_Admin_Tool_Recurring_Payment_Rescheduler extends LLMS_Admin_Tool
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->clear_cache();
 
 	}

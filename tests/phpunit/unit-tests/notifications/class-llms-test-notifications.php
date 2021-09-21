@@ -18,9 +18,9 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = LLMS()->notifications();
 
 	}
@@ -32,9 +32,9 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		// Clear data for later tests.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'processors_to_dispatch', array() );

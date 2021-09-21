@@ -4,7 +4,7 @@
  *
  * @since 3.33.0
  * @since 3.36.1 Unknown.
- * @since 3.37.12 Call parent method in setUpBeforeClass().
+ * @since 3.37.12 Call parent method in set_up_before_class().
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -20,9 +20,9 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		// manually include required files.
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';

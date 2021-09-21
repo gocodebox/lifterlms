@@ -20,9 +20,9 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setupBeforeClass();
+		parent::set_up_before_class();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
 
@@ -35,9 +35,9 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Setup_Wizard();
 
 	}

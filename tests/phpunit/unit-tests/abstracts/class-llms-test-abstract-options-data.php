@@ -9,7 +9,7 @@
  * @group settings
  *
  * @since 3.19.0
- * @since 4.21.0 Replaced the `get_stub()` method with `$this->main`, initialized in `setUp()`.
+ * @since 4.21.0 Replaced the `get_stub()` method with `$this->main`, initialized in `set_up()`.
  */
 class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 
@@ -20,8 +20,8 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->main = $this->getMockForAbstractClass( 'LLMS_Abstract_Options_Data' );
 	}
 

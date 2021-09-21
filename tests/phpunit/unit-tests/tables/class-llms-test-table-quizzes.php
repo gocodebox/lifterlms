@@ -18,9 +18,9 @@ class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/llms.table.quizzes.php';
 		$this->table = new LLMS_Table_Quizzes();
 

@@ -21,8 +21,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->main = 'LLMS_Admin_Builder';
 	}
 

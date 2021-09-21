@@ -17,8 +17,8 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->obj = new LLMS_User_Permissions();
 	}
 

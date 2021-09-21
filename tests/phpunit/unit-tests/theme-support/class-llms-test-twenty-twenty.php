@@ -18,9 +18,9 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		update_option( 'template', 'twentytwenty' );
 		$support = new LLMS_Theme_Support();
 		$support->includes();
@@ -34,9 +34,9 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		update_option( 'template', 'default' );
 
 	}

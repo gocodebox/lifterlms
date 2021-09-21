@@ -11,9 +11,9 @@
  */
 class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Forms_Admin_Bar();
 
 	}

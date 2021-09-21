@@ -18,9 +18,9 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->forms = LLMS_Forms::instance();
 
 	}
@@ -32,9 +32,9 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		global $wpdb;
 		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );

@@ -27,9 +27,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		register_post_type( 'mock_post_type' );
 
 	}
@@ -41,9 +41,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 
-		parent::tearDownAfterClass();
+		parent::tear_down_after_class();
 		unregister_post_type( 'mock_post_type' );
 
 	}
@@ -55,9 +55,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->stub = $this->get_stub();
 
 	}

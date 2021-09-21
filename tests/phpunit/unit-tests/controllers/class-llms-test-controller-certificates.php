@@ -20,9 +20,9 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->instance = new LLMS_Controller_Certificates();
 
 	}

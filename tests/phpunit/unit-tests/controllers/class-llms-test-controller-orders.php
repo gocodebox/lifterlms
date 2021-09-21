@@ -19,9 +19,9 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
 
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		LLMS_Site::update_feature( 'recurring_payments', true );
 
 	}

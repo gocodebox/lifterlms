@@ -16,8 +16,8 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.8.0
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 	}
 

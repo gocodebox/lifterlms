@@ -27,9 +27,9 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_Admin_Tool_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->clear_cache();
 
 	}

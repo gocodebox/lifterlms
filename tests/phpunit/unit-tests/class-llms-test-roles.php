@@ -16,8 +16,8 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$wp_roles = wp_roles();
 		LLMS_Roles::install();
 	}

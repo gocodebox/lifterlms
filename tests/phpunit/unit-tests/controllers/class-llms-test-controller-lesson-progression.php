@@ -14,9 +14,9 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * @since    3.17.1
 	 * @version  3.17.1
 	 */
-	public function setUp() {
+	public function set_up() {
 		llms_clear_notices();
-		parent::setUp();
+		parent::set_up();
 	}
 
 	/**

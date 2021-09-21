@@ -21,8 +21,8 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->llms = LLMS();
 	}
 

@@ -19,9 +19,9 @@ class LLMS_Test_Abstract_Session_Data extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = $this->getMockForAbstractClass( 'LLMS_Abstract_Session_Data' );
 
 	}

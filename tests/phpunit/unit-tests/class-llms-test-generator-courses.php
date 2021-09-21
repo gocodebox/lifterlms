@@ -18,9 +18,9 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
 
 	}
@@ -32,9 +32,9 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Generator_Courses();
 
 	}

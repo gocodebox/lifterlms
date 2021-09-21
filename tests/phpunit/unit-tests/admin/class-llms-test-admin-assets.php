@@ -12,9 +12,9 @@
  */
 class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Assets();
 
 	}
@@ -28,9 +28,9 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		/**
 		 * List of asset handles that may have been enqueued or registered during the test
