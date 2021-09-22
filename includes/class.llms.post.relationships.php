@@ -11,10 +11,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Hooks and actions related to post relationships
+ * Hooks and actions related to post relationships.
  *
  * @since 3.16.12
- * @since 3.24.0 Unknown
+ * @since 3.24.0 Unknown.
  * @since 3.37.8 Delete student quiz attempts when a quiz is deleted.
  * @since 4.15.0 Delete access plans related to courses/memberships on their deletion.
  */
@@ -86,7 +86,7 @@ class LLMS_Post_Relationships {
 	);
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.16.12
 	 * @since [version] Prevent course/membership with active subscriptions deletion.
@@ -193,7 +193,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Delete / Trash posts related to the deleted post
+	 * Delete / Trash posts related to the deleted post.
 	 *
 	 * @since 3.16.12
 	 * @since 3.37.8 Allow for deletion of related items outside the WP core posts table.
@@ -260,7 +260,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Get a list of post types with relationships that should be checked
+	 * Get a list of post types with relationships that should be checked.
 	 *
 	 * @since 3.16.12
 	 *
@@ -271,7 +271,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Retrieve filtered LifterLMS post relationships array
+	 * Retrieve filtered LifterLMS post relationships array.
 	 *
 	 * @since 3.16.12
 	 *
@@ -282,7 +282,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Retrieve an array of post ids related to the deleted post by post type and meta key
+	 * Retrieve an array of post ids related to the deleted post by post type and meta key.
 	 *
 	 * @since 3.16.12
 	 *
@@ -312,7 +312,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Check relationships and delete / update related posts when a post is deleted
+	 * Check relationships and delete / update related posts when a post is deleted.
 	 *
 	 * Called on `delete_post` hook (before a post is deleted).
 	 *
@@ -352,7 +352,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Unsets relationship data from post_meta when a post is deleted
+	 * Unsets relationship data from post_meta when a post is deleted.
 	 *
 	 * @since 3.16.12
 	 * @since 3.24.0 Unknown.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions for LifterLMS Orders
+ * Functions for LifterLMS Orders.
  *
  * @package LifterLMS/Functions
  *
@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0
  *
  * @param string           $gateway_id LLMS_Payment_Gateway ID.
- * @param LLMS_Access_Plan $plan The access plan.
- * @return WP_Error|bool WP_Error on error, true on success
+ * @param LLMS_Access_Plan $plan       The access plan.
+ * @return WP_Error|bool WP_Error on error, true on success.
  */
 function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 
@@ -72,7 +72,7 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 
 	global $wpdb;
 
-	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) );
+	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) ); // no-cache ok.
 
 	if ( $id && 'order' === $return ) {
 		return new LLMS_Order( $id );
@@ -169,8 +169,8 @@ function llms_get_possible_order_statuses( $order ) {
  *
  * @since 3.30.1
  *
- * @param int $user_id
- * @param int $plan_id
+ * @param int $user_id The WP_User ID.
+ * @param int $plan_id The Access Plan post ID.
  * @return mixed null if no order found, WP_Post ID as an int if found
  */
 function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
@@ -219,7 +219,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 function llms_setup_pending_order( $data = array() ) {
 
 	/**
-	 * Filters the order data before setting up the pending order
+	 * Filters the order data before setting up the pending order.
 	 *
 	 * @since Unknown.
 	 *

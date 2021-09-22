@@ -1,6 +1,6 @@
 <?php
 /**
- * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
+ * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns.
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Post_Table_Orders class
+ * LLMS_Admin_Post_Table_Orders class.
  *
  * @since 3.0.0
  */
@@ -37,7 +37,7 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Order post. Appends custom columns to post grid/
+	 * Order post. Appends custom columns to post grid.
 	 *
 	 * @since 3.0.0
 	 * @since 3.24.0 Unknown.
