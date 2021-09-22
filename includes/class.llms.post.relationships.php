@@ -96,7 +96,7 @@ class LLMS_Post_Relationships {
 	public function __construct() {
 
 		add_action( 'delete_post', array( $this, 'maybe_update_relationships' ) );
-		add_action( 'pre_delete_post', array( $this, 'maybe_prevent_product_deletion' ), 10, 2 );
+		add_action( 'pre_delete_post', array( __CLASS__, 'maybe_prevent_product_deletion' ), 10, 2 );
 
 	}
 
@@ -111,7 +111,7 @@ class LLMS_Post_Relationships {
 	 * @param WP_Post   $post   Post object.
 	 * @return bool|null
 	 */
-	public function maybe_prevent_product_deletion( $delete, $post ) {
+	public static function maybe_prevent_product_deletion( $delete, $post ) {
 
 		if ( ! in_array( get_post_type( $post ), array( 'course', 'llms_membership' ), true ) ) {
 			return $delete;
@@ -126,7 +126,7 @@ class LLMS_Post_Relationships {
 		// If performing the deletion via REST API change the error message to reflect the reason for the prevention.
 		if ( llms_is_rest() ) {
 			// Filter the error message.
-			add_filter( 'rest_request_after_callbacks', array( $this, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
+			add_filter( 'rest_request_after_callbacks', array( __CLASS__, 'rest_filter_products_with_active_subscriptions_error_message' ), 10, 3 );
 		} else { // Deleting via wp-admin.
 			wp_die(
 				self::delete_product_with_active_subscriptions_error_message( $product->get( 'id' ) )
@@ -150,7 +150,7 @@ class LLMS_Post_Relationships {
 	 * @param WP_REST_Request                                  $request  Request used to generate the response.
 	 * @return WP_REST_Response|WP_HTTP_Response|WP_Error|mixed
 	 */
-	public function rest_filter_products_with_active_subscriptions_error_message( $response, $handler, $request ) {
+	public static function rest_filter_products_with_active_subscriptions_error_message( $response, $handler, $request ) {
 
 		if ( is_wp_error( $response ) ) {
 			foreach ( $response->errors as $code => &$data ) {
