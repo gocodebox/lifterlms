@@ -36,7 +36,7 @@
     "lifterlms/lifterlms-helper": "3.4.1"
   },
   "require-dev": {
-    "lifterlms/lifterlms-tests": "dev-trunk",
+    "lifterlms/lifterlms-tests": "dev-next",
     "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82993afe966f68183b7c73697f7417c3",
+    "content-hash": "81f400078e4de6eb7e885811d3191a9b",
     "packages": [
         {
             "name": "composer/installers",
@@ -878,16 +878,16 @@
         },
         {
             "name": "lifterlms/lifterlms-tests",
-            "version": "dev-trunk",
+            "version": "dev-next",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "472c5a286e9f65e2be0c1d6b7edd8d5340d052ed"
+                "reference": "4ab235db2f91b43df40f3cdd8621e62d2d837763"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/472c5a286e9f65e2be0c1d6b7edd8d5340d052ed",
-                "reference": "472c5a286e9f65e2be0c1d6b7edd8d5340d052ed",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/4ab235db2f91b43df40f3cdd8621e62d2d837763",
+                "reference": "4ab235db2f91b43df40f3cdd8621e62d2d837763",
                 "shasum": ""
             },
             "require": {
@@ -896,7 +896,6 @@
                 "wp-cli/extension-command": "^2.1.0",
                 "wp-cli/wp-cli-tests": "^3.0.15"
             },
-            "default-branch": true,
             "bin": [
                 "bin/llms-tests",
                 "bin/llms-env"
@@ -925,9 +924,9 @@
             "description": "Testing framework for LifterLMS projects",
             "support": {
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
-                "source": "https://github.com/gocodebox/lifterlms-tests/tree/trunk"
+                "source": "https://github.com/gocodebox/lifterlms-tests/tree/next"
             },
-            "time": "2021-08-26T17:24:44+00:00"
+            "time": "2021-09-24T23:17:51+00:00"
         },
         {
             "name": "mustache/mustache",
