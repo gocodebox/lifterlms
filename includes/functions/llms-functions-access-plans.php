@@ -261,15 +261,3 @@ function llms_get_access_plan_visibility_options() {
 		)
 	);
 }
-
-function llms_get_access_plan_period_max_lengths() {
-	return apply_filters(
-		'llms_get_access_plan_period_max_lengths',
-		array(
-			'year'  => 6,
-			'month' => 24,
-			'week'  => 52,
-			'day'   => 90,
-		)
-	);
-}
