@@ -10,9 +10,8 @@ jobs:
 
     env:
       TESTS_DB_NAME: llms_tests
-      MYSQL_DATABASE: llms_tests
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      TESTS_DB_USER: root
+      TESTS_DB_PASS: root
 
     continue-on-error: ${{ matrix.allow-failure }}
     strategy:
@@ -58,7 +57,7 @@ jobs:
       - name: Start MySQL
         run: sudo systemctl start mysql.service
       - name: Create MySQL database
-        run: mysql --user=$MYSQL_USER --password=$MYSQL_PASSWORD -e "CREATE DATABASE \`$MYSQL_DATABASE\` ;"
+        run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "CREATE DATABASE \`$TESTS_DB_NAME\` ;"
 
       - name: Get composer cache directory
         id: composer-cache
