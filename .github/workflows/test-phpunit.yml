@@ -87,6 +87,12 @@ jobs:
       - name: Set ENV vars
         run: echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
 
+      - name: Cache WP Test Dependencies
+        uses: actions/cache@v2
+        with:
+          path: tmp/tests
+          key: ${{ runner.os }}-${{ matrix.WP }}-wp-tests
+
       - name: Install WP Tests
         run: composer run tests-install
 
