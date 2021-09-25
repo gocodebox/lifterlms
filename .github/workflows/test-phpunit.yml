@@ -31,13 +31,15 @@ jobs:
           - 'none'
         allow-failure:
           - false
+        name-append:
 
         include:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
             coverage: 'none'
-          - PHP: '8.0'
+          - name-append: " (w/ coverage)"
+            PHP: '8.0'
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
@@ -49,7 +51,7 @@ jobs:
           - PHP: '8.0'
             WP: '5.4'
 
-    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ 'none' != matrix.coverage || matrix.coverage }}"
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
 
     steps:
 
