@@ -93,7 +93,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp/tests
-          key: ${{ runner.os }}-${{ matrix.WP }}-wp-tests
+          key: wp-${{ matrix.WP }}-files
 
       - name: Install WP Tests
         run: composer run tests-install
