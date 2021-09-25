@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81f400078e4de6eb7e885811d3191a9b",
+    "content-hash": "819df380c62104392e5115acb0125d68",
     "packages": [
         {
             "name": "composer/installers",
@@ -1043,12 +1043,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pdepend/pdepend.git",
-                "reference": "eb459a2ca70a1e752e92a6c59c140235535a8cbb"
+                "reference": "5109f19586fc4c4d721c3173d9f1e6ccf12b65f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/eb459a2ca70a1e752e92a6c59c140235535a8cbb",
-                "reference": "eb459a2ca70a1e752e92a6c59c140235535a8cbb",
+                "url": "https://api.github.com/repos/pdepend/pdepend/zipball/5109f19586fc4c4d721c3173d9f1e6ccf12b65f1",
+                "reference": "5109f19586fc4c4d721c3173d9f1e6ccf12b65f1",
                 "shasum": ""
             },
             "require": {
@@ -1093,7 +1093,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-20T07:34:00+00:00"
+            "time": "2021-09-23T19:33:08+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1595,12 +1595,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "c512fd308b8fdccf510967376e0cc5a3929705c6"
+                "reference": "adf7a90588e84bb76d2093df95bcc0212bebc761"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/c512fd308b8fdccf510967376e0cc5a3929705c6",
-                "reference": "c512fd308b8fdccf510967376e0cc5a3929705c6",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/adf7a90588e84bb76d2093df95bcc0212bebc761",
+                "reference": "adf7a90588e84bb76d2093df95bcc0212bebc761",
                 "shasum": ""
             },
             "require": {
@@ -1645,7 +1645,7 @@
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
             },
-            "time": "2021-09-17T13:49:47+00:00"
+            "time": "2021-09-23T18:17:06+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -5543,12 +5543,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/PHPUnit-Polyfills.git",
-                "reference": "cb9b13887d61c546c691b1f5103c2abdfe0b85fb"
+                "reference": "e548a17c938bd4fe2cde267d63b65e1b56232ebf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/cb9b13887d61c546c691b1f5103c2abdfe0b85fb",
-                "reference": "cb9b13887d61c546c691b1f5103c2abdfe0b85fb",
+                "url": "https://api.github.com/repos/Yoast/PHPUnit-Polyfills/zipball/e548a17c938bd4fe2cde267d63b65e1b56232ebf",
+                "reference": "e548a17c938bd4fe2cde267d63b65e1b56232ebf",
                 "shasum": ""
             },
             "require": {
@@ -5556,9 +5556,7 @@
                 "phpunit/phpunit": "^4.8.36 || ^5.7.21 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "require-dev": {
-                "php-parallel-lint/php-console-highlighter": "^0.5",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
-                "yoast/yoastcs": "^2.1.0"
+                "yoast/yoastcs": "^2.2.0"
             },
             "default-branch": true,
             "type": "library",
@@ -5599,7 +5597,7 @@
                 "issues": "https://github.com/Yoast/PHPUnit-Polyfills/issues",
                 "source": "https://github.com/Yoast/PHPUnit-Polyfills"
             },
-            "time": "2021-09-21T01:58:21+00:00"
+            "time": "2021-09-23T13:08:34+00:00"
         }
     ],
     "aliases": [],
