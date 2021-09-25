@@ -36,7 +36,6 @@ jobs:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
-        include:
           - name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }} w/ Test Coverage
             PHP: '8.0'
             WP: '5.8'
