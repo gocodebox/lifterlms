@@ -7,8 +7,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.allow-failure }}
 
+    env:
+      TESTS_DB_NAME: llms_tests
+      MYSQL_DATABASE: llms_tests
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+
+    continue-on-error: ${{ matrix.allow-failure }}
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +54,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.PHP }}
+
+      - name: Start MySQL
+        run: sudo systemctl start mysql.service
+      - name: Create MySQL database
+        run: mysql --user=$MYSQL_USER --password=$MYSQL_PASSWORD -e "CREATE DATABASE \`$MYSQL_DATABASE\` ;"
 
       - name: Get composer cache directory
         id: composer-cache
