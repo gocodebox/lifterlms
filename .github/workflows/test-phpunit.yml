@@ -28,7 +28,7 @@ jobs:
           - '7.4'
           - '7.3'
         coverage:
-          - none
+          - 'none'
         allow-failure:
           - false
 
@@ -36,6 +36,7 @@ jobs:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
+            coveage: 'none'
           - PHP: '8.0'
             WP: '5.8'
             allow-failure: true
@@ -48,7 +49,7 @@ jobs:
           - PHP: '8.0'
             WP: '5.4'
 
-    name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }} (coveage: ${{ matrix.coverage }})"
 
     steps:
 
@@ -106,12 +107,3 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: composer run tests -- --coverage-clover clover.xml
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '14'
-      #     cache: 'npm'
-
-      # - name: Install Node dependencies
-      #   run: npm ci
