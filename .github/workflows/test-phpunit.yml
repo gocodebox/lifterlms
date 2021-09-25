@@ -27,6 +27,8 @@ jobs:
           - '8.0'
           - '7.4'
           - '7.3'
+        coverage:
+          - none
         allow-failure:
           - false
 
@@ -34,6 +36,12 @@ jobs:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
+        include:
+          - name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }} w/ Test Coverage
+            PHP: '8.0'
+            WP: '5.8'
+            allow-failure: true
+            coverage: 'xdebug'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
@@ -53,6 +61,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.PHP }}
+          coverage: ${{ matrix.coverage }}
 
       - name: Start MySQL
         run: sudo systemctl start mysql.service
