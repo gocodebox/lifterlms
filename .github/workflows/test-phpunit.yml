@@ -91,12 +91,16 @@ jobs:
         run: composer run tests-install
 
       - name: Run Tests
+        if: ${{ 'none' == matrix.coverage }}
         run: composer run tests
 
-      - name: Upload Coverage Report
+      - name: Run Tests with Coverage & Upload Coverage Report
+        if: ${{ 'coverage' == matrix.coverage }}
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: composer run tests -- --coverage-clover clover.xml
 
       # - name: Setup Node
       #   uses: actions/setup-node@v2
