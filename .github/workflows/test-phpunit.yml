@@ -58,6 +58,9 @@ jobs:
         run: sudo systemctl start mysql.service
       - name: Create MySQL database
         run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "CREATE DATABASE \`$TESTS_DB_NAME\` ;"
+      - name: Setup MySQL authentication plugin
+        if: ${{ '7.3' == matrix.php }}
+        run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "ALTER USER \`root\`@\`localhost\` IDENTIFIED WITH mysql_native_password BY \`$TESTS_DB_PASS\`";
 
       - name: Get composer cache directory
         id: composer-cache
