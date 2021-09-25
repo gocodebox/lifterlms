@@ -73,6 +73,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --ignore-platform-reqs
 
+      - name: Set ENV vars
+        run: echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
+
       - name: Install WP Tests
         run: composer run tests-install
 
