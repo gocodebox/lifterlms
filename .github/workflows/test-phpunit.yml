@@ -36,7 +36,7 @@ jobs:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
-            coveage: 'none'
+            coverage: 'none'
           - PHP: '8.0'
             WP: '5.8'
             allow-failure: true
@@ -49,7 +49,7 @@ jobs:
           - PHP: '8.0'
             WP: '5.4'
 
-    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }} (coveage: ${{ matrix.coverage }})"
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ 'none' != matrix.coverage || matrix.coverage }}"
 
     steps:
 
