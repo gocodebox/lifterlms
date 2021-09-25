@@ -33,23 +33,14 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.5.0
+	 * @since [version] More set_up than tear_down.
 	 *
 	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
 		$this->sessions = LLMS_Sessions::instance();
-	}
 
-	/**
-	 * Teardown the test case
-	 *
-	 * @since 4.5.0
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		parent::tear_down();
 		// Clean open sessions table.
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );
