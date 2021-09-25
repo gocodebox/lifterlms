@@ -36,8 +36,7 @@ jobs:
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
-          - name: WP 5.8 on PHP 8.0 w/ Test Coverage
-            PHP: '8.0'
+          - PHP: '8.0'
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
