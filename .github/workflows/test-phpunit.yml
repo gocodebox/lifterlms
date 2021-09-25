@@ -44,6 +44,8 @@ jobs:
           - PHP: '8.0'
             WP: '5.4'
 
+    name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}
+
     steps:
 
       - name: Checkout
