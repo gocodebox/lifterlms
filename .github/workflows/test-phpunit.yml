@@ -61,7 +61,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install PHP dependencies
-        run: composer run install
+        run: composer install
 
       - name: Install WP Tests
         run: composer run tests-install
