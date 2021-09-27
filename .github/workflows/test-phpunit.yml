@@ -43,7 +43,7 @@ jobs:
             PHP: '8.0'
             WP: '5.8'
             allow-failure: true
-            coverage: 'xdebug'
+            coverage: 'xdebug2'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
