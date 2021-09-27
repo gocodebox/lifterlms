@@ -19,13 +19,13 @@ jobs:
     name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
     runs-on: ubuntu-latest
 
-
     continue-on-error: ${{ matrix.allow-failure }}
+
     strategy:
       fail-fast: false
       matrix:
         WP:
-          - ${{ env.WP_LATEST }}
+          - '5.8'
           - '5.7'
           - '5.6'
           - '5.5'
@@ -48,7 +48,7 @@ jobs:
             coverage: 'none'
           - name-append: " (w/ coverage)"
             PHP: '7.4'
-            WP: ${{ env.WP_LATEST }}
+            WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
 
