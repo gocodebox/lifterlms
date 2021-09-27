@@ -107,7 +107,7 @@ jobs:
         if: ${{ 'none' == matrix.coverage }}
         run: composer run tests
       - name: Run Tests with Coverage & Upload Coverage Report
-        if: ${{ 'none' != matrix.coverage && secrets.CC_TEST_REPORTER_ID }}
+        if: ${{ 'none' != matrix.coverage }}
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
