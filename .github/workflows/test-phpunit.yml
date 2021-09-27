@@ -91,6 +91,7 @@ jobs:
         run: echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
 
       - name: Cache WP Test Dependencies
+        if: ${{ 'none' == matrix.coverage }}
         uses: actions/cache@v2
         with:
           path: tmp/tests
