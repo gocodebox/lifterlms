@@ -40,7 +40,7 @@ jobs:
             allow-failure: true
             coverage: 'none'
           - name-append: " (w/ coverage)"
-            PHP: '8.0'
+            PHP: '7.4'
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
