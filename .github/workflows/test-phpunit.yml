@@ -4,12 +4,15 @@ on:
   workflow_dispatch:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     env:
-      WP_VERSION_LATEST: '5.8'
       TESTS_DB_NAME: llms_tests
       TESTS_DB_USER: root
       TESTS_DB_PASS: root
@@ -19,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         WP:
-          - ${{ env.WP_VERSION_LATEST }}
+          - '5.8'
           - '5.7'
           - '5.6'
           - '5.5'
@@ -42,7 +45,7 @@ jobs:
             coverage: 'none'
           - name-append: " (w/ coverage)"
             PHP: '7.4'
-            WP: ${{ env.WP_VERSION_LATEST }}
+            WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
 
