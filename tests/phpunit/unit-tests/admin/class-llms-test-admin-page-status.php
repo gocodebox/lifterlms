@@ -12,6 +12,14 @@
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
+	/**
+	 * Set up before class
+	 *
+	 * @since Unknown
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public static function set_up_before_class() {
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.page.status.php';
@@ -22,6 +30,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 3.37.14
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -18,6 +18,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	 * Include abstract class.
 	 *
 	 * @since 3.37.19
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

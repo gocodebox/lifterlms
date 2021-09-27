@@ -10,6 +10,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

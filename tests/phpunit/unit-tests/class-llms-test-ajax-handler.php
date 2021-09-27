@@ -17,6 +17,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * Setup before class
 	 *
 	 * @since 4.7.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -25,11 +26,27 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 	}
 
+	/**
+	 * Setup the test
+	 *
+	 * @since 3.32.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public function set_up() {
 		parent::set_up();
 		add_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );
 	}
 
+	/**
+	 * Teardown the test
+	 *
+	 * @since 3.32.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public function tear_down() {
 		parent::tear_down();
 		remove_filter( 'wp_die_handler', array( $this, '_wp_die_handler' ), 1 );

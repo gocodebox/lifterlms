@@ -15,6 +15,7 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Setup test class
 	 *
 	 * @since 4.14.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -29,7 +30,8 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 3.24.0
-	 * @since 4.14.0 Move file include into set_up_before_class().
+	 * @since 4.14.0 Move file include into `setUpBeforeClass()`.
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -24,6 +24,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 * Setup before class.
 	 *
 	 * @since 4.10.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -38,6 +39,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 * Teradown after class.
 	 *
 	 * @since 4.10.0
+	 * @since [version] Renamed from `tearDownAfterClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -52,6 +54,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.10.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -15,6 +15,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.10.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -11,6 +11,14 @@
  */
 class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
+	/**
+	 * Setup the test case
+	 *
+	 * @since 4.5.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public function set_up() {
 		parent::set_up();
 		add_filter( 'llms_log_max_filesize', array( $this, 'shrink_max_log_size' ) );
@@ -26,6 +34,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	 * and this teardown prevents that.
 	 *
 	 * @since 4.5.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

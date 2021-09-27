@@ -8,7 +8,6 @@
  * @group settings_page
  *
  * @since 3.37.3
- * @version 3.37.3
  */
 class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 
@@ -16,6 +15,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

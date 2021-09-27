@@ -16,6 +16,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.0.0
 	 * @since 4.7.0 Add `LLMS_Admin_Reporting` class.
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -29,6 +30,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 4.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -45,6 +47,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	 * Teardown the test case
 	 *
 	 * @since 4.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

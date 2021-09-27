@@ -16,6 +16,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 4.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

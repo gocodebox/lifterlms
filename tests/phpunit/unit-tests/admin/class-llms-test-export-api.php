@@ -15,6 +15,9 @@ class LLMS_Test_Export_API extends LLMS_Unit_Test_Case {
 	 * Setup before class.
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 *
+	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();

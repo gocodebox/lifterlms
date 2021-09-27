@@ -15,6 +15,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Set Up Before Class
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -28,6 +29,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Set-Up
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -42,6 +44,7 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Tear down
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

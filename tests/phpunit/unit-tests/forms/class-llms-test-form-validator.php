@@ -8,7 +8,6 @@
  * @group form_validator
  *
  * @since 5.0.0
- * @version 5.1.0
  */
 class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 
@@ -95,6 +94,7 @@ class LLMS_Test_Form_Validator extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

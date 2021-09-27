@@ -14,6 +14,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

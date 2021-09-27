@@ -19,6 +19,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.17
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -35,6 +36,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Clears LifterLMS Notices.
 	 *
 	 * @since 3.37.17
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -21,7 +21,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Before the class runs, register the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since [version] Use `llms()` in favor of deprecated `LLMS()` and renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * After the class runs, remove the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since [version] Use `llms()` in favor of deprecated `LLMS()` and renamed from `tearDownAfterClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -62,6 +62,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.6
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -29,8 +29,9 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since Unknown
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();

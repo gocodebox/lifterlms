@@ -14,6 +14,7 @@ class LLMS_Test_Processors extends LLMS_Unit_Test_Case {
 	 * Setup test case
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -9,24 +9,15 @@
  *
  * @since 3.36.0
  * @since 4.3.0 Add assertions to test against hooks and deprecated hooks.
+ * @since [version] Removed empty `setUp()` method.
  */
 class LLMS_Test_Event extends LLMS_Unit_Test_Case {
-
-	/**
-	 * Setup the test case.
-	 *
-	 * @since 3.36.0
-	 *
-	 * @return void
-	 */
-	public function set_up() {
-		parent::set_up();
-	}
 
 	/**
 	 * Teardown the test case.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

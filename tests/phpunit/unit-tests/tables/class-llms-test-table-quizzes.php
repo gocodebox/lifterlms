@@ -7,7 +7,6 @@
  * @group reporting_tables
  *
  * @since 3.36.1
- * @version 3.36.1
  */
 class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 
@@ -15,6 +14,7 @@ class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 	 * Setup test.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

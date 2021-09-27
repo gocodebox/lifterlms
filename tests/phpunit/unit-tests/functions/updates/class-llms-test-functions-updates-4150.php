@@ -21,7 +21,7 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 4.15.0
-	 * @since [version] More set_up than tear_down.
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes and move teardown functions into here.
 	 *
 	 * @return void
 	 */

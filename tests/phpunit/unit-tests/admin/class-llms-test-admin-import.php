@@ -10,7 +10,7 @@
  * @since 3.35.0
  * @since 3.37.8 Update path to assets directory.
  * @since 4.7.0 Test success message generation.
- * @since 4.8.0 Move includes to `set_up_before_class()` method.
+ * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -18,6 +18,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Setup before class.
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -37,6 +38,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.35.0
 	 * @since 4.8.0 Move includes to `set_up_before_class()` method.
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -51,6 +53,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Tear down test case.
 	 *
 	 * @since 3.35.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

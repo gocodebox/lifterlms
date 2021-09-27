@@ -17,6 +17,8 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.4
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+
 	 *
 	 * @return void
 	 */

@@ -9,8 +9,7 @@
  * @group updates_500
  *
  * @since 5.0.0
- * @since 5.2.0 Removed tear_down override, we don't need to remove any transient related to this update as we don't create it.
- * @version 5.2.0
+ * @since 5.2.0 Removed tearDown override, we don't need to remove any transient related to this update as we don't create it.
  */
 class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 
@@ -20,6 +19,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

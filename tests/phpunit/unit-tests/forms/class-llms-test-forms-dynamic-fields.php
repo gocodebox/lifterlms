@@ -8,7 +8,6 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version 5.1.1
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -16,6 +15,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

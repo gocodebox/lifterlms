@@ -17,6 +17,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Include required class files
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -32,6 +33,7 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Setup test case
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -14,6 +14,7 @@ class LLMS_Test_Abstract_Generator_Posts extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.7.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

@@ -8,10 +8,17 @@
  * @group sessions
  *
  * @since 4.0.0
- * @version 4.0.0
  */
 class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 
+	/**
+	 * Setup test
+	 *
+	 * @since 4.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public function set_up() {
 
 		parent::set_up();
@@ -19,16 +26,26 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Retrieve the name of the cookie
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return string
+	 */
 	protected function get_cookie_name() {
-
 		return LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'cookie' );
-
 	}
 
+	/**
+	 * Retrieve the raw cookie value.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return array
+	 */
 	protected function get_raw_cookie() {
-
 		return $this->cookies->get( $this->get_cookie_name() );
-
 	}
 
 	/**

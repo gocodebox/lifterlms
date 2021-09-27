@@ -18,6 +18,7 @@ class LLMS_Test_Functions_Updates_400 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 4.0.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

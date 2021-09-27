@@ -19,6 +19,14 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
 
+	/**
+	 * Setup the test case
+	 *
+	 * @since Unknown
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
 	public function set_up() {
 
 		parent::set_up();

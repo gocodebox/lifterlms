@@ -36,6 +36,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 * Set up
 	 *
 	 * @since 5.2.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

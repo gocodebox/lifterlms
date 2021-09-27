@@ -14,6 +14,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 3.40.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -30,6 +31,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.40.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -44,6 +46,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Tear down the testcase.
 	 *
 	 * @since 3.40.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

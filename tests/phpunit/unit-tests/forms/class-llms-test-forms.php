@@ -15,6 +15,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Setup the test
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -29,6 +30,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Teardown the test.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

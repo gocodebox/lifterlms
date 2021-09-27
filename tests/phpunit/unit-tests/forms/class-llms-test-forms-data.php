@@ -15,6 +15,7 @@ class LLMS_Test_Forms_Data extends LLMS_UnitTestCase {
 	 * Setup the test
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

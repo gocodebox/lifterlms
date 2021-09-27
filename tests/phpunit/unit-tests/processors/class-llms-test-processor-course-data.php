@@ -17,6 +17,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Forces processor debugging on so that we can make assertions against logged data.
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -31,6 +32,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -47,6 +49,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Teardown the test case
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

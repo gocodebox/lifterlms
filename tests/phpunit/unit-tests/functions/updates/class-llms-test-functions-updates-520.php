@@ -9,7 +9,6 @@
  * @group updates_520
  *
  * @since 5.2.0
- * @version 5.2.0
  */
 class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 
@@ -19,6 +18,7 @@ class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 5.2.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

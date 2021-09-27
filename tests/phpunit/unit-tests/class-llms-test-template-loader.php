@@ -21,6 +21,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Setup test case.
 	 *
 	 * @since 3.41.1
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

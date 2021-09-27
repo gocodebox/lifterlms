@@ -18,6 +18,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 3.37.12
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

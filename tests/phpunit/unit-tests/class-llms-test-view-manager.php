@@ -14,6 +14,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 4.5.1
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

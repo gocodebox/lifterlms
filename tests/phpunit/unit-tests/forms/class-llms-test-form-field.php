@@ -35,6 +35,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	 * teardown the test case.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
