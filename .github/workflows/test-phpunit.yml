@@ -17,9 +17,6 @@ jobs:
   test:
     name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
 
-    # For add-on repositories, run every job in the matrix all the time; for the LifterLMS core, exclude the included job run against the LLMS core nightly.
-    if: ${{ 'gocodebox/lifterlms' != github.repository || ( 'dev' == matrix.LLMS && 'gocodebox/lifterlms' == github.repository ) }}
-
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow-failure }}
 
@@ -53,11 +50,6 @@ jobs:
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
-          - name-append: " (LLMS nightly)"
-            PHP: '8.0'
-            WP: '5.8'
-            coverage: 'none'
-            LLMS: 'dev'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
@@ -67,7 +59,6 @@ jobs:
             WP: '5.4'
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -110,11 +101,6 @@ jobs:
           key: wp-${{ matrix.WP }}-files
       - name: Install WP Tests
         run: composer run tests-install
-
-      # Install LifterLMS Core (dev branch) for add-ons.
-      - name: Install LifterLMS Core (dev)
-        if: ${{ matrix.LLMS }}
-        run: ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${{ matrix.LLMS }}
 
       # Run Tests.
       - name: Run Tests
