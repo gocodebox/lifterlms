@@ -110,4 +110,4 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: composer run tests -- --debug --coverage-clover clover.xml
+          coverageCommand: composer run tests -- --coverage-clover clover.xml
