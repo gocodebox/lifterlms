@@ -9,7 +9,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  WP_LATEST: '5.8'
   TESTS_DB_NAME: llms_tests
   TESTS_DB_USER: root
   TESTS_DB_PASS: root
@@ -17,8 +16,11 @@ env:
 jobs:
   test:
     name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
-    runs-on: ubuntu-latest
 
+    # For add-on repositories, run every job in the matrix all the time; for the LifterLMS core, exclude the included job run against the LLMS core nightly.
+    if: ${{ 'gocodebox/lifterlms' != github.repository || ( 'dev' == matrix.LLMS && 'gocodebox/lifterlms' == github.repository ) }}
+
+    runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow-failure }}
 
     strategy:
@@ -51,6 +53,11 @@ jobs:
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
+          - name-append: " (LLMS nightly)"
+            PHP: '8.0'
+            WP: '5.8'
+            coverage: 'none'
+            LLMS: 'dev'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
@@ -64,12 +71,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.PHP }}
           coverage: ${{ matrix.coverage }}
 
+      # Setup MySQL
       - name: Start MySQL
         run: sudo systemctl start mysql.service
       - name: Create MySQL database
@@ -78,36 +87,39 @@ jobs:
         if: ${{ '7.3' == matrix.php }}
         run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "ALTER USER '$TESTS_DB_USER'@'localhost' IDENTIFIED WITH mysql_native_password BY '$TESTS_DB_PASS';";
 
+      # Composer Install.
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-
       - name: Install PHP dependencies
         run: composer install --ignore-platform-reqs
 
+      # Install WP Tests.
       - name: Set ENV vars
         run: echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
-
       - name: Cache WP Test Dependencies
         uses: actions/cache@v2
         with:
           path: tmp/tests
           key: wp-${{ matrix.WP }}-files
-
       - name: Install WP Tests
         run: composer run tests-install
 
+      # Install LifterLMS Core (dev branch) for add-ons.
+      - name: Install LifterLMS Core (dev)
+        if: ${{ matrix.LLMS }}
+        run: ./vendor/bin/llms-tests plugin https://github.com/gocodebox/lifterlms.git@${{ matrix.LLMS }}
+
+      # Run Tests.
       - name: Run Tests
         if: ${{ 'none' == matrix.coverage }}
         run: composer run tests
-
       - name: Run Tests with Coverage & Upload Coverage Report
         if: ${{ 'none' != matrix.coverage && secrets.CC_TEST_REPORTER_ID }}
         uses: paambaati/codeclimate-action@v2.7.5
