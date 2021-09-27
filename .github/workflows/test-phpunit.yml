@@ -41,10 +41,12 @@ jobs:
           - ''
 
         include:
+          # WP Nightly.
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
             coverage: 'none'
+          # Test Coverage.
           - name-append: " (w/ coverage)"
             PHP: '7.4'
             WP: '5.8'
@@ -93,12 +95,14 @@ jobs:
 
       # Install WP Tests.
       - name: Set ENV vars
-        run: echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
+        run: |
+          echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
+          echo WP_TESTS_CACHE_VERSION=$( /bin/date -u "+%Y%m%d" ) >> $GITHUB_ENV
       - name: Cache WP Test Dependencies
         uses: actions/cache@v2
         with:
           path: tmp/tests
-          key: wp-${{ matrix.WP }}-files
+          key: wp-${{ matrix.WP }}-files--${{ env.WP_TESTS_CACHE_VERSION }}
       - name: Install WP Tests
         run: composer run tests-install
 
