@@ -43,7 +43,7 @@ jobs:
         include:
           # WP Nightly.
           - PHP: '8.0'
-            WP: '5.9'
+            WP: 'nightly'
             allow-failure: true
             coverage: 'none'
           # Test Coverage.
