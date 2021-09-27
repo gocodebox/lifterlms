@@ -882,19 +882,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "4ab235db2f91b43df40f3cdd8621e62d2d837763"
+                "reference": "c5a44f2d741f883b24495026b4ec0e547bff3f2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/4ab235db2f91b43df40f3cdd8621e62d2d837763",
-                "reference": "4ab235db2f91b43df40f3cdd8621e62d2d837763",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/c5a44f2d741f883b24495026b4ec0e547bff3f2a",
+                "reference": "c5a44f2d741f883b24495026b4ec0e547bff3f2a",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
                 "phpunit/phpunit": "^7.5",
                 "wp-cli/extension-command": "^2.1.0",
-                "wp-cli/wp-cli-tests": "^3.0.15"
+                "wp-cli/wp-cli-tests": "^3.0.15",
+                "yoast/phpunit-polyfills": "^1.0"
             },
             "bin": [
                 "bin/llms-tests",
@@ -926,7 +927,7 @@
                 "issues": "https://github.com/gocodebox/lifterlms-tests/issues",
                 "source": "https://github.com/gocodebox/lifterlms-tests/tree/next"
             },
-            "time": "2021-09-24T23:17:51+00:00"
+            "time": "2021-09-27T18:47:57+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -3720,21 +3721,23 @@
         },
         {
             "name": "symfony/finder",
-            "version": "6.0.x-dev",
+            "version": "5.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e7dd3128bc04115eeb4466905a836ee534c9896f"
+                "reference": "a10000ada1e600d109a6c7632e9ac42e8bf2fb93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e7dd3128bc04115eeb4466905a836ee534c9896f",
-                "reference": "e7dd3128bc04115eeb4466905a836ee534c9896f",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/a10000ada1e600d109a6c7632e9ac42e8bf2fb93",
+                "reference": "a10000ada1e600d109a6c7632e9ac42e8bf2fb93",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.16"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3761,7 +3764,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/6.0"
+                "source": "https://github.com/symfony/finder/tree/v5.3.7"
             },
             "funding": [
                 {
@@ -3777,7 +3780,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-25T16:00:26+00:00"
+            "time": "2021-08-04T21:20:46+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -5527,5 +5530,5 @@
         "php": ">=7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
