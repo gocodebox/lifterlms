@@ -8,21 +8,24 @@ concurrency:
   group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
   cancel-in-progress: true
 
+env:
+  WP_LATEST: '5.8'
+  TESTS_DB_NAME: llms_tests
+  TESTS_DB_USER: root
+  TESTS_DB_PASS: root
+
 jobs:
   test:
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
     runs-on: ubuntu-latest
 
-    env:
-      TESTS_DB_NAME: llms_tests
-      TESTS_DB_USER: root
-      TESTS_DB_PASS: root
 
     continue-on-error: ${{ matrix.allow-failure }}
     strategy:
       fail-fast: false
       matrix:
         WP:
-          - '5.8'
+          - ${{ env.WP_LATEST }}
           - '5.7'
           - '5.6'
           - '5.5'
@@ -45,7 +48,7 @@ jobs:
             coverage: 'none'
           - name-append: " (w/ coverage)"
             PHP: '7.4'
-            WP: '5.8'
+            WP: ${{ env.WP_LATEST }}
             allow-failure: true
             coverage: 'xdebug'
 
@@ -55,8 +58,6 @@ jobs:
             WP: '5.5'
           - PHP: '8.0'
             WP: '5.4'
-
-    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
 
     steps:
 
@@ -108,7 +109,7 @@ jobs:
         run: composer run tests
 
       - name: Run Tests with Coverage & Upload Coverage Report
-        if: ${{ 'none' != matrix.coverage }}
+        if: ${{ 'none' != matrix.coverage && secrets.CC_TEST_REPORTER_ID }}
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
