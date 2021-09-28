@@ -13,7 +13,6 @@ jobs:
     name: Check Coding Standards
 
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.allow-failure }}
 
     steps:
       - name: Checkout
