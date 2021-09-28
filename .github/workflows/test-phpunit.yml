@@ -42,17 +42,17 @@ jobs:
           - ''
 
         include:
-          # WP Nightly.
-          - PHP: '8.0'
-            WP: 'nightly'
-            allow-failure: true
-            coverage: 'none'
           # Test Coverage.
           - name-append: " (w/ coverage)"
             PHP: '8.0'
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
+          # WP Nightly.
+          - PHP: '8.0'
+            WP: 'nightly'
+            allow-failure: true
+            coverage: 'none'
           # PHP 8.1.
           - PHP: '8.1'
             WP: 'nightly'
@@ -99,7 +99,7 @@ jobs:
       - name: Install Composer dependencies
         run: composer update
       - name: Rollback PHPUnit to ^7.5 for tests against WP 5.4
-        if: ${{ '5.4' != matrix.WP }}
+        if: ${{ '5.4' == matrix.WP }}
         run: composer require phpunit/phpunit:^7.5.20 -W
 
       # Install WP Tests.
