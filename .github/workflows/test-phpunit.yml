@@ -96,8 +96,11 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
-      - name: Install PHP dependencies
+      - name: Install Composer dependencies
         run: composer update
+      - name: Rollback PHPUnit to ^7.5 for tests against WP 5.4
+        if: ${{ '5.4' != matrix.WP }}
+        run: composer require phpunit/phpunit:^7.5.20 -W
 
       # Install WP Tests.
       - name: Set ENV vars
