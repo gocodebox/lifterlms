@@ -12,6 +12,7 @@ env:
   TESTS_DB_NAME: llms_tests
   TESTS_DB_USER: root
   TESTS_DB_PASS: root
+  WP_TESTS_VERSION: trunk # Using trunk for now until changes are backported to other tags.
 
 jobs:
   test:
@@ -91,7 +92,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Install PHP dependencies
-        run: composer install --ignore-platform-reqs
+        run: composer update
 
       # Install WP Tests.
       - name: Set ENV vars
