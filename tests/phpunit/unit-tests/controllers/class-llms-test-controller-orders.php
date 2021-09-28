@@ -58,6 +58,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Use `assertEqualsWithDelta()` in favor of `assertEquals()` with 4th parameter.
 	 *
 	 * @return void
 	 */
@@ -132,7 +133,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
 		// Next payment date.
-		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
+		$this->assertEqualsWithDelta( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), $this->date_delta );
 
 		// Actions were run.
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
