@@ -103,7 +103,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp/tests/wordpress
-          key: wp-${{ matrix.WP }}-${{ hashFiles( tmp/tests/wordpress/wp-includes/version.php ) }}
+          key: wp-${{ matrix.WP }}-${{ hashFiles( 'tmp/tests/wordpress/wp-includes/version.php' ) }}
       - name: Cache WP Tests Lib
         uses: actions/cache@v2
         with:
