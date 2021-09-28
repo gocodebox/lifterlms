@@ -101,12 +101,12 @@ jobs:
 
       # Special Conditions for WP 5.4
       #   + Rollback PHPUnit to ^7.5
-      #   + Use the WP Tests Library from 5.4 branch in favor of trunk.
+      #   + Unset the WP_TESTS_VERSION env var so that the 5.4 *branch* (not tag) will be used.
       - name: Handle Special Conditions for WP 5.4
         if: ${{ '5.4' == matrix.WP }}
         run: |
           composer require phpunit/phpunit:^7.5.20 -W
-          echo WP_TESTS_VERSION="5.4" >> $GITHUB_ENV
+          echo WP_TESTS_VERSION="" >> $GITHUB_ENV
 
       # Install WP Tests.
       - name: Set ENV vars
