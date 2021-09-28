@@ -170,7 +170,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		foreach ( $metas as $key => $vals ) {
 			$delta = 'last_data_calc_run' === $key ? 5 : 0;
-			$this->assertEquals( $vals[1], $course->get( $key ), $key, $delta );
+			$this->assertEqualsWithDelta( $vals[1], $course->get( $key ), $delta, $key );
 		}
 
 	}
