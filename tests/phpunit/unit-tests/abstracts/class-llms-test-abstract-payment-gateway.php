@@ -15,12 +15,13 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = $this->getMockForAbstractClass( 'LLMS_Payment_Gateway' );
 		$this->main->id = 'cash-now';
 

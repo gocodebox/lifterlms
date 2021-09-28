@@ -20,9 +20,9 @@ class LLMS_Test_Meta_Box_Order_Details extends LLMS_PostTypeMetaboxTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Meta_Box_Order_Details();
 
 	}

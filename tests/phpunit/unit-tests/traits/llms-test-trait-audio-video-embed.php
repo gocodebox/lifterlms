@@ -19,10 +19,11 @@ class LLMS_Test_Audio_Video_Embed_Trait extends LLMS_UnitTestCase {
 	 * Setup before running each test in this class.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$args       = array(
 			'post_title' => 'Mock Post with the Audio Video Embed Trait',
