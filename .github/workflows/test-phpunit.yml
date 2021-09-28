@@ -99,11 +99,16 @@ jobs:
         run: |
           echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
           echo WP_TESTS_CACHE_VERSION=$( /bin/date -u "+%Y%m%d" ) >> $GITHUB_ENV
-      - name: Cache WP Test Dependencies
+      - name: Cache WP Core Files
         uses: actions/cache@v2
         with:
-          path: tmp/tests
-          key: wp-${{ matrix.WP }}-files--${{ env.WP_TESTS_CACHE_VERSION }}
+          path: tmp/tests/wordpress
+          key: wp-${{ matrix.WP }}-${{ hashFiles( tmp/tests/wordpress/wp-includes/version.php ) }}
+      - name: Cache WP Tests Lib
+        uses: actions/cache@v2
+        with:
+          path: tmp/tests/wordpress-tests-lib
+          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}
       - name: Install WP Tests
         run: composer run tests-install
 
