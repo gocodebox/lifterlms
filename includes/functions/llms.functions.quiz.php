@@ -1,17 +1,17 @@
 <?php
 /**
- * LifterLMS Quiz Functions
+ * LifterLMS Quiz Functions.
  *
  * @package LifterLMS/Functions
  *
  * @since 3.16.0
- * @version 4.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve the number of columns needed for a picture choice question
+ * Retrieve the number of columns needed for a picture choice question.
  *
  * @since 3.16.0
  *
@@ -21,8 +21,14 @@ defined( 'ABSPATH' ) || exit;
 function llms_get_picture_choice_question_cols( $num_choices ) {
 
 	/**
-	 * Allow 3rd parties to override this function with a custom number of columns
+	 * Allow 3rd parties to override this function with a custom number of columns.
+	 *
 	 * If this responds with a non null will bypass column counter function return it immediately
+	 *
+	 * @since 3.16.0
+	 *
+	 * @param null|int $cols        Number of columns needed for a picture choice question.
+	 * @param int      $num_choices Number of choices.
 	 */
 	$cols = apply_filters( 'llms_get_picture_choice_question_cols', null, $num_choices );
 
@@ -54,12 +60,13 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 		}
 	}
 
+	/** This filter is documented above */
 	return apply_filters( 'llms_get_picture_choice_question_cols', $cols, $num_choices );
 
 }
 
 /**
- * Retrieve data for a single question type
+ * Retrieve data for a single question type.
  *
  * @since 3.16.0
  *
@@ -70,12 +77,21 @@ function llms_get_question_type( $type ) {
 
 	$types = llms_get_question_types();
 	$ret   = isset( $types[ $type ] ) ? $types[ $type ] : false;
+
+	/**
+	 * Filters the data for a single question type.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @param array|false $data Data for a single question type. False it there's no data for a given quesiton type.
+	 * @param string      $type Id of the question type.
+	 */
 	return apply_filters( 'llms_get_question_type', $ret, $type );
 
 }
 
 /**
- * Retrieve question types
+ * Retrieve question types.
  *
  * See `LLMS_Question_Types` class for actual loading of core question types.
  *
@@ -83,17 +99,31 @@ function llms_get_question_type( $type ) {
  * @return array
  */
 function llms_get_question_types() {
+	/**
+	 * Filters the question types.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @param array $question_types Question types.
+	 */
 	return apply_filters( 'llms_get_question_types', array() );
 }
 
 /**
- * Retrieve statuses for quiz attempts
+ * Retrieve statuses for quiz attempts.
  *
  * @since 3.16.0
  *
  * @return array
  */
 function llms_get_quiz_attempt_statuses() {
+	/**
+	 * Filters the quiz attempt statuses
+	 *
+	 * @since 3.16.0
+	 *
+	 * @param array $quiz_attempt_statuses Statuses for quiz attempts.
+	 */
 	return apply_filters(
 		'llms_get_quiz_attempt_statuses',
 		array(
@@ -111,6 +141,7 @@ function llms_get_quiz_attempt_statuses() {
  * @since 3.16.8
  * @since 3.38.0 Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
  * @since 4.6.0 Removed logging and use `apply_filters_deprecated()` in favor of `apply_filters()`.
+ * @since [version] Correctly pass an array of settings as parameter for `apply_filters_deprecated()`.
  * @deprecated 3.38.0 See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
  *
  * @param string $setting Name of setting, if omitted returns all settings.
@@ -130,11 +161,13 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 	$settings = apply_filters_deprecated(
 		'llms_get_quiz_theme_settings',
 		array(
-			'layout' => array(
-				'id'      => '',
-				'name'    => __( 'Layout', 'lifterlms' ),
-				'options' => array(),
-				'type'    => 'select', // Either: select or image_select.
+			array(
+				'layout' => array(
+					'id'      => '',
+					'name'    => __( 'Layout', 'lifterlms' ),
+					'options' => array(),
+					'type'    => 'select', // Either: select or image_select.
+				),
 			),
 		),
 		'3.17.6'
@@ -149,7 +182,7 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 }
 
 /**
- * Shuffles choices until the choice order has changed from the original
+ * Shuffles choices until the choice order has changed from the original.
  *
  * The smaller the list of choices the greater the chance of shuffling not changing the array.
  *
