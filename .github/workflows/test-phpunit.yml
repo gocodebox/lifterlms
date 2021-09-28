@@ -49,10 +49,15 @@ jobs:
             coverage: 'none'
           # Test Coverage.
           - name-append: " (w/ coverage)"
-            PHP: '7.4'
+            PHP: '8.0'
             WP: '5.8'
             allow-failure: true
             coverage: 'xdebug'
+          # PHP 8.1.
+          - PHP: '8.1'
+            WP: 'nightly'
+            allow-failure: true
+            coverage: 'none'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
