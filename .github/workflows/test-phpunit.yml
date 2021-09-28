@@ -103,12 +103,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp/tests/wordpress
-          key: wp-${{ matrix.WP }}-${{ hashFiles( 'tmp/tests/wordpress/wp-includes/version.php' ) }}
+          key: wp-${{ matrix.WP }}-${{ env.WP_TESTS_CACHE_VERSION }}-v1
       - name: Cache WP Tests Lib
         uses: actions/cache@v2
         with:
           path: tmp/tests/wordpress-tests-lib
-          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}
+          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}-v1
       - name: Install WP Tests
         run: composer run tests-install
 
