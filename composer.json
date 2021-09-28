@@ -91,7 +91,8 @@
     "check-cs-errors": "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6",
     "config-cs": [
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/lifterlms/lifterlms-cs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
-      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'"
+      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'",
+      "\"vendor/bin/phpcs\" --config-set ignore_warnings_on_exit 1'"
     ],
     "env": "\"vendor/bin/llms-env\"",
     "env:setup": [
