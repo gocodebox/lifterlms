@@ -16,7 +16,8 @@
 [![WordPress Plugin Downloads][img-wp-downloads]][link-wp-advanced]
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
-[![PHPUnit Tests](img-phpunit-tests)][link-phpunit-tests]
+[![PHPUnit Tests](img-phpunit-tests)]][link-phpunit-tests]
+[![PHPCS Coding Standards][img-phpcs-checks]][link-phpcs-checks]
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
 
@@ -153,6 +154,7 @@ Endless thanks to all our incredible contributors!
 [link-experts]: https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/ "Hire a LifterLMS Expert"
 [link-php]: https://www.php.net/supported-versions "PHP Support Versions"
 [link-phpunit-tests]: https://github.com/gocodebox/lifterlms/actions/workflows/test-phpunit.yml "PHPUnit Tests Status"
+[link-phpcs-checks]: https://github.com/gocodebox/lifterlms/actions/workflows/coding-standards.yml "PHPCS Coding Standards Checks"
 [link-slack]: https://lifterlms.com/slack "Chat with the community on Slack"
 [link-support]: https://lifterlms.com/my-account/my-tickets "LifterLMS customer support"
 [link-support-forums]: https://wordpress.org/support/plugin/lifterlms "LifterLMS user support forums"
@@ -166,6 +168,7 @@ Endless thanks to all our incredible contributors!
 [img-contributions-welcome]: https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik02NzIgMTQ3MnEwLTQwLTI4LTY4dC02OC0yOC02OCAyOC0yOCA2OCAyOCA2OCA2OCAyOCA2OC0yOCAyOC02OHptMC0xMTUycTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em02NDAgMTI4cTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em05NiAwcTAgNTItMjYgOTYuNXQtNzAgNjkuNXEtMiAyODctMjI2IDQxNC02NyAzOC0yMDMgODEtMTI4IDQwLTE2OS41IDcxdC00MS41IDEwMHYyNnE0NCAyNSA3MCA2OS41dDI2IDk2LjVxMCA4MC01NiAxMzZ0LTEzNiA1Ni0xMzYtNTYtNTYtMTM2cTAtNTIgMjYtOTYuNXQ3MC02OS41di04MjBxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZxMCA1Mi0yNiA5Ni41dC03MCA2OS41djQ5N3E1NC0yNiAxNTQtNTcgNTUtMTcgODcuNS0yOS41dDcwLjUtMzEgNTktMzkuNSA0MC41LTUxIDI4LTY5LjUgOC41LTkxLjVxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+
 [img-php]: https://img.shields.io/badge/PHP-7.2%2B-brightgreen?style=for-the-badge&logoColor=white&logo=php
 [img-phpunit]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Test%20PHPUnit?label=PHPUnit&logo=github&style=for-the-badge
+[img-phpcs-checks]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Coding%20Standards?label=PHPCS&logo=github&style=for-the-badge
 [img-slack]: https://img.shields.io/badge/chat-on%20slack-blueviolet?style=for-the-badge&logo=slack
 [img-wp-downloads]: https://img.shields.io/wordpress/plugin/dt/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-installs]: https://img.shields.io/wordpress/plugin/installs/lifterlms.svg?style=for-the-badge&logo=wordpress
