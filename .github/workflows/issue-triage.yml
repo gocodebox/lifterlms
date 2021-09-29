@@ -13,6 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Add to project.
+      #################
       - name: Add to "Triage" project
         uses: alex-page/github-project-automation-plus@v0.8.1
         with:
@@ -20,6 +22,8 @@ jobs:
           column: Awaiting Triage
           repo-token: ${{ secrets.ORG_WORKFLOWS }}
 
+      # Assign to the project's CODEOWNER.
+      ####################################
       - name: Check CODEOWNERS file existence
         id: codeowners_file_exists
         uses: andstor/file-existence-action@v1
