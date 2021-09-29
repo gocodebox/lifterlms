@@ -1,10 +1,10 @@
 /**
- * Single Assignment View
+ * Single Assignment View.
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.17.0
- * @version  3.17.7
+ * @since 3.17.0
+ * @version [version]
  */
 
 define( [
@@ -28,16 +28,16 @@ define( [
 		return Backbone.View.extend( _.defaults( {
 
 			/**
-			 * Current view state
+			 * Current view state.
 			 *
-			 * @type  {String}
+			 * @type {String}
 			 */
 			state: 'default',
 
 			/**
-			 * Current Subviews
+			 * Current Subviews.
 			 *
-			 * @type  {Object}
+			 * @type {Object}
 			 */
 			views: {
 				settings: {
@@ -50,11 +50,11 @@ define( [
 			el: '#llms-editor-assignment',
 
 			/**
-			 * DOM Events
+			 * DOM Events.
 			 *
-			 * @return   obj
-			 * @since    3.17.1
-			 * @version  3.17.1
+			 * @since 3.17.1
+			 *
+			 * @return {Object}
 			 */
 			events: function() {
 				var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
@@ -65,25 +65,26 @@ define( [
 			},
 
 			/**
-			 * Wrapper Tag name
+			 * Wrapper Tag name.
 			 *
-			 * @type  {String}
+			 * @type {String}
 			 */
 			tagName: 'div',
 
 			/**
-			 * Get the underscore template
+			 * Get the underscore template.
 			 *
-			 * @type  {[type]}
+			 * @type {[type]}
 			 */
 			template: wp.template( 'llms-assignment-template' ),
 
 			/**
 			 * Initialization callback func (renders the element on screen)
 			 *
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @return {Void}
 			 */
 			initialize: function( data ) {
 
@@ -120,11 +121,12 @@ define( [
 			},
 
 			/**
-			 * Compiles the template and renders the view
+			 * Compiles the template and renders the view.
 			 *
-			 * @return   self (for chaining)
-			 * @since    3.17.0
-			 * @version  3.17.7
+			 * @since 3.17.0
+			 * @since 3.17.7 Unknown.
+			 *
+			 * @return {Self} For chaining.
 			 */
 			render: function() {
 
@@ -153,18 +155,18 @@ define( [
 			},
 
 			/**
-			 * Adds a new assignment to a lesson which currently has no assignment associated with it
+			 * Adds a new assignment to a lesson which currently has no assignment associated with it.
 			 *
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @return {Void}
 			 */
 			add_new_assignment: function() {
 
 				if ( this.is_addon_available() ) {
 
 					this.model = window.llms_builder.assignments.get_assignment( {
-						/* translators: %1$s = associated lesson title */
+						/* Translators: %1$s = associated lesson title */
 						title: LLMS.l10n.replace( '%1$s Assignment', {
 							'%1$s': this.lesson.get( 'title' ),
 						} ),
@@ -186,11 +188,12 @@ define( [
 
 			/**
 			 * When an assignment is selected from the post select popover
-			 * instantiate it and add it to the current lesson
+			 * instantiate it and add it to the current lesson.
 			 *
-			 * @param    object   event  data from the select2 select event
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @param {Object} event Data from the select2 select event.
+			 *
+			 * @since 3.17.0
+			 * @since [version] Prepare assignment object for cloning and use author id instead of the quiz author object.
 			 */
 			add_existing_assignment: function( event ) {
 
@@ -200,15 +203,20 @@ define( [
 
 				if ( 'clone' === event.action ) {
 
-					delete assignment.id;
+					assignment = _.prepareAssignmentObjectForCloning( assignment );
 
 				} else {
 
+					// Use author id instead of the assignment author object.
+					assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
 					assignment._forceSync = true;
 
 				}
 
 				assignment.lesson_id = this.lesson.get( 'id' )
+
+				// Use author id instead of the Assignment author object.
+				assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
 
 				assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
 
@@ -220,14 +228,14 @@ define( [
 
 			},
 
-			/**
-			 * Open add existing assignment popover
-			 *
-			 * @param    obj   event  JS event object
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
-			 */
+		/**
+		 * Open add existing assignment popover.
+		 *
+		 * @since 3.17.0
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
+		 */
 			add_existing_assignment_click: function( event ) {
 
 				event.preventDefault();
@@ -266,11 +274,11 @@ define( [
 			},
 
 			/**
-			 * Determine if Assignments addon is available to use
+			 * Determine if Assignments addon is available to use.
 			 *
-			 * @return   {Boolean}
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @return {Boolean}
 			 */
 			is_addon_available: function() {
 
@@ -279,12 +287,12 @@ define( [
 			},
 
 			/**
-			 * Called when assignment is trashed
+			 * Called when assignment is trashed.
 			 *
-			 * @param    obj   assignment  Assignment model
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @param {Oject} assignment Assignment Model.
+			 * @return {Void}
 			 */
 			on_trashed: function( assignment ) {
 
@@ -298,12 +306,12 @@ define( [
 			},
 
 			/**
-			 * Shows a dirty dirty ad popover for advanced assignments
+			 * Shows a dirty dirty ad popover for advanced assignments.
 			 *
-			 * @param    string   el  jQuery selector string
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @param {Sring} el The jQuery selector string.
+			 * @return {Void}
 			 */
 			show_ad_popover: function( el ) {
 
