@@ -16,7 +16,7 @@
 [![WordPress Plugin Downloads][img-wp-downloads]][link-wp-advanced]
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
-[![PHPUnit Tests](img-phpunit-tests)]][link-phpunit-tests]
+[![PHPUnit Tests][img-phpunit-tests]][link-phpunit-tests]
 [![PHPCS Coding Standards][img-phpcs-checks]][link-phpcs-checks]
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
