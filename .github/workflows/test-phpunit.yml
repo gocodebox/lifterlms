@@ -106,7 +106,7 @@ jobs:
         if: ${{ '5.4' == matrix.WP }}
         run: |
           composer require phpunit/phpunit:^7.5.20 -W
-          echo WP_TESTS_VERSION="" >> $GITHUB_ENV
+          echo WP_TESTS_VERSION= >> $GITHUB_ENV
 
       # Install WP Tests.
       - name: Set ENV vars
