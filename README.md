@@ -17,7 +17,7 @@
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
 [![Travis Build Status][img-travis]][link-travis]
-[![PHPCS Coding Standards](img-phpcs-checks)][link-phpcs-checks]
+[![PHPCS Coding Standards][img-phpcs-checks][link-phpcs-checks]
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
 
