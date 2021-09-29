@@ -8,15 +8,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
   cancel-in-progress: true
 
-env:
-  TESTS_DB_NAME: llms_tests
-  TESTS_DB_USER: root
-  TESTS_DB_PASS: root
-  WP_TESTS_VERSION: trunk # Using trunk for now until changes are backported to other tags.
-
 jobs:
   test:
-    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}"
 
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow-failure }}
@@ -34,30 +28,18 @@ jobs:
           - '8.0'
           - '7.4'
           - '7.3'
-        coverage:
-          - 'none'
         allow-failure:
           - false
-        name-append:
-          - ''
 
         include:
-          # Test Coverage.
-          - name-append: " (w/ coverage)"
-            PHP: '8.0'
-            WP: '5.8'
-            allow-failure: true
-            coverage: 'xdebug'
           # WP Nightly.
           - PHP: '8.0'
             WP: 'nightly'
             allow-failure: true
-            coverage: 'none'
           # PHP 8.1.
           - PHP: '8.1'
             WP: 'nightly'
             allow-failure: true
-            coverage: 'none'
 
         exclude:
           # These WP Versions don't work on PHP 8.0
@@ -68,9 +50,12 @@ jobs:
 
     steps:
 
-      - uses: gocodebox/.github/.github/actions/phpunit@trunk
+      - uses: gocodebox/.github/.github/actions/setup-phpunit@trunk
         with:
           php-version: ${{ matrix.PHP }}
-          coverage: ${{ matrix.coverage }}
           wp-version: ${{ matrix.WP }}
-          cc-test-reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+      # Run Tests.
+      - name: Run Tests
+        run: composer run tests
+
