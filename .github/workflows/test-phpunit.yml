@@ -49,8 +49,8 @@ jobs:
             allow-failure: true
             coverage: 'xdebug'
           # WP Nightly.
-          - PHP: '8.0
-'            WP: 'nightly'
+          - PHP: '8.0'
+            WP: 'nightly'
             allow-failure: true
             coverage: 'none'
           # PHP 8.1.
