@@ -122,7 +122,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: tmp/tests/wordpress-tests-lib
-          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}-v2
+          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}-v3
       - name: Install WP Tests
         run: composer run tests-install
 
