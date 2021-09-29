@@ -15,12 +15,13 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Setup the test
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->forms = LLMS_Forms::instance();
 
 	}
@@ -29,12 +30,13 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Teardown the test.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 
 		global $wpdb;
 		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );

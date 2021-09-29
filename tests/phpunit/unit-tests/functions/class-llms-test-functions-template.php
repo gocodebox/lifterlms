@@ -19,10 +19,13 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Setup test cases
 	 *
-	 * @return void;
+	 * @since 4.8.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		foreach ( $this->themes as $theme ) {
 			$this->_delete_theme_override_directory( $theme );
 		}

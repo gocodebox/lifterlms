@@ -123,11 +123,12 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 3.23.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->create();
 	}
 

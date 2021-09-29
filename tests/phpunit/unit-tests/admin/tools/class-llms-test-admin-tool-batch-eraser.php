@@ -24,12 +24,13 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_Admin_Tool_Test_Case {
 	 * Teardown the test case.
 	 *
 	 * @since 3.37.19
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->clear_cache();
 
 	}

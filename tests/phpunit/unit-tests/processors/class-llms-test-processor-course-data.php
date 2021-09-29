@@ -17,12 +17,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Forces processor debugging on so that we can make assertions against logged data.
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		llms_maybe_define_constant( 'LLMS_PROCESSORS_DEBUG', true );
 
 	}
@@ -31,12 +32,13 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$this->main          = llms()->processors()->get( 'course_data' );
 		$this->schedule_hook = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'cron_hook_identifier' );
@@ -47,14 +49,15 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Teardown the test case
 	 *
 	 * @since 4.12.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
 		$this->main->cancel_process();
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'data', array() );
-		parent::tearDown();
+		parent::tear_down();
 
 	}
 
@@ -167,7 +170,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		foreach ( $metas as $key => $vals ) {
 			$delta = 'last_data_calc_run' === $key ? 5 : 0;
-			$this->assertEquals( $vals[1], $course->get( $key ), $key, $delta );
+			$this->assertEqualsWithDelta( $vals[1], $course->get( $key ), $delta, $key );
 		}
 
 	}

@@ -15,12 +15,13 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Load required class
 	 *
 	 * @since 4.7.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
 
 	}
@@ -29,12 +30,13 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.7.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Generator_Courses();
 
 	}

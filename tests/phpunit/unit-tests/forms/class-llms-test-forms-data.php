@@ -15,12 +15,13 @@ class LLMS_Test_Forms_Data extends LLMS_UnitTestCase {
 	 * Setup the test
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main  = new LLMS_Forms_Data();
 		$this->forms = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'forms' );
 

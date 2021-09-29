@@ -16,12 +16,13 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 3.40.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
@@ -32,13 +33,14 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.36.1
-	 * @since 3.40.0 Include class file via `setUpBeforeClass()`.
+	 * @since 3.40.0 Include class file via `set_up_before_class()`.
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->sendwp = new LLMS_SendWP();
 
 	}
@@ -47,12 +49,13 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Tear down the testcase.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		delete_plugins( array( 'sendwp/sendwp.php' ) );
 
 	}

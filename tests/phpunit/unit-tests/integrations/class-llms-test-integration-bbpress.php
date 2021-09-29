@@ -190,12 +190,13 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.11
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		// Load mock.
 		if ( ! $this->mock_bbPress ) {

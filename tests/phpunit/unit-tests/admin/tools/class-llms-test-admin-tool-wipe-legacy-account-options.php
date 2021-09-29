@@ -43,12 +43,13 @@ class LLMS_Test_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Admin_Tool_T
 	 * Tear Down
 	 *
 	 * @since 5.0.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		$this->delete_legacy_options();
 
 	}

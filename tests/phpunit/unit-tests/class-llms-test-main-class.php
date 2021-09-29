@@ -18,12 +18,13 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Setup function
 	 *
 	 * @since 3.3.1
+	 * @since [version] Use `llms()` in favor of `LLMS()` and renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
-		$this->llms = LLMS();
+	public function set_up() {
+		parent::set_up();
+		$this->llms = llms();
 	}
 
 	/**

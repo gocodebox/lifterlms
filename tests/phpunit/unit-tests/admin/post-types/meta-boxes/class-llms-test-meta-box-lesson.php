@@ -17,12 +17,13 @@ class LLMS_Test_Meta_Box_Lesson extends LLMS_PostTypeMetaboxTestCase {
 	 * Setup test
 	 *
 	 * @since 3.36.2
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->metabox = new LLMS_Meta_Box_Lesson();
 
 	}

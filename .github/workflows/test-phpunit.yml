@@ -1,0 +1,139 @@
+name: Test PHPUnit
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+env:
+  TESTS_DB_NAME: llms_tests
+  TESTS_DB_USER: root
+  TESTS_DB_PASS: root
+  WP_TESTS_VERSION: trunk # Using trunk for now until changes are backported to other tags.
+
+jobs:
+  test:
+    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}"
+
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        WP:
+          - '5.8'
+          - '5.7'
+          - '5.6'
+          - '5.5'
+          - '5.4'
+        PHP:
+          - '8.0'
+          - '7.4'
+          - '7.3'
+        coverage:
+          - 'none'
+        allow-failure:
+          - false
+        name-append:
+          - ''
+
+        include:
+          # Test Coverage.
+          - name-append: " (w/ coverage)"
+            PHP: '8.0'
+            WP: '5.8'
+            allow-failure: true
+            coverage: 'xdebug'
+          # WP Nightly.
+          - PHP: '8.0'
+            WP: 'nightly'
+            allow-failure: true
+            coverage: 'none'
+          # PHP 8.1.
+          - PHP: '8.1'
+            WP: 'nightly'
+            allow-failure: true
+            coverage: 'none'
+
+        exclude:
+          # These WP Versions don't work on PHP 8.0
+          - PHP: '8.0'
+            WP: '5.5'
+          - PHP: '8.0'
+            WP: '5.4'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.PHP }}
+          coverage: ${{ matrix.coverage }}
+
+      # Setup MySQL
+      - name: Start MySQL
+        run: sudo systemctl start mysql.service
+      - name: Create MySQL database
+        run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "CREATE DATABASE $TESTS_DB_NAME;"
+      - name: Setup MySQL authentication plugin
+        if: ${{ '7.3' == matrix.php }}
+        run: mysql --user=$TESTS_DB_USER --password=$TESTS_DB_PASS -e "ALTER USER '$TESTS_DB_USER'@'localhost' IDENTIFIED WITH mysql_native_password BY '$TESTS_DB_PASS';";
+
+      # Composer Install.
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Composer dependencies
+        run: composer update
+
+      # Special Conditions for WP 5.4
+      #   + Rollback PHPUnit to ^7.5
+      #   + Unset the WP_TESTS_VERSION env var so that the 5.4 *branch* (not tag) will be used.
+      - name: Handle Special Conditions for WP 5.4
+        if: ${{ '5.4' == matrix.WP }}
+        run: |
+          composer require phpunit/phpunit:^7.5.20 -W
+          echo WP_TESTS_VERSION="" >> $GITHUB_ENV
+
+      # Install WP Tests.
+      - name: Set ENV vars
+        run: |
+          echo WP_VERSION=$( echo '${{ matrix.WP }}' ) >> $GITHUB_ENV
+          echo WP_TESTS_CACHE_VERSION=$( /bin/date -u "+%Y%m%d" ) >> $GITHUB_ENV
+      - name: Cache WP Core Files
+        uses: actions/cache@v2
+        with:
+          path: tmp/tests/wordpress
+          key: wp-${{ matrix.WP }}-${{ env.WP_TESTS_CACHE_VERSION }}-v1
+      - name: Cache WP Tests Lib
+        uses: actions/cache@v2
+        with:
+          path: tmp/tests/wordpress-tests-lib
+          key: wp-tests-lib-${{ env.WP_TESTS_VERSION || 'default' }}-${{ env.WP_TESTS_CACHE_VERSION }}-v2
+      - name: Install WP Tests
+        run: composer run tests-install
+
+      # Run Tests.
+      - name: Run Tests
+        if: ${{ 'none' == matrix.coverage }}
+        run: composer run tests
+      - name: Run Tests with Coverage & Upload Coverage Report
+        if: ${{ 'none' != matrix.coverage }}
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: composer run tests -- --coverage-clover clover.xml

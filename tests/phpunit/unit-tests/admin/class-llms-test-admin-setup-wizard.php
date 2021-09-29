@@ -17,12 +17,13 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Include required class files
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setupBeforeClass();
+		parent::set_up_before_class();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-export-api.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
 
@@ -32,12 +33,13 @@ class LLMS_Test_Admin_Setup_Wizard extends LLMS_Unit_Test_Case {
 	 * Setup test case
 	 *
 	 * @since 4.8.0
+	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Setup_Wizard();
 
 	}

@@ -13,11 +13,12 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 * Tear down
 	 *
 	 * @since 3.28.0
+	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$wp_roles = wp_roles();
 		LLMS_Roles::install();
 	}
