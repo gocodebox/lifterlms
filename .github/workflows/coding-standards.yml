@@ -40,7 +40,7 @@ jobs:
 
       # Check Coding Standards.
       - name: Run PHPCS
-        run: composer run check-cs -- --report-full --report-checkstyle=./phpcs-report.xml
+        run: composer run check-cs-errors -- --report-full --report-checkstyle=./phpcs-report.xml
 
       - name: Show PHPCS results in PR
         run: cs2pr ./phpcs-report.xml
