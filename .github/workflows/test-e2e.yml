@@ -24,7 +24,7 @@ jobs:
     steps:
 
       - name: Setup Environment
-        uses: gocodebox/.github/.github/actions/setup-phpunit@trunk
+        uses: gocodebox/.github/.github/actions/setup-e2e@trunk
         with:
           wp-version: ${{ matrix.WP }}
           docker-user: ${{ secrets.DOCKER_USERNAME }}
