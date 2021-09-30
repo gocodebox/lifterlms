@@ -14,10 +14,7 @@ concurrency:
 jobs:
   test:
     name: "PHP Test Coverage"
-
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.allow-failure }}
-
     steps:
 
       - name: Setup Environment
@@ -27,7 +24,6 @@ jobs:
           wp-version: "5.8"
           coverage: "xdebug"
 
-      # Run Tests.
       - name: Run Tests with Coverage & Upload Coverage Report
         uses: paambaati/codeclimate-action@v2.7.5
         env:
