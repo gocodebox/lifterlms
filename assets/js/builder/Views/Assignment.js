@@ -79,7 +79,7 @@ define( [
 			template: wp.template( 'llms-assignment-template' ),
 
 			/**
-			 * Initialization callback func (renders the element on screen)
+			 * Initialization callback func (renders the element on screen).
 			 *
 			 * @since 3.17.0
 			 * @since 3.17.2 Unknown.
@@ -214,9 +214,6 @@ define( [
 				}
 
 				assignment.lesson_id = this.lesson.get( 'id' )
-
-				// Use author id instead of the Assignment author object.
-				assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
 
 				assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
 

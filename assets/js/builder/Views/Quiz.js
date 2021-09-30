@@ -231,7 +231,7 @@ define( [
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param  {Object} Event JS event object.
+		 * @param {Object} Event JS event object.
 		 * @return {Void}
 		 */
 		bulk_toggle: function( event ) {

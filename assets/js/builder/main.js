@@ -40,7 +40,7 @@ require( [
 		 *
 		 * @param {Mixed} expected expected Value, probably a string (the value of a select option or checkbox element).
 		 * @param {Mixed} mixed    actual   Actual value, probably a string (the return of model.get( 'something' ) )
-		 *                             	    but could be an array like a multiselect.
+		 *                                  but could be an array like a multiselect.
 		 * @return {Bool}
 		 */
 		function value_compare( expected, actual ) {

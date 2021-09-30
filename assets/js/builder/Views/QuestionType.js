@@ -48,8 +48,9 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		/**
 		 * Initialization callback func (renders the element on screen).
 		 *
-		 * @return {Void}
 		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		initialize: function() {
 
