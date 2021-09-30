@@ -198,34 +198,6 @@ require( [
 			},
 
 			/**
-			 * Strips IDs & Parent References from assignments and all assignment tasks.
-			 *
-			 * @since [version]
-			 *
-			 * @param {Object} assignment Raw assignment object (not a model).
-			 * @return {Object}
-			 */
-			 prepareAssignmentObjectForCloning: function( assignment ) {
-
-				delete assignment.id;
-				delete assignment.lesson_id;
-
-				// Clone tasks.
-				if ( 'tasklist' === assignment.assignment_type ) {
-					_.each( assignment.tasks, function( task ) {
-						delete task.id;
-						delete task.assignment_id;
-					} );
-				}
-
-				// Use author id instead of the quiz author object.
-				assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
-
-				return assignment;
-
-			},
-
-			/**
 			 * Prepare post object data for adding or cloning.
 			 *
 			 * Use author id instead of the post type author object.
