@@ -11,10 +11,10 @@ concurrency:
 
 jobs:
   test:
+    name: "WP ${{ matrix.WP }}"
     runs-on: ubuntu-latest
 
     strategy:
-      name: "WP ${{ matrix.WP }}"
       fail-fast: false
       matrix:
         WP:
