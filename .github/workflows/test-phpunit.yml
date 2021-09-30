@@ -12,9 +12,46 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
+  # Dynamically builds the "include" var for the matrix on the "test" job
+  #
+  # This is constructed dynamically in order to allow us to share a single phpunit config for all add-ons
+  # but only includes the job for add-on repos.
+  set-matrix-include:
+    name: Set main job matrix "include" var
+    runs-on: ubuntu-latest
+    outputs:
+      include: ${{ steps.set-output.outputs.include }}
+    steps:
+      - id: set-output
+        run: |
+          INCLUDE='[
+            {
+              "PHP": "8.0",
+              "WP": "nightly",
+              "allow-failure": true
+            },
+            {
+              "PHP": "8.1",
+              "WP": "nightly",
+              "allow-failure": true
+            },
+            {
+              "PHP": "8.0",
+              "WP": "5.8",
+              "LLMS": "dev",
+              "allow-failure": true
+            }
+          ]'
+          if [[ "gocodebox/lifterlms" == ${{ github.repository }} ]]; then
+            INCLUDE=$( echo $INCLUDE | jq -rcM 'del(.[2])' )
+          fi
+          echo "::set-output name=include::$INCLUDE"
+
   test:
     name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}"
 
+    needs: set-matrix-include
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow-failure }}
 
@@ -31,18 +68,12 @@ jobs:
           - '8.0'
           - '7.4'
           - '7.3'
+        LLMS:
+          - false
         allow-failure:
           - false
 
-        include:
-          # WP Nightly.
-          - PHP: '8.0'
-            WP: 'nightly'
-            allow-failure: true
-          # PHP 8.1.
-          - PHP: '8.1'
-            WP: 'nightly'
-            allow-failure: true
+        include: ${{ fromJSON( needs.set-matrix-include.outputs.include ) }}
 
         exclude:
           # These WP Versions don't work on PHP 8.0
@@ -58,6 +89,7 @@ jobs:
         with:
           php-version: ${{ matrix.PHP }}
           wp-version: ${{ matrix.WP }}
+          llms-branch: ${{ matrix.LLMS }}
 
       # Run Tests.
       - name: Run Tests
