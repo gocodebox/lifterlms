@@ -23,7 +23,8 @@ jobs:
     outputs:
       include: ${{ steps.set-output.outputs.include }}
     steps:
-      - id: set-output
+      - name: Set Output
+        id: set-output
         run: |
           INCLUDE='[
             {
@@ -37,6 +38,7 @@ jobs:
               "allow-failure": true
             },
             {
+              "name-append": " (LLMS nightly)",
               "PHP": "8.0",
               "WP": "5.8",
               "LLMS": "dev",
@@ -46,10 +48,11 @@ jobs:
           if [[ "gocodebox/lifterlms" == ${{ github.repository }} ]]; then
             INCLUDE=$( echo $INCLUDE | jq -rcM 'del(.[2])' )
           fi
+          echo $INCLUDE
           echo "::set-output name=include::$INCLUDE"
 
   test:
-    name: "WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}"
+    name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}
 
     needs: set-matrix-include
     runs-on: ubuntu-latest
@@ -72,6 +75,8 @@ jobs:
           - false
         allow-failure:
           - false
+        name-append:
+          - ''
 
         include: ${{ fromJSON( needs.set-matrix-include.outputs.include ) }}
 
