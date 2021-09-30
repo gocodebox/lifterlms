@@ -1,0 +1,52 @@
+name: Test E2E
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+
+jobs:
+  test:
+    name: "WP ${{ matrix.WP }}"
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        WP:
+          - latest
+          - '5.7'
+          - '5.6'
+          - '5.5'
+          - '5.4'
+        allow-failure:
+          - false
+
+        include:
+          # WP Nightly.
+          - WP: 'nightly'
+            allow-failure: true
+
+    steps:
+
+      - name: Setup Environment
+        uses: gocodebox/.github/.github/actions/setup-e2e@trunk
+        with:
+          wp-version: ${{ matrix.WP }}
+          docker-user: ${{ secrets.DOCKER_USERNAME }}
+          docker-pass: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Run test suite
+        run: npm run test -- --verbose
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: error-artifacts
+          path: tmp/artifacts
