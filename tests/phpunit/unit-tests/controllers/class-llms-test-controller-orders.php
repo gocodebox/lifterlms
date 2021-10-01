@@ -160,9 +160,14 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date( 'Y-m-d' ) );
 
 		// Expiration event should be reset.
-		$this->assertEquals( (float) $order->get_access_expiration_date( 'U' ), (float) as_next_scheduled_action( 'llms_access_plan_expiration', array(
-			'order_id' => $order->get( 'id' ),
-		) ), '', $this->date_delta );
+		$this->assertEqualsWithDelta(
+			(float) $order->get_access_expiration_date( 'U' ),
+			(float) as_next_scheduled_action(
+				'llms_access_plan_expiration',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+		), $this->date_delta );
 
 	}
 

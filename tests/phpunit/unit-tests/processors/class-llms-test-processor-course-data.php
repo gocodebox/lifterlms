@@ -67,6 +67,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * @since 4.12.0
 	 * @since 4.21.0 Assert student enrolled count early.
 	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -104,7 +105,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event scheduled.
-		$this->assertEquals( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEquals( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'throttle_max_students', 500 );
 
@@ -337,6 +338,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.21.0
  	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -352,14 +354,14 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Schedule an event.
 		$this->main->schedule_calculation( $course_id, $expected_time );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		$this->logs->clear( 'processors' );
 
 		// No duplicate scheduled.
 		$this->main->schedule_calculation( $course_id );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
 
 	}
@@ -369,6 +371,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.21.0
  	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1600
 	 *
@@ -386,14 +389,14 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 
 		// Schedule with an int.
 		$this->main->schedule_calculation( $course_id, $expected_time );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		$this->logs->clear( 'processors' );
 
 		// No duplicate should be scheduled if using a string later.
 		$this->main->schedule_calculation( (string) $course_id );
-		$this->assertEquals( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( $expected_time, wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 		$this->assertEquals( array( $logs[0] ), $this->logs->get( 'processors' ) );
 
 	}
@@ -402,6 +405,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_course()
 	 *
 	 * @since 4.12.0
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -419,7 +423,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event.
-		$this->assertEquals( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 
 	}
 
@@ -427,6 +431,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_lesson()
 	 *
 	 * @since 4.12.0
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -445,7 +450,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event.
-		$this->assertEquals( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 
 	}
 
@@ -453,6 +458,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_quiz()
 	 *
 	 * @since 4.12.0
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -478,7 +484,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event.
-		$this->assertEquals( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), '', 5 );
+		$this->assertEqualsWithDelta( time(), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 
 	}
 
@@ -486,6 +492,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test task() method
 	 *
 	 * @since 4.12.0
+	 * @since [version] Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -560,7 +567,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( 100, $course->get( 'average_grade' ) );
 		$this->assertEquals( 60, $course->get( 'average_progress' ) );
 		$this->assertEquals( 5, $course->get( 'enrolled_students' ) );
-		$this->assertEquals( time(), $course->get( 'last_data_calc_run' ), '', 5 );
+		$this->assertEqualsWithDelta( time(), $course->get( 'last_data_calc_run' ), 5 );
 
 	}
 
