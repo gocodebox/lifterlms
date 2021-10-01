@@ -67,7 +67,8 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Use the author id instead of the author object.
-		 * @since [version] Added filter hook 'llms_cloning_lesson_data'.
+		 * @since [version] Added filter hook 'llms_adding_existing_lesson_data'.
+		 *               On cloning, duplicate assignments too, if assignment add-on active and assignment attached.
 		 *
 		 * @param {Object} lesson Lesson data obj.
 		 * @return {Void}
@@ -86,14 +87,10 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 					data.quiz._questions_loaded = true;
 				}
 
-				/**
-				 * Filters the data of the lesson being cloned.
-				 *
-				 * @since [version]
-				 *
-				 * @param {Object} data Lesson data.
-				 */
-				data = window.llms.hooks.applyFilters( 'llms_cloning_lesson_data', data );
+				// If assignment add-on active and assignment attached, duplicate the assignment too.
+				if ( window.llms_builder.assignments && data.assignment ) {
+					data.assignment = _.prepareAssignmentObjectForCloning( data.assignment );
+				}
 
 			} else {
 
@@ -107,6 +104,17 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 			// Use author id instead of the lesson author object.
 			data = _.prepareExistingPostObjectDataForAddingOrCloning( data );
+
+			/**
+			 * Filters the data of the existing lesson being added.
+			 *
+			 * @since [version]
+			 *
+			 * @param {Object} data   Lesson data.
+			 * @param {String} action Action being performed. [clone|attach].
+			 * @param {Object} course The lesson's course parent model.
+			 */
+			data = window.llms.hooks.applyFilters( 'llms_adding_existing_lesson_data', data, lesson.action, this );
 
 			this.add_lesson( data );
 

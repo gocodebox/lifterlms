@@ -193,7 +193,7 @@ define( [
 			 * @param {Object} event Data from the select2 select event.
 			 *
 			 * @since 3.17.0
-			 * @since [version] Added filter 'llms_cloning_assignment_data'.
+			 * @since [version] Prepare assignment object for cloning and use author id instead of the quiz author object.
 			 */
 			add_existing_assignment: function( event ) {
 
@@ -202,14 +202,8 @@ define( [
 				var assignment = event.data;
 
 				if ( 'clone' === event.action ) {
-					/**
-					 * Filters the data of the assignment being cloned.
-					 *
-					 * @since [version]
-					 *
-					 * @param {Object} assignment Assignment data.
-					 */
-					assignment = window.llms.hooks.applyFilters( 'llms_cloning_assignment_data', assignment );
+
+					assignment = _.prepareAssignmentObjectForCloning( assignment );
 
 				} else {
 
