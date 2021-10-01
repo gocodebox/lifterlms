@@ -1,3 +1,14 @@
+###
+#
+# This workflow file is deployed into this repository via the "Sync Organization Files" workflow
+#
+# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
+# to the source file.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Workflow template {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflow-templates/test-phpunit.yml}
+#
+###
 name: Test PHPUnit
 
 on:
@@ -13,81 +24,26 @@ concurrency:
 
 jobs:
 
-  # Dynamically builds the "include" var for the matrix on the "test" job
-  #
-  # This is constructed dynamically in order to allow us to share a single phpunit config for all add-ons
-  # but only includes the job for add-on repos.
-  set-matrix-include:
-    name: Setup extra jobs
+  set-matrix:
+    name: Setup Matrix
     runs-on: ubuntu-latest
     outputs:
-      include: ${{ steps.set-output.outputs.include }}
+      matrix: ${{ steps.setup.outputs.matrix }}
     steps:
-      - name: Set Output
-        id: set-output
-        run: |
-          INCLUDE='[
-            {
-              "PHP": "8.0",
-              "WP": "nightly",
-              "allow-failure": true
-            },
-            {
-              "PHP": "8.1",
-              "WP": "nightly",
-              "allow-failure": true
-            },
-            {
-              "name-append": " (LLMS nightly)",
-              "PHP": "8.0",
-              "WP": "5.8",
-              "LLMS": "dev",
-              "allow-failure": true
-            }
-          ]'
-          if [[ "gocodebox/lifterlms" == ${{ github.repository }} ]]; then
-            INCLUDE=$( echo $INCLUDE | jq -rcM 'del(.[2])' )
-          else
-            INCLUDE=$( echo $INCLUDE | jq -rcM )
-          fi
-          echo $INCLUDE
-          echo "::set-output name=include::$INCLUDE"
+      - uses: actions/checkout@v2
+      - id: setup
+        uses: gocodebox/.github/.github/actions/setup-matrix@trunk
 
   test:
     name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}
 
-    needs: set-matrix-include
+    needs: set-matrix
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.allow-failure }}
 
     strategy:
       fail-fast: false
-      matrix:
-        WP:
-          - '5.8'
-          - '5.7'
-          - '5.6'
-          - '5.5'
-          - '5.4'
-        PHP:
-          - '8.0'
-          - '7.4'
-          - '7.3'
-        LLMS:
-          - false
-        allow-failure:
-          - false
-        name-append:
-          - ''
-
-        include: ${{ fromJSON( needs.set-matrix-include.outputs.include ) }}
-
-        exclude:
-          # These WP Versions don't work on PHP 8.0
-          - PHP: '8.0'
-            WP: '5.5'
-          - PHP: '8.0'
-            WP: '5.4'
+      matrix: ${{ fromJSON( needs.set-matrix.outputs.matrix ) }}
 
     steps:
 
