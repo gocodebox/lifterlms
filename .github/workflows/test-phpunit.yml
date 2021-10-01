@@ -44,7 +44,7 @@ jobs:
               "LLMS": "dev",
               "allow-failure": true
             }
-          ]'
+          ]' | jq -rcM
           if [[ "gocodebox/lifterlms" == ${{ github.repository }} ]]; then
             INCLUDE=$( echo $INCLUDE | jq -rcM 'del(.[2])' )
           fi
