@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 4.16.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -407,6 +407,7 @@ class LLMS_View_Manager {
 	 * Output a notice alerting users that open registration is currently disabled
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added missing textdomain.
 	 *
 	 * @return void
 	 */
