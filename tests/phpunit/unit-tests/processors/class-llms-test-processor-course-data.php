@@ -105,7 +105,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 		$this->assertEquals( $logs, $this->logs->get( 'processors' ) );
 
 		// Event scheduled.
-		$this->assertEquals( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
+		$this->assertEqualsWithDelta( $last_run + ( HOUR_IN_SECONDS * 4 ), wp_next_scheduled( 'llms_calculate_course_data', array( $course_id ) ), 5 );
 
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'throttle_max_students', 500 );
 
