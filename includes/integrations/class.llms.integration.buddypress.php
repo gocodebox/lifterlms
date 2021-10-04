@@ -1,21 +1,19 @@
 <?php
 /**
- * BuddyPress Integration
+ * BuddyPress Integration.
  *
  * @package LifterLMS/Integrations/Classes
  *
  * @since 1.0.0
- * @version 3.37.17
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BuddyPress Integration
+ * BuddyPress Integration.
  *
  * @since 1.0.0
- * @since 3.12.2 Unknown.
- * @since 3.14.4 Unknown.
  * @since 3.37.17 Fixed `courses` pagination.
  */
 class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
@@ -23,14 +21,40 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	public $id = 'buddypress';
 
 	/**
-	 * Display order on Integrations tab
+	 * Display order on Integrations tab.
 	 *
 	 * @var integer
 	 */
 	protected $priority = 5;
 
 	/**
-	 * Configure the integration
+	 * Current endpoint's key being processed.
+	 *
+	 * @var string
+	 */
+	private $current_endpoint_key;
+
+	/**
+	 * Profile endpoints.
+	 *
+	 * @var array[]
+	 */
+	private $endpoints;
+
+	/**
+	 * Options data abstract version.
+	 *
+	 * This is used to determine the behavior of the `get_option()` method.
+	 *
+	 * Concrete classes should use version 2 in order to use the new (future default)
+	 * behavior of the method.
+	 *
+	 * @var int
+	 */
+	protected $version = 2;
+
+	/**
+	 * Configure the integration.
 	 *
 	 * Do things like configure ID and title here.
 	 *
@@ -54,79 +78,175 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Add LLMS navigation items to the BuddyPress User Profile
+	 * Retrieve integration settings.
 	 *
-	 * @since 1.0.0
+	 * @since [version]
 	 *
-	 * @return  void
+	 * @return array
 	 */
-	public function add_profile_nav_items() {
-		global $bp;
+	public function get_integration_settings() {
 
-		// add the main nav menu.
-		bp_core_new_nav_item(
-			array(
-				'name'                    => __( 'Courses', 'lifterlms' ),
-				'slug'                    => 'courses',
-				'position'                => 20,
-				'screen_function'         => array( $this, 'courses_screen' ),
-				'show_for_displayed_user' => false,
-				'default_subnav_slug'     => 'courses',
-			)
-		);
+		$settings = array();
 
-		$parent_url    = $bp->loggedin_user->domain . 'courses/';
-		$is_my_profile = bp_is_my_profile(); // only let the logged in user access subnav screens.
+		if ( $this->is_available() ) {
 
-		// add sub nav items.
-		bp_core_new_subnav_item(
-			array(
-				'name'            => __( 'Courses', 'lifterlms' ),
-				'slug'            => 'courses',
-				'parent_slug'     => 'courses',
-				'parent_url'      => $parent_url,
-				'screen_function' => array( $this, 'courses_screen' ),
-				'user_has_access' => $is_my_profile,
-			)
-		);
+			$endpoints = $this->get_profile_endpoints( false );
 
-		bp_core_new_subnav_item(
-			array(
-				'name'            => __( 'Memberships', 'lifterlms' ),
-				'slug'            => 'memberships',
-				'parent_slug'     => 'courses',
-				'parent_url'      => $parent_url,
-				'screen_function' => array( $this, 'memberships_screen' ),
-				'user_has_access' => $is_my_profile,
-			)
-		);
+			$display_eps = array();
 
-		bp_core_new_subnav_item(
-			array(
-				'name'            => __( 'Achievements', 'lifterlms' ),
-				'slug'            => 'achievements',
-				'parent_slug'     => 'courses',
-				'parent_url'      => $parent_url,
-				'screen_function' => array( $this, 'achievements_screen' ),
-				'user_has_access' => $is_my_profile,
-			)
-		);
+			foreach ( $endpoints as $ep_key => $endpoint ) {
+				$display_eps[ $ep_key ] = $endpoint['title'];
+			}
 
-		bp_core_new_subnav_item(
-			array(
-				'name'            => __( 'Certificates', 'lifterlms' ),
-				'slug'            => 'certificates',
-				'parent_slug'     => 'courses',
-				'parent_url'      => $parent_url,
-				'screen_function' => array( $this, 'certificates_screen' ),
-				'user_has_access' => $is_my_profile,
-			)
-		);
+			$settings[] = array(
+				'class'   => 'llms-select2',
+				'desc'    => '<br>' . __( 'The following LifterLMS Student Dashboard areas will be added to the BuddyPress user profiles', 'lifterlms' ),
+				'default' => array_keys( $display_eps ),
+				'id'      => $this->get_option_name( 'profile_endpoints' ),
+				'options' => $display_eps,
+				'type'    => 'multiselect',
+				'title'   => __( 'User Profile Endpoints', 'lifterlms' ),
+			);
+
+		}
+
+		return $settings;
 
 	}
 
 	/**
-	 * Checks if the BuddyPress plugin is installed & activated
+	 * Populate list of endpoints from LifterLMS Dashboard Settings.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function populate_profile_endpoints() {
+
+		$exclude_llms_eps = array( 'dashboard', 'edit-account', 'signout' );
+		$endpoints        = array_diff_key( LLMS_Student_Dashboard::get_tabs(), array_flip( $exclude_llms_eps ) );
+
+		foreach ( $endpoints as $ep_key => &$endpoint ) {
+			unset( $endpoint['nav_item'] );
+			unset( $endpoint['url'] );
+		}
+
+		/**
+		 * Filter profile endpoints.
+		 *
+		 * Modify the LifterLMS dashboard endpoints which can be added to the BuddyPress profile page as custom tabs.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $endpoints Array of endpoint data.
+		 */
+		$this->endpoints = apply_filters( 'llms_buddypress_profile_endpoints', $endpoints );
+
+	}
+
+	/**
+	 * Get a list of custom endpoints to add to BuddyPress profile page.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $active_only If true, returns only active endpoints.
+	 * @return array
+	 */
+	public function get_profile_endpoints( $active_only = true ) {
+
+		if ( ! isset( $this->endpoints ) ) {
+			$this->populate_profile_endpoints();
+		}
+
+		$endpoints = $this->endpoints;
+
+		if ( $active_only ) {
+
+			$active = $this->get_option( 'profile_endpoints', array_keys( $endpoints ) );
+
+			// If no endpoints are saved an empty string is returned and we need an array for the comparison below.
+			if ( '' === $active ) {
+				return array();
+			}
+
+			foreach ( array_keys( $endpoints ) as $endpoint ) {
+
+				// Remove endpoints that aren't stored in the settings.
+				if ( ! in_array( $endpoint, $active, true ) ) {
+					unset( $endpoints[ $endpoint ] );
+				}
+			}
+		}
+
+		// Remove endpoints that don't have an endpoint.
+		foreach ( $endpoints as $ep_key => $endpoint ) {
+
+			if ( empty( $endpoint['endpoint'] ) ) {
+				unset( $endpoints[ $ep_key ] );
+			}
+		}
+
+		return $endpoints;
+
+	}
+
+	/**
+	 * Add LLMS navigation items to the BuddyPress User Profile.
+	 *
+	 * @since 1.0.0
+	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
+	 *               Also, the main nav item will now point to and display the title of the first endpoint's tab.
+	 *               This means that while prior to this version its title was 'Courses' and its slug was 'courses',
+	 *               from now on - if the first tab is My Courses - its title will be "My Courses" and its slug the
+	 *               custom dashboard's slug set in Settings -> Account, which by default is 'my-courses'!
+	 *
+	 * @return void
+	 */
+	public function add_profile_nav_items() {
+
+		global $bp;
+
+		$profile_endpoints = $this->get_profile_endpoints();
+		if ( empty( $profile_endpoints ) ) {
+			return;
+		}
+
+		$first_endpoint = reset( $profile_endpoints );
+
+		// Add the main nav menu.
+		bp_core_new_nav_item(
+			array(
+				'name'                    => $first_endpoint['title'],
+				'slug'                    => $first_endpoint['endpoint'],
+				'position'                => 20,
+				'show_for_displayed_user' => false,
+				'default_subnav_slug'     => $first_endpoint['endpoint'],
+			)
+		);
+
+		$parent_url    = $bp->loggedin_user->domain . $first_endpoint['endpoint'] . '/';
+		$is_my_profile = bp_is_my_profile(); // Only let the logged in user access subnav screens.
+
+		foreach ( $profile_endpoints as $ep_key => $profile_endpoint ) {
+			// Add sub nav item.
+			bp_core_new_subnav_item(
+				array(
+					'name'            => $profile_endpoint['title'],
+					'slug'            => $profile_endpoint['endpoint'],
+					'parent_slug'     => $first_endpoint['endpoint'],
+					'parent_url'      => $parent_url,
+					'screen_function' => function() use ( $ep_key, $profile_endpoint ) {
+						$this->endpoint_content( $ep_key, $profile_endpoint['content'] );
+					},
+					'user_has_access' => $is_my_profile,
+				)
+			);
+		}
+
+	}
+
+	/**
+	 * Checks if the BuddyPress plugin is installed & activated.
 	 *
 	 * @since 1.0.0
 	 *
@@ -141,37 +261,48 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function achievements_screen() {
+
+		llms_deprecated_function( 'LLMS_Generator::achievements_screen()', '[version]' );
+
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
 	/**
-	 * Callback for "Certificates" profile screen
+	 * Callback for "Certificates" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function certificates_screen() {
+
+		llms_deprecated_function( 'LLMS_Generator::certificates_screen()', '[version]' );
+
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
 	/**
-	 * Callback for "Courses" profile screen
+	 * Callback for "Courses" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
 	 * @since 3.37.17 Added action and filters to fix handling pagination links mofication.
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function courses_screen() {
+
+		llms_deprecated_function( 'LLMS_Generator::courses_screen()', '[version]' );
 
 		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
 		add_filter( 'llms_modify_dashboard_pagination_links_disable', '__return_true', 999 );
@@ -189,41 +320,128 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Remove specific paginate links filter after the template has been rendered
+	 * Callback for endpoint profile content.
+	 *
+	 * @since [version]
+	 *
+	 * @param string   $ep_key         The endpoint's key being processed.
+	 * @param Callable $ep_template_cb The endpoint's template callback.
+	 * @return void
+	 */
+	public function endpoint_content( $ep_key, $ep_template_cb ) {
+
+		// Register scripts.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 20 );
+
+		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
+		add_filter( 'llms_modify_dashboard_pagination_links_disable', '__return_true', 999 );
+
+		// Add specific paginate links filter.
+		add_filter( 'paginate_links', array( $this, 'modify_paginate_links' ) );
+
+		// Store what endpoint key we're processing.
+		$this->current_endpoint_key = $ep_key;
+
+		add_action( 'bp_template_content', $ep_template_cb );
+
+		// Remove specific paginate links filter after the template has been rendered.
+		add_action( 'bp_template_content', array( $this, 'remove_paginate_links_filter' ), 15 );
+
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+
+	}
+
+	/**
+	 * Enqueue assets specific for the profile endpoints.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function enqueue_assets() {
+		// The iziModal is needed by my_achievements.
+		llms()->assets->enqueue_style( 'llms-iziModal' );
+		llms()->assets->enqueue_script( 'llms-iziModal' );
+	}
+
+	/**
+	 * Remove specific paginate links filter after the template has been rendered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function remove_paginate_links_filter() {
+		remove_filter( 'paginate_links', array( $this, 'modify_paginate_links' ) );
+	}
+
+	/**
+	 * Remove specific paginate links filter after the template has been rendered.
 	 *
 	 * @since 3.37.17
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::remove_paginate_links_filter()}.
+	 *
+	 * @return void
 	 */
 	public function remove_courses_paginate_links_filter() {
+
+		llms_deprecated_function( 'LLMS_Generator::remove_courses_paginate_links_filter()', '[version]' );
+
 		remove_filter( 'paginate_links', array( $this, 'modify_courses_paginate_links' ) );
 	}
 
 	/**
-	 * Modify the pagination links displayed on the courses endpoint in the bp member profile
+	 * Modify the pagination links displayed on the courses endpoint in the bp member profile.
 	 *
 	 * @since 3.37.17
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::modify_paginate_links()}.
 	 *
 	 * @param string $link Default link.
 	 * @return string
 	 */
 	public function modify_courses_paginate_links( $link ) {
 
+		llms_deprecated_function( 'LLMS_Generator::modify_courses_paginate_links()', '[version]' );
+
+		$this->current_endpoint_key;
+		return $this->modify_paginate_links( $link );
+
+	}
+
+	/**
+	 * Modify the pagination links displayed on the first endpoint in the bp member profile.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $link Default link.
+	 * @return string
+	 */
+	public function modify_paginate_links( $link ) {
+
 		global $wp_rewrite;
 
-		// Retrieve the `courses` subnav item.
-		$courses_subnav_item = buddypress()->members->nav->get_secondary(
+		$endpoints      = $this->get_profile_endpoints();
+		$first_endpoint = reset( $endpoints );
+
+		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
+			return $link;
+		}
+
+		// Retrieve the current subnav item.
+		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
-				'parent_slug' => 'courses',
-				'slug'        => 'courses',
+				'parent_slug' => $first_endpoint['endpoint'],
+				'slug'        => $endpoints[ $this->current_endpoint_key ]['endpoint'],
 			)
 		);
 
-		if ( is_array( $courses_subnav_item ) ) {
-			$courses_subnav_item = reset( $courses_subnav_item );
+		if ( is_array( $first_subnav_item ) ) {
+			$first_subnav_item = reset( $first_subnav_item );
 		} else {
 			return $link;
 		}
 
-		$query = parse_url( $link, PHP_URL_QUERY );
+		$query = wp_parse_url( $link, PHP_URL_QUERY );
 
 		if ( $query ) {
 			$link = str_replace( '?' . $query, '', $link );
@@ -235,7 +453,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		/**
 		 * Here's the core of this filter.
 		 *
-		 * What happens is that the paginate links on the 'courses' tab are of this type:
+		 * What happens is that the paginate links on the 'courses' tab (as example for the fist tab) are of this type:
 		 * `example.local/members/admin/courses/page/N`
 		 * where 'courses' is the slug of the main nav item.
 		 * While the "working" paginate links must be of the type:
@@ -247,14 +465,14 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 * `example.local/members/admin/courses/page/N` to something like
 		 * `example.local/members/admin/courses/courses/page/N`
 		 *
-		 * Despite one might expect `$courses_subnav_item->link` doesn't point to `example.local/members/admin/courses/courses/`
+		 * Despite one might expect `$first_subnav_item->link` doesn't point to `example.local/members/admin/courses/courses/`
 		 * but to `example.local/members/admin/courses/`, which is the link of the parent nav, the main nav item,
 		 * this because the 'courses' subnav item is the default of the 'courses' nav item.
 		 *
 		 * (the fact that both the slugs are "courses" doesn't matter here, it doesn't determine any conflict).
 		 */
-		$search  = $courses_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page . '/';
-		$replace = $courses_subnav_item->link . $courses_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page . '/';
+		$search  = $first_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page . '/';
+		$replace = $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page . '/';
 
 		/**
 		 * For links to page/1 let's back on the main nav item link to avoid ugly URLs, so we replace something like
@@ -264,7 +482,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 */
 		if ( 1 === absint( $page ) ) {
 			$search  = $replace;
-			$replace = $courses_subnav_item->link;
+			$replace = $first_subnav_item->link;
 		}
 
 		$link = str_replace(
@@ -278,17 +496,23 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $link;
+
 	}
+
 
 	/**
 	 * Callback for "memberships" profile screen
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
+	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function memberships_screen() {
+
+		llms_deprecated_function( 'LLMS_Generator::memberships_screen()', '[version]' );
+
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
