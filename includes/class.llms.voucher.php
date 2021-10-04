@@ -335,6 +335,19 @@ class LLMS_Voucher {
 
 				}
 
+				/**
+				 * Perform action before voucher redeemed.
+				 *
+				 * Action to perform before the voucher redeemed.
+				 *
+				 * @since 2.0.0
+				 *
+				 * @link  https://github.com/gocodebox/lifterlms/issues/1325
+				 *
+				 * @param int    $voucher_id   Voucher id of the voucher being redeemed.
+				 * @param int    $user_id      WP_User ID of the user redeeming the voucher.
+				 * @param string $voucher_code Voucher code of the voucher being redeemed.
+				 */
 				do_action( 'llms_voucher_used', $voucher->id, $user_id, $voucher->code );
 
 				// Use voucher code.
