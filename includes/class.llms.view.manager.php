@@ -411,7 +411,7 @@ class LLMS_View_Manager {
 	 * @return void
 	 */
 	public function open_reg_notice() {
-		llms_print_notice( __( 'This is a preview of the Open Registration form but Open Registration is currently disabled. Enable Open Registration to allow users to create accounts on this page.' ), 'debug' );
+		llms_print_notice( __( 'This is a preview of the Open Registration form but Open Registration is currently disabled. Enable Open Registration to allow users to create accounts on this page.', 'lifterlms' ), 'debug' );
 	}
 
 	/**
