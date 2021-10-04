@@ -1,3 +1,14 @@
+###
+#
+# This workflow file is deployed into this repository via the "Sync Organization Files" workflow
+#
+# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
+# to the source file.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Workflow template {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflows/issue-triage.yml}
+#
+###
 name: New Issue Triage and Assignment
 
 on:
@@ -13,6 +24,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Add to project.
+      #################
       - name: Add to "Triage" project
         uses: alex-page/github-project-automation-plus@v0.8.1
         with:
@@ -20,6 +33,8 @@ jobs:
           column: Awaiting Triage
           repo-token: ${{ secrets.ORG_WORKFLOWS }}
 
+      # Assign to the project's CODEOWNER.
+      ####################################
       - name: Check CODEOWNERS file existence
         id: codeowners_file_exists
         uses: andstor/file-existence-action@v1
