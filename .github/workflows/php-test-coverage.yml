@@ -44,7 +44,7 @@ jobs:
 
     needs: check-secret
 
-    if: ${{ true == needs.check-secret.outputs.has-secret }}
+    if: ${{ 'true' == needs.check-secret.outputs.has-secret }}
 
     steps:
 
