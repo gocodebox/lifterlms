@@ -2,7 +2,7 @@
  * Main LLMS Namespace
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.3
  */
 
 var LLMS = window.LLMS || {};
@@ -77,7 +77,7 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.6 Unknown.
-	 * @since [version] Pass a dependency name to `wait_for()`.
+	 * @since 5.3.3 Pass a dependency name to `wait_for()`.
 	 *
 	 * @param {Function} cb Callback function to run when matchheight is ready.
 	 * @return {void}
@@ -109,7 +109,7 @@ var LLMS = window.LLMS || {};
 	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things.
 	 *
 	 * @since 3.9.1
-	 * @since [version] Added optional `name` parameter.
+	 * @since 5.3.3 Added optional `name` parameter.
 	 *
 	 * @param {Function} test A function that returns a truthy if the dependency is loaded.
 	 * @param {Function} cb   A callback function executed once the dependency is loaded.
