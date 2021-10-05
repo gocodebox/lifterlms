@@ -28,12 +28,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Setup Environment
         uses: gocodebox/.github/.github/actions/setup-phpunit@trunk
         with:
           php-version: "8.0"
           wp-version: "5.8"
           coverage: "xdebug"
+          env-file: ".github/.env.php-test-coverage"
+          secrets: ${{ toJSON( secrets ) }}
 
       - name: Run Tests with Coverage & Upload Coverage Report
         uses: paambaati/codeclimate-action@v2.7.5
