@@ -29,7 +29,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since Unknown
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -636,7 +636,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * @since Unknown.
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
 	 * @since 5.3.0 Don't rely on the date_billing_end property for ending a payment plan.
-	 * @since [version] Use `assertEqualsWithDelta()` in favor of 4th parameter provided to `assertEquals()`.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter provided to `assertEquals()`.
 	 *
 	 * @return void
 	 */

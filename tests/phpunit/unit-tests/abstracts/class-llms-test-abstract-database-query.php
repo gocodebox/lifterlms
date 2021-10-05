@@ -18,7 +18,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Cleanup on tear_down
 	 *
 	 * @since 4.5.1
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

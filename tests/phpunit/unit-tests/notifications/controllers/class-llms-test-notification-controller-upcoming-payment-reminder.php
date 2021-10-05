@@ -36,7 +36,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 * Set up
 	 *
 	 * @since 5.2.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -166,7 +166,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 * Test schedule_upcoming_payment_reminder()
 	 *
 	 * @since 5.2.0
-	 * @since [version] Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
 	 *
 	 * @return void
 	 */

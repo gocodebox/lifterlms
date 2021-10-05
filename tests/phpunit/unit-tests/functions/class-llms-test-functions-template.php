@@ -20,7 +20,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Setup test cases
 	 *
 	 * @since 4.8.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

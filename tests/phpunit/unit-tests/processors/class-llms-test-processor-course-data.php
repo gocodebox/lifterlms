@@ -17,7 +17,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Forces processor debugging on so that we can make assertions against logged data.
 	 *
 	 * @since 4.12.0
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.12.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Teardown the test case
 	 *
 	 * @since 4.12.0
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -67,7 +67,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * @since 4.12.0
 	 * @since 4.21.0 Assert student enrolled count early.
 	 * @since 5.2.1 Added 5 second delta on date comparison assertion.
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -338,7 +338,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.21.0
  	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -371,7 +371,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.21.0
  	 * @since 5.2.1 Added 5 second delta on date comparison assertions.
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1600
 	 *
@@ -405,7 +405,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_course()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -431,7 +431,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_lesson()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -458,7 +458,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test schedule_from_quiz()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
@@ -492,7 +492,7 @@ class LLMS_Test_Processor_Course_Data extends LLMS_UnitTestCase {
 	 * Test task() method
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */

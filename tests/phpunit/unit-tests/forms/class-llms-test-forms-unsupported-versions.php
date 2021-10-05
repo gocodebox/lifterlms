@@ -15,7 +15,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	 * Set up before class
 	 *
 	 * @since 5.0.0
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 5.0.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

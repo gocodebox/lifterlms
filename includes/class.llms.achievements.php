@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,7 +75,7 @@ class LLMS_Achievements {
 	 * Get a list of achievement Achievement Template IDs for a given post.
 	 *
 	 * @since 3.24.0
-	 * @since [version] Set the query limit to 500.
+	 * @since 5.3.3 Set the query limit to 500.
 	 *
 	 * @param array|int $post_ids         Post IDs or single post ID to look for achievements by.
 	 * @param bool      $include_children If true, will include course children (sections, lessons, and quizzes).
@@ -107,7 +107,7 @@ class LLMS_Achievements {
 		/**
 		 * Filters the query args to retrieve the achievements by post.
 		 *
-		 * @since [version]
+		 * @since 5.3.3
 		 *
 		 * @param array     $args              The query args to retrieve the achievements by post.
 		 * @param array|int $post_ids          Post IDs or single post ID to look for achievements by.

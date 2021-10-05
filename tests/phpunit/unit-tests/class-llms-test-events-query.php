@@ -16,7 +16,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 3.36.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Teardown the test case
 	 *
 	 * @since 4.7.0
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 * @return void
 	 */
 	public function tear_down() {

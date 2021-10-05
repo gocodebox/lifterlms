@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.3.3
  */
 
 LLMS.Forms = {
@@ -50,7 +50,7 @@ LLMS.Forms = {
 	 * Init
 	 *
  	 * @since 5.0.0
- 	 * @since [version] Move select2 dependency check into the `bind_l10_selects()` method.
+ 	 * @since 5.3.3 Move select2 dependency check into the `bind_l10_selects()` method.
  	 *
  	 * @return {void}
 	 */
@@ -93,7 +93,7 @@ LLMS.Forms = {
 	 * Bind DOM Events fields with dynamic localization values and language.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Bind select2-related events after ensuring select2 is available.
+	 * @since 5.3.3 Bind select2-related events after ensuring select2 is available.
 	 *
 	 * @return {void}
 	 */

@@ -86,7 +86,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * @since 3.4.3
 	 * @since 4.4.0 Use `LLMS_Assets::is_inline_enqueued()` in favor of deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()`.
 	 * @since 5.0.0 Don't need to test for password strength enqueue anymore.
-	 * @since [version] Use `assertStringContains()` in favor of `assertContains()`.
+	 * @since 5.3.3 Use `assertStringContains()` in favor of `assertContains()`.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * Test lifterlms_membership_link shortcode
 	 *
 	 * @since 3.4.3
-	 * @since [version] Use `assertStringContains()` in favor of `assertContains()`.
+	 * @since 5.3.3 Use `assertStringContains()` in favor of `assertContains()`.
 	 *
 	 * @return void
 	 */

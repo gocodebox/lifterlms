@@ -15,7 +15,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	 * Setup testcase.
 	 *
 	 * @since 3.35.1
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	 * Setup testcase.
 	 *
 	 * @since 3.35.1
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

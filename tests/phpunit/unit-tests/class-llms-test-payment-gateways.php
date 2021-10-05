@@ -12,7 +12,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Enable or disable a payment gateway by ID
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @param string $id      Gateway id.
 	 * @param string $enabled Whether the gateway should be enabled or disabled. Accepts on or off.
@@ -31,7 +31,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Test get_enabled_payment_gateways function
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Test get_default_gateway() function
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Test get_payment_gateways() method
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Test has_gateways() method
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Test_Payment_Gateways extends LLMS_UnitTestCase {
 	 * Test get_gateway_by_id()
 	 *
 	 * @since 3.10.0
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()`.
 	 *
 	 * @return void
 	 */

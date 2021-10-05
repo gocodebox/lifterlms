@@ -21,7 +21,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Before the class runs, register the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()` and renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * After the class runs, remove the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version] Use `llms()` in favor of deprecated `LLMS()` and renamed from `tearDownAfterClass()` for compat with WP core changes.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `tearDownAfterClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.6
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run some tests on the initial setup of the order and the first payment.
 	 *
 	 * @since 3.37.6
-	 * @since [version] Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order The order.
 	 * @return void
@@ -153,7 +153,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
 	 * @since 5.3.1 If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
-	 * @since [version] Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.

@@ -190,7 +190,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.11
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

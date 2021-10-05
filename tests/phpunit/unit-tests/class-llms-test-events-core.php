@@ -16,7 +16,7 @@ class LLMS_Test_Events_Core extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

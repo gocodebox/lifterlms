@@ -20,7 +20,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Automatically called before each test
 	 *
 	 * @since 3.17.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

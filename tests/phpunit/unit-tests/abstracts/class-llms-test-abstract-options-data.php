@@ -17,7 +17,7 @@ class LLMS_Test_Abstract_Options_Data extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 4.21.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

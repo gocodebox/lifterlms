@@ -123,7 +123,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @since Unknown.
 	 * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
 	 *               the course start date and empty course start date.
-	 * @since [version] Use `assertEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */

@@ -24,7 +24,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_Admin_Tool_Test_Case {
 	 * Teardown the test case.
 	 *
 	 * @since 3.37.19
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
