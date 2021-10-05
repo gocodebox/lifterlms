@@ -47,12 +47,17 @@ jobs:
 
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Setup Environment
         uses: gocodebox/.github/.github/actions/setup-phpunit@trunk
         with:
           php-version: ${{ matrix.PHP }}
           wp-version: ${{ matrix.WP }}
           llms-branch: ${{ matrix.LLMS }}
+          env-file: ".github/.env.test-phpunit"
+          secrets: ${{ toJSON( secrets ) }}
 
       # Run Tests.
       - name: Run Tests
