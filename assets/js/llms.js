@@ -2636,7 +2636,7 @@ var LLMS = window.LLMS || {};
 				if ( test() ) {
 					cb();
 				} else {
-					console.log( 'Waiting for dependency: ' + name );
+					// console.log( 'Waiting for dependency: ' + name );
 					counter++;
 					return;
 				}
