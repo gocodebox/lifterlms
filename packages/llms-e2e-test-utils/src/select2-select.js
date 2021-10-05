@@ -3,7 +3,7 @@
  *
  * @since 2.2.1
  * @since 2.3.0 Focus on the search selector prior to typing.
- * @since [version] Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown
+ * @since 2.3.1 Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown
  *              to close after selecting an option.
  *
  * @param {String} selector Query selector for the select element.
