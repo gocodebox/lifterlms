@@ -15,7 +15,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Load required class
 	 *
 	 * @since 4.7.0
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Generator_Courses extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.7.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

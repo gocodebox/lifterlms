@@ -19,7 +19,7 @@ class LLMS_Test_Functions_Updates_500 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

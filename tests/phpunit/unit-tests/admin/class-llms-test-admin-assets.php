@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 4.3.3
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 * Dequeue & Dereqister all assets that may have been enqueued during tests.
 	 *
 	 * @since 4.3.3
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

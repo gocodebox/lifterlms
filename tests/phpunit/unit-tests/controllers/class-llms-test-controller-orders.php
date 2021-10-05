@@ -23,7 +23,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since Unknown
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Use `assertEqualsWithDelta()` in favor of `assertEquals()` with 4th parameter.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of `assertEquals()` with 4th parameter.
 	 *
 	 * @return void
 	 */

@@ -24,7 +24,7 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 	 * Setup before running each test in this class.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @noinspection PhpHierarchyChecksInspection
 	 */

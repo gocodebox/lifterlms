@@ -315,7 +315,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * @since 3.29.0
 	 * @since 3.32.0 Add delta to date assertions.
 	 * @since 3.34.0 Add gmt date to list of date fields that should be assersted with a delta.
-	 * @since [version] Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
 	 *
 	 * @return void
 	 */

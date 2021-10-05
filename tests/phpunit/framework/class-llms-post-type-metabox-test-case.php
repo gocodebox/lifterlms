@@ -15,7 +15,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 * @since 3.33.0
 	 * @since 3.36.1 Conditionally require LLMS_Admin_Meta_Boxes.
 	 * @since 3.37.12 Call parent method.
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

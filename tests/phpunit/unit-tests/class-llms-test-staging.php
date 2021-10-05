@@ -14,7 +14,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 4.12.0
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test handle_staging_notice_actions() with an invalid nonce.
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Staging extends LLMS_Unit_Test_Case {
 	 * Test handle_staging_notice_actions() with an invalid user.
 	 *
 	 * @since 4.12.0
-	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */

@@ -15,7 +15,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Setup test
 	 *
 	 * @since 3.33.0
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

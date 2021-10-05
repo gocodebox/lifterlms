@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Set up before class
 	 *
 	 * @since Unknown
-	 * @since [version] Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Setup the test case
 	 *
 	 * @since 3.37.14
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when invalid nonce is submitted.
 	 *
 	 * @since 3.37.14
-	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	 * Test do_tool() when no user permissions
 	 *
 	 * @since 3.37.14
-	 * @since [version] Use `expectException()` in favor of deprecated `@expectedException` annotation.
+	 * @since 5.3.3 Use `expectException()` in favor of deprecated `@expectedException` annotation.
 	 *
 	 * @return void
 	 */

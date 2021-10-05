@@ -17,7 +17,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	 * Setup test
 	 *
 	 * @since 3.36.1
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

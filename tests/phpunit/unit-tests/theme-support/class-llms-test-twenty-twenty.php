@@ -15,7 +15,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.37.0
 	 * @since 4.3.0 Update theme support class instantiation.
-	 * @since [version] Renamed from `setUp()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	 * Tear down the test case.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Renamed from `tearDown()` for compat with WP core changes.
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */

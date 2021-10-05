@@ -421,7 +421,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test get_progress()
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use `assestEqualsWithDelta()`.
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
 	 *
 	 * @return void
 	 */
