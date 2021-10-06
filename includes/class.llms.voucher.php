@@ -340,7 +340,9 @@ class LLMS_Voucher {
 				 *
 				 * Action to perform before the voucher redeemed.
 				 *
-				 * @since 2.0.0
+				 * @since 2.2.1
+				 * @since 3.24.1 Added $voucher_title parameter.
+				 * @since 3.27.0 Changed $voucher_title to $voucher_code to fix undefined property notice.
 				 *
 				 * @link  https://github.com/gocodebox/lifterlms/issues/1325
 				 *
