@@ -344,8 +344,6 @@ class LLMS_Voucher {
 				 * @since 3.24.1 Added $voucher_title parameter.
 				 * @since 3.27.0 Changed $voucher_title to $voucher_code to fix undefined property notice.
 				 *
-				 * @link  https://github.com/gocodebox/lifterlms/issues/1325
-				 *
 				 * @param int    $voucher_id   Voucher id of the voucher being redeemed.
 				 * @param int    $user_id      WP_User ID of the user redeeming the voucher.
 				 * @param string $voucher_code Voucher code of the voucher being redeemed.
