@@ -35,12 +35,13 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	 * teardown the test case.
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		wp_set_current_user( null );
 
 	}

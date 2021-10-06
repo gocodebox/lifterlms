@@ -36,11 +36,12 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 * Set up
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setup();
+	public function set_up() {
+		parent::set_up();
 		$this->controller = LLMS_Notification_Controller_Upcoming_Payment_Reminder::instance();
 		$this->types      = array_keys( $this->controller->get_supported_types() );
 	}
@@ -165,6 +166,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 * Test schedule_upcoming_payment_reminder()
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
 	 *
 	 * @return void
 	 */
@@ -197,7 +199,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 
 		// Check next payment reminder scheduled 1 day prior to payment due date.
 		foreach ( $this->types as $type ) {
-			$this->assertEquals(
+			$this->assertEqualsWithDelta(
 				(float) strtotime( "-1 day", $next_payment_date ),
 				as_next_scheduled_action(
 					'llms_send_upcoming_payment_reminder_notification',
@@ -206,8 +208,8 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 						'type'     => $type,
 					)
 				),
-				$type,
-				$this->date_delta
+				$this->date_delta,
+				$type
 			);
 		}
 

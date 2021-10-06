@@ -15,12 +15,13 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Setup test class
 	 *
 	 * @since 4.14.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 
 	}
@@ -29,13 +30,14 @@ class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 	 * Setup test case
 	 *
 	 * @since 3.24.0
-	 * @since 4.14.0 Move file include into setUpBeforeClass().
+	 * @since 4.14.0 Move file include into `setUpBeforeClass()`.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Review();
 
 	}

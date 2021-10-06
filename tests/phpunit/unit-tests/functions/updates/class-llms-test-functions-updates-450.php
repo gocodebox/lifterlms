@@ -21,11 +21,12 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 4.5.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-450.php';
 	}
 
@@ -33,23 +34,14 @@ class LLMS_Test_Functions_Updates_450 extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 4.5.0
+	 * @since 5.3.3 Renamed setUp() to set_up() and moved teardown functions into here.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->sessions = LLMS_Sessions::instance();
-	}
 
-	/**
-	 * Teardown the test case
-	 *
-	 * @since 4.5.0
-	 *
-	 * @return void
-	 */
-	public function tearDown() {
-		parent::tearDown();
 		// Clean open sessions table.
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_events_open_sessions" );

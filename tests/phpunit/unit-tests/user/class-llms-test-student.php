@@ -419,9 +419,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_progress()
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @since 3.15.0
+	 * @since 5.3.3 Use `assestEqualsWithDelta()`.
+	 *
+	 * @return void
 	 */
 	public function test_get_progress() {
 
@@ -451,9 +453,9 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		}
 
 		// check track progress
-		$this->assertEquals( 33.33, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+		$this->assertEqualsWithDelta( 33.33, $student->get_progress( $track_id, 'course_track' ), 0.01 );
 		$this->complete_courses_for_student( $student->get( 'id' ), array( $courses[1], $courses[2] ), 100 );
-		$this->assertEquals( 100, $student->get_progress( $track_id, 'course_track' ), '', 0.01 );
+		$this->assertEqualsWithDelta( 100, $student->get_progress( $track_id, 'course_track' ), 0.01 );
 
 		// test the progress through a section
 		$student = $this->get_mock_student();

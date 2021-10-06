@@ -13,9 +13,17 @@
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since Unknown
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$this->student = $this->get_mock_student();
 		$this->student_id = $this->student->get( 'id' );

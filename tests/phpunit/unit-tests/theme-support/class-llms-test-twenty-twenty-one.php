@@ -14,12 +14,13 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 4.10.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		update_option( 'template', 'twentytwentyone' );
 		$support = new LLMS_Theme_Support();
 		$support->includes();
@@ -30,12 +31,13 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	 * Tear down the test case.
 	 *
 	 * @since 4.10.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		update_option( 'template', 'default' );
 
 	}
