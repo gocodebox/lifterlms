@@ -335,6 +335,19 @@ class LLMS_Voucher {
 
 				}
 
+				/**
+				 * Perform action before voucher redeemed.
+				 *
+				 * Action to perform before the voucher redeemed.
+				 *
+				 * @since 2.2.1
+				 * @since 3.24.1 Added $voucher_title parameter.
+				 * @since 3.27.0 Changed $voucher_title to $voucher_code to fix undefined property notice.
+				 *
+				 * @param int    $voucher_id   Voucher id of the voucher being redeemed.
+				 * @param int    $user_id      WP_User ID of the user redeeming the voucher.
+				 * @param string $voucher_code Voucher code of the voucher being redeemed.
+				 */
 				do_action( 'llms_voucher_used', $voucher->id, $user_id, $voucher->code );
 
 				// Use voucher code.
