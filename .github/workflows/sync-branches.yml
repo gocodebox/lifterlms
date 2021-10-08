@@ -19,7 +19,6 @@ jobs:
           allow_ff: true
           allow_forks: false
           user_name: Branch Sync Action
-        with:
           push_token: 'PUSH_TOKEN'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
