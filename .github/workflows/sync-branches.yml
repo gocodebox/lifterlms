@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - trunk
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -10,9 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: devmasx/merge-branch@1.4.0
+      - name: Perform Merge
+        uses: robotology/gh-action-nightly-merge@v1.3.1
         with:
-          type: now
-          from_branch: trunk
-          target_branch: dev
-          github_token: ${{ github.token }}
+          stable_branch: trunk
+          development_branch: dev
+          allow_ff: true
+          allow_forks: false
+          user_name: Branch Sync Action
+        with:
+          push_token: 'PUSH_TOKEN'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUSH_TOKEN: ${{ secrets.ORG_WORKFLOWS }}
