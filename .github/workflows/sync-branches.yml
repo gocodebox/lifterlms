@@ -11,15 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Perform Merge
-        uses: robotology/gh-action-nightly-merge@v1.3.2
         with:
-          stable_branch: trunk
-          development_branch: dev
-          allow_ff: true
-          allow_forks: false
-          user_name: Branch Sync Action
-          push_token: 'PUSH_TOKEN'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUSH_TOKEN: ${{ secrets.ORG_WORKFLOWS }}
+          token: ${{ secrets.ORG_WORKFLOWS }}
+      - name: Perform merge
+        run: |
+          git chekout -b dev
+          git pull origin trunk
+          git status
