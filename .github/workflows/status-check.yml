@@ -1,0 +1,40 @@
+name: Test E2E
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        num: [ 0, 1 ]
+        allow-failure: [ true, false ]
+
+    steps:
+
+      - run: ${{ matrix.num }}
+
+      - name: Success?
+        if: ${{ 'true' == 'matrix.allow-failure' }}
+        run: exit 1
+
+  check:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Check success
+    needs: test
+    steps:
+      - name: Check test matrix status
+        if: ${{ needs.build.result != 'success' }}
+        run: exit 1
