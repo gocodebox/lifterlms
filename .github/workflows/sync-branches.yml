@@ -16,5 +16,5 @@ jobs:
           ref: dev
       - name: Perform merge
         run: |
-          git pull origin trunk
+          git pull origin trunk --rebase
           git status
