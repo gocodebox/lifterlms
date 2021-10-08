@@ -19,6 +19,5 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch --no-tags
           git checkout dev
-          git pull origin dev --ff-only
           git pull origin trunk --no-ff --allow-unrelated-histories
           git status
