@@ -24,6 +24,11 @@ concurrency:
 
 jobs:
 
+  ###
+  #
+  # Setup the test matrix.
+  #
+  ###
   set-matrix:
     name: Setup Matrix
     runs-on: ubuntu-latest
@@ -34,6 +39,11 @@ jobs:
       - id: setup
         uses: gocodebox/.github/.github/actions/setup-matrix@trunk
 
+  ###
+  #
+  # Run tests.
+  #
+  ###
   test:
     name: WP ${{ matrix.WP }} on PHP ${{ matrix.PHP }}${{ matrix.name-append }}
 
@@ -59,7 +69,6 @@ jobs:
           env-file: ".github/.env.test-phpunit"
           secrets: ${{ toJSON( secrets ) }}
 
-      # Run Tests.
       - name: Run Tests
         run: composer run tests
 
@@ -83,5 +92,3 @@ jobs:
       - name: Check overall matrix status
         if: ${{ 'success' != needs.test.result }}
         run: exit 1
-
-
