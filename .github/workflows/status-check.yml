@@ -1,4 +1,4 @@
-name: Test E2E
+name: Test Status Check
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
 
     steps:
 
-      - run: ${{ matrix.num }}
+      - run: echo ${{ matrix.num }}
 
       - name: Success?
         if: ${{ 'true' == 'matrix.allow-failure' }}
