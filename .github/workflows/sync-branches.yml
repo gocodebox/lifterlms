@@ -18,5 +18,5 @@ jobs:
           git fetch --no-tags
           git checkout dev
           git pull origin dev --ff-only
-          git pull origin trunk --ff-only --allow-unrelated-histories
+          git pull origin trunk --no-ff --allow-unrelated-histories
           git status
