@@ -14,10 +14,11 @@ jobs:
         with:
           token: ${{ secrets.ORG_WORKFLOWS }}
           fetch-depth: 0
-      - name: Perform merge
+      - name: Perform sync
         run: |
           git config --global user.name "branch-sync[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout dev
-          git pull origin trunk --no-ff --allow-unrelated-histories
+          git pull origin trunk --no-ff
           git status
+          git push origin dev
