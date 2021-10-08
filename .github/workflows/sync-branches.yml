@@ -15,6 +15,6 @@ jobs:
           token: ${{ secrets.ORG_WORKFLOWS }}
       - name: Perform merge
         run: |
-          git checkout -b dev
+          git checkout dev
           git pull origin trunk
           git status
