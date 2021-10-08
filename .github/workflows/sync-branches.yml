@@ -16,6 +16,6 @@ jobs:
       - name: Perform merge
         run: |
           git checkout -b dev
-          git pull origin dev
+          git pull origin dev --ff-only
           git pull origin trunk --ff-only
           git status
