@@ -26,7 +26,7 @@ jobs:
       - run: echo ${{ matrix.num }}
 
       - name: Success?
-        if: ${{ 'true' == matrix.allow-failure }}
+        if: ${{ true == matrix.allow-failure }}
         run: exit 1
 
   check:
