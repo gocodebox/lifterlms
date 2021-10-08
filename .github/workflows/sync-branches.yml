@@ -15,7 +15,8 @@ jobs:
           token: ${{ secrets.ORG_WORKFLOWS }}
       - name: Perform merge
         run: |
-          git checkout -b dev
-          git pull origin dev --ff-only --allow-unrelated-histories
+          git fetch --no-tags
+          git checkout dev
+          git pull origin dev --ff-only
           git pull origin trunk --ff-only
           git status
