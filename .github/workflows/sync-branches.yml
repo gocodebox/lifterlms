@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Perform Merge
-        uses: robotology/gh-action-nightly-merge@v1.3.1
+        uses: robotology/gh-action-nightly-merge@v1.3.2
         with:
           stable_branch: trunk
           development_branch: dev
