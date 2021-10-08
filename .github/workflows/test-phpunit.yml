@@ -63,3 +63,25 @@ jobs:
       - name: Run Tests
         run: composer run tests
 
+  ###
+  #
+  # Check the status of the entire test matrix.
+  #
+  # This will succeed if all jobs from the `test` job's matrix succeed. It allows jobs marked with `allow-failure`
+  # to fail.
+  #
+  # This job can be used as a single status check for branch protection rules. Without this
+  # we would need to require every job in the above build matrix.
+  #
+  ###
+  status:
+    name: Test PHPUnit Status
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: test
+    steps:
+      - name: Check overall matrix status
+        if: ${{ 'success' != needs.test.result }}
+        run: exit 1
+
+
