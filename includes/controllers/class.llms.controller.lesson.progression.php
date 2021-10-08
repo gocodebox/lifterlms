@@ -128,11 +128,11 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		/**
-		 * Filter to modify the User id instead of current loggedin user id.
+		 * Filter to modify the user id instead of current logged in user id.
 		 *
 		 * @param int $user_id User id to mark lesson as complete.
 		 *
-		 * @since 5.3.4
+		 * @since [version]
 		 */
 		$user_id = apply_filters( 'llms_lesson_completion_user_id', get_current_user_id() );
 
@@ -172,13 +172,13 @@ class LLMS_Controller_Lesson_Progression {
 		}
 
 		/**
-		 * Filter to modify the User id instead of current loggedin user id.
+		 * Filter to modify the user id instead of current logged in user id.
 		 *
 		 * @param int $user_id User id to mark lesson as incomplete.
 		 *
-		 * @since 5.3.4
+		 * @since [version]
 		 */
-		$user_id = apply_filters( 'llms_lesson_in_complete_user_id', get_current_user_id() );
+		$user_id = apply_filters( 'llms_lesson_incomplete_user_id', get_current_user_id() );
 
 		// Mark incomplete and add a notice on success.
 		if ( llms_mark_incomplete( $user_id, $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
