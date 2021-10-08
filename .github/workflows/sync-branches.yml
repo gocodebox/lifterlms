@@ -17,5 +17,5 @@ jobs:
         run: |
           git checkout -b dev
           git pull origin dev --ff-only
-          git pull origin trunk --ff-only
+          git pull origin trunk --ff-only --allow-unrelated-histories
           git status
