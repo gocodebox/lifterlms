@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the LLMS_Admin_Tool_Limited_Billing_Order_Locator class
+ * Tests for the LLMS_Admin_Tool_Limited_Billing_Order_Locator class.
  *
  * @package LifterLMS/Tests/Admins/Tools
  *
@@ -9,6 +9,7 @@
  * @group limited_billing
  *
  * @since 5.3.0
+ * @version [version]
  */
 class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool_Test_Case {
 
@@ -44,7 +45,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	}
 
 	/**
-	 * Create mock orders
+	 * Create mock orders.
 	 *
 	 * @since 5.3.0
 	 *
@@ -64,7 +65,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	}
 
 	/**
-	 * Test generate_csv()
+	 * Test generate_csv().
 	 *
 	 * @since 5.3.0
 	 *
@@ -89,7 +90,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	}
 
 	/**
-	 * Test get_order_csv(): doesn't quality because the order hasn't ended and there's no refunds
+	 * Test get_order_csv(): doesn't quality because the order hasn't ended and there's no refunds.
 	 *
 	 * @since 5.3.0
 	 *
@@ -193,9 +194,10 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	}
 
 	/**
-	 * Test handle()
+	 * Test handle().
 	 *
 	 * @since 5.3.0
+	 * @since [version] Made sure to compare the lists of orders with the same ordering.
 	 *
 	 * @return void
 	 */
@@ -223,6 +225,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 			$lines = explode( "\n", $csv );
 			$this->assertEquals( '"Order ID","Expected Payments","Total Payments","Successful Payments","Refunded Payments","Edit Link"', $lines[0] );
 			array_shift( $lines );
+			$orders = array_reverse( $orders ); // Orders affected by the change ($lines) are ordered by their `ID` `DESC`.
 
 			foreach ( $lines as $i => $line ) {
 				// Empty line at the end of the file.

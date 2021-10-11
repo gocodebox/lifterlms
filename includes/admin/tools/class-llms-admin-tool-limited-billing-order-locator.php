@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Admin_Tool_Limited_Billing_Order_Locator class
+ * LLMS_Admin_Tool_Limited_Billing_Order_Locator class.
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin tool which generates a report of limited billing orders affected by order end changes
+ * Admin tool which generates a report of limited billing orders affected by order end changes.
  *
  * @since 5.3.0
  *
@@ -27,9 +27,10 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	protected $id = 'limited-billing-order-locator';
 
 	/**
-	 * Query the database for orders that may be affected by the change
+	 * Query the database for orders that may be affected by the change.
 	 *
 	 * @since 5.3.0
+	 * @since [version] Retrieve orders ordered by their unique ID (DESC) instead of the default `date_created`.
 	 *
 	 * @return array[] Returns an array of arrays where each array represents a line in the generated CSV file.
 	 */
@@ -42,6 +43,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 				'post_type'      => 'llms_order',
 				'post_status'    => array( 'llms-active', 'llms-on-hold' ),
 				'posts_per_page' => -1,
+				'orderby'        => 'ID',
 				'meta_query'     => array(
 					array(
 						'key'     => '_llms_billing_length',
@@ -72,7 +74,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Create a csv "file" via output buffering and return it as a string
+	 * Create a csv "file" via output buffering and return it as a string.
 	 *
 	 * @since 5.3.0
 	 *
@@ -108,7 +110,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Retrieve a description of the tool
+	 * Retrieve a description of the tool.
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
@@ -143,7 +145,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Retrieve the tool's label
+	 * Retrieve the tool's label.
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
@@ -156,7 +158,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Retrieves an array representing a line in generated CSV for the given order
+	 * Retrieves an array representing a line in generated CSV for the given order.
 	 *
 	 * An order is considered to be affected by the change if either of the following conditions are true:
 	 *
@@ -194,7 +196,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Helper to get the number of transactions on an order for a given status
+	 * Helper to get the number of transactions on an order for a given status.
 	 *
 	 * @since 5.3.0
 	 *
@@ -217,7 +219,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Retrieve the tool's button text
+	 * Retrieve the tool's button text.
 	 *
 	 * @since 5.3.0
 	 *
@@ -228,7 +230,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Retrieve a list of orders
+	 * Retrieve a list of orders.
 	 *
 	 * @since 5.3.0
 	 *
@@ -247,7 +249,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Generate the CSV file an serve it as a downloadable attachment
+	 * Generate the CSV file an serve it as a downloadable attachment.
 	 *
 	 * @since 5.3.0
 	 *
@@ -269,7 +271,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	}
 
 	/**
-	 * Conditionally load the tool
+	 * Conditionally load the tool.
 	 *
 	 * This tool should only load if there are orders that can be handled by the tool.
 	 *
