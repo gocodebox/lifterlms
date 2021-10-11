@@ -70,7 +70,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		if ( $this->is_available() ) {
 
 			add_action( 'bp_setup_nav', array( $this, 'add_profile_nav_items' ) );
-
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks' ), 40, 1 );
 
 		}
@@ -267,7 +266,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function achievements_screen() {
 
-		llms_deprecated_function( 'LLMS_Generator::achievements_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::achievements_screen()', '[version]' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -284,7 +283,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function certificates_screen() {
 
-		llms_deprecated_function( 'LLMS_Generator::certificates_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::certificates_screen()', '[version]' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -302,7 +301,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function courses_screen() {
 
-		llms_deprecated_function( 'LLMS_Generator::courses_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::courses_screen()', '[version]' );
 
 		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
 		add_filter( 'llms_modify_dashboard_pagination_links_disable', '__return_true', 999 );
@@ -385,7 +384,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function remove_courses_paginate_links_filter() {
 
-		llms_deprecated_function( 'LLMS_Generator::remove_courses_paginate_links_filter()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()', '[version]' );
 
 		remove_filter( 'paginate_links', array( $this, 'modify_courses_paginate_links' ) );
 	}
@@ -401,7 +400,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function modify_courses_paginate_links( $link ) {
 
-		llms_deprecated_function( 'LLMS_Generator::modify_courses_paginate_links()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::modify_courses_paginate_links()', '[version]' );
 
 		$this->current_endpoint_key;
 		return $this->modify_paginate_links( $link );
@@ -511,7 +510,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function memberships_screen() {
 
-		llms_deprecated_function( 'LLMS_Generator::memberships_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::memberships_screen()', '[version]' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
