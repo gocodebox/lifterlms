@@ -20,6 +20,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ORG_WORKFLOWS }}
 
       - name: Setup Node
         uses: actions/setup-node@v2
