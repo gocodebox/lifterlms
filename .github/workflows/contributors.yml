@@ -33,7 +33,7 @@ jobs:
         run: npm install contributor-faces
 
       - name: Update README.md
-        run: ./node_modules/.bin/contributor-faces -e '*\\[bot\\]' -l 100
+        run: ./node_modules/.bin/contributor-faces -e '*\[bot\]' -l 100
 
       - name: Commit Updates
         uses: stefanzweifel/git-auto-commit-action@v4
