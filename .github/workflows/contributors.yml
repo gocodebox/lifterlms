@@ -1,15 +1,4 @@
-###
-#
-# This workflow file is deployed into this repository via the "Sync Organization Files" workflow
-#
-# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
-# to the source file.
-#
-# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
-# @see Workflow template {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflow-templates/test-e2e.yml}
-#
-###
-name: Test E2E
+name: Contributors
 
 on:
   workflow_dispatch:
@@ -38,6 +27,17 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - run: npm install contributor-faces
+      - name: Install dependencies
+        run: npm install contributor-faces
 
-      - run: ./node_modules/contributor-faces -e '*\\[bot\\]' -l 100
+      - name: Update README.md
+        run: ./node_modules/.bin/contributor-faces -e '*\\[bot\\]' -l 100
+
+      - name: Commit Updates
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update contributors list
+          branch: trunk
+          file_pattern: README.md
+          commit_user_name: contributors-workflow[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
