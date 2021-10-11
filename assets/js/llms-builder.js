@@ -4590,12 +4590,12 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
 } );
 
 /**
- * Course Model
+ * Course Model.
  *
  * @since 3.16.0
  * @since 3.24.0 Added `get_total_points()` method.
  * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version 3.37.11
+ * @version [version]
  */
 define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -4612,7 +4612,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * New Course Defaults
+		 * New Course Defaults.
 		 *
 		 * @since 3.16.0
 		 *
@@ -4629,7 +4629,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * Init
+		 * Init.
 		 *
 		 * @since 3.16.0
 		 *
@@ -4651,13 +4651,15 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * Add an existing lesson to the course
+		 * Add an existing lesson to the course.
 		 *
-		 * Duplicate a lesson from this or another course or attach an orphaned lesson
+		 * Duplicate a lesson from this or another course or attach an orphaned lesson.
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Use the author id instead of the author object.
+		 * @since [version] Added filter hook 'llms_adding_existing_lesson_data'.
+		 *               On cloning, duplicate assignments too, if assignment add-on active and assignment attached.
 		 *
 		 * @param {Object} lesson Lesson data obj.
 		 * @return {Void}
@@ -4676,6 +4678,11 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 					data.quiz._questions_loaded = true;
 				}
 
+				// If assignment add-on active and assignment attached, duplicate the assignment too.
+				if ( window.llms_builder.assignments && data.assignment ) {
+					data.assignment = _.prepareAssignmentObjectForCloning( data.assignment );
+				}
+
 			} else {
 
 				data._forceSync = true;
@@ -4687,16 +4694,25 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 			delete data.parent_section;
 
 			// Use author id instead of the lesson author object.
-			if ( data.author && _.isObject( data.author ) && data.author.id ) {
-				data.author = data.author.id;
-			}
+			data = _.prepareExistingPostObjectDataForAddingOrCloning( data );
+
+			/**
+			 * Filters the data of the existing lesson being added.
+			 *
+			 * @since [version]
+			 *
+			 * @param {Object} data   Lesson data.
+			 * @param {String} action Action being performed. [clone|attach].
+			 * @param {Object} course The lesson's course parent model.
+			 */
+			data = window.llms.hooks.applyFilters( 'llms_adding_existing_lesson_data', data, lesson.action, this );
 
 			this.add_lesson( data );
 
 		},
 
 		/**
-		 * Add a new lesson to the course
+		 * Add a new lesson to the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -4725,7 +4741,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 			var lesson = section.add_lesson( data, options );
 			Backbone.pubSub.trigger( 'new-lesson-added', lesson );
 
-			// expand the section
+			// Expand the section.
 			section.set( '_expanded', true );
 
 			return lesson;
@@ -4733,7 +4749,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * Add a new section to the course
+		 * Add a new section to the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -4747,7 +4763,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 				options  = {},
 				selected = this.get_selected_section();
 
-			// if a section is selected, add the new section after the currently selected one
+			// If a section is selected, add the new section after the currently selected one.
 			if ( selected ) {
 				options.at = sections.indexOf( selected ) + 1;
 			}
@@ -4757,7 +4773,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * Retrieve the currently selected section in the course
+		 * Retrieve the currently selected section in the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -4772,7 +4788,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		},
 
 		/**
-		 * Retrieve the total number of points in the course
+		 * Retrieve the total number of points in the course.
 		 *
 		 * @since 3.24.0
 		 *
@@ -8738,14 +8754,14 @@ define( 'Views/PostSearch',[], function() {
  *
  * @since 3.16.0
  * @since 3.30.1 Fixed issue causing multiple binds for add_existing_question events.
- * @version 3.27.0
+ * @version [version]
  */
 define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
 	return Backbone.View.extend( {
 
 		/**
-		 * HTML class names
+		 * HTML class names.
 		 *
 		 * @type  {String}
 		 */
@@ -8756,36 +8772,36 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		},
 
 		/**
-		 * HTML element wrapper ID attribute
+		 * HTML element wrapper ID attribute.
 		 *
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {String}
 		 */
 		id: function() {
 			return 'llms-question-type-' + this.model.id;
 		},
 
 		/**
-		 * Wrapper Tag name
+		 * Wrapper Tag name.
 		 *
-		 * @type  {String}
+		 * @type {String}
 		 */
 		tagName: 'li',
 
 		/**
-		 * Get the underscore template
+		 * Get the underscore template.
 		 *
-		 * @type  {[type]}
+		 * @type {[type]}
 		 */
 		template: wp.template( 'llms-question-type-template' ),
 
 		/**
-		 * Initialization callback func (renders the element on screen)
+		 * Initialization callback func (renders the element on screen).
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		initialize: function() {
 
@@ -8794,11 +8810,11 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		},
 
 		/**
-		 * Compiles the template and renders the view
+		 * Compiles the template and renders the view.
 		 *
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Self} For chaining.
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model ) );
@@ -8806,11 +8822,12 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		},
 
 		/**
-		 * Add a question of the selected type to the current quiz
+		 * Add a question of the selected type to the current quiz.
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.27.0
+		 * @since 3.16.0
+		 * @since 3.27.0 Unknown.
+		 *
+		 * @return {Void}
 		 */
 		add_question: function() {
 
@@ -8823,12 +8840,12 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		},
 
 		/**
-		 * Add a new question to the quiz
+		 * Add a new question to the quiz.
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Fixed issue causing multiple binds.
 		 *
-		 * @return  void
+		 * @return {Void}
 		 */
 		add_existing_question_click: function() {
 
@@ -8864,9 +8881,10 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
 		 *
 		 * @since 3.27.0
-		 * @version 3.27.0
+		 * @since [version] Use author id instead of the question author object.
 		 *
-		 * @return  void
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_question: function( event ) {
 
@@ -8875,6 +8893,8 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 			if ( 'clone' === event.action ) {
 				question = _.prepareQuestionObjectForCloning( question );
 			} else {
+				// Use author id instead of the question author object.
+				question = _.prepareExistingPostObjectDataForAddingOrCloning( question );
 				question._forceSync = true;
 			}
 
@@ -8886,11 +8906,11 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		},
 
 		/**
-		 * Add a new question to the quiz
+		 * Add a new question to the quiz.
 		 *
-		 * @return  void
-		 * @since   3.27.0
-		 * @version 3.27.0
+		 * @since 3.27.0
+		 *
+		 * @return {Void}
 		 */
 		add_new_question: function() {
 
@@ -9626,9 +9646,10 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 } );
 
 /**
- * Single Quiz View
- * @since    3.16.0
- * @version  3.24.0
+ * Single Quiz View.
+ *
+ * @since 3.16.0
+ * @version [version]
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -9657,14 +9678,16 @@ define( 'Views/Quiz',[
 	return Backbone.View.extend( _.defaults( {
 
 		/**
-		 * Current view state
-		 * @type  {String}
+		 * Current view state.
+		 *
+		 * @type {String}
 		 */
 		state: 'default',
 
 		/**
-		 * Current Subviews
-		 * @type  {Object}
+		 * Current Subviews.
+		 *
+		 * @type {Object}
 		 */
 		views: {
 			settings: {
@@ -9687,8 +9710,9 @@ define( 'Views/Quiz',[
 		el: '#llms-editor-quiz',
 
 		/**
-		 * Events
-		 * @type  {Object}
+		 * Events.
+		 *
+		 * @type {Object}
 		 */
 		events: _.defaults( {
 			'click #llms-existing-quiz': 'add_existing_quiz_click',
@@ -9700,28 +9724,32 @@ define( 'Views/Quiz',[
 		}, Detachable.events, Editable.events, Trashable.events ),
 
 		/**
-		 * Wrapper Tag name
-		 * @type  {String}
+		 * Wrapper Tag name.
+		 *
+		 * @type {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
-		 * @type  {[type]}
+		 *
+		 * @type {[type]}
 		 */
 		template: wp.template( 'llms-quiz-template' ),
 
 		/**
-		 * Initialization callback func (renders the element on screen)
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.19.2
+		 * Initialization callback func (renders the element on screen).
+		 *
+		 * @since 3.16.0
+		 * @since 3.19.2 Unknown.
+		 *
+		 * @return {Void}
 		 */
 		initialize: function( data ) {
 
 			this.lesson = data.lesson;
 
-			// initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz
+			// Initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz.
 			if ( 'yes' === this.lesson.get( 'quiz_enabled' ) || ! _.isEmpty( this.lesson.get( 'quiz' ) ) ) {
 
 				this.model = this.lesson.get( 'quiz' );
@@ -9752,19 +9780,21 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * Compiles the template and renders the view
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.19.2
+		 * Compiles the template and renders the view.
+		 *
+		 * @since 3.16.0
+		 * @since 3.19.2 Unknown.
+		 *
+		 * @return {Self} For chaining.
 		 */
 		render: function() {
 
 			this.$el.html( this.template( this.model ) );
 
-			// render the quiz builder
+			// Render the quiz builder.
 			if ( this.model ) {
 
-				// don't allow interaction until questions are lazy loaded
+				// Don't allow interaction until questions are lazy loaded.
 				LLMS.Spinner.start( this.$el );
 
 				this.render_subview( 'settings', {
@@ -9781,7 +9811,7 @@ define( 'Views/Quiz',[
 
 				var last_group = null,
 					group = null;
-				// let all the question types reference the quiz for adding questions quickly
+				// Let all the question types reference the quiz for adding questions quickly.
 				this.get_subview( 'bank' ).instance.viewManager.each( function( view ) {
 
 					view.quiz = this.model;
@@ -9829,12 +9859,13 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * On quiz points update, update the value of the Total Points area in the header
-		 * @param    obj   quiz    Instance of the quiz model
-		 * @param    int   points  Updated number of points
-		 * @return   void
-		 * @since    3.17.6
-		 * @version  3.17.6
+		 * On quiz points update, update the value of the Total Points area in the header.
+		 *
+		 * @since 3.17.6
+		 *
+		 * @param {Object} quiz   Instance of the quiz model.
+		 * @param {Int}    points Updated number of points.
+		 * @return {Void}
 		 */
 		render_points: function( quiz, points ) {
 
@@ -9843,11 +9874,12 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * Bulk expand / collapse question buttons
-		 * @param    obj   event  js event object
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Bulk expand / collapse question buttons.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @param {Object} Event JS event object.
+		 * @return {Void}
 		 */
 		bulk_toggle: function( event ) {
 
@@ -9860,10 +9892,11 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * Adds a new quiz to a lesson which currently has no quiz associated with it
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Adds a new quiz to a lesson which currently has no quiz associated with it.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		add_new_quiz: function() {
 
@@ -9881,10 +9914,14 @@ define( 'Views/Quiz',[
 
 
 		/**
-		 * Add an existing quiz to a lesson
-		 * @param    obj  event  js event object
-		 * @since    3.16.0
-		 * @version  3.24.0
+		 * Add an existing quiz to a lesson.
+		 *
+		 * @since 3.16.0
+		 * @since 3.24.0 Unknown.
+		 * @since [version] Use author id instead of the quiz author object.
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_quiz: function( event ) {
 
@@ -9898,6 +9935,8 @@ define( 'Views/Quiz',[
 
 			} else {
 
+				// Use author id instead of the quiz author object.
+				quiz = _.prepareExistingPostObjectDataForAddingOrCloning( quiz );
 				quiz._forceSync = true;
 
 			}
@@ -9911,11 +9950,12 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * Open add existing quiz popover
-		 * @param    obj   event  JS event object
-		 * @return   void
-		 * @since    3.16.12
-		 * @version  3.16.12
+		 * Open add existing quiz popover.
+		 *
+		 * @since 3.16.12
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_quiz_click: function( event ) {
 
@@ -9962,11 +10002,12 @@ define( 'Views/Quiz',[
 		// }, 300 ),
 
 		/**
-		 * Callback function when the quiz has been deleted
-		 * @param    object   quiz  Quiz Model
-		 * @return   void
-		 * @since    3.16.6
-		 * @version  3.16.6
+		 * Callback function when the quiz has been deleted.
+		 *
+		 * @since 3.16.6
+		 *
+		 * @param {Oject} quiz Quiz Model.
+		 * @return {Void}
 		 */
 		on_trashed: function( quiz ) {
 
@@ -9980,15 +10021,17 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * "Add Question" button click event
-		 * Creates a popover with question type list interface
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * "Add Question" button click event.
+		 *
+		 * @since 3.16.0
+		 *
+		 * Creates a popover with question type list interface.
+		 *
+		 * @return {Void}
 		 */
 		show_tools: function() {
 
-			// create popover
+			// Create popover,
 			var pop = new Popover( {
 				el: '#llms-show-question-bank',
 				args: {
@@ -10003,10 +10046,10 @@ define( 'Views/Quiz',[
 				}
 			} );
 
-			// show it
+			// Show it.
 			pop.show();
 
-			// if a question is added, hide the popover
+			// If a question is added, hide the popover.
 			this.model.on( 'new-question-added', function() {
 				pop.hide();
 			} );
@@ -10022,12 +10065,12 @@ define( 'Views/Quiz',[
 } );
 
 /**
- * Single Assignment View
+ * Single Assignment View.
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.17.0
- * @version  3.17.7
+ * @since 3.17.0
+ * @version [version]
  */
 
 define( 'Views/Assignment',[
@@ -10051,16 +10094,16 @@ define( 'Views/Assignment',[
 		return Backbone.View.extend( _.defaults( {
 
 			/**
-			 * Current view state
+			 * Current view state.
 			 *
-			 * @type  {String}
+			 * @type {String}
 			 */
 			state: 'default',
 
 			/**
-			 * Current Subviews
+			 * Current Subviews.
 			 *
-			 * @type  {Object}
+			 * @type {Object}
 			 */
 			views: {
 				settings: {
@@ -10073,11 +10116,11 @@ define( 'Views/Assignment',[
 			el: '#llms-editor-assignment',
 
 			/**
-			 * DOM Events
+			 * DOM Events.
 			 *
-			 * @return   obj
-			 * @since    3.17.1
-			 * @version  3.17.1
+			 * @since 3.17.1
+			 *
+			 * @return {Object}
 			 */
 			events: function() {
 				var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
@@ -10088,25 +10131,26 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Wrapper Tag name
+			 * Wrapper Tag name.
 			 *
-			 * @type  {String}
+			 * @type {String}
 			 */
 			tagName: 'div',
 
 			/**
-			 * Get the underscore template
+			 * Get the underscore template.
 			 *
-			 * @type  {[type]}
+			 * @type {[type]}
 			 */
 			template: wp.template( 'llms-assignment-template' ),
 
 			/**
-			 * Initialization callback func (renders the element on screen)
+			 * Initialization callback func (renders the element on screen).
 			 *
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @return {Void}
 			 */
 			initialize: function( data ) {
 
@@ -10143,11 +10187,12 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Compiles the template and renders the view
+			 * Compiles the template and renders the view.
 			 *
-			 * @return   self (for chaining)
-			 * @since    3.17.0
-			 * @version  3.17.7
+			 * @since 3.17.0
+			 * @since 3.17.7 Unknown.
+			 *
+			 * @return {Self} For chaining.
 			 */
 			render: function() {
 
@@ -10176,18 +10221,18 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Adds a new assignment to a lesson which currently has no assignment associated with it
+			 * Adds a new assignment to a lesson which currently has no assignment associated with it.
 			 *
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @return {Void}
 			 */
 			add_new_assignment: function() {
 
 				if ( this.is_addon_available() ) {
 
 					this.model = window.llms_builder.assignments.get_assignment( {
-						/* translators: %1$s = associated lesson title */
+						/* Translators: %1$s = associated lesson title */
 						title: LLMS.l10n.replace( '%1$s Assignment', {
 							'%1$s': this.lesson.get( 'title' ),
 						} ),
@@ -10209,11 +10254,12 @@ define( 'Views/Assignment',[
 
 			/**
 			 * When an assignment is selected from the post select popover
-			 * instantiate it and add it to the current lesson
+			 * instantiate it and add it to the current lesson.
 			 *
-			 * @param    object   event  data from the select2 select event
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @param {Object} event Data from the select2 select event.
+			 *
+			 * @since 3.17.0
+			 * @since [version] Prepare assignment object for cloning and use author id instead of the quiz author object.
 			 */
 			add_existing_assignment: function( event ) {
 
@@ -10223,10 +10269,12 @@ define( 'Views/Assignment',[
 
 				if ( 'clone' === event.action ) {
 
-					delete assignment.id;
+					assignment = _.prepareAssignmentObjectForCloning( assignment );
 
 				} else {
 
+					// Use author id instead of the assignment author object.
+					assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
 					assignment._forceSync = true;
 
 				}
@@ -10244,12 +10292,12 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Open add existing assignment popover
+			 * Open add existing assignment popover.
 			 *
-			 * @param    obj   event  JS event object
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @param {Object} event JS event object.
+			 * @return {Void}
 			 */
 			add_existing_assignment_click: function( event ) {
 
@@ -10289,11 +10337,11 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Determine if Assignments addon is available to use
+			 * Determine if Assignments addon is available to use.
 			 *
-			 * @return   {Boolean}
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @return {Boolean}
 			 */
 			is_addon_available: function() {
 
@@ -10302,12 +10350,12 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Called when assignment is trashed
+			 * Called when assignment is trashed.
 			 *
-			 * @param    obj   assignment  Assignment model
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @param {Oject} assignment Assignment Model.
+			 * @return {Void}
 			 */
 			on_trashed: function( assignment ) {
 
@@ -10321,12 +10369,12 @@ define( 'Views/Assignment',[
 			},
 
 			/**
-			 * Shows a dirty dirty ad popover for advanced assignments
+			 * Shows a dirty dirty ad popover for advanced assignments.
 			 *
-			 * @param    string   el  jQuery selector string
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.0
+			 * @since 3.17.0
+			 *
+			 * @param {Sring} el The jQuery selector string.
+			 * @return {Void}
 			 */
 			show_ad_popover: function( el ) {
 
@@ -11125,7 +11173,7 @@ define( 'Views/Sidebar',[
  *
  * @since 3.16.0
  * @since 3.37.11 Added `_.getEditor()` helper.
- * @version 3.37.11
+ * @version [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -11156,14 +11204,14 @@ require( [
 		window.llms_builder.schemas   = new Schemas( window.llms_builder.schemas );
 
 		/**
-		 * Compare values, used by _.checked & _.selected mixins
+		 * Compare values, used by _.checked & _.selected mixins.
 		 *
-		 * @param    mixed   expected  expected value, probably a string (the value of a select option or checkbox element)
-		 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
-		 *                             				 but could be an array like a multiselect
-		 * @return   boolean
-		 * @since    3.17.2
-		 * @version  3.17.2
+		 * @since 3.17.2
+		 *
+		 * @param {Mixed} expected expected Value, probably a string (the value of a select option or checkbox element).
+		 * @param {Mixed} mixed    actual   Actual value, probably a string (the return of model.get( 'something' ) )
+		 *                                  but could be an array like a multiselect.
+		 * @return {Bool}
 		 */
 		function value_compare( expected, actual ) {
 			return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
@@ -11178,15 +11226,17 @@ require( [
 		_.mixin( {
 
 			/**
-			 * Determine if two values are equal and output checked attribute if they are
-			 * Useful for templating checkboxes & radio elements
-			 * Like WP Core PHP checked() but in JS
+			 * Determine if two values are equal and output checked attribute if they are.
 			 *
-			 * @param    mixed   expected  expected element value
-			 * @param    mixed   actual    actual element value
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * Useful for templating checkboxes & radio elements
+			 * like WP Core PHP checked() but in JS.
+			 *
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @param {Mixed} expected Expected element value.
+			 * @param {Mixed} actual   Actual element value.
+			 * @return {String}
 			 */
 			checked: function( expected, actual ) {
 				if ( value_compare( expected, actual ) ) {
@@ -11196,12 +11246,12 @@ require( [
 			},
 
 			/**
-			 * Recursively clone an object via _.clone()
+			 * Recursively clone an object via _.clone().
 			 *
-			 * @param    obj   obj  object to clone
-			 * @return   obj
-			 * @since    3.17.7
-			 * @version  3.17.7
+			 * @since 3.17.7
+			 *
+			 * @param {Object} obj Object to clone.
+			 * @return {Object}
 			 */
 			deepClone: function( obj ) {
 
@@ -11251,12 +11301,14 @@ require( [
 			},
 
 			/**
-			 * Strips IDs & Parent References from quizzes and all quiz questions
+			 * Strips IDs & Parent References from quizzes and all quiz questions.
 			 *
-			 * @param    obj   quiz   raw quiz object (not a model)
-			 * @return   obj
-			 * @since    3.24.0
-			 * @version  3.27.0
+			 * @since 3.24.0
+			 * @since 3.27.0 Unknown.
+			 * @since [version] Use author id instead of the question author object.
+			 *
+			 * @param {Object} quiz Raw quiz object (not a model).
+			 * @return {Object}
 			 */
 			prepareQuizObjectForCloning: function( quiz ) {
 
@@ -11269,17 +11321,21 @@ require( [
 
 				} );
 
+				// Use author id instead of the quiz author object.
+				quiz = _.prepareExistingPostObjectDataForAddingOrCloning( quiz );
+
 				return quiz;
 
 			},
 
 			/**
-			 * Strips IDs & Parent References from a question
+			 * Strips IDs & Parent References from a question.
 			 *
-			 * @param    obj   question   raw question object (not a model).
-			 * @return   obj
-			 * @since    3.27.0
-			 * @version  3.27.0
+			 * @since 3.27.0
+			 * @since [version] Use author id instead of the question author object.
+			 *
+			 * @param {Object} question Raw question object (not a model).
+			 * @return {Object}
 			 */
 			prepareQuestionObjectForCloning: function( question ) {
 
@@ -11304,20 +11360,74 @@ require( [
 
 				}
 
+				// Use author id instead of the question author object.
+				question = _.prepareExistingPostObjectDataForAddingOrCloning( question );
+
 				return question;
 
 			},
 
 			/**
-			 * Determine if two values are equal and output selected attribute if they are
-			 * Useful for templating select elements
-			 * Like WP Core PHP selected() but in JS
+			 * Strips IDs & Parent References from assignments and all assignment tasks.
 			 *
-			 * @param    mixed   expected  expected element value
-			 * @param    mixed   actual    actual element value
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.17.2
+			 * @since [version]
+			 *
+			 * @param {Object} assignment Raw assignment object (not a model).
+			 * @return {Object}
+			 */
+			 prepareAssignmentObjectForCloning: function( assignment ) {
+
+				delete assignment.id;
+				delete assignment.lesson_id;
+
+				// Clone tasks.
+				if ( 'tasklist' === assignment.assignment_type ) {
+					_.each( assignment.tasks, function( task ) {
+						delete task.id;
+						delete task.assignment_id;
+					} );
+				}
+
+				// Use author id instead of the quiz author object.
+				assignment = _.prepareExistingPostObjectDataForAddingOrCloning( assignment );
+
+				return assignment;
+
+			},
+
+			/**
+			 * Prepare post object data for adding or cloning.
+			 *
+			 * Use author id instead of the post type author object.
+			 *
+			 * @since [version]
+			 *
+			 * @param {Object} quiz Raw post object (not a model).
+			 * @return {Object}
+			 */
+			prepareExistingPostObjectDataForAddingOrCloning: function( post_data ) {
+
+				if ( post_data.author && _.isObject( post_data.author ) && post_data.author.id ) {
+					post_data.author = post_data.author.id;
+				}
+
+				return post_data;
+
+			},
+
+			/**
+			 * Determine if two values are equal and output selected attribute if they are.
+			 *
+			 * Useful for templating select elements
+			 * like WP Core PHP selected() but in JS.
+			 *
+			 *
+			 * @since 3.17.0
+			 * @since 3.17.2 Unknown.
+			 *
+			 * @param {Mixed} expected Expected element value.
+			 * @param {Mixed} actual   Actual element value.
+			 * @return {String}
 			 */
 			selected: function( expected, actual ) {
 				if ( value_compare( expected, actual ) ) {
@@ -11327,13 +11437,13 @@ require( [
 			},
 
 			/**
-			 * Generic function for stripping HTML tags from a string
+			 * Generic function for stripping HTML tags from a string.
 			 *
-			 * @param    string   content       raw string
-			 * @param    array   allowed_tags  array of allowed HTML tags
-			 * @return   string
-			 * @since    3.17.8
-			 * @version  3.17.8
+			 * @since 3.17.8
+			 *
+			 * @param {String} content      Raw string.
+			 * @param {Array}  allowed_tags Array of allowed HTML tags.
+			 * @return {String}
 			 */
 			stripFormatting: function( content, allowed_tags ) {
 
@@ -11380,9 +11490,10 @@ require( [
 		} );
 
 		/**
-		 * Do deep linking to Lesson / Quiz / Assignments
+		 * Do deep linking to Lesson / Quiz / Assignments.
+		 *
 		 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
-		 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
+		 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab.
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
