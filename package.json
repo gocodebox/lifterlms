@@ -20,10 +20,9 @@
     "@lifterlms/scripts": "file:packages/scripts",
     "@wordpress/e2e-test-utils": "^4.3.1",
     "@wordpress/scripts": "^12.1.0",
-    "contributor-faces": "^1.1.0-0",
-    "gulp": "^4.0.0",
     "all-contributors-cli": "^4.11.2",
     "geonames.js": "^2.3.0",
+    "gulp": "^4.0.0",
     "gulp-cli": "^2.2.0",
     "gulp-header": "^2.0.9",
     "gulp-ignore": "^3.0.0",
@@ -40,11 +39,10 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
-    "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme && npm run build:contributors",
+    "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme",
     "build:scripts": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
-    "build:contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive"
   }
