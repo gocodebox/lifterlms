@@ -1,18 +1,19 @@
 <?php
 /**
- * View for the LLMS_Meta_Box_Order_Submit metabox
+ * View for the LLMS_Meta_Box_Order_Submit metabox.
  *
- * @since     3.19.0
- * @version   3.19.0
+ * @since 3.19.0
+ * @since [version] The order status dropdown is now limited to a subset of possible status.
+ * @version [version]
  *
- * @property  obj  $this   LLMS_Meta_Box_Order_Submit instance
- * @property  obj  $order  LLMS_Order instance
+ * @property LLMS_Meta_Box_Order_Submit $this  LLMS_Meta_Box_Order_Submit instance.
+ * @property LLMS_Order                 $order LLMS_Order instance.
  */
 defined( 'ABSPATH' ) || exit;
 
 $current_status = $order->get( 'status' );
 $date_format    = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-$statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
+$statuses       = llms_get_possible_order_statuses( $order );
 ?>
 
 <div class="llms-metabox">

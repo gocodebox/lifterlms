@@ -7,6 +7,7 @@
  * @since 3.16.12
  * @since 3.37.8 Added tests to remove quiz attempts upon quiz deletion.
  * @since 4.15.0 Added tests on access plans deletion upon quiz deletion.
+ * @since [version] Added tests for static methods delete_product_with_active_subscriptions_error_message() and maybe_prevent_product_deletion().
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -202,4 +203,196 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test delete_product_with_active_subscriptions_error_message().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_delete_product_with_active_subscriptions_error_message() {
+
+		$post_types = array(
+			'post',
+			'course',
+			'llms_membership',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			// Create post/product.
+			$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+			$post_type_object = get_post_type_object( $post_type );
+			$post_type_name   = $post_type_object->labels->name;
+
+			$this->assertEquals(
+				'post' !== $post_type ?
+					sprintf(
+						'Sorry, you are not allowed to delete %s with active subscriptions.',
+						$post_type_name
+					):
+					''
+				,
+				LLMS_Post_Relationships::delete_product_with_active_subscriptions_error_message( $post_id )
+			);
+		}
+
+	}
+
+
+	/**
+	 * Test maybe_prevent_product_deletion()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prevent_product_deletion() {
+
+		$post_types = array(
+			'post',
+			'course',
+			'llms_membership',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			// Create post/product.
+			$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+			wp_delete_post( $post_id, true );
+
+			$this->assertEmpty(
+				get_post( $post_id ),
+				$post_type
+			);
+
+		}
+
+		unset( $post_types[0] );
+
+		// Courses and Memberships are deletable if associated to a single-payment order.
+		foreach ( $post_types as $post_type ) {
+
+			// Create product.
+			$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+			// Create an active subscription per product.
+			$order   = $this->get_mock_order();
+			$order->set( 'product_id', $post_id );
+			$order->set( 'order_type', 'single' );
+
+			wp_delete_post( $post_id );
+
+			$this->assertEmpty(
+				get_post( $post_id ),
+				$post_type
+			);
+
+		}
+
+		// Courses and Memberships are deletable if associated to a recurring payment order depending on whether there are active subscriptions.
+		foreach ( array_keys( llms_get_order_statuses( 'recurring' ) ) as $status ) {
+			foreach ( $post_types as $post_type ) {
+
+				// Create product.
+				$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+				// Create an active subscription per product.
+				$order   = $this->get_mock_order();
+				$order->set( 'product_id', $post_id );
+				$order->set( 'order_type', 'recurring' );
+				$order->set( 'status', $status );
+
+				$expected_error_message = LLMS_Post_Relationships::delete_product_with_active_subscriptions_error_message( $post_id );
+
+				try {
+					wp_delete_post( $post_id );
+				} catch( WPDieException $e ) {
+					$this->assertEquals(
+						$expected_error_message,
+						$e->getMessage()
+					);
+				}
+				// Test if subscription active no deletion occurred.
+				$_test = in_array( $status, array( 'llms-active', 'llms-pending-cancel', 'llms-on-hold' ), true ) ? 'assertNotEmpty' : 'assertEmpty';
+				$this->$_test(
+					get_post( $post_id ),
+					"{$post_type} : {$status}"
+				);
+
+			}
+		}
+
+	}
+
+	/**
+	 * Test maybe_prevent_product_deletion() via REST API.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_prevent_product_deletion_rest_api() {
+
+		$post_types = array(
+			'course'          => 'courses',
+			'llms_membership' => 'memberships',
+		);
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// Force llms_is_rest.
+		add_filter( 'llms_is_rest', '__return_true' );
+
+		// Courses and Memberships are deletable if associated to a recurring payment order depending on whether there are active subscriptions.
+		foreach ( array_keys( llms_get_order_statuses( 'recurring' ) ) as $status ) {
+
+			foreach ( $post_types as $post_type => $endpoint ) {
+
+				// Create product.
+				$post_id  = $this->factory->post->create( array( 'post_type' => $post_type ) );
+
+				// Create an active subscription per product.
+				$order = $this->get_mock_order();
+
+				$order->set( 'product_id', $post_id );
+				$order->set( 'order_type', 'recurring' );
+				$order->set( 'status', $status );
+
+				$expected_error_message = LLMS_Post_Relationships::delete_product_with_active_subscriptions_error_message( $post_id );
+
+				$request = new WP_REST_Request(
+					'DELETE',
+					"/llms/v1/{$endpoint}/{$post_id}"
+				);
+
+				$request->set_param( 'force', 'true' );
+				$res = rest_get_server()->dispatch( $request );
+
+				if ( in_array( $status, array( 'llms-active', 'llms-pending-cancel', 'llms-on-hold' ), true ) ) {
+					// Not deleted.
+					$this->assertNotEmpty(
+						get_post( $post_id ),
+						"{$post_type} : {$status}"
+					);
+
+					$this->assertEquals( 500, $res->get_status(), "{$post_type} : {$status}" );
+					$this->assertEquals( $expected_error_message, $res->get_data()['message'], "{$post_type} : {$status}" );
+				} else {
+					// Deleted.
+					$this->assertEmpty(
+						get_post( $post_id ),
+						"{$post_type} : {$status}"
+					);
+				}
+
+			}
+
+		}
+
+		remove_filter( 'llms_is_rest', '__return_true' );
+
+	}
 }
