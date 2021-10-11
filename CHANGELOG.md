@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v5.3.3 - 2021-10-05
+-------------------
+
+##### Updates
+
++ Update woocommerce/actions-scheduler to version 3.3.0.
+
+##### Bug fixes
+
++ Fixed an issue causing the latest earned achievement to not display on the "My Grades" tab in certain scenarios.
++ Fix issue causing a `waiting...` message to display on the JS dev console.
++ Fix improper usage of `apply_filters_deprecated()` encountered when using deprecated theme settings filters in the course builder.
++ Fixed missing text domain, thanks [chetansatasiya](https://github.com/chetansatasiya)!
+
+##### Developer notes
+
++ Improved the `LLMS.waitFor()` runtime JS dependency loader to output improved debugging information.
+
+
 v5.3.2 - 2021-09-21
 -------------------
 

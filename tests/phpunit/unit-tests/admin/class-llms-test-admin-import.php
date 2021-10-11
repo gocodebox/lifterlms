@@ -18,12 +18,13 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Setup before class.
 	 *
 	 * @since 4.8.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
@@ -36,13 +37,14 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Setup test case.
 	 *
 	 * @since 3.35.0
-	 * @since 4.8.0 Move includes to `setUpBeforeClass()` method.
+	 * @since 4.8.0 Move includes to `set_up_before_class()` method.
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->import = new LLMS_Admin_Import();
 
 	}
@@ -51,12 +53,13 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Tear down test case.
 	 *
 	 * @since 3.35.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		unset( $_FILES['llms_import'] );
 
 	}

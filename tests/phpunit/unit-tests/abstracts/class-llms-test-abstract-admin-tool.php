@@ -18,12 +18,13 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	 * Include abstract class.
 	 *
 	 * @since 3.37.19
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
 

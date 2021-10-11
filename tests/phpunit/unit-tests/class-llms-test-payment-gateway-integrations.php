@@ -21,13 +21,13 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Before the class runs, register the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 		add_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
 		// We shouldn't be able to do this but currently we can so whatever.
@@ -39,11 +39,11 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * After the class runs, remove the mock gateway.
 	 *
 	 * @since 3.37.6
-	 * @since [version Use `llms()` in favor of deprecated `LLMS()`.
+	 * @since 5.3.3 Use `llms()` in favor of deprecated `LLMS()` and renamed from `tearDownAfterClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 
 		remove_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
 
@@ -54,7 +54,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 				unset( llms()->payment_gateways()->payment_gateways[ $i ] );
 			}
 		}
-		parent::tearDownAfterClass();
+		parent::tear_down_after_class();
 
 	}
 
@@ -62,11 +62,12 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( 'mock' );
 	}
 
@@ -116,6 +117,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run some tests on the initial setup of the order and the first payment.
 	 *
 	 * @since 3.37.6
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order The order.
 	 * @return void
@@ -139,7 +141,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 		// Next payment date.
 		$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
-		$this->assertEquals( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, $period, 5 ); // 5 seconds tolerance.
+		$this->assertEqualsWithDelta( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, 5, $period ); // 5 seconds tolerance.
 
 	}
 
@@ -151,6 +153,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * @since 3.37.6
 	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
 	 * @since 5.3.1 If the chaos >= 0, calculate the expected next payment time based on the scheduled payment time.
+	 * @since 5.3.3 Use assertEqualsWithDelta() in favor of 4th parameter supplied to assertEquals().
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
@@ -209,7 +212,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			);
 
 			// Ensure that the calculated next payment time is 1 period +/- 23:59:59 from the previous transaction.
-			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
+			$this->assertEqualsWithDelta( $expect, $next_payment_time, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0, $msg );
 
 			++$i;
 			$elapsed = microtime( true ) - $start;

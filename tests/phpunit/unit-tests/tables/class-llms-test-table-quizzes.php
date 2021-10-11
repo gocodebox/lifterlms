@@ -7,7 +7,6 @@
  * @group reporting_tables
  *
  * @since 3.36.1
- * @version 3.36.1
  */
 class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 
@@ -15,12 +14,13 @@ class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 	 * Setup test.
 	 *
 	 * @since 3.36.1
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/llms.table.quizzes.php';
 		$this->table = new LLMS_Table_Quizzes();
 

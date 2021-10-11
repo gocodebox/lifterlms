@@ -20,9 +20,17 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since Unknown
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		LLMS_Site::update_feature( 'recurring_payments', true );
 
 	}
@@ -51,6 +59,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of `assertEquals()` with 4th parameter.
 	 *
 	 * @return void
 	 */
@@ -125,7 +134,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
 		// Next payment date.
-		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
+		$this->assertEqualsWithDelta( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), $this->date_delta );
 
 		// Actions were run.
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
@@ -152,9 +161,14 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date( 'Y-m-d' ) );
 
 		// Expiration event should be reset.
-		$this->assertEquals( (float) $order->get_access_expiration_date( 'U' ), (float) as_next_scheduled_action( 'llms_access_plan_expiration', array(
-			'order_id' => $order->get( 'id' ),
-		) ), '', $this->date_delta );
+		$this->assertEqualsWithDelta(
+			(float) $order->get_access_expiration_date( 'U' ),
+			(float) as_next_scheduled_action(
+				'llms_access_plan_expiration',
+				array(
+					'order_id' => $order->get( 'id' ),
+				)
+		), $this->date_delta );
 
 	}
 

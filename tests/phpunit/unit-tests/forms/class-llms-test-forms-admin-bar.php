@@ -11,9 +11,17 @@
  */
 class LLMS_Test_Forms_Admin_Bar extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	/**
+	 * Setup the test
+	 *
+	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Forms_Admin_Bar();
 
 	}

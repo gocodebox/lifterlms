@@ -15,10 +15,11 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Set Up Before Class
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-profile.php';
 
@@ -28,12 +29,13 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Set-Up
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->main = new LLMS_Admin_Profile();
 
 	}
@@ -42,12 +44,13 @@ class LLMS_Test_Admin_Profile extends LLMS_Unit_Test_Case {
 	 * Tear down
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		wp_set_current_user( null );
 
 	}

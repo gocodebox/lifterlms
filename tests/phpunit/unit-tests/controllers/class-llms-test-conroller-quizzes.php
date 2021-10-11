@@ -15,13 +15,14 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->controller = new LLMS_Controller_Quizzes();
 
 	}
@@ -29,7 +30,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): form not submitted
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -42,7 +43,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): invalid nonce
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -59,7 +60,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): there's no quiz id passed via to the button form element.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -85,7 +86,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): submitted WP Post ID isn't a quiz id.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -103,7 +104,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): the quiz isn't an orphan.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -125,7 +126,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions() success: the quiz is an orphan and can be deleted.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */
@@ -145,7 +146,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions() success: the quiz's parent course doesn't exist anymore and the quiz can be deleted.
 	 *
-	 * @since  3.37.8
+	 * @since 3.37.8
 	 *
 	 * @return void
 	 */

@@ -18,10 +18,11 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	 * Setup before running each test in this class.
 	 *
 	 * @since 5.3.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$args = array(
 			'post_title' => 'Mock Post with the Sales Page Trait',
@@ -48,7 +49,7 @@ class LLMS_Test_Sales_Page_Trait extends LLMS_UnitTestCase {
 	 */
 	public function test_construct_sales_page() {
 		/**
-		 * {@see setUp()} should have created a mock object that called {@see LLMS_Trait_Sales_Page::construct_sales_page()}.
+		 * {@see set_up()} should have created a mock object that called {@see LLMS_Trait_Sales_Page::construct_sales_page()}.
 		 */
 		$properties = $this->mock->get_properties();
 
