@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Update Functions
+ * LifterLMS Update Functions.
  *
  * Functions here are used by the background updater during db updates.
  *
@@ -42,6 +42,7 @@ function llms_update_util_get_items_per_page() {
 
 /**
  * Duplicate a WP Post & all relate metadata
+ * Duplicate a WP Post & all relate metadata.
  *
  * @since 3.16.0
  *
@@ -64,7 +65,7 @@ function llms_update_util_post_duplicator( $id ) {
 }
 
 /**
- * Update the key of a postmeta item
+ * Update the key of a postmeta item.
  *
  * @since 3.4.3
  *
