@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -950,6 +950,74 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Get the properties that will be used to generate the array representation of the model.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[] Array of property keys to be used by {@see toArray}.
+	 */
+	protected function get_to_array_properties() {
+
+		$all_props = array_keys( $this->get_properties() );
+
+		/**
+		 * Filters the properties which will excluded form the array representation of the model
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since Unknown
+		 *
+		 * @param string[]        $excluded  Array of property names.
+		 * @param string[]        $all_props The full property list without the applied exclusions.
+		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
+		 */
+		$excluded = apply_filters(
+			"llms_get_{$this->model_post_type}_excluded_to_array_properties",
+			$this->get_to_array_excluded_properties(),
+			$all_props,
+			$this
+		);
+
+		$props = array_diff(
+			$all_props,
+			$excluded
+		);
+
+		/**
+		 * Filters the properties which will populate the array representation of the model
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since Unknown
+		 *
+		 * @param string[]        $props     Array of property names.
+		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
+		 */
+		return apply_filters(
+			"llms_get_{$this->model_post_type}_to_array_properties",
+			$props,
+			$this
+		);
+
+	}
+
+	/**
+	 * Get the properties that will be explicitly excluded from the array representation of the model.
+	 *
+	 * This stub can be overloaded by an extending class and the property list is filterable via the
+	 * {@see llms_get_{$this->model_post_type}_excluded_to_array_properties} filter.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected function get_to_array_excluded_properties() {
+		return array();
+	}
+
+	/**
 	 * Retrieve the registered Label of the post's current status
 	 *
 	 * @since 3.0.0
@@ -1380,7 +1448,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.3.0
 	 * @since 3.17.0 Unknown.
 	 * @since 4.7.0 Add exporting of extra data (images and blocks).
-	 * @since 4.8.0 Exclude extra data by default. Added `'llms_post_model_to_array_add_extras'` filter.
+	 * @since 4.8.0 Exclude extra data by default. Added `llms_post_model_to_array_add_extras` filter.
+	 * @since [version] Load properties to be used to generate the array from the new `get_to_array_properties()` method.
 	 *
 	 * @return array
 	 */
@@ -1390,28 +1459,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'id' => $this->get( 'id' ),
 		);
 
-		$props = array_diff( array_keys( $this->get_properties() ), array( 'content', 'excerpt', 'title' ) );
+		foreach ( $this->get_to_array_properties() as $prop ) {
 
-		/**
-		 * Filters the properties which will populate the array representation of the model
-		 *
-		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
-		 * "lesson", "membership", etc...
-		 *
-		 * @since Unknown
-		 *
-		 * @param string[]        $props     Array of property names.
-		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
-		 */
-		$props = apply_filters( "llms_get_{$this->model_post_type}_to_array_properties", $props, $this );
-
-		foreach ( $props as $prop ) {
-			$arr[ $prop ] = $this->get( $prop );
+			if ( in_array( $prop, array( 'content', 'excerpt', 'title' ), true ) ) {
+				$post_prop    = "post_{$prop}";
+				$arr[ $prop ] = $this->post->$post_prop;
+			} else {
+				$arr[ $prop ] = $this->get( $prop );
+			}
 		}
-
-		$arr['content'] = $this->post->post_content;
-		$arr['excerpt'] = $this->post->post_excerpt;
-		$arr['title']   = $this->post->post_title;
 
 		// Add the featured image if the post type supports it.
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
