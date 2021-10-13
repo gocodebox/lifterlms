@@ -580,4 +580,57 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test summary get_to_array_excluded_properties()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_to_array_excluded_properties() {
+
+		// Default behavior
+		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+		$expect = array(
+			'average_grade',
+			'average_progress',
+			'enrolled_students',
+			'last_data_calc_run',
+			'temp_calc_data'
+		);
+		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $course, 'get_to_array_excluded_properties' ) );
+
+		// Disabled via filter.
+		add_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $course, 'get_to_array_excluded_properties' ) );
+		remove_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );
+
+	}
+
+	/**
+	 * Test toArray to ensure no excluded properties are included.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_toArray_exclusion() {
+
+		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+
+		$arr = $course->toArray();
+
+		$excluded = array(
+			'average_grade',
+			'average_progress',
+			'enrolled_students',
+			'last_data_calc_run',
+			'temp_calc_data'
+		);
+
+		// Shouldn't contain any excluded props.
+		$this->assertEquals( array(), array_intersect( $excluded, array_keys( $arr ) ) );
+
+	}
+
 }
