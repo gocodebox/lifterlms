@@ -7,7 +7,8 @@
  * @since 3.0.0
  * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @version 3.35.0
+ * @since 5.4.0 Inform about deleted products.
+ * @version [versionb]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,9 +48,14 @@ llms_print_notices();
 
 				<tr>
 					<th><?php _e( 'Product', 'lifterlms' ); ?></th>
-					<td><a href="<?php echo get_permalink( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a></td>
+					<td>
+					<?php if ( llms_get_post( $order->get( 'product_id' ) ) ) : ?>
+						<a href="<?php echo get_permalink( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
+					<?php else : ?>
+						<?php echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' ); ?>
+					<?php endif; ?>
+					</td>
 				</tr>
-
 				<?php if ( $order->has_trial() ) : ?>
 					<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
 						<tr>

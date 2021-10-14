@@ -1,17 +1,17 @@
 <?php
 /**
- * Order processing and related actions controller
+ * Order processing and related actions controller.
  *
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 5.2.0
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Orders class
+ * LLMS_Controller_Orders class.
  *
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
@@ -25,12 +25,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Controller_Orders {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Updated.
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
+	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
 	 *
 	 * @return void
 	 */
@@ -44,10 +45,10 @@ class LLMS_Controller_Orders {
 		// This action adds our lifterlms specific actions when order & transaction statuses change.
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
 
-		// This action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed..
+		// This action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed.
 		add_action( 'before_delete_post', array( $this, 'on_delete_order' ) );
 
-		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted..
+		// This action is meant to do specific actions on orders when an enrollment, with an order as trigger, is deleted.
 		add_action( 'llms_user_enrollment_deleted', array( $this, 'on_user_enrollment_deleted' ), 10, 3 );
 
 		/**
@@ -74,6 +75,9 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_on-hold', array( $this, 'error_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
+		// Detect a product deletion while processing a recurring charge.
+		add_action( 'llms_order_recurring_charge_aborted_product_deleted', array( $this, 'error_order' ), 10, 1 );
+
 		/**
 		 * Scheduler Actions
 		 */
@@ -87,8 +91,9 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Confirm order form post
-	 * User clicks confirm order or gateway determines the order is confirmed
+	 * Confirm order form post.
+	 *
+	 * User clicks confirm order or gateway determines the order is confirmed.
 	 *
 	 * Executes payment gateway confirm order method and completes order.
 	 * Redirects user to appropriate page / post
@@ -146,7 +151,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Perform actions on a successful order completion
+	 * Perform actions on a successful order completion.
 	 *
 	 * @since 1.0.0
 	 * @since 3.19.0 Unknown.
@@ -172,7 +177,7 @@ class LLMS_Controller_Orders {
 		unset( LLMS()->session->llms_coupon );
 
 		/**
-		 * Action fired on order complete
+		 * Action fired on order complete.
 		 *
 		 * Prior to the students being enrolled.
 		 *
@@ -218,7 +223,7 @@ class LLMS_Controller_Orders {
 
 
 	/**
-	 * Handle form submission of the checkout / payment form
+	 * Handle form submission of the checkout / payment form.
 	 *
 	 *      1. Logs in or Registers a user
 	 *      2. Validates all fields
@@ -314,7 +319,7 @@ class LLMS_Controller_Orders {
 		}
 
 		/**
-		 * Allow gateways, extensions, etc to do their own validation
+		 * Allow gateways, extensions, etc to do their own validation.
 		 *
 		 * After all standard validations are successfully.
 		 *
@@ -360,14 +365,23 @@ class LLMS_Controller_Orders {
 	/**
 	 * Called when an order's status changes to refunded, cancelled, expired, or failed.
 	 *
+	 * Also called on product deletion detected while processing a recurring charge.
+
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
+	 * @since 5.4.0 Unenroll with 'cancelled' status on 'llms_order_recurring_charge_aborted_product_deleted'.
+	 *              The `$order` param can be also a WP_Post or its `ID`.
 	 *
-	 * @param LLMS_Order $order Instance of an LLMS_Order.
+	 * @param int|WP_Post|LLMS_Order $order Instance of an LLMS_Order, WP_Post or WP_Post ID of the order.
 	 * @return void
 	 */
 	public function error_order( $order ) {
+
+		$order = is_a( $order, 'LLMS_Order' ) ? $order : llms_get_post( $order );
+		if ( ! ( $order && is_a( $order, 'LLMS_Order' ) ) ) {
+			return;
+		}
 
 		$order->unschedule_recurring_payment();
 
@@ -389,6 +403,7 @@ class LLMS_Controller_Orders {
 			case 'lifterlms_order_status_cancelled':
 			case 'lifterlms_order_status_on-hold':
 			case 'lifterlms_order_status_refunded':
+			case 'llms_order_recurring_charge_aborted_product_deleted':
 				$status = 'cancelled';
 				break;
 
@@ -405,7 +420,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Called when a post is permanently deleted
+	 * Called when a post is permanently deleted.
 	 *
 	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post.
 	 *
@@ -424,7 +439,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Called when an user enrollment is deleted
+	 * Called when an user enrollment is deleted.
 	 *
 	 * Will set the related order status to 'cancelled'.
 	 *
@@ -453,7 +468,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Handle expiration & cancellation from a course / membership
+	 * Handle expiration & cancellation from a course / membership.
 	 *
 	 * Called via scheduled action set during order completion for plans with a limited access plan.
 	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period.
@@ -495,7 +510,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Unschedule recurring payments and schedule access expiration
+	 * Unschedule recurring payments and schedule access expiration.
 	 *
 	 * @since 3.19.0
 	 *
@@ -513,7 +528,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger a recurring payment
+	 * Trigger a recurring payment.
 	 *
 	 * Called by action scheduler.
 	 *
@@ -521,6 +536,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
 	 * @since 5.2.0 Fixed buggy logging on gateway error because it doesn't support recurring payments.
+	 * @since 5.4.0 Handle case when the order's related product has been removed.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.
@@ -572,7 +588,7 @@ class LLMS_Controller_Orders {
 
 		if ( is_wp_error( $gateway ) ) {
 			/**
-			 * Fired when a LifterLMS order's recurring charge errors because of a gateway error. E.g. it's not available anymore
+			 * Fired when a LifterLMS order's recurring charge errors because of a gateway error. E.g. it's not available anymore.
 			 *
 			 * @since Unknown
 			 *
@@ -607,7 +623,7 @@ class LLMS_Controller_Orders {
 		if ( ! $gateway->supports( 'recurring_payments' ) ) {
 
 			/**
-			 * Fired when a LifterLMS order's recurring charge errors because the selected gateway doesn't support recurring payments
+			 * Fired when a LifterLMS order's recurring charge errors because the selected gateway doesn't support recurring payments.
 			 *
 			 * @since Unknown
 			 *
@@ -633,7 +649,7 @@ class LLMS_Controller_Orders {
 		if ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
 
 			/**
-			 * Fired when a LifterLMS order's recurring charge errors because the recurring payments site feature is disabled
+			 * Fired when a LifterLMS order's recurring charge errors because the recurring payments site feature is disabled.
 			 *
 			 * @since Unknown
 			 *
@@ -647,6 +663,32 @@ class LLMS_Controller_Orders {
 
 		}
 
+		// Related product removed.
+		if ( empty( $order->get_product() ) ) {
+
+			/**
+			 * Fired when a LifterLMS order's recurring charge errors because the purchased product (Course/Membership) doesn't exist anymore.
+			 *
+			 * @since Unknown
+			 *
+			 * @param int                    $order_id   WP Post ID of the order.
+			 * @param LLMS_Controller_Orders $controller This controller's instance.
+			 */
+			do_action( 'llms_order_recurring_charge_aborted_product_deleted', $order_id, $this );
+			llms_log(
+				sprintf(
+					'Recurring charge for order #%d could not be processed because the product #%d does not exist anymore.',
+					$order_id,
+					$order->get( 'product_id' )
+				),
+				'recurring-payments'
+			);
+
+			$order->add_note( __( 'Recurring charge aborted because the purchased product does not exist anymore.', 'lifterlms' ) );
+			return false;
+
+		}
+
 		// Passed validation, hand off to the gateway.
 		$gateway->handle_recurring_transaction( $order );
 		return true;
@@ -654,7 +696,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
+	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order.
 	 *
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
@@ -697,7 +739,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * When a transaction fails, update the parent order's status
+	 * When a transaction fails, update the parent order's status.
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
@@ -726,7 +768,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * When a transaction is refunded, update the parent order's status
+	 * When a transaction is refunded, update the parent order's status.
 	 *
 	 * @since 3.0.0
 	 *
@@ -746,7 +788,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * When a transaction succeeds, update the parent order's status
+	 * When a transaction succeeds, update the parent order's status.
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
@@ -774,10 +816,10 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
+	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status.
 	 *
 	 * @since 3.0.0
-	 * @since 3.19.0
+	 * @since 3.19.0 Unknown.
 	 *
 	 * @param string  $new_status New status.
 	 * @param string  $old_status Old status.
@@ -809,7 +851,7 @@ class LLMS_Controller_Orders {
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
 		/**
-		 * Fired when a LifterLMS order or transaction changes status
+		 * Fired when a LifterLMS order or transaction changes status.
 		 *
 		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
 		 * The second dynamic portion of this hook, `$old_status`, refers to the previous object status.
@@ -824,7 +866,7 @@ class LLMS_Controller_Orders {
 		do_action( "lifterlms_{$post_type}_status_{$old_status}_to_{$new_status}", $obj, $old_status, $new_status );
 
 		/**
-		 * Fired when a LifterLMS order or transaction changes status
+		 * Fired when a LifterLMS order or transaction changes status.
 		 *
 		 * The first dynamic portion of this hook, `$post_type`, refers to the unprefixed object post type ('order|transaction').
 		 * The second dynamic portion of this hook, `$new_status`, refers to the new object status.
@@ -840,7 +882,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Validate a gateway can be used to process the current action / transaction
+	 * Validate a gateway can be used to process the current action / transaction.
 	 *
 	 * @since 3.10.0
 	 *

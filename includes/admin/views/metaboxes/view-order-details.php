@@ -5,7 +5,8 @@
  * @package LifterLMS/Admin/Views
  *
  * @since 5.3.0
- * @version 5.3.0
+ * @since 5.4.0 Inform about deleted products.
+ * @version 5.4.0
  *
  * @property LLMS_Order           $order                     Order object.
  * @property LLMS_Payment_Gateway $gateway                   Instance of the order's payment gateway.
@@ -67,7 +68,11 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Name:', 'lifterlms' ); ?></label>
-			<a href="<?php echo get_edit_post_link( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
+			<?php if ( llms_get_post( $order->get( 'product_id' ) ) ) : ?>
+				<a href="<?php echo get_edit_post_link( $order->get( 'product_id' ) ); ?>"><?php echo $order->get( 'product_title' ); ?></a>
+			<?php else : ?>
+				<?php echo __( '[DELETED]', 'lifterlms' ) . ' ' . $order->get( 'product_title' ); ?>
+			<?php endif; ?>
 			<small>(<?php echo ucfirst( $order->get( 'product_type' ) ); ?>)</small>
 		</div>
 
