@@ -7,7 +7,7 @@
  * @since 3.16.12
  * @since 3.37.8 Added tests to remove quiz attempts upon quiz deletion.
  * @since 4.15.0 Added tests on access plans deletion upon quiz deletion.
- * @since [version] Added tests for static methods delete_product_with_active_subscriptions_error_message() and maybe_prevent_product_deletion().
+ * @since 5.4.0 Added tests for static methods delete_product_with_active_subscriptions_error_message() and maybe_prevent_product_deletion().
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -206,7 +206,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * Test delete_product_with_active_subscriptions_error_message().
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -244,7 +244,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_product_deletion()
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_product_deletion() via REST API.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */

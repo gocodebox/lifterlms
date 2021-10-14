@@ -12,7 +12,7 @@
  *
  * @since 3.27.0
  * @since 5.0.0 Updated for form handler error codes & install forms on setup.
- * @since [version] Added tests for `llms_get_possible_order_statuses()`.
+ * @since 5.4.0 Added tests for `llms_get_possible_order_statuses()`.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -267,7 +267,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_possible_order_statuses() function for a recurring order.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -283,7 +283,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_possible_order_statuses() function for a single order.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -300,7 +300,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_possible_order_statuses() function for a recurring order with deleted product.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -327,7 +327,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_possible_order_statuses() function for a single with deleted product.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */

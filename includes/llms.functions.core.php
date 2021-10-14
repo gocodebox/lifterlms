@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -873,7 +873,7 @@ function llms_is_rest() {
 	/**
 	 * Filters whether the current request is a REST request.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @param $is_rest Whether the current request is a REST request.
 	 */

@@ -9,7 +9,7 @@
  * @group limited_billing
  *
  * @since 5.3.0
- * @version [version]
+ * @version 5.4.0
  */
 class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool_Test_Case {
 
@@ -197,7 +197,7 @@ class LLMS_Test_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Admin_Tool
 	 * Test handle().
 	 *
 	 * @since 5.3.0
-	 * @since [version] Made sure to compare the lists of orders with the same ordering.
+	 * @since 5.4.0 Made sure to compare the lists of orders with the same ordering.
 	 *
 	 * @return void
 	 */

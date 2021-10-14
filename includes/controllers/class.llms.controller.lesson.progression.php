@@ -132,7 +132,7 @@ class LLMS_Controller_Lesson_Progression {
 		 *
 		 * @param int $user_id User id to mark lesson as complete.
 		 *
-		 * @since [version]
+		 * @since 5.4.0
 		 */
 		$user_id = apply_filters( 'llms_lesson_completion_user_id', get_current_user_id() );
 
@@ -176,7 +176,7 @@ class LLMS_Controller_Lesson_Progression {
 		 *
 		 * @param int $user_id User id to mark lesson as incomplete.
 		 *
-		 * @since [version]
+		 * @since 5.4.0
 		 */
 		$user_id = apply_filters( 'llms_lesson_incomplete_user_id', get_current_user_id() );
 

@@ -13,7 +13,7 @@
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
  * @since 4.2.0 Added `test_on_user_enrollment_deleted()`.
- * @since [version] Added test on recurring_charge attempts on orders when related product manually removed.
+ * @since 5.4.0 Added test on recurring_charge attempts on orders when related product manually removed.
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -610,7 +610,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test recurring_charge attempts on orders when related product manually removed.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */

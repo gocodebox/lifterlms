@@ -30,7 +30,7 @@ class LLMS_Admin_Tool_Limited_Billing_Order_Locator extends LLMS_Abstract_Admin_
 	 * Query the database for orders that may be affected by the change.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Retrieve orders ordered by their unique ID (DESC) instead of the default `date_created`.
+	 * @since 5.4.0 Retrieve orders ordered by their unique ID (DESC) instead of the default `date_created`.
 	 *
 	 * @return array[] Returns an array of arrays where each array represents a line in the generated CSV file.
 	 */

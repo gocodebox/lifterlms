@@ -4595,7 +4595,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
  * @since 3.16.0
  * @since 3.24.0 Added `get_total_points()` method.
  * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version [version]
+ * @version 5.4.0
  */
 define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -4658,7 +4658,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Use the author id instead of the author object.
-		 * @since [version] Added filter hook 'llms_adding_existing_lesson_data'.
+		 * @since 5.4.0 Added filter hook 'llms_adding_existing_lesson_data'.
 		 *               On cloning, duplicate assignments too, if assignment add-on active and assignment attached.
 		 *
 		 * @param {Object} lesson Lesson data obj.
@@ -4699,7 +4699,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 			/**
 			 * Filters the data of the existing lesson being added.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} data   Lesson data.
 			 * @param {String} action Action being performed. [clone|attach].
@@ -8754,7 +8754,7 @@ define( 'Views/PostSearch',[], function() {
  *
  * @since 3.16.0
  * @since 3.30.1 Fixed issue causing multiple binds for add_existing_question events.
- * @version [version]
+ * @version 5.4.0
  */
 define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -8881,7 +8881,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
 		 *
 		 * @since 3.27.0
-		 * @since [version] Use author id instead of the question author object.
+		 * @since 5.4.0 Use author id instead of the question author object.
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}
@@ -9649,7 +9649,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
  * Single Quiz View.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 5.4.0
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -9918,7 +9918,7 @@ define( 'Views/Quiz',[
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Use author id instead of the quiz author object.
+		 * @since 5.4.0 Use author id instead of the quiz author object.
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}
@@ -10070,7 +10070,7 @@ define( 'Views/Quiz',[
  * @package LifterLMS/Scripts
  *
  * @since 3.17.0
- * @version [version]
+ * @version 5.4.0
  */
 
 define( 'Views/Assignment',[
@@ -10259,7 +10259,7 @@ define( 'Views/Assignment',[
 			 * @param {Object} event Data from the select2 select event.
 			 *
 			 * @since 3.17.0
-			 * @since [version] Prepare assignment object for cloning and use author id instead of the quiz author object.
+			 * @since 5.4.0 Prepare assignment object for cloning and use author id instead of the quiz author object.
 			 */
 			add_existing_assignment: function( event ) {
 
@@ -11173,7 +11173,7 @@ define( 'Views/Sidebar',[
  *
  * @since 3.16.0
  * @since 3.37.11 Added `_.getEditor()` helper.
- * @version [version]
+ * @version 5.4.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -11305,7 +11305,7 @@ require( [
 			 *
 			 * @since 3.24.0
 			 * @since 3.27.0 Unknown.
-			 * @since [version] Use author id instead of the question author object.
+			 * @since 5.4.0 Use author id instead of the question author object.
 			 *
 			 * @param {Object} quiz Raw quiz object (not a model).
 			 * @return {Object}
@@ -11332,7 +11332,7 @@ require( [
 			 * Strips IDs & Parent References from a question.
 			 *
 			 * @since 3.27.0
-			 * @since [version] Use author id instead of the question author object.
+			 * @since 5.4.0 Use author id instead of the question author object.
 			 *
 			 * @param {Object} question Raw question object (not a model).
 			 * @return {Object}
@@ -11370,7 +11370,7 @@ require( [
 			/**
 			 * Strips IDs & Parent References from assignments and all assignment tasks.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} assignment Raw assignment object (not a model).
 			 * @return {Object}
@@ -11400,7 +11400,7 @@ require( [
 			 *
 			 * Use author id instead of the post type author object.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} quiz Raw post object (not a model).
 			 * @return {Object}
