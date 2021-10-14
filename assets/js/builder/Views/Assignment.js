@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts
  *
  * @since 3.17.0
- * @version [version]
+ * @version 5.4.0
  */
 
 define( [
@@ -193,7 +193,7 @@ define( [
 			 * @param {Object} event Data from the select2 select event.
 			 *
 			 * @since 3.17.0
-			 * @since [version] Prepare assignment object for cloning and use author id instead of the quiz author object.
+			 * @since 5.4.0 Prepare assignment object for cloning and use author id instead of the quiz author object.
 			 */
 			add_existing_assignment: function( event ) {
 

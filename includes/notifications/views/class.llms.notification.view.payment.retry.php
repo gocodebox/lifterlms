@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -148,7 +148,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 *
 	 * @since 3.10.0
 	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
-	 * @since [version] Account for deleted products.
+	 * @since 5.4.0 Account for deleted products.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string

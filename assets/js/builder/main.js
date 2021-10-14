@@ -3,7 +3,7 @@
  *
  * @since 3.16.0
  * @since 3.37.11 Added `_.getEditor()` helper.
- * @version [version]
+ * @version 5.4.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -135,7 +135,7 @@ require( [
 			 *
 			 * @since 3.24.0
 			 * @since 3.27.0 Unknown.
-			 * @since [version] Use author id instead of the question author object.
+			 * @since 5.4.0 Use author id instead of the question author object.
 			 *
 			 * @param {Object} quiz Raw quiz object (not a model).
 			 * @return {Object}
@@ -162,7 +162,7 @@ require( [
 			 * Strips IDs & Parent References from a question.
 			 *
 			 * @since 3.27.0
-			 * @since [version] Use author id instead of the question author object.
+			 * @since 5.4.0 Use author id instead of the question author object.
 			 *
 			 * @param {Object} question Raw question object (not a model).
 			 * @return {Object}
@@ -200,7 +200,7 @@ require( [
 			/**
 			 * Strips IDs & Parent References from assignments and all assignment tasks.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} assignment Raw assignment object (not a model).
 			 * @return {Object}
@@ -230,7 +230,7 @@ require( [
 			 *
 			 * Use author id instead of the post type author object.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} quiz Raw post object (not a model).
 			 * @return {Object}

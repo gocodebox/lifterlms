@@ -7,7 +7,7 @@
  * @since 3.0.0
  * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @since [version] Inform about deleted products.
+ * @since 5.4.0 Inform about deleted products.
  * @version [versionb]
  */
 

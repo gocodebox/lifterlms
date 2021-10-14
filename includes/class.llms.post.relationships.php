@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -89,7 +89,7 @@ class LLMS_Post_Relationships {
 	 * Constructor.
 	 *
 	 * @since 3.16.12
-	 * @since [version] Prevent course/membership with active subscriptions deletion.
+	 * @since 5.4.0 Prevent course/membership with active subscriptions deletion.
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Post_Relationships {
 	/**
 	 * Determine whether a product deletion should take place.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @param bool|null $delete Whether to go forward with deletion.
 	 * @param WP_Post   $post   Post object.
@@ -142,7 +142,7 @@ class LLMS_Post_Relationships {
 	 *
 	 * The original message is a standard permission denied message.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response Result to send to the client.
 	 *                                                                   Usually a WP_REST_Response or WP_Error.
@@ -169,7 +169,7 @@ class LLMS_Post_Relationships {
 	/**
 	 * Returns the error message to display when deleting a product with active subscriptions.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @param int $post_id The WP_Post ID of the product.
 	 * @return string

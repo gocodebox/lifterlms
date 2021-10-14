@@ -3,8 +3,8 @@
  * View for the LLMS_Meta_Box_Order_Submit metabox.
  *
  * @since 3.19.0
- * @since [version] The order status dropdown is now limited to a subset of possible status.
- * @version [version]
+ * @since 5.4.0 The order status dropdown is now limited to a subset of possible status.
+ * @version 5.4.0
  *
  * @property LLMS_Meta_Box_Order_Submit $this  LLMS_Meta_Box_Order_Submit instance.
  * @property LLMS_Order                 $order LLMS_Order instance.

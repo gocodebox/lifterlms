@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.3.3
+Stable tag: 5.4.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,23 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.4.0 - 2021-10-14 =
+
+##### Updates
+
++ Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
++ When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
+
+##### Bug fixes
+
++ Fixed issue encountered when cloning lessons with attached assignments.
++ Fixed an error encountered when viewing an order for a deleted course or membership on the student dashboard.
+
+##### Templates Updated
+
++ templates/myaccount/view-order.php
+
+
 = v5.3.3 - 2021-10-05 =
 
 ##### Updates
@@ -683,24 +700,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Bugfix: Fixed a bug causing malformed character codes to be rendered in forms when installing forms with translated labels.
 + [LifterLMS Helper version 3.3.1](https://make.lifterlms.com/2021/07/26/lifterlms-helper-version-3-3-1/)
-
-
-= v5.1.0 - 2021-07-19 =
-
-##### Updates
-
-+ **Raised the minimum required WordPress core version to 5.8!**
-+ Adds WordPress core 5.8 compatibility.
-+ Improved user information forms required field validation.
-+ Added functionality to ensure that user email and password fields are *always* displayed to logged out users on checkout and registration forms.
-+ Added functionality to ensure that user email and password fields are *always* displayed on the account edit form.
-+ [LifterLMS Blocks version 2.2.0](https://make.lifterlms.com/2021/07/19/lifterlms-blocks-version-2-2-0/)
-
-##### Bug fixes
-
-+ Fixed an issue preventing certain orphaned quizzes from being deleted.
-+ Prevent users from submitting a password change without submitting their current password.
-+ Allow logged in users to checkout when no form fields are set to display.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

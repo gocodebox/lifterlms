@@ -2,7 +2,7 @@
  * Single Quiz View.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 5.4.0
  */
 define( [
 		'Models/Quiz',
@@ -271,7 +271,7 @@ define( [
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Use author id instead of the quiz author object.
+		 * @since 5.4.0 Use author id instead of the quiz author object.
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}
