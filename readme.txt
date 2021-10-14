@@ -543,6 +543,8 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
 + When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
++ Updates LifterLMS Blocks to [v2.2.1](https://make.lifterlms.com/2021/09/29/lifterlms-blocks-version-2-2-1/).
++ Updates LifterLMS REST to [v1.0.0-beta.20](https://make.lifterlms.com/2021/10/11/lifterlms-rest-api-version-1-0-0-beta-20/).
 
 ##### Bug fixes
 
