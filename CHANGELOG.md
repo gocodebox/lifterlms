@@ -1,6 +1,72 @@
 LifterLMS Changelog
 ===================
 
+v5.4.0 - 2021-10-14
+-------------------
+
+##### Updates
+
++ Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
++ When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
++ Updates LifterLMS Blocks to [v2.2.1](https://make.lifterlms.com/2021/09/29/lifterlms-blocks-version-2-2-1/).
++ Updates LifterLMS REST to [v1.0.0-beta.20](https://make.lifterlms.com/2021/10/11/lifterlms-rest-api-version-1-0-0-beta-20/).
+
+##### Bug fixes
+
++ Fixed issue encountered when cloning lessons with attached assignments.
++ Fixed an error encountered when viewing an order for a deleted course or membership on the student dashboard.
+
+##### Templates Updated
+
++ templates/myaccount/view-order.php
+
+
+v5.3.3 - 2021-10-05
+-------------------
+
+##### Updates
+
++ Update woocommerce/actions-scheduler to version 3.3.0.
+
+##### Bug fixes
+
++ Fixed an issue causing the latest earned achievement to not display on the "My Grades" tab in certain scenarios.
++ Fix issue causing a `waiting...` message to display on the JS dev console.
++ Fix improper usage of `apply_filters_deprecated()` encountered when using deprecated theme settings filters in the course builder.
++ Fixed missing text domain, thanks [chetansatasiya](https://github.com/chetansatasiya)!
+
+##### Developer notes
+
++ Improved the `LLMS.waitFor()` runtime JS dependency loader to output improved debugging information.
+
+
+v5.3.2 - 2021-09-21
+-------------------
+
+##### Updates
+
++ Updated the SendWP integration account management URL.
+
+##### Bug fixes
+
++ Fixed issue encountered with TinyMCE editor instances in repeater metabox groups.
++ Fixed issue causing the latest achievement to not display when reviewing grades on the student dashboard.
+
+
+v5.3.1 - 2021-09-13
+-------------------
+
+##### Bug fixes
+
++ Fixed quote slashing for non-admin roles when editing content in the course builder.
++ The LifterLMS admin icon now uses an encoded SVG to improve admin color scheme compatibility.
++ Fixed an issue with empty admin notices.
+
+##### Dev updates
+
++ The creation date of `llms_orders` is now determined by `llms_current_time()`.
+
+
 v5.3.0 - 2021-08-31
 -------------------
 

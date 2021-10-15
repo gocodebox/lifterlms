@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -870,7 +870,14 @@ function llms_is_ajax() {
  * @return bool
  */
 function llms_is_rest() {
-	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
+	/**
+	 * Filters whether the current request is a REST request.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @param $is_rest Whether the current request is a REST request.
+	 */
+	return apply_filters( 'llms_is_rest', ( defined( 'REST_REQUEST' ) && REST_REQUEST ) );
 }
 
 /**

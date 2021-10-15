@@ -15,13 +15,14 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	private $_arguments_original;
 
 	/**
-	 * Cleanup on tearDown
+	 * Cleanup on tear_down
 	 *
 	 * @since 4.5.1
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 		global $wpdb;
 		$wpdb->query( "TRUNCATE {$wpdb->posts}" );
 	}

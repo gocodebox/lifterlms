@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.3.0
+Stable tag: 5.4.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,68 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.4.0 - 2021-10-14 =
+
+##### Updates
+
++ Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
++ When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
++ Updates LifterLMS Blocks to [v2.2.1](https://make.lifterlms.com/2021/09/29/lifterlms-blocks-version-2-2-1/).
++ Updates LifterLMS REST to [v1.0.0-beta.20](https://make.lifterlms.com/2021/10/11/lifterlms-rest-api-version-1-0-0-beta-20/).
+
+##### Bug fixes
+
++ Fixed issue encountered when cloning lessons with attached assignments.
++ Fixed an error encountered when viewing an order for a deleted course or membership on the student dashboard.
+
+##### Templates Updated
+
++ templates/myaccount/view-order.php
+
+
+= v5.3.3 - 2021-10-05 =
+
+##### Updates
+
++ Update woocommerce/actions-scheduler to version 3.3.0.
+
+##### Bug fixes
+
++ Fixed an issue causing the latest earned achievement to not display on the "My Grades" tab in certain scenarios.
++ Fix issue causing a `waiting...` message to display on the JS dev console.
++ Fix improper usage of `apply_filters_deprecated()` encountered when using deprecated theme settings filters in the course builder.
++ Fixed missing text domain, thanks [chetansatasiya](https://github.com/chetansatasiya)!
+
+##### Developer notes
+
++ Improved the `LLMS.waitFor()` runtime JS dependency loader to output improved debugging information.
+
+
+= v5.3.2 - 2021-09-21 =
+
+##### Updates
+
++ Updated the SendWP integration account management URL.
+
+##### Bug fixes
+
++ Fixed issue encountered with TinyMCE editor instances in repeater metabox groups.
++ Fixed issue causing the latest achievement to not display when reviewing grades on the student dashboard.
+
+
+= v5.3.1 - 2021-09-13 =
+
+##### Bug fixes
+
++ Fixed quote slashing for non-admin roles when editing content in the course builder.
++ The LifterLMS admin icon now uses an encoded SVG to improve admin color scheme compatibility.
++ Fixed an issue with empty admin notices.
+
+##### Dev updates
+
++ The creation date of `llms_orders` is now determined by `llms_current_time()`.
+
+
 = v5.3.0 - 2021-08-31 =
 
 ##### Updates
@@ -640,136 +702,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Bugfix: Fixed a bug causing malformed character codes to be rendered in forms when installing forms with translated labels.
 + [LifterLMS Helper version 3.3.1](https://make.lifterlms.com/2021/07/26/lifterlms-helper-version-3-3-1/)
-
-
-= v5.1.0 - 2021-07-19 =
-
-##### Updates
-
-+ **Raised the minimum required WordPress core version to 5.8!**
-+ Adds WordPress core 5.8 compatibility.
-+ Improved user information forms required field validation.
-+ Added functionality to ensure that user email and password fields are *always* displayed to logged out users on checkout and registration forms.
-+ Added functionality to ensure that user email and password fields are *always* displayed on the account edit form.
-+ [LifterLMS Blocks version 2.2.0](https://make.lifterlms.com/2021/07/19/lifterlms-blocks-version-2-2-0/)
-
-##### Bug fixes
-
-+ Fixed an issue preventing certain orphaned quizzes from being deleted.
-+ Prevent users from submitting a password change without submitting their current password.
-+ Allow logged in users to checkout when no form fields are set to display.
-
-
-= v5.0.2 - 2021-07-08 =
-
-##### LifterLMS Blocks
-
-+ Upgraded to [version 2.1.1](https://make.lifterlms.com/2021/07/08/lifterlms-blocks-version-2-1-1/).
-
-##### Bug Fixes
-
-+ Fixed issue with non-Latin characters in dashboard endpoint URL slugs.
-+ Fixed issue preventing address localization when using the [lifterlms_registration] shortcode.
-
-
-= v5.0.1 - 2021-06-28 =
-
-##### Updates
-
-+ Update to [LifterLMS Blocks v2.1.0](https://make.lifterlms.com/2021/06/28/lifterlms-blocks-version-2-1-0/).
-+ Added a new filter to allow programmatically alter required field validation results.
-
-##### Bugfixes
-
-+ Fixed an issue causing preventing form layout options from working when passed into shortcodes.
-+ Fixed an issue preventing custom radio, select, and dropdown fields from working during checkout.
-+ Fixed an accessibility issue encountered during password strength validation.
-
-
-= v5.0.0 - 2021-06-22 =
-
-##### User Information Form Builder
-
-+ Customize all user information collection forms using the block editor for drag and drop and WYSIWYG form building.
-+ Customize field labels, placeholders, descriptions and more with an easy point and click interface.
-+ Determine if fields are required or optional with a simple toggle switch.
-+ Update the form layout with the block editor. Reorder fields, add columns, and more with a simple drag and drop interface.
-+ Remove unwanted fields with the click of a button.
-
-##### User Location Information Form Fields
-
-+ During user account creation and updates the user location fields are now locale aware ensuring that the proper terminology is used and only locale-required fields are displayed for the selected locale.
-+ The "Country" field has been updated to be automatically populated with a list of countries. View the full list in the file at `languages/countries.php` and the filter `lifterlms_countries` can be used to modify the default list at runtime.
-+ The "State" field on user forms has been updated to be automatically populated with a list of states (provinces or regions) for the selected country. This list of states can be found in the file at `languages/states.php` and the filter `lifterlms_states` can be used to modify the default list at runtime.
-+ Both "Country" and "State" fields are now searchable dropdowns elements.
-+ The lists of countries and states will be automatically updated during future releases based on information provided by [GeoNames](https://www.geonames.org/) APIs.
-
-##### Mergecodes everywhere via new `[llms-user]` shortcode
-
-+ Allows merging most user information field data into any post or page, email, or notification (as well as widgets and more).
-
-##### Updates
-
-+ Email and password confirmation fields may now be made optional.
-+ "User Information Options" have been largely removed in favor of determining which fields are displayed via the forms UI
-+ The former "User Information Options" settings area has been renamed to "User Privacy Options".
-+ Removed email lookup logic since `wp_authenticate()` supports email addresses as `user_login` since WP 4.5.
-+ Custom user fields added via filters are now displayed on the admin panel at priority 11 instead of 10.
-+ Added shortcode processing in LifterLMS-generated emails.
-+ If a symbol cannot be found for the supplied currency code, return the code instead of an empty string.
-
-##### Bug Fixes
-
-+ Changed the filter on return of `LLMS_Person_Handler::get_password_reset_fields()` from `lifterlms_lost_password_fields` to `llms_password_reset_fields`.
-+ Fixed duplicate references to the `llms-select2` script.
-
-##### Development changes
-
-+ Added before and after actions hooks for admin tools.
-+ The filter `lifterlms_before_user_${action}` is now triggered by `do_action_ref_array()` instead of `do_action()` allowing modification of `$posted_data` and `$fields` via hooks.
-+ A number of action and filter hooks have been moved to new locations within the codebase. They will continue to function as expected (with some minor exceptions).
-+ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
-+ Stop loading removed processor "table_to_csv".
-
-##### Library & Vendor Updates
-
-+ Updates LifterLMS Blocks to version 2.0.1.
-+ Updates woocommerce/actions-scheduler to version 3.2.1.
-+ Load core libraries from new location and load WP Background Processing lib.
-+ The vendor script dependency `topModal.js` has been removed.
-
-##### Templates Updated
-
-+ templates/checkout/form-checkout.php
-+ templates/checkout/form-confirm-payment.php
-+ templates/checkout/form-gateways.php
-+ templates/global/form-login.php
-+ templates/global/form-registration.php
-+ templates/myaccount/form-edit-account.php
-+ templates/product/free-enroll-form.php
-
-##### Deprecations
-
-The following have been deprecated and will be removed from LifterLMS in a major update following version 5.0.0.
-
-+ Class Method: `LLMS_Person_Handler::get_available_fields()` is deprecated in favor of `LLMS_Forms::get_form_fields()`.
-+ Class Method: `LLMS_Person_Handler::register()` is deprecated, in favor of `llms_register_user()`.
-+ Class Method: `LLMS_Person_Handler::sanitize_field()` (private method) is deprecated with no replacement.
-+ Class Method: `LLMS_Person_Handler::update()` is deprecated, in favor of `llms_update_user()`.
-+ Class Method: `LLMS_Person_Handler::validate_fields()` is deprecated with no replacement.
-+ Class Method: `LLMS_Person_Handler::voucher_toggle_script()` is deprecated with no replacement.
-+ Filter: `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
-+ Filter: `lifterlms_get_user_custom_fields` is deprecated with no replacement.
-+ Function: `llms_get_minimum_password_strength()` is deprecated with no replacement.
-+ Option: `lifterlms_registration_generate_username` is deprecated in favor of the new method `LLMS_Forms::are_usernames_enabled()`.
-
-##### Removed Items
-
-+ Private method `LLMS_Processors::includes()` has been removed.
-+ Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
-+ Previously deprecated class method `LLMS_Quiz::get_lessons()` has been removed.
-+ Previously deprecated class method `LLMS_Controller_Quizzes::take_quiz()` has been removed.
-+ Previously deprecated class `LLMS_Processor_Table_To_Csv` has been removed.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

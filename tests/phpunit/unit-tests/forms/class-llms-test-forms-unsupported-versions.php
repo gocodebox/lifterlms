@@ -8,7 +8,6 @@
  * @group forms_unsupported_versions
  *
  * @since 5.0.0
- * @version 5.0.0
  */
 class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 
@@ -16,16 +15,25 @@ class LLMS_Test_Forms_Unsupported_Versions extends LLMS_UnitTestCase {
 	 * Set up before class
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms-unsupported-versions.php';
 	}
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since 5.0.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->init_main();
 
 	}

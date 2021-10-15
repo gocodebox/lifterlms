@@ -8,7 +8,6 @@
  * @group settings_page
  *
  * @since 3.37.3
- * @version 3.37.3
  */
 class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 
@@ -16,12 +15,13 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.37.3
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/settings/class.llms.settings.page.php';
 
 		// Setup a mock settings page.

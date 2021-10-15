@@ -15,7 +15,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 5.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -55,7 +55,7 @@ return array(
 		'blockName'   => 'llms/form-field-user-name',
 		'innerBlocks' => array(
 			array(
-				'blockName' => 'llms/form-field-user-last-name',
+				'blockName' => 'llms/form-field-user-first-name',
 				'attrs'     => array(
 					'id'          => 'first_name',
 					'required'    => true,

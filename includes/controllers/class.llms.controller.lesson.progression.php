@@ -127,7 +127,16 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
-		do_action( 'llms_trigger_lesson_completion', get_current_user_id(), $lesson_id, 'lesson_' . $lesson_id );
+		/**
+		 * Filter to modify the user id instead of current logged in user id.
+		 *
+		 * @param int $user_id User id to mark lesson as complete.
+		 *
+		 * @since 5.4.0
+		 */
+		$user_id = apply_filters( 'llms_lesson_completion_user_id', get_current_user_id() );
+
+		do_action( 'llms_trigger_lesson_completion', $user_id, $lesson_id, 'lesson_' . $lesson_id );
 
 		if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 
@@ -162,8 +171,17 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
+		/**
+		 * Filter to modify the user id instead of current logged in user id.
+		 *
+		 * @param int $user_id User id to mark lesson as incomplete.
+		 *
+		 * @since 5.4.0
+		 */
+		$user_id = apply_filters( 'llms_lesson_incomplete_user_id', get_current_user_id() );
+
 		// Mark incomplete and add a notice on success.
-		if ( llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
+		if ( llms_mark_incomplete( $user_id, $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
 			// Translators: %s is the title of the lesson.
 			llms_add_notice( sprintf( __( 'The lesson %s is now marked as incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 		}

@@ -16,7 +16,8 @@
 [![WordPress Plugin Downloads][img-wp-downloads]][link-wp-advanced]
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
-[![Travis Build Status][img-travis]][link-travis]
+[![PHPUnit Tests][img-phpunit-tests]][link-phpunit-tests]
+[![PHPCS Coding Standards][img-phpcs-checks]][link-phpcs-checks]
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
 
@@ -98,8 +99,8 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/therealmarknelson"><img src="https://avatars.githubusercontent.com/u/5050601?v=4" title="therealmarknelson" width="80" height="80"></a>
 <a href="https://github.com/PSmolic"><img src="https://avatars.githubusercontent.com/u/4542049?v=4" title="PSmolic" width="80" height="80"></a>
 <a href="https://github.com/actual-saurabh"><img src="https://avatars.githubusercontent.com/u/1739834?v=4" title="actual-saurabh" width="80" height="80"></a>
-<a href="https://github.com/bmatt468"><img src="https://avatars.githubusercontent.com/u/8673706?v=4" title="bmatt468" width="80" height="80"></a>
 <a href="https://github.com/pondermatic"><img src="https://avatars.githubusercontent.com/u/5377968?v=4" title="pondermatic" width="80" height="80"></a>
+<a href="https://github.com/bmatt468"><img src="https://avatars.githubusercontent.com/u/8673706?v=4" title="bmatt468" width="80" height="80"></a>
 <a href="https://github.com/chrisbadgett"><img src="https://avatars.githubusercontent.com/u/12163552?v=4" title="chrisbadgett" width="80" height="80"></a>
 <a href="https://github.com/MaximilianoRicoTabo"><img src="https://avatars.githubusercontent.com/u/1678457?v=4" title="MaximilianoRicoTabo" width="80" height="80"></a>
 <a href="https://github.com/alimathis"><img src="https://avatars.githubusercontent.com/u/16086976?v=4" title="alimathis" width="80" height="80"></a>
@@ -128,6 +129,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/README1ST"><img src="https://avatars.githubusercontent.com/u/30046495?v=4" title="README1ST" width="80" height="80"></a>
 <a href="https://github.com/andrewvaughan"><img src="https://avatars.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
 <a href="https://github.com/CadenG150"><img src="https://avatars.githubusercontent.com/u/30481164?v=4" title="CadenG150" width="80" height="80"></a>
+<a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
 <a href="https://github.com/unt01d"><img src="https://avatars.githubusercontent.com/u/11303423?v=4" title="unt01d" width="80" height="80"></a>
 <a href="https://github.com/iTechsTR"><img src="https://avatars.githubusercontent.com/u/33372714?v=4" title="iTechsTR" width="80" height="80"></a>
 <a href="https://github.com/moorscode"><img src="https://avatars.githubusercontent.com/u/2005352?v=4" title="moorscode" width="80" height="80"></a>
@@ -152,10 +154,11 @@ Endless thanks to all our incredible contributors!
 [link-cc-coverage]: https://codeclimate.com/github/gocodebox/lifterlms/coverage "Code coverage reports on Code Climate"
 [link-experts]: https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/ "Hire a LifterLMS Expert"
 [link-php]: https://www.php.net/supported-versions "PHP Support Versions"
+[link-phpunit-tests]: https://github.com/gocodebox/lifterlms/actions/workflows/test-phpunit.yml "PHPUnit Tests Status"
+[link-phpcs-checks]: https://github.com/gocodebox/lifterlms/actions/workflows/coding-standards.yml "PHPCS Coding Standards Checks"
 [link-slack]: https://lifterlms.com/slack "Chat with the community on Slack"
 [link-support]: https://lifterlms.com/my-account/my-tickets "LifterLMS customer support"
 [link-support-forums]: https://wordpress.org/support/plugin/lifterlms "LifterLMS user support forums"
-[link-travis]: https://travis-ci.com/github/gocodebox/lifterlms "LifterLMS on Travis CI"
 [link-wp-advanced]:https://wordpress.org/plugins/lifterlms/advanced/ "Advanced plugin details on the WordPress plugin repository"
 [link-wp-repo]:https://wordpress.org/plugins/lifterlms/ "LifterLMS on the WordPress plugin repository"
 [link-wp-reviews]:https://wordpress.org/support/plugin/lifterlms/reviews/ "Leave a review on the WordPress plugin repository"
@@ -165,12 +168,11 @@ Endless thanks to all our incredible contributors!
 [img-contributors]: https://img.shields.io/github/contributors/gocodebox/lifterlms?color=blue&style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJzdmcyIiB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjU4NSIgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPiA8ZyBpZD0ibGF5ZXIxIj4gIDxwYXRoIGlkPSJwYXRoMjQxNyIgZD0ibTI5Ny4zIDU1MC44N2MtMTMuNzc1LTE1LjQzNi00OC4xNzEtNDUuNTMtNzYuNDM1LTY2Ljg3NC04My43NDQtNjMuMjQyLTk1LjE0Mi03Mi4zOTQtMTI5LjE0LTEwMy43LTYyLjY4NS01Ny43Mi04OS4zMDYtMTE1LjcxLTg5LjIxNC0xOTQuMzQgMC4wNDQ1MTItMzguMzg0IDIuNjYwOC01My4xNzIgMTMuNDEtNzUuNzk3IDE4LjIzNy0zOC4zODYgNDUuMS02Ni45MDkgNzkuNDQ1LTg0LjM1NSAyNC4zMjUtMTIuMzU2IDM2LjMyMy0xNy44NDUgNzYuOTQ0LTE4LjA3IDQyLjQ5My0wLjIzNDgzIDUxLjQzOSA0LjcxOTcgNzYuNDM1IDE4LjQ1MiAzMC40MjUgMTYuNzE0IDYxLjc0IDUyLjQzNiA2OC4yMTMgNzcuODExbDMuOTk4MSAxNS42NzIgOS44NTk2LTIxLjU4NWM1NS43MTYtMTIxLjk3IDIzMy42LTEyMC4xNSAyOTUuNSAzLjAzMTYgMTkuNjM4IDM5LjA3NiAyMS43OTQgMTIyLjUxIDQuMzgwMSAxNjkuNTEtMjIuNzE1IDYxLjMwOS02NS4zOCAxMDguMDUtMTY0LjAxIDE3OS42OC02NC42ODEgNDYuOTc0LTEzNy44OCAxMTguMDUtMTQyLjk4IDEyOC4wMy01LjkxNTUgMTEuNTg4LTAuMjgyMTYgMS44MTU5LTI2LjQwOC0yNy40NjF6IiBmaWxsPSIjZGQ1MDRmIi8%2BIDwvZz48L3N2Zz4%3D
 [img-contributions-welcome]: https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik02NzIgMTQ3MnEwLTQwLTI4LTY4dC02OC0yOC02OCAyOC0yOCA2OCAyOCA2OCA2OCAyOCA2OC0yOCAyOC02OHptMC0xMTUycTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em02NDAgMTI4cTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em05NiAwcTAgNTItMjYgOTYuNXQtNzAgNjkuNXEtMiAyODctMjI2IDQxNC02NyAzOC0yMDMgODEtMTI4IDQwLTE2OS41IDcxdC00MS41IDEwMHYyNnE0NCAyNSA3MCA2OS41dDI2IDk2LjVxMCA4MC01NiAxMzZ0LTEzNiA1Ni0xMzYtNTYtNTYtMTM2cTAtNTIgMjYtOTYuNXQ3MC02OS41di04MjBxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZxMCA1Mi0yNiA5Ni41dC03MCA2OS41djQ5N3E1NC0yNiAxNTQtNTcgNTUtMTcgODcuNS0yOS41dDcwLjUtMzEgNTktMzkuNSA0MC41LTUxIDI4LTY5LjUgOC41LTkxLjVxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+
 [img-php]: https://img.shields.io/badge/PHP-7.2%2B-brightgreen?style=for-the-badge&logoColor=white&logo=php
+[img-phpunit-tests]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Test%20PHPUnit?label=PHPUnit&logo=github&style=for-the-badge
+[img-phpcs-checks]: https://img.shields.io/github/workflow/status/gocodebox/lifterlms/Coding%20Standards?label=PHPCS&logo=github&style=for-the-badge
 [img-slack]: https://img.shields.io/badge/chat-on%20slack-blueviolet?style=for-the-badge&logo=slack
-[img-travis]: https://img.shields.io/travis/com/gocodebox/lifterlms?logo=travis-ci&logoColor=white&style=for-the-badge
 [img-wp-downloads]: https://img.shields.io/wordpress/plugin/dt/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-installs]: https://img.shields.io/wordpress/plugin/installs/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-plugin]:https://img.shields.io/wordpress/plugin/v/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-rating]:https://img.shields.io/wordpress/plugin/r/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-tested]:https://img.shields.io/wordpress/v/lifterlms.svg?style=for-the-badge&logo=wordpress
-
-

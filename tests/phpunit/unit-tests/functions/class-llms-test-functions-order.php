@@ -12,6 +12,7 @@
  *
  * @since 3.27.0
  * @since 5.0.0 Updated for form handler error codes & install forms on setup.
+ * @since 5.4.0 Added tests for `llms_get_possible_order_statuses()`.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -19,7 +20,6 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 * Test the llms_get_order_by_key() method.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
@@ -53,10 +53,11 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_get_order_status_name()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_order_status_name().
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_order_status_name() {
 		$this->assertNotEmpty( llms_get_order_status_name( 'llms-active' ) );
@@ -65,10 +66,12 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test llms_get_order_statuses()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.19.0
+	 * Test llms_get_order_statuses().
+	 *
+	 * @since 3.3.1
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_order_statuses() {
 
@@ -112,10 +115,9 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_locate_order_for_user_and_plan() method
+	 * Test llms_locate_order_for_user_and_plan() method.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
@@ -128,19 +130,19 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 			'post_type' => 'llms_access_plan',
 		) );
 
-		// fake student & fake plan
+		// Fake student & fake plan
 		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid + 1 ) ) );
 
-		// real student & fake plan
+		// Real student & fake plan
 		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid, $pid + 1 ) ) );
 
-		// fake student & real plan
+		// Fake student & real plan
 		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid ) ) );
 
-		// real student & real plan & no order exists.
+		// Real student & real plan & no order exists.
 		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid ) ) );
 
-		// real student & real plan & order exists.
+		// Real student & real plan & order exists.
 		$order->set( 'user_id', $uid );
 		$order->set( 'plan_id', $pid );
 		$this->assertSame( $order->get( 'id' ), llms_locate_order_for_user_and_plan( $uid, $pid ) );
@@ -152,19 +154,19 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.27.0
 	 * @since 5.0.0 Install forms & Updated expected error code.
-	 *               Only logged in users can edit themselves.
+	 *              Only logged in users can edit themselves.
 	 * @return void
 	 */
 	public function test_llms_setup_pending_order() {
 
 		LLMS_Forms::instance()->install( true );
 
-		// enable t&c
+		// Enable t&c.
 		update_option( 'lifterlms_registration_require_agree_to_terms', 'yes' );
 		update_option( 'lifterlms_terms_page_id', 123456789 );
 
-		// order data to pass to tests
-		// will be built upon as we go through tests below
+		// Order data to pass to tests.
+		// Will be built upon as we go through tests below.
 		$order_data = array(
 			'plan_id' => '',
 			'agree_to_terms' => '',
@@ -173,20 +175,20 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 			'customer' => array(),
 		);
 
-		// didn't agree to t&c
+		// Didn't agree to t&c.
 		$this->setup_pending_order_fail( $order_data, 'terms-violation' );
 
-		// agree to t&c for all future tests
+		// Agree to t&c for all future tests.
 		$order_data['agree_to_terms'] = 'yes';
 
-		// missing plan id
+		// Missing plan id.
 		$this->setup_pending_order_fail( $order_data, 'missing-plan-id' );
 
-		// add a fake plan id
+		// Add a fake plan id.
 		$order_data['plan_id'] = 123;
 		$this->setup_pending_order_fail( $order_data, 'invalid-plan-id' );
 
-		// create a real plan and add it to the order data
+		// Create a real plan and add it to the order data.
 		$order_data['plan_id'] = $this->factory->post->create( array(
 			'post_type' => 'llms_access_plan',
 			'post_title' => 'plan name',
@@ -195,36 +197,36 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$course_id = $this->factory->post->create( array( 'post_type' => 'course' ) );
 		update_post_meta( $order_data['plan_id'], '_llms_product_id', $course_id );
 
-		// fake coupon code
+		// Fake coupon code.
 		$order_data['coupon_code'] = 'coupon';
 		$this->setup_pending_order_fail( $order_data, 'coupon-not-found' );
 
-		// create a real coupon
+		// Create a real coupon.
 		$coupon_id = $this->factory->post->create( array(
 			'post_type' => 'llms_coupon',
 			'post_title' => 'coupon',
 		) );
-		// but make it unusable
+		// But make it unusable.
 		update_post_meta( $coupon_id, '_llms_expiration_date', date( 'm/d/Y', strtotime( '-1 year' ) ) );
 		$this->setup_pending_order_fail( $order_data, 'invalid-coupon' );
 
-		// make the coupon usable
+		// Make the coupon usable.
 		update_post_meta( $coupon_id, '_llms_expiration_date', date( 'm/d/Y', strtotime( '+5 years' ) ) );
 
-		// missing payment gateway
+		// Missing payment gateway.
 		$this->setup_pending_order_fail( $order_data, 'missing-gateway-id' );
 
-		// fake payment gateway
+		// Fake payment gateway.
 		$order_data['payment_gateway'] = 'fakeway';
 		$this->setup_pending_order_fail( $order_data, 'invalid-gateway' );
 
-		// real payment gateway
+		// Real payment gateway.
 		$order_data['payment_gateway'] = 'manual';
 
-		// no customer data
+		// No customer data.
 		$this->setup_pending_order_fail( $order_data, 'missing-customer' );
 
-		// most customer data but missing required email confirm field.
+		// Most customer data but missing required email confirm field.
 		$order_data['customer'] = array(
 			'user_login' => 'arstehnarst',
 			'email_address' => 'arstinhasrteinharst@test.net',
@@ -241,10 +243,10 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 			'llms_phone' => '1234567890',
 		);
 
-		// missing required field
+		// Missing required field.
 		$this->setup_pending_order_fail( $order_data, 'llms-form-missing-required' );
 
-		// existing user who's already enrolled
+		// Existing user who's already enrolled.
 		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
 		wp_set_current_user( $uid );
 		$order_data['customer']['email_address_confirm'] = 'arstinhasrteinharst@test.net';
@@ -252,7 +254,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		llms_enroll_student( $uid, $course_id );
 		$this->setup_pending_order_fail( $order_data, 'already-enrolled' );
 
-		// this should return an array of details we need to create a new order!
+		// This should return an array of details we need to create a new order!
 		unset( $order_data['customer']['user_id'] );
 		wp_set_current_user( null );
 		$order_data['customer']['email_address'] = 'arstarst@ats.net';
@@ -261,6 +263,90 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		$this->assertEquals( array( 'person', 'plan', 'gateway', 'coupon' ), array_keys( $setup ) );
 
 	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a recurring order.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_recurring_order_statuses() {
+		$order = $this->get_mock_order();
+		$this->assertTrue( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'recurring' ),
+			llms_get_possible_order_statuses( $order )
+		);
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a single order.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_single_order_statuses() {
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'single' );
+		$this->assertFalse( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'single' ),
+			llms_get_possible_order_statuses( $order )
+		);
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a recurring order with deleted product.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_recurring_order_statuses_deleted_product() {
+
+		$order = $this->get_mock_order();
+
+		// Delete product.
+		wp_delete_post( $order->get( 'product_id' ) );
+
+		$this->assertTrue( $order->is_recurring() );
+		$this->assertEquals(
+			array(
+				'llms-expired',
+				'llms-cancelled',
+				'llms-refunded',
+				'llms-failed',
+			),
+			array_keys( llms_get_possible_order_statuses( $order ) )
+		);
+
+	}
+
+	/**
+	 * Test llms_get_possible_order_statuses() function for a single with deleted product.
+	 *
+	 * @since 5.4.0
+	 *
+	 * @return void
+	 */
+	public function test_get_possible_single_order_statuses_deleted_product() {
+
+		$order = $this->get_mock_order();
+		$order->set( 'order_type', 'single' );
+
+		// Delete product.
+		wp_delete_post( $order->get( 'product_id' ) );
+
+		$this->assertFalse( $order->is_recurring() );
+		$this->assertEquals(
+			llms_get_order_statuses( 'single' ),
+			llms_get_possible_order_statuses( $order )
+		);
+
+	}
+
 
 	/**
 	 * Test llms_setup_pending_order() failure
@@ -275,7 +361,6 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	private function setup_pending_order_fail( $order_data, $expected_code ) {
 
 		$setup = llms_setup_pending_order( $order_data );
-// var_dump( $setup );
 		$this->assertTrue( is_wp_error( $setup ) );
 		$this->assertEquals( $expected_code, $setup->get_error_code() );
 

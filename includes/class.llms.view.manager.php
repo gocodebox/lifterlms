@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 4.16.0
+ * @version 5.3.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -407,11 +407,12 @@ class LLMS_View_Manager {
 	 * Output a notice alerting users that open registration is currently disabled
 	 *
 	 * @since 5.0.0
+	 * @since 5.3.3 Added missing textdomain.
 	 *
 	 * @return void
 	 */
 	public function open_reg_notice() {
-		llms_print_notice( __( 'This is a preview of the Open Registration form but Open Registration is currently disabled. Enable Open Registration to allow users to create accounts on this page.' ), 'debug' );
+		llms_print_notice( __( 'This is a preview of the Open Registration form but Open Registration is currently disabled. Enable Open Registration to allow users to create accounts on this page.', 'lifterlms' ), 'debug' );
 	}
 
 	/**

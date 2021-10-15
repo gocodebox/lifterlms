@@ -1,36 +1,35 @@
 <?php
 /**
- * Notification View: Student Welcome
+ * Notification View: Student Welcome.
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.17.8
- * @version 3.18.2
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification View: Purchase Receipt
+ * Notification View: Purchase Receipt.
  *
  * @since 3.17.8
- * @since 3.18.2 Unknown.
  */
 class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notification_View {
 
 	/**
-	 * Notification Trigger ID
+	 * Notification Trigger ID.
 	 *
-	 * @var [type]
+	 * @var string
 	 */
 	public $trigger_id = 'subscription_cancelled';
 
 	/**
-	 * Setup body content for output
+	 * Setup body content for output.
 	 *
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return string
 	 */
 	protected function set_body() {
 
@@ -45,33 +44,33 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	}
 
 	/**
-	 * Setup footer content for output
+	 * Setup footer content for output.
 	 *
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
 	}
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification icon for output.
 	 *
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return string
 	 */
 	protected function set_icon() {
 		return '';
 	}
 
 	/**
-	 * Setup merge codes that can be used with the notification
+	 * Setup merge codes that can be used with the notification.
 	 *
-	 * @return   array
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -85,12 +84,13 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	}
 
 	/**
-	 * Replace merge codes with actual values
+	 * Replace merge codes with actual values.
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 * @since 5.4.0 Account for deleted products.
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -124,36 +124,39 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( $obj ) {
-					$code = $obj->get_post_type_label( 'singular_name' );
-				} else {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED ITEM]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
+				} else {
+					$code = $obj->get_post_type_label( 'singular_name' );
 				}
+
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
 	}
 
 	/**
-	 * Setup notification subject for output
+	 * Setup notification subject for output.
 	 *
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return string
 	 */
 	protected function set_subject() {
 		return esc_html__( 'Subscription Cancellation Notice', 'lifterlms' );
 	}
 
 	/**
-	 * Setup notification title for output
+	 * Setup notification title for output.
 	 *
-	 * @return   string
-	 * @since    3.17.8
-	 * @version  3.17.8
+	 * @since 3.17.8
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return sprintf( esc_html__( '%1$s subscription cancellation', 'lifterlms' ), '{{PRODUCT_TYPE}}' );
