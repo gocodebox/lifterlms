@@ -107,17 +107,15 @@ class LLMS_Engagements {
 
 		global $wpdb;
 
+		$related_select = '';
+		$related_join   = '';
+		$related_where  = '';
+
 		if ( $related_post_id ) {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
 			$related_join   = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
 			$related_where  = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
-
-		} else {
-
-			$related_select = '';
-			$related_join   = '';
-			$related_where  = '';
 
 		}
 
@@ -528,7 +526,7 @@ class LLMS_Engagements {
 		 *
 		 * If there's no related post id we have to send one anyway for certs to work.
 		 *
-		 * This would only be for registration events @ version 2.3.0 so we the engagement_id twice until we find a better solution.
+		 * This would only be for registration events @ version 2.3.0 so we pass the engagement_id twice until we find a better solution.
 		 */
 		if ( 'certificate' === $engagement->event_type && empty( $parsed['handler_args'][2] ) ) {
 			$parsed['handler_args'][2] = $parsed['handler_args'][1];
