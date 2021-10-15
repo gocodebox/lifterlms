@@ -324,7 +324,14 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 	}
 
-
+	/**
+	 * Runs tests for all engagements types
+	 *
+	 * @since [version]
+	 *
+	 * @param function $callback A callback function that will be passed the engagement type, expected action, and delay.
+	 * @return void
+	 */
 	private function run_engagement_tests( $callback ) {
 
 		$tests = array(
@@ -345,6 +352,18 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Simulates triggering of an engagement and asserts that it ran the expected action
+	 *
+	 * @since [version]
+	 *
+	 * @param string $trigger_filter  The action hook used to trigger the engagement.
+	 * @param array  $trigger_args    Arguments passed to the hook, eg: lifterlms_access_plan_purchased.
+	 * @param string $expected_action Action expected to be triggered, eg: lifterlms_engagement_award_achievement.
+	 * @param array  $expected_args   Arguments expected to be passed  to the $expected_action callback function.
+	 * @param int    $delay           Delay in days. If `0` the action should be triggered immediately, otherwise the trigger should be scheduled this number of days in the future.
+	 * @return void
+	 */
 	private function assertEngagementTriggered( $trigger_filter, $trigger_args, $expected_action, $expected_args, $delay = 0 ) {
 
 		// Record the number of run actions so we can ensure it was properly incremented.
@@ -387,6 +406,19 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Create an engagement post and template post
+	 *
+	 * @since [version]
+	 *
+	 * @see [Reference]
+	 * @link [URL]
+	 *
+	 * @param string  $trigger_type    Type of trigger (see list below).
+	 * @param string  $engagement_type Type of engagement to be awarded (email, achievement, certificate).
+	 * @param integer $delay           Sending delay for the created engagement trigger.
+	 * @return WP_Post Post object for the created `llms_engagement` post type.
+	 */
 	public function create_mock_engagement( $trigger_type, $engagement_type, $delay = 0 ) {
 
 		/**
@@ -411,7 +443,6 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		 * course_purchased
 		 * membership_purchased
 		 */
-
 		switch ( $trigger_type ) {
 			case 'user_registration':
 				$trigger_post = 0;
@@ -435,7 +466,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		}
 
 		$engagement_create_func = "create_{$engagement_type}_template";
-		$engagement_post = $this->$engagement_create_func();
+		$engagement_post        = $this->$engagement_create_func();
 
 		return $this->factory->post->create_and_get( array(
 			'post_type'  => 'llms_engagement',
