@@ -173,7 +173,7 @@ class LLMS_Engagements {
 				$trigger_type
 			),
 			OBJECT
-		);
+		); // no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		/**
@@ -602,7 +602,7 @@ class LLMS_Engagements {
 	 * @since [version]
 	 *
 	 * @param int          $post_id WP_Post ID.
-	 * @param WP_Post|null $post_id Post object of the deleted post or `null` when the post was trashed.
+	 * @param WP_Post|null $post    Post object of the deleted post or `null` when the post was trashed.
 	 * @return void
 	 */
 	public function unschedule_delayed_engagements( $post_id, $post = null ) {
