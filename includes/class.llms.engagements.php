@@ -80,6 +80,21 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_engagement_award_achievement', array( $this, 'handle_achievement' ), 10, 1 );
 		add_action( 'lifterlms_engagement_award_certificate', array( $this, 'handle_certificate' ), 10, 1 );
 
+		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
+		add_action( 'trashed_post', array( $this, 'unschedule_delayed_engagements' ), 20 );
+
+	}
+
+	/**
+	 * Retrieve a group id used when scheduling delayed engagement action triggers.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post type.
+	 * @return string
+	 */
+	private function get_delayed_group_id( $engagement_id ) {
+		return sprintf( 'llms_engagement_%d', $engagement_id );
 	}
 
 	/**
@@ -449,6 +464,7 @@ class LLMS_Engagements {
 
 		// Parse incoming hook data.
 		$hook = $this->parse_hook( current_filter(), func_get_args() );
+
 		// We need a user and a trigger to proceed, related_post is optional though.
 		if ( ! $hook['user_id'] || ! $hook['trigger_type'] ) {
 			return;
@@ -519,6 +535,7 @@ class LLMS_Engagements {
 			$trigger_data['user_id'],
 			$engagement->engagement_id,
 			$trigger_data['related_post_id'],
+			absint( $engagement->trigger_id ),
 		);
 
 		/**
@@ -562,12 +579,39 @@ class LLMS_Engagements {
 		$delay = absint( $delay );
 		if ( $delay ) {
 
-			wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $data['handler_action'], array( $data['handler_args'] ) );
+			as_schedule_single_action(
+				time() + ( DAY_IN_SECONDS * $delay ),
+				$data['handler_action'],
+				array( $data['handler_args'] ),
+				! empty( $data['handler_args'][3] ) ? $this->get_delayed_group_id( $data['handler_args'][3] ) : null
+			);
 
 		} else {
 
 			do_action( $data['handler_action'], $data['handler_args'] );
 
+		}
+
+	}
+
+	/**
+	 * Unschedule all scheduled actions for a delayed engagement
+	 *
+	 * This is the callback function for deleted and trashed engagement posts
+	 *
+	 * @since [version]
+	 *
+	 * @param int          $post_id WP_Post ID.
+	 * @param WP_Post|null $post_id Post object of the deleted post or `null` when the post was trashed.
+	 * @return void
+	 */
+	public function unschedule_delayed_engagements( $post_id, $post = null ) {
+
+		// During trash, there's no post object sent along.
+		$post = empty( $post ) ? get_post( $post_id ) : $post;
+
+		if ( is_a( $post, 'WP_Post' ) && 'llms_engagement' === $post->post_type ) {
+			as_unschedule_all_actions( '', array(), $this->get_delayed_group_id( $post_id ) );
 		}
 
 	}

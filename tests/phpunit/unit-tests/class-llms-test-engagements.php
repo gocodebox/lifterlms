@@ -41,6 +41,59 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test delayed triggers are unscheduled when the triggering engagement post is trashed/deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/290
+	 *
+	 * @return void
+	 */
+	public function test_delayed_enagagement_deleted() {
+
+		$users = $this->factory->user->create_many( 5 );
+
+		$delay              = 1;
+		$engagement         = $this->create_mock_engagement( 'course_completed', 'email', $delay );
+		$engagement_post_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+		$related_post_id    = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+
+		$trigger_filter     = 'lifterlms_course_completed';
+		$expected_action    = 'lifterlms_engagement_send_email';
+
+		foreach ( $users as $user ) {
+
+			$trigger_args  = array( $user, $related_post_id );
+			$expected_args = array( array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ) );
+
+			// Record the number of run actions so we can ensure it was properly incremented.
+			$start_actions = did_action( $expected_action );
+
+			// Mock the `current_filter()` return.
+			global $wp_current_filter;
+			$wp_current_filter = array( $trigger_filter );
+
+			// Simulate trigger callback.
+			$this->main->maybe_trigger_engagement( ...$trigger_args );
+
+			// Event scheduled.
+			$this->assertTrue( as_has_scheduled_action( $expected_action, $expected_args, sprintf( 'llms_engagement_%d', $engagement->ID ) ) );
+
+		}
+
+		// Delete the engagement.
+		wp_delete_post( $engagement->ID );
+
+		// The whole group is unscheduled.
+		foreach ( $users as $user ) {
+			$expected_args = array( array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ) );
+			$this->assertFalse( as_has_scheduled_action( $expected_action, $expected_args, sprintf( 'llms_engagement_%d', $engagement->ID ) ) );
+		}
+
+	}
+
+
+	/**
 	 * Test handle_email() as triggered by a related post type that's enrollable.
 	 *
 	 * @since 4.4.1
@@ -206,7 +259,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 				'lifterlms_created_person', // Trigger hook.
 				array( $user ), // Args passed to trigger hook.
 				$expected_action,
-				array( $user, $engagement_post_id, 'certificate' === $engagement_type ? $engagement_post_id : '' ), // Expected args passed to the expected action's callback.
+				array( $user, $engagement_post_id, 'certificate' === $engagement_type ? $engagement_post_id : '', $engagement->ID ), // Expected args passed to the expected action's callback.
 				$delay
 			);
 
@@ -237,7 +290,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 					'lifterlms_' . $post_type . '_completed', // Trigger hook.
 					array( $user, $related_post_id ), // Args passed to trigger hook.
 					$expected_action,
-					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ), // Expected args passed to the expected action's callback.
 					$delay
 				);
 
@@ -275,7 +328,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 					$trigger_hook,
 					array( $user, $related_post_id ), // Args passed to trigger hook.
 					$expected_action,
-					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ), // Expected args passed to the expected action's callback.
 					$delay
 				);
 
@@ -314,13 +367,53 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 					$trigger_hook,
 					array( $user, $related_post_id ), // Args passed to trigger hook.
 					$expected_action,
-					array( $user, $engagement_post_id, absint( $related_post_id ) ), // Expected args passed to the expected action's callback.
+					array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ), // Expected args passed to the expected action's callback.
 					$delay
 				);
 
 			} );
 
 		}
+
+	}
+
+	/**
+	 * Test unschedule_delayed_engagements()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_unschedule_delayed_engagements() {
+
+		$unscheduled = did_action( 'action_scheduler_canceled_action' );
+		$post_id     = $this->factory->post->create();
+
+		// Not an engagement.
+		$this->main->unschedule_delayed_engagements( $post_id );
+		$this->assertEquals( $unscheduled, did_action( 'action_scheduler_canceled_action' ) );
+
+		// Fake post.
+		$this->main->unschedule_delayed_engagements( ++$post_id );
+		$this->assertEquals( $unscheduled, did_action( 'action_scheduler_canceled_action' ) );
+
+		// Trash & Delete.
+		$engagements = $this->factory->post->create_many( 2, array(
+			'post_type'  => 'llms_engagement',
+		) );
+
+		foreach ( $engagements as $index => $engagement_id ) {
+			as_schedule_single_action( time() + HOUR_IN_SECONDS, 'doesntmatter', array( array( 0, 1, 'two' ) ), sprintf( 'llms_engagement_%d', $engagement_id ) );
+			as_schedule_single_action( time() + HOUR_IN_SECONDS, 'doesntmatter', array( array( 'three', 4, 5 ) ), sprintf( 'llms_engagement_%d', $engagement_id ) );
+		}
+
+		// Trashed.
+		$this->main->unschedule_delayed_engagements( $engagements[0] );
+		$this->assertEquals( $unscheduled + 2, did_action( 'action_scheduler_canceled_action' ) );
+
+		// Deleted.
+		$this->main->unschedule_delayed_engagements( $engagements[1], get_post( $engagements[1] ) );
+		$this->assertEquals( $unscheduled + 4, did_action( 'action_scheduler_canceled_action' ) );
 
 	}
 
@@ -396,12 +489,9 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 		} else {
 
-			$expected_args = array( $expected_args );
-			$event = wp_get_scheduled_event( $expected_action, $expected_args );
-			$this->assertTrue( is_object( $event ), $expected_action );
-			$this->assertEquals( $expected_action, $event->hook, $expected_action );
-			$this->assertEquals( $expected_args, $event->args, $expected_action );
-			$this->assertEquals( time() + ( DAY_IN_SECONDS * $delay ), $event->timestamp, $expected_action, 5 );
+			$next = as_next_scheduled_action( $expected_action, array( $expected_args ), sprintf( 'llms_engagement_%d', $expected_args[3] ) );
+			$this->assertEqualsWithDelta( time() + ( DAY_IN_SECONDS * $delay ), $next, 5, $expected_action );
+
 		}
 
 	}
