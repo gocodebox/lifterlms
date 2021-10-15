@@ -380,9 +380,12 @@ class LLMS_Engagements {
 			);
 		}
 
+		// The user registration action doesn't have a related post id.
+		$related_post_id = isset( $args[1] ) && is_numeric( $args[1] ) ? absint( $args[1] ) : '';
+
 		$parsed['user_id']         = absint( $args[0] );
-		$parsed['trigger_type']    = $this->parse_hook_find_trigger_type( $action, $parsed['related_post_id'] );
-		$parsed['related_post_id'] = 'user_registration' !== $parsed['trigger_type'] ? absint( $args[1] ) : '';
+		$parsed['trigger_type']    = $this->parse_hook_find_trigger_type( $action, $related_post_id );
+		$parsed['related_post_id'] = $related_post_id;
 
 		return $parsed;
 
@@ -448,7 +451,6 @@ class LLMS_Engagements {
 
 		// Parse incoming hook data.
 		$hook = $this->parse_hook( current_filter(), func_get_args() );
-
 		// We need a user and a trigger to proceed, related_post is optional though.
 		if ( ! $hook['user_id'] || ! $hook['trigger_type'] ) {
 			return;
