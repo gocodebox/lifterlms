@@ -10,10 +10,6 @@ import { visitPage, runSetupWizard } from '@lifterlms/llms-e2e-test-utils';
 
 describe( 'SetupWizard', () => {
 
-	it ( 'runs a fake test to prevent against the "You are probably offline" @wordpress/api-fetch error.', () => {
-		expect( true ).toBeTruthy();
-	} );
-
 	it ( 'should load and run the entire setup wizard.', async () => {
 		await runSetupWizard();
 	} );
