@@ -11,7 +11,6 @@ export { createMembership } from './create-membership';
 export { createPost } from './create-post';
 export { createUser } from './create-user';
 export { createVoucher } from './create-voucher';
-export { createWaitForFetchRequests } from './create-wait-for-fetch-requests';
 
 export { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
 
