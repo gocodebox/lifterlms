@@ -4,7 +4,7 @@
  * @since 3.16.0
  * @since 3.24.0 Added `get_total_points()` method.
  * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version [version]
+ * @version 5.4.0
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -67,7 +67,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Use the author id instead of the author object.
-		 * @since [version] Added filter hook 'llms_adding_existing_lesson_data'.
+		 * @since 5.4.0 Added filter hook 'llms_adding_existing_lesson_data'.
 		 *               On cloning, duplicate assignments too, if assignment add-on active and assignment attached.
 		 *
 		 * @param {Object} lesson Lesson data obj.
@@ -108,7 +108,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			/**
 			 * Filters the data of the existing lesson being added.
 			 *
-			 * @since [version]
+			 * @since 5.4.0
 			 *
 			 * @param {Object} data   Lesson data.
 			 * @param {String} action Action being performed. [clone|attach].

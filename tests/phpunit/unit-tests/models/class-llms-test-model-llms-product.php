@@ -11,7 +11,7 @@
  * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
  * @since 3.38.0 Add tests for the get_restrictions() and has_restrictions() methods.
  *               Override unnecessary parent tests so they're not marked as skipped.
- * @since [version] Added tests for `has_active_subscriptions` method.
+ * @since 5.4.0 Added tests for `has_active_subscriptions` method.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -171,7 +171,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * Test get_access_plan_limit() method.
 	 *
 	 * @since 3.25.2
-	 * @since [version] Remove 'llms_get_product_access_plan_limit' filter callback after use.
+	 * @since 5.4.0 Remove 'llms_get_product_access_plan_limit' filter callback after use.
 	 *
 	 * @return void
 	 */
@@ -418,7 +418,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test `has_active_subscriptions()` on a product only related to a single order.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -440,7 +440,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test `has_active_subscriptions()` on a product related to a single order and to an active subscription.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -467,7 +467,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test `has_active_subscriptions()` on a product related to a single order and to a not active subscription.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */
@@ -500,7 +500,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test `has_active_subscriptions()` using cache mechanism.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @return void
 	 */

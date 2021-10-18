@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.3.3\n"
+"Project-Id-Version: LifterLMS 5.4.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-10-05T17:08:52-06:00\n"
+"POT-Creation-Date: 2021-10-14T11:16:36-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -392,7 +392,7 @@ msgstr ""
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:137
 #: templates/admin/post-types/order-transactions.php:27
 #: templates/admin/reporting/tabs/quizzes/attempt.php:97
-#: templates/myaccount/view-order.php:39
+#: templates/myaccount/view-order.php:40
 msgid "Status"
 msgstr ""
 
@@ -1426,7 +1426,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
 #: includes/class.llms.ajax.handler.php:887
-#: includes/llms.functions.core.php:904
+#: includes/llms.functions.core.php:911
 msgid "ID#"
 msgstr ""
 
@@ -2452,7 +2452,7 @@ msgid "Usage / Limit"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:49
-#: templates/myaccount/view-order.php:164
+#: templates/myaccount/view-order.php:170
 msgid "Expiration Date"
 msgstr ""
 
@@ -2538,7 +2538,7 @@ msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:55
 #: includes/privacy/class-llms-privacy.php:104
-#: templates/myaccount/view-order.php:49
+#: templates/myaccount/view-order.php:50
 msgid "Product"
 msgstr ""
 
@@ -2550,33 +2550,39 @@ msgstr ""
 msgid "Order Type"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:83
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:84
 msgctxt "order number display"
 msgid "#%d"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:86
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:87
 msgid "by"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:112
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:113
 msgctxt "access plan expiration"
 msgid "Expired:"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:114
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:115
 msgctxt "access plan expiration"
 msgid "Expires:"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:147
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:132
+#: includes/admin/views/metaboxes/view-order-details.php:74
+#: templates/myaccount/view-order.php:55
+msgid "[DELETED]"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:152
 #: includes/models/model.llms.transaction.php:350
 msgid "Recurring"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:149
-#: includes/admin/views/metaboxes/view-order-details.php:157
-#: templates/myaccount/view-order.php:121
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:154
+#: includes/admin/views/metaboxes/view-order-details.php:162
+#: templates/myaccount/view-order.php:127
 msgid "One-time"
 msgstr ""
 
@@ -2609,7 +2615,7 @@ msgid "Reactivate Enrollment"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:185
-#: templates/myaccount/view-order.php:28
+#: templates/myaccount/view-order.php:29
 msgid "Order #%d"
 msgstr ""
 
@@ -2847,7 +2853,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.quiz.attempts.php:289
 #: templates/admin/reporting/tabs/quizzes/attempt.php:108
-#: templates/myaccount/view-order.php:139
+#: templates/myaccount/view-order.php:145
 msgid "Start Date"
 msgstr ""
 
@@ -3862,22 +3868,22 @@ msgid "Reinstall Forms"
 msgstr ""
 
 #. Translators: %1$s = opening anchor link to documentation; %2$s = closing anchor link.
-#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:125
+#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:127
 msgid "The method used to determine when a limited-billing recurring order has completed its payment plan changed during version 5.3.0. This tool provides a report of orders which may been affected by this change. %1$sRead more%2$s about this change."
 msgstr ""
 
 #. Translators: %d = the number of pending batches.
-#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:132
+#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:134
 msgid "There is %d order that should be reviewed."
 msgid_plural "There are %d orders that should be reviewed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:155
+#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:157
 msgid "Limited Billing Orders"
 msgstr ""
 
-#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:227
+#: includes/admin/tools/class-llms-admin-tool-limited-billing-order-locator.php:229
 msgid "Download CSV"
 msgstr ""
 
@@ -3947,7 +3953,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:135
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:139
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:94
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:80
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:79
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:155
 msgid "Plan Title"
 msgstr ""
@@ -4079,7 +4085,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: includes/admin/views/access-plans/access-plan.php:233
-#: includes/admin/views/metaboxes/view-order-submit.php:81
+#: includes/admin/views/metaboxes/view-order-submit.php:82
 msgid "Access Expiration"
 msgstr ""
 
@@ -4205,7 +4211,7 @@ msgid "No access plans exist for your %s, click \"Add New\" to get started."
 msgstr ""
 
 #: includes/admin/views/access-plans/metabox.php:31
-#: includes/admin/views/metaboxes/view-order-details.php:185
+#: includes/admin/views/metaboxes/view-order-details.php:190
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:186
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:122
 #: templates/content-certificate.php:48
@@ -4604,164 +4610,164 @@ msgstr ""
 msgid "There was an error loading importable courses. Please reload the page to try again. [%s]"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:22
+#: includes/admin/views/metaboxes/view-order-details.php:23
 msgid "This order was processed in the gateway's testing mode"
 msgstr ""
 
 #. Translators: %s= The order ID.
-#: includes/admin/views/metaboxes/view-order-details.php:28
+#: includes/admin/views/metaboxes/view-order-details.php:29
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:89
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:93
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:107
 msgid "Order #%s"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:29
+#: includes/admin/views/metaboxes/view-order-details.php:30
 msgid "Processed by %s"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:47
+#: includes/admin/views/metaboxes/view-order-details.php:48
 msgid "Access Plan Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:50
-#: includes/admin/views/metaboxes/view-order-details.php:69
-#: includes/admin/views/metaboxes/view-order-details.php:286
+#: includes/admin/views/metaboxes/view-order-details.php:51
+#: includes/admin/views/metaboxes/view-order-details.php:70
+#: includes/admin/views/metaboxes/view-order-details.php:291
 msgid "Name:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:56
-#: includes/admin/views/metaboxes/view-order-details.php:75
+#: includes/admin/views/metaboxes/view-order-details.php:57
+#: includes/admin/views/metaboxes/view-order-details.php:80
 msgid "SKU:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:66
+#: includes/admin/views/metaboxes/view-order-details.php:67
 msgid "Product Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:89
+#: includes/admin/views/metaboxes/view-order-details.php:94
 msgid "Trial Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:93
-#: includes/admin/views/metaboxes/view-order-details.php:117
+#: includes/admin/views/metaboxes/view-order-details.php:98
+#: includes/admin/views/metaboxes/view-order-details.php:122
 msgid "Original Total:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:98
-#: includes/admin/views/metaboxes/view-order-details.php:131
+#: includes/admin/views/metaboxes/view-order-details.php:103
+#: includes/admin/views/metaboxes/view-order-details.php:136
 msgid "Coupon Discount:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:106
-#: includes/admin/views/metaboxes/view-order-details.php:140
+#: includes/admin/views/metaboxes/view-order-details.php:111
+#: includes/admin/views/metaboxes/view-order-details.php:145
 msgid "Total:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:108
-#: includes/admin/views/metaboxes/view-order-details.php:154
-#: templates/myaccount/view-order.php:74
-#: templates/myaccount/view-order.php:118
+#: includes/admin/views/metaboxes/view-order-details.php:113
+#: includes/admin/views/metaboxes/view-order-details.php:159
+#: templates/myaccount/view-order.php:80
+#: templates/myaccount/view-order.php:124
 msgid "for %1$d %2$s"
 msgid_plural "for %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:113
+#: includes/admin/views/metaboxes/view-order-details.php:118
 msgid "Payment Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:123
+#: includes/admin/views/metaboxes/view-order-details.php:128
 msgid "Sale Discount:"
 msgstr ""
 
 #. Translators: %1$d = The order billing period; %2$s = The order billing frequency.
-#: includes/admin/views/metaboxes/view-order-details.php:147
-#: templates/myaccount/view-order.php:114
+#: includes/admin/views/metaboxes/view-order-details.php:152
+#: templates/myaccount/view-order.php:120
 msgid "Every %2$s"
 msgid_plural "Every %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:166
+#: includes/admin/views/metaboxes/view-order-details.php:171
 msgid "Remaining Payments:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:172
+#: includes/admin/views/metaboxes/view-order-details.php:177
 msgid "Modify Remaining Payments"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:175
+#: includes/admin/views/metaboxes/view-order-details.php:180
 msgid "Remaining payments"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:180
+#: includes/admin/views/metaboxes/view-order-details.php:185
 msgid "Order Note"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:182
+#: includes/admin/views/metaboxes/view-order-details.php:187
 msgid "For internal use only, not visible to the customer."
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:205
+#: includes/admin/views/metaboxes/view-order-details.php:210
 msgid "Add additional payments"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:221
+#: includes/admin/views/metaboxes/view-order-details.php:226
 msgid "Customer Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:224
+#: includes/admin/views/metaboxes/view-order-details.php:229
 msgid "Buyer Name:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:233
+#: includes/admin/views/metaboxes/view-order-details.php:238
 msgid "Buyer Email:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:239
+#: includes/admin/views/metaboxes/view-order-details.php:244
 msgid "Buyer Address:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:253
+#: includes/admin/views/metaboxes/view-order-details.php:258
 msgid "Buyer Phone:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:260
+#: includes/admin/views/metaboxes/view-order-details.php:265
 msgid "Buyer IP Address:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:278
+#: includes/admin/views/metaboxes/view-order-details.php:283
 msgid "Gateway Information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-details.php:279
-#: includes/admin/views/metaboxes/view-order-details.php:281
+#: includes/admin/views/metaboxes/view-order-details.php:284
+#: includes/admin/views/metaboxes/view-order-details.php:286
 msgid "Edit gateway information"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-submit.php:23
+#: includes/admin/views/metaboxes/view-order-submit.php:24
 msgid "Update Order Status:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-submit.php:32
+#: includes/admin/views/metaboxes/view-order-submit.php:33
 #: includes/privacy/class-llms-privacy.php:103
 msgid "Order Date"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-submit.php:42
+#: includes/admin/views/metaboxes/view-order-submit.php:43
 msgid "Trial End Date"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-submit.php:58
+#: includes/admin/views/metaboxes/view-order-submit.php:59
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:131
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:135
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:151
-#: templates/myaccount/view-order.php:150
+#: templates/myaccount/view-order.php:156
 msgid "Next Payment Date"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-order-submit.php:100
+#: includes/admin/views/metaboxes/view-order-submit.php:101
 msgid "Update Order"
 msgstr ""
 
@@ -5095,7 +5101,7 @@ msgstr ""
 
 #. Translators: %s = coupon code.
 #: includes/class.llms.ajax.handler.php:1002
-#: includes/functions/llms.functions.order.php:245
+#: includes/functions/llms.functions.order.php:278
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -6782,7 +6788,7 @@ msgstr ""
 #: includes/class.llms.post-types.php:1003
 #: includes/functions/llms-functions-access-plans.php:92
 #: templates/checkout/form-summary.php:12
-#: templates/myaccount/view-order.php:44
+#: templates/myaccount/view-order.php:45
 msgid "Access Plan"
 msgstr ""
 
@@ -7158,6 +7164,11 @@ msgctxt "slug"
 msgid "membership-tag"
 msgstr ""
 
+#. Translators: %s = The post type plural name.
+#: includes/class.llms.post.relationships.php:189
+msgid "Sorry, you are not allowed to delete %s with active subscriptions."
+msgstr ""
+
 #: includes/class.llms.question.types.php:61
 msgid "Other"
 msgstr ""
@@ -7382,86 +7393,90 @@ msgid "An error occurred, please try again."
 msgstr ""
 
 #. Translators: %s is the title of the lesson.
-#: includes/controllers/class.llms.controller.lesson.progression.php:168
+#: includes/controllers/class.llms.controller.lesson.progression.php:186
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:118
-#: includes/controllers/class.llms.controller.orders.php:124
+#: includes/controllers/class.llms.controller.orders.php:123
+#: includes/controllers/class.llms.controller.orders.php:129
 #: includes/shortcodes/class.llms.shortcode.checkout.php:248
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:137
+#: includes/controllers/class.llms.controller.orders.php:142
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:347
+#: includes/controllers/class.llms.controller.orders.php:352
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:476
+#: includes/controllers/class.llms.controller.orders.php:491
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:483
+#: includes/controllers/class.llms.controller.orders.php:498
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
 #. Translators: %d = The deleted user's ID.
-#: includes/controllers/class.llms.controller.orders.php:565
+#: includes/controllers/class.llms.controller.orders.php:581
 msgid "Recurring charge skipped. The user (#%d) no longer exists."
 msgstr ""
 
 #. Translators: %s = error message encountered while loading the gateway.
-#: includes/controllers/class.llms.controller.orders.php:598
+#: includes/controllers/class.llms.controller.orders.php:614
 msgid "Recurring charge was not processed due to an error encountered while loading the payment gateway: %s."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:627
+#: includes/controllers/class.llms.controller.orders.php:643
 msgid "Recurring charge skipped because recurring payments are disabled for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:645
+#: includes/controllers/class.llms.controller.orders.php:661
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:671
+#: includes/controllers/class.llms.controller.orders.php:687
+msgid "Recurring charge aborted because the purchased product does not exist anymore."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:713
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:676
-#: templates/myaccount/view-order.php:16
+#: includes/controllers/class.llms.controller.orders.php:718
+#: templates/myaccount/view-order.php:17
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:678
+#: includes/controllers/class.llms.controller.orders.php:720
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:804
+#: includes/controllers/class.llms.controller.orders.php:846
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:862
-#: includes/functions/llms.functions.order.php:34
+#: includes/controllers/class.llms.controller.orders.php:904
+#: includes/functions/llms.functions.order.php:33
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
 #. Translators: %s = The gateway display name.
-#: includes/controllers/class.llms.controller.orders.php:867
-#: includes/functions/llms.functions.order.php:40
+#: includes/controllers/class.llms.controller.orders.php:909
+#: includes/functions/llms.functions.order.php:39
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
 #. Translators: %s = The gateway display name.
-#: includes/controllers/class.llms.controller.orders.php:872
-#: includes/functions/llms.functions.order.php:46
+#: includes/controllers/class.llms.controller.orders.php:914
+#: includes/functions/llms.functions.order.php:45
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:877
-#: includes/functions/llms.functions.order.php:52
+#: includes/controllers/class.llms.controller.orders.php:919
+#: includes/functions/llms.functions.order.php:51
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -7659,7 +7674,7 @@ msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:120
 #: includes/forms/controllers/class.llms.controller.registration.php:96
-#: includes/functions/llms.functions.order.php:292
+#: includes/functions/llms.functions.order.php:325
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
@@ -7804,28 +7819,28 @@ msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:214
+#: includes/functions/llms.functions.order.php:247
 msgid "You must agree to the %s to continue."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:221
+#: includes/functions/llms.functions.order.php:254
 msgid "Missing an Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:228
+#: includes/functions/llms.functions.order.php:261
 msgid "Invalid Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:262
+#: includes/functions/llms.functions.order.php:295
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:273
+#: includes/functions/llms.functions.order.php:306
 msgid "Missing customer information."
 msgstr ""
 
 #. Translators: %2$s = The product type (course/membership); %1$s = product permalink.
-#: includes/functions/llms.functions.order.php:305
+#: includes/functions/llms.functions.order.php:338
 #: includes/shortcodes/class.llms.shortcode.checkout.php:81
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
 msgstr ""
@@ -8567,7 +8582,7 @@ msgid "Student Welcome"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:101
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:148
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:151
 msgid "Subscription Cancellation Notice"
 msgstr ""
 
@@ -8743,7 +8758,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:129
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:133
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:90
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:78
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:77
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:149
 msgid "Customer Name"
 msgstr ""
@@ -8758,7 +8773,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:132
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:136
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:92
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:79
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:78
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:152
 msgid "Order ID"
 msgstr ""
@@ -8779,7 +8794,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:136
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:140
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:81
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:80
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:156
 msgid "Product Title"
 msgstr ""
@@ -8787,7 +8802,7 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:137
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:141
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:96
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:82
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:81
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:157
 msgid "Product Type"
 msgstr ""
@@ -8795,28 +8810,35 @@ msgstr ""
 #: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:138
 #: includes/notifications/views/class.llms.notification.view.payment.retry.php:142
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:97
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:83
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:82
 #: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:158
 msgid "Product Title (Link)"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:204
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:208
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:205
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:209
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:128
+#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:224
+msgid "[DELETED ITEM]"
+msgstr ""
+
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:207
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:211
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:163
 #: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:130
-#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:223
+#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:226
 msgctxt "generic product type description"
 msgid "Item"
 msgstr ""
 
 #. Translators: %s = The product title.
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:224
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:240
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:227
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:243
 msgid "A payment is due for your subscription to %s"
 msgstr ""
 
 #. Translators: %s = The order ID.
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:237
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:240
 msgid "Payment Due for Order #%s"
 msgstr ""
 
@@ -8840,22 +8862,22 @@ msgstr ""
 msgid "Update Payment Method"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:228
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:231
 msgid "Automatic payment for %1$s failed, retry scheduled for %2$s"
 msgstr ""
 
 #. Translators: %s = The order ID.
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:241
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:244
 msgid "Automatic payment failed for order #%s"
 msgstr ""
 
 #. Translators: %s = The product title.
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:244
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:247
 msgid "An automatic payment failed for your subscription to %s"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.purchase.receipt.php:45
-#: templates/myaccount/view-order.php:127
+#: templates/myaccount/view-order.php:133
 msgid "Payment Method"
 msgstr ""
 
@@ -8982,11 +9004,11 @@ msgstr ""
 msgid "Let's get started %s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:38
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:37
 msgid "%1$s has cancelled their subscription (#%2$s) to the %3$s %4$s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:159
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:162
 msgid "%1$s subscription cancellation"
 msgstr ""
 
@@ -9000,11 +9022,11 @@ msgid "You will be charged for your subscription to %1$s on %2$s."
 msgstr ""
 
 #. Translators: %s = The product title.
-#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:244
+#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:247
 msgid "Upcoming payment reminder for your subscription to %1$s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:255
+#: includes/notifications/views/class.llms.notification.view.upcoming.payment.reminder.php:258
 msgid "Upcoming Subscription Payment"
 msgstr ""
 
@@ -31545,16 +31567,16 @@ msgstr ""
 msgid "Remove Block Code"
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:48
+#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:49
 msgid "LifterLMS Blocks"
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:55
+#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:56
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Custom User Information"
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:63
+#: libraries/lifterlms-blocks/includes/class-llms-blocks.php:64
 msgid "User Information"
 msgstr ""
 
@@ -32591,7 +32613,7 @@ msgid "Retrieve access plans for a specific list of one or more posts. Accepts a
 msgstr ""
 
 #. Translators: %1$d = access plans limit per product, %2$s access plan post type plural name, %3$s product post type singular name.
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-access-plans-controller.php:744
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-access-plans-controller.php:762
 msgid "Only %1$d %2$s allowed per %3$s"
 msgstr ""
 
@@ -33893,33 +33915,33 @@ msgstr ""
 msgid "Next Payment"
 msgstr ""
 
-#: templates/myaccount/view-order.php:56
-#: templates/myaccount/view-order.php:81
+#: templates/myaccount/view-order.php:62
+#: templates/myaccount/view-order.php:87
 msgid "Original Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:61
-#: templates/myaccount/view-order.php:97
+#: templates/myaccount/view-order.php:67
+#: templates/myaccount/view-order.php:103
 msgid "Coupon Discount"
 msgstr ""
 
-#: templates/myaccount/view-order.php:71
+#: templates/myaccount/view-order.php:77
 msgid "Trial Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:87
+#: templates/myaccount/view-order.php:93
 msgid "Sale Discount"
 msgstr ""
 
-#: templates/myaccount/view-order.php:108
+#: templates/myaccount/view-order.php:114
 msgid "Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:144
+#: templates/myaccount/view-order.php:150
 msgid "Last Payment Date"
 msgstr ""
 
-#: templates/myaccount/view-order.php:202
+#: templates/myaccount/view-order.php:208
 msgid "Cancel Subscription"
 msgstr ""
 

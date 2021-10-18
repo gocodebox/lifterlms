@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.17.8
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	 * Replace merge codes with actual values.
 	 *
 	 * @since 3.17.8
-	 * @since [version] Account for deleted products.
+	 * @since 5.4.0 Account for deleted products.
 	 *
 	 * @param string $code The merge code to ge merged data for.
 	 * @return string

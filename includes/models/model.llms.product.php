@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -392,7 +392,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Check if there are active subscriptions for this product.
 	 *
-	 * @since [version]
+	 * @since 5.4.0
 	 *
 	 * @param boolean $use_cache Whether or not leveraging the cache.
 	 * @return boolean

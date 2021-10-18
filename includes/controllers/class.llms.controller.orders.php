@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.19.0 Updated.
 	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion.
 	 * @since 4.2.0 Added `llms_user_enrollment_deleted` action to handle order status change on enrollment deletion.
-	 * @since [version] Perform `error_order()` when Detect a product deletion while processing a recurring charge.
+	 * @since 5.4.0 Perform `error_order()` when Detect a product deletion while processing a recurring charge.
 	 *
 	 * @return void
 	 */
@@ -370,7 +370,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 4.2.0 Added `llms_unenroll_on_error_order` filter hook.
-	 * @since [version] Unenroll with 'cancelled' status on 'llms_order_recurring_charge_aborted_product_deleted'.
+	 * @since 5.4.0 Unenroll with 'cancelled' status on 'llms_order_recurring_charge_aborted_product_deleted'.
 	 *              The `$order` param can be also a WP_Post or its `ID`.
 	 *
 	 * @param int|WP_Post|LLMS_Order $order Instance of an LLMS_Order, WP_Post or WP_Post ID of the order.
@@ -536,7 +536,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
 	 * @since 5.2.0 Fixed buggy logging on gateway error because it doesn't support recurring payments.
-	 * @since [version] Handle case when the order's related product has been removed.
+	 * @since 5.4.0 Handle case when the order's related product has been removed.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.

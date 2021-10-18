@@ -1,6 +1,26 @@
 LifterLMS Changelog
 ===================
 
+v5.4.0 - 2021-10-14
+-------------------
+
+##### Updates
+
++ Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
++ When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
++ Updates LifterLMS Blocks to [v2.2.1](https://make.lifterlms.com/2021/09/29/lifterlms-blocks-version-2-2-1/).
++ Updates LifterLMS REST to [v1.0.0-beta.20](https://make.lifterlms.com/2021/10/11/lifterlms-rest-api-version-1-0-0-beta-20/).
+
+##### Bug fixes
+
++ Fixed issue encountered when cloning lessons with attached assignments.
++ Fixed an error encountered when viewing an order for a deleted course or membership on the student dashboard.
+
+##### Templates Updated
+
++ templates/myaccount/view-order.php
+
+
 v5.3.3 - 2021-10-05
 -------------------
 

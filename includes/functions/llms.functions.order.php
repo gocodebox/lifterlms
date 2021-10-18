@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,7 +142,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 /**
  * Get the possible statuses of a given order.
  *
- * @since [version]
+ * @since 5.4.0
  *
  * @param LLMS_Order $order The LLMS_Order instance.
  * @return array[]

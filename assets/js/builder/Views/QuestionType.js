@@ -3,7 +3,7 @@
  *
  * @since 3.16.0
  * @since 3.30.1 Fixed issue causing multiple binds for add_existing_question events.
- * @version [version]
+ * @version 5.4.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -130,7 +130,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
 		 *
 		 * @since 3.27.0
-		 * @since [version] Use author id instead of the question author object.
+		 * @since 5.4.0 Use author id instead of the question author object.
 		 *
 		 * @param {Object} event JS event object.
 		 * @return {Void}
