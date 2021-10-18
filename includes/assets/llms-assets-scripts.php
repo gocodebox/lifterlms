@@ -48,7 +48,7 @@ return array(
 	),
 
 	// Admin.
-	'llms-addons'       => array(
+	'llms-addons'             => array(
 		'asset_file' => true,
 		'file_name'  => 'llms-admin-addons',
 		'suffix'     => '',

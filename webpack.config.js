@@ -8,7 +8,7 @@
  */
 
 const generate = require( '@lifterlms/scripts/config/webpack.config' ),
-	config = generate( {
+	config     = generate( {
 		js: [ 'admin-addons' ],
 		css: [ 'admin-addons' ],
 	} );

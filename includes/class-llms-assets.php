@@ -487,7 +487,7 @@ class LLMS_Assets {
 
 		$asset_file_path = plugin_dir_path( $asset['base_file'] ) . trailingslashit( $asset['path'] ) . $asset['file_name'] . '.asset.php';
 		if ( file_exists( $asset_file_path ) ) {
-			$info = include $asset_file_path;
+			$info                  = include $asset_file_path;
 			$asset['dependencies'] = array_merge( $asset['dependencies'], $info['dependencies'] );
 			$asset['version']      = $info['version'];
 		}
