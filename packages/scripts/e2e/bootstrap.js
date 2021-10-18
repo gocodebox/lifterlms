@@ -28,6 +28,9 @@ if ( ! process.env.WP_BASE_URL ) {
 	process.env.WP_BASE_URL = `http://localhost:${ process.env.WORDPRESS_PORT }`;
 }
 
+
+jest.retryTimes( 2 );
+
 // The Jest timeout is increased because these tests are a bit slow.
 jest.setTimeout( process.env.PUPPETEER_TIMEOUT || 100000 );
 
