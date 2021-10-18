@@ -13,9 +13,7 @@
   },
   "homepage": "https://lifterlms.com",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/preset-env": "^7.10.1",
+    "@lifterlms/brand": "file:packages/brand",
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
     "@wordpress/docgen": "^1.18.0",
@@ -35,8 +33,9 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
-    "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme",
-    "build:scripts": "gulp scripts && gulp js-additional && gulp js-builder",
+    "build": "npm run build:scripts && build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
+    "build:scripts": "wp-scripts build",
+    "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
@@ -44,6 +43,8 @@
     "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js",
     "pkg:fix:js": "npm run pkg:lint:js -- --fix",
     "pkg:docgen": "docgen ./packages/llms-e2e-test-utils/src/index.js --output ./packages/llms-e2e-test-utils/README.md --to-token",
-    "pkg:hoist": "lerna bootstrap --hoist"
+    "pkg:hoist": "lerna bootstrap --hoist",
+    "postinstall": "npm run pkg:hoist",
+    "start": "wp-scripts start"
   }
 }
