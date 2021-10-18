@@ -14,11 +14,12 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 * Setup the test case
 	 *
 	 * @since 3.34.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->obj = new LLMS_User_Permissions();
 	}
 

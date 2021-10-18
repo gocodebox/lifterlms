@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -279,7 +279,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param string $key Key to translate.
 	 * @return void
 	 */
-	public function _e( $key ) { // phpcs:ignore -- This is to mimick localization functions.
+	public function _e( $key ) { // phpcs:ignore -- This is to mimic localization functions.
 		echo $this->translate( $key );
 	}
 
@@ -354,7 +354,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return void
 	 */
 	public function export() {
-		// If post type doesnt support exporting don't proceed.
+		// If post type doesn't support exporting don't proceed.
 		if ( ! $this->is_exportable() ) {
 			return;
 		}
@@ -402,7 +402,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.34.0
 	 * @since 4.10.0 Add `post_name` as a property to skip scrubbing and add a filter on the list of properties to skip scrubbing.
-	 * @since 5.1.2 Pass second paramater to the `get_the_excerpt` filter hook (the WP_Post object), introduced in WordPress 4.5.0.
+	 * @since 5.1.2 Pass second parameter to the `get_the_excerpt` filter hook (the WP_Post object), introduced in WordPress 4.5.0.
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
@@ -465,7 +465,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			return $this->$key;
 		}
 
-		// If we found a valid, apply default llms get get filter and return the value.
+		// If we found a value, apply default llms get filter and return the value.
 		if ( isset( $val ) ) {
 
 			/**
@@ -620,8 +620,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Retrieve URL for an image associated with the post
 	 *
-	 * Currently only retrieves the featured image if the post type supports it
-	 * in the future this will allow retrieval of custom post images as well.
+	 * Currently, only retrieves the featured image if the post type supports it.
+	 * In the future, this will allow retrieval of custom post images as well.
 	 *
 	 * @since 3.3.0
 	 * @since 3.8.0 Unknown.
@@ -679,7 +679,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown.
-	 * @since 4.8.0 Use strict type comparision where possibile.
+	 * @since 4.8.0 Use strict type comparison where possible.
 	 *
 	 * @param string $key        Property key.
 	 * @param array  $price_args Optional. Array of arguments that can be passed to llms_price(). Default is empty array.
@@ -765,7 +765,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * This *should* be overridden by child classes.
 	 *
 	 * @since 3.0.0
-	 * @since 3.18.0 Uknown.
+	 * @since 3.18.0 Unknown.
 	 *
 	 * @param array $args Args of data to be passed to wp_insert_post.
 	 * @return array
@@ -950,6 +950,74 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Get the properties that will be used to generate the array representation of the model.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[] Array of property keys to be used by {@see toArray}.
+	 */
+	protected function get_to_array_properties() {
+
+		$all_props = array_keys( $this->get_properties() );
+
+		/**
+		 * Filters the properties which will excluded form the array representation of the model
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since Unknown
+		 *
+		 * @param string[]        $excluded  Array of property names.
+		 * @param string[]        $all_props The full property list without the applied exclusions.
+		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
+		 */
+		$excluded = apply_filters(
+			"llms_get_{$this->model_post_type}_excluded_to_array_properties",
+			$this->get_to_array_excluded_properties(),
+			$all_props,
+			$this
+		);
+
+		$props = array_diff(
+			$all_props,
+			$excluded
+		);
+
+		/**
+		 * Filters the properties which will populate the array representation of the model.
+		 *
+		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
+		 * "lesson", "membership", etc...
+		 *
+		 * @since Unknown
+		 *
+		 * @param string[]        $props     Array of property names.
+		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
+		 */
+		return apply_filters(
+			"llms_get_{$this->model_post_type}_to_array_properties",
+			$props,
+			$this
+		);
+
+	}
+
+	/**
+	 * Get the properties that will be explicitly excluded from the array representation of the model.
+	 *
+	 * This stub can be overloaded by an extending class and the property list is filterable via the
+	 * {@see llms_get_{$this->model_post_type}_excluded_to_array_properties} filter.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected function get_to_array_excluded_properties() {
+		return array();
+	}
+
+	/**
 	 * Retrieve the registered Label of the post's current status
 	 *
 	 * @since 3.0.0
@@ -1076,7 +1144,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * This is automatically called by set() method before anything is actually set.
 	 *
 	 * @since 3.0.0
-	 * @since 3.16.0 Uknown.
+	 * @since 3.16.0 Unknown.
 	 *
 	 * @param string $key Property key.
 	 * @param mixed  $val Property value.
@@ -1184,7 +1252,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
 	 * @since 3.34.0 Turned to be only a wrapper for the set_bulk() method.
 	 *
-	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
+	 * @param string|array $key_or_array Key of the property or an associative array of key/val pairs.
 	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
 	 *                                   This parameter will be ignored when the first parameter is an associative array of key/val pairs.
 	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
@@ -1214,7 +1282,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
 	 * @return boolean|WP_Error True on success. If the param $wp_error is set to false this will be false on error or if there was nothing to update.
-	 *                          Otherwise this will be a WP_Error object collecting all the errors encountered along the way.
+	 *                          Otherwise, this will be a WP_Error object collecting all the errors encountered along the way.
 	 */
 	public function set_bulk( $model_array, $wp_error = false ) {
 
@@ -1380,7 +1448,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.3.0
 	 * @since 3.17.0 Unknown.
 	 * @since 4.7.0 Add exporting of extra data (images and blocks).
-	 * @since 4.8.0 Exclude extra data by default. Added `'llms_post_model_to_array_add_extras'` filter.
+	 * @since 4.8.0 Exclude extra data by default. Added `llms_post_model_to_array_add_extras` filter.
+	 * @since [version] Load properties to be used to generate the array from the new `get_to_array_properties()` method.
 	 *
 	 * @return array
 	 */
@@ -1390,28 +1459,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'id' => $this->get( 'id' ),
 		);
 
-		$props = array_diff( array_keys( $this->get_properties() ), array( 'content', 'excerpt', 'title' ) );
+		foreach ( $this->get_to_array_properties() as $prop ) {
 
-		/**
-		 * Filters the properties which will populate the array representation of the model
-		 *
-		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
-		 * "lesson", "membership", etc...
-		 *
-		 * @since Unknown
-		 *
-		 * @param string[]        $props     Array of property names.
-		 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
-		 */
-		$props = apply_filters( "llms_get_{$this->model_post_type}_to_array_properties", $props, $this );
-
-		foreach ( $props as $prop ) {
-			$arr[ $prop ] = $this->get( $prop );
+			if ( in_array( $prop, array( 'content', 'excerpt', 'title' ), true ) ) {
+				$post_prop    = "post_{$prop}";
+				$arr[ $prop ] = $this->post->$post_prop;
+			} else {
+				$arr[ $prop ] = $this->get( $prop );
+			}
 		}
-
-		$arr['content'] = $this->post->post_content;
-		$arr['excerpt'] = $this->post->post_excerpt;
-		$arr['title']   = $this->post->post_title;
 
 		// Add the featured image if the post type supports it.
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
@@ -1632,7 +1688,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			// Skip registered fields or fields 3rd parties want to skip.
 			/**
-			 * Filters whether the custom field should be excluded in the array represantation of the post model
+			 * Filters whether the custom field should be excluded in the array representation of the post model
 			 *
 			 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 			 * "lesson", "membership", etc...

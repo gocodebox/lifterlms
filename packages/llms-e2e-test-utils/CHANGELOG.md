@@ -9,6 +9,12 @@ v3.0.0 - 2021-09-10
 + Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown to close after selecting an option.
 
 
+v2.3.1 - 2021-10-05
+-------------------
+
++ Wait for select2 to be loaded before attempting to open it and wait for select2 dropdown to close after selecting an option.
+
+
 v2.3.0 - 2021-06-22
 -------------------
 

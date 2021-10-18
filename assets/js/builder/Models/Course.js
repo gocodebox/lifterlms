@@ -1,10 +1,10 @@
 /**
- * Course Model
+ * Course Model.
  *
  * @since 3.16.0
  * @since 3.24.0 Added `get_total_points()` method.
  * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version 3.37.11
+ * @version 5.4.0
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -21,7 +21,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * New Course Defaults
+		 * New Course Defaults.
 		 *
 		 * @since 3.16.0
 		 *
@@ -38,7 +38,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * Init
+		 * Init.
 		 *
 		 * @since 3.16.0
 		 *
@@ -60,13 +60,15 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * Add an existing lesson to the course
+		 * Add an existing lesson to the course.
 		 *
-		 * Duplicate a lesson from this or another course or attach an orphaned lesson
+		 * Duplicate a lesson from this or another course or attach an orphaned lesson.
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Use the author id instead of the author object.
+		 * @since 5.4.0 Added filter hook 'llms_adding_existing_lesson_data'.
+		 *               On cloning, duplicate assignments too, if assignment add-on active and assignment attached.
 		 *
 		 * @param {Object} lesson Lesson data obj.
 		 * @return {Void}
@@ -85,6 +87,11 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 					data.quiz._questions_loaded = true;
 				}
 
+				// If assignment add-on active and assignment attached, duplicate the assignment too.
+				if ( window.llms_builder.assignments && data.assignment ) {
+					data.assignment = _.prepareAssignmentObjectForCloning( data.assignment );
+				}
+
 			} else {
 
 				data._forceSync = true;
@@ -96,16 +103,25 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			delete data.parent_section;
 
 			// Use author id instead of the lesson author object.
-			if ( data.author && _.isObject( data.author ) && data.author.id ) {
-				data.author = data.author.id;
-			}
+			data = _.prepareExistingPostObjectDataForAddingOrCloning( data );
+
+			/**
+			 * Filters the data of the existing lesson being added.
+			 *
+			 * @since 5.4.0
+			 *
+			 * @param {Object} data   Lesson data.
+			 * @param {String} action Action being performed. [clone|attach].
+			 * @param {Object} course The lesson's course parent model.
+			 */
+			data = window.llms.hooks.applyFilters( 'llms_adding_existing_lesson_data', data, lesson.action, this );
 
 			this.add_lesson( data );
 
 		},
 
 		/**
-		 * Add a new lesson to the course
+		 * Add a new lesson to the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -134,7 +150,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			var lesson = section.add_lesson( data, options );
 			Backbone.pubSub.trigger( 'new-lesson-added', lesson );
 
-			// expand the section
+			// Expand the section.
 			section.set( '_expanded', true );
 
 			return lesson;
@@ -142,7 +158,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * Add a new section to the course
+		 * Add a new section to the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -156,7 +172,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 				options  = {},
 				selected = this.get_selected_section();
 
-			// if a section is selected, add the new section after the currently selected one
+			// If a section is selected, add the new section after the currently selected one.
 			if ( selected ) {
 				options.at = sections.indexOf( selected ) + 1;
 			}
@@ -166,7 +182,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * Retrieve the currently selected section in the course
+		 * Retrieve the currently selected section in the course.
 		 *
 		 * @since 3.16.0
 		 *
@@ -181,7 +197,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		},
 
 		/**
-		 * Retrieve the total number of points in the course
+		 * Retrieve the total number of points in the course.
 		 *
 		 * @since 3.24.0
 		 *

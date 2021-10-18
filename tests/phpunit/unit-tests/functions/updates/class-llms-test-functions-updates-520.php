@@ -9,7 +9,6 @@
  * @group updates_520
  *
  * @since 5.2.0
- * @version 5.2.0
  */
 class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 
@@ -19,11 +18,12 @@ class LLMS_Test_Functions_Updates_520 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-520.php';
 	}
 

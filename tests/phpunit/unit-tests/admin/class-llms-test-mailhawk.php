@@ -14,12 +14,13 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Setup before class
 	 *
 	 * @since 3.40.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 
-		parent::setUpBeforeClass();
+		parent::set_up_before_class();
 
 		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
@@ -30,12 +31,13 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.40.0
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 		$this->mailhawk = new LLMS_MailHawk();
 
 	}
@@ -44,12 +46,13 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	 * Tear down the testcase.
 	 *
 	 * @since 3.40.0
+	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tear_down() {
 
-		parent::tearDown();
+		parent::tear_down();
 		wp_delete_file( WP_PLUGIN_DIR . '/mailhawk/uninstall.php' );
 		delete_plugins( array( 'mailhawk/mailhawk.php' ) );
 

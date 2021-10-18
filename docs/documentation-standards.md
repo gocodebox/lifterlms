@@ -30,7 +30,7 @@ DocBlocks should directly precede the element (hook, function, method, class, et
 
 A short piece of text, usually one line, providing the basic function of the associated element. A good summary concisely describes what the element does and should not attempt to describe why the element exists.
 
-HTML may not be used in the summary. For example, if the function outputs an `<img>` tag the summary should read "Outputs an image tag" instead of "Outputs an `<img>`" tag
+HTML may not be used in the summary. For example, if the function outputs an `<img>` tag, the summary should read ```Outputs an image tag.``` instead of ```Outputs an `<img>` tag.```.
 
 
 ### Description
@@ -274,7 +274,7 @@ Functions and class methods should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *
@@ -302,7 +302,7 @@ Class DocBlocks should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *
@@ -324,7 +324,7 @@ Class properties and constants should be formatted as follows:
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * @since x.x.x
  * @since x.x.x Description of member changes.
@@ -346,7 +346,7 @@ Note that `@return` is not used for hook documentation, because action hooks ret
 
 ```
 /**
- * Summary
+ * Summary.
  *
  * Description.
  *

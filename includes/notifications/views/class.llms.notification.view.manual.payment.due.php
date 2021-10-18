@@ -1,24 +1,24 @@
 <?php
 /**
- * Notification View: Payment Due
+ * Notification View: Payment Due.
  *
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.10.0
- * @version 5.2.0
+ * @version 5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification View: Payment Due
+ * Notification View: Payment Due.
  *
  * @since 3.10.0
  */
 class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notification_View {
 
 	/**
-	 * Settings for basic notifications
+	 * Settings for basic notifications.
 	 *
 	 * @var array
 	 */
@@ -35,14 +35,14 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 
 
 	/**
-	 * Notification Trigger ID
+	 * Notification Trigger ID.
 	 *
 	 * @var string
 	 */
 	public $trigger_id = 'manual_payment_due';
 
 	/**
-	 * Setup body content for output
+	 * Setup body content for output.
 	 *
 	 * @since 3.10.0
 	 *
@@ -58,7 +58,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup default notification body for basic notifications
+	 * Setup default notification body for basic notifications.
 	 *
 	 * @since 3.10.0
 	 */
@@ -67,7 +67,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup default notification body for email notifications
+	 * Setup default notification body for email notifications.
 	 *
 	 * @since 3.10.0
 	 * @since 5.2.0 Build the table with mailer helper.
@@ -94,7 +94,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup footer content for output
+	 * Setup footer content for output.
 	 *
 	 * @since 3.10.0
 	 *
@@ -106,7 +106,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup notification icon for output
+	 * Setup notification icon for output.
 	 *
 	 * @since 3.10.0
 	 *
@@ -117,7 +117,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup merge codes that can be used with the notification
+	 * Setup merge codes that can be used with the notification.
 	 *
 	 * @since 3.10.0
 	 *
@@ -140,10 +140,11 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Replace merge codes with actual values
+	 * Replace merge codes with actual values.
 	 *
 	 * @since 3.10.0
 	 * @since 5.2.0 Retrieve the customer's full address using the proper order's method.
+	 * @since 5.4.0 Account for deleted products.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -200,21 +201,23 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
-				if ( is_a( $obj, 'WP_Post' ) ) {
+				if ( empty( $obj ) ) {
+					$code = __( '[DELETED ITEM]', 'lifterlms' );
+				} elseif ( is_a( $obj, 'WP_Post' ) ) {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				} else {
 					$code = $obj->get_post_type_label( 'singular_name' );
 				}
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
 	}
 
 	/**
-	 * Setup notification subject for output
+	 * Setup notification subject for output.
 	 *
 	 * @since 3.10.0
 	 *
@@ -225,7 +228,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	}
 
 	/**
-	 * Setup notification title for output
+	 * Setup notification title for output.
 	 *
 	 * @since 3.10.0
 	 *

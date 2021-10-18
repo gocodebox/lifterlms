@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 5.3.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,10 +43,13 @@ class LLMS_Achievements {
 	protected static $_instance = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 *
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
@@ -55,11 +58,11 @@ class LLMS_Achievements {
 	}
 
 	/**
-	 * Includes achievement class
+	 * Includes achievement class.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  ??
 	 */
 	public function init() {
 
@@ -69,19 +72,22 @@ class LLMS_Achievements {
 	}
 
 	/**
-	 * Get a list of achievement Achievement Template IDs for a given post
+	 * Get a list of achievement Achievement Template IDs for a given post.
 	 *
-	 * @param   array|int $post_ids         Post IDs or single post ID to look for achievements by.
-	 * @param   bool      $include_children If true, will include course children (sections, lessons, and quizzes).
-	 * @return  array
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 * @since 5.3.3 Set the query limit to 500.
+	 *
+	 * @param array|int $post_ids         Post IDs or single post ID to look for achievements by.
+	 * @param bool      $include_children If true, will include course children (sections, lessons, and quizzes).
+	 * @return array
 	 */
 	public function get_achievements_by_post( $post_ids, $include_children = true ) {
 
 		if ( ! is_array( $post_ids ) ) {
 			$post_ids = array( $post_ids );
 		}
+
+		$original_post_ids = $post_ids;
 
 		if ( $include_children ) {
 
@@ -98,10 +104,20 @@ class LLMS_Achievements {
 			}
 		}
 
-		$query = new WP_Query(
+		/**
+		 * Filters the query args to retrieve the achievements by post.
+		 *
+		 * @since 5.3.3
+		 *
+		 * @param array     $args              The query args to retrieve the achievements by post.
+		 * @param array|int $post_ids          Post IDs or single post ID to look for achievements by.
+		 * @param bool      $include_children  If true, will include course children (sections, lessons, and quizzes).
+		 */
+		$query_args = apply_filters(
+			'llms_achievements_by_post_query_args',
 			array(
-				'post_type'  => 'llms_engagement',
-				'meta_query' => array(
+				'post_type'      => 'llms_engagement',
+				'meta_query'     => array(
 					array(
 						'key'   => '_llms_engagement_type',
 						'value' => 'achievement',
@@ -112,8 +128,13 @@ class LLMS_Achievements {
 						'value'   => $post_ids,
 					),
 				),
-			)
+				'posts_per_page' => 500,
+			),
+			$original_post_ids,
+			$include_children
 		);
+
+		$query = new WP_Query( $query_args );
 
 		$achievements = array();
 

@@ -13,9 +13,17 @@
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
-	public function setUp() {
+	/**
+	 * Setup the test case
+	 *
+	 * @since Unknown
+	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
 
-		parent::setUp();
+		parent::set_up();
 
 		$this->student = $this->get_mock_student();
 		$this->student_id = $this->student->get( 'id' );
@@ -164,19 +172,27 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 	}
 
 
+	/**
+	 * Test llms_get_user_postmeta().
+	 *
+	 * @since 3.21.0
+	 * @since 5.3.2 Add delta when comparing enrollment date with updated date.
+	 */
 	public function test_llms_get_user_postmeta() {
 
 		$this->assertEquals( 'enrolled', llms_get_user_postmeta( $this->student_id, $this->course_id, '_status' ) );
 		$this->assertEquals( '', llms_get_user_postmeta( $this->student_id, $this->course_id, '_fake' ) );
 		$this->assertEquals( 3, count( llms_get_user_postmeta( $this->student_id, $this->course_id ) ) );
 
-		// test serialized values
+		// Test serialized values.
 		$data = range( 1, 5 );
 		llms_update_user_postmeta( $this->student_id, $this->course_id, '_test_serialized_data', $data );
 		$this->assertEquals( $data, llms_get_user_postmeta( $this->student_id, $this->course_id, '_test_serialized_data' ) );
 
-		// try updated date return
-		$this->assertEquals( $this->student->get_enrollment_date( $this->course_id, 'enrolled', 'Y-m-d H:i:s' ), llms_get_user_postmeta( $this->student_id, $this->course_id, '_status', true, 'updated_date' ) );
+		// Test updated date.
+		$enrollment_date = $this->student->get_enrollment_date( $this->course_id, 'enrolled', 'Y-m-d H:i:s' );
+		$updated_date    = llms_get_user_postmeta( $this->student_id, $this->course_id, '_status', true, 'updated_date' );
+		$this->assertEqualsWithDelta( $enrollment_date, $updated_date, 2 );
 
 	}
 

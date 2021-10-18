@@ -150,13 +150,13 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.4.0
 	 * @since 3.13.0 Unknown.
 	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	protected function preprare_query() {
 
@@ -242,7 +242,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		/**
 		 * Filters the query HAVING clause
 		 *
-		 * @since Unknwon
+		 * @since Unknown
 		 *
 		 * @param string             $sql           The HAVING clause of the query.
 		 * @param LLMS_Student_Query $student_query Instance of LLMS_Student_Query.
@@ -272,9 +272,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$joins[] = $statment;
+				$joins[] = $statement;
 			}
 		}
 
@@ -337,7 +337,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Setup the SQL for the select statement
+	 * Set up the SQL for the select statement
 	 *
 	 * @since 3.13.0
 	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
@@ -367,9 +367,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		);
 
 		// Add the fields to the array of fields to select.
-		foreach ( $fields as $key => $statment ) {
+		foreach ( $fields as $key => $statement ) {
 			if ( $this->requires_field( $key ) ) {
-				$selects[] = $statment;
+				$selects[] = $statement;
 			}
 		}
 

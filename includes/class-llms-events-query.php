@@ -132,7 +132,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.36.0
 	 * @since 4.7.0 Use `$this->sql_select_columns({columns})` to determine the columns to select.

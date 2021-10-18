@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -36,11 +36,10 @@
     "yargs": "^12.0.5"
   },
   "scripts": {
-    "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme && npm run build:contributors",
+    "build": "npm run build:scripts && npm run build:styles && npm run build:pot && llms-dev readme",
     "build:scripts": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
-    "build:contributors": "npx contributor-faces -e '*\\[bot\\]' -l 100",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
     "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js",

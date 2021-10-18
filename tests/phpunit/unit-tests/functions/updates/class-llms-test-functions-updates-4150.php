@@ -21,29 +21,21 @@ class LLMS_Test_Functions_Updates_4150 extends LLMS_UnitTestCase {
 	 * Include update functions file.
 	 *
 	 * @since 4.15.0
+	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes and move teardown functions into here.
 	 *
 	 * @return void
 	 */
-	public static function setupBeforeClass() {
-		parent::setupBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-4150.php';
-	}
 
-	/**
-	 * Teardown the test case
-	 *
-	 * @since 4.15.0
-	 *
-	 * @return void
-	 */
-	public function tearDown() {
-		parent::tearDown();
 		// Clean posts and postmeta tables.
 		global $wpdb;
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->postmeta}" );
 		$wpdb->query( "TRUNCATE TABLE {$wpdb->posts}" );
 		// Delete transients.
 		delete_transient( 'llms_update_4150_remove_orphan_access_plans' );
+
 	}
 
 	/**

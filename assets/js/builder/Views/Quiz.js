@@ -1,7 +1,8 @@
 /**
- * Single Quiz View
- * @since    3.16.0
- * @version  3.24.0
+ * Single Quiz View.
+ *
+ * @since 3.16.0
+ * @version 5.4.0
  */
 define( [
 		'Models/Quiz',
@@ -30,14 +31,16 @@ define( [
 	return Backbone.View.extend( _.defaults( {
 
 		/**
-		 * Current view state
-		 * @type  {String}
+		 * Current view state.
+		 *
+		 * @type {String}
 		 */
 		state: 'default',
 
 		/**
-		 * Current Subviews
-		 * @type  {Object}
+		 * Current Subviews.
+		 *
+		 * @type {Object}
 		 */
 		views: {
 			settings: {
@@ -60,8 +63,9 @@ define( [
 		el: '#llms-editor-quiz',
 
 		/**
-		 * Events
-		 * @type  {Object}
+		 * Events.
+		 *
+		 * @type {Object}
 		 */
 		events: _.defaults( {
 			'click #llms-existing-quiz': 'add_existing_quiz_click',
@@ -73,28 +77,32 @@ define( [
 		}, Detachable.events, Editable.events, Trashable.events ),
 
 		/**
-		 * Wrapper Tag name
-		 * @type  {String}
+		 * Wrapper Tag name.
+		 *
+		 * @type {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
-		 * @type  {[type]}
+		 *
+		 * @type {[type]}
 		 */
 		template: wp.template( 'llms-quiz-template' ),
 
 		/**
-		 * Initialization callback func (renders the element on screen)
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.19.2
+		 * Initialization callback func (renders the element on screen).
+		 *
+		 * @since 3.16.0
+		 * @since 3.19.2 Unknown.
+		 *
+		 * @return {Void}
 		 */
 		initialize: function( data ) {
 
 			this.lesson = data.lesson;
 
-			// initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz
+			// Initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz.
 			if ( 'yes' === this.lesson.get( 'quiz_enabled' ) || ! _.isEmpty( this.lesson.get( 'quiz' ) ) ) {
 
 				this.model = this.lesson.get( 'quiz' );
@@ -125,19 +133,21 @@ define( [
 		},
 
 		/**
-		 * Compiles the template and renders the view
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.19.2
+		 * Compiles the template and renders the view.
+		 *
+		 * @since 3.16.0
+		 * @since 3.19.2 Unknown.
+		 *
+		 * @return {Self} For chaining.
 		 */
 		render: function() {
 
 			this.$el.html( this.template( this.model ) );
 
-			// render the quiz builder
+			// Render the quiz builder.
 			if ( this.model ) {
 
-				// don't allow interaction until questions are lazy loaded
+				// Don't allow interaction until questions are lazy loaded.
 				LLMS.Spinner.start( this.$el );
 
 				this.render_subview( 'settings', {
@@ -154,7 +164,7 @@ define( [
 
 				var last_group = null,
 					group = null;
-				// let all the question types reference the quiz for adding questions quickly
+				// Let all the question types reference the quiz for adding questions quickly.
 				this.get_subview( 'bank' ).instance.viewManager.each( function( view ) {
 
 					view.quiz = this.model;
@@ -202,12 +212,13 @@ define( [
 		},
 
 		/**
-		 * On quiz points update, update the value of the Total Points area in the header
-		 * @param    obj   quiz    Instance of the quiz model
-		 * @param    int   points  Updated number of points
-		 * @return   void
-		 * @since    3.17.6
-		 * @version  3.17.6
+		 * On quiz points update, update the value of the Total Points area in the header.
+		 *
+		 * @since 3.17.6
+		 *
+		 * @param {Object} quiz   Instance of the quiz model.
+		 * @param {Int}    points Updated number of points.
+		 * @return {Void}
 		 */
 		render_points: function( quiz, points ) {
 
@@ -216,11 +227,12 @@ define( [
 		},
 
 		/**
-		 * Bulk expand / collapse question buttons
-		 * @param    obj   event  js event object
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Bulk expand / collapse question buttons.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @param {Object} Event JS event object.
+		 * @return {Void}
 		 */
 		bulk_toggle: function( event ) {
 
@@ -233,10 +245,11 @@ define( [
 		},
 
 		/**
-		 * Adds a new quiz to a lesson which currently has no quiz associated with it
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * Adds a new quiz to a lesson which currently has no quiz associated with it.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		add_new_quiz: function() {
 
@@ -254,10 +267,14 @@ define( [
 
 
 		/**
-		 * Add an existing quiz to a lesson
-		 * @param    obj  event  js event object
-		 * @since    3.16.0
-		 * @version  3.24.0
+		 * Add an existing quiz to a lesson.
+		 *
+		 * @since 3.16.0
+		 * @since 3.24.0 Unknown.
+		 * @since 5.4.0 Use author id instead of the quiz author object.
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_quiz: function( event ) {
 
@@ -271,6 +288,8 @@ define( [
 
 			} else {
 
+				// Use author id instead of the quiz author object.
+				quiz = _.prepareExistingPostObjectDataForAddingOrCloning( quiz );
 				quiz._forceSync = true;
 
 			}
@@ -284,11 +303,12 @@ define( [
 		},
 
 		/**
-		 * Open add existing quiz popover
-		 * @param    obj   event  JS event object
-		 * @return   void
-		 * @since    3.16.12
-		 * @version  3.16.12
+		 * Open add existing quiz popover.
+		 *
+		 * @since 3.16.12
+		 *
+		 * @param {Object} event JS event object.
+		 * @return {Void}
 		 */
 		add_existing_quiz_click: function( event ) {
 
@@ -335,11 +355,12 @@ define( [
 		// }, 300 ),
 
 		/**
-		 * Callback function when the quiz has been deleted
-		 * @param    object   quiz  Quiz Model
-		 * @return   void
-		 * @since    3.16.6
-		 * @version  3.16.6
+		 * Callback function when the quiz has been deleted.
+		 *
+		 * @since 3.16.6
+		 *
+		 * @param {Oject} quiz Quiz Model.
+		 * @return {Void}
 		 */
 		on_trashed: function( quiz ) {
 
@@ -353,15 +374,17 @@ define( [
 		},
 
 		/**
-		 * "Add Question" button click event
-		 * Creates a popover with question type list interface
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * "Add Question" button click event.
+		 *
+		 * @since 3.16.0
+		 *
+		 * Creates a popover with question type list interface.
+		 *
+		 * @return {Void}
 		 */
 		show_tools: function() {
 
-			// create popover
+			// Create popover,
 			var pop = new Popover( {
 				el: '#llms-show-question-bank',
 				args: {
@@ -376,10 +399,10 @@ define( [
 				}
 			} );
 
-			// show it
+			// Show it.
 			pop.show();
 
-			// if a question is added, hide the popover
+			// If a question is added, hide the popover.
 			this.model.on( 'new-question-added', function() {
 				pop.hide();
 			} );

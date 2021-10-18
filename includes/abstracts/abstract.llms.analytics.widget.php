@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Analytics Widget abstract class
+ * Analytics Widget abstract class.
  *
  * @since 3.0.0
  * @since 3.30.3 Define undefined properties.

@@ -27,16 +27,16 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.3",
     "composer/installers": "~1.9.0",
     "deliciousbrains/wp-background-processing": "1.0.2",
-    "lifterlms/lifterlms-blocks": "2.2.0",
-    "lifterlms/lifterlms-rest": "1.0.0-beta.19",
-    "woocommerce/action-scheduler": "3.2.1",
+    "lifterlms/lifterlms-blocks": "2.2.1",
+    "lifterlms/lifterlms-rest": "1.0.0-beta.20",
+    "woocommerce/action-scheduler": "3.3.0",
     "lifterlms/lifterlms-helper": "3.4.1"
   },
   "require-dev": {
-    "lifterlms/lifterlms-tests": "dev-trunk",
+    "lifterlms/lifterlms-tests": "^3.1.0",
     "lifterlms/lifterlms-cs": "dev-trunk"
   },
   "archive": {
@@ -91,7 +91,8 @@
     "check-cs-errors": "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6",
     "config-cs": [
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/lifterlms/lifterlms-cs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
-      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'"
+      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'",
+      "\"vendor/bin/phpcs\" --config-set ignore_warnings_on_exit 1"
     ],
     "env": "\"vendor/bin/llms-env\"",
     "env:setup": "./tests/bin/setup-e2e.sh",
@@ -103,7 +104,7 @@
       "rm -rf ./wp-content/"
     ],
     "tests-remove": "\"vendor/bin/llms-tests\" teardown ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1}",
-    "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false \"${WP_TESTS_VERSION}\"",
+    "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false \"${WP_TESTS_VERSION:-trunk}\"",
     "tests-reinstall": [
       "@tests-remove",
       "@tests-install"
