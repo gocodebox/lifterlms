@@ -9,7 +9,7 @@
 
 const eslintConfig = {
 	root: true,
-	extends: [ 'plugin:@wordpress/eslint-plugin/recommended' ],
+	extends: [ 'plugin:@wordpress/eslint-plugin/recommended-with-formatting' ],
 	rules: {
 		"jsdoc/tag-lines": [ 0 ]
 	}
