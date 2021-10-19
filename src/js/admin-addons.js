@@ -7,6 +7,7 @@
  * @version [version]
  */
 
+import { _n, sprintf } from '@wordpress/i18n';
 import $ from 'jquery';
 import '../scss/admin-addons.scss';
 
@@ -54,10 +55,12 @@ import '../scss/admin-addons.scss';
 	} );
 
 	/**
-	 * Updates the UI when bulk actions are changed
+	 * Updates the UI when bulk actions are changed.
+	 *
 	 * Shows # of each action to be applied & shows the form submission / cancel buttons
 	 *
 	 * @since 3.22.0
+	 * @since [version] Use `wp.i18n` functions in favor of `LLMS.l10n` and use `$.text()` in favor of `$.html()`.
 	 *
 	 * @return void
 	 */
@@ -72,20 +75,17 @@ import '../scss/admin-addons.scss';
 
 		$.each( actions, function( key, count ) {
 
-			var html  = '',
+			var text  = '',
 				$desc = $el.find( '.llms-bulk-desc.' + key );
 
-			if ( actions[ key ] ) {
-				if ( actions[ key ] > 1 ) {
-					html = LLMS.l10n.replace( '%d add-ons', { '%d': actions[ key ] } );
-				} else {
-					html = LLMS.l10n.translate( '1 add-on' );
-				}
+			if ( count ) {
+				// Translators: %d = Number of add-ons to perform the specified action against.
+				text = sprintf( _n( '%d add-on', '%d add-ons', count, 'lifterlms' ), count )
 				$desc.show();
 			} else {
 				$desc.hide();
 			}
-			$desc.find( 'span' ).html( html );
+			$desc.find( 'span' ).text( text );
 
 		} );
 
