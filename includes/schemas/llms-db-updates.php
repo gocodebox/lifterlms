@@ -156,11 +156,11 @@ return array(
 			'update_db_version',
 		),
 	),
-	'5.3.4'  => array(
+	'5.4.1'  => array(
 		'type'    => 'auto',
 		'updates' => array(
-			'llms_update_534_buddypress_profile_endpoints_bc',
-			'llms_update_534_update_db_version',
+			'llms_update_541_buddypress_profile_endpoints_bc',
+			'llms_update_541_update_db_version',
 		),
 	),
 );

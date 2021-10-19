@@ -1,6 +1,6 @@
 <?php
 /**
- * Update functions for version 5.3.4.
+ * Update functions for version 5.4.1.
  *
  * @package LifterLMS/Functions/Updates
  *
@@ -11,13 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * For old users: explicitly limit by default the buddypress profile endpoints to those existing prior to 5.3.4.
+ * For old users: explicitly limit by default the buddypress profile endpoints to those existing prior to 5.4.1.
  *
  * @since [version]
  *
  * @return bool True if it needs to run again, false otherwise.
  */
-function llms_update_534_buddypress_profile_endpoints_bc() {
+function llms_update_541_buddypress_profile_endpoints_bc() {
 
 	if ( ! llms_parse_bool( get_option( 'llms_integration_buddypress_enabled', 'no' ) ) ) {
 		return;
@@ -38,12 +38,12 @@ function llms_update_534_buddypress_profile_endpoints_bc() {
 }
 
 /**
- * Update db version to 5.3.4.
+ * Update db version to 5.4.1.
  *
  * @since [version]
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
-function llms_update_534_update_db_version() {
-	LLMS_Install::update_db_version( '5.3.4' );
+function llms_update_541_update_db_version() {
+	LLMS_Install::update_db_version( '5.4.1' );
 }
