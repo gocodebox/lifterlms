@@ -38,6 +38,7 @@
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
+    "lint:scripts": "wp-scripts lint-js ./src/**/*.js",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
     "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js",
