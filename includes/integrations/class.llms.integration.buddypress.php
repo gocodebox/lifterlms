@@ -194,10 +194,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
-	 *               Also, the main nav item will now point to and display the title of the first endpoint's tab.
-	 *               This means that while prior to this version its title was 'Courses' and its slug was 'courses',
-	 *               from now on - if the first tab is My Courses - its title will be "My Courses" and its slug the
-	 *               custom dashboard's slug set in Settings -> Account, which by default is 'my-courses'!
 	 *
 	 * @return void
 	 */
@@ -211,19 +207,20 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		$first_endpoint = reset( $profile_endpoints );
+		$main_nav_slug  = apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
+		$parent_url     = $bp->loggedin_user->domain . $main_nav_slug . '/';
 
 		// Add the main nav menu.
 		bp_core_new_nav_item(
 			array(
-				'name'                    => $first_endpoint['title'],
-				'slug'                    => $first_endpoint['endpoint'],
-				'position'                => 20,
+				'name'                    => apply_filters( 'llms_bp_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
+				'slug'                    => $main_nav_slug,
+				'position'                => apply_filters( 'llms_bp_main_nav_item_position', 20 ),
 				'show_for_displayed_user' => false,
 				'default_subnav_slug'     => $first_endpoint['endpoint'],
 			)
 		);
 
-		$parent_url    = $bp->loggedin_user->domain . $first_endpoint['endpoint'] . '/';
 		$is_my_profile = bp_is_my_profile(); // Only let the logged in user access subnav screens.
 
 		foreach ( $profile_endpoints as $ep_key => $profile_endpoint ) {
@@ -232,7 +229,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				array(
 					'name'            => $profile_endpoint['title'],
 					'slug'            => $profile_endpoint['endpoint'],
-					'parent_slug'     => $first_endpoint['endpoint'],
+					'parent_slug'     => $main_nav_slug,
 					'parent_url'      => $parent_url,
 					'screen_function' => function() use ( $ep_key, $profile_endpoint ) {
 						$this->endpoint_content( $ep_key, $profile_endpoint['content'] );
@@ -419,8 +416,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		global $wp_rewrite;
 
-		$endpoints      = $this->get_profile_endpoints();
-		$first_endpoint = reset( $endpoints );
+		$endpoints = $this->get_profile_endpoints();
 
 		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
 			return $link;
@@ -429,7 +425,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		// Retrieve the current subnav item.
 		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
-				'parent_slug' => $first_endpoint['endpoint'],
+				'parent_slug' => apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) ),
 				'slug'        => $endpoints[ $this->current_endpoint_key ]['endpoint'],
 			)
 		);

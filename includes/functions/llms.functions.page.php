@@ -67,7 +67,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
- * @since [version] Fall back on `wp_guess_url()` if `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
+ * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
  *              Prefer `wp_parse_url()` over the discouraged `parse_url()`.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
@@ -89,6 +89,11 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 		if ( strstr( $permalink, '?' ) ) {
 			$query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
 			$permalink    = current( explode( '?', $permalink ) );
+		}
+
+		// Remove the endpoint slug from the URL if it's its last part.
+		if ( substr( untrailingslashit( $permalink ), -1 * strlen( $endpoint ), strlen( $endpoint ) ) === $endpoint ) {
+			$permalink = substr( untrailingslashit( $permalink ), 0, -1 * strlen( $endpoint ) );
 		}
 
 		$url = trailingslashit( $permalink );
