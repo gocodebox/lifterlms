@@ -1,8 +1,6 @@
 /**
  * UI & UX for the Admin add-ons management screen
  *
- * @package LifterLMS/Scripts
- *
  * @since 3.22.0
  * @version [version]
  */
@@ -12,13 +10,12 @@ import $ from 'jquery';
 import '../scss/admin-addons.scss';
 
 ( function() {
-
 	/**
 	 * Tracks current # of each bulk action to be run upon form submission
 	 *
 	 * @type {Object}
 	 */
-	var actions = {
+	const actions = {
 		update: 0,
 		install: 0,
 		activate: 0,
@@ -41,8 +38,7 @@ import '../scss/admin-addons.scss';
 	 * @since 3.22.0
 	 */
 	$( 'input.llms-bulk-check' ).on( 'change', function() {
-
-		var action = $( this ).attr( 'data-action' );
+		const action = $( this ).attr( 'data-action' );
 
 		if ( $( this ).is( ':checked' ) ) {
 			actions[ action ]++;
@@ -50,8 +46,7 @@ import '../scss/admin-addons.scss';
 			actions[ action ]--;
 		}
 
-		update_ui();
-
+		updateUserInterface();
 	} );
 
 	/**
@@ -61,12 +56,12 @@ import '../scss/admin-addons.scss';
 	 *
 	 * @since 3.22.0
 	 * @since [version] Use `wp.i18n` functions in favor of `LLMS.l10n` and use `$.text()` in favor of `$.html()`.
+	 *               Renamed from `update_ui()` to match coding standards.
 	 *
-	 * @return void
+	 * @return {void}
 	 */
-	function update_ui() {
-
-		var $el = $( '#llms-addons-bulk-actions' );
+	function updateUserInterface() {
+		const $el = $( '#llms-addons-bulk-actions' );
 		if ( actions.update || actions.install || actions.activate || actions.deactivate ) {
 			$el.addClass( 'active' );
 		} else {
@@ -74,21 +69,19 @@ import '../scss/admin-addons.scss';
 		}
 
 		$.each( actions, function( key, count ) {
+			const $desc = $el.find( '.llms-bulk-desc.' + key );
 
-			var text  = '',
-				$desc = $el.find( '.llms-bulk-desc.' + key );
+			let text = '';
 
 			if ( count ) {
 				// Translators: %d = Number of add-ons to perform the specified action against.
-				text = sprintf( _n( '%d add-on', '%d add-ons', count, 'lifterlms' ), count )
+				text = sprintf( _n( '%d add-on', '%d add-ons', count, 'lifterlms' ), count );
 				$desc.show();
 			} else {
 				$desc.hide();
 			}
 			$desc.find( 'span' ).text( text );
-
 		} );
-
 	}
 
 	/**
@@ -99,5 +92,4 @@ import '../scss/admin-addons.scss';
 	$( '#llms-active-keys-toggle' ).on( 'click', function() {
 		$( '#llms-key-field-form' ).toggle();
 	} );
-
-} )();
+}() );
