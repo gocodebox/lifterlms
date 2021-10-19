@@ -11,7 +11,6 @@
  * @return {void}
  */
 export async function select2Select( selector, value ) {
-
 	// Wait for select2 to load on the element.
 	await page.waitForSelector( `${ selector }.select2-hidden-accessible` );
 
@@ -32,5 +31,4 @@ export async function select2Select( selector, value ) {
 	await page.waitForSelector(
 		`${ selector } + .select2-container .select2-selection[aria-expanded="false"]`
 	);
-
-};
+}

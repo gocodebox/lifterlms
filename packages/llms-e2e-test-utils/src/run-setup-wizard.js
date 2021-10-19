@@ -11,7 +11,7 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @return {string} Content of the title element.
  */
-const getTitle = async function () {
+const getTitle = async function() {
 	return await page.$eval(
 		'.llms-setup-content > form > h1',
 		( txt ) => txt.textContent
@@ -33,7 +33,6 @@ export async function runSetupWizard( {
 	coursesToImport = [ 'LifterLMS Quickstart Course' ],
 	exit = false,
 } = {} ) {
-
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
