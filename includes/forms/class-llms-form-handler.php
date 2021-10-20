@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -340,6 +340,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
+	 * @since [version] Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.
@@ -386,8 +387,7 @@ class LLMS_Form_Handler {
 			return $this->submit_error( $required, $posted_data, $action );
 		}
 
-		// Sanitize.
-		$posted_data = $this->validator->sanitize_fields( wp_unslash( $posted_data ), $fields );
+		$posted_data = wp_unslash( $posted_data );
 
 		$valid = $this->validator->validate_fields( $posted_data, $fields );
 		if ( is_wp_error( $valid ) ) {
@@ -424,13 +424,16 @@ class LLMS_Form_Handler {
 		 *
 		 * @since 3.0.0
 		 * @since 5.0.0 Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
-		 *               Added parameters `$fields` and `$args`.
+		 *              Added parameters `$fields` and `$args`.
 		 *
 		 * @param array   $posted_data Array of user-submitted data.
 		 * @param string  $location    Form location.
-		 * @param array[] $fields      Array of LifterLMS Form Fields
+		 * @param array[] $fields      Array of LifterLMS Form Fields.
 		 */
 		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields );
+
+		// Sanitize.
+		$posted_data = $this->validator->sanitize_fields( $posted_data, $fields );
 
 		$user_id = $this->insert( $action, $posted_data, $fields );
 		if ( is_wp_error( $user_id ) ) {
