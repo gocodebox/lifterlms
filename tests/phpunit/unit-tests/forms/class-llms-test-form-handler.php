@@ -8,7 +8,7 @@
  * @group form_handler
  *
  * @since 5.0.0
- * @version 5.1.0
+ * @version [version]
  */
 class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
@@ -504,6 +504,37 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 			llms_is_user_enrolled( $user->ID, $product_id, 'all', false );
 		}
 
+	}
+
+	/**
+	 * Tests that submitting a invalid email address produces an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_with_invalid_email_error() {
+
+		// Disable user generation.
+		add_filter( 'pre_option_lifterlms_registration_generate_username', '__return_empty_string' );
+		LLMS_Forms::instance()->create( 'registration', true );
+
+		$args = $this->get_data_for_form_submit(
+			array(
+				'user_login'             => 'the_dude',
+				'email_address'          => 'fake@wrong',
+				'email_address_confirm'  => 'fake@wrong',
+			)
+		);
+
+
+		$ret = $this->handler->submit( $args, 'registration' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( 'The email address "fake@wrong" is not valid.', $ret );
+
+		// Re-enable user generation.
+		remove_filter( 'pre_option_lifterlms_registration_generate_username', '__return_empty_string' );
 	}
 
 }
