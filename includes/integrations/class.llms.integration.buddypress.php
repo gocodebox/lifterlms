@@ -71,6 +71,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 			add_action( 'bp_setup_nav', array( $this, 'add_profile_nav_items' ) );
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks' ), 40, 1 );
+			add_filter( 'lifterlms_update_account_redirect', array( $this, 'maybe_alter_update_account_redirect' ) );
 
 		}
 
@@ -122,7 +123,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function populate_profile_endpoints() {
 
-		$exclude_llms_eps = array( 'dashboard', 'edit-account', 'signout' );
+		$exclude_llms_eps = array( 'dashboard', 'signout' );
 		$endpoints        = array_diff_key( LLMS_Student_Dashboard::get_tabs(), array_flip( $exclude_llms_eps ) );
 
 		foreach ( $endpoints as $ep_key => &$endpoint ) {
@@ -207,14 +208,35 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		$first_endpoint = reset( $profile_endpoints );
-		$main_nav_slug  = apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
-		$parent_url     = $bp->loggedin_user->domain . $main_nav_slug . '/';
+		/**
+		 * Filters the LifterLMS main nav item slug in the buddypress profile menu.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $slug The LifterLMS main nav item slug in the buddypress profile menu.
+		 */
+		$main_nav_slug = apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
+		$parent_url    = $bp->loggedin_user->domain . $main_nav_slug . '/';
 
 		// Add the main nav menu.
 		bp_core_new_nav_item(
 			array(
+				/**
+				 * Filters the LifterLMS main nav item label in the buddypress profile menu.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $label The LifterLMS main nav item label in the buddypress profile menu.
+				 */
 				'name'                    => apply_filters( 'llms_bp_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
 				'slug'                    => $main_nav_slug,
+				/**
+				 * Filters the LifterLMS main nav item position in the buddypress profile menu.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $position The LifterLMS main nav item position in the buddypress profile menu.
+				 */
 				'position'                => apply_filters( 'llms_bp_main_nav_item_position', 20 ),
 				'show_for_displayed_user' => false,
 				'default_subnav_slug'     => $first_endpoint['endpoint'],
@@ -239,6 +261,18 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			);
 		}
 
+	}
+
+	/**
+	 * Redirect on the same bb profile page when successfully update the account.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $accout_update_redirect_url Account update redirect url.
+	 * @return string
+	 */
+	public function maybe_alter_update_account_redirect( $accout_update_redirect_url ) {
+		return bp_is_my_profile() ? wp_guess_url() : $accout_update_redirect_url;
 	}
 
 	/**
@@ -326,6 +360,9 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function endpoint_content( $ep_key, $ep_template_cb ) {
 
+		// Store what endpoint key we're processing.
+		$this->current_endpoint_key = $ep_key;
+
 		// Register scripts.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 20 );
 
@@ -334,9 +371,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		// Add specific paginate links filter.
 		add_filter( 'paginate_links', array( $this, 'modify_paginate_links' ) );
-
-		// Store what endpoint key we're processing.
-		$this->current_endpoint_key = $ep_key;
 
 		add_action( 'bp_template_content', $ep_template_cb );
 
@@ -355,9 +389,27 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// The iziModal is needed by my_achievements.
-		llms()->assets->enqueue_style( 'llms-iziModal' );
-		llms()->assets->enqueue_script( 'llms-iziModal' );
+
+		if ( empty( $this->current_endpoint_key ) ) {
+			return;
+		}
+
+		if ( 'view-achievements' === $this->current_endpoint_key ) {
+			// The iziModal is needed by the achievements endpoint.
+			llms()->assets->enqueue_style( 'llms-iziModal' );
+			llms()->assets->enqueue_script( 'llms-iziModal' );
+		}
+
+		if ( 'edit-account' === $this->current_endpoint_key ) {
+			// Needed in the account edit endpoint.
+			llms()->assets->enqueue_style( 'llms-select2-styles' );
+			llms()->assets->enqueue_script( 'llms-select2' );
+			wp_add_inline_script(
+				'llms',
+				"window.llms.address_info = '" . wp_json_encode( llms_get_countries_address_info() ) . "';"
+			);
+		}
+
 	}
 
 	/**
@@ -425,6 +477,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		// Retrieve the current subnav item.
 		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
+				/** This filter is documented above */
 				'parent_slug' => apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) ),
 				'slug'        => $endpoints[ $this->current_endpoint_key ]['endpoint'],
 			)
@@ -448,30 +501,28 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		/**
 		 * Here's the core of this filter.
 		 *
-		 * What happens is that the paginate links on the 'courses' tab (as example for the fist tab) are of this type:
+		 * What happens is that the paginate links on the 'my-courses' tab (as example for the fist tab) are of this type:
 		 * `example.local/members/admin/courses/page/N`
 		 * where 'courses' is the slug of the main nav item.
 		 * While the "working" paginate links must be of the type:
-		 * `example.local/members/admin/courses/courses/page/N`
-		 * where the first 'courses' is the slug of the main nav item, and the second is the slug of
-		 * the subnav item, which is also the default "endpoint" for the main nav item.
+		 * `example.local/members/admin/courses/my-courses/page/N`
+		 * where 'courses' is the slug of the main nav item, and the 'my-courses' is the slug of
+		 * the subnav item, which is also the default "endpoint content" for the main nav item.
 		 *
 		 * So what we do here is to replace all the occurrences of something like
 		 * `example.local/members/admin/courses/page/N` to something like
-		 * `example.local/members/admin/courses/courses/page/N`
+		 * `example.local/members/admin/courses/my-courses/page/N`
 		 *
-		 * Despite one might expect `$first_subnav_item->link` doesn't point to `example.local/members/admin/courses/courses/`
+		 * Despite one might expect, `$first_subnav_item->link` doesn't point to `example.local/members/admin/courses/my-courses/`
 		 * but to `example.local/members/admin/courses/`, which is the link of the parent nav, the main nav item,
-		 * this because the 'courses' subnav item is the default of the 'courses' nav item.
-		 *
-		 * (the fact that both the slugs are "courses" doesn't matter here, it doesn't determine any conflict).
+		 * this because the 'my-courses' subnav item is the default of the 'courses' nav item.
 		 */
 		$search  = $first_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page . '/';
 		$replace = $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page . '/';
 
 		/**
 		 * For links to page/1 let's back on the main nav item link to avoid ugly URLs, so we replace something like
-		 * `example.local/members/admin/courses/courses/page/1`
+		 * `example.local/members/admin/my-courses/courses/page/1`
 		 * to something like
 		 * `example.local/members/admin/courses/`
 		 */
