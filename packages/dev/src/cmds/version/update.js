@@ -1,0 +1,153 @@
+const
+	chalk = require( 'chalk' ),
+	semver = require( 'semver' ),
+	columnify = require( 'columnify' ),
+	replace = require( 'replace-in-file' ),
+	{ writeFileSync } = require( 'fs' ),
+	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync, getDefaults } = require( '../../utils' );
+
+function updateVersions( files, regex, ignore, ver ) {
+
+	const commasToArray = ( string ) => string.split( ',' ).map( s => s.trim() );
+
+	files = commasToArray( files );
+
+	logResult( `Replacing ${ chalk.bold( files ) } using regex ${ chalk.bold( regex ) }.` );
+
+	const
+		opts = {
+			files: files,
+			from: new RegExp( regex, 'g' ),
+			to: ver,
+			ignore: ignore ? commasToArray( ignore ) : null,
+			countMatches: true,
+		};
+
+	return replace.sync( opts );
+
+};
+
+function updateConfig( ver ) {
+
+	const ret = {
+		Matches: chalk.yellow( 1 ),
+		Replacements: chalk.yellow( 1 ),
+	};
+
+	if ( hasConfig( 'package' ) ) {
+		// Silence update errors. When updating new files and the package has already been updated the CLI throws an error which we can ignore.
+		try {
+			logResult( 'Updating package.json.' );
+			execSync( `npm version --no-git-tag-version ${ver}`, true );
+			return [
+				{
+					File: chalk.green( 'package.json' ),
+					...ret,
+				},
+				{
+					File: chalk.green( 'package-lock.json' ),
+					...ret,
+				}
+			];
+		} catch ( e ) {}
+	} else if ( hasConfig( 'composer' ) ) {
+		const composer = getConfig( 'composer' );
+		if ( composer?.extra?.llms?.version ) {
+			logResult( 'Updating composer.json.' );
+			composer.extra.llms.version = ver;
+			writeFileSync( `${ process.cwd() }/composer.json`, JSON.stringify( composer, null, 2 ) );
+			return [
+				{
+					File: chalk.green( 'composer.json' ),
+					...ret,
+				},
+			];
+		}
+	}
+
+	return false;
+
+}
+
+const defaultReplacements = [
+	// 1. Replace [version] placeholder in all @since, @version, and @deprecated tags.
+	[ './**', '(?<=@(?:since|version|deprecated) +)(\\[version\\])' ],
+
+	// 2. Replace [version] placeholder in all deprecate function methods tags.
+	[ './*.php,./**/*.php', '(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=\')(\\[version\\])(?=\')' ],
+
+	// 3. Replace plugin metadata "Version" with current version.
+	[ '*lifterlms*.php', '(?<=[Vv]ersion *[:=] *[ \'\"])(0|[1-9]\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?' ],
+
+	// 4. Replace LIFTERLMS*_VERSION constants with the current version.
+	[ '*lifterlms*.php', '(?<=define\\( \'(?:LLMS|LIFTERLMS).*_VERSION\', \')(.*)(?=\' \\);)' ],
+
+	// 5. Replace theme stylesheet's version number with the current version.
+	[ './style.css', '(?<=Version: )(.+)' ],
+]
+
+module.exports = {
+	command: 'update',
+	description: "Update the project's version and replace all [version] placeholders.",
+	options: [
+		[ '-F, --force <version>', 'Specify an explicit version instead of incrementing the current version with --increment.' ],
+		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested and a regex used to perform the replacement. It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
+		[ '-e, --extra-replacements <replacement...>]', 'Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them.', [] ],
+		[ '-E, --exclude <glob...>', 'Specify files to exclude from the update.', './vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**' ],
+		[ '-s, --skip-config', 'Skip updating the version of the package.json or composer.json file.' ],
+	],
+	action: ( { increment, preid, exclude, force, skipConfig, replacements, extraReplacements } ) => {
+
+		const version = force ? force : getNextVersion( getCurrentVersion(), increment, preid );
+
+		if ( ! semver.valid( version ) ) {
+			logResult( `The supplied version string ${ chalk.bold( version ) } is invalid.`, 'error' );
+			process.exit( 1 );
+		}
+
+		// Add extraReplacements.
+		replacements = [ ...replacements, ...extraReplacements ];
+
+		const res = [];
+		if ( ! skipConfig ) {
+			const configUpdate = updateConfig( version );
+			if ( configUpdate ) {
+				configUpdate.forEach( configRes => res.push( configRes ) );
+			}
+		}
+
+		logResult( `Updating project files to version ${ chalk.bold( version ) }.` );
+
+		for ( let i = 0; i < replacements.length; i++ ) {
+
+			updateVersions( ...replacements[ i ], exclude, version )
+				.filter( ( { hasChanged } ) => hasChanged )
+				.forEach( update => {
+					res.push( {
+							File: chalk.green( update.file ),
+							Matches: chalk.yellow( update.numMatches ),
+							Replacements: chalk.yellow( update.numReplacements ),
+						} );
+					}
+				);
+
+		}
+
+		if ( ! res.length ) {
+			logResult( 'No updates made.', 'warning' );
+		} else {
+
+			logResult( 'Version update completed.', 'success' );
+			console.log(
+				columnify(
+					res,
+					{
+						headingTransform: heading => chalk.bold.underline( heading ),
+					},
+				)
+			);
+
+		}
+
+	},
+};
