@@ -1,8 +1,6 @@
 LifterLMS Changelog
 ===================
 
-arstarstarst
-
 v5.4.0 - 2021-10-14
 -------------------
 
