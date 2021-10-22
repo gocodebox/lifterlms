@@ -4,7 +4,7 @@ const
 	columnify = require( 'columnify' ),
 	replace = require( 'replace-in-file' ),
 	{ writeFileSync } = require( 'fs' ),
-	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync, getDefaults } = require( '../../utils' );
+	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync, getDefaults } = require( '../utils' );
 
 function updateVersions( files, regex, ignore, ver ) {
 
@@ -84,12 +84,14 @@ const defaultReplacements = [
 
 	// 5. Replace theme stylesheet's version number with the current version.
 	[ './style.css', '(?<=Version: )(.+)' ],
-]
+];
 
 module.exports = {
-	command: 'update',
+	command: 'update-version',
 	description: "Update the project's version and replace all [version] placeholders.",
 	options: [
+		[ '-i, --increment <level>', 'Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease.', 'patch' ],
+		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.', 'beta' ],
 		[ '-F, --force <version>', 'Specify an explicit version instead of incrementing the current version with --increment.' ],
 		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested and a regex used to perform the replacement. It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
 		[ '-e, --extra-replacements <replacement...>]', 'Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them.', [] ],

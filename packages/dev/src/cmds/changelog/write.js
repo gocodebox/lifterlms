@@ -14,8 +14,14 @@ const
 		execSync,
 	} = require( '../../utils' );
 
-const whichOpts = [ 'current', 'next' ];
-
+/**
+ * Accepts a date/time string and converts it to YYYY-MM-DD format used in changelog version titles.
+ *
+ * @since [version]
+ *
+ * @param {string|number} date Timestamp or datetime string parseable by `Date.parse()`.
+ * @return {string} Date string in YYYY-MM-DD format.
+ */
 const formatDate = ( date ) => new Date( date ).toISOString().split( 'T' )[0];
 
 function getHeaderLines( version, date ) {
@@ -156,7 +162,6 @@ module.exports = {
 		[ '-F, --force <version>', 'Use the specified version string instead of determining the version based on changelog entry significance.' ],
 		[ '-l, --log-file <file>', 'The changelog file.', 'CHANGELOG.md' ],
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
-		[ '-s, --skip-files', 'Skip file updates and only write the changelog.' ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
 	],
 	action: ( { dir, file, preid, force, logFile, date, skipFiles, links, yes } ) => {
@@ -195,7 +200,7 @@ module.exports = {
 			process.exit( 1 );
 		}
 
-		logResult( `Writing changelog for version ${ chalk.bold( version ) }` );
+		logResult( `Writing changelog for version ${ chalk.bold( version ) }:` );
 
 		const logFileContents = readFileSync( logFile, 'utf8' ),
 			logFileParts = logFileContents.split( '\n\n' ),
@@ -203,6 +208,8 @@ module.exports = {
 			items = formatChangelogVersionEntry( version, date, entries, links ).join( '\n' ) + '\n';
 
 		writeFileSync( logFile, [ logFileParts[0], items, ...body ].join( '\n\n' ) );
+
+		logResult( 'Changelog for version ${ chalk.bold( version ) } written.' )
 
 	},
 };
