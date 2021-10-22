@@ -6,15 +6,14 @@ const whichOpts = [ 'current', 'next' ];
 
 module.exports = {
 	command: 'version',
-	description: "List existing changelog entries.",
+	description: 'List existing changelog entries.',
 	args: [
-		[ '<which>', `Which version to retrieve. Accepts: ${ whichOpts.join( ', ' ) }.`, ],
+		[ '<which>', `Which version to retrieve. Accepts: ${ whichOpts.join( ', ' ) }.` ],
 	],
 	options: [
 		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.' ],
 	],
 	action: ( which, { dir, preid } ) => {
-
 		if ( ! whichOpts.includes( which ) ) {
 			logResult( `Unknown argument: "${ chalk.bold( which ) }".`, 'error' );
 			process.exit( 1 );
@@ -32,6 +31,5 @@ module.exports = {
 		}
 
 		console.log( getNextVersion( currentVersion, determineVersionIncrement( dir ), preid ) );
-
 	},
 };

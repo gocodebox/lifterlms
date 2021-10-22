@@ -22,19 +22,16 @@ const
  * @param {string|number} date Timestamp or datetime string parseable by `Date.parse()`.
  * @return {string} Date string in YYYY-MM-DD format.
  */
-const formatDate = ( date ) => new Date( date ).toISOString().split( 'T' )[0];
+const formatDate = ( date ) => new Date( date ).toISOString().split( 'T' )[ 0 ];
 
 function getHeaderLines( version, date ) {
-
 	const lines = [ `v${ version } - ${ date }` ];
-	lines.push( '-'.repeat( lines[0].length ) );
+	lines.push( '-'.repeat( lines[ 0 ].length ) );
 
 	return lines;
-
 }
 
 function getTypeTitle( type ) {
-
 	const map = {
 		added: 'New Features',
 		changed: 'Updates and Enhancements',
@@ -48,15 +45,13 @@ function getTypeTitle( type ) {
 	};
 
 	return `\n##### ${ map[ type ] }\n`;
-
 }
 
 function formatChangelogItem( { entry, type, attributions = [], links = [] }, includeLinks ) {
-
 	entry = entry.trim();
 
 	// Entries should always end in a full stop.
-	if ( 'template' !== type && ! [ '.', '?', '!' ].includes( entry.split( '' ).reverse()[0] ) ) {
+	if ( 'template' !== type && ! [ '.', '?', '!' ].includes( entry.split( '' ).reverse()[ 0 ] ) ) {
 		entry += '.';
 	}
 
@@ -65,46 +60,37 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 
 	// Add formatted attribution links.
 	if ( attributions.length ) {
-
-		attributions = attributions.map( v => {
+		attributions = attributions.map( ( v ) => {
 			if ( '@' === v.charAt( 0 ) ) {
 				v = `[${ v }](https://github.com/${ v })`;
 			}
 			return v;
-
 		} );
 		line += ` Thanks ${ new Intl.ListFormat( 'en', { style: 'long', type: 'conjunction' } ).format( attributions ) }!`;
-
 	}
 
 	// Add issue links.
 	if ( includeLinks && links.length ) {
-
 		const slug = getProjectSlug();
 
-		links = links.map( v => {
-			let url = 'https://github.com/'
+		links = links.map( ( v ) => {
+			let url = 'https://github.com/';
 			if ( '#' === v.charAt( 0 ) ) {
 				url += `gocodebox/${ slug }${ v }`;
 			} else {
 				url += v;
 			}
 			return `[${ v }](${ url })`;
-
 		} );
 		line += ' ' + links.join( ', ' );
-
 	}
 
 	return line;
-
 }
 
-
 function getUpdatedTemplates( includeLinks ) {
-
 	try {
-		return execSync( 'git diff --name-only trunk | grep "^templates/"', true ).split( '\n' ).map( template => {
+		return execSync( 'git diff --name-only trunk | grep "^templates/"', true ).split( '\n' ).map( ( template ) => {
 			return {
 				type: 'template',
 				entry: includeLinks ? `[${ template }](https://github.com/gocodebox/${ getProjectSlug() }/blob/trunk/${ template })` : template,
@@ -112,24 +98,22 @@ function getUpdatedTemplates( includeLinks ) {
 		} );
 	} catch ( e ) {}
 	return [];
-
 }
 
 function formatChangelogVersionEntry( version, date, entries, links ) {
-
 	const
 		groups = {},
 		{ type } = getChangelogOptions();
 
-	Object.keys( type ).forEach( groupKey => {
+	Object.keys( type ).forEach( ( groupKey ) => {
 		groups[ groupKey ] = [];
 	} );
-	groups['template'] = [];
+	groups.template = [];
 
 	// Add updated template list.
 	entries = [ ...entries, ...getUpdatedTemplates( links ) ];
 
-	entries.forEach( entry => {
+	entries.forEach( ( entry ) => {
 		groups[ entry.type ].push( entry );
 	} );
 
@@ -138,7 +122,6 @@ function formatChangelogVersionEntry( version, date, entries, links ) {
 	];
 
 	Object.entries( groups ).forEach( ( [ groupType, groupEntries ] ) => {
-
 		if ( ! groupEntries.length ) {
 			return;
 		}
@@ -147,16 +130,14 @@ function formatChangelogVersionEntry( version, date, entries, links ) {
 		groupEntries.forEach( ( entry ) => {
 			lines.push( formatChangelogItem( entry, links ) );
 		} );
-
 	} );
 
 	return lines;
-
 }
 
 module.exports = {
 	command: 'write',
-	description: "Write existing changelog entries to the changelog file.",
+	description: 'Write existing changelog entries to the changelog file.',
 	options: [
 		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.' ],
 		[ '-F, --force <version>', 'Use the specified version string instead of determining the version based on changelog entry significance.' ],
@@ -165,7 +146,6 @@ module.exports = {
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
 	],
 	action: ( { dir, file, preid, force, logFile, date, skipFiles, links, yes } ) => {
-
 		try {
 			date = formatDate( date );
 		} catch ( e ) {
@@ -181,7 +161,7 @@ module.exports = {
 
 		const entries = getChangelogEntries( dir );
 
-		const areEntriesValid = entries.every( entry => {
+		const areEntriesValid = entries.every( ( entry ) => {
 			const { valid } = getChangelogValidationIssues( entry );
 			return valid;
 		} );
@@ -207,9 +187,8 @@ module.exports = {
 			[ header, ...body ] = logFileParts,
 			items = formatChangelogVersionEntry( version, date, entries, links ).join( '\n' ) + '\n';
 
-		writeFileSync( logFile, [ logFileParts[0], items, ...body ].join( '\n\n' ) );
+		writeFileSync( logFile, [ logFileParts[ 0 ], items, ...body ].join( '\n\n' ) );
 
-		logResult( 'Changelog for version ${ chalk.bold( version ) } written.' )
-
+		logResult( 'Changelog for version ${ chalk.bold( version ) } written.' );
 	},
 };

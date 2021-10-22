@@ -13,33 +13,28 @@ program
 	.version( pkg.version )
 	.addHelpCommand( 'help [command]', 'Display help for command.' );
 
-
-function registerCommands( parent, dir , optionsParent = []) {
-
+function registerCommands( parent, dir, optionsParent = [] ) {
 	readdirSync( dir )
 		// Exclude index files, they're picked up automatically so we don't want to double register them.
-		.filter( file => 'index.js' !== file )
-		.forEach( file => {
-
+		.filter( ( file ) => 'index.js' !== file )
+		.forEach( ( file ) => {
 			const filePath = path.join( dir, file );
 
 			// Register the command.
 			registerCommand( parent, filePath, optionsParent );
-
 		} );
 }
 
 function registerCommand( parent, filePath, optionsParent = [] ) {
-
 	const {
-			command,
-			description,
-			action,
-			args = [],
-			options = [],
-			optionsShared = [],
-			help = [],
-		} = require( filePath );
+		command,
+		description,
+		action,
+		args = [],
+		options = [],
+		optionsShared = [],
+		help = [],
+	} = require( filePath );
 
 	const cmd = parent
 		.command( command )
@@ -49,25 +44,23 @@ function registerCommand( parent, filePath, optionsParent = [] ) {
 		cmd.action( action );
 	}
 
-	args.forEach( cmdArgs => cmd.argument( ...cmdArgs ) );
+	args.forEach( ( cmdArgs ) => cmd.argument( ...cmdArgs ) );
 
-	[ ...options, ...optionsParent, ...optionsShared ].forEach( opts => {
+	[ ...options, ...optionsParent, ...optionsShared ].forEach( ( opts ) => {
 		// Attempts to parse default values from the config file.
-		opts[2] = getDefault( parent._name ? parent._name + '.' + command : command, opts[0], opts[2] );
+		opts[ 2 ] = getDefault( parent._name ? parent._name + '.' + command : command, opts[ 0 ], opts[ 2 ] );
 		cmd.option( ...opts );
 	} );
 
-	help.forEach( help => cmd.addHelpText( ...help ) );
+	help.forEach( ( help ) => cmd.addHelpText( ...help ) );
 
 	// If it's a directory, recursively register files in the directory.
 	if ( lstatSync( filePath ).isDirectory() ) {
 		registerCommands( cmd, filePath, optionsShared );
 		cmd.addHelpCommand( 'help [command]', 'Display help for command.' );
 	}
-
 }
 
-registerCommands( program, path.join( __dirname, 'cmds' )  );
-
+registerCommands( program, path.join( __dirname, 'cmds' ) );
 
 program.parse( argv );

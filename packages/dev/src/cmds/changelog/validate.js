@@ -17,7 +17,6 @@ function getSymbol( type ) {
 		case 'warning':
 			symbol = chalk.yellow( '▲' );
 			break;
-
 	}
 	return symbol;
 }
@@ -28,16 +27,15 @@ function logWithSymbol( msg, type ) {
 
 module.exports = {
 	command: 'validate',
-	description: "Validate existing changelog entries.",
+	description: 'Validate existing changelog entries.',
 	args: [
 		[ '[entries...]', 'Optionally specify a list of changelog entries to validate. If omitted will validate all existing entries.' ],
 	],
 	options: [
-		[ '-f, --format [format]', "Output format. Accepts: list, json, yaml.", 'list' ],
-		[ '-s, --silent', "Skip validation output and communicate validation status only through the exit status of the command." ],
+		[ '-f, --format [format]', 'Output format. Accepts: list, json, yaml.', 'list' ],
+		[ '-s, --silent', 'Skip validation output and communicate validation status only through the exit status of the command.' ],
 	],
 	action: ( entries, { dir, silent, format } ) => {
-
 		let all = getChangelogEntries( dir );
 
 		// Reduce the list to only the requested entries.
@@ -49,8 +47,7 @@ module.exports = {
 
 		let exitStatus = 0;
 
-		all.forEach( log => {
-
+		all.forEach( ( log ) => {
 			const validation = getChangelogValidationIssues( log, 'list' === format ),
 				{ valid, errors, warnings } = validation,
 				overallStatus = errors.length ? 'error' : warnings.length ? 'warning' : 'success';
@@ -61,11 +58,11 @@ module.exports = {
 				console.log( chalk.dim( '-'.repeat( log.title.length + 2 ) ) );
 
 				if ( 'success' === overallStatus ) {
-					console.log( '  No issues.' )
+					console.log( '  No issues.' );
 				}
 
-				errors.forEach( err => logWithSymbol( err, 'error' ) );
-				warnings.forEach( warn => logWithSymbol( warn, 'warning' ) );
+				errors.forEach( ( err ) => logWithSymbol( err, 'error' ) );
+				warnings.forEach( ( warn ) => logWithSymbol( warn, 'warning' ) );
 			}
 
 			if ( 'error' === overallStatus ) {
@@ -73,7 +70,6 @@ module.exports = {
 			}
 
 			res[ log.title ] = validation;
-
 		} );
 
 		if ( ! silent ) {
@@ -85,6 +81,5 @@ module.exports = {
 		}
 
 		process.exit( exitStatus );
-
 	},
 };
