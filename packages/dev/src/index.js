@@ -35,7 +35,7 @@ function registerCommand( parent, filePath, optionsParent = [] ) {
 			command,
 			description,
 			action,
-			arguments = [],
+			args = [],
 			options = [],
 			optionsShared = [],
 			help = [],
@@ -49,7 +49,7 @@ function registerCommand( parent, filePath, optionsParent = [] ) {
 		cmd.action( action );
 	}
 
-	arguments.forEach( args => cmd.argument( ...args ) );
+	args.forEach( cmdArgs => cmd.argument( ...cmdArgs ) );
 
 	[ ...options, ...optionsParent, ...optionsShared ].forEach( opts => {
 		// Attempts to parse default values from the config file.

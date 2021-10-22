@@ -4,7 +4,7 @@ module.exports = {
 	optionsShared: [
 		[ '-d, --dir <directory>', 'Directory where changelog entries are stored.', '.changelogs' ],
 	],
-	arguments: [
+	args: [
 		[ '<command>', 'The changelog subcommand to execute.' ]
 	],
 };

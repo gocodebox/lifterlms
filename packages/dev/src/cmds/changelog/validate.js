@@ -29,7 +29,7 @@ function logWithSymbol( msg, type ) {
 module.exports = {
 	command: 'validate',
 	description: "Validate existing changelog entries.",
-	arguments: [
+	args: [
 		[ '[entries...]', 'Optionally specify a list of changelog entries to validate. If omitted will validate all existing entries.' ],
 	],
 	options: [

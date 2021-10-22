@@ -7,7 +7,7 @@ const whichOpts = [ 'current', 'next' ];
 module.exports = {
 	command: 'version',
 	description: "List existing changelog entries.",
-	arguments: [
+	args: [
 		[ '<which>', `Which version to retrieve. Accepts: ${ whichOpts.join( ', ' ) }.`, ],
 	],
 	options: [
