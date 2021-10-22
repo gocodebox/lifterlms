@@ -158,7 +158,6 @@ module.exports = {
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
 		[ '-s, --skip-files', 'Skip file updates and only write the changelog.' ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
-		[ '-y, --yes', 'Automatically confirm changelog updates.' ],
 	],
 	action: ( { dir, file, preid, force, logFile, date, skipFiles, links, yes } ) => {
 
