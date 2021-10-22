@@ -10,15 +10,13 @@ const { execSync } = require( 'child_process' );
  * @since 5.4.1
  *
  * @param {string}  cmd   Command to execute.
- * @param {Boolean} quiet If true, silences stdio output.
+ * @param {boolean} quiet If true, silences stdio output.
  * @param {Object}  opts  Additional options object passed to `execSync()`.
  * @return {string} The stdout from the command.
  */
 module.exports = ( cmd, quiet = false, opts = {} ) => {
-	
 	const stdio = quiet ? 'pipe' : 'inherit',
 		stdout = execSync( cmd, { stdio, ...opts } );
 
 	return stdout ? stdout.toString().trim() : '';
-
 };

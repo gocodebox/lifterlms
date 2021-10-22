@@ -5,12 +5,11 @@ const chalk = require( 'chalk' );
  *
  * @since 5.4.1
  *
- * @param {String} msg  Message to log.
- * @param {String} type Message type. Accepts success, warning, error, or info.
+ * @param {string} msg  Message to log.
+ * @param {string} type Message type. Accepts success, warning, error, or info.
  * @return {void}
  */
 module.exports = ( msg, type = 'info' ) => {
-
 	msg = chalk.bold( type.charAt( 0 ).toUpperCase() + type.slice( 1 ) ) + ': ' + msg;
 
 	switch ( type ) {
@@ -29,9 +28,7 @@ module.exports = ( msg, type = 'info' ) => {
 		case 'info':
 			msg = chalk.blue( msg );
 			break;
-
 	}
 
 	console.log( msg );
-
 };

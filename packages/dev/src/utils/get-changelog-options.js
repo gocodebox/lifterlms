@@ -1,5 +1,4 @@
 module.exports = () => {
-
 	return {
 		significance: {
 			major: 'Backwards incompatible or breaking changes',
@@ -17,5 +16,4 @@ module.exports = () => {
 			security: 'Changes related to security vulnerabilities',
 		},
 	};
-
 };

@@ -10,16 +10,14 @@ const
  *
  * @since 5.4.1
  *
- * @return {String} Returns the full path to the config file or an empty string if none can be found.
+ * @return {string} Returns the full path to the config file or an empty string if none can be found.
  */
 function getConfigFilePath() {
-
 	const basePath = path.join( process.cwd(), '.llmsdev' );
 
 	let configFilePath = '';
 
-	[ '.yml', '.yaml' ].some( ext => {
-
+	[ '.yml', '.yaml' ].some( ( ext ) => {
 		const testPath = basePath + ext;
 		if ( existsSync( testPath ) ) {
 			configFilePath = testPath;
@@ -27,11 +25,9 @@ function getConfigFilePath() {
 		}
 
 		return false;
-
 	} );
 
 	return configFilePath;
-
 }
 
 /**
@@ -42,14 +38,12 @@ function getConfigFilePath() {
  * @return {Object} Returns the parsed config file as a JS object or an empty object if none found.
  */
 function loadConfigFile() {
-
 	const filePath = getConfigFilePath();
 	if ( ! filePath ) {
 		return {};
 	}
 
 	return parseYaml( readFileSync( filePath, 'utf8' ) );
-
 }
 
 /**
@@ -57,27 +51,24 @@ function loadConfigFile() {
  *
  * @since 5.4.1
  *
- * @param {String} command     Name of the command. When accessing subcommands the command name will be "parent.subcommand".
- * @param {String} setting     The option value, eg: "-v --verbose" or "-m --mode <mode>".
- *                             This string will be parsed and use the value following the two hyphens.
- *                             Using the examples the value from the config would accept the value of "verbose" or "mode".
- * @param {mixed} defaultValue The default value as specified in the command options.
+ * @param {string} command      Name of the command. When accessing subcommands the command name will be "parent.subcommand".
+ * @param {string} setting      The option value, eg: "-v --verbose" or "-m --mode <mode>".
+ *                              This string will be parsed and use the value following the two hyphens.
+ *                              Using the examples the value from the config would accept the value of "verbose" or "mode".
+ * @param {mixed}  defaultValue The default value as specified in the command options.
  * @return {mixde} The default value of the option.
  */
 module.exports = ( command, setting, defaultValue = undefined ) => {
-
-	setting = setting.split( ' ' )[1].replace( '--', '' );
+	setting = setting.split( ' ' )[ 1 ].replace( '--', '' );
 
 	const config = loadConfigFile();
 	if (
 		! config ||
-		0 === Object.keys( config )
-		|| undefined === config[ command ]
-		|| undefined === config[ command ][ setting ] )
-	{
+		0 === Object.keys( config ) ||
+		undefined === config[ command ] ||
+		undefined === config[ command ][ setting ] ) {
 		return defaultValue;
 	}
 
 	return config[ command ][ setting ];
-
 };

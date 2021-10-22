@@ -8,7 +8,6 @@ const { getConfig } = require( './configs' );
  * @return {string} A semver string or an empty string if no version could be parsed.
  */
 module.exports = () => {
-
 	const npm = getConfig( 'package' );
 	if ( npm.version ) {
 		return npm.version;
@@ -20,5 +19,4 @@ module.exports = () => {
 	}
 
 	return '';
-
-}
+};

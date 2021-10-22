@@ -7,8 +7,7 @@ const
 	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync, getDefaults } = require( '../utils' );
 
 function updateVersions( files, regex, ignore, ver ) {
-
-	const commasToArray = ( string ) => string.split( ',' ).map( s => s.trim() );
+	const commasToArray = ( string ) => string.split( ',' ).map( ( s ) => s.trim() );
 
 	files = commasToArray( files );
 
@@ -16,7 +15,7 @@ function updateVersions( files, regex, ignore, ver ) {
 
 	const
 		opts = {
-			files: files,
+			files,
 			from: new RegExp( regex, 'g' ),
 			to: ver,
 			ignore: ignore ? commasToArray( ignore ) : null,
@@ -24,11 +23,9 @@ function updateVersions( files, regex, ignore, ver ) {
 		};
 
 	return replace.sync( opts );
-
-};
+}
 
 function updateConfig( ver ) {
-
 	const ret = {
 		Matches: chalk.yellow( 1 ),
 		Replacements: chalk.yellow( 1 ),
@@ -38,7 +35,7 @@ function updateConfig( ver ) {
 		// Silence update errors. When updating new files and the package has already been updated the CLI throws an error which we can ignore.
 		try {
 			logResult( 'Updating package.json.' );
-			execSync( `npm version --no-git-tag-version ${ver}`, true );
+			execSync( `npm version --no-git-tag-version ${ ver }`, true );
 			return [
 				{
 					File: chalk.green( 'package.json' ),
@@ -47,7 +44,7 @@ function updateConfig( ver ) {
 				{
 					File: chalk.green( 'package-lock.json' ),
 					...ret,
-				}
+				},
 			];
 		} catch ( e ) {}
 	} else if ( hasConfig( 'composer' ) ) {
@@ -66,7 +63,6 @@ function updateConfig( ver ) {
 	}
 
 	return false;
-
 }
 
 const defaultReplacements = [
@@ -99,7 +95,6 @@ module.exports = {
 		[ '-s, --skip-config', 'Skip updating the version of the package.json or composer.json file.' ],
 	],
 	action: ( { increment, preid, exclude, force, skipConfig, replacements, extraReplacements } ) => {
-
 		const version = force ? force : getNextVersion( getCurrentVersion(), increment, preid );
 
 		if ( ! semver.valid( version ) ) {
@@ -114,42 +109,37 @@ module.exports = {
 		if ( ! skipConfig ) {
 			const configUpdate = updateConfig( version );
 			if ( configUpdate ) {
-				configUpdate.forEach( configRes => res.push( configRes ) );
+				configUpdate.forEach( ( configRes ) => res.push( configRes ) );
 			}
 		}
 
 		logResult( `Updating project files to version ${ chalk.bold( version ) }.` );
 
 		for ( let i = 0; i < replacements.length; i++ ) {
-
 			updateVersions( ...replacements[ i ], exclude, version )
 				.filter( ( { hasChanged } ) => hasChanged )
-				.forEach( update => {
+				.forEach( ( update ) => {
 					res.push( {
-							File: chalk.green( update.file ),
-							Matches: chalk.yellow( update.numMatches ),
-							Replacements: chalk.yellow( update.numReplacements ),
-						} );
-					}
+						File: chalk.green( update.file ),
+						Matches: chalk.yellow( update.numMatches ),
+						Replacements: chalk.yellow( update.numReplacements ),
+					} );
+				}
 				);
-
 		}
 
 		if ( ! res.length ) {
 			logResult( 'No updates made.', 'warning' );
 		} else {
-
 			logResult( 'Version update completed.', 'success' );
 			console.log(
 				columnify(
 					res,
 					{
-						headingTransform: heading => chalk.bold.underline( heading ),
+						headingTransform: ( heading ) => chalk.bold.underline( heading ),
 					},
 				)
 			);
-
 		}
-
 	},
 };

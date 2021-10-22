@@ -8,13 +8,12 @@ const
  *
  * @since 5.4.1
  *
- * @return {Boolean}
+ * @return {boolean}
  */
 function requiresComposerInstall() {
-
 	const
-		pkg      = getConfig( 'composer' ),
-		keys     = pkg.require ? Object.keys( pkg.require ) : [],
+		pkg = getConfig( 'composer' ),
+		keys = pkg.require ? Object.keys( pkg.require ) : [],
 		autoload = pkg.autoload ? Object.keys( pkg.autoload ) : [];
 
 	// If we have autoloading enabled we need to build for production.
@@ -28,12 +27,11 @@ function requiresComposerInstall() {
 	}
 
 	// Has only a php (platform) requirement.
-	if ( 1 === keys.length && 'php' === keys[0] ) {
+	if ( 1 === keys.length && 'php' === keys[ 0 ] ) {
 		return false;
 	}
 
 	return true;
-
 }
 
 module.exports = {
@@ -45,7 +43,6 @@ module.exports = {
 		[ '-v, --verbose', 'Output extra information with result messages.', false ],
 	],
 	action: ( { inspect, dir, verbose } ) => {
-
 		const name = getArchiveFilename(),
 			slug = getProjectSlug(),
 			composer = requiresComposerInstall(),
@@ -63,7 +60,7 @@ module.exports = {
 		}
 
 		// Create the initial archive using composer.
-		execSync( `composer archive --format=zip --dir=${ distDir } --file=${ name.replace( '.zip', '' ) }`, true )
+		execSync( `composer archive --format=zip --dir=${ distDir } --file=${ name.replace( '.zip', '' ) }`, true );
 
 		// Unzip the initial archive into a subdirectory matching the project's slug.
 		execSync( `unzip ${ name } -d ${ slug }`, ! verbose, { cwd: distDir } );
@@ -89,6 +86,5 @@ module.exports = {
 			logResult( 'Reinstalling all composer dependencies...', 'info', true );
 			execSync( `composer install`, ! verbose );
 		}
-
 	},
 };

@@ -9,8 +9,8 @@ const { basename } = require( 'path' );
  *
  * @since 5.4.1
  *
- * @return {String}
+ * @return {string}
  */
 module.exports = () => {
 	return basename( process.cwd() );
-}
+};

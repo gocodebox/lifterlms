@@ -17,7 +17,6 @@ module.exports = {
 		[ '-b, --bugs <url>', 'Customize the bug report location header.', 'https://lifterlms.com/my-account/my-tickets' ],
 	],
 	action: ( { textDomain, exclude, extraExclude, json, dir, translator, bugs }, { parent } ) => {
-
 		// Ensure WP-CLI is available.
 		try {
 			execSync( 'which wp', true );
@@ -28,14 +27,14 @@ module.exports = {
 
 		const
 			// Replace the WP CLI generator with our own generator string.
-			generator  = `llms/dev ${ parent.version() }`,
+			generator = `llms/dev ${ parent.version() }`,
 			// Get the year of the first commit to the repo.
-			initYear   = parseInt( execSync( 'git log --reverse --format="format:%cd" --date="format:%Y" | sed -n 1p', true ) ),
-			currDate   = new Date(),
-			currYear   = currDate.getFullYear(),
-			pot        = path.join( dir, `${ textDomain }.pot` ),
+			initYear = parseInt( execSync( 'git log --reverse --format="format:%cd" --date="format:%Y" | sed -n 1p', true ) ),
+			currDate = new Date(),
+			currYear = currDate.getFullYear(),
+			pot = path.join( dir, `${ textDomain }.pot` ),
 			// Custom Headers.
-			headers    = {
+			headers = {
 				'Last-Translator': translator,
 				'Language-Team': translator,
 				'Report-Msgid-Bugs-To': bugs,
@@ -50,8 +49,7 @@ module.exports = {
 		// Update excludes glob formatting to a format acceptable by WP CLI.
 		exclude = exclude.replace( /\/\*\*/g, '/' ).replace( /\.\//g, '' );
 
-
-		let cmdOpts = `--exclude="${ exclude }" --headers='${ JSON.stringify( headers ) }'`;
+		const cmdOpts = `--exclude="${ exclude }" --headers='${ JSON.stringify( headers ) }'`;
 
 		// Generate the POT file.
 		execSync( `wp i18n make-pot ./ ${ pot } ${ cmdOpts }` );
@@ -60,15 +58,13 @@ module.exports = {
 		let headerComment = execSync( `head -2 ${ pot }`, true ),
 			potContents = readFileSync( pot ).toString();
 
-
 		// If the initial commit date is not equal to the current year, update the copyright to include the date range.
 		if ( initYear !== currYear ) {
-			potContents   = potContents.replace( headerComment, '' );
+			potContents = potContents.replace( headerComment, '' );
 			headerComment = headerComment.replace( `(C) ${ currYear }`, `(C) ${ initYear }-${ currYear }` );
 		}
 
 		// Write the header back to the file.
 		writeFileSync( pot, headerComment + potContents );
-
 	},
 };

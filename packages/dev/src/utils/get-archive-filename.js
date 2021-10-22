@@ -12,4 +12,4 @@ const getCurrentVersion = require( './get-current-version' ),
 module.exports = ( version = null ) => {
 	version = version ? version : getCurrentVersion();
 	return `${ getProjectSlug() }-${ version }.zip`;
-}
+};

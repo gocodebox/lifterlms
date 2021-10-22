@@ -13,7 +13,7 @@ const { existsSync } = require( 'fs' );
 function getConfig( filename ) {
 	const path = `${ process.cwd() }/${ filename }.json`;
 	if ( existsSync( path ) ) {
-		return require( path )
+		return require( path );
 	}
 	return {};
 }
@@ -24,7 +24,7 @@ function getConfig( filename ) {
  * @since 5.4.1
  *
  * @param {string} filename The JSON config file name, eg "composer" or "package".
- * @return {Boolean} Returns true if the config file exists, otherwise false.
+ * @return {boolean} Returns true if the config file exists, otherwise false.
  */
 function hasConfig( filename ) {
 	return Object.keys( getConfig( filename ) ).length >= 1;

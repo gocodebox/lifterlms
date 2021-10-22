@@ -3,15 +3,13 @@ const { readdirSync, readFileSync, existsSync } = require( 'fs' ),
 	YAML = require( 'yaml' );
 
 module.exports = ( dir ) => {
-
 	const res = [];
 
 	if ( ! existsSync( dir ) ) {
 		return res;
 	}
 
-	readdirSync( dir ).forEach( file => {
-
+	readdirSync( dir ).forEach( ( file ) => {
 		// Only parse valid changelog files.
 		if ( ! file.includes( '.yml' ) && ! file.includes( '.yaml' ) ) {
 			return;
@@ -32,5 +30,4 @@ module.exports = ( dir ) => {
 	} );
 
 	return res;
-
 };
