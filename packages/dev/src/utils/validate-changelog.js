@@ -1,13 +1,40 @@
+require( 'url' );
+
 const
-	url = require( 'url' ),
+	ChangelogEntry = require( './changelog-entry' ),
 	chalk = require( 'chalk' ),
 	getChangelogOptions = require( './get-changelog-options' );
 
-function highlight( text, formatting ) {
+/**
+ * Highlights text depending on the formatting request
+ *
+ * When formatting is disabled, the text is wrapped in quotes.
+ *
+ * When formatting is enabled, the text will be quoted and emboldened.
+ *
+ * @since [version]
+ *
+ * @param {string}  text       The text to highlight.
+ * @param {boolean} formatting Whether or not rich formatting should be used.
+ * @return {string} The highlighted text.
+ */
+function highlight( text, formatting = true ) {
 	text = formatting ? chalk.bold( text ) : text;
 	return `"${ text }"`;
 }
 
+/**
+ * Determines if an attribution string is valid.
+ *
+ * Attributions are valid in the following formats:
+ *   + GitHub username reference: @thomasplevy
+ *   + Markdown link: [Jeffrey Lebowski](https://elduderino.geocites.com/)
+ *
+ * @since [version]
+ *
+ * @param {string} attr User-submitted attribution string.
+ * @return {boolean} Returns `true` if the attribution string is valid, otherwise `false`.
+ */
 function isAttributionValid( attr ) {
 	attr = attr.toString();
 
@@ -26,7 +53,7 @@ function isAttributionValid( attr ) {
 	}
 
 	try {
-		const test = new URL( match[ 1 ] );
+		new URL( match[ 1 ] );
 		return true;
 	} catch ( e ) {}
 
@@ -34,6 +61,18 @@ function isAttributionValid( attr ) {
 	// return attr.match( regex );
 }
 
+/**
+ * Determine if a supplied link is valid
+ *
+ * Links are valid in the following formats:
+ *   + GitHub issue reference in the current repo: #12345
+ *   + GitHub issue reference to another repo: organization/repository#12345
+ *
+ * @since [version]
+ *
+ * @param {string} link User-submitted link string.
+ * @return {boolean} Returns `true` if the link is valid and false otherwise.
+ */
 function isLinkValid( link ) {
 	// Force values to a string.
 	link = link.toString();
@@ -58,6 +97,24 @@ function isLinkValid( link ) {
 	return valid;
 }
 
+/**
+ * Object describing changelog validation issues found with a specified ChangelogEntry.
+ *
+ * @typedef {Object} ChangelogValidationIssues
+ * @property {boolean}  valid    Whether or not validation errors were found.
+ * @property {string[]} errors   Array of validation error messages.
+ * @property {string[]} warnings Array of validation warning messages.
+ */
+
+/**
+ * Retrieve a list of changelog validation issues.
+ *
+ * @since [version]
+ *
+ * @param {ChangelogEntry} logEntry   The changelog entry object to validate.
+ * @param {boolean}        formatting Whether or not messages should include formatting (colors and bold).
+ * @return {ChangelogValidationIssues} Encountered validation issues
+ */
 function getChangelogValidationIssues( logEntry, formatting = true ) {
 	const options = getChangelogOptions(),
 		errors = [],
@@ -73,7 +130,6 @@ function getChangelogValidationIssues( logEntry, formatting = true ) {
 	// Validate enum values.
 	[ 'significance', 'type' ].forEach( ( key ) => {
 		if ( logEntry[ key ] && ! Object.keys( options[ key ] ).includes( logEntry[ key ] ) ) {
-			valid = false;
 			errors.push( `Invalid value ${ highlight( logEntry[ key ], formatting ) } supplied for field: ${ highlight( key, formatting ) }.` );
 		}
 	} );

@@ -1,6 +1,6 @@
 const
 	chalk = require( 'chalk' ),
-	{ getNextVersion, getCurrentVersion, getChangelogEntries, determineVersionIncrement, logResult } = require( '../../utils' );
+	{ getNextVersion, getCurrentVersion, determineVersionIncrement, logResult } = require( '../../utils' );
 
 const whichOpts = [ 'current', 'next' ];
 

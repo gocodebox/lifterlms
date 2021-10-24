@@ -5,6 +5,7 @@ const
 	YAML = require( 'yaml' ),
 	{ existsSync, mkdirSync, writeFileSync } = require( 'fs' ),
 	{
+		ChangelogEntry,
 		getChangelogOptions,
 		logResult,
 		execSync,
@@ -14,6 +15,14 @@ const
 	} = require( '../../utils' ),
 	opts = getChangelogOptions();
 
+/**
+ * Generate a list for the given option key.
+ *
+ * @since [version]
+ *
+ * @param {string} option Option key.
+ * @return {Object[]} Array of objects used for the list.
+ */
 function generateList( option ) {
 	return Object.entries( opts[ option ] )
 		.map( ( [ value, desc ] ) => ( {
@@ -22,10 +31,26 @@ function generateList( option ) {
 		} ) );
 }
 
+/**
+ * Coerces a numeric value to a valid link value.
+ *
+ * @since [version]
+ *
+ * @param {any} link User-submitted link value.
+ * @return {any} The link as a valid link value if it can be coerced or the user-submitted value if it cannot.
+ */
 function coerceLink( link ) {
 	return ! isNaN( parseInt( link ) ) ? `#${ link }` : link;
 }
 
+/**
+ * Create the changelog entry from the given entry object.
+ *
+ * @since [version]
+ *
+ * @param {ChangelogEntry} log Changelog entry object.
+ * @return {void}
+ */
 function writeChangelog( log ) {
 	const { dir } = log;
 	let { title } = log;
@@ -90,7 +115,7 @@ module.exports = {
 		}
 
 		if ( interactive ) {
-			const commasToArray = ( val ) => val.split( ',' ).filter( ( val ) => val ).map( ( val ) => val.trim() );
+			const commasToArray = ( arr ) => arr.split( ',' ).filter( ( part ) => part ).map( ( str ) => str.trim() );
 
 			const questions = [
 				{
@@ -121,7 +146,7 @@ module.exports = {
 					message: 'Linked Issues [Separate multiple issues with a comma]',
 					default: links ? links.join( ', ' ) : null,
 					filter: ( vals ) => commasToArray( vals ).map( coerceLink ),
-					validate: ( val ) => val.every( ( val ) => isLinkValid( val ) ) ? true : 'Invalid link',
+					validate: ( userVal ) => userVal.every( ( val ) => isLinkValid( val ) ) ? true : 'Invalid link',
 				},
 				{
 					type: 'input',
@@ -129,7 +154,7 @@ module.exports = {
 					message: 'Attributions [Separate multiple individuals with a comma]',
 					default: attributions ? attributions.join( ', ' ) : null,
 					filter: commasToArray,
-					validate: ( val ) => val.every( ( val ) => isAttributionValid( val ) ) ? true : 'Invalid attribution',
+					validate: ( userVal ) => userVal.every( ( val ) => isAttributionValid( val ) ) ? true : 'Invalid attribution',
 				},
 				{
 					type: 'input',

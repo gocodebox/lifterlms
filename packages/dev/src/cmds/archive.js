@@ -6,9 +6,9 @@ const
 /**
  * Determine if the project has composer production dependencies warranting a `composer install` during builds.
  *
- * @since 5.4.1
+ * @since [version]
  *
- * @return {boolean}
+ * @return {boolean} Whether or not a composer install is required.
  */
 function requiresComposerInstall() {
 	const
@@ -50,7 +50,7 @@ module.exports = {
 
 		// If we have composer dependencies, reinstall with no dev requirements or scripts.
 		if ( composer ) {
-			const spin = logResult( 'Installing composer production dependencies...', 'info', true );
+			logResult( 'Installing composer production dependencies...', 'info', true );
 			execSync( `composer install --no-dev --no-scripts`, ! verbose );
 		}
 

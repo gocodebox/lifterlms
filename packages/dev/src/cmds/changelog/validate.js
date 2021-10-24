@@ -1,10 +1,17 @@
 const
 	chalk = require( 'chalk' ),
-	columnify = require( 'columnify' ),
 	path = require( 'path' ),
 	YAML = require( 'yaml' ),
-	{ getChangelogEntries, logResult, getChangelogValidationIssues } = require( '../../utils' );
+	{ getChangelogEntries, getChangelogValidationIssues } = require( '../../utils' );
 
+/**
+ * Retrieve a symbol describing the status type.
+ *
+ * @since [version]
+ *
+ * @param {string} type Status type.
+ * @return {string} The UTF8 symbol for the requested status.
+ */
 function getSymbol( type ) {
 	let symbol = '';
 	switch ( type ) {
@@ -21,6 +28,15 @@ function getSymbol( type ) {
 	return symbol;
 }
 
+/**
+ * Log a message with a status symbol prefix.
+ *
+ * @since [version]
+ *
+ * @param {string} msg  The message to log.
+ * @param {string} type The status type.
+ * @return {void}
+ */
 function logWithSymbol( msg, type ) {
 	console.log( chalk.italic( ` ${ getSymbol( type ) } ${ msg }` ) );
 }
@@ -49,7 +65,7 @@ module.exports = {
 
 		all.forEach( ( log ) => {
 			const validation = getChangelogValidationIssues( log, 'list' === format ),
-				{ valid, errors, warnings } = validation,
+				{ errors, warnings } = validation,
 				overallStatus = errors.length ? 'error' : warnings.length ? 'warning' : 'success';
 
 			if ( ! silent && 'list' === format ) {

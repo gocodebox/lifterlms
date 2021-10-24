@@ -3,7 +3,7 @@ const { getConfig } = require( './configs' );
 /**
  * Retrieve the current version number of the project
  *
- * @since 5.4.1
+ * @since [version]
  *
  * @return {string} A semver string or an empty string if no version could be parsed.
  */

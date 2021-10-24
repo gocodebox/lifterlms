@@ -4,8 +4,19 @@ const
 	columnify = require( 'columnify' ),
 	replace = require( 'replace-in-file' ),
 	{ writeFileSync } = require( 'fs' ),
-	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync, getDefaults } = require( '../utils' );
+	{ getCurrentVersion, getNextVersion, logResult, getConfig, hasConfig, execSync } = require( '../utils' );
 
+/**
+ * Update [version] placeholders via a regex against a list of file globs
+ *
+ * @since [version]
+ *
+ * @param {string} files  Comma separated list of file globs.
+ * @param {regex}  regex  A regular expression to use for the replacements.
+ * @param {string} ignore A comma separated list of file globs to be ignored.
+ * @param {string} ver    The semantic version string to replace the placeholder with.
+ * @return {Object} Replacement result object from `replace.sync()`.
+ */
 function updateVersions( files, regex, ignore, ver ) {
 	const commasToArray = ( string ) => string.split( ',' ).map( ( s ) => s.trim() );
 
@@ -25,6 +36,19 @@ function updateVersions( files, regex, ignore, ver ) {
 	return replace.sync( opts );
 }
 
+/**
+ * Updates the version number in the package's config file.
+ *
+ * If a package.json file is present, uses `npm version` to update the project's version.
+ *
+ * If there is no package.json, will attempt to update the `extra.llms.version` item in the
+ * project's composer.json file.
+ *
+ * @since [version]
+ *
+ * @param {string} ver Semantic version string.
+ * @return {Object} A replacement result string.
+ */
 function updateConfig( ver ) {
 	const ret = {
 		Matches: chalk.yellow( 1 ),

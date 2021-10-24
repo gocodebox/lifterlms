@@ -7,9 +7,9 @@ const { basename } = require( 'path' );
  *
  * For example "lifterlms" or "lifterlms-integration-woocommerce".
  *
- * @since 5.4.1
+ * @since [version]
  *
- * @return {string}
+ * @return {string} The project's slug.
  */
 module.exports = () => {
 	return basename( process.cwd() );

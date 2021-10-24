@@ -1,22 +1,45 @@
 const
 	path = require( 'path' ),
+	{ Command } = require( 'commander' ), // Including for the type definition.
 	{ readFileSync, writeFileSync } = require( 'fs' ),
 	{ execSync, logResult, getProjectSlug } = require( '../utils' ),
-	exclude = 'vendor/**, node_modules/**, tmp/**, dist/**, docs/**, src/**, tests/**, *.js.map';
+	defaultExclude = 'vendor/**, node_modules/**, tmp/**, dist/**, docs/**, src/**, tests/**, *.js.map';
 
+/**
+ * Command: pot
+ *
+ * @since [version]
+ *
+ * @type {Object}
+ */
 module.exports = {
 	command: 'pot',
 	description: 'Generate i18n pot and json files using the WP-CLI',
 	options: [
 		[ '-d, --text-domain <text-domain>', 'Specify the text domain. Used to generate the filenames for generated files.', getProjectSlug() ],
-		[ '-e, --exclude <glob...>', 'Specify files to exclude from scanning.', exclude ],
+		[ '-e, --exclude <glob...>', 'Specify files to exclude from scanning.', defaultExclude ],
 		[ '-ee, --extra-exclude <glob...>', 'Additional files to add to the --exclude option.' ],
-		[ '-j, --json', 'Whether or not to generate json files for Javascript localization.', false ],
 		[ '-d, --dir <directory>', 'Output directory where generated files will be stored.', 'i18n' ],
 		[ '-t, --translator <translator>', 'Customize the Last Translator header.', 'Team LifterLMS <team@lifterlms.com>' ],
 		[ '-b, --bugs <url>', 'Customize the bug report location header.', 'https://lifterlms.com/my-account/my-tickets' ],
 	],
-	action: ( { textDomain, exclude, extraExclude, json, dir, translator, bugs }, { parent } ) => {
+	/**
+	 * Callback action for the pot command
+	 *
+	 * @since [version]
+	 *
+	 * @param {Object}  options              Command options.
+	 * @param {string}  options.textDomain   Project text domain.
+	 * @param {string}  options.exclude      Comma separated list of globs used to exclude files from the pot file generation.
+	 * @param {string}  options.extraExclude Extra globs to be added to exclude.
+	 * @param {string}  options.dir          Output directory where the generated files will be saved.
+	 * @param {string}  options.translator   Translator name and email.
+	 * @param {string}  options.bugs         Bug report URL.
+	 * @param {Command} command              The command instance.
+	 * @param {Command} command.parent       The command's parent command.
+	 * @return {void}
+	 */
+	action: ( { textDomain, exclude, extraExclude, dir, translator, bugs }, { parent } ) => {
 		// Ensure WP-CLI is available.
 		try {
 			execSync( 'which wp', true );

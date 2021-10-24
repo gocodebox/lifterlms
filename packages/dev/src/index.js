@@ -8,11 +8,22 @@ const { argv } = process,
 	pkg = JSON.parse( readFileSync( path.join( __dirname, '../package.json' ), 'utf8' ) ),
 	{ getDefault } = require( './utils' );
 
+// Setup the CLI program.
 program
 	.description( pkg.description )
 	.version( pkg.version )
 	.addHelpCommand( 'help [command]', 'Display help for command.' );
 
+/**
+ * Read the contents of the specified directory, registering all as subcommands of the specified parent command.
+ *
+ * @since [version]
+ *
+ * @param {Command} parent        Parent command instance.
+ * @param {string}  dir           Path to the directory where the command modules should be loaded from.
+ * @param {Array[]} optionsParent Array of options shared from the parent to all subcommands.
+ * @return {void}
+ */
 function registerCommands( parent, dir, optionsParent = [] ) {
 	readdirSync( dir )
 		// Exclude index files, they're picked up automatically so we don't want to double register them.
@@ -25,6 +36,16 @@ function registerCommands( parent, dir, optionsParent = [] ) {
 		} );
 }
 
+/**
+ * Register a command with the specified parent.
+ *
+ * @since [version]
+ *
+ * @param {Command} parent        Parent command instance.
+ * @param {string}  filePath      Path to the directory where the command modules should be loaded from.
+ * @param {Array[]} optionsParent Array of options shared from the parent to all subcommands.
+ * @return {void}
+ */
 function registerCommand( parent, filePath, optionsParent = [] ) {
 	const {
 		command,
@@ -52,7 +73,7 @@ function registerCommand( parent, filePath, optionsParent = [] ) {
 		cmd.option( ...opts );
 	} );
 
-	help.forEach( ( help ) => cmd.addHelpText( ...help ) );
+	help.forEach( ( helpText ) => cmd.addHelpText( ...helpText ) );
 
 	// If it's a directory, recursively register files in the directory.
 	if ( lstatSync( filePath ).isDirectory() ) {
@@ -61,6 +82,8 @@ function registerCommand( parent, filePath, optionsParent = [] ) {
 	}
 }
 
+// Register all commands.
 registerCommands( program, path.join( __dirname, 'cmds' ) );
 
+// Parse incoming arguments.
 program.parse( argv );

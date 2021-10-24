@@ -1,7 +1,18 @@
-const { readdirSync, readFileSync, existsSync } = require( 'fs' ),
+const ChangelogEntry = require( './changelog-entry' ),
+	{ readdirSync, readFileSync, existsSync } = require( 'fs' ),
 	path = require( 'path' ),
 	YAML = require( 'yaml' );
 
+/**
+ * Retrieve all changelog entry files from the specified directory.
+ *
+ * This will attempt to parse all .y[a]ml files found in the specified directory.
+ *
+ * @since [version]
+ *
+ * @param {string} dir Path to the directory.
+ * @return {ChangelogEntry[]} Array of changelog entry objects.
+ */
 module.exports = ( dir ) => {
 	const res = [];
 

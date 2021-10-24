@@ -1,4 +1,5 @@
 const
+	ChangelogEntry = require( './changelog-entry' ),
 	determineVersionIncrement = require( './determine-version-increment' ),
 	execSync = require( './exec-sync' ),
 	getArchiveFilename = require( './get-archive-filename' ),
@@ -13,6 +14,8 @@ const
 	{ isAttributionValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
 
 module.exports = {
+	ChangelogEntry,
+
 	determineVersionIncrement,
 	execSync,
 	getArchiveFilename,

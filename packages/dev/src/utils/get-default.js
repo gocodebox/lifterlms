@@ -8,7 +8,7 @@ const
  *
  * Looks in the project's root directory for .llmsdev.yml or .llmsdev.yaml.
  *
- * @since 5.4.1
+ * @since [version]
  *
  * @return {string} Returns the full path to the config file or an empty string if none can be found.
  */
@@ -33,7 +33,7 @@ function getConfigFilePath() {
 /**
  * Load the gloabl config file.
  *
- * @since 5.4.1
+ * @since [version]
  *
  * @return {Object} Returns the parsed config file as a JS object or an empty object if none found.
  */
@@ -49,14 +49,14 @@ function loadConfigFile() {
 /**
  * Get a default value for a given command and option.
  *
- * @since 5.4.1
+ * @since
  *
  * @param {string} command      Name of the command. When accessing subcommands the command name will be "parent.subcommand".
  * @param {string} setting      The option value, eg: "-v --verbose" or "-m --mode <mode>".
  *                              This string will be parsed and use the value following the two hyphens.
  *                              Using the examples the value from the config would accept the value of "verbose" or "mode".
- * @param {mixed}  defaultValue The default value as specified in the command options.
- * @return {mixde} The default value of the option.
+ * @param {any}    defaultValue The default value as specified in the command options.
+ * @return {any} The default value of the option.
  */
 module.exports = ( command, setting, defaultValue = undefined ) => {
 	setting = setting.split( ' ' )[ 1 ].replace( '--', '' );

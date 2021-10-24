@@ -3,6 +3,7 @@ const
 	chalk = require( 'chalk' ),
 	semver = require( 'semver' ),
 	{
+		ChangelogEntry,
 		getNextVersion,
 		getProjectSlug,
 		getCurrentVersion,
@@ -24,6 +25,15 @@ const
  */
 const formatDate = ( date ) => new Date( date ).toISOString().split( 'T' )[ 0 ];
 
+/**
+ * Retrieve the an array of lines for the changelog entry's header.
+ *
+ * @since [version]
+ *
+ * @param {string} version A semver string.
+ * @param {string} date    A date string.
+ * @return {string[]} Array of lines.
+ */
 function getHeaderLines( version, date ) {
 	const lines = [ `v${ version } - ${ date }` ];
 	lines.push( '-'.repeat( lines[ 0 ].length ) );
@@ -31,6 +41,14 @@ function getHeaderLines( version, date ) {
 	return lines;
 }
 
+/**
+ * Retrieve the title for the changelog item's type.
+ *
+ * @since [version]
+ *
+ * @param {string} type The changelog item type key.
+ * @return {string} The changelog item type title.
+ */
 function getTypeTitle( type ) {
 	const map = {
 		added: 'New Features',
@@ -47,6 +65,19 @@ function getTypeTitle( type ) {
 	return `\n##### ${ map[ type ] }\n`;
 }
 
+/**
+ * [formatChangelogItem description]
+ *
+ * @since [version]
+ *
+ * @param {ChangelogEntry} args              The changelog entry object.
+ * @param {string}         args.entry        The content of the changelog entry.
+ * @param {string}         args.type         Entry type.
+ * @param {string[]}       args.attributions List of individuals attributed to the entry.
+ * @param {string[]}       args.linksList    of GitHub issues linked to the entry.
+ * @param {boolean}        includeLinks      Whether or not to include links.
+ * @return {string} The formatted changelog entry line.
+ */
 function formatChangelogItem( { entry, type, attributions = [], links = [] }, includeLinks ) {
 	entry = entry.trim();
 
@@ -88,6 +119,17 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 	return line;
 }
 
+/**
+ * Retrieve a list changelog entry objects for all the template files that have been modified.
+ *
+ * Compares the current git branch against the `trunk` branch in order to find all files in the `templates/` directory
+ * which have been modified.
+ *
+ * @since [version]
+ *
+ * @param {boolean} includeLinks Whether or not the entry items should be formatted as links to the GitHub repository.
+ * @return {ChangelogEntry[]} Array of changelog entry objects.
+ */
 function getUpdatedTemplates( includeLinks ) {
 	try {
 		return execSync( 'git diff --name-only trunk | grep "^templates/"', true ).split( '\n' ).map( ( template ) => {
@@ -100,6 +142,17 @@ function getUpdatedTemplates( includeLinks ) {
 	return [];
 }
 
+/**
+ * Format the changelog entry for the given version.
+ *
+ * @since [version]
+ *
+ * @param {string}           version A semver string.
+ * @param {string}           date    Version release date in YYYY-MM-DD format.
+ * @param {ChangelogEntry[]} entries All entry objects to be included.
+ * @param {boolean}          links   Whether or not to add links to GitHub issues and templates. For public repos we want to show links, otherwise we don't bother.
+ * @return {string[]} Array of lines to be added to the changelog.
+ */
 function formatChangelogVersionEntry( version, date, entries, links ) {
 	const
 		groups = {},
@@ -145,7 +198,7 @@ module.exports = {
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
 	],
-	action: ( { dir, file, preid, force, logFile, date, skipFiles, links, yes } ) => {
+	action: ( { dir, preid, force, logFile, date, links } ) => {
 		try {
 			date = formatDate( date );
 		} catch ( e ) {
@@ -187,7 +240,7 @@ module.exports = {
 			[ header, ...body ] = logFileParts,
 			items = formatChangelogVersionEntry( version, date, entries, links ).join( '\n' ) + '\n';
 
-		writeFileSync( logFile, [ logFileParts[ 0 ], items, ...body ].join( '\n\n' ) );
+		writeFileSync( logFile, [ header, items, ...body ].join( '\n\n' ) );
 
 		logResult( 'Changelog for version ${ chalk.bold( version ) } written.' );
 	},
