@@ -9,9 +9,14 @@
 
 const eslintConfig = {
 	root: true,
-	extends: [ 'plugin:@wordpress/eslint-plugin/recommended-with-formatting' ],
+	extends: [
+		'plugin:@wordpress/eslint-plugin/recommended-with-formatting',
+	],
 	rules: {
-		'jsdoc/tag-lines': [ 0 ]
+		'jsdoc/tag-lines': [ 0 ],
+		'jsdoc/require-jsdoc': 'error',
+		'jsdoc/require-param-description': 'error',
+		'jsdoc/require-returns': 'error',
 	},
 	settings: {
 		// Ensure that WordPress core dependencies don't throw errors when importing them.
@@ -24,3 +29,5 @@ const eslintConfig = {
 };
 
 module.exports = eslintConfig;
+
+
