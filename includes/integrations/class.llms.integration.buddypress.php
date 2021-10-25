@@ -457,7 +457,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Modify the pagination links displayed on the first endpoint in the bp member profile.
+	 * Modify the pagination links for the endpoints in the bp member profile.
 	 *
 	 * @since [version]
 	 *
@@ -466,7 +466,25 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function modify_paginate_links( $link ) {
 
+		if ( ! get_option( 'permalink_structure' ) ) {
+			return $link;
+		}
+
 		global $wp_rewrite;
+
+		$query = wp_parse_url( $link, PHP_URL_QUERY );
+
+		if ( $query ) {
+			$link = str_replace( '?' . $query, '', $link );
+		}
+
+		$parts = explode( '/', untrailingslashit( $link ) );
+		$page  = end( $parts );
+
+		// For links to page/1 let's remove it to avoid ugly URLs.
+		if ( 1 === absint( $page ) ) {
+			$link = str_replace( $wp_rewrite->pagination_base . '/' . $page . '/', '', $link );
+		}
 
 		$endpoints = $this->get_profile_endpoints();
 
@@ -488,15 +506,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		} else {
 			return $link;
 		}
-
-		$query = wp_parse_url( $link, PHP_URL_QUERY );
-
-		if ( $query ) {
-			$link = str_replace( '?' . $query, '', $link );
-		}
-
-		$parts = explode( '/', untrailingslashit( $link ) );
-		$page  = end( $parts );
 
 		/**
 		 * Here's the core of this filter.
@@ -522,19 +531,19 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		/**
 		 * For links to page/1 let's back on the main nav item link to avoid ugly URLs, so we replace something like
-		 * `example.local/members/admin/my-courses/courses/page/1`
+		 * `example.local/members/admin/courses/my-courses/`
 		 * to something like
 		 * `example.local/members/admin/courses/`
 		 */
 		if ( 1 === absint( $page ) ) {
-			$search  = $replace;
+			$search  = $first_subnav_item->link . $first_subnav_item->slug . '/';
 			$replace = $first_subnav_item->link;
 		}
 
 		$link = str_replace(
 			$search,
 			$replace,
-			$link
+			trailingslashit( $link )
 		);
 
 		if ( $query ) {

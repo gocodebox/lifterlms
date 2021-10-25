@@ -69,6 +69,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  * @since 3.26.3 Unknown.
  * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
  *              Prefer `wp_parse_url()` over the discouraged `parse_url()`.
+ *              Prefer faster `strpos()` over `strstr()` since we only need to know if a substring is contained in a string.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
  * @param string $value     Endpoint query parameter value.
@@ -77,18 +78,34 @@ function llms_confirm_payment_url( $order_key = null ) {
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
-	$permalink = $permalink ? $permalink : get_permalink();
-
 	// Map endpoint to options.
 	$vars     = llms()->query->get_query_vars();
 	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
+	if ( ! $permalink ) {
+		$permalink = get_permalink();
+		$permalink = $permalink ? $permalink : wp_guess_url();
+	}
+
 	if ( get_option( 'permalink_structure' ) ) {
 
 		$query_string = '';
-		if ( strstr( $permalink, '?' ) ) {
+
+		if ( false !== strpos( $permalink, '?' ) ) {
 			$query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
 			$permalink    = current( explode( '?', $permalink ) );
+		}
+
+		// Remove pagination.
+		global $wp_rewrite;
+		$page = llms_get_paged_query_var();
+		if ( $page > 1 &&
+				substr(
+					untrailingslashit( $permalink ),
+					-1 * strlen( $wp_rewrite->pagination_base . '/' . $page ),
+					strlen( $wp_rewrite->pagination_base . '/' . $page )
+				) === $wp_rewrite->pagination_base . '/' . $page ) {
+			$permalink = substr( untrailingslashit( $permalink ), 0, -1 * strlen( $wp_rewrite->pagination_base . '/' . $page ) );
 		}
 
 		// Remove the endpoint slug from the URL if it's its last part.
@@ -123,7 +140,6 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	 */
 	return apply_filters( 'lifterlms_get_endpoint_url', $url, $endpoint, $value, $permalink );
 }
-
 
 /**
  * Retrieve the WordPress Page ID of a LifterLMS Core Page
@@ -194,3 +210,28 @@ function llms_lostpassword_url() {
 	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
 add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
+
+/**
+ * Returns the query var for the requested page number.
+ *
+ * `paged`:
+ * Used on the homepage, blogpage, archive pages and pages to calculate pagination.
+ * 1st page is 0 and from there the number correspond to the page number
+ * `page`:
+ * Used on a static front page and single pages for pagination (`<!--nextpage-->`).
+ * Pagination on these pages works the same, a static front page is treated as single page on pagination.
+ *
+ * @since [version]
+ *
+ * @return int
+ */
+function llms_get_paged_query_var() {
+	if ( get_query_var( 'paged' ) ) {
+		$paged = get_query_var( 'paged' );
+	} elseif ( get_query_var( 'page' ) ) {
+		$paged = get_query_var( 'page' );
+	} else {
+		$paged = 1;
+	}
+	return $paged;
+}
