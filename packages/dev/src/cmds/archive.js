@@ -11,6 +11,7 @@ const
  * @return {boolean} Whether or not a composer install is required.
  */
 function requiresComposerInstall() {
+
 	const
 		pkg = getConfig( 'composer' ),
 		keys = pkg.require ? Object.keys( pkg.require ) : [],
@@ -51,7 +52,8 @@ module.exports = {
 		// If we have composer dependencies, reinstall with no dev requirements or scripts.
 		if ( composer ) {
 			logResult( 'Installing composer production dependencies...', 'info', true );
-			execSync( `composer install --no-dev --no-scripts`, ! verbose );
+			execSync( `composer update --no-dev --no-scripts`, ! verbose );
+			execSync( `rm composer.lock`, true );
 		}
 
 		// Empty inspected directories in the distribution directory (if any are leftover from the last run of the command).
@@ -84,7 +86,7 @@ module.exports = {
 		// If we have composer dependencies, reinstall with dev requirements when we're done.
 		if ( composer ) {
 			logResult( 'Reinstalling all composer dependencies...', 'info', true );
-			execSync( `composer install`, ! verbose );
+			execSync( `composer update`, ! verbose );
 		}
 	},
 };
