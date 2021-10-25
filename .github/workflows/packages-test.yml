@@ -1,4 +1,4 @@
-name: Test Packages
+name: Packages Test
 
 on:
   workflow_dispatch:
