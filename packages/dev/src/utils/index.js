@@ -11,6 +11,7 @@ const
 	getProjectSlug = require( './get-project-slug' ),
 	{ getConfig, hasConfig } = require( './configs' ),
 	logResult = require( './log-result' ),
+	parseChangelogFile = require( './parse-changelog-file' ),
 	{ isAttributionValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
 
 module.exports = {
@@ -32,4 +33,6 @@ module.exports = {
 	isAttributionValid,
 	isLinkValid,
 	getChangelogValidationIssues,
+
+	parseChangelogFile,
 };
