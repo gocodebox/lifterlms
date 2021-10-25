@@ -18,5 +18,5 @@ module.exports = ( cmd, quiet = false, opts = {} ) => {
 	const stdio = quiet ? 'pipe' : 'inherit',
 		stdout = execSync( cmd, { stdio, ...opts } );
 
-	return stdout ? stdout.toString().trim() : '';
+	return quiet ? stdout.toString().trim() : '';
 };
