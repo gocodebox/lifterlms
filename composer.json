@@ -25,7 +25,6 @@
       "LLMS\\": "includes"
     }
   },
-  "minimum-stability": "dev",
   "require": {
     "php": ">=7.3",
     "composer/installers": "~1.9.0",
@@ -101,7 +100,8 @@
     "post-update-cmd": "@post-update-install-cmd",
     "post-update-install-cmd": [
       "@config-cs",
-      "rm -rf ./wp-content/"
+      "rm -rf ./wp-content/",
+      "rm composer.lock"
     ],
     "tests-remove": "\"vendor/bin/llms-tests\" teardown ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1}",
     "tests-install": "\"vendor/bin/llms-tests\" install ${TESTS_DB_NAME:-llms_tests} ${TESTS_DB_USER:-root} \"${TESTS_DB_PASS-password}\" ${TESTS_DB_HOST:-127.0.0.1} ${WP_VERSION:-latest} false \"${WP_TESTS_VERSION:-trunk}\"",
