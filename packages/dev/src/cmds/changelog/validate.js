@@ -41,6 +41,27 @@ function logWithSymbol( msg, type ) {
 	console.log( chalk.italic( ` ${ getSymbol( type ) } ${ msg }` ) );
 }
 
+/**
+ * Determine the overall status for a given changelog entry
+ *
+ * @since [version]
+ *
+ * @param {string[]} errors   Array of encountered error messages.
+ * @param {string[]} warnings Array of encountered warning messages.
+ * @return {string} The overall status as a string.
+ */
+function determineOverallStatus( errors, warnings ) {
+	if ( errors.length ) {
+		return 'error';
+	}
+
+	if ( warnings.length ) {
+		return 'warning';
+	}
+
+	return 'success';
+}
+
 module.exports = {
 	command: 'validate',
 	description: 'Validate existing changelog entries.',
@@ -66,7 +87,7 @@ module.exports = {
 		all.forEach( ( log ) => {
 			const validation = getChangelogValidationIssues( log, 'list' === format ),
 				{ errors, warnings } = validation,
-				overallStatus = errors.length ? 'error' : warnings.length ? 'warning' : 'success';
+				overallStatus = determineOverallStatus( errors, warnings );
 
 			if ( ! silent && 'list' === format ) {
 				console.log( '' );
