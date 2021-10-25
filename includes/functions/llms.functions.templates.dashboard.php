@@ -538,7 +538,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			 *
 			 * @param int $per_page The number of courses per pages to be displayed. Default is `10`.
 			 */
-			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
+			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 2 );
 			$page     = llms_get_paged_query_var();
 
 			$sort = llms_filter_input_sanitize_string( INPUT_GET, 'sort' );

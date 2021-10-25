@@ -489,7 +489,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		$endpoints = $this->get_profile_endpoints();
 
 		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
-			return $link;
+			return $query ? $link . '?' . $query : $link;
 		}
 
 		// Retrieve the current subnav item.
