@@ -14,7 +14,7 @@ const
  */
 module.exports = {
 	command: 'pot',
-	description: 'Generate i18n pot and json files using the WP-CLI',
+	description: 'Generate i18n pot and json files using the WP-CLI.',
 	options: [
 		[ '-d, --text-domain <text-domain>', 'Specify the text domain. Used to generate the filenames for generated files.', getProjectSlug() ],
 		[ '-e, --exclude <glob...>', 'Specify files to exclude from scanning.', defaultExclude ],
