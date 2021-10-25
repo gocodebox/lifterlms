@@ -11,7 +11,6 @@ const
  * @return {boolean} Whether or not a composer install is required.
  */
 function requiresComposerInstall() {
-
 	const
 		pkg = getConfig( 'composer' ),
 		keys = pkg.require ? Object.keys( pkg.require ) : [],
