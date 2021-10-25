@@ -58,7 +58,6 @@ function isAttributionValid( attr ) {
 	} catch ( e ) {}
 
 	return false;
-	// return attr.match( regex );
 }
 
 /**
@@ -137,7 +136,7 @@ function getChangelogValidationIssues( logEntry, formatting = true ) {
 	// Warn when encountering extra/non-standard keys.
 	Object.keys( logEntry )
 		// Expected keys.
-		.filter( ( k ) => ! [ 'title', 'significance', 'type', 'entry', 'comment', 'links', 'attributions' ].includes( k ) )
+		.filter( ( k ) => ! Object.keys( ChangelogEntry ).includes( k ) )
 		.forEach( ( key ) => {
 			warnings.push( `Unexpected key: ${ highlight( key, formatting ) }.` );
 		} );
@@ -149,18 +148,20 @@ function getChangelogValidationIssues( logEntry, formatting = true ) {
 		}
 	} );
 
+	// Validate all links.
 	if ( Array.isArray( logEntry.links ) ) {
 		logEntry.links.forEach( ( link ) => {
 			if ( ! isLinkValid( link ) ) {
-				errors.push( `The link ${ highlight( link ) } is invalid.` );
+				errors.push( `The link ${ highlight( link, formatting ) } is invalid.` );
 			}
 		} );
 	}
 
+	// Validate all attributions.
 	if ( Array.isArray( logEntry.attributions ) ) {
 		logEntry.attributions.forEach( ( attribution ) => {
 			if ( ! isAttributionValid( attribution ) ) {
-				errors.push( `The attribution ${ highlight( attribution ) } is invalid.` );
+				errors.push( `The attribution ${ highlight( attribution, formatting ) } is invalid.` );
 			}
 		} );
 	}
