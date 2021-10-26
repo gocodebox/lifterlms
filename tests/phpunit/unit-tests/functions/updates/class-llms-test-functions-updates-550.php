@@ -1,16 +1,16 @@
 <?php
 /**
-* Test updates functions when updating to 5.4.1
+* Test updates functions when updating to 5.5.0.
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
  * @group functions
  * @group updates
- * @group updates_541
+ * @group updates_550
  *
  * @since [version]
  */
-class LLMS_Test_Functions_Updates_541 extends LLMS_UnitTestCase {
+class LLMS_Test_Functions_Updates_550 extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class.
@@ -23,17 +23,17 @@ class LLMS_Test_Functions_Updates_541 extends LLMS_UnitTestCase {
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-541.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-550.php';
 	}
 
 	/**
-	 * Test llms_update_541_buddypress_profile_endpoints_bc() method.
+	 * Test llms_update_550_buddypress_profile_endpoints_bc() method.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_llms_update_541_buddypress_profile_endpoints_bc() {
+	public function test_llms_update_550_buddypress_profile_endpoints_bc() {
 
 		$this->assertEquals(
 			array(),
@@ -41,7 +41,7 @@ class LLMS_Test_Functions_Updates_541 extends LLMS_UnitTestCase {
 		);
 
 		// Run the update.
-		llms_update_541_buddypress_profile_endpoints_bc();
+		llms_update_550_buddypress_profile_endpoints_bc();
 
 		$this->assertEquals(
 			array(),
@@ -52,7 +52,7 @@ class LLMS_Test_Functions_Updates_541 extends LLMS_UnitTestCase {
 		update_option(  'llms_integration_buddypress_enabled', 'yes' );
 
 		// Run the update.
-		llms_update_541_buddypress_profile_endpoints_bc();
+		llms_update_550_buddypress_profile_endpoints_bc();
 
 		$this->assertEquals(
 			array(
@@ -70,22 +70,22 @@ class LLMS_Test_Functions_Updates_541 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_update_541_update_db_version()
+	 * Test llms_update_550_update_db_version().
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_update_541_update_db_version() {
+	public function test_update_550_update_db_version() {
 
 		$orig = get_option( 'lifterlms_db_version' );
 
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
 
-		llms_update_541_update_db_version();
+		llms_update_550_update_db_version();
 
-		$this->assertEquals( '5.4.1', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '5.5.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
