@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.4.0\n"
+"Project-Id-Version: LifterLMS 5.4.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-10-14T11:16:36-06:00\n"
+"POT-Creation-Date: 2021-10-26T16:18:07-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms-dev 1.0.0\n"
 "X-Domain: lifterlms\n"
@@ -176,15 +176,15 @@ msgstr ""
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1225
+#: includes/abstracts/abstract.llms.post.model.php:1293
 msgid "Empty data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1310
+#: includes/abstracts/abstract.llms.post.model.php:1378
 msgid "Invalid data"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:1339
+#: includes/abstracts/abstract.llms.post.model.php:1407
 msgid "Cannot insert/update the %s meta"
 msgstr ""
 
@@ -7639,7 +7639,7 @@ msgctxt "Cancel password or email address change button text"
 msgid "Cancel"
 msgstr ""
 
-#: includes/forms/class-llms-forms-dynamic-fields.php:541
+#: includes/forms/class-llms-forms-dynamic-fields.php:570
 msgid "Current %s"
 msgstr ""
 

@@ -247,9 +247,11 @@ class LLMS_Forms_Dynamic_Fields {
 	}
 
 	/**
-	 * Maybe add the required email and password block to a form
+	 * Maybe add the required email and password block to a form.
 	 *
 	 * @since 5.1.0
+	 * @since 5.4.1 Make sure added reusable blocks contain the actual required field,
+	 *              otherwise fall back on the dynamically generated ones.
 	 *
 	 * @param array[] $blocks   Array of parsed WP_Block arrays.
 	 * @param string  $location The request form location ID.
@@ -277,15 +279,42 @@ class LLMS_Forms_Dynamic_Fields {
 			}
 		}
 
+		return $this->add_required_block_fields( $fields_to_require, $blocks, $location );
+
+	}
+
+	/**
+	 * Add required block fields.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @param string[] $fields_to_require Array of field ids to require.
+	 * @param array[]  $blocks            Array of parsed WP_Block arrays to add required fields to.
+	 * @param string   $location          The request form location ID.
+	 * @return array[]
+	 */
+	private function add_required_block_fields( $fields_to_require, $blocks, $location ) {
+
 		$blocks_to_add = array();
 		foreach ( $fields_to_require as $field_id => $block_to_add ) {
+
 			// If a reusable block exists for the field, use it. Otherwise use a dynamically generated block from the template schema.
-			$use_reusable    = LLMS_Form_Templates::find_reusable_block( $block_to_add ) ? true : false;
-			$blocks_to_add[] = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
+			$use_reusable = LLMS_Form_Templates::find_reusable_block( $block_to_add );
+			$block        = LLMS_Form_Templates::get_block( $block_to_add, $location, $use_reusable );
+
+			if ( $use_reusable ) {
+				// Load reusable block.
+				$_blocks = LLMS_Forms::instance()->load_reusable_blocks( array( $block ) );
+				// The reusable block doesn't contain the needed block, use a dynamically generated block from the template schema.
+				if ( empty( $_blocks ) || ! $this->find_block( $field_id, $_blocks ) ) {
+					$_blocks = array( LLMS_Form_Templates::get_block( $block_to_add, $location, false ) );
+				}
+				$block = $_blocks[0];
+			}
+
+			$blocks_to_add[] = $block;
 		}
 
-		// Load reusable.
-		$blocks_to_add = LLMS_Forms::instance()->load_reusable_blocks( $blocks_to_add );
 		// Make blocks to add visible.
 		$blocks_to_add = 'checkout' === $location ? array_map( array( $this, 'make_all_visible' ), $blocks_to_add ) : $blocks_to_add;
 

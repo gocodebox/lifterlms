@@ -151,4 +151,72 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$this->assertEquals( $excerpt, $saved_post->post_excerpt );
 		$this->assertEquals( $title, $saved_post->post_title );
 	}
+
+	/**
+	 * Test toArray() method.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return void
+	 */
+	public function test_toArray() {
+
+		// Add custom meta data.
+		update_post_meta( $this->stub->get( 'id' ), '_custom_meta', 'meta_value' );
+
+		// Generate the array.
+		$array = $this->stub->toArray();
+
+		// Make sure all expected properties are returned.
+		$this->assertEqualSets( array_merge( array_keys( $this->stub->get_properties() ), array( 'custom', 'id' ) ), array_keys( $array ) );
+
+		// Values in the array should match the values retrieved by the object getters.
+		foreach ( $array as $key => $val ) {
+
+			if ( 'custom' === $key ) {
+				$expect = array(
+					'_custom_meta' => array(
+						'meta_value',
+					),
+				);
+			} elseif ( in_array( $key, array( 'content', 'excerpt', 'title' ), true ) ) {
+				$key = "post_{$key}";
+				$expect = $this->stub->post->$key;
+			} else {
+				$expect = $this->stub->get( $key );
+			}
+
+			$this->assertEquals( $expect, $val, $key );
+		}
+
+	}
+
+	/**
+	 * Test toArray() method when the author is expanded.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return void
+	 */
+	public function test_toArray_expanded_author() {
+
+		$data = array(
+			'role'       => 'editor',
+			'first_name' => 'Jeffrey',
+			'last_name'  => 'Lebowski',
+			'description' => "Let me explain something to you. Um, I am not \"Mr. Lebowski\". You're Mr. Lebowski. I'm the Dude. So that's what you call me.",
+		);
+		$user = $this->factory->user->create_and_get( $data );
+		$this->stub->set( 'author', $user->ID );
+
+		unset( $data['role'] );
+		$data['id'] = $user->ID;
+		$data['email'] = $user->user_email;
+
+		// Generate the array.
+		$array = $this->stub->toArray();
+		$this->assertEquals( $data, $array['author'] );
+
+	}
+
 }

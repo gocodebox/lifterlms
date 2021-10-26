@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v5.4.1 - 2021-10-26
+-------------------
+
+##### Bug fixes
+
++ Exclude internal-use-only properties (related to reporting caches and student counts) when exporting or cloning courses. [#1532](https://github.com/gocodebox/lifterlms/issues/1532)
++ Don't sanitize input from user forms until validation has succeeded. [#1829](https://github.com/gocodebox/lifterlms/issues/1829.)
++ Fixed an issue encountered when fields are removed from reusable blocks, causing some user forms from functioning as expected. [#1832](https://github.com/gocodebox/lifterlms/issues/1832)
+
+
 v5.4.0 - 2021-10-14
 -------------------
 

@@ -8,6 +8,7 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
+ * @version 5.4.1
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -583,4 +584,61 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test required fields are still added if their reusable blocks exist but do not contain them.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return void
+	 */
+	public function test_required_fields_added_when_reusable_empty() {
+
+		foreach ( array( 'checkout', 'registration' ) as $location ) {
+			if ( 'account' === $location ) {
+				wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+			}
+
+			// Get reusable blocks.
+			foreach ( array( 'email', 'password' ) as $block_name ) {
+				$reusable_block = LLMS_Form_Templates::get_block( $block_name, $location, true );
+
+				// Turn reusable block contents into text (we remove the fields from them).
+				if ( ! empty( $reusable_block['attrs']['ref'] ) ) {
+					wp_update_post(
+						array(
+							'ID'      => $reusable_block['attrs']['ref'],
+							'post_content' => '<p>Nothing special</p>',
+						)
+					);
+				}
+			}
+
+			$this->forms->create( $location, true );
+			// Here's where the required fields are added back.
+			$blocks = $this->forms->get_form_blocks( $location );
+
+			foreach ( array( 'email_address', 'password' ) as $id ) {
+
+				$block  = LLMS_Unit_Test_Util::call_method(
+					$this->main,
+					'find_block',
+					array(
+						$id,
+						$blocks
+					)
+				);
+				$this->assertNotEmpty(
+					$block,
+					"{$location}:{$id}"
+				);
+
+			}
+
+			if ( 'account' === $location ) {
+				wp_set_current_user( null );
+			}
+
+		}
+
+	}
 }
