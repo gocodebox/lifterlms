@@ -1,9 +1,2 @@
-archive:
-  inspect: true
-
 pot:
   dir: languages
-
-update:
-  extra-replacements:
-    - [ 'fake.php', 'regex' ]
