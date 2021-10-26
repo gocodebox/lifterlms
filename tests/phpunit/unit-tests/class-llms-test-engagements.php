@@ -81,6 +81,19 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 		}
 
+		// Trash the engagement.
+		wp_trash_post( $engagement->ID );
+
+		foreach ( $users as $user ) {
+			$expected_args = array( array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ) );
+
+			// Item is still scheduled.
+			$this->assertTrue( as_has_scheduled_action( $expected_action, $expected_args, sprintf( 'llms_engagement_%d', $engagement->ID ) ) );
+
+			// Will not fire when it's triggered.
+			$this->assertFalse( $this->main->handle_email( $expected_args[0] ) );
+		}
+
 		// Delete the engagement.
 		wp_delete_post( $engagement->ID );
 
@@ -378,6 +391,37 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test should_process()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_should_process() {
+
+		foreach ( array( 'achievement', 'certificate', 'email' ) as $type ) {
+			$engagement_id = $this->factory->post->create( array( 'post_type' => 'llms_engagement' ) );
+			$args          = array( 0, 1, 2 );
+
+			// No 4th parameter passed so we'll process it.
+			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( $args, $type ) ) );
+
+			// Non-existent post ID as 4th param.
+			$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
+
+			// Valid, published engagement id.
+			$args[] = $engagement_id;
+			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
+
+			// Post exists but it's not published.
+			wp_trash_post( $engagement_id );
+			$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
+
+		}
+
+	}
+
+	/**
 	 * Test unschedule_delayed_engagements()
 	 *
 	 * @since [version]
@@ -390,30 +434,19 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		$post_id     = $this->factory->post->create();
 
 		// Not an engagement.
-		$this->main->unschedule_delayed_engagements( $post_id );
+		$this->main->unschedule_delayed_engagements( $post_id, get_post( $post_id ) );
 		$this->assertEquals( $unscheduled, did_action( 'action_scheduler_canceled_action' ) );
 
-		// Fake post.
-		$this->main->unschedule_delayed_engagements( ++$post_id );
-		$this->assertEquals( $unscheduled, did_action( 'action_scheduler_canceled_action' ) );
-
-		// Trash & Delete.
-		$engagements = $this->factory->post->create_many( 2, array(
+		// Deleted.
+		$engagement_id = $this->factory->post->create( array(
 			'post_type'  => 'llms_engagement',
 		) );
 
-		foreach ( $engagements as $index => $engagement_id ) {
-			as_schedule_single_action( time() + HOUR_IN_SECONDS, 'doesntmatter', array( array( 0, 1, 'two' ) ), sprintf( 'llms_engagement_%d', $engagement_id ) );
-			as_schedule_single_action( time() + HOUR_IN_SECONDS, 'doesntmatter', array( array( 'three', 4, 5 ) ), sprintf( 'llms_engagement_%d', $engagement_id ) );
-		}
-
-		// Trashed.
-		$this->main->unschedule_delayed_engagements( $engagements[0] );
-		$this->assertEquals( $unscheduled + 2, did_action( 'action_scheduler_canceled_action' ) );
+		as_schedule_single_action( time() + HOUR_IN_SECONDS, 'doesntmatter', array( array( 0, 1, 'two' ) ), sprintf( 'llms_engagement_%d', $engagement_id ) );
 
 		// Deleted.
-		$this->main->unschedule_delayed_engagements( $engagements[1], get_post( $engagements[1] ) );
-		$this->assertEquals( $unscheduled + 4, did_action( 'action_scheduler_canceled_action' ) );
+		$this->main->unschedule_delayed_engagements( $engagement_id, get_post( $engagement_id ) );
+		$this->assertEquals( ++$unscheduled, did_action( 'action_scheduler_canceled_action' ) );
 
 	}
 

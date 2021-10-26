@@ -81,7 +81,6 @@ class LLMS_Engagements {
 		add_action( 'lifterlms_engagement_award_certificate', array( $this, 'handle_certificate' ), 10, 1 );
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
-		add_action( 'trashed_post', array( $this, 'unschedule_delayed_engagements' ), 20 );
 
 	}
 
@@ -244,7 +243,10 @@ class LLMS_Engagements {
 	 * Award an achievement
 	 *
 	 * @since 2.3.0
-	 * @since [version] Use `llms() in favor of deprecated `LLMS()` and removed engagement debug logging.
+	 * @since [version] Use `llms() in favor of deprecated `LLMS()`.
+	 *               Removed engagement debug logging.
+	 *               Skip triggering the engagement if triggered by an engagement post which is
+	 *               not published or no longer exists.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -252,19 +254,25 @@ class LLMS_Engagements {
 	 *     @type int        $0 WP_User ID.
 	 *     @type int        $1 WP_Post ID of the achievement template post.
 	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
 	 * }
 	 * @return void
 	 */
 	public function handle_achievement( $args ) {
-		$achievements = llms()->achievements();
-		$achievements->trigger_engagement( $args[0], $args[1], $args[2] );
+		if ( $this->should_process( $args, 'achievement' ) ) {
+			$achievements = llms()->achievements();
+			$achievements->trigger_engagement( $args[0], $args[1], $args[2] );
+		}
 	}
 
 	/**
 	 * Award a certificate
 	 *
 	 * @since 2.3.0
-	 * @since [version] Use `llms() in favor of deprecated `LLMS()` and removed engagement debug logging.
+	 * @since [version] Use `llms() in favor of deprecated `LLMS()`.
+	 *               Removed engagement debug logging.
+	 *               Skip triggering the engagement if triggered by an engagement post which is
+	 *               not published or no longer exists.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -272,12 +280,15 @@ class LLMS_Engagements {
 	 *     @type int        $0 WP_User ID.
 	 *     @type int        $1 WP_Post ID of the certificate template post.
 	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
 	 * }
 	 * @return void
 	 */
 	public function handle_certificate( $args ) {
-		$certs = llms()->certificates();
-		$certs->trigger_engagement( $args[0], $args[1], $args[2] );
+		if ( $this->should_process( $args, 'certificate' ) ) {
+			$certs = llms()->certificates();
+			$certs->trigger_engagement( $args[0], $args[1], $args[2] );
+		}
 	}
 
 	/**
@@ -292,7 +303,8 @@ class LLMS_Engagements {
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
 	 *              Fixed dupcheck log message and error message which reversed the email and person order.
-	 * @since [version] Removed engagement debug logging.
+	 * @since [version] Removed engagement debug logging and added early return when triggered by a delayed engagement which
+	 *                is no longer published.
 	 *
 	 * @param mixed[] $args {
 	 *     An array of arguments from the triggering hook.
@@ -300,10 +312,16 @@ class LLMS_Engagements {
 	 *     @type int        $0 WP_User ID.
 	 *     @type int        $1 WP_Post ID of the email.
 	 *     @type int|string $2 WP_Post ID of the related triggering post or an empty string for engagements with no related post.
+	 *     @type int        $3 WP_Post ID of the engagement post.
 	 * }
-	 * @return bool|WP_Error Returns `true` on success or a WP_Error when the email has failed or is prevented.
+	 * @return bool|WP_Error Returns `true` on success, `false` when the email is skipped, and a `WP_Error` when
+	 *                       the email has failed or is prevented.
 	 */
 	public function handle_email( $args ) {
+
+		if ( ! $this->should_process( $args, 'email' ) ) {
+			return false;
+		}
 
 		$person_id  = $args[0];
 		$email_id   = $args[1];
@@ -560,6 +578,62 @@ class LLMS_Engagements {
 	}
 
 	/**
+	 * Determine if an engagement should be processed immediately prior to it being sent or awarded.
+	 *
+	 * This is important primarily for delayed engagements which may be associated with an engagement post
+	 * which has been trashed or drafted since the time of scheduling.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $args {
+	 *      Indexed array of arguments.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the achievement template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the engagement or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
+	 * }
+	 * @param string $type Engagement type, either "email", "certificate", or "achievement".
+	 * @return boolean Returns `true` if the engagement should be processed and `false` if it should be skipped.
+	 */
+	private function should_process( $args, $type ) {
+
+		// By default, don't skip engagements.
+		$should_process = true;
+
+		// Ensure we have an argument to check, engagements created prior to [version] will not have this argument.
+		if ( ! empty( $args[3] ) ) {
+
+			$post = get_post( $args[3] );
+			// Engagement can't be found (assume deleted) or it is an existing engagement that isn't published.
+			if ( ! $post || ( 'llms_engagement' === $post->post_type && 'publish' !== $post->post_status ) ) {
+				$should_process = false;
+			}
+		}
+
+		/**
+		 * Filters whether or not an engagement should be processed immediately prior to it being sent or awarded.
+		 *
+		 * The dynamic portion of this hook, `{$type}` refers to the type of engagement being processed, either "email",
+		 * "certificate", or "achievement".
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $should_process Whether or not the engagement should be processed.
+		 * @param array $args {
+		 *     Indexed array of arguments.
+		 *
+		 *     @type int        $0 WP_User ID.
+		 *     @type int        $1 WP_Post ID of the achievement template post.
+		 *     @type int|string $2 WP_Post ID of the related post that triggered the engagement or an empty string.
+		 *     @type int        $3 WP_Post ID of the engagement post.
+		 * }
+		 */
+		return apply_filters( "llms_proccess_{$type}_engagement", $should_process, $args );
+
+	}
+
+	/**
 	 * Triggers or schedules an engagement
 	 *
 	 * @since [version]
@@ -597,20 +671,17 @@ class LLMS_Engagements {
 	/**
 	 * Unschedule all scheduled actions for a delayed engagement
 	 *
-	 * This is the callback function for deleted and trashed engagement posts
+	 * This is the callback function for deleted engagement posts.
 	 *
 	 * @since [version]
 	 *
 	 * @param int          $post_id WP_Post ID.
-	 * @param WP_Post|null $post    Post object of the deleted post or `null` when the post was trashed.
+	 * @param WP_Post|null $post    Post object of the deleted post.
 	 * @return void
 	 */
-	public function unschedule_delayed_engagements( $post_id, $post = null ) {
+	public function unschedule_delayed_engagements( $post_id, $post ) {
 
-		// During trash, there's no post object sent along.
-		$post = empty( $post ) ? get_post( $post_id ) : $post;
-
-		if ( is_a( $post, 'WP_Post' ) && 'llms_engagement' === $post->post_type ) {
+		if ( 'llms_engagement' === $post->post_type ) {
 			as_unschedule_all_actions( '', array(), $this->get_delayed_group_id( $post_id ) );
 		}
 
