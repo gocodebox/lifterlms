@@ -1,9 +1,11 @@
 const
 	ChangelogEntry = require( './changelog-entry' ),
+	createDistFile = require( './create-dist-file' ),
 	determineVersionIncrement = require( './determine-version-increment' ),
 	execSync = require( './exec-sync' ),
 	getArchiveFilename = require( './get-archive-filename' ),
 	getChangelogEntries = require( './get-changelog-entries' ),
+	getChangelogForVersion = require( './get-changelog-for-version' ),
 	getChangelogOptions = require( './get-changelog-options' ),
 	getCurrentVersion = require( './get-current-version' ),
 	getDefault = require( './get-default' ),
@@ -12,16 +14,18 @@ const
 	{ getConfig, hasConfig } = require( './configs' ),
 	logResult = require( './log-result' ),
 	parseChangelogFile = require( './parse-changelog-file' ),
+	pushDistFile = require( './push-dist-file' ),
 	{ isAttributionValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
 
 module.exports = {
 	ChangelogEntry,
-
+	createDistFile,
 	determineVersionIncrement,
 	execSync,
 	getArchiveFilename,
-	getChangelogOptions,
 	getChangelogEntries,
+	getChangelogForVersion,
+	getChangelogOptions,
 	getConfig,
 	getCurrentVersion,
 	getDefault,
@@ -29,10 +33,9 @@ module.exports = {
 	getProjectSlug,
 	hasConfig,
 	logResult,
-
 	isAttributionValid,
 	isLinkValid,
 	getChangelogValidationIssues,
-
 	parseChangelogFile,
+	pushDistFile,
 };
