@@ -415,7 +415,7 @@ class LLMS_Engagements {
 	 */
 	private function parse_hook_find_trigger_type( $action, $related_post_id ) {
 
-		$trigger_type = false;
+		$trigger_type = '';
 
 		switch ( $action ) {
 			case 'llms_rest_student_registered':
@@ -504,7 +504,7 @@ class LLMS_Engagements {
 			'handler_args'   => null,
 		);
 
-		if ( ! in_array( $engagement->event_type, array_keys( llms_get_engagement_types() ), true ) ) {
+		if ( ! array_key_exists( $engagement->event_type, llms_get_engagement_types() ) ) {
 			/**
 			 * Enable 3rd parties to parse custom engagement types
 			 *
@@ -518,7 +518,7 @@ class LLMS_Engagements {
 			 * }
 			 * @param object $engagement      The engagement object from the `get_engagements()` query.
 			 * @param int    $user_id         WP_User ID who will be awarded the engagement.
-			 * @param int    $related_Post_id WP_Post ID of the related post.
+			 * @param int    $related_post_id WP_Post ID of the related post.
 			 * @param string $event_type      The type of engagement event.
 			 */
 			return apply_filters(
