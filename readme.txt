@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.4.0
+Stable tag: 5.4.1
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -537,6 +537,15 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.4.1 - 2021-10-26 =
+
+##### Bug fixes
+
++ Exclude internal-use-only properties (related to reporting caches and student counts) when exporting or cloning courses. [#1532](https://github.com/gocodebox/lifterlms/issues/1532)
++ Don't sanitize input from user forms until validation has succeeded. [#1829](https://github.com/gocodebox/lifterlms/issues/1829.)
++ Fixed an issue encountered when fields are removed from reusable blocks, causing some user forms from functioning as expected. [#1832](https://github.com/gocodebox/lifterlms/issues/1832)
+
+
 = v5.4.0 - 2021-10-14 =
 
 ##### Updates
@@ -696,12 +705,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Bugfix: Pass second parameter to the `get_the_excerpt` filter.
 + Fix: Corrected typos in error messages encountered during password reset.
-
-
-= v5.1.1 - 2021-07-26 =
-
-+ Bugfix: Fixed a bug causing malformed character codes to be rendered in forms when installing forms with translated labels.
-+ [LifterLMS Helper version 3.3.1](https://make.lifterlms.com/2021/07/26/lifterlms-helper-version-3-3-1/)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)

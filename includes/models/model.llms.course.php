@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 5.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -54,7 +54,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	use LLMS_Trait_Sales_Page;
 
 	/**
-	 * Meta properties
+	 * Meta properties.
 	 *
 	 * @var array
 	 */
@@ -87,6 +87,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 
 		// Private.
 		'temp_calc_data'             => 'array',
+		'last_data_calc_run'         => 'absint',
 
 	);
 
@@ -453,6 +454,52 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 */
 	public function get_tags( $args = array() ) {
 		return wp_get_post_terms( $this->get( 'id' ), 'course_tag', $args );
+	}
+
+	/**
+	 * Get the properties that will be explicitly excluded from the array representation of the model.
+	 *
+	 * This stub can be overloaded by an extending class and the property list is filterable via the
+	 * {@see llms_get_{$this->model_post_type}_excluded_to_array_properties} filter.
+	 *
+	 * @since 5.4.1
+	 *
+	 * @return string[]
+	 */
+	protected function get_to_array_excluded_properties() {
+
+		/**
+		 * Disable course property exclusion while running `toArray()`.
+		 *
+		 * This hook is intended to allow developers to retain the functionality implemented
+		 * prior to the introduction of this hook.
+		 *
+		 * The LifterLMS developers consider the presence of these properties to be a bug but
+		 * acknowledge that the removal of these properties could be seen as a backwards incompatible
+		 * "feature" removal.
+		 *
+		 * This hook disables the exclusion of the following properties: 'average_grade', 'average_progress',
+		 * 'enrolled_students', 'last_data_calc_run', and 'temp_calc_data'. Any excluded properties added in the
+		 * future will not be excluded when using this hook.
+		 *
+		 * @example `add_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );`
+		 *
+		 * @since 5.4.1
+		 *
+		 * @param boolean $disable Whether or not to disable property exclusions.
+		 */
+		$disable = apply_filters( 'llms_course_to_array_disable_prop_exclusion', false );
+		if ( $disable ) {
+			return array();
+		}
+
+		return array(
+			'average_grade',
+			'average_progress',
+			'enrolled_students',
+			'last_data_calc_run',
+			'temp_calc_data',
+		);
 	}
 
 	/**
