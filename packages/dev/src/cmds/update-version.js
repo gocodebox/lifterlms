@@ -108,7 +108,7 @@ const defaultReplacements = [
 
 module.exports = {
 	command: 'update-version',
-	description: "Update the project's version and replace all [version] placeholders.",
+	description: "Update the project version and replace all [version] placeholders.",
 	options: [
 		[ '-i, --increment <level>', 'Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease.', 'patch' ],
 		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.', 'beta' ],
