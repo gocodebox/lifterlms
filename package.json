@@ -14,6 +14,7 @@
   "homepage": "https://lifterlms.com",
   "devDependencies": {
     "@lifterlms/brand": "file:packages/brand",
+    "@lifterlms/dev": "file:packages/dev",
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
     "@wordpress/docgen": "^1.18.0",
@@ -38,6 +39,7 @@
     "build:scripts:legacy": "gulp scripts && gulp js-additional && gulp js-builder",
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
+    "dev": "llms-dev",
     "lint:scripts": "wp-scripts lint-js ./src/**/*.js",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
