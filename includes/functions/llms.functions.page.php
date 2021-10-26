@@ -84,7 +84,9 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
 	if ( ! $permalink ) {
 		$permalink = get_permalink();
-		$permalink = $permalink ? $permalink : wp_guess_url();
+		$permalink = ! $permalink && ! empty( $_SERVER['REQUEST_URI'] ) ?
+			filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL ) :
+			$permalink;
 	}
 
 	if ( get_option( 'permalink_structure' ) ) {
@@ -99,18 +101,20 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 		// Remove pagination.
 		global $wp_rewrite;
 		$page = llms_get_paged_query_var();
+
+		$permalink = untrailingslashit( $permalink );
 		if ( $page > 1 &&
 				substr(
-					untrailingslashit( $permalink ),
+					$permalink,
 					-1 * strlen( $wp_rewrite->pagination_base . '/' . $page ),
 					strlen( $wp_rewrite->pagination_base . '/' . $page )
 				) === $wp_rewrite->pagination_base . '/' . $page ) {
-			$permalink = substr( untrailingslashit( $permalink ), 0, -1 * strlen( $wp_rewrite->pagination_base . '/' . $page ) );
+			$permalink = substr( $permalink, 0, -1 * strlen( $wp_rewrite->pagination_base . '/' . $page ) );
 		}
 
 		// Remove the endpoint slug from the URL if it's its last part.
-		if ( substr( untrailingslashit( $permalink ), -1 * strlen( $endpoint ), strlen( $endpoint ) ) === $endpoint ) {
-			$permalink = substr( untrailingslashit( $permalink ), 0, -1 * strlen( $endpoint ) );
+		if ( substr( $permalink, -1 * strlen( $endpoint ), strlen( $endpoint ) ) === $endpoint ) {
+			$permalink = substr( $permalink, 0, -1 * strlen( $endpoint ) );
 		}
 
 		$url = trailingslashit( $permalink );
