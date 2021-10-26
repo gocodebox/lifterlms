@@ -3,12 +3,12 @@ name: Packages Test
 on:
   workflow_dispatch:
   # PRs that update package files with tests.
-  pull_request:
-    paths:
-      - './packages/dev'
+  # pull_request:
+  #   paths:
+  #     - './packages/dev'
   # Once daily at 00:00 UTC.
-  schedule:
-    - cron: '0 0 * * *'
+  # schedule:
+  #   - cron: '0 0 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
