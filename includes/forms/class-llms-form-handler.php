@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -340,7 +340,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
-	 * @since [version] Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
+	 * @since 5.4.1 Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.

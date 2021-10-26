@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -462,7 +462,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * This stub can be overloaded by an extending class and the property list is filterable via the
 	 * {@see llms_get_{$this->model_post_type}_excluded_to_array_properties} filter.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return string[]
 	 */
@@ -484,7 +484,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		 *
 		 * @example `add_filter( 'llms_course_to_array_disable_prop_exclusion', '__return_true' );`
 		 *
-		 * @since [version]
+		 * @since 5.4.1
 		 *
 		 * @param boolean $disable Whether or not to disable property exclusions.
 		 */

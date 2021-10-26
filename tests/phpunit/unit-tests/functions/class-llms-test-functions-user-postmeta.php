@@ -10,7 +10,7 @@
  * @since 3.21.0
  * @since 3.33.0 Add test for the `llms_bulk_delete_user_postmeta` function.
  * @since 4.5.1 Fix failing `test_delete_user_postmeta()` which was comparing based on array order when that doesn't strictly matter.
- * @version [version]
+ * @version 5.4.1
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
@@ -178,7 +178,7 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.21.0
 	 * @since 5.3.2 Add delta when comparing enrollment date with updated date.
-	 * @since [version] Compare dates using UNIX timestamps.
+	 * @since 5.4.1 Compare dates using UNIX timestamps.
 	 */
 	public function test_llms_get_user_postmeta() {
 
