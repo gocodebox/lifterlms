@@ -108,6 +108,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/andreasblumberg"><img src="https://avatars.githubusercontent.com/u/1697968?v=4" title="andreasblumberg" width="80" height="80"></a>
 <a href="https://github.com/philwp"><img src="https://avatars.githubusercontent.com/u/5949352?v=4" title="philwp" width="80" height="80"></a>
 <a href="https://github.com/alaa-alshamy"><img src="https://avatars.githubusercontent.com/u/2883734?v=4" title="alaa-alshamy" width="80" height="80"></a>
+<a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
 <a href="https://github.com/imknight"><img src="https://avatars.githubusercontent.com/u/77604?v=4" title="imknight" width="80" height="80"></a>
 <a href="https://github.com/Mte90"><img src="https://avatars.githubusercontent.com/u/403283?v=4" title="Mte90" width="80" height="80"></a>
 <a href="https://github.com/jdevalk"><img src="https://avatars.githubusercontent.com/u/487629?v=4" title="jdevalk" width="80" height="80"></a>
@@ -129,7 +130,6 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/README1ST"><img src="https://avatars.githubusercontent.com/u/30046495?v=4" title="README1ST" width="80" height="80"></a>
 <a href="https://github.com/andrewvaughan"><img src="https://avatars.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
 <a href="https://github.com/CadenG150"><img src="https://avatars.githubusercontent.com/u/30481164?v=4" title="CadenG150" width="80" height="80"></a>
-<a href="https://github.com/chetansatasiya"><img src="https://avatars.githubusercontent.com/u/7081284?v=4" title="chetansatasiya" width="80" height="80"></a>
 <a href="https://github.com/unt01d"><img src="https://avatars.githubusercontent.com/u/11303423?v=4" title="unt01d" width="80" height="80"></a>
 <a href="https://github.com/iTechsTR"><img src="https://avatars.githubusercontent.com/u/33372714?v=4" title="iTechsTR" width="80" height="80"></a>
 <a href="https://github.com/moorscode"><img src="https://avatars.githubusercontent.com/u/2005352?v=4" title="moorscode" width="80" height="80"></a>
