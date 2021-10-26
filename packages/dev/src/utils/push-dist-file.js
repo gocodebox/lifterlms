@@ -7,17 +7,17 @@ const
  * Commit and push a specified zip file to a git branch.
  *
  * This is used, primarily, to publish the distribution archive of a project
- * to the "release" branch which is used to create and publish installable releases. 
+ * to the "release" branch which is used to create and publish installable releases.
  *
  * @since [version]
  *
- * @param {string} distFile Distribution file used as the source of the commit.
- * @param {string} branch   Branch to commit and push to.
- * @param {string} message  Commit message.
+ * @param {string}  distFile Distribution file used as the source of the commit.
+ * @param {string}  branch   Branch to commit and push to.
+ * @param {string}  message  Commit message.
+ * @param {boolean} silent   Whether or not to output child process stdout.
  * @return {void}
  */
 module.exports = ( distFile, branch, message, silent = true ) => {
-
 	const slug = getProjectSlug();
 
 	execSync( 'mkdir -p ./tmp' );
@@ -52,5 +52,4 @@ module.exports = ( distFile, branch, message, silent = true ) => {
 
 	// Remove temp repo dir.
 	execSync( `rm -rf ./tmp/git`, silent );
-
-}
+};

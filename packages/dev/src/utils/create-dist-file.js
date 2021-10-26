@@ -1,6 +1,5 @@
 const
 	{ existsSync } = require( 'fs' ),
-	chalk = require( 'chalk' ),
 	getArchiveFilename = require( './get-archive-filename' ),
 	{ getConfig } = require( './configs' ),
 	getProjectSlug = require( './get-project-slug' ),
@@ -38,7 +37,6 @@ function requiresComposerInstall() {
 }
 
 module.exports = ( distDir, silent, log = () => {} ) => {
-
 	const name = getArchiveFilename(),
 		slug = getProjectSlug(),
 		composer = requiresComposerInstall(),
@@ -78,5 +76,4 @@ module.exports = ( distDir, silent, log = () => {} ) => {
 	}
 
 	return name;
-
 };

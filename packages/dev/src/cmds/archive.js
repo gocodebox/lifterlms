@@ -11,8 +11,7 @@ module.exports = {
 		[ '-v, --verbose', 'Output extra information with result messages.', false ],
 	],
 	action: ( { inspect, dir, verbose } ) => {
-
-		const distDir = `${ process.cwd() }/${ dir }`;
+		const distDir = `${ process.cwd() }/${ dir }`,
 			fileName = createDistFile(
 				distDir,
 				! verbose,
@@ -25,6 +24,5 @@ module.exports = {
 		}
 
 		logResult( `Distribution file ${ chalk.bold( fileName ) } created successfully.`, 'success' );
-
 	},
 };
