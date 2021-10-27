@@ -250,7 +250,7 @@ class LLMS_Forms_Dynamic_Fields {
 	 * Maybe add the required email and password block to a form.
 	 *
 	 * @since 5.1.0
-	 * @since [version] Make sure added reusable blocks contain the actual required field,
+	 * @since 5.4.1 Make sure added reusable blocks contain the actual required field,
 	 *              otherwise fall back on the dynamically generated ones.
 	 *
 	 * @param array[] $blocks   Array of parsed WP_Block arrays.
@@ -286,7 +286,7 @@ class LLMS_Forms_Dynamic_Fields {
 	/**
 	 * Add required block fields.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @param string[] $fields_to_require Array of field ids to require.
 	 * @param array[]  $blocks            Array of parsed WP_Block arrays to add required fields to.

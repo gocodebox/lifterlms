@@ -8,7 +8,7 @@
  * @group form_handler
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.4.1
  */
 class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
@@ -509,7 +509,7 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Tests that submitting a invalid email address produces an error.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */

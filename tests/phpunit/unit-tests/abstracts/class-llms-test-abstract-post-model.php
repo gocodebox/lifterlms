@@ -155,7 +155,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test toArray() method.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test toArray() method when the author is expanded.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */

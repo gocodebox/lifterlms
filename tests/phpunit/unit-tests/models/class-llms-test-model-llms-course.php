@@ -583,7 +583,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test summary get_to_array_excluded_properties()
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */
@@ -610,7 +610,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test toArray to ensure no excluded properties are included.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */

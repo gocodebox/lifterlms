@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.4.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -952,7 +952,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Get the properties that will be used to generate the array representation of the model.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return string[] Array of property keys to be used by {@see toArray}.
 	 */
@@ -1009,7 +1009,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * This stub can be overloaded by an extending class and the property list is filterable via the
 	 * {@see llms_get_{$this->model_post_type}_excluded_to_array_properties} filter.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return string[]
 	 */
@@ -1449,7 +1449,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.17.0 Unknown.
 	 * @since 4.7.0 Add exporting of extra data (images and blocks).
 	 * @since 4.8.0 Exclude extra data by default. Added `llms_post_model_to_array_add_extras` filter.
-	 * @since [version] Load properties to be used to generate the array from the new `get_to_array_properties()` method.
+	 * @since 5.4.1 Load properties to be used to generate the array from the new `get_to_array_properties()` method.
 	 *
 	 * @return array
 	 */

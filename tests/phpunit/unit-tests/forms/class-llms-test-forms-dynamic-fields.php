@@ -8,7 +8,7 @@
  * @group forms_dynamic_fields
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.4.1
  */
 class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 
@@ -587,7 +587,7 @@ class LLMS_Test_Forms_Dynamic_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test required fields are still added if their reusable blocks exist but do not contain them.
 	 *
-	 * @since [version]
+	 * @since 5.4.1
 	 *
 	 * @return void
 	 */
