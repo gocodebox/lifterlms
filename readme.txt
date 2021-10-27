@@ -707,4 +707,4 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fix: Corrected typos in error messages encountered during password reset.
 
 
-[Read the full changelog](https://make.lifterlms.com/tag/lifterlms/)
+[Read the full changelog](https://make.lifterlms.com/tag/lifterlms)
