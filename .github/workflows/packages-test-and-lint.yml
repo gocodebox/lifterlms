@@ -74,7 +74,8 @@ jobs:
         run: npm ci
 
       - name: Run test suite
-        uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
+        # uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
+        uses: gocodebox/jest-coverage-report-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
