@@ -70,7 +70,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
 
       - name: Run test suite
-      - uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
+        uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
