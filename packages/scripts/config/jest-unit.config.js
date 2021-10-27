@@ -13,11 +13,6 @@ const
 // Set the root directory to the project's root.
 config.rootDir = process.cwd();
 
-// Configure code coverage.
-const { coverageReporters = [] } = config;
-config.coverageReporters = [ ...coverageReporters, 'text', 'html' ];
-config.coverageDirectory = `${ config.rootDir }/tmp/coverage-js-unit`;
-
 /**
  * Jest Config
  *
