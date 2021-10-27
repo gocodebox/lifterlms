@@ -1,4 +1,4 @@
-import url from 'url';
+import url from 'url'; // eslint-disable-line no-unused-vars
 import { click } from './click';
 import { clickAndWait } from './click-and-wait';
 import { fillField } from './fill-field';
@@ -10,33 +10,34 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  *
  * @since 2.1.2
  *
- * @param {Object} args {
- *     Creation arguments.
- *
- *     @type {String} title      Optional. Certificate title.
- *     @type {String} content    Optional. HTML content of the certificate.
- *     @type {String} adminTitle Optional. Admin title.
- *     @type {String} engagement Optional. If supplied, also creates an engagement trigger. This should be the ID of a trigger
- * }
+ * @param {Object} args            Optional creation arguments.
+ * @param {string} args.title      Certificate title.
+ * @param {string} args.content    HTML content of the certificate.
+ * @param {string} args.adminTitle Admin title.
+ * @param {string} args.engagement If supplied, also creates an engagement trigger. This should be the ID of a trigger
  * @return {Object} {
  *    Object containing information about the created post(s).
- *
- *    @type {Integer} certificateId WP Post ID of the created certificate post.
- *    @type {Integer} engagementId  WP Post ID of the created engagement post.
+ *    @type {number} certificateId WP Post ID of the created certificate post.
+ *    @type {number} engagementId  WP Post ID of the created engagement post.
  * }
  */
-export async function createCertificate( { title = 'Test Certificate', content = null, adminTitle = null, engagement = '' } = {} ) {
-
-	let certificateId, engagementId;
+export async function createCertificate( {
+	title = 'Test Certificate',
+	content = null,
+	adminTitle = null,
+	engagement = '',
+} = {} ) {
+	let engagementId;
 
 	adminTitle = adminTitle || `${ title } Admin Title`;
-	content    = content || '\
-<p style="text-align: center;"><em>Awarded to</em></p>\
-<p style="text-align: center;">{first_name} {last_name}</p>\
-<p style="text-align: center;">on {current_date}</p>\
-';
+	content =
+		content ||
+		'<p style="text-align: center;"><em>Awarded to</em></p><p style="text-align: center;">{first_name} {last_name}</p><p style="text-align: center;">on {current_date}</p>';
 
-	await visitAdminPage( 'post-new.php', `post_type=llms_certificate&post_title=${ adminTitle }` );
+	await visitAdminPage(
+		'post-new.php',
+		`post_type=llms_certificate&post_title=${ adminTitle }`
+	);
 
 	await click( '#content-html' );
 	await fillField( '#content', content );
@@ -45,14 +46,12 @@ export async function createCertificate( { title = 'Test Certificate', content =
 
 	await clickAndWait( '#publish' );
 
-	const
-		url     = await page.url(),
-		url_obj = new URL( url );
+	const certUrl = await page.url(),
+		urlObj = new URL( certUrl );
 
-	certificateId = url_obj.searchParams.get( 'post' );
+	const certificateId = urlObj.searchParams.get( 'post' );
 
 	if ( engagement ) {
-
 		engagementId = await createEngagement( certificateId, {
 			trigger: engagement,
 			type: 'certificate',
@@ -60,13 +59,11 @@ export async function createCertificate( { title = 'Test Certificate', content =
 		} );
 
 		// Return to the certificate.
-		await page.goto( url );
-
+		await page.goto( certUrl );
 	}
 
 	return {
 		certificateId,
 		engagementId,
 	};
-
 }

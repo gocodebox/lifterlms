@@ -1,4 +1,3 @@
-
 const { findElementByText } = require( './find-element-by-text' );
 
 /**
@@ -6,13 +5,11 @@ const { findElementByText } = require( './find-element-by-text' );
  *
  * @since 2.2.0
  *
- * @param {String} string   Case-insensitive string to search.
- * @param {String} selector Selector to search. Default "*".
- * @return {Array}
+ * @param {string} string   Case-insensitive string to search.
+ * @param {string} selector Selector to search. Default "*".
+ * @return {void}
  */
 export async function clickElementByText( string, selector = '*' ) {
-
 	const el = await findElementByText( string, selector );
 	await el.click();
-
 }
