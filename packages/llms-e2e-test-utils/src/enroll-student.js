@@ -12,13 +12,13 @@ import { visitAdminPage } from '@wordpress/e2e-test-utils';
  * area on the course or membership.
  *
  * @since 2.2.0
+ * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  *
- * @param {Integer} postId    WP_Post ID.
- * @param {Integer} studentId WP_User ID.
- * @return {Void}
+ * @param {number} postId    WP_Post ID.
+ * @param {number} studentId WP_User ID.
+ * @return {void}
  */
 export async function enrollStudent( postId, studentId ) {
-
 	await visitAdminPage( 'post.php', `post=${ postId }&action=edit` );
 
 	await setSelect2Option( '#llms-add-student-select', studentId );
@@ -26,7 +26,5 @@ export async function enrollStudent( postId, studentId ) {
 	await click( '#llms-enroll-students' );
 
 	// Lazy waiting for ajax save.
-	await page.waitFor( 2000 );
-
+	await page.waitForTimeout( 2000 );
 }
-

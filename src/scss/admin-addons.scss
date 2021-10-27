@@ -1,5 +1,5 @@
-@import "_includes/vars";
-@import "_includes/mixins";
+@import '@lifterlms/brand/sass/colors';
+@import "../../assets/scss/_includes/mixins";
 
 .wrap.lifterlms-addons {
 
@@ -36,7 +36,7 @@
 		border-bottom-width: 0;
 		border-left-width: 0;
 		border-radius: 50%;
-		color: $color-red;
+		color: llms-color( wp-red-50 );
 		font-size: 25px;
 		height: 25px;
 		padding: 5px;
@@ -50,7 +50,7 @@
 		font-size: 18px;
 		margin-bottom: 20px;
 		.fa {
-			color: $color-blue;
+			color: llms-color( llms-blue );
 			display: block;
 			font-size: 30px;
 			margin-bottom: 10px;
@@ -174,7 +174,7 @@
 				input,
 				input + .fa {
 					display: none;
-					color: $color-blue !important;
+					color: llms-color( llms-blue ) !important;
 				}
 
 				input:checked + .fa {
@@ -193,7 +193,7 @@
 				&.status--installed,
 				&.status--license_active {
 					.fa {
-						color: darken( $color-green, 16 );
+						color: llms-color( wp-green-50 );
 					}
 				}
 
@@ -201,7 +201,7 @@
 				&.status--active,
 				&.status--license_inactive {
 					.fa {
-						color: $color-red;
+						color: llms-color( wp-red-50 );
 					}
 				}
 
@@ -209,62 +209,12 @@
 				&.external.status--license_active, // fixes xapi
 				&.external.status--license_inactive { // fixes xapi
 					.fa {
-						color: $color-blue;
+						color: llms-color( llms-blue );
 					}
 				}
 
 			}
 
-			// .llms-action-row {
-			// 	@include clearfix();
-
-			// 	&:last-child {
-			// 		margin-bottom: 0;
-			// 	}
-
-			// 	&.channel--beta,
-			// 	&.status--active,
-			// 	&.status--license_active {
-			// 		span em {
-			// 			color: darken( $color-green, 16 );
-			// 		}
-			// 		.llms-button-secondary .fa {
-			// 			color: $color-red;
-			// 		}
-			// 	}
-
-			// 	&.channel--stable,
-			// 	&.status--inactive,
-			// 	&.status--license_inactive {
-			// 		span em {
-			// 			color: $color-red;
-			// 		}
-			// 		.llms-button-secondary .fa {
-			// 			color: darken( $color-green, 16 );
-			// 			transform: rotate( 180deg );
-			// 		}
-			// 	}
-			// 	&.status--none,
-			// 	&.status--uninstalled {
-			// 		span em,
-			// 		.llms-button-secondary .fa {
-			// 			color: #777;
-			// 		}
-			// 	}
-
-			// 	.llms-manage-addon-toggle.llms-button-secondary .fa-cog {
-			// 		color: inherit;
-			// 	}
-
-			// }
-
-			// span {
-			// 	font-weight: 500;
-			// 	line-height: 2.5;
-			// 	em {
-			// 		font-style: normal;
-			// 	}
-			// }
 			.llms-button-secondary {
 				border: 1px solid #b7b7b7;
 				border-radius: 4px;

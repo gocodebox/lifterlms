@@ -1,10 +1,21 @@
 /**
  * Tests Bootstrap.
+ *
+ * @since Unknown
+ * @version [version]
  */
 
-// Load the .llmsenv file.
-require('dotenv').config( {
-	path: `${ process.cwd() }/.llmsenv`,
+require( 'regenerator-runtime' );
+
+const { existsSync } = require( 'fs' );
+
+// Load dotenv files.
+const envFiles = [ '.llmsenv', '.llmsenv.dist' ];
+envFiles.some( ( file ) => {
+	const path = `${ process.cwd() }/${ file }`;
+	if ( existsSync( file ) ) {
+		require( 'dotenv' ).config( { path } );
+	}
 } );
 
 // Setup the WP Base URL for e2e Tests.
@@ -17,5 +28,23 @@ if ( ! process.env.WP_BASE_URL ) {
 	process.env.WP_BASE_URL = `http://localhost:${ process.env.WORDPRESS_PORT }`;
 }
 
+// Retry tests automatically to prevent against false positives.
+jest.retryTimes( 2 );
+
 // The Jest timeout is increased because these tests are a bit slow.
 jest.setTimeout( process.env.PUPPETEER_TIMEOUT || 100000 );
+
+beforeAll( async() => {
+
+	page.on( 'console', ( message ) => {
+		if ( [ 'info', 'log' ].includes( message.type() ) ) {
+			return;
+		}
+		console.log( message.type(), message.text() );
+	} );
+
+	page.on( 'pageerror', ( err ) => {
+		console.log( err.message );
+	} );
+
+} );

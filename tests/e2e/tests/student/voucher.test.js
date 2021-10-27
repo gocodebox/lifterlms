@@ -6,7 +6,6 @@
 
 import {
 	clickAndWait,
-	createUser,
 	createVoucher,
 	fillField,
 	loginStudent,

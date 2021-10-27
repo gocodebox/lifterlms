@@ -7,20 +7,25 @@
  *
  * @since 2.2.0
  *
- * @param {String}  selector Query selector for the select element.
- * @param {String}  value    Option value to select.
- * @param {Boolean} create   If `true`, the value will be added to the select element before being selected.
+ * @param {string}  selector Query selector for the select element.
+ * @param {string}  value    Option value to select.
+ * @param {boolean} create   If `true`, the value will be added to the select element before being selected.
  *                           This is a useful option for AJAX powered select2 elements that will be empty until interacted with.
- * @return {Void}
+ * @return {void}
  */
 export async function setSelect2Option( selector, value, create = true ) {
-
-	await page.$eval( selector, ( el, value, create ) => {
-		if ( create ) {
-			jQuery( el ).append( '<option value="' + value + '">' + value + '</option>' );
-		}
-		el.value = value.toString();
-		el.dispatchEvent( new Event( 'change' ) );
-	}, value, create );
-
+	await page.$eval(
+		selector,
+		( el, _value, _create ) => {
+			if ( _create ) {
+				jQuery( el ).append(
+					'<option value="' + _value + '">' + _value + '</option>'
+				);
+			}
+			el.value = _value.toString();
+			el.dispatchEvent( new Event( 'change' ) );
+		},
+		value,
+		create
+	);
 }

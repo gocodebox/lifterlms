@@ -6,10 +6,9 @@ import { createPost } from './create-post';
  * @since Unknown
  * @since 2.2.0 Use `createPost()`.
  *
- * @param string title Course title.
- * @return int The created course's WP_Post ID.
+ * @param {string} title Course title.
+ * @return {number} The created course's WP_Post ID.
  */
 export async function createCourse( title = 'Test Course' ) {
 	return createPost( 'course', title );
 }
-

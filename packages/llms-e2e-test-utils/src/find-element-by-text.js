@@ -5,14 +5,14 @@ const cssXPath = require( 'css-xpath' );
  *
  * @since 2.2.0
  *
- * @link https://stackoverflow.com/a/47829000/400568
+ * @see {@link https://stackoverflow.com/a/47829000/400568}
  *
- * @param {String} string   Case-insensitive string to search.
- * @param {String} selector Selector to search. Default "*".
- * @return {Array}
+ * @param {string} string   Case-insensitive string to search.
+ * @param {string} selector Selector to search. Default "*".
+ * @return {Array} Element.
  */
 export async function findElementByText( string, selector = '*' ) {
-
-	return await page.waitForXPath( `${ cssXPath( selector ) }[contains(text(), '${ string }')]`);
-
+	return await page.waitForXPath(
+		`${ cssXPath( selector ) }[contains(text(), '${ string }')]`
+	);
 }

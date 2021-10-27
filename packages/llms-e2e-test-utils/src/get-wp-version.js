@@ -12,10 +12,7 @@
  *
  * @since 5.0.1
  *
- * @see [Reference]
- * @link [URL]
- *
- * @return {[type]} [description]
+ * @return {?string} WordPress version or null if not set.
  */
 export function getWPVersion() {
 	const { WP_VERSION } = process.env;

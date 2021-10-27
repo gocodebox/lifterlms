@@ -6,6 +6,9 @@
  * This allows us to do things like run the setup wizard tests to further bootstrap
  * the testing environment for other tests.
  *
+ * @since Unknown
+ * @version Unknown
+ *
  * @link https://jestjs.io/docs/en/next/configuration#testsequencer-string
  */
 

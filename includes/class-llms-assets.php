@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version 4.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,6 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.9.0 Added new default values related to script localization.
+ * @since [version] Added new script default for `asset_file`.
  */
 class LLMS_Assets {
 
@@ -58,10 +59,11 @@ class LLMS_Assets {
 		),
 		// Script specific defaults.
 		'script' => array(
-			'path'      => 'assets/js',
-			'extension' => '.js',
-			'in_footer' => true,
-			'translate' => false,
+			'path'       => 'assets/js',
+			'extension'  => '.js',
+			'in_footer'  => true,
+			'translate'  => false,
+			'asset_file' => false,
 		),
 		// Stylesheet specific defaults.
 		'style'  => array(
@@ -246,6 +248,7 @@ class LLMS_Assets {
 	 *
 	 * @since 4.4.0
 	 * @since 4.4.1 Replace truthy check with an strict check against `false` to ensure assets defined with an empty array signifying all default values should be used.
+	 * @since [version] Load dependency and version info from an asset.php file when `$asset_file` is `true`.
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
@@ -262,6 +265,7 @@ class LLMS_Assets {
 	 *     @type string   $package_id   An ID used to identify the originating plugin or theme that defined the asset.
 	 *     @type boolean  $in_footer    (For `script` assets only) Whether or not the script should be output in the footer. Defaults to `true`.
 	 *     @type boolean  $translate    (For `script` assets only) Whether or not script translations should be set. Defaults to `false`.
+	 *     @type boolean  $asset_file   (For `script` assets only) Whether or not the script has an asset file (generated via the @wordpress/dependency-extraction-webpack-plugin).
 	 *     @type boolean  $rtl          (For `style` assets only) Whether or not to automatically add RTL style data for the stylesheet. Defaults to `true`.
 	 *     @type boolean  $media        (For `style` assets only) The stylesheet's media type. Defaults to `all`.
 	 * }
@@ -303,6 +307,8 @@ class LLMS_Assets {
 					$asset['extension'],
 				)
 			);
+
+			$asset = $this->merge_asset_file( $asset );
 
 		}
 
@@ -463,6 +469,34 @@ class LLMS_Assets {
 	}
 
 	/**
+	 * Retrieve dependency and version info from a script asset's asset.php file
+	 *
+	 * Loads the asset.php file (generated via the @wordpress/dependency-extraction-webpack-plugin) and merges it
+	 * into an existing asset array.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $asset An asset definition array.
+	 * @return array
+	 */
+	protected function merge_asset_file( $asset ) {
+
+		if ( empty( $asset['asset_file'] ) ) {
+			return $asset;
+		}
+
+		$asset_file_path = plugin_dir_path( $asset['base_file'] ) . trailingslashit( $asset['path'] ) . $asset['file_name'] . '.asset.php';
+		if ( file_exists( $asset_file_path ) ) {
+			$info                  = include $asset_file_path;
+			$asset['dependencies'] = array_merge( $asset['dependencies'], $info['dependencies'] );
+			$asset['version']      = $info['version'];
+		}
+
+		return $asset;
+
+	}
+
+	/**
 	 * Output inline scripts
 	 *
 	 * @since 4.4.0
@@ -539,6 +573,7 @@ class LLMS_Assets {
 	 *
 	 * @since 4.4.0
 	 * @since 4.9.0 Automatically set script translations when `translate=true`.
+	 * @since [version] Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -547,6 +582,8 @@ class LLMS_Assets {
 
 		$script = $this->get( 'script', $handle );
 		if ( $script ) {
+
+			array_map( array( $this, 'register_script' ), $script['dependencies'] );
 
 			$reg = wp_register_script( $handle, $script['src'], $script['dependencies'], $script['version'], $script['in_footer'] );
 			if ( $reg && $script['translate'] ) {
@@ -580,6 +617,7 @@ class LLMS_Assets {
 	 * `llms.css` (or `llms.min.css`) would add the RTL stylesheet `llms-rtl.css` (or `llms-rtl.min.css`).
 	 *
 	 * @since 4.4.0
+	 * @since [version] Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
@@ -588,6 +626,8 @@ class LLMS_Assets {
 
 		$style = $this->get( 'style', $handle );
 		if ( $style ) {
+
+			array_map( array( $this, 'register_style' ), $style['dependencies'] );
 
 			$reg = wp_register_style( $handle, $style['src'], $style['dependencies'], $style['version'], $style['media'] );
 

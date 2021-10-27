@@ -3,10 +3,9 @@
  *
  * @since 2.2.0
  *
- * @return {Void}
+ * @return {void}
  */
 export async function dismissEditorWelcomeGuide() {
-
 	const isWelcomeGuideActive = await page.evaluate( () =>
 		wp.data.select( 'core/edit-post' ).isFeatureActive( 'welcomeGuide' )
 	);
@@ -15,5 +14,4 @@ export async function dismissEditorWelcomeGuide() {
 			wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'welcomeGuide' )
 		);
 	}
-
 }

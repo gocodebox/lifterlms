@@ -1,10 +1,3 @@
-/**
- * Export all modules.
- *
- * @since 1.0.0
- * @version 2.2.1
- */
-
 export { click } from './click';
 export { clickAndWait } from './click-and-wait';
 export { clickElementByText } from './click-element-by-text';

@@ -1,3 +1,5 @@
+== Frequently Asked Questions ==
+
 #### Where do I buy LifterLMS add-ons or bundles?
 
 You can explore the individual add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or save BIG with a [bundle](https://lifterlms.com/product-category/bundles/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)

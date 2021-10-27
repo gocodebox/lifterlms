@@ -55,6 +55,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test merging of defaults during construction
 	 *
 	 * @since 4.9.0
+	 * @since [version] Add `asset_file`.
 	 *
 	 * @return void
 	 */
@@ -83,10 +84,11 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 				'version' => '93.29.107',
 			),
 			'script' => array(
-				'path' => 'assets/js',
-				'extension' => '.js',
-				'in_footer' => true,
-				'translate' => true,
+				'path'       => 'assets/js',
+				'extension'  => '.js',
+				'in_footer'  => true,
+				'translate'  => true,
+				'asset_file' => false,
 			),
 			'style' => array(
 				'path' => 'assets/css',
@@ -269,6 +271,27 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test get() method for an asset with an asset.php file
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_with_asset_file() {
+
+		$definition = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'scripts' )['llms-addons'];
+		$asset_file = include LLMS_PLUGIN_DIR . 'assets/js/llms-admin-addons.asset.php';
+
+		$asset = LLMS_Unit_Test_Util::call_method( $this->main, 'get', array( 'script', 'llms-addons' ) );
+
+		$this->assertArrayHasKey( 'src', $asset );
+
+		$this->assertEquals( $asset_file['version'], $asset['version'] );
+		$this->assertEqualSets( $asset_file['dependencies'], $asset['dependencies'] );
+
+	}
+
+	/**
 	 * Test get() method for an undefined asset.
 	 *
 	 * @since 4.4.0
@@ -371,6 +394,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_scripts()
 	 *
 	 * @since 4.4.0
+	 * @since [version] Add `asset_file`.
 	 *
 	 * @return void
 	 */
@@ -386,6 +410,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'in_footer'    => true,
 			'path'         => 'assets/js',
 			'translate'    => false,
+			'asset_file'   => false,
 		);
 		$this->assertEquals( $expect, LLMS_Unit_Test_Util::call_method( $this->main, 'get_defaults', array( 'script' ) ) );
 
@@ -510,6 +535,25 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test merge_asset_file() when `asset_file` is `false`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_merge_asset_file_disabled() {
+
+		$asset = array(
+			'base_file'    => 'fake.php',
+			'asset_file'   => false,
+			'dependencies' => array(),
+		);
+
+		$this->assertEquals( $asset, LLMS_Unit_Test_Util::call_method( $this->main, 'merge_asset_file', array( $asset ) ) );
+
+	}
+
+	/**
 	 * Test output_inline()
 	 *
 	 * @since 4.4.0
@@ -627,7 +671,6 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
-
 	/**
 	 * Test register_script() for a defined asset.
 	 *
@@ -638,6 +681,26 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	public function test_register_script_defined() {
 
 		$this->assertTrue( $this->main->register_script( 'llms' ) );
+		$this->assertAssetIsRegistered( 'script', 'llms' );
+
+	}
+
+	/**
+	 * Test register_script() for a defined asset with defined dependencies.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_script_defined_with_deps() {
+
+		// Dependency is not registered.
+		$this->assertAssetNotRegistered( 'script', 'llms' );
+
+		$this->assertTrue( $this->main->register_script( 'llms-quiz' ) );
+		$this->assertAssetIsRegistered( 'script', 'llms-quiz' );
+
+		// Dependency was automatically registered.
 		$this->assertAssetIsRegistered( 'script', 'llms' );
 
 	}
@@ -656,6 +719,13 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test register_script() with translations
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_register_script_with_translations() {
 
 		// LLMS_PLUGIN_URL gets messed up in the testing environment.
@@ -753,6 +823,33 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 			'suffix' => LLMS_ASSETS_SUFFIX,
 		);
 		$this->assertEquals( $expect, $wp_styles->registered['lifterlms-styles']->extra );
+
+	}
+
+	/**
+	 * Test register_style() for an asset with defined dependencies
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_style_with_deps() {
+
+		$this->markTestIncomplete( 'Need to rework this test when a qualifying asset is defined.' );
+
+		// Deps are not registered.
+		$deps = array( 'llms-datetimepicker', 'llms-quill-bubble', 'webui-popover' );
+		foreach ( $deps as $dep ) {
+			$this->assertAssetNotRegistered( 'style', $dep );
+		}
+
+		$this->assertTrue( $this->main->register_style( 'llms-builder-styles' ) );
+		$this->assertAssetIsRegistered( 'style', 'llms-builder-styles' );
+
+		// Deps are registered.
+		foreach ( $deps as $dep ) {
+			$this->assertAssetIsRegistered( 'style', $dep );
+		}
 
 	}
 
