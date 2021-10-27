@@ -80,4 +80,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
           threshold: 50
-          test-script: npm run test:pkgs -- --coverage --coverageReporters="text" --coverageReporters="text-summary"
+          test-script: npm run test:pkgs -- --coverageReporters="text" --coverageReporters="text-summary"
