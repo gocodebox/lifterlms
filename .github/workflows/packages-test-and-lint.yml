@@ -37,7 +37,7 @@ jobs:
 
       - name: Run linter
         continue-on-error: true
-        run: npm run lint:js
+        run: npm run pkg:lint:js
 
       - name: Save linter output
         continue-on-error: true
