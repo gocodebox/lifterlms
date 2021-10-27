@@ -82,11 +82,24 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	$vars     = llms()->query->get_query_vars();
 	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
-	if ( ! $permalink ) {
-		$permalink = get_permalink();
-		$permalink = ! $permalink && ! empty( $_SERVER['REQUEST_URI'] ) ?
-			filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL ) :
-			$permalink;
+	/**
+	 * In our dashboard endpoints, get_permalink() always returns
+	 * the dashboard page permalink:
+	 * something like https://example.com/dashboard/
+	 * which is the base URL to append the endpoint to.
+	 */
+	$permalink         = $permalink ? $permalink : get_permalink();
+	$is_base_permalink = true;
+
+	/**
+	 * No permalink permalink available, e.g. in BuddyBress profile endpoint.
+	 *
+	 * We need to get the base URL to append the endpoint to, starting from
+	 * the current requested URL.
+	 */
+	if ( ! $permalink && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$permalink         = filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL );
+		$is_base_permalink = false;
 	}
 
 	if ( get_option( 'permalink_structure' ) ) {
@@ -98,23 +111,11 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 			$permalink    = current( explode( '?', $permalink ) );
 		}
 
-		// Remove pagination.
-		global $wp_rewrite;
-		$page = llms_get_paged_query_var();
-
-		$permalink = untrailingslashit( $permalink );
-		if ( $page > 1 &&
-				substr(
-					$permalink,
-					-1 * strlen( $wp_rewrite->pagination_base . '/' . $page ),
-					strlen( $wp_rewrite->pagination_base . '/' . $page )
-				) === $wp_rewrite->pagination_base . '/' . $page ) {
-			$permalink = substr( $permalink, 0, -1 * strlen( $wp_rewrite->pagination_base . '/' . $page ) );
-		}
-
-		// Remove the endpoint slug from the URL if it's its last part.
-		if ( substr( $permalink, -1 * strlen( $endpoint ), strlen( $endpoint ) ) === $endpoint ) {
-			$permalink = substr( $permalink, 0, -1 * strlen( $endpoint ) );
+		/**
+		 * Normalize the permalink when not referring to the base URL.
+		 */
+		if ( ! $is_base_permalink ) {
+			$permalink = _llms_normalize_endpoint_base_url( $permalink, $endpoint );
 		}
 
 		$url = trailingslashit( $permalink );
@@ -143,6 +144,44 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	 * @param string $permalink Base URL to append the endpoint to. Optional, uses the current page when not supplied.
 	 */
 	return apply_filters( 'lifterlms_get_endpoint_url', $url, $endpoint, $value, $permalink );
+}
+
+/**
+ * Normalize then endpoint base URL.
+ *
+ * E.g. on my grades, page 2, it'll look like
+ * //example.com/members/admin/courses/my-courses/page/2/
+ *
+ * We then need to normalize this: remove /my-courses/ (the endpoint)
+ * and the pagination information /page/2/.
+ *
+ * @since [version]
+ * @access private
+ *
+ * @param string $permalink URL to extract the Base URL, to append the endpoint to, from.
+ * @param string $endpoint  Slug of the endpoint, eg "my-courses".
+ * @return string
+ */
+function _llms_normalize_endpoint_base_url( $permalink, $endpoint ) {
+
+	$permalink = untrailingslashit( $permalink );
+
+	// Remove pagination.
+	global $wp_rewrite;
+
+	$page       = llms_get_paged_query_var();
+	$pagination = '/' . $wp_rewrite->pagination_base . '/' . $page;
+
+	if ( $page > 1 && substr( $permalink, -1 * strlen( $pagination ) ) === $pagination ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$permalink = substr( $permalink, 0, -1 * strlen( $pagination ) );
+	}
+
+	// Remove the endpoint slug from the URL if it's its last part.
+	if ( substr( $permalink, -1 * strlen( $endpoint ) ) === $endpoint ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$permalink = substr( $permalink, 0, -1 * strlen( $endpoint ) );
+	}
+
+	return $permalink;
 }
 
 /**
