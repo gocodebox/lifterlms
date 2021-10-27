@@ -24,7 +24,7 @@ const getTitle = async function() {
  * @since 2.1.0
  * @since 2.2.0 Rework to accommodate setup wizard changes in LifterLMS core.
  *
- * @param {Object}   options
+ * @param {Object}   options                 Options object.
  * @param {string[]} options.coursesToImport Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
  * @param {boolean}  options.exit            Whether or not to exit the setup wizard at the conclusion of setup. If `true`, uses the "Exit" link to leave setup.`
  * @return {void}

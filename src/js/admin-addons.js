@@ -1,6 +1,8 @@
 /**
  * UI & UX for the Admin add-ons management screen
  *
+ * @package LifterLMS/Scripts/Admin
+ *
  * @since 3.22.0
  * @version [version]
  */
