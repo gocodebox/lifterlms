@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.17.4 Unknown.
  * @since 3.37.12 Allow the certificate title field to store text with quotes.
+ * @since [version] Show metabox in `llms_my_cetificate` post type as well.
  */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
@@ -32,6 +33,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 		$this->title    = __( 'Certificate Settings', 'lifterlms' );
 		$this->screens  = array(
 			'llms_certificate',
+			'llms_my_certificate',
 		);
 		$this->priority = 'high';
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -104,9 +104,10 @@ class LLMS_Admin_Assets {
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
 	 * @since 4.4.0 Enqueue the main `llms` script.
 	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
-	 *               Remove topModal vendor dependency.
-	 *               Add `llms-admin-forms` on the forms post table screen.
+	 *              Remove topModal vendor dependency.
+	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since [version] Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
+	 *              Enqueue certificate related js in `llms_my_certificate` post type as well.
 	 *
 	 * @return void
 	 */
@@ -176,7 +177,7 @@ class LLMS_Admin_Assets {
 			if ( 'lesson' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
-			if ( 'llms_certificate' == $post_type ) {
+			if ( in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 
 				wp_enqueue_script( 'llms-metabox-certificate', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-certificate' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}

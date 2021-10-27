@@ -361,6 +361,7 @@ class LLMS_Post_Types {
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since [version] Register all the post types using `self::register_post_type()`.
+	 *             Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
 	 *
 	 * @return void
 	 */
@@ -817,7 +818,7 @@ class LLMS_Post_Types {
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
-				'show_ui'             => true,
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
 				'publicly_queryable'  => true,
 				'exclude_from_search' => true,
