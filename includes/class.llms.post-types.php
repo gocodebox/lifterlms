@@ -362,6 +362,7 @@ class LLMS_Post_Types {
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since [version] Register all the post types using `self::register_post_type()`.
 	 *             Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
+	 *             Register `llms_my_achievements` post type.
 	 *
 	 * @return void
 	 */
@@ -779,6 +780,14 @@ class LLMS_Post_Types {
 				),
 				'description'         => __( 'This is where you can view all of the achievements.', 'lifterlms' ),
 				'public'              => false,
+				/**
+				 * Filters the needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
+				 *
+				 * @since [version]
+				 *
+				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
+				 *                      Default is `manage_lifterlms`.
+				 */
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
 				'publicly_queryable'  => false,
@@ -854,6 +863,14 @@ class LLMS_Post_Types {
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
+				/**
+				 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+				 *
+				 * @since [version]
+				 *
+				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+				 *                      Default is `manage_lifterlms`.
+				 */
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
 				'publicly_queryable'  => true,
