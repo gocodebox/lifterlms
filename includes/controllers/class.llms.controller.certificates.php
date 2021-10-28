@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 4.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,12 +26,13 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
+	 * @since [version] Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		add_filter( 'lifterlms_register_post_type_llms_certificate', array( $this, 'maybe_allow_public_query' ) );
+		add_filter( 'lifterlms_register_post_type_certificate', array( $this, 'maybe_allow_public_query' ) );
 
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
