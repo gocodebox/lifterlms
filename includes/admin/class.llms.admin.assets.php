@@ -107,7 +107,7 @@ class LLMS_Admin_Assets {
 	 *              Remove topModal vendor dependency.
 	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since [version] Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
-	 *              Enqueue certificate related js in `llms_my_certificate` post type as well.
+	 *              Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 *
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ class LLMS_Admin_Assets {
 
 				wp_enqueue_script( 'llms-metabox-certificate', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-certificate' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
-			if ( 'llms_achievement' == $post_type ) {
+			if ( in_array( $post_type, array( 'llms_achievement', 'llms_my_achievement' ), true ) ) {
 
 				wp_enqueue_script( 'llms-metabox-achievement', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-achievement' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}

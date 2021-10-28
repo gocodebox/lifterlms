@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,6 +25,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 * Configure the metabox settings.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Show metabox in `llms_my_achievement` post type as well.
 	 *
 	 * @return void
 	 */
@@ -34,6 +35,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 		$this->title    = __( 'Achievement Settings', 'lifterlms' );
 		$this->screens  = array(
 			'llms_achievement',
+			'llms_my_achievement',
 		);
 		$this->priority = 'high';
 

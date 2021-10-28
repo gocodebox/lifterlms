@@ -757,6 +757,42 @@ class LLMS_Post_Types {
 			)
 		);
 
+		// Earned achievements.
+		self::register_post_type(
+			'llms_my_achievement',
+			array(
+				'labels'              => array(
+					'name'               => __( 'My Achievements', 'lifterlms' ),
+					'singular_name'      => __( 'My Achievement', 'lifterlms' ),
+					'add_new'            => __( 'Add My Achievement', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New My Achievement', 'lifterlms' ),
+					'edit'               => __( 'Edit', 'lifterlms' ),
+					'edit_item'          => __( 'Edit My Achievement', 'lifterlms' ),
+					'new_item'           => __( 'New My Achievement', 'lifterlms' ),
+					'view'               => __( 'View My Achievement', 'lifterlms' ),
+					'view_item'          => __( 'View My Achievement', 'lifterlms' ),
+					'search_items'       => __( 'Search My Achievements', 'lifterlms' ),
+					'not_found'          => __( 'No My Achievements found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No My Achievements found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent My Achievements', 'lifterlms' ),
+					'menu_name'          => _x( 'My Achievements', 'Admin menu name', 'lifterlms' ),
+				),
+				'description'         => __( 'This is where you can view all of the achievements.', 'lifterlms' ),
+				'public'              => false,
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
+				'map_meta_cap'        => true,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'show_in_menu'        => false,
+				'hierarchical'        => false,
+				'rewrite'             => false,
+				'show_in_nav_menus'   => false,
+				'has_archive'         => false,
+				'query_var'           => false,
+				'supports'            => array( 'title' ),
+			)
+		);
+
 		// Certificate.
 		self::register_post_type(
 			'llms_certificate',

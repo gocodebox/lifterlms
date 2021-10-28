@@ -36,7 +36,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Get HTML for buttons in the actions cell of the table.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Show a butto to edit earned certificates.
+	 * @since [version] Show a button to edit earned certificates.
 	 *
 	 * @param int $certificate_id  WP Post ID of the llms_my_certificate
 	 * @return void
@@ -49,7 +49,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			<i class="fa fa-external-link" aria-hidden="true"></i>
 		</a>
 		<?php if ( get_edit_post_link( $certificate_id ) ) : ?>
-		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $certificate_id ) ); ?>" target="_blank" title="">
+		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $certificate_id ) ); ?>">
 			<?php _e( 'Edit', 'lifterlms' ); ?>
 			<i class="fa fa-pencil" aria-hidden="true"></i>
 		</a>

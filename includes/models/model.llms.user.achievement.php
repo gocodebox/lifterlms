@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
+ *              Declare `achievement_title` and `achievement_content` properties.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
@@ -22,9 +23,9 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	protected $model_post_type = 'achievement';
 
 	protected $properties = array(
-		// 'achievement_title' => 'string', // use get( 'title' )
+		'achievement_title'    => 'string',
 		'achievement_image'    => 'absint',
-		// 'achievement_content' => 'html', // use get( 'content' )
+		'achievement_content'  => 'html',
 		'achievement_template' => 'absint',
 	);
 
