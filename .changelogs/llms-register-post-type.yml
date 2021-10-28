@@ -1,0 +1,22 @@
+significance: minor
+type: dev
+entry: All the LifterLMS post types are now registered using the static method `LLMS_Post_Types::register_post_type()`.
+The following filters have been deprecated
+
+- `lifterlms_register_post_type_llms_engagement`
+- `lifterlms_register_post_type_llms_achievement`
+- `lifterlms_register_post_type_llms_certificate`
+- `lifterlms_register_post_type_llms_my_certificate`
+- `lifterlms_register_post_type_llms_email`
+- `lifterlms_register_post_type_llms_coupon`
+- `lifterlms_register_post_type_llms_voucher`
+
+and replaced respectively with
+
+- `lifterlms_register_post_type_engagement`
+- `lifterlms_register_post_type_achievement`
+- `lifterlms_register_post_type_certificate`
+- `lifterlms_register_post_type_my_certificate`
+- `lifterlms_register_post_type_email`
+- `lifterlms_register_post_type_coupon`
+- `lifterlms_register_post_type_voucher`

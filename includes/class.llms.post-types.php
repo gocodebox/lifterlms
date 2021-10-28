@@ -1,8 +1,8 @@
 <?php
 /**
- * Register Post Types, Taxonomies, Statuses
+ * Register Post Types, Taxonomies, Statuses.
  *
- * @package  LifterLMS\Classes
+ * @package LifterLMS/Classes
  *
  * @since 1.0.0
  * @version [version]
