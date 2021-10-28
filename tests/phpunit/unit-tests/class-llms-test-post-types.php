@@ -126,6 +126,9 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * @expectedDeprecated lifterlms_register_post_type_llms_review
 	 * @expectedDeprecated lifterlms_register_post_type_llms_access_plan
 	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
 	 * @since [version]
 	 *
 	 * @return void
