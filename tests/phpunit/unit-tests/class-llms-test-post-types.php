@@ -1,9 +1,11 @@
 <?php
 /**
  * Tests for LifterLMS Custom Post Types
- * @group    LLMS_Post_Types
- * @since   3.13.0
- * @version 3.13.0
+ *
+ * @group LLMS_Post_Types
+ *
+ * @since 3.13.0
+ * @since [version] Addedd tests for deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
  */
 class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
@@ -102,6 +104,61 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
 		foreach ( $statuses as $name ) {
 			$this->assertTrue( ! is_null( get_post_status_object( $name ) ) );
+		}
+
+	}
+
+	/**
+	 * Test deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
+	 *
+	 * @expectedDeprecated lifterlms_register_post_type_llms_membership
+	 * @expectedDeprecated lifterlms_register_post_type_llms_engagement
+	 * @expectedDeprecated lifterlms_register_post_type_llms_order
+	 * @expectedDeprecated lifterlms_register_post_type_llms_transaction
+	 * @expectedDeprecated lifterlms_register_post_type_llms_achievement
+	 * @expectedDeprecated lifterlms_register_post_type_llms_certificate
+	 * @expectedDeprecated lifterlms_register_post_type_llms_my_certificate
+	 * @expectedDeprecated lifterlms_register_post_type_llms_email
+	 * @expectedDeprecated lifterlms_register_post_type_llms_quiz
+	 * @expectedDeprecated lifterlms_register_post_type_llms_question
+	 * @expectedDeprecated lifterlms_register_post_type_llms_coupon
+	 * @expectedDeprecated lifterlms_register_post_type_llms_voucher
+	 * @expectedDeprecated lifterlms_register_post_type_llms_review
+	 * @expectedDeprecated lifterlms_register_post_type_llms_access_plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_deprecated_filters() {
+
+		$post_types = array(
+			'course',
+			'section',
+			'lesson',
+			'llms_membership',
+			'llms_engagement',
+			'llms_order',
+			'llms_transaction',
+			'llms_achievement',
+			'llms_certificate',
+			'llms_my_certificate',
+			'llms_email',
+			'llms_quiz',
+			'llms_question',
+			'llms_coupon',
+			'llms_voucher',
+			'llms_review',
+			'llms_access_plan',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			unregister_post_type( $post_type );
+			add_filter( "lifterlms_register_post_type_${post_type}", '__return_empty_array' );
+			LLMS_Post_Types::register_post_type( $post_type, array() );
+			remove_filter( "lifterlms_register_post_type_${post_type}", '__return_empty_array' );
+
 		}
 
 	}
