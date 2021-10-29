@@ -329,4 +329,36 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 		}
 	}
 
+	/**
+	 * Check actual post types capabilities.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_post_type_capabilities() {
+		foreach (
+				array(
+					'course'              => 'course',
+					'lesson'              => 'lesson',
+					'llms_membership'     => 'membership',
+					'llms_quiz'           => array( 'quiz', 'quizzes' ),
+					'llms_question'       => 'question',
+					'llms_my_achievement' => 'my_achievement',
+					'llms_my_certificate' => 'my_certificate',
+				) as $post_type => $post_type_name_for_caps ) {
+
+			$post_type_object = get_post_type_object( $post_type );
+			$caps = (array) $post_type_object->cap;
+			unset( $caps['read'] );
+
+			$this->assertEquals(
+				$caps,
+				LLMS_Post_Types::get_post_type_caps( $post_type_name_for_caps ),
+			);
+
+		}
+
+	}
+
 }

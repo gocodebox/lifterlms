@@ -403,7 +403,7 @@ class LLMS_Post_Types {
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since [version] Register all the post types using `self::register_post_type()`.
 	 *             Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
-	 *             Register `llms_my_achievements` post type.
+	 *             Register `llms_my_achievement` post type.
 	 *
 	 * @return void
 	 */
@@ -830,7 +830,7 @@ class LLMS_Post_Types {
 				 *                      Default is `manage_earned_engagements`.
 				 */
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
-				'capabilities'        => self::get_post_type_caps( 'my_achievements' ),
+				'capabilities'        => self::get_post_type_caps( 'my_achievement' ),
 				'map_meta_cap'        => false,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
