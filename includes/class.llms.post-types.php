@@ -210,6 +210,7 @@ class LLMS_Post_Types {
 	 * See https://core.trac.wordpress.org/ticket/30991.
 	 *
 	 * @since 3.13.0
+	 * @since [version] Add specific case for `llms_my_achievements`, `llms_my_certificates` post types.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array
@@ -224,19 +225,10 @@ class LLMS_Post_Types {
 			$plural   = $post_type[1];
 		}
 
-		/**
-		 * Filter the list of post type capabilities for the given post type.
-		 *
-		 * The dynamic portion of this hook, `$singular` refers to the post type's
-		 * name, for example "course" or "llms_membership".
-		 *
-		 * @since 3.13.0
-		 *
-		 * @param array $caps Array of capabilities.
-		 */
-		return apply_filters(
-			"llms_get_{$singular}_post_type_caps",
-			array(
+		if ( in_array( $singular, array( 'my_achievement', 'my_certificate' ), true ) ) {
+			$caps = self::get_earned_engagements_post_type_caps();
+		} else {
+			$caps = array(
 
 				'read_post'              => sprintf( 'read_%s', $singular ),
 				'read_private_posts'     => sprintf( 'read_private_%s', $plural ),
@@ -257,7 +249,56 @@ class LLMS_Post_Types {
 
 				'create_posts'           => sprintf( 'create_%s', $plural ),
 
-			)
+			);
+		}
+
+		/**
+		 * Filter the list of post type capabilities for the given post type.
+		 *
+		 * The dynamic portion of this hook, `$singular` refers to the post type's
+		 * name, for example "course" or "llms_membership".
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param array $caps Array of capabilities.
+		 */
+		return apply_filters(
+			"llms_get_{$singular}_post_type_caps",
+			$caps
+		);
+
+	}
+
+	/**
+	 * Get an array of capabilities for earned engagements post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public static function get_earned_engagements_post_type_caps() {
+
+		return array(
+
+			'read_post'              => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'read_private_posts'     => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'edit_post'              => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_posts'             => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_others_posts'      => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_private_posts'     => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_published_posts'   => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'publish_posts'          => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'delete_post'            => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_private_posts'   => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_published_posts' => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_others_posts'    => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'create_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
 		);
 
 	}
@@ -786,10 +827,11 @@ class LLMS_Post_Types {
 				 * @since [version]
 				 *
 				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
-				 *                      Default is `manage_lifterlms`.
+				 *                      Default is `manage_earned_engagements`.
 				 */
-				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
-				'map_meta_cap'        => true,
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
+				'capabilities'        => self::get_post_type_caps( 'my_achievements' ),
+				'map_meta_cap'        => false,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
 				'show_in_menu'        => false,
@@ -869,10 +911,11 @@ class LLMS_Post_Types {
 				 * @since [version]
 				 *
 				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
-				 *                      Default is `manage_lifterlms`.
+				 *                      Default is `manage_earned_engagements`.
 				 */
-				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
-				'map_meta_cap'        => true,
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
+				'capabilities'        => self::get_post_type_caps( 'my_certificate' ),
+				'map_meta_cap'        => false,
 				'publicly_queryable'  => true,
 				'exclude_from_search' => true,
 				'show_in_menu'        => false,
