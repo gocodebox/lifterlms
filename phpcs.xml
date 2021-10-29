@@ -83,6 +83,7 @@
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
+		<exclude-pattern>uninstall.php</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Commenting.FileComment">
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
