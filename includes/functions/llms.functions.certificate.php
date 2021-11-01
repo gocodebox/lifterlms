@@ -112,6 +112,73 @@ function llms_get_certificate_merge_codes() {
 }
 
 /**
+ * Retrieve the current or next sequential ID for a given certificate template.
+ *
+ * If there's no existing ID, the ID starts at 1 and will *not* be incremented.
+ *
+ * When the ID is incremented the new value is automatically persisted to the database.
+ *
+ * @since [version]
+ *
+ * @param integer $template_id WP_Post ID of the certificate template (`llms_certificate`) post.
+ * @param boolean $increment   Whether or not to increment the current ID.
+ * @return int
+ */
+function llms_get_certificate_sequential_id( $template_id, $increment = false ) {
+
+	$key    = '_llms_sequential_id';
+	$update = $increment;
+	$id     = absint( get_post_meta( $template_id, $key, true ) );
+
+	// No id, get the initial ID.
+	if ( ! $id ) {
+
+		/**
+		 * Determines the default starting number for the a certificate's sequential ID.
+		 *
+		 * The returned number *must* be an absolute integer (zero included). The returned value will be
+		 * passed through `absint()` to sanitize the filtered value.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $starting_id The starting number.
+		 * @param int $template_id WP_Post ID of the certificate template.
+		 */
+		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
+		$id = absint( $starting_id );
+
+		// Don't increment the starting ID!
+		$increment = false;
+		$update    = true;
+
+	}
+
+	if ( $increment ) {
+		++$id;
+	}
+
+	/**
+	 * Filters the sequential ID number for a given certificate template.
+	 *
+	 * The returned number *must* be an absolute integer (zero included). The returned value will be
+	 * passed through `absint()` to sanitize the filtered value.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $id          The sequential ID.
+	 * @param int $template_id WP_Post ID of the certificate template.
+	 */
+	$id = absint( apply_filters( 'llms_certificate_sequential_id', $id, $template_id ) );
+
+	if ( $update ) {
+		update_post_meta( $template_id, $key, $id );
+	}
+
+	return $id;
+
+}
+
+/**
  * Retrieve the title of a certificate
  *
  * @since 2.2.0
