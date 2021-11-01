@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +87,29 @@ function llms_get_certificate_image( $id = 0 ) {
 
 }
 
+/**
+ * Retrieve a list of merge codes that can be used in certificate templates.
+ *
+ * @since [version]
+ *
+ * @return array[] Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
+ */
+function llms_get_certificate_merge_codes() {
+
+	return array(
+		'{site_title}'     => __( 'Site Title', 'lifterlms' ),
+		'{site_url}'       => __( 'Site URL', 'lifterlms' ),
+		'{current_date}'   => __( 'Earned Date', 'lifterlms' ),
+		'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
+		'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
+		'{email_address}'  => __( 'Student Email', 'lifterlms' ),
+		'{student_id}'     => __( 'Student User ID', 'lifterlms' ),
+		'{user_login}'     => __( 'Student Username', 'lifterlms' ),
+		'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
+		'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
+	);
+
+}
 
 /**
  * Retrieve the title of a certificate
