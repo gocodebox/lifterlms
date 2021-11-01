@@ -1397,13 +1397,13 @@ body.modal-open {
 
 .button.llms-merge-code-button {
   vertical-align: middle; }
-  .button.llms-merge-code-button img {
-    margin-left: 3px;
-    margin-top: -3px;
-    vertical-align: middle; }
-
-.llms-mb-container .button.llms-merge-code-button img {
-  margin-left: 4px; }
+  .button.llms-merge-code-button svg {
+    margin-left: 2px;
+    position: relative;
+    top: 4px;
+    width: 16px; }
+    .button.llms-merge-code-button svg g {
+      fill: currentColor; }
 
 .llms-mb-container .llms-merge-code-wrapper {
   float: left;
@@ -1425,7 +1425,7 @@ body.modal-open {
   overflow: hidden;
   position: absolute;
   top: 30px;
-  width: 160px; }
+  width: 200px; }
   .llms-merge-codes ul {
     margin: 0;
     padding: 0; }
