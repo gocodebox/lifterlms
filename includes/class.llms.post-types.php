@@ -41,6 +41,8 @@ class LLMS_Post_Types {
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
+		add_action( 'admin_menu', array( __CLASS__, 'add_earned_egnagements_submenu_links' ) );
+
 	}
 
 	/**
@@ -768,22 +770,22 @@ class LLMS_Post_Types {
 			'llms_achievement',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Achievements', 'lifterlms' ),
-					'singular_name'      => __( 'Achievement', 'lifterlms' ),
-					'add_new'            => __( 'Add Achievement', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Achievement', 'lifterlms' ),
+					'name'               => __( 'Achievement Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Achievement Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Achievement Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Achievement Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Achievement', 'lifterlms' ),
-					'new_item'           => __( 'New Achievement', 'lifterlms' ),
-					'view'               => __( 'View Achievement', 'lifterlms' ),
-					'view_item'          => __( 'View Achievement', 'lifterlms' ),
-					'search_items'       => __( 'Search Achievement', 'lifterlms' ),
-					'not_found'          => __( 'No Achievement found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No Achievement found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Achievement', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Achievement Template', 'lifterlms' ),
+					'new_item'           => __( 'New Achievement Template', 'lifterlms' ),
+					'view'               => __( 'View Achievement Template', 'lifterlms' ),
+					'view_item'          => __( 'View Achievement Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Achievement Templates', 'lifterlms' ),
+					'not_found'          => __( 'No Achievement Templates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Achievement Templates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Achievement Template', 'lifterlms' ),
 					'menu_name'          => _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where achievements are stored.', 'lifterlms' ),
+				'description'         => __( 'This is where achievement templates are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -804,20 +806,20 @@ class LLMS_Post_Types {
 			'llms_my_achievement',
 			array(
 				'labels'              => array(
-					'name'               => __( 'My Achievements', 'lifterlms' ),
-					'singular_name'      => __( 'My Achievement', 'lifterlms' ),
-					'add_new'            => __( 'Add My Achievement', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New My Achievement', 'lifterlms' ),
+					'name'               => __( 'Achievements', 'lifterlms' ),
+					'singular_name'      => __( 'Achievement', 'lifterlms' ),
+					'add_new'            => __( 'Add Achievement', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Achievement', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit My Achievement', 'lifterlms' ),
-					'new_item'           => __( 'New My Achievement', 'lifterlms' ),
-					'view'               => __( 'View My Achievement', 'lifterlms' ),
-					'view_item'          => __( 'View My Achievement', 'lifterlms' ),
-					'search_items'       => __( 'Search My Achievements', 'lifterlms' ),
-					'not_found'          => __( 'No My Achievements found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No My Achievements found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent My Achievements', 'lifterlms' ),
-					'menu_name'          => _x( 'My Achievements', 'Admin menu name', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Achievement', 'lifterlms' ),
+					'new_item'           => __( 'Award Achievement', 'lifterlms' ),
+					'view'               => __( 'View Achievement', 'lifterlms' ),
+					'view_item'          => __( 'View Achievement', 'lifterlms' ),
+					'search_items'       => __( 'Search Achievements', 'lifterlms' ),
+					'not_found'          => __( 'No Achievements found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Achievements found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Achievements', 'lifterlms' ),
+					'menu_name'          => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where you can view all of the achievements.', 'lifterlms' ),
 				'public'              => false,
@@ -849,19 +851,19 @@ class LLMS_Post_Types {
 			'llms_certificate',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Certificates', 'lifterlms' ),
-					'singular_name'      => __( 'Certificate', 'lifterlms' ),
-					'add_new'            => __( 'Add Certificate', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Certificate', 'lifterlms' ),
+					'name'               => __( 'Certificate Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Certificate Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Certificate Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Certificate Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Certificate', 'lifterlms' ),
-					'new_item'           => __( 'New Certificate', 'lifterlms' ),
-					'view'               => __( 'View Certificate', 'lifterlms' ),
-					'view_item'          => __( 'View Certificate', 'lifterlms' ),
-					'search_items'       => __( 'Search Certificates', 'lifterlms' ),
-					'not_found'          => __( 'No Certificates found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No Certificates found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Certificates', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Certificate Template', 'lifterlms' ),
+					'new_item'           => __( 'New Certificate Template', 'lifterlms' ),
+					'view'               => __( 'View Certificate Template', 'lifterlms' ),
+					'view_item'          => __( 'View Certificate Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Certificate Templates', 'lifterlms' ),
+					'not_found'          => __( 'No Certificate Templates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Certificate Templates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Certificate Templates', 'lifterlms' ),
 					'menu_name'          => _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
@@ -888,20 +890,20 @@ class LLMS_Post_Types {
 			'llms_my_certificate',
 			array(
 				'labels'              => array(
-					'name'               => __( 'My Certificates', 'lifterlms' ),
-					'singular_name'      => __( 'My Certificate', 'lifterlms' ),
-					'add_new'            => __( 'Add My Certificate', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New My Certificate', 'lifterlms' ),
+					'name'               => __( 'Certificates', 'lifterlms' ),
+					'singular_name'      => __( 'Certificate', 'lifterlms' ),
+					'add_new'            => __( 'Add Certificate', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Certificate', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit My Certificate', 'lifterlms' ),
-					'new_item'           => __( 'New My Certificate', 'lifterlms' ),
-					'view'               => __( 'View My Certificate', 'lifterlms' ),
-					'view_item'          => __( 'View My Certificate', 'lifterlms' ),
-					'search_items'       => __( 'Search My Certificates', 'lifterlms' ),
-					'not_found'          => __( 'No My Certificates found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No My Certificates found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent My Certificates', 'lifterlms' ),
-					'menu_name'          => _x( 'My Certificates', 'Admin menu name', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Certificate', 'lifterlms' ),
+					'new_item'           => __( 'New Certificate', 'lifterlms' ),
+					'view'               => __( 'View Certificate', 'lifterlms' ),
+					'view_item'          => __( 'View Certificate', 'lifterlms' ),
+					'search_items'       => __( 'Search Certificates', 'lifterlms' ),
+					'not_found'          => __( 'No Certificates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Certificates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Certificates', 'lifterlms' ),
+					'menu_name'          => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
@@ -936,19 +938,19 @@ class LLMS_Post_Types {
 			'llms_email',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Emails', 'lifterlms' ),
-					'singular_name'      => __( 'Email', 'lifterlms' ),
-					'add_new'            => __( 'Add Email', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Email', 'lifterlms' ),
+					'name'               => __( 'Email Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Email Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Email Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Email Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Email', 'lifterlms' ),
-					'new_item'           => __( 'New Email', 'lifterlms' ),
-					'view'               => __( 'View Email', 'lifterlms' ),
-					'view_item'          => __( 'View Email', 'lifterlms' ),
-					'search_items'       => __( 'Search Emails', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Email Template', 'lifterlms' ),
+					'new_item'           => __( 'New Email Template', 'lifterlms' ),
+					'view'               => __( 'View Email Template', 'lifterlms' ),
+					'view_item'          => __( 'View Email Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Email Templates', 'lifterlms' ),
 					'not_found'          => __( 'No Emails found', 'lifterlms' ),
 					'not_found_in_trash' => __( 'No Emails found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Emails', 'lifterlms' ),
+					'parent'             => __( 'Parent Email Templates', 'lifterlms' ),
 					'menu_name'          => _x( 'Emails', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where emails are stored.', 'lifterlms' ),
@@ -1451,6 +1453,37 @@ class LLMS_Post_Types {
 			)
 		);
 
+	}
+
+	/**
+	 * Add submenu items for earned engagments post types (llms_my_certificate,llms_my_achievement).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function add_earned_egnagements_submenu_links() {
+
+		$post_types = array(
+			'llms_my_certificate',
+			'llms_my_achievement',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			$post_type_object = get_post_type_object( $post_type );
+			if ( empty( $post_type_object ) ) {
+				continue;
+			}
+
+			add_submenu_page(
+				'edit.php?post_type=llms_engagement',
+				$post_type_object->labels->menu_name,
+				$post_type_object->labels->menu_name,
+				LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+				admin_url( "post-new.php?post_type={$post_type}" )
+			);
+		}
 	}
 
 }
