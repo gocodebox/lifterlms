@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,9 +14,9 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_User_Achievement model.
  *
  * @since 3.8.0
- * @since 3.18.0 Unknown.
+ * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
  */
-class LLMS_User_Achievement extends LLMS_Post_Model {
+class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
 	protected $db_post_type    = 'llms_my_achievement';
 	protected $model_post_type = 'achievement';
@@ -27,47 +27,6 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 		// 'achievement_content' => 'html', // use get( 'content' )
 		'achievement_template' => 'absint',
 	);
-
-	/**
-	 * Delete the certificate
-	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
-	 */
-	public function delete() {
-
-		do_action( 'llms_before_delete_achievement', $this );
-
-		global $wpdb;
-		$id = $this->get( 'id' );
-		$wpdb->delete(
-			"{$wpdb->prefix}lifterlms_user_postmeta",
-			array(
-				'user_id'    => $this->get_user_id(),
-				'meta_key'   => '_achievement_earned',
-				'meta_value' => $id,
-			),
-			array( '%d', '%s', '%d' )
-		);
-		wp_delete_post( $id, true );
-
-		do_action( 'llms_delete_achievement', $this );
-
-	}
-
-	/**
-	 * Retrieve the date the achievement was earned (created)
-	 *
-	 * @param    string $format  date format string
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
-	 */
-	public function get_earned_date( $format = null ) {
-		$format = $format ? $format : get_option( 'date_format' );
-		return $this->get_date( 'date', $format );
-	}
 
 	/**
 	 * Retrieve the HTML <img> for the achievement
@@ -109,48 +68,6 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 
 		return apply_filters( 'llms_achievement_get_image', $src, $this );
 
-	}
-
-	/**
-	 * Get the WP Post ID of the post which triggered the earning of the achievement
-	 * This would be a lesson, course, section, track, etc...
-	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_related_post_id() {
-		$meta = $this->get_user_postmeta();
-		return $meta->post_id;
-	}
-
-	/**
-	 * Retrieve the user id of the user who earned the achievement
-	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_user_id() {
-		$meta = $this->get_user_postmeta();
-		return $meta->user_id;
-	}
-
-	/**
-	 * Retrieve user postmeta data for the achievement
-	 *
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_user_postmeta() {
-		global $wpdb;
-		return $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = '_achievement_earned'",
-				$this->get( 'id' )
-			)
-		);
 	}
 
 }
