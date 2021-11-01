@@ -6,7 +6,7 @@
  * @group admin_functions
  * @group admin
  *
- * @since    3.23.0
+ * @since 3.23.0
  */
 class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 
@@ -115,6 +115,64 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 			'page'    => 'Redirect to WordPress Page',
 			'url'     => 'Redirect to custom URL',
 		), llms_get_sales_page_types() );
+
+	}
+
+	/**
+	 * Test lms_merge_code_button() when no merge codes are passed or exist in the current context.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_merge_code_button_no_codes() {
+
+		$ret = llms_merge_code_button( 'content', false );
+		$this->assertEquals( '', $ret );
+
+	}
+
+	/**
+	 * Test lms_merge_code_button() when custom merge codes are passed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_merge_code_button_custom_codes() {
+
+		$ret = llms_merge_code_button( 'content', false, array( '{test}' => 'Merge Code' ) );
+		$this->assertStringContains( '<div class="llms-merge-code-wrapper">', $ret );
+		$this->assertStringContains( '<div class="llms-merge-codes" data-target="content">', $ret );
+		$this->assertStringContains( '<li data-code="{test}">Merge Code</li>', $ret );
+		$this->assertStringContains( '</div><!-- .llms-merge-code-wrapper -->', $ret );
+
+	}
+
+	/**
+	 * Test lms_merge_code_button() on the `llms_certificate` screen.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_merge_code_button_certs() {
+
+		llms_tests_mock_current_screen( 'llms_certificate' );
+
+		$ret = llms_merge_code_button( 'content', false );
+
+		$this->assertStringContains( '<div class="llms-merge-code-wrapper">', $ret );
+		$this->assertStringContains( '<div class="llms-merge-codes" data-target="content">', $ret );
+
+		foreach ( llms_get_certificate_merge_codes() as $code => $desc ) {
+
+			$this->assertStringContains( '<li data-code="' . $code . '">' . $desc . '</li>', $ret );
+
+		}
+		$this->assertStringContains( '</div><!-- .llms-merge-code-wrapper -->', $ret );
+
+		llms_tests_reset_current_screen();
 
 	}
 
