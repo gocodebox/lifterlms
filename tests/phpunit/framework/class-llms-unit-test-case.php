@@ -600,4 +600,84 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Create an engagement post and template post
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $trigger_type    Type of trigger (see list below).
+	 * @param string  $engagement_type Type of engagement to be awarded (email, achievement, certificate).
+	 * @param integer $delay           Sending delay for the created engagement trigger.
+	 * @return WP_Post Post object for the created `llms_engagement` post type.
+	 */
+	public function create_mock_engagement( $trigger_type, $engagement_type, $delay = 0, $trigger_post = null, $engagement_post = null ) {
+
+		if ( ! $trigger_post ) {
+
+			/**
+			 * Trigger Types
+			 *
+			 * user_registration
+			 *
+			 * course_completed
+			 * lesson_completed
+			 * section_completed
+			 *
+			 * course_track_completed
+			 *
+			 * quiz_completed
+			 * quiz_passed
+			 * quiz_failed
+			 *
+			 * course_enrollment
+			 * membership_enrollment
+			 *
+			 * access_plan_purchased
+			 * course_purchased
+			 * membership_purchased
+			 */
+			switch ( $trigger_type ) {
+				case 'user_registration':
+					$trigger_post = 0;
+					break;
+
+				case 'course_completed':
+				case 'lesson_completed':
+				case 'section_completed':
+				case 'quiz_completed':
+				case 'quiz_passed':
+				case 'quiz_failed':
+				case 'course_enrollment':
+				case 'membership_enrollment':
+				case 'access_plan_purchased':
+				case 'course_purchased':
+				case 'membership_purchased':
+					$post_type    = str_replace( array( '_completed', '_enrollment', '_passed', '_failed', '_purchased' ), '', $trigger_type );
+					$post_type    = in_array( $post_type, array( 'access_plan', 'membership', 'quiz' ), true ) ? 'llms_' . $post_type : $post_type;
+					$trigger_post = $this->factory->post->create( compact( 'post_type' ) );
+					break;
+			}
+
+		}
+
+		if ( ! $engagement_post ) {
+
+			$engagement_create_func = "create_{$engagement_type}_template";
+			$engagement_post        = $this->$engagement_create_func();
+
+		}
+
+		return $this->factory->post->create_and_get( array(
+			'post_type'  => 'llms_engagement',
+			'meta_input' => array(
+				'_llms_trigger_type'            => $trigger_type,
+				'_llms_engagement_trigger_post' => $trigger_post,
+				'_llms_engagement_type'         => $engagement_type,
+				'_llms_engagement'              => $engagement_post,
+				'_llms_engagement_delay'        => $delay,
+			)
+		) );
+
+	}
+
 }
