@@ -76,4 +76,39 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 		$this->assertEquals( $expected_ids, $ids );
 	}
 
+	/**
+	 * Test _llms_add_user_info_to_merge_buttons()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	function test__llms_add_user_info_to_merge_buttons() {
+
+		$input  = array( '{code}' => 'Desc' );
+		$screen = get_current_screen();
+
+		$this->assertEquals( $input, _llms_add_user_info_to_merge_buttons( $input, $screen ) );
+
+		foreach ( array( 'llms_certificate', 'llms_email' ) as $post_type ) {
+
+			llms_tests_mock_current_screen( $post_type );
+
+			$screen = get_current_screen();
+			$res    = _llms_add_user_info_to_merge_buttons( $input, $screen );
+
+			$this->assertArrayHasKey( array_keys( $input )[0], $res );
+
+			$this->assertEquals( 'Email Address', $res['[llms-user user_email]'] );
+			$this->assertEquals( 'Address Line 2', $res['[llms-user llms_billing_address_2]'] );
+			$this->assertEquals( 'Phone Number', $res['[llms-user llms_phone]'] );
+
+			$this->assertFalse( array_key_exists( '[llms-user user_pass]', $res ) );
+
+			llms_tests_reset_current_screen();
+
+		}
+
+	}
+
 }
