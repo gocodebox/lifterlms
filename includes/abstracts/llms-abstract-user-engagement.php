@@ -131,10 +131,15 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		);
 	}
 
+	/**
+	 * Retrieve the user postmeta key recorded when the engagement is earned.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
 	protected function get_user_post_meta_key() {
-
 		return sprintf( '_%s_earned', $this->model_post_type );
-
 	}
 
 }
