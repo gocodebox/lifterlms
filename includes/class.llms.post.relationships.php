@@ -111,7 +111,7 @@ class LLMS_Post_Relationships {
 	 *
 	 * @param bool|null $trash Whether to go forward with trashing.
 	 * @param WP_Post   $post  Post object.
-	 * @return void
+	 * @return mixed
 	 */
 	public static function force_permanent_deletion_of_post_types( $trash, $post ) {
 
