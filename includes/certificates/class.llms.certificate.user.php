@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Certificates
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @deprecated [version] Class `LLMS_Certificate_User` is deprecated with no direct replacement.
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
@@ -92,7 +93,6 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * Constructor
 	 */
 	public function __construct() {
-
 		parent::__construct();
 	}
 
@@ -136,12 +136,14 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * Sets up data needed to generate certificate.
 	 *
-	 * @param    int $email_id   ID of Certificate
-	 * @param    int $person_id  ID of the user receiving the certificate
-	 * @param    int $lesson_id  ID of associated lesson
-	 * @return   void
-	 * @since    ??
-	 * @version  3.24.0
+	 * @since Unknown
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Allow empty titles and images.
+	 *
+	 * @param int $email_id  ID of Certificate.
+	 * @param int $person_id ID of the user receiving the certificate.
+	 * @param int $lesson_id ID of associated lesson.
+	 * @return void
 	 */
 	public function init( $email_id, $person_id, $lesson_id ) {
 		global $wpdb;
@@ -152,9 +154,9 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->certificate_template_id = $email_id;
 		$this->lesson_id               = $lesson_id;
 		$this->title                   = $email_content->post_title;
-		$this->certificate_title       = $email_meta['_llms_certificate_title'][0];
+		$this->certificate_title       = $email_meta['_llms_certificate_title'][0] ?? $email_content->post_title;
 		$this->content                 = $email_content->post_content;
-		$this->image                   = $email_meta['_llms_certificate_image'][0];
+		$this->image                   = $email_meta['_llms_certificate_image'][0] ?? '';
 		$this->userid                  = $person_id;
 		$this->user                    = get_user_meta( $person_id );
 		$this->user_data               = get_userdata( $person_id );
