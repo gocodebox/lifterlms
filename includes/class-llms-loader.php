@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.3.0
+ * @version [versionr]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -96,6 +96,7 @@ class LLMS_Loader {
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
+	 * @since [version] Include `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
 	 *
 	 * @return void
 	 */
@@ -107,6 +108,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-generator-posts.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-data.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-user-engagement.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-database-handler.php';
 
 		// Models.
@@ -140,6 +142,7 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-engagement-handler.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-db-ugrader.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
