@@ -74,4 +74,23 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 		return $fields;
 	}
 
+	/**
+	 * Save a metabox field.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $post_id WP_Post ID.
+	 * @param array $field   Metabox field array.
+	 * @return boolean
+	 */
+	protected function save_field( $post_id, $field ) {
+		/**
+		 * Skip saving _llms_student field, only used to award an engagement, it's not a post field.
+		 */
+		if ( isset( $field['id'] ) && $this->prefix . 'student' === $field['id'] ) {
+			return true;
+		}
+		parent::save_field( $post_id, $field );
+	}
+
 }
