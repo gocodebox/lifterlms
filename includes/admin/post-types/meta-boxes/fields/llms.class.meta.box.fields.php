@@ -1,11 +1,11 @@
 <?php
 /**
- * Abstract Metabox_Field
+ * Abstract Metabox_Field.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
- * @since ??
- * @version 3.24.0
+ * @since unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Contains base code for each of the Metabox Fields.
  *
- * @since ??
+ * @since unknown
  * @since 3.24.0 Unknown.
  */
 abstract class LLMS_Metabox_Field {
@@ -35,11 +35,12 @@ abstract class LLMS_Metabox_Field {
 	public $meta;
 
 	/**
-	 * outputs the head for each of the field types
+	 * Outputs the head for each of the field types.
 	 *
 	 * @todo  all the unset variables here should be defaulted somewhere else probably
-	 * @since    ??
-	 * @version  3.11.0
+	 * @since unknown
+	 * @since 3.11.0 Unknown.
+	 * @since [version] Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
 	 */
 	public function output() {
 
@@ -72,15 +73,19 @@ abstract class LLMS_Metabox_Field {
 
 		?>
 		<li class="<?php echo implode( ' ', $wrapper_classes ); ?>"<?php echo $controller . $controller_value; ?>>
+		<?php if ( ! empty( $this->field['desc'] ) || ! empty( $this->field['label'] ) ) : ?>
 			<div class="description <?php echo $this->field['desc_class']; ?>">
+			<?php if ( ! empty( $this->field['label'] ) ) : ?>
 				<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
+			<?php endif ?>
 				<?php echo $this->field['desc']; ?>
 				<?php
 				if ( isset( $this->field['required'] ) && $this->field['required'] ) :
 					?>
 					<em>(required)</em><?php endif; ?>
 			</div>
-			<?php
+		<?php endif; ?>
+		<?php
 	}
 
 	/**
