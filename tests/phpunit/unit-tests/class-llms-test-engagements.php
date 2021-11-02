@@ -5,11 +5,26 @@
  * @package LifterLMS/Tests
  *
  * @group engagements
+ * @group engagements_main
  *
  * @since 4.4.1
  * @since 4.4.3 Test different emails triggered by the same post are correctly sent.
  */
 class LLMS_Test_Engagements extends LLMS_UnitTestCase {
+
+	/**
+	 * Set up before class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+
+		parent::set_up_before_class();
+		llms()->certificates();
+
+	}
 
 	/**
 	 * Setup test case
@@ -47,6 +62,8 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/290
 	 *
+	 * @expectedDeprecated LLMS_Engagements::handle_email
+	 *
 	 * @return void
 	 */
 	public function test_delayed_enagagement_deleted() {
@@ -62,6 +79,8 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		$expected_action    = 'lifterlms_engagement_send_email';
 
 		foreach ( $users as $user ) {
+
+			llms_enroll_student( $user, $related_post_id );
 
 			$trigger_args  = array( $user, $related_post_id );
 			$expected_args = array( array( $user, $engagement_post_id, absint( $related_post_id ), $engagement->ID ) );
@@ -91,7 +110,10 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 			$this->assertTrue( as_has_scheduled_action( $expected_action, $expected_args, sprintf( 'llms_engagement_%d', $engagement->ID ) ) );
 
 			// Will not fire when it's triggered.
-			$this->assertFalse( $this->main->handle_email( $expected_args[0] ) );
+			$errs = $this->main->handle_email( $expected_args[0] );
+			$this->assertIsWPError( $errs );
+			$this->assertWPErrorCodeEquals( 'llms-engagement-post--status', $errs );
+
 		}
 
 		// Delete the engagement.
@@ -110,6 +132,9 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() as triggered by a related post type that's enrollable.
 	 *
 	 * @since 4.4.1
+	 * @since [version] Update test against new error codes and expect deprecated warning.
+	 *
+	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
 	 * @return void
 	 */
@@ -133,7 +158,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 		// Shouldn't send because of enrollment.
 		$send = $this->main->handle_email( array( $user->ID, $email, $course->get( 'id' ) ) );
 		$this->assertIsWPError( $send );
-		$this->assertWPErrorCodeEquals( 'llms_engagement_email_not_sent_enrollment', $send );
+		$this->assertWPErrorCodeEquals( 'llms-engagement-check-post--enrollment', $send );
 		$this->assertFalse( $mailer->get_sent() );
 
 		llms_enroll_student( $user->ID, $course->get( 'id' ) );
@@ -171,6 +196,9 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() as triggered by the same related post type with different emails.
 	 *
 	 * @since 4.4.3
+	 * @since [version] Expect deprecated warning.
+	 *
+	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
 	 * @return void
 	 */
@@ -230,6 +258,9 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() with no related post (as found during registration)
 	 *
 	 * @since 4.4.1
+	 * @since [version] Expect deprecated warning.
+	 *
+	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
 	 * @return void
 	 */
@@ -391,37 +422,6 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test should_process()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_should_process() {
-
-		foreach ( array( 'achievement', 'certificate', 'email' ) as $type ) {
-			$engagement_id = $this->factory->post->create( array( 'post_type' => 'llms_engagement' ) );
-			$args          = array( 0, 1, 2 );
-
-			// No 4th parameter passed so we'll process it.
-			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( $args, $type ) ) );
-
-			// Non-existent post ID as 4th param.
-			$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
-
-			// Valid, published engagement id.
-			$args[] = $engagement_id;
-			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
-
-			// Post exists but it's not published.
-			wp_trash_post( $engagement_id );
-			$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_process', array( array_merge( $args, array( $engagement_id + 1 ) ), $type ) ) );
-
-		}
-
-	}
-
-	/**
 	 * Test unschedule_delayed_engagements()
 	 *
 	 * @since [version]
@@ -526,81 +526,6 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 			$this->assertEqualsWithDelta( time() + ( DAY_IN_SECONDS * $delay ), $next, 5, $expected_action );
 
 		}
-
-	}
-
-	/**
-	 * Create an engagement post and template post
-	 *
-	 * @since [version]
-	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @param string  $trigger_type    Type of trigger (see list below).
-	 * @param string  $engagement_type Type of engagement to be awarded (email, achievement, certificate).
-	 * @param integer $delay           Sending delay for the created engagement trigger.
-	 * @return WP_Post Post object for the created `llms_engagement` post type.
-	 */
-	public function create_mock_engagement( $trigger_type, $engagement_type, $delay = 0 ) {
-
-		/**
-		 * Trigger Types
-		 *
-		 * user_registration
-		 *
-		 * course_completed
-		 * lesson_completed
-		 * section_completed
-		 *
-		 * course_track_completed
-		 *
-		 * quiz_completed
-		 * quiz_passed
-		 * quiz_failed
-		 *
-		 * course_enrollment
-		 * membership_enrollment
-		 *
-		 * access_plan_purchased
-		 * course_purchased
-		 * membership_purchased
-		 */
-		switch ( $trigger_type ) {
-			case 'user_registration':
-				$trigger_post = 0;
-				break;
-
-			case 'course_completed':
-			case 'lesson_completed':
-			case 'section_completed':
-			case 'quiz_completed':
-			case 'quiz_passed':
-			case 'quiz_failed':
-			case 'course_enrollment':
-			case 'membership_enrollment':
-			case 'access_plan_purchased':
-			case 'course_purchased':
-			case 'membership_purchased':
-				$post_type    = str_replace( array( '_completed', '_enrollment', '_passed', '_failed', '_purchased' ), '', $trigger_type );
-				$post_type    = in_array( $post_type, array( 'access_plan', 'membership', 'quiz' ), true ) ? 'llms_' . $post_type : $post_type;
-				$trigger_post = $this->factory->post->create( compact( 'post_type' ) );
-				break;
-		}
-
-		$engagement_create_func = "create_{$engagement_type}_template";
-		$engagement_post        = $this->$engagement_create_func();
-
-		return $this->factory->post->create_and_get( array(
-			'post_type'  => 'llms_engagement',
-			'meta_input' => array(
-				'_llms_trigger_type'            => $trigger_type,
-				'_llms_engagement_trigger_post' => $trigger_post,
-				'_llms_engagement_type'         => $engagement_type,
-				'_llms_engagement'              => $engagement_post,
-				'_llms_engagement_delay'        => $delay,
-			)
-		) );
 
 	}
 
