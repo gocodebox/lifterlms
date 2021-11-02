@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.0
  * @since 3.18.0 Unknown.
+ * @since [version] Use strict comparison.
  *
  * @param integer $id WP Post ID of the cert (optional if used within a loop).
  * @return string
@@ -25,7 +26,7 @@ function llms_get_certificate_content( $id = 0 ) {
 
 	$cert = LLMS()->certificates();
 
-	if ( 'llms_certificate' == get_post_type( $id ) ) {
+	if ( 'llms_certificate' === get_post_type( $id ) ) {
 
 		$cert->certs['LLMS_Certificate_User']->init( $id, get_current_user_id(), $id );
 		$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();

@@ -118,7 +118,7 @@ function _llms_add_user_info_to_merge_buttons( $codes, $screen ) {
 
 		foreach ( llms_get_user_information_fields_for_editor() as $field ) {
 
-			if ( 'password' == $field['id'] ) {
+			if ( 'password' === $field['id'] ) {
 				continue;
 			}
 
