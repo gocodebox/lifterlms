@@ -76,9 +76,32 @@ class LLMS_Engagements {
 			add_action( $action, array( $this, 'maybe_trigger_engagement' ), 777, 3 );
 		}
 
-		add_action( 'lifterlms_engagement_send_email', array( $this, 'handle_email' ), 10, 1 );
-		add_action( 'lifterlms_engagement_award_achievement', array( $this, 'handle_achievement' ), 10, 1 );
-		add_action( 'lifterlms_engagement_award_certificate', array( $this, 'handle_certificate' ), 10, 1 );
+		// Handlers are in charge of processing (awarding/sending) the email/cert/achievement.
+		$handlers = array(
+			'lifterlms_engagement_send_email'        => 'handle_email',
+			'lifterlms_engagement_award_achievement' => 'handle_achievement',
+			'lifterlms_engagement_award_certificate' => 'handle_certificate',
+		);
+		foreach ( $handlers as $action => $method ) {
+
+			/**
+			 * Adds an action for the deprecated method so that `remove_action()` calls
+			 * on the old method will continue to remove the new method.
+			 *
+			 * When we *remove* the deprecated methods we can remove this logic.
+			 */
+			add_action( $action, array( $this, $method ) );
+
+			// If the above action has been completely removed this will be false and we won't add the new method callback.
+			$priority = has_action( $action, array( $this, $method ) );
+			if ( false !== $priority ) {
+				// Remove the deprecated action.
+				remove_action( $action, array( $this, $method ) );
+				// Call the new action at the specified priority. If the old action was restored at a different priority this will retain that customization.
+				add_action( $action, array( 'LLMS_Engagement_Handler', $method ), $priority );
+			}
+
+		}
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );
 
@@ -243,10 +266,7 @@ class LLMS_Engagements {
 	 * Award an achievement
 	 *
 	 * @since 2.3.0
-	 * @since [version] Use `llms() in favor of deprecated `LLMS()`.
-	 *               Removed engagement debug logging.
-	 *               Skip triggering the engagement if triggered by an engagement post which is
-	 *               not published or no longer exists.
+	 * @deprecated [version] `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -259,20 +279,15 @@ class LLMS_Engagements {
 	 * @return void
 	 */
 	public function handle_achievement( $args ) {
-		if ( $this->should_process( $args, 'achievement' ) ) {
-			$achievements = llms()->achievements();
-			$achievements->trigger_engagement( $args[0], $args[1], $args[2] );
-		}
+		_deprecated_function( 'LLMS_Engagements::handle_achievement', '[version]', 'LLMS_Engagement_Handler::handle_achievement' );
+		LLMS_Engagement_Handler::handle_achievement( $args );
 	}
 
 	/**
 	 * Award a certificate
 	 *
 	 * @since 2.3.0
-	 * @since [version] Use `llms() in favor of deprecated `LLMS()`.
-	 *               Removed engagement debug logging.
-	 *               Skip triggering the engagement if triggered by an engagement post which is
-	 *               not published or no longer exists.
+	 * @deprecated [version] `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -285,10 +300,8 @@ class LLMS_Engagements {
 	 * @return void
 	 */
 	public function handle_certificate( $args ) {
-		if ( $this->should_process( $args, 'certificate' ) ) {
-			$certs = llms()->certificates();
-			$certs->trigger_engagement( $args[0], $args[1], $args[2] );
-		}
+		_deprecated_function( 'LLMS_Engagements::handle_certificate', '[version]', 'LLMS_Engagement_Handler::handle_certificate' );
+		LLMS_Engagement_Handler::handle_certificate( $args );
 	}
 
 	/**
@@ -303,8 +316,7 @@ class LLMS_Engagements {
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
 	 *              Fixed dupcheck log message and error message which reversed the email and person order.
-	 * @since [version] Removed engagement debug logging and added early return when triggered by a delayed engagement which
-	 *                is no longer published.
+	 * @deprecated [version] `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
 	 *
 	 * @param mixed[] $args {
 	 *     An array of arguments from the triggering hook.
@@ -318,49 +330,13 @@ class LLMS_Engagements {
 	 *                       the email has failed or is prevented.
 	 */
 	public function handle_email( $args ) {
-
-		if ( ! $this->should_process( $args, 'email' ) ) {
-			return false;
+		_deprecated_function( 'LLMS_Engagements::handle_email', '[version]', 'LLMS_Engagement_Handler::handle_email' );
+		$res = LLMS_Engagement_Handler::handle_email( $args );
+		if ( true === $res ) {
+			return $res;
 		}
-
-		$person_id  = $args[0];
-		$email_id   = $args[1];
-		$related_id = $args[2];
-		$meta_key   = '_email_sent';
-
-		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $email_id, $person_id, $related_id ? '#' . $related_id : 'N/A' );
-
-		if ( $related_id ) {
-
-			if ( in_array( get_post_type( $related_id ), llms_get_enrollable_status_check_post_types(), true ) && ! llms_is_user_enrolled( $person_id, $related_id ) ) {
-
-				// User is no longer enrolled in the triggering post. We should skip the send.
-				llms_log( $msg . ' ' . __( 'not sent due to user enrollment issues.', 'lifterlms' ), 'engagement-emails' );
-				return new WP_Error( 'llms_engagement_email_not_sent_enrollment', $msg, $args );
-			} elseif ( absint( $email_id ) === absint( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) ) {
-
-				// User has already received this email, don't send it again.
-				llms_log( $msg . ' ' . __( 'not sent because of dupcheck.', 'lifterlms' ), 'engagement-emails' );
-				return new WP_Error( 'llms_engagement_email_not_sent_dupcheck', $msg, $args );
-			}
-		}
-
-		// Setup the email.
-		$email = LLMS()->mailer()->get_email( 'engagement', compact( 'person_id', 'email_id', 'related_id' ) );
-		if ( $email && $email->send() ) {
-
-			if ( $related_id ) {
-				llms_update_user_postmeta( $person_id, $related_id, $meta_key, $email_id );
-			}
-
-			llms_log( $msg . ' ' . __( 'sent successfully.', 'lifterlms' ), 'engagement-emails' );
-			return true;
-		}
-
-		// Error sending email.
-		llms_log( $msg . ' ' . __( 'not sent due to email sending issues.', 'lifterlms' ), 'engagement-emails' );
-		return new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args );
-
+		// The new handler returns an array of errors in favor of a single error. Retain the initial return type for this deprecated version.
+		return $res[0];
 	}
 
 	/**
@@ -578,62 +554,6 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Determine if an engagement should be processed immediately prior to it being sent or awarded.
-	 *
-	 * This is important primarily for delayed engagements which may be associated with an engagement post
-	 * which has been trashed or drafted since the time of scheduling.
-	 *
-	 * @since [version]
-	 *
-	 * @param array  $args {
-	 *      Indexed array of arguments.
-	 *
-	 *     @type int        $0 WP_User ID.
-	 *     @type int        $1 WP_Post ID of the achievement template post.
-	 *     @type int|string $2 WP_Post ID of the related post that triggered the engagement or an empty string.
-	 *     @type int        $3 WP_Post ID of the engagement post.
-	 * }
-	 * @param string $type Engagement type, either "email", "certificate", or "achievement".
-	 * @return boolean Returns `true` if the engagement should be processed and `false` if it should be skipped.
-	 */
-	private function should_process( $args, $type ) {
-
-		// By default, don't skip engagements.
-		$should_process = true;
-
-		// Ensure we have an argument to check, engagements created prior to [version] will not have this argument.
-		if ( ! empty( $args[3] ) ) {
-
-			$post = get_post( $args[3] );
-			// Engagement can't be found (assume deleted) or it is an existing engagement that isn't published.
-			if ( ! $post || ( 'llms_engagement' === $post->post_type && 'publish' !== $post->post_status ) ) {
-				$should_process = false;
-			}
-		}
-
-		/**
-		 * Filters whether or not an engagement should be processed immediately prior to it being sent or awarded.
-		 *
-		 * The dynamic portion of this hook, `{$type}` refers to the type of engagement being processed, either "email",
-		 * "certificate", or "achievement".
-		 *
-		 * @since [version]
-		 *
-		 * @param boolean $should_process Whether or not the engagement should be processed.
-		 * @param array $args {
-		 *     Indexed array of arguments.
-		 *
-		 *     @type int        $0 WP_User ID.
-		 *     @type int        $1 WP_Post ID of the achievement template post.
-		 *     @type int|string $2 WP_Post ID of the related post that triggered the engagement or an empty string.
-		 *     @type int        $3 WP_Post ID of the engagement post.
-		 * }
-		 */
-		return apply_filters( "llms_proccess_{$type}_engagement", $should_process, $args );
-
-	}
-
-	/**
 	 * Triggers or schedules an engagement
 	 *
 	 * @since [version]
@@ -662,7 +582,18 @@ class LLMS_Engagements {
 
 		} else {
 
+			/**
+			 * Skip processing checks for immediate engagements.
+			 *
+			 * We know the user exists (because they're currently logged in) and we don't have to run
+			 * publish/existence checks on all the related posts because the `get_engagement()` query takes care
+			 * of that already.
+			 */
+			add_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
+
 			do_action( $data['handler_action'], $data['handler_args'] );
+
+			remove_filter( 'llms_skip_engagement_processing_checks', '__return_true' );
 
 		}
 
