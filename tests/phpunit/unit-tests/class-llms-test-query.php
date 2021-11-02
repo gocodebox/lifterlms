@@ -162,6 +162,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 * to mock the `$wp_query` and `$post` globals.
 	 *
 	 * @since 4.5.0
+	 * @since [version] Ensure a post author exists for tested posts.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -173,7 +174,8 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		global $post, $wp_query;
 		$temp = $post;
 
-		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$admin       = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$post_author = $this->factory->user->create();
 
 		// Not set.
 		$post = null;
@@ -189,7 +191,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $post_type => $expect ) {
 
-			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+			$post = $this->factory->post->create_and_get( compact( 'post_type', 'post_author' ) );
 			$wp_query->init();
 
 			// Logged out user.
