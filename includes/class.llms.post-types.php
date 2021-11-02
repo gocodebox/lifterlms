@@ -808,7 +808,7 @@ class LLMS_Post_Types {
 				'labels'              => array(
 					'name'               => __( 'Achievements', 'lifterlms' ),
 					'singular_name'      => __( 'Achievement', 'lifterlms' ),
-					'add_new'            => __( 'Add Achievement', 'lifterlms' ),
+					'add_new'            => __( 'Award Achievement', 'lifterlms' ),
 					'add_new_item'       => __( 'Add New Achievement', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
 					'edit_item'          => __( 'Edit Achievement', 'lifterlms' ),
@@ -892,7 +892,7 @@ class LLMS_Post_Types {
 				'labels'              => array(
 					'name'               => __( 'Certificates', 'lifterlms' ),
 					'singular_name'      => __( 'Certificate', 'lifterlms' ),
-					'add_new'            => __( 'Add Certificate', 'lifterlms' ),
+					'add_new'            => __( 'Award Certificate', 'lifterlms' ),
 					'add_new_item'       => __( 'Add New Certificate', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
 					'edit_item'          => __( 'Edit Certificate', 'lifterlms' ),

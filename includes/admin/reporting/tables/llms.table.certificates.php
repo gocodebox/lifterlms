@@ -18,6 +18,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Earned_Engagement_Reporting_Table;
+
 	/**
 	 * Unique ID for the Table
 	 *
