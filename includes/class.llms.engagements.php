@@ -100,7 +100,6 @@ class LLMS_Engagements {
 				// Call the new action at the specified priority. If the old action was restored at a different priority this will retain that customization.
 				add_action( $action, array( 'LLMS_Engagement_Handler', $method ), $priority );
 			}
-
 		}
 
 		add_action( 'deleted_post', array( $this, 'unschedule_delayed_engagements' ), 20, 2 );

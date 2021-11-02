@@ -130,7 +130,6 @@ function _llms_add_user_info_to_merge_buttons( $codes, $screen ) {
 			$codes[ $shortcode ] = $field['label'];
 
 		}
-
 	}
 
 	return $codes;

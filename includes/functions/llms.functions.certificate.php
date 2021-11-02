@@ -145,7 +145,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		 * @param int $template_id WP_Post ID of the certificate template.
 		 */
 		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
-		$id = absint( $starting_id );
+		$id          = absint( $starting_id );
 
 		// Don't increment the starting ID!
 		$increment = false;

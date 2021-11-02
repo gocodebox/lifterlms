@@ -59,7 +59,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 * either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
-	 	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+		 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 		 *
 		 * @param LLMS_User_Certificate $certificate Certificate class object.
 		 */
