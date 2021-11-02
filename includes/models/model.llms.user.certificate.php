@@ -160,7 +160,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 				'character' => '0',
 				'type'      => STR_PAD_LEFT,
 			),
-			$this,
+			$this
 		);
 
 		$raw_id = $this->get( 'sequential_id' );
@@ -213,7 +213,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'{email_address}'  => $user ? $user->user_email : '',
 			'{student_id}'     => $user ? $user_id : '',
 			// Certificate.
-			'{current_date}'   => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
+			'{current_date}'   => wp_date( get_option( 'date_format' ) ),
 			'{certificate_id}' => $this->get( 'id' ),
 			'{sequential_id}'  => $this->get_sequential_id(),
 		);
@@ -289,7 +289,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	public function sync() {
 
 		$template_id = $this->get( 'certificate_template' );
-		$check = LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' );
+		$check       = LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' );
 		if ( is_wp_error( $check ) ) {
 			return $check;
 		}
