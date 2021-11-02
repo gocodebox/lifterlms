@@ -32,7 +32,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 			'user_postmeta_prefix' => '_achievement',
 		),
 		'llms_my_certificate' => array(
-			'model' => 'LLMS_User_Certificate',
+			'model'                => 'LLMS_User_Certificate',
 			'user_postmeta_prefix' => '_certificate',
 		),
 	);
