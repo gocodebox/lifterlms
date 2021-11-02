@@ -125,7 +125,7 @@ class LLMS_Certificate {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . "::" . $name, '[version]' );
+		_deprecated_function( __CLASS__ . '::' . $name, '[version]' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}

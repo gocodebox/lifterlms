@@ -156,9 +156,9 @@ class LLMS_Engagement_Handler {
 	 *
 	 * @access private
 	 *
-	 * @param mixed $args         The filtered argument (not an array of arguments).
-	 * @param array $init_args    {
-	 *     An array of arguments used to initialize the old object.
+	 * @param mixed  $args         The filtered argument (not an array of arguments).
+	 * @param array  $init_args    {
+	 *      An array of arguments used to initialize the old object.
 	 *
 	 *     @type int        $0 WP_Post ID of the template post, either an `llms_certificate` or `llms_achievement`.
 	 *     @type int        $1 WP_User ID of the user.
