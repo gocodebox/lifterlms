@@ -15,12 +15,13 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+$svg = file_get_contents( LLMS_PLUGIN_DIR . '/assets/images/lifterlms-icon-grey.svg' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 ?>
 
 <div class="llms-merge-code-wrapper">
 
 	<button class="button llms-merge-code-button" type="button">
-		<?php echo file_get_contents( LLMS_PLUGIN_DIR . '/assets/images/lifterlms-icon-grey.svg' ); ?>
+		<?php echo $svg; ?>
 		<?php _e( 'Merge Codes', 'lifterlms' ); ?>
 	</button>
 

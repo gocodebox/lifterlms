@@ -194,7 +194,7 @@ class LLMS_Controller_Certificates {
 		header( 'Content-Type: application/octet-stream' );
 		header( 'Content-Disposition: attachment; filename="' . basename( $filepath ) . '"' );
 
-		readfile( $filepath );
+		readfile( $filepath ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
 
 		// Delete file after download.
 		ignore_user_abort( true );

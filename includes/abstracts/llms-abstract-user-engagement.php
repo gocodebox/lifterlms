@@ -126,7 +126,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			$wpdb->prepare(
 				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = %s",
 				$this->get( 'id' ),
-				$this->get_user_post_meta_key(),
+				$this->get_user_post_meta_key()
 			)
 		);
 	}
