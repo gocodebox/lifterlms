@@ -17,6 +17,9 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
+	 * @since [version] Expect deprecated warning and actually call the method instead of using the abstract method `earn_certificate()`.
+	 *
+	 * @expectedDeprecated LLMS_Certificates::handle_certificate()
 	 *
 	 * @return void
 	 */
@@ -26,13 +29,16 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$template = $this->create_certificate_template();
 		$related = $this->factory->post->create( array( 'post_type' => 'course' ) );
 
-		$earned = $this->earn_certificate( $user, $template, $related );
+		llms_enroll_student( $user, $related );
 
-		// User ID.
-		$this->assertEquals( $user, $earned[0] );
+		llms()->certificates()->trigger_engagement( $user, $template, $related );
 
-		// Related ID.
-		$this->assertEquals( $related, $earned[2] );
+		$student = llms_get_student( $user );
+
+		$earned = $student->get_certificates()[0];
+
+		// Related ID matches.
+		$this->assertEquals( $related, $earned->post_id );
 
 	}
 
@@ -54,7 +60,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		$cert_id = $earned[1];
 
-		$path = LLMS()->certificates()->get_export( $cert_id );
+		$path = llms()->certificates()->get_export( $cert_id );
 		$this->assertTrue( false !== strpos( $path, '/uploads/llms-tmp/certificate-mock-certificate-title' ) );
 		$this->assertTrue( false !== strpos( $path, '.html' ) );
 
