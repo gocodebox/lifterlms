@@ -4,6 +4,7 @@
  *
  * @group models
  * @group certificates
+ * @group engagements
  * @group LLMS_User_Certificate
  *
  * @since 4.5.0
@@ -13,7 +14,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Class name for the model being tested by the class
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_User_Certificate';
 
@@ -35,11 +36,28 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	protected function get_data() {
 		return array(
-			'certificate_title'    => 'Eaned Cert Title',
+			'certificate_title'    => 'Earned Cert Title',
 			'certificate_image'    => 1,
 			'certificate_template' => 2,
 			'allow_sharing'        => 'no',
+			'engagement'           => 3,
+			'related'              => 4,
+			'sequential_id'        => 5,
 		);
+	}
+
+	/**
+	 * Setup before class
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+
+		parent::set_up_before_class();
+		llms()->certificates();
+
 	}
 
 	/**
@@ -139,6 +157,34 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_sequential_id()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sequential_id() {
+
+		$this->create();
+
+		$ids = array(
+			1      => '000001',
+			25     => '000025',
+			302    => '000302',
+			4999   => '004999',
+			12032  => '012032',
+			932012 => '932012'
+		);
+
+		foreach( $ids as $raw => $formatted ) {
+
+			$this->obj->set( 'sequential_id', $raw );
+			$this->assertEquals( $formatted, $this->obj->get_sequential_id() );
+
+		}
+
+	}
 
 	/**
 	 * Test get_user_id()
@@ -178,6 +224,104 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$expect->user_id = $uid;
 		$expect->post_id = $related;
 		$this->assertEquals( $expect, $cert->get_user_postmeta() );
+
+	}
+
+	/**
+	 * Test merge_content()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_merge_content_and_sync() {
+
+		LLMS_Install::create_pages();
+
+		$user_info = array(
+			'first_name' => 'Walter',
+			'last_name' => 'Sobchak',
+			'user_email' => 'mergecontentcertuser@mail.tld',
+			'user_login' => 'mergecontentcertuser'
+		);
+
+		$user    = $this->factory->student->create_and_get( $user_info );
+		$related = $this->factory->post->create();
+
+		$content = '';
+		$expected_content = '';
+
+		$merge_codes = llms_get_certificate_merge_codes();
+		// Add user info shortcodes.
+		$merge_codes['[llms-user display_name]'] = 'Display Name';
+
+		foreach ( $merge_codes as $code => $desc ) {
+
+			// Build the actual content for the template.
+			$content .= "{$desc}: {$code}\n\n";
+
+			// Build the expected content of the earned cert after merging.
+			$expected = '';
+			switch ( $code ) {
+
+				case '{site_title}':
+					$expected = 'Test Blog';
+					break;
+				case '{site_url}':
+					$expected = get_permalink( llms_get_page_id( 'myaccount' ) );
+					break;
+				case '{current_date}':
+					$expected = date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) );
+					break;
+				case '{email_address}':
+					$expected = $user_info['user_email'];
+					break;
+				case '{first_name}':
+					$expected = $user_info['first_name'];
+					break;
+				case '{last_name}':
+					$expected = $user_info['last_name'];
+					break;
+				case '{student_id}':
+					$expected = $user->get( 'id' );
+					break;
+				case '{user_login}':
+					$expected = $user_info['user_login'];
+					break;
+				case '{certificate_id}':
+					$expected = '[[CERTID]]';
+					break;
+				case '{sequential_id}':
+					$expected = '000001';
+					break;
+
+				case '[llms-user display_name]':
+					$expected = "{$user_info['first_name']} {$user_info['last_name']}";
+					break;
+
+			}
+
+			$expected_content .= "{$desc}: {$expected}\n\n";
+
+		}
+
+		$template = $this->create_certificate_template( 'Title', $content, 456 );
+		$cert     = LLMS_Unit_Test_Util::call_method( 'LLMS_Engagement_Handler', 'create', array( 'certificate', $user->get( 'id' ), $template, $related ) );
+
+		// Add the cert id (not available until the earned post exists).
+		$expected_content = str_replace( '[[CERTID]]', $cert->get( 'id' ), $expected_content );
+
+		$this->assertEquals( $expected_content, $cert->get( 'content', true ) );
+
+
+		// Update the template and sync.
+		wp_update_post( array(
+			'ID' => $template,
+			'post_content' => 'Updated and {user_login}',
+		) );
+
+		$this->assertTrue( $cert->sync() );
+		$this->assertEquals( "Updated and {$user_info['user_login']}", $cert->get( 'content', true ) );
 
 	}
 
@@ -283,6 +427,23 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		// Enabled.
 		$cert->set( 'allow_sharing', 'yes' );
 		$this->assertTrue( $cert->is_sharing_enabled() );
+
+	}
+
+	/**
+	 * Test sync() when an error is encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_errors() {
+
+		$this->create();
+		$this->obj->set( 'certificate_template', $this->factory->post->create() + 1 );
+
+		// This is just testing that an error is returned, the rest of the conditions are tested against LLMS_Engagement_Handler::check_post() directly.
+		$this->assertIsWPError( $this->obj->sync() );
 
 	}
 

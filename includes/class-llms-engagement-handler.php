@@ -1,0 +1,466 @@
+<?php
+/**
+ * LLMS_Engagement_Handler class file.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since [version]
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Validate and generate or send engagement posts.
+ *
+ * Handles validation, dupchecking, and etc...
+ *
+ * For certificates and achievements the earned ("_my_") post type is created.
+ *
+ * For emails, the email is triggered and sending recorded in the user postmeta table.
+ *
+ * @since [version]
+ */
+class LLMS_Engagement_Handler {
+
+	/**
+	 * Create a new earned achievement or certificate.
+	 *
+	 * This method is called by handler callback functions run when engagements are triggered.
+	 *
+	 * Before arriving here the input data ($user_id, $template_id, etc...) has already been validated to ensure
+	 * that it exists and the engagement can be processed using this data.
+	 *
+	 * @since [version]
+	 *
+	 * @param string   $type          The engagement type, either "achievement" or "certificate".
+	 * @param int      $user_id       WP_User ID of the student earning the engagement.
+	 * @param int      $template_id   WP_Post ID of the template post (llms_achievement or llms_certificate).
+	 * @param string   $related_id    WP_Post ID of the triggering related post (course, lesson, etc...) or an empty string for user registration.
+	 * @param null|int $engagement_id WP_Post ID of the engagement post used to configure the trigger. A `null` value maybe be passed for legacy
+	 *                                delayed engagements which were created without an engagement ID or when manually awarding via the admin UI.
+	 * @return boolean|WP_Error[] $can_process An array of WP_Errors or true if the engagement can be processed.
+	 */
+	private static function can_process( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
+
+		/**
+		 * Skip engagement processing checks and force engagements to process.
+		 *
+		 * This filter is used internally to skip running checks for immediate engagements which cannot
+		 * suffer from the issues that these checks seek to avoid.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean  $skip_checks   Whether or not to skip checks.
+		 * @param string   $type          The engagement type, either "achievement" or "certificate".
+		 * @param int      $user_id       WP_User ID of the student earning the engagement.
+		 * @param int      $template_id   WP_Post ID of the template post (llms_achievement or llms_certificate).
+		 * @param string   $related_id    WP_Post ID of the triggering related post (course, lesson, etc...) or an empty string for user registration.
+		 * @param null|int $engagement_id WP_Post ID of the engagement post used to configure the trigger. A `null` value maybe be passed for legacy
+		 *                                delayed engagements which were created without an engagement ID or when manually awarding via the admin UI.
+		 * }
+		 */
+		$skip_checks = apply_filters( 'llms_skip_engagement_processing_checks', false, $type, $user_id, $template_id, $related_id, $engagement_id );
+		if ( $skip_checks ) {
+			return true;
+		}
+
+		$checks = array();
+
+		// User must exist.
+		$user_check = get_userdata( $user_id ) ? true : new WP_Error( 'llms-engagement-check-user--not-found', sprintf( __( 'User "%d" not found.', 'lifterlms' ), $user_id ) );
+		$checks[]   = $user_check;
+
+		// Template must be published and of the expected post type.
+		$checks[] = self::check_post( $template_id, "llms_{$type}" );
+
+		// Check related post (if one is passed).
+		if ( ! empty( $related_id ) ) {
+			$check_related = self::check_post( $related_id );
+			$checks[]      = $check_related;
+			// Check post enrollment if the check passed and there's no user issues.
+			if ( ! is_wp_error( $check_related ) && ! is_wp_error( $user_check ) ) {
+				$checks[] = self::check_post_enrollment( $related_id, $user_id );
+			}
+		}
+
+		// Ensure we have an argument to check, engagements created prior to v[version] will not have this argument.
+		if ( ! empty( $engagement_id ) ) {
+			$checks[] = self::check_post( $engagement_id, 'llms_engagement' );
+		}
+
+		// Find all the failed checks.
+		$errors = array_values( array_filter( $checks, 'is_wp_error' ) );
+
+		/**
+		 * Filters whether or not an engagement should be processed immediately prior to it being sent or awarded.
+		 *
+		 * The dynamic portion of this hook, `{$type}` refers to the type of engagement being processed, either "email",
+		 * "certificate", or "achievement".
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean|WP_Error[] $can_process   An array of WP_Errors or true if the engagement can be processed.
+		 * @param int                $user_id       WP_User ID of the student earning the engagement.
+		 * @param int                $template_id   WP_Post ID of the template post (llms_achievement or llms_certificate).
+		 * @param string             $related_id    WP_Post ID of the triggering related post (course, lesson, etc...) or an empty string for user registration.
+		 * @param null|int           $engagement_id WP_Post ID of the engagement post used to configure the trigger. A `null` value maybe be passed for legacy
+		 *                                          delayed engagements which were created without an engagement ID or when manually awarding via the admin UI.
+		 * }
+		 */
+		return apply_filters( "llms_proccess_{$type}_engagement", count( $errors ) ? $errors : true, $user_id, $template_id, $related_id, $engagement_id );
+
+	}
+
+	/**
+	 * Apply deprecated creation filters based on the engagement type.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $args Array of creation arguments.
+	 * @param string $type The engagement type, accepts "achievement" or "certificate".
+	 * @return array
+	 */
+	private static function do_deprecated_creation_filters( $args, $type ) {
+
+		$hooks = array(
+			'achievement' => array( 'lifterlms_new_achievement', 'llms_achievement_get_creation_args' ),
+			'certificate' => array( 'lifterlms_new_page', 'llms_certificate_get_creation_args' ),
+		);
+
+		$hook = $hooks[ $type ] ?? null;
+		if ( ! $hook ) {
+			return $args;
+		}
+
+		return apply_filters_deprecated( $hook[0], array( $args ), '[version]', $hook[1] );
+
+	}
+
+	/**
+	 * Create a new earned achievement or certificate.
+	 *
+	 * This method is called by handler callback functions run when engagements are triggered.
+	 *
+	 * Before arriving here the input data ($user_id, $template_id, etc...) has already been validated to ensure
+	 * that it exists and the engagement can be processed using this data.
+	 *
+	 * @since [version]
+	 *
+	 * @param string   $type          The engagement type, either "achievement" or "certificate".
+	 * @param int      $user_id       WP_User ID of the student earning the engagement.
+	 * @param int      $template_id   WP_Post ID of the template post (llms_achievement or llms_certificate).
+	 * @param string   $related_id    WP_Post ID of the triggering related post (course, lesson, etc...) or an empty string for user registration.
+	 * @param null|int $engagement_id WP_Post ID of the engagement post used to configure the trigger. A `null` value maybe be passed for legacy
+	 *                                delayed engagements which were created without an engagement ID or when manually awarding via the admin UI.
+	 * @return WP_Error|LLMS_User_Certificate|LLMS_User_Achievement
+	 */
+	private static function create( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
+
+		// Setup args, ultimately passed to `wp_insert_post()`.
+		$post_args = array(
+			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
+			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
+			'post_status'  => 'publish',
+			'post_author'  => $user_id,
+			'meta_input'   => array(
+				"_llms_{$type}_image"    => get_post_meta( $template_id, "_llms_{$type}_image", true ),
+				"_llms_{$type}_template" => $template_id,
+				'_llms_engagement'       => $engagement_id,
+				'_llms_related'          => $related_id,
+			),
+		);
+
+		// Do deprecated filters, if this needs to be filtered it can be filtered via `LLMS_Post_Model` filters.
+		$post_args = self::do_deprecated_creation_filters( $post_args, $type );
+
+		$model_class = sprintf( 'LLMS_User_%s', strtoupper( $type ) );
+		$generated   = new $model_class( 'new', $post_args );
+		if ( ! $generated || ! $generated->get( 'id' ) ) {
+			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
+		}
+
+		/**
+		 * Action run after a student has successfully earned an engagement.
+		 *
+		 * They dynamic portion of this hook, `{$type}`, refers to the engagement type,
+		 * either "achievement" or "certificate".
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int             $user_id       WP_User ID of the student who earned the engagement.
+		 * @param int             $generated_id  WP_Post ID of the generated engagement post.
+		 * @param string|int|null $related_id    WP_Post ID of the related post triggering generation, an empty string (in the event of a user registration trigger) or null if not supplied.
+		 * @param int|null        $engagement_id WP_Post ID of the engagement post used to configure engagement triggering.
+		 */
+		do_action(
+			"llms_user_earned_{$type}",
+			$user_id,
+			$generated->get( 'id' ),
+			$related_id,
+			$engagement_id
+		);
+
+		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
+		return new $model_class( $generated->get( 'id' ) );
+
+	}
+
+	/**
+	 * Validates a post id submitted to an engagement handler callback function.
+	 *
+	 * This ensures the following is true:
+	 *   + The post must exist
+	 *   + It must be published
+	 *   + Optionally, it must match the specified post type.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $post_id   WP_Post ID.
+	 * @param string $post_type The expected post type.
+	 * @return WP_Error|boolean Returns `true` if all checks pass, otherwise returns a `WP_Error`.
+	 */
+	public static function check_post( $post_id, $post_type = null ) {
+
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			// Translators: %d = the WP_Post ID.
+			return new WP_Error( 'llms-engagement-post--not-found', sprintf( __( 'Post "%d" not found.', 'lifterlms' ), $post_id ), compact( 'post_id' ) );
+		}
+
+		if ( 'publish' !== $post->post_status ) {
+			// Translators: %d = the WP_Post ID.
+			return new WP_Error( 'llms-engagement-post--status', sprintf( __( 'Post "%d" is not published.', 'lifterlms' ), $post_id ), compact( 'post' ) );
+		}
+
+		if ( $post_type && $post_type !== $post->post_type ) {
+			// Translators: %d = the WP_Post ID.
+			return new WP_Error( 'llms-engagement-post--type', sprintf( __( 'Post "%d" is not the expected post type.', 'lifterlms' ), $post_id ), compact( 'post' ) );
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Check that the specified user is enrolled in the given post.
+	 *
+	 * This check will return true when running against non-enrollable post types.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID.
+	 * @param int $user_id WP_User ID.
+	 * @return WP_Error|boolean Returns `true` if the check passes, otherwise returns a `WP_Error`.
+	 */
+	private static function check_post_enrollment( $post_id, $user_id ) {
+
+		$type  = get_post_type( $post_id );
+		$types = llms_get_enrollable_status_check_post_types();
+
+		// If the post type is an enrollable post type, check enrollment.
+		if ( in_array( $type, $types, true ) && ! llms_is_user_enrolled( $user_id, $post_id ) ) {
+			// Translators: %1$d = WP_User ID; %2$d = WP_Post ID.
+			return new WP_Error( 'llms-engagement-check-post--enrollment', sprintf( __( 'User "%1$d" is not enrolled in "%2$d".', 'lifterlms' ), $user_id, $post_id ), compact( 'post_id', 'user_id' ) );
+		}
+
+		return true;
+
+	}
+
+	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
+
+		$query = array(
+			'post_type'     => "llms_my_${type}",
+			'post_author'   => $user_id,
+			'post_per_page' => 1,
+			'no_found_rows' => true,
+			'fields'        => 'ids',
+			'meta_query'    => array(
+				'relation' => 'AND',
+				array(
+					'key'   => "_llms_{$type}_template",
+					'value' => $template_id,
+				),
+				array(
+					'key'   => '_llms_related',
+					'value' => $related_id,
+				),
+			),
+		);
+
+		$query = new WP_Query( $query );
+
+		/**
+		 * Filters whether or not the given user has already earned a certificate or achievement.
+		 *
+		 * The dynamic portion of this hook, `{$type}`, refers to the type of engagement, either
+		 * "achievement" or "certificate".
+		 *
+		 * This filter should return `true` or a `WP_Error` to denote the certificate has already been earned and
+		 * `false` to denote that it has not.
+		 *
+		 * If `true` is returned the default error message will be used.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $is_duplicate Whether or not the engagement has already been earned.
+		 */
+		$is_duplicate = apply_filters(
+			"llms_earned_{$type}_dupcheck",
+			( count( $query->posts ) === 1 ),
+			$user_id,
+			$template_id,
+			$related_id,
+			$engagement_id
+		);
+
+		if ( true === $is_duplicate ) {
+			$is_duplicate = new WP_Error(
+				'llms-engagement--is-duplicate',
+				// Translators: %s = the WP_User ID.
+				sprintf( __( 'User "%" has already earned this engagement.', 'lifterlms' ), $user_id ),
+				compact( 'type', 'user_id', 'template_id', 'related_id', 'engagement_id' )
+			);
+		}
+
+		return $is_duplicate;
+
+	}
+
+	private static function get_unmerged_template_content( $template_id, $type ) {
+
+		$template = get_post( $template_id );
+		$content  = $template->post_content;
+
+		if ( 'achievement' === $type ) {
+			// I believe this exists for backwards compat but I didn't dig through the code history.
+			$content = ! empty( $content ) ? $content : get_post_meta( $template_id, '_llms_achievement_content', true );
+		}
+
+		return $content;
+
+	}
+
+	private static function handle( $type, $args ) {
+
+		$can_process = self::can_process( $type, ...$args );
+		if ( true !== $can_process ) {
+			return $can_process;
+		}
+
+		$dupcheck = self::dupcheck( $type, ...$args );
+		if ( true !== $dupcheck ) {
+			return $dupcheck;
+		}
+
+		return self::create( $type, ...$args );
+
+	}
+
+	/**
+	 * Award an achievement
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args {
+	 *     Indexed array of arguments.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the achievement template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
+	 * }
+	 * @return WP_Error[]|LLMS_User_Achievement Returns an array of error objects on failure or the generated achievement object on success.
+	 */
+	public static function handle_achievement( $args ) {
+		return self::handle( 'achievement', $args );
+	}
+
+	/**
+	 * Award an certificate
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args {
+	 *     Indexed array of arguments.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the certificate template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
+	 * }
+	 * @return WP_Error[]|LLMS_User_Certificate Returns an array of error objects on failure or the generated certificate object on success.
+	 */
+	public static function handle_certificate( $args ) {
+		return self::handle( 'certificate', $args );
+	}
+
+	/**
+	 * Send an email engagement
+	 *
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
+	 *
+	 * @since 2.3.0
+	 * @since 3.8.0 Unknown.
+	 * @since 4.4.1 Use postmeta helpers for dupcheck and postmeta insertion.
+	 *              Add a return value in favor of `void`.
+	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
+	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
+	 *              Fixed dupcheck log message and error message which reversed the email and person order.
+	 * @since [version] Moved from `LLMS_Engagements` class.
+	 *                Removed engagement debug logging.
+	 *                Ensure related post, email template, and engagement all exist and are published before processing.
+	 *
+	 * @param mixed[] $args {
+	 *     An array of arguments from the triggering hook.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the email.
+	 *     @type int|string $2 WP_Post ID of the related triggering post or an empty string for engagements with no related post.
+	 *     @type int        $3 WP_Post ID of the engagement post.
+	 * }
+	 * @return bool|WP_Error[] Returns `true` on success and array of error objects when the email has failed or is prevented.
+	 */
+	public static function handle_email( $args ) {
+
+		$can_process = self::can_process( 'email', ...$args );
+		if ( true !== $can_process ) {
+			return $can_process;
+		}
+
+		list( $person_id, $email_id, $related_id ) = $args;
+
+		$meta_key = '_email_sent';
+
+		$msg = sprintf( __( 'Email #%1$d to user #%2$d triggered by %3$s', 'lifterlms' ), $email_id, $person_id, $related_id ? '#' . $related_id : 'N/A' );
+
+		if ( $related_id && absint( $email_id ) === absint( llms_get_user_postmeta( $person_id, $related_id, $meta_key ) ) ) {
+
+			// User has already received this email, don't send it again.
+			llms_log( $msg . ' ' . __( 'not sent because of dupcheck.', 'lifterlms' ), 'engagement-emails' );
+			return array( new WP_Error( 'llms_engagement_email_not_sent_dupcheck', $msg, $args ) );
+
+		}
+
+		// Setup the email.
+		$email = LLMS()->mailer()->get_email( 'engagement', compact( 'person_id', 'email_id', 'related_id' ) );
+		if ( $email && $email->send() ) {
+
+			if ( $related_id ) {
+				llms_update_user_postmeta( $person_id, $related_id, $meta_key, $email_id );
+			}
+
+			llms_log( $msg . ' ' . __( 'sent successfully.', 'lifterlms' ), 'engagement-emails' );
+			return true;
+		}
+
+		// Error sending email.
+		llms_log( $msg . ' ' . __( 'not sent due to email sending issues.', 'lifterlms' ), 'engagement-emails' );
+		return array( new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args ) );
+
+	}
+
+
+
+}
