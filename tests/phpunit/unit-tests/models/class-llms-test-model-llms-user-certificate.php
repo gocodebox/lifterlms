@@ -326,6 +326,38 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_merge_data() to ensure deprecated hooks run when they're attached.
+	 *
+	 * @since [version]
+	 *
+	 * @expectedDeprecated llms_certificate_merge_codes
+	 * @expectedDeprecated LLMS_Certificate_User::init
+	 *
+	 * @return void
+	 */
+	public function test_get_merge_data_deprecated_hook() {
+
+		$uid      = $this->factory->student->create();
+		$earned   = $this->earn_certificate( $uid, $this->create_certificate_template(), $this->factory->post->create() );
+
+		$cert_id  = $earned[1];
+		$cert = new LLMS_User_Certificate( $cert_id );
+
+
+		$handler = function( $codes, $old_cert ) {
+			$this->assertInstanceOf( 'LLMS_Certificate_User', $old_cert );
+			return $codes;
+		};
+
+		add_filter( 'llms_certificate_merge_codes', $handler, 10, 2 );
+
+		LLMS_Unit_Test_Util::call_method( $cert, 'get_merge_data' );
+
+		remove_filter( 'llms_certificate_merge_codes', $handler, 10, 2 );
+
+	}
+
+	/**
 	 * Test can_user_manage()
 	 *
 	 * @since 4.5.0

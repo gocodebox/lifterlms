@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -181,3 +181,23 @@ function llms_get_minimum_password_strength() {
 	llms_deprecated_function( 'llms_get_minimum_password_strength', '5.0.0' );
 	return apply_filters( 'llms_get_minimum_password_strength', 'strong' );
 }
+
+/**
+ * Backwards compatibility for the deprecated "certificate_title" meta key.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param string                $val  Default value (an empty string).
+ * @param LLMS_User_Certificate $cert User certificate object.
+ * @return string
+ */
+function llms_cert_deprecated_meta_title( $val, $cert ) {
+	_deprecated_function( 'LLMS_User_Certificate meta key "certificate_title"', '[version]', 'Use the WP_Post object property "post_title" instead.' );
+	return $cert->get( 'title' );
+}
+add_filter( 'llms_get_certificate_certificate_title', 'llms_cert_deprecated_meta_title', 10, 2 );

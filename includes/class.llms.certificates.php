@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -136,6 +136,7 @@ class LLMS_Certificates {
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
+	 * @deprecated [version] `LLMS_Certificates::handle_certificate()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $certificate_id  WP_Post ID of the certificate template.
@@ -143,8 +144,8 @@ class LLMS_Certificates {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		$certificate = $this->certs['LLMS_Certificate_User'];
-		$certificate->trigger( $person_id, $certificate_id, $related_post_id );
+		_deprecated_function( 'LLMS_Certificates::handle_certificate()', '[version]', 'LLMS_Engagement_Handler::handle_certificate()' );
+		LLMS_Engagement_Handler::handle_certificate( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
 	/**
@@ -194,6 +195,7 @@ class LLMS_Certificates {
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
+	 * @since [version] Use the certificate post title in favor of the deprecated meta value `_llms_certificate_title`.
 	 *
 	 * @param int  $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache      If true will check for existence of a cached version of the file first.
@@ -211,7 +213,7 @@ class LLMS_Certificates {
 		$cert = new LLMS_User_Certificate( $certificate_id );
 
 		// Translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'certificate_title' ), wp_generate_password( 12, false, false ) ) );
+		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'title' ), wp_generate_password( 12, false, false ) ) );
 		$filename .= '.html';
 		$filepath  = LLMS_TMP_DIR . $filename;
 

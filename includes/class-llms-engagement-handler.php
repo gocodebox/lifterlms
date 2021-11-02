@@ -138,6 +138,59 @@ class LLMS_Engagement_Handler {
 	}
 
 	/**
+	 * Handles deprecated filters which have additional parameters from now deprecated classes.
+	 *
+	 * If there are no callbacks attached to the deprecated hook the original $args is returned and no
+	 * warnings will be emitted.
+	 *
+	 * This instantiates an initialized instance of the deprecated class and passes it with the original filtered
+	 * argument through `apply_filters_deprecated`. This results in several deprecation warnings being emitted
+	 * but ensures that these filters can continue to work in a backwards compatible manner.
+	 *
+	 * This method is a public method but it is intentionally marked as private to denote its temporary lifespan. It will
+	 * be removed alongside the deprecated filters it calls as it will no longer be necessary when the deprecated
+	 * hooks are fully removed. As such, this method is considered private for the purposes of semantic versioning and
+	 * will removed in the next major release without being officially deprecated.
+	 *
+	 * @since [version]
+	 *
+	 * @access private
+	 *
+	 * @param mixed $args         The filtered argument (not an array of arguments).
+	 * @param array $init_args    {
+	 *     An array of arguments used to initialize the old object.
+	 *
+	 *     @type int        $0 WP_Post ID of the template post, either an `llms_certificate` or `llms_achievement`.
+	 *     @type int        $1 WP_User ID of the user.
+	 *     @type int|string $2 WP_Post ID of the related post or an empty string during user registration.
+	 * }
+	 * @param string $type        The engagement type, either "achievement" or "certificate".
+	 * @param string $deprecated  The deprecated filter to call.
+	 * @param string $replacement The replacement hook.
+	 * @return mixed
+	 */
+	public static function do_deprecated_filter( $args, $init_args, $type, $deprecated, $replacement ) {
+
+		if ( has_filter( $deprecated ) ) {
+
+			$old_class = sprintf( 'LLMS_%s_User', strtoupper( $type ) );
+
+			/**
+			 * Retains deprecated functionality where an instance of LLMS_Certificate_User is passed as a parameter to the filter.
+			 *
+			 * Since there's no good way to recreate that functionality we'll handle it in this manner
+			 * until `LLMS_Certificate_User` is removed.
+			 */
+			$old_obj = new $old_class();
+			$old_obj->init( ...$init_args );
+			$args = apply_filters_deprecated( $deprecated, array( $args, $old_obj ), '[version]', $replacement );
+		}
+
+		return $args;
+
+	}
+
+	/**
 	 * Create a new earned achievement or certificate.
 	 *
 	 * This method is called by handler callback functions run when engagements are triggered.
@@ -180,6 +233,10 @@ class LLMS_Engagement_Handler {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
 		}
 
+		// I think this should be removed but there's a lot of places where queries to _certificate_earned or _achievement_earned exist and it's the documented way of retrieving this data.
+		// Internally we should switch to stop relying on this and figure out a way to phase out the usage of the user postmeta data but for now I think we'll continue storing it.
+		llms_update_user_postmeta( $user_id, $related_id, "_{$type}_earned", $generated->get( 'id' ) );
+
 		/**
 		 * Action run after a student has successfully earned an engagement.
 		 *
@@ -187,6 +244,7 @@ class LLMS_Engagement_Handler {
 		 * either "achievement" or "certificate".
 		 *
 		 * @since 1.0.0
+		 * @since [version] Added the `$engagement_id` parameter.
 		 *
 		 * @param int             $user_id       WP_User ID of the student who earned the engagement.
 		 * @param int             $generated_id  WP_Post ID of the generated engagement post.
@@ -268,6 +326,18 @@ class LLMS_Engagement_Handler {
 
 	}
 
+	/**
+	 * Check if the engagement for the specified template and related post has already been earned / awarded to a given user.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type          Engagement type, either "certificate" or "achievement".
+	 * @param int    $user_id       WP_User ID of the user earning the engagement.
+	 * @param int    $template_id   WP_Post ID of the template post, either an `llms_certificate` or an `llms_achievement`.
+	 * @param string $related_id    WP_Post ID of the related post or an empty string during user registration.
+	 * @param int    $engagement_id WP_Post ID of the `llms_engagement` post type.
+	 * @return boolean Returns `true` if the dupcheck passes otherwise returns an error object.
+	 */
 	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
 		$query = array(
@@ -291,6 +361,16 @@ class LLMS_Engagement_Handler {
 
 		$query = new WP_Query( $query );
 
+		$is_duplicate = ( count( $query->posts ) === 1 );
+
+		$is_duplicate = self::do_deprecated_filter(
+			$is_duplicate,
+			array( $template_id, $user_id, $related_id ),
+			$type,
+			"llms_{$type}_has_user_earned",
+			"llms_earned_{$type}_dupcheck",
+		);
+
 		/**
 		 * Filters whether or not the given user has already earned a certificate or achievement.
 		 *
@@ -308,7 +388,7 @@ class LLMS_Engagement_Handler {
 		 */
 		$is_duplicate = apply_filters(
 			"llms_earned_{$type}_dupcheck",
-			( count( $query->posts ) === 1 ),
+			$is_duplicate,
 			$user_id,
 			$template_id,
 			$related_id,
@@ -324,7 +404,7 @@ class LLMS_Engagement_Handler {
 			);
 		}
 
-		return $is_duplicate;
+		return true;
 
 	}
 
@@ -460,7 +540,5 @@ class LLMS_Engagement_Handler {
 		return array( new WP_Error( 'llms_engagement_email_not_sent_error', $msg, $args ) );
 
 	}
-
-
 
 }

@@ -38,7 +38,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'certificate_title'    => 'string',
 		'certificate_image'    => 'absint',
 		'certificate_template' => 'absint',
 		'engagement'           => 'absint',
@@ -218,17 +217,13 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'{sequential_id}'  => $this->get_sequential_id(),
 		);
 
-		if ( $user_id ) {
-			/**
-			 * Retains deprecated functionality where an instance of LLMS_Certificate_User is passed as a parameter to the filter.
-			 *
-			 * Since there's no good way to recreate that functionality we'll handle it in this manner
-			 * until `LLMS_Certificate_User` is removed.
-			 */
-			$old_cert = new LLMS_Certificate_User();
-			$old_cert->init( $template_id, $user_id, $related_id );
-			$codes = apply_filters_deprecated( 'llms_certificate_merge_codes', array( $codes, $old_cert ), '[version]', 'llms_certificate_merge_data' );
-		}
+		$codes = LLMS_Engagement_Handler::do_deprecated_filter(
+			$codes,
+			array( $template_id, $user_id, $related_id ),
+			'certificate',
+			'llms_certificate_merge_codes',
+			'llms_certificate_merge_data'
+		);
 
 		return apply_filters( 'llms_certificate_merge_data', $codes, $user_id, $template_id, $related_id );
 
