@@ -29,11 +29,11 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	private $allowed_post_types = array(
 		'llms_my_achievement' => array(
 			'model'                => 'LLMS_User_Achievement',
-			'user_postmeta_prefix' =>'_achievement',
+			'user_postmeta_prefix' => '_achievement',
 		),
 		'llms_my_certificate' => array(
 			'model' => 'LLMS_User_Certificate',
-			'user_postmeta_prefix' =>'_certificate',
+			'user_postmeta_prefix' => '_certificate',
 		),
 	);
 
@@ -92,7 +92,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	 */
 	protected function save_field( $post_id, $field ) {
 
-		if ( $this->prefix . 'student' === $field['id'] && isset( $_POST[$field['id']] ) ) {
+		if ( $this->prefix . 'student' === $field['id'] && isset( $_POST[ $field['id'] ] ) ) { //phpcs:ignore -- nonce already verified in `LLMS_Admin_Metabox::save`.
 			$this->log_earned_engament( llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_NUMBER_INT ), $post_id );
 		}
 
@@ -128,7 +128,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 				",
 				array(
 					$user_id,
-					$post_id
+					$post_id,
 				)
 			)
 		);
@@ -168,7 +168,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 			 * Notifications uses this
 			 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
 			 */
-			do_action( "llms_user_earned$prefix" , $user_id, $post_id, 0 );
+			do_action( "llms_user_earned$prefix", $user_id, $post_id, 0 );
 
 		}
 
