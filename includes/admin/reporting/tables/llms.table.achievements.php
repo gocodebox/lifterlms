@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
+
+	use LLMS_Trait_Earned_Engagement_Reporting_Table;
 
 	/**
 	 * Unique ID for the Table
@@ -33,16 +35,23 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	protected $student = null;
 
 	/**
-	 * Get HTML for buttons in the actions cell of the table
+	 * Get HTML for buttons in the actions cell of the table.
 	 *
-	 * @param    int $achievement_id WP Post ID of the achievement post.
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 * @since [version] Show a button to edit earned achievements.
+	 *
+	 * @param int $achievement_id WP Post ID of the achievement post.
+	 * @return void
 	 */
 	private function get_actions_html( $achievement_id ) {
 		ob_start();
 		?>
+		<?php if ( get_edit_post_link( $achievement_id ) ) : ?>
+		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $achievement_id ) ); ?>">
+			<?php _e( 'Edit', 'lifterlms' ); ?>
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</a>
+		<?php endif; ?>
 		<form action="" method="POST" style="display:inline;">
 
 			<button type="submit" class="llms-button-danger small" id="llms_delete_achievement" name="llms_delete_achievement">
