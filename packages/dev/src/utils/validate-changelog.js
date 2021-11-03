@@ -97,6 +97,39 @@ function isLinkValid( link ) {
 }
 
 /**
+ * Determine if the supplied entry is valid.
+ *
+ * A valid entry can be single or multiple lines.
+ *
+ * A single-line must:
+ * 	 + Begin with a capital letter (the bullet character should be omitted).
+ * 	 + End with a full stop: period, question mark, or exclamation point.
+ *
+ * A multi-line:
+ *   + Each line must start with a plus sign bullet character: `+`.
+ *   + A single space must follow the bullet.
+ *   + The remaining portion of each line follows the same rules as a single-line entry.
+ *   + Additionally, a line may end in a colon.
+ *
+ * @since [version]
+ *
+ * @param {string} entry The changelog entry string.
+ * @return {boolean} Returns `true` if the entry is valid and `false` otherwise.
+ */
+function isEntryValid( entry ) {
+	const singleLineRegex = /^[A-Z].*[.!?]$/,
+		multiLineRegex = /^(  )?[+] [A-Z].*[:.!?]$/;
+
+	const test = ( line, regex ) => null !== line.match( regex );
+
+	if ( entry.includes( '\n' ) ) {
+		return entry.split( '\n' ).filter( ( line ) => line ).every( ( line ) => test( line, multiLineRegex ) );
+	}
+
+	return test( entry, singleLineRegex );
+}
+
+/**
  * Object describing changelog validation issues found with a specified ChangelogEntry.
  *
  * @typedef {Object} ChangelogValidationIssues
@@ -125,6 +158,11 @@ function getChangelogValidationIssues( logEntry, formatting = true ) {
 			errors.push( `Missing required field: ${ highlight( key, formatting ) }.` );
 		}
 	} );
+
+	// Validate the entry.
+	if ( logEntry.entry && ! isEntryValid( logEntry.entry ) ) {
+		errors.push( `The submitted entry text did not pass validation.` );
+	}
 
 	// Validate enum values.
 	[ 'significance', 'type' ].forEach( ( key ) => {
@@ -175,6 +213,7 @@ function getChangelogValidationIssues( logEntry, formatting = true ) {
 
 module.exports = {
 	isAttributionValid,
+	isEntryValid,
 	isLinkValid,
 	getChangelogValidationIssues,
 };

@@ -1,0 +1,17 @@
+significance: minor
+type: deprecated
+entry: >
+  + The `lifterlms_register_post_type_llms_engagement` is deprecated in favor of
+  `lifterlms_register_post_type_engagement`.
+
+  + The `lifterlms_register_post_type_llms_achievement` is deprecated in favor of `lifterlms_register_post_type_achievement`.
+
+  + The `lifterlms_register_post_type_llms_certificate` is deprecated in favor of `lifterlms_register_post_type_certificate`.
+
+  + The `lifterlms_register_post_type_llms_my_certificate` is deprecated in favor of `lifterlms_register_post_type_my_certificate`.
+
+  + The `lifterlms_register_post_type_llms_email` is deprecated in favor of `lifterlms_register_post_type_email`.
+
+  + The `lifterlms_register_post_type_llms_coupon` is deprecated in favor of `lifterlms_register_post_type_coupon`.
+
+  + The `lifterlms_register_post_type_llms_voucher` is deprecated in favor of `lifterlms_register_post_type_voucher`.

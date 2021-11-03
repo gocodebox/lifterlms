@@ -86,8 +86,15 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 		entry += '.';
 	}
 
-	// The line is a list item.
-	let line = `+ ${ entry }`;
+	let line = '';
+
+	// Single entry, add a bullet.
+	if ( ! entry.includes( '\n' ) ) {
+		line += '+ ';
+	}
+
+	// Add the line(s).
+	line += entry;
 
 	// Add formatted attribution links.
 	if ( attributions.length ) {
@@ -197,8 +204,9 @@ module.exports = {
 		[ '-l, --log-file <file>', 'The changelog file.', 'CHANGELOG.md' ],
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
+		[ '-D, --dry-run', 'Output what would be written to the changelog instead of writing it to the changelog file.' ],
 	],
-	action: ( { dir, preid, force, logFile, date, links } ) => {
+	action: ( { dir, preid, force, logFile, date, links, dryRun } ) => {
 		try {
 			date = formatDate( date );
 		} catch ( e ) {
@@ -233,15 +241,21 @@ module.exports = {
 			process.exit( 1 );
 		}
 
-		logResult( `Writing changelog for version ${ chalk.bold( version ) }:` );
+		logResult( `${ dryRun ? 'Generating' : 'Writing' } changelog for version ${ chalk.bold( version ) }.` );
 
-		const logFileContents = readFileSync( logFile, 'utf8' ),
+		const logFileContents = readFileSync( logFile, 'utf8' );
+
+		const
 			logFileParts = logFileContents.split( '\n\n' ),
 			[ header, ...body ] = logFileParts,
 			items = formatChangelogVersionEntry( version, date, entries, links ).join( '\n' ) + '\n';
 
-		writeFileSync( logFile, [ header, items, ...body ].join( '\n\n' ) );
+		if ( dryRun ) {
+			console.log( items );
+			process.exit( 0 );
+		}
 
-		logResult( 'Changelog for version ${ chalk.bold( version ) } written.' );
+		writeFileSync( logFile, [ header, items, ...body ].join( '\n\n' ) );
+		logResult( `Changelog for version ${ chalk.bold( version ) } written.` );
 	},
 };

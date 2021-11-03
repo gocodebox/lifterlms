@@ -2,7 +2,7 @@ const
 	chalk = require( 'chalk' ),
 	path = require( 'path' ),
 	YAML = require( 'yaml' ),
-	{ getChangelogEntries, getChangelogValidationIssues } = require( '../../utils' );
+	{ getChangelogEntries, getChangelogValidationIssues, logResult } = require( '../../utils' );
 
 /**
  * Retrieve a symbol describing the status type.
@@ -73,7 +73,17 @@ module.exports = {
 		[ '-s, --silent', 'Skip validation output and communicate validation status only through the exit status of the command.' ],
 	],
 	action: ( entries, { dir, silent, format } ) => {
-		let all = getChangelogEntries( dir );
+		let all;
+
+		try {
+			all = getChangelogEntries( dir );
+		} catch ( { name, message } ) {
+			logResult( `${ name }: ${ message }`, 'error' );
+			if ( 'YAMLSyntaxError' === name ) {
+				console.log( chalk.red( '       This usually means that one or more existing changelog entries contains invalid YAML.' ) );
+			}
+			process.exit( 1 );
+		}
 
 		// Reduce the list to only the requested entries.
 		if ( entries.length ) {

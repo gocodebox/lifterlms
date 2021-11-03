@@ -15,7 +15,7 @@ const
 	logResult = require( './log-result' ),
 	parseChangelogFile = require( './parse-changelog-file' ),
 	pushDistFile = require( './push-dist-file' ),
-	{ isAttributionValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
+	{ isAttributionValid, isEntryValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
 
 module.exports = {
 	ChangelogEntry,
@@ -34,6 +34,7 @@ module.exports = {
 	hasConfig,
 	logResult,
 	isAttributionValid,
+	isEntryValid,
 	isLinkValid,
 	getChangelogValidationIssues,
 	parseChangelogFile,

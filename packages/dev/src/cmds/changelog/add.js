@@ -10,6 +10,7 @@ const
 		logResult,
 		execSync,
 		isAttributionValid,
+		isEntryValid,
 		isLinkValid,
 		getChangelogValidationIssues,
 	} = require( '../../utils' ),
@@ -107,8 +108,9 @@ module.exports = {
 		[ '-e, --entry <entry>', 'The changelog entry.' ],
 		[ '-t, --title <title>', 'Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the title if the title already exists.', defaultTitle ],
 		[ '-i, --interactive', 'Create the changelog interactively.', false ],
+		[ '-E, --use-editor', 'When creating a changelog interactively, will open an editor to write the entry, This is useful when creating multi-line entries.' ],
 	],
-	action: ( { significance, type, comment, entry, interactive, links, attributions, dir, title } ) => {
+	action: ( { significance, type, comment, entry, interactive, links, attributions, dir, title, useEditor } ) => {
 		if ( ! entry && ! interactive ) {
 			logResult( 'A changelog entry is required.', 'error' );
 			process.exit( 1 );
@@ -146,7 +148,7 @@ module.exports = {
 					message: 'Linked Issues [Separate multiple issues with a comma]',
 					default: links ? links.join( ', ' ) : null,
 					filter: ( vals ) => commasToArray( vals ).map( coerceLink ),
-					validate: ( userVal ) => userVal.every( ( val ) => isLinkValid( val ) ) ? true : 'Invalid link',
+					validate: ( userVal ) => userVal.every( ( val ) => isLinkValid( val ) ) ? true : chalk.red( 'Error: Invalid link' ),
 				},
 				{
 					type: 'input',
@@ -154,14 +156,14 @@ module.exports = {
 					message: 'Attributions [Separate multiple individuals with a comma]',
 					default: attributions ? attributions.join( ', ' ) : null,
 					filter: commasToArray,
-					validate: ( userVal ) => userVal.every( ( val ) => isAttributionValid( val ) ) ? true : 'Invalid attribution',
+					validate: ( userVal ) => userVal.every( ( val ) => isAttributionValid( val ) ) ? true : chalk.red( 'Error: Invalid attribution' ),
 				},
 				{
-					type: 'input',
+					type: useEditor ? 'editor' : 'input',
 					name: 'entry',
 					message: 'Changelog Entry Content',
 					default: entry,
-					validate: ( val ) => val ? true : chalk.red( 'Error: A changelog entry is required.' ),
+					validate: ( val ) => isEntryValid( val ) ? true : chalk.red( 'Error: Invalid entry.' ),
 				},
 			];
 
