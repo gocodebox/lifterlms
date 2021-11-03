@@ -421,6 +421,7 @@ abstract class LLMS_Admin_Metabox {
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
 	 * @since 3.37.12 Move field sanitization and updates to the `save_field()` method.
+	 * @since [version] Allow skipping the saving of a field.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
@@ -453,9 +454,8 @@ abstract class LLMS_Admin_Metabox {
 
 				// Loop through the fields.
 				foreach ( $data['fields'] as $field ) {
-
-					// Don't save things that don't have an ID.
-					if ( isset( $field['id'] ) ) {
+					// Don't save things that don't have an ID or that are set to be skipped.
+					if ( isset( $field['id'] ) && empty( $field['skip_save'] ) ) {
 						$this->save_field( $post_id, $field );
 					}
 				}

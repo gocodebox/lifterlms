@@ -28,12 +28,12 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	 */
 	private $allowed_post_types = array(
 		'llms_my_achievement' => array(
-			'model'                => 'LLMS_User_Achievement',
-			'user_postmeta_prefix' => '_achievement',
+			'model'           => 'LLMS_User_Achievement',
+			'engagement_type' => 'achievement',
 		),
 		'llms_my_certificate' => array(
-			'model'                => 'LLMS_User_Certificate',
-			'user_postmeta_prefix' => '_certificate',
+			'model'           => 'LLMS_User_Certificate',
+			'engagement_type' => 'certificate',
 		),
 	);
 
@@ -53,8 +53,9 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 		}
 
 		$student = ! empty( $_GET['sid'] ) ? llms_filter_input( INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT ) : false; // phpcs:ignore
-		$student = empty( $student ) ? ( new $this->allowed_post_types[ $post_type ]['model']( $this->post->ID ) )->get_user_id() : $student;
+		$student = empty( $student ) && 'add' !== get_current_screen()->action ? ( new $this->allowed_post_types[ $post_type ]['model']( $this->post->ID ) )->get_user_id() : $student;
 
+		// The `post_author_override` is the same used in WP core for the author selector.
 		if ( empty( $student ) ) {
 			$fields[] = array(
 				'allow_null'      => false,
@@ -63,17 +64,19 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 					'allow_clear' => false,
 					'placeholder' => __( 'Select a Student', 'lifterlms' ),
 				),
-				'id'              => $this->prefix . 'student',
+				'id'              => 'post_author_override',
 				'label'           => __( 'Select a Student', 'lifterlms' ),
 				'type'            => 'select',
+				'skip_save'       => true,
 			);
 		} else {
 			array_unshift(
 				$fields,
 				array(
-					'id'    => $this->prefix . 'student',
-					'type'  => 'hidden',
-					'value' => $student,
+					'id'        => 'post_author_override',
+					'type'      => 'hidden',
+					'value'     => $student,
+					'skip_save' => true,
 				)
 			);
 		}
@@ -82,28 +85,27 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	}
 
 	/**
-	 * Save a metabox field.
+	 * Maybe log engagment awarding
+	 *
+	 * Called after `$this->save()` during `$this->save_actions()`.
 	 *
 	 * @since [version]
 	 *
-	 * @param int   $post_id WP_Post ID.
-	 * @param array $field   Metabox field array.
-	 * @return boolean
+	 * @param int $post_id WP Post ID of the post being saved.
+	 * @return void
 	 */
-	protected function save_field( $post_id, $field ) {
+	protected function save_after( $post_id ) {
 
-		if ( $this->prefix . 'student' === $field['id'] && isset( $_POST[ $field['id'] ] ) ) { //phpcs:ignore -- nonce already verified in `LLMS_Admin_Metabox::save`.
-			$this->log_earned_engament( llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_NUMBER_INT ), $post_id );
+		$post      = get_post( $post_id );
+		$post_type = get_post_type( $post_id );
+
+		// If we are in the wrong post type, or we're performing just an update, we don't need to award any engagment.
+		if ( ! array_key_exists( $post_type, $this->allowed_post_types ) || self::has_user_earned( $post->post_author, $post_id ) ) {
+			return;
 		}
 
-		/**
-		 * Skip saving _llms_student field, only used to award an engagement, it's not a post field.
-		 */
-		if ( isset( $field['id'] ) && $this->prefix . 'student' === $field['id'] ) {
-			return true;
-		}
-
-		parent::save_field( $post_id, $field );
+		// Award the engagement.
+		LLMS_Engagement_Handler::create_actions( $this->allowed_post_types[ $post_type ]['engagement_type'], $post->post_author, $post_id );
 
 	}
 
@@ -111,11 +113,13 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	 * Wheter the user has earned the engagement.
 	 *
 	 * @since [version]
+	 * @todo move somewhere else.
 	 *
 	 * @param int $user_id The student's user id.
 	 * @param int $post_id The earned engagement id.
+	 * @return bool
 	 */
-	private function has_user_earned( $user_id, $post_id ) {
+	public static function has_user_earned( $user_id, $post_id ) {
 		global $wpdb;
 
 		return (bool) $wpdb->get_var(
@@ -131,47 +135,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 					$post_id,
 				)
 			)
-		);
-	}
-
-	/**
-	 * Whether the user has earned the engagement.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $user_id The student's user id.
-	 * @param int $post_id The earned engagement id.
-	 * @return void
-	 */
-	private function log_earned_engament( $user_id, $post_id ) {
-
-		// Log earned engagement.
-		if ( ! $this->has_user_earned( $user_id, $post_id ) ) { // We need a better LLMS_Achievement(Certificate)_User::has_user_earned() method.
-			$post_type = get_post_type();
-			$prefix    = $this->allowed_post_types[ $post_type ]['user_postmeta_prefix'];
-
-			// We need a better LLMS_User_Achievement(Certificate)::create() method.
-			global $wpdb;
-			$wpdb->insert(
-				"{$wpdb->prefix}lifterlms_user_postmeta",
-				array(
-					'user_id'      => $user_id,
-					'post_id'      => 0,
-					'meta_key'     => "{$prefix}_earned",
-					'meta_value'   => $post_id,
-					'updated_date' => current_time( 'mysql' ),
-				)
-			);
-
-			/**
-			 * Allow 3rd parties to hook into the generation of an achievement
-			 * Notifications uses this
-			 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
-			 */
-			do_action( "llms_user_earned$prefix", $user_id, $post_id, 0 );
-
-		}
-
+		);// no-cache ok.
 	}
 
 }
