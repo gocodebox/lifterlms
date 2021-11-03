@@ -1,0 +1,7 @@
+significance: minor
+type: added
+entry: >
+  + Includes the LLMS-CLI, a set of WP-CLI commands for LifterLMS and LifterLMS
+  add-ons, as part of the core plugin.
+
+  + To get started, run `wp llms --help` in your terminal or read the [online command documentation](https://developer.lifterlms.com/cli/commands/llms/).
