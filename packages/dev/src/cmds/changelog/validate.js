@@ -73,7 +73,6 @@ module.exports = {
 		[ '-s, --silent', 'Skip validation output and communicate validation status only through the exit status of the command.' ],
 	],
 	action: ( entries, { dir, silent, format } ) => {
-
 		let all;
 
 		try {

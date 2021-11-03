@@ -113,25 +113,20 @@ function isLinkValid( link ) {
  *
  * @since [version]
  *
- * @see [Reference]
- * @link [URL]
- *
  * @param {string} entry The changelog entry string.
- * @return {Boolean} Returns `true` if the entry is valid and `false` otherwise.
+ * @return {boolean} Returns `true` if the entry is valid and `false` otherwise.
  */
 function isEntryValid( entry ) {
-
 	const singleLineRegex = /^[A-Z].*[.!?]$/,
 		multiLineRegex = /^(  )?[+] [A-Z].*[:.!?]$/;
 
 	const test = ( line, regex ) => null !== line.match( regex );
 
 	if ( entry.includes( '\n' ) ) {
-		return entry.split( '\n' ).filter( line => line ).every( line => test( line, multiLineRegex ) );
+		return entry.split( '\n' ).filter( ( line ) => line ).every( ( line ) => test( line, multiLineRegex ) );
 	}
 
 	return test( entry, singleLineRegex );
-
 }
 
 /**

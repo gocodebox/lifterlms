@@ -204,10 +204,9 @@ module.exports = {
 		[ '-l, --log-file <file>', 'The changelog file.', 'CHANGELOG.md' ],
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
-		[ '-D, --dry-run', 'Output what would be written to the changelog instead of writing it to the changelog file.' ]
+		[ '-D, --dry-run', 'Output what would be written to the changelog instead of writing it to the changelog file.' ],
 	],
 	action: ( { dir, preid, force, logFile, date, links, dryRun } ) => {
-
 		try {
 			date = formatDate( date );
 		} catch ( e ) {
