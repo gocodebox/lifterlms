@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Eearned Engagements (Certificate/Achievement) Meta Box trait.
  *
- * **This trait should only be used by classes that extend from the {@see LLMS_Admin_Metabox} class.**
+ * This trait should only be used by classes that extend from the {@see LLMS_Admin_Metabox} class.
  *
  * @since [version]
  */
@@ -135,7 +135,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	}
 
 	/**
-	 * Wheter the user has earned the engagement.
+	 * Whether the user has earned the engagement.
 	 *
 	 * @since [version]
 	 *

@@ -5,7 +5,6 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @since [version] Delete `llms_my_achievement` and `llms_form` post type when removing all data.
  * @version [version]
  */
 
