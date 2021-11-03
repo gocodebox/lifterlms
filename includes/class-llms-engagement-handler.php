@@ -399,7 +399,7 @@ class LLMS_Engagement_Handler {
 			$is_duplicate = new WP_Error(
 				'llms-engagement--is-duplicate',
 				// Translators: %s = the WP_User ID.
-				sprintf( __( 'User "%" has already earned this engagement.', 'lifterlms' ), $user_id ),
+				sprintf( __( 'User "%s" has already earned this engagement.', 'lifterlms' ), $user_id ),
 				compact( 'type', 'user_id', 'template_id', 'related_id', 'engagement_id' )
 			);
 		}
