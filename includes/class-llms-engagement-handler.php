@@ -233,9 +233,29 @@ class LLMS_Engagement_Handler {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
 		}
 
+		$self::create_actions( $user_id, $related_id, $type, $generated->get( 'id' ) );
+
+		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
+		return new $model_class( $generated->get( 'id' ) );
+
+	}
+
+	/**
+	 * Post creation actions.
+	 *
+	 * @param string          $type          The engagement type, either "achievement" or "certificate".
+	 * @param int             $user_id       WP_User ID of the student who earned the engagement.
+	 * @param int             $generated_id  WP_Post ID of the generated engagement post.
+	 * @param string|int|null $related_id    WP_Post ID of the related post triggering generation, an empty string (in the event of a user registration trigger) or null if not supplied.
+	 * @param int|null        $engagement_id WP_Post ID of the engagement post used to configure engagement triggering.
+	 *
+	 * @return void
+	 */
+	public static function create_actions( $type, $user_id, $generated_id, $related_id = '', $engagement_id = null ) {
+
 		// I think this should be removed but there's a lot of places where queries to _certificate_earned or _achievement_earned exist and it's the documented way of retrieving this data.
 		// Internally we should switch to stop relying on this and figure out a way to phase out the usage of the user postmeta data but for now I think we'll continue storing it.
-		llms_update_user_postmeta( $user_id, $related_id, "_{$type}_earned", $generated->get( 'id' ) );
+		llms_update_user_postmeta( $user_id, $related_id, "_{$type}_earned", $generated_id );
 
 		/**
 		 * Action run after a student has successfully earned an engagement.
@@ -254,13 +274,10 @@ class LLMS_Engagement_Handler {
 		do_action(
 			"llms_user_earned_{$type}",
 			$user_id,
-			$generated->get( 'id' ),
+			$generated_id,
 			$related_id,
 			$engagement_id
 		);
-
-		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
-		return new $model_class( $generated->get( 'id' ) );
 
 	}
 
@@ -368,7 +385,7 @@ class LLMS_Engagement_Handler {
 			array( $template_id, $user_id, $related_id ),
 			$type,
 			"llms_{$type}_has_user_earned",
-			"llms_earned_{$type}_dupcheck",
+			"llms_earned_{$type}_dupcheck"
 		);
 
 		/**
@@ -399,7 +416,7 @@ class LLMS_Engagement_Handler {
 			$is_duplicate = new WP_Error(
 				'llms-engagement--is-duplicate',
 				// Translators: %s = the WP_User ID.
-				sprintf( __( 'User "%" has already earned this engagement.', 'lifterlms' ), $user_id ),
+				sprintf( __( 'User "%s" has already earned this engagement.', 'lifterlms' ), $user_id ),
 				compact( 'type', 'user_id', 'template_id', 'related_id', 'engagement_id' )
 			);
 		}

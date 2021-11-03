@@ -153,11 +153,12 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Delete a certificate
+	 * Delete a certificate.
 	 *
 	 * @since 3.18.0
+	 * @since [version] Permanently delete certificate via wp_delete_post().
 	 *
-	 * @param int $cert_id WP Post ID of the llms_my_certificate
+	 * @param int $cert_id WP Post ID of the llms_my_certificate.
 	 * @return void
 	 */
 	private function delete( $cert_id ) {
@@ -166,8 +167,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		$cert = new LLMS_User_Certificate( $cert_id );
-		$cert->delete();
+		wp_delete_post( $cert_id, true );
 
 	}
 

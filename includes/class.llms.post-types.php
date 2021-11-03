@@ -41,6 +41,8 @@ class LLMS_Post_Types {
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
+		add_action( 'admin_menu', array( __CLASS__, 'add_earned_egnagements_submenu_links' ) );
+
 	}
 
 	/**
@@ -210,6 +212,7 @@ class LLMS_Post_Types {
 	 * See https://core.trac.wordpress.org/ticket/30991.
 	 *
 	 * @since 3.13.0
+	 * @since [version] Add specific case for `llms_my_achievements`, `llms_my_certificates` post types.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array
@@ -224,19 +227,10 @@ class LLMS_Post_Types {
 			$plural   = $post_type[1];
 		}
 
-		/**
-		 * Filter the list of post type capabilities for the given post type.
-		 *
-		 * The dynamic portion of this hook, `$singular` refers to the post type's
-		 * name, for example "course" or "llms_membership".
-		 *
-		 * @since 3.13.0
-		 *
-		 * @param array $caps Array of capabilities.
-		 */
-		return apply_filters(
-			"llms_get_{$singular}_post_type_caps",
-			array(
+		if ( in_array( $singular, array( 'my_achievement', 'my_certificate' ), true ) ) {
+			$caps = self::get_earned_engagements_post_type_caps();
+		} else {
+			$caps = array(
 
 				'read_post'              => sprintf( 'read_%s', $singular ),
 				'read_private_posts'     => sprintf( 'read_private_%s', $plural ),
@@ -257,7 +251,56 @@ class LLMS_Post_Types {
 
 				'create_posts'           => sprintf( 'create_%s', $plural ),
 
-			)
+			);
+		}
+
+		/**
+		 * Filter the list of post type capabilities for the given post type.
+		 *
+		 * The dynamic portion of this hook, `$singular` refers to the post type's
+		 * name, for example "course" or "llms_membership".
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param array $caps Array of capabilities.
+		 */
+		return apply_filters(
+			"llms_get_{$singular}_post_type_caps",
+			$caps
+		);
+
+	}
+
+	/**
+	 * Get an array of capabilities for earned engagements post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public static function get_earned_engagements_post_type_caps() {
+
+		return array(
+
+			'read_post'              => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'read_private_posts'     => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'edit_post'              => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_posts'             => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_others_posts'      => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_private_posts'     => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'edit_published_posts'   => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'publish_posts'          => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'delete_post'            => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_private_posts'   => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_published_posts' => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+			'delete_others_posts'    => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
+			'create_posts'           => LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+
 		);
 
 	}
@@ -361,6 +404,8 @@ class LLMS_Post_Types {
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since [version] Register all the post types using `self::register_post_type()`.
+	 *             Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
+	 *             Register `llms_my_achievement` post type.
 	 *
 	 * @return void
 	 */
@@ -725,22 +770,22 @@ class LLMS_Post_Types {
 			'llms_achievement',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Achievements', 'lifterlms' ),
-					'singular_name'      => __( 'Achievement', 'lifterlms' ),
-					'add_new'            => __( 'Add Achievement', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Achievement', 'lifterlms' ),
+					'name'               => __( 'Achievement Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Achievement Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Achievement Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Achievement Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Achievement', 'lifterlms' ),
-					'new_item'           => __( 'New Achievement', 'lifterlms' ),
-					'view'               => __( 'View Achievement', 'lifterlms' ),
-					'view_item'          => __( 'View Achievement', 'lifterlms' ),
-					'search_items'       => __( 'Search Achievement', 'lifterlms' ),
-					'not_found'          => __( 'No Achievement found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No Achievement found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Achievement', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Achievement Template', 'lifterlms' ),
+					'new_item'           => __( 'New Achievement Template', 'lifterlms' ),
+					'view'               => __( 'View Achievement Template', 'lifterlms' ),
+					'view_item'          => __( 'View Achievement Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Achievement Templates', 'lifterlms' ),
+					'not_found'          => __( 'No Achievement Templates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Achievement Templates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Achievement Template', 'lifterlms' ),
 					'menu_name'          => _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where achievements are stored.', 'lifterlms' ),
+				'description'         => __( 'This is where achievement templates are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -756,24 +801,69 @@ class LLMS_Post_Types {
 			)
 		);
 
+		// Earned achievements.
+		self::register_post_type(
+			'llms_my_achievement',
+			array(
+				'labels'              => array(
+					'name'               => __( 'Achievements', 'lifterlms' ),
+					'singular_name'      => __( 'Achievement', 'lifterlms' ),
+					'add_new'            => __( 'Award Achievement', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Achievement', 'lifterlms' ),
+					'edit'               => __( 'Edit', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Achievement', 'lifterlms' ),
+					'new_item'           => __( 'Award Achievement', 'lifterlms' ),
+					'view'               => __( 'View Achievement', 'lifterlms' ),
+					'view_item'          => __( 'View Achievement', 'lifterlms' ),
+					'search_items'       => __( 'Search Achievements', 'lifterlms' ),
+					'not_found'          => __( 'No Achievements found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Achievements found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Achievements', 'lifterlms' ),
+					'menu_name'          => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
+				),
+				'description'         => __( 'This is where you can view all of the achievements.', 'lifterlms' ),
+				'public'              => false,
+				/**
+				 * Filters the needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
+				 *
+				 * @since [version]
+				 *
+				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
+				 *                      Default is `manage_earned_engagements`.
+				 */
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
+				'capabilities'        => self::get_post_type_caps( 'my_achievement' ),
+				'map_meta_cap'        => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'show_in_menu'        => false,
+				'hierarchical'        => false,
+				'rewrite'             => false,
+				'show_in_nav_menus'   => false,
+				'has_archive'         => false,
+				'query_var'           => false,
+				'supports'            => array( 'title' ),
+			)
+		);
+
 		// Certificate.
 		self::register_post_type(
 			'llms_certificate',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Certificates', 'lifterlms' ),
-					'singular_name'      => __( 'Certificate', 'lifterlms' ),
-					'add_new'            => __( 'Add Certificate', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Certificate', 'lifterlms' ),
+					'name'               => __( 'Certificate Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Certificate Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Certificate Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Certificate Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Certificate', 'lifterlms' ),
-					'new_item'           => __( 'New Certificate', 'lifterlms' ),
-					'view'               => __( 'View Certificate', 'lifterlms' ),
-					'view_item'          => __( 'View Certificate', 'lifterlms' ),
-					'search_items'       => __( 'Search Certificates', 'lifterlms' ),
-					'not_found'          => __( 'No Certificates found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No Certificates found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Certificates', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Certificate Template', 'lifterlms' ),
+					'new_item'           => __( 'New Certificate Template', 'lifterlms' ),
+					'view'               => __( 'View Certificate Template', 'lifterlms' ),
+					'view_item'          => __( 'View Certificate Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Certificate Templates', 'lifterlms' ),
+					'not_found'          => __( 'No Certificate Templates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Certificate Templates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Certificate Templates', 'lifterlms' ),
 					'menu_name'          => _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
@@ -800,25 +890,34 @@ class LLMS_Post_Types {
 			'llms_my_certificate',
 			array(
 				'labels'              => array(
-					'name'               => __( 'My Certificates', 'lifterlms' ),
-					'singular_name'      => __( 'My Certificate', 'lifterlms' ),
-					'add_new'            => __( 'Add My Certificate', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New My Certificate', 'lifterlms' ),
+					'name'               => __( 'Certificates', 'lifterlms' ),
+					'singular_name'      => __( 'Certificate', 'lifterlms' ),
+					'add_new'            => __( 'Award Certificate', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Certificate', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit My Certificate', 'lifterlms' ),
-					'new_item'           => __( 'New My Certificate', 'lifterlms' ),
-					'view'               => __( 'View My Certificate', 'lifterlms' ),
-					'view_item'          => __( 'View My Certificate', 'lifterlms' ),
-					'search_items'       => __( 'Search My Certificates', 'lifterlms' ),
-					'not_found'          => __( 'No My Certificates found', 'lifterlms' ),
-					'not_found_in_trash' => __( 'No My Certificates found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent My Certificates', 'lifterlms' ),
-					'menu_name'          => _x( 'My Certificates', 'Admin menu name', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Certificate', 'lifterlms' ),
+					'new_item'           => __( 'New Certificate', 'lifterlms' ),
+					'view'               => __( 'View Certificate', 'lifterlms' ),
+					'view_item'          => __( 'View Certificate', 'lifterlms' ),
+					'search_items'       => __( 'Search Certificates', 'lifterlms' ),
+					'not_found'          => __( 'No Certificates found', 'lifterlms' ),
+					'not_found_in_trash' => __( 'No Certificates found in trash', 'lifterlms' ),
+					'parent'             => __( 'Parent Certificates', 'lifterlms' ),
+					'menu_name'          => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
-				'show_ui'             => true,
-				'map_meta_cap'        => true,
+				/**
+				 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+				 *
+				 * @since [version]
+				 *
+				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+				 *                      Default is `manage_earned_engagements`.
+				 */
+				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
+				'capabilities'        => self::get_post_type_caps( 'my_certificate' ),
+				'map_meta_cap'        => false,
 				'publicly_queryable'  => true,
 				'exclude_from_search' => true,
 				'show_in_menu'        => false,
@@ -839,19 +938,19 @@ class LLMS_Post_Types {
 			'llms_email',
 			array(
 				'labels'              => array(
-					'name'               => __( 'Emails', 'lifterlms' ),
-					'singular_name'      => __( 'Email', 'lifterlms' ),
-					'add_new'            => __( 'Add Email', 'lifterlms' ),
-					'add_new_item'       => __( 'Add New Email', 'lifterlms' ),
+					'name'               => __( 'Email Templates', 'lifterlms' ),
+					'singular_name'      => __( 'Email Template', 'lifterlms' ),
+					'add_new'            => __( 'Add Email Template', 'lifterlms' ),
+					'add_new_item'       => __( 'Add New Email Template', 'lifterlms' ),
 					'edit'               => __( 'Edit', 'lifterlms' ),
-					'edit_item'          => __( 'Edit Email', 'lifterlms' ),
-					'new_item'           => __( 'New Email', 'lifterlms' ),
-					'view'               => __( 'View Email', 'lifterlms' ),
-					'view_item'          => __( 'View Email', 'lifterlms' ),
-					'search_items'       => __( 'Search Emails', 'lifterlms' ),
+					'edit_item'          => __( 'Edit Email Template', 'lifterlms' ),
+					'new_item'           => __( 'New Email Template', 'lifterlms' ),
+					'view'               => __( 'View Email Template', 'lifterlms' ),
+					'view_item'          => __( 'View Email Template', 'lifterlms' ),
+					'search_items'       => __( 'Search Email Templates', 'lifterlms' ),
 					'not_found'          => __( 'No Emails found', 'lifterlms' ),
 					'not_found_in_trash' => __( 'No Emails found in trash', 'lifterlms' ),
-					'parent'             => __( 'Parent Emails', 'lifterlms' ),
+					'parent'             => __( 'Parent Email Templates', 'lifterlms' ),
 					'menu_name'          => _x( 'Emails', 'Admin menu name', 'lifterlms' ),
 				),
 				'description'         => __( 'This is where emails are stored.', 'lifterlms' ),
@@ -1354,6 +1453,37 @@ class LLMS_Post_Types {
 			)
 		);
 
+	}
+
+	/**
+	 * Add submenu items for earned engagments post types (llms_my_certificate,llms_my_achievement).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function add_earned_egnagements_submenu_links() {
+
+		$post_types = array(
+			'llms_my_certificate',
+			'llms_my_achievement',
+		);
+
+		foreach ( $post_types as $post_type ) {
+
+			$post_type_object = get_post_type_object( $post_type );
+			if ( empty( $post_type_object ) ) {
+				continue;
+			}
+
+			add_submenu_page(
+				'edit.php?post_type=llms_engagement',
+				$post_type_object->labels->menu_name,
+				$post_type_object->labels->menu_name,
+				LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
+				admin_url( "post-new.php?post_type={$post_type}" )
+			);
+		}
 	}
 
 }

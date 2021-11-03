@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @version 3.14.6
+ * @since [version] Display the achievement_content post meta not the post content.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 	<h4 class="llms-achievement-title"><?php echo $achievement->get( 'achievement_title' ); ?></h4>
 
 	<div class="llms-achievement-info">
-		<div class="llms-achievement-content"><?php echo $achievement->get( 'content' ); ?></div>
+		<div class="llms-achievement-content"><?php echo $achievement->get( 'achievement_content' ); ?></div>
 		<div class="llms-achievement-date"><?php printf( _x( 'Awarded on %s', 'achievement earned date', 'lifterlms' ), $achievement->get_earned_date() ); ?></div>
 	</div>
 
