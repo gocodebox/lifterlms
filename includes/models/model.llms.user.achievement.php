@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
- *              Declare `achievement_title` and `achievement_content` properties.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
@@ -23,9 +22,9 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	protected $model_post_type = 'achievement';
 
 	protected $properties = array(
-		'achievement_title'    => 'string',
+		// 'achievement_title' => 'string', // use get( 'title' )
 		'achievement_image'    => 'absint',
-		'achievement_content'  => 'html',
+		// 'achievement_content' => 'html', // use get( 'content' )
 		'achievement_template' => 'absint',
 	);
 
@@ -69,51 +68,6 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
 		return apply_filters( 'llms_achievement_get_image', $src, $this );
 
-	}
-
-	/**
-	 * Get the WP Post ID of the post which triggered the earning of the achievement.
-	 *
-	 * This would be a lesson, course, section, track, etc...
-	 *
-	 * @since 3.8.0
-	 * @since [version] Return `null` if no post id set.
-	 *
-	 * @return int|null
-	 */
-	public function get_related_post_id() {
-		$meta = $this->get_user_postmeta();
-		return isset( $meta->post_id ) ? absint( $meta->post_id ) : null;
-	}
-
-	/**
-	 * Retrieve the user id of the user who earned the achievement
-	 *
-	 * @since 3.8.0
-	 * @since [version] Return `null` if no user set.
-	 *
-	 * @return int|null
-	 */
-	public function get_user_id() {
-		$meta = $this->get_user_postmeta();
-		return isset( $meta->user_id ) ? absint( $meta->user_id ) : null;
-	}
-
-	/**
-	 * Retrieve user postmeta data for the achievement
-	 *
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_user_postmeta() {
-		global $wpdb;
-		return $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = '_achievement_earned'",
-				$this->get( 'id' )
-			)
-		);
 	}
 
 }
