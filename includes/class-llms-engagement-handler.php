@@ -368,7 +368,7 @@ class LLMS_Engagement_Handler {
 			array( $template_id, $user_id, $related_id ),
 			$type,
 			"llms_{$type}_has_user_earned",
-			"llms_earned_{$type}_dupcheck",
+			"llms_earned_{$type}_dupcheck"
 		);
 
 		/**
