@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox_Field parent class
+ * Metabox_Field parent class.
  *
  * Contains base code for each of the Metabox Fields.
  *
@@ -21,14 +21,14 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Metabox_Field {
 
 	/**
-	 * Global array used in class instance to store field information
+	 * Global array used in class instance to store field information.
 	 *
 	 * @var array
 	 */
 	public $field;
 
 	/**
-	 * Global variable to contain meta information about $field
+	 * Global variable to contain meta information about $field.
 	 *
 	 * @var object
 	 */
@@ -37,10 +37,13 @@ abstract class LLMS_Metabox_Field {
 	/**
 	 * Outputs the head for each of the field types.
 	 *
-	 * @todo  all the unset variables here should be defaulted somewhere else probably
+	 * @todo All the unset variables here should be defaulted somewhere else probably.
+	 *
 	 * @since unknown
 	 * @since 3.11.0 Unknown.
 	 * @since [version] Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
@@ -77,19 +80,24 @@ abstract class LLMS_Metabox_Field {
 			<div class="description <?php echo $this->field['desc_class']; ?>">
 			<?php if ( ! empty( $this->field['label'] ) ) : ?>
 				<label for="<?php echo $this->field['id']; ?>"><?php echo $this->field['label']; ?></label>
-			<?php endif ?>
+			<?php endif; ?>
 				<?php echo $this->field['desc']; ?>
 				<?php
 				if ( isset( $this->field['required'] ) && $this->field['required'] ) :
 					?>
 					<em>(required)</em><?php endif; ?>
 			</div>
-		<?php endif; ?>
-		<?php
+			<?php
+			endif;
+
 	}
 
 	/**
-	 * outputs the tail for each of the field types
+	 * Outputs the tail for each of the field types
+	 *
+	 * @since unknown.
+	 *
+	 * @return void
 	 */
 	public function close_output() {
 
@@ -98,13 +106,14 @@ abstract class LLMS_Metabox_Field {
 	}
 
 	/**
-	 * Set the default meta value of a field
+	 * Set the default meta value of a field.
 	 *
-	 * @param    int    $post_id   WP Post ID
-	 * @param    string $field_id  ID/name of the field
-	 * @return   mixed
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param int    $post_id  WP Post ID.
+	 * @param string $field_id ID/name of the field.
+	 * @return mixed
 	 */
 	public static function get_post_meta( $post_id, $field_id ) {
 
