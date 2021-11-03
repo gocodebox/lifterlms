@@ -74,8 +74,10 @@ module.exports = {
 	],
 	action: ( entries, { dir, silent, format } ) => {
 
+		let all;
+
 		try {
-			let all = getChangelogEntries( dir );
+			all = getChangelogEntries( dir );
 		} catch ( { name, message } ) {
 			logResult( `${ name }: ${ message }`, 'error' );
 			if ( 'YAMLSyntaxError' === name ) {
