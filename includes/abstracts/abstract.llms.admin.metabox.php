@@ -1,11 +1,11 @@
 <?php
 /**
- * Admin Metabox Abstract
+ * Admin Metabox Abstract.
  *
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 3.37.19
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
