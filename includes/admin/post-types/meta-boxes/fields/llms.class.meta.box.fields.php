@@ -93,7 +93,7 @@ abstract class LLMS_Metabox_Field {
 	}
 
 	/**
-	 * Outputs the tail for each of the field types
+	 * Outputs the tail for each of the field types.
 	 *
 	 * @since unknown.
 	 *
