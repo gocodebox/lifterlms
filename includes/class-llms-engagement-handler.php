@@ -233,7 +233,7 @@ class LLMS_Engagement_Handler {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
 		}
 
-		$self::create_actions( $user_id, $related_id, $type, $generated->get( 'id' ) );
+		self::create_actions( $user_id, $related_id, $type, $generated->get( 'id' ) );
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
 		return new $model_class( $generated->get( 'id' ) );
