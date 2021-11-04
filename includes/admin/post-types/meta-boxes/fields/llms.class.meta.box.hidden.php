@@ -20,7 +20,7 @@ class LLMS_Metabox_Hidden_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	/**
 	 * Class constructor.
 	 *
-	 * @param array $_field Array containing information about field.
+	 * @param array $_field Array containing information about field
 	 */
 	public function __construct( $_field ) {
 
@@ -39,6 +39,9 @@ class LLMS_Metabox_Hidden_Field extends LLMS_Metabox_Field implements Meta_Box_F
 		<input
 			name="<?php echo $this->field['id']; ?>"
 			id="<?php echo $this->field['id']; ?>"
+		<?php if ( isset( $this->field['required'] ) && $this->field['required'] ) : ?>
+			required="required"
+		<?php endif; ?>
 			type="hidden" value="<?php echo esc_attr( $this->field['value'] ); ?>">
 
 		<?php
