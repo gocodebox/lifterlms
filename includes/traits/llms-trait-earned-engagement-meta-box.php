@@ -68,6 +68,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 				'label'           => __( 'Select a Student', 'lifterlms' ),
 				'type'            => 'select',
 				'skip_save'       => true,
+				'required'        => true,
 			);
 		} else {
 			array_unshift(
@@ -77,6 +78,7 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 					'type'      => 'hidden',
 					'value'     => $student,
 					'skip_save' => true,
+					'required'  => true,
 				)
 			);
 		}
@@ -110,35 +112,6 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 		// Award the engagement.
 		LLMS_Engagement_Handler::create_actions( $this->allowed_post_types[ $post_type ]['engagement_type'], $post->post_author, $post_id );
 
-	}
-
-	/**
-	 * Wheter the user has earned the engagement.
-	 *
-	 * @since [version]
-	 * @todo move somewhere else.
-	 *
-	 * @param int $user_id The student's user id.
-	 * @param int $post_id The earned engagement id.
-	 * @return bool
-	 */
-	public static function has_user_earned( $user_id, $post_id ) {
-		global $wpdb;
-
-		return (bool) $wpdb->get_var(
-			$wpdb->prepare(
-				"
-				SELECT COUNT( meta_id )
-				FROM {$wpdb->prefix}lifterlms_user_postmeta
-				WHERE user_id=%d
-				AND meta_value=%d
-				",
-				array(
-					$user_id,
-					$post_id,
-				)
-			)
-		);// no-cache ok.
 	}
 
 }
