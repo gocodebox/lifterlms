@@ -15,7 +15,15 @@ const
  */
 function callSelf( cmd, silent = true ) {
 	const [ node, cli ] = process.argv;
-	return execSync( `${ node } ${ cli } ${ cmd }`, silent );
+	let ret = null;
+	try {
+		ret = execSync( `${ node } ${ cli } ${ cmd }`, silent )
+	} catch ( e ) {
+		logResult( `${ e.type }: ${ e.message }.`, 'error' );
+		console.error( e );
+		process.exit( 1 );
+	}
+	return ret;
 }
 
 /**
@@ -59,7 +67,7 @@ module.exports = {
 		preid = preid ? ` --preid ${ preid }` : '';
 
 		// Prepare release version.
-		const version = force ? force : callSelf( `changelog version next${ preid }?` );
+		const version = force ? force : callSelf( `changelog version next${ preid }` );
 
 		if ( ! semver.valid( version ) ) {
 			logResult( `The supplied version string ${ chalk.bold( version ) } is invalid.`, 'error' );
