@@ -192,6 +192,41 @@ class LLMS_Certificates {
 	}
 
 	/**
+	 * Retrieve the default certificate background image for a given certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $certificate_id WP_Post ID of the earned certificate. This is passed so that anyone filtering the default image could
+	 *                            provide a different default image based on the certificate.
+	 * @return string The full image source url.
+	 */
+	public function get_default_image( $certificate_id ) {
+
+		// Hardcoded default value.
+		$src = llms()->plugin_url() . '/assets/images/optional_certificate.png';
+
+		$id  = get_option( 'lifterlms_certificate_default_bg_img' );
+		if ( $id ) {
+			$url = wp_get_attachment_url( $id );
+			$src = $url ? $url : $src; // If attachment has been deleted.
+		}
+
+		/**
+		 * Retrieve the default certificate background image.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $src            The full image source url.
+		 * @param int    $certificate_id The earned certificate ID.
+		 */
+		return apply_filters(
+			'lifterlms_certificate_background_image_placeholder_src',
+			$src,
+			$certificate_id
+		);
+	}
+
+	/**
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0

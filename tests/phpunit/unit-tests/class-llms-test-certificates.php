@@ -13,6 +13,61 @@
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 	/**
+	 * Retrieve a "real" image attachment ID
+	 *
+	 * @since [version]
+	 *
+	 * @return [type] [description]
+	 */
+	private function get_attachment() {
+
+		// Fixes issue resulting from WP Core changes: https://github.com/gocodebox/lifterlms-groups/issues/137
+		add_filter( 'wp_read_image_metadata_types', '__return_empty_array' );
+
+		$file       = DIR_TESTDATA . '/images/waffles.jpg';
+		$upload     = wp_upload_bits( basename( $file ), null, file_get_contents( $file ) );
+		$attachment = $this->_make_attachment( $upload );
+
+		remove_filter( 'wp_read_image_metadata_types', '__return_empty_array' );
+
+		return $attachment;
+
+	}
+
+	/**
+	 * Test get_default_image()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_default_image() {
+
+		$opt_name = 'lifterlms_certificate_default_bg_img';
+
+		// Non-existent option.
+		delete_option( $opt_name );
+		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+
+		// Empty option
+		update_option( $opt_name, '' );
+		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+
+		// Custom option.
+		update_option( $opt_name, 123 );
+		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+
+		// A "real" attachment.
+		update_option( $opt_name, $this->get_attachment() );
+		$this->assertMatchesRegularExpression(
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/waffles(-)?\d*.jpg#',
+			llms()->certificates()->get_default_image( 123 )
+		);
+
+	}
+
+
+	/**
 	 * Test trigger_engagement() method.
 	 *
 	 * @since 3.37.3

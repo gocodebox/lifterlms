@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 3.40.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,6 +74,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * Retrieve fields for the certificates settings group.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Add certificate background image option.
 	 *
 	 * @return array[]
 	 */
@@ -89,6 +90,13 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'type'  => 'subtitle',
 					'desc'  => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
 					'id'    => 'cert_bg_image_settings',
+				),
+				array(
+					'title'    => __( 'Default Background Image', 'lifterlms' ),
+					'id'       => 'lifterlms_certificate_default_bg_img',
+					'type'     => 'image',
+					'value'    => llms()->certificates()->get_default_image( 0 ),
+					'autoload' => false,
 				),
 				array(
 					'title'    => __( 'Image Width', 'lifterlms' ),

@@ -84,17 +84,6 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	}
 
-	/**
-	 * Test llms_get_certificate_default_image()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_llms_get_certificate_default_image() {
-		$this->assertStringContainsString( '/optional_certificate.png', llms_get_certificate_default_image( 123 ) );
-	}
-
 	public function test_llms_get_certificate_image() {}
 
 	/**

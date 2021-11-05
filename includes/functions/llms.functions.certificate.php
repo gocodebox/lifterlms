@@ -89,31 +89,6 @@ function llms_get_certificate_content( $id = 0 ) {
 }
 
 /**
- * Retrieve the default certificate background image for a given certificate.
- *
- * @since [version]
- *
- * @param int $certificate_id WP_Post ID of the earned certificate. This is passed so that anyone filtering the default image could
- *                            provide a different default image based on the certificate.
- * @return string The full image source url.
- */
-function llms_get_certificate_default_image( $certificate_id ) {
-	/**
-	 * Retrieve the default certificate background image.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @param string $src            The full image source url.
-	 * @param int    $certificate_id The earned certificate ID.
-	 */
-	return apply_filters(
-		'lifterlms_certificate_background_image_placeholder_src',
-		llms()->plugin_url() . '/assets/images/optional_certificate.png',
-		$certificate_id
-	);
-}
-
-/**
  * Retrieve an array of image data for a certificate background image
  *
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).

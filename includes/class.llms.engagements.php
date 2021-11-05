@@ -256,7 +256,7 @@ class LLMS_Engagements {
 	 */
 	public function init() {
 
-		include 'class.llms.certificates.php';
+		// include 'class.llms.certificates.php';
 		include 'class.llms.achievements.php';
 
 	}
