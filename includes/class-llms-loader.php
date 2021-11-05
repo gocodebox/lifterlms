@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -308,7 +308,7 @@ class LLMS_Loader {
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 * @since 5.0.0 Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
 	 * @since 5.1.3 Add keys to the $libs array and pass them through a filter.
-	 * @since [version] Add LLMS-CLI to the list of included libraries.
+	 * @since 5.5.0 Add LLMS-CLI to the list of included libraries.
 	 *
 	 * @return void
 	 */

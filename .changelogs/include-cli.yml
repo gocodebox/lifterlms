@@ -1,7 +1,0 @@
-significance: minor
-type: added
-entry: |
-  + Includes the LLMS-CLI beta, a set of WP-CLI commands for LifterLMS and LifterLMS add-ons, as part of the core plugin:
-    + To get started, run `wp llms --help` in your terminal or read the [online command documentation](https://developer.lifterlms.com/cli/commands/llms/).
-    + Please note that the LLMS-CLI is included as a public beta feature. The command API is in a pre-release state and, as such, is subject to change without warning.
-    + If you encounter any issues or wish to provide feedback on the LLMS-CLI please get in touch at [https://github.com/gocodebox/lifterlms-cli](https://github.com/gocodebox/lifterlms-cli).

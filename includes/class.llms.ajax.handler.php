@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -339,7 +339,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
-	 * @since [version] Do not encode quotes when sanitizing search term.
+	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
 	 *
 	 * @return void
 	 */
@@ -801,7 +801,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
-	 * @since [version] Do not encode quotes when sanitizing search term.
+	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
 	 *
 	 * @return void
 	 */

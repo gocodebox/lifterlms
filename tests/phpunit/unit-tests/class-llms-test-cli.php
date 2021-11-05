@@ -7,15 +7,15 @@
  * @group cli
  * @group packages
  *
- * @since [version]
- * @version [version]
+ * @since 5.5.0
+ * @version 5.5.0
  */
 class LLMS_Test_CLI extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test rest package exists and is loaded.
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */

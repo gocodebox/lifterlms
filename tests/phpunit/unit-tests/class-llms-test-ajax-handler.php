@@ -10,7 +10,7 @@
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @since 3.37.14 Added tests on persisting tracking events.
  * @since 3.37.15 Added tests for admin table methods.
- * @since [version] Added tests on select2_query_posts when searching terms with quotes.
+ * @since 5.5.0 Added tests on select2_query_posts when searching terms with quotes.
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -361,7 +361,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the select2_query_posts() ajax method with search term and quotes.
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */

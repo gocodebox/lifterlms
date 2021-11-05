@@ -5,7 +5,7 @@
  * @group LLMS_Post_Types
  *
  * @since 3.13.0
- * @since [version] Addedd tests for deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
+ * @since 5.5.0 Addedd tests for deprecated filters of the type "lifterlms_register_post_type_${prefixed_post_type_name}".
  */
 class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 
@@ -129,7 +129,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */

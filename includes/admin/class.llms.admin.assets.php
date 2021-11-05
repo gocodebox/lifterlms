@@ -70,7 +70,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 5.0.0 Use `LLMS_Assets` for registration/enqueue of styles.
-	 * @since [version] Use `LLMS_Assets` for the enqueue of `llms-addons`.
+	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-addons`.
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Admin_Assets {
 	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
 	 *               Add `llms-admin-forms` on the forms post table screen.
-	 * @since [version] Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
+	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 *
 	 * @return void
 	 */

@@ -1,3 +1,0 @@
-significance: minor
-type: dev
-entry: The `llms-admin-add-ons` style asset no longer ships an unminified version and the filename of the distributed file has changed.

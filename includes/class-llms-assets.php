@@ -15,7 +15,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.4.0
- * @version [version]
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 4.4.0
  * @since 4.9.0 Added new default values related to script localization.
- * @since [version] Added new script default for `asset_file`.
+ * @since 5.5.0 Added new script default for `asset_file`.
  */
 class LLMS_Assets {
 
@@ -248,7 +248,7 @@ class LLMS_Assets {
 	 *
 	 * @since 4.4.0
 	 * @since 4.4.1 Replace truthy check with an strict check against `false` to ensure assets defined with an empty array signifying all default values should be used.
-	 * @since [version] Load dependency and version info from an asset.php file when `$asset_file` is `true`.
+	 * @since 5.5.0 Load dependency and version info from an asset.php file when `$asset_file` is `true`.
 	 *
 	 * @param string $type   The asset type. Accepts either "script" or "style".
 	 * @param string $handle The asset handle.
@@ -474,7 +474,7 @@ class LLMS_Assets {
 	 * Loads the asset.php file (generated via the @wordpress/dependency-extraction-webpack-plugin) and merges it
 	 * into an existing asset array.
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @param array $asset An asset definition array.
 	 * @return array
@@ -573,7 +573,7 @@ class LLMS_Assets {
 	 *
 	 * @since 4.4.0
 	 * @since 4.9.0 Automatically set script translations when `translate=true`.
-	 * @since [version] Automatically register all of the asset's dependencies.
+	 * @since 5.5.0 Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The script's handle.
 	 * @return boolean
@@ -617,7 +617,7 @@ class LLMS_Assets {
 	 * `llms.css` (or `llms.min.css`) would add the RTL stylesheet `llms-rtl.css` (or `llms-rtl.min.css`).
 	 *
 	 * @since 4.4.0
-	 * @since [version] Automatically register all of the asset's dependencies.
+	 * @since 5.5.0 Automatically register all of the asset's dependencies.
 	 *
 	 * @param string $handle The stylesheets's handle.
 	 * @return boolean
