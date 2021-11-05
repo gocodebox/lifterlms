@@ -3,7 +3,7 @@
  *
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
- * @since [version] Use user created via setup-e2e.sh in favor of `createUser()`.
+ * @since 5.5.0 Use user created via setup-e2e.sh in favor of `createUser()`.
  */
 
 import {

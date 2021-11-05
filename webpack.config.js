@@ -3,8 +3,8 @@
  *
  * @package LifterLMS/Scripts/Dev
  *
- * @since [version]
- * @version [version]
+ * @since 5.5.0
+ * @version 5.5.0
  */
 
 const generate = require( '@lifterlms/scripts/config/webpack.config' ),

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -308,7 +308,7 @@ class LLMS_Post_Types {
 	 * Automatically checks for duplicates and filters data.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added `lifterlms_register_post_type_${name}` filters deprecation
+	 * @since 5.5.0 Added `lifterlms_register_post_type_${name}` filters deprecation
 	 *              where `$name` is the the post type name, if the unprefixed name (removing 'llms_')
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
@@ -360,7 +360,7 @@ class LLMS_Post_Types {
 	 * @since 3.37.12 Added 'revisions' support to course, lesson, and llms_mebership post types.
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
-	 * @since [version] Register all the post types using `self::register_post_type()`.
+	 * @since 5.5.0 Register all the post types using `self::register_post_type()`.
 	 *
 	 * @return void
 	 */
