@@ -10,6 +10,7 @@
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @since 3.37.14 Added tests on persisting tracking events.
  * @since 3.37.15 Added tests for admin table methods.
+ * @since [version] Added tests on select2_query_posts when searching terms with quotes.
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -354,6 +355,34 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertSame( 'Memberships', $res['items']['llms_membership']['label'] );
 		$this->assertTrue( array_key_exists( 'items', $res['items']['llms_membership'] ) );
 		$this->assertSame( 2, count( $res['items']['llms_membership']['items'] ) );
+
+	}
+
+	/**
+	 * Test the select2_query_posts() ajax method with search term and quotes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_select2_query_posts_search_term_quote() {
+
+		$course = $this->factory->post->create( array(
+			'post_title'  => 'search title with this quotes:\'" - :)',
+			'post_type'   => 'course',
+			'post_stauts' => 'publish',
+		));
+
+		$args = array(
+			'post_type'   => 'course',
+			'term'        => 'search title with this quotes:\'',
+		);
+
+		$res = $this->do_ajax( 'select2_query_posts', $args );
+		$this->assertSame( 1, count( $res['items'] ) );
+		$this->assertTrue( $res['success'] );
+		$this->assertSame( $course, (int) $res['items'][0]['id'] );
+		$this->assertSame( 'search title with this quotes:\'" - :)' .  " (ID# $course)", $res['items'][0]['name'] );
 
 	}
 
