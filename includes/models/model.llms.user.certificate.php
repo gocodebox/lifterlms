@@ -47,7 +47,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	);
 
 	/**
-	 * Array of default property values
+	 * Array of default property values.
 	 *
 	 * In the form of key => default value.
 	 *
@@ -339,7 +339,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function merge_content() {
 

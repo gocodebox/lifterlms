@@ -122,7 +122,7 @@ class LLMS_Post_Types {
 			$post_types['lesson'],
 			$post_types['llms_quiz'],
 			$post_types['llms_certificate'],
-			$post_types['llms_my_achievment'],
+			$post_types['llms_my_achievement'],
 			$post_types['llms_my_certificate']
 		);
 

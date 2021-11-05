@@ -67,7 +67,7 @@ function llms_get_certificate_content( $id = 0 ) {
 		$id = $certificate->get( 'id' );
 
 		// Get merged content for templates or the already-merged content of the earned cert, retrieve the raw because we filter it again below.
-		$content = 'llms_certificate' === get_post_type( $id ) ? $certificate->merge_content() : $certificate->get( 'content', false );
+		$content = 'llms_certificate' === get_post_type( $id ) ? $certificate->merge_content() : $certificate->get( 'content', true );
 
 	}
 
