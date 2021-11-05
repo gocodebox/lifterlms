@@ -1,11 +1,11 @@
 <?php
 /**
- * Admin base Metabox
+ * Admin base Metabox.
  *
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,8 +214,47 @@ class LLMS_Admin_Meta_Boxes {
 		return true;
 	}
 
+	/**
+	 * Check whether the post is a LifterLMS post type.
+	 *
+	 * @since unknown
+	 * @since [version] Added 'llms_my_achievement' and 'llms_my_certificate'.
+	 *
+	 * @param WP_Post $post WP_Post instance.
+	 * @return boolean
+	 */
 	public function is_llms_post_type( $post ) {
-		if ( in_array( $post->post_type, array( 'course', 'section', 'lesson', 'llms_order', 'llms_email', 'llms_certificate', 'llms_achievement', 'llms_engagement', 'llms_membership', 'llms_quiz', 'llms_question', 'llms_coupon', 'llms_voucher' ) ) ) {
+		$post_types = array(
+			'course',
+			'section',
+			'lesson',
+			'llms_order',
+			'llms_email',
+			'llms_certificate',
+			'llms_my_certificate',
+			'llms_achievement',
+			'llms_my_achievement',
+			'llms_engagement',
+			'llms_membership',
+			'llms_quiz',
+			'llms_question',
+			'llms_coupon',
+			'llms_voucher',
+		);
+
+		/**
+		 * Filters the post type names that are secific of LifterLMS.
+		 *
+		 * Used to determine whether or not fire actions of the type "lifterlms_process_{$post->post_type}_meta" on save.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $post_types Array of post type names.
+		 * @param WP_Post  $post       WP_Post instance.
+		 */
+		$post_types = apply_filters( 'llms_metaboxes_llms_post_types', $post_types, $post );
+
+		if ( in_array( $post->post_type, $post_types, true ) ) {
 			return true;
 		}
 	}
