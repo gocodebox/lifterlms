@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Post Types
+ * Admin Post Types.
  *
  * Sets up post type custom messages and includes base metabox class.
  *
@@ -59,10 +59,11 @@ class LLMS_Admin_Post_Types {
 	 * Customize post type messages.
 	 *
 	 * @since Unknown.
-	 * @version 3.35.0 Fix l10n calls.
+	 * @since 3.35.0 Fix l10n calls.
 	 * @since 4.7.0 Added `publicly_queryable` check for permalink and preview.
+	 * @since [version] Handle `llms_my_certificate` and `llms_my_achievement` post types.
 	 *
-	 * @return array $messages
+	 * @return array $messages Post updated messages.
 	 */
 	public function llms_post_updated_messages( $messages ) {
 
@@ -76,7 +77,9 @@ class LLMS_Admin_Post_Types {
 			'llms_email',
 			'llms_email',
 			'llms_certificate',
+			'llms_my_certificate',
 			'llms_achievement',
+			'llms_my_achievement',
 			'llms_engagement',
 			'llms_quiz',
 			'llms_question',
