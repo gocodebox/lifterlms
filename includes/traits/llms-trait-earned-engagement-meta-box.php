@@ -52,14 +52,12 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	 */
 	private $allowed_post_types = array(
 		'llms_my_achievement' => array(
-			'model'           => 'LLMS_User_Achievement',
-			'engagement_type' => 'achievement',
-			'reporting_stab'  => 'achievements',
+			'model'          => 'LLMS_User_Achievement',
+			'reporting_stab' => 'achievements',
 		),
 		'llms_my_certificate' => array(
-			'model'           => 'LLMS_User_Certificate',
-			'engagement_type' => 'certificate',
-			'reporting_stab'  => 'certificates',
+			'model'          => 'LLMS_User_Certificate',
+			'reporting_stab' => 'certificates',
 		),
 	);
 
@@ -170,39 +168,6 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 		array_unshift( $fields, $field );
 
 		return $fields;
-	}
-
-	/**
-	 * Maybe log engagment awarding
-	 *
-	 * Called after `$this->save()` during `$this->save_actions()`.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $post_id WP Post ID of the post being saved.
-	 * @return void
-	 */
-	protected function save_after( $post_id ) {
-
-		global $pagenow;
-		if ( 'post.php' !== $pagenow ) {
-			return;
-		}
-
-		$post      = get_post( $post_id );
-		$post_type = get_post_type( $post_id );
-
-		global $pagenow;
-
-		// If we are in the wrong location/post type, or we're performing just an update, we don't need to award any engagment.
-		if ( 'post.php' !== $pagenow ||
-				! array_key_exists( $post_type, $this->allowed_post_types ) || self::has_user_earned( $post->post_author, $post_id ) ) {
-			return;
-		}
-
-		// Award the engagement.
-		LLMS_Engagement_Handler::create_actions( $this->allowed_post_types[ $post_type ]['engagement_type'], $post->post_author, $post_id );
-
 	}
 
 	/**
