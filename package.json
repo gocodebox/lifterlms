@@ -44,7 +44,7 @@
     "lint:js": "wp-scripts lint-js ./src/**/*.js",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
-    "pkg:docgen": "docgen ./packages/llms-e2e-test-utils/src/index.js --output ./packages/llms-e2e-test-utils/README.md --to-token",
+    "pkg:docgen": "lerna run docgen",
     "pkg:hoist": "lerna bootstrap --hoist",
     "pkg:lint:js": "wp-scripts lint-js ./packages/llms-e2e-test-utils/**/*.js ./packages/dev",
     "pkg:test": "wp-scripts test-unit-js packages --config packages/scripts/config/jest-unit.config.js --verbose",

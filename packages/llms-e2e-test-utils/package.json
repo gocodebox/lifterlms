@@ -29,5 +29,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "docgen": "docgen src/index.js --output README.md --to-token"
   }
 }
