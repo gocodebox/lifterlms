@@ -40,6 +40,7 @@
     "build:styles": "gulp styles && gulp styles-rtl",
     "build:pot": "gulp pot-js && llms-dev pot",
     "dev": "llms-dev",
+    "lerna": "lerna",
     "lint:scripts": "wp-scripts lint-js ./src/**/*.js",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
