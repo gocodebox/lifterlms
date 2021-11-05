@@ -1,11 +1,11 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.21.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -329,7 +329,7 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Retrieve Students
+	 * Retrieve Students.
 	 *
 	 * Used by Select2 AJAX functions to load paginated student results.
 	 * Also allows querying by:
@@ -339,13 +339,14 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
+	 * @since [version] Do not encode quotes when sanitizing search term.
 	 *
 	 * @return void
 	 */
 	public static function query_students() {
 
-		// grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
+		// Grab the search term if it exists.
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
@@ -800,6 +801,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
+	 * @since [version] Do not encode quotes when sanitizing search term.
 	 *
 	 * @return void
 	 */
@@ -807,10 +809,10 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
-		// grab the search term if it exists.
-		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
+		// Grab the search term if it exists.
+		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
 
-		// get the page.
+		// Get the page.
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Get post type(s).
@@ -830,7 +832,7 @@ class LLMS_AJAX_Handler {
 		}
 		$post_statuses = implode( ',', $post_statuses_array );
 
-		// filter posts (llms posts) by instructor ID.
+		// Filter posts (llms posts) by instructor ID.
 		$instructor_id = llms_filter_input( INPUT_POST, 'instructor_id', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! empty( $instructor_id ) ) {
 			$serialized_iid = serialize(
@@ -872,8 +874,8 @@ class LLMS_AJAX_Handler {
 			 LIMIT %d, %d
 			",
 				$vars
-			)
-		);
+			) // phpcs:ignore -- The number of params is correct, $vars is an array of two elements.
+		);// no-cache ok.
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$items = array();
@@ -889,7 +891,7 @@ class LLMS_AJAX_Handler {
 
 			if ( $grouping ) {
 
-				// setup an object for the optgroup if it's not already set up.
+				// Setup an object for the optgroup if it's not already set up.
 				if ( ! isset( $items[ $post->post_type ] ) ) {
 					$obj                       = get_post_type_object( $post->post_type );
 					$items[ $post->post_type ] = array(
