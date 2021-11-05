@@ -1,7 +1,7 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
-v2.0.0 - 2021-11-08
+v2.0.0 - 2021-11-05
 -------------------
 
 + **[Breaking]** Raised the minimum required `@wordpress/scripts` version to 18.1.0.

@@ -1,7 +1,7 @@
 LifterLMS E2E Test Utils Changelog
 ==================================
 
-v3.0.0 - 2021-11-08
+v3.0.0 - 2021-11-05
 -------------------
 
 + **[Breaking]** Minimum required Puppeteer version raised from 3.0.0 to 5.3.0.
