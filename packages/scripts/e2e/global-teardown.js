@@ -9,7 +9,7 @@ const teardown = require( '@wordpress/scripts/config/jest-environment-puppeteer/
  * This can be removed if/when @wordpress/scripts allows configuration of the ARTIFACTS_PATH
  * constant
  *
- * @since [version]
+ * @since 2.0.0
  *
  * @link https://github.com/WordPress/gutenberg/issues/34797
  *
