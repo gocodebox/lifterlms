@@ -99,8 +99,11 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 		$post      = get_post( $post_id );
 		$post_type = get_post_type( $post_id );
 
-		// If we are in the wrong post type, or we're performing just an update, we don't need to award any engagment.
-		if ( ! array_key_exists( $post_type, $this->allowed_post_types ) || self::has_user_earned( $post->post_author, $post_id ) ) {
+		global $pagenow;
+
+		// If we are in the wrong location/post type, or we're performing just an update, we don't need to award any engagment.
+		if ( 'post.php' !== $pagenow ||
+				! array_key_exists( $post_type, $this->allowed_post_types ) || self::has_user_earned( $post->post_author, $post_id ) ) {
 			return;
 		}
 

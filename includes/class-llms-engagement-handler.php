@@ -233,7 +233,7 @@ class LLMS_Engagement_Handler {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
 		}
 
-		self::create_actions( $user_id, $related_id, $type, $generated->get( 'id' ) );
+		self::create_actions( $type, $user_id, $generated->get( 'id' ), $related_id, $engagement_id );
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
 		return new $model_class( $generated->get( 'id' ) );
@@ -255,7 +255,16 @@ class LLMS_Engagement_Handler {
 
 		// I think this should be removed but there's a lot of places where queries to _certificate_earned or _achievement_earned exist and it's the documented way of retrieving this data.
 		// Internally we should switch to stop relying on this and figure out a way to phase out the usage of the user postmeta data but for now I think we'll continue storing it.
-		llms_update_user_postmeta( $user_id, $related_id, "_{$type}_earned", $generated_id );
+		llms_update_user_postmeta(
+			$user_id,
+			$related_id,
+			"_{$type}_earned",
+			$generated_id,
+			// The earned engagement must be unique if a `$related_id` is present, otherwise it must be not.
+			// Manual awarding have no `$related_id`, and if we force the uniquiness we will end up updating always the same earned engagement
+			// every time we manually award a new one for the same user.
+			(bool) $related_id
+		);
 
 		/**
 		 * Action run after a student has successfully earned an engagement.
