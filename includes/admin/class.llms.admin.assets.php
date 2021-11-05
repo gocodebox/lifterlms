@@ -69,7 +69,8 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
-	 * @since 5.0.0 Use `LLMS_Assets` for registration/enqueue of
+	 * @since 5.0.0 Use `LLMS_Assets` for registration/enqueue of styles.
+	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-addons`.
 	 *
 	 * @return void
 	 */
@@ -88,10 +89,7 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 
 		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-settings' === $screen->id ) {
-			wp_register_style( 'llms-admin-add-ons', LLMS_PLUGIN_URL . 'assets/css/admin-add-ons' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
-			wp_enqueue_style( 'llms-admin-add-ons' );
-			wp_style_add_data( 'llms-admin-add-ons', 'rtl', 'replace' );
-			wp_style_add_data( 'llms-admin-add-ons', 'suffix', LLMS_ASSETS_SUFFIX );
+			llms()->assets->enqueue_style( 'llms-admin-add-ons' );
 		}
 
 	}
@@ -108,6 +106,7 @@ class LLMS_Admin_Assets {
 	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
 	 *               Remove topModal vendor dependency.
 	 *               Add `llms-admin-forms` on the forms post table screen.
+	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
 	 *
 	 * @return void
 	 */
@@ -233,9 +232,7 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . 'assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
-
-			wp_enqueue_script( 'llms-addons', LLMS_PLUGIN_URL . '/assets/js/llms-admin-addons' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
-
+			llms()->assets->enqueue_script( 'llms-addons' );
 		}
 
 	}

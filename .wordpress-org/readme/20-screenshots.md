@@ -1,3 +1,5 @@
+== Screenshots ==
+
 1. LifterLMS Courses
 2. LifterLMS Pricing Tables
 3. LifterLMS Checkout

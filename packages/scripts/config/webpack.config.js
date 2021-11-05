@@ -9,11 +9,11 @@
 
 // Deps.
 const
-	cssExtract = require( 'mini-css-extract-plugin' ),
-	cssRTL     = require( 'webpack-rtl-plugin' ),
-	config     = require( '@wordpress/scripts/config/webpack.config' ),
-	depExtract = require( '@wordpress/dependency-extraction-webpack-plugin' )
-	path       = require( 'path' );
+	cssExtract   = require( 'mini-css-extract-plugin' ),
+	cssRTL       = require( 'webpack-rtl-plugin' ),
+	config       = require( '@wordpress/scripts/config/webpack.config' ),
+	depExtract   = require( '@wordpress/dependency-extraction-webpack-plugin' ),
+	path         = require( 'path' );
 
 /**
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
@@ -74,6 +74,7 @@ function setupEntry( js, srcPath ) {
  * Setup the `plugins` array of the webpack config file.
  *
  * @since 1.2.1
+ * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  *
  * @param {Object[]} plugins Array of plugin objects or classes.
  * @param {String[]} css     Array of CSS file slugs.
@@ -82,12 +83,23 @@ function setupEntry( js, srcPath ) {
  */
 function setupPlugins( plugins, css, prefix ) {
 
-	// Delete the css extractor implemented in the default config (we'll replace it with our own later).
-	plugins.forEach( ( plugin, index ) => {
-		if ( 'MiniCssExtractPlugin' === plugin.constructor.name ) {
-			config.plugins.splice( index, 1 );
-		}
-	} );
+	const REMOVE_PLUGINS = [
+		/**
+		 * Remove the original WP Core dependency extractor. If we add an extractor
+		 * without removing the initial one core dependencies get lost when our
+		 * extractor runs.
+		 */
+		'DependencyExtractionWebpackPlugin',
+
+		/**
+		 * Remove the css extractor implemented in the default config.
+		 *
+		 * Our CSS extractor puts things in our preferred directory structure.
+		 */
+		'MiniCssExtractPlugin'
+	];
+
+	plugins = plugins.filter( plugin => ! REMOVE_PLUGINS.includes( plugin.constructor.name ) );
 
 	css.forEach( file => {
 
@@ -135,7 +147,15 @@ function setupPlugins( plugins, css, prefix ) {
  * @param {String}   options.outputPath Relative path to the output directory.
  * @return {Object} A webpack.config.js object.
  */
-module.exports = ( { css = [], js = [], prefix = 'llms-', outputPath = 'assets/', srcPath = 'src/' } ) => {
+module.exports = (
+	{
+		css = [],
+		js = [],
+		prefix = 'llms-',
+		outputPath = 'assets/',
+		srcPath = 'src/',
+	}
+) => {
 
 	return {
 		...config,

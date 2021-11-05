@@ -82,7 +82,7 @@ describe( 'Checkout/Coupons', () => {
 
 		await page.waitForSelector( '.llms-coupon-messages' );
 		// Wait for animation.
-		await page.waitFor( 500 );
+		await page.waitForTimeout( 500 );
 
 		expect( await page.$eval( '.llms-coupon-messages .llms-notice.llms-error li:first-child', el => el.textContent ) ).toBe( `Coupon code "${ codeNotFound }" not found.` );
 

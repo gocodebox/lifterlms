@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  5.0.0
+ * @version  5.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  5.0.0
+	 * @version  5.4.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -201,7 +201,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/Assignment.js.
 			 *
 			 * @since    3.17.0
-			 * @version  3.17.7
+			 * @version  5.4.0
 			 */
 			'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 			'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
@@ -242,7 +242,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/QuestionType.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.27.0
+			 * @version  5.4.0
 			 */
 			'Add Existing Question' => esc_html__( 'Add Existing Question', 'lifterlms' ),
 			'Search for existing questions...' => esc_html__( 'Search for existing questions...', 'lifterlms' ),
@@ -251,7 +251,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/Quiz.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.24.0
+			 * @version  5.4.0
 			 */
 			'An error occurred while trying to load the questions. Please refresh the page and try again.' => esc_html__( 'An error occurred while trying to load the questions. Please refresh the page and try again.', 'lifterlms' ),
 			'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
@@ -267,15 +267,6 @@ class LLMS_L10n_JS {
 			'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 			'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
 			'Use YouTube, Vimeo, or Wistia video URLS.' => esc_html__( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ),
-
-			/**
-			 * File: assets/js/llms-admin-addons.js.
-			 *
-			 * @since    3.22.0
-			 * @version  3.22.0
-			 */
-			'%d add-ons' => esc_html__( '%d add-ons', 'lifterlms' ),
-			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),
 
 			/**
 			 * File: assets/js/llms-admin-settings.js.
@@ -415,7 +406,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metaboxes.js.
 			 *
 			 * @since    3.0.0
-			 * @version  4.21.2
+			 * @version  5.3.0
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
@@ -432,7 +423,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-quiz-attempt-review.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.30.3
+			 * @version  5.3.0
 			 */
 			'Remarks to Student' => esc_html__( 'Remarks to Student', 'lifterlms' ),
 			'points' => esc_html__( 'points', 'lifterlms' ),
@@ -459,7 +450,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms.js.
 			 *
 			 * @since    1.0.0
-			 * @version  3.24.3
+			 * @version  5.3.3
 			 */
 			'This is a %2$s %1$s String' => esc_html__( 'This is a %2$s %1$s String', 'lifterlms' ),
 			'You do not have permission to access this content' => esc_html__( 'You do not have permission to access this content', 'lifterlms' ),
@@ -477,7 +468,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/partials/_metabox-field-repeater.js.
 			 *
 			 * @since    3.11.0
-			 * @version  3.23.0
+			 * @version  5.3.2
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 
@@ -485,7 +476,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/private/llms-metaboxes.js.
 			 *
 			 * @since    3.0.0
-			 * @version  4.21.2
+			 * @version  5.3.0
 			 */
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'"%s" is already in the course list.' => esc_html__( '"%s" is already in the course list.', 'lifterlms' ),

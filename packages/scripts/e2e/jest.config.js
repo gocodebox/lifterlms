@@ -2,7 +2,7 @@
  * Main Jest config
  *
  * @since Unknown
- * @since 1.3.0 Restructured to use defaults from @wordpress/scripts/config/jest-e2e.config module.
+ * @version 2.0.0
  */
 
 /**
@@ -13,15 +13,15 @@
 process.env.JEST_PUPPETEER_CONFIG = require.resolve( './jest-puppeteer.config.js' );
 
 const
-	// Main Config.
-	config    = require( '@wordpress/scripts/config/jest-e2e.config' ),
+	// Import the initial config to be moified.
+	config = require( '@wordpress/scripts/config/jest-e2e.config' ),
+
 	// List of uncompiled es modlues.
 	esModules = [ '@lifterlms/llms-e2e-test-utils' ].join( '|' );
 
 // Setup files.
 config.setupFilesAfterEnv = [
 	require.resolve( './bootstrap.js' ),
-	require.resolve( './screenshot-reporter.js' ),
 ];
 
 config.rootDir = process.cwd();
@@ -31,7 +31,18 @@ config.testSequencer = require.resolve( './sequencer.js' );
 
 // Look for tests with with ".test.js" as a suffix.
 config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
+
+// Don't transform specified modules.
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
+
+/**
+ * Override the global teardown to remove assets from the root dir.
+ *
+ * This can be removed if the @wordpress/scripts ARTIFACT_PATH can be changed via env vars.
+ *
+ * @link https://github.com/WordPress/gutenberg/issues/34797
+ */
+config.globalTeardown = require.resolve( './global-teardown' );
 
 /**
  * Jest Config

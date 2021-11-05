@@ -21,3 +21,4 @@ composer.lock
 
 # Non-distributable configs.
 phpunit.xml
+.llmsenv

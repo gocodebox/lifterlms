@@ -6,6 +6,7 @@
  * @since 4.5.0 Use package functions.
  * @since 4.12.0 Added registration test with a voucher.
  * @since 5.0.0 Added tests for form field localization (country, state, etc...).
+ * @since 5.5.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  */
 
 import {
@@ -104,7 +105,6 @@ describe( 'OpenRegistration', () => {
 
 			const selectCountry = async ( country ) => {
 				await select2Select( '#llms_billing_country', country );
-				await page.waitFor( 500 ); // Wait for dom to update?
 			};
 
 			const getStatesList = async () => {
@@ -125,7 +125,7 @@ describe( 'OpenRegistration', () => {
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
 
-			await page.waitFor( 1000 );
+			await page.waitForTimeout( 1000 );
 
 			// Peru changes name of the State & City fields.
 			await selectCountry( 'Peru' );
@@ -134,7 +134,7 @@ describe( 'OpenRegistration', () => {
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
 
-			await page.waitFor( 1000 );
+			await page.waitForTimeout( 1000 );
 
 			// United States.
 			await selectCountry( 'United States' );
@@ -143,7 +143,7 @@ describe( 'OpenRegistration', () => {
 			expect( await page.$eval( 'label[for="llms_billing_city"]', el => el.textContent ) ).toMatchSnapshot();
 			expect( await page.$eval( 'label[for="llms_billing_zip"]', el => el.textContent ) ).toMatchSnapshot();
 
-			await page.waitFor( 1000 );
+			await page.waitForTimeout( 1000 );
 
 			// UAB has no postal code or city.
 			await selectCountry( 'United Arab Emirates' );
@@ -152,7 +152,7 @@ describe( 'OpenRegistration', () => {
 			expect( await page.$eval( '#llms_billing_city', el => el.disabled ) ).toBe( true );
 			expect( await page.$eval( '#llms_billing_zip', el => el.disabled ) ).toBe( true );
 
-			await page.waitFor( 1000 );
+			await page.waitForTimeout( 1000 );
 
 			// Tokelau has no states.
 			await selectCountry( 'Tokelau' );

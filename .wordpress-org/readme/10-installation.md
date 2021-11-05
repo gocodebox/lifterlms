@@ -1,3 +1,5 @@
+== Installation ==
+
 #### Minimum System Requirements
 
 LifterLMS Requires

@@ -1,6 +1,38 @@
 LifterLMS Changelog
 ===================
 
+v5.5.0 - 2021-11-05
+-------------------
+
+##### New Features
+
++ Includes the LLMS-CLI beta, a set of WP-CLI commands for LifterLMS and LifterLMS add-ons, as part of the core plugin:
+  + To get started, run `wp llms --help` in your terminal or read the [online command documentation](https://developer.lifterlms.com/cli/commands/llms/).
+  + Please note that the LLMS-CLI is included as a public beta feature. The command API is in a pre-release state and, as such, is subject to change without warning.
+  + If you encounter any issues or wish to provide feedback on the LLMS-CLI please get in touch at [https://github.com/gocodebox/lifterlms-cli](https://github.com/gocodebox/lifterlms-cli).
+
+##### Bug Fixes
+
++ Fix AJAX post search when using search queries containing quotes.
+
+##### Deprecations
+
++ The `lifterlms_register_post_type_llms_engagement` is deprecated in favor of `lifterlms_register_post_type_engagement`.
++ The `lifterlms_register_post_type_llms_achievement` is deprecated in favor of `lifterlms_register_post_type_achievement`.
++ The `lifterlms_register_post_type_llms_certificate` is deprecated in favor of `lifterlms_register_post_type_certificate`.
++ The `lifterlms_register_post_type_llms_my_certificate` is deprecated in favor of `lifterlms_register_post_type_my_certificate`.
++ The `lifterlms_register_post_type_llms_email` is deprecated in favor of `lifterlms_register_post_type_email`.
++ The `lifterlms_register_post_type_llms_coupon` is deprecated in favor of `lifterlms_register_post_type_coupon`.
++ The `lifterlms_register_post_type_llms_voucher` is deprecated in favor of `lifterlms_register_post_type_voucher`.
+
+##### Developer Notes
+
++ The `llms-addons` style asset no longer ships an unminified version.
++ The `llms-admin-add-ons` style asset no longer ships an unminified version and the filename of the distributed file has changed.
++ All the LifterLMS post types are now registered using the static method `LLMS_Post_Types::register_post_type()`.
++ Upgraded woocommerce/action-scheduler to [v3.4.0](https://github.com/woocommerce/action-scheduler/releases/tag/3.4.0).
+
+
 v5.4.1 - 2021-10-26
 -------------------
 
