@@ -41,8 +41,8 @@ class LLMS_Post_Types {
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
 
-		add_action( 'admin_menu', array( __CLASS__, 'add_earned_egnagements_submenu_links' ) );
-
+		add_action( 'admin_menu', array( __CLASS__, 'modify_earned_engagements_submenu_links' ) );
+		add_filter( 'submenu_file', array( __CLASS__, 'modify_earned_engagements_submenu_file' ) );
 	}
 
 	/**
@@ -848,7 +848,8 @@ class LLMS_Post_Types {
 				'map_meta_cap'        => false,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
-				'show_in_menu'        => false,
+				/** This filter is documented above. */
+				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
 				'hierarchical'        => false,
 				'rewrite'             => false,
 				'show_in_nav_menus'   => false,
@@ -940,7 +941,8 @@ class LLMS_Post_Types {
 				'map_meta_cap'        => false,
 				'publicly_queryable'  => true,
 				'exclude_from_search' => true,
-				'show_in_menu'        => false,
+				/** This filter is documented above. */
+				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
 					'slug'       => untrailingslashit( _x( 'my_certificate', 'slug', 'lifterlms' ) ),
@@ -1476,13 +1478,48 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Add submenu items for earned engagments post types (llms_my_certificate,llms_my_achievement).
+	 * Modify submenu item links for llm_my_certificate and llms_my_achievement.
+	 *
+	 * By default the post types submenu items link to the post type list table,
+	 * we want them to point to the "Add New" screen.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public static function add_earned_egnagements_submenu_links() {
+	public static function modify_earned_engagements_submenu_links() {
+
+		global $submenu;
+
+		$post_types = array(
+			'llms_my_certificate',
+			'llms_my_achievement',
+		);
+
+		if ( empty( $submenu['edit.php?post_type=llms_engagement'] ) ) {
+			return;
+		}
+
+		foreach ( $post_types as $post_type ) {
+			foreach ( $submenu['edit.php?post_type=llms_engagement'] as & $engagements_submenu ) {
+				if ( "edit.php?post_type={$post_type}" === $engagements_submenu[2] ) {
+					$engagements_submenu[2] = "post-new.php?post_type={$post_type}";
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Modify the file of the earned engagements admin menu sub-menu items.
+	 *
+	 * This is needed to highlight the sub-menu item in the admin menu when editing/creating an earned engagement.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $submenu_file The submenu file.
+	 */
+	public static function modify_earned_engagements_submenu_file( $submenu_file ) {
 
 		$post_types = array(
 			'llms_my_certificate',
@@ -1490,20 +1527,13 @@ class LLMS_Post_Types {
 		);
 
 		foreach ( $post_types as $post_type ) {
-
-			$post_type_object = get_post_type_object( $post_type );
-			if ( empty( $post_type_object ) ) {
-				continue;
+			if ( "edit.php?post_type={$post_type}" === $submenu_file ) {
+				$submenu_file = "post-new.php?post_type={$post_type}";
 			}
-
-			add_submenu_page(
-				'edit.php?post_type=llms_engagement',
-				$post_type_object->labels->menu_name,
-				$post_type_object->labels->menu_name,
-				LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
-				admin_url( "post-new.php?post_type={$post_type}" )
-			);
 		}
+
+		return $submenu_file;
+
 	}
 
 }
