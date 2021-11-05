@@ -49,6 +49,9 @@ class LLMS_Admin_Meta_Boxes {
 		// Engagements.
 		new LLMS_Meta_Box_Engagement();
 
+		// Award Engagements.
+		new LLMS_Meta_Box_Award_Engagement_Submit();
+
 		// Membership restriction metabox.
 		new LLMS_Meta_Box_Access();
 
