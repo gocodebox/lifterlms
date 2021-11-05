@@ -1,5 +1,6 @@
 const
-	{ readFileSync, writeFileSync } = require( 'fs' ),
+	path = require( 'path' ),
+	{ readFileSync, writeFileSync, readdirSync, rmSync } = require( 'fs' ),
 	chalk = require( 'chalk' ),
 	semver = require( 'semver' ),
 	{
@@ -195,6 +196,22 @@ function formatChangelogVersionEntry( version, date, entries, links ) {
 	return lines;
 }
 
+/**
+ * Delete all changelog entry files from the changelog directory.
+ *
+ * @since [version]
+ *
+ * @param {string} dir Changelog directory.
+ * @return {void}
+ */
+function cleanupLogs( dir ) {
+	readdirSync( dir ).forEach( ( file ) => {
+		if ( file.endsWith( '.yml' ) ) {
+			rmSync( path.join( dir, file ) );
+		}
+	} );
+}
+
 module.exports = {
 	command: 'write',
 	description: 'Write existing changelog entries to the changelog file.',
@@ -205,8 +222,9 @@ module.exports = {
 		[ '-d, --date <YYYY-MM-DD>', 'Changelog publication date.', formatDate( Date.now() ) ],
 		[ '-n, --no-links', 'Skip appending links to changelog entries.' ],
 		[ '-D, --dry-run', 'Output what would be written to the changelog instead of writing it to the changelog file.' ],
+		[ '-k, --keep-entries', 'Preserve entry files deletion after the changelog is written.' ],
 	],
-	action: ( { dir, preid, force, logFile, date, links, dryRun } ) => {
+	action: ( { dir, preid, force, logFile, date, links, dryRun, keepEntries } ) => {
 		try {
 			date = formatDate( date );
 		} catch ( e ) {
@@ -257,5 +275,10 @@ module.exports = {
 
 		writeFileSync( logFile, [ header, items, ...body ].join( '\n\n' ) );
 		logResult( `Changelog for version ${ chalk.bold( version ) } written.` );
+
+		if ( ! keepEntries ) {
+			logResult( `Peforming entry file cleanup`, 'warning' );
+			cleanupLogs( dir );
+		}
 	},
 };

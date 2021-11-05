@@ -3,7 +3,7 @@ const
 	{ existsSync, writeFileSync } = require( 'fs' ),
 	chalk = require( 'chalk' ),
 	inquirer = require( 'inquirer' ),
-	{ getCurrentVersion, getChangelogForVersion, getArchiveFilename, logResult, pushDistFile, execSync } = require( '../utils' );
+	{ getCurrentVersion, getChangelogForVersion, getArchiveFilename, logResult, pushDistFile, execSync } = require( '../../utils' );
 
 /**
  * Create a temporary changelog file used to add the changelog to the GitHub release.
@@ -27,7 +27,7 @@ function writeTempNotesFile( version, logfile ) {
 }
 
 module.exports = {
-	command: 'release',
+	command: 'create',
 	description: 'Create a GitHub release and tag from a specified file or branch.',
 	options: [
 		[ '-a, --archive <zip>', 'If specified, the zip file will be committed and force-pushed to the specified branch before creating the release. Pass --no-archive to skip this step.', getArchiveFilename() ],
