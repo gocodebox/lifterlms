@@ -1,8 +1,8 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
-v2.0.0-beta.1 - 2021-09-10
---------------------------
+v2.0.0 - 2021-11-08
+-------------------
 
 + **[Breaking]** Raised the minimum required `@wordpress/scripts` version to 18.1.0.
 + **[Breaking]** Removes the failed test screenshot reporter in favor of the reporter included with `@wordpress/scripts`.
