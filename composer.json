@@ -63,6 +63,7 @@
       "gulpfile.js",
       "node_modules",
       "packages",
+      "src",
       "tests",
       "tmp",
       "wordpress",
