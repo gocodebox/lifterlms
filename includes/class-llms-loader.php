@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.3.0
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -308,6 +308,7 @@ class LLMS_Loader {
 	 * @since 4.9.0 Adds constants which can be used to identify when included libraries have been loaded.
 	 * @since 5.0.0 Load core libraries from new location, add WP Background Processing lib, add LLMS Helper.
 	 * @since 5.1.3 Add keys to the $libs array and pass them through a filter.
+	 * @since 5.5.0 Add LLMS-CLI to the list of included libraries.
 	 *
 	 * @return void
 	 */
@@ -318,6 +319,11 @@ class LLMS_Loader {
 				'const' => 'LLMS_BLOCKS_LIB',
 				'test'  => function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ),
 				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-blocks/lifterlms-blocks.php',
+			),
+			'cli'    => array(
+				'const' => 'LLMS_CLI_LIB',
+				'test'  => ! function_exists( 'llms_cli' ),
+				'file'  => LLMS_PLUGIN_DIR . 'libraries/lifterlms-cli/lifterlms-cli.php',
 			),
 			'rest'   => array(
 				'const' => 'LLMS_REST_API_LIB',
@@ -336,10 +342,13 @@ class LLMS_Loader {
 		 *
 		 * @since 5.1.3
 		 *
-		 * @param array $libs Array of library data. Array key is a unique ID for the library and each array contains the following keys:
-		 *                    @type string $const Name of the constant used to identify if the library is loaded as a library.
-		 *                    @type bool   $test  A test which is evaluated to determine if the library should be loaded. Returning `false` causes the library not to load.
-		 *                    @type string $file  Path to the main library file's location in the LifterLMS core plugin.
+		 * @param array $libs {
+		 *     Array of library data. Each array key serves as a unique ID for the library.
+		 *
+		 *     @type string $const Name of the constant used to identify if the library is loaded as a library.
+		 *     @type bool   $test  A test which is evaluated to determine if the library should be loaded. Returning `false` causes the library not to load.
+		 *     @type string $file  Path to the main library file's location in the LifterLMS core plugin.
+		 * }
 		 */
 		$libs = apply_filters( 'llms_included_libs', $libs );
 		foreach ( $libs as $lib ) {
