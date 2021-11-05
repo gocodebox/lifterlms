@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fix AJAX post search when using search queries containing quotes.
