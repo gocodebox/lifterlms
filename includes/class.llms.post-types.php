@@ -1140,20 +1140,6 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * These post types are for the awarded versions (created from the template)
-		 *
-		 * Intermittent issues that I can't quite recreate seem to crop up as a result of these
-		 * post types not being registered.
-		 *
-		 * Additionally, it's semantically incorrect that these post types *don't exist* so
-		 */
-		$earned_engagement_args = array(
-			'public'             => false,
-			'publicly_queryable' => true,
-		);
-		self::register_post_type( 'llms_my_achievement', $earned_engagement_args ); // TODO: REMOVE.
-
 	}
 
 	/**
