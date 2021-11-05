@@ -3,7 +3,7 @@ const chalk = require( 'chalk' );
 /**
  * Log a result to the console
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} msg  Message to log.
  * @param {string} type Message type. Accepts success, warning, error, or info.

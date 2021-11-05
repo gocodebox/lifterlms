@@ -7,7 +7,7 @@ const
 /**
  * Call the cli from within the cli.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}  cmd    CLI command and options.
  * @param {boolean} silent If `true`, silence STDOUT.
@@ -21,7 +21,7 @@ function callSelf( cmd, silent = true ) {
 /**
  * Open a CLI prompt and await user confirmation.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}  message Message to prompt for confirmation.
  * @param {boolean} skip    If true, the script is being run with `--yes` and no prompt should be made.

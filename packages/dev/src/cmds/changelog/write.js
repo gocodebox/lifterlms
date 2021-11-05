@@ -19,7 +19,7 @@ const
 /**
  * Accepts a date/time string and converts it to YYYY-MM-DD format used in changelog version titles.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string|number} date Timestamp or datetime string parseable by `Date.parse()`.
  * @return {string} Date string in YYYY-MM-DD format.
@@ -29,7 +29,7 @@ const formatDate = ( date ) => new Date( date ).toISOString().split( 'T' )[ 0 ];
 /**
  * Retrieve the an array of lines for the changelog entry's header.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} version A semver string.
  * @param {string} date    A date string.
@@ -45,7 +45,7 @@ function getHeaderLines( version, date ) {
 /**
  * Retrieve the title for the changelog item's type.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} type The changelog item type key.
  * @return {string} The changelog item type title.
@@ -69,7 +69,7 @@ function getTypeTitle( type ) {
 /**
  * [formatChangelogItem description]
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {ChangelogEntry} args              The changelog entry object.
  * @param {string}         args.entry        The content of the changelog entry.
@@ -133,7 +133,7 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
  * Compares the current git branch against the `trunk` branch in order to find all files in the `templates/` directory
  * which have been modified.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {boolean} includeLinks Whether or not the entry items should be formatted as links to the GitHub repository.
  * @return {ChangelogEntry[]} Array of changelog entry objects.
@@ -153,7 +153,7 @@ function getUpdatedTemplates( includeLinks ) {
 /**
  * Format the changelog entry for the given version.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}           version A semver string.
  * @param {string}           date    Version release date in YYYY-MM-DD format.
@@ -199,7 +199,7 @@ function formatChangelogVersionEntry( version, date, entries, links ) {
 /**
  * Delete all changelog entry files from the changelog directory.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} dir Changelog directory.
  * @return {void}

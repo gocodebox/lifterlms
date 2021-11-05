@@ -5,6 +5,11 @@ A command-line interface (CLI) for LifterLMS contributors and maintainers. This 
 
 ---
 
+## CHANGELOG
+
+[CHANGELOG](./CHANGELOG.md)
+
+
 ## Installation
 
 ```bash

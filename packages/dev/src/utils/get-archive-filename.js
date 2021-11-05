@@ -4,7 +4,7 @@ const getCurrentVersion = require( './get-current-version' ),
 /**
  * Retrieve the filename of the project's archive/distribution zip file.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {?string} version The version number. If not supplied uses the current version.
  * @return {string} The archive filename.

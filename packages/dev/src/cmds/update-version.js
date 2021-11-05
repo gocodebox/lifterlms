@@ -9,7 +9,7 @@ const
 /**
  * Update [version] placeholders via a regex against a list of file globs
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} files  Comma separated list of file globs.
  * @param {regex}  regex  A regular expression to use for the replacements.
@@ -44,7 +44,7 @@ function updateVersions( files, regex, ignore, ver ) {
  * If there is no package.json, will attempt to update the `extra.llms.version` item in the
  * project's composer.json file.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} ver Semantic version string.
  * @return {Object} A replacement result string.

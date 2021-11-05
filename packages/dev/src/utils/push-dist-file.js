@@ -9,7 +9,7 @@ const
  * This is used, primarily, to publish the distribution archive of a project
  * to the "release" branch which is used to create and publish installable releases.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}  distFile Distribution file used as the source of the commit.
  * @param {string}  branch   Branch to commit and push to.

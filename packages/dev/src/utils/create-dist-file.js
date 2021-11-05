@@ -8,7 +8,7 @@ const
 /**
  * Determine if the project has composer production dependencies warranting a `composer install` during builds.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @return {boolean} Whether or not a composer install is required.
  */

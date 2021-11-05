@@ -8,7 +8,7 @@ const
 /**
  * Create a temporary changelog file used to add the changelog to the GitHub release.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} version Semver string for the version being published.
  * @param {string} logfile Path to the the changelog file.

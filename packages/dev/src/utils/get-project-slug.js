@@ -7,7 +7,7 @@ const { basename } = require( 'path' );
  *
  * For example "lifterlms" or "lifterlms-integration-woocommerce".
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @return {string} The project's slug.
  */

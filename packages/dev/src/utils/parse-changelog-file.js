@@ -3,7 +3,7 @@ const { readFileSync } = require( 'fs' );
 /**
  * Retrieve an entry object stub with the given date and version.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} date    Release date in `YYYY-MM-DD` format.
  * @param {string} version A semver string.
@@ -20,7 +20,7 @@ function getEntryObject( date, version ) {
 /**
  * Convert an entry item list into a string, preserving newlines within the list but stripping them from the start and end.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string[]} entry Array of lines.
  * @return {string} Joined entry string.
@@ -45,7 +45,7 @@ function finalizeEntry( entry ) {
 /**
  * Convert a changelog file to a JSON object
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} file Path to the changelog MD file.
  * @return {Object[]} Changelog as an array of JSON objects.

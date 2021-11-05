@@ -5,7 +5,7 @@ const { existsSync } = require( 'fs' );
  *
  * Returns an empty object if the config file can't be found.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} filename The JSON config filename, eg "composer" or "package".
  * @return {Object} The config file as a JS object.
@@ -21,7 +21,7 @@ function getConfig( filename ) {
 /**
  * Determines if the specified JSON config file exists.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} filename The JSON config file name, eg "composer" or "package".
  * @return {boolean} Returns true if the config file exists, otherwise false.
