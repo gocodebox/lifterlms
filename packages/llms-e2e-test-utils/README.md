@@ -259,7 +259,16 @@ _Returns_
 
 ### loginStudent
 
-Undocumented declaration.
+Login a user via the LifterLMS student dashboard.
+
+_Parameters_
+
+-   _login_ `string`: User login or email address.
+-   _pass_ `string`: User password.
+
+_Returns_
+
+-   `void`: 
 
 ### logoutUser
 
@@ -280,7 +289,7 @@ _Type_
 
 _Parameters_
 
--   _args_ `Object`: 
+-   _args_ `Object`: Function arguments object.
 -   _args.email_ `string`: Email address. If not supplied one will be created from the first name and last name.
 -   _args.pass_ `string`: User password. If not supplied one will be automatically generated.
 -   _args.first_ `string`: User's first name.
@@ -304,7 +313,7 @@ Run (and test) the LifterLMS Setup Wizard
 
 _Parameters_
 
--   _options_ `Object`: 
+-   _options_ `Object`: Options object.
 -   _options.coursesToImport_ `string[]`: Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
 -   _options.exit_ `boolean`: Whether or not to exit the setup wizard at the conclusion of setup. If `true`, uses the "Exit" link to leave setup.\`
 
@@ -374,7 +383,7 @@ Visit a LifterLMS Settings Page on the admin panel
 
 _Parameters_
 
--   _args_ `Object`: 
+-   _args_ `Object`: Arguments object.
 -   _args.tab_ `string`: Settings page tab ID.
 -   _args.section_ `string`: Settings page section ID.
 
