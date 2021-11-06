@@ -8,7 +8,7 @@ const
 /**
  * Generate the truncated changelog section content.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} file   Changelog file.
  * @param {number} length Number of versions to include.

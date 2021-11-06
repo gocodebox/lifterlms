@@ -11,38 +11,82 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve the content of a certificate
+ * Retrieve the LLMS_User_Certificate instance for a given post.
+ *
+ * Expects the input post to be either an `llms_my_certificate` post. An `llms_certificate` post can be used
+ * when `$preview_template` is `true`.
+ *
+ * @since [version]
+ *
+ * @param WP_Post|int|null $post             A WP_Post object or a WP_Post ID. A falsy value will use the current global `$post` object (if one exists).
+ * @param boolean          $preview_template If `true`, allows loading an `llms_certificate` post type for previewing the template.
+ * @return LLMS_User_Certificate|boolean Returns the LLMS_User_Certificate object for the given post. Returns `false` if the post doesn't exist or is
+ *                                       not of the expected post type.
+ */
+function llms_get_certificate( $post = null, $preview_template = false ) {
+
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return false;
+	}
+
+	if ( 'llms_my_certificate' === $post->post_type || ( 'llms_certificate' === $post->post_type && $preview_template ) ) {
+		return new LLMS_User_Certificate( $post );
+	}
+
+	return false;
+
+}
+
+/**
+ * Retrieve the content of a certificate.
+ *
+ * This allows utilizing the `LLMS_User_Certificate` class with an `llms_certificate` post type to render a preview
+ * of the certificate template. The saved `post_content` will be merged (using the current user's information).
+ *
+ * This function is intended for use on the certificate's front-end display template. In order to retrieve the
+ * raw content use `LLMS_User_Certificate->get( 'content' )` or `WP_Post->post_content`.
  *
  * @since 2.2.0
  * @since 3.18.0 Unknown.
- * @since [version] Use strict comparison.
+ * @since [version] Use `llms_get_certificate()` and `LLMS_User_Certificate` methods.
+ *                If this function is used out of the intended certificate context this will now
+ *                return an empty string, whereas previously it returned the content of the post.
  *
  * @param integer $id WP Post ID of the cert (optional if used within a loop).
  * @return string
  */
 function llms_get_certificate_content( $id = 0 ) {
 
-	$id = ( $id ) ? $id : get_the_ID();
+	$content = '';
 
-	$cert = LLMS()->certificates();
+	$certificate = llms_get_certificate( $id, true );
+	if ( $certificate ) {
 
-	if ( 'llms_certificate' === get_post_type( $id ) ) {
+		// If `$id` was empty to use the global, ensure an id is available in filter on the return.
+		$id = $certificate->get( 'id' );
 
-		$cert->certs['LLMS_Certificate_User']->init( $id, get_current_user_id(), $id );
-		$certificate_content = $cert->certs['LLMS_Certificate_User']->get_content_html();
-
-	} else {
-
-		$certificate_content = get_the_content();
+		// Get merged content for templates or the already-merged content of the earned cert, retrieve the raw because we filter it again below.
+		$content = 'llms_certificate' === get_post_type( $id ) ? $certificate->merge_content() : $certificate->get( 'content', true );
 
 	}
 
-	$content = apply_filters( 'the_content', $certificate_content );
+	/** WordPress core filter documented at {@link https://developer.wordpress.org/reference/hooks/the_content/}. */
+	$content = apply_filters( 'the_content', $content );
 
-	return apply_filters( 'lifterlms_certificate_content', $content, $id );
+	/**
+	 * Filter the `post_content` of a certificate or certificate template.
+	 *
+	 * @since Unknown
+	 * @since [version] Added the `$certificate` parameter.
+	 *
+	 * @param string                     $content     The certificate content.
+	 * @param int                        $id          The ID of the certificate.
+	 * @param bool|LLMS_User_Certificate $certificate Certificate object or `false` if the post couldn't be found.
+	 */
+	return apply_filters( 'lifterlms_certificate_content', $content, $id, $certificate );
 
 }
-
 
 /**
  * Retrieve an array of image data for a certificate background image
@@ -50,6 +94,7 @@ function llms_get_certificate_content( $id = 0 ) {
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).
  *
  * @since 2.2.0
+ * @since [version] Use `LLMS_User_Certificate::get_background_image()`.
  *
  * @param int $id Optional. WP Certificate Post ID. Default is 0.
  *                When not provide the current post id will be used.
@@ -57,34 +102,9 @@ function llms_get_certificate_content( $id = 0 ) {
  */
 function llms_get_certificate_image( $id = 0 ) {
 
-	$id = ( $id ) ? $id : get_the_ID();
-
-	$img_id = get_post_meta( $id, '_llms_certificate_image', true );
-
-	// Don't retrieve a size if legacy mode is enabled.
-	$size = ( 'yes' === get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? '' : 'lifterlms_certificate_background';
-
-	$src = wp_get_attachment_image_src( $img_id, $size );
-
-	if ( ! $src ) {
-
-		$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
-		$width  = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
-		$src    = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png', $id );
-
-	} else {
-
-		$height = apply_filters( 'lifterlms_certificate_background_image_height', $src[2], $id );
-		$width  = apply_filters( 'lifterlms_certificate_background_image_width', $src[1], $id );
-		$src    = apply_filters( 'lifterlms_certificate_background_image_src', $src[0], $id );
-
-	}
-
-	return array(
-		'height' => $height,
-		'src'    => $src,
-		'width'  => $width,
-	);
+	$id   = ( $id ) ? $id : get_the_ID();
+	$cert = new LLMS_User_Certificate( $id );
+	return $cert->get_background_image();
 
 }
 
@@ -108,6 +128,22 @@ function llms_get_certificate_merge_codes() {
 		'{user_login}'     => __( 'Student Username', 'lifterlms' ),
 		'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
 		'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
+	);
+
+}
+
+/**
+ * Utility function to retrieve a list of the certificate post types.
+ *
+ * @since [version]
+ *
+ * @return string[] Array of certificate post type names.
+ */
+function llms_get_certificate_post_types() {
+
+	return array(
+		'llms_certificate', // Template.
+		'llms_my_certificate', // Earned Certificate.
 	);
 
 }
@@ -182,20 +218,37 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 /**
  * Retrieve the title of a certificate
  *
- * @since 2.2.0
+ * This function is intended for use on the certificate's front-end display template.
  *
- * @param int $id Optional. WP Certificate Post ID. Default is 0.
- *                When not provide the current post id will be used.
+ * @since 2.2.0
+ * @since [version] Use `LLMS_User_Certificate()` to retrieve the title for earned certificates.
+ *
+ * @param int $id WP Certificate Post ID. When not provide the current post id will be used.
  * @return string The title of the certificate.
  */
 function llms_get_certificate_title( $id = 0 ) {
 
-	$id = ( $id ) ? $id : get_the_ID();
+	$id          = $id ? $id : get_the_ID();
+	$title       = '';
+	$certificate = llms_get_certificate( $id, false );
+	if ( $certificate ) {
+		$title = $certificate->get( 'title' );
+	} else if ( 'llms_certificate' === get_post_type( $id ) ) {
+		$title = get_post_meta( $id, '_llms_certificate_title', true );
+	}
 
-	return apply_filters( 'lifterlms_certificate_title', get_post_meta( $id, '_llms_certificate_title', true ), $id );
+	/**
+	 * Filter the title of a certificate or certificate template.
+	 *
+	 * @since Unknown
+	 * @since [version] Added the `$certificate` parameter.
+	 *
+	 * @param string $title The certificate title.
+	 * @param int    $id    The ID of the certificate.
+	 */
+	return apply_filters( 'lifterlms_certificate_title', $title, $id );
 
 }
-
 
 /**
  * Register the custom "print_certificate" image size

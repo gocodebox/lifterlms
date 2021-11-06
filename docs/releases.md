@@ -5,42 +5,31 @@ This document outlines the workflow used by LifterLMS core maintainers to build 
 
 This document assumes you have already installed LifterLMS for development following the [Installing for Development guide](./installing.md).
 
-This build process relies on the use of the `llms-dev` CLI. The CLI is not available publicly. Any core contributor will be provided access to the CLI as needed.
+## 1. Build the Release
 
+Prepare the release: `npm run dev release prepare`:
 
-## 1. Pre-release Tests
+When running this command, the following happens:
 
-1. Ensure the release passes all automated testing. Use `composer run tests-run`.
-2. Ensure the release passes coding standard checks. Use `composer run check-cs-errors`.
+1. Determines the version number based on the significance values found in `.changelogs/` files. Unless `-F` is passed to the command to force a specific version number.
+2. Write the changelog entries to `CHANGELOG.md`.
+3. Updates version numbers of placeholder `[version]` tags, `package.json`, etc...
+4. Runs the release build command, `npm run build`.
 
-_Note: files in the `tmp` directory used during tests are currently parsed by the certain gulp tasks. Remove the `tmp` directory before proceeding to the next steps._
+## 2. Run tests and coding standards checks
 
+1. Ensure phpunit tests pass: `composer run tests-run`.
+2. Ensure phpcs checks pass: `composer run check-cs-errors`.
+3. Ensure e2e tests pass: `npm run test`.
+4. Ensure eslint checks pass: `npm run lint:js`.
 
-## 2. Build the Release
+## 3. Commit and push
 
-### 2A. Generate the Changelog
-
-1. Automatically generate the changelog from `@since [version]` tags in the codebase: `llms-dev log:write`.
-2. Update the changelog, grouping changes into relevant headings (Updates, Bug Fixes, Deprecations, & Templates Updated).
-3. Remove redundant, irrelevant, and superfluous entries.
-
-### 2B. Update file version numbers
-
-Replace all `[version]` tags with the release version number: run `llms-dev ver:update`. Use the `-i` or `-F` flags to update the release according to the next version number.
-
-### 2C. Build static assets
-
-The following steps can be run in a single command, `npm run build`.
-
-+ Generate static assets and language files: `npm run build:scripts && npm run build:styles && npm run build:pot`
-+ Generate the readme.txt file: `llms-dev readme`
-+ Update contributors list in README.md: `npm run contributors`
-
+After building and testing the built release, all changes should be committed and pushed to GitHub.
 
 ## 3. Generate the Distribution Archive
 
-Run `llms-dev archive`.
-
+Run `npm run dev archive`.
 
 ## 4. Run pre-release tests on the archived
 
@@ -51,35 +40,23 @@ Install and activate the zip file on a temporary sandbox site.
   3. Enroll a student into the course.
   4. Complete a lesson.
 
-_This manual testing ensures no (unlikely but possible) errors occurred in the build steps above._
-
+_This manual testing ensures no errors occurred in the build steps above._
 
 ## 5. Publish the Release
 
-Run `llms-dev publish:gh`.
+Run `npm run dev release create`.
 
 The following steps are performed automatically by the above task:
 
 1. Publish to GitHub
-
     A. The contents of the distribution archive is force-pushed to the `release` branch.
     B. A new release tag draft is created for the current version number using `release` as the commit target.
     C. The distribution archive is uploaded to the release.
     D. The release is published.
     E. A webhook ping notifies the `llms-releaser` server which performs the remaining steps of the release:
-
 2. Publish to WordPress plugin repository
-
     A. Create a new SVN tag using the release asset (distribution archive) as the base.
     B. Update the `trunk` branch to match the new tag.
-
 3. A changelog blog post is published to make.lifterlms.com.
-
 4. The number is updated at LifterLMS.com
-
 5. The distribution archive is synced to the release asset bucket in AWS S3 as a backup.
-
-
-## 6. Update documentation at developer.lifterlms.com
-
-Via SSH run `./updateDocs.sh` and follow the prompts.

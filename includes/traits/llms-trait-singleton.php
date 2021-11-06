@@ -39,7 +39,7 @@ trait LLMS_Trait_Singleton {
 
 				if ( is_null( self::$_instance ) ) {
 
-					self::$instance = new self();
+					self::$instance  = new self();
 					self::$_instance = self::$instance;
 				} else {
 					self::$instance = self::$_instance;

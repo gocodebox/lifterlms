@@ -2,7 +2,7 @@
  * Tests Bootstrap.
  *
  * @since Unknown
- * @version [version]
+ * @version 2.0.0
  */
 
 require( 'regenerator-runtime' );

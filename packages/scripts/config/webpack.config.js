@@ -74,7 +74,7 @@ function setupEntry( js, srcPath ) {
  * Setup the `plugins` array of the webpack config file.
  *
  * @since 1.2.1
- * @since [version] Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
+ * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
  *
  * @param {Object[]} plugins Array of plugin objects or classes.
  * @param {String[]} css     Array of CSS file slugs.

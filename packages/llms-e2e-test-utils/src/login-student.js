@@ -8,7 +8,7 @@ const { clickAndWait } = require( './click-and-wait' ),
 /**
  * Login a user via the LifterLMS student dashboard.
  *
- * @since [version]
+ * @since 3.0.0
  *
  * @param {string} login User login or email address.
  * @param {string} pass  User password.

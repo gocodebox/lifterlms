@@ -8,7 +8,7 @@ const
  *
  * Looks in the project's root directory for .llmsdev.yml or .llmsdev.yaml.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @return {string} Returns the full path to the config file or an empty string if none can be found.
  */
@@ -33,7 +33,7 @@ function getConfigFilePath() {
 /**
  * Load the gloabl config file.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @return {Object} Returns the parsed config file as a JS object or an empty object if none found.
  */

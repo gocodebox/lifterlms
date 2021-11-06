@@ -1,3 +1,0 @@
-significance: minor
-type: dev
-entry: All the LifterLMS post types are now registered using the static method `LLMS_Post_Types::register_post_type()`.

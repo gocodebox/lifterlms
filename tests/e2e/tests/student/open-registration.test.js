@@ -6,7 +6,7 @@
  * @since 4.5.0 Use package functions.
  * @since 4.12.0 Added registration test with a voucher.
  * @since 5.0.0 Added tests for form field localization (country, state, etc...).
- * @since [version] Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ * @since 5.5.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
  */
 
 import {

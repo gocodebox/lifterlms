@@ -4,7 +4,7 @@
  * @package LifterLMS/Scripts/Admin
  *
  * @since 3.22.0
- * @version [version]
+ * @version 5.5.0
  */
 
 import { _n, sprintf } from '@wordpress/i18n';
@@ -57,7 +57,7 @@ import '../scss/admin-addons.scss';
 	 * Shows # of each action to be applied & shows the form submission / cancel buttons
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use `wp.i18n` functions in favor of `LLMS.l10n` and use `$.text()` in favor of `$.html()`.
+	 * @since 5.5.0 Use `wp.i18n` functions in favor of `LLMS.l10n` and use `$.text()` in favor of `$.html()`.
 	 *               Renamed from `update_ui()` to match coding standards.
 	 *
 	 * @return {void}

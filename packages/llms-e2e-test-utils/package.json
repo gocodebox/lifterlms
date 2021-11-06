@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/llms-e2e-test-utils",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0",
   "description": "E2E testing utilities for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -29,5 +29,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "docgen": "docgen src/index.js --output README.md --to-token"
   }
 }

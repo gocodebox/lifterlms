@@ -55,7 +55,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test merging of defaults during construction
 	 *
 	 * @since 4.9.0
-	 * @since [version] Add `asset_file`.
+	 * @since 5.5.0 Add `asset_file`.
 	 *
 	 * @return void
 	 */
@@ -273,7 +273,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get() method for an asset with an asset.php file
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */
@@ -394,7 +394,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	 * Test get_scripts()
 	 *
 	 * @since 4.4.0
-	 * @since [version] Add `asset_file`.
+	 * @since 5.5.0 Add `asset_file`.
 	 *
 	 * @return void
 	 */
@@ -537,7 +537,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test merge_asset_file() when `asset_file` is `false`.
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */
@@ -688,7 +688,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_script() for a defined asset with defined dependencies.
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */
@@ -722,7 +722,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_script() with translations
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */
@@ -829,7 +829,7 @@ class LLMS_Test_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_style() for an asset with defined dependencies
 	 *
-	 * @since [version]
+	 * @since 5.5.0
 	 *
 	 * @return void
 	 */

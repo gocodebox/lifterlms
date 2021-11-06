@@ -7,7 +7,7 @@ const
 /**
  * Retrieve a symbol describing the status type.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} type Status type.
  * @return {string} The UTF8 symbol for the requested status.
@@ -31,7 +31,7 @@ function getSymbol( type ) {
 /**
  * Log a message with a status symbol prefix.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} msg  The message to log.
  * @param {string} type The status type.
@@ -44,7 +44,7 @@ function logWithSymbol( msg, type ) {
 /**
  * Determine the overall status for a given changelog entry
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string[]} errors   Array of encountered error messages.
  * @param {string[]} warnings Array of encountered warning messages.

@@ -47,6 +47,17 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	);
 
 	/**
+	 * Array of default property values.
+	 *
+	 * In the form of key => default value.
+	 *
+	 * @var array
+	 */
+	protected $property_defaults = array(
+		'sequential_id' => 1,
+	);
+
+	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 *
 	 * This stub can be overwritten by child classes.
@@ -58,7 +69,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	protected function after_create() {
 
 		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'certificate_template' ), true ) );
-		$this->merge_content( true );
+		$this->set( 'content', $this->merge_content() );
 
 	}
 
@@ -111,6 +122,100 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 * @param LLMS_User_Certificate $certificate Certificate class instance.
 		 */
 		return apply_filters( 'llms_certificate_can_user_view', $result, $user_id, $this );
+
+	}
+
+	/**
+	 * Retrieve information about the certificate background image.
+	 *
+	 * @since [version]
+	 *
+	 * @return array {
+	 *     Returns an associative array of information about the background image.
+	 *
+	 *     @type string $src        The image source url.
+	 *     @type int    $width      The image display width, in pixels.
+	 *     @type int    $height     The image display height, in pixels.
+	 *     @type bool   $is_default Whether or not the default image was returned.
+	 * }
+	 */
+	public function get_background_image() {
+
+		$id = $this->get( 'id' );
+
+		// Don't retrieve a size if legacy mode is enabled.
+		$size = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+
+		$img_id = get_post_thumbnail_id( $id );
+
+		if ( ! $img_id ) {
+
+			// Get the source.
+			$src = llms_get_certificate_default_image( $id );
+
+			// Denote it's the default image in the return.
+			$is_default = true;
+
+			/**
+			 * Filters the display height of the default certificate background image.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param int $height         Display height of the image, in pixels.
+			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 */
+			$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
+
+			/**
+			 * Filters the display width of the default certificate background image.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param int $width          Display width of the image, in pixels.
+			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 */
+			$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
+
+		} else {
+
+			list( $src, $width, $height ) = wp_get_attachment_image_src( $img_id, $size );
+
+			// Denote it's not the default image in the return.
+			$is_default = false;
+
+			/**
+			 * Filters the image source of the certificate background image.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param string $src            The image source url.
+			 * @param int    $certificate_id WP_Post ID of the earned certificate.
+			 */
+			$src = apply_filters( 'lifterlms_certificate_background_image_src', $src, $id );
+
+			/**
+			 * Filters the display height of the certificate background image.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param int $height         Display height of the image, in pixels.
+			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 */
+			$height = apply_filters( 'lifterlms_certificate_background_image_height', $height, $id );
+
+			/**
+			 * Filters the display width of the certificate background image.
+			 *
+			 * @since 2.2.0
+			 *
+			 * @param int $width          Display width of the image, in pixels.
+			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 */
+			$width = apply_filters( 'lifterlms_certificate_background_image_width', $width, $id );
+
+		}
+
+		return compact( 'src', 'width', 'height', 'is_default' );
 
 	}
 
@@ -234,9 +339,9 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return string
 	 */
-	protected function merge_content() {
+	public function merge_content() {
 
 		// Merge.
 		$merge   = $this->get_merge_data();
@@ -269,8 +374,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			$content = ob_get_clean();
 		}
 
-		// Save the fully merged content.
-		$this->set( 'content', $content );
+		return $content;
 
 	}
 
@@ -294,7 +398,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$this->set( 'title', $template->post_title );
 		$this->set( 'content', $template->post_content );
 
-		$this->merge_content();
+		// Save the fully merged content.
+		$this->set( 'content', $this->merge_content() );
 
 		return true;
 

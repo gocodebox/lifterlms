@@ -8,7 +8,7 @@ const ChangelogEntry = require( './changelog-entry' ),
  *
  * This will attempt to parse all .y[a]ml files found in the specified directory.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} dir Path to the directory.
  * @return {ChangelogEntry[]} Array of changelog entry objects.

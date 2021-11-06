@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 5.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
-	 * @since [version] Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
+	 * @since 5.5.0 Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
 	 *
 	 * @return void
 	 */

@@ -8,7 +8,7 @@ const
 /**
  * Command: pot
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @type {Object}
  */
@@ -26,7 +26,7 @@ module.exports = {
 	/**
 	 * Callback action for the pot command
 	 *
-	 * @since [version]
+	 * @since 0.0.1
 	 *
 	 * @param {Object}  options              Command options.
 	 * @param {string}  options.textDomain   Project text domain.

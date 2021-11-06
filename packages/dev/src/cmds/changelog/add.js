@@ -19,7 +19,7 @@ const
 /**
  * Generate a list for the given option key.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} option Option key.
  * @return {Object[]} Array of objects used for the list.
@@ -35,7 +35,7 @@ function generateList( option ) {
 /**
  * Coerces a numeric value to a valid link value.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {any} link User-submitted link value.
  * @return {any} The link as a valid link value if it can be coerced or the user-submitted value if it cannot.
@@ -47,7 +47,7 @@ function coerceLink( link ) {
 /**
  * Create the changelog entry from the given entry object.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {ChangelogEntry} log Changelog entry object.
  * @return {void}

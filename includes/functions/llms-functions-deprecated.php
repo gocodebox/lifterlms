@@ -201,3 +201,19 @@ function llms_cert_deprecated_meta_title( $val, $cert ) {
 	return $cert->get( 'title' );
 }
 add_filter( 'llms_get_certificate_certificate_title', 'llms_cert_deprecated_meta_title', 10, 2 );
+
+function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
+
+	$deprecated = array(
+		'_llms_certificate_title' => 'llms_cert_deprecated_meta_title',
+	);
+	if ( array_key_exists( $key, $deprecated ) ) {
+		$obj = llms_get_certificate( $obj_id, false );
+		if ( $obj ) {
+			return $deprecated[ $key ]( $val, $obj );
+		}
+	}
+
+	return $val;
+}
+add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
