@@ -35,6 +35,7 @@
 	"scripts": {
 		"src": [
 			"assets/js/**/*.js",
+			"!assets/js/llms-admin-addons.js",
 			"!assets/js/**/*.min.js",
 			"!assets/js/llms-builder*.js",
 			"!assets/js/app/**/*.js",

@@ -1,0 +1,54 @@
+###
+#
+# This workflow file is deployed into this repository via the "Sync Organization Files" workflow
+#
+# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
+# to the source file.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Workflow template {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflow-templates/lint-js.yml}
+#
+###
+name: Lint JavaScript
+
+on:
+  workflow_dispatch:
+  pull_request:
+  # Once daily at 00:00 UTC.
+  schedule:
+    - cron: '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ 'pull_request' == github.event_name && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+        cache: 'npm'
+
+    - name: Install npm dependencies
+      run: npm ci
+
+    - name: Run linter
+      continue-on-error: true
+      run: npm run lint:js
+
+    - name: Save linter output
+      continue-on-error: true
+      run: npm run lint:js -- --output-file eslint-report.json --format json
+
+    - name: Create annotations
+      uses: ataylorme/eslint-annotate-action@1.2.0
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        report-json: "eslint-report.json"

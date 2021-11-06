@@ -12,7 +12,7 @@ const
  *
  * When formatting is enabled, the text will be quoted and emboldened.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}  text       The text to highlight.
  * @param {boolean} formatting Whether or not rich formatting should be used.
@@ -30,7 +30,7 @@ function highlight( text, formatting = true ) {
  *   + GitHub username reference: @thomasplevy
  *   + Markdown link: [Jeffrey Lebowski](https://elduderino.geocites.com/)
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} attr User-submitted attribution string.
  * @return {boolean} Returns `true` if the attribution string is valid, otherwise `false`.
@@ -67,7 +67,7 @@ function isAttributionValid( attr ) {
  *   + GitHub issue reference in the current repo: #12345
  *   + GitHub issue reference to another repo: organization/repository#12345
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} link User-submitted link string.
  * @return {boolean} Returns `true` if the link is valid and false otherwise.
@@ -111,7 +111,7 @@ function isLinkValid( link ) {
  *   + The remaining portion of each line follows the same rules as a single-line entry.
  *   + Additionally, a line may end in a colon.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string} entry The changelog entry string.
  * @return {boolean} Returns `true` if the entry is valid and `false` otherwise.
@@ -141,7 +141,7 @@ function isEntryValid( entry ) {
 /**
  * Retrieve a list of changelog validation issues.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {ChangelogEntry} logEntry   The changelog entry object to validate.
  * @param {boolean}        formatting Whether or not messages should include formatting (colors and bold).

@@ -17,7 +17,7 @@ program
 /**
  * Read the contents of the specified directory, registering all as subcommands of the specified parent command.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Command} parent        Parent command instance.
  * @param {string}  dir           Path to the directory where the command modules should be loaded from.
@@ -39,7 +39,7 @@ function registerCommands( parent, dir, optionsParent = [] ) {
 /**
  * Register a command with the specified parent.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {Command} parent        Parent command instance.
  * @param {string}  filePath      Path to the directory where the command modules should be loaded from.

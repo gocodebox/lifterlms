@@ -7,7 +7,7 @@ const { execSync } = require( 'child_process' );
  * quality of life improvements to reduce the necessity of specifying
  * an options object to silence output.
  *
- * @since [version]
+ * @since 0.0.1
  *
  * @param {string}  cmd   Command to execute.
  * @param {boolean} quiet If true, silences stdio output.

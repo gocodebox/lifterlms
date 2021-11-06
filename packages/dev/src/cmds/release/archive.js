@@ -1,6 +1,6 @@
 const
 	chalk = require( 'chalk' ),
-	{ createDistFile, execSync, logResult } = require( '../utils' );
+	{ createDistFile, execSync, logResult } = require( '../../utils' );
 
 module.exports = {
 	command: 'archive',

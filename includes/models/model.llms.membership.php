@@ -43,13 +43,13 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 * @var array
 	 */
 	protected $properties = array(
-		'auto_enroll'                => 'array',
-		'instructors'                => 'array',
-		'redirect_page_id'           => 'absint',
-		'restriction_add_notice'     => 'yesno',
-		'restriction_notice'         => 'html',
-		'restriction_redirect_type'  => 'text',
-		'redirect_custom_url'        => 'text',
+		'auto_enroll'               => 'array',
+		'instructors'               => 'array',
+		'redirect_page_id'          => 'absint',
+		'restriction_add_notice'    => 'yesno',
+		'restriction_notice'        => 'html',
+		'restriction_redirect_type' => 'text',
+		'redirect_custom_url'       => 'text',
 	);
 
 	/**
