@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Eearned Engagements (Certificate/Achievement) Reporting Table trait.
  *
- * **This trait should only be used by classes that extend from the {@see LLMS_Admin_Table} class.**
+ * This trait should only be used by classes that extend from the {@see LLMS_Admin_Table} class.
  *
  * @since [version]
  */

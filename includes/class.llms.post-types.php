@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -40,8 +40,6 @@ class LLMS_Post_Types {
 		add_filter( 'wp_sitemaps_post_types', array( __CLASS__, 'deregister_sitemap_post_types' ) );
 
 		add_action( 'after_setup_theme', array( __CLASS__, 'add_thumbnail_support' ), 777 );
-
-		add_action( 'admin_menu', array( __CLASS__, 'add_earned_egnagements_submenu_links' ) );
 
 	}
 
@@ -812,28 +810,27 @@ class LLMS_Post_Types {
 		self::register_post_type(
 			'llms_my_achievement',
 			array(
-				'labels'              => array(
-					'name'                  => __( 'Achievements', 'lifterlms' ),
-					'singular_name'         => __( 'Achievement', 'lifterlms' ),
+				'labels'                => array(
+					'name'               => __( 'Awarded Achievements', 'lifterlms' ),
+					'singular_name'         => __( 'Awarded Achievement', 'lifterlms' ),
 					'add_new'               => __( 'Award Achievement', 'lifterlms' ),
-					'add_new_item'          => __( 'Add New Achievement', 'lifterlms' ),
+					'add_new_item'          => __( 'Award New Achievement', 'lifterlms' ),
 					'edit'                  => __( 'Edit', 'lifterlms' ),
-					'edit_item'             => __( 'Edit Achievement', 'lifterlms' ),
-					'new_item'              => __( 'Award Achievement', 'lifterlms' ),
-					'view'                  => __( 'View Achievement', 'lifterlms' ),
-					'view_item'             => __( 'View Achievement', 'lifterlms' ),
-					'search_items'          => __( 'Search Achievements', 'lifterlms' ),
-					'not_found'             => __( 'No Achievements found', 'lifterlms' ),
-					'not_found_in_trash'    => __( 'No Achievements found in trash', 'lifterlms' ),
-					'parent'                => __( 'Parent Achievements', 'lifterlms' ),
+					'edit_item'             => __( 'Edit Awarded Achievement', 'lifterlms' ),
+					'new_item'              => __( 'New Awarded Achievement', 'lifterlms' ),
+					'view'                  => __( 'View Awarded Achievement', 'lifterlms' ),
+					'view_item'             => __( 'View Awarded Achievement', 'lifterlms' ),
+					'search_items'          => __( 'Search Awarded Achievements', 'lifterlms' ),
+					'not_found'             => __( 'No Awarded Achievements found', 'lifterlms' ),
+					'not_found_in_trash'    => __( 'No Awarded Achievements found in trash', 'lifterlms' ),
+					'parent'                => __( 'Parent Awarded Achievements', 'lifterlms' ),
 					'menu_name'             => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
 					'featured_image'        => __( 'Achievement Image', 'lifterlms' ),
-					'set_featured_image'    => __( 'Set achievement  image', 'lifterlms' ),
-					'remove_featured_image' => __( 'Remove achievement image', 'lifterlms' ),
-					'use_featured_image'    => __( 'Use achievement image', 'lifterlms' ),
-
+					'set_featured_image'    => __( 'Set awarded achievement image', 'lifterlms' ),
+					'remove_featured_image' => __( 'Remove awarded achievement image', 'lifterlms' ),
+					'use_featured_image'    => __( 'Use awarded achievement image', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the achievements.', 'lifterlms' ),
+				'description'         => __( 'This is where you can view all of the awarded achievements.', 'lifterlms' ),
 				'public'              => false,
 				/**
 				 * Filters the needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
@@ -848,13 +845,14 @@ class LLMS_Post_Types {
 				'map_meta_cap'        => false,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
-				'show_in_menu'        => false,
+				/** This filter is documented above. */
+				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_achievements_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
 				'hierarchical'        => false,
 				'rewrite'             => false,
 				'show_in_nav_menus'   => false,
 				'has_archive'         => false,
 				'query_var'           => false,
-				'supports'            => array( 'title', 'thumbnail' ),
+				'supports'            => array( 'title', 'editor', 'thumbnail' ),
 			)
 		);
 
@@ -906,26 +904,26 @@ class LLMS_Post_Types {
 			'llms_my_certificate',
 			array(
 				'labels'              => array(
-					'name'                  => __( 'Certificates', 'lifterlms' ),
-					'singular_name'         => __( 'Certificate', 'lifterlms' ),
+					'name'                  => __( 'Awarded Certificates', 'lifterlms' ),
+					'singular_name'         => __( 'Awarded Certificate', 'lifterlms' ),
 					'add_new'               => __( 'Award Certificate', 'lifterlms' ),
-					'add_new_item'          => __( 'Add New Certificate', 'lifterlms' ),
+					'add_new_item'          => __( 'Award New Certificate', 'lifterlms' ),
 					'edit'                  => __( 'Edit', 'lifterlms' ),
-					'edit_item'             => __( 'Edit Certificate', 'lifterlms' ),
-					'new_item'              => __( 'New Certificate', 'lifterlms' ),
-					'view'                  => __( 'View Certificate', 'lifterlms' ),
-					'view_item'             => __( 'View Certificate', 'lifterlms' ),
-					'search_items'          => __( 'Search Certificates', 'lifterlms' ),
-					'not_found'             => __( 'No Certificates found', 'lifterlms' ),
-					'not_found_in_trash'    => __( 'No Certificates found in trash', 'lifterlms' ),
-					'parent'                => __( 'Parent Certificates', 'lifterlms' ),
+					'edit_item'             => __( 'Edit Awarded Certificate', 'lifterlms' ),
+					'new_item'              => __( 'New Awarded Certificate', 'lifterlms' ),
+					'view'                  => __( 'View Awarded Certificate', 'lifterlms' ),
+					'view_item'             => __( 'View Awarded Certificate', 'lifterlms' ),
+					'search_items'          => __( 'Search Awarded Certificates', 'lifterlms' ),
+					'not_found'             => __( 'No Awarded Certificates found', 'lifterlms' ),
+					'not_found_in_trash'    => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
+					'parent'                => __( 'Parent Awarded Certificates', 'lifterlms' ),
 					'menu_name'             => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
 					'featured_image'        => __( 'Background Image', 'lifterlms' ),
 					'set_featured_image'    => __( 'Set background image', 'lifterlms' ),
 					'remove_featured_image' => __( 'Remove background image', 'lifterlms' ),
 					'use_featured_image'    => __( 'Use background image', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
+				'description'         => __( 'This is where you can view all of the awarded certificates.', 'lifterlms' ),
 				'public'              => true,
 				/**
 				 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
@@ -940,7 +938,8 @@ class LLMS_Post_Types {
 				'map_meta_cap'        => false,
 				'publicly_queryable'  => true,
 				'exclude_from_search' => true,
-				'show_in_menu'        => false,
+				/** This filter is documented above. */
+				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
 					'slug'       => untrailingslashit( _x( 'my_certificate', 'slug', 'lifterlms' ) ),
@@ -1138,20 +1137,6 @@ class LLMS_Post_Types {
 				'has_archive'         => false,
 			)
 		);
-
-		/**
-		 * These post types are for the awarded versions (created from the template)
-		 *
-		 * Intermittent issues that I can't quite recreate seem to crop up as a result of these
-		 * post types not being registered.
-		 *
-		 * Additionally, it's semantically incorrect that these post types *don't exist* so
-		 */
-		$earned_engagement_args = array(
-			'public'             => false,
-			'publicly_queryable' => true,
-		);
-		self::register_post_type( 'llms_my_achievement', $earned_engagement_args ); // TODO: REMOVE.
 
 	}
 
@@ -1473,37 +1458,6 @@ class LLMS_Post_Types {
 			)
 		);
 
-	}
-
-	/**
-	 * Add submenu items for earned engagments post types (llms_my_certificate,llms_my_achievement).
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public static function add_earned_egnagements_submenu_links() {
-
-		$post_types = array(
-			'llms_my_certificate',
-			'llms_my_achievement',
-		);
-
-		foreach ( $post_types as $post_type ) {
-
-			$post_type_object = get_post_type_object( $post_type );
-			if ( empty( $post_type_object ) ) {
-				continue;
-			}
-
-			add_submenu_page(
-				'edit.php?post_type=llms_engagement',
-				$post_type_object->labels->menu_name,
-				$post_type_object->labels->menu_name,
-				LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP,
-				admin_url( "post-new.php?post_type={$post_type}" )
-			);
-		}
 	}
 
 }

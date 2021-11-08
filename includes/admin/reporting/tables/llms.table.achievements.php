@@ -71,15 +71,16 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		return ob_get_clean();
 	}
 
-
 	/**
-	 * Retrieve data for the columns
+	 * Retrieve data for the columns.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object of achievement data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.18.0
+	 * @since 3.2.0
+	 * @since 3.18.0 Unknown.
+	 * @since [version] Retrieve earned date using the LLMS_User_Achievement model.
+	 *
+	 * @param  string $key  The column id / key.
+	 * @param  mixed  $data Object of achievement data.
+	 * @return mixed
 	 */
 	public function get_data( $key, $data ) {
 
@@ -102,7 +103,8 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 				break;
 
 			case 'earned':
-				$value = date_i18n( 'F j, Y', strtotime( $data->earned_date ) );
+				$value = ( new LLMS_User_Achievement( $data->achievement_id ) )->get_earned_date();
+				$value = 'future' === get_post_status( $data->achievement_id ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
 				break;
 
 			case 'id':
