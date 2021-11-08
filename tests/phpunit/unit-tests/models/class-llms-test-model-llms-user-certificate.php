@@ -36,7 +36,6 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	protected function get_data() {
 		return array(
-			'certificate_title'    => 'Earned Cert Title',
 			'certificate_image'    => 1,
 			'certificate_template' => 2,
 			'allow_sharing'        => 'no',
