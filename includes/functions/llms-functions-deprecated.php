@@ -183,7 +183,7 @@ function llms_get_minimum_password_strength() {
 }
 
 /**
- * Backwards compatibility for the deprecated "certificate_title" meta key.
+ * Backwards compatibility for the deprecated earned engagement title meta keys.
  *
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
@@ -192,25 +192,33 @@ function llms_get_minimum_password_strength() {
  *
  * @access private
  *
- * @param string                $val  Default value (an empty string).
- * @param LLMS_User_Certificate $cert User certificate object.
+ * @param string                                      $val Default value (an empty string).
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User certificate object.
  * @return string
  */
-function llms_cert_deprecated_meta_title( $val, $cert ) {
-	_deprecated_function( 'LLMS_User_Certificate meta key "certificate_title"', '[version]', 'Use the WP_Post object property "post_title" instead.' );
-	return $cert->get( 'title' );
+function llms_earned_engagement_deprecated_title( $val, $obj ) {
+	$classname = get_class( $obj );
+	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_title';
+	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]', 'Use the WP_Post object property "post_title" instead.' );
+	return $obj->get( 'title' );
 }
-add_filter( 'llms_get_certificate_certificate_title', 'llms_cert_deprecated_meta_title', 10, 2 );
+add_filter( 'llms_get_certificate_certificate_title', 'llms_earned_engagement_deprecated_title', 10, 2 );
 
 function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
 
 	$deprecated = array(
-		'_llms_certificate_title' => 'llms_cert_deprecated_meta_title',
+		'_llms_certificate_title' => 'llms_earned_engagement_deprecated_title',
+		'_llms_achievement_title' => 'llms_earned_engagement_deprecated_title',
 	);
+
 	if ( array_key_exists( $key, $deprecated ) ) {
-		$obj = llms_get_certificate( $obj_id, false );
-		if ( $obj ) {
-			return $deprecated[ $key ]( $val, $obj );
+
+		$post_type = get_post_type( $obj_id );
+		if ( in_array( $post_type, array( 'llms_my_achievement', 'llms_my_certificate' ), true ) ) {
+
+			$class = 'LLMS_User_' . strtoupper( str_replace( 'llms_my_', '', $post_type ) );
+			return $deprecated[ $key ]( $val, new $class( $obj_id ) );
+
 		}
 	}
 
