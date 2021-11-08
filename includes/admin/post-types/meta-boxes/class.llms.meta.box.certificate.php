@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,13 +19,10 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
-	use LLMS_Trait_Earned_Engagement_Meta_Box;
-
 	/**
 	 * Configure the metabox settings.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Show metabox in `llms_my_certificate` post type as well.
 	 *
 	 * @return void
 	 */
@@ -35,7 +32,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 		$this->title    = __( 'Certificate Settings', 'lifterlms' );
 		$this->screens  = array(
 			'llms_certificate',
-			'llms_my_certificate',
 		);
 		$this->priority = 'high';
 
@@ -50,7 +46,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
 	 * @since 3.37.12 Allow the certificate title field to store text with quotes.
-	 * @since [version] Handle specific fields for earned engaegments post types.
 	 *
 	 * @return array Array of metabox fields.
 	 */
@@ -81,8 +76,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 				'value'      => '',
 			),
 		);
-
-		$fields = $this->add_earned_engagement_fields( $fields );
 
 		return array(
 			array(

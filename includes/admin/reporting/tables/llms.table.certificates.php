@@ -81,13 +81,15 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve data for the columns
+	 * Retrieve data for the columns.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object of achievement data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.18.0
+	 * @since 3.2.0
+	 * @since 3.18.0 Unknown.
+	 * @since [version] Retrieve earned date using the LLMS_User_Certificate model.
+	 *
+	 * @param  string $key  The column id / key.
+	 * @param  mixed  $data Object of certificate data.
+	 * @return mixed
 	 */
 	public function get_data( $key, $data ) {
 		switch ( $key ) {
@@ -109,7 +111,8 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				break;
 
 			case 'earned':
-				$value = date_i18n( 'F j, Y', strtotime( $data->earned_date ) );
+				$value = ( new LLMS_User_Certificate( $data->certificate_id ) )->get_earned_date();
+				$value = 'future' === get_post_status( $data->certificate_id ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
 				break;
 
 			case 'id':
