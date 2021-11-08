@@ -362,7 +362,7 @@ class LLMS_Engagement_Handler {
 	 * @param int    $template_id   WP_Post ID of the template post, either an `llms_certificate` or an `llms_achievement`.
 	 * @param string $related_id    WP_Post ID of the related post or an empty string during user registration.
 	 * @param int    $engagement_id WP_Post ID of the `llms_engagement` post type.
-	 * @return boolean Returns `true` if the dupcheck passes otherwise returns an error object.
+	 * @return WP_Error|boolean Returns `true` if the dupcheck passes otherwise returns an error object.
 	 */
 	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
@@ -430,7 +430,7 @@ class LLMS_Engagement_Handler {
 			);
 		}
 
-		return true;
+		return is_wp_error( $is_duplicate ) ? $is_duplicate : true;
 
 	}
 
@@ -481,6 +481,22 @@ class LLMS_Engagement_Handler {
 
 	}
 
+	/**
+	 * Handle validation and creation of an earned achievement or certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type Type of engagement, either "achievement" or "certificate".
+	 * @param array $args {
+	 *     Indexed array of arguments.
+	 *
+	 *     @type int        $0 WP_User ID.
+	 *     @type int        $1 WP_Post ID of the achievement or certificate template post.
+	 *     @type int|string $2 WP_Post ID of the related post that triggered the award or an empty string.
+	 *     @type int        $3 WP_Post ID of the engagement post.
+	 * }
+	 * @return WP_Error[]|LLMS_User_Achiemvent|LLMS_User_Certificate An array of errors or the earned engagement object
+	 */
 	private static function handle( $type, $args ) {
 
 		$can_process = self::can_process( $type, ...$args );
@@ -490,7 +506,7 @@ class LLMS_Engagement_Handler {
 
 		$dupcheck = self::dupcheck( $type, ...$args );
 		if ( true !== $dupcheck ) {
-			return $dupcheck;
+			return array( $dupcheck );
 		}
 
 		return self::create( $type, ...$args );
