@@ -217,7 +217,7 @@ class LLMS_Engagement_Handler {
 			'post_status'  => 'publish',
 			'post_author'  => $user_id,
 			'meta_input'   => array(
-				'_thumbnail_id'          => self::get_image_id( $template_id ),
+				'_thumbnail_id'          => self::get_image_id( $type, $template_id ),
 				"_llms_{$type}_template" => $template_id,
 				'_llms_engagement'       => $engagement_id,
 				'_llms_related'          => $related_id,
