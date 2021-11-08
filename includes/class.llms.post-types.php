@@ -852,7 +852,7 @@ class LLMS_Post_Types {
 				'show_in_nav_menus'   => false,
 				'has_archive'         => false,
 				'query_var'           => false,
-				'supports'            => array( 'title', 'thumbnail' ),
+				'supports'            => array( 'title', 'editor', 'thumbnail' ),
 			)
 		);
 
