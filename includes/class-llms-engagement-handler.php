@@ -241,7 +241,7 @@ class LLMS_Engagement_Handler {
 	}
 
 	/**
-	 * Post creation actions.
+	 * Runs post-creation actions when creating/awarding an achievement or certificate to a user.
 	 *
 	 * @param string          $type          The engagement type, either "achievement" or "certificate".
 	 * @param int             $user_id       WP_User ID of the student who earned the engagement.
