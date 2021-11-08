@@ -217,7 +217,7 @@ class LLMS_Engagement_Handler {
 			'post_status'  => 'publish',
 			'post_author'  => $user_id,
 			'meta_input'   => array(
-				"_llms_{$type}_image"    => get_post_meta( $template_id, "_llms_{$type}_image", true ),
+				'_thumbnail_id'          => self::get_image_id( $template_id ),
 				"_llms_{$type}_template" => $template_id,
 				'_llms_engagement'       => $engagement_id,
 				'_llms_related'          => $related_id,
@@ -431,6 +431,39 @@ class LLMS_Engagement_Handler {
 		}
 
 		return true;
+
+	}
+
+	/**
+	 * Retrieve the attachment id to use for the earned engagement thumbnail.
+	 *
+	 * Retrieves the template's featured image ID and validates and then falls back to the site's
+	 * global default image option.
+	 *
+	 * If no global option is found, returns `0`. During front-end display, the hardcoded image will be used
+	 * in the template if the earned engagement's thumbnail is set to a fasly.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $type        Type of engagement, either "achievement" or "certificate".
+	 * @param int    $template_id WP_Post ID of the template post.
+	 * @return int WP_Post ID of the attachment or `0` when none found.
+	 */
+	private static function get_image_id( $type, $template_id ) {
+
+		$img_id = get_post_meta( $template_id, '_thumbnail_id', true );
+
+		if ( $img_id && get_post( $img_id ) ) {
+			return absint( $img_id );
+		}
+
+		if ( 'certificate' === $type ) {
+			return llms()->certificates()->get_default_image_id();
+		} elseif ( 'achievement' === $type ) {
+			return ''; // @todo.
+		}
+
+		return 0;
 
 	}
 

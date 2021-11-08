@@ -202,14 +202,18 @@ class LLMS_Certificates {
 	 */
 	public function get_default_image( $certificate_id ) {
 
-		// Hardcoded default value.
-		$src = llms()->plugin_url() . '/assets/images/optional_certificate.png';
+		$src = '';
 
-		$id  = get_option( 'lifterlms_certificate_default_bg_img' );
+		// Retrieve the stored value from the database.
+		$id  = $this->get_default_image_id();
 		if ( $id ) {
-			$url = wp_get_attachment_url( $id );
-			$src = $url ? $url : $src; // If attachment has been deleted.
+
+			$src = wp_get_attachment_url( $id );
+
 		}
+
+		// Use the attachment stored for the option in the DB and fallback to the default image from the plugin's assets dir.
+		$src = $src ? $src : llms()->engagements()->get_default_default_image_src( 'certificate' );
 
 		/**
 		 * Retrieve the default certificate background image.
@@ -224,6 +228,21 @@ class LLMS_Certificates {
 			$src,
 			$certificate_id
 		);
+	}
+
+	/**
+	 * Retrieve attachment ID of the default certificate background image.
+	 *
+	 * If the attachment post doesn't exist will return false. This would happen
+	 * if the post is deleted from the media library.
+	 *
+	 * @since [version]
+	 *
+	 * @return int Returns the WP_Post ID of the attachment or `0` if not set.
+	 */
+	public function get_default_image_id() {
+		$id = get_option( 'lifterlms_certificate_default_bg_img', 0 );
+		return $id && get_post( $id ) ? absint( $id ) : 0;
 	}
 
 	/**

@@ -35,7 +35,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test get_default_image()
+	 * Test get_default_image() and get_default_image_id()
 	 *
 	 * @since [version]
 	 *
@@ -47,25 +47,29 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		// Non-existent option.
 		delete_option( $opt_name );
-		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
+		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
 
 		// Empty option
 		update_option( $opt_name, '' );
-		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
+		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
 
-		// Custom option.
+		// Non-existent attachment.
 		update_option( $opt_name, 123 );
-		$this->assertStringContainsString( '/optional_certificate.png', llms()->certificates()->get_default_image( 123 ) );
+		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
+		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
 
 		// A "real" attachment.
-		update_option( $opt_name, $this->get_attachment() );
+		$attachment_id = $this->get_attachment();
+		update_option( $opt_name, $attachment_id );
+		$this->assertEquals( $attachment_id, llms()->certificates()->get_default_image_id() );
 		$this->assertMatchesRegularExpression(
 			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/waffles(-)?\d*.jpg#',
-			llms()->certificates()->get_default_image( 123 )
+			llms()->certificates()->get_default_image( $attachment_id )
 		);
 
 	}
-
 
 	/**
 	 * Test trigger_engagement() method.
