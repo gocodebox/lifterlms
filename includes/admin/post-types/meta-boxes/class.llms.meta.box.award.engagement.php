@@ -1,8 +1,8 @@
 <?php
 /**
- * LifterLMS Eearned Engagements (Certificate/Achievement) Meta Box trait.
+ * Award engagement meta box.
  *
- * @package LifterLMS/Traits
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since [version]
  * @version [version]
@@ -11,13 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Eearned Engagements (Certificate/Achievement) Meta Box trait.
+ * Award engagement meta box class
  *
- * This trait should only be used by classes that extend from the {@see LLMS_Admin_Metabox} class.
+ * Generates main meta box and builds forms.
  *
  * @since [version]
  */
-trait LLMS_Trait_Earned_Engagement_Meta_Box {
+class LLMS_Meta_Box_Award_Engagement extends LLMS_Admin_Metabox {
 
 	/**
 	 * ID of the student who earned (is about to earn) the engagement.
@@ -27,21 +27,6 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 	 * @var int
 	 */
 	private $student_id;
-
-	/**
-	 * Constructor.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-
-		parent::__construct();
-
-		add_action( 'llms_metabox_before_content', array( $this, 'maybe_print_current_user_information' ) );
-
-	}
 
 	/**
 	 * Allowed post types.
@@ -60,6 +45,97 @@ trait LLMS_Trait_Earned_Engagement_Meta_Box {
 			'reporting_stab' => 'certificates',
 		),
 	);
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+
+		parent::__construct();
+
+		add_action( 'llms_metabox_before_content', array( $this, 'maybe_print_current_user_information' ) );
+
+	}
+
+	/**
+	 * Configure the metabox settings.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function configure() {
+
+		$this->id       = 'lifterlms-award-engagement';
+		$this->title    = __( 'Student Information', 'lifterlms' );
+		$this->screens  = array(
+			'llms_my_certificate',
+			'llms_my_achievement',
+		);
+		$this->priority = 'high';
+
+	}
+
+	/**
+	 * Builds array of metabox options.
+	 *
+	 * Array is called in output method to display options.
+	 * Appropriate fields are generated based on type.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	public function get_fields() {
+
+		// Bail if not creating.
+		if ( 'add' !== get_current_screen()->action ) {
+			return $fields;
+		}
+
+		$student_id = $this->current_student_id( true );
+
+		// The `post_author_override` is the same used in WP core for the author selector.
+		$field_id = 'post_author_override';
+
+		$field = array(
+			'id'        => $field_id,
+			'type'      => 'hidden',
+			'value'     => $student_id,
+			'skip_save' => true,
+			'required'  => true,
+		);
+
+		if ( empty( $student_id ) ) {
+			$field = array(
+				'allow_null'      => false,
+				'class'           => 'llms-select2-student',
+				'data_attributes' => array(
+					'allow_clear' => false,
+					'placeholder' => __( 'Select a Student', 'lifterlms' ),
+				),
+				'id'              => $field_id,
+				'label'           => __( 'Select a Student', 'lifterlms' ),
+				'type'            => 'select',
+				'skip_save'       => true,
+				'required'        => true,
+			);
+		}
+
+		return array(
+			array(
+				'title'  => __( 'General', 'lifterlms' ),
+				'fields' => array(
+					$field,
+				),
+			),
+		);
+
+	}
 
 	/**
 	 * Maybe print current user information.

@@ -50,6 +50,7 @@ class LLMS_Admin_Meta_Boxes {
 		new LLMS_Meta_Box_Engagement();
 
 		// Award Engagements.
+		new LLMS_Meta_Box_Award_Engagement();
 		new LLMS_Meta_Box_Award_Engagement_Submit();
 
 		// Membership restriction metabox.
