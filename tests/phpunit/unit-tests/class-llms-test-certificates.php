@@ -13,28 +13,6 @@
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 	/**
-	 * Retrieve a "real" image attachment ID
-	 *
-	 * @since [version]
-	 *
-	 * @return [type] [description]
-	 */
-	private function get_attachment() {
-
-		// Fixes issue resulting from WP Core changes: https://github.com/gocodebox/lifterlms-groups/issues/137
-		add_filter( 'wp_read_image_metadata_types', '__return_empty_array' );
-
-		$file       = DIR_TESTDATA . '/images/waffles.jpg';
-		$upload     = wp_upload_bits( basename( $file ), null, file_get_contents( $file ) );
-		$attachment = $this->_make_attachment( $upload );
-
-		remove_filter( 'wp_read_image_metadata_types', '__return_empty_array' );
-
-		return $attachment;
-
-	}
-
-	/**
 	 * Test get_default_image() and get_default_image_id()
 	 *
 	 * @since [version]
@@ -61,11 +39,11 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
 
 		// A "real" attachment.
-		$attachment_id = $this->get_attachment();
+		$attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
 		update_option( $opt_name, $attachment_id );
 		$this->assertEquals( $attachment_id, llms()->certificates()->get_default_image_id() );
 		$this->assertMatchesRegularExpression(
-			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/waffles(-)?\d*.jpg#',
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/christian-fregnan-unsplash(-)?\d*.jpg#',
 			llms()->certificates()->get_default_image( $attachment_id )
 		);
 
