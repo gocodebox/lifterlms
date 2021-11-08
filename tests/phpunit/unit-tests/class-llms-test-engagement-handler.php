@@ -11,7 +11,6 @@
  */
 class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 
-
 	/**
 	 * Test can_process()
 	 *
@@ -100,6 +99,136 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test handle_achievement()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_achievement() {
+
+		$actions = did_action( 'llms_user_earned_achievement' );
+
+		$user_id     = $this->factory->student->create();
+		$engagement  = $this->create_mock_engagement( 'course_completed', 'achievement' );
+		$related_id  = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+		$template_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+
+		$handle_args = array( $user_id, $template_id, $related_id, $engagement->ID );
+
+		// Add a thumbnail to the template.
+		$attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
+		set_post_thumbnail( $template_id, $attachment_id );
+
+		$earned = LLMS_Engagement_Handler::handle_achievement( $handle_args );
+
+		// Enrollment error.
+		$this->assertIsWPError( $earned[0] );
+		$this->assertWPErrorCodeEquals( 'llms-engagement-check-post--enrollment', $earned[0] );
+
+		llms_enroll_student( $user_id, $related_id );
+
+		// No errors.
+		$earned = LLMS_Engagement_Handler::handle_achievement( $handle_args );
+
+		// Proper object returned.
+		$this->assertInstanceOf( 'LLMS_User_Achievement', $earned );
+
+		// Relationships saved as meta.
+		$this->assertEquals( $related_id, $earned->get( 'related' ) );
+		$this->assertEquals( $engagement->ID, $earned->get( 'engagement' ) );
+		$this->assertEquals( $template_id, $earned->get( 'achievement_template' ) );
+
+		// Content and Title.
+		$this->assertEquals( get_post_meta( $template_id, '_llms_achievement_title', true ), $earned->get( 'title' ) );
+		$this->assertEquals( get_the_content( null, false, $template_id ), $earned->get( 'content', true ) );
+
+		// Author.
+		$this->assertEquals( $user_id, $earned->get( 'author' ) );
+
+		// Featured Image.
+		$this->assertEquals( $attachment_id, get_post_thumbnail_id( $earned->get( 'id' ) ) );
+
+		// Ran action.
+		$this->assertEquals( ++$actions, did_action( 'llms_user_earned_achievement' ) );
+
+		// Added user postmeta.
+		$this->assertEquals( $earned->get( 'id' ), llms_get_user_postmeta( $user_id, $related_id, '_achievement_earned', true ) );
+
+		// Try it again, we should get a dupcheck.
+		$earned = LLMS_Engagement_Handler::handle_achievement( $handle_args );
+		$this->assertIsWPError( $earned[0] );
+		$this->assertWPErrorCodeEquals( 'llms-engagement--is-duplicate', $earned[0] );
+
+	}
+
+	/**
+	 * Test handle_certificate().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_certificate() {
+
+		$actions = did_action( 'llms_user_earned_certificate' );
+
+		$user_id     = $this->factory->student->create();
+		$engagement  = $this->create_mock_engagement( 'course_completed', 'certificate' );
+		$related_id  = get_post_meta( $engagement->ID, '_llms_engagement_trigger_post', true );
+		$template_id = get_post_meta( $engagement->ID, '_llms_engagement', true );
+
+		$handle_args = array( $user_id, $template_id, $related_id, $engagement->ID );
+
+		// Add a thumbnail to the template.
+		$attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
+		set_post_thumbnail( $template_id, $attachment_id );
+
+		$expected_date = date( get_option( 'date_format' ) );
+
+		$earned = LLMS_Engagement_Handler::handle_certificate( $handle_args );
+
+		// Enrollment error.
+		$this->assertIsWPError( $earned[0] );
+		$this->assertWPErrorCodeEquals( 'llms-engagement-check-post--enrollment', $earned[0] );
+
+		llms_enroll_student( $user_id, $related_id );
+
+		// No errors.
+		$earned = LLMS_Engagement_Handler::handle_certificate( $handle_args );
+
+		// Proper object returned.
+		$this->assertInstanceOf( 'LLMS_User_Certificate', $earned );
+
+		// Relationships saved as meta.
+		$this->assertEquals( $related_id, $earned->get( 'related' ) );
+		$this->assertEquals( $engagement->ID, $earned->get( 'engagement' ) );
+		$this->assertEquals( $template_id, $earned->get( 'certificate_template' ) );
+
+		// Content and Title.
+		$this->assertEquals( get_post_meta( $template_id, '_llms_certificate_title', true ), $earned->get( 'title' ) );
+		$this->assertEquals( "Test Blog, {$expected_date}", $earned->get( 'content', true ) );
+
+		// Author.
+		$this->assertEquals( $user_id, $earned->get( 'author' ) );
+
+		// Featured Image.
+		$this->assertEquals( $attachment_id, get_post_thumbnail_id( $earned->get( 'id' ) ) );
+
+		// Ran action.
+		$this->assertEquals( ++$actions, did_action( 'llms_user_earned_certificate' ) );
+
+		// Added user postmeta.
+		$this->assertEquals( $earned->get( 'id' ), llms_get_user_postmeta( $user_id, $related_id, '_certificate_earned', true ) );
+
+		// Try it again, we should get a dupcheck.
+		$earned = LLMS_Engagement_Handler::handle_certificate( $handle_args );
+		$this->assertIsWPError( $earned[0] );
+		$this->assertWPErrorCodeEquals( 'llms-engagement--is-duplicate', $earned[0] );
+
+	}
+
+	/**
 	 * Test do_deprecated_creation_filters()
 	 *
 	 * @since [version]
@@ -136,13 +265,5 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 		}
 
 	}
-
-	// public function test_create() {
-
-
-
-
-
-	// }
 
 }
