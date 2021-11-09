@@ -15,6 +15,17 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
+ *
+ * @property string $allow_sharing        Whether or not public certificate sharing is enabled for the certificate.
+ *                                        Either "yes" or "no".
+ * @property int    $author               WP_User ID of the user who the certificate belongs to.
+ * @property int    $certificate_template WP_Post ID of the template `llms_certificate` post.
+ * @property string $content              The merged certificate content.
+ * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the certificate.
+ *                                        An empty value or `0` indicates the certificate was awarded manually or
+ *                                        before the engagement value was stored.
+ * @property int    $sequential_id        The sequential certificate ID.
+ * @property string $title                Certificate title.
  */
 class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
