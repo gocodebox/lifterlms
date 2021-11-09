@@ -96,6 +96,12 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
 
+		// Modify the title placeholder text for achievement and certificate templates.
+		add_filter( 'enter_title_here', array( $this, 'maybe_modify_title_placeholder' ), 10, 2 );
+
+		// Add default image information for achievement and certificate templates.
+		add_filter( 'admin_post_thumbnail_html', array( $this, 'maybe_modify_post_thumbnail_html' ), 10, 3 );
+
 	}
 
 	/**
@@ -177,6 +183,79 @@ class LLMS_Admin_Meta_Boxes {
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty', 'course', 'side' );
 
+	}
+
+	/**
+	 * Modifies the featured image metabox for achievement and certificate templates.
+	 *
+	 * Displays the default image, text denoting that the default image is being used,
+	 * and a link to the settings page where the default image can be changed.
+	 *
+	 * This additional content is only displayed when there's no featured image set
+	 * for the template.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content  Default metabox HTML.
+	 * @param int    $post_id  WP_Post ID of the post being edited.
+	 * @param int    $image_id Attachment ID for the saved featured image.
+	 * @return string
+	 */
+	public function maybe_modify_post_thumbnail_html( $content, $post_id, $image_id ) {
+
+		$post_types = array(
+			'llms_achievement',
+			'llms_certificate',
+		);
+		$post_type = get_post_type( $post_id );
+		if ( ! $image_id && in_array( $post_type, $post_types, true ) ) {
+
+			$add_content = '';
+
+			$class = str_replace( 'llms_', '', $post_type ) . 's';
+
+			$image_id = llms()->$class()->get_default_image_id();
+			$alt      = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : __( 'Default image', 'lifterlms' );
+
+			$add_content = '<p><img alt="' . trim( wp_strip_all_tags( $alt ) ) . '" src="' . esc_url( llms()->$class()->get_default_image( $post_id ) ) . '" /></p>';
+
+			$settings_url = admin_url( 'admin.php?page=llms-settings&tab=engagements' );
+			$add_content .= '<p class="howto">' . __( 'Using the global default.', 'lifterlms' ) . ' <a href="' . esc_url( $settings_url ) . '">' . __( 'Edit', 'lifterlms' ) . '</a></p>';
+
+			$content = $add_content . $content;
+		}
+
+		return $content;
+
+	}
+
+	/**
+	 * Modifies the placeholder text for the post title field.
+	 *
+	 * This is used to denote that the achievement and certificate template title fields
+	 * are for internal use only to help avoid confusion as to why there are two separate
+	 * titles.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $placeholder Default placeholder text.
+	 * @param WP_Post $post        Post object.
+	 * @return string
+	 */
+	public function maybe_modify_title_placeholder( $placeholder, $post ) {
+		$post_types = array(
+			'llms_achievement',
+			'llms_certificate',
+		);
+		if ( in_array( $post->post_type, $post_types, true ) ) {
+			$placeholder = sprintf(
+				'%1$s (%2$s)',
+				$placeholder,
+				_x( 'for internal use only', 'added achievement and certificate template post title placeholder', 'lifterlms' )
+			);
+		}
+
+		return $placeholder;
 	}
 
 	/**
