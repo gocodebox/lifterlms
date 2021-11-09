@@ -168,12 +168,14 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->create();
 
 		$ids = array(
-			1      => '000001',
-			25     => '000025',
-			302    => '000302',
-			4999   => '004999',
-			12032  => '012032',
-			932012 => '932012'
+			1       => '000001',
+			25      => '000025',
+			302     => '000302',
+			4999    => '004999',
+			12032   => '012032',
+			932012  => '932012',
+			// Longer than the default max length of 6.
+			1329101 => '1329101',
 		);
 
 		foreach( $ids as $raw => $formatted ) {
