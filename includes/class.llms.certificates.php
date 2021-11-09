@@ -136,7 +136,7 @@ class LLMS_Certificates {
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Certificates::handle_certificate()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
+	 * @deprecated [version] `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $certificate_id  WP_Post ID of the certificate template.
@@ -144,7 +144,7 @@ class LLMS_Certificates {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		_deprecated_function( 'LLMS_Certificates::handle_certificate()', '[version]', 'LLMS_Engagement_Handler::handle_certificate()' );
+		_deprecated_function( 'LLMS_Certificates::trigger_engagement()', '[version]', 'LLMS_Engagement_Handler::handle_certificate()' );
 		LLMS_Engagement_Handler::handle_certificate( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
