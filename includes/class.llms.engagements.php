@@ -45,6 +45,7 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since [version] Added deprecation warning when using constant `LLMS_ENGAGEMENT_DEBUG`.
+	 *              Don't call deprecated `init()` method.
 	 *
 	 * @return void
 	 */
@@ -56,8 +57,6 @@ class LLMS_Engagements {
 		}
 
 		$this->add_actions();
-		$this->init();
-
 	}
 
 	/**
@@ -288,14 +287,12 @@ class LLMS_Engagements {
 	 * Include engagement types (excluding email)
 	 *
 	 * @since Unknown
+	 * @deprecated [version] `LLMS_Engagements::init()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public function init() {
-
-		// include 'class.llms.certificates.php';
-		include 'class.llms.achievements.php';
-
+		_deprecated_function( 'LLMS_Engagements::init()', '[version]' );
 	}
 
 	/**
