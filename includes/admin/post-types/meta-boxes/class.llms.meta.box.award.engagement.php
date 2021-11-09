@@ -94,7 +94,7 @@ class LLMS_Meta_Box_Award_Engagement extends LLMS_Admin_Metabox {
 
 		// Bail if not creating.
 		if ( 'add' !== get_current_screen()->action ) {
-			return $fields;
+			return array();
 		}
 
 		$student_id = $this->current_student_id( true );
@@ -151,8 +151,8 @@ class LLMS_Meta_Box_Award_Engagement extends LLMS_Admin_Metabox {
 
 		$post_type = get_post_type();
 
-		// Bail if not allowed post type or not the right metabox.
-		if ( $this->id !== $metabox_id || ! array_key_exists( $post_type, $this->allowed_post_types ) ) {
+		// Bail if not the right metabox.
+		if ( $this->id !== $metabox_id ) {
 			return;
 		}
 
@@ -193,57 +193,6 @@ class LLMS_Meta_Box_Award_Engagement extends LLMS_Admin_Metabox {
 				$student->get( 'user_email' )
 			)
 		);
-	}
-
-	/**
-	 * Add earned engagement fields.
-	 *
-	 * @since [version]
-	 *
-	 * @param array $fields Array of metabox fields
-	 * @return array
-	 */
-	protected function add_earned_engagement_fields( $fields = array() ) {
-
-		$post_type = get_post_type();
-
-		// Bail if not allowed post type or not creating.
-		if ( ! array_key_exists( $post_type, $this->allowed_post_types ) || 'add' !== get_current_screen()->action ) {
-			return $fields;
-		}
-
-		$student_id = $this->current_student_id( true );
-
-		// The `post_author_override` is the same used in WP core for the author selector.
-		$field_id = 'post_author_override';
-
-		$field = array(
-			'id'        => $field_id,
-			'type'      => 'hidden',
-			'value'     => $student_id,
-			'skip_save' => true,
-			'required'  => true,
-		);
-
-		if ( empty( $student_id ) ) {
-			$field = array(
-				'allow_null'      => false,
-				'class'           => 'llms-select2-student',
-				'data_attributes' => array(
-					'allow_clear' => false,
-					'placeholder' => __( 'Select a Student', 'lifterlms' ),
-				),
-				'id'              => $field_id,
-				'label'           => __( 'Select a Student', 'lifterlms' ),
-				'type'            => 'select',
-				'skip_save'       => true,
-				'required'        => true,
-			);
-		}
-
-		array_unshift( $fields, $field );
-
-		return $fields;
 	}
 
 	/**
