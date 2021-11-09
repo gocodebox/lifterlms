@@ -149,7 +149,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 
 		if ( in_array( $code, array_keys( $this->set_merge_codes() ), true ) ) {
 			$method = 'set_merge_data_' . strtolower( str_replace( array( '{{', '}}' ), '', $code ) );
-			$code = method_exists( $this, $method ) ? $this->$method( new LLMS_User_Certificate( $this->notification->post_id ) ) : $code;
+			$code   = method_exists( $this, $method ) ? $this->$method( new LLMS_User_Certificate( $this->notification->post_id ) ) : $code;
 		}
 
 		return $code;

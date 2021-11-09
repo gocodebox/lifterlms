@@ -810,8 +810,8 @@ class LLMS_Post_Types {
 		self::register_post_type(
 			'llms_my_achievement',
 			array(
-				'labels'                => array(
-					'name'               => __( 'Awarded Achievements', 'lifterlms' ),
+				'labels'              => array(
+					'name'                  => __( 'Awarded Achievements', 'lifterlms' ),
 					'singular_name'         => __( 'Awarded Achievement', 'lifterlms' ),
 					'add_new'               => __( 'Award Achievement', 'lifterlms' ),
 					'add_new_item'          => __( 'Award New Achievement', 'lifterlms' ),

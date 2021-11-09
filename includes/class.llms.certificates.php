@@ -205,7 +205,7 @@ class LLMS_Certificates {
 		$src = '';
 
 		// Retrieve the stored value from the database.
-		$id  = $this->get_default_image_id();
+		$id = $this->get_default_image_id();
 		if ( $id ) {
 
 			$src = wp_get_attachment_url( $id );

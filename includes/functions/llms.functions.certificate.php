@@ -233,7 +233,7 @@ function llms_get_certificate_title( $id = 0 ) {
 	$certificate = llms_get_certificate( $id, false );
 	if ( $certificate ) {
 		$title = $certificate->get( 'title' );
-	} else if ( 'llms_certificate' === get_post_type( $id ) ) {
+	} elseif ( 'llms_certificate' === get_post_type( $id ) ) {
 		$title = get_post_meta( $id, '_llms_certificate_title', true );
 	}
 

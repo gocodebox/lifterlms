@@ -487,8 +487,8 @@ class LLMS_Engagement_Handler {
 	 * @since [version]
 	 *
 	 * @param string $type Type of engagement, either "achievement" or "certificate".
-	 * @param array $args {
-	 *     Indexed array of arguments.
+	 * @param array  $args {
+	 *      Indexed array of arguments.
 	 *
 	 *     @type int        $0 WP_User ID.
 	 *     @type int        $1 WP_Post ID of the achievement or certificate template post.
