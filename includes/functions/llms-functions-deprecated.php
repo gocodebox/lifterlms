@@ -183,6 +183,25 @@ function llms_get_minimum_password_strength() {
 }
 
 /**
+ * Backwards compatibility for the deprecated earned engagement image meta keys.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param string                                      $val Default value (an empty string).
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User engagement object.
+ * @return int
+ */
+function llms_earned_engagement_deprecated_image( $val, $obj ) {
+	_llms_earned_engagement_deprecated_function( $obj, 'image', 'Use the WP_Post meta key "_thumbnail_id" instead.' );
+	return get_post_thumbnail_id( $obj->get( 'id' ) );
+}
+
+/**
  * Backwards compatibility for the deprecated earned engagement title meta keys.
  *
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
@@ -193,22 +212,39 @@ function llms_get_minimum_password_strength() {
  * @access private
  *
  * @param string                                      $val Default value (an empty string).
- * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User certificate object.
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User engagement object.
  * @return string
  */
 function llms_earned_engagement_deprecated_title( $val, $obj ) {
-	$classname = get_class( $obj );
-	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_title';
-	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]', 'Use the WP_Post object property "post_title" instead.' );
+	_llms_earned_engagement_deprecated_function( $obj, 'title', 'Use the WP_Post object property "post_title" instead.' );
 	return $obj->get( 'title' );
 }
-add_filter( 'llms_get_certificate_certificate_title', 'llms_earned_engagement_deprecated_title', 10, 2 );
 
+/**
+ * Handle earned engagement deprecated meta keys.
+ *
+ * Throws a deprecation warning and replaces the default value with the new value.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param [type] $val [description]
+ * @param [type] $obj_id [description]
+ * @param [type] $key [description]
+ * @return [type] [description]
+ */
 function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
 
 	$deprecated = array(
 		'_llms_certificate_title' => 'llms_earned_engagement_deprecated_title',
 		'_llms_achievement_title' => 'llms_earned_engagement_deprecated_title',
+
+		'_llms_certificate_image' => 'llms_earned_engagement_deprecated_image',
+		'_llms_achievement_image' => 'llms_earned_engagement_deprecated_image',
 	);
 
 	if ( array_key_exists( $key, $deprecated ) ) {
@@ -225,3 +261,24 @@ function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
 	return $val;
 }
 add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+
+/**
+ * Throw a deprecated function warning for earned engagement meta deprecations.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj             User engagement object.
+ * @param string                                      $meta_key        Deprecated meta key part (excluding the prefix and post type).
+ * @param string                                      $replacement_msg The replacement message.
+ * @return void
+ */
+function _llms_earned_engagement_deprecated_function( $obj, $meta_key, $replacement_msg ) {
+	$classname = get_class( $obj );
+	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_' . $meta_key;
+	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]',  );
+}
