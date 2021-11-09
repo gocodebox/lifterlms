@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS User Achievement
+ * LLMS_User_Achievement model
  *
  * @package LifterLMS/Models/Classes
  *
@@ -11,21 +11,44 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_User_Achievement model.
+ * Achievements earned by a student.
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
+ *
+ * @property int    $author               WP_User ID of the user who the achievement belongs to.
+ * @property int    $achievement_template WP_Post ID of the template `llms_achievement` post.
+ * @property string $content              The achievement content.
+ * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the achievement.
+ *                                        An empty value or `0` indicates the achievement was awarded manually or
+ *                                        before the engagement value was stored.
+ * @property string $title                Achievement title.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
-	protected $db_post_type    = 'llms_my_achievement';
+	/**
+	 * Database (WP) post type name
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'llms_my_achievement';
+
+	/**
+	 * Post type model name
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'achievement';
 
+	/**
+	 * Object properties
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
-		// 'achievement_title' => 'string', // use get( 'title' )
-		'achievement_image'    => 'absint',
-		// 'achievement_content' => 'html', // use get( 'content' )
 		'achievement_template' => 'absint',
+		'engagement'           => 'absint',
+		'related'              => 'absint',
 	);
 
 	/**
