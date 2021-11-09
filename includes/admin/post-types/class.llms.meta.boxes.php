@@ -207,7 +207,7 @@ class LLMS_Admin_Meta_Boxes {
 			'llms_achievement',
 			'llms_certificate',
 		);
-		$post_type = get_post_type( $post_id );
+		$post_type  = get_post_type( $post_id );
 		if ( ! $image_id && in_array( $post_type, $post_types, true ) ) {
 
 			$add_content = '';
