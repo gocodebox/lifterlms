@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS User Certificate
+ * LLMS_User_Certificate model class
  *
  * @package LifterLMS/Models/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_User_Certificate model class
+ * Certificates earned by a student.
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
@@ -49,7 +49,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'certificate_image'    => 'absint',
 		'certificate_template' => 'absint',
 		'engagement'           => 'absint',
 		'related'              => 'absint',
@@ -162,7 +161,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		if ( ! $img_id ) {
 
 			// Get the source.
-			$src = llms_get_certificate_default_image( $id );
+			$src = llms()->certificates()->get_default_image( $id );
 
 			// Denote it's the default image in the return.
 			$is_default = true;
