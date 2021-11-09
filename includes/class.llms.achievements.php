@@ -18,20 +18,27 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.24.0 Unknown.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Removed unused private class properties `$_from_address`, `$_from_name` and `$_content_type`.
  */
 class LLMS_Achievements {
 
 	use LLMS_Trait_Singleton;
 
-	public $achievements;
+	/**
+	 * List of available achievement types.
+	 *
+	 * @var array
+	 */
+	public $achievements = array()
 
+	/**
+	 * Deprecated.
+	 *
+	 * @deprecated [version] Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
+	 *
+	 * @var null
+	 */
 	public $content;
-
-	private $_from_address;
-
-	private $_from_name;
-
-	private $_content_type;
 
 	/**
 	 * Singleton instance.
@@ -46,15 +53,12 @@ class LLMS_Achievements {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @since 3.24.0 Unknown.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
 		$this->init();
-
 	}
 
 	/**
@@ -151,16 +155,17 @@ class LLMS_Achievements {
 	 *
 	 * Calls trigger method passing arguments.
 	 *
-	 * @param  int $person_id        [ID of the current user]
-	 * @param  int $achievement_id   [Achievement template post ID]
-	 * @param  int $related_post_id  Post ID of the related engagement (eg lesson id)
+	 * @since 1.0.0
+	 * @deprecated [version] `LLMS_Achievments::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
+	 *
+	 * @param int $person_id       WP_User ID.
+	 * @param int $certificate_id  WP_Post ID of the certificate template.
+	 * @param int $related_post_id WP_Post ID of the related post, for example a lesson id.
 	 * @return void
-	 * @since    ??
-	 * @version  ??
 	 */
 	public function trigger_engagement( $person_id, $achievement_id, $related_post_id ) {
-		$achievement = $this->achievements['LLMS_Achievement_User'];
-		$achievement->trigger( $person_id, $achievement_id, $related_post_id );
+		_deprecated_function( 'LLMS_Achievements::trigger_engagement()', '[version]', 'LLMS_Engagement_Handler::handle_achievements()' );
+		LLMS_Engagement_Handler::handle_achievement( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
 }
