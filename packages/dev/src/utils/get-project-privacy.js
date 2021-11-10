@@ -9,7 +9,7 @@ const
  * encounters errors (like a 404 or an authentication error) it will fail silently and result
  * in an "unknown" response.
  *
- * @since [version]
+ * @since 0.0.2
  *
  * @return {string} Returns 'public' or 'private'. If the repo cannot be found, returns 'unknown'.
  */
@@ -27,7 +27,7 @@ function getProjectPrivacy() {
 /**
  * Determine if the project is private.
  *
- * @since [version]
+ * @since 0.0.2
  *
  * @return {boolean | undefined} Returns `true` for private repos, `false` for public repos, and `undefined` for unknown repos.
  */
@@ -42,7 +42,7 @@ function isProjectPrivate() {
 /**
  * Determine if the project is private.
  *
- * @since [version]
+ * @since 0.0.2
  *
  * @return {boolean | undefined} Returns `false` for private repos, `true` for public repos, and `undefined` for unknown repos.
  */

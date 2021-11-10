@@ -14,7 +14,7 @@ const
  * will be used for the increment.
  *
  * @since 0.0.1
- * @since [version] Added currentVersion and preid parameters.
+ * @since 0.0.2 Added currentVersion and preid parameters.
  *              Add `pre` prefix when a `preid` is specified.
  *              Return `prerelease` when a `preid` is specified and `currentVersion` is already a prerelease.
  *

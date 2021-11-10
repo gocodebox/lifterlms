@@ -8,7 +8,7 @@ const semver = require( 'semver' );
  *   + When creating the first prerelease, eg 1.0.0 -> 2.0.0-beta.1, this function skips beta.0 and makes beta.1.
  *
  * @since 0.0.1
- * @since [version] Only add "pre" to the increment if it is already added.
+ * @since 0.0.2 Only add "pre" to the increment if it is already added.
  *
  * @param {string} version   Version to increment.
  * @param {string} increment Increment level: major, premajor, minor, preminor, patch, prepatch, or prerelease.

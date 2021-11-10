@@ -10,7 +10,7 @@ const
  * to the "release" branch which is used to create and publish installable releases.
  *
  * @since 0.0.1
- * @since [version] OSX compatibility: don't use `xargs -d`.
+ * @since 0.0.2 OSX compatibility: don't use `xargs -d`.
  *
  * @param {string}  distFile Distribution file used as the source of the commit.
  * @param {string}  branch   Branch to commit and push to.

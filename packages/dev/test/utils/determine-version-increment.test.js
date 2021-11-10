@@ -8,7 +8,7 @@ let mockedEntries;
 /**
  * Create mock entries for the return of getChangelogEntries().
  *
- * @since [version]
+ * @since 0.0.2
  *
  * @param {string} significance Highest significance to add to the list.
  * @return {Object[]} Array of partial log entry objects.
