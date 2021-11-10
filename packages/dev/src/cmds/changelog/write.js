@@ -255,7 +255,7 @@ module.exports = {
 		let version = force;
 
 		if ( ! version ) {
-			version = getNextVersion( currentVersion, determineVersionIncrement( dir ), preid );
+			version = getNextVersion( currentVersion, determineVersionIncrement( dir, currentVersion, preid ), preid );
 		} else if ( ! semver.valid( version ) ) {
 			logResult( `The supplied version string ${ chalk.bold( version ) } is invalid.`, 'error' );
 			process.exit( 1 );
