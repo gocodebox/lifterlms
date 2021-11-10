@@ -8,7 +8,6 @@ let mockedSlug;
 getProjectSlug.mockImplementation( () => mockedSlug );
 
 describe( 'getProjectPrivacy', () => {
-
 	const testData = [
 		[ 'Should return "public" for public repos', 'lifterlms', 'public' ],
 		[ 'Should return "private" for private repos', 'lifterlms-groups', 'private' ],
@@ -18,11 +17,9 @@ describe( 'getProjectPrivacy', () => {
 		mockedSlug = slug;
 		expect( getProjectPrivacy() ).toBe( expected );
 	} );
-
 } );
 
 describe( 'isProjectPublic', () => {
-
 	const testData = [
 		[ 'Should return true for public repos', 'lifterlms', true ],
 		[ 'Should return false for private repos', 'lifterlms-groups', false ],
@@ -32,11 +29,9 @@ describe( 'isProjectPublic', () => {
 		mockedSlug = slug;
 		expect( isProjectPublic() ).toBe( expected );
 	} );
-
 } );
 
 describe( 'isProjectPrivate', () => {
-
 	const testData = [
 		[ 'Should return false for public repos', 'lifterlms', false ],
 		[ 'Should return true for private repos', 'lifterlms-groups', true ],
@@ -46,5 +41,4 @@ describe( 'isProjectPrivate', () => {
 		mockedSlug = slug;
 		expect( isProjectPrivate() ).toBe( expected );
 	} );
-
 } );

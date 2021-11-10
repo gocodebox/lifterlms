@@ -14,7 +14,6 @@ let mockedEntries;
  * @return {Object[]} Array of partial log entry objects.
  */
 function setupMockEntries( significance ) {
-
 	const entries = [];
 
 	for ( let i = 0; i <= 3; i++ ) {
@@ -25,13 +24,11 @@ function setupMockEntries( significance ) {
 
 	// Shuffle entries.
 	return entries.slice().sort( () => Math.random() - 0.5 );
-
 }
 
 getChangelogEntries.mockImplementation( () => mockedEntries );
 
 describe( 'determineVersionIncrement', () => {
-
 	it.each( [ 'major', 'minor', 'patch' ] )( 'Should return "%s" when it is the highest significance', ( significance ) => {
 		mockedEntries = setupMockEntries( significance );
 		expect( determineVersionIncrement( 'dir', '1.0.0' ) ).toBe( significance );
@@ -55,5 +52,4 @@ describe( 'determineVersionIncrement', () => {
 		mockedEntries = [];
 		expect( determineVersionIncrement( 'dir', '1.0.0' ) ).toBe( 'patch' );
 	} );
-
 } );

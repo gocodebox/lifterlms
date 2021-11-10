@@ -16,7 +16,6 @@ const semver = require( 'semver' );
  * @return {string} The incremented string.
  */
 module.exports = ( version, increment, preid = null ) => {
-
 	increment = preid && ! increment.startsWith( 'pre' ) ? `pre${ increment }` : increment;
 
 	// When incrementing a prerelease we want to skip versions like "-beta.0" and go right to "-beta.1".

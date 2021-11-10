@@ -24,7 +24,6 @@ const
  * @return {string} A version increment string.
  */
 module.exports = ( dir, currentVersion, preid = null ) => {
-
 	if ( preid && null !== semver.prerelease( currentVersion ) ) {
 		return 'prerelease';
 	}
@@ -34,5 +33,4 @@ module.exports = ( dir, currentVersion, preid = null ) => {
 		increment = [ 'major', 'minor', 'patch' ].find( ( level ) => logs.includes( level ) ) || 'patch';
 
 	return preid ? `pre${ increment }` : increment;
-
 };

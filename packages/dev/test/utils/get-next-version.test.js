@@ -1,9 +1,7 @@
 const
-	semver = require( 'semver' ),
 	{ getNextVersion } = require( '../../src/utils' );
 
 describe( 'getNextVersion', () => {
-
 	describe( 'increment=patch', () => {
 		const testData = [
 			[ '1.0.0', '1.0.1' ],
@@ -54,5 +52,4 @@ describe( 'getNextVersion', () => {
 			expect( getNextVersion( current, 'prerelease', 'beta' ) ).toBe( next );
 		} );
 	} );
-
 } );

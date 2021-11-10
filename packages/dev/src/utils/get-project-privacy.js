@@ -14,18 +14,14 @@ const
  * @return {string} Returns 'public' or 'private'. If the repo cannot be found, returns 'unknown'.
  */
 function getProjectPrivacy() {
-
 	let status = 'unknown';
 
 	try {
-
 		const res = JSON.parse( execSync( `gh api repos/gocodebox/${ getProjectSlug() }`, true ) );
 		status = res.private ? 'private' : 'public';
-
 	} catch ( e ) {}
 
 	return status;
-
 }
 
 /**
@@ -33,7 +29,7 @@ function getProjectPrivacy() {
  *
  * @since [version]
  *
- * @return {Boolean|undefined} Returns `true` for private repos, `false` for public repos, and `undefined` for unknown repos.
+ * @return {boolean | undefined} Returns `true` for private repos, `false` for public repos, and `undefined` for unknown repos.
  */
 function isProjectPrivate() {
 	const privacy = getProjectPrivacy();
@@ -48,7 +44,7 @@ function isProjectPrivate() {
  *
  * @since [version]
  *
- * @return {Boolean|undefined} Returns `false` for private repos, `true` for public repos, and `undefined` for unknown repos.
+ * @return {boolean | undefined} Returns `false` for private repos, `true` for public repos, and `undefined` for unknown repos.
  */
 function isProjectPublic() {
 	const privacy = getProjectPrivacy();
