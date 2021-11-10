@@ -1,17 +1,17 @@
 <?php
 /**
- * Achievements meta box
+ * Achievements meta box.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Achievements meta box class
+ * Achievements meta box class.
  *
  * Generates main meta box and builds forms.
  *
@@ -47,6 +47,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Allow some fields to store values with quotes.
+	 * @since [version] Remove deprecated achievement background image meta field.
 	 *
 	 * @return array
 	 */
@@ -77,18 +78,6 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 				'group'      => '',
 				'value'      => '',
 				'sanitize'   => 'no_encode_quotes',
-			),
-			// Achievement background image.
-			array(
-				'label'      => __( 'Background Image', 'lifterlms' ),
-				'desc'       => __( 'Select an Image to use for the achievement.', 'lifterlms' ),
-				'id'         => $this->prefix . 'achievement_image',
-				'type'       => 'image',
-				'section'    => 'achievement_meta_box',
-				'class'      => 'achievement',
-				'desc_class' => 'd-all',
-				'group'      => '',
-				'value'      => '',
 			),
 		);
 
