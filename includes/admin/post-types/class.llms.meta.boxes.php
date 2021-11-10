@@ -205,14 +205,16 @@ class LLMS_Admin_Meta_Boxes {
 
 		$post_types = array(
 			'llms_achievement',
+			'llms_my_achievement',
 			'llms_certificate',
+			'llms_my_certificate',
 		);
 		$post_type  = get_post_type( $post_id );
 		if ( ! $image_id && in_array( $post_type, $post_types, true ) ) {
 
 			$add_content = '';
 
-			$class = str_replace( 'llms_', '', $post_type ) . 's';
+			$class = str_replace( array( 'llms_', 'my_' ), '', $post_type ) . 's';
 
 			$image_id = llms()->$class()->get_default_image_id();
 			$alt      = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : __( 'Default image', 'lifterlms' );
