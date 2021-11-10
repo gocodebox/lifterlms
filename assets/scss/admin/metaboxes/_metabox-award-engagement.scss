@@ -1,0 +1,23 @@
+.llms-award-engagement-submitbox .llms-mb-list {
+	&.student-info,
+	&.post_author_override label {
+		&:before {
+			// dashicons-admin-users.
+			font: normal 20px/1 dashicons;
+			speak: never;
+			display: inline-block;
+			margin-left: -1px;
+			padding-right: 3px;
+			vertical-align: top;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			content: "\f110";
+			position: relative;
+			top: -1px;
+			color: #8c8f94;
+			body:not(.admin-color-fresh) & {
+				color: currentColor; // Used when selecting a different admin color scheme from the default one.
+			}
+		}
+	}
+}
