@@ -7,6 +7,7 @@
  * @group metabox_lesson
  * @group admin
  * @group metaboxes
+ * @group metaboxes_post_type
  *
  * @since 3.36.2
  * @version 3.36.2

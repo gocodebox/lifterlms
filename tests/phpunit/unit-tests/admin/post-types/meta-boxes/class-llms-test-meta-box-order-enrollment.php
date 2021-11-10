@@ -7,6 +7,7 @@
  * @group admin
  * @group metaboxes
  * @group LLMS_Meta_Box_Order_Enrollment
+ * @group metaboxes_post_type
  *
  * @since 3.33.0
  * @since 4.18.0 Added some tests on the output method.
