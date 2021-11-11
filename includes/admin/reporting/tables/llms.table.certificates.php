@@ -86,12 +86,14 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * @since 3.2.0
 	 * @since 3.18.0 Unknown.
 	 * @since [version] Retrieve earned date using the LLMS_User_Certificate model.
+	 *              Retrieve "name" via the `get_post_title()` in favor of deprecated meta data.
 	 *
 	 * @param  string $key  The column id / key.
 	 * @param  mixed  $data Object of certificate data.
 	 * @return mixed
 	 */
 	public function get_data( $key, $data ) {
+
 		switch ( $key ) {
 
 			case 'actions':
@@ -120,7 +122,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				break;
 
 			case 'name':
-				$value = get_post_meta( $data->certificate_id, '_llms_certificate_title', true );
+				$value = get_the_title( $data->certificate_id );
 				break;
 
 			// Prior to 3.2 this data wasn't recorded.
