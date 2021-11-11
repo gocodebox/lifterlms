@@ -133,22 +133,6 @@ function llms_get_certificate_merge_codes() {
 }
 
 /**
- * Utility function to retrieve a list of the certificate post types.
- *
- * @since [version]
- *
- * @return string[] Array of certificate post type names.
- */
-function llms_get_certificate_post_types() {
-
-	return array(
-		'llms_certificate', // Template.
-		'llms_my_certificate', // Earned Certificate.
-	);
-
-}
-
-/**
  * Retrieve the current or next sequential ID for a given certificate template.
  *
  * If there's no existing ID, the ID starts at 1 and will *not* be incremented.
