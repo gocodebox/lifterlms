@@ -309,7 +309,6 @@ class LLMS_Query {
 			if ( $new_post ) {
 				llms_redirect_and_exit( get_permalink( $new_post->ID ) );
 			}
-
 		}
 
 	}
