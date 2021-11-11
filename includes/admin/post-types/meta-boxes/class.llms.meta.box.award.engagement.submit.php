@@ -169,7 +169,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	 */
 	private function student_information() {
 
-		$post_type  = get_post_type();
+		$post_type  = get_post_type( $this->post->ID );
 		$student_id = $this->current_student_id();
 		$student    = $student_id ? llms_get_student( $student_id ) : $student_id;
 
@@ -247,7 +247,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		}
 
 		$creating  = $creating ?? ( 'add' === get_current_screen()->action );
-		$post_type = get_post_type();
+		$post_type = get_post_type( $this->post->ID );
 		// If creating, take into account passed GET variable.
 		$student          = $creating && ! empty( $_GET['sid'] ) ? llms_filter_input( INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT ) : 0; // phpcs:ignore
 		// If not creating, retrieve the earned engagement user id.
