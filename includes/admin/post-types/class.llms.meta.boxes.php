@@ -29,11 +29,13 @@ class LLMS_Admin_Meta_Boxes {
 	private static $errors = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.16.0
+	 * @since 1.0.0
+	 * @since 3.16.0 Unknown.
+	 * @since [version] Instantiate award engagement submit meta box.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -50,7 +52,6 @@ class LLMS_Admin_Meta_Boxes {
 		new LLMS_Meta_Box_Engagement();
 
 		// Award Engagements.
-		new LLMS_Meta_Box_Award_Engagement();
 		new LLMS_Meta_Box_Award_Engagement_Submit();
 
 		// Membership restriction metabox.

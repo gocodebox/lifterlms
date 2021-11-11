@@ -50,9 +50,8 @@ class LLMS_Test_Meta_Box_Certificate extends LLMS_PostTypeMetaboxTestCase {
 	 */
 	public function test_get_fields() {
 
-		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_certificate' ) );
-
 		$this->metabox->post = $this->factory->post->create_and_get(
+			array( 'post_type' => 'llms_certificate' )
 		);
 
 		$this->assertEqualSets(

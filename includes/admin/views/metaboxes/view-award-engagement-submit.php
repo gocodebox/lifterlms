@@ -9,15 +9,16 @@
  * @since [version]
  * @version [version]
  *
- * @property WP_Post $engagement    WP_Post instance of the engagement.
- * @property int     $engagement_id WP_Post ID of the engagement.
- * @property string  $action        The action being performed.
- * @property bool    $can_publish   Whether the current user can publish the engagement.
+ * @property WP_Post $engagement     WP_Post instance of the engagement.
+ * @property int     $engagement_id  WP_Post ID of the engagement.
+ * @property string  $action         The action being performed.
+ * @property bool    $can_publish    Whether the current user can publish the engagement.
+ * @property string  $fields         Meta box fields such as student information ones.
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="submitbox" id="submitpost">
+<div class="submitbox llms-award-engagement-submitbox" id="submitpost">
 	<div id="minor-publishing">
 		<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key. ?>
 		<div style="display:none;">
@@ -117,6 +118,9 @@ defined( 'ABSPATH' ) || exit;
 		?>
 		<div class="clear"></div>
 	</div>
+	<ul id="misc-fields" class="misc-pub-section" style="margin-top:0">
+		<?php echo $fields; ?>
+	</ul>
 	<div id="major-publishing-actions">
 		<div id="delete-action">
 			<?php
