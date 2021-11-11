@@ -142,6 +142,62 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_unique_slug()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_unique_slug() {
+
+		$slugs = array();
+
+		$i = 0;
+		while ( $i < 250 ) {
+
+			$post = $this->factory->post->create_and_get( array(
+				'post_type' => 'llms_my_certificate',
+				'post_name' => llms()->certificates()->get_unique_slug( 'A Title' ),
+			) );
+
+			$slugs[] = $post->post_name;
+
+			$i++;
+
+		}
+
+		$this->assertEquals( 250, count( array_unique( $slugs ) ) );
+
+	}
+
+	/**
+	 * Test get_unique_slug() will increase the suffix string length after encountering collisions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_unique_slug_length_increase() {
+
+		$handler = function( $password, $len ) {
+			return 3 === $len ? 'aaa' : $password;
+		};
+		add_filter( 'random_password', $handler, 10, 2 );
+
+		// Create a post with the '-aaa' suffix so we can have a real fake collision.
+		$post = $this->factory->post->create_and_get( array(
+			'post_type' => 'llms_my_certificate',
+			'post_name' => llms()->certificates()->get_unique_slug( 'A Title' ),
+		) );
+		$this->assertEquals( 11, strlen( $post->post_name ) );
+		$this->assertEquals( 'a-title-aaa', $post->post_name );
+
+		// This request will result find '-aaa' as a collision and then try 4 more times and then increase to 4 characters.s
+		$this->assertEquals( 12, strlen( llms()->certificates()->get_unique_slug( 'A Title' ) ) );
+
+	}
+
+	/**
 	 * Test modify_dom_links()
 	 *
 	 * @since 4.21.0
@@ -223,7 +279,6 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-2.css' );
 
 	}
-
 
 	/**
 	 * Test modify_dom_images()
