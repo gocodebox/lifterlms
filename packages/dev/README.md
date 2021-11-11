@@ -75,7 +75,7 @@ Options:
   -t, --title <title>            Changelog entry file name. Uses the current
                                  git branch name as the default. Automatically
                                  appends a number to the title if the title
-                                 already exists. (default: "trunk")
+                                 already exists. (default: "dev")
   -i, --interactive              Create the changelog interactively. (default:
                                  false)
   -E, --use-editor               When creating a changelog interactively, will
@@ -157,8 +157,11 @@ Options:
                             determining the version based on changelog entry
                             significance.
   -l, --log-file <file>     The changelog file. (default: "CHANGELOG.md")
-  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2021-11-05")
-  -n, --no-links            Skip appending links to changelog entries.
+  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2021-11-10")
+  -L, --links               Add GitHub links to templates and issues in
+                            changelog entries. (default: false)
+  -n, --no-links            Do not add GitHub links in changelog entries. Use
+                            this option to override the --links flag.
   -D, --dry-run             Output what would be written to the changelog
                             instead of writing it to the changelog file.
   -k, --keep-entries        Preserve entry files deletion after the changelog
@@ -332,12 +335,12 @@ Update the project version and replace all [version] placeholders.
 
 Options:
   -i, --increment <level>                     Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease. (default: "patch")
-  -p, --preid <identifier>                    Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments. (default: "beta")
+  -p, --preid <identifier>                    Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
   -F, --force <version>                       Specify an explicit version instead of incrementing the current version with --increment.
   -r, --replacements <replacement...>]        Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested and a regex used to perform the replacement. It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag. (default: [["./**","(?<=@(?:since|version|deprecated) +)(\\[version\\])"],["./*.php,./**/*.php","(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=')(\\[version\\])(?=')"],["*lifterlms*.php","(?<=[Vv]ersion *[:=] *[ '\"])(0|[1-9]d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?"],["*lifterlms*.php","(?<=define\\( '(?:LLMS|LIFTERLMS).*_VERSION', ')(.*)(?=' \\);)"],["./style.css","(?<=Version: )(.+)"]])
   -e, --extra-replacements <replacement...>]  Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them. (default: [])
   -E, --exclude <glob...>                     Specify files to exclude from the update. (default: "./vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**")
-  -s, --skip-config                           Skip updating the version of the package.json or composer.json file.
+  -s, --skip-config                           Skip updating the version of the package.json or composer.json file. (default: true)
   -h, --help                                  display help for command
 
 ```

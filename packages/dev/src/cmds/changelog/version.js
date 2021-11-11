@@ -30,6 +30,6 @@ module.exports = {
 			process.exit( 0 );
 		}
 
-		console.log( getNextVersion( currentVersion, determineVersionIncrement( dir ), preid ) );
+		console.log( getNextVersion( currentVersion, determineVersionIncrement( dir, currentVersion, preid ), preid ) );
 	},
 };

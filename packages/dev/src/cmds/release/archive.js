@@ -17,7 +17,6 @@ module.exports = {
 				! verbose,
 				( msg ) => logResult( msg, 'info' )
 			);
-
 		// Unzip the archive for inspection.
 		if ( inspect ) {
 			execSync( `unzip ${ fileName }`, ! verbose, { cwd: distDir } );

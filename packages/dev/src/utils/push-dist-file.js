@@ -10,6 +10,7 @@ const
  * to the "release" branch which is used to create and publish installable releases.
  *
  * @since 0.0.1
+ * @since 0.0.2 OSX compatibility: don't use `xargs -d`.
  *
  * @param {string}  distFile Distribution file used as the source of the commit.
  * @param {string}  branch   Branch to commit and push to.
@@ -33,7 +34,7 @@ module.exports = ( distFile, branch, message, silent = true ) => {
 	execSync( `git checkout -b ${ branch }`, silent, { cwd } );
 
 	// Empty everything except the git directory.
-	execSync( `mv .git ../ && ls -A | xargs -d '\n' rm -rf && mv ../.git ./`, silent, { cwd } );
+	execSync( `mv .git ../ && cd ../ && rm -rf ./git && mkdir git && mv .git ./git && cd git`, silent, { cwd } );
 
 	// Extract the distribution file.
 	execSync( `unzip ${ distFile } -d ./tmp/git/`, silent );
