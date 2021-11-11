@@ -262,7 +262,7 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
-		// etup html for nav and content.
+		// Setup html for nav and content.
 		$this->process_fields();
 
 		// output the html.
@@ -310,6 +310,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
+	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox:process_field}.
 	 *
 	 * @return void
 	 */
@@ -343,32 +344,47 @@ abstract class LLMS_Admin_Metabox {
 			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . $current . '"><ul>';
 
 			foreach ( $tab['fields'] as $field ) {
-
-				$name = ucfirst(
-					strtr(
-						preg_replace_callback(
-							'/(\w+)/',
-							function( $m ) {
-								return ucfirst( $m[1] );
-							},
-							$field['type']
-						),
-						'-',
-						'_'
-					)
-				);
-
-				$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
-				$field_class      = new $field_class_name( $field );
-				ob_start();
-				$field_class->Output();
-				$this->content .= ob_get_clean();
-				unset( $field_class );
+				$this->content .= $this->process_field( $field );
 			}
 
 			$this->content .= '</ul></div>';
 
 		}
+
+	}
+
+	/**
+	 * Process single field.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $field Metabox field.
+	 * @return string
+	 */
+	protected function process_field( $field ) {
+
+		$name = ucfirst(
+			strtr(
+				preg_replace_callback(
+					'/(\w+)/',
+					function( $m ) {
+						return ucfirst( $m[1] );
+					},
+					$field['type']
+				),
+				'-',
+				'_'
+			)
+		);
+
+		$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
+		$field_class      = new $field_class_name( $field );
+		ob_start();
+		$field_class->Output();
+		$field_html = ob_get_clean();
+		unset( $field_class );
+
+		return $field_html;
 
 	}
 
