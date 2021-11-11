@@ -3,6 +3,7 @@
  * LifterLMS Unit Test Case Base class
  *
  * @since 3.37.3
+ * @version [version]
  */
 class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 
@@ -85,8 +86,9 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	 * Ensure all editable settings exist in the settings array.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Compare arrays without caring about order.
 	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_get_settings() {
 
@@ -98,7 +100,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 
 		$mock   = array_keys( $settings );
 		$actual = $this->get_settings_ids();
-		$this->assertEquals( $mock, $actual );
+		$this->assertEqualSets( $mock, $actual );
 
 	}
 

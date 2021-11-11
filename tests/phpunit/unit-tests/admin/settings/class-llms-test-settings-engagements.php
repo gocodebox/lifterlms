@@ -10,6 +10,7 @@
  *
  * @since 3.37.3
  * @since 3.40.0 Add tests for `get_settings_group_email_delivery()`.
+ * @version [version]
  */
 class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 
@@ -38,6 +39,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	 * Return an array of mock settings and possible values.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Update settings.
 	 *
 	 * @return void
 	 */
@@ -57,6 +59,12 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 			),
 			'lifterlms_email_footer_text' => array(
 				'footer text content',
+			),
+			'lifterlms_achievement_default_img' => array(
+				0
+			),
+			'lifterlms_certificate_default_bg_img' => array(
+				0
 			),
 			'lifterlms_certificate_bg_img_width' => array(
 				800,
