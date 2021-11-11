@@ -10,7 +10,6 @@
  *
  * @since 3.37.3
  * @since 3.40.0 Add tests for `get_settings_group_email_delivery()`.
- * @version [version]
  */
 class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 
