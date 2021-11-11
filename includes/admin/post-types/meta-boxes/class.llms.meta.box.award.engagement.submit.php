@@ -307,7 +307,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 
 			const __ = window.wp.i18n.__;
 			const _i18n = {
-				'Publish on:': __( 'Award on:', 'liftelrms' ),
+				'Publish on:': __( 'Award on:', 'lifterlms' ),
 				'Publish'    : __( 'Award', 'lifterlms' ),
 				'Published'  : __( 'Awarded', 'lifterlms' ),
 			};
