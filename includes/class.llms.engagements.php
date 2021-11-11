@@ -637,15 +637,20 @@ class LLMS_Engagements {
 	 *
 	 * This is the callback function for deleted engagement posts.
 	 *
+	 * The `deleted_post` action param `$post` has been added since WordPress 5.5.0.
+	 *
 	 * @since [version]
 	 *
 	 * @param int          $post_id WP_Post ID.
 	 * @param WP_Post|null $post    Post object of the deleted post.
 	 * @return void
 	 */
-	public function unschedule_delayed_engagements( $post_id, $post ) {
+	public function unschedule_delayed_engagements( $post_id, $post = null ) {
 
-		if ( 'llms_engagement' === $post->post_type ) {
+		// @todo Remove compatibility with WP < 5.5 when bumping the minimum WP required version to 5.5+
+		$post_type = $post ? $post->post_type : get_post_type( $post_id );
+
+		if ( 'llms_engagement' === $post_type ) {
 			as_unschedule_all_actions( '', array(), $this->get_delayed_group_id( $post_id ) );
 		}
 
