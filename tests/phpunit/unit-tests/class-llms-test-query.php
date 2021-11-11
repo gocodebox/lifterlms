@@ -212,4 +212,76 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test maybe_redirect_certificates() when a redirect is not expected.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_certificates_caught() {
+
+		global $wp, $wp_query;
+
+		$cert = $this->factory->post->create_and_get( array( 'post_type' => 'llms_my_certificate' ) );
+
+		$wp->request = '/my_certificate/' . $cert->post_name;
+		$wp_query->is_404 = true;
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( sprintf( '%1$s [302] YES', get_permalink( $cert->ID ) ) );
+
+		$this->main->maybe_redirect_certificate();
+
+	}
+
+	/**
+	 * Test maybe_redirect_certificates() in scenarios where a redirect is not expected.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_certificates_not_caught() {
+
+		// Assert that the LLMS_Unit_Test_Exception_Redirect is not thrown.
+		$this->expectNotToPerformAssertions();
+
+		global $wp, $wp_query;
+
+		// Not a 404.
+		$wp->request = '/fake/url';
+		$wp_query->is_404 = false;
+		$this->main->maybe_redirect_certificate();
+
+		// Is a 404 but url doesn't contain "/my_certificate/".
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		// Does contain "/my_certificate/" but isn't a 404.
+		$wp->request = '/my_certificate/slug';
+		$wp_query->is_404 = false;
+		$this->main->maybe_redirect_certificate();
+
+		// Doesn't redirect because the certificate doesn't exist.
+		$wp->request = '/my_certificate/fake-slug-doesnt-exist';
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// A real post that contains "/my_certificate/" but isn't an `llms_my_certificate` post type.
+		// This is something of a dumb test because in this scenario the page would be loaded and not 404 but just in case...
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_name' => 'my_certificate' ) );
+		$wp->request = wp_parse_url( get_permalink( $parent ), PHP_URL_PATH );
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		// The child post.
+		$post = $this->factory->post->create( array( 'post_type' => 'page', 'post_parent' => $parent ) );
+		$wp->request = wp_parse_url( get_permalink( $post ), PHP_URL_PATH );
+		$this->main->maybe_redirect_certificate();
+
+	}
+
 }
