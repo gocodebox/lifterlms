@@ -647,7 +647,9 @@ class LLMS_Engagements {
 	 */
 	public function unschedule_delayed_engagements( $post_id, $post = null ) {
 
+		// @todo Remove compatibility with WP < 5.5 when bumping the minimum WP required version to 5.5+
 		$post_type = $post ? $post->post_type : get_post_type( $post_id );
+
 		if ( 'llms_engagement' === $post_type ) {
 			as_unschedule_all_actions( '', array(), $this->get_delayed_group_id( $post_id ) );
 		}
