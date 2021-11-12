@@ -53,7 +53,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id       = 'submitdiv';
+		$this->id       = 'submitdiv'; // Overrides the WordPress core one.
 		$this->title    = __( 'Award', 'lifterlms' );
 		$this->screens  = array_keys( $this->post_types );
 		$this->context  = 'side';
@@ -67,11 +67,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				:
 				array();
 		};
-
-		// Remove wp core post submit meta box.
-		if ( function_exists( 'remove_meta_box' ) ) { // When this class is instantiated at `wp` to show an error message, the message `remove_meta_box()` is not available.
-			remove_meta_box( 'submitdiv', $this->screens, 'side' );
-		}
 
 	}
 
