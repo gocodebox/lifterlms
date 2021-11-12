@@ -153,8 +153,17 @@ class LLMS_Controller_Certificates {
 		}
 
 		if ( 'sync_awarded_certificate' === $_GET['action'] ) {
-			( new LLMS_User_Certificate( $cert_id ) )->sync();
-			wp_safe_redirect( get_edit_post_link( $cert_id, 'raw' ) );
+			$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
+
+			$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+
+			if ( is_wp_error( $sync ) ) {
+				( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
+			} else {
+				$redirect_url = add_query_arg( 'message', 1, $redirect_url );
+			}
+
+			wp_safe_redirect( $redirect_url );
 			exit;
 		}
 
