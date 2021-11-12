@@ -1,4 +1,9 @@
 .llms-award-engagement-submitbox .llms-mb-list {
+	margin-bottom: 12px;
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+	&.sync-action,
 	&.student-info,
 	&.post_author_override label {
 		&:before {
@@ -11,7 +16,6 @@
 			vertical-align: top;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
-			content: "\f110";
 			position: relative;
 			top: -1px;
 			color: #8c8f94;
@@ -19,6 +23,15 @@
 				color: currentColor; // Used when selecting a different admin color scheme from the default one.
 			}
 		}
+	}
+	&.student-info,
+	&.post_author_override label {
+		&:before {
+			content: '\f110';
+		}
+	}
+	&.sync-action:before {
+		content: '\f113'
 	}
 	&.post_author_override label {
 		display: inline-block;

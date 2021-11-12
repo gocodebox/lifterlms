@@ -444,7 +444,7 @@ class LLMS_Engagement_Handler {
 	 * @param int    $template_id WP_Post ID of the template post.
 	 * @return int WP_Post ID of the attachment or `0` when none found.
 	 */
-	private static function get_image_id( $type, $template_id ) {
+	public static function get_image_id( $type, $template_id ) {
 
 		$img_id = get_post_meta( $template_id, '_thumbnail_id', true );
 

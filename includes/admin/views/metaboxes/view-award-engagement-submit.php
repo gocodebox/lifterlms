@@ -9,11 +9,11 @@
  * @since [version]
  * @version [version]
  *
- * @property WP_Post $engagement     WP_Post instance of the engagement.
- * @property int     $engagement_id  WP_Post ID of the engagement.
- * @property string  $action         The action being performed.
- * @property bool    $can_publish    Whether the current user can publish the engagement.
- * @property string  $fields         Meta box fields such as student information ones.
+ * @property WP_Post $engagement    WP_Post instance of the engagement.
+ * @property int     $engagement_id WP_Post ID of the engagement.
+ * @property string  $action        The action being performed.
+ * @property bool    $can_publish   Whether the current user can publish the engagement.
+ * @property string  $fields        Meta box fields such as student information ones.
  */
 
 defined( 'ABSPATH' ) || exit;
