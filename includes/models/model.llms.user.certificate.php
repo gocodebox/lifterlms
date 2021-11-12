@@ -406,8 +406,9 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$template = get_post( $template_id );
 
-		$this->set( 'title', $template->post_title );
+		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
 		$this->set( 'content', $template->post_content );
+		update_post_meta( $this->get( 'id' ), '_thumbnail_id', LLMS_Engagement_Handler::get_image_id( 'certificate', $template_id ) );
 
 		// Save the fully merged content.
 		$this->set( 'content', $this->merge_content() );

@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +27,7 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
 	 * @since 5.5.0 Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
+	 * @since [version] Handle awarded certificates sync actions.
 	 *
 	 * @return void
 	 */
@@ -35,6 +36,7 @@ class LLMS_Controller_Certificates {
 		add_filter( 'lifterlms_register_post_type_certificate', array( $this, 'maybe_allow_public_query' ) );
 
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
+		add_action( 'init', array( $this, 'maybe_handle_awarded_certificates_sync_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
 
 	}
@@ -127,6 +129,33 @@ class LLMS_Controller_Certificates {
 			$this->delete( $cert_id );
 		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) ) {
 			$this->change_sharing_settings( $cert_id, (bool) $_POST['llms_enable_cert_sharing'] );
+		}
+
+	}
+
+	/**
+	 * Handle awrded certificates sync actions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function maybe_handle_awarded_certificates_sync_actions() {
+
+		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) || ! isset( $_GET['action'] ) ) {
+			return;
+		}
+
+		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( empty( $cert_id ) || ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
+			return;
+		}
+
+		if ( 'sync_awarded_certificate' === $_GET['action'] ) {
+			( new LLMS_User_Certificate( $cert_id ) )->sync();
+			wp_safe_redirect( get_edit_post_link( $cert_id, 'raw' ) );
+			exit;
 		}
 
 	}
