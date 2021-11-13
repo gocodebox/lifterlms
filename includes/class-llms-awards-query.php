@@ -1,8 +1,6 @@
 <?php
 /**
- * File Summary
- *
- * File description.
+ * LLMS_Awards_Query class file
  *
  * @package LifterLMS/Classes
  *
@@ -12,6 +10,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Query awarded achievements and engagements
+ *
+ * @since [version]
+ */
 class LLMS_Awards_Query {
 
 	/**
