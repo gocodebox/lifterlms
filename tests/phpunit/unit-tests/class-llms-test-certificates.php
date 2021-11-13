@@ -192,7 +192,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$this->assertEquals( 11, strlen( $post->post_name ) );
 		$this->assertEquals( 'a-title-aaa', $post->post_name );
 
-		// This request will result find '-aaa' as a collision and then try 4 more times and then increase to 4 characters.s
+		// This request will result find '-aaa' as a collision and then try 4 more times and then increase to 4 characters.
 		$this->assertEquals( 12, strlen( llms()->certificates()->get_unique_slug( 'A Title' ) ) );
 
 	}
