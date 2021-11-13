@@ -210,12 +210,15 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function create( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
+		$title = get_post_meta( $template_id, "_llms_{$type}_title", true );
+
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
 			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
 			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_status'  => 'publish',
 			'post_author'  => $user_id,
+			'post_name'    => llms()->certificates()->get_unique_slug( $title ),
 			'meta_input'   => array(
 				'_thumbnail_id'          => self::get_image_id( $type, $template_id ),
 				"_llms_{$type}_template" => $template_id,
