@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -288,19 +288,39 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve certificates that a user has earned
+	 * Retrieve certificates that the student has been awarded.
 	 *
-	 * @param    string $orderby field to order the returned results by
-	 * @param    string $order   ordering method for returned results (ASC or DESC)
-	 * @param    string $return  return type
-	 *                              obj => array of objects from $wpdb->get_results
-	 *                              certificates => array of LLMS_User_Certificate instances
-	 * @return   array
-	 * @since    2.4.0
-	 * @version  3.14.1
+	 * The default behavior of this method is deprecated since version [version]. The previous behavior
+	 * is retained for backwards compatibility but will be removed in the next major release.
+	 *
+	 * @since 2.4.0
+	 * @since 3.14.1 Unknown.
+	 * @since [version] Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
+	 *
+	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
+	 *                                      signature accepts a string representing the field to order the returned results by.
+	 * @param string       $order           Deprecated signature only: Ordering method for returned results (ASC or DESC).
+	 * @param string       $return          Deprecated signature only: Return type. Accepts "obj" for an array of objects from
+	 *                                      $wpdb->get_results and "certificates" for an array of LLMS_User_Certificate instances.
+	 * @return LLMS_Awards_Query|object[]|LLMS_User_Certificate[]
 	 */
-	public function get_certificates( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
+	public function get_certificates( $args_or_orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
+		// New behavior.
+		if ( is_array( $args_or_orderby ) ) {
+
+			$args = $args_or_orderby;
+
+			$args['users'] = $this->get_id();
+			unset( $args['users__exclude'] );
+
+			return new LLMS_Awards_Query( 'certificates', $args );
+
+		}
+
+		_deprecated_argument( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
+
+		$orderby = $args_or_orderby;
 		$orderby = esc_sql( $orderby );
 		$order   = esc_sql( $order );
 
