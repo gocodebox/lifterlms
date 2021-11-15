@@ -302,7 +302,7 @@ class LLMS_Query {
 
 		$url = home_url( $wp->request );
 		$old = sprintf( '/%s/', _x( 'my_certificate', 'slug', 'lifterlms' ) );
-		if ( $wp_query->is_404() && str_contains( $url, $old ) ) {
+		if ( $wp_query->is_404() && false !== strpos( $url, $old ) ) {
 
 			$slug     = str_replace( $old, '', wp_parse_url( $url, PHP_URL_PATH ) );
 			$new_post = get_page_by_path( $slug, 'OBJECT', 'llms_my_certificate' );
