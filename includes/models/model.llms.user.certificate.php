@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the certificate.
  *                                        An empty value or `0` indicates the certificate was awarded manually or
  *                                        before the engagement value was stored.
+ * @property int    $related              WP_Post ID of the related post.
  * @property int    $sequential_id        The sequential certificate ID.
  * @property string $title                Certificate title.
  */
