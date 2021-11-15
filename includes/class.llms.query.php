@@ -300,11 +300,10 @@ class LLMS_Query {
 
 		global $wp, $wp_query;
 
-		$url = home_url( $wp->request );
-		$old = sprintf( '/%s/', _x( 'my_certificate', 'slug', 'lifterlms' ) );
-		if ( $wp_query->is_404() && false !== strpos( $url, $old ) ) {
-
-			$slug     = str_replace( $old, '', wp_parse_url( $url, PHP_URL_PATH ) );
+		$old  = sprintf( '/%s/', _x( 'my_certificate', 'slug', 'lifterlms' ) );
+		$path = wp_parse_url( home_url( $wp->request ), PHP_URL_PATH );
+		if ( $wp_query->is_404() && 0 === strpos( $path, $old ) ) {
+			$slug     = str_replace( $old, '', $path );
 			$new_post = get_page_by_path( $slug, 'OBJECT', 'llms_my_certificate' );
 			if ( $new_post ) {
 				llms_redirect_and_exit( get_permalink( $new_post->ID ) );

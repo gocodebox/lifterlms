@@ -244,6 +244,8 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 */
 	public function test_maybe_redirect_certificates_not_caught() {
 
+		$this->set_permalink_structure( '/%postname%/' );
+
 		// Assert that the LLMS_Unit_Test_Exception_Redirect is not thrown.
 		$this->expectNotToPerformAssertions();
 
@@ -268,8 +270,6 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		$wp_query->is_404 = true;
 		$this->main->maybe_redirect_certificate();
 
-		$this->set_permalink_structure( '/%postname%/' );
-
 		// A real post that contains "/my_certificate/" but isn't an `llms_my_certificate` post type.
 		// This is something of a dumb test because in this scenario the page would be loaded and not 404 but just in case...
 		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_name' => 'my_certificate' ) );
@@ -278,8 +278,20 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		$this->main->maybe_redirect_certificate();
 
 		// The child post.
-		$post = $this->factory->post->create( array( 'post_type' => 'page', 'post_parent' => $parent ) );
-		$wp->request = wp_parse_url( get_permalink( $post ), PHP_URL_PATH );
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_parent' => $parent ) );
+		$wp->request = wp_parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$this->main->maybe_redirect_certificate();
+
+		// Create this scenario: https://github.com/gocodebox/lifterlms/pull/1855#pullrequestreview-804521213
+		$parent_parent = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		wp_update_post( array( 'ID' => $parent, 'post_parent' => $parent_parent ) );
+
+		$child_post  = get_post( $child );
+		$parent_post = get_post( $parent_parent );
+
+		$cert = $this->factory->post->create( array( 'post_type' => 'llms_my_certificate', 'post_name' => "{$parent_post->post_name}{$child_post->post_name}" ) );
+
+		$wp->request = wp_parse_url( get_permalink( $child ), PHP_URL_PATH );
 		$this->main->maybe_redirect_certificate();
 
 	}
