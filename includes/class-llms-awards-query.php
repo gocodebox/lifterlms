@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Awards_Query class file
+ * LLMS_Awards_Query class file.
  *
  * @package LifterLMS/Classes
  *
