@@ -216,6 +216,7 @@ class LLMS_Engagement_Handler {
 			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_status'  => 'publish',
 			'post_author'  => $user_id,
+			'post_date'    => llms_current_time( 'mysql' ),
 			'meta_input'   => array(
 				'_thumbnail_id'          => self::get_image_id( $type, $template_id ),
 				"_llms_{$type}_template" => $template_id,
