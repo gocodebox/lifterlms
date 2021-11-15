@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the achievement.
  *                                        An empty value or `0` indicates the achievement was awarded manually or
  *                                        before the engagement value was stored.
+ * @property int    $related              WP_Post ID of the related post.
  * @property string $title                Achievement title.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
