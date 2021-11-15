@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query awarded achievements and engagements
+ * Query awarded achievements and engagements.
  *
  * @since [version]
  */
@@ -48,12 +48,12 @@ class LLMS_Awards_Query {
 	public $query = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since [version]
 	 *
 	 * @param string $type       Award type to query. Accepts: "achievements" or "certificates".
-	 * @param array  $query_args {
+	 * @param array  $args {
 	 *     Query arguments.
 	 *
 	 *     @type array     $sort                   Array of sorting arguments where the key is value to sort by and the value is the direction.
@@ -66,10 +66,11 @@ class LLMS_Awards_Query {
 	 *     @type int|int[] $templates              Include awards created from the specified `llms_achievement` or `llms_certificate` template post(s) by WP_Post ID.
 	 *     @type int|int[] $templates__exclude     Exclude awards created from the specified `llms_achievement` or `llms_certificate` template  post(s) by WP_Post ID.
 	 *     @type boolean   $manual                 Include only awards created manually. If specified the `$related_posts`, `$related_posts__exclude`, `$engagements`, `$engagements__exclude`, `$templates`, and `$templates__exclude` arguments will be ignored.
- 	 *     @type int       $page                   Results page number.
+	 *     @type int       $page                   Results page number.
 	 *     @type int       $per_page               Number of results to display per page. Use `-1` to show all possible results.
 	 *     @type boolean   $no_found_rows          Whether to skip counting the total rows found.
 	 * }
+	 * @return void
 	 */
 	public function __construct( $type, $args = array() ) {
 
@@ -141,7 +142,6 @@ class LLMS_Awards_Query {
 			if ( ! in_array( $field, $this->get_allowed_sort_fields(), true ) ) {
 				unset( $sort[ $field ] );
 			}
-
 		}
 
 		return $sort;
@@ -166,7 +166,7 @@ class LLMS_Awards_Query {
 		/**
 		 * Filters the allowed sort fields.
 		 *
-		 * They dynamic portion of this hook, `$this->type`, refers to the award type
+		 * The dynamic portion of this hook, `$this->type`, refers to the award type
 		 * for the query, either "achievements" or "certificates".
 		 *
 		 * @since [version]
@@ -266,7 +266,7 @@ class LLMS_Awards_Query {
 		 *
 		 * @since [version]
 		 *
-		 * @param object  $object     The retrieve object.
+		 * @param object  $object     The retrieved object.
 		 * @param string  $award_type The award type for the query, either "achievements" or "certificates".
 		 * @param WP_Post $post       The original object.
 		 */
@@ -373,7 +373,7 @@ class LLMS_Awards_Query {
 	 * @return boolean
 	 */
 	public function has_results() {
-		return count( $this->query->posts ) >= 1;
+		return count( $this->query->posts ) > 0;
 	}
 
 	/**
@@ -456,7 +456,6 @@ class LLMS_Awards_Query {
 					),
 				);
 			}
-
 		}
 
 		return $meta_query;
