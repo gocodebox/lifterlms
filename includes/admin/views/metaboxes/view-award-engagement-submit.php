@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 					switch ( $engagement->post_status ) {
 						case 'publish':
-							_e( 'Published', 'lifterlms' );
+							_e( 'Awarded', 'lifterlms' );
 							break;
 						case 'future':
 							_e( 'Scheduled', 'lifterlms' );
@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
 					<div id="post-status-select" class="hidden">
 					<select name="post_status" id="post_status">
 						<?php if ( 'publish' === $engagement->post_status ) : ?>
-							<option<?php selected( $engagement->post_status, 'publish' ); ?> value='publish'><?php _e( 'Published', 'lifterlms' ); ?></option>
+							<option<?php selected( $engagement->post_status, 'publish' ); ?> value='publish'><?php _e( 'Awarded', 'lifterlms' ); ?></option>
 						<?php elseif ( 'future' === $engagement->post_status ) : ?>
 							<option<?php selected( $engagement->post_status, 'future' ); ?> value='future'><?php _e( 'Scheduled', 'lifterlms' ); ?></option>
 						<?php else : ?>
@@ -61,12 +61,12 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		</div>
 		<?php
-		/* translators: Publish box date string. 1: Date, 2: Time. See https://www.php.net/manual/datetime.format.php */
+		/* translators: Award box date string. 1: Date, 2: Time. See https://www.php.net/manual/datetime.format.php */
 		$date_string = __( '%1$s at %2$s', 'lifterlms' );
-		/* translators: Publish box date format, see https://www.php.net/manual/datetime.format.php */
-		$date_format = _x( 'M j, Y', 'publish box date format', 'lifterlms' );
-		/* translators: Publish box time format, see https://www.php.net/manual/datetime.format.php */
-		$time_format = _x( 'H:i', 'publish box time format', 'lifterlms' );
+		/* translators: Award box date format, see https://www.php.net/manual/datetime.format.php */
+		$date_format = _x( 'M j, Y', 'award box date format', 'lifterlms' );
+		/* translators: Award box time format, see https://www.php.net/manual/datetime.format.php */
+		$time_format = _x( 'H:i', 'award box time format', 'lifterlms' );
 
 		if ( 0 !== $engagement_id ) {
 			if ( 'future' === $engagement->post_status ) { // Scheduled for awarding at a future date.
@@ -74,15 +74,15 @@ defined( 'ABSPATH' ) || exit;
 				$stamp = __( 'Scheduled for: %s', 'lifterlms' );
 			} elseif ( 'publish' === $engagement->post_status ) { // Already awarded.
 				/* translators: Post date information. %s: Date on which the engagement was awarded. */
-				$stamp = __( 'Published on: %s', 'lifterlms' );
+				$stamp = __( 'Awarded on: %s', 'lifterlms' );
 			} elseif ( '0000-00-00 00:00:00' === $engagement->post_date_gmt ) { // Draft, 1 or more saves, no date specified.
-				$stamp = __( 'Publish <b>immediately</b>', 'lifterlms' );
+				$stamp = __( 'Award <b>immediately</b>', 'lifterlms' );
 			} elseif ( llms_current_time( 'U', true ) < strtotime( $engagement->post_date_gmt . ' +0000' ) ) { // Draft, 1 or more saves, future date specified.
-				/* translators: Post date information. %s: Date on which the post is to be published. */
+				/* translators: Post date information. %s: Date on which the post is to be awarded. */
 				$stamp = __( 'Schedule for: %s', 'lifterlms' );
 			} else { // Draft, 1 or more saves, date specified.
-				/* translators: Post date information. %s: Date on which the post is to be published. */
-				$stamp = __( 'Publish on: %s', 'lifterlms' );
+				/* translators: Post date information. %s: Date on which the post is to be awarded. */
+				$stamp = __( 'Award on: %s', 'lifterlms' );
 			}
 			$date = sprintf(
 				$date_string,
@@ -90,7 +90,7 @@ defined( 'ABSPATH' ) || exit;
 				date_i18n( $time_format, strtotime( $engagement->post_date ) )
 			);
 		} else { // Draft (no saves, and thus no date specified).
-			$stamp = __( 'Publish <b>immediately</b>', 'lifterlms' );
+			$stamp = __( 'Award <b>immediately</b>', 'lifterlms' );
 			$date  = sprintf(
 				$date_string,
 				date_i18n( $date_format, strtotime( llms_current_time( 'mysql' ) ) ),
@@ -98,7 +98,7 @@ defined( 'ABSPATH' ) || exit;
 			);
 		}
 
-		if ( $can_publish ) : // Contributors don't get to choose the date of publish.
+		if ( $can_publish ) : // Contributors don't get to choose the date of awarding.
 			?>
 			<div class="misc-pub-section curtime misc-pub-curtime">
 				<span id="timestamp">
@@ -145,8 +145,8 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 					else :
 						?>
-						<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Publish', 'lifterlms' ); ?>" />
-						<?php submit_button( __( 'Publish', 'lifterlms' ), 'primary large', 'publish', false ); ?>
+						<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Award', 'lifterlms' ); ?>" />
+						<?php submit_button( __( 'Award', 'lifterlms' ), 'primary large', 'publish', false ); ?>
 						<?php
 					endif;
 				endif;

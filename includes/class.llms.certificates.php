@@ -318,6 +318,47 @@ class LLMS_Certificates {
 	}
 
 	/**
+	 * Create a unique slug for earned certificates.
+	 *
+	 * When relying only on `wp_unique_post_slug()`, predictable URLs are created for earned certificates,
+	 * such as "certificate-of-completion-1", "certificate-of-completion-2", etc... this method creates
+	 * an obtuse and randomized suffix and appends it to the post slug.
+	 *
+	 * The unique suffix will be a randomized string at least 3 characters long and made up of lowercase letters and numbers.
+	 *
+	 * When ensuring uniqueness of the generated suffix, the length of the string will be increased by one for every 5
+	 * encountered collisions.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $title The title of the certificate being created.
+	 * @return string
+	 */
+	public function get_unique_slug( $title ) {
+
+		$title = sanitize_title( $title ) . '-';
+
+		/**
+		 * Filters the minimum length of the suffix used to create a unique earned certificate slug.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $min_strlen The minimum desired suffix string length.
+		 */
+		$min_strlen = apply_filters( 'llms_certificate_unique_slug_suffix_min_length', 3 );
+
+		$i = 0;
+		do {
+			$length = $min_strlen + floor( $i / 5 );
+			$slug   = $title . strtolower( wp_generate_password( absint( $length ), false ) );
+			$i++;
+		} while ( wp_unique_post_slug( $slug, 0, 'publish', 'llms_my_certificate', 0 ) !== $slug );
+
+		return $slug;
+
+	}
+
+	/**
 	 * Modify the HTML using DOMDocument.
 	 *
 	 * Preparations include:

@@ -85,7 +85,10 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	 * @return void
 	 */
 	public function output() {
+
 		global $action;
+
+		add_action( 'admin_print_footer_scripts', array( __CLASS__, 'metabox_scripts' ), PHP_INT_MAX );
 
 		$engagement             = $this->post;
 		$engagement_id          = (int) $this->post->ID;
@@ -288,4 +291,39 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		LLMS_Engagement_Handler::create_actions( str_replace( 'llms_my_', '', $post_type ), $post->post_author, $post_id );
 
 	}
+
+	/**
+	 * Metabox specific scripts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function metabox_scripts() {
+		?>
+<script>
+	document.addEventListener("DOMContentLoaded", function(event) {
+		(function(){
+
+			const __ = window.wp.i18n.__;
+			const _i18n = {
+				'Publish on:': __( 'Award on:', 'lifterlms' ),
+				'Publish'    : __( 'Award', 'lifterlms' ),
+				'Published'  : __( 'Awarded', 'lifterlms' ),
+			};
+
+			window.wp.hooks.addFilter(
+				'i18n.gettext',
+				'llms.awardEngagement.submitbox',
+				( translation, text ) => {
+					return text in _i18n ? _i18n[text] : translation;
+				}
+			);
+
+		})();
+	});
+</script>
+		<?php
+	}
+
 }
