@@ -139,14 +139,16 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 				)
 			);
 
+			$this->clear_notices( $certificate_template_id );
+
 			LLMS_Admin_Notices::add_notice(
 				sprintf( 'awarded-certificates-sync-%1$d-started', $certificate_template_id ),
 				sprintf(
 					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
-					__( 'Awarded certificates sync sheduled for the template %1$s%2$s (#%3$d)%4$s', 'lifterlms' ),
-					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $args['query_args']['templates'] ) ),
-					get_the_title( $args['query_args']['templates'] ),
-					$args['query_args']['templates'],
+					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s', 'lifterlms' ),
+					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
+					get_the_title( $certificate_template_id ),
+					$certificate_template_id,
 					'</a>'
 				),
 				array(
@@ -223,6 +225,25 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 				);
 			}
 		}
+
+	}
+
+	/**
+	 * Clear notices.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $certificate_template_id WP Post ID of the certificate template.
+	 * @return void
+	 */
+	private function clear_notices( $certificate_template_id ) {
+
+		LLMS_Admin_Notices::delete_notice(
+			sprintf( 'awarded-certificates-sync-%1$d-started', $certificate_template_id )
+		);
+		LLMS_Admin_Notices::delete_notice(
+			sprintf( 'awarded-certificates-sync-%1$d-done', $certificate_template_id )
+		);
 
 	}
 
