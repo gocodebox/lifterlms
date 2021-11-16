@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Controller_Certificates {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
@@ -148,24 +148,69 @@ class LLMS_Controller_Certificates {
 
 		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
-		if ( empty( $cert_id ) || ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
+		if ( empty( $cert_id ) ) {
 			return;
 		}
 
-		if ( 'sync_awarded_certificate' === $_GET['action'] ) {
-			$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
-
-			$redirect_url = get_edit_post_link( $cert_id, 'raw' );
-
-			if ( is_wp_error( $sync ) ) {
-				( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
-			} else {
-				$redirect_url = add_query_arg( 'message', 1, $redirect_url );
-			}
-
-			wp_safe_redirect( $redirect_url );
-			exit;
+		switch ( $_GET['action'] ) {
+			case 'sync_awarded_certificate':
+				$this->sync_awarded_certificate( $cert_id );
+				break;
+			case 'sync_awarded_certificates':
+				$this->sync_awarded_certificates( $cert_id );
+				break;
 		}
+
+	}
+
+	/**
+	 * Sync awarded certificate with its template.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $cert_id Awarded certificate id.
+	 * @return void
+	 */
+	private function sync_awarded_certificate( $cert_id ) {
+
+		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
+			return;
+		}
+
+		$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
+
+		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+
+		if ( is_wp_error( $sync ) ) {
+			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
+		} else {
+			$redirect_url = add_query_arg( 'message', 1, $redirect_url );
+		}
+
+		wp_safe_redirect( $redirect_url );
+		exit;
+
+	}
+
+	/**
+	 * Sync all the awarded certificates with their template.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $cert_id Certificate template id.
+	 * @return void
+	 */
+	private function sync_awarded_certificates( $cert_id ) {
+
+		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
+			return;
+		}
+
+		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+
+		// TODO sync.
+		wp_safe_redirect( $redirect_url );
+		exit;
 
 	}
 

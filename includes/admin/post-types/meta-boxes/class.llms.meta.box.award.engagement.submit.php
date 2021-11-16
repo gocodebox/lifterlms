@@ -244,7 +244,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 			'sync_awarded_certificate',
 			wp_nonce_url( $base_url, 'llms-cert-sync-actions', '_llms_cert_sync_actions_nonce' )
 		);
-		$sync_alert = __( 'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to preceed?', 'lifterlms' );
+		$sync_alert = __( 'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to proceed?', 'lifterlms' );
 		$on_click   = "return confirm('${sync_alert}')";
 
 		return sprintf(
