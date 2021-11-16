@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,6 +142,18 @@ function llms_cleanup_tmp() {
 
 }
 add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
+
+/**
+ * Escape and add quotes to a string, useful for array mapping when building queries.
+ *
+ * @since [version]
+ *
+ * @param string $str Input string.
+ * @return string Escaped string wrapped in quotation marks.
+ */
+function llms_esc_and_quote_str( $str ) {
+	return "'" . esc_sql( $str ) . "'";
+}
 
 /**
  * Retrieve an array of post types which can be completed by students
