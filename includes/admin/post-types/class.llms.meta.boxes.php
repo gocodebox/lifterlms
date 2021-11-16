@@ -201,19 +201,20 @@ class LLMS_Admin_Meta_Boxes {
 			return;
 		}
 
-		$number_awarded_certificates = 2;
-		/*
-		$number_awarded_certificates = ( new LLMS_Awards_Query(
-				'certificates',
-				array(
-					'templates'     => array( $post->ID ),
-					'no_found_rows' => true,
-					'per_page'      => -1,
-				)
-			) )->get_number_results();
-		*/
+		$awarded_certificates_number = ( new LLMS_Awards_Query(
+			'certificates',
+			array(
+				'fields'         => 'ids',
+				'templates'      => $post->ID,
+				'posts_per_page' => 1,
+				'post_status'    => array(
+					'publish',
+					'future',
+				),
+			)
+		) )->get_found_results();
 
-		if ( ! $number_awarded_certificates ) {
+		if ( ! $awarded_certificates_number ) {
 			return;
 		}
 
@@ -227,7 +228,7 @@ class LLMS_Admin_Meta_Boxes {
 		// Translators: %1$d = Number of awarded certificates.
 		$sync_alert = sprintf(
 			__( 'This action will replace the current title, content, and the background of %1$d awarded certificates with the ones of this template.\nAre you sure you want to proceed?', 'lifterlms' ),
-			$number_awarded_certificates
+			$awarded_certificates_number
 		);
 		$on_click   = "return confirm('${sync_alert}')";
 
@@ -242,7 +243,7 @@ class LLMS_Admin_Meta_Boxes {
 					$on_click
 				),
 				'</a>',
-				$number_awarded_certificates
+				$awarded_certificates_number
 			)
 		);
 

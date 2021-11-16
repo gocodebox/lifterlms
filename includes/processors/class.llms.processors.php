@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Added the awarded certificates bulk sync processor.
  */
 class LLMS_Processors {
 
@@ -34,6 +35,7 @@ class LLMS_Processors {
 	private $classes = array(
 		'course_data',
 		'membership_bulk_enroll',
+		'awarded_certificates_bulk_sync',
 	);
 
 	/**

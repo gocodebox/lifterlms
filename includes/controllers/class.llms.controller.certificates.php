@@ -197,18 +197,19 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $cert_id Certificate template id.
+	 * @param int $certificate_template_id Certificate template id.
 	 * @return void
 	 */
-	private function sync_awarded_certificates( $cert_id ) {
+	private function sync_awarded_certificates( $certificate_template_id ) {
 
 		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
 			return;
 		}
 
-		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+		// Trigger background sync.
+		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
 
-		// TODO sync.
+		$redirect_url = get_edit_post_link( $certificate_template_id, 'raw' );
 		wp_safe_redirect( $redirect_url );
 		exit;
 
