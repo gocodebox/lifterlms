@@ -406,7 +406,9 @@ class LLMS_Post_Types {
 	 * @since 5.5.0 Register all the post types using `self::register_post_type()`.
 	 * @since [version] Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
 	 *             Register `llms_my_achievement` post type.
-	 *             Add thumbnail support for achievement and certificates (earned and template).
+	 *             Add thumbnail support for achievement and certificates (earned and template)
+	 *             Renames `llms_certificate` slug from `certificate` to `certificate-template`.
+	 *             Rename `llms_my_certificate` slug from `my_certificate` to `certificate`.
 	 *
 	 * @return void
 	 */
@@ -889,7 +891,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => 'edit.php?post_type=llms_engagement',
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => untrailingslashit( _x( 'certificate', 'slug', 'lifterlms' ) ),
+					'slug'       => _x( 'certificate-template', 'slug', 'lifterlms' ),
 					'with_front' => false,
 					'feeds'      => true,
 				),
@@ -942,7 +944,7 @@ class LLMS_Post_Types {
 				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
 				'hierarchical'        => false,
 				'rewrite'             => array(
-					'slug'       => untrailingslashit( _x( 'my_certificate', 'slug', 'lifterlms' ) ),
+					'slug'       => _x( 'certificate', 'slug', 'lifterlms' ),
 					'with_front' => false,
 					'feeds'      => true,
 				),
