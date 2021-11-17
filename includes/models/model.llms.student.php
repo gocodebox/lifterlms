@@ -200,9 +200,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return $this->get_awards( $args_or_orderby, 'achievement' );
 		}
 
-		_deprecated_argument( 'LLMS_Student::get_achievements()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
+		_deprecated_function( 'LLMS_Student::get_achievements()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
 
-		$orderby = esc_sql( $orderby );
+		$orderby = esc_sql( $args_or_orderby );
 		$order   = esc_sql( $order );
 
 		global $wpdb;
@@ -340,10 +340,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return $this->get_awards( $args_or_orderby, 'certificate' );
 		}
 
-		_deprecated_argument( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
+		_deprecated_function( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
 
-		$orderby = $args_or_orderby;
-		$orderby = esc_sql( $orderby );
+		$orderby = esc_sql( $args_or_orderby );
 		$order   = esc_sql( $order );
 
 		global $wpdb;
