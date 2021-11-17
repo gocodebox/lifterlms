@@ -561,6 +561,7 @@ function llms_get_product_visibility_options() {
  * @since 3.8.0 Unknown.
  * @since 4.10.2 Instantiate the student query passing `no_found_rows` arg as `true`,
  *               as we don't need (and do not return) pagination info, e.g. max_pages.
+ * @since [version] Don't access `LLMS_Student_Query` properties directly.
  *
  * @param int          $post_id  WP_Post id of a course or membership.
  * @param string|array $statuses List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
@@ -583,8 +584,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		)
 	);
 
-	if ( $query->results ) {
-		return wp_list_pluck( $query->results, 'id' );
+	if ( $query->has_results() ) {
+		return wp_list_pluck( $query->get_results(), 'id' );
 	}
 
 	return array();

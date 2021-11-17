@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -108,6 +108,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
 	 * @since 4.7.0 Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
+	 * @since [version] Don't access `LLMS_Events_Query` properties directly.
 	 *
 	 * @param string       $key     The column id / key.
 	 * @param LLMS_Student $student Instance of the LLMS_Student.
@@ -178,7 +179,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					)
 				);
 
-				if ( $query->number_results ) {
+				if ( $query->has_results() ) {
 					$events = $query->get_events();
 					$last   = array_shift( $events );
 					$value  = $last->get( 'date' );
@@ -429,6 +430,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 *
 	 * @since 3.2.0
 	 * @since 3.28.0 Unknown.
+	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -458,7 +460,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 
 		}
 
-		$this->max_pages    = $query->max_pages;
+		$this->max_pages    = $query->get_max_pages();
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
