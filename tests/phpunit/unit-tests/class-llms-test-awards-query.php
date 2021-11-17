@@ -38,7 +38,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 			$page = 1;
 			while ( $page <= 4 ) {
 
-				$query = new LLMS_Awards_Query( array( 'page' => $page, 'post_types' => array( $post_type ) ) );
+				$query = new LLMS_Awards_Query( array( 'page' => $page, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 
 				$this->assertEquals( $expected_num_results[ $page ], $query->get_number_results() );
 				$this->assertEquals( 4 !== $page ? 25 : 0, $query->get_found_results() );
@@ -88,7 +88,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 			$excluded = $this->factory->post->create_many( 2, compact( 'post_type' ) );
 
 			// Included for a specified user.
-			$users_query = new LLMS_Awards_Query( array( 'users' => $post_author, 'post_types' => array( $post_type ) ) );
+			$users_query = new LLMS_Awards_Query( array( 'users' => $post_author, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 			$this->assertEquals( 3, $users_query->get_number_results() );
 			foreach ( $users_query->get_results() as $post ) {
 				$this->assertEquals( $post_author, $post->post_author );
@@ -96,7 +96,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 			}
 
 			// Excluded for a specified user.
-			$users_exclude_query = new LLMS_Awards_Query( array( 'users__exclude' => $post_author, 'post_types' => array( $post_type ) ) );
+			$users_exclude_query = new LLMS_Awards_Query( array( 'users__exclude' => $post_author, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 			$this->assertEquals( 2, $users_exclude_query->get_number_results() );
 			foreach ( $users_exclude_query->get_results() as $post ) {
 				$this->assertNotEquals( $post_author, $post->post_author );
@@ -142,7 +142,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 				) );
 
 				// Included.
-				$include_query = new LLMS_Awards_Query( array( $arg => 123, 'post_types' => array( $post_type ) ) );
+				$include_query = new LLMS_Awards_Query( array( $arg => 123, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 				$this->assertEquals( 3, $include_query->get_number_results() );
 				foreach ( $include_query->get_results() as $post ) {
 					$this->assertEquals( 123, get_post_meta( $post->ID, $meta_key, true ) );
@@ -150,7 +150,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 				}
 
 				// Excluded.
-				$exclude_query = new LLMS_Awards_Query( array( "{$arg}__exclude" => 123, 'post_types' => array( $post_type ) ) );
+				$exclude_query = new LLMS_Awards_Query( array( "{$arg}__exclude" => 123, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 				foreach ( $exclude_query->get_results() as $post ) {
 					$this->assertNotEquals( 123, get_post_meta( $post->ID, $meta_key, true ) );
 					$this->assertTrue( ! in_array( $post->ID, $included, true ) );
@@ -188,7 +188,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 			) );
 
 			// Included.
-			$include_query = new LLMS_Awards_Query( array( 'templates' => $post_parent, 'post_types' => array( $post_type ) ) );
+			$include_query = new LLMS_Awards_Query( array( 'templates' => $post_parent, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 			$this->assertEquals( 3, $include_query->get_number_results() );
 			foreach ( $include_query->get_results() as $post ) {
 				$this->assertEquals( $post_parent, $post->post_parent );
@@ -196,7 +196,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 			}
 
 			// Excluded.
-			$exclude_query = new LLMS_Awards_Query( array( "templates__exclude" => $post_parent, 'post_types' => array( $post_type ) ) );
+			$exclude_query = new LLMS_Awards_Query( array( "templates__exclude" => $post_parent, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 			foreach ( $exclude_query->get_results() as $post ) {
 				$this->assertNotEquals( $post_parent, $post->post_parent );
 				$this->assertTrue( ! in_array( $post->ID, $included, true ) );
@@ -239,7 +239,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 				'meta_input' => array( '_llms_engagement' => '' ),
 			) );
 
-			$include_query = new LLMS_Awards_Query( array( 'manual_only' => true, 'post_types' => array( $post_type ) ) );
+			$include_query = new LLMS_Awards_Query( array( 'manual_only' => true, 'type' => str_replace( 'llms_my_', '', $post_type ) ) );
 			$this->assertEquals( 3, $include_query->get_number_results() );
 			foreach ( $include_query->get_results() as $post ) {
 				$this->assertEmpty( get_post_meta( $post->ID, '_llms_engagement', true ) );

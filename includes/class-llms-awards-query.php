@@ -25,6 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int|int[] $related_posts__exclude Exclude awards related to the specified WP_Post(s) by WP_Post ID.
  * @param int|int[] $engagements            Include awards created from the specified `llms_engagement` post(s) by WP_Post ID.
  * @param int|int[] $engagements__exclude   Exclude awards created from the specified `llms_engagement` post(s) by WP_Post ID.
+ * @param string    $type                   Award type, accepts "any", "achievement" or "certificate".
  * @param int|int[] $templates              Include awards created from the specified `llms_achievement` or `llms_certificate` template post(s) by WP_Post ID.
  * @param int|int[] $templates__exclude     Exclude awards created from the specified `llms_achievement` or `llms_certificate` template  post(s) by WP_Post ID.
  * @param boolean   $manual_only            Include only awards created manually. If specified the `$related_posts`, `$related_posts__exclude`, `$engagements`, `$engagements__exclude`, `$templates`, and `$templates__exclude` arguments will be ignored.
@@ -82,6 +83,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 				'engagements__exclude'   => array(),
 				'templates'              => array(),
 				'templates__exclude'     => array(),
+				'type'                   => 'any',
 				'manual_only'            => false,
 			),
 			parent::default_arguments()
@@ -193,6 +195,29 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	}
 
 	/**
+	 * Retrieve the post type(s) based on the `$type` input.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected function post_types() {
+
+		$type  = $this->get( 'type' );
+		$types = array();
+		if ( 'any' === $type ) {
+			$types = $this->allowed_post_types;
+		} elseif ( 'achievement' === $type ) {
+			$types = array( 'llms_my_achievement' );
+		} elseif ( 'certificate' === $type ) {
+			$types = array( 'llms_my_certificate' );
+		}
+
+		return $types;
+
+	}
+
+	/**
 	 * Prepares the `meta_query` ultimately passed to the WP_Query.
 	 *
 	 * @since [version]
@@ -289,6 +314,9 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 			parent::prepare_query(),
 			array_flip( $this->get_arg_map() )
 		);
+
+		// Add post type(s).
+		$args['post_type'] = $this->post_types();
 
 		// Add meta query.
 		$args['meta_query'] = $this->prepare_meta_query();
