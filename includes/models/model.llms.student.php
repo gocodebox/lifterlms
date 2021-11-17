@@ -182,16 +182,25 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve achievements that a user has earned
 	 *
-	 * @param    string $orderby field to order the returned results by
-	 * @param    string $order   ordering method for returned results (ASC or DESC)
-	 * @param    string $return  return type
-	 *                              obj => array of objects from $wpdb->get_results
-	 *                              achievements => array of LLMS_User_Achievement instances
-	 * @return   array
-	 * @since    2.4.0
-	 * @version  3.14.0
+	 * @since 2.4.0
+	 * @since 3.14.0 Unknown.
+	 * @since [version] Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
+	 *
+	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
+	 *                                      signature accepts a string representing the field to order the returned results by.
+	 * @param string       $order           Deprecated signature only: Ordering method for returned results (ASC or DESC).
+	 * @param string       $return          Deprecated signature only: Return type. Accepts "obj" for an array of objects from
+	 *                                      $wpdb->get_results and "certificates" for an array of LLMS_User_Certificate instances.
+	 * @return LLMS_Awards_Query|object[]|LLMS_User_Achievment[]
 	 */
-	public function get_achievements( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
+	public function get_achievements( $args_or_orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
+
+		// New behavior.
+		if ( is_array( $args_or_orderby ) ) {
+			return $this->get_awards( $args_or_orderby, 'achievement' );
+		}
+
+		_deprecated_argument( 'LLMS_Student::get_achievements()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
 
 		$orderby = esc_sql( $orderby );
 		$order   = esc_sql( $order );
@@ -222,6 +231,26 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	public function get_avatar( $size = 96 ) {
 		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
+	}
+
+	/**
+	 * Query student awards.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $args Query arguments to pass into `LLMS_Awards_Query`.
+	 * @param string $type Award type. Accepts "any", "achievement", or "certificate".
+	 * @return LLMS_Awards_Query
+	 */
+	public function get_awards( $args, $type = 'any' ) {
+
+		$args['type']  = $type;
+		$args['users'] = $this->get_id();
+
+		// Prevent potential funny business.
+		unset( $args['users__exclude'] );
+
+		return new LLMS_Awards_Query( $args );
 	}
 
 
@@ -308,14 +337,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// New behavior.
 		if ( is_array( $args_or_orderby ) ) {
-
-			$args = $args_or_orderby;
-
-			$args['users'] = $this->get_id();
-			unset( $args['users__exclude'] );
-
-			return new LLMS_Awards_Query( 'certificates', $args );
-
+			return $this->get_awards( $args_or_orderby, 'certificate' );
 		}
 
 		_deprecated_argument( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
