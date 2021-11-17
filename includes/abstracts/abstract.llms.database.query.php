@@ -368,20 +368,20 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	}
 
 	// /**
-	//  * Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
-	//  *
-	//  * @since [version]
-	//  *
-	//  * @param string $name Method name.
-	//  * @param array $args  Arguments passed to the method.
-	//  * @return void|string
-	//  */
+	// * Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
+	// *
+	// * @since [version]
+	// *
+	// * @param string $name Method name.
+	// * @param array $args  Arguments passed to the method.
+	// * @return void|string
+	// */
 	// public function __call( $name, $args ) {
-	// 	if ( 'preprare_query' === $name ) {
-	// 		$class = get_called_class();
-	// 		_deprecated_function( "{$class}::preprare_query()", '[version]', "{$class}::prepare_query()" );
-	// 		return $this->prepare_query();
-	// 	}
+	// if ( 'preprare_query' === $name ) {
+	// $class = get_called_class();
+	// _deprecated_function( "{$class}::preprare_query()", '[version]', "{$class}::prepare_query()" );
+	// return $this->prepare_query();
+	// }
 	// }
 
 	/**
@@ -405,12 +405,12 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			// _deprecated_function( "{$class}::preprare_query()", '[version]', "{$class}::prepare_query()" );
 			return $this->preprare_query();
 		}
-		//  else {
-		// 	_doing_it_wrong(
-		// 		__METHOD__,
-		// 		sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ )
-		// 		'[version]'
-		// 	);
+		// else {
+		// _doing_it_wrong(
+		// __METHOD__,
+		// sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ )
+		// '[version]'
+		// );
 		// }
 	}
 

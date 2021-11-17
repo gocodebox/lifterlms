@@ -88,10 +88,10 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 
 		return wp_parse_args(
 			array(
-				'fields'      => 'all',
-				'status'      => 'publish',
-				'post_types'  => $this->allowed_post_types,
-				'sort'        => array(
+				'fields'     => 'all',
+				'status'     => 'publish',
+				'post_types' => $this->allowed_post_types,
+				'sort'       => array(
 					'date' => 'DESC',
 					'ID'   => 'DESC',
 				),
@@ -173,7 +173,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 		$args = array();
 		foreach ( $this->query_vars as $var => $val ) {
 
-			$var = array_key_exists( $var, $map ) ? $map[ $var ] : $var;
+			$var          = array_key_exists( $var, $map ) ? $map[ $var ] : $var;
 			$args[ $var ] = $val;
 		}
 

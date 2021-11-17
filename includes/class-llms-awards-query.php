@@ -110,7 +110,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 			)
 		);
 
-
 	}
 
 	/**
@@ -136,7 +135,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		 * @param array             $awards Array of LLMS_User_Achievement and/or LLMS_User_Certificate objects.
 		 * @param LLMS_Awards_Query $query  Instance of the query class.
 		 */
-		return apply_filters( "llms_awards_query_get_awards", $awards, $this );
+		return apply_filters( 'llms_awards_query_get_awards', $awards, $this );
 
 	}
 
@@ -198,7 +197,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args Cleaned LLMS_Awards_Query arguments.
 	 * @return array An array of meta query arrays.
 	 */
 	private function prepare_meta_query() {
@@ -282,7 +280,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args Input arguments from `__construct()`.
 	 * @return array Array of arguments suitable to pass to a WP_Query.
 	 */
 	protected function prepare_query() {
@@ -303,9 +300,12 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		}
 
 		// Remove empty arrays.
-		return array_filter( $args, function( $val ) {
-			return ! is_array( $val ) || ! empty( $val );
-		} );
+		return array_filter(
+			$args,
+			function( $val ) {
+				return ! is_array( $val ) || ! empty( $val );
+			}
+		);
 
 	}
 
