@@ -29,7 +29,7 @@ After building and testing the built release, all changes should be committed an
 
 ## 3. Generate the Distribution Archive
 
-Run `npm run dev archive`.
+Run `npm run dev release archive`.
 
 ## 4. Run pre-release tests on the archived
 
