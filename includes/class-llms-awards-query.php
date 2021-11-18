@@ -321,12 +321,6 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		// Add meta query.
 		$args['meta_query'] = $this->prepare_meta_query();
 
-		foreach ( $args as $arg => $val ) {
-			if ( is_array( $val ) && empty( $val ) ) {
-				unset( $args[ $arg ] );
-			}
-		}
-
 		// Remove empty arrays.
 		return array_filter(
 			$args,
