@@ -204,15 +204,15 @@ class LLMS_Admin_Meta_Boxes {
 		}
 
 		$awarded_certificates_number = ( new LLMS_Awards_Query(
-			'certificates',
 			array(
-				'fields'         => 'ids',
-				'templates'      => $post->ID,
-				'posts_per_page' => 1,
-				'post_status'    => array(
+				'fields'    => 'ids',
+				'templates' => $post->ID,
+				'per_page'  => 1,
+				'status'    => array(
 					'publish',
 					'future',
 				),
+				'type'      => 'certificate',
 			)
 		) )->get_found_results();
 
