@@ -33,7 +33,7 @@ describe( 'getProjectPrivacy', () => {
 	const testData = [
 		[ 'Should return "public" for public repos', 'lifterlms', 'public', true ],
 		[ 'Should return "private" for private repos', 'lifterlms-groups', 'private', false ],
-		[ 'Should return "unknown" for invalid repos', 'fake-repo', 'unknown' ],
+		[ 'Should return "unknown" for invalid repos', 'fake-repo', 'unknown', undefined ],
 	];
 	it.each( testData )( '%s', ( name, slug, expected, isPublic ) => {
 		mockedApiReturn = getMockApiReturn( isPublic );
@@ -57,9 +57,9 @@ describe( 'isProjectPublic', () => {
 
 describe( 'isProjectPrivate', () => {
 	const testData = [
-		[ 'Should return false for public repos', 'lifterlms', false, false ],
-		[ 'Should return true for private repos', 'lifterlms-groups', true, true ],
-		[ 'Should return undefined for invalid repos', 'fake-repo', undefined ],
+		[ 'Should return false for public repos', 'lifterlms', false, true ],
+		[ 'Should return true for private repos', 'lifterlms-groups', true, false ],
+		[ 'Should return undefined for invalid repos', 'fake-repo', undefined, undefined ],
 	];
 	it.each( testData )( '%s', ( name, slug, expected, isPublic ) => {
 		mockedApiReturn = getMockApiReturn( isPublic );
