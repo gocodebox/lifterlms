@@ -77,7 +77,7 @@ jobs:
         # uses: artiomtr/jest-coverage-report-action@v2.0-rc.6
         uses: gocodebox/jest-coverage-report-action@master
         with:
-          github-token: ${{ secrets.ORG_WORKFLOWS }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
           threshold: 50
           test-script: npm run pkg:test -- --coverageReporters="text" --coverageReporters="text-summary"
