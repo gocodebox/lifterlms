@@ -372,7 +372,7 @@ class LLMS_Engagement_Handler {
 
 		$query = array(
 			'post_type'     => "llms_my_${type}",
-			'post_author'   => $user_id,
+			'author'        => $user_id,
 			'post_per_page' => 1,
 			'no_found_rows' => true,
 			'fields'        => 'ids',
