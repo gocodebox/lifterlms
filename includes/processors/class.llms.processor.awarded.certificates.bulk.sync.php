@@ -53,22 +53,23 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 		$this->cancel_process();
 
 		$args = array(
-			'templates'      => $certificate_template_id,
-			'posts_per_page' => 20,
-			'page'           => 1,
-			'post_status'    => array(
+			'templates' => $certificate_template_id,
+			'per_page'  => 20,
+			'page'      => 1,
+			'status'    => array(
 				'publish',
 				'future',
 			),
+			'type'      => 'certificate',
 		);
 
-		$query = new LLMS_Awards_Query( 'certificates', $args );
+		$query = new LLMS_Awards_Query( $args );
 
 		if ( ! $query->get_found_results() ) {
 			return;
 		}
 
-		while ( $args['page'] <= $query->get_total_pages() ) {
+		while ( $args['page'] <= $query->get_max_pages() ) {
 			$this->push_to_queue(
 				array(
 					'query_args' => $args,
@@ -145,7 +146,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 				sprintf( 'awarded-certificates-sync-%1$d-started', $certificate_template_id ),
 				sprintf(
 					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
-					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s', 'lifterlms' ),
+					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
 					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
 					get_the_title( $certificate_template_id ),
 					$certificate_template_id,
@@ -186,10 +187,10 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			return false;
 		}
 
-		$query = new LLMS_Awards_Query( 'certificates', $args['query_args'] );
+		$query = new LLMS_Awards_Query( $args['query_args'] );
 
 		if ( $query->has_results() ) {
-			$this->sync_awarded_certificates( $query->get_results(), $args['query_args']['templates'] );
+			$this->sync_awarded_certificates( $query->get_awards(), $args['query_args']['templates'] );
 		}
 
 		if ( $query->is_last_page() ) {
@@ -273,7 +274,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			sprintf( 'awarded-certificates-sync-%1$d-done', $args['query_args']['templates'] ),
 			sprintf(
 				// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
-				__( 'Awarded certificates sync completed for the template %1$s%2$s (#%3$d)%4$s', 'lifterlms' ),
+				__( 'Awarded certificates sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
 				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $args['query_args']['templates'] ) ),
 				get_the_title( $args['query_args']['templates'] ),
 				$args['query_args']['templates'],
