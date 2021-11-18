@@ -78,7 +78,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			return $this->default_arguments();
 		}
 
-		// Get the from the parent with the new replacement filter.
+		// Get them from the parent with the new replacement filter.
 		$args = parent::get_default_args();
 
 		/**
@@ -89,7 +89,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 *
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
-		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '[version]', 'llms_{$this->id}_query_get_default_args' );
+		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '[version]', "llms_{$this->id}_query_get_default_args" );
 
 	}
 
@@ -123,10 +123,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since [version]
 	 *
-	 * @see [Reference]
-	 * @link [URL]
-	 *
-	 * @return [type] [description]
+	 * @return array An integer-keyed array of row objects.
 	 */
 	protected function perform_query() {
 
@@ -168,7 +165,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	protected function found_results() {
 
 		global $wpdb;
-		return absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) ); // db call ok; no-cache ok.
+		return (int) $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // db call ok; no-cache ok.
 
 	}
 
