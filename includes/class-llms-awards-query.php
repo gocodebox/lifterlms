@@ -40,7 +40,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	protected $id = 'awards';
 
 	/**
-	 * Specify the post types allowed to be queried by this class
+	 * Specify the post types allowed to be queried by this class.
 	 *
 	 * @var string[]
 	 */
@@ -115,7 +115,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	}
 
 	/**
-	 * Retrieve an array of award objects for the given result set returned by the query
+	 * Retrieve an array of award objects for the given result set returned by the query.
 	 *
 	 * @since [version]
 	 *

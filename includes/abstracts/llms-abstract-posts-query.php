@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Abstract_Posts_Query class file
+ * LLMS_Abstract_Posts_Query class file.
  *
  * @package LifterLMS/Abstracts/Classes
  *
@@ -73,7 +73,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 
 		$this->number_results = $this->wp_query->post_count;
 		$this->found_results  = $this->found_results();
-		$this->max_pages      = $this->wp_query->max_num_pages;
+		$this->max_pages      = (int) $this->wp_query->max_num_pages;
 
 	}
 
