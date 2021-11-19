@@ -28,7 +28,10 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	}
 
 	/**
-	 * outputs the Html for the given field
+	 * Outputs the Html for the given field
+	 *
+	 * @since unknown
+	 * @since [version] Allow displaying a custom value.
 	 *
 	 * @return void
 	 */
@@ -38,7 +41,7 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 
 		parent::output(); ?>
 
-		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo $this->meta; ?></textarea>
+		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo ! empty( $this->field['value'] ) ? $this->field['value'] : $this->meta; ?></textarea>
 		<br /><span class="description"><?php echo $this->field['desc']; ?></span>
 		<?php
 		parent::close_output();
