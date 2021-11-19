@@ -71,25 +71,38 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Retrieve the image source for the achievement
+	 * Retrieve the image source for the achievement.
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 * @since [version]
+	 *
+	 * @param int[] $size Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @return string Image source URL.
 	 */
-	public function get_image( $size = array(), $key = 'achievement_image' ) {
+	public function get_image( $size = array(), $deprecated = null ) {
 
-		if ( ! $size ) {
-			$size = apply_filters( 'llms_achievement_image_default_size', array( 300, 300 ) );
-		}
+		$id     = $this->get( 'id' );
+		$img_id = get_post_thumbnail_id( $id );
 
-		if ( ! $this->get( 'achievement_image' ) ) {
-			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
+		if ( ! $img_id ) {
+
+			// Get the source.
+			$src = llms()->achievements()->get_default_image( $id );
+
 		} else {
-			$src = parent::get_image( $size, $key );
+
+			list( $src ) = wp_get_attachment_image_src( $img_id, $size );
+
 		}
 
+		/**
+		 * Filter the image source URL for the achievement.
+		 *
+		 * @since [version]
+		 *
+		 * @param string                $src         Image source URL.
+		 * @param LLMS_User_Achievement $achievement The achievement object.
+		 */
 		return apply_filters( 'llms_achievement_get_image', $src, $this );
 
 	}
