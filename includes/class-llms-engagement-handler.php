@@ -214,17 +214,17 @@ class LLMS_Engagement_Handler {
 
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
-			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
-			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
-			'post_status'  => 'publish',
 			'post_author'  => $user_id,
+			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_date'    => llms_current_time( 'mysql' ),
 			'post_name'    => llms()->certificates()->get_unique_slug( $title ),
+			'post_parent'  => $template_id,
+			'post_status'  => 'publish',
+			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
 			'meta_input'   => array(
-				'_thumbnail_id'          => self::get_image_id( $type, $template_id ),
-				"_llms_{$type}_template" => $template_id,
-				'_llms_engagement'       => $engagement_id,
-				'_llms_related'          => $related_id,
+				'_thumbnail_id'    => self::get_image_id( $type, $template_id ),
+				'_llms_engagement' => $engagement_id,
+				'_llms_related'    => $related_id,
 			),
 		);
 
