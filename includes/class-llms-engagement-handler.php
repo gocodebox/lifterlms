@@ -370,18 +370,19 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$student   = llms_get_student( $user_id );
-		$duplicate =
+		$student = llms_get_student( $user_id );
 
-		$query = new LLMS_Awards_Query( array(
-			'type'          => $type,
-			'users'         => $user_id,
-			'templates'     => $template_id,
-			'related_posts' => $related_id,
-			'fields'        => 'ids',
-			'no_found_rows' => true,
-			'per_page'      => 1,
-		) );
+		$query = new LLMS_Awards_Query(
+			array(
+				'type'          => $type,
+				'users'         => $user_id,
+				'templates'     => $template_id,
+				'related_posts' => $related_id,
+				'fields'        => 'ids',
+				'no_found_rows' => true,
+				'per_page'      => 1,
+			)
+		);
 
 		$is_duplicate = self::do_deprecated_filter(
 			$query->has_results(),

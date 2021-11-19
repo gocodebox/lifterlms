@@ -126,7 +126,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'achievement' )  . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'achievement' ) . '</a>';
 				break;
 
 			case 'certificates':
@@ -136,7 +136,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'certificate' )  . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'certificate' ) . '</a>';
 				break;
 
 			case 'completions':

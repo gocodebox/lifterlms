@@ -116,7 +116,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 				break;
 
 			case 'image':
-				$src = $achievement->get_image( array( 32, 32 ) );
+				$src   = $achievement->get_image( array( 32, 32 ) );
 				$value = '<img src="' . esc_url( $src ) . '" alt="' . $achievement->get( 'title' ) . '" width="32" height="32">';
 				break;
 
@@ -169,13 +169,15 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$query = $this->student->get_achievements( array(
-			'per_page' => -1,
-			'sort'     => array(
-				'date' => 'ASC',
-				'ID'   => 'ASC',
-			),
-		) );
+		$query = $this->student->get_achievements(
+			array(
+				'per_page' => -1,
+				'sort'     => array(
+					'date' => 'ASC',
+					'ID'   => 'ASC',
+				),
+			)
+		);
 
 		$this->tbody_data = $query->get_awards();
 

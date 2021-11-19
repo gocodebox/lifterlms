@@ -50,10 +50,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'engagement'           => 'absint',
-		'related'              => 'absint',
-		'allow_sharing'        => 'yesno',
-		'sequential_id'        => 'absint',
+		'engagement'    => 'absint',
+		'related'       => 'absint',
+		'allow_sharing' => 'yesno',
+		'sequential_id' => 'absint',
 	);
 
 	/**

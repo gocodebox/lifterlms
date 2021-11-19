@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Retrieve data related to awards earned by a student
  *
  * This trait should only be used by classes that extend from the {@see LLMS_Abstract_User_Data} class.
- * 
+ *
  * @since [version]
  */
 trait LLMS_Trait_Student_Awards {
@@ -99,10 +99,13 @@ trait LLMS_Trait_Student_Awards {
 	 */
 	public function get_awards_count( $type = 'any' ) {
 
-		$query = $this->get_awards( array(
-			'per_page' => 1,
-			'fields' => 'ids'
-		), $type );
+		$query = $this->get_awards(
+			array(
+				'per_page' => 1,
+				'fields'   => 'ids',
+			),
+			$type
+		);
 		return $query->get_found_results();
 
 	}
@@ -115,7 +118,7 @@ trait LLMS_Trait_Student_Awards {
 	 *
 	 * @since 2.4.0
 	 * @since 3.14.1 Unknown.
- 	 * @since [version] Moved from `LLMS_Student` class.
+	 * @since [version] Moved from `LLMS_Student` class.
 	 *              Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
 	 *
 	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method

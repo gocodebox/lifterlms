@@ -67,7 +67,7 @@ if ( ! is_admin() ) {
 				'cols' => 'd-1of2',
 				'icon' => 'trophy',
 				'id'   => 'llms-reporting-student-achievements',
-				'data' =>$student->get_awards_count( 'achievement' ),
+				'data' => $student->get_awards_count( 'achievement' ),
 				'text' => __( 'Achievements earned', 'lifterlms' ),
 			)
 		);
@@ -77,7 +77,7 @@ if ( ! is_admin() ) {
 				'cols' => 'd-1of2',
 				'icon' => 'certificate',
 				'id'   => 'llms-reporting-student-certificates',
-				'data' =>$student->get_awards_count( 'certificate' ),
+				'data' => $student->get_awards_count( 'certificate' ),
 				'text' => __( 'Certificates earned', 'lifterlms' ),
 			)
 		);
