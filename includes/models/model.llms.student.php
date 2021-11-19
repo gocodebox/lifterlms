@@ -29,6 +29,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
+	use LLMS_Trait_Student_Awards;
+
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
 	 *
@@ -179,80 +181,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	}
 
-	/**
-	 * Retrieve achievements that a user has earned
-	 *
-	 * @since 2.4.0
-	 * @since 3.14.0 Unknown.
-	 * @since [version] Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
-	 *
-	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
-	 *                                      signature accepts a string representing the field to order the returned results by.
-	 * @param string       $order           Deprecated signature only: Ordering method for returned results (ASC or DESC).
-	 * @param string       $return          Deprecated signature only: Return type. Accepts "obj" for an array of objects from
-	 *                                      $wpdb->get_results and "certificates" for an array of LLMS_User_Certificate instances.
-	 * @return LLMS_Awards_Query|object[]|LLMS_User_Achievment[]
-	 */
-	public function get_achievements( $args_or_orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
-
-		// New behavior.
-		if ( is_array( $args_or_orderby ) ) {
-			return $this->get_awards( $args_or_orderby, 'achievement' );
-		}
-
-		_deprecated_function( 'LLMS_Student::get_achievements()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
-
-		$orderby = esc_sql( $args_or_orderby );
-		$order   = esc_sql( $order );
-
-		global $wpdb;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
-				$this->get_id()
-			)
-		);// db call ok; no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		if ( 'achievements' === $return ) {
-			$ret = array();
-			foreach ( $query as $obj ) {
-				$ret[] = new LLMS_User_Achievement( $obj->achievement_id );
-			}
-			return $ret;
-		}
-
-		return $query;
-
-	}
-
-
 	public function get_avatar( $size = 96 ) {
 		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
 	}
-
-	/**
-	 * Query student awards.
-	 *
-	 * @since [version]
-	 *
-	 * @param array  $args Query arguments to pass into `LLMS_Awards_Query`.
-	 * @param string $type Award type. Accepts "any", "achievement", or "certificate".
-	 * @return LLMS_Awards_Query
-	 */
-	public function get_awards( $args, $type = 'any' ) {
-
-		$args['type']  = $type;
-		$args['users'] = $this->get_id();
-
-		// Prevent potential funny business.
-		unset( $args['users__exclude'] );
-
-		return new LLMS_Awards_Query( $args );
-	}
-
 
 	/**
 	 * Retrieve the order which enrolled a student in a given course or membership
@@ -313,58 +244,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Couldn't find an order, return false.
 		return false;
-
-	}
-
-	/**
-	 * Retrieve certificates that the student has been awarded.
-	 *
-	 * The default behavior of this method is deprecated since version [version]. The previous behavior
-	 * is retained for backwards compatibility but will be removed in the next major release.
-	 *
-	 * @since 2.4.0
-	 * @since 3.14.1 Unknown.
-	 * @since [version] Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
-	 *
-	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
-	 *                                      signature accepts a string representing the field to order the returned results by.
-	 * @param string       $order           Deprecated signature only: Ordering method for returned results (ASC or DESC).
-	 * @param string       $return          Deprecated signature only: Return type. Accepts "obj" for an array of objects from
-	 *                                      $wpdb->get_results and "certificates" for an array of LLMS_User_Certificate instances.
-	 * @return LLMS_Awards_Query|object[]|LLMS_User_Certificate[]
-	 */
-	public function get_certificates( $args_or_orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
-
-		// New behavior.
-		if ( is_array( $args_or_orderby ) ) {
-			return $this->get_awards( $args_or_orderby, 'certificate' );
-		}
-
-		_deprecated_function( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
-
-		$orderby = esc_sql( $args_or_orderby );
-		$order   = esc_sql( $order );
-
-		global $wpdb;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
-				$this->get_id()
-			)
-		); // db call ok; no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		if ( 'certificates' === $return ) {
-			$ret = array();
-			foreach ( $query as $obj ) {
-				$ret[] = new LLMS_User_Certificate( $obj->certificate_id );
-			}
-			return $ret;
-		}
-
-		return $query;
 
 	}
 
