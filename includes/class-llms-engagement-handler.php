@@ -370,31 +370,21 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$query = array(
-			'post_type'     => "llms_my_${type}",
-			'author'        => $user_id,
-			'post_per_page' => 1,
-			'no_found_rows' => true,
+		$student   = llms_get_student( $user_id );
+		$duplicate =
+
+		$query = new LLMS_Awards_Query( array(
+			'type'          => $type,
+			'users'         => $user_id,
+			'templates'     => $template_id,
+			'related_posts' => $related_id,
 			'fields'        => 'ids',
-			'meta_query'    => array(
-				'relation' => 'AND',
-				array(
-					'key'   => "_llms_{$type}_template",
-					'value' => $template_id,
-				),
-				array(
-					'key'   => '_llms_related',
-					'value' => $related_id,
-				),
-			),
-		);
-
-		$query = new WP_Query( $query );
-
-		$is_duplicate = ( count( $query->posts ) === 1 );
+			'no_found_rows' => true,
+			'per_page'      => 1,
+		) );
 
 		$is_duplicate = self::do_deprecated_filter(
-			$is_duplicate,
+			$query->has_results(),
 			array( $template_id, $user_id, $related_id ),
 			$type,
 			"llms_{$type}_has_user_earned",
