@@ -35,7 +35,91 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * @return LLMS_Database_Query
 	 */
 	public function get_stub() {
-		return $this->getMockForAbstractClass( 'LLMS_Database_Query');
+
+		return new class() extends LLMS_Database_Query {
+			protected function parse_args() {}
+			protected function prepare_query() {
+				return $this->_prepare_query();
+			}
+		};
+
+	}
+
+	/**
+	 * Test usage of deprecated preprare_query() when the method is defined
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_deprecated_preprare_query_defined() {
+
+		$stub = new class() extends LLMS_Database_Query {
+			public function __construct() {}
+			protected function parse_args() {}
+			protected function preprare_query() {
+				global $wpdb;
+				return "SELECT * FROM {$wpdb->posts} LIMIT 0, 0";
+			}
+		};
+
+		$class = get_class( $stub );
+
+		// Deprecation notice thrown to identify that the method should be removed.
+		$this->expected_deprecated = array_merge( $this->expected_deprecated, array( "{$class}::preprare_query()" ) );
+
+		global $wpdb;
+		$this->assertEquals( "SELECT * FROM {$wpdb->posts} LIMIT 0, 0", LLMS_Unit_Test_Util::call_method( $stub, 'prepare_query' ) );
+
+	}
+
+	/**
+	 * Test usage of deprecated preprare_query() when the method is not defined and `prepare_query()` doesn't overload the default method.
+	 *
+	 * @since [version]
+	 *
+	 * @expectedIncorrectUsage LLMS_Database_Query::prepare_query
+	 *
+	 * @return void
+	 */
+	public function test_deprecated_preprare_query_not_defined() {
+
+		$stub = new class() extends LLMS_Database_Query {
+			public function __construct() {}
+			protected function parse_args() {}
+
+		};
+
+		LLMS_Unit_Test_Util::call_method( $stub, 'prepare_query' );
+
+	}
+
+	/**
+	 * Test usage of deprecated preprare_query() when the method is not defined (if it was removed, for example).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_deprecated_preprare_query_called_directly_but_not_defined() {
+
+		$stub = new class() extends LLMS_Database_Query {
+			public function __construct() {}
+			protected function parse_args() {}
+			protected function prepare_query() {
+				global $wpdb;
+				return "SELECT * FROM {$wpdb->posts} LIMIT 0, 0";
+			}
+		};
+
+		$class = get_class( $stub );
+
+		// Deprecation notice thrown to identify that the method should be removed.
+		$this->expected_deprecated = array_merge( $this->expected_deprecated, array( "{$class}::preprare_query()" ) );
+
+		global $wpdb;
+		$this->assertEquals( "SELECT * FROM {$wpdb->posts} LIMIT 0, 0", $stub->preprare_query() );
+
 	}
 
 	/**

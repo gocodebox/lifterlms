@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -135,7 +135,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 */
 	public function get_posts( $args = array(), $return = 'llms_posts' ) {
 
-		$serialized_id = serialize(
+		$serialized_id = serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 			array(
 				'id' => $this->get_id(),
 			)
