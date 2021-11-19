@@ -75,6 +75,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.16.12
 	 * @since 3.37.8 Add tests to remove quiz attempts upon quiz deletion.
+	 * @since [version] Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @return void
 	 */
@@ -113,7 +114,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 				'per_page' => 1,
 			)
 		);
-		$this->assertEquals( 0, $query->found_results );
+		$this->assertEquals( 0, $query->get_found_results() );
 
 	}
 

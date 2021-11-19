@@ -83,6 +83,11 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 */
 	public function get_data( $key, $achievement ) {
 
+		// Handle old object being passed in.
+		if ( ! is_a( $achievement, 'LLMS_User_Achievement' ) && property_exists( $achievement, 'achievement_id' ) ) {
+			$achievement = new LLMS_User_Achievement( $achievement->certificate_id );
+		}
+
 		switch ( $key ) {
 
 			case 'actions':

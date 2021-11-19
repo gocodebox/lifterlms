@@ -137,7 +137,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 		// Relationships saved as meta.
 		$this->assertEquals( $related_id, $earned->get( 'related' ) );
 		$this->assertEquals( $engagement->ID, $earned->get( 'engagement' ) );
-		$this->assertEquals( $template_id, $earned->get( 'achievement_template' ) );
+		$this->assertEquals( $template_id, $earned->get( 'parent' ) );
 
 		// Content and Title.
 		$this->assertEquals( get_post_meta( $template_id, '_llms_achievement_title', true ), $earned->get( 'title' ) );
@@ -203,7 +203,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 		// Relationships saved as meta.
 		$this->assertEquals( $related_id, $earned->get( 'related' ) );
 		$this->assertEquals( $engagement->ID, $earned->get( 'engagement' ) );
-		$this->assertEquals( $template_id, $earned->get( 'certificate_template' ) );
+		$this->assertEquals( $template_id, $earned->get( 'parent' ) );
 
 		// Content and Title.
 		$this->assertEquals( get_post_meta( $template_id, '_llms_certificate_title', true ), $earned->get( 'title' ) );

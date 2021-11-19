@@ -85,27 +85,32 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 *
 	 * @since 3.2.0
 	 * @since 3.18.0 Unknown.
-	 * @since [version] Retrieve earned date using the LLMS_User_Certificate model.
-	 *              Retrieve "name" via the `get_post_title()` in favor of deprecated meta data.
+	 * @since [version] Retrieve date using the LLMS_User_Certificate model.
 	 *
-	 * @param  string $key  The column id / key.
-	 * @param  mixed  $data Object of certificate data.
+	 * @param  string                $key         The column id / key.
+	 * @param  LLMS_User_Certificate $certificate Object of certificate data.
 	 * @return mixed
 	 */
-	public function get_data( $key, $data ) {
+	public function get_data( $key, $certificate ) {
+
+		// Handle old object being passed in.
+		if ( ! is_a( $certificate, 'LLMS_User_Certificate' ) && property_exists( $certificate, 'certificate_id' ) ) {
+			$certificate = llms_get_certificate( $certificate->certificate_id );
+		}
 
 		switch ( $key ) {
 
 			case 'actions':
-				$value = $this->get_actions_html( $data->certificate_id );
+				$value = $this->get_actions_html( $certificate->get( 'id' ) );
 				break;
 
 			case 'related':
-				if ( $data->post_id && 'llms_certificate' !== get_post_type( $data->post_id ) ) {
-					if ( is_numeric( $data->post_id ) ) {
-						$value = $this->get_post_link( $data->post_id, get_the_title( $data->post_id ) );
+				$related = $certificate->get( 'related' );
+				if ( $related && 'llms_certificate' !== get_post_type( $related ) ) {
+					if ( is_numeric( $related ) ) {
+						$value = $this->get_post_link( $related, get_the_title( $related ) );
 					} else {
-						$value = $data->post_id;
+						$value = $related;
 					}
 				} else {
 					$value = '&ndash;';
@@ -113,21 +118,20 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				break;
 
 			case 'earned':
-				$value = ( new LLMS_User_Certificate( $data->certificate_id ) )->get_earned_date();
-				$value = 'future' === get_post_status( $data->certificate_id ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
+				$value = $certificate->get_earned_date();
+				$value = 'future' === get_post_status( $certificate->get( 'id' ) ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
 				break;
 
 			case 'id':
-				$value = $data->certificate_id;
+				$value = $certificate->get( 'id' );
 				break;
 
 			case 'name':
-				$value = get_the_title( $data->certificate_id );
+				$value = $certificate->get( 'title' );
 				break;
 
-			// Prior to 3.2 this data wasn't recorded.
 			case 'template_id':
-				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
+				$template = $certificate->get( 'parent' );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
@@ -138,9 +142,16 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}
 
-		return $this->filter_get_data( $value, $key, $data );
+		// Pass the "legacy" object to the filter.
+		$backwards_compat_obj = array(
+			'post_id'        => $certificate->get( 'related' ),
+			'certificate_id' => $certificate->get( 'id' ),
+			'earned_date'    => $certificate->get_earned_date(),
+		);
+
+		return $this->filter_get_data( $value, $key, $backwards_compat_obj );
 
 	}
 
@@ -154,7 +165,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$this->tbody_data = $this->student->get_certificates();
+		$this->tbody_data = $this->student->get_certificates( array() )->get_awards();
 
 	}
 
