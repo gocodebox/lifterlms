@@ -108,7 +108,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
 	 * @since 4.7.0 Speed up the query used to retrieve the last seen column by avoiding the found rows calculation.
-	 * @since [version] Don't access `LLMS_Events_Query` properties directly.
+	 * @since [version] Don't access `LLMS_Events_Query` properties directly
+	 *              Use `LLMS_Student::get_awards_count()` for retrieving the number of earned achievements and certificates.
 	 *
 	 * @param string       $key     The column id / key.
 	 * @param LLMS_Student $student Instance of the LLMS_Student.
@@ -125,7 +126,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_achievements() ) . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'achievement' )  . '</a>';
 				break;
 
 			case 'certificates':
@@ -135,7 +136,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 						'student_id' => $student->get_id(),
 					)
 				);
-				$value = '<a href="' . esc_url( $url ) . '">' . count( $student->get_certificates() ) . '</a>';
+				$value = '<a href="' . esc_url( $url ) . '">' . $student->get_awards_count( 'certificate' )  . '</a>';
 				break;
 
 			case 'completions':
