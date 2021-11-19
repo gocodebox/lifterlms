@@ -181,12 +181,13 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.13.0
 	 * @since 3.32.0 Validate `post_id` data passed into this function to ensure only students
-	 *                  in courses/memberships for this instructor are returned.
+	 *               in courses/memberships for this instructor are returned.
+	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @see LLMS_Student_Query
 	 *
 	 * @param array $args Array of args passed to LLMS_Student_Query.
-	 * @return obj
+	 * @return LLMS_Student_Query
 	 */
 	public function get_students( $args = array() ) {
 
@@ -198,25 +199,21 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		);
 
 		// If post IDs were passed we need to verify they're IDs that the instructor has access to.
-		if ( $args['post_id'] ) {
+		if ( ! empty( $args['post_id'] ) ) {
 			$args['post_id'] = ! is_array( $args['post_id'] ) ? array( $args['post_id'] ) : $args['post_id'];
 			$args['post_id'] = array_intersect( $args['post_id'], $ids );
-		}
-
-		// Not post IDs were passed OR there was no intersections during validation above.
-		if ( empty( $args['post_id'] ) ) {
+		} else {
+			// No post IDs passed in, query all of the instructor's posts.
 			$args['post_id'] = $ids;
 		}
-
-		$query = new LLMS_Student_Query( $args );
-
-		// If there's no post ids "hack" the response.
+		// The instructor has no posts, so we want to force no results.
 		// @todo add an instructor query parameter to the student query.
-		if ( ! $ids ) {
-			$query->results = array();
+		if ( empty( $args['post_id'] ) ) {
+			$args['per_page']      = 0;
+			$args['no_found_rows'] = true;
 		}
 
-		return $query;
+		return new LLMS_Student_Query( $args );
 
 	}
 
