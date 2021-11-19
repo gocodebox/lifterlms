@@ -16,17 +16,17 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
  *
- * @property string $allow_sharing        Whether or not public certificate sharing is enabled for the certificate.
- *                                        Either "yes" or "no".
- * @property int    $author               WP_User ID of the user who the certificate belongs to.
- * @property int    $certificate_template WP_Post ID of the template `llms_certificate` post.
- * @property string $content              The merged certificate content.
- * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the certificate.
- *                                        An empty value or `0` indicates the certificate was awarded manually or
- *                                        before the engagement value was stored.
- * @property int    $related              WP_Post ID of the related post.
- * @property int    $sequential_id        The sequential certificate ID.
- * @property string $title                Certificate title.
+ * @property string $allow_sharing Whether or not public certificate sharing is enabled for the certificate.
+ *                                 Either "yes" or "no".
+ * @property int    $author        WP_User ID of the user who the certificate belongs to.
+ * @property string $content       The merged certificate content.
+ * @property int    $engagement    WP_Post ID of the `llms_engagement` post used to trigger the certificate.
+ *                                 An empty value or `0` indicates the certificate was awarded manually or
+ *                                 before the engagement value was stored.
+ * @property int    $parent        WP_Post ID of the template `llms_certificate` post.
+ * @property int    $related       WP_Post ID of the related post.
+ * @property int    $sequential_id The sequential certificate ID.
+ * @property string $title         Certificate title.
  */
 class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
@@ -50,7 +50,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'certificate_template' => 'absint',
 		'engagement'           => 'absint',
 		'related'              => 'absint',
 		'allow_sharing'        => 'yesno',
@@ -79,7 +78,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	protected function after_create() {
 
-		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'certificate_template' ), true ) );
+		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
 		$this->set( 'content', $this->merge_content() );
 
 	}
@@ -310,7 +309,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	protected function get_merge_data() {
 
-		$template_id   = $this->get( 'certificate_template' );
+		$template_id   = $this->get( 'parent' );
 		$user_id       = $this->get_user_id();
 		$related_id    = $this->get( 'related' );
 		$engagement_id = $this->get( 'engagement' );
@@ -398,7 +397,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	public function sync() {
 
-		$template_id = $this->get( 'certificate_template' );
+		$template_id = $this->get( 'parent' );
 		$check       = LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' );
 		if ( is_wp_error( $check ) ) {
 			return $check;

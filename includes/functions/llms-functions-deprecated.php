@@ -202,6 +202,25 @@ function llms_earned_engagement_deprecated_image( $val, $obj ) {
 }
 
 /**
+ * Backwards compatibility for the deprecated earned engagement template meta keys.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param string                                      $val Default value (an empty string).
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User engagement object.
+ * @return string
+ */
+function llms_earned_engagement_deprecated_template( $val, $obj ) {
+	_llms_earned_engagement_deprecated_function( $obj, 'template', 'Use the WP_Post object property "post_parent" instead.' );
+	return $obj->get( 'parent' );
+}
+
+/**
  * Backwards compatibility for the deprecated earned engagement title meta keys.
  *
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
@@ -245,6 +264,9 @@ function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
 
 		'_llms_certificate_image' => 'llms_earned_engagement_deprecated_image',
 		'_llms_achievement_image' => 'llms_earned_engagement_deprecated_image',
+
+		'_llms_certificate_template' => 'llms_earned_engagement_deprecated_template',
+		'_llms_achievement_template' => 'llms_earned_engagement_deprecated_template',
 	);
 
 	if ( array_key_exists( $key, $deprecated ) ) {

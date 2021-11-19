@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
  *
- * @property int    $author               WP_User ID of the user who the achievement belongs to.
- * @property int    $achievement_template WP_Post ID of the template `llms_achievement` post.
- * @property string $content              The achievement content.
- * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the achievement.
- *                                        An empty value or `0` indicates the achievement was awarded manually or
- *                                        before the engagement value was stored.
- * @property int    $related              WP_Post ID of the related post.
- * @property string $title                Achievement title.
+ * @property int    $author     WP_User ID of the user who the achievement belongs to.
+ * @property string $content    The achievement content.
+ * @property int    $engagement WP_Post ID of the `llms_engagement` post used to trigger the achievement.
+ *                              An empty value or `0` indicates the achievement was awarded manually or
+ *                              before the engagement value was stored.
+ * @property int    $parent     WP_Post ID of the template `llms_achievement` post.
+ * @property int    $related    WP_Post ID of the related post.
+ * @property string $title      Achievement title.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
@@ -47,9 +47,8 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'achievement_template' => 'absint',
-		'engagement'           => 'absint',
-		'related'              => 'absint',
+		'engagement' => 'absint',
+		'related'    => 'absint',
 	);
 
 	/**
