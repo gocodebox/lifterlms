@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Abstract_Query class file
+ * LLMS_Abstract_Query class file.
  *
  * @package LifterLMS/Abstracts/Classes
  *
@@ -56,7 +56,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Default arguments before merging with original.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $arguments_default = array();
 
@@ -116,10 +116,9 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @since 3.8.0
+	 * @since [version]
 	 *
-	 * @param array $args Optional. Query arguments. Default empty array.
-	 *                    When not provided the default arguments will be used.
+	 * @param array $args Query arguments. When not provided the default arguments will be used.
 	 * @return void
 	 */
 	public function __construct( $args = array() ) {
@@ -296,6 +295,7 @@ abstract class LLMS_Abstract_Query {
 
 		/**
 		 * Filters the query default args.
+		 * The dynamic part of the filter `$this->id` identifies the extending query.
 		 *
 		 * @since 3.8.0
 		 *
