@@ -109,7 +109,7 @@ class LLMS_DB_Upgrader {
 	 * If `$namespace` is a string, that string will be used.
 	 *
 	 * If a namespace is found, `\Version_X_X_X` will automatically be appended to the namespace. The
-	 * string `X_X_X` is the database version for the upgrade substituting underscores for dots.	 *
+	 * string `X_X_X` is the database version for the upgrade substituting underscores for dots.     *
 	 *
 	 * @since [version]
 	 *
@@ -123,7 +123,7 @@ class LLMS_DB_Upgrader {
 
 			$ver = explode( '-', $version ); // Drop prerelease data.
 			$ver = str_replace( '.', '_', $ver[0] );
-			$ns = true === $info['namespace'] ? 'LLMS\Updates' : $info['namespace'];
+			$ns  = true === $info['namespace'] ? 'LLMS\Updates' : $info['namespace'];
 			return sprintf( '%1$s\\Version_%2$s\\', $ns, $ver );
 
 		}
