@@ -36,12 +36,11 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	protected function get_data() {
 		return array(
-			'certificate_image'    => 1,
-			'certificate_template' => 2,
-			'allow_sharing'        => 'no',
-			'engagement'           => 3,
-			'related'              => 4,
-			'sequential_id'        => 5,
+			'parent'        => 2,
+			'allow_sharing' => 'no',
+			'engagement'    => 3,
+			'related'       => 4,
+			'sequential_id' => 5,
 		);
 	}
 
@@ -344,7 +343,6 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$cert_id  = $earned[1];
 		$cert = new LLMS_User_Certificate( $cert_id );
 
-
 		$handler = function( $codes, $old_cert ) {
 			$this->assertInstanceOf( 'LLMS_Certificate_User', $old_cert );
 			return $codes;
@@ -473,7 +471,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	public function test_sync_errors() {
 
 		$this->create();
-		$this->obj->set( 'certificate_template', $this->factory->post->create() + 1 );
+		$this->obj->set( 'parent', $this->factory->post->create() + 1 );
 
 		// This is just testing that an error is returned, the rest of the conditions are tested against LLMS_Engagement_Handler::check_post() directly.
 		$this->assertIsWPError( $this->obj->sync() );

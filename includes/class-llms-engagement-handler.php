@@ -214,17 +214,17 @@ class LLMS_Engagement_Handler {
 
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
-			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
-			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
-			'post_status'  => 'publish',
 			'post_author'  => $user_id,
+			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_date'    => llms_current_time( 'mysql' ),
 			'post_name'    => llms()->certificates()->get_unique_slug( $title ),
+			'post_parent'  => $template_id,
+			'post_status'  => 'publish',
+			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
 			'meta_input'   => array(
-				'_thumbnail_id'          => self::get_image_id( $type, $template_id ),
-				"_llms_{$type}_template" => $template_id,
-				'_llms_engagement'       => $engagement_id,
-				'_llms_related'          => $related_id,
+				'_thumbnail_id'    => self::get_image_id( $type, $template_id ),
+				'_llms_engagement' => $engagement_id,
+				'_llms_related'    => $related_id,
 			),
 		);
 
@@ -370,31 +370,22 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function dupcheck( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$query = array(
-			'post_type'     => "llms_my_${type}",
-			'author'        => $user_id,
-			'post_per_page' => 1,
-			'no_found_rows' => true,
-			'fields'        => 'ids',
-			'meta_query'    => array(
-				'relation' => 'AND',
-				array(
-					'key'   => "_llms_{$type}_template",
-					'value' => $template_id,
-				),
-				array(
-					'key'   => '_llms_related',
-					'value' => $related_id,
-				),
-			),
+		$student = llms_get_student( $user_id );
+
+		$query = new LLMS_Awards_Query(
+			array(
+				'type'          => $type,
+				'users'         => $user_id,
+				'templates'     => $template_id,
+				'related_posts' => $related_id,
+				'fields'        => 'ids',
+				'no_found_rows' => true,
+				'per_page'      => 1,
+			)
 		);
 
-		$query = new WP_Query( $query );
-
-		$is_duplicate = ( count( $query->posts ) === 1 );
-
 		$is_duplicate = self::do_deprecated_filter(
-			$is_duplicate,
+			$query->has_results(),
 			array( $template_id, $user_id, $related_id ),
 			$type,
 			"llms_{$type}_has_user_earned",

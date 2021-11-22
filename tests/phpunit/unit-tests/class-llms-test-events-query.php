@@ -42,12 +42,13 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Test that the events query, using default args, calculates found rows
 	 *
 	 * @since 4.7.0
+	 * @since [version] Don't call deprecated `preprare_query()`.
 	 *
 	 * @return void
 	 */
 	public function test_query_with_default_args_calculates_found_rows() {
 		$query = new LLMS_Events_Query();
-		$sql = LLMS_Unit_Test_Util::call_method( $query, 'preprare_query' );
+		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
 		$this->assertSame( 0, strpos( $sql, 'SELECT SQL_CALC_FOUND_ROWS' ) );
 	}
 
@@ -55,6 +56,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Test that the events query, passing no_found_rows as true doesn't calculate found rows
 	 *
 	 * @since 4.7.0
+	 * @since [version] Don't call deprecated `preprare_query()`.
 	 *
 	 * @return void
 	 */
@@ -64,7 +66,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 				'no_found_rows' => true,
 			)
 		);
-		$sql = LLMS_Unit_Test_Util::call_method( $query, 'preprare_query' );
+		$sql = LLMS_Unit_Test_Util::call_method( $query, 'prepare_query' );
 		$this->assertSame( false, strpos( $sql, 'SQL_CALC_FOUND_ROWS' ) );
 	}
 

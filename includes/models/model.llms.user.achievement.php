@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
  *
- * @property int    $author               WP_User ID of the user who the achievement belongs to.
- * @property int    $achievement_template WP_Post ID of the template `llms_achievement` post.
- * @property string $content              The achievement content.
- * @property int    $engagement           WP_Post ID of the `llms_engagement` post used to trigger the achievement.
- *                                        An empty value or `0` indicates the achievement was awarded manually or
- *                                        before the engagement value was stored.
- * @property int    $related              WP_Post ID of the related post.
- * @property string $title                Achievement title.
+ * @property int    $author     WP_User ID of the user who the achievement belongs to.
+ * @property string $content    The achievement content.
+ * @property int    $engagement WP_Post ID of the `llms_engagement` post used to trigger the achievement.
+ *                              An empty value or `0` indicates the achievement was awarded manually or
+ *                              before the engagement value was stored.
+ * @property int    $parent     WP_Post ID of the template `llms_achievement` post.
+ * @property int    $related    WP_Post ID of the related post.
+ * @property string $title      Achievement title.
  */
 class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
@@ -47,9 +47,8 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'achievement_template' => 'absint',
-		'engagement'           => 'absint',
-		'related'              => 'absint',
+		'engagement' => 'absint',
+		'related'    => 'absint',
 	);
 
 	/**
@@ -71,25 +70,38 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Retrieve the image source for the achievement
+	 * Retrieve the image source for the achievement.
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 * @since [version]
+	 *
+	 * @param int[] $size Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @return string Image source URL.
 	 */
-	public function get_image( $size = array(), $key = 'achievement_image' ) {
+	public function get_image( $size = array(), $deprecated = null ) {
 
-		if ( ! $size ) {
-			$size = apply_filters( 'llms_achievement_image_default_size', array( 300, 300 ) );
-		}
+		$id     = $this->get( 'id' );
+		$img_id = get_post_thumbnail_id( $id );
 
-		if ( ! $this->get( 'achievement_image' ) ) {
-			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
+		if ( ! $img_id ) {
+
+			// Get the source.
+			$src = llms()->achievements()->get_default_image( $id );
+
 		} else {
-			$src = parent::get_image( $size, $key );
+
+			list( $src ) = wp_get_attachment_image_src( $img_id, $size );
+
 		}
 
+		/**
+		 * Filter the image source URL for the achievement.
+		 *
+		 * @since [version]
+		 *
+		 * @param string                $src         Image source URL.
+		 * @param LLMS_User_Achievement $achievement The achievement object.
+		 */
 		return apply_filters( 'llms_achievement_get_image', $src, $this );
 
 	}

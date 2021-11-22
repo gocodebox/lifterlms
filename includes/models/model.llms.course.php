@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -382,6 +382,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 *
 	 * @since 3.15.0
 	 * @since 4.12.0 Use cached value where possible.
+	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param boolean $skip_cache Default: `false`. Whether or not to bypass the cache. If `true`, bypasses the cache.
 	 * @return int
@@ -409,7 +410,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 				)
 			);
 
-			$count = $query->found_results;
+			$count = $query->get_found_results();
 
 			// Cache result for later use.
 			$this->set( 'enrolled_students', $count );

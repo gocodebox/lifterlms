@@ -7,8 +7,6 @@
  * @group certificates
  *
  * @since 3.37.3
- * @since 4.21.0 Added tests on modify_dom_links() and modify_dom_images().
- * @version 4.21.0
  */
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
@@ -56,7 +54,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 * @since [version] Expect deprecated warning and actually call the method instead of using the abstract method `earn_certificate()`.
 	 *
-	 * @expectedDeprecated LLMS_Certificates::handle_certificate()
+	 * @expectedDeprecated LLMS_Certificates::trigger_engagement()
 	 *
 	 * @return void
 	 */
@@ -72,10 +70,10 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		$student = llms_get_student( $user );
 
-		$earned = $student->get_certificates()[0];
+		$earned = $student->get_certificates( array() );
 
 		// Related ID matches.
-		$this->assertEquals( $related, $earned->post_id );
+		$this->assertEquals( $related, $earned->get_awards()[0]->get( 'related' ) );
 
 	}
 

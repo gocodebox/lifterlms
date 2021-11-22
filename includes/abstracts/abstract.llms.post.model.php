@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  *                                          ie: "order" for the "llms_order" post type
  * @property      string  $modified         The post's local modified time.
  * @property      string  $name             The post's slug.
+ * @property      int     $parent           WP_Post ID of the post's parent post.
  * @property-read WP_Post $post             Instance of WP_Post
  * @property      string  $status           The post's status.
  * @property      string  $title            The post's title.
@@ -911,6 +912,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				'date_gmt'       => 'text',
 				'excerpt'        => 'html',
 				'password'       => 'text',
+				'parent'         => 'absint',
 				'menu_order'     => 'absint',
 				'modified'       => 'text',
 				'modified_gmt'   => 'text',

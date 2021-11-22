@@ -553,6 +553,42 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			),
 		) );
 	}
+
+	/**
+	 * Earn an achievement for a user.
+	 *
+	 * @since 3.37.3
+	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
+	 * @since [version] Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
+	 *
+	 * @param int      $user       WP_User ID.
+	 * @param int      $template   WP_Post ID of the `llms_certificate` template.
+	 * @param int      $related    WP_Post ID of the related post.
+	 * @param int|null $engagement WP_Post ID of the engagement post.
+	 * @return int[] {
+	 *     Indexed array containing information about the earned certificate.
+	 *
+	 *     int $0 WP_User ID.
+	 *     int $1 WP_Post ID of the earned cert (`llms_my_achievement`).
+	 *     int $2 WP_Post ID of the related post.
+	 *     int $3 WP_Post ID of the triggering engagement.
+	 * }
+	 */
+	protected function earn_achievement( $user_id, $template_id, $related_id, $engagement_id = null ) {
+
+		llms_enroll_student( $user_id, $related_id );
+
+		$earned = LLMS_Engagement_Handler::handle_achievement( array( $user_id, $template_id, $related_id, $engagement_id ) );
+
+		return array(
+			$user_id,
+			$earned->get( 'id' ),
+			$related_id,
+			$engagement_id,
+		);
+
+	}
+
 	/**
 	 * Earn a certificate for a user.
 	 *
@@ -573,22 +609,18 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *     int $3 WP_Post ID of the triggering engagement.
 	 * }
 	 */
-	protected function earn_certificate( $user, $template, $related, $engagement = null ) {
+	protected function earn_certificate( $user_id, $template_id, $related_id, $engagement_id = null ) {
 
-		llms_enroll_student( $user, $related );
+		llms_enroll_student( $user_id, $related_id );
 
-		global $llms_user_earned_certs;
-		$llms_user_earned_certs = array();
+		$earned = LLMS_Engagement_Handler::handle_certificate( array( $user_id, $template_id, $related_id, $engagement_id ) );
 
-		// Watch for generation so we can compare against it later.
-		add_action( 'llms_user_earned_certificate', function( $user_id, $cert_id, $related_id, $engagement_id ) {
-			global $llms_user_earned_certs;
-			$llms_user_earned_certs[] = array( $user_id, $cert_id, $related_id, $engagement_id );
-		}, 10, 4 );
-
-		LLMS_Engagement_Handler::handle_certificate( array( $user, $template, $related, $engagement ) );
-
-		return array_shift( $llms_user_earned_certs );
+		return array(
+			$user_id,
+			$earned->get( 'id' ),
+			$related_id,
+			$engagement_id,
+		);
 
 	}
 

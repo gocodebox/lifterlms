@@ -120,6 +120,30 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_esc_and_quote_str()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_esc_and_quote_str() {
+
+		$tests = array(
+			array( 'test', "'test'" ),
+			array( '1', "'1'" ),
+			array( 1, "'1'" ),
+			array( 0, "'0'" ),
+			array( false, "''" ),
+			array( "", "''" ),
+		);
+		foreach ( $tests as $test ) {
+			list( $input, $expected ) = $test;
+			$this->assertEquals( $expected, llms_esc_and_quote_str( $input ) );
+		}
+
+	}
+
+	/**
 	 * Test llms_get_completable_post_types()
 	 *
 	 * @since 4.2.0

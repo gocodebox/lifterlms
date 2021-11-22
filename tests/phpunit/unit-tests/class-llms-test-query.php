@@ -146,7 +146,6 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		}
 
-
 		$this->go_to( '' );
 
 		// Teardown.
@@ -293,6 +292,8 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		$wp->request = wp_parse_url( get_permalink( $child ), PHP_URL_PATH );
 		$this->main->maybe_redirect_certificate();
+
+		$this->set_permalink_structure( false );
 
 	}
 
