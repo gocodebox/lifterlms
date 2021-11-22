@@ -238,7 +238,7 @@ abstract class LLMS_Abstract_Query {
 	}
 
 	/**
-	 * Get the
+	 * Get the query.
 	 *
 	 * Retrieves the value of the protected `$query` variable.
 	 *
@@ -268,8 +268,8 @@ abstract class LLMS_Abstract_Query {
 		/**
 		 * Filters the allowed sort fields.
 		 *
-		 * The dynamic portion of this hook, `$this->type`, refers to the award type
-		 * for the query, either "achievements" or "certificates".
+		 * The dynamic portion of this hook, `$this->id`, refers to ID of the extending
+		 * query class.
 		 *
 		 * @since [version]
 		 *
