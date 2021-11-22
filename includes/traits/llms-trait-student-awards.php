@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS singleton trait
+ * LifterLMS singleton trait.
  *
  * @package LifterLMS/Traits
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve data related to awards earned by a student
+ * Retrieve data related to awards earned by a student.
  *
  * This trait should only be used by classes that extend from the {@see LLMS_Abstract_User_Data} class.
  *
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 trait LLMS_Trait_Student_Awards {
 
 	/**
-	 * Retrieve achievements that a user has earned
+	 * Retrieve achievements that a user has earned.
 	 *
 	 * @since 2.4.0
 	 * @since 3.14.0 Unknown.
