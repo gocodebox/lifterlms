@@ -62,28 +62,30 @@ function _migrate_posts( $type ) {
 	// Intentionally undocumented *private* filter used internally for running tests against small pages.
 	$per_page = apply_filters( 'llms_update_600_per_page', 50 );
 
-	$query = new \WP_Query( array(
-		'orderby'        => array( 'ID' => 'ASC' ),
-		'post_type'      => "llms_my_{$type}",
-		'posts_per_page' => $per_page,
-		'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
-		'fields'         => 'ids', // We just need the ID for the updates we'll perform.
-		'meta_query'     => array(
-			'relation' => 'OR',
-			array(
-				'key'     => "_llms_{$type}_title",
-				'compare' => 'EXISTS',
+	$query = new \WP_Query(
+		array(
+			'orderby'        => array( 'ID' => 'ASC' ),
+			'post_type'      => "llms_my_{$type}",
+			'posts_per_page' => $per_page,
+			'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
+			'fields'         => 'ids', // We just need the ID for the updates we'll perform.
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array(
+					'key'     => "_llms_{$type}_title",
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key'     => "_llms_{$type}_template",
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key'     => "_llms_{$type}_image",
+					'compare' => 'EXISTS',
+				),
 			),
-			array(
-				'key'     => "_llms_{$type}_template",
-				'compare' => 'EXISTS',
-			),
-			array(
-				'key'     => "_llms_{$type}_image",
-				'compare' => 'EXISTS',
-			),
-		),
-	) );
+		)
+	);
 
 	// Don't trigger deprecations.
 	remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
@@ -94,7 +96,7 @@ function _migrate_posts( $type ) {
 	add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
 
 	// If there was 50 results assume there's another page and run again, otherwise we're done.
-	return ( $per_page === count( $query->posts ) );
+	return ( count( $query->posts ) === $per_page );
 
 }
 

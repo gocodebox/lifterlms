@@ -365,14 +365,14 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	}
 
 	/**
-	* Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
-	*
-	* @since [version]
-	*
-	* @param string $name Method name.
-	* @param array $args  Arguments passed to the method.
-	* @return void|string
-	*/
+	 * Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $name Method name.
+	 * @param array  $args  Arguments passed to the method.
+	 * @return void|string
+	 */
 	public function __call( $name, $args ) {
 		if ( 'preprare_query' === $name ) {
 			$class = get_called_class();
