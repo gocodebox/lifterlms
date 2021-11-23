@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
 function migrate_achievements() {
-	return _migrate_posts( 'achievement' );
+	return _migrate_awards( 'achievement' );
 }
 
 /**
@@ -31,7 +31,47 @@ function migrate_achievements() {
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
 function migrate_certificates() {
-	return _migrate_posts( 'certificate' );
+	return _migrate_awards( 'certificate' );
+}
+
+/**
+ * Migrates meta data for achievement and certificate template posts.
+ *
+ * @since [version]
+ *
+ * @return bool Returns `true` if more records need to be updated and `false` upon completion.
+ */
+function migrate_award_templates() {
+
+	$per_page = llms_update_util_get_items_per_page();
+
+	$query = new \WP_Query(
+		array(
+			'orderby'        => array( 'ID' => 'ASC' ),
+			'post_type'      => array( 'llms_achievement', 'llms_certificate' ),
+			'posts_per_page' => $per_page,
+			'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
+			'meta_query'     => array(
+				'relation' => 'OR',
+				array(
+					'key'     => '_llms_achievement_image',
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key'     => '_llms_certificate_image',
+					'compare' => 'EXISTS',
+				),
+			),
+		)
+	);
+
+	foreach ( $query->posts as $post ) {
+		_migrate_image( $post->ID, str_replace( 'llms_', '', $post->post_type ) );
+	}
+
+	// If there was 50 results assume there's another page and run again, otherwise we're done.
+	return ( count( $query->posts ) === $per_page );
+
 }
 
 /**
@@ -57,10 +97,9 @@ function update_db_version() {
  * @param string $type Award type, either "achievement" or "certificate".
  * @return boolean Returns `true` if there are more results and `false` if there are no further results.
  */
-function _migrate_posts( $type ) {
+function _migrate_awards( $type ) {
 
-	// Intentionally undocumented *private* filter used internally for running tests against small pages.
-	$per_page = apply_filters( 'llms_update_600_per_page', 50 );
+	$per_page = llms_update_util_get_items_per_page();
 
 	$query = new \WP_Query(
 		array(
@@ -89,8 +128,8 @@ function _migrate_posts( $type ) {
 
 	// Don't trigger deprecations.
 	remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
-	foreach ( $query->posts as $id ) {
-		_migrate_post( $id, $type );
+	foreach ( $query->posts as $post_id ) {
+		_migrate_award( $post_id, $type );
 	}
 	// Re-enable deprecations.
 	add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
@@ -113,36 +152,53 @@ function _migrate_posts( $type ) {
  *
  * @since [version]
  *
- * @param int    $id   WP_Post ID.
- * @param string $type Award type, either "achievement" or "certificate".
+ * @param int    $post_id WP_Post ID.
+ * @param string $type    Award type, either "achievement" or "certificate".
  * @return void
  */
-function _migrate_post( $id, $type ) {
+function _migrate_award( $post_id, $type ) {
 
-	$obj = 'achievement' === $type ? new \LLMS_User_Achievement( $id ) : new \LLMS_User_Certificate( $id );
+	$obj = 'achievement' === $type ? new \LLMS_User_Achievement( $post_id ) : new \LLMS_User_Certificate( $post_id );
 
 	$updates = array(
 		'author' => $obj->get_user_id(),
 	);
 
-	$title = get_post_meta( $id, "_llms_{$type}_title", true );
+	$title = get_post_meta( $post_id, "_llms_{$type}_title", true );
 	if ( $title ) {
 		$updates['title'] = $title;
 	}
 
-	$template = get_post_meta( $id, "_llms_{$type}_template", true );
+	$template = get_post_meta( $post_id, "_llms_{$type}_template", true );
 	if ( $template ) {
 		$updates['parent'] = $template;
 	}
 	$obj->set_bulk( $updates );
 
-	$image = get_post_meta( $id, "_llms_{$type}_image", true );
+	_migrate_image( $post_id, $type );
+
+	delete_post_meta( $post_id, "_llms_{$type}_title" );
+	delete_post_meta( $post_id, "_llms_{$type}_template" );
+
+}
+
+/**
+ * Migrate the attachment image id from the legacy post meta location
+ * to the WP core's featured image.
+ *
+ * @since [version]
+ *
+ * @param int    $post_id WP_Post ID.
+ * @param string $type    Award type, either "achievement" or "certificate".
+ * @return void
+ */
+function _migrate_image( $post_id, $type ) {
+
+	$image = get_post_meta( $post_id, "_llms_{$type}_image", true );
 	if ( $image ) {
-		set_post_thumbnail( $id, $image );
+		set_post_thumbnail( $post_id, $image );
 	}
 
-	delete_post_meta( $id, "_llms_{$type}_title" );
-	delete_post_meta( $id, "_llms_{$type}_template" );
-	delete_post_meta( $id, "_llms_{$type}_image" );
+	delete_post_meta( $post_id, "_llms_{$type}_image" );
 
 }

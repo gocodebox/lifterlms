@@ -23,13 +23,76 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-600.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/llms.functions.updates.php';
 	}
 
+	/**
+	 * Setup the test
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+
+		parent::set_up();
+		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+
+	}
+
+	/**
+	 * Tear down the test
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
+		remove_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+	}
+
+	/**
+	 * Callback function to reduce items per page for testing.
+	 *
+	 * @since [version]
+	 *
+	 * @return int
+	 */
+	public function per_page() {
+		return 5;
+	}
+
+	/**
+	 * Calls a namespaced function with the specified arguments.
+	 *
+	 * @since [version]
+	 *
+	 * @param [type] $func [description]
+	 * @param array $args [description]
+	 * @return [type] [description]
+	 */
 	private function call_ns_func( $func, $args = array() ) {
 		return call_user_func( "LLMS\Updates\Version_6_0_0\\{$func}", ...$args );
 	}
 
+	/**
+	 * Creates one or more awards of a given type using the pre-migration data structure.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $count Number of award posts to create.
+	 * @param string $type  Type of award, either "achievement" or "certificate".
+	 * @return array[] {
+	 *     Array of data arrays describing the generated award.
+	 *
+	 *     @type int    $template_id WP_Post id of the template post.
+	 *     @type int    $user_id     WP_User id of the user who earned the award.
+	 *     @type int    $image_id    WP_Post id of the attachment post for the award's image.
+	 *     @type int    $post_id     WP_Post id of the award post.
+	 *     @type string $title       Title of the award.
+	 * }
+	 */
 	private function create_legacy_awards( $count, $type ) {
 
 		remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
@@ -37,7 +100,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		$res = array();
 		$i = 0;
 		while ( $i < $count ) {
-			$post_type = "llms_my_{$type}";
+			$post_type   = "llms_my_{$type}";
 			$image_id    = $attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
 			$template_id = $this->factory->post->create( array( 'post_type' => "llms_{$type}" ) );
 			$user_id     = $this->factory->user->create();
@@ -69,7 +132,46 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_update_520_update_db_version()
+	 * Creates one or more award templates of a given type using the pre-migration data structure.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $count Number of award posts to create.
+	 * @return array[] {
+	 *     Array of data arrays describing the generated template.
+	 *
+	 *     @type int    $image_id    WP_Post id of the attachment post for the award's image.
+	 *     @type int    $post_id     WP_Post id of the award post.
+	 * }
+	 */
+	private function create_legacy_templates( $count ) {
+
+		$res = array();
+		$i = 0;
+		while ( $i < $count ) {
+			$post_type   = array( 'llms_achievement', 'llms_certificate' );
+			shuffle( $post_type );
+			$post_type   = $post_type[0];
+			$type        = str_replace( 'llms_', '', $post_type );
+			$image_id    = $attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
+			$post_id     = $this->factory->post->create( array(
+				'post_type'  => $post_type,
+				'meta_input' => array(
+					"_llms_{$type}_image"    => $image_id,
+				),
+			) );
+
+			$res[] = compact( 'image_id', 'post_id', 'type' );
+
+			$i++;
+		}
+
+		return $res;
+
+	}
+
+	/**
+	 * Test update_db_version()
 	 *
 	 * @since [version]
 	 *
@@ -90,12 +192,19 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test the migrate_achievements() and migrate_certificates() functions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_update_award_metas() {
 
 		$per_page = function() {
 			return 5;
 		};
-		add_filter( 'llms_update_600_per_page', $per_page );
+		add_filter( 'llms_update_items_per_page', $per_page );
 
 		$tests = array(
 			'achievement',
@@ -106,9 +215,12 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 			$awards = $this->create_legacy_awards( 12, $type );
 
-			$this->assertTrue( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
-			$this->assertTrue( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
-			$this->assertFalse( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
+			// Should run 3 times, the 3rd has fewer than max results so we're complete.
+			$i = 1;
+			while ( $i <= 3 ) {
+				$this->assertEquals( $i !== 3, $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
+				$i++;
+			}
 
 			foreach ( $awards as $i => $award ) {
 				$post = get_post( $award['post_id'] );
@@ -131,6 +243,31 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		}
 
 		remove_filter( 'llms_update_600_per_page', $per_page );
+
+	}
+
+	/**
+	 * Test migate_award_templates()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_migrate_award_templates() {
+
+		$templates = $this->create_legacy_templates( 20 );
+
+		// Should run 5 times, the 5th has no results and the migration is complete.
+		$i = 1;
+		while ( $i <= 5 ) {
+			$this->assertEquals( $i !== 5, $this->call_ns_func( "migrate_award_templates" ) );
+			$i++;
+		}
+
+		foreach ( $templates as $template ) {
+			$this->assertEquals( $template['image_id'], get_post_thumbnail_id( $template['post_id'] ) );
+			$this->assertFalse( metadata_exists( 'post', $template['post_id'], "_llms_{$template['type']}_image" ) );
+		}
 
 	}
 
