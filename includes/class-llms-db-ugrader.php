@@ -104,12 +104,12 @@ class LLMS_DB_Upgrader {
 	/**
 	 * Retrieve the callback's prefix string based on the schema's namespace declaration.
 	 *
-	 * If `$namespace` is empty, no prefix will be added.
-	 * If `$namespace` is `true`, the namespace is assumed to be `LLMS\Updates`.
-	 * If `$namespace` is a string, that string will be used.
+	 * If `$info['namespace']` is empty, no prefix will be added.
+	 * If `$info['namespace']` is `true`, the namespace is assumed to be `LLMS\Updates`.
+	 * If `$info['namespace']` is a string, that string will be used.
 	 *
 	 * If a namespace is found, `\Version_X_X_X` will automatically be appended to the namespace. The
-	 * string `X_X_X` is the database version for the upgrade substituting underscores for dots.     *
+	 * string `X_X_X` is the database version for the upgrade substituting underscores for dots.
 	 *
 	 * @since [version]
 	 *
