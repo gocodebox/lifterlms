@@ -149,8 +149,9 @@ return array(
 		'type'      => 'manual',
 		'namespace' => true,
 		'updates'   => array(
-			'update_achievement_metas',
-			'update_certificate_metas',
+			'migrate_achievements',
+			'migrate_certificates',
+			'migrate_award_templates'
 			'update_db_version',
 		),
 	),
