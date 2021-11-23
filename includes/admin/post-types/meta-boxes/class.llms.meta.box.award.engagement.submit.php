@@ -268,7 +268,8 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	 * @since [version]
 	 *
 	 * @param null|bool $creating Whether or not we're awarding an engagement.
-	 *                            If not provided, it'll be dynamically retrieved if the current screen's action is 'add'. See WordPress' `get_current_screen()`.
+	 *                            If not provided, it'll be dynamically retrieved if the current screen's action is 'add'.
+	 *                            See WordPress' `get_current_screen()`.
 	 * @return int
 	 */
 	private function current_student_id( $creating = null ) {
@@ -280,7 +281,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$creating  = $creating ?? ( 'add' === get_current_screen()->action );
 		$post_type = get_post_type( $this->post->ID );
 		// If creating, take into account passed GET variable.
-		$student          = $creating && ! empty( $_GET['sid'] ) ? llms_filter_input( INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT ) : 0; // phpcs:ignore
+		$student = $creating && ! empty( $_GET['sid'] ) ? llms_filter_input( INPUT_GET, 'sid', FILTER_SANITIZE_NUMBER_INT ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no need to verify the nonce here.
 		// If not creating, retrieve the earned engagement user id.
 		$student          = ! $creating ? ( new $this->post_types[ $post_type ]['model']( $this->post->ID ) )->get_user_id() : $student;
 		$this->student_id = $student;
@@ -311,12 +312,16 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 
 		// If the post status is not publish/future, we're performing just an update, we don't need to award any engagement.
 		if ( ! in_array( get_post_status( $post_id ), array( 'publish', 'future' ), true ) ||
-				( ! empty( $_POST['original_post_status'] ) && 'auto-draft' !== $_POST['original_post_status'] ) /* creating */ ) {  // phpcs:ignore  -- nonce already verified, see LLMS_Admin_Metabox::save().
+				( ! empty( $_POST['original_post_status'] ) && 'auto-draft' !== $_POST['original_post_status'] ) /* creating */ ) {// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce already verified, see LLMS_Admin_Metabox::save().
 			return;
 		}
 
 		// Award the engagement.
-		LLMS_Engagement_Handler::create_actions( str_replace( 'llms_my_', '', $post_type ), $post->post_author, $post_id );
+		LLMS_Engagement_Handler::create_actions(
+			str_replace( 'llms_my_', '', $post_type ),
+			$post->post_author,
+			$post_id
+		);
 
 	}
 
@@ -330,14 +335,16 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	public static function metabox_scripts() {
 		?>
 <script>
-	document.addEventListener("DOMContentLoaded", function(event) {
-		(function(){
+	document.addEventListener(
+		"DOMContentLoaded",
+		() => {
 			// Localization.
 			const __ = window.wp.i18n.__;
 			const _i18n = {
-				'Publish on:': __( 'Award on:', 'lifterlms' ),
-				'Publish'    : __( 'Award', 'lifterlms' ),
-				'Published'  : __( 'Awarded', 'lifterlms' ),
+				'Publish on:'  : __( 'Award on:', 'lifterlms' ),
+				'Publish'      : __( 'Award', 'lifterlms' ),
+				'Published'    : __( 'Awarded', 'lifterlms' ),
+				'Published on:': __( 'Awarded on:', 'lifterlms' ),
 			};
 
 			window.wp.hooks.addFilter(
@@ -347,8 +354,8 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 					return text in _i18n ? _i18n[text] : translation;
 				}
 			);
-		})();
-	});
+		}
+	);
 </script>
 		<?php
 	}
