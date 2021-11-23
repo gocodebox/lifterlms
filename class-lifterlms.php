@@ -176,6 +176,7 @@ final class LifterLMS {
 
 		$this->engagements();
 		$this->notifications();
+		new LLMS_Media_Protector();
 
 		do_action( 'lifterlms_init' );
 
