@@ -39,9 +39,6 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	 * @return void
 	 */
 	public function output() {
-
-		global $post;
-
 		parent::output(); ?>
 
 		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo ! empty( $this->field['value'] ) ? $this->field['value'] : $this->meta; ?></textarea>
