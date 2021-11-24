@@ -87,8 +87,9 @@ class LLMS_Meta_Box_Award_Achievement extends LLMS_Admin_Metabox {
 	 * @return bool
 	 */
 	protected function save_field_db( $post_id, $field_id, $val ) {
+
 		// Save the achievement_content editor field in the llms_my_achievement WP_Post post_content field.
-		if ( $this->prefix . 'achievement_content' === $field_id ) {
+		if ( $this->prefix . 'achievement_content' === $field_id && $this->post->ID === $post_id ) {
 			return wp_update_post(
 				array(
 					'ID'           => $post_id,
