@@ -54,7 +54,7 @@ class LLMS_Meta_Box_Award_Achievement extends LLMS_Admin_Metabox {
 			array(
 				'label'      => __( 'Achievement Content', 'lifterlms' ),
 				'desc'       => __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),
-				'id'         => 'award_achievement_content',
+				'id'         => $this->prefix . 'achievement_content',
 				'type'       => 'textarea_w_tags',
 				'section'    => 'achievement_meta_box',
 				'class'      => 'code input-full',
@@ -87,8 +87,8 @@ class LLMS_Meta_Box_Award_Achievement extends LLMS_Admin_Metabox {
 	 * @return bool
 	 */
 	protected function save_field_db( $post_id, $field_id, $val ) {
-		// Save the achievement_content editpr field in the llms_my_achievement WP_Post post_content field.
-		if ( 'award_achievement_content' === $field_id ) {
+		// Save the achievement_content editor field in the llms_my_achievement WP_Post post_content field.
+		if ( $this->prefix . 'achievement_content' === $field_id ) {
 			return wp_update_post(
 				array(
 					'ID'           => $post_id,

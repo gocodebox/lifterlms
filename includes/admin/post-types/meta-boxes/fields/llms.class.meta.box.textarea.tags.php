@@ -1,26 +1,29 @@
 <?php
 /**
- * Meta box Field: Textarea with Tags
+ * Meta box Field: Textarea with Tags.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version Unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Textarea_W_Tags_Field class
+ * LLMS_Metabox_Textarea_W_Tags_Field class.
  *
  * @since Unknown
  */
 class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 *
-	 * @param array $_field Array containing information about field
+	 * @since unknown
+	 *
+	 * @param array $_field Array containing information about field.
+	 * @return void
 	 */
 	public function __construct( $_field ) {
 
@@ -28,7 +31,7 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	}
 
 	/**
-	 * Outputs the Html for the given field
+	 * Outputs the Html for the given field.
 	 *
 	 * @since unknown
 	 * @since [version] Allow displaying a custom value.
