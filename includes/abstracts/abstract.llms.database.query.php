@@ -370,7 +370,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * @since [version]
 	 *
 	 * @param string $name Method name.
-	 * @param array  $args  Arguments passed to the method.
+	 * @param array  $args Arguments passed to the method.
 	 * @return void|string
 	 */
 	public function __call( $name, $args ) {
