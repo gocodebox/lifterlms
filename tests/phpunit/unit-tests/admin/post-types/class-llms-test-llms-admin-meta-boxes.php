@@ -104,7 +104,6 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-
 	public function test_sync_awarded_certificates_action() {
 
 		$post   = $this->factory->post->create_and_get();
@@ -135,7 +134,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 
 		// Create various awarded certificates but with a different template.
 		foreach ( get_available_post_statuses( 'llms_my_certificate' ) as $status ) {
-			$awarded_certificates[] = $this->factory->post->create_and_get(
+			$awarded_certificates[] = $this->factory->post->create(
 				array(
 					'post_type'   => 'llms_my_certificate',
 					'post_parent' => 999,
@@ -154,7 +153,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 
 		// Create various awarded certificates: only 2 of them have the required post_status (publish and future).
 		foreach ( get_available_post_statuses( 'llms_my_certificate' ) as $status ) {
-			$awarded_certificates[] = $this->factory->post->create_and_get(
+			$awarded_certificates[] = $this->factory->post->create(
 				array(
 					'post_type'   => 'llms_my_certificate',
 					'post_parent' => $post->ID,
@@ -180,6 +179,11 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 			),
 			array( $post )
 		);
+
+		// Delete created posts.
+		foreach( array_merge( $awarded_certificates, array( $post->ID ) ) as $to_delete ) {
+			wp_delete_post( $to_delete );
+		}
 
 	}
 
