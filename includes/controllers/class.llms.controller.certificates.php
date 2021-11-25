@@ -36,7 +36,7 @@ class LLMS_Controller_Certificates {
 		add_filter( 'lifterlms_register_post_type_certificate', array( $this, 'maybe_allow_public_query' ) );
 
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
-		add_action( 'init', array( $this, 'maybe_handle_awarded_certificates_sync_actions' ) );
+		add_action( 'init', array( __CLASS__, 'maybe_handle_awarded_certificates_sync_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
 
 	}
@@ -140,7 +140,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @return void
 	 */
-	public function maybe_handle_awarded_certificates_sync_actions() {
+	public static function maybe_handle_awarded_certificates_sync_actions() {
 
 		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) || ! isset( $_GET['action'] ) ) {
 			return;
@@ -154,10 +154,10 @@ class LLMS_Controller_Certificates {
 
 		switch ( $_GET['action'] ) {
 			case 'sync_awarded_certificate':
-				$this->sync_awarded_certificate( $cert_id );
+				self::sync_awarded_certificate( $cert_id );
 				break;
 			case 'sync_awarded_certificates':
-				$this->sync_awarded_certificates( $cert_id );
+				self::sync_awarded_certificates( $cert_id );
 				break;
 		}
 
@@ -171,7 +171,7 @@ class LLMS_Controller_Certificates {
 	 * @param int $cert_id Awarded certificate id.
 	 * @return void
 	 */
-	private function sync_awarded_certificate( $cert_id ) {
+	private static function sync_awarded_certificate( $cert_id ) {
 
 		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
 			return;
@@ -200,7 +200,7 @@ class LLMS_Controller_Certificates {
 	 * @param int $certificate_template_id Certificate template id.
 	 * @return void
 	 */
-	private function sync_awarded_certificates( $certificate_template_id ) {
+	private static function sync_awarded_certificates( $certificate_template_id ) {
 
 		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
 			return;
