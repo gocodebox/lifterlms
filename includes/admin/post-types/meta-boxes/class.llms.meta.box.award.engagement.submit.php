@@ -223,19 +223,19 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return string
 	 */
 	private function sync_action() {
 
 		if ( 'llms_my_certificate' !== get_post_type( $this->post->ID ) ) {
-			return;
+			return '';
 		}
 
 		$certificate_model = new $this->post_types['llms_my_certificate']['model']( $this->post->ID );
-		$template_id       = $certificate_model->get( 'certificate_template' );
-		$check             = LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' );
-		if ( is_wp_error( $check ) ) {
-			return;
+		$template_id       = $certificate_model->get( 'parent' );
+		if ( empty( $template_id ) ||
+				is_wp_error( LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' ) ) ) {
+			return '';
 		}
 
 		$base_url   = remove_query_arg( 'action' ); // Current url without 'action' arg.
@@ -244,7 +244,10 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 			'sync_awarded_certificate',
 			wp_nonce_url( $base_url, 'llms-cert-sync-actions', '_llms_cert_sync_actions_nonce' )
 		);
-		$sync_alert = __( 'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to proceed?', 'lifterlms' );
+		$sync_alert = __(
+			'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to proceed?',
+			'lifterlms'
+		);
 		$on_click   = "return confirm('${sync_alert}')";
 
 		return sprintf(
@@ -339,8 +342,8 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		"DOMContentLoaded",
 		() => {
 			// Localization.
-			const __ = window.wp.i18n.__;
-			const _i18n = {
+			const __  = window.wp.i18n.__,
+				_i18n = {
 				'Publish on:'  : __( 'Award on:', 'lifterlms' ),
 				'Publish'      : __( 'Award', 'lifterlms' ),
 				'Published'    : __( 'Awarded', 'lifterlms' ),

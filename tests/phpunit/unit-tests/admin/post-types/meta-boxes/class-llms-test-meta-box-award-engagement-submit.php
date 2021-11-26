@@ -212,4 +212,97 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 		}
 
 	}
+
+	/**
+	 * Test sync_action() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_action() {
+
+		$post = $this->factory->post->create_and_get();
+
+		$this->metabox->post = $post;
+
+		$action = 'action=sync_awarded_certificate';
+
+		// Not llms_my_certificate post type.
+		$this->assertStringNotContainsString(
+			$action,
+			LLMS_Unit_Test_Util::call_method(
+				$this->metabox,
+				'sync_action'
+			)
+		);
+
+		$my_certificate = $this->factory->post->create_and_get( array( 'post_type' => 'llms_my_certificate' ) );
+
+		$this->metabox->post = $my_certificate;
+
+		// llms_my_certificate post type but no certificate template parent.
+		$this->assertStringNotContainsString(
+			$action,
+			LLMS_Unit_Test_Util::call_method(
+				$this->metabox,
+				'sync_action'
+			)
+		);
+
+		// Set a template which is not an `llms_certificate`.
+		$template = $this->factory->post->create_and_get();
+		wp_update_post(
+			array(
+				'ID'          => $my_certificate->ID,
+				'post_parent' => $template->ID,
+			)
+		);
+		$this->assertStringNotContainsString(
+			$action,
+			LLMS_Unit_Test_Util::call_method(
+				$this->metabox,
+				'sync_action'
+			)
+		);
+
+		// Set a template which is a `llms_certificate` but with non publis status.
+		wp_update_post(
+			array(
+				'ID'          => $template->ID,
+				'post_status' => 'draft',
+				'post_type'   => 'llms_certificate',
+			)
+		);
+
+		$this->assertStringNotContainsString(
+			$action,
+			LLMS_Unit_Test_Util::call_method(
+				$this->metabox,
+				'sync_action'
+			)
+		);
+
+		// Set a template which is a `llms_certificate` with publish status.
+		wp_update_post(
+			array(
+				'ID'          => $template->ID,
+				'post_status' => 'publish',
+			)
+		);
+		$this->assertStringContainsString(
+			$action,
+			LLMS_Unit_Test_Util::call_method(
+				$this->metabox,
+				'sync_action'
+			)
+		);
+
+		// Delete created posts.
+		foreach( array( $post, $my_certificate, $template ) as $to_delete ) {
+			wp_delete_post( $to_delete->ID );
+		}
+
+	}
+
 }

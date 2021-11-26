@@ -108,7 +108,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 
 		$post   = $this->factory->post->create_and_get();
 		$action = 'action=sync_awarded_certificates';
-		// No certificate post type.
+		// Not llms_certificate post type.
 		$this->assertOutputNotContains(
 			$action,
 			array(
