@@ -160,7 +160,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 	}
 
 	/**
-	 * Execute calculation for each item in the queue until all awarded certificates are synced.
+	 * Execute sync for each item in the queue until all awarded certificates are synced.
 	 *
 	 * @since [version]
 	 *
