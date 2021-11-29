@@ -1,6 +1,6 @@
 <?php
 /**
- * Test LLMS_Controller_Certificates
+ * Test LLMS_Controller_Certificates.
  *
  * @package LifterLMS/Tests/Controllers
  *
@@ -9,7 +9,8 @@
  * @group controller_certificates
  *
  * @since 3.37.4
- * @since 4.5.0 Add tests for managing certificate sharing settings.
+ * @since 4.5.0 Added tests for managing certificate sharing settings.
+ * @since [version] Added tests for handling awarded certificates sync actions.
  */
 class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
@@ -18,7 +19,6 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.4
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
-
 	 *
 	 * @return void
 	 */
@@ -27,6 +27,18 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 		parent::set_up();
 		$this->instance = new LLMS_Controller_Certificates();
 
+	}
+
+	/**
+	 * Setup before loading the class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function set_up_before_class() {
+		// Include admin classes.
+		( new LLMS_Loader )->includes_admin();
 	}
 
 	/**
@@ -303,6 +315,268 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->instance, 'change_sharing_settings', array( $cert_id, false ) ) );
 		$this->assertEquals( 'no', $cert->get( 'allow_sharing' ) );
 
+	}
+
+	/**
+	 * Test maybe handle awarded certificates sunc actions when not supplying a (or supplying an invalid) nonce.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_handle_awarded_certificates_sync_actions_missing_invalid_nonce() {
+
+		// Not supplying a nonce.
+		$this->mockGetRequest(
+			array(
+				'action' => 'sync_awarded_certificate',
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-nonce',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+		// Supplying an invalid nonce.
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificate',
+				),
+				false
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-nonce',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+	}
+
+	/**
+	 * Test maybe handle awarded certificates sync actions when not supplying an action or supplying an invalid action.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_handle_awarded_certificates_sync_actions_missing_invalid_action() {
+
+		// Not supplying an action.
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array()
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-missing-action',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+		// Supplying an invalid nonce.
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificate_wrong',
+				)
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-invalid-action',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+	}
+
+	/**
+	 * Test maybe handle awarded certificates sync actions when not supplying a certificate/template id.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_handle_awarded_certificates_sync_actions_missing_certificate_or_template_id() {
+
+		// Not supplying a certificate id.
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificate',
+				)
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificate-missing-certificate-id',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+		// Not supplying a certificate template id.
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificates',
+				)
+			)
+		);
+
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-missing-template-id',
+			LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions()
+		);
+
+	}
+
+	/**
+	 * Test sync_awarded_certificates handling.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_awarded_certificates_handling() {
+
+		// Create a certificate template.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		// Unregister the llms_certificate post type then re-register it so that the post type property _edit_link is populated (admin can edit the post type).
+		unregister_post_type( 'llms_certificate' );
+		LLMS_Post_Types::register_post_types();
+		$certificate_template = $this->factory->post->create( array( 'post_type' => 'llms_certificate' ) );
+
+		// Current user cannot edit 'llms_my_certificate' post type.
+		wp_set_current_user( 0 );
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificates-insufficient-permissions',
+			LLMS_Unit_Test_Util::call_method(
+				$this->instance,
+				'sync_awarded_certificates',
+				array( $certificate_template )
+			)
+		);
+
+		// Current user can edit 'llms_my_certificate' post type.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificates',
+					'post'   => $certificate_template,
+				)
+			)
+		);
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( get_edit_post_link( $certificate_template, 'raw' ) . ' [302] YES' );
+		LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions();
+
+	}
+
+	/**
+	 * Test sync_awarded_certificate handling.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_awarded_certificate_handling() {
+
+		// Create a certificate template.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		// Unregister the llms_my_certificate post type then re-register it so that the post type property _edit_link is populated (admin can edit the post type).
+		unregister_post_type( 'llms_my_certificate' );
+		LLMS_Post_Types::register_post_types();
+		$certificate_template = $this->factory->post->create(
+			array(
+				'post_type' => 'llms_certificate',
+			)
+		);
+		$awarded_certificate  = $this->factory->post->create(
+			array(
+				'post_type' => 'llms_my_certificate',
+				'post_parent' => $certificate_template,
+			)
+		);
+
+		// Current user cannot edit 'llms_my_certificate'.
+		wp_set_current_user( 0 );
+		$this->assertWPErrorCodeEquals(
+			'llms-sync-awarded-certificate-insufficient-permissions',
+			LLMS_Unit_Test_Util::call_method(
+				$this->instance,
+				'sync_awarded_certificate',
+				array( $awarded_certificate )
+			)
+		);
+
+		// Current user can edit 'llms_my_certificate'.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$this->mockGetRequest(
+			$this->add_nonce_to_array(
+				array(
+					'action' => 'sync_awarded_certificate',
+					'post'   => $awarded_certificate,
+				)
+			)
+		);
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( get_edit_post_link( $awarded_certificate, 'raw' ) . '&message=1 [302] YES' ); // Update success.
+		LLMS_Controller_Certificates::maybe_handle_awarded_certificates_sync_actions();
+
+	}
+
+	/**
+	 * Test sync_awarded_certificate method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_awarded_certificate_method_invalid_template() {
+
+		// Create a certificate template.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		// Unregister the llms_my_certificate post type then re-register it so that the post type property _edit_link is populated (admin can edit the post type).
+		unregister_post_type( 'llms_my_certificate' );
+		LLMS_Post_Types::register_post_types();
+		$certificate_template = $this->factory->post->create(
+			array(
+				'post_type'    => 'llms_certificate',
+				'post_status'  => 'draft',
+			)
+		);
+		$awarded_certificate  = $this->factory->post->create(
+			array(
+				'post_type' => 'llms_my_certificate',
+				'post_parent' => $certificate_template,
+			)
+		);
+
+		// Current user can edit 'llms_my_certificate'.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'lms_manager' ) ) );
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( get_edit_post_link( $awarded_certificate, 'raw' ) . ' [302] YES' ); // No update.
+		LLMS_Unit_Test_Util::call_method( $this->instance, 'sync_awarded_certificate', array( $awarded_certificate ) );
+
+	}
+
+	/**
+	 * Add nonce to array.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $data Data array.
+	 * @param bool  $real If true, uses a real nonce. Otherwise uses a fake nonce (useful for testing negative cases).
+	 * @return array
+	 */
+	protected function add_nonce_to_array( $data = array(), $real = true ) {
+		$nonce_string = $real ? wp_create_nonce( 'llms-cert-sync-actions' ) : wp_create_nonce( 'fake' );
+
+		return wp_parse_args( $data, array(
+			'_llms_cert_sync_actions_nonce' => $nonce_string,
+		) );
 	}
 
 }

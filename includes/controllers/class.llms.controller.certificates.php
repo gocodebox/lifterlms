@@ -138,28 +138,52 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	public static function maybe_handle_awarded_certificates_sync_actions() {
 
-		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) || ! isset( $_GET['action'] ) ) {
-			return;
+		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificates-nonce',
+				__( 'Sorry, you are not allowed to do this', 'lifterlms' )
+			);
 		}
 
-		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-
-		if ( empty( $cert_id ) ) {
-			return;
+		if ( ! isset( $_GET['action'] ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificates-missing-action',
+				__( 'Sorry, you have not provided any actions', 'lifterlms' )
+			);
 		}
 
 		switch ( $_GET['action'] ) {
 			case 'sync_awarded_certificate':
-				self::sync_awarded_certificate( $cert_id );
+				$error  = new WP_Error(
+					'llms-sync-awarded-certificate-missing-certificate-id',
+					__( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' )
+				);
+				$method = 'sync_awarded_certificate';
 				break;
 			case 'sync_awarded_certificates':
-				self::sync_awarded_certificates( $cert_id );
+				$error  = new WP_Error(
+					'llms-sync-awarded-certificates-missing-template-id',
+					__( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' )
+				);
+				$method = 'sync_awarded_certificates';
 				break;
+			default:
+				return new WP_Error(
+					'llms-sync-awarded-certificates-invalid-action',
+					__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
+				);
 		}
+
+		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		if ( empty( $cert_id ) ) {
+			return $error;
+		}
+
+		return self::{$method}( $cert_id );
 
 	}
 
@@ -169,17 +193,24 @@ class LLMS_Controller_Certificates {
 	 * @since [version]
 	 *
 	 * @param int $cert_id Awarded certificate id.
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	private static function sync_awarded_certificate( $cert_id ) {
 
 		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
-			return;
+			return new WP_Error(
+				'llms-sync-awarded-certificate-insufficient-permissions',
+				sprintf(
+					__( 'Sorry, you are not allowed to edit the awarded certificate #%d.', 'lifterlms' ),
+					$cert_id
+				),
+				compact( 'cert_id' )
+			);
 		}
 
-		$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
-
 		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+
+		$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
 
 		if ( is_wp_error( $sync ) ) {
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
@@ -187,8 +218,7 @@ class LLMS_Controller_Certificates {
 			$redirect_url = add_query_arg( 'message', 1, $redirect_url );
 		}
 
-		wp_safe_redirect( $redirect_url );
-		exit;
+		llms_redirect_and_exit( $redirect_url );
 
 	}
 
@@ -198,20 +228,20 @@ class LLMS_Controller_Certificates {
 	 * @since [version]
 	 *
 	 * @param int $certificate_template_id Certificate template id.
-	 * @return void
+	 * @return void|WP_Error
 	 */
 	private static function sync_awarded_certificates( $certificate_template_id ) {
 
 		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
-			return;
+			return new WP_Error(
+				'llms-sync-awarded-certificates-insufficient-permissions',
+				__( 'Sorry, you are not allowed to edit awarded certificates', 'lifterlms' )
+			);
 		}
 
 		// Trigger background sync.
 		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
-
-		$redirect_url = get_edit_post_link( $certificate_template_id, 'raw' );
-		wp_safe_redirect( $redirect_url );
-		exit;
+		llms_redirect_and_exit( get_edit_post_link( $certificate_template_id, 'raw' ) );
 
 	}
 
