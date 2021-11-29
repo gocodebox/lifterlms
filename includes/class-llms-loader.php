@@ -153,6 +153,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-rest-fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 
