@@ -37,8 +37,11 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public static function set_up_before_class() {
+
+		parent::set_up_before_class();
 		// Include admin classes.
 		( new LLMS_Loader )->includes_admin();
+
 	}
 
 	/**
