@@ -49,9 +49,6 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			)
 		);
 
-		// Cancel process in case it's currently running.
-		$this->cancel_process();
-
 		$args = array(
 			'templates' => $certificate_template_id,
 			'per_page'  => 20,
@@ -94,7 +91,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 	protected function init() {
 
 		// For the cron.
-		add_action( $this->schedule_hook, array( $this, 'dispatch_sync' ), 10, 2 );
+		add_action( $this->schedule_hook, array( $this, 'dispatch_sync' ), 10, 1 );
 
 		// For LifterLMS actions which trigger bulk enrollment.
 		$this->actions = array(
