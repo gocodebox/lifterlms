@@ -8,6 +8,7 @@
  * @group LLMS_User_Certificate
  *
  * @since 4.5.0
+ * @since [version] Added tests for the new methods.
  */
 class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
@@ -546,16 +547,21 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$this->assertEquals( $expected_content, $cert->get( 'content', true ) );
 
-
 		// Update the template and sync.
+		$thumbnail_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
 		wp_update_post( array(
-			'ID' => $template,
+			'ID'           => $template,
 			'post_content' => 'Updated and {user_login}',
+			'post_title'   => 'Template Title',
+			'meta_input'   => array(
+				'_thumbnail_id' => $thumbnail_id,
+			)
 		) );
 
 		$this->assertTrue( $cert->sync() );
 		$this->assertEquals( "Updated and {$user_info['user_login']}", $cert->get( 'content', true ) );
-
+		$this->assertEquals( 'Title', $cert->get( 'title', true ) );
+		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get('id') ) );
 	}
 
 	/**
