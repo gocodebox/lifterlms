@@ -57,7 +57,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 		 * @param array $args Query arguments passed to LLMS_Aards_Query.
 		 */
 		$args = apply_filters(
-			'llms_data_processor_course_data_student_query_args',
+			'llms_processor_sync_awarded_certificates_query_args',
 			array(
 				'templates' => $certificate_template_id,
 				'per_page'  => 20,
@@ -134,55 +134,47 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			)
 		);
 
-		$args = array( $certificate_template_id );
 		$this->clear_notices( $certificate_template_id );
 
+		// Action already scheduled?
+		$log_message = 'awarded certificates bulk sync already scheduled for the certificate template %1$s (#%2$d)';
+		// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
+		$notice_message = __( 'Awarded certificates sync already scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' );
+		$notice_id      = 'awarded-certificates-sync-%1$d-already-scheduled';
+
+		$args = array( $certificate_template_id );
 		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
 			wp_schedule_single_event( time(), $this->schedule_hook, $args );
-			$this->log(
-				sprintf(
-					'awarded certificates bulk sync scheduled for the certificate template %1$s (#%2$d)',
-					get_the_title( $certificate_template_id ),
-					$certificate_template_id
-				)
-			);
-
-			LLMS_Admin_Notices::add_notice(
-				sprintf( 'awarded-certificates-sync-%1$d-scheduled', $certificate_template_id ),
-				sprintf(
-					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
-					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
-					get_the_title( $certificate_template_id ),
-					$certificate_template_id,
-					'</a>'
-				),
-				array(
-					'dismissible'      => true,
-					'dismiss_for_days' => 0,
-				)
-			);
-
-		} else {
-
-			LLMS_Admin_Notices::add_notice(
-				sprintf( 'awarded-certificates-sync-%1$d-already-scheduled', $certificate_template_id ),
-				sprintf(
-					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
-					__( 'Awarded certificates sync already scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
-					get_the_title( $certificate_template_id ),
-					$certificate_template_id,
-					'</a>'
-				),
-				array(
-					'dismissible'      => true,
-					'dismiss_for_days' => 0,
-				)
-			);
+			$log_message = 'awarded certificates bulk sync scheduled for the certificate template %1$s (#%2$d)';
+			// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
+			$notice_message = __( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' );
+			$notice_id      = 'awarded-certificates-sync-%1$d-scheduled';
 
 		}
+
+		$this->log(
+			sprintf(
+				$log_message,
+				get_the_title( $certificate_template_id ),
+				$certificate_template_id
+			)
+		);
+
+		LLMS_Admin_Notices::add_notice(
+			sprintf( $notice_id, $certificate_template_id ),
+			sprintf(
+				$notice_message,
+				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
+				get_the_title( $certificate_template_id ),
+				$certificate_template_id,
+				'</a>'
+			),
+			array(
+				'dismissible'      => true,
+				'dismiss_for_days' => 0,
+			)
+		);
 
 	}
 
@@ -236,19 +228,19 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 	 */
 	private function sync_awarded_certificates( $certificates, $template_id ) {
 
+		$success_log_message = 'awarded certificate %1$s (#%2$d) successfully synced with template %3$s (#%4$d)';
+		$error_log_message   = 'an error occurred while trying to sync awarded certificate %1$s (#%2$d) from template %3$s (#%4$d)';
+
 		foreach ( $certificates as $awarded_certificate ) {
-			$sync = $awarded_certificate->sync();
-			if ( is_wp_error( $sync ) ) {
-				$this->log(
-					sprintf(
-						'An error occurred while trying to sync awarded certificate %1$s (#%2$d) from template %3$s (#%4$d)',
-						$awarded_certificate->get( 'title' ),
-						$awarded_certificate->get( 'id' ),
-						get_the_title( $template_id ),
-						$template_id
-					)
-				);
-			}
+			$this->log(
+				sprintf(
+					! is_wp_error( $awarded_certificate->sync() ) ? $success_log_message : $error_log_message,
+					$awarded_certificate->get( 'title', true ),
+					$awarded_certificate->get( 'id' ),
+					get_the_title( $template_id ),
+					$template_id
+				)
+			);
 		}
 
 	}
