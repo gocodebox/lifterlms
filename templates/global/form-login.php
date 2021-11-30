@@ -6,6 +6,7 @@
  *
  * @since 3.0.0
  * @since 5.0.0 Moved setup logic for passed arguments to the function llms_get_login_form().
+ * @since [version] Use `LLMS_Nonce_Registry` for nonce field output.
  * @version 5.0.0
  *
  * @param string $message (Optional) Messages to display before login form.
@@ -48,9 +49,8 @@ defined( 'ABSPATH' ) || exit;
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 
-			<?php wp_nonce_field( 'llms_login_user', '_llms_login_user_nonce' ); ?>
+			<?php LLMS_Nonce_Registry::get_fields( 'login' ); ?>
 			<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ); ?>" />
-			<input type="hidden" name="action" value="llms_login_user" />
 
 			<?php
 				/**

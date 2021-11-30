@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -576,6 +576,32 @@ class LLMS_Form_Field {
 	}
 
 	/**
+	 * Gets the user-submitted value from the last $_POST request
+	 *
+	 * This persists form data on screen when validation issues are encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|string Returns `null` when no data submitted, a nonce error is encountered, or the used nonce is more than 12 hours old,
+	 *                     otherwise returns the user-submitted value as a string.
+	 */
+	protected function get_user_submitted_value() {
+
+		$user_val = null;
+
+		if ( 1 === LLMS_Nonce_Registry::verify_request() ) { // Only use relatively "fresh" nonces here.
+			$posted = wp_unslash( $_POST );
+			if ( isset( $posted[ $this->settings['name'] ] ) ) {
+				$filter_options = is_array( $posted[ $this->settings['name'] ] ) ? FILTER_REQUIRE_ARRAY : array();
+				$user_val       = llms_filter_input( INPUT_POST, $this->settings['name'], FILTER_SANITIZE_STRING, $filter_options );
+			}
+		}
+
+		return $user_val;
+
+	}
+
+	/**
 	 * Determines if the field is a group of checkboxes or radios.
 	 *
 	 * @since 5.0.0
@@ -847,6 +873,7 @@ class LLMS_Form_Field {
 	 * Prepare the field's value.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Move user value lookup from $_POST data to `get_user_submitted_value()`.
 	 *
 	 * @return void
 	 */
@@ -857,7 +884,7 @@ class LLMS_Form_Field {
 			return;
 		}
 
-		$user_val = null;
+		$user_val = $this->get_user_submitted_value();
 
 		// Attempt to populate field data from the most recent $_POST action.
 		if ( 'POST' === strtoupper( getenv( 'REQUEST_METHOD' ) ) ) {
