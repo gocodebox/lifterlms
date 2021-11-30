@@ -49,15 +49,25 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			)
 		);
 
-		$args = array(
-			'templates' => $certificate_template_id,
-			'per_page'  => 20,
-			'page'      => 1,
-			'status'    => array(
-				'publish',
-				'future',
-			),
-			'type'      => 'certificate',
+		/**
+		 * Filter the query arguments used when retrieving the awarded certificates to sync.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $args Query arguments passed to LLMS_Aards_Query.
+		 */
+		$args = apply_filters(
+			'llms_data_processor_course_data_student_query_args',
+			array(
+				'templates' => $certificate_template_id,
+				'per_page'  => 20,
+				'page'      => 1,
+				'status'    => array(
+					'publish',
+					'future',
+				),
+				'type'      => 'certificate',
+			)
 		);
 
 		$query = new LLMS_Awards_Query( $args );
@@ -125,6 +135,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 		);
 
 		$args = array( $certificate_template_id );
+		$this->clear_notices( $certificate_template_id );
 
 		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
@@ -137,13 +148,29 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 				)
 			);
 
-			$this->clear_notices( $certificate_template_id );
-
 			LLMS_Admin_Notices::add_notice(
-				sprintf( 'awarded-certificates-sync-%1$d-started', $certificate_template_id ),
+				sprintf( 'awarded-certificates-sync-%1$d-scheduled', $certificate_template_id ),
 				sprintf(
 					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
 					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
+					get_the_title( $certificate_template_id ),
+					$certificate_template_id,
+					'</a>'
+				),
+				array(
+					'dismissible'      => true,
+					'dismiss_for_days' => 0,
+				)
+			);
+
+		} else {
+
+			LLMS_Admin_Notices::add_notice(
+				sprintf( 'awarded-certificates-sync-%1$d-already-scheduled', $certificate_template_id ),
+				sprintf(
+					// Translators: %1$s Anchor opening tag linking to the certificate template, %2$s Certificate Template name, %3$d Certificate Template ID, %4s Anchor closing tag.
+					__( 'Awarded certificates sync already scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
 					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $certificate_template_id ) ),
 					get_the_title( $certificate_template_id ),
 					$certificate_template_id,
@@ -235,13 +262,17 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 	 * @return void
 	 */
 	private function clear_notices( $certificate_template_id ) {
+		$notices = array(
+			'awarded-certificates-sync-%1$d-scheduled',
+			'awarded-certificates-sync-%1$d-already-scheduled',
+			'awarded-certificates-sync-%1$d-done',
+		);
 
-		LLMS_Admin_Notices::delete_notice(
-			sprintf( 'awarded-certificates-sync-%1$d-started', $certificate_template_id )
-		);
-		LLMS_Admin_Notices::delete_notice(
-			sprintf( 'awarded-certificates-sync-%1$d-done', $certificate_template_id )
-		);
+		foreach ( $notices as $notice ) {
+			LLMS_Admin_Notices::delete_notice(
+				sprintf( $notice, $certificate_template_id )
+			);
+		}
 
 	}
 
@@ -263,9 +294,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 			)
 		);
 
-		LLMS_Admin_Notices::delete_notice(
-			sprintf( 'awarded-certificates-sync-%1$d-started', $args['query_args']['templates'] )
-		);
+		$this->clear_notices( $args['query_args']['templates'] );
 
 		LLMS_Admin_Notices::add_notice(
 			sprintf( 'awarded-certificates-sync-%1$d-done', $args['query_args']['templates'] ),
