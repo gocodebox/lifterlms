@@ -1,8 +1,6 @@
 <?php
 /**
- * Admin Post Types.
- *
- * Sets up post type custom messages and includes base metabox class.
+ * LLMS_Admin_Post_Types class.
  *
  * @package LifterLMS/Admin/Classes
  *
@@ -13,19 +11,27 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Post_Types class
+ * Admin Post Types.
+ *
+ * Sets up post type custom messages and includes base metabox class.
  *
  * @since Unknown
- * @version 3.35.0 Fix l10n calls.
  */
 class LLMS_Admin_Post_Types {
 
 	/**
 	 * Constructor
 	 *
-	 * Adds functions to actions and sets filter on post_updated_messages
+	 * Adds functions to actions and sets filter on post_updated_messages.
+	 *
+	 * @since Unknown
+	 * @since [version] Disable the block editor for legacy certificates.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
+
+		add_action( 'use_block_editor_for_post', array( $this, 'use_block_editor_for_post' ), 20, 2 );
 
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
 
@@ -44,6 +50,25 @@ class LLMS_Admin_Post_Types {
 	 */
 	public function include_post_type_metabox_class() {
 		include 'post-types/class.llms.meta.boxes.php';
+	}
+
+	/**
+	 * Disables the block editor for legacy certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $use_block_editor Whether or not to use the block editor.
+	 * @param WP_Post $post             Post object.
+	 * @return boolean
+	 */
+	public function use_block_editor_for_post( $use_block_editor, $post ) {
+		$cert = llms_get_certificate( $post, true );
+		if ( $cert && 1 === $cert->get_template_version() ) {
+			$use_block_editor = false;
+		}
+
+		return $use_block_editor;
+
 	}
 
 	/**
