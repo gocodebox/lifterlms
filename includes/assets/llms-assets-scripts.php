@@ -64,6 +64,11 @@ return array(
 		'asset_file' => true,
 	),
 
+	// Modules.
+	'llms-components' => array(
+		'asset_file' => true,
+	),
+
 	// Vendor.
 	'llms-iziModal'           => array(
 		'file_name' => 'iziModal',
