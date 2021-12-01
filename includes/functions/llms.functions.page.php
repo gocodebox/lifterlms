@@ -97,7 +97,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	 * the current requested URL.
 	 */
 	if ( ! $permalink && ! empty( $_SERVER['REQUEST_URI'] ) ) {
-		$permalink         = filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL );
+		$permalink         = home_url( filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL ) );
 		$is_base_permalink = false;
 	}
 
@@ -157,29 +157,29 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
  * @since [version]
  * @access private
  *
- * @param string $permalink URL to extract the Base URL, to append the endpoint to, from.
+ * @param string $url       URL to extract the Base URL, to append the endpoint to, from.
  * @param string $endpoint  Slug of the endpoint, eg "my-courses".
  * @return string
  */
-function _llms_normalize_endpoint_base_url( $permalink, $endpoint ) {
+function _llms_normalize_endpoint_base_url( $url, $endpoint ) {
 
-	$permalink = untrailingslashit( $permalink );
+	$_url = untrailingslashit( $url );
 
 	// Remove pagination.
 	global $wp_rewrite;
 	$page       = llms_get_paged_query_var();
 	$pagination = '/' . $wp_rewrite->pagination_base . '/' . $page;
 
-	if ( $page > 1 && substr( $permalink, -1 * strlen( $pagination ) ) === $pagination ) { // PHP8: str_ends_with(string $haystack, string $needle).
-		$permalink = substr( $permalink, 0, -1 * strlen( $pagination ) );
+	if ( $page > 1 && substr( $_url, -1 * strlen( $pagination ) ) === $pagination ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$_url = substr( $_url, 0, -1 * strlen( $pagination ) );
 	}
 
 	// Remove the endpoint slug from the URL if it's its last part.
-	if ( substr( $permalink, -1 * strlen( $endpoint ) ) === $endpoint ) { // PHP8: str_ends_with(string $haystack, string $needle).
-		$permalink = substr( $permalink, 0, -1 * strlen( $endpoint ) );
+	if ( substr( $_url, -1 * strlen( $endpoint ) ) === $endpoint ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$url = substr( $_url, 0, -1 * strlen( $endpoint ) );
 	}
 
-	return $permalink;
+	return $url;
 
 }
 
