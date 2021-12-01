@@ -18,7 +18,7 @@ $image = llms_get_certificate_image();
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
 	<img src="<?php echo $image['src']; ?>" style="margin-bottom:-<?php echo $image['height']; ?>px;" alt="<?php esc_html_e( 'Certificate Background', 'lifterlms' ); ?>" class="certificate-background">
-	<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<div id="certificate-<?php echo $certificate->get( 'id' ); ?>" <?php post_class(); ?>>
 
 		<div class="llms-summary">
 

@@ -13,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 ?>
-<div id="certificate-<?php the_ID(); ?>" <?php post_class( array( 'llms-certificate-container', 'cert-template-v2' ) ); ?>>
+<div id="certificate-<?php echo $certificate->get( 'id' ); ?>" <?php post_class( array( 'llms-certificate-container', 'cert-template-v2' ) ); ?>>
 
 	<?php llms_print_notices(); ?>
 

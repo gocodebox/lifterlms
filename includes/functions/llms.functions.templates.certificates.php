@@ -11,6 +11,77 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Loads the certificate content template.
+ *
+ * @since [version]
+ *
+ * @param LLMS_User_Certificate $certificate Certificate object.
+ * @return void
+ */
+function llms_certificate_content( $certificate ) {
+	$template = 1 === $certificate->get_template_version() ? 'content-legacy' : 'content';
+	llms_get_template(
+		"certificates/{$template}.php",
+		compact( 'certificate' )
+	);
+}
+
+/**
+ * Outputs dynamic CSS for a single certificate template.
+ *
+ * Hooked to action `wp_head` at priority 10.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function llms_certificate_styles() {
+
+	$certificate = llms_get_certificate( get_the_ID(), true );
+	if ( ! $certificate || 1 === $certificate->get_template_version() ) {
+		return;
+	}
+
+	$image          = $certificate->get_background_image();
+	$background_img = $image['src'];
+
+	$background_color = $certificate->get( 'background' );
+
+	$padding = implode( ' ', $certificate->get_margins( true ) );
+
+	$dimensions = $certificate->get_dimensions_for_display();
+	$width      = $dimensions['width'];
+	$height     = $dimensions['height'];
+
+	llms_get_template(
+		'certificates/dynamic-styles.php',
+		compact( 'certificate', 'width', 'height', 'background_color', 'background_img', 'padding' )
+	);
+}
+
+/**
+ * Loads the certificate actions template.
+ *
+ * @since [version]
+ *
+ * @param LLMS_User_Certificate $certificate Certificate object.
+ * @return void
+ */
+function llms_certificate_actions( $certificate ) {
+
+	if ( ! $certificate->can_user_manage() ) {
+		return;
+	}
+
+	$is_sharing_enabled = $certificate->is_sharing_enabled();
+	llms_get_template(
+		'certificates/actions.php',
+		compact( 'certificate', 'is_sharing_enabled' )
+	);
+
+}
+
+/**
  * Get the content of a single certificates
  *
  * @since 3.14.0
@@ -52,6 +123,13 @@ function llms_the_certificate_preview( $certificate ) {
  * @return int
  */
 function llms_get_certificates_loop_columns() {
+	/**
+	 * Filters the number of columns used to display a list of certificate previews.
+	 *
+	 * @since 3.14.0
+	 *
+	 * @param integer $cols Number of columns.
+	 */
 	return apply_filters( 'llms_certificates_loop_columns', 5 );
 }
 

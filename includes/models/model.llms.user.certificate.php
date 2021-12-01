@@ -123,6 +123,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Can user manage and make some actions on the certificate
 	 *
 	 * @since 4.5.0
+	 * @since [version] Prevent logged out users from managing certificates not assigned to a user.
 	 *
 	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
 	 * @return bool
@@ -130,7 +131,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	public function can_user_manage( $user_id = null ) {
 
 		$user_id = $user_id ? $user_id : get_current_user_id();
-		$result  = ( $user_id === $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) );
+		$result  = ( $user_id && ( $user_id === $this->get_user_id() || llms_can_user_bypass_restrictions( $user_id ) ) );
 
 		/**
 		 * Filter whether or not a user can manage a given certificate.
@@ -295,6 +296,37 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return $with_unit ? sprintf( '%1$s%2$s', $ret, $this->get_unit() ) : $ret;
+
+	}
+
+	/**
+	 * Retrieve dimensions adjusted for orientation.
+	 *
+	 * The width and height are always stored as if the certificate were to be displayed in portrait
+	 * mode. This method will return the dimensions as necessary to use in styling rules.
+	 *
+	 * When the certificate is displaying in landscape the width and height are transposed
+	 * automatically by this method.
+	 *
+	 * @since [version]
+	 *
+	 * @return {
+	 *     Array of dimensions.
+	 *
+	 *     @type string $width  The display width (with units).
+	 *     @type string $height The display height (with units).
+	 * }
+	 */
+	public function get_dimensions_for_display() {
+
+		$orientation = $this->get_orientation();
+		$width       = $this->get_width( true );
+		$height      = $this->get_height( true );
+
+		return array(
+			'width'  => 'portrait' === $orientation ? $width : $height,
+			'height' => 'portrait' === $orientation ? $height : $width,
+		);
 
 	}
 
@@ -497,31 +529,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	public function get_size() {
 		return $this->get( 'size' );
-	}
-
-	/**
-	 * Retrieves an array of CSS rules used to generate dynamic CSS rules for the certificate.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	public function get_style_object() {
-
-		$orientation    = $this->get_orientation();
-		$width          = $this->get_width( true );
-		$height         = $this->get_height( true );
-		$display_width  = 'portrait' === $orientation ? $width : $height;
-		$display_height = 'portrait' === $orientation ? $height : $width;
-		$image          = $this->get_background_image();
-
-		return array(
-			'background-image' => "url( {$image['src']} )",
-			'height'           => $display_height,
-			'padding'          => implode( ' ', $this->get_margins( true ) ),
-			'width'            => $display_width,
-		);
-
 	}
 
 	/**

@@ -244,6 +244,29 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_dimensions_for_display()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_dimensions_for_display() {
+
+		$this->create();
+
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '8.5in', $dimensions['height'] );
+		$this->assertEquals( '11in', $dimensions['width'] );
+
+		// Flip orientation.
+		$this->obj->set( 'orientation', 'portrait' );
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '11in', $dimensions['height'] );
+		$this->assertEquals( '8.5in', $dimensions['width'] );
+
+	}
+
+	/**
 	 * Test get_margins()
 	 *
 	 * @since [version]
@@ -349,31 +372,6 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$this->obj->set( 'size', 'A3' );
 		$this->assertEquals( 'A3', $this->obj->get_size() );
-
-	}
-
-	/**
-	 * Test get_style_object()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_style_object() {
-
-		$this->create();
-
-		$styles = $this->obj->get_style_object();
-		$this->assertStringContainsString( 'default-certificate.png', $styles['background-image'] );
-		$this->assertEquals( '8.5in', $styles['height'] );
-		$this->assertEquals( '11in', $styles['width'] );
-		$this->assertEquals( '0.75in 0.75in 0.75in 0.75in', $styles['padding'] );
-
-		// Flip orientation.
-		$this->obj->set( 'orientation', 'portrait' );
-		$styles = $this->obj->get_style_object();
-		$this->assertEquals( '11in', $styles['height'] );
-		$this->assertEquals( '8.5in', $styles['width'] );
 
 	}
 
