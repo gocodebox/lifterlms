@@ -3,7 +3,7 @@ import { registerPlugin } from '@wordpress/plugins';
 
 // Internal deps.
 import './editor';
-import CertificateDocumentSettings from  './document-settings';
+import CertificateDocumentSettings from './document-settings';
 
 /**
  * Register the document settings plugin with the block editor.

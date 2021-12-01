@@ -11,13 +11,11 @@ import { store as editorStore } from '@wordpress/editor';
  * @return {Object} The featured image object or an empty object if no featured image is set.
  */
 function getFeaturedMedia() {
-
 	const { getEditedPostAttribute } = select( editorStore ),
 		{ getMedia } = select( coreStore ),
 		imageId = getEditedPostAttribute( 'featured_media' );
 
 	return imageId ? getMedia( imageId ) : {};
-
 }
 
 /**
@@ -31,7 +29,6 @@ function getFeaturedMedia() {
  * @return {string} The background image source url.
  */
 function getBackgroundImage() {
-
 	const mediaRes = getFeaturedMedia(),
 		{ default_image: defaultSrc } = window.llms.certificates;
 
@@ -57,7 +54,6 @@ function getBackgroundImage() {
  * @return {void}
  */
 function applyBlockVisualFixes() {
-
 	const style = document.createElement( 'style' );
 	style.type = 'text/css';
 	// Force editor style to show blocks as full width.
@@ -65,7 +61,6 @@ function applyBlockVisualFixes() {
 	// Force editor block spacing to more closely resemble rendering on the frontend.
 	style.appendChild( document.createTextNode( '.editor-styles-wrapper [data-block], .wp-block { margin-top: 0 !important; margin-bottom: 0 !important }' ) );
 	document.head.appendChild( style );
-
 }
 
 /**
@@ -78,7 +73,6 @@ function applyBlockVisualFixes() {
  * @return {void}
  */
 function updateDOM() {
-
 	const { getEditedPostAttribute } = select( editorStore ),
 		bg = getEditedPostAttribute( 'certificate_background' ),
 		margins = getEditedPostAttribute( 'certificate_margins' ),
@@ -90,33 +84,29 @@ function updateDOM() {
 
 	const list = document.querySelector( '.block-editor-block-list__layout.is-root-container' );
 	if ( list ) {
-
 		const displayWidth = 'portrait' === orientation ? width : height,
-			displayHeight  = 'portrait' === orientation ? height : width,
-			padding        = margins.map( ( margin ) => `${ margin }${ unit }` ).join( ' ' );
+			displayHeight = 'portrait' === orientation ? height : width,
+			padding = margins.map( ( margin ) => `${ margin }${ unit }` ).join( ' ' );
 
-		list.style.backgroundImage  = `url( '${ getBackgroundImage() }' )`;
-		list.style.backgroundSize   = `${ displayWidth }${ unit } ${ displayHeight }${ unit }`;
+		list.style.backgroundImage = `url( '${ getBackgroundImage() }' )`;
+		list.style.backgroundSize = `${ displayWidth }${ unit } ${ displayHeight }${ unit }`;
 		list.style.backgroundRepeat = 'no-repeat';
-		list.style.marginLeft       = 'auto';
-		list.style.marginRight      = 'auto';
-		list.style.padding          = padding;
-		list.style.width            = `${ displayWidth }${ unit }`;
-		list.style.minHeight        = `${ displayHeight }${ unit }`;
-		list.style.boxSizing        = 'border-box';
+		list.style.marginLeft = 'auto';
+		list.style.marginRight = 'auto';
+		list.style.padding = padding;
+		list.style.width = `${ displayWidth }${ unit }`;
+		list.style.minHeight = `${ displayHeight }${ unit }`;
+		list.style.boxSizing = 'border-box';
 	}
 
 	const styles = document.querySelector( '.editor-styles-wrapper' );
 	if ( styles ) {
 		styles.style.backgroundColor = bg;
 	}
-
 }
 
 domReady( () => {
-
 	applyBlockVisualFixes();
 
 	subscribe( updateDOM );
-
 } );

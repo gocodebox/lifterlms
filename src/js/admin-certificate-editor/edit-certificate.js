@@ -13,6 +13,6 @@ import { store as editorStore } from '@wordpress/editor';
 export default function editCertificate( key, val ) {
 	const { editPost } = dispatch( editorStore ),
 		edits = {};
-	edits[`certificate_${ key }`] = val;
+	edits[ `certificate_${ key }` ] = val;
 	editPost( edits );
 }

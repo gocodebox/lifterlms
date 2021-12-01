@@ -21,7 +21,6 @@ import editCertificate from '../edit-certificate';
  * @return {Object[]} Array of color palette objects.
  */
 function getPalette() {
-
 	let palette = useSetting( 'color.palette' );
 
 	// Use default LifterLMS colors if there's none specified by the theme.
@@ -30,15 +29,12 @@ function getPalette() {
 	}
 
 	return palette.map( ( item ) => {
-
 		const { color } = item;
 		return {
 			...item,
 			color: color.startsWith( '#' ) ? color.toLowerCase() : color,
 		};
-
 	} );
-
 }
 
 /**
@@ -46,12 +42,11 @@ function getPalette() {
  *
  * @since [version]
  *
- * @param {Object}   args                 Function arguments object.
- * @param {string}   args.background      Value of the background color.
+ * @param {Object} args            Function arguments object.
+ * @param {string} args.background Value of the background color.
  * @return BaseControl The background control component.
  */
 export default function BackgroundControl( { background } ) {
-
 	const [ color, setColor ] = useState( background );
 	return (
 		<BaseControl
@@ -69,5 +64,4 @@ export default function BackgroundControl( { background } ) {
 			/>
 		</BaseControl>
 	);
-
 }

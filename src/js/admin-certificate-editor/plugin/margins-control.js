@@ -13,7 +13,6 @@ import editCertificate from '../edit-certificate';
  * @return {string} Margin description.
  */
 function getDesc( index ) {
-
 	const vals = [
 		__( 'Top', 'lifterlms' ),
 		__( 'Right', 'lifterlms' ),
@@ -22,7 +21,6 @@ function getDesc( index ) {
 	];
 
 	return vals[ index ];
-
 }
 
 /**
@@ -36,7 +34,6 @@ function getDesc( index ) {
  * @param {Function} args.editMargins Function used to update the margins.
  */
 function MarginControl( { margin, index, editMargins } ) {
-
 	const [ currMargin, setMargin ] = useState( margin );
 
 	return (
@@ -44,12 +41,13 @@ function MarginControl( { margin, index, editMargins } ) {
 			<TextControl
 				value={ currMargin }
 				type="number"
-				onChange={ ( val ) => { editMargins( val, index, setMargin ) } }
+				onChange={ ( val ) => {
+					editMargins( val, index, setMargin );
+				} }
 			/>
 			<em style={ { display: 'block', marginTop: '-8px' } }>{ getDesc( index ) }</em>
 		</div>
 	);
-
 }
 
 /**
@@ -57,21 +55,18 @@ function MarginControl( { margin, index, editMargins } ) {
  *
  * @since [version]
  *
- * @param {Object}   args                 Function arguments object.
- * @param {number[]} args.margins         Array of numbers representing the certificate's margins.
- * @param {string}   args.unit            Unit used for the configured margins.
+ * @param {Object}   args         Function arguments object.
+ * @param {number[]} args.margins Array of numbers representing the certificate's margins.
+ * @param {string}   args.unit    Unit used for the configured margins.
  * @return BaseControl The background control component.
  */
 export default function MarginsControl( { margins, unit } ) {
-
 	const editMargins = ( val, index, setState ) => {
-
 		const newMargins = [ ...margins ];
 		newMargins[ index ] = val;
 
 		setState( val );
-		editCertificate( 'margins', newMargins )
-
+		editCertificate( 'margins', newMargins );
 	};
 
 	const [ currentMargins, setMargins ] = useState( margins );
@@ -85,5 +80,4 @@ export default function MarginsControl( { margins, unit } ) {
 			</div>
 		</BaseControl>
 	);
-
 }

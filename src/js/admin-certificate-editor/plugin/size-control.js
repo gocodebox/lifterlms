@@ -4,12 +4,13 @@ import { useState } from '@wordpress/element';
 
 import editCertificate from '../edit-certificate';
 
+
 function formatSizeLabel( { name, width, height, unit } ) {
 	return sprintf( '%1$s (%2$s%4$s x %3$s%4$s)', name, width, height, unit );
 }
 
-function CustomSizeControl( { width, height, unit } ) {
 
+function CustomSizeControl( { width, height, unit } ) {
 	const [ currWidth, setWidth ] = useState( width ),
 		[ currHeight, setHeight ] = useState( height ),
 		[ currUnit, setUnit ] = useState( unit );
@@ -59,11 +60,10 @@ function CustomSizeControl( { width, height, unit } ) {
 			</div>
 		</div>
 	);
-
 }
 
-export default function SizeControl( { size: selected, width, height, unit } ) {
 
+export default function SizeControl( { size: selected, width, height, unit } ) {
 	const { sizes } = window.llms.certificates,
 		options = Object.entries( sizes ).map( ( [ value, sizeData ] ) => ( { value, label: formatSizeLabel( sizeData ) } ) ),
 		[ size, setSize ] = useState( selected );
@@ -97,5 +97,4 @@ export default function SizeControl( { size: selected, width, height, unit } ) {
 
 		</>
 	);
-
 }

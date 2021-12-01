@@ -9,11 +9,10 @@ import editCertificate from '../edit-certificate';
  *
  * @since [version]
  *
- * @param {Object}   args                 Component arguments.
- * @param {string}   args.orientation     Currently selected orientation value.
+ * @param {Object} args             Component arguments.
+ * @param {string} args.orientation Currently selected orientation value.
  */
 export default function OrientationControl( { orientation } ) {
-
 	const { orientations } = window.llms.certificates,
 		options = Object.entries( orientations ).map( ( [ value, label ] ) => ( { value, label } ) );
 

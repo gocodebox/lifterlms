@@ -24,7 +24,6 @@ import SizeControl from './plugin/size-control';
  * @param {number}   args.width       Current width setting.
  */
 function CertificateDocumentSettings( { background, height, margins, orientation, size, unit, width } ) {
-
 	return (
 
 		<PluginDocumentSettingPanel
@@ -34,7 +33,7 @@ function CertificateDocumentSettings( { background, height, margins, orientation
 			opened={ true }
 		>
 
-			<SizeControl { ...{ size, width, height, unit }} />
+			<SizeControl { ...{ size, width, height, unit } } />
 			<br />
 			<OrientationControl { ...{ orientation } } />
 			<br />
@@ -45,11 +44,9 @@ function CertificateDocumentSettings( { background, height, margins, orientation
 		</PluginDocumentSettingPanel>
 
 	);
-
 }
 
 const applyWithSelect = withSelect( ( select ) => {
-
 	const { getEditedPostAttribute } = select( editorStore );
 
 	return {
