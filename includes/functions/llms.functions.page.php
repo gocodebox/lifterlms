@@ -1,6 +1,6 @@
 <?php
 /**
- * Page functions
+ * Page functions.
  *
  * @package LifterLMS/Functions
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get url for when user cancels payment
+ * Get url for when user cancels payment.
  *
  * @since 1.0.0
  *
@@ -25,7 +25,7 @@ function llms_cancel_payment_url() {
 }
 
 /**
- * Get url for redirect when user confirms payment
+ * Get url for redirect when user confirms payment.
  *
  * @since 1.0.0
  * @since 3.38.0 Added redirect query string parameter.
@@ -52,7 +52,7 @@ function llms_confirm_payment_url( $order_key = null ) {
 	}
 
 	/**
-	 * Filter the checkout confirmation URL
+	 * Filter the checkout confirmation URL.
 	 *
 	 * @since 1.0.0
 	 *
@@ -63,7 +63,7 @@ function llms_confirm_payment_url( $order_key = null ) {
 }
 
 /**
- * Retrieve the full URL to a LifterLMS endpoint
+ * Retrieve the full URL to a LifterLMS endpoint.
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
@@ -83,8 +83,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
 	/**
-	 * In our dashboard endpoints, get_permalink() always returns
-	 * the dashboard page permalink:
+	 * In our dashboard endpoints, get_permalink() always returns the dashboard page permalink:
 	 * something like https://example.com/dashboard/
 	 * which is the base URL to append the endpoint to.
 	 */
@@ -92,7 +91,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	$is_base_permalink = true;
 
 	/**
-	 * No permalink permalink available, e.g. in BuddyBress profile endpoint.
+	 * No permalink available, e.g. in BuddyBress profile endpoint.
 	 *
 	 * We need to get the base URL to append the endpoint to, starting from
 	 * the current requested URL.
@@ -168,7 +167,6 @@ function _llms_normalize_endpoint_base_url( $permalink, $endpoint ) {
 
 	// Remove pagination.
 	global $wp_rewrite;
-
 	$page       = llms_get_paged_query_var();
 	$pagination = '/' . $wp_rewrite->pagination_base . '/' . $page;
 
@@ -182,10 +180,11 @@ function _llms_normalize_endpoint_base_url( $permalink, $endpoint ) {
 	}
 
 	return $permalink;
+
 }
 
 /**
- * Retrieve the WordPress Page ID of a LifterLMS Core Page
+ * Retrieve the WordPress Page ID of a LifterLMS Core Page.
  *
  * Available core pages are:
  * + checkout (formerly "shop")
@@ -208,7 +207,7 @@ function llms_get_page_id( $page ) {
 	$id = get_option( 'lifterlms_' . $page . '_page_id' );
 
 	/**
-	 * Filter the ID of the requested LifterLMS Page
+	 * Filter the ID of the requested LifterLMS Page.
 	 *
 	 * The dynamic portion of this filter, {$page}, refers to the LifterLMS page slug/name.
 	 *
@@ -227,7 +226,8 @@ function llms_get_page_id( $page ) {
 
 
 /**
- * Retrieve the URL for a LifterLMS Page
+ * Retrieve the URL for a LifterLMS Page.
+ *
  * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
  *
  * @since  3.0.0
@@ -243,7 +243,7 @@ function llms_get_page_url( $page, $args = array() ) {
 
 
 /**
- * Returns the url to the lost password endpoint url
+ * Returns the url to the lost password endpoint url.
  *
  * @since Unknown
  *
@@ -269,6 +269,7 @@ add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
  * @return int
  */
 function llms_get_paged_query_var() {
+
 	if ( get_query_var( 'paged' ) ) {
 		$paged = get_query_var( 'paged' );
 	} elseif ( get_query_var( 'page' ) ) {
@@ -277,4 +278,5 @@ function llms_get_paged_query_var() {
 		$paged = 1;
 	}
 	return $paged;
+
 }
