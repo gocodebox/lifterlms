@@ -9,7 +9,7 @@
 
 const generate = require( '@lifterlms/scripts/config/webpack.config' ),
 	config     = generate( {
-		js: [ 'admin-addons', 'admin-certificate-editor' ],
+		js: [ 'admin-addons', 'admin-certificate-editor', 'components' ],
 		css: [ 'admin-addons' ],
 	} );
 
