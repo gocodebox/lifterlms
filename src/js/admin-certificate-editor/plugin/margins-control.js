@@ -1,7 +1,12 @@
+// External dependencies.
+import styled from '@emotion/styled';
+
+// WordPress dependencies.
 import { BaseControl, TextControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
+// Internal dependencies.
 import editCertificate from '../edit-certificate';
 
 /**
@@ -24,6 +29,32 @@ function getDesc( index ) {
 }
 
 /**
+ * Styled Text Control
+ *
+ * @since [version]
+ */
+const StyledTextControl = styled( TextControl )`
+	& .components-base-control__field {
+		position: relative;
+
+		&:hover:after,
+		&:focus-within:after {
+		    right: 25px;
+		}
+
+		&:after {
+			content: '%';
+			font-size: 85%;
+			pointer-events: none;
+			position: absolute;
+			right: 6px;
+			top: 6px;
+			transition: right 0.05s ease-in-out;
+		}
+	}
+`;
+
+/**
  * Single margin control component.
  *
  * @since [version]
@@ -39,14 +70,14 @@ function MarginControl( { margin, index, editMargins } ) {
 
 	return (
 		<div style={ { flex: 1 } }>
-			<TextControl
+			<StyledTextControl
 				value={ currMargin }
 				type="number"
 				onChange={ ( val ) => {
 					editMargins( val, index, setMargin );
 				} }
 			/>
-			<em style={ { display: 'block', marginTop: '-8px' } }>{ getDesc( index ) }</em>
+			<em style={ { display: 'block', marginLeft: '4px', marginTop: '-8px' } }>{ getDesc( index ) }</em>
 		</div>
 	);
 }

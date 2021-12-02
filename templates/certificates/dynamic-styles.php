@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <style type="text/css">
 	html, body {
-		background-color: <?php echo $background_color; ?>;
+		background-color: <?php echo $background_color; ?> !important;
 	}
 	.llms-certificate-container {
 		background-image: <?php echo "url( {$background_img} )"; ?>;
@@ -31,10 +31,6 @@ defined( 'ABSPATH' ) || exit;
 	}
 </style>
 <style type="text/css" media="print">
-	html,body {
-		height: 100%;
-		overflow: hidden;
-	}
 	@page {
 		size: <?php echo $width; ?> <?php echo $height; ?>;
 		margin: 0;
