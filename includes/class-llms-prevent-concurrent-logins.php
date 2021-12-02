@@ -97,11 +97,11 @@ class LLMS_Prevent_Concurrent_Logins {
 	}
 
 	/**
-	 * Maybe prevent current logins by destroying all sessions but the newest.
+	 * Prevent login by destroying all the user's sessions but the newest.
 	 *
 	 * @since [version]
 	 *
-	 * @return int 0 if the kept session is the current one, 1 otherwise.
+	 * @return int 1 if the kept session is the current one, 0 otherwise.
 	 */
 	private function destroy_all_sessions_but_newest() {
 
