@@ -42,7 +42,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	 */
 	private function __construct() {
 
-		if ( get_option( 'lifterlms_prevent_concurrent_logins', false ) &&
+		if ( llms_parse_bool( get_option( 'lifterlms_prevent_concurrent_logins', 'no' ) ) &&
 				! empty( get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) {
 
 			add_action( 'init', array( $this, 'init' ) );
@@ -84,11 +84,6 @@ class LLMS_Prevent_Concurrent_Logins {
 			return false;
 		}
 
-		// Current user doesn't have any restricted role: nothing to do.
-		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
-			return false;
-		}
-
 		/**
 		 * Filters whether or not allowing a specific user to have concurrent sessions.
 		 *
@@ -102,7 +97,7 @@ class LLMS_Prevent_Concurrent_Logins {
 		}
 
 		// Current user doesn't have any restricted role: nothing to do.
-		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
+		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, (array) get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
 			return false;
 		}
 
@@ -119,7 +114,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	 */
 	private function destroy_all_sessions_but_newest() {
 
-		$is_current_session_newest_session = $this->current_user_current_session_login_time() === $this->current_user_current_session_login_time();
+		$is_current_session_newest_session = $this->current_user_newest_session_login_time() === $this->current_user_current_session_login_time();
 
 		$is_current_session_newest_session
 			?
@@ -154,7 +149,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	 *
 	 * @return int
 	 */
-	private function current_user_newest_session_loin_time() {
+	private function current_user_newest_session_login_time() {
 
 		return max( array_column( $this->user_sessions, 'login' ) );
 

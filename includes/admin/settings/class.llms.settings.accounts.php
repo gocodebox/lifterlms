@@ -104,7 +104,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 				array(
 					'default'           => 'no',
-					'desc'              => __( 'This will ensure that two people cannot be logged in to the same account at once.', 'lifterlms' ),
+					'desc'              => __( 'Discourages account sharing by only allowing the most recent session for each user account.', 'lifterlms' ),
 					'id'                => 'lifterlms_prevent_concurrent_logins',
 					'title'             => __( 'Prevent concurrent logins', 'lifterlms' ),
 					'type'              => 'checkbox',
@@ -116,10 +116,10 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				array(
 					'class'             => 'llms-select2',
 					'default'           => array( 'student' ),
-					'desc'              => __( 'Users with the selected roles won\'t be able to be logged in to the same account from different places.', 'lifterlms' ),
+					'desc'              => __( "Users with the selected roles won't be able to be logged in to the same account from different places.", 'lifterlms' ),
 					'id'                => 'lifterlms_prevent_concurrent_logins_roles',
 					'options'           => LLMS_Roles::get_all_role_names(),
-					'title'             => __( 'Prevent concurrent logins to', 'lifterlms' ),
+					'title'             => __( 'Prevent concurrent logins for these roles', 'lifterlms' ),
 					'type'              => 'multiselect',
 					'custom_attributes' => array(
 						'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
