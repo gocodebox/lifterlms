@@ -4,9 +4,11 @@
  *
  * @package LifterLMS/Classes
  *
- * @since   [version]
+ * @since [version]
  * @version [version]
  */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Media_Protector class.
@@ -126,7 +128,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @var string
 	 */
-	protected $additional_upload_path;
+	protected $additional_upload_path = '';
 
 	/**
 	 * A base path for uploaded LifterLMS files.
@@ -138,7 +140,7 @@ class LLMS_Media_Protector {
 	 *
 	 * @var string
 	 */
-	protected $base_upload_path;
+	protected $base_upload_path = '';
 
 	/**
 	 * Set up this class.
@@ -167,7 +169,7 @@ class LLMS_Media_Protector {
 	 * @param string $rules mod_rewrite Rewrite rules formatted for .htaccess.
 	 * @return string
 	 */
-	public function add_mod_xsendfile_directives( string $rules ) {
+	public function add_mod_xsendfile_directives( $rules ): string {
 
 		$directives = <<<'NOWDOC'
 
@@ -208,7 +210,7 @@ NOWDOC;
 	 * @param bool         $icon     Whether the image should be treated as an icon.
 	 * @return array
 	 */
-	public function authorize_media_image_src( array $image, int $media_id, $size, bool $icon ) {
+	public function authorize_media_image_src( $image, $media_id, $size, $icon ) {
 
 		// Is the media file protected?
 		$authorization_filter = get_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, true );
@@ -244,7 +246,7 @@ NOWDOC;
 	 * @param int    $media_id The post ID of the media file.
 	 * @return string
 	 */
-	public function authorize_media_url( string $url, int $media_id ) {
+	public function authorize_media_url( $url, $media_id ): string {
 
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( true === $is_authorized ) {
@@ -270,7 +272,7 @@ NOWDOC;
 	 * @param string $path The path to be formatted.
 	 * @return string An empty string or a path with a leading slash and without a trailing slash.
 	 */
-	protected function format_path( string $path ) {
+	protected function format_path( string $path ): string {
 
 		if ( '' === $path ) {
 			return $path;
@@ -294,7 +296,7 @@ NOWDOC;
 	 *
 	 * @return string
 	 */
-	public function get_additional_upload_path() {
+	public function get_additional_upload_path(): string {
 
 		return $this->additional_upload_path;
 	}
@@ -306,7 +308,7 @@ NOWDOC;
 	 *
 	 * @return string
 	 */
-	public function get_base_upload_path() {
+	public function get_base_upload_path(): string {
 
 		return $this->base_upload_path;
 	}
@@ -319,7 +321,7 @@ NOWDOC;
 	 * @param int $media_id The media post ID.
 	 * @return string
 	 */
-	public function get_media_path( int $media_id ) {
+	public function get_media_path( int $media_id ): string {
 
 		$upload_dir = wp_upload_dir();
 		$file_name  = get_post_meta( $media_id, '_wp_attached_file', true );
@@ -335,7 +337,7 @@ NOWDOC;
 	 * @param int $media_id The media post ID.
 	 * @return string
 	 */
-	public function get_media_url( int $media_id ) {
+	public function get_media_url( int $media_id ): string {
 
 		$upload_dir = wp_upload_dir();
 		$file_name  = get_post_meta( $media_id, '_wp_attached_file', true );
@@ -352,7 +354,7 @@ NOWDOC;
 	 * @param int    $media_id The post ID of the media file.
 	 * @return string
 	 */
-	protected function get_placeholder_url( string $url, int $media_id ) {
+	protected function get_placeholder_url( string $url, int $media_id ): string {
 
 		//@TODO Finish writing this method.
 		$media = get_post( $media_id );
@@ -377,7 +379,7 @@ NOWDOC;
 		 *
 		 * @param int $media_id The post ID of the media file.
 		 */
-		$url = apply_filters( 'llms_not_authorized_placeholder_url', $url, $media_id );
+		$url = (string) apply_filters( 'llms_not_authorized_placeholder_url', $url, $media_id );
 
 		return $url;
 	}
@@ -424,7 +426,7 @@ NOWDOC;
 	 * @param int $media_id The post ID of the media file.
 	 * @return bool|null
 	 */
-	public function is_authorized_to_view( int $user_id, int $media_id ) {
+	public function is_authorized_to_view( int $user_id, int $media_id ): ?bool {
 
 		$authorization = wp_cache_get( $media_id, 'llms_media_authorization', false, $found );
 		if ( $found ) {
@@ -449,6 +451,11 @@ NOWDOC;
 		 */
 		$is_authorized = apply_filters( $authorization_filter, null, $media_id, $user_id );
 
+		// Sanitize value.
+		if ( ! is_bool( $is_authorized ) && ! is_null( $is_authorized ) ) {
+			$is_authorized = (bool) $is_authorized;
+		}
+
 		wp_cache_add( $media_id, $is_authorized, 'llms_media_authorization' );
 
 		return $is_authorized;
@@ -465,7 +472,7 @@ NOWDOC;
 	 * @param string $file_name The file path and name.
 	 * @return void
 	 */
-	protected function read_file( $file_name ) {
+	protected function read_file( string $file_name ): void {
 
 		// @TODO What about the web server time limit?
 		ini_set( 'max_execution_time', '0' );
@@ -489,9 +496,9 @@ NOWDOC;
 	 *
 	 * @since [version]
 	 *
-	 * @return $this
+	 * @return self
 	 */
-	public function register_callbacks() {
+	public function register_callbacks(): self {
 
 		add_filter( 'mod_rewrite_rules', array( $this, 'add_mod_xsendfile_directives' ) );
 
@@ -522,10 +529,11 @@ NOWDOC;
 	 * @since [version]
 	 *
 	 * @param string $file_name The file path and name.
-	 * @param int    $media_id  The post ID of the media file.
+	 * @param int    $media_id  The post ID of the media file. Not used in this implementation, but here for consistency
+	 *                          with the other "serve" methods and may be useful in an overriding this method.
 	 * @return void
 	 */
-	protected function send_file( string $file_name, int $media_id ) {
+	protected function send_file( string $file_name, int $media_id ): void {
 
 		$server_software = $_SERVER['SERVER_SOFTWARE'];
 
@@ -561,7 +569,7 @@ NOWDOC;
 	 * @param int    $media_id  The post ID of the media file.
 	 * @return void
 	 */
-	protected function send_headers( string $file_name, int $media_id ) {
+	protected function send_headers( string $file_name, int $media_id ): void {
 
 		$file_size = @filesize( $file_name ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 		if ( ! $file_size ) {
@@ -584,7 +592,7 @@ NOWDOC;
 	 * @param int $media_id The post ID of the media file.
 	 * @return void
 	 */
-	protected function send_redirect( int $media_id ) {
+	protected function send_redirect( int $media_id ): void {
 
 		$url = $this->get_media_url( $media_id );
 		header( "Location: $url" );
@@ -689,9 +697,9 @@ NOWDOC;
 	 * @since [version]
 	 *
 	 * @param string $additional_upload_path
-	 * @return $this
+	 * @return self
 	 */
-	public function set_additional_upload_path( string $additional_upload_path ) {
+	public function set_additional_upload_path( string $additional_upload_path ): self {
 
 		$this->additional_upload_path = $this->format_path( $additional_upload_path );
 
@@ -704,9 +712,9 @@ NOWDOC;
 	 * @since [version]
 	 *
 	 * @param string $base_upload_path
-	 * @return $this
+	 * @return self
 	 */
-	public function set_base_upload_path( string $base_upload_path ) {
+	public function set_base_upload_path( string $base_upload_path ): self {
 
 		$this->base_upload_path = $this->format_path( $base_upload_path );
 
@@ -722,7 +730,7 @@ NOWDOC;
 	 * @param string $authorization_filter The hook name of the filter that authorizes users to view media files.
 	 * @return bool True on success, false on failure.
 	 */
-	public function unprotect( int $media_id, string $authorization_filter ) {
+	public function unprotect( int $media_id, string $authorization_filter ): bool {
 
 		return delete_post_meta( $media_id, self::AUTHORIZATION_FILTER_KEY, $authorization_filter );
 	}
@@ -744,7 +752,7 @@ NOWDOC;
 	 * }
 	 * @return array
 	 */
-	public function upload_dir( array $uploads ) {
+	public function upload_dir( $uploads ) {
 
 		$uploads['path'] = $uploads['basedir'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
 		$uploads['url']  = $uploads['baseurl'] . $this->base_upload_path . $this->additional_upload_path . $uploads['subdir'];
