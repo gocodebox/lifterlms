@@ -137,7 +137,6 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	}
 
-
 	/**
 	 * Test get_all_role_names() method.
 	 *
