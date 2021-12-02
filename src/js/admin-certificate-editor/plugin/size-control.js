@@ -4,12 +4,35 @@ import { useState } from '@wordpress/element';
 
 import editCertificate from '../edit-certificate';
 
-
+/**
+ * Format the label for a size in the SizeControl.
+ *
+ * @since [version]
+ *
+ * @param {Object} args        Component args.
+ * @param {string} args.name   Name of the size.
+ * @param {number} args.width  Size width.
+ * @param {number} args.height Size height.
+ * @param {string} args.unit   Size unit ID.
+ * @return {string} Label for the size.
+ */
 function formatSizeLabel( { name, width, height, unit } ) {
-	return sprintf( '%1$s (%2$s%4$s x %3$s%4$s)', name, width, height, unit );
+	const { units } = window.llms.certificates,
+		{ symbol } = units[ unit ] || {};
+	return sprintf( '%1$s (%2$s%4$s x %3$s%4$s)', name, width, height, symbol );
 }
 
-
+/**
+ * Control component group for defining a custom size.
+ *
+ * @since [version]
+ *
+ * @param {Object} args        Component args.
+ * @param {number} args.width  Current width.
+ * @param {number} args.height Current height.
+ * @param {string} args.unit   Current unit ID.
+ * @return {WPElement} The component.
+ */
 function CustomSizeControl( { width, height, unit } ) {
 	const [ currWidth, setWidth ] = useState( width ),
 		[ currHeight, setHeight ] = useState( height ),
@@ -62,7 +85,18 @@ function CustomSizeControl( { width, height, unit } ) {
 	);
 }
 
-
+/**
+ * Size control selector.
+ *
+ * @since [version]
+ *
+ * @param {Object} args        Component args.
+ * @param {string} args.size   Selected size ID.
+ * @param {number} args.width  Current width.
+ * @param {number} args.height Current height.
+ * @param {string} args.unit   Current unit.
+ * @return {WPElement} Component.
+ */
 export default function SizeControl( { size: selected, width, height, unit } ) {
 	const { sizes } = window.llms.certificates,
 		options = Object.entries( sizes ).map( ( [ value, sizeData ] ) => ( { value, label: formatSizeLabel( sizeData ) } ) ),

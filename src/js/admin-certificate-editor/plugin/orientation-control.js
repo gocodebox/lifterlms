@@ -11,6 +11,7 @@ import editCertificate from '../edit-certificate';
  *
  * @param {Object} args             Component arguments.
  * @param {string} args.orientation Currently selected orientation value.
+ * @return {ButtonGroupControl} Control component.
  */
 export default function OrientationControl( { orientation } ) {
 	const { orientations } = window.llms.certificates,

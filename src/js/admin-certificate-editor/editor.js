@@ -76,7 +76,6 @@ function updateDOM() {
 	const { getEditedPostAttribute } = select( editorStore ),
 		bg = getEditedPostAttribute( 'certificate_background' ),
 		margins = getEditedPostAttribute( 'certificate_margins' ),
-		size = getEditedPostAttribute( 'certificate_size' ),
 		width = getEditedPostAttribute( 'certificate_width' ),
 		height = getEditedPostAttribute( 'certificate_height' ),
 		unit = getEditedPostAttribute( 'certificate_unit' ),
@@ -86,7 +85,7 @@ function updateDOM() {
 	if ( list ) {
 		const displayWidth = 'portrait' === orientation ? width : height,
 			displayHeight = 'portrait' === orientation ? height : width,
-			padding = margins.map( ( margin ) => `${ margin }${ unit }` ).join( ' ' );
+			padding = margins.map( ( margin ) => `${ margin }%` ).join( ' ' );
 
 		list.style.backgroundImage = `url( '${ getBackgroundImage() }' )`;
 		list.style.backgroundSize = `${ displayWidth }${ unit } ${ displayHeight }${ unit }`;

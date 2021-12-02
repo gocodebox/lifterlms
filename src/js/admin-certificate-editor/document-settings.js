@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { compose } from '@wordpress/compose';
-import { select, withSelect } from '@wordpress/data';
+import { withSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { store as editorStore } from '@wordpress/editor';
 
@@ -22,6 +22,7 @@ import SizeControl from './plugin/size-control';
  * @param {string}   args.size        Current size setting.
  * @param {string}   args.unit        Current unit setting.
  * @param {number}   args.width       Current width setting.
+ * @return {PluginDocumentSettingPanel} The component.
  */
 function CertificateDocumentSettings( { background, height, margins, orientation, size, unit, width } ) {
 	return (

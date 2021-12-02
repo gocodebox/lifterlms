@@ -20,7 +20,7 @@ import editCertificate from '../edit-certificate';
  *
  * @return {Object[]} Array of color palette objects.
  */
-function getPalette() {
+function usePalette() {
 	let palette = useSetting( 'color.palette' );
 
 	// Use default LifterLMS colors if there's none specified by the theme.
@@ -44,7 +44,7 @@ function getPalette() {
  *
  * @param {Object} args            Function arguments object.
  * @param {string} args.background Value of the background color.
- * @return BaseControl The background control component.
+ * @return {BaseControl} The background control component.
  */
 export default function BackgroundControl( { background } ) {
 	const [ color, setColor ] = useState( background );
@@ -54,7 +54,7 @@ export default function BackgroundControl( { background } ) {
 			id="llms-certificate-background-color-control"
 		>
 			<ColorPalette
-				colors={ getPalette() }
+				colors={ usePalette() }
 				onChange={ ( val ) => {
 					setColor( val );
 					editCertificate( 'background', val );

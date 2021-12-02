@@ -9,7 +9,7 @@ import editCertificate from '../edit-certificate';
  *
  * @since [version]
  *
- * @param {integer} index Index of the margin.
+ * @param {number} index Index of the margin.
  * @return {string} Margin description.
  */
 function getDesc( index ) {
@@ -30,8 +30,9 @@ function getDesc( index ) {
  *
  * @param {Object}   args             Component arguments.
  * @param {number}   args.margin      Current value of the margin.
- * @param {integer}  args.index       Index of the margin.
+ * @param {number}   args.index       Index of the margin.
  * @param {Function} args.editMargins Function used to update the margins.
+ * @return {WPElement} Component.
  */
 function MarginControl( { margin, index, editMargins } ) {
 	const [ currMargin, setMargin ] = useState( margin );
@@ -58,7 +59,7 @@ function MarginControl( { margin, index, editMargins } ) {
  * @param {Object}   args         Function arguments object.
  * @param {number[]} args.margins Array of numbers representing the certificate's margins.
  * @param {string}   args.unit    Unit used for the configured margins.
- * @return BaseControl The background control component.
+ * @return {BaseControl} The background control component.
  */
 export default function MarginsControl( { margins, unit } ) {
 	const editMargins = ( val, index, setState ) => {
@@ -69,14 +70,16 @@ export default function MarginsControl( { margins, unit } ) {
 		editCertificate( 'margins', newMargins );
 	};
 
-	const [ currentMargins, setMargins ] = useState( margins );
+	const { name: unitName } = window.llms.certificates.units[ unit ] || { name: '' };
+
 	return (
 		<BaseControl
-			label={ sprintf( __( 'Margins', 'lifterlms' ) ) }
+			// Translators: %s = unit name, eg: inches.
+			label={ sprintf( __( 'Margins (%s)', 'lifterlms' ), unitName ) }
 			id="llms-certificate-margins-control"
 		>
 			<div style={ { display: 'flex' } }>
-				{ margins.map( ( margin, index ) => ( <MarginControl { ...{ margin, index, editMargins, key: index } } /> ) ) }
+				{ margins.map( ( margin, index ) => ( <MarginControl key={ index } { ...{ margin, index, editMargins } } /> ) ) }
 			</div>
 		</BaseControl>
 	);

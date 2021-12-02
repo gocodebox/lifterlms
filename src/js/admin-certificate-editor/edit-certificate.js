@@ -7,7 +7,7 @@ import { store as editorStore } from '@wordpress/editor';
  * @since [version]
  *
  * @param {string} key Unprefixed field key. For example, to edit "certificate_size", pass "size".
- * @param {mixed}  val Field value.
+ * @param {*}      val Field value.
  * @return {void}
  */
 export default function editCertificate( key, val ) {
