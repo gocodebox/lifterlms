@@ -34,7 +34,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	private $user_id;
 
 	/**
-	 * Private Constructor
+	 * Private Constructor.
 	 *
 	 * @since [version]
 	 *
@@ -44,7 +44,9 @@ class LLMS_Prevent_Concurrent_Logins {
 
 		if ( get_option( 'lifterlms_prevent_concurrent_logins', false ) &&
 				! empty( get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) {
+
 			add_action( 'init', array( $this, 'init' ) );
+			add_action( 'init', array( $this, 'maybe_prevent_concurrent_logins' ) );
 		}
 
 	}
@@ -59,20 +61,32 @@ class LLMS_Prevent_Concurrent_Logins {
 	public function init() {
 
 		$this->user_id = get_current_user_id();
+
 		if ( empty( $this->user_id ) ) {
 			return;
 		}
 
 		$this->user_sessions = wp_get_all_sessions();
 
+	}
+
+	/**
+	 * Maybe prevent current logins.
+	 *
+	 * @since [version]
+	 *
+	 * @return bool `true` if concurrent login prevented, `false` otherwise.
+	 */
+	public function maybe_prevent_concurrent_logins() {
+
 		// No logged in user or current user has only one active session: nothing to do.
-		if ( count( $this->user_sessions ) < 2 ) {
-			return;
+		if ( empty( $this->user_sessions ) || count( $this->user_sessions ) < 2 ) {
+			return false;
 		}
 
 		// Current user doesn't have any restricted role: nothing to do.
 		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
-			return;
+			return false;
 		}
 
 		/**
@@ -83,16 +97,16 @@ class LLMS_Prevent_Concurrent_Logins {
 		 * @param bool $allow   Whether or not the user should be allowed to have concurrent sessions.
 		 * @param int  $user_id WP_User ID of the current use.
 		 */
-		if ( (bool) apply_filters( 'llms_allow_user_concurrent_logins', false, $user_id ) ) {
-			return;
+		if ( (bool) apply_filters( 'llms_allow_user_concurrent_logins', false, $this->user_id ) ) {
+			return false;
 		}
 
 		// Current user doesn't have any restricted role: nothing to do.
 		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
-			return;
+			return false;
 		}
 
-		$this->destroy_all_sessions_but_newest();
+		return $this->destroy_all_sessions_but_newest();
 
 	}
 
