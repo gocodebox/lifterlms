@@ -80,7 +80,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	protected $property_defaults = array(
 		'background'    => '#ffffff',
 		'orientation'   => 'landscape',
-		'margins'       => array( 0, 0, 0, 0 ),
+		'margins'       => array( 5, 5, 5, 5 ),
 		'sequential_id' => 1,
 	);
 
@@ -347,7 +347,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since [version]
 	 *
-	 * @param boolean $with_units Whether or not to include the unit in the return.
+	 * @param boolean $with_units Whether or not to include the percent sign unit in the return.
 	 * @return float[] Array of floats representing the margins. The margins are listed as they would be
 	 *                 when defining the margins of an element in CSS: `array( $left, $top, $right, $bottom )`.
 	 */
@@ -356,9 +356,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$margins = $this->get( 'margins' );
 
 		if ( $with_units ) {
-			$unit    = $this->get_unit();
-			$margins = array_map( function( $margin ) use ( $unit ) {
-				return $margin . $unit;
+			$margins = array_map( function( $margin ) {
+				return $margin . '%';
 			}, $margins );
 		}
 
@@ -669,14 +668,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		// Default size is configured via a site option.
 		$default_size = get_option( 'llms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size']    = ! $default_size ? 'LETTER' : $default_size;
-
-		// Default margins are dependent upon the certificate's unit.
-		$unit = $this->get_unit();
-		if ( 'in' === $unit ) {
-			$this->property_defaults['margins'] = array( 0.75, 0.75, 0.75, 0.75 );
-		} elseif ( 'mm' === $unit ) {
-			$this->property_defaults['margins'] = array( 15, 15, 15, 15 );
-		}
 
 	}
 

@@ -58,10 +58,9 @@ function MarginControl( { margin, index, editMargins } ) {
  *
  * @param {Object}   args         Function arguments object.
  * @param {number[]} args.margins Array of numbers representing the certificate's margins.
- * @param {string}   args.unit    Unit used for the configured margins.
  * @return {BaseControl} The background control component.
  */
-export default function MarginsControl( { margins, unit } ) {
+export default function MarginsControl( { margins } ) {
 	const editMargins = ( val, index, setState ) => {
 		const newMargins = [ ...margins ];
 		newMargins[ index ] = val;
@@ -70,12 +69,9 @@ export default function MarginsControl( { margins, unit } ) {
 		editCertificate( 'margins', newMargins );
 	};
 
-	const { name: unitName } = window.llms.certificates.units[ unit ] || { name: '' };
-
 	return (
 		<BaseControl
-			// Translators: %s = unit name, eg: inches.
-			label={ sprintf( __( 'Margins (%s)', 'lifterlms' ), unitName ) }
+			label={ __( 'Inner Margins', 'lifterlms' ) }
 			id="llms-certificate-margins-control"
 		>
 			<div style={ { display: 'flex' } }>
