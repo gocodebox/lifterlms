@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,13 +43,13 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.37.3 Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
 	 * @since 5.0.0 Removed field display settings.
-	 *               Reorganized open registration setting.
-	 *               Renamed "User Information Options" to "User Privacy Options".
+	 *              Reorganized open registration setting.
+	 *              Renamed "User Information Options" to "User Privacy Options".
+	 * @since [version] Added options to disable concurrent logins.
 	 *
 	 * @return array
 	 */
 	public function get_settings() {
-
 		return apply_filters(
 			'lifterlms_' . $this->id . '_settings',
 			array(
@@ -101,6 +101,29 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'id'      => 'lifterlms_enable_myaccount_registration',
 					'title'   => __( 'Open Registration', 'lifterlms' ),
 					'type'    => 'checkbox',
+				),
+				array(
+					'default'           => 'no',
+					'desc'              => __( 'This will ensure that two people cannot be logged in to the same account at once.', 'lifterlms' ),
+					'id'                => 'lifterlms_prevent_concurrent_logins',
+					'title'             => __( 'Prevent concurrent logins', 'lifterlms' ),
+					'type'              => 'checkbox',
+					'custom_attributes' => array(
+						'class'         => 'llms-conditional-controller',
+						'data-controls' => '#lifterlms_prevent_concurrent_logins_roles',
+					),
+				),
+				array(
+					'class'             => 'llms-select2',
+					'default'           => array( 'student' ),
+					'desc'              => __( 'Users with the selected roles won\'t be able to be logged in to the same account from different places.', 'lifterlms' ),
+					'id'                => 'lifterlms_prevent_concurrent_logins_roles',
+					'options'           => LLMS_Roles::get_all_role_names(),
+					'title'             => __( 'Prevent concurrent logins to', 'lifterlms' ),
+					'type'              => 'multiselect',
+					'custom_attributes' => array(
+						'data-placeholder' => __( 'Select user roles', 'lifterlms' ),
+					),
 				),
 				array(
 					'id'   => 'course_account_options_end',
