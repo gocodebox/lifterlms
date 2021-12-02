@@ -502,7 +502,7 @@ NOWDOC;
 
 		add_filter( 'mod_rewrite_rules', array( $this, 'add_mod_xsendfile_directives' ) );
 
-		if ( isset( $_GET[ self::QUERY_PARAMETER_ID ] ) ) {
+		if ( array_key_exists( self::QUERY_PARAMETER_ID, $_GET ) ) {
 			add_action( 'init', array( $this, 'serve_file' ), 10 );
 		} else {
 			add_filter( 'wp_get_attachment_image_src', array( $this, 'authorize_media_image_src' ), 10, 4 );
@@ -612,7 +612,7 @@ NOWDOC;
 	 */
 	public function serve_file() {
 
-		$media_id = $_GET[ self::QUERY_PARAMETER_ID ];
+		$media_id   = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_ID, FILTER_SANITIZE_NUMBER_INT );
 		$media_file = get_post( $media_id );
 
 		// Validate that the attachment post exists.
@@ -623,12 +623,19 @@ NOWDOC;
 
 		$file_name = $this->get_media_path( $media_id );
 
-		$size = null;
-		if ( isset( $_GET[ self::QUERY_PARAMETER_SIZE ] ) ) {
-			if ( '[' === $_GET[ self::QUERY_PARAMETER_SIZE ][0] ) {
-				$size = json_decode( $_GET[ self::QUERY_PARAMETER_SIZE ] );
-			} else {
-				$size = $_GET[ self::QUERY_PARAMETER_SIZE ];
+		// Valid types are string, int[] and null.
+		$size = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
+		if ( false === $size ) {
+			$size = null;
+		}
+		if ( '[' === $size[0] ) {
+			$size = json_decode( $size );
+			// Sanitize untrusted external input.
+			if ( isset( $size[0] ) ) {
+				$size[0] = (int) $size[0];
+			}
+			if ( isset( $size[1] ) ) {
+				$size[1] = (int) $size[1];
 			}
 		}
 
