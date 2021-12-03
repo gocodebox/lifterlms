@@ -43,7 +43,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	private function __construct() {
 
 		if ( llms_parse_bool( get_option( 'lifterlms_prevent_concurrent_logins', 'no' ) ) &&
-				! empty( get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) {
+				! empty( get_option( 'lifterlms_prevent_concurrent_logins_roles', array( 'student' ) ) ) ) {
 
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'init', array( $this, 'maybe_prevent_concurrent_logins' ) );
@@ -97,7 +97,7 @@ class LLMS_Prevent_Concurrent_Logins {
 		}
 
 		// Current user doesn't have any restricted role: nothing to do.
-		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, (array) get_option( 'lifterlms_prevent_concurrent_logins_roles', array() ) ) ) ) {
+		if ( empty( array_intersect( get_userdata( $this->user_id )->roles, (array) get_option( 'lifterlms_prevent_concurrent_logins_roles', array( 'student' ) ) ) ) ) {
 			return false;
 		}
 
