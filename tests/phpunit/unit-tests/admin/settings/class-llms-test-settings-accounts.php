@@ -60,6 +60,13 @@ class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 			'lifterlms_enable_myaccount_registration' => array(
 				'yes',
 			),
+			'lifterlms_prevent_concurrent_logins' => array(
+				'yes',
+			),
+			'lifterlms_prevent_concurrent_logins_roles' => array(
+				array( '' ),
+				array( 'student' ),
+			),
 			'lifterlms_myaccount_grades_endpoint' => array(
 				'my-grades',
 				'custom-endpoint-grades',
