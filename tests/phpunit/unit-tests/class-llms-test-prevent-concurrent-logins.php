@@ -9,18 +9,6 @@
 class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 
 	/**
-	 * Teardown the test.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		parent::tear_down();
-		wp_set_current_user(0);
-	}
-
-	/**
 	 * Test maybe_prevent_concurrent_logins().
 	 *
 	 * @since [version]
