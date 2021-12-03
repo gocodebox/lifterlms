@@ -101,7 +101,9 @@ class LLMS_Prevent_Concurrent_Logins {
 			return false;
 		}
 
-		return $this->destroy_all_sessions_but_newest();
+		$this->destroy_all_sessions_but_newest();
+
+		return true;
 
 	}
 
