@@ -165,9 +165,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		// It is possible to create a course but not have any lessons yet. Return zero now
-		// instead of causing a MySQL error by leaving "post_id IN ( {$lessons} )"
-		// blank in the query.
+		// Return early for courses without any lessons.
 		if(empty($lessons)){
 			return 0;
 		}
