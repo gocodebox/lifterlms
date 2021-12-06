@@ -147,11 +147,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		);
 
 		$settings[] = array(
-			'title'    => __( 'Content Protection', 'lifterlms' ),
-			'desc'     => __( 'Prevent users from copying website content and downloading images.', 'lifterlms' ) . '<br><span class="description">' . __( 'Users with Unrestricted Preview Access will not be affected by this setting.', 'lifterlms' ) . '</span>' ,
-			'id'       => 'lifterlms_content_protection',
-			'default'  => 'no',
-			'type'     => 'checkbox',
+			'title'   => __( 'Content Protection', 'lifterlms' ),
+			'desc'    => __( 'Prevent users from copying website content and downloading images.', 'lifterlms' ) . '<br><span class="description">' . __( 'Users with Unrestricted Preview Access will not be affected by this setting.', 'lifterlms' ) . '</span>',
+			'id'      => 'lifterlms_content_protection',
+			'default' => 'no',
+			'type'    => 'checkbox',
 		);
 
 		$settings[] = array(
