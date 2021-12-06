@@ -18,6 +18,8 @@ export { enrollStudent } from './enroll-student';
 
 export { fillField } from './fill-field';
 
+export { highlightNode } from './highlight-node';
+
 export { importCourse } from './import-course';
 
 export { findElementByText } from './find-element-by-text';
@@ -29,6 +31,7 @@ export { registerStudent } from './register-student';
 export { runSetupWizard } from './run-setup-wizard';
 
 export { select2Select } from './select2-select';
+export { setCheckboxSetting } from './set-checkbox-setting';
 export { setSelect2Option } from './set-select2-option';
 
 export { toggleOpenRegistration } from './toggle-open-registration';
