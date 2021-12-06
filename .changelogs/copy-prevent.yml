@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added an option to prevent users (by role) from copying site content and
+  saving local copies of images.
