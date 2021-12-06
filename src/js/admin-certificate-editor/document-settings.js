@@ -16,17 +16,20 @@ import TitleControl from './plugin/title-control';
  *
  * @since [version]
  *
- * @param {Object}   args             Component arguments.
- * @param {string}   args.background  Current background color setting.
- * @param {number}   args.height      Current height setting.
- * @param {number[]} args.margins     Current margins setting.
- * @param {string}   args.orientation Current orientation setting.
- * @param {string}   args.size        Current size setting.
- * @param {string}   args.unit        Current unit setting.
- * @param {number}   args.width       Current width setting.
+ * @param {Object}   args              Component arguments.
+ * @param {string}   args.type         Current post type.
+ * @param {string}   args.title        Current certificate title.
+ * @param {string}   args.sequentialId Next certificate sequential ID.
+ * @param {string}   args.background   Current background color setting.
+ * @param {number}   args.height       Current height setting.
+ * @param {number[]} args.margins      Current margins setting.
+ * @param {string}   args.orientation  Current orientation setting.
+ * @param {string}   args.size         Current size setting.
+ * @param {string}   args.unit         Current unit setting.
+ * @param {number}   args.width        Current width setting.
  * @return {PluginDocumentSettingPanel} The component.
  */
-function CertificateDocumentSettings( { title, sequentialId, background, height, margins, orientation, size, unit, width } ) {
+function CertificateDocumentSettings( { type, title, sequentialId, background, height, margins, orientation, size, unit, width } ) {
 	return (
 
 		<PluginDocumentSettingPanel
@@ -36,8 +39,12 @@ function CertificateDocumentSettings( { title, sequentialId, background, height,
 			opened={ true }
 		>
 
-			<TitleControl { ...{ title } } />
-			<br />
+			{ 'llms_certificate' === type && (
+				<>
+					<TitleControl { ...{ title } } />
+					<br />
+				</>
+			) }
 			<SizeControl { ...{ size, width, height, unit } } />
 			<br />
 			<OrientationControl { ...{ orientation } } />
@@ -45,8 +52,12 @@ function CertificateDocumentSettings( { title, sequentialId, background, height,
 			<MarginsControl { ...{ margins, unit } } />
 			<br />
 			<BackgroundControl { ...{ background } } />
-			<br />
-			<SequentialIdControl { ...{ sequentialId } } />
+			{ 'llms_certificate' === type && (
+				<>
+					<br />
+					<SequentialIdControl { ...{ sequentialId } } />
+				</>
+			) }
 
 		</PluginDocumentSettingPanel>
 
@@ -57,6 +68,7 @@ const applyWithSelect = withSelect( ( select ) => {
 	const { getEditedPostAttribute } = select( editorStore );
 
 	return {
+		type: getEditedPostAttribute( 'type' ),
 		title: getEditedPostAttribute( 'certificate_title' ),
 		sequentialId: getEditedPostAttribute( 'certificate_sequential_id' ),
 		background: getEditedPostAttribute( 'certificate_background' ),
