@@ -35,6 +35,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  *
+ * @todo Add a rewrite rule that sends all 'uploads/llms-uploads/' requests to {@see LLMS_Media_Protector::serve_file()}.
  * @todo Add handling of HTTP range requests. See {@see https://datatracker.ietf.org/doc/html/rfc7233} and
  *       {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests}.
  */
@@ -799,8 +800,7 @@ NOWDOC;
 		$size = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
 		if ( false === $size ) {
 			$size = null;
-		}
-		if ( '[' === $size[0] ) {
+		} elseif ( is_string( $size ) && '[' === $size[0] ) {
 			$size = json_decode( $size );
 			// Sanitize untrusted external input.
 			if ( isset( $size[0] ) ) {
@@ -819,8 +819,7 @@ NOWDOC;
 		// Optionally, use an alternate image size.
 		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
-			$base_name = basename( $image[0] );
-			$file_name = dirname( $file_name ) . "/$base_name";
+			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 		}
 
 		// Validate that the media file exists.
@@ -834,13 +833,15 @@ NOWDOC;
 		if ( false === $is_authorized ) {
 			$content_type = $media_file->post_mime_type;
 			if ( 0 === stripos( $content_type, 'image/' ) ) {
-				// @todo Find or create an image to denote unauthorized access to an image file.
 				$unauthorized_image_id = $this->get_placeholder_image_id();
 				$image = wp_get_attachment_image_src( $unauthorized_image_id, $size );
 				if ( false === $image ) {
 					$file_name = LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png';
+				} else {
+					$file_name = $this->get_media_path( $unauthorized_image_id );
+					$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 				}
-				$file_name = $image[0];
+
 			} else {
 				header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
 				llms_exit();
