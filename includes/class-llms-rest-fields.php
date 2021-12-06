@@ -93,11 +93,65 @@ class LLMS_REST_Fields {
 	public function register() {
 
 		$this->register_fields_for_certificates();
+		$this->register_fields_for_certificate_templates();
 
 	}
 
 	/**
-	 * Register fields for certificate post types.
+	 * Register rest fields used for certificate templates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function register_fields_for_certificate_templates() {
+
+		register_rest_field(
+			'llms_certificate',
+			'certificate_title',
+			array(
+				'schema'          => array(
+					'description' => __( 'Certificate title.', 'lifterlms' ),
+					'type'        => 'string',
+				),
+				'get_callback'    => function( $object ) {
+					$cert = llms_get_certificate( $object['id'], true );
+					return $cert->get( 'certificate_title' );
+				},
+				'update_callback' => function( $value, $post ) {
+					$cert = llms_get_certificate( $post->ID, true );
+					return $cert->set( 'certificate_title', $value );
+				},
+			)
+		);
+
+		register_rest_field(
+			'llms_certificate',
+			'certificate_sequential_id',
+			array(
+				'schema'          => array(
+					'description' => __( 'Next sequential ID.', 'lifterlms' ),
+					'type'        => 'integer',
+					'arg_options' => array(
+						'validate_callback' => function( $value, $request ) {
+							return (int) $value >= llms_get_certificate_sequential_id( $request['id'] );
+						},
+					),
+				),
+				'get_callback'    => function( $object ) {
+					return llms_get_certificate_sequential_id( $object['id'] );
+				},
+				'update_callback' => function( $value, $post ) {
+					$cert = llms_get_certificate( $post->ID, true );
+					return $cert->set( 'sequential_id', $value );
+				},
+			)
+		);
+
+	}
+
+	/**
+	 * Register fields for template and earned certificates.
 	 *
 	 * @since [version]
 	 *
@@ -109,18 +163,22 @@ class LLMS_REST_Fields {
 
 			$schema['context'] = array( 'view', 'edit' );
 
-			register_rest_field( array( 'llms_certificate', 'llms_my_certificate' ), "certificate_{$key}", array(
-				'schema'          => $schema,
-				'get_callback'    => function( $object ) use ( $key ) {
-					$cert = llms_get_certificate( $object['id'], true );
-					$func = "get_{$key}";
-					return $cert->$func();
-				},
-				'update_callback' => function( $value, $post ) use ( $key ) {
-					$cert = llms_get_certificate( $post->ID, true );
-					return $cert->set( $key, $value );
-				},
-			) );
+			register_rest_field(
+				array( 'llms_certificate', 'llms_my_certificate' ),
+				"certificate_{$key}",
+				array(
+					'schema'          => $schema,
+					'get_callback'    => function( $object ) use ( $key ) {
+						$cert = llms_get_certificate( $object['id'], true );
+						$func = "get_{$key}";
+						return $cert->$func();
+					},
+					'update_callback' => function( $value, $post ) use ( $key ) {
+						$cert = llms_get_certificate( $post->ID, true );
+						return $cert->set( $key, $value );
+					},
+				)
+			);
 
 		}
 

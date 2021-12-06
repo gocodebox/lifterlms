@@ -86,6 +86,13 @@ abstract class LLMS_Admin_Metabox {
 	public $priority = 'default';
 
 	/**
+	 * Array of callback arguments passed to `add_meta_box()`.
+	 *
+	 * @var null
+	 */
+	public $callback_args = null;
+
+	/**
 	 * Instance of WP_Post for the current post.
 	 *
 	 * @var WP_Post
@@ -398,6 +405,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 3.37.19 Early bail if the global `$post` is empty.
+	 * @since [version] Pass callback arguments to `add_meta_box()`.
 	 *
 	 * @return void
 	 */
@@ -413,7 +421,15 @@ abstract class LLMS_Admin_Metabox {
 
 		if ( current_user_can( $this->capability, $this->post->ID ) ) {
 
-			add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+			add_meta_box(
+				$this->id,
+				$this->title,
+				array( $this, 'output' ),
+				$this->get_screens(),
+				$this->context,
+				$this->priority,
+				$this->callback_args,
+			);
 
 		}
 

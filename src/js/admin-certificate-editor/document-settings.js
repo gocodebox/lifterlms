@@ -7,7 +7,9 @@ import { store as editorStore } from '@wordpress/editor';
 import BackgroundControl from './plugin/background-control';
 import MarginsControl from './plugin/margins-control';
 import OrientationControl from './plugin/orientation-control';
+import SequentialIdControl from './plugin/sequential-id-control';
 import SizeControl from './plugin/size-control';
+import TitleControl from './plugin/title-control';
 
 /**
  * Render the certificate settings editor panel.
@@ -24,7 +26,7 @@ import SizeControl from './plugin/size-control';
  * @param {number}   args.width       Current width setting.
  * @return {PluginDocumentSettingPanel} The component.
  */
-function CertificateDocumentSettings( { background, height, margins, orientation, size, unit, width } ) {
+function CertificateDocumentSettings( { title, sequentialId, background, height, margins, orientation, size, unit, width } ) {
 	return (
 
 		<PluginDocumentSettingPanel
@@ -34,6 +36,8 @@ function CertificateDocumentSettings( { background, height, margins, orientation
 			opened={ true }
 		>
 
+			<TitleControl { ...{ title } } />
+			<br />
 			<SizeControl { ...{ size, width, height, unit } } />
 			<br />
 			<OrientationControl { ...{ orientation } } />
@@ -41,6 +45,8 @@ function CertificateDocumentSettings( { background, height, margins, orientation
 			<MarginsControl { ...{ margins, unit } } />
 			<br />
 			<BackgroundControl { ...{ background } } />
+			<br />
+			<SequentialIdControl { ...{ sequentialId } } />
 
 		</PluginDocumentSettingPanel>
 
@@ -51,6 +57,8 @@ const applyWithSelect = withSelect( ( select ) => {
 	const { getEditedPostAttribute } = select( editorStore );
 
 	return {
+		title: getEditedPostAttribute( 'certificate_title' ),
+		sequentialId: getEditedPostAttribute( 'certificate_sequential_id' ),
 		background: getEditedPostAttribute( 'certificate_background' ),
 		height: getEditedPostAttribute( 'certificate_height' ),
 		margins: getEditedPostAttribute( 'certificate_margins' ),
