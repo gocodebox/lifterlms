@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,6 +48,7 @@ class LLMS_Frontend_Assets {
 	 *
 	 * @since 3.4.1
 	 * @since 3.17.5 Unknown.
+	 * @since [version] Add content protection inline script enqueue.
 	 *
 	 * @return void
 	 */
@@ -57,6 +58,60 @@ class LLMS_Frontend_Assets {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
 		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'output_footer_scripts' ), 1 );
+		add_action( 'wp', array( __CLASS__, 'enqueue_content_protection' ) );
+
+	}
+
+	/**
+	 * Enqueue inline copy prevention scripts.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function enqueue_content_protection() {
+
+		$allow_copying = ! llms_parse_bool( get_option( 'lifterlms_content_protection', 'no' ) ) || llms_can_user_bypass_restrictions( get_current_user_id() );
+
+		/**
+		 * Filters whether or not content prevention is enabled.
+		 *
+		 * This hook runs on the `wp` action, at this point the current user is available and
+		 * the global `$post` has already been set up.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $allow_copying Whether or not copying is allowed. If `true`, copying
+		 *                               is allowed, otherwise copy prevention scripts are
+		 *                               loaded.
+		 */
+		$allow_copying = apply_filters( 'llms_skip_content_prevention', $allow_copying );
+
+		if ( $allow_copying ) {
+			return;
+		}
+
+		ob_start();
+		?>
+		( function(){
+			function dispatchEvent( type ) {
+				document.dispatchEvent( new Event( type ) );
+			}
+			document.addEventListener( 'copy', function( event ) {
+				event.preventDefault();
+				event.clipboardData.setData( 'text/plain', '<?php echo __( 'Copying is not allowed.', 'lifterlms' ); ?>' );
+				dispatchEvent( 'llms-copy-prevented' );
+			}, false );
+			document.addEventListener( 'contextmenu', function( event ) {
+				if ( event.target && 'IMG' === event.target.nodeName ) {
+					event.preventDefault();
+					dispatchEvent( 'llms-context-prevented' );
+				}
+			}, false );
+		} )();
+		<?php
+		$script = ob_get_clean();
+		llms()->assets->enqueue_inline( 'llms-integrity', $script, 'header' );
 
 	}
 

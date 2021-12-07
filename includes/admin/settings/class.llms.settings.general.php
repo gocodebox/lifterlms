@@ -44,6 +44,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since [version] use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
+	 *              Add content protection setting.
 	 *
 	 * @return array
 	 */
@@ -143,6 +144,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			),
 			'title'             => __( 'Unrestricted Preview Access', 'lifterlms' ),
 			'type'              => 'multiselect',
+		);
+
+		$settings[] = array(
+			'title'   => __( 'Content Protection', 'lifterlms' ),
+			'desc'    => __( 'Prevent users from copying website content and downloading images.', 'lifterlms' ) . '<br><span class="description">' . __( 'Users with Unrestricted Preview Access will not be affected by this setting.', 'lifterlms' ) . '</span>',
+			'id'      => 'lifterlms_content_protection',
+			'default' => 'no',
+			'type'    => 'checkbox',
 		);
 
 		$settings[] = array(
