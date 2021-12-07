@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,7 +48,7 @@ class LLMS_Frontend_Assets {
 	 *
 	 * @since 3.4.1
 	 * @since 3.17.5 Unknown.
-	 * @since [version] Add content protection inline script enqueue.
+	 * @since 5.6.0 Add content protection inline script enqueue.
 	 *
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue inline copy prevention scripts.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,7 @@ class LLMS_Frontend_Assets {
 		 * This hook runs on the `wp` action, at this point the current user is available and
 		 * the global `$post` has already been set up.
 		 *
-		 * @since [version]
+		 * @since 5.6.0
 		 *
 		 * @param boolean $allow_copying Whether or not copying is allowed. If `true`, copying
 		 *                               is allowed, otherwise copy prevention scripts are

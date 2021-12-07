@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -449,7 +449,7 @@ class LLMS_Roles {
 	 *
 	 * LLMS roles and WP core roles are translated.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return array
 	 */

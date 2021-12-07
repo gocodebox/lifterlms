@@ -14,7 +14,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Retrieves a list of enqueued inline scripts from the LLMS_Assets instance.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return array
 	 */
@@ -25,7 +25,7 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 	/**
 	 * Test enqueue_content_protection().
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */

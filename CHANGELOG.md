@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v5.6.0 - 2021-12-07
+-------------------
+
+##### New Features
+
++ Added an option to prevent users (by role) from copying site content and saving local copies of images.
++ Added new site setting to disallow concurrent user sessions for specified user roles.
+
+##### Updates and Enhancements
+
++ Updates LifterLMS REST to [v1.0.0-beta.21](https://make.lifterlms.com/2021/12/07/lifterlms-rest-api-version-1-0-0-beta-21/).
+
+##### Developer Notes
+
++ Database migration functions can now be namespaced, eliminating the need to prefix update function names with a version number.
+
+
 v5.5.0 - 2021-11-05
 -------------------
 

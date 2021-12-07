@@ -27,7 +27,7 @@ context.overridePermissions( process.env.WP_BASE_URL, [ 'clipboard-read' ] );
 /**
  * Watch for an event to run.
  *
- * @since [version]
+ * @since 5.6.0
  *
  * @param {string} eventName The event name.
  * @return {void}

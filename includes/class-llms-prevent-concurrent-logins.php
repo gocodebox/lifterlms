@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.6.0
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Prevent_Concurrent_Logins class.
  *
- * @since [version]
+ * @since 5.6.0
  */
 class LLMS_Prevent_Concurrent_Logins {
 
@@ -36,7 +36,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	/**
 	 * Private Constructor.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	/**
 	 * Initialize.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	/**
 	 * Maybe prevent current logins.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return bool `true` if concurrent login prevented, `false` otherwise.
 	 */
@@ -87,7 +87,7 @@ class LLMS_Prevent_Concurrent_Logins {
 		/**
 		 * Filters whether or not allowing a specific user to have concurrent sessions.
 		 *
-		 * @since [version]
+		 * @since 5.6.0
 		 *
 		 * @param bool $allow   Whether or not the user should be allowed to have concurrent sessions.
 		 * @param int  $user_id WP_User ID of the current use.
@@ -110,7 +110,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	/**
 	 * Prevent login by destroying all the user's sessions but the newest.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return int 1 if the kept session is the current one, 0 otherwise.
 	 */
@@ -131,7 +131,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	/**
 	 * Retrieve current session for the current user.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return int
 	 */
@@ -147,7 +147,7 @@ class LLMS_Prevent_Concurrent_Logins {
 	 *
 	 * The bigger the login time is the newest the session is.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return int
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +45,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @since 5.0.0 Removed field display settings.
 	 *              Reorganized open registration setting.
 	 *              Renamed "User Information Options" to "User Privacy Options".
-	 * @since [version] Added options to disable concurrent logins.
+	 * @since 5.6.0 Added options to disable concurrent logins.
 	 *
 	 * @return array
 	 */

@@ -4,14 +4,14 @@
  *
  * @group LLMS_Prevent_Concurrent_Logins
  *
- * @since [version]
+ * @since 5.6.0
  */
 class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 
 	/**
 	 * Test maybe_prevent_concurrent_logins().
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_concurrent_logins().
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -200,7 +200,7 @@ class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 	/**
 	 * Test maybe_prevent_concurrent_logins().
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -289,7 +289,7 @@ class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 	/**
 	 * Simulate a log in.
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @param int    $user_id   WP_User ID.
 	 * @param int    $epiration Expiration time.

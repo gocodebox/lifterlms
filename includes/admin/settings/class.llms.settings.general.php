@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,7 +43,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @since 1.0.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
+	 * @since 5.6.0 use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
 	 *              Add content protection setting.
 	 *
 	 * @return array
