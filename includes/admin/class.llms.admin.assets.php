@@ -96,6 +96,7 @@ class LLMS_Admin_Assets {
 					'color' => '#fffff0',
 				),
 			),
+			'merge_codes'   => llms_get_certificate_merge_codes(),
 		);
 		llms()->assets->enqueue_inline(
 			'llms-admin-certificate-settings',
