@@ -502,6 +502,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Save a metabox field.
 	 *
 	 * @since 3.37.12
+	 * @since [version] Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.
 	 * @param array $field   Metabox field array.
@@ -528,8 +529,22 @@ abstract class LLMS_Admin_Metabox {
 
 		}
 
-		return update_post_meta( $post_id, $field['id'], $val ) ? true : false;
+		return $this->save_field_db( $post_id, $field['id'], $val );
 
+	}
+
+	/**
+	 * Save field in the db.
+	 *
+	 * Expects an already sanitized value.
+	 *
+	 * @param int   $post_id  The WP Post ID.
+	 * @param int   $field_id The field identifier.
+	 * @param mixed $val      Value to save.
+	 * @return bool
+	 */
+	protected function save_field_db( $post_id, $field_id, $val ) {
+		return update_post_meta( $post_id, $field_id, $val ) ? true : false;
 	}
 
 	/**
