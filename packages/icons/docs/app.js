@@ -20,7 +20,7 @@ const { Icon, ...icons } = Icons;
 function SVG( { icon, id } ) {
 
     const svgString = encodeURIComponent( renderToStaticMarkup( <Icon icon={ icon } size="48" /> ) ),
-		dataUri = `url( "data:image/svg+xml,${ svgString }" )`;
+		dataUri = `data:image/svg+xml,${ svgString }`;
 
 	return (
 		<img src={ dataUri } width="48" height="48" alt={ `${id} icon` } />
