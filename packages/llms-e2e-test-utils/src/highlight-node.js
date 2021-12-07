@@ -1,7 +1,7 @@
 /**
  * Highlight (selects) the contents of a node.
  *
- * @since [version]
+ * @since 3.1.0
  *
  * @param {string}  selector      Query selector.
  * @param {boolean} copySelection If `true`, copies the selected text and returns it.

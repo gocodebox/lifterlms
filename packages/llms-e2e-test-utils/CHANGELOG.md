@@ -1,6 +1,12 @@
 LifterLMS E2E Test Utils Changelog
 ==================================
 
+v3.1.0 - 2021-12-07
+-------------------
+
++ Added new functions `highlightCode()` and `setCheckboxSetting()`.
+
+
 v3.0.0 - 2021-11-05
 -------------------
 
