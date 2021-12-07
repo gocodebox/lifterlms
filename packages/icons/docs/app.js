@@ -13,21 +13,17 @@ import * as Icons from '../src';
 const { Icon, ...icons } = Icons;
 
 /**
- * Render SVG components as a div with the svg embedded in the background as a data uri.
+ * Render SVG components as a <img> with the svg as a data uri.
  *
  * GitHub Markdown won't render inline <svg> (I guess?).
  */
-function SVG( { icon } ) {
+function SVG( { icon, id } ) {
 
     const svgString = encodeURIComponent( renderToStaticMarkup( <Icon icon={ icon } size="48" /> ) ),
 		dataUri = `url( "data:image/svg+xml,${ svgString }" )`;
 
 	return (
-		<div style={ {
-			background: dataUri,
-			height: '48px',
-			width: '48px',
-		} } />
+		<img src={ dataUri } width="48" height="48" alt={ `${id} icon` } />
 	);
 }
 
@@ -45,7 +41,7 @@ function App() {
 				{ Object.entries( icons ).map( ( [ id, icon ] ) => {
 					return (
 						<tr key={ icon }>
-							<td><SVG icon={ icons[ id ] } /></td>
+							<td><SVG icon={ icons[ id ] } id={ id } /></td>
 							<td>{ id }</td>
 							<td><code>{ `<Icon icon={ ${ id } } />` }</code></td>
 						</tr>
