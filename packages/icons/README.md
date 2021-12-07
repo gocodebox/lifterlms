@@ -42,7 +42,7 @@ import { Icon, lifterlms } from '@lifterlms/icons';
 		<tr>
 			<td><img src="raw/lifterlms.svg" width="48" height="48" alt="lifterlms icon" /></td>
 			<td>lifterlms</td>
-			<td><code><Icon icon={ lifterlms } /></code></td>
+			<td><code>&lt;Icon icon={ lifterlms } /&gt;</code></td>
 		</tr>
 	</tbody>
 </table>

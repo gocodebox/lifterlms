@@ -36,7 +36,7 @@ $( '#app div' ).each( ( i, el ) => {
 		<tr>
 			<td><img src="${ BUILD_DIR }/${ id }.svg" width="48" height="48" alt="${ id } icon" /></td>
 			<td>${ id }</td>
-			<td><code><Icon icon={ ${ id } } /></code></td>
+			<td><code>&lt;Icon icon={ ${ id } } /&gt;</code></td>
 		</tr>
 	`;
 
