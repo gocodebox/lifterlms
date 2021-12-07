@@ -9,10 +9,41 @@
  */
 
 const cheerio = require( 'cheerio' ),
-	{ readFileSync, writeFileSync } = require( 'fs' );
+	{ readFileSync, writeFileSync, rmSync, mkdirSync } = require( 'fs' ),
+	BUILD_DIR = 'raw';
 
-const $ = cheerio.load( readFileSync( 'docs/build/index.html', 'utf8' ) ),
-	$table = $( '#app' ).html();
+rmSync( BUILD_DIR, { force: true, recursive: true } );
+mkdirSync( BUILD_DIR );
+
+const $ = cheerio.load( readFileSync( 'docs/build/index.html', 'utf8' ) );
+
+let docs = `<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>ID</th>
+			<th>Usage</th>
+		</tr>
+	</thead>
+	<tbody>`;
+
+$( '#app div' ).each( ( i, el ) => {
+
+	const id = $( el ).attr( 'id' );
+	writeFileSync( `${ BUILD_DIR }/${ id }.svg`, $( el ).html() );
+
+	docs += `
+		<tr>
+			<td><img src="${ BUILD_DIR }/${ id }.svg" width="48" height="48" alt="${ id } icon" /></td>
+			<td>${ id }</td>
+			<td><code><Icon icon={ ${ id } } /></code></td>
+		</tr>
+	`;
+
+} );
+
+docs += `</tbody>
+</table>`;
 
 const readmeFile = 'README.md',
 	readmeContents = readFileSync( readmeFile, 'utf8' ),
@@ -39,4 +70,4 @@ readmeContents.split( '\n' ).forEach( ( line ) => {
 
 newReadme = newReadme.join( '\n' );
 
-writeFileSync( readmeFile, newReadme.replace( docsToken, `\n${ $table }\n` ) );
+writeFileSync( readmeFile, newReadme.replace( docsToken, `\n${ docs }\n` ) );
