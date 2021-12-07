@@ -7,9 +7,29 @@
  */
 
 import { render } from 'react-dom';
+import { renderToStaticMarkup } from 'react-dom/server';
 import * as Icons from '../src';
 
 const { Icon, ...icons } = Icons;
+
+/**
+ * Render SVG components as a div with the svg embedded in the background as a data uri.
+ *
+ * GitHub Markdown won't render inline <svg> (I guess?).
+ */
+function SVG( { icon } ) {
+
+    const svgString = encodeURIComponent( renderToStaticMarkup( <Icon icon={ icon } size="48" /> ) ),
+		dataUri = `url( "data:image/svg+xml,${ svgString }" )`;
+
+	return (
+		<div style={ {
+			background: dataUri,
+			height: '48px',
+			width: '48px',
+		} } />
+	);
+}
 
 function App() {
 	return (
@@ -25,7 +45,7 @@ function App() {
 				{ Object.entries( icons ).map( ( [ id, icon ] ) => {
 					return (
 						<tr key={ icon }>
-							<td><Icon icon={ icons[ id ] } size="48" /></td>
+							<td><SVG icon={ icons[ id ] } /></td>
 							<td>{ id }</td>
 							<td><code>{ `<Icon icon={ ${ id } } />` }</code></td>
 						</tr>
