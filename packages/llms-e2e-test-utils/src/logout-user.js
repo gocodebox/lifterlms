@@ -13,8 +13,8 @@ const { clickAndWait } = require( './click-and-wait' );
  *
  * @since 3.37.8
  * @since 2.1.2 Wait 1 second before navigating to logout page.
- *
  * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
+ *
  * @return {void}
  */
 export async function logoutUser() {

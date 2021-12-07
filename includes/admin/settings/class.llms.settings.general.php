@@ -1,11 +1,11 @@
 <?php
 /**
- * Admin Settings Page, General Tab
+ * Admin Settings Page, General Tab.
  *
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 3.22.0
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,11 +39,14 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get settings array
+	 * Get settings array.
 	 *
-	 * @return   array
-	 * @since    1.0.0
-	 * @version  3.13.0
+	 * @since 1.0.0
+	 * @since 3.13.0 Unknown.
+	 * @since 5.6.0 use LLMS_Roles::get_all_role_names() to retrieve the list of roles who can bypass enrollments.
+	 *              Add content protection setting.
+	 *
+	 * @return array
 	 */
 	public function get_settings( $settings_only = false ) {
 
@@ -124,13 +127,6 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'type'  => 'title',
 		);
 
-		$roles    = array();
-		$wp_roles = wp_roles()->roles;
-		foreach ( $wp_roles as $key => $wp_role ) {
-			if ( 'student' === $key ) {
-				continue; }
-			$roles[ $key ] = $wp_role['name'];
-		}
 		$settings[] = array(
 			'class'             => 'llms-select2',
 			'custom_attributes' => array(
@@ -139,9 +135,23 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'default'           => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
 			'desc'              => __( 'Users with the selected roles will bypass enrollment, drip, and prerequisite restrictions for courses and memberships.', 'lifterlms' ),
 			'id'                => 'llms_grant_site_access',
-			'options'           => $roles,
+			'options'           => array_filter(
+				LLMS_Roles::get_all_role_names(),
+				function ( $role ) {
+					return 'student' !== $role;
+				},
+				ARRAY_FILTER_USE_KEY
+			),
 			'title'             => __( 'Unrestricted Preview Access', 'lifterlms' ),
 			'type'              => 'multiselect',
+		);
+
+		$settings[] = array(
+			'title'   => __( 'Content Protection', 'lifterlms' ),
+			'desc'    => __( 'Prevent users from copying website content and downloading images.', 'lifterlms' ) . '<br><span class="description">' . __( 'Users with Unrestricted Preview Access will not be affected by this setting.', 'lifterlms' ) . '</span>',
+			'id'      => 'lifterlms_content_protection',
+			'default' => 'no',
+			'type'    => 'checkbox',
 		);
 
 		$settings[] = array(

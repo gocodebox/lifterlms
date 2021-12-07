@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS file loader.
+ * LifterLMS file loader
  *
  * @package LifterLMS/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Loader
+ * LLMS_Loader.
  *
  * @since 4.0.0
  * @since 5.3.0 Add traits to `autoload()`.
@@ -88,7 +88,7 @@ class LLMS_Loader {
 	}
 
 	/**
-	 * Includes that are included everywhere
+	 * Includes that are included everywhere.
 	 *
 	 * @since 4.0.0
 	 * @since 4.4.0 Include `LLMS_Assets` class.
@@ -96,6 +96,7 @@ class LLMS_Loader {
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
+	 * @since 5.6.0 Inlcude `LLMS_Prevent_Concurrent_Logins`.
 	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
 	 *
 	 * @return void
@@ -155,6 +156,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-prevent-concurrent-logins.php';
 
 		// Forms.
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-field.php';
