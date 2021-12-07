@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -96,7 +96,7 @@ class LLMS_Loader {
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
-	 * @since [version] Inlcude `LLMS_Prevent_Concurrent_Logins`.
+	 * @since 5.6.0 Inlcude `LLMS_Prevent_Concurrent_Logins`.
 	 *
 	 * @return void
 	 */

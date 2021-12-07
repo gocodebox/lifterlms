@@ -1,4 +1,0 @@
-significance: minor
-type: dev
-entry: Database migration functions can now be namespaced, eliminating the need
-  to prefix update function names with a version number.

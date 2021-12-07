@@ -1,4 +1,0 @@
-significance: minor
-type: added
-entry: Added new site setting to disallow concurrent user sessions for specified
-  user roles.

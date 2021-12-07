@@ -4,7 +4,7 @@ import { clickAndWait } from './click-and-wait';
 /**
  * Toggles a LifterLMS checkbox setting.
  *
- * @since [version]
+ * @since 3.1.0
  *
  * @param {string}  selector Selector for the setting checkbox.
  * @param {boolean} status   Requested setting status. Use `true` for checked and `false` for unchecked.

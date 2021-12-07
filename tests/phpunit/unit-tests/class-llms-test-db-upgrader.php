@@ -85,7 +85,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	/**
 	 * Test get_callback_prefix()
 	 *
-	 * @since [version]
+	 * @since 5.6.0
 	 *
 	 * @return void
 	 */
@@ -151,7 +151,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	 * Test enuqeue_updates() when manual updating is required
 	 *
 	 * @since 5.2.0
-	 * @since [version] Add tests for automatic namespacing.
+	 * @since 5.6.0 Add tests for automatic namespacing.
 	 *
 	 * @return void
 	 */
