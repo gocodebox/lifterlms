@@ -212,7 +212,7 @@ class LLMS_Post_Types {
 	 * See https://core.trac.wordpress.org/ticket/30991.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add specific case for `llms_my_achievements`, `llms_my_certificates` post types.
+	 * @since [version] Add specific case for `llms_my_achievement`, `llms_my_certificate` post types.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array
@@ -854,7 +854,7 @@ class LLMS_Post_Types {
 				'show_in_nav_menus'   => false,
 				'has_archive'         => false,
 				'query_var'           => false,
-				'supports'            => array( 'title', 'editor', 'thumbnail' ),
+				'supports'            => array( 'title', 'thumbnail' ),
 			)
 		);
 
