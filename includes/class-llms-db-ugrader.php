@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.2.0
- * @version 5.2.0
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,6 +102,37 @@ class LLMS_DB_Upgrader {
 	}
 
 	/**
+	 * Retrieve the callback's prefix string based on the schema's namespace declaration.
+	 *
+	 * If `$info['namespace']` is empty, no prefix will be added.
+	 * If `$info['namespace']` is `true`, the namespace is assumed to be `LLMS\Updates`.
+	 * If `$info['namespace']` is a string, that string will be used.
+	 *
+	 * If a namespace is found, `\Version_X_X_X` will automatically be appended to the namespace. The
+	 * string `X_X_X` is the database version for the upgrade substituting underscores for dots.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param array  $info    Upgrade schema array.
+	 * @param string $version Version string for the upgrade.
+	 * @return string
+	 */
+	protected function get_callback_prefix( $info, $version ) {
+
+		if ( ! empty( $info['namespace'] ) ) {
+
+			$ver = explode( '-', $version ); // Drop prerelease data.
+			$ver = str_replace( '.', '_', $ver[0] );
+			$ns  = true === $info['namespace'] ? 'LLMS\Updates' : $info['namespace'];
+			return sprintf( '%1$s\\Version_%2$s\\', $ns, $ver );
+
+		}
+
+		return '';
+
+	}
+
+	/**
 	 * Enqueue and dispatch required updates
 	 *
 	 * Adds callbacks for all required updates to the LLMS_Background_Updater and dispatches
@@ -112,6 +143,7 @@ class LLMS_DB_Upgrader {
 	 * + The "update complete" notice will be added to the end of the queue (and then displayed when the update is complete).
 	 *
 	 * @since 5.2.0
+	 * @since 5.6.0 Add namespace prefix to qualifying callback functions.
 	 *
 	 * @return void
 	 */
@@ -119,7 +151,11 @@ class LLMS_DB_Upgrader {
 
 		$queued = false;
 		foreach ( $this->get_required_updates() as $version => $info ) {
+
+			$prefix = $this->get_callback_prefix( $info, $version );
 			foreach ( $info['updates'] as $callback ) {
+
+				$callback = $prefix . $callback;
 
 				$this->updater->log( sprintf( 'Queuing %s - %s', $version, $callback ) );
 				$this->updater->push_to_queue( $callback );

@@ -7,25 +7,15 @@
  * @package LifterLMS/Functions
  *
  * @since 3.4.3
- * @version 5.0.0
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-require_once 'updates/llms-functions-updates-300.php';
-require_once 'updates/llms-functions-updates-303.php';
-require_once 'updates/llms-functions-updates-343.php';
-require_once 'updates/llms-functions-updates-3120.php';
-require_once 'updates/llms-functions-updates-360.php';
-require_once 'updates/llms-functions-updates-380.php';
-require_once 'updates/llms-functions-updates-3130.php';
-require_once 'updates/llms-functions-updates-3160.php';
-require_once 'updates/llms-functions-updates-3280.php';
-require_once 'updates/llms-functions-updates-400.php';
-require_once 'updates/llms-functions-updates-450.php';
-require_once 'updates/llms-functions-updates-4150.php';
-require_once 'updates/llms-functions-updates-500.php';
-require_once 'updates/llms-functions-updates-520.php';
+// Include all update function files.
+foreach ( glob( LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-*.php' ) as $filename ) {
+	require_once $filename;
+}
 
 /**
  * Duplicate a WP Post & all relate metadata

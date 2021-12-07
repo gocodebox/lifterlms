@@ -83,6 +83,40 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_callback_prefix()
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return void
+	 */
+	public function test_get_callback_prefix() {
+
+		$upgrader = new LLMS_DB_Upgrader( '1.2.3' );
+
+		$tests = array(
+			array( false, '5.0.0', '', ),
+			array( null, '5.0.0', '', ),
+			array( true, '5.0.0', 'LLMS\Updates\Version_5_0_0\\', ),
+			array( true, '5.0.0-beta.1', 'LLMS\Updates\Version_5_0_0\\', ),
+			array( true, '5.0.0-alpha.1', 'LLMS\Updates\Version_5_0_0\\', ),
+			array( 'Custom\String\Provided', '1.0.0', 'Custom\String\Provided\Version_1_0_0\\', ),
+		);
+
+		foreach ( $tests as $test ) {
+
+			list( $namespace, $version, $expected ) = $test;
+
+			$info = compact( 'namespace' );
+			$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( $upgrader, 'get_callback_prefix', array( $info, $version ) ) );
+
+		}
+
+		// When `$namespace` not provided in the $info object.
+		$this->assertEquals( '', LLMS_Unit_Test_Util::call_method( $upgrader, 'get_callback_prefix', array( array(), $version ) ) );
+
+	}
+
+	/**
 	 * Test enuqeue_updates() when auto updating
 	 *
 	 * @since 5.2.0
@@ -117,6 +151,7 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 	 * Test enuqeue_updates() when manual updating is required
 	 *
 	 * @since 5.2.0
+	 * @since 5.6.0 Add tests for automatic namespacing.
 	 *
 	 * @return void
 	 */
@@ -136,6 +171,20 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 					'update_200',
 				),
 			),
+			'3.5.1' => array(
+				'type'      => 'manual',
+				'namespace' => true,
+				'updates' => array(
+					'update_something',
+				),
+			),
+			'3.9.9' => array(
+				'type'      => 'manual',
+				'namespace' => 'Custom\Namespace',
+				'updates' => array(
+					'update_something',
+				),
+			),
 		);
 
 		$upgrader = new LLMS_DB_Upgrader( '1.2.3', $schema );
@@ -147,6 +196,8 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 			'Queuing 1.5.0 - update_150_1',
 			'Queuing 1.5.0 - update_150_2',
 			'Queuing 2.0.0 - update_200',
+			'Queuing 3.5.1 - LLMS\Updates\Version_3_5_1\update_something',
+			'Queuing 3.9.9 - Custom\Namespace\Version_3_9_9\update_something',
 		);
 		$this->assertEquals( $expected_logs, $this->logs->get( 'updater' ) );
 
@@ -154,7 +205,9 @@ class LLMS_Test_DB_Upgrader extends LLMS_UnitTestCase {
 		$expected_batch = array(
 			'update_150_1',
 			'update_150_2',
-			'update_200'
+			'update_200',
+			'LLMS\Updates\Version_3_5_1\update_something',
+			'Custom\Namespace\Version_3_9_9\update_something',
 		);
 
 		$updater = LLMS_Unit_Test_Util::get_private_property_value( $upgrader, 'updater' );

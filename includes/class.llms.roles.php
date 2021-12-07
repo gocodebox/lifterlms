@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 4.21.2
+ * @version 5.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -441,6 +441,32 @@ class LLMS_Roles {
 				}
 			}
 		}
+
+	}
+
+	/**
+	 * Returns an array of role names.
+	 *
+	 * LLMS roles and WP core roles are translated.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @return array
+	 */
+	public static function get_all_role_names() {
+
+		$all_roles = wp_roles()->roles;
+
+		return array_merge(
+			array_combine(
+				array_keys( $all_roles ),
+				array_map(
+					'translate_user_role', // Translates WP Core roles.
+					array_column( $all_roles, 'name' )
+				)
+			),
+			self::get_roles() // So our roles are translated as well.
+		);
 
 	}
 
