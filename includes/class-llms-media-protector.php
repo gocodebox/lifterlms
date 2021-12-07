@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * Example of uploading a file:
  *
- *     $media = new LLMS_Media_Protector( '/social-learning' );
- *     $id    = $media->handle_upload( 'image', 0, 'llms_sl_authorize_media_view', $post_data );
+ *     $protector = new LLMS_Media_Protector( '/social-learning' );
+ *     $id        = $protector->handle_upload( 'image', 0, 'llms_sl_authorize_media_view', $post_data );
  *
  * Example of protecting a file:
  *
@@ -44,7 +44,7 @@ class LLMS_Media_Protector {
 	/**
 	 * The meta key used to specify the filter hook name that authorizes viewing of a media file.
 	 *
-	 * @TODO Should the key be prefixed with an underscore '_' to denote private?
+	 * @todo Should the key be prefixed with an underscore '_' to denote private?
 	 *
 	 * @since [version]
 	 *
@@ -196,57 +196,52 @@ NOWDOC;
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Usually an instance of (@see WP_Filesystem_Direct}.
 	 *
-	 * @return int The post ID of the attachment image.
+	 * @return int The post ID of the attachment image or 0 on failure.
 	 */
 	protected function add_unauthorized_placeholder_image_to_media_library(): int {
 
 		global $wp_filesystem;
 		/** @var WP_Filesystem_Base $wp_filesystem */
 
-		// Make sure that the file with WP_Filesystem() has been loaded.
+		/** Load files that define {@see WP_Filesystem()}, {@see media_handle_sideload()}, and many image functions. */
 		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
 		WP_Filesystem();
 
 		$uploads = wp_get_upload_dir();
 		$file    = $uploads['basedir'] . $this->base_upload_path . '/unauthorized-placeholder.png';
-		$url     = $uploads['baseurl'] . $this->base_upload_path . '/unauthorized-placeholder.png';
+		$source  = LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png';
 
 		if ( false === $wp_filesystem->exists( $file ) ) {
-			$result = $wp_filesystem->copy(
-				LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png',
-				$file,
-				false,
-				0644
-			);
+			$result = $wp_filesystem->copy( $source, $file, false, 0644 );
 			if ( false === $result ) {
 				return 0;
 			}
 		}
 
-		$attach_id = wp_insert_attachment( array(
-			'file'           => $file,
-			'guid'           => $url,
-			'post_name'      => 'llms-unauthorized-placeholder-image',
-			'post_title'     => __( 'LifterLMS unauthorized placeholder image', 'lifterlms' ),
-			'post_content'   => __(
-				'This image is automatically added by LifterLMS and is the default image displayed to users ' .
-				'that are not authorized to view a LifterLMS protected image.',
-				'lifterlms'
+		$attach_id = media_handle_sideload(
+			array(
+				'name'     => basename( $file ),
+				'type'     => 'image/png',
+				'tmp_name' => $file,
+				'error'    => UPLOAD_ERR_OK,
+				'size'     => filesize( $file ),
 			),
-			'post_mime_type' => 'image/png',
-			'meta_input'     => array(
-				'_wp_attachment_image_alt' => __( 'Unauthorized to view this image.', 'lifterlms' ),
-			),
-		) );
-
-		if ( 0 !== $attach_id ) {
-			// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-
-			// Generate the metadata for the attachment, and update the database record.
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-			wp_update_attachment_metadata( $attach_id, $attach_data );
-		}
+			0,
+			__( 'LifterLMS unauthorized placeholder image', 'lifterlms' ),
+			array(
+				'post_content' => sprintf(
+					__( '%1$s %2$s', 'lifterlms' ),
+					'This image is automatically added by LifterLMS.',
+					'It is the default image displayed to users that are not authorized to view a LifterLMS protected image.'
+				),
+				'meta_input'   => array(
+					'_wp_attachment_image_alt' => __( 'Unauthorized to view this image.', 'lifterlms' ),
+				),
+			)
+		);
 
 		return $attach_id;
 	}
@@ -280,7 +275,7 @@ NOWDOC;
 			// The media file is not protected.
 			return $image;
 		} elseif ( false === $is_authorized ) {
-			// Get attachment ID of placeholder
+			// Get attachment ID of placeholder.
 			$media_id = $this->get_placeholder_id( $media_id );
 			return wp_get_attachment_image_src( $media_id, $size );
 		}
@@ -288,7 +283,7 @@ NOWDOC;
 		$image[0] = add_query_arg(
 			array(
 				self::QUERY_PARAMETER_ID   => $media_id,
-				self::QUERY_PARAMETER_SIZE => rawurlencode( is_array( $size ) ? json_encode( $size ) : $size ),
+				self::QUERY_PARAMETER_SIZE => rawurlencode( is_array( $size ) ? wp_json_encode( $size ) : $size ),
 				self::QUERY_PARAMETER_ICON => $icon ? 1 : 0,
 			),
 			trailingslashit( home_url() )
@@ -318,9 +313,7 @@ NOWDOC;
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( true === $is_authorized ) {
 			$url = add_query_arg(
-				array(
-					self::QUERY_PARAMETER_ID => $media_id
-				),
+				array( self::QUERY_PARAMETER_ID => $media_id ),
 				trailingslashit( home_url() )
 			);
 		} elseif ( false === $is_authorized ) {
@@ -359,7 +352,7 @@ NOWDOC;
 	/**
 	 * Returns the additional path that is added onto the base path.
 	 *
-	 * @size [version]
+	 * @since [version]
 	 *
 	 * @return string
 	 */
@@ -422,7 +415,7 @@ NOWDOC;
 	 */
 	protected function get_placeholder_id( int $media_id ): int {
 
-		//@TODO Prevent an infinite loop if the placeholder file somehow gets protected.
+		// @todo Prevent an infinite loop if the placeholder file somehow gets protected.
 
 		$media = get_post( $media_id );
 		switch ( $media->post_mime_type ) {
@@ -462,9 +455,7 @@ NOWDOC;
 	 */
 	protected function get_placeholder_image_id(): int {
 
-		$query = new WP_Query( array(
-			'pagename' => 'llms-unauthorized-placeholder-image',
-		) );
+		$query = new WP_Query( array( 'pagename' => 'lifterlms-unauthorized-placeholder-image' ) );
 		$posts = $query->get_posts();
 
 		if ( empty( $posts ) ) {
@@ -509,6 +500,33 @@ NOWDOC;
 		);
 
 		return $media_url;
+	}
+
+	/**
+	 * Gets the size from the URL query parameter.
+	 *
+	 * @see wp_create_image_subsizes()
+	 * @since [version]
+	 *
+	 * @return string|int[]|null
+	 */
+	protected function get_size() {
+
+		$size = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
+		if ( false === $size ) {
+			$size = null;
+		} elseif ( is_string( $size ) && '[' === $size[0] ) {
+			$size = json_decode( $size );
+			// Sanitize untrusted external input.
+			if ( isset( $size[0] ) ) {
+				$size[0] = (int) $size[0];
+			}
+			if ( isset( $size[1] ) ) {
+				$size[1] = (int) $size[1];
+			}
+		}
+
+		return $size;
 	}
 
 	/**
@@ -573,7 +591,7 @@ NOWDOC;
 			$is_authorized = true;
 		} else {
 			$user          = wp_get_current_user();
-			$is_authorized = in_array( 'llms_manager', $user->roles );
+			$is_authorized = in_array( 'llms_manager', $user->roles, true );
 		}
 
 		/**
@@ -598,6 +616,33 @@ NOWDOC;
 		wp_cache_add( $media_id, $is_authorized, 'llms_media_authorization' );
 
 		return $is_authorized;
+	}
+
+	/**
+	 * Returns true if the current request has a different modification date or entity tag than the requested file.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $file_name The complete path and file name that the request is for.
+	 * @param string $entity_tag {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag}.
+	 * @return bool
+	 */
+	protected function is_requested_file_modified( string $file_name, string $entity_tag ): bool {
+
+		$is_modified = true;
+
+		$file_modified     = filemtime( $file_name );
+		$if_modified_since = llms_filter_input( INPUT_SERVER, 'HTTP_IF_MODIFIED_SINCE', FILTER_SANITIZE_STRING );
+		if ( strtotime( $if_modified_since ) === $file_modified ) {
+			$is_modified = false;
+		}
+
+		$if_match = llms_filter_input( INPUT_SERVER, 'HTTP_IF_MATCH', FILTER_SANITIZE_URL );
+		if ( $if_match === $entity_tag ) {
+			$is_modified = false;
+		}
+
+		return $is_modified;
 	}
 
 	/**
@@ -646,20 +691,20 @@ NOWDOC;
 	 */
 	protected function read_file( string $file_name ): void {
 
-		// @TODO What about the web server time limit?
-		ini_set( 'max_execution_time', '0' );
+		// @todo What about the web server time limit?
+		set_time_limit( 0 );
 
 		// Tell the HTTP client that we do not handle HTTP range requests.
 		header( 'Accept-Ranges: none' );
 
 		// Turn off all output buffers to avoid running out of memory with large files.
-		// @see https://www.php.net/readfile#refsect1-function.readfile-notes
+		// @see https://www.php.net/readfile#refsect1-function.readfile-notes.
 		wp_ob_end_flush_all();
 
-		$result = readfile( $file_name );
-		if ( false === $result  ) {
+		$result = readfile( $file_name ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_readfile
+		if ( false === $result ) {
 			// Tell the HTTP client that something unspecific went wrong. readfile() outputs warnings to the PHP error log.
-			header( $_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error' );
+			header( 'HTTP/1.1 500 Internal Server Error' );
 		}
 	}
 
@@ -674,7 +719,7 @@ NOWDOC;
 
 		add_filter( 'mod_rewrite_rules', array( $this, 'add_mod_xsendfile_directives' ) );
 
-		if ( array_key_exists( self::QUERY_PARAMETER_ID, $_GET ) ) {
+		if ( array_key_exists( self::QUERY_PARAMETER_ID, $_GET ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			add_action( 'init', array( $this, 'serve_file' ), 10 );
 		} else {
 			add_filter( 'wp_prepare_attachment_for_js', array( $this, 'prepare_attachment_for_js' ), 99, 3 );
@@ -708,10 +753,10 @@ NOWDOC;
 	 */
 	protected function send_file( string $file_name, int $media_id ): void {
 
-		$server_software = $_SERVER['SERVER_SOFTWARE'];
+		$server_software = llms_filter_input( INPUT_SERVER, 'SERVER_SOFTWARE', FILTER_SANITIZE_STRING );
 
 		if (
-			'1' === $_SERVER['MOD_X_SENDFILE_ENABLED'] ||
+			( array_key_exists( 'MOD_X_SENDFILE_ENABLED', $_SERVER ) && '1' === $_SERVER['MOD_X_SENDFILE_ENABLED'] ) ||
 			( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules(), true ) ) ||
 			stristr( $server_software, 'cherokee' ) ||
 			stristr( $server_software, 'lighttpd' )
@@ -720,7 +765,7 @@ NOWDOC;
 
 		} elseif ( stristr( $server_software, 'nginx' ) ) {
 			/**
-			 * @TODO Test NGINX.
+			 * @todo Test NGINX.
 			 * @see https://www.nginx.com/resources/wiki/start/topics/examples/xsendfile/
 			 * @see https://woocommerce.com/document/digital-downloadable-product-handling/#nginx-setting
 			 */
@@ -744,7 +789,7 @@ NOWDOC;
 	 */
 	protected function send_headers( string $file_name, int $media_id ): void {
 
-		$file_size = @filesize( $file_name ); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		$file_size = @filesize( $file_name ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! $file_size ) {
 			return;
 		}
@@ -781,7 +826,7 @@ NOWDOC;
 	 * @since [version]
 	 *
 	 * @return void
-	 * @throws LLMS_Unit_Test_Exception_Exit
+	 * @throws LLMS_Unit_Test_Exception_Exit Thrown during unit testing instead of exiting.
 	 */
 	public function serve_file() {
 
@@ -790,33 +835,15 @@ NOWDOC;
 
 		// Validate that the attachment post exists.
 		if ( is_null( $media_file ) ) {
-			header( $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found' );
+			header( 'HTTP/1.1 404 Not Found' );
 			llms_exit();
 		}
 
 		$file_name = $this->get_media_path( $media_id );
 
-		// Valid types are string, int[] and null.
-		$size = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
-		if ( false === $size ) {
-			$size = null;
-		} elseif ( is_string( $size ) && '[' === $size[0] ) {
-			$size = json_decode( $size );
-			// Sanitize untrusted external input.
-			if ( isset( $size[0] ) ) {
-				$size[0] = (int) $size[0];
-			}
-			if ( isset( $size[1] ) ) {
-				$size[1] = (int) $size[1];
-			}
-		}
-
-		$icon = null;
-		if ( isset( $_GET[ self::QUERY_PARAMETER_ICON ] ) ) {
-			$icon = (bool) $_GET[ self::QUERY_PARAMETER_ICON ];
-		}
-
 		// Optionally, use an alternate image size.
+		$size = $this->get_size();
+		$icon = (bool) llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_ICON, FILTER_SANITIZE_STRING );
 		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
@@ -824,7 +851,7 @@ NOWDOC;
 
 		// Validate that the media file exists.
 		if ( false === file_exists( $file_name ) ) {
-			header( $_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found' );
+			header( 'HTTP/1.1 404 Not Found' );
 			llms_exit();
 		}
 
@@ -833,30 +860,43 @@ NOWDOC;
 		if ( false === $is_authorized ) {
 			$content_type = $media_file->post_mime_type;
 			if ( 0 === stripos( $content_type, 'image/' ) ) {
-				$unauthorized_image_id = $this->get_placeholder_image_id();
-				$image = wp_get_attachment_image_src( $unauthorized_image_id, $size );
+				// Use a placeholder for images.
+				$media_id = $this->get_placeholder_image_id();
+				$image    = wp_get_attachment_image_src( $media_id, $size );
 				if ( false === $image ) {
+					// Emergency fallback.
 					$file_name = LLMS_PLUGIN_DIR . 'assets/images/unauthorized-placeholder.png';
 				} else {
-					$file_name = $this->get_media_path( $unauthorized_image_id );
+					$file_name = $this->get_media_path( $media_id );
 					$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
 				}
-
 			} else {
-				header( $_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden' );
+				// An unauthorized request to a file without a placeholder is denied.
+				header( 'HTTP/1.1 403 Forbidden' );
 				llms_exit();
 			}
 		}
+
+		// An HTTP client, but not a proxy, is allowed to cache the file, but must check with the server before reuse.
+		$entity_tag = '"' . md5_file( $file_name ) . '"';
+		if ( false === $this->is_requested_file_modified( $file_name, $entity_tag ) ) {
+			header( 'HTTP/1.1 304 Not Modified' );
+			llms_exit();
+		}
+		header( 'Cache-Control: private, no-cache' );
+		header( "Etag: $entity_tag" );
 
 		/**
 		 * Determine how the media file should be served.
 		 *
 		 * @since [version]
 		 *
-		 * @param string $serve_method One of the LLMS_Media_Protector::SERVE_X constants, {@see LLMS_Media_Protector::SERVE_SEND_FILE}.
-		 * @param int    $media_id     The post ID of the media file.
+		 * @param string    $serve_method  One of the LLMS_Media_Protector::SERVE_X constants, {@see LLMS_Media_Protector::SERVE_SEND_FILE}.
+		 * @param int       $media_id      The post ID of the media file.
+		 * @param bool|null $is_authorized True if the user is authorized to view the requested media file,
+		 *                                 false if not authorized, or null if the media file is not protected.
 		 */
-		$serve_method = apply_filters( 'llms_media_serve_method', self::SERVE_SEND_FILE, $media_id );
+		$serve_method = apply_filters( 'llms_media_serve_method', self::SERVE_SEND_FILE, $media_id, $is_authorized );
 
 		switch ( $serve_method ) {
 			case self::SERVE_READ_FILE:
