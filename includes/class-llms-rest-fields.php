@@ -93,7 +93,51 @@ class LLMS_REST_Fields {
 	public function register() {
 
 		$this->register_fields_for_certificates();
+		$this->register_fields_for_certificate_awards();
 		$this->register_fields_for_certificate_templates();
+
+	}
+
+	/**
+	 * Registers rest fields user for awarded certificates.
+	 *
+	 * This provides a REST field in place of the default WP Core author field. Since the post type
+	 * doesn't support `author` the field isn't returned by the REST API so we add a custom field,
+	 * `user`, in it's place.
+	 *
+	 * We don't want to enable `author` support for this as the author selection interface only supports
+	 * authors returned by the `?who=authors` which doesn't satisfy our needs. And there's no way I can find
+	 * to disable the default UI if we do enable `author` post type support.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function register_fields_for_certificate_awards() {
+
+		register_rest_field(
+			'llms_my_certificate',
+			'user',
+			array(
+				'schema'          => array(
+					'description' => __( 'User ID of the user who earned the certificate.', 'lifterlms' ),
+					'type'        => 'integer',
+					'arg_options' => array(
+						'validate_callback' => function( $value, $request ) {
+							return false !== get_userdata( (int) $value );
+						},
+					),
+				),
+				'get_callback'    => function( $object ) {
+					$cert = llms_get_certificate( $object['id'], true );
+					return $cert->get( 'author' );
+				},
+				'update_callback' => function( $value, $post ) {
+					$cert = llms_get_certificate( $post->ID, true );
+					return $cert->set( 'author', $value );
+				},
+			)
+		);
 
 	}
 
