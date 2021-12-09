@@ -8,7 +8,7 @@ import editCertificate from '../edit-certificate';
  *
  * @since [version]
  *
- * @param {Object} args             Component arguments.
+ * @param {Object} args       Component arguments.
  * @param {string} args.title Currently selected title value.
  * @return {TextControl} Control component.
  */

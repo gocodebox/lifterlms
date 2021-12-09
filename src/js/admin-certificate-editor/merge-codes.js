@@ -8,8 +8,19 @@ import { useState } from '@wordpress/element';
 import { CopyButton } from '@lifterlms/components';
 import { Icon, lifterlms } from '@lifterlms/icons';
 
-function MergeCodeList( { closeModal, onChange, value } ) {
-
+/**
+ * Displays a single <tr> for a merge code.
+ *
+ * @since [version]
+ *
+ * @param {Object}   args            Component arguments.
+ * @param {Function} args.closeModal Function to close the modal.
+ * @param {Function} args.onChange   RichText change callback function, used to insert
+ *                                   the merge code into the current RichText area in the editor.
+ * @param {Object}   args.value      Current value object of the RichText element.
+ * @return {WPElement} The table row component.
+ */
+function MergeCodeTableRow( { closeModal, onChange, value } ) {
 	const { merge_codes: list } = window.llms.certificates;
 
 	return Object.entries( list ).map( ( [ code, name ], index ) => {
@@ -39,11 +50,17 @@ function MergeCodeList( { closeModal, onChange, value } ) {
 			</tr>
 		);
 	} );
-
 }
 
+/**
+ * RichText format edit component.
+ *
+ * @since [version]
+ *
+ * @param {Object} props Component properties.
+ * @return {WPElement} The component.
+ */
 function Edit( props ) {
-
 	const [ isOpen, setOpen ] = useState( false ),
 		openModal = () => setOpen( true ),
 		closeModal = () => setOpen( false ),
@@ -76,7 +93,7 @@ function Edit( props ) {
 								</tr>
 							</thead>
 							<tbody>
-								<MergeCodeList { ...{ closeModal, onChange, value } } />
+								<MergeCodeTableRow { ...{ closeModal, onChange, value } } />
 							</tbody>
 						</table>
 					</div>
@@ -84,10 +101,13 @@ function Edit( props ) {
 			) }
 		</>
 	);
-
 }
 
-
+/**
+ * Register a RichText format with the block editor.
+ *
+ * @since [version]
+ */
 registerFormatType( 'llms/certificate-merge-codes', {
 	title: __( 'LifterLMS Certificate Merge Codes', 'lifterlms' ),
 	tagName: 'span',

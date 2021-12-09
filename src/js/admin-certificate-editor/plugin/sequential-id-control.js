@@ -9,12 +9,11 @@ import editCertificate from '../edit-certificate';
  *
  * @since [version]
  *
- * @param {Object} args    Component arguments.
+ * @param {Object} args              Component arguments.
  * @param {string} args.sequentialId Current sequential ID.
  * @return {TextControl} Control component.
  */
 export default function SequentialIdControl( { sequentialId } ) {
-
 	const [ currId, setId ] = useState( sequentialId );
 
 	let { minSequentialId } = window.llms.certificates;
