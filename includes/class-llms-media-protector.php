@@ -35,49 +35,23 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  *
- * @todo Add a rewrite rule that sends all 'uploads/llms-uploads/' requests to {@see LLMS_Media_Protector::serve_file()}.
  * @todo Add handling of HTTP range requests. See {@see https://datatracker.ietf.org/doc/html/rfc7233} and
  *       {@see https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests}.
+ * @todo Add WordPress multi-site capability.
  */
 class LLMS_Media_Protector {
 
 	/**
 	 * The meta key used to specify the filter hook name that authorizes viewing of a media file.
 	 *
-	 * @todo Should the key be prefixed with an underscore '_' to denote private?
+	 * The key is protected by prefixing it with an underscore '_', which causes WordPress to not display it in
+	 * a custom fields interface. {@see is_protected_meta()}.
 	 *
 	 * @since [version]
 	 *
 	 * @var string
 	 */
-	public const AUTHORIZATION_FILTER_KEY = 'llms_media_authorization_filter';
-
-	/**
-	 * The name of the query parameter for whether the media image should be treated as an icon.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	public const QUERY_PARAMETER_ICON = 'llms_media_icon';
-
-	/**
-	 * The name of the query parameter for the media post ID.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	public const QUERY_PARAMETER_ID = 'llms_media_id';
-
-	/**
-	 * The name of the query parameter for the requested media image size.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	public const QUERY_PARAMETER_SIZE = 'llms_media_image_size';
+	public const AUTHORIZATION_FILTER_KEY = '_llms_media_authorization_filter';
 
 	/**
 	 * Serve the media file by reading and outputting it with the readfile() function.
@@ -120,6 +94,43 @@ class LLMS_Media_Protector {
 	public const SERVE_SEND_FILE = 3;
 
 	/**
+	 * The name of the URL parameter for whether the media image should be treated as an icon.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_ICON = 'llms_media_icon';
+
+	/**
+	 * The name of the URL parameter for the media post ID.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_ID = 'llms_media_id';
+
+	/**
+	 * The name of the URL parameter for when the LifterLMS rewrite rule changes a URL that directly accesses the
+	 * 'llms-uploads' directory into '/index.php?llms_protected_url=llms-uploads/PATH_TO_FILE'.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_PROTECTED_URL = 'llms_protected_url';
+
+	/**
+	 * The name of the URL parameter for the requested media image size.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	public const URL_PARAMETER_SIZE = 'llms_media_image_size';
+
+	/**
 	 * An optional path added to the base upload path.
 	 *
 	 * If it is not empty, it will have a leading slash and will not have a trailing slash.
@@ -157,36 +168,6 @@ class LLMS_Media_Protector {
 
 		$this->set_base_upload_path( $base_upload_path );
 		$this->set_additional_upload_path( $additional_upload_path );
-	}
-
-	/**
-	 * Adds directives to .htaccess that allows Apache mod_xsendfile to be enabled and detected.
-	 *
-	 * Hooked to the {@see 'mod_rewrite_rules'} filter in {@see WP_Rewrite::mod_rewrite_rules()}
-	 * by {@see LLMS_Media_Protector::register_callbacks()}.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $rules mod_rewrite Rewrite rules formatted for .htaccess.
-	 * @return string
-	 */
-	public function add_mod_xsendfile_directives( $rules ): string {
-
-		$directives = <<<'NOWDOC'
-
-# BEGIN LifterLMS mod_xsendfile
-<IfModule mod_xsendfile.c>
-  <Files *.php>
-    XSendFile On
-    SetEnv MOD_X_SENDFILE_ENABLED 1
-  </Files>
-</IfModule>
-# END LifterLMS mod_xsendfile
-
-
-NOWDOC;
-
-		return $directives . $rules;
 	}
 
 	/**
@@ -282,9 +263,9 @@ NOWDOC;
 
 		$image[0] = add_query_arg(
 			array(
-				self::QUERY_PARAMETER_ID   => $media_id,
-				self::QUERY_PARAMETER_SIZE => rawurlencode( is_array( $size ) ? wp_json_encode( $size ) : $size ),
-				self::QUERY_PARAMETER_ICON => $icon ? 1 : 0,
+				self::URL_PARAMETER_ID   => $media_id,
+				self::URL_PARAMETER_SIZE => rawurlencode( is_array( $size ) ? wp_json_encode( $size ) : $size ),
+				self::URL_PARAMETER_ICON => $icon ? 1 : 0,
 			),
 			trailingslashit( home_url() )
 		);
@@ -313,7 +294,7 @@ NOWDOC;
 		$is_authorized = $this->is_authorized_to_view( get_current_user_id(), $media_id );
 		if ( true === $is_authorized ) {
 			$url = add_query_arg(
-				array( self::QUERY_PARAMETER_ID => $media_id ),
+				array( self::URL_PARAMETER_ID => $media_id ),
 				trailingslashit( home_url() )
 			);
 		} elseif ( false === $is_authorized ) {
@@ -390,22 +371,6 @@ NOWDOC;
 	}
 
 	/**
-	 * Returns an absolute URL to the media file in the upload directory.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $media_id The media post ID.
-	 * @return string
-	 */
-	public function get_media_url( int $media_id ): string {
-
-		$upload_dir = wp_upload_dir();
-		$file_name  = get_post_meta( $media_id, '_wp_attached_file', true );
-
-		return $upload_dir['baseurl'] . '/' . $file_name;
-	}
-
-	/**
 	 * Returns the post ID of a placeholder media file.
 	 *
 	 * @since [version]
@@ -456,12 +421,11 @@ NOWDOC;
 	protected function get_placeholder_image_id(): int {
 
 		$query = new WP_Query( array( 'pagename' => 'lifterlms-unauthorized-placeholder-image' ) );
-		$posts = $query->get_posts();
 
-		if ( empty( $posts ) ) {
+		if ( empty( $query->posts ) ) {
 			$media_id = $this->add_unauthorized_placeholder_image_to_media_library();
 		} else {
-			$media_id = $posts[0]->ID;
+			$media_id = $query->posts[0]->ID;
 		}
 
 		return $media_id;
@@ -512,7 +476,7 @@ NOWDOC;
 	 */
 	protected function get_size() {
 
-		$size = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
+		$size = llms_filter_input( INPUT_GET, self::URL_PARAMETER_SIZE, FILTER_SANITIZE_STRING );
 		if ( false === $size ) {
 			$size = null;
 		} elseif ( is_string( $size ) && '[' === $size[0] ) {
@@ -668,8 +632,8 @@ NOWDOC;
 		foreach ( $response['sizes'] as $size => &$size_meta ) {
 			$size_meta['url'] = add_query_arg(
 				array(
-					self::QUERY_PARAMETER_ID   => $attachment->ID,
-					self::QUERY_PARAMETER_SIZE => $size,
+					self::URL_PARAMETER_ID   => $attachment->ID,
+					self::URL_PARAMETER_SIZE => $size,
 				),
 				trailingslashit( home_url() )
 			);
@@ -717,17 +681,83 @@ NOWDOC;
 	 */
 	public function register_callbacks(): self {
 
-		add_filter( 'mod_rewrite_rules', array( $this, 'add_mod_xsendfile_directives' ) );
-
-		if ( array_key_exists( self::QUERY_PARAMETER_ID, $_GET ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if (
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended
+			array_key_exists( self::URL_PARAMETER_ID, $_GET ) ||
+			array_key_exists( self::URL_PARAMETER_PROTECTED_URL, $_GET )
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		) {
 			add_action( 'init', array( $this, 'serve_file' ), 10 );
 		} else {
+			add_filter( 'flush_rewrite_rules_hard', array( $this, 'save_mod_rewrite_rules' ), 10, 1 );
 			add_filter( 'wp_prepare_attachment_for_js', array( $this, 'prepare_attachment_for_js' ), 99, 3 );
 			add_filter( 'wp_get_attachment_image_src', array( $this, 'authorize_media_image_src' ), 10, 4 );
 			add_filter( 'wp_get_attachment_url', array( $this, 'authorize_media_url' ), 10, 2 );
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Adds mod_rewrite and mod_xsendfile directives to the Apache .htaccess file.
+	 *
+	 * Hooked to the {@see 'flush_rewrite_rules_hard'} filter in {@see WP_Rewrite::flush_rules()}
+	 * by {@see LLMS_Media_Protector::register_callbacks()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $hard Whether to flush rewrite rules "hard".
+	 * @return bool
+	 */
+	public function save_mod_rewrite_rules( $hard ) {
+		if ( is_multisite() ) {
+			return $hard;
+		}
+
+		// Ensure get_home_path() is declared.
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+
+		$htaccess_file    = get_home_path() . '.htaccess';
+		$base_upload_path = ltrim( $this->base_upload_path, '/' );
+		$url_parameter    = self::URL_PARAMETER_PROTECTED_URL;
+
+		$rewrite_note = sprintf(
+			/* translators: 1: Base upload path. */
+			__( 'Rewrite \'%1$s\' directory URLs to use the LifterLMS Media Protector class.', 'lifterlms' ),
+			$base_upload_path
+		);
+
+		$rule_note = __(
+			'The \'nosubreq\' flag prevents the rule from being used while mod_xsendfile is sending a file.',
+			'lifterlms'
+		);
+
+		$xsendfile_note = __(
+			'Allow PHP scripts to detect and use mod_xsendfile. https://tn123.org/mod_xsendfile/',
+			'lifterlms'
+		);
+
+		$directives = "
+# $rewrite_note
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	# $rule_note
+	RewriteRule .+?/($base_upload_path/.+) /index.php?$url_parameter=$1 [nosubreq]
+</IfModule>
+
+# $xsendfile_note
+<IfModule mod_xsendfile.c>
+  <Files *.php>
+    XSendFile On
+    SetEnv MOD_X_SENDFILE_ENABLED 1
+  </Files>
+</IfModule>
+";
+
+		insert_with_markers( $htaccess_file, 'LifterLMS', $directives );
+
+		return $hard;
 	}
 
 	/**
@@ -807,12 +837,19 @@ NOWDOC;
 	 *
 	 * @since [version]
 	 *
-	 * @param int $media_id The post ID of the media file.
+	 * @param int               $media_id The post ID of the media file.
+	 * @param string|int[]|null $size     A registered image size name, or an array of width and height values in pixels.
+	 * @param bool|null         $icon     Whether the image should fall back to a mime type icon.
 	 * @return void
 	 */
-	protected function send_redirect( int $media_id ): void {
+	protected function send_redirect( int $media_id, ?string $size, ?bool $icon ): void {
 
-		$url = $this->get_media_url( $media_id );
+		if ( is_null( $size ) && is_null( $icon ) ) {
+			$url = wp_get_attachment_url( $media_id );
+		} else {
+			$url = wp_get_attachment_image_url( $media_id, $size, $icon );
+		}
+
 		header( "Location: $url" );
 	}
 
@@ -830,7 +867,34 @@ NOWDOC;
 	 */
 	public function serve_file() {
 
-		$media_id   = llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_ID, FILTER_SANITIZE_NUMBER_INT );
+		$media_id = llms_filter_input( INPUT_GET, self::URL_PARAMETER_ID, FILTER_SANITIZE_NUMBER_INT );
+
+		// Handle a rewritten URL.
+		// e.g. `/wp-content/uploads/llms-uploads/2022/01/image.png` is changed by the LifterLMS mod_rewrite rule
+		// into `/index.php?llms-uploads=llms_protected_url/2022/01/image.png`.
+		if ( empty( $media_id ) ) {
+			$attached_file = llms_filter_input( INPUT_GET, self::URL_PARAMETER_PROTECTED_URL, FILTER_SANITIZE_URL );
+
+			/** Extract the optional size. {@see WP_Image_Editor::get_suffix()} and {@see WP_Image_Editor::generate_filename()} */
+			$result = preg_match( '/^(.+?)-(\d+x\d+)(.+)$/', $attached_file, $matches );
+			if ( $result ) {
+				$attached_file = $matches[1] . $matches[3];
+				$size          = explode( 'x', $matches[2] );
+				$size          = array_map( 'intval', $size );
+			}
+
+			$query    = new WP_Query(
+				array(
+					'fields'      => 'ids',
+					'meta_key'    => '_wp_attached_file',
+					'meta_value'  => $attached_file,
+					'post_status' => 'any',
+					'post_type'   => 'attachment',
+				)
+			);
+			$media_id = reset( $query->posts );
+		}
+
 		$media_file = get_post( $media_id );
 
 		// Validate that the attachment post exists.
@@ -842,8 +906,10 @@ NOWDOC;
 		$file_name = $this->get_media_path( $media_id );
 
 		// Optionally, use an alternate image size.
-		$size = $this->get_size();
-		$icon = (bool) llms_filter_input( INPUT_GET, self::QUERY_PARAMETER_ICON, FILTER_SANITIZE_STRING );
+		if ( ! isset( $size ) ) {
+			$size = $this->get_size();
+		}
+		$icon = (bool) llms_filter_input( INPUT_GET, self::URL_PARAMETER_ICON, FILTER_SANITIZE_STRING );
 		if ( ! is_null( $size ) || ! is_null( $icon ) ) {
 			$image     = wp_get_attachment_image_src( $media_id, $size, $icon );
 			$file_name = dirname( $file_name ) . '/' . basename( $image[0] );
@@ -898,6 +964,12 @@ NOWDOC;
 		 */
 		$serve_method = apply_filters( 'llms_media_serve_method', self::SERVE_SEND_FILE, $media_id, $is_authorized );
 
+		// Don't use 'llms-uploads=' rewrite + send_redirect() at the same time. Otherwise there will be an infinite loop
+		// of HTTP requests for the file and HTTP responses with a '302 Found' redirect back to the same file.
+		if ( self::SERVE_REDIRECT === $serve_method && isset( $attached_file ) ) {
+			$serve_method = self::SERVE_READ_FILE;
+		}
+
 		switch ( $serve_method ) {
 			case self::SERVE_READ_FILE:
 				$this->send_headers( $file_name, $media_id );
@@ -909,7 +981,7 @@ NOWDOC;
 				break;
 			case self::SERVE_REDIRECT:
 			default:
-				$this->send_redirect( $media_id );
+				$this->send_redirect( $media_id, $size, $icon );
 				break;
 		}
 
