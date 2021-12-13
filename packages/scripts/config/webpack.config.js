@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version [version]
+ * @version 2.1.0
  */
 
 // Deps.
@@ -75,7 +75,7 @@ function setupEntry( js, srcPath ) {
  *
  * @since 1.2.1
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
- * @since [version] Added `cleanAfterEveryBuildPatterns` parameter.
+ * @since 2.1.0 Added `cleanAfterEveryBuildPatterns` parameter.
  *
  * @param {Object[]} plugins                      Array of plugin objects or classes.
  * @param {String[]} css                          Array of CSS file slugs.
@@ -161,7 +161,7 @@ function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
  * @since Unknown
  * @since 1.2.1 Reduce method size by using helper methods
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
- * @since [version] Add configuration option added to the CleanWebpackPlugin.
+ * @since 2.1.0 Add configuration option added to the CleanWebpackPlugin.
  *
  * @param {String[]} options.css                          Array of CSS file slugs.
  * @param {String[]} options.js                           Array of JS file slugs.
