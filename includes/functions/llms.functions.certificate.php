@@ -133,6 +133,32 @@ function llms_get_certificate_merge_codes() {
 }
 
 /**
+ * Retrieves registered certificate orientations.
+ *
+ * @since [version]
+ *
+ * @return array Key value array where the array key is the orientation ID and the value is the
+ *               translated name of the orientation.
+ */
+function llms_get_certificate_orientations() {
+
+	$orientations = array(
+		'portrait'  => __( 'Portrait', 'lifterlms' ),
+		'landscape' => __( 'Landscape', 'lifterlms' ),
+	);
+
+	/**
+	 * Filters the list of available certificate orientations.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $orientations Array of orientations.
+	 */
+	return apply_filters( 'llms_certificate_orientations', $orientations );
+
+}
+
+/**
  * Retrieve the current or next sequential ID for a given certificate template.
  *
  * If there's no existing ID, the ID starts at 1 and will *not* be incremented.
@@ -196,6 +222,112 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 	}
 
 	return $id;
+
+}
+
+/**
+ * Retrieves a list of registered certificate sizes.
+ *
+ * @since [version]
+ *
+ * @return {
+ *     Array of sizes. The array key is the size's unique ID.
+ *
+ *     @type string $name   The translated name for the size.
+ *     @type float  $width  The portrait width dimension of the size.
+ *     @type float  $height The portrait height dimension of the size.
+ *     @type string $unit   The unit used for the dimensions of the size. Must be the ID of a unit registered via {@see llms_get_certificate_units()}.
+ * }
+ */
+function llms_get_certificate_sizes() {
+
+	$sizes = array(
+		// ISO 216 sizes.
+		'A3' => array(
+			'name'   => _x( 'A3', 'Paper size name', 'lifterlms' ),
+			'width'  => 297,
+			'height' => 420,
+			'unit'   => 'mm',
+		),
+		'A4' => array(
+			'name'   => _x( 'A4', 'Paper size name', 'lifterlms' ),
+			'width'  => 210,
+			'height' => 297,
+			'unit'   => 'mm',
+		),
+		'A5' => array(
+			'name'   => _x( 'A5', 'Paper size name', 'lifterlms' ),
+			'width'  => 148,
+			'height' => 210,
+			'unit'   => 'mm',
+		),
+		// North American sizes.
+		'LETTER' => array(
+			'name'   => _x( 'Letter', 'Paper size name', 'lifterlms' ),
+			'width'  => 8.5,
+			'height' => 11,
+			'unit'   => 'in',
+		),
+		'LEGAL' => array(
+			'name'   => _x( 'Legal', 'Paper size name', 'lifterlms' ),
+			'width'  => 8.5,
+			'height' => 14,
+			'unit'   => 'in',
+		),
+		'LEDGER' => array(
+			'name'   => _x( 'Ledger', 'Paper size name', 'lifterlms' ),
+			'width'  => 11,
+			'height' => 17,
+			'unit'   => 'in',
+		),
+	);
+
+	/**
+	 * Filters registered certificate size options.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $sizes Array of registered sizes.
+	 */
+	return apply_filters( 'llms_certificate_sizes', $sizes );
+
+}
+
+/**
+ * Retrieves units available for certificate dimensions.
+ *
+ * @since [version]
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/CSS/length
+ *
+ * @return {
+ *     Array of unit information. The array key is the unit ID, which should be a valid absolute length CSS unit.
+ *
+ *     @type string $name   Translated name of the unit.
+ *     @type string $symbol Translated symbol used when displaying dimensions with the unit.
+.* }
+ */
+function llms_get_certificate_units() {
+
+	$units = array(
+		'in' => array(
+			'name'   => __( 'Inches', 'lifterlms' ),
+			'symbol' => _x( '"', 'Symbol for inches', 'lifterlms' ),
+		),
+		'mm' => array(
+			'name'   => __( 'Millimeters', 'lifterlms' ),
+			'symbol' => _x( 'mm', 'Symbol for millimeters', 'lifterlms' ),
+		),
+	);
+
+	/**
+	 * Filters the list of certificate dimension units.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $units Array of available units.
+	 */
+	return apply_filters( 'llms_certificate_units', $units );
 
 }
 

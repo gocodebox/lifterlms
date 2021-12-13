@@ -59,6 +59,13 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		$this->context  = 'side';
 		$this->priority = 'high';
 
+		$id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		if ( $id && 'llms_my_certificate' === get_post_type( $id ) ) {
+			$this->callback_args = array(
+				'__back_compat_meta_box' => true,
+			);
+		}
+
 		// Remove wp core post submit meta box.
 		remove_meta_box( 'submitdiv', $this->screens, 'side' );
 

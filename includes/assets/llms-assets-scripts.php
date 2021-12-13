@@ -18,18 +18,19 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Stylesheets assets list
+ * Scripts assets list.
  *
  * @since 4.4.0
  * @since 4.8.0 Added llms-admin-setup.
  * @since 5.0.0 Added llms-select2.
  * @since 5.5.0 Added llms-addons.
+ * @since [version] Added llms-admin-certificate-editor.
  */
 return array(
 
@@ -58,6 +59,18 @@ return array(
 	),
 	'llms-admin-forms'        => array(
 		'dependencies' => array( 'wp-i18n' ),
+	),
+	'llms-admin-certificate-editor' => array(
+		'asset_file' => true,
+	),
+
+	// Modules.
+	'llms-components' => array(
+		'asset_file' => true,
+	),
+	// Modules.
+	'llms-icons' => array(
+		'asset_file'   => true,
 	),
 
 	// Vendor.

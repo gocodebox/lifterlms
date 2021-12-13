@@ -31,16 +31,24 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters.
 	 *
 	 * @since 4.5.0
+	 * @since [version] Add new properties.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
-			'parent'        => 2,
 			'allow_sharing' => 'no',
+			'background'    => '#eaeaea',
 			'engagement'    => 3,
+			'height'        => 5.5,
+			'margins'       => array( 2, 3, 0.5, 1.83 ),
+			'orientation'   => 'landscape',
+			'parent'        => 2,
 			'related'       => 4,
 			'sequential_id' => 5,
+			'size'          => 'A4',
+			'unit'          => 'mm',
+			'width'         => 230,
 		);
 	}
 
@@ -137,6 +145,170 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_background()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_background() {
+
+		$this->create();
+		$this->assertEquals( '#ffffff', $this->obj->get_background() );
+
+		$this->obj->set( 'background', '#eaeaea' );
+		$this->assertEquals( '#eaeaea', $this->obj->get_background() );
+
+	}
+
+	/**
+	 * Test get_background_image()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_background_image() {
+
+		// Default.
+		$cert = llms_get_certificate( $this->factory->post->create( array( 'post_type' => $this->post_type ) ) );
+
+		$img = $cert->get_background_image();
+		$this->assertTrue( $img['is_default'] );
+		$this->assertEquals( 800, $img['width'] );
+		$this->assertEquals( 616, $img['height'] );
+		$this->assertStringContainsString( 'default-certificate.png', $img['src'] );
+
+		// Has image.
+		$attachment = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		set_post_thumbnail( $cert->get( 'id' ), $attachment );
+
+		$img = $cert->get_background_image();
+		$this->assertFalse( $img['is_default'] );
+		$this->assertEquals( 462, $img['width'] );
+		$this->assertEquals( 616, $img['height'] );
+		$this->assertMatchesRegularExpression(
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:-\d+).jpeg#',
+			$img['src']
+		);
+
+	}
+
+	/**
+	 * Test get_dimension(), get_height(), get_width(), and get_unit()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_dimensions() {
+
+		$this->create();
+
+		// Letter.
+		$this->obj->set( 'size', 'LETTER' );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 8.5, $this->obj->get_width() );
+		$this->assertEquals( '8.5in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 11, $this->obj->get_height() );
+		$this->assertEquals( '11in', $this->obj->get_height( true ) );
+
+		// A4.
+		$this->obj->set( 'size', 'A4' );
+
+		$this->assertEquals( 'mm', $this->obj->get_unit() );
+
+		$this->assertEquals( 210, $this->obj->get_width() );
+		$this->assertEquals( '210mm', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 297, $this->obj->get_height() );
+		$this->assertEquals( '297mm', $this->obj->get_height( true ) );
+
+		// Custom.
+		$this->obj->set( 'size', 'CUSTOM' );
+		$this->obj->set( 'unit', 'in' );
+		$this->obj->set( 'width', 20 );
+		$this->obj->set( 'height', 25 );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 20, $this->obj->get_width() );
+		$this->assertEquals( '20in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 25, $this->obj->get_height() );
+		$this->assertEquals( '25in', $this->obj->get_height( true ) );
+
+	}
+
+	/**
+	 * Test get_dimensions_for_display()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_dimensions_for_display() {
+
+		$this->create();
+
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '8.5in', $dimensions['height'] );
+		$this->assertEquals( '11in', $dimensions['width'] );
+
+		// Flip orientation.
+		$this->obj->set( 'orientation', 'portrait' );
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '11in', $dimensions['height'] );
+		$this->assertEquals( '8.5in', $dimensions['width'] );
+
+	}
+
+	/**
+	 * Test get_margins()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_margins() {
+
+		$this->create();
+
+		$this->obj->set( 'size', 'CUSTOM' );
+
+		// Inches
+		$this->obj->set( 'unit', 'in' );
+		$this->assertEquals( array( 0.75, 0.75, 0.75, 0.75 ), $this->obj->get_margins() );
+		$this->assertEquals( array( '0.75in', '0.75in', '0.75in', '0.75in' ), $this->obj->get_margins( true ) );
+
+		// Millimeters.
+		$this->obj->set( 'unit', 'mm' );
+		$this->assertEquals( array( 0.75, 0.75, 0.75, 0.75 ), $this->obj->get_margins() );
+		$this->assertEquals( array( '0.75mm', '0.75mm', '0.75mm', '0.75mm' ), $this->obj->get_margins( true ) );
+
+	}
+
+	/**
+	 * Test get_orientation()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_orientation() {
+
+		$this->create();
+		$this->assertEquals( 'landscape', $this->obj->get_orientation() );
+
+		$this->obj->set( 'orientation', 'portrait' );
+		$this->assertEquals( 'portrait', $this->obj->get_orientation() );
+
+	}
+
+	/**
 	 * Test get_related_post_id()
 	 *
 	 * @since 4.5.0
@@ -183,6 +355,55 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 			$this->assertEquals( $formatted, $this->obj->get_sequential_id() );
 
 		}
+
+	}
+
+	/**
+	 * Test get_size()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_size() {
+
+		$this->create();
+		$this->assertEquals( 'LETTER', $this->obj->get_size() );
+
+		$this->obj->set( 'size', 'A3' );
+		$this->assertEquals( 'A3', $this->obj->get_size() );
+
+	}
+
+	/**
+	 * Test get_template_version()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_template_version() {
+
+		$this->create();
+
+		// No content.
+		$this->assertEquals( 2, $this->obj->get_template_version() );
+
+		// Some blocks.
+		$blocks = serialize_blocks( array(
+			array(
+				'blockName'    => 'core/paragraph',
+				'innerContent' => array( 'Lorem ipsum dolor sit.' ),
+				'attrs'        => array(),
+			),
+		) );
+		$this->obj->set( 'content', $blocks );
+		$this->assertEquals( 2, $this->obj->get_template_version() );
+
+		// Content & no blocks.
+		$this->obj->set( 'content', 'No blocks' );
+		$this->assertEquals( 1, $this->obj->get_template_version() );
+
 
 	}
 

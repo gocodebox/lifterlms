@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v?.?.? - 2021-??-??
+-------------------
+
++ Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
+
+
 v2.0.0 - 2021-11-05
 -------------------
 

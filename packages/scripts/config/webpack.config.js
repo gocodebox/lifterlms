@@ -4,21 +4,22 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version 1.2.3
+ * @version [version]
  */
 
 // Deps.
 const
-	cssExtract   = require( 'mini-css-extract-plugin' ),
-	cssRTL       = require( 'webpack-rtl-plugin' ),
-	config       = require( '@wordpress/scripts/config/webpack.config' ),
-	depExtract   = require( '@wordpress/dependency-extraction-webpack-plugin' ),
-	path         = require( 'path' );
+	cssExtract = require( 'mini-css-extract-plugin' ),
+	cssRTL     = require( 'webpack-rtl-plugin' ),
+	config     = require( '@wordpress/scripts/config/webpack.config' ),
+	depExtract = require( '@wordpress/dependency-extraction-webpack-plugin' ),
+	path       = require( 'path' );
 
 /**
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
  *
  * @since 1.2.1
+ * @since [version] Load `@lifterlms/*` packages into the `window.llms` namespace.
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
@@ -31,6 +32,8 @@ function requestToExternal( request ) {
 		return [ 'jQuery', 'iziModal' ];
 	} else if ( request.startsWith( 'llms/' ) || request.startsWith( 'LLMS/' ) ) {
 		return request.split( '/' );
+	} else if ( request.startsWith( '@lifterlms/' ) ) {
+		return [ 'llms', request.replace( '@lifterlms/', '' ) ];
 	}
 
 }
@@ -39,14 +42,19 @@ function requestToExternal( request ) {
  * Used by dependency extractor to handle requests to scripts included in the LifterLMS Core.
  *
  * @since 1.2.1
+ * @since [version] Use `llms-*` as the script ID for `@lifterlms/*` packages.
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
  */
 function requestToHandle( request ) {
+
 	if ( request.startsWith( 'llms/' ) || request.startsWith( 'LLMS/' ) ) {
 		return 'llms';
+	} else if ( request.startsWith( '@lifterlms/' ) ) {
+		return request.replace( '@lifterlms/', 'llms-' );
 	}
+
 }
 
 /**
