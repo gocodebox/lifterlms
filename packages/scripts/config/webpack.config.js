@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version 1.2.3
+ * @version [version]
  */
 
 // Deps.
@@ -75,13 +75,35 @@ function setupEntry( js, srcPath ) {
  *
  * @since 1.2.1
  * @since 2.0.0 Remove default DependencyExtractionWebpackPlugin in favor of our custom loader.
+ * @since [version] Added `cleanAfterEveryBuildPatterns` parameter.
  *
- * @param {Object[]} plugins Array of plugin objects or classes.
- * @param {String[]} css     Array of CSS file slugs.
- * @param {String}   prefix  File prefix.
+ * @param {Object[]} plugins                      Array of plugin objects or classes.
+ * @param {String[]} css                          Array of CSS file slugs.
+ * @param {String}   prefix                       File prefix.
+ * @param {String[]} cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
  * @return {Object[]} Array of plugin objects or classes.
  */
-function setupPlugins( plugins, css, prefix ) {
+function setupPlugins( plugins, css, prefix, cleanAfterEveryBuildPatterns ) {
+
+	// Modify the CleanWebpackPlugin's cleanAfterEveryBuildPatterns config.
+	if ( cleanAfterEveryBuildPatterns.length ) {
+
+		plugins = plugins.filter( plugin => {
+
+			if ( 'CleanWebpackPlugin' === plugin.constructor.name ) {
+
+				plugin.cleanAfterEveryBuildPatterns = [
+					...plugin.cleanAfterEveryBuildPatterns,
+					...cleanAfterEveryBuildPatterns,
+				];
+
+			}
+
+			return plugin;
+
+		} );
+
+	}
 
 	const REMOVE_PLUGINS = [
 		/**
@@ -98,7 +120,6 @@ function setupPlugins( plugins, css, prefix ) {
 		 */
 		'MiniCssExtractPlugin'
 	];
-
 	plugins = plugins.filter( plugin => ! REMOVE_PLUGINS.includes( plugin.constructor.name ) );
 
 	css.forEach( file => {
@@ -140,11 +161,13 @@ function setupPlugins( plugins, css, prefix ) {
  * @since Unknown
  * @since 1.2.1 Reduce method size by using helper methods
  * @since 1.2.3 Add a configurable source file path option and set the default to `src/` instead of `assets/src`.
+ * @since [version] Add configuration option added to the CleanWebpackPlugin.
  *
- * @param {String[]} options.css        Array of CSS file slugs.
- * @param {String[]} options.js         Array of JS file slugs.
- * @param {String}   options.prefix     File prefix.
- * @param {String}   options.outputPath Relative path to the output directory.
+ * @param {String[]} options.css                          Array of CSS file slugs.
+ * @param {String[]} options.js                           Array of JS file slugs.
+ * @param {String}   options.prefix                       File prefix.
+ * @param {String}   options.outputPath                   Relative path to the output directory.
+ * @param {String[]} options.cleanAfterEveryBuildPatterns List of patterns added to the CleanWebpackPlugin config.
  * @return {Object} A webpack.config.js object.
  */
 module.exports = (
@@ -154,6 +177,7 @@ module.exports = (
 		prefix = 'llms-',
 		outputPath = 'assets/',
 		srcPath = 'src/',
+		cleanAfterEveryBuildPatterns = [],
 	}
 ) => {
 
@@ -164,7 +188,7 @@ module.exports = (
 			filename: `js/${ prefix }[name].js`,
 			path: path.resolve( process.cwd(), outputPath ),
 		},
-		plugins: setupPlugins( config.plugins, css, prefix ),
+		plugins: setupPlugins( config.plugins, css, prefix, cleanAfterEveryBuildPatterns ),
 	};
 
 }
