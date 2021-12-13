@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Customize display of the "Page" post tables
+ * Customize display of the certificate post tables
  *
  * @since [version]
  */
@@ -33,7 +33,8 @@ class LLMS_Admin_Post_Table_Certificates {
 	 */
 	public function __construct() {
 
-		if ( 'llms_certificate' === llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+		$post_types = array( 'llms_certificate', 'llms_my_certificate' );
+		if ( in_array( llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ), $post_types, true ) ) {
 			add_filter( 'display_post_states', array( $this, 'add_states' ), 20, 2 );
 			add_filter( 'post_row_actions', array( $this, 'add_actions' ), 20, 2 );
 		}
