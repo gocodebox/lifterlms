@@ -826,7 +826,7 @@ class LLMS_Post_Types {
 					'not_found'             => __( 'No Awarded Achievements found', 'lifterlms' ),
 					'not_found_in_trash'    => __( 'No Awarded Achievements found in trash', 'lifterlms' ),
 					'parent'                => __( 'Parent Awarded Achievements', 'lifterlms' ),
-					'menu_name'             => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
+					'menu_name'             => _x( 'Awarded Achievements', 'Admin menu name', 'lifterlms' ),
 					'featured_image'        => __( 'Achievement Image', 'lifterlms' ),
 					'set_featured_image'    => __( 'Set awarded achievement image', 'lifterlms' ),
 					'remove_featured_image' => __( 'Remove awarded achievement image', 'lifterlms' ),
@@ -906,7 +906,7 @@ class LLMS_Post_Types {
 				'not_found'             => __( 'No Awarded Certificates found', 'lifterlms' ),
 				'not_found_in_trash'    => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
 				'parent'                => __( 'Parent Awarded Certificates', 'lifterlms' ),
-				'menu_name'             => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
+				'menu_name'             => _x( 'Awarded Certificates', 'Admin menu name', 'lifterlms' ),
 			),
 			array(
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
