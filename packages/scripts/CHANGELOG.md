@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v2.1.0 - 2021-12-13
+-------------------
+
++ Added webpack configuration option to customize the `cleanAfterEveryBuildPatterns` setting of the `CleanWebpackPlugin`.
+
+
 v2.0.0 - 2021-11-05
 -------------------
 
