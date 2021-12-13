@@ -7,6 +7,12 @@ v?.?.? - 2021-??-??
 + Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
 
 
+v2.1.0 - 2021-12-13
+-------------------
+
++ Added webpack configuration option to customize the `cleanAfterEveryBuildPatterns` setting of the `CleanWebpackPlugin`.
+
+
 v2.0.0 - 2021-11-05
 -------------------
 
