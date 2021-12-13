@@ -115,7 +115,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	protected function after_create() {
 
 		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
-		$this->set( 'content', $this->merge_content() );
+		$this->sync( 'create' );
 
 	}
 
@@ -672,27 +672,61 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Update the certificate by regenerating it's content and title from the template.
+	 * Update the certificate by regenerating it from its template.
 	 *
 	 * @since [version]
 	 *
-	 * @return WP_Error|boolean Returns a `WP_Error` if an error is encountered checking the template post, otherwise returns `true`.
+	 * @param string $context Sync context. Either "update" for an update to an existing certificate
+	 *                        or "create" when the certificate is being created.
+	 * @return boolean Returns a false if the parent doesn't exist, otherwise returns true.
 	 */
-	public function sync() {
+	public function sync( $context = 'update' ) {
 
 		$template_id = $this->get( 'parent' );
-		$check       = LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' );
-		if ( is_wp_error( $check ) ) {
-			return $check;
+		$template    = llms_get_certificate( $template_id, true );
+		if ( ! $template ) {
+			return false;
 		}
 
-		$template = get_post( $template_id );
+		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
+		set_post_thumbnail( $this->get( 'id' ), get_post_thumbnail_id( $template_id ) );
 
-		$this->set( 'title', $template->post_title );
-		$this->set( 'content', $template->post_content );
+		$props = array(
+			'content',
+		);
 
-		// Save the fully merged content.
+		// If using the block editor also sync all layout properties.
+		if ( 2 === $template->get_template_version() ) {
+			$props = array_merge( $props, array(
+				'background',
+				'height',
+				'margins',
+				'orientation',
+				'size',
+				'unit',
+				'width',
+			) );
+		}
+
+		foreach ( $props as $prop ) {
+			$raw = 'content' === $prop;
+			$this->set( $prop, $template->get( $prop, $raw ) );
+		}
+
+		// Merge content.
 		$this->set( 'content', $this->merge_content() );
+
+		/**
+		 * Action run after an awarded certificate is synchronized with its template.
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_User_Certificate $certificate Awarded certificate object.
+		 * @param LLMS_User_Certificate $template    Certificate template object.
+		 * @param string                $context     The context within which the synchronization is run.
+		 *                                           Either "create" or "update".
+		 */
+		do_action( 'llms_certificate_synchronized', $this, $template, $context );
 
 		return true;
 

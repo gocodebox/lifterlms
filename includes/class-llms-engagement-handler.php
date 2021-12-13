@@ -217,10 +217,10 @@ class LLMS_Engagement_Handler {
 			'post_author'  => $user_id,
 			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_date'    => llms_current_time( 'mysql' ),
-			'post_name'    => llms()->certificates()->get_unique_slug( $title ),
+			'post_name'    => 'certificate' === $type ? llms()->certificates()->get_unique_slug( $title ) : null,
 			'post_parent'  => $template_id,
 			'post_status'  => 'publish',
-			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
+			'post_title'   => $title,
 			'meta_input'   => array(
 				'_thumbnail_id'    => self::get_image_id( $type, $template_id ),
 				'_llms_engagement' => $engagement_id,

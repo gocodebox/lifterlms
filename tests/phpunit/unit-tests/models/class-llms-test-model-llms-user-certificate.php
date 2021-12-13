@@ -88,6 +88,27 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test the create_after() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_after() {
+
+		$actions = did_action( 'llms_certificate_synchronized' );
+
+		$template = $this->create_certificate_template();
+		update_post_meta( $template, '_llms_sequential_id', 25 );
+
+		$cert = new LLMS_User_Certificate( 'new', array( 'post_parent' => $template ) );
+
+		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
+
+	}
+
+	/**
 	 * Test delete() method
 	 *
 	 * @since 4.5.0
@@ -277,17 +298,8 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$this->create();
 
-		$this->obj->set( 'size', 'CUSTOM' );
-
-		// Inches
-		$this->obj->set( 'unit', 'in' );
-		$this->assertEquals( array( 0.75, 0.75, 0.75, 0.75 ), $this->obj->get_margins() );
-		$this->assertEquals( array( '0.75in', '0.75in', '0.75in', '0.75in' ), $this->obj->get_margins( true ) );
-
-		// Millimeters.
-		$this->obj->set( 'unit', 'mm' );
-		$this->assertEquals( array( 0.75, 0.75, 0.75, 0.75 ), $this->obj->get_margins() );
-		$this->assertEquals( array( '0.75mm', '0.75mm', '0.75mm', '0.75mm' ), $this->obj->get_margins( true ) );
+		$this->assertEquals( array( 5, 5, 5, 5 ), $this->obj->get_margins() );
+		$this->assertEquals( array( '5%', '5%', '5%', '5%' ), $this->obj->get_margins( true ) );
 
 	}
 
@@ -695,7 +707,89 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'parent', $this->factory->post->create() + 1 );
 
 		// This is just testing that an error is returned, the rest of the conditions are tested against LLMS_Engagement_Handler::check_post() directly.
-		$this->assertIsWPError( $this->obj->sync() );
+		$this->assertFalse( $this->obj->sync() );
+
+	}
+
+	/**
+	 * Test sync() with a v1 template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_v1() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template V1';
+		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+		$template->set( 'background', '#000000' );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+
+		$this->assertTrue( $this->obj->sync() );
+
+		// Title and content updated.
+		$this->assertEquals( $title, $this->obj->get( 'title' ) );
+		$this->assertEquals( "ID:{$id}", $this->obj->get( 'content', true ) );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Layout meta isn't synced so it should return the default.
+		$this->assertEquals( '#ffffff', $this->obj->get( 'background' ) );
+
+	}
+
+	/**
+	 * Test sync() with a v2 template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_v2() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template V2';
+		$content     = serialize_blocks( array(
+			array(
+				'blockName'    => 'core/paragraph',
+				'innerContent' => array( 'ID:{certificate_id}' ),
+				'attrs'        => array(),
+			),
+		) );
+		$template_id = $this->create_certificate_template( $title, $content, $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+
+		$layout_meta = array(
+			'background'  => '#323323',
+			'height'      => 25,
+			'margins'     => array( 10, 5, 2.5, 1.25 ),
+			'orientation' => 'portrait',
+			'size'        => 'A3',
+			'unit'        => 'mm',
+			'width'       => 291,
+		);
+		$template->set_bulk( $layout_meta );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+
+		$this->assertTrue( $this->obj->sync() );
+
+		// Title and content updated.
+		$this->assertEquals( $title, $this->obj->get( 'title' ) );
+		$this->assertEquals( "<!-- wp:paragraph -->ID:{$id}<!-- /wp:paragraph -->", $this->obj->get( 'content', true ) );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Layout meta isn't synced so it should return the default.
+		foreach ( $layout_meta as $prop => $val ) {
+			$this->assertEquals( $val, $this->obj->get( $prop ), $prop );
+		}
+
 
 	}
 
