@@ -92,9 +92,9 @@ class LLMS_Admin_Post_Table_Awards {
 
 		$template_post_type = str_replace( 'my_', '', $post_type );
 
-		$selected = (int) llms_filter_input( INPUT_GET, $this-$template_filter_query_var, FILTER_SANITIZE_NUMBER_INT );
+		$selected = (int) llms_filter_input( INPUT_GET, $this->template_filter_query_var, FILTER_SANITIZE_NUMBER_INT );
 
-		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( $this-$template_filter_query_var, $template_post_type, $selected );
+		echo LLMS_Admin_Post_Tables::get_post_type_filter_html( $this->template_filter_query_var, $template_post_type, $selected );
 
 	}
 
@@ -229,7 +229,7 @@ class LLMS_Admin_Post_Table_Awards {
 			return $query;
 		}
 
-		$template_id = (int) llms_filter_input( INPUT_GET, $this-$template_filter_query_var, FILTER_SANITIZE_NUMBER_INT );
+		$template_id = (int) llms_filter_input( INPUT_GET, $this->template_filter_query_var, FILTER_SANITIZE_NUMBER_INT );
 
 		// Don't proceed if no template is being filtered.
 		if ( ! $template_id ) {
