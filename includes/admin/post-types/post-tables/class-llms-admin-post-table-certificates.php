@@ -28,7 +28,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Constructor
 	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -59,7 +59,7 @@ class LLMS_Admin_Post_Table_Certificates {
 		$cert = llms_get_certificate( $post, true );
 		if ( 1 === $cert->get_template_version() ) {
 
-			$url = esc_url( add_query_arg( 'llms-migrate-legacy-template', 1, get_edit_post_link( $post ) ) );
+			$url                             = esc_url( add_query_arg( 'llms-migrate-legacy-template', 1, get_edit_post_link( $post ) ) );
 			$actions[ self::MIGRATE_ACTION ] = '<a href="' . $url . '">' . __( 'Migrate Template', 'lifterlms' ) . '</a>';
 
 		}
@@ -72,7 +72,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Add state information denoting the usage of the legacy template.
 	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @param string[] $states Array of post states.
 	 * @param WP_Post  $post   Post object.
 	 * @return string[]

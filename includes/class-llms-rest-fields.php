@@ -40,33 +40,33 @@ class LLMS_REST_Fields {
 	private function get_fields_for_certificates() {
 
 		return array(
-			'size'  => array(
+			'size'        => array(
 				'description' => __( 'Certificate size.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_merge(
 					array_keys( llms_get_certificate_sizes() ),
-					array( 'CUSTOM' ),
+					array( 'CUSTOM' )
 				),
 			),
-			'width' => array(
+			'width'       => array(
 				'description' => __( 'Certificate width.', 'lifterlms' ),
 				'type'        => 'number',
 			),
-			'height' => array(
+			'height'      => array(
 				'description' => __( 'Certificate height.', 'lifterlms' ),
 				'type'        => 'number',
 			),
-			'unit' => array(
+			'unit'        => array(
 				'description' => __( 'Certificate sizing unit applied to the width and height properties.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_keys( llms_get_certificate_units() ),
 			),
-			'orientation'  => array(
+			'orientation' => array(
 				'description' => __( 'Certificate orientation.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_keys( llms_get_certificate_orientations() ),
 			),
-			'margins'  => array(
+			'margins'     => array(
 				'description' => __( 'Certificate margins.', 'lifterlms' ),
 				'type'        => 'array',
 				'minItems'    => 4,

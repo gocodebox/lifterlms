@@ -163,7 +163,6 @@ class LLMS_Admin_Post_Tables {
 
 		$select_attrs = array();
 
-
 		ob_start();
 		?>
 		<span class="llms-post-table-post-filter">

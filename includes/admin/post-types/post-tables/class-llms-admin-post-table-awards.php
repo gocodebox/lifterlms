@@ -202,7 +202,7 @@ class LLMS_Admin_Post_Table_Awards {
 			printf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( $url ),
-				$user->get_name(),
+				$user->get_name()
 			);
 		} else {
 			echo '&mdash';
@@ -255,13 +255,13 @@ class LLMS_Admin_Post_Table_Awards {
 
 		if ( in_array( $post->post_type, $this->post_types, true ) && ! empty( $actions['trash'] ) ) {
 
-            $actions['trash'] = sprintf(
-                '<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
-                get_delete_post_link( $post->ID ),
-                // Translators: %s: Post title. */
-                esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), _draft_or_post_title( $post ) ) ),
-                __( 'Delete Permanently', 'lifterlms' )
-            );
+			$actions['trash'] = sprintf(
+				'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
+				get_delete_post_link( $post->ID ),
+				// Translators: %s: Post title.
+				esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), _draft_or_post_title( $post ) ) ),
+				__( 'Delete Permanently', 'lifterlms' )
+			);
 
 		}
 
