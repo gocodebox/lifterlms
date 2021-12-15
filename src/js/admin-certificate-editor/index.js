@@ -5,6 +5,7 @@ import { registerPlugin } from '@wordpress/plugins';
 import './editor';
 import './i18n';
 import './merge-codes';
+import './migrate';
 import CertificateDocumentSettings from './document-settings';
 import CertificateUserSettings from './user-settings';
 
