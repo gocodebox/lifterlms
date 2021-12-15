@@ -158,25 +158,26 @@ class LLMS_Admin_Post_Tables {
 	 * @return string
 	 */
 	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {
-		$obj   = get_post_type_object( $post_type );
-		$label = $obj->labels->singular_name;
 
-		$select_attrs = array();
+		$id = sprintf( 'filter-by-llms-post-%s', $post_type );
 
+		$obj = get_post_type_object( $post_type );
+		// Translators: %s = the singular post type name.
+		$label = sprintf( __( 'Filter by %s', 'lifterlms' ), $obj->labels->singular_name );
 		ob_start();
 		?>
 		<span class="llms-post-table-post-filter">
-			<label for="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>" class="screen-reader-text">
-				<?php printf( esc_html__( 'Filter by %s', 'lifterlms' ), $label ); ?>
+			<label for="<?php echo $id; ?>" class="screen-reader-text">
+				<?php echo esc_html( $label ); ?>
 			</label>
 			<select
 				class="llms-select2-post"
 				data-allow_clear="true"
 				data-no-view-button="true"
-				data-placeholder="<?php printf( esc_attr__( 'Filter by %s', 'lifterlms' ), $label ); ?>"
+				data-placeholder="<?php echo esc_attr( $label ); ?>"
 				data-post-type="<?php echo $post_type; ?>"
 				name="<?php echo $name; ?>"
-				id="<?php printf( 'filter-by-llms-post-%s', $post_type ); ?>"
+				id="<?php echo $id; ?>"
 			>
 				<?php if ( $selected ) : ?>
 					<?php foreach ( llms_make_select2_post_array( $selected ) as $data ) : ?>
@@ -188,7 +189,6 @@ class LLMS_Admin_Post_Tables {
 		<?php
 		return ob_get_clean();
 	}
-
 
 }
 return new LLMS_Admin_Post_Tables();
