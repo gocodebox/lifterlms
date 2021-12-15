@@ -243,19 +243,19 @@ function llms_get_certificate_sizes() {
 
 	$sizes = array(
 		// ISO 216 sizes.
-		'A3' => array(
+		'A3'     => array(
 			'name'   => _x( 'A3', 'Paper size name', 'lifterlms' ),
 			'width'  => 297,
 			'height' => 420,
 			'unit'   => 'mm',
 		),
-		'A4' => array(
+		'A4'     => array(
 			'name'   => _x( 'A4', 'Paper size name', 'lifterlms' ),
 			'width'  => 210,
 			'height' => 297,
 			'unit'   => 'mm',
 		),
-		'A5' => array(
+		'A5'     => array(
 			'name'   => _x( 'A5', 'Paper size name', 'lifterlms' ),
 			'width'  => 148,
 			'height' => 210,
@@ -268,7 +268,7 @@ function llms_get_certificate_sizes() {
 			'height' => 11,
 			'unit'   => 'in',
 		),
-		'LEGAL' => array(
+		'LEGAL'  => array(
 			'name'   => _x( 'Legal', 'Paper size name', 'lifterlms' ),
 			'width'  => 8.5,
 			'height' => 14,

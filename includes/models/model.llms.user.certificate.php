@@ -700,15 +700,18 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		// If using the block editor also sync all layout properties.
 		if ( 2 === $template->get_template_version() ) {
-			$props = array_merge( $props, array(
-				'background',
-				'height',
-				'margins',
-				'orientation',
-				'size',
-				'unit',
-				'width',
-			) );
+			$props = array_merge(
+				$props,
+				array(
+					'background',
+					'height',
+					'margins',
+					'orientation',
+					'size',
+					'unit',
+					'width',
+				)
+			);
 		}
 
 		foreach ( $props as $prop ) {

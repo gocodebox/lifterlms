@@ -29,13 +29,13 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id       = 'lifterlms-certificate';
-		$this->title    = __( 'Settings', 'lifterlms' );
-		$this->screens  = array(
+		$this->id            = 'lifterlms-certificate';
+		$this->title         = __( 'Settings', 'lifterlms' );
+		$this->screens       = array(
 			'llms_certificate',
 		);
-		$this->priority = 'default';
-		$this->context  = 'side';
+		$this->priority      = 'default';
+		$this->context       = 'side';
 		$this->callback_args = array(
 			'__back_compat_meta_box' => true,
 		);
