@@ -203,7 +203,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$id     = $this->get( 'id' );
 		$img_id = get_post_thumbnail_id( $id );
-		$size   = $size = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+		$size   = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
 
 		if ( ! $img_id ) {
 
@@ -292,7 +292,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			$ret = $this->get( $dimension );
 		} else {
 			$size_info = $this->get_registered_size_data();
-			$ret       = $size_info[ $dimension];
+			$ret       = $size_info[ $dimension ];
 		}
 
 		return $with_unit ? sprintf( '%1$s%2$s', $ret, $this->get_unit() ) : $ret;
@@ -356,9 +356,12 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$margins = $this->get( 'margins' );
 
 		if ( $with_units ) {
-			$margins = array_map( function( $margin ) {
-				return $margin . '%';
-			}, $margins );
+			$margins = array_map(
+				function( $margin ) {
+					return $margin . '%';
+				},
+				$margins
+			);
 		}
 
 		return $margins;
@@ -436,7 +439,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	private function get_registered_size_data() {
 
-		$size = $this->get_size();
+		$size  = $this->get_size();
 		$sizes = llms_get_certificate_sizes();
 		if ( ! $size || empty( $sizes[ $size ] ) ) {
 			$size = get_option( 'llms_certificate_default_size', 'LETTER' );
@@ -666,8 +669,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	private function set_property_defaults() {
 
 		// Default size is configured via a site option.
-		$default_size = get_option( 'llms_certificate_default_size', 'LETTER' );
-		$this->property_defaults['size']    = ! $default_size ? 'LETTER' : $default_size;
+		$default_size                    = get_option( 'llms_certificate_default_size', 'LETTER' );
+		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
 
 	}
 

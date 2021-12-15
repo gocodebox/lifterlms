@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Customize display of the "Page" post tables
+ * Customize display of the certificate post tables
  *
  * @since [version]
  */
@@ -28,12 +28,13 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Constructor
 	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @return void
 	 */
 	public function __construct() {
 
-		if ( 'llms_certificate' === llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+		$post_types = array( 'llms_certificate', 'llms_my_certificate' );
+		if ( in_array( llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ), $post_types, true ) ) {
 			add_filter( 'display_post_states', array( $this, 'add_states' ), 20, 2 );
 			add_filter( 'post_row_actions', array( $this, 'add_actions' ), 20, 2 );
 		}
@@ -58,7 +59,7 @@ class LLMS_Admin_Post_Table_Certificates {
 		$cert = llms_get_certificate( $post, true );
 		if ( 1 === $cert->get_template_version() ) {
 
-			$url = esc_url( add_query_arg( 'llms-migrate-legacy-template', 1, get_edit_post_link( $post ) ) );
+			$url                             = esc_url( add_query_arg( 'llms-migrate-legacy-template', 1, get_edit_post_link( $post ) ) );
 			$actions[ self::MIGRATE_ACTION ] = '<a href="' . $url . '">' . __( 'Migrate Template', 'lifterlms' ) . '</a>';
 
 		}
@@ -71,7 +72,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Add state information denoting the usage of the legacy template.
 	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @param string[] $states Array of post states.
 	 * @param WP_Post  $post   Post object.
 	 * @return string[]

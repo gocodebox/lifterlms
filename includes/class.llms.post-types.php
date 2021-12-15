@@ -826,7 +826,7 @@ class LLMS_Post_Types {
 					'not_found'             => __( 'No Awarded Achievements found', 'lifterlms' ),
 					'not_found_in_trash'    => __( 'No Awarded Achievements found in trash', 'lifterlms' ),
 					'parent'                => __( 'Parent Awarded Achievements', 'lifterlms' ),
-					'menu_name'             => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
+					'menu_name'             => _x( 'Awarded Achievements', 'Admin menu name', 'lifterlms' ),
 					'featured_image'        => __( 'Achievement Image', 'lifterlms' ),
 					'set_featured_image'    => __( 'Set awarded achievement image', 'lifterlms' ),
 					'remove_featured_image' => __( 'Remove awarded achievement image', 'lifterlms' ),
@@ -894,19 +894,19 @@ class LLMS_Post_Types {
 		self::register_certificate_post_type(
 			'llms_my_certificate',
 			array(
-				'name'                  => __( 'Awarded Certificates', 'lifterlms' ),
-				'singular_name'         => __( 'Awarded Certificate', 'lifterlms' ),
-				'add_new'               => __( 'Award Certificate', 'lifterlms' ),
-				'add_new_item'          => __( 'Award New Certificate', 'lifterlms' ),
-				'edit_item'             => __( 'Edit Awarded Certificate', 'lifterlms' ),
-				'new_item'              => __( 'New Awarded Certificate', 'lifterlms' ),
-				'view'                  => __( 'View Awarded Certificate', 'lifterlms' ),
-				'view_item'             => __( 'View Awarded Certificate', 'lifterlms' ),
-				'search_items'          => __( 'Search Awarded Certificates', 'lifterlms' ),
-				'not_found'             => __( 'No Awarded Certificates found', 'lifterlms' ),
-				'not_found_in_trash'    => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
-				'parent'                => __( 'Parent Awarded Certificates', 'lifterlms' ),
-				'menu_name'             => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
+				'name'               => __( 'Awarded Certificates', 'lifterlms' ),
+				'singular_name'      => __( 'Awarded Certificate', 'lifterlms' ),
+				'add_new'            => __( 'Award Certificate', 'lifterlms' ),
+				'add_new_item'       => __( 'Award New Certificate', 'lifterlms' ),
+				'edit_item'          => __( 'Edit Awarded Certificate', 'lifterlms' ),
+				'new_item'           => __( 'New Awarded Certificate', 'lifterlms' ),
+				'view'               => __( 'View Awarded Certificate', 'lifterlms' ),
+				'view_item'          => __( 'View Awarded Certificate', 'lifterlms' ),
+				'search_items'       => __( 'Search Awarded Certificates', 'lifterlms' ),
+				'not_found'          => __( 'No Awarded Certificates found', 'lifterlms' ),
+				'not_found_in_trash' => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
+				'parent'             => __( 'Parent Awarded Certificates', 'lifterlms' ),
+				'menu_name'          => _x( 'Awarded Certificates', 'Admin menu name', 'lifterlms' ),
 			),
 			array(
 				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
@@ -921,7 +921,7 @@ class LLMS_Post_Types {
 			 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *                      Default is `manage_earned_engagements`.
 			 */
-			apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ),
+			apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP )
 		);
 
 		// Email.
@@ -1149,12 +1149,15 @@ class LLMS_Post_Types {
 			'query_var'           => true,
 			'supports'            => array( 'title', 'editor', 'thumbnail' ),
 			'template'            => array(
-				array( 'core/heading', array(
-					'textAlign'   => 'center',
-					'level'       => 1,
-					'placeholder' => __( 'Certificate Title', 'lifterlms' ),
-				)
-			) ),
+				array(
+					'core/heading',
+					array(
+						'textAlign'   => 'center',
+						'level'       => 1,
+						'placeholder' => __( 'Certificate Title', 'lifterlms' ),
+					),
+				),
+			),
 			'rewrite'             => array(
 				'slug'       => $rewrite_slug,
 				'with_front' => false,

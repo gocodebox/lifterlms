@@ -69,8 +69,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		// Remove wp core post submit meta box.
 		remove_meta_box( 'submitdiv', $this->screens, 'side' );
 
-		add_filter( 'wp_redirect', array( $this, 'redirect_on_deletion' ) );
-
 	}
 
 	/**
@@ -217,27 +215,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				$student->get( 'user_email' )
 			)
 		);
-
-	}
-
-	/**
-	 * Redirect on permanet deletion from the editor.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $location Redirect location.
-	 * @return string
-	 */
-	public function redirect_on_deletion( $location ) {
-
-		global $pagenow;
-
-		parse_str( wp_parse_url( $location, PHP_URL_QUERY ), $_get );
-
-		if ( 'post.php' === $pagenow && ! empty( $_get['deleted'] ) && ! empty( $_get['post_type'] ) && in_array( $_get['post_type'], $this->screens, true ) ) { //phpcs:ignore -- no need to sanitize here.
-			$location = admin_url( 'admin.php?page=llms-reporting' );
-		}
-		return $location;
 
 	}
 

@@ -38,7 +38,6 @@ class LLMS_Admin_Post_Types {
 		add_action( 'metabox_init', array( $this, 'meta_metabox_init' ) );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
-		add_action( 'load-edit.php', array( $this, 'disable_earned_engagements_post_types_list_tables' ) );
 	}
 
 	/**
@@ -151,19 +150,6 @@ class LLMS_Admin_Post_Types {
 		}
 
 		return $messages;
-	}
-
-	/**
-	 * Disable post list table for 'llms_my_certificate' and 'llms_my_achievement' post types.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function disable_earned_engagements_post_types_list_tables() {
-		if ( ! empty( $_REQUEST['post_type'] ) && in_array( $_REQUEST['post_type'], array( 'llms_my_certificate', 'llms_my_achievement' ), true ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not needed.
-			wp_die( __( 'Listing this post type is disabled.', 'lifterlms' ) );
-		}
 	}
 
 }

@@ -40,33 +40,33 @@ class LLMS_REST_Fields {
 	private function get_fields_for_certificates() {
 
 		return array(
-			'size'  => array(
+			'size'        => array(
 				'description' => __( 'Certificate size.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_merge(
 					array_keys( llms_get_certificate_sizes() ),
-					array( 'CUSTOM' ),
+					array( 'CUSTOM' )
 				),
 			),
-			'width' => array(
+			'width'       => array(
 				'description' => __( 'Certificate width.', 'lifterlms' ),
 				'type'        => 'number',
 			),
-			'height' => array(
+			'height'      => array(
 				'description' => __( 'Certificate height.', 'lifterlms' ),
 				'type'        => 'number',
 			),
-			'unit' => array(
+			'unit'        => array(
 				'description' => __( 'Certificate sizing unit applied to the width and height properties.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_keys( llms_get_certificate_units() ),
 			),
-			'orientation'  => array(
+			'orientation' => array(
 				'description' => __( 'Certificate orientation.', 'lifterlms' ),
 				'type'        => 'string',
 				'enum'        => array_keys( llms_get_certificate_orientations() ),
 			),
-			'margins'  => array(
+			'margins'     => array(
 				'description' => __( 'Certificate margins.', 'lifterlms' ),
 				'type'        => 'array',
 				'minItems'    => 4,
@@ -130,11 +130,11 @@ class LLMS_REST_Fields {
 				),
 				'get_callback'    => function( $object ) {
 					$cert = llms_get_certificate( $object['id'], true );
-					return $cert->get( 'author' );
+					return $cert ? $cert->get( 'author' ) : null;
 				},
 				'update_callback' => function( $value, $post ) {
 					$cert = llms_get_certificate( $post->ID, true );
-					return $cert->set( 'author', $value );
+					return $cert ? $cert->set( 'author', $value ) : null;
 				},
 			)
 		);
@@ -160,11 +160,11 @@ class LLMS_REST_Fields {
 				),
 				'get_callback'    => function( $object ) {
 					$cert = llms_get_certificate( $object['id'], true );
-					return $cert->get( 'certificate_title' );
+					return $cert ? $cert->get( 'certificate_title' ) : null;
 				},
 				'update_callback' => function( $value, $post ) {
 					$cert = llms_get_certificate( $post->ID, true );
-					return $cert->set( 'certificate_title', $value );
+					return $cert ? $cert->set( 'certificate_title', $value ) : null;
 				},
 			)
 		);
@@ -187,7 +187,7 @@ class LLMS_REST_Fields {
 				},
 				'update_callback' => function( $value, $post ) {
 					$cert = llms_get_certificate( $post->ID, true );
-					return $cert->set( 'sequential_id', $value );
+					return $cert ? $cert->set( 'sequential_id', $value ) : null;
 				},
 			)
 		);
@@ -215,11 +215,11 @@ class LLMS_REST_Fields {
 					'get_callback'    => function( $object ) use ( $key ) {
 						$cert = llms_get_certificate( $object['id'], true );
 						$func = "get_{$key}";
-						return $cert->$func();
+						return $cert ? $cert->$func() : null;
 					},
 					'update_callback' => function( $value, $post ) use ( $key ) {
 						$cert = llms_get_certificate( $post->ID, true );
-						return $cert->set( $key, $value );
+						return $cert ? $cert->set( $key, $value ) : null;
 					},
 				)
 			);
