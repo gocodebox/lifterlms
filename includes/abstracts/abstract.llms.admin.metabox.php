@@ -428,7 +428,7 @@ abstract class LLMS_Admin_Metabox {
 				$this->get_screens(),
 				$this->context,
 				$this->priority,
-				$this->callback_args,
+				$this->callback_args
 			);
 
 		}
