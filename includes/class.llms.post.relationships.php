@@ -90,7 +90,7 @@ class LLMS_Post_Relationships {
 	 *
 	 * @since 3.16.12
 	 * @since 5.4.0 Prevent course/membership with active subscriptions deletion.
-	 * @since [version] Added hook to force permanent deletion of some post types (`llms_my_certificate`, `llms_my_achievement`).
+	 * @since [version] Added hook to cleanup user post meta data when awarded certs and achievements are deleted.
 	 *
 	 * @return void
 	 */
@@ -99,32 +99,8 @@ class LLMS_Post_Relationships {
 		add_action( 'delete_post', array( $this, 'maybe_update_relationships' ) );
 		add_action( 'pre_delete_post', array( __CLASS__, 'maybe_prevent_product_deletion' ), 10, 2 );
 
-		add_action( 'pre_trash_post', array( __CLASS__, 'force_permanent_deletion_of_post_types' ), 10, 2 );
 		add_action( 'before_delete_post', array( __CLASS__, 'maybe_clean_earned_engagments_related_user_post_meta' ) );
 
-	}
-
-	/**
-	 * Force deletion of some post types.
-	 *
-	 * @since [version]
-	 *
-	 * @param bool|null $trash Whether to go forward with trashing.
-	 * @param WP_Post   $post  Post object.
-	 * @return mixed
-	 */
-	public static function force_permanent_deletion_of_post_types( $trash, $post ) {
-
-		$post_types = array(
-			'llms_my_certificate',
-			'llms_my_achievement',
-		);
-
-		if ( in_array( get_post_type( $post ), $post_types, true ) ) {
-			return wp_delete_post( $post->ID, true );
-		}
-
-		return $trash;
 	}
 
 	/**

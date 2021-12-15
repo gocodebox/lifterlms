@@ -51,6 +51,8 @@ class LLMS_Admin_Post_Table_Awards {
 			add_action( "manage_{$post_type}_posts_custom_column", array( $this, 'manage_cols' ), 10, 2 );
 
 			add_filter( "bulk_actions-edit-{$post_type}", array( $this, 'bulk_actions' ) );
+
+			add_filter( "views_edit-{$post_type}", array( $this, 'modify_views' ) );
 		}
 
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
@@ -207,6 +209,27 @@ class LLMS_Admin_Post_Table_Awards {
 		} else {
 			echo '&mdash';
 		}
+	}
+
+	/**
+	 * Removes the trash link for the post table.
+	 *
+	 * We intend these post types to be permanently deleted but due to issues with how the block editor handles
+	 * moving a post to the trash we cannot disable the trash for these post types. Instead, we allow items to be
+	 * moved into the trash and we're hiding the trash link. Items will be deleted automatically via the WP core's
+	 * cron and we've updated "Move to trash" language to "Delete permanently". Users will be able to navigate
+	 * to the trash page and restore from the trash if they can know/guess the link, and that's okay. I guess.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/WordPress/gutenberg/issues/13024
+	 *
+	 * @param array $views Array of table views.
+	 * @return array
+	 */
+	public function modify_views( $views ) {
+		unset( $views['trash'] );
+		return $views;
 	}
 
 	/**

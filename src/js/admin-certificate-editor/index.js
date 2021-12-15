@@ -3,8 +3,8 @@ import { registerPlugin } from '@wordpress/plugins';
 
 // Internal deps.
 import './editor';
+import './i18n';
 import './merge-codes';
-// import CertificateDashboardButton from './dashboard-button';
 import CertificateDocumentSettings from './document-settings';
 import CertificateUserSettings from './user-settings';
 
@@ -32,10 +32,3 @@ registerPlugin(
 		render: CertificateUserSettings,
 	}
 );
-
-// registerPlugin(
-// 	'llms-certificate-dashboard-button',
-// 	{
-// 		render: CertificateDashboardButton,
-// 	}
-// );
