@@ -44,6 +44,7 @@ class LLMS_Admin_Post_Table_Awards {
 	public function __construct() {
 
 		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 1, 2 );
+		add_filter( 'post_date_column_status', array( $this, 'date_col_status' ), 10, 3 );
 
 		foreach ( $this->post_types as $post_type ) {
 
@@ -54,6 +55,7 @@ class LLMS_Admin_Post_Table_Awards {
 
 			add_filter( "views_edit-{$post_type}", array( $this, 'modify_views' ) );
 		}
+
 
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
@@ -88,7 +90,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 */
 	public function add_filters( $post_type, $which ) {
 
-		if ( 'top' !== $which || ! in_array( $post_type, $this->post_types, true ) ) {
+		if ( 'top' !== $which || $this->is_post_type( $post_type ) ) {
 			return;
 		}
 
@@ -120,6 +122,28 @@ class LLMS_Admin_Post_Table_Awards {
 	}
 
 	/**
+	 * Modify the post status language.
+	 *
+	 * Displays "Awarded" in favor of "Published".
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $text        Default status text.
+	 * @param WP_Post $post        Post object.
+	 * @param string  $column_name Column name/id. Hardcoded to `date` in the WP core but
+	 *                             passing and checking it anyway in case that changes at
+	 *                             some point.
+	 * @return string
+	 */
+	public function date_col_status( $text, $post, $column_name ) {
+		if ( 'date' === $column_name && $this->is_post_type( $post->post_type ) && 'publish' === $post->post_status ) {
+			return __( 'Awarded', 'lifterlms' );
+		}
+		return $text;
+
+	}
+
+	/**
 	 * Retrieves the post object given the current screen.
 	 *
 	 * @since [version]
@@ -139,6 +163,18 @@ class LLMS_Admin_Post_Table_Awards {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Determines if the specified post type is one of the post types affected by this class.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type A post type to test.
+	 * @return boolean
+	 */
+	private function is_post_type( $post_type ) {
+		return in_array( $post_type, $this->post_types, true );
 	}
 
 	/**
@@ -248,7 +284,7 @@ class LLMS_Admin_Post_Table_Awards {
 		}
 
 		// Don't proceed if it's not our post type.
-		if ( ! isset( $query->query['post_type'] ) || ! in_array( $query->query['post_type'], $this->post_types, true ) ) {
+		if ( ! isset( $query->query['post_type'] ) || ! $this->is_post_type( $query->query['post_type'] ) ) {
 			return $query;
 		}
 
@@ -276,7 +312,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 */
 	public function row_actions( $actions, $post ) {
 
-		if ( in_array( $post->post_type, $this->post_types, true ) && ! empty( $actions['trash'] ) ) {
+		if ( $this->is_post_type( $post->post_type ) && ! empty( $actions['trash'] ) ) {
 
 			$actions['trash'] = sprintf(
 				'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
