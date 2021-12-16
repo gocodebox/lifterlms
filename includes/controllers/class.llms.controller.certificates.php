@@ -197,7 +197,7 @@ class LLMS_Controller_Certificates {
 	 */
 	private static function sync_awarded_certificate( $cert_id ) {
 
-		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_post, $cert_id ) ) {
+		if ( ! current_user_can( 'edit_post', $cert_id ) ) {
 			return new WP_Error(
 				'llms-sync-awarded-certificate-insufficient-permissions',
 				sprintf(
@@ -210,7 +210,7 @@ class LLMS_Controller_Certificates {
 
 		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
 
-		$sync = ( new LLMS_User_Certificate( $cert_id ) )->sync();
+		$sync = llms_get_certificate( $cert_id )->sync();
 
 		if ( is_wp_error( $sync ) ) {
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
