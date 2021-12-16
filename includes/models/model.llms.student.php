@@ -673,7 +673,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.24.0
 	 */
 	public function get_grade( $object_id, $use_cache = true ) {
-		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
+		$grade = llms()->grades()->get_grade( $object_id, $this, $use_cache );
 		if ( is_null( $grade ) ) {
 			$grade = _x( 'N/A', 'Grade to display when no quizzes taken or available', 'lifterlms' );
 		}

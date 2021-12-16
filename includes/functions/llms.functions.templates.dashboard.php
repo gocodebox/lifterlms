@@ -567,7 +567,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			}
 
 			// Get the latest achievement for the course.
-			$achievements       = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
+			$achievements       = llms()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
 			$latest_achievement = false;
 			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
 				if ( in_array( (string) $achievement->get( 'achievement_template' ), $achievements, true ) ) {
@@ -759,7 +759,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			$settings = array();
 			$student  = new LLMS_Student( get_current_user_id() );
 
-			foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
+			foreach ( llms()->notifications()->get_controllers() as $controller ) {
 
 				foreach ( $types as $type ) {
 

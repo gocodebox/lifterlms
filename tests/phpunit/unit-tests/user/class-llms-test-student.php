@@ -155,7 +155,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 
 		// check access after an access plan has expired access
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
 
 		// new student

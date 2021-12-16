@@ -67,7 +67,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 */
 	protected function set_body_email() {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$btn_style = $mailer->get_button_style();
 
@@ -173,7 +173,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 				break;
 
 			case '{{GRADE}}':
-				$code = LLMS()->grades()->round( $attempt->get( 'grade' ) ) . '%';
+				$code = llms()->grades()->round( $attempt->get( 'grade' ) ) . '%';
 				break;
 
 			case '{{LESSON_TITLE}}':

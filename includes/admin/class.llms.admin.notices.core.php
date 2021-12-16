@@ -91,7 +91,7 @@ class LLMS_Admin_Notices_Core {
 	public static function gateways() {
 		$id = 'no-gateways';
 
-		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', LLMS()->payment_gateways()->has_gateways( true ) ) ) {
+		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', llms()->payment_gateways()->has_gateways( true ) ) ) {
 			$html  = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
 			$html .= sprintf(
 				__( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ),

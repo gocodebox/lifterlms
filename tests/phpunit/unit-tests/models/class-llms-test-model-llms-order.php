@@ -534,7 +534,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'payment_gateway', 'garbage' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$this->obj->set( 'payment_gateway', 'manual' );
 
 		// Real gateway that's not enabled.

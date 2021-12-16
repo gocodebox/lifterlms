@@ -53,13 +53,6 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 }
 
 /**
- * Allow usage of the deprecated `LLMS()` function.
- *
- * @deprecated 4.0.0 Function `LLMS()` is deprecated in favor of `llms()`.
- */
-use function LLMS as llms;
-
-/**
  * Returns the main instance of LifterLMS
  *
  * @since 4.0.0

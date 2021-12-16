@@ -61,7 +61,7 @@ class LLMS_Install {
 	 * @return void
 	 */
 	public static function check_version() {
-		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== llms()->version ) {
 			self::install();
 			do_action( 'lifterlms_updated' );
 		}
@@ -538,8 +538,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		LLMS()->query->init_query_vars();
-		LLMS()->query->add_endpoints();
+		llms()->query->init_query_vars();
+		llms()->query->add_endpoints();
 
 		self::create_cron_jobs();
 		self::create_files();
@@ -660,7 +660,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_db_version( $version = null ) {
 		delete_option( 'lifterlms_db_version' );
-		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**
@@ -674,7 +674,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_llms_version( $version = null ) {
 		delete_option( 'lifterlms_current_version' );
-		add_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_current_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**

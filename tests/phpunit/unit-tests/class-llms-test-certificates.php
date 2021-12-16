@@ -120,21 +120,21 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$cert_id = $earned[1];
 
 		// Generate a new cert when item not found in the cache.
-		$orig_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$orig_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertTrue( false !== strpos( $orig_path, '/uploads/llms-tmp/certificate-mock-certificate-title' ) );
 
 		// Store the filepath for future use.
 		$this->assertEquals( $orig_path, get_post_meta( $cert_id, '_llms_export_filepath', true ) );
 
 		// Get it again, should return the original path from the cache.
-		$cached_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$cached_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertEquals( $orig_path, $cached_path );
 
 		// Delete the file (simulate LLMS_TMP_DIR file expiration).
 		unlink( $orig_path );
 
 		// Should regen since the file saved in meta data doesn't exist anymore.
-		$new_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$new_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertTrue( $orig_path !== $new_path );
 
 	}
@@ -232,7 +232,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		);
 
 		LLMS_Unit_Test_Util::call_method(
-			LLMS()->certificates(),
+			llms()->certificates(),
 			'modify_dom_links',
 			array( $dom )
 		);
@@ -247,7 +247,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		foreach ( $stylesheet_hrefs as $stylesheet_href => $contained ) {
 
 			$stylesheet_raw = LLMS_Unit_Test_Util::call_method(
-				LLMS()->certificates(),
+				llms()->certificates(),
 				'get_stylesheet_raw',
 				array( $stylesheet_href, false )
 			);
@@ -325,11 +325,11 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		);
 
 		// Re-init certificates to apply the filter above.
-		LLMS()->certificates()->init();
+		llms()->certificates()->init();
 
 		// Modify DOM images.
 		LLMS_Unit_Test_Util::call_method(
-			LLMS()->certificates(),
+			llms()->certificates(),
 			'modify_dom_images',
 			array( $dom )
 		);
@@ -346,7 +346,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			);
 
 			$image_data_type = LLMS_Unit_Test_Util::call_method(
-				LLMS()->certificates(),
+				llms()->certificates(),
 				'get_image_data_and_type',
 				array( $image_src, false )
 			);

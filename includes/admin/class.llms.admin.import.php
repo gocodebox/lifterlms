@@ -281,7 +281,7 @@ class LLMS_Admin_Import {
 		}
 
 		// Fixes an issue where hooks are loaded in an unexpected order causing template functions required to parse an import aren't available.
-		LLMS()->include_template_functions();
+		llms()->include_template_functions();
 
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

@@ -105,16 +105,16 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	public function test_init_session() {
 
 		// Clear the session.
-		LLMS()->session = null;
+		llms()->session = null;
 
 		// Initializes a new session.
-		$session = LLMS()->init_session();
+		$session = llms()->init_session();
 		$this->assertTrue( is_a( $session, 'LLMS_Session' ) );
 		$session->set( 'test', 'mock' );
 
 		// Call it again, should respond with the same session as before.
-		$this->assertEquals( $session->get_id(), LLMS()->init_session()->get_id() );
-		$this->assertEquals( 'mock', LLMS()->init_session()->get( 'test' ) );
+		$this->assertEquals( $session->get_id(), llms()->init_session()->get_id() );
+		$this->assertEquals( 'mock', llms()->init_session()->get( 'test' ) );
 
 	}
 

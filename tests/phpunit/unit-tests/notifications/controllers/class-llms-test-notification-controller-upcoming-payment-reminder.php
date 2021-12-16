@@ -76,7 +76,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 		}
 
 		// Check notification not sent for gateway that do not support recurring payments.
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$manual->supports['recurring_payments'] = false;
 		$order->set( 'gateway', 'manual' );
 		foreach ( $this->types as $type ) {

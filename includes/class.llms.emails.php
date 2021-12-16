@@ -53,7 +53,7 @@ class LLMS_Emails {
 	private function __construct() {
 
 		// Template functions.
-		LLMS()->include_template_functions();
+		llms()->include_template_functions();
 
 		// Email base class.
 		require_once 'emails/class.llms.email.php';

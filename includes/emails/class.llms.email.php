@@ -117,8 +117,8 @@ class LLMS_Email {
 			array(
 				'{blogname}'     => get_bloginfo( 'name', 'display' ),
 				'{site_title}'   => get_bloginfo( 'name', 'display' ),
-				'{divider}'      => LLMS()->mailer()->get_divider_html(),
-				'{button_style}' => LLMS()->mailer()->get_button_style(),
+				'{divider}'      => llms()->mailer()->get_divider_html(),
+				'{button_style}' => llms()->mailer()->get_button_style(),
 			)
 		);
 

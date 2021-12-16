@@ -113,7 +113,7 @@ class LLMS_Sessions {
 	 */
 	protected function end( $start ) {
 
-		$end = LLMS()->events()->record(
+		$end = llms()->events()->record(
 			array(
 				'actor_id'     => $start->get( 'actor_id' ),
 				'object_type'  => 'session',
@@ -437,7 +437,7 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		$start = LLMS()->events()->record(
+		$start = llms()->events()->record(
 			array(
 				'actor_id'     => $user_id,
 				'object_type'  => 'session',

@@ -684,7 +684,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                                       WP_Error if the gateway cannot be located, e.g. because it's no longer enabled.
 	 */
 	public function get_gateway() {
-		$gateways = LLMS()->payment_gateways();
+		$gateways = llms()->payment_gateways();
 		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && ( $gateway->is_enabled() || is_admin() ) ) {
 			return $gateway;

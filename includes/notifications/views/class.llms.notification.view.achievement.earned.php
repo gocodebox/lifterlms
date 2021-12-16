@@ -130,7 +130,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			case '{{ACHIEVEMENT_IMAGE_URL}}':
 				$code = $achievement->get_image( 'medium', 'achievement_image' );
 				if ( ! $code ) {
-					$code = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
+					$code = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_achievement.png' );
 				}
 				break;
 

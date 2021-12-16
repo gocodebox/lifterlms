@@ -21,7 +21,7 @@ class LLMS_Test_Events extends LLMS_Unit_Test_Case {
 	 */
 	public function set_up() {
 		parent::set_up();
-		$this->events = LLMS()->events();
+		$this->events = llms()->events();
 	}
 
 	/**

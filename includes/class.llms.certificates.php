@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Handles certificate generation and exports.
  *
- * @see LLMS()->certificates()
+ * @see llms()->certificates()
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.

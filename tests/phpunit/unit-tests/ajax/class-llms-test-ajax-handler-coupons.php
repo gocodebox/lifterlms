@@ -21,7 +21,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	 */
 	public function test_remove_coupon_code() {
 
-		LLMS()->session->set( 'llms_coupon', 'this-will-be-cleared' );
+		llms()->session->set( 'llms_coupon', 'this-will-be-cleared' );
 
 		$res = LLMS_AJAX_Handler::remove_coupon_code( array(
 			'plan_id' => $this->get_mock_plan(),
@@ -30,7 +30,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 		// HTML returned.
 		$this->assertEquals( array( 'coupon_html', 'gateways_html', 'summary_html' ), array_keys( $res ) );
 
-		$this->assertFalse( LLMS()->session->get( 'llms_coupon' ) );
+		$this->assertFalse( llms()->session->get( 'llms_coupon' ) );
 
 	}
 
@@ -141,7 +141,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 			'plan_id'   => $request['plan_id'],
 			'coupon_id' => $coupon->get( 'id' ),
 		);
-		$this->assertEquals( $expect, LLMS()->session->get( 'llms_coupon' ) );
+		$this->assertEquals( $expect, llms()->session->get( 'llms_coupon' ) );
 
 	}
 

@@ -161,7 +161,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		}
 
 		// turn the course data processor off
-		$course_data_processor = LLMS()->processors()->get( 'course_data' );
+		$course_data_processor = llms()->processors()->get( 'course_data' );
 		if ( $course_data_processor ) {
 			$course_data_processor->disable();
 		}

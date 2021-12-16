@@ -220,7 +220,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.
-		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 
 		// I think we only need this on account and checkout pages.
 		llms()->assets->enqueue_script( 'llms-form-checkout' );
@@ -255,7 +255,7 @@ class LLMS_Frontend_Assets {
 		$scripts = array(
 			'llms-ajaxurl'           => 'window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ) . '";',
 			'llms-ajax-nonce'        => 'window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";',
-			'llms-tracking-settings' => "window.llms.tracking = '" . wp_json_encode( LLMS()->events()->get_client_settings() ) . "';",
+			'llms-tracking-settings' => "window.llms.tracking = '" . wp_json_encode( llms()->events()->get_client_settings() ) . "';",
 			'llms-LLMS-obj'          => 'window.LLMS = window.LLMS || {};',
 			'llms-l10n'              => 'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';',
 		);

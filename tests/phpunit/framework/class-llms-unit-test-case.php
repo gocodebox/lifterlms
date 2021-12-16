@@ -46,7 +46,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		$i = 1;
 		while ( $i <= $count ) {
 			$wpdb->insert( $wpdb->prefix . 'lifterlms_sessions', array(
-				'session_key' => LLMS_Unit_Test_Util::call_method( LLMS()->session, 'generate_id' ),
+				'session_key' => LLMS_Unit_Test_Util::call_method( llms()->session, 'generate_id' ),
 				'data'        => serialize( array( microtime() ) ),
 				'expires'     => $expired ? time() - DAY_IN_SECONDS : time() + DAY_IN_SECONDS,
 			), array( '%s', '%s', '%d' ) );
@@ -381,7 +381,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	protected function get_mock_order( $plan = null, $coupon = false ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
 
 		if ( ! $plan ) {
@@ -633,7 +633,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 */
 	protected function setManualGatewayStatus( $enabled = 'yes' ) {
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), $enabled );
 
 	}

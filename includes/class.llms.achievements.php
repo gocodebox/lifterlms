@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Achievements singleton
  *
- * @see LLMS()->achievements()
+ * @see llms()->achievements()
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
