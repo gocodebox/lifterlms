@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.12.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices class
  *
  * @since 3.0.0
+ * @since [version] Removed deprecated `LLMS_Admin_Notices_Core::check_staging()`.
  */
 class LLMS_Admin_Notices_Core {
 
@@ -59,24 +60,6 @@ class LLMS_Admin_Notices_Core {
 		add_action( $action, array( __CLASS__, 'sidebar_support' ), $priority );
 		add_action( $action, array( __CLASS__, 'gateways' ), $priority );
 
-	}
-
-	/**
-	 * Outputs a notice that allows users to enable or disable automated recurring payments
-	 *
-	 * Appears when we identify that the url has changed or when an admin resets the settings
-	 * from the button on the general settings tab.
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.4 Automatically disable recurring payments when a clone is detected.
-	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
-	 * @deprecated 4.12.0 `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
-	 *
-	 * @return void
-	 */
-	public static function check_staging() {
-		llms_deprecated_function( 'LLMS_Admin_Notices_Core::check_staging()', '4.12.0', 'LLMS_Staging::notice()' );
-		LLMS_Staging::notice();
 	}
 
 	/**
