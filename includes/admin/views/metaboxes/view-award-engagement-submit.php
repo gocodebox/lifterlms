@@ -152,7 +152,7 @@ defined( 'ABSPATH' ) || exit;
 				endif;
 			} else {
 				?>
-				<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Update', 'liftelrms' ); ?>" />
+				<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Update', 'lifterlms' ); ?>" />
 				<?php submit_button( __( 'Update', 'lifterlms' ), 'primary large', 'save', false, array( 'id' => 'publish' ) ); ?>
 				<?php
 			}
