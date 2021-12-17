@@ -243,7 +243,7 @@ class LLMS_Admin_Post_Table_Awards {
 				$user->get_name()
 			);
 		} else {
-			echo '&mdash';
+			echo '&mdash;';
 		}
 	}
 
