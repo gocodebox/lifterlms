@@ -539,15 +539,14 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	 */
 	public function test_sync_awarded_certificate_method_invalid_template() {
 
-		// Create a certificate template.
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 		// Unregister the llms_my_certificate post type then re-register it so that the post type property _edit_link is populated (admin can edit the post type).
 		unregister_post_type( 'llms_my_certificate' );
 		LLMS_Post_Types::register_post_types();
+		// Invalid certificate template.
 		$certificate_template = $this->factory->post->create(
 			array(
-				'post_type'    => 'llms_certificate',
-				'post_status'  => 'draft',
+				'post_type'    => 'post',
 			)
 		);
 		$awarded_certificate  = $this->factory->post->create(

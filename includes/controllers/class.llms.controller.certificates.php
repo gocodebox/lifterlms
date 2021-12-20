@@ -156,34 +156,32 @@ class LLMS_Controller_Certificates {
 			);
 		}
 
+		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
 		switch ( $_GET['action'] ) {
+
 			case 'sync_awarded_certificate':
-				$error  = new WP_Error(
-					'llms-sync-awarded-certificate-missing-certificate-id',
-					__( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' )
-				);
-				$method = 'sync_awarded_certificate';
-				break;
+				if ( empty( $cert_id ) ) {
+					return new WP_Error(
+						'llms-sync-awarded-certificate-missing-certificate-id',
+						__( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' )
+					);
+				}
+				return self::sync_awarded_certificate( $cert_id );
 			case 'sync_awarded_certificates':
-				$error  = new WP_Error(
-					'llms-sync-awarded-certificates-missing-template-id',
-					__( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' )
-				);
-				$method = 'sync_awarded_certificates';
-				break;
+				if ( empty( $cert_id ) ) {
+					return new WP_Error(
+						'llms-sync-awarded-certificates-missing-template-id',
+						__( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' )
+					);
+				}
+				return self::sync_awarded_certificates( $cert_id );
 			default:
 				return new WP_Error(
 					'llms-sync-awarded-certificates-invalid-action',
 					__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
 				);
 		}
-
-		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		if ( empty( $cert_id ) ) {
-			return $error;
-		}
-
-		return self::{$method}( $cert_id );
 
 	}
 
@@ -212,8 +210,17 @@ class LLMS_Controller_Certificates {
 
 		$sync = llms_get_certificate( $cert_id )->sync();
 
-		if ( is_wp_error( $sync ) ) {
-			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $sync->get_error_message() );
+		if ( ! $sync  ) {
+			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error(
+				new WP_Error(
+					'llms-sync-awarded-certificate-invalid-template',
+					sprintf(
+						__( 'Sorry, the awarded certificate #%d has a not valid certificate template.', 'lifterlms' ),
+						$cert_id
+					),
+					compact( 'cert_id' )
+				)
+			);
 		} else {
 			$redirect_url = add_query_arg( 'message', 1, $redirect_url );
 		}
