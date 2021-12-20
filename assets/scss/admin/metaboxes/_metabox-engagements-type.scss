@@ -4,7 +4,7 @@
 	&:last-of-type {
 		margin-bottom: 0;
 	}
-	&.sync-action,
+	@at-root .sync-action,
 	&.student-info,
 	&.post_author_override label {
 		&:before {
@@ -31,8 +31,9 @@
 			content: '\f110';
 		}
 	}
-	&.sync-action:before {
-		content: '\f113'
+	@at-root .sync-action:before {
+		content: '\f113';
+		color: white;
 	}
 	&.post_author_override label {
 		display: inline-block;

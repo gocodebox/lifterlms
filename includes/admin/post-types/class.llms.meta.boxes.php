@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_Meta_Boxes {
 
 	/**
-	 * array of collected errors.
+	 * Array of collected errors.
 	 *
 	 * @access public
 	 * @var string
@@ -35,7 +35,8 @@ class LLMS_Admin_Meta_Boxes {
 	 * @since 3.16.0 Unknown.
 	 * @since [version] Instantiate award engagement submit meta box.
 	 *               Instantiate award achievement meta box.
-	 *               Add link to the certificate template submit box to sync awarded certificates.
+	 *               Instantiate certificate meta boxes to sync awarded certificates and their templates.
+	 *
 	 * @return void
 	 */
 	public function __construct() {
@@ -46,6 +47,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		// Certs.
 		new LLMS_Meta_Box_Certificate();
+		new LLMS_Meta_Box_Award_Certificate_Sync();
 
 		// Emails.
 		new LLMS_Meta_Box_Email_Settings();
@@ -241,7 +243,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		printf(
 			'<div class="llms-mb-section misc-pub-section sync-action"> %1$s</div>',
-			// Translators: %1$s = Opening anchor tag, %2$d = Closing anchor tag, %3$d = Number of awarded certificates., %4$s = Awarded certificate post type label (singular or plural).
+			// Translators: %1$s = Opening anchor tag, %2$s = Closing anchor tag, %3$d = Number of awarded certificates., %4$s = Awarded certificate post type label (singular or plural).
 			sprintf(
 				__( '%1$sSync%2$s %3$d %4$s', 'lifterlms' ),
 				sprintf(

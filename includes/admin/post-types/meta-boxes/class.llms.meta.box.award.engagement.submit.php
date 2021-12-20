@@ -105,7 +105,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Undocumented function
+	 * Student fields.
 	 *
 	 * @since [version]
 	 *
@@ -121,7 +121,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 		}
 
 		$fields .= $this->student_information();
-		$fields .= $this->sync_action();
 
 		return $fields;
 
@@ -213,53 +212,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 				esc_url( $url ),
 				$name,
 				$student->get( 'user_email' )
-			)
-		);
-
-	}
-
-	/**
-	 * Sync action links html.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	private function sync_action() {
-
-		if ( 'llms_my_certificate' !== get_post_type( $this->post->ID ) ) {
-			return '';
-		}
-
-		$certificate_model = new $this->post_types['llms_my_certificate']['model']( $this->post->ID );
-		$template_id       = $certificate_model->get( 'parent' );
-		if ( empty( $template_id ) ||
-				is_wp_error( LLMS_Engagement_Handler::check_post( $template_id, 'llms_certificate' ) ) ) {
-			return '';
-		}
-
-		$base_url   = remove_query_arg( 'action' ); // Current url without 'action' arg.
-		$sync_url   = add_query_arg(
-			'action',
-			'sync_awarded_certificate',
-			wp_nonce_url( $base_url, 'llms-cert-sync-actions', '_llms_cert_sync_actions_nonce' )
-		);
-		$sync_alert = __(
-			'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to proceed?',
-			'lifterlms'
-		);
-		$on_click   = "return confirm('${sync_alert}')";
-
-		return sprintf(
-			'<li class="llms-mb-list sync-action"> <a href="%1$s" onclick="%2$s">%3$s</a> %4$s</li>',
-			$sync_url,
-			$on_click,
-			__( 'Sync', 'lifterlms' ),
-			sprintf(
-				// Tanslators: %1$s = Edit link to certificate template.
-				__( 'with its %1$stemplate%2$s', 'lifterlms' ),
-				'<a href="' . get_edit_post_link( $template_id ) . '" target="_blank">',
-				'</a>'
 			)
 		);
 
