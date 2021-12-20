@@ -227,25 +227,31 @@ class LLMS_Admin_Meta_Boxes {
 			wp_nonce_url( $base_url, 'llms-cert-sync-actions', '_llms_cert_sync_actions_nonce' )
 		);
 
-		// Translators: %1$d = Number of awarded certificates.
+		$awarded_certificate_label = strtolower(
+			( $awarded_certificates_number > 1 ) ? get_post_type_object( 'llms_my_certificate' )->labels->name : get_post_type_object( 'llms_my_certificate' )->labels->singular_name
+		);
+
+		// Translators: %1$d = Number of awarded certificates, %2$s = Awarded certificate post type label (singular or plural).
 		$sync_alert = sprintf(
-			__( 'This action will replace the current title, content, and the background of %1$d awarded certificates with the ones of this template.\nAre you sure you want to proceed?', 'lifterlms' ),
-			$awarded_certificates_number
+			__( 'This action will replace the current title, content, background etc. of %1$d %2$s with the ones of this template.\nAre you sure you want to proceed?', 'lifterlms' ),
+			$awarded_certificates_number,
+			$awarded_certificate_label
 		);
 		$on_click   = "return confirm('${sync_alert}')";
 
 		printf(
 			'<div class="llms-mb-section misc-pub-section sync-action"> %1$s</div>',
-			// Translators: %1$s = Opening anchor tag, %2$d = Closing anchor tag, %3$d = Number of awarded certificates.
+			// Translators: %1$s = Opening anchor tag, %2$d = Closing anchor tag, %3$d = Number of awarded certificates., %4$s = Awarded certificate post type label (singular or plural).
 			sprintf(
-				__( '%1$sSync%2$s %3$d awarded certificates', 'lifterlms' ),
+				__( '%1$sSync%2$s %3$d %4$s', 'lifterlms' ),
 				sprintf(
 					'<a href="%1$s" onclick="%2$s">',
 					$sync_url,
 					$on_click
 				),
 				'</a>',
-				$awarded_certificates_number
+				$awarded_certificates_number,
+				$awarded_certificate_label
 			)
 		);
 
