@@ -234,7 +234,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 		foreach ( $certificates as $awarded_certificate ) {
 			$this->log(
 				sprintf(
-					! is_wp_error( $awarded_certificate->sync() ) ? $success_log_message : $error_log_message,
+					$awarded_certificate->sync() ? $success_log_message : $error_log_message,
 					$awarded_certificate->get( 'title', true ),
 					$awarded_certificate->get( 'id' ),
 					get_the_title( $template_id ),

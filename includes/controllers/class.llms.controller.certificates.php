@@ -246,7 +246,15 @@ class LLMS_Controller_Certificates {
 			);
 		}
 
-		// Trigger background sync.
+		/**
+		 * Fires an action to trigger the awarded certificates bulk sync.
+		 *
+		 * @since [version]
+		 *
+		 * @see LLMS_Processor_Awarded_Certificates_Bulk_Sync.
+		 *
+		 * @param int $certificate_template_id The certificate template post ID.
+		 */
 		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
 		llms_redirect_and_exit( get_edit_post_link( $certificate_template_id, 'raw' ) );
 
