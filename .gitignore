@@ -11,8 +11,8 @@ composer.lock
 !/libraries/index.php
 !/libraries/README.md
 
-# Ignore built files
-/blocks/*
+# Exclude maps.
+/blocks/**/*.js.map
 
 # Misc.
 *.log
