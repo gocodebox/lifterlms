@@ -14,24 +14,32 @@ defined( 'ABSPATH' ) || exit;
  * Display the student achievements reporting table.
  *
  * @since 3.2.0
+ * @since [version] Allow pagination.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 	use LLMS_Trait_Earned_Engagement_Reporting_Table;
 
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'achievements';
 
 	/**
-	 * Instance of LLMS_Student
+	 * Instance of LLMS_Student.
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $student = null;
+
+	/**
+	 * If true, tfoot will add ajax pagination links.
+	 *
+	 * @var boolean
+	 */
+	protected $is_paginated = true;
 
 	/**
 	 * Get HTML for buttons in the actions cell of the table.
@@ -154,7 +162,8 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * Get table results.
 	 *
 	 * @since Unknown
-	 * @since [version] Don't use deprecated signature for retrieving achievements
+	 * @since [version] Don't use deprecated signature for retrieving achievements.
+	 *              Paginate results.
 	 *
 	 * @param array $args Table query arguments.
 	 * @return void
@@ -169,15 +178,27 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
 		$query = $this->student->get_achievements(
 			array(
-				'per_page' => -1,
+				'per_page' => 10,
+				'status'   => array( 'publish', 'future' ),
+				'paged'    => $this->current_page,
 				'sort'     => array(
 					'date' => 'ASC',
 					'ID'   => 'ASC',
 				),
 			)
 		);
+
+		$this->max_pages = $query->get_max_pages();
+
+		if ( $this->max_pages > $this->current_page ) {
+			$this->is_last_page = false;
+		}
 
 		$this->tbody_data = $query->get_awards();
 
