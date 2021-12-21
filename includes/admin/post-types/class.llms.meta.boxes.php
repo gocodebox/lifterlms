@@ -47,6 +47,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		// Certs.
 		new LLMS_Meta_Box_Certificate();
+		new LLMS_Meta_Box_Certificate_Template_Sync();
 		new LLMS_Meta_Box_Award_Certificate_Sync();
 
 		// Emails.
@@ -96,7 +97,6 @@ class LLMS_Admin_Meta_Boxes {
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 10, 2 );
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
-		add_action( 'post_submitbox_misc_actions', array( $this, 'sync_awarded_certificates_action' ) );
 
 		// Error handling.
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
@@ -188,74 +188,6 @@ class LLMS_Admin_Meta_Boxes {
 		// Remove some defaults from the course.
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
 		remove_meta_box( 'tagsdiv-course_difficulty', 'course', 'side' );
-
-	}
-
-	/**
-	 * Sync awarded certificates action.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post $post The WP_Post instance of the certificate template.
-	 * @return void
-	 */
-	public function sync_awarded_certificates_action( $post ) {
-
-		if ( 'llms_certificate' !== $post->post_type ) {
-			return;
-		}
-
-		$awarded_certificates_number = ( new LLMS_Awards_Query(
-			array(
-				'fields'    => 'ids',
-				'templates' => $post->ID,
-				'per_page'  => 1,
-				'status'    => array(
-					'publish',
-					'future',
-				),
-				'type'      => 'certificate',
-			)
-		) )->get_found_results();
-
-		if ( ! $awarded_certificates_number ) {
-			return;
-		}
-
-		$base_url = remove_query_arg( 'action' ); // Current url without 'action' arg.
-		$sync_url = add_query_arg(
-			'action',
-			'sync_awarded_certificates',
-			wp_nonce_url( $base_url, 'llms-cert-sync-actions', '_llms_cert_sync_actions_nonce' )
-		);
-
-		$awarded_certificate_label = strtolower(
-			( $awarded_certificates_number > 1 ) ? get_post_type_object( 'llms_my_certificate' )->labels->name : get_post_type_object( 'llms_my_certificate' )->labels->singular_name
-		);
-
-		// Translators: %1$d = Number of awarded certificates, %2$s = Awarded certificate post type label (singular or plural).
-		$sync_alert = sprintf(
-			__( 'This action will replace the current title, content, background etc. of %1$d %2$s with the ones of this template.\nAre you sure you want to proceed?', 'lifterlms' ),
-			$awarded_certificates_number,
-			$awarded_certificate_label
-		);
-		$on_click   = "return confirm('${sync_alert}')";
-
-		printf(
-			'<div class="llms-mb-section misc-pub-section sync-action"> %1$s</div>',
-			// Translators: %1$s = Opening anchor tag, %2$s = Closing anchor tag, %3$d = Number of awarded certificates., %4$s = Awarded certificate post type label (singular or plural).
-			sprintf(
-				__( '%1$sSync%2$s %3$d %4$s', 'lifterlms' ),
-				sprintf(
-					'<a href="%1$s" onclick="%2$s">',
-					$sync_url,
-					$on_click
-				),
-				'</a>',
-				$awarded_certificates_number,
-				$awarded_certificate_label
-			)
-		);
 
 	}
 

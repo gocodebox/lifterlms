@@ -12,38 +12,11 @@ defined( 'ABSPATH' ) || exit;
 
 
 /**
- * Award engagement submit meta box class.
+ * Award certificate sync meta box class.
  *
  * @since [version]
  */
 class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
-
-	/**
-	 * ID of the student who earned (is about to earn) the engagement.
-	 *
-	 * @since [version]
-	 *
-	 * @var int
-	 */
-	private $student_id;
-
-	/**
-	 * Allowed post types.
-	 *
-	 * @since [version]
-	 *
-	 * @var string[]
-	 */
-	private $post_types = array(
-		'llms_my_achievement' => array(
-			'model'          => 'LLMS_User_Achievement',
-			'reporting_stab' => 'achievements',
-		),
-		'llms_my_certificate' => array(
-			'model'          => 'LLMS_User_Certificate',
-			'reporting_stab' => 'certificates',
-		),
-	);
 
 	/**
 	 * Configure the metabox settings.
@@ -54,7 +27,7 @@ class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id      = 'award_certificate_sync'; // Overrides the WordPress core one.
+		$this->id      = 'award_certificate_sync';
 		$this->screens = array(
 			'llms_my_certificate',
 		);
