@@ -11,6 +11,9 @@ composer.lock
 !/libraries/index.php
 !/libraries/README.md
 
+# Ignore built files
+/blocks/*
+
 # Misc.
 *.log
 .DS_Store
