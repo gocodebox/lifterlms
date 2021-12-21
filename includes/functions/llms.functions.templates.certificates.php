@@ -53,9 +53,11 @@ function llms_certificate_styles() {
 	$width      = $dimensions['width'];
 	$height     = $dimensions['height'];
 
+	$fonts      = $certificate->get_custom_fonts();
+
 	llms_get_template(
 		'certificates/dynamic-styles.php',
-		compact( 'certificate', 'width', 'height', 'background_color', 'background_img', 'padding' )
+		compact( 'certificate', 'width', 'height', 'background_color', 'background_img', 'padding', 'fonts' )
 	);
 }
 

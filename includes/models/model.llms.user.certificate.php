@@ -277,6 +277,55 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
+	 * Retrieves a list of the fonts used by the certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_get_certificate_fonts()
+	 *
+	 * @param array|null $blocks A list of parsed block arrays or null. If none supplied the certificate's
+	 *                           content is parsed and used instead.
+	 * @return array[] Array of fonts by the certificate. Each array is a font definition with the font's
+	 *                 id added to the array.
+	 */
+	public function get_custom_fonts( $blocks = null ) {
+
+		$fonts  = array();
+
+		$blocks = is_null( $blocks ) ? parse_blocks( $this->get( 'content', true ) ) : $blocks;
+		foreach ( $blocks as $block ) {
+
+			if ( ! empty( $block['attrs']['fontFamily'] ) ) {
+				$fonts[] = $block['attrs']['fontFamily'];
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
+			}
+
+		}
+
+		$valid_fonts = llms_get_certificate_fonts();
+
+		return array_filter(
+			array_map(
+				function( $font ) use ( $valid_fonts ) {
+					if ( 'default' === $font ) {
+						return null;
+					}
+					$ret = $valid_fonts[ $font ] ?? null;
+					if ( $ret ) {
+						$ret['id'] = $font;
+					}
+					return $ret;
+				},
+				array_unique( $fonts )
+			)
+		);
+
+	}
+
+	/**
 	 * Retrieves the value for either the width or height.
 	 *
 	 * @since [version]

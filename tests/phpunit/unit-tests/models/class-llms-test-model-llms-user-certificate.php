@@ -109,6 +109,51 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_custom_fonts() with empty post content.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_custom_fonts() {
+
+		// No content.
+		$this->create();
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Not a block.
+		$this->create( array( 'post_content' => 'Not a block.' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Block with no fonts.
+		$this->create( array( 'post_content' => '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		$blocks = parse_blocks( '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->\n<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' );
+
+		// Invalid font.
+		$blocks[0]['attrs']['fontFamily'] = 'invalid';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Valid fonts.
+		$blocks[0]['attrs']['fontFamily'] = 'sans';
+		$blocks[2]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'sans', 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Dupcheck.
+		$blocks[0]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Nested.
+		$this->create( array( 'post_content' => '<!-- wp:group -->' . serialize_blocks( $blocks ) . '<!-- /wp:group -->' ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+	}
+
+	/**
 	 * Test delete() method
 	 *
 	 * @since 4.5.0

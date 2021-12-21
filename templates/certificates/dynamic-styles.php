@@ -15,6 +15,7 @@
  * @param string                $background_color Background color value.
  * @param string                $background_img   Image source URL for the background image.
  * @param string                $padding          Internal margin value with units, ready to be used in CSS.
+ * @param array[]               $fonts            Array of custom certificate fonts used by the certificate.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +30,11 @@ defined( 'ABSPATH' ) || exit;
 		padding: <?php echo $padding; ?>;
 		width: <?php echo $width; ?>;
 	}
+	<?php foreach ( $fonts as $font ) : ?>
+	.has-<?php echo $font['id']; ?>-font-family {
+		font-family: <?php echo $font['css']; ?>
+	}
+	<?php endforeach; ?>
 </style>
 <style type="text/css" media="print">
 	@page {
