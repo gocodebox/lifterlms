@@ -13,6 +13,8 @@ composer.lock
 
 # Exclude maps.
 /blocks/**/*.js.map
+/assets/css/*.map
+/assets/js/*.map
 
 # Misc.
 *.log
