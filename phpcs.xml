@@ -10,7 +10,6 @@
     <exclude-pattern>.github/</exclude-pattern>
     <exclude-pattern>.wordpress-org/</exclude-pattern>
 
-
     <!-- Exclude compile or minified JS files -->
     <exclude-pattern>assets/js/llms.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-admin-addons.js</exclude-pattern>
@@ -19,9 +18,14 @@
     <exclude-pattern>assets/js/llms-components.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-icons.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-metaboxes.js</exclude-pattern>
+    <exclude-pattern>blocks/**/*.js</exclude-pattern>
+
+    <!-- Exclude PHP asset files -->
+    <exclude-pattern>*.asset.php</exclude-pattern>
 
     <!-- Let ESLint handle ESNext JS -->
     <exclude-pattern>src/**/*</exclude-pattern>
+    <exclude-pattern>webpack.config.js</exclude-pattern>
 
     <!-- Exclude node packages -->
     <exclude-pattern>packages/</exclude-pattern>
