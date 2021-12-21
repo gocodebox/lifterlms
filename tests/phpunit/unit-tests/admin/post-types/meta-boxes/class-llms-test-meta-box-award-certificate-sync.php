@@ -110,11 +110,11 @@ class LLMS_Test_Meta_Box_Award_Certificate_Sync extends LLMS_PostTypeMetaboxTest
 			)
 		);
 
-		// Set a template which is a `llms_certificate` with publish status.
+		// Set a template which is a `llms_certificate`.
 		wp_update_post(
 			array(
-				'ID'          => $template->ID,
-				'post_status' => 'publish',
+				'ID'        => $template->ID,
+				'post_type' => 'llms_certificate',
 			)
 		);
 		$this->assertStringContainsString(

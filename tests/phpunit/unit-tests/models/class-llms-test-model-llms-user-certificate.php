@@ -830,4 +830,29 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test sync a template keeps the same thumbnail.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_twice_keep_thumbnail() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template Removing Thumbnail';
+		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Sync (twice).
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+	}
 }

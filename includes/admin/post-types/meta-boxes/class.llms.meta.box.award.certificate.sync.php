@@ -137,7 +137,7 @@ class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
 		$on_click   = "return confirm('${sync_alert}')";
 
 		return sprintf(
-			'<p style="text-align:right"><a href="%1$s" class="llms-button-primary sync-action small" onclick="%2$s">%3$s</a></p><p>%4$s</p>',
+			'<p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action small" onclick="%2$s">%3$s</a></p><p>%4$s</p>',
 			$sync_url,
 			$on_click,
 			__( 'Sync', 'lifterlms' ),

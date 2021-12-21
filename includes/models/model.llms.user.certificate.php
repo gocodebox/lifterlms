@@ -692,7 +692,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
-		if ( ! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) ) ) {
+		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
+				! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) ) ) {
 			delete_post_thumbnail( $this->get( 'post' ) );
 		}
 
