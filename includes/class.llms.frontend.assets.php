@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
+ * @since [version] Removed deprecated `enqueue_inline_script()` and `is_inline_script_enqueued()`.
  */
 class LLMS_Frontend_Assets {
 
@@ -113,23 +114,6 @@ class LLMS_Frontend_Assets {
 		$script = ob_get_clean();
 		llms()->assets->enqueue_inline( 'llms-integrity', $script, 'header' );
 
-	}
-
-	/**
-	 * Enqueue an inline script
-	 *
-	 * @version 3.4.1
-	 * @deprecated 4.4.0 Use `LLMS_Assets::enqueue_inline()` instead.
-	 *
-	 * @param string $id       Unique id for the script, used to prevent duplicates.
-	 * @param string $script   JS to enqueue, do not add <script> tags!.
-	 * @param string $location Where to enqueue, accepts "header" or "footer".
-	 * @param float  $priority Enqueue priority.
-	 * @return boolean
-	 */
-	public static function enqueue_inline_script( $id, $script, $location = 'footer', $priority = 10 ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::enqueue_inline_script()', '4.4.0', 'LLMS_Assets::enqueue_inline()' );
-		return llms()->assets->enqueue_inline( $id, $script, $location, $priority ) ? true : false;
 	}
 
 	/**
@@ -286,20 +270,6 @@ class LLMS_Frontend_Assets {
 			);
 		}
 
-	}
-
-	/**
-	 * Determine if an inline script has already been enqueued
-	 *
-	 * @since 3.4.1
-	 * @deprecated 4.4.0
-	 *
-	 * @param string $handle Handle of the inline script.
-	 * @return boolean
-	 */
-	public static function is_inline_script_enqueued( $handle ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::is_inline_enqueued()', '4.4.0', 'LLMS_Frontend_Assets::is_inline_enqueued()' );
-		return llms()->assets->is_inline_enqueued( $handle );
 	}
 
 	/**

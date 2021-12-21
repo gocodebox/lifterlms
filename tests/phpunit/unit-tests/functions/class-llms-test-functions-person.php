@@ -323,19 +323,6 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_set_person_auth_cookie()
-	 *
-	 * @since 4.5.0
-	 *
-	 * @expectedDeprecated llms_set_person_auth_cookie
-	 *
-	 * @return void
-	 */
-	public function test_llms_set_person_auth_cookie() {
-		llms_set_person_auth_cookie( $this->factory->user->create() );
-	}
-
-	/**
 	 * Test llms_set_user_login_time()
 	 *
 	 * @since 4.5.0

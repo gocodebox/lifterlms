@@ -202,22 +202,6 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test get_generated_posts()
-	 *
-	 * @since 4.7.0
-	 *
-	 * @expectedDeprecated LLMS_Generator::get_generated_posts()
-	 *
-	 * @return void
-	 */
-	public function test_get_generated_posts() {
-
-		$gen = new LLMS_Generator( array() );
-		$gen->get_generated_posts();
-
-	}
-
-	/**
 	 * Test is_error() method: no generator supplied.
 	 *
 	 * @since 3.36.3

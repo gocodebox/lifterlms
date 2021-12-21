@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page methods to `LLMS_Trait_Sales_Page`.
+ * @since [version] Removed deprecated `LLMS_Course::sections` and `LLMS_Course::sku` properties.
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..
@@ -113,22 +114,6 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 * @var string
 	 */
 	protected $model_post_type = 'course';
-
-	/**
-	 * @since 1.0.0
-	 * @deprecated 4.12.0 Unused property `LLMS_Course::$sections` is replaced by `LLMS_Course::get_sections()`.
-	 *
-	 * @var array
-	 */
-	public $sections;
-
-	/**
-	 * @since 1.0.0
-	 * @deprecated 4.12.0 Unused property `LLMS_Course::$sku` is deprecated with no replacement.
-	 *
-	 * @var string
-	 */
-	public $sku;
 
 	/**
 	 * Constructor for this class and the traits it uses.
