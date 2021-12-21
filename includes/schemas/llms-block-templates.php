@@ -22,52 +22,91 @@ defined( 'ABSPATH' ) || exit;
  */
 $certificates = array(
 	array( 'llms/certificate-title' ),
-	array( 'core/spacer', array(
-		'height' => 100,
-	) ),
-	array( 'core/heading', array(
-		'content' => __( 'Presented to', 'lifterlms' ),
-		'level' => 3,
-		'textAlign' => 'center',
-	) ),
-	array( 'core/heading', array(
-		'content' => '[llms-user display_name]',
-		'level' => 2,
-		'textAlign' => 'center',
-	) ),
-	array( 'core/heading', array(
-		'content' => __( 'for demonstration of excellence', 'lifterlms' ),
-		'level' => 3,
-		'textAlign' => 'center',
-	) ),
-	array( 'core/spacer', array(
-		'height' => 100,
-	) ),
-	array( 'core/columns', array(), array(
-		array( 'core/column', array(), array(
-			array( 'core/paragraph', array(
-				'align' => 'center',
-				'content' => '{current_date}',
-			) ),
-			array( 'core/separator' ),
-			array( 'core/paragraph', array(
-				'align' => 'center',
-				'content' => __( 'DATE', 'lifterlms' ),
-			) ),
-		) ),
-		array( 'core/column' ),
-		array( 'core/column', array(), array(
-			array( 'core/paragraph', array(
-				'align' => 'center',
-				'content' => '{site_title}',
-			) ),
-			array( 'core/separator' ),
-			array( 'core/paragraph', array(
-				'align' => 'center',
-				'content' => __( 'SIGNED', 'lifterlms' ),
-			) ),
-		) ),
-	) ),
+	array(
+		'core/spacer',
+		array(
+			'height' => 100,
+		),
+	),
+	array(
+		'core/heading',
+		array(
+			'content'   => __( 'Presented to', 'lifterlms' ),
+			'level'     => 3,
+			'textAlign' => 'center',
+		),
+	),
+	array(
+		'core/heading',
+		array(
+			'content'   => '[llms-user display_name]',
+			'level'     => 2,
+			'textAlign' => 'center',
+		),
+	),
+	array(
+		'core/heading',
+		array(
+			'content'   => __( 'for demonstration of excellence', 'lifterlms' ),
+			'level'     => 3,
+			'textAlign' => 'center',
+		),
+	),
+	array(
+		'core/spacer',
+		array(
+			'height' => 100,
+		),
+	),
+	array(
+		'core/columns',
+		array(),
+		array(
+			array(
+				'core/column',
+				array(),
+				array(
+					array(
+						'core/paragraph',
+						array(
+							'align'   => 'center',
+							'content' => '{current_date}',
+						),
+					),
+					array( 'core/separator' ),
+					array(
+						'core/paragraph',
+						array(
+							'align'   => 'center',
+							'content' => __( 'DATE', 'lifterlms' ),
+						),
+					),
+				),
+			),
+			array( 'core/column' ),
+			array(
+				'core/column',
+				array(),
+				array(
+					array(
+						'core/paragraph',
+						array(
+							'align'   => 'center',
+							'content' => '{site_title}',
+						),
+					),
+					array( 'core/separator' ),
+					array(
+						'core/paragraph',
+						array(
+							'align'   => 'center',
+							'content' => __( 'SIGNED', 'lifterlms' ),
+						),
+					),
+				),
+			),
+		),
+	),
 );
 
 return array(

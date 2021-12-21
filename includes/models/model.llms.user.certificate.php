@@ -290,7 +290,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	public function get_custom_fonts( $blocks = null ) {
 
-		$fonts  = array();
+		$fonts = array();
 
 		$blocks = is_null( $blocks ) ? parse_blocks( $this->get( 'content', true ) ) : $blocks;
 		foreach ( $blocks as $block ) {
@@ -302,7 +302,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			if ( ! empty( $block['innerBlocks'] ) ) {
 				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
 			}
-
 		}
 
 		$valid_fonts = llms_get_certificate_fonts();

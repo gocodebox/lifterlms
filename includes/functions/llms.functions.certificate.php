@@ -108,18 +108,18 @@ function llms_get_certificate_fonts() {
 	$fonts = array(
 
 		// Default fonts
-		'default' => array(
+		'default'             => array(
 			'name' => __( 'Default theme font', 'lifterlms' ),
 			'href' => null,
 			'css'  => null,
 		),
-		'sans' => array(
+		'sans'                => array(
 			'name' => __( 'Sans-serif', 'lifterlms' ),
 			'href' => null,
 			// From https://systemfontstack.com.
 			'css'  => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
 		),
-		'serif' => array(
+		'serif'               => array(
 			'name' => __( 'Serif', 'lifterlms' ),
 			'href' => null,
 			// From https://systemfontstack.com.
@@ -127,7 +127,7 @@ function llms_get_certificate_fonts() {
 		),
 
 		// Newspaper-style display fonts.
-		'pirata-one' => array(
+		'pirata-one'          => array(
 			'name' => 'Pirata One',
 			'href' => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
 			'css'  => '"Pirata One", ' . $serif,
@@ -139,12 +139,12 @@ function llms_get_certificate_fonts() {
 		),
 
 		// Cursive-style handwriting fonts.
-		'dancing-script' => array(
+		'dancing-script'      => array(
 			'name' => 'Dancing Script',
 			'href' => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
 			'css'  => '"Dancing Script", ' . $serif,
 		),
-		'imperial-script' => array(
+		'imperial-script'     => array(
 			'name' => 'Imperial Script',
 			'href' => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
 			'css'  => '"Imperial Script", ' . $serif,

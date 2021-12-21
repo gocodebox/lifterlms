@@ -3,7 +3,7 @@
  * LLMS_Block_Library class file.
  *
  * @package LifterLMS/Classes
- * 
+ *
  * @since [version]
  * @version [version]
  */
@@ -43,9 +43,12 @@ class LLMS_Block_Library {
 			'certificate-title',
 		);
 
-		$blocks = array_map( function( $id ) {
-			return LLMS_PLUGIN_DIR . 'blocks/' . $id;
-		}, $blocks );
+		$blocks = array_map(
+			function( $id ) {
+				return LLMS_PLUGIN_DIR . 'blocks/' . $id;
+			},
+			$blocks
+		);
 
 		/**
 		 * Filters the list of blocks to register.
