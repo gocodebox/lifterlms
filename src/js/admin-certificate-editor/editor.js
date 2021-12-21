@@ -2,6 +2,7 @@ import { store as coreStore } from '@wordpress/core-data';
 import { select, subscribe } from '@wordpress/data';
 import domReady from '@wordpress/dom-ready';
 import { store as editorStore } from '@wordpress/editor';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Retrieves the current media object for the certificate's featured image.
@@ -63,6 +64,15 @@ function applyBlockVisualFixes() {
 	document.head.appendChild( style );
 }
 
+function hasCertificateTitle() {
+
+	const { getInserterItems } = select( blockEditorStore );
+
+	// Using this method in favor of `canInsertBlockType()` due to this: https://github.com/WordPress/gutenberg/issues/37540.
+	const { isDisabled } = getInserterItems().find( ( { name } ) => 'llms/certificate-title' === name );
+	return isDisabled;
+}
+
 /**
  * Updates to the the editor "canvas" to reflect certificate settings.
  *
@@ -73,7 +83,7 @@ function applyBlockVisualFixes() {
  * @return {void}
  */
 function updateDOM() {
-	const { getEditedPostAttribute } = select( editorStore ),
+	const { getEditedPostAttribute, getCurrentPostType } = select( editorStore ),
 		bg = getEditedPostAttribute( 'certificate_background' ),
 		margins = getEditedPostAttribute( 'certificate_margins' ),
 		width = getEditedPostAttribute( 'certificate_width' ),
@@ -102,6 +112,14 @@ function updateDOM() {
 	if ( styles ) {
 		styles.style.backgroundColor = bg;
 	}
+
+	if ( 'llms_my_certificate' === getCurrentPostType() ) {
+		const title = document.querySelector( '.edit-post-visual-editor__post-title-wrapper' );
+		if ( title ) {
+			title.style.display = hasCertificateTitle() ? 'none' : 'initial';
+		}
+	}
+
 }
 
 domReady( () => {

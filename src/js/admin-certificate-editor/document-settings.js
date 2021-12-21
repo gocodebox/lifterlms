@@ -9,7 +9,7 @@ import MarginsControl from './plugin/margins-control';
 import OrientationControl from './plugin/orientation-control';
 import SequentialIdControl from './plugin/sequential-id-control';
 import SizeControl from './plugin/size-control';
-import TitleControl from './plugin/title-control';
+import TitleControl, { Check as TitleControlCheck } from './plugin/title-control';
 
 /**
  * Render the certificate settings editor panel.
@@ -26,7 +26,7 @@ import TitleControl from './plugin/title-control';
  * @param {string}   args.orientation  Current orientation setting.
  * @param {string}   args.size         Current size setting.
  * @param {string}   args.unit         Current unit setting.
- * @param {number}   args.width        Current width setting.
+ * @param {number}   args.width        Current wfidth setting.
  * @return {PluginDocumentSettingPanel} The component.
  */
 function CertificateDocumentSettings( { type, title, sequentialId, background, height, margins, orientation, size, unit, width } ) {
@@ -39,12 +39,10 @@ function CertificateDocumentSettings( { type, title, sequentialId, background, h
 			opened={ true }
 		>
 
-			{ 'llms_certificate' === type && (
-				<>
-					<TitleControl { ...{ title } } />
-					<br />
-				</>
-			) }
+			<TitleControlCheck>
+				<TitleControl { ...{ title } } />
+				<br />
+			</TitleControlCheck>
 			<SizeControl { ...{ size, width, height, unit } } />
 			<br />
 			<OrientationControl { ...{ orientation } } />
