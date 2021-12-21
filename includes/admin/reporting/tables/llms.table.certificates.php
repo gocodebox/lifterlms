@@ -11,28 +11,36 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Student_Certificates class
+ * LLMS_Table_Student_Certificates class.
  *
  * @since 3.2.0
  * @since 3.35.0 Get student ID more reliably.
+ * @since [version] Allow pagination.
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	use LLMS_Trait_Earned_Engagement_Reporting_Table;
 
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'certificates';
 
 	/**
-	 * Instance of LLMS_Student
+	 * Instance of LLMS_Student.
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $student = null;
+
+	/**
+	 * If true, tfoot will add ajax pagination links.
+	 *
+	 * @var boolean
+	 */
+	protected $is_paginated = true;
 
 	/**
 	 * Get HTML for buttons in the actions cell of the table.
@@ -155,6 +163,15 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	}
 
+	/**
+	 * Get table results.
+	 *
+	 * @since Unknown
+	 * @since [version] Paginate results.
+	 *
+	 * @param array $args
+	 * @return void
+	 */
 	public function get_results( $args = array() ) {
 
 		$args = $this->clean_args( $args );
@@ -165,7 +182,29 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$this->tbody_data = $this->student->get_certificates( array() )->get_awards();
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$query = $this->student->get_certificates(
+			array(
+				'per_page' => 10,
+				'status'   => array( 'publish', 'future' ),
+				'paged'    => $this->current_page,
+				'sort'     => array(
+					'date' => 'ASC',
+					'ID'   => 'ASC',
+				),
+			)
+		);
+
+		$this->max_pages = $query->get_max_pages();
+
+		if ( $this->max_pages > $this->current_page ) {
+			$this->is_last_page = false;
+		}
+
+		$this->tbody_data = $query->get_awards();
 
 	}
 
