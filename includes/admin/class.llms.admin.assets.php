@@ -86,7 +86,7 @@ class LLMS_Admin_Assets {
 
 		llms()->assets->enqueue_script( 'llms-admin-certificate-editor' );
 
-		$fonts = llms_get_certificate_fonts( true );
+		$fonts = llms_get_certificate_fonts();
 
 		$settings = array(
 			'default_image' => llms()->certificates()->get_default_image( get_the_ID() ),
@@ -121,6 +121,11 @@ class LLMS_Admin_Assets {
 
 		$styles = '';
 		foreach ( $fonts as $id => $data ) {
+
+			if ( ! empty( $data['href'] ) ) {
+				wp_enqueue_style( 'llms-font-' . $id, $data['href'], array(), LLMS_VERSION );
+			}
+
 			$css     = $data['css'];
 			$styles .= ".editor-styles-wrapper .has-${id}-font-family { font-family: ${css} !important }\n";
 		}
