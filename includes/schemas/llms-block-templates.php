@@ -6,11 +6,11 @@
  *
  * @package LifterLMS/Schemas
  *
- * @see LLMS_Post_Types::get_template().
- * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/
- *
  * @since 5.2.0
  * @version 5.2.0
+ *
+ * @see LLMS_Post_Types::get_template().
+ * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/
  */
 
 defined( 'ABSPATH' ) || exit;

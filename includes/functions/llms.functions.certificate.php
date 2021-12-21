@@ -107,7 +107,7 @@ function llms_get_certificate_fonts() {
 
 	$fonts = array(
 
-		// Default fonts
+		// Default fonts.
 		'default'             => array(
 			'name' => __( 'Default theme font', 'lifterlms' ),
 			'href' => null,
