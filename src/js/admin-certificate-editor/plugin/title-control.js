@@ -20,7 +20,6 @@ import editCertificate from '../edit-certificate';
  * @return {?WPElement[]} Child components list or `null` if the components shouldn't display.
  */
 export function Check( { children } ) {
-
 	const { getCurrentPostType } = useSelect( editorStore ),
 		{ getInserterItems } = useSelect( blockEditorStore );
 
@@ -35,7 +34,6 @@ export function Check( { children } ) {
 	}
 
 	return children;
-
 }
 
 /**

@@ -64,8 +64,16 @@ function applyBlockVisualFixes() {
 	document.head.appendChild( style );
 }
 
+/**
+ * Determines whether or not the current post has a certificate title block.
+ *
+ * @since [version]
+ *
+ * @see {@link https://github.com/WordPress/gutenberg/issues/37540}
+ *
+ * @return {boolean} Returns `true` if the post has the block and `false` if it doesn't.
+ */
 function hasCertificateTitle() {
-
 	const { getInserterItems } = select( blockEditorStore );
 
 	// Using this method in favor of `canInsertBlockType()` due to this: https://github.com/WordPress/gutenberg/issues/37540.
@@ -119,7 +127,6 @@ function updateDOM() {
 			title.style.display = hasCertificateTitle() ? 'none' : 'initial';
 		}
 	}
-
 }
 
 domReady( () => {
