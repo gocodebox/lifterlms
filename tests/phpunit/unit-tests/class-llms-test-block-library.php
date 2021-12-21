@@ -50,6 +50,9 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 			$this->assertTrue( $registry->is_registered( $block ) );
 		}
 
+		// Ensure _doing_it_wrong() isn't thrown when registering a block that's already registered.
+		$this->main->register();
+
 	}
 
 }

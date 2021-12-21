@@ -40,26 +40,14 @@ class LLMS_Block_Library {
 	private function get_blocks() {
 
 		$blocks = array(
-			'certificate-title',
+			'certificate-title' => null,
 		);
 
-		$blocks = array_map(
-			function( $id ) {
-				return LLMS_PLUGIN_DIR . 'blocks/' . $id;
-			},
-			$blocks
-		);
+		foreach ( $blocks as $id => &$block ) {
+			$block = is_null( $block ) ? LLMS_PLUGIN_DIR . 'blocks/' . $id : $block;
+		}
 
-		/**
-		 * Filters the list of blocks to register.
-		 *
-		 * Each item in the resulting array will be passed to `register_block_type()`.
-		 *
-		 * @since [version]
-		 *
-		 * @param string[] $blocks A list of directory paths.
-		 */
-		return apply_filters( 'llms_block_library', $blocks );
+		return $blocks;
 
 	}
 
@@ -71,7 +59,19 @@ class LLMS_Block_Library {
 	 * @return void
 	 */
 	public function register() {
-		array_map( 'register_block_type', $this->get_blocks() );
+
+		$registry = WP_Block_Type_Registry::get_instance();
+
+		foreach ( $this->get_blocks() as $id => $block ) {
+
+			if ( $registry->is_registered( 'llms/' . $id ) ) {
+				continue;
+			}
+
+			register_block_type( $block );
+
+		}
+
 	}
 
 }
