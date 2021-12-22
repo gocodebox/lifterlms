@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version 5.3.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
  * @since 3.40.0 Refactor to utilize `LLMS_Abstract_Email_Provider`.
+ * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
@@ -43,10 +44,11 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 * @since 3.36.1
 	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
 	 * @deprecated 3.40.0 Method to be made protected and should not be called publicly.
+	 * @since [version] Changed access from public to protected.
 	 *
 	 * @return array
 	 */
-	public function do_remote_install() { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found -- Intentional for backwards compat.
+	protected function do_remote_install() {
 
 		return parent::do_remote_install();
 
