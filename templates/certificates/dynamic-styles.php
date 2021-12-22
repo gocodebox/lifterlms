@@ -19,7 +19,22 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$gfonts_preconnet = false;
 ?>
+
+<!-- Certificates Dynamic Styles -->
+<?php foreach ( $fonts as $font ): ?>
+	<?php if ( ! empty( $font['href'] ) ): ?>
+		<?php if ( ! $gfonts_preconnet && false !== strpos( $font['href'], 'fonts.googleapis.com' ) ) :
+			$gfonts_preconnet = true;
+			?>
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<?php endif; ?>
+	<link id="llms-font--<?php echo $font['id']; ?>" href="<?php echo $font['href']; ?>" rel="stylesheet">
+	<?php endif; ?>
+<?php endforeach; ?>
 <style type="text/css">
 	html, body {
 		background-color: <?php echo $background_color; ?> !important;
@@ -32,7 +47,7 @@ defined( 'ABSPATH' ) || exit;
 	}
 	<?php foreach ( $fonts as $font ) : ?>
 	.has-<?php echo $font['id']; ?>-font-family {
-		font-family: <?php echo $font['css']; ?>
+		font-family: <?php echo $font['css']; ?>;
 	}
 	<?php endforeach; ?>
 </style>
@@ -42,3 +57,4 @@ defined( 'ABSPATH' ) || exit;
 		margin: 0;
 	}
 </style>
+<!-- End Certificates Dynamic Styles -->
