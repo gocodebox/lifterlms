@@ -251,10 +251,10 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$img = $cert->get_background_image();
 		$this->assertFalse( $img['is_default'] );
-		$this->assertEquals( 462, $img['width'] );
+		$this->assertEquals( 640, $img['width'] );
 		$this->assertEquals( 616, $img['height'] );
 		$this->assertMatchesRegularExpression(
-			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:-\d+).jpeg#',
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:(-\d+)*(-\d+x\d+)*).jpeg#',
 			$img['src']
 		);
 

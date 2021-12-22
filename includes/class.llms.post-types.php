@@ -1172,7 +1172,7 @@ class LLMS_Post_Types {
 		$base_args = array(
 			'labels'              => wp_parse_args( $labels, $base_labels ),
 			'show_ui'             => $user_can,
-			'publicly_queryable'  => $user_can,
+			'publicly_queryable'  => 'llms_certificate' === $post_type ? $user_can : true,
 			'show_in_rest'        => $user_can,
 			'public'              => true,
 			'hierarchical'        => false,
