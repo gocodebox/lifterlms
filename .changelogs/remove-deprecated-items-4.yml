@@ -1,0 +1,18 @@
+significance: major
+type: removed
+entry: |
+  + Removed the deprecated `LLMS_Frontend_Password` class.
+  + Removed the deprecated `db_updates()` and `update_notice()` functions from the `LLMS_Install` class.
+  + Removed these deprecated items from the `LLMS_Notifications` class:
+    + `dispatch_processors()` function
+    + `llms_processors_async_dispatching` filter hook
+    + `$_instance` property
+  + Removed these deprecated functions from the `LLMS_Person_Handler` class:
+    + `register()`
+    + `sanitize_field()`
+    + `update()`
+    + `validate_fields()`
+    + `voucher_toggle_script()`
+  + Removed these deprecated files from `templates/admin/notices/`
+    + `db-update.php`
+    + `db-updating.php`

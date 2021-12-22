@@ -20,19 +20,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Removed these deprecated items: `dispatch_processors()` function,
+ *              `llms_processors_async_dispatching` filter hook, `$_instance` property.
  */
 class LLMS_Notifications {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Notifications
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Controller instances
@@ -89,45 +82,8 @@ class LLMS_Notifications {
 			add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
 		}
 
-		/**
-		 * Customize whether or not async notification dispatching should be used.
-		 *
-		 * @since 3.38.0
-		 *
-		 * @param boolean $use_async Whether or not to use async processor dispatching.
-		 */
-		$use_async = apply_filters( 'llms_processors_async_dispatching', true );
-		if ( $use_async ) {
-			add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
-			add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
-		} else {
-			add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
-		}
-
-	}
-
-	/**
-	 * On shutdown, check for processors that have items in the queue that need to be saved
-	 *
-	 * Saves & dispatches those processors.
-	 *
-	 * @since 3.8.0
-	 * @since 4.6.0 Use `llms_deprecated_function()` in favor of `llms_log()`.
-	 * @deprecated 3.38.0 Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
-	 *
-	 * @return void
-	 */
-	public function dispatch_processors() {
-
-		llms_deprecated_function( 'LLMS_Notifications::dispatch_processors()', '3.38.0', 'LLMS_Notifications::schedule_processors_dispatch()' );
-
-		foreach ( $this->processors_to_dispatch as $key => $name ) {
-			$processor = $this->get_processor( $name );
-			if ( $processor ) {
-				unset( $this->processors_to_dispatch[ $key ] );
-				$processor->save()->dispatch();
-			}
-		}
+		add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
+		add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
 
 	}
 

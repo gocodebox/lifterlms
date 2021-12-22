@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  * @since 5.2.0 Removed private class property $db_updates.
+ * @since [version] Removed the deprecated `db_updates()` and `update_notice()` functions.
  */
 class LLMS_Install {
 
@@ -736,35 +737,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
 		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
 
-	}
-
-	/**
-	 * Queue all required db updates into the bg update queue
-	 *
-	 * @since 3.0.0
-	 * @since 3.4.3 Unknown.
-	 * @deprecated 5.2.0 LLMS_Install::db_updates() is deprecated, use LLMS_DB_Upgrader::enqueue_updates() instead.
-	 *
-	 * @return void
-	 */
-	public static function db_updates() {
-
-		_deprecated_function( 'LLMS_Install::db_updates()', '5.2.0', 'LLMS_DB_Upgrader::enqueue_updates()' );
-		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
-		$upgrader->enqueue_updates();
-
-	}
-
-	/**
-	 * Stores an admin notice for the current state of the background updater
-	 *
-	 * @since 3.4.3
-	 * @deprecated 5.2.0 LLMS_Install::update_notice() is deprecated with no replacement.
-	 *
-	 * @return void
-	 */
-	public static function update_notice() {
-		_deprecated_function( 'LLMS_Install::update_notice()', '5.2.0' );
 	}
 
 }
