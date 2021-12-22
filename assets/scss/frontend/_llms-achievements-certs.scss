@@ -24,7 +24,7 @@ ul.llms-certificates-loop,
 		@while $cols <= 5 {
 			&.loop-cols-#{$cols} li.llms-achievement-loop-item,
 			&.loop-cols-#{$cols} li.llms-certificate-loop-item {
-				width: 100% / $cols;
+				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
 		}

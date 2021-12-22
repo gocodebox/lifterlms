@@ -56,7 +56,7 @@
 			$i: 1;
 			@while $i <= 12 {
 				&.llms-cols-#{$i} {
-					width: $i / 12 * 100%;
+					width: calc( $i / 12 ) * 100%;
 					$i: $i + 1;
 				}
 			}
