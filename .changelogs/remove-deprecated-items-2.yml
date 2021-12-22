@@ -1,14 +1,14 @@
 significance: major
 type: removed
 entry: |
-  + Removed deprecated `llms_format_decimal()` function and related unit test.
-  + Removed deprecated `llms_set_person_auth_cookie()` function and related unit test.
+  + Removed deprecated `llms_format_decimal()` function.
+  + Removed deprecated `llms_set_person_auth_cookie()` function.
   + Removed deprecated `LLMS_Course::sections` and `LLMS_Course::sku` properties.
-  + Removed deprecated functions and a related related unit test from the `LLMS_Frontend_Assets` class:
+  + Removed deprecated functions from the `LLMS_Frontend_Assets` class:
     + `enqueue_inline_script()`
     + `is_inline_script_enqueued()`
   + Removed deprecated `LLMS_Generator::add_custom_values()` function.
-  + Removed deprecated functions and a related unit test from the `LLMS_Generator` class:
+  + Removed deprecated functions from the `LLMS_Generator` class:
     + `add_custom_values()`
     + `format_date()`
     + `get_author_id_from_raw()`
