@@ -26,7 +26,8 @@ const { readdirSync } = require( 'fs' ),
 	} ),
 	defaultOutput = JSON.parse( JSON.stringify( config.output ) ),
 	blocks = readdirSync( './src/blocks' ),
-	patterns = [];
+	patterns = [],
+	ASSETS_DIR = 'assets';
 
 // Setup entries and copy patterns for all blocks in the block library.
 blocks.forEach( id => {
@@ -44,7 +45,7 @@ config.output.filename = ( pathData, assetInfo ) => {
 		return 'blocks/[name]/index.js';
 	}
 
-	return `assets/${ defaultOutput.filename }`;
+	return `${ ASSETS_DIR }/${ defaultOutput.filename }`;
 
 };
 
@@ -53,12 +54,20 @@ config.plugins = config.plugins.filter( plugin => {
 	return 'CleanWebpackPlugin' !== plugin.constructor.name;
 } );
 
+// Update the paths of CSS files.
+config.plugins = config.plugins.map( plugin => {
+	if ( [ 'MiniCssExtractPlugin', 'WebpackRTLPlugin' ].includes( plugin.constructor.name ) ) {
+		plugin.options.filename = `${ ASSETS_DIR }/${ plugin.options.filename }`;
+	}
+	return plugin;
+} );
+
 // Modified clean.
 config.plugins.push( new CleanWebpackPlugin( {
 
 	cleanOnceBeforeBuildPatterns: [
 		// Source maps.
-		'assets/js/*.js.map',
+		`${ ASSETS_DIR }/js/*.js.map`,
 
 		// Clean all blocks.
 		'blocks/*',
