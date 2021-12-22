@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Schemas
  *
- * @since 5.2.0
- * @version 5.2.0
+ * @since [version]
+ * @version [version]
  *
  * @see LLMS_Post_Types::get_template().
  * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Load the LifterLMS block library.
  *
- * @sinc [version]
+ * @since [version]
  */
 class LLMS_Block_Library {
 

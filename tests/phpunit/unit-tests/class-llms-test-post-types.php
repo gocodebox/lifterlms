@@ -120,7 +120,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test get_template()
+	 * Test get_template().
 	 *
 	 * @since [version]
 	 *

@@ -49,7 +49,7 @@ class LLMS_Admin_Assets {
 	}
 
 	/**
-	 * Output inline styles in the header
+	 * Output inline styles in the header.
 	 *
 	 * @since [version]
 	 *

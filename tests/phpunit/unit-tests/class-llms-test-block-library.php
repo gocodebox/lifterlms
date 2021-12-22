@@ -26,7 +26,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test register()
+	 * Test register().
 	 *
 	 * @since [version]
 	 *

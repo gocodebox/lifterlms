@@ -85,7 +85,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_get_certificate_fonts()
+	 * Test llms_get_certificate_fonts().
 	 *
 	 * @since [version]
 	 *
