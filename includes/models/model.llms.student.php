@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
+ * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook from `unenroll()`.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1470,6 +1471,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.26.0 Unknown.
 	 * @since 3.37.9 Update to accommodate custom post type enrollments added through new filters.
 	 *               Marked action `llms_user_removed_from_membership_level` as deprecated, use `llms_user_removed_from_membership` instead.
+	 * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook.
 	 *
 	 * @see llms_unenroll_student()
 	 *
@@ -1557,18 +1559,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 					// Users should be unenrolled from all courses they accessed through this membership.
 					$this->remove_membership_level( $product_id, $new_status );
-
-					/**
-					 * Execute the (deprecated) legacy action.
-					 *
-					 * @since      Unknown
-					 * @deprecated 3.37.9 Use `llms_user_removed_from_membership` instead for consistency with courses.
-					 *
-					 * @param int    $user_id    WP_User ID of the student
-					 * @param int    $product_id WP_Post ID of the product.
-					 */
-					do_action( 'llms_user_removed_from_membership_level', $this->get_id(), $product_id );
-
 				}
 
 				return true;
