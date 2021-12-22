@@ -36,12 +36,18 @@
 		"src": [
 			"assets/js/**/*.js",
 			"!assets/js/llms-admin-addons.js",
+			"!assets/js/llms-admin-certificate-editor.js",
+
 			"!assets/js/**/*.min.js",
 			"!assets/js/llms-builder*.js",
 			"!assets/js/app/**/*.js",
 			"!assets/js/builder/**/*.js",
 			"!assets/js/partials/**/*.js",
-			"!assets/js/private/**/*.js"
+			"!assets/js/private/**/*.js",
+
+
+			"!assets/js/js/llms-components.js",
+			"!assets/js/js/llms-icons.js"
 		],
 		"dest": "assets/js/"
 	},
