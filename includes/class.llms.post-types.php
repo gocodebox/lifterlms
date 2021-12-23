@@ -22,6 +22,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Post_Types {
 
 	/**
+	 * Reference to the block templates list.
+	 *
+	 * @var array
+	 */
+	private static $templates = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -346,6 +353,24 @@ class LLMS_Post_Types {
 	}
 
 	/**
+	 * Retrieves the block template for use in post type registration.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type The post type.
+	 * @return array|null Returns the block template array or null if no template is defined for the post type.
+	 */
+	private static function get_template( $post_type ) {
+
+		if ( empty( self::$templates ) ) {
+			self::$templates = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-block-templates.php';
+		}
+
+		return self::$templates[ $post_type ] ?? null;
+
+	}
+
+	/**
 	 * Register a custom post type.
 	 *
 	 * Automatically checks for duplicates and filters data.
@@ -356,10 +381,12 @@ class LLMS_Post_Types {
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
 	 *              for the latter, both the name and the unprefixed name are the same.
+	 * @since [version] Automatically load templates from the `llms-block-templates` schema.
+	 *              Added return value.
 	 *
 	 * @param string $name Post type name.
 	 * @param array  $data Post type data.
-	 * @return void
+	 * @return WP_Post_Type|WP_Error
 	 */
 	public static function register_post_type( $name, $data ) {
 
@@ -376,6 +403,10 @@ class LLMS_Post_Types {
 				);
 			}
 
+			if ( empty( $data['template'] ) ) {
+				$data['template'] = self::get_template( $name );
+			}
+
 			/**
 			 * Modify post type registration arguments of a LifterLMS custom post type.
 			 *
@@ -388,9 +419,11 @@ class LLMS_Post_Types {
 			 * @param array $data Post type registration arguments passed to `register_post_type()`.
 			 */
 			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
-			register_post_type( $name, $data );
+			return register_post_type( $name, $data );
 
 		}
+
+		return get_post_type_object( $name );
 
 	}
 
@@ -1127,6 +1160,11 @@ class LLMS_Post_Types {
 	private static function register_certificate_post_type( $post_type, $labels, $args, $rewrite_slug, $admin_cap ) {
 
 		$user_can = current_user_can( $admin_cap );
+		$supports = array( 'title', 'editor', 'thumbnail' );
+
+		if ( 'llms_my_certificate' === $post_type ) {
+			$supports[] = 'author';
+		}
 
 		$base_labels = array(
 			'edit'                  => __( 'Edit', 'lifterlms' ),
@@ -1147,17 +1185,7 @@ class LLMS_Post_Types {
 			'show_in_menu'        => 'edit.php?post_type=llms_engagement',
 			'show_in_nav_menus'   => false,
 			'query_var'           => true,
-			'supports'            => array( 'title', 'editor', 'thumbnail' ),
-			'template'            => array(
-				array(
-					'core/heading',
-					array(
-						'textAlign'   => 'center',
-						'level'       => 1,
-						'placeholder' => __( 'Certificate Title', 'lifterlms' ),
-					),
-				),
-			),
+			'supports'            => $supports,
 			'rewrite'             => array(
 				'slug'       => $rewrite_slug,
 				'with_front' => false,

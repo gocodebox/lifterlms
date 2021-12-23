@@ -57,7 +57,7 @@ function SelectedUser( { userId } ) {
 			page: 'llms-reporting',
 			tab: 'students',
 			stab: 'certificates',
-			student_id: userId
+			student_id: userId,
 		}
 	) }>{ name }</ExternalLink> );
 }
@@ -67,10 +67,10 @@ function SelectedUser( { userId } ) {
  *
  * @since [version]
  *
- * @param {Object} args        Component arguments.
- * @param {string} args.type   Current post type.
- * @param {number} args.userId WP User Id.
- * @param {bool} args.isNew    Whether the current post has never been saved.
+ * @param {Object}  args        Component arguments.
+ * @param {string}  args.type   Current post type.
+ * @param {number}  args.userId WP User Id.
+ * @param {boolean} args.isNew  Whether the current post has never been saved.
  * @return {?PluginPostStatusInfo} The component or `null` when rendered in an invalid context.
  */
 function CertificateUserSettings( { type, userId, isNew } ) {
@@ -78,6 +78,7 @@ function CertificateUserSettings( { type, userId, isNew } ) {
 	if ( 'llms_my_certificate' !== type ) {
 		return null;
 	}
+
 	// Retrieve the user ID from the URL.
 	const forceId = getQueryArg( window.location.href, 'sid' );
 	userId = forceId ? forceId : userId;
@@ -98,8 +99,7 @@ function CertificateUserSettings( { type, userId, isNew } ) {
 							const { editPost } = dispatch( editorStore );
 							editPost(
 								{
-									user: id, // Used by applyWithSelect() below.
-									author: id // Update the post author.
+									author: id, // Update the post author.
 								}
 							);
 						} }
@@ -116,7 +116,7 @@ const applyWithSelect = withSelect( ( select ) => {
 	return {
 		isNew: isEditedPostNew(),
 		type: getEditedPostAttribute( 'type' ),
-		userId: getEditedPostAttribute( 'user' ),
+		userId: getEditedPostAttribute( 'author' ),
 	};
 } );
 
