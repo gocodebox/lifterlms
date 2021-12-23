@@ -106,7 +106,7 @@ module.exports = {
 		[ '-l, --links <issues...>', 'Link the changelog to one or more GitHub issues. Can be provided multiple times to link to multiple issues.' ],
 		[ '-a, --attributions <users...>', 'Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which originate from outside the LifterLMS organization. Provide a GitHub username or a markdown-formatted anchor. Can be provided multiple times to attribute to multiple users.' ],
 		[ '-e, --entry <entry>', 'The changelog entry.' ],
-		[ '-t, --title <title>', 'Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the title if the title already exists.', defaultTitle ],
+		[ '-T, --title <title>', 'Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the title if the title already exists.', defaultTitle ],
 		[ '-i, --interactive', 'Create the changelog interactively.', false ],
 		[ '-E, --use-editor', 'When creating a changelog interactively, will open an editor to write the entry, This is useful when creating multi-line entries.' ],
 	],
