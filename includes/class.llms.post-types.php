@@ -1160,6 +1160,11 @@ class LLMS_Post_Types {
 	private static function register_certificate_post_type( $post_type, $labels, $args, $rewrite_slug, $admin_cap ) {
 
 		$user_can = current_user_can( $admin_cap );
+		$supports = array( 'title', 'editor', 'thumbnail' );
+
+		if ( 'llms_my_certificate' === $post_type ) {
+			$supports[] = 'author';
+		}
 
 		$base_labels = array(
 			'edit'                  => __( 'Edit', 'lifterlms' ),
@@ -1180,7 +1185,7 @@ class LLMS_Post_Types {
 			'show_in_menu'        => 'edit.php?post_type=llms_engagement',
 			'show_in_nav_menus'   => false,
 			'query_var'           => true,
-			'supports'            => array( 'title', 'editor', 'thumbnail' ),
+			'supports'            => $supports,
 			'rewrite'             => array(
 				'slug'       => $rewrite_slug,
 				'with_front' => false,

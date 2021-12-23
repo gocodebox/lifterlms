@@ -27,6 +27,7 @@ class LLMS_REST_Fields {
 	public function __construct() {
 
 		add_action( 'rest_api_init', array( $this, 'register' ) );
+		add_filter( 'rest_prepare_llms_my_certificate', array( $this, 'remove_author_assign_link' ) );
 
 	}
 
@@ -93,51 +94,7 @@ class LLMS_REST_Fields {
 	public function register() {
 
 		$this->register_fields_for_certificates();
-		$this->register_fields_for_certificate_awards();
 		$this->register_fields_for_certificate_templates();
-
-	}
-
-	/**
-	 * Registers rest fields user for awarded certificates.
-	 *
-	 * This provides a REST field in place of the default WP Core author field. Since the post type
-	 * doesn't support `author` the field isn't returned by the REST API so we add a custom field,
-	 * `user`, in it's place.
-	 *
-	 * We don't want to enable `author` support for this as the author selection interface only supports
-	 * authors returned by the `?who=authors` which doesn't satisfy our needs. And there's no way I can find
-	 * to disable the default UI if we do enable `author` post type support.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	private function register_fields_for_certificate_awards() {
-
-		register_rest_field(
-			'llms_my_certificate',
-			'user',
-			array(
-				'schema'          => array(
-					'description' => __( 'User ID of the user who earned the certificate.', 'lifterlms' ),
-					'type'        => 'integer',
-					'arg_options' => array(
-						'validate_callback' => function( $value, $request ) {
-							return false !== get_userdata( (int) $value );
-						},
-					),
-				),
-				'get_callback'    => function( $object ) {
-					$cert = llms_get_certificate( $object['id'], true );
-					return $cert ? $cert->get( 'author' ) : null;
-				},
-				'update_callback' => function( $value, $post ) {
-					$cert = llms_get_certificate( $post->ID, true );
-					return $cert ? $cert->set( 'author', $value ) : null;
-				},
-			)
-		);
 
 	}
 
@@ -225,6 +182,30 @@ class LLMS_REST_Fields {
 			);
 
 		}
+
+	}
+
+	/**
+	 * Remove the author assign action link for llms_my_certificate REST responses.
+	 *
+	 * This is a hack put in place to prevent the default <PostAuthor> control component
+	 * cannot be disabled in any other way I can find, the check in place on it determines
+	 * if the control can be displayed based on the presence of this link in the REST response.
+	 *
+	 * Removing this probably isn't generally idea but I cannot conceive of any other way to handle this.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/WordPress/gutenberg/tree/trunk/packages/editor/src/components/post-author
+	 *
+	 * @param WP_REST_Response $res Rest response.
+	 * @return WP_REST_Response
+	 */
+	public function remove_author_assign_link( $res ) {
+
+		$res->remove_link( 'https://api.w.org/action-assign-author' );
+
+		return $res;
 
 	}
 
