@@ -259,6 +259,87 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test on_awarded()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_awarded() {
+
+		$cert = $this->factory->post->create( array(
+			'post_type' => 'llms_my_certificate',
+		) );
+
+		$ts = '2021-12-23 11:45:55';
+		llms_mock_current_time( $ts );
+
+		$this->assertEquals( $ts, $this->instance->on_awarded( 1, $cert ) );
+
+	}
+
+	/**
+	 * Test on_awarded() when an invalid post type is passed in.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_awarded_wrong_post_type() {
+
+		$post = $this->factory->post->create();
+		$this->assertFalse( $this->instance->on_awarded( 1, $post ) );
+
+	}
+
+	/**
+	 * Test on_save_award() with an invalid post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_save_award_invalid_post_type() {
+
+		$post = $this->factory->post->create();
+		$this->assertFalse( $this->instance->on_save_award( $post ) );
+
+	}
+
+	/**
+	 * Test on_save_award().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_save_award() {
+
+		$first_name = 'Sarah';
+
+		$actions = did_action( 'llms_user_earned_certificate' );
+
+		$cert_id = $this->factory->post->create( array(
+			'post_type'    => 'llms_my_certificate',
+			'post_content' => '{first_name}',
+			'post_author'  => $this->factory->user->create( compact( 'first_name' ) ),
+		) );
+
+
+		$this->assertTrue( $this->instance->on_save_award( $cert_id ) );
+
+		$cert = llms_get_certificate( $cert_id );
+		$this->assertEquals( $first_name, $cert->get( 'content', true ) );
+
+		$this->assertEquals( ++$actions, did_action( 'llms_user_earned_certificate' ) );
+
+		// Action shouldn't run again.
+		$this->assertTrue( $this->instance->on_save_award( $cert_id ) );
+		$this->assertEquals( $actions, did_action( 'llms_user_earned_certificate' ) );
+
+	}
+
+	/**
 	 * Test change_sharing_settings() when user has insufficient permissions
 	 *
 	 * @since 4.5.0

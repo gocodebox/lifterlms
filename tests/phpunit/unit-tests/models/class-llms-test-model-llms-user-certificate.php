@@ -38,6 +38,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'allow_sharing' => 'no',
+			'awarded'       => '2021-12-10 23:02:59',
 			'background'    => '#eaeaea',
 			'engagement'    => 3,
 			'height'        => 5.5,
@@ -502,6 +503,30 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$expect->user_id = $uid;
 		$expect->post_id = $related;
 		$this->assertEquals( $expect, $cert->get_user_postmeta() );
+
+	}
+
+	/**
+	 * Test is_awarded().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_awarded() {
+
+		$this->create();
+
+		$this->obj->set( 'status', 'publish' );
+		$this->obj->set( 'awarded', '' );
+
+		$this->assertFalse( $this->obj->is_awarded() );
+
+		$this->obj->set( 'awarded', llms_current_time( 'mysql' ) );
+		$this->assertTrue( $this->obj->is_awarded() );
+
+		$this->obj->set( 'status', 'draft' );
+		$this->assertFalse( $this->obj->is_awarded() );
 
 	}
 
