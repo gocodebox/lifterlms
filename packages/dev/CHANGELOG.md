@@ -1,6 +1,12 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+v0.0.3 - 2021-12-23
+-------------------
+
++ Bugfix: [**Breaking**] The short option `-t` for the `--title` option for the `changelog add` command has been changed to `-T`.
+
+
 v0.0.2 - 2011-11-10
 -------------------
 
