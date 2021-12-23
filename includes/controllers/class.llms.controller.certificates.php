@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,6 +27,7 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
 	 * @since 5.5.0 Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
+	 * @since [version] Add hooks for `save_post_llms_my_certificate` and `llms_user_earned_certificate`.
 	 *
 	 * @return void
 	 */
@@ -37,14 +38,17 @@ class LLMS_Controller_Certificates {
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
 
+		add_action( 'save_post_llms_my_certificate', array( $this, 'on_save_award' ), 20 );
+		add_action( 'llms_user_earned_certificate', array( $this, 'on_awarded' ), 20, 2 );
+
 	}
 
 	/**
 	 * Modify certificate post type registration data during a certificate template export.
 	 *
-	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
-	 *
 	 * @since 3.37.4
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/776
 	 *
 	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
 	 * @return array
@@ -128,6 +132,76 @@ class LLMS_Controller_Certificates {
 		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) ) {
 			$this->change_sharing_settings( $cert_id, (bool) $_POST['llms_enable_cert_sharing'] );
 		}
+
+	}
+
+	/**
+	 * Records a timestamp when the certificate is awarded.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id WP_User ID of the user who earned the certificate.
+	 * @param int $post_id WP_Post ID of the certificate post.
+	 * @return boolean|string Returns `false` if the certificate could not be loaded, otherwise returns the current
+	 *                        timestamp in MySQL format.
+	 */
+	public function on_awarded( $user_id, $post_id ) {
+
+		$cert = llms_get_certificate( $post_id );
+		if ( ! $cert ) {
+			return false;
+		}
+
+		$ts = llms_current_time( 'mysql' );
+		$cert->set( 'awarded', $ts );
+
+		return $ts;
+
+	}
+
+	/**
+	 * Callback function when an `llms_my_certificate` post type is saved or updated.
+	 *
+	 * This method automatically merges the certificates `post_content` and additionally triggers
+	 * the creation actions to be fired if the certificate is newly created.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the certificate.
+	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.
+	 */
+	public function on_save_award( $post_id ) {
+
+		$cert = llms_get_certificate( $post_id );
+		if ( ! $cert || 'publish' !== $cert->get( 'status' ) ) {
+			return false;
+		}
+
+		remove_action( 'save_post_llms_my_certificate', array( $this, 'on_save_award' ), 20 );
+
+		/**
+		 * Whenever an awarded certificate is updated we want to re-merge the content
+		 * in the event that any shortcodes or merge codes were added.
+		 */
+		$cert->set( 'content', $cert->merge_content() );
+
+		/**
+		 * If the certificate is being published for the first time, trigger the creation
+		 * actions necessary to trigger notifications.
+		 */
+		if ( ! $cert->is_awarded() ) {
+
+			LLMS_Engagement_Handler::create_actions(
+				'certificate',
+				$cert->get_user_id(),
+				$post_id,
+				$cert->get( 'related' ),
+				$cert->get( 'engagement' )
+			);
+
+		}
+
+		return true;
 
 	}
 

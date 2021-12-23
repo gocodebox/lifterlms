@@ -1,8 +1,16 @@
 import { store as coreStore } from '@wordpress/core-data';
-import { select, subscribe } from '@wordpress/data';
+import { dispatch, select, subscribe } from '@wordpress/data';
+import { rawHandler } from '@wordpress/blocks';
 import domReady from '@wordpress/dom-ready';
 import { store as editorStore } from '@wordpress/editor';
 import { store as blockEditorStore } from '@wordpress/block-editor';
+
+/**
+ * Flag used by maybeRefreshContent() to determine of the current post has been saved.
+ *
+ * @type {boolean}
+ */
+let hasSaved = false;
 
 /**
  * Retrieves the current media object for the certificate's featured image.
@@ -82,6 +90,67 @@ function hasCertificateTitle() {
 }
 
 /**
+ * Sync saved content with displayed content.
+ *
+ * We process merge and shortcodes server-side when a published `llms_my_certificate` is updated.
+ * When the content is returned from the server, it is not updated in the block editor (it's assumed that
+ * the content doesn't change).
+ *
+ * This function waits until a save has been processed and then determines if the editor's content should
+ * be updated by looking for merge or shortcodes in the editor's content. If any are found in the editor's
+ * content and none are found in the post's content as returned from the server it will update the editor's
+ * content with the content returned from the server.
+ *
+ * @since [version]
+ *
+ * @see {@link https://github.com/WordPress/gutenberg/issues/26763}
+ *
+ * @param {string} content       Post content as returned from the server.
+ * @param {string} editedContent Post content currently found in the editor.
+ * @return {void}
+ */
+function maybeRefreshContent( content, editedContent ) {
+	const { isSavingPost } = select( editorStore ),
+		isSaving = isSavingPost();
+
+	// @see {@link https://github.com/WordPress/gutenberg/issues/17632#issuecomment-583772895}
+	if ( isSaving ) {
+		hasSaved = true;
+	} else if ( ! isSaving && hasSaved ) {
+		hasSaved = false;
+
+		const REGEX = /(\{[A-Za-z_].*\})|(\[llms-user .+])/g,
+			actualMatch = content.match( REGEX ),
+			editedMatch = editedContent.match( REGEX );
+
+		if ( editedMatch?.length && ! actualMatch?.length ) {
+			refreshContent( content );
+		}
+	}
+}
+
+/**
+ * Replace the content in the editor with the specified content.
+ *
+ * @since [version]
+ *
+ * @param {string} content HTML/Block markup string.
+ * @return {void}
+ */
+function refreshContent( content ) {
+	const { replaceBlocks } = dispatch( blockEditorStore ),
+		{ savePost } = dispatch( editorStore ),
+		{ getBlocks } = select( blockEditorStore );
+
+	replaceBlocks(
+		getBlocks().map( ( { clientId } ) => clientId ),
+		rawHandler( { HTML: content } )
+	);
+
+	savePost();
+}
+
+/**
  * Updates to the the editor "canvas" to reflect certificate settings.
  *
  * Sets the width, margins, background image, color, etc...
@@ -91,13 +160,15 @@ function hasCertificateTitle() {
  * @return {void}
  */
 function updateDOM() {
-	const { getEditedPostAttribute, getCurrentPostType } = select( editorStore ),
+	const { getCurrentPostAttribute, getEditedPostAttribute, getCurrentPostType } = select( editorStore ),
 		bg = getEditedPostAttribute( 'certificate_background' ),
 		margins = getEditedPostAttribute( 'certificate_margins' ),
 		width = getEditedPostAttribute( 'certificate_width' ),
 		height = getEditedPostAttribute( 'certificate_height' ),
 		unit = getEditedPostAttribute( 'certificate_unit' ),
-		orientation = getEditedPostAttribute( 'certificate_orientation' );
+		orientation = getEditedPostAttribute( 'certificate_orientation' ),
+		content = getCurrentPostAttribute( 'content' ),
+		editedContent = getEditedPostAttribute( 'content' );
 
 	const list = document.querySelector( '.block-editor-block-list__layout.is-root-container' );
 	if ( list ) {
@@ -122,6 +193,9 @@ function updateDOM() {
 	}
 
 	if ( 'llms_my_certificate' === getCurrentPostType() ) {
+		maybeRefreshContent( content, editedContent );
+
+		// Visually hide the post title element based on the presence of the cert title block.
 		const title = document.querySelector( '.edit-post-visual-editor__post-title-wrapper' );
 		if ( title ) {
 			title.style.display = hasCertificateTitle() ? 'none' : 'initial';
