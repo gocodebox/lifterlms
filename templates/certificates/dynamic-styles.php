@@ -24,9 +24,10 @@ $gfonts_preconnet = false;
 ?>
 
 <!-- Certificates Dynamic Styles -->
-<?php foreach ( $fonts as $font ): ?>
-	<?php if ( ! empty( $font['href'] ) ): ?>
-		<?php if ( ! $gfonts_preconnet && false !== strpos( $font['href'], 'fonts.googleapis.com' ) ) :
+<?php foreach ( $fonts as $font ) : ?>
+	<?php if ( ! empty( $font['href'] ) ) : ?>
+		<?php
+		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], 'fonts.googleapis.com' ) ) :
 			$gfonts_preconnet = true;
 			?>
 			<link rel="preconnect" href="https://fonts.googleapis.com">
