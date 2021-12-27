@@ -79,7 +79,7 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 				$this->get_image( $size )
 			),
 			$this,
-			$size,
+			$size
 		);
 
 	}

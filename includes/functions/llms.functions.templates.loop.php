@@ -143,8 +143,8 @@ function lifterlms_loop( $query = null ) {
  *     @type integer $current Current page number. Defaults to `1` or the value of `get_query_var( 'paged' )`.
  *     @type integer $total   Total number of pages to display. Defaults to `1` or `$wp_query->max_num_pages`.
  *     @type string  $context Display context. Adds additional customization depending on the context. Supported
- *           				  contexts are "student_dashboard" which automatically filters links for use on the
- *           				  dashboard.
+ *                            contexts are "student_dashboard" which automatically filters links for use on the
+ *                            dashboard.
  * }
  * @return string
  */
@@ -152,11 +152,14 @@ function llms_paginate_links( $args ) {
 
 	global $wp_query;
 
-	$args = wp_parse_args( $args, array(
-		'current'         => max( 1, get_query_var( 'paged' ) ),
-		'total'           => max( 1, $wp_query->max_num_pages ),
-		'context'         => '',
-	) );
+	$args = wp_parse_args(
+		$args,
+		array(
+			'current' => max( 1, get_query_var( 'paged' ) ),
+			'total'   => max( 1, $wp_query->max_num_pages ),
+			'context' => '',
+		)
+	);
 
 	// Don't display pagination if there's only one page of results and `show_for_single` isn't explicitly enabled.
 	if ( $args['total'] <= 1 ) {

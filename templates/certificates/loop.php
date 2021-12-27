@@ -51,7 +51,8 @@ defined( 'ABSPATH' ) || exit;
 
 <?php else : ?>
 
-	<p><?php
+	<p>
+	<?php
 		/**
 		 * Filters the message displayed when the student hasn't earned any certificates.
 		 *
@@ -60,11 +61,12 @@ defined( 'ABSPATH' ) || exit;
 		 * @param string $message The message text.
 		 */
 		echo apply_filters( 'lifterlms_no_certificates_text', __( 'You do not have any certificates yet.', 'lifterlms' ) );
-	?></p>
+	?>
+	</p>
 
 <?php endif; ?>
 
-<?php if ( $pagination ): ?>
+<?php if ( $pagination ) : ?>
 	<?php echo llms_paginate_links( $pagination ); ?>
 <?php endif; ?>
 

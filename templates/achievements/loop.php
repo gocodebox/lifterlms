@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 
 <?php endif; ?>
 
-<?php if ( $pagination ): ?>
+<?php if ( $pagination ) : ?>
 	<?php echo llms_paginate_links( $pagination ); ?>
 <?php endif; ?>
 
