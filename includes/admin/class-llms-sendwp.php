@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
  * @since 3.40.0 Refactor to utilize `LLMS_Abstract_Email_Provider`.
- * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
+ * @since [version] Removed `LLMS_SendWP::do_remote_install()` in favor of `LLMS_Abstract_Email_Provider::do_remote_install()`.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
@@ -34,25 +34,6 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 * @var string
 	 */
 	protected $id = 'sendwp';
-
-	/**
-	 * Validate installation request and perform the plugin install or return errors.
-	 *
-	 * This method overrides the parent in order to keep the method public to maintain
-	 * backwards compatibility.
-	 *
-	 * @since 3.36.1
-	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
-	 * @deprecated 3.40.0 Method to be made protected and should not be called publicly.
-	 * @since [version] Changed access from public to protected.
-	 *
-	 * @return array
-	 */
-	protected function do_remote_install() {
-
-		return parent::do_remote_install();
-
-	}
 
 	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
