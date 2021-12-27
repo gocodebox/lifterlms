@@ -9,6 +9,8 @@
  *
  * @param LLMS_User_Achievements[] $achievements List of achievements to display.
  * @param int                      $cols         Number of columns to display.
+ * @param false|array             $pagination   Pagination arguments to pass to {@see llms_paginate_links()} or `false`
+ *                                              when pagination is disabled.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,7 +52,8 @@ defined( 'ABSPATH' ) || exit;
 
 <?php else : ?>
 
-	<p><?php
+	<p>
+	<?php
 		/**
 		 * Filters the message displayed when no achievements have been earned by the student.
 		 *
@@ -59,8 +62,13 @@ defined( 'ABSPATH' ) || exit;
 		 * @param string $message Message text..
 		 */
 		echo apply_filters( 'lifterlms_no_achievements_text', __( 'You do not have any achievements yet. Enroll in a course to get started!', 'lifterlms' ) );
-	?></p>
+	?>
+	</p>
 
+<?php endif; ?>
+
+<?php if ( $pagination ): ?>
+	<?php echo llms_paginate_links( $pagination ); ?>
 <?php endif; ?>
 
 <?php

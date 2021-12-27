@@ -84,12 +84,16 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			return;
 		}
 
-		$cols = $columns ? $columns : llms_get_achievement_loop_columns();
+		$cols     = $columns ? $columns : llms_get_achievement_loop_columns();
+		$per_page = $cols * 5;
 
 		// Get achievements.
-		$query        = $student->get_achievements( array(
-			'per_page' => $limit ? $limit : -1,
-		) );
+		$query        = $student->get_achievements(
+			array(
+				'page'     => max( 1, get_query_var( 'paged' ) ),
+				'per_page' => $limit ? min( $limit, $per_page ) : $per_page,
+			)
+		);
 		$achievements = $query->get_awards();
 
 		/**
@@ -101,9 +105,14 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			$cols = $limit;
 		}
 
+		$pagination = 'dashboard' === LLMS_Student_Dashboard::get_current_tab( 'slug' ) ? false : array(
+			'total'   => $query->get_max_pages(),
+			'context' => 'student_dashboard',
+		);
+
 		llms_get_template(
 			'achievements/loop.php',
-			compact( 'cols', 'achievements' )
+			compact( 'cols', 'achievements', 'pagination' )
 		);
 
 	}

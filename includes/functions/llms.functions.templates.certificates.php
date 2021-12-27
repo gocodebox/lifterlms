@@ -121,6 +121,7 @@ function llms_the_certificate_preview( $certificate ) {
  * Retrieve the number of columns used in certificates loops
  *
  * @since 3.14.0
+ * @since [version] Reduced default columns from 5 to 3.
  *
  * @return int
  */
@@ -132,7 +133,7 @@ function llms_get_certificates_loop_columns() {
 	 *
 	 * @param integer $cols Number of columns.
 	 */
-	return apply_filters( 'llms_certificates_loop_columns', 5 );
+	return apply_filters( 'llms_certificates_loop_columns', 3 );
 }
 
 
@@ -141,6 +142,7 @@ function llms_get_certificates_loop_columns() {
  *
  * @since 3.14.0
  * @since [version] Updated to use the new signature of the {@see LLMS_Student::get_certificates()}.
+ *              Add pagination.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
  *                              The current student will be used if none supplied.
@@ -160,12 +162,16 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 			return;
 		}
 
-		$cols = llms_get_certificates_loop_columns();
+		$cols     = llms_get_certificates_loop_columns();
+		$per_page = $cols * 5;
 
-		// Get achievements.
-		$query        = $student->get_certificates( array(
-			'per_page' => $limit ? $limit : -1,
-		) );
+		// Get certificates.
+		$query        = $student->get_certificates(
+			array(
+				'page'     => max( 1, get_query_var( 'paged' ) ),
+				'per_page' => $limit ? min( $limit, $per_page ) : $per_page,
+			)
+		);
 		$certificates = $query->get_awards();
 
 		/**
@@ -177,9 +183,14 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 			$cols = $limit;
 		}
 
+		$pagination = 'dashboard' === LLMS_Student_Dashboard::get_current_tab( 'slug' ) ? false : array(
+			'total'   => $query->get_max_pages(),
+			'context' => 'student_dashboard',
+		);
+
 		llms_get_template(
 			'certificates/loop.php',
-			compact( 'cols', 'certificates' )
+			compact( 'cols', 'certificates', 'pagination' )
 		);
 
 	}
