@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since unknown
- * @version unknown
+ * @since 3.14.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,10 +140,11 @@ function llms_get_certificates_loop_columns() {
  * Get template for certificates loop
  *
  * @since 3.14.0
+ * @since [version] Updated to use the new signature of the {@see LLMS_Student::get_certificates()}.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
  *                              The current student will be used if none supplied.
- * @param bool|int     $limit   Optional. Number of achievements to show (defaults to all). Default is `false`.
+ * @param bool|int     $limit   Optional. Number of certificates to show (defaults to all). Default is `false`.
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
@@ -161,21 +162,24 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 
 		$cols = llms_get_certificates_loop_columns();
 
-		// Get certificates.
-		$certificates = $student->get_certificates( 'updated_date', 'DESC', 'certificates' );
-		if ( $limit && $certificates ) {
-			$certificates = array_slice( $certificates, 0, $limit );
-			if ( $limit < $cols ) {
-				$cols = $limit;
-			}
+		// Get achievements.
+		$query        = $student->get_certificates( array(
+			'per_page' => $limit ? $limit : -1,
+		) );
+		$certificates = $query->get_awards();
+
+		/**
+		 * If no columns are specified and we have a specified limit
+		 * and results and the limit is less than the number of columns
+		 * force the columns to equal the limit.
+		 */
+		if ( $limit && $limit < $cols && $certificates->get_number_results() ) {
+			$cols = $limit;
 		}
 
 		llms_get_template(
 			'certificates/loop.php',
-			array(
-				'cols'         => $cols,
-				'certificates' => $certificates,
-			)
+			compact( 'cols', 'certificates' )
 		);
 
 	}
