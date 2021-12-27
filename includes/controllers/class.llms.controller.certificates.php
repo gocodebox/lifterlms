@@ -186,6 +186,7 @@ class LLMS_Controller_Certificates {
 					__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
 				);
 		}
+	}
 
 	/**
 	 * Records a timestamp when the certificate is awarded.
@@ -283,6 +284,8 @@ class LLMS_Controller_Certificates {
 		 */
 		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
 		llms_redirect_and_exit( get_edit_post_link( $certificate_template_id, 'raw' ) );
+
+	}
 
 	/**
 	 * Callback function when an `llms_my_certificate` post type is saved or updated.

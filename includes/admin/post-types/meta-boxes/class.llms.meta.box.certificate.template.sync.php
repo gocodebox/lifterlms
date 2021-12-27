@@ -10,7 +10,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-
 /**
  * Certificate template sync meta box class.
  *
@@ -36,8 +35,7 @@ class LLMS_Meta_Box_Certificate_Template_Sync extends LLMS_Admin_Metabox {
 			__( 'Sync %1$s', 'lifterlms' ),
 			get_post_type_object( 'llms_my_certificate' )->labels->name
 		);
-		$this->context  = 'side';
-		$this->priority = 'high';
+		$this->context = 'side';
 
 	}
 
@@ -127,13 +125,13 @@ class LLMS_Meta_Box_Certificate_Template_Sync extends LLMS_Admin_Metabox {
 		$on_click   = "return confirm('${sync_alert}')";
 
 		return sprintf(
-			'<p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action small" onclick="%2$s">%3$s</a></p><p>%4$s</p>',
+			'<p>%4$s</p><p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action full" onclick="%2$s" style="box-sizing:border-box;">%3$s</a></p>',
 			$sync_url,
 			$on_click,
 			__( 'Sync', 'lifterlms' ),
 			sprintf(
 				// Translators: %1$d = Number of awarded certificates, %2$s = Awarded certificate post type label (singular or plural), %3$s = Certificate template post type singular label.
-				__( 'Sync %1$d %2$s with this %3$s', 'lifterlms' ),
+				__( 'Sync %1$d %2$s with this %3$s.', 'lifterlms' ),
 				$awarded_certificates_number,
 				$awarded_certificate_label,
 				strtolower( get_post_type_object( 'llms_certificate' )->labels->singular_name )

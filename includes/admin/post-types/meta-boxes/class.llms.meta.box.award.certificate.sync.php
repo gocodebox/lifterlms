@@ -10,7 +10,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-
 /**
  * Award certificate sync meta box class.
  *
@@ -36,8 +35,7 @@ class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
 			__( 'Sync %1$s', 'lifterlms' ),
 			get_post_type_object( 'llms_my_certificate' )->labels->singular_name
 		);
-		$this->context  = 'side';
-		$this->priority = 'high';
+		$this->context = 'side';
 
 	}
 
@@ -110,13 +108,13 @@ class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
 		$on_click   = "return confirm('${sync_alert}')";
 
 		return sprintf(
-			'<p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action small" onclick="%2$s">%3$s</a></p><p>%4$s</p>',
+			'<p>%4$s</p><p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action full small" onclick="%2$s" style="box-sizing:border-box;">%3$s</a></p>',
 			$sync_url,
 			$on_click,
 			__( 'Sync', 'lifterlms' ),
 			sprintf(
 				// Translators: %1$s = Awarded certificate post type singular label, %2$s = Edit link to certificate template, %3$s = Certificate template post type singular label, %4$s = Closing anchor tag.
-				__( 'Sync the %1$s with its %2$s%3$s%4$s', 'lifterlms' ),
+				__( 'Sync the %1$s with its %2$s%3$s%4$s.', 'lifterlms' ),
 				strtolower( get_post_type_object( 'llms_my_certificate' )->labels->singular_name ),
 				'<a href="' . get_edit_post_link( $template_id ) . '" target="_blank">',
 				strtolower( get_post_type_object( 'llms_certificate' )->labels->singular_name ),
