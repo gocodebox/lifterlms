@@ -12,7 +12,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
  */
 const unsubscribe = subscribe( () => {
 	const search = new URLSearchParams( window.location.search ),
-		doMigration = 1 === parseInt( search.get( 'llms-migrate-legacy-template' ) );
+		doMigration = 1 === parseInt( search.get( 'llms-migrate-legacy-certificate' ) );
 
 	if ( ! doMigration ) {
 		return doUnsubscribe( false );
