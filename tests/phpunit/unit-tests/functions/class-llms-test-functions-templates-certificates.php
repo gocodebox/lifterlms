@@ -155,6 +155,17 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 		$this->assertTrue( is_int( llms_get_certificates_loop_columns() ) );
 	}
 
-	// public function test_lifterlms_template_certificates_loop() {}
+	/**
+	 * Test lifterlms_template_certificates_loop() when there's no logged in student.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lifterlms_template_certificates_loop_no_student() {
+
+		$this->assertOutputEmpty( 'lifterlms_template_certificates_loop' );
+
+	}
 
 }

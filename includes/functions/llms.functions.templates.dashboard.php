@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.3.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -362,8 +362,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Don't output HTML when the endpoint is disabled.
 	 *
-	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @param bool $preview If `true`, outputs a short list of achievements to display on the dashboard
+	 *                      landing page. Otherwise displays all of the earned achievements for display
+	 *                      on the view-achievements endpoint.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -373,8 +376,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 			return;
 		}
 
+		$enabled = LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' );
+		if ( ! $enabled ) {
+			return;
+		}
+
 		$more = false;
-		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' ) ) {
+		if ( $preview ) {
 			$more = array(
 				'url'  => llms_get_endpoint_url( 'view-achievements', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Achievements', 'lifterlms' ),
@@ -383,8 +391,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 
 		ob_start();
 
-		$limit = $preview ? llms_get_achievement_loop_columns() : false;
-		lifterlms_template_achievements_loop( $student, $limit );
+		lifterlms_template_achievements_loop( $student, $preview ? llms_get_achievement_loop_columns() : false );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
@@ -407,8 +414,12 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown
+	 * @since [version] Output short list when `$preview` is `true`.
+	 *               Don't output any HTML when the endpoint is disabled.
 	 *
-	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @param bool $preview If `true`, outputs a short list of certificates to display on the dashboard
+	 *                      landing page. Otherwise displays all of the earned certificates for display
+	 *                      on the view-certificates endpoint.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -418,8 +429,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 			return;
 		}
 
+		$enabled = LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' );
+		if ( ! $enabled ) {
+			return;
+		}
+
 		$more = false;
-		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' ) ) {
+		if ( $preview ) {
 			$more = array(
 				'url'  => llms_get_endpoint_url( 'view-certificates', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Certificates', 'lifterlms' ),
@@ -427,7 +443,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 		}
 
 		ob_start();
-		lifterlms_template_certificates_loop( $student );
+		lifterlms_template_certificates_loop( $student, $preview ? llms_get_certificates_loop_columns() : false );
 
 		llms_get_template(
 			'myaccount/dashboard-section.php',
