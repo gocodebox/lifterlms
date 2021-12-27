@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property string  $allow_sharing Whether or not public certificate sharing is enabled for the certificate.
  *                                  Either "yes" or "no".
+ * @property string  $awarded       MySQL timestamp recorded when the certificate was first awarded.
  * @property string  $background    The CSS background color for the certificate.
  * @property int     $author        WP_User ID of the user who the certificate belongs to.
  * @property string  $content       The merged certificate content.
@@ -57,7 +58,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'allow_sharing' => 'yesno',
+		'allow_sharing' => 'string',
+		'awarded'       => 'string',
 		'background'    => 'string',
 		'engagement'    => 'absint',
 		'height'        => 'float',
@@ -273,6 +275,54 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return compact( 'src', 'width', 'height', 'is_default' );
+
+	}
+
+	/**
+	 * Retrieves a list of the fonts used by the certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_get_certificate_fonts()
+	 *
+	 * @param array|null $blocks A list of parsed block arrays or null. If none supplied the certificate's
+	 *                           content is parsed and used instead.
+	 * @return array[] Array of fonts by the certificate. Each array is a font definition with the font's
+	 *                 id added to the array.
+	 */
+	public function get_custom_fonts( $blocks = null ) {
+
+		$fonts = array();
+
+		$blocks = is_null( $blocks ) ? parse_blocks( $this->get( 'content', true ) ) : $blocks;
+		foreach ( $blocks as $block ) {
+
+			if ( ! empty( $block['attrs']['fontFamily'] ) ) {
+				$fonts[] = $block['attrs']['fontFamily'];
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
+			}
+		}
+
+		$valid_fonts = llms_get_certificate_fonts();
+
+		return array_filter(
+			array_map(
+				function( $font ) use ( $valid_fonts ) {
+					if ( 'default' === $font ) {
+						return null;
+					}
+					$ret = $valid_fonts[ $font ] ?? null;
+					if ( $ret ) {
+						$ret['id'] = $font;
+					}
+					return $ret;
+				},
+				array_unique( $fonts )
+			)
+		);
 
 	}
 
@@ -592,6 +642,23 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 */
 	public function get_width( $with_unit = false ) {
 		return $this->get_dimension( 'width', $with_unit );
+	}
+
+	/**
+	 * Determines if the certificate has been awarded.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function is_awarded() {
+
+		if ( 'publish' !== $this->get( 'status' ) ) {
+			return false;
+		}
+
+		return $this->get( 'awarded' ) ? true : false;
+
 	}
 
 	/**

@@ -27,8 +27,9 @@
     "@wordpress/icons": "^6.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "babelify": "^10.0.0",
     "browserify": "^17.0.0",
-    "esmify": "^2.1.1",
     "react-snap": "^1.23.0"
   },
   "reactSnap": {
@@ -36,6 +37,6 @@
     "destination": "docs/build"
   },
   "scripts": {
-    "docgen": "browserify docs/app.js -p esmify > docs/bundle.js && react-snap && node docs/generate.js && rm -rf docs/build && rm docs/200.html && rm docs/bundle.js"
+    "docgen": "browserify docs/app.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] > docs/bundle.js && react-snap && node docs/generate.js && rm -rf docs/build && rm docs/200.html && rm docs/bundle.js"
   }
 }

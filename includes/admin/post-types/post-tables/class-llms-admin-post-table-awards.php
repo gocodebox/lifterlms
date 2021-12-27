@@ -90,7 +90,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 */
 	public function add_filters( $post_type, $which ) {
 
-		if ( 'top' !== $which || $this->is_post_type( $post_type ) ) {
+		if ( 'top' !== $which || ! $this->is_post_type( $post_type ) ) {
 			return;
 		}
 

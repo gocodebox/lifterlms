@@ -2,5 +2,5 @@ significance: minor
 type: deprecated
 links:
   - "#290"
-entry: "`LLMS_Engagements::handle_achievement` is deprecated in favor of
-  `LLMS_Engagement_Handler::handle_achievement`."
+entry: Method `LLMS_Engagements::handle_achievement` is deprecated in favor of
+  `LLMS_Engagement_Handler::handle_achievement`.

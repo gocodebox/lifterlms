@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "5.6.0",
+  "version": "6.0.0-alpha.1",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
     "@wordpress/docgen": "^1.18.0",
+    "copy-webpack-plugin": "^10.2.0",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
@@ -31,6 +32,7 @@
   },
   "peerDependencies": {
     "@wordpress/block-editor": "^8.0.7",
+    "@wordpress/blocks": "^11.1.5",
     "@wordpress/components": "^19.1.1",
     "@wordpress/compose": "^5.0.6",
     "@wordpress/core-data": "^4.0.8",
@@ -39,6 +41,7 @@
     "@wordpress/edit-post": "^5.0.13",
     "@wordpress/editor": "^12.0.10",
     "@wordpress/element": "^4.0.4",
+    "@wordpress/hooks": "^3.2.2",
     "@wordpress/i18n": "^4.2.4",
     "@wordpress/plugins": "^4.0.6",
     "@wordpress/rich-text": "^5.0.6",

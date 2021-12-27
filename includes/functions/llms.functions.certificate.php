@@ -89,6 +89,81 @@ function llms_get_certificate_content( $id = 0 ) {
 }
 
 /**
+ * Retrieves a list of fonts available for use in certificates.
+ *
+ * @since [version]
+ *
+ * @return array[] {
+ *     Array of font definition arrays. The array key is the font's unique id.
+ *
+ *     @type string      $name The human-readable name of the font.
+ *     @type string|null $href The href used to load the font or `null` for system or default fonts.
+ *     @type string|null $css  The CSS `font-family` rule value.
+ * }
+ */
+function llms_get_certificate_fonts() {
+
+	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+
+	$fonts = array(
+
+		// Default fonts.
+		'default'             => array(
+			'name' => __( 'Default theme font', 'lifterlms' ),
+			'href' => null,
+			'css'  => null,
+		),
+		'sans'                => array(
+			'name' => __( 'Sans-serif', 'lifterlms' ),
+			'href' => null,
+			// From https://systemfontstack.com.
+			'css'  => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
+		),
+		'serif'               => array(
+			'name' => __( 'Serif', 'lifterlms' ),
+			'href' => null,
+			// From https://systemfontstack.com.
+			'css'  => $serif,
+		),
+
+		// Newspaper-style display fonts.
+		'pirata-one'          => array(
+			'name' => 'Pirata One',
+			'href' => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
+			'css'  => '"Pirata One", ' . $serif,
+		),
+		'unifraktur-maguntia' => array(
+			'name' => 'UnifrakturMaguntia',
+			'href' => 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap',
+			'css'  => '"UnifrakturMaguntia", ' . $serif,
+		),
+
+		// Cursive-style handwriting fonts.
+		'dancing-script'      => array(
+			'name' => 'Dancing Script',
+			'href' => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
+			'css'  => '"Dancing Script", ' . $serif,
+		),
+		'imperial-script'     => array(
+			'name' => 'Imperial Script',
+			'href' => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
+			'css'  => '"Imperial Script", ' . $serif,
+		),
+
+	);
+
+	/**
+	 * Filters the list of fonts available to certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $fonts Array of font definitions, {@see llms_get_certificate_fonts()}.
+	 */
+	return apply_filters( 'llms_certificate_fonts', $fonts );
+
+}
+
+/**
  * Retrieve an array of image data for a certificate background image
  *
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).

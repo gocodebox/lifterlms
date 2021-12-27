@@ -97,7 +97,7 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
 	 * @since 5.6.0 Inlcude `LLMS_Prevent_Concurrent_Logins`.
-	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
+	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Block_Library`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
 	 *
 	 * @return void
 	 */
@@ -146,6 +146,7 @@ class LLMS_Loader {
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-awards-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-library.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-engagement-handler.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-db-ugrader.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';

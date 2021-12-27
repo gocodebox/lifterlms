@@ -84,6 +84,19 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_get_certificate_fonts().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_certificate_fonts() {
+
+		$this->assertIsArray( llms_get_certificate_fonts() );
+
+	}
+
 	public function test_llms_get_certificate_image() {}
 
 	/**

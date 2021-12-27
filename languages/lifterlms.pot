@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.6.0\n"
+"Project-Id-Version: LifterLMS 6.0.0-alpha.1\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-12-13T12:18:15-07:00\n"
+"POT-Creation-Date: 2021-12-23T13:54:10-08:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.3-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -33,7 +33,7 @@ msgid "LifterLMS is a powerful WordPress learning management system plugin that 
 msgstr ""
 
 #: class-lifterlms.php:364
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:202
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:33
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Settings"
@@ -344,7 +344,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:177
 #: includes/admin/reporting/tables/llms.table.student.course.php:266
 #: includes/admin/views/builder/editor.php:28
-#: includes/class.llms.post-types.php:541
+#: includes/class.llms.post-types.php:574
 #: includes/functions/llms.functions.templates.dashboard.php:624
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:75
 msgid "Quiz"
@@ -353,7 +353,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:55
 #: includes/admin/reporting/tables/llms.table.quizzes.php:448
 #: includes/admin/views/builder/editor.php:20
-#: includes/class.llms.post-types.php:501
+#: includes/class.llms.post-types.php:534
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:76
 msgid "Lesson"
 msgstr ""
@@ -363,7 +363,7 @@ msgstr ""
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:53
 #: includes/admin/reporting/tables/llms.table.quizzes.php:443
 #: includes/admin/views/builder/editor.php:16
-#: includes/class.llms.post-types.php:424
+#: includes/class.llms.post-types.php:457
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:77
 #: templates/myaccount/my-grades.php:19
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
@@ -391,7 +391,7 @@ msgid "Grade"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:58
-#: includes/admin/class.llms.admin.menus.php:212
+#: includes/admin/class.llms.admin.menus.php:208
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:390
 #: includes/admin/reporting/tables/llms.table.course.students.php:423
 #: includes/admin/reporting/tables/llms.table.membership.students.php:411
@@ -528,7 +528,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.courses.php:181
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:118
 #: includes/admin/settings/class.llms.settings.courses.php:32
-#: includes/class.llms.post-types.php:423
+#: includes/class.llms.post-types.php:456
 #: includes/integrations/class.llms.integration.buddypress.php:69
 #: includes/integrations/class.llms.integration.buddypress.php:84
 #: templates/admin/analytics/analytics.php:97
@@ -547,7 +547,7 @@ msgstr ""
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:119
 #: includes/admin/settings/class.llms.settings.memberships.php:32
 #: includes/admin/views/access-plans/access-plan.php:276
-#: includes/class.llms.post-types.php:617
+#: includes/class.llms.post-types.php:650
 #: includes/integrations/class.llms.integration.buddypress.php:95
 #: templates/admin/analytics/analytics.php:109
 #: templates/admin/reporting/nav-filters.php:91
@@ -625,6 +625,7 @@ msgid "Close"
 msgstr ""
 
 #: includes/admin/class.llms.admin.addons.php:308
+#: includes/admin/views/metaboxes/view-award-engagement-submit.php:155
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:156
 #: libraries/lifterlms-helper/includes/class-llms-helper-admin-add-ons.php:370
 #: templates/myaccount/my-grades.php:72
@@ -660,15 +661,15 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:84
+#: includes/admin/class.llms.admin.assets.php:99
 msgid "White"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:89
+#: includes/admin/class.llms.admin.assets.php:104
 msgid "White Smoke"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:94
+#: includes/admin/class.llms.admin.assets.php:109
 msgid "Ivory"
 msgstr ""
 
@@ -742,7 +743,7 @@ msgstr ""
 #: includes/admin/views/builder/elements.php:22
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:351
-#: includes/class.llms.post-types.php:506
+#: includes/class.llms.post-types.php:539
 #: includes/models/model.llms.lesson.php:412
 msgid "New Lesson"
 msgstr ""
@@ -838,12 +839,12 @@ msgid "Authors"
 msgstr ""
 
 #: includes/admin/class.llms.admin.import.php:393
-#: includes/class.llms.post-types.php:465
+#: includes/class.llms.post-types.php:498
 msgid "Sections"
 msgstr ""
 
 #: includes/admin/class.llms.admin.import.php:397
-#: includes/class.llms.post-types.php:500
+#: includes/class.llms.post-types.php:533
 msgid "Lessons"
 msgstr ""
 
@@ -854,13 +855,13 @@ msgstr ""
 #: includes/admin/class.llms.admin.import.php:405
 #: includes/admin/reporting/class.llms.admin.reporting.php:293
 #: includes/admin/reporting/tables/llms.table.quizzes.php:306
-#: includes/class.llms.post-types.php:540
+#: includes/class.llms.post-types.php:573
 #: templates/admin/reporting/tabs/quizzes/quiz.php:20
 msgid "Quizzes"
 msgstr ""
 
 #: includes/admin/class.llms.admin.import.php:409
-#: includes/class.llms.post-types.php:580
+#: includes/class.llms.post-types.php:613
 msgid "Questions"
 msgstr ""
 
@@ -869,50 +870,50 @@ msgstr ""
 msgid "Terms"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:185
-#: includes/admin/class.llms.admin.menus.php:214
+#: includes/admin/class.llms.admin.menus.php:181
+#: includes/admin/class.llms.admin.menus.php:210
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:31
 msgid "Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:206
+#: includes/admin/class.llms.admin.menus.php:202
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:204
 msgid "LifterLMS Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:208
+#: includes/admin/class.llms.admin.menus.php:204
 msgid "Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:206
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:210
+#: includes/admin/class.llms.admin.menus.php:206
 #: includes/admin/views/import.php:33
 msgid "Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:212
+#: includes/admin/class.llms.admin.menus.php:208
 msgid "LifterLMS Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:214
+#: includes/admin/class.llms.admin.menus.php:210
 msgid "LifterLMS Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:239
+#: includes/admin/class.llms.admin.menus.php:235
 msgid "LifterLMS Add-ons, Courses, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:239
+#: includes/admin/class.llms.admin.menus.php:235
 msgid "Add-ons & more"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:330
+#: includes/admin/class.llms.admin.menus.php:326
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:99
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:74
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:81
@@ -1001,57 +1002,53 @@ msgstr ""
 msgid "There are currently no logs to view."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:129
+#: includes/admin/class.llms.admin.post-types.php:128
 msgid "View %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:130
+#: includes/admin/class.llms.admin.post-types.php:129
 msgid "Preview %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:135
-#: includes/admin/class.llms.admin.post-types.php:138
+#: includes/admin/class.llms.admin.post-types.php:134
+#: includes/admin/class.llms.admin.post-types.php:137
 msgid "%s updated."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:136
+#: includes/admin/class.llms.admin.post-types.php:135
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:137
+#: includes/admin/class.llms.admin.post-types.php:136
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:139
+#: includes/admin/class.llms.admin.post-types.php:138
 msgid "%1$s restored to revision from %2$s."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:140
+#: includes/admin/class.llms.admin.post-types.php:139
 msgid "%s published."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:141
+#: includes/admin/class.llms.admin.post-types.php:140
 msgid "%s saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:142
+#: includes/admin/class.llms.admin.post-types.php:141
 msgid "%s submitted."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:144
+#: includes/admin/class.llms.admin.post-types.php:143
 msgid "%1$s scheduled for: <strong>%2$s</strong>."
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:146
+#: includes/admin/class.llms.admin.post-types.php:145
 msgid "M j, Y @ G:i"
 msgstr ""
 
-#: includes/admin/class.llms.admin.post-types.php:148
+#: includes/admin/class.llms.admin.post-types.php:147
 msgid "%1$s draft updated."
-msgstr ""
-
-#: includes/admin/class.llms.admin.post-types.php:165
-msgid "Listing this post type is disabled."
 msgstr ""
 
 #: includes/admin/class.llms.admin.reviews.php:60
@@ -1104,7 +1101,7 @@ msgid "Select to prevent a user from submitting more than one review."
 msgstr ""
 
 #: includes/admin/class.llms.admin.reviews.php:166
-#: includes/class.llms.post-types.php:1040
+#: includes/class.llms.post-types.php:1073
 msgid "Reviews"
 msgstr ""
 
@@ -1172,7 +1169,7 @@ msgid "Payments"
 msgstr ""
 
 #: includes/admin/class.llms.admin.setup.wizard.php:290
-#: includes/class.llms.post-types.php:969
+#: includes/class.llms.post-types.php:1002
 msgid "Coupon"
 msgstr ""
 
@@ -1298,17 +1295,17 @@ msgid "Student Email Address"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:210
-#: includes/functions/llms.functions.certificate.php:128
+#: includes/functions/llms.functions.certificate.php:203
 msgid "Student Username"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:211
-#: includes/functions/llms.functions.certificate.php:124
+#: includes/functions/llms.functions.certificate.php:199
 msgid "Student First Name"
 msgstr ""
 
 #: includes/admin/llms.functions.admin.php:212
-#: includes/functions/llms.functions.certificate.php:125
+#: includes/functions/llms.functions.certificate.php:200
 msgid "Student Last Name"
 msgstr ""
 
@@ -1330,26 +1327,26 @@ msgstr ""
 
 #: includes/admin/post-types/class.llms.meta.boxes.php:228
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:63
-#: includes/admin/reporting/tables/llms.table.achievements.php:50
-#: includes/admin/reporting/tables/llms.table.certificates.php:55
+#: includes/admin/reporting/tables/llms.table.achievements.php:58
+#: includes/admin/reporting/tables/llms.table.certificates.php:63
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:108
-#: includes/class.llms.post-types.php:428
-#: includes/class.llms.post-types.php:469
-#: includes/class.llms.post-types.php:504
-#: includes/class.llms.post-types.php:544
-#: includes/class.llms.post-types.php:584
-#: includes/class.llms.post-types.php:622
-#: includes/class.llms.post-types.php:664
-#: includes/class.llms.post-types.php:701
-#: includes/class.llms.post-types.php:741
-#: includes/class.llms.post-types.php:780
-#: includes/class.llms.post-types.php:820
-#: includes/class.llms.post-types.php:936
-#: includes/class.llms.post-types.php:972
-#: includes/class.llms.post-types.php:1008
-#: includes/class.llms.post-types.php:1045
-#: includes/class.llms.post-types.php:1080
-#: includes/class.llms.post-types.php:1132
+#: includes/class.llms.post-types.php:461
+#: includes/class.llms.post-types.php:502
+#: includes/class.llms.post-types.php:537
+#: includes/class.llms.post-types.php:577
+#: includes/class.llms.post-types.php:617
+#: includes/class.llms.post-types.php:655
+#: includes/class.llms.post-types.php:697
+#: includes/class.llms.post-types.php:734
+#: includes/class.llms.post-types.php:774
+#: includes/class.llms.post-types.php:813
+#: includes/class.llms.post-types.php:853
+#: includes/class.llms.post-types.php:969
+#: includes/class.llms.post-types.php:1005
+#: includes/class.llms.post-types.php:1041
+#: includes/class.llms.post-types.php:1078
+#: includes/class.llms.post-types.php:1113
+#: includes/class.llms.post-types.php:1170
 #: includes/forms/class-llms-form-post-type.php:234
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Edit"
@@ -1383,8 +1380,8 @@ msgstr ""
 msgid "You are not authorized to perform this action on the current post."
 msgstr ""
 
+#. Translators: %s = the singular post type name.
 #: includes/admin/post-types/class.llms.post.tables.php:166
-#: includes/admin/post-types/class.llms.post.tables.php:168
 msgid "Filter by %s"
 msgstr ""
 
@@ -1409,7 +1406,7 @@ msgid "Achievement Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:58
-#: includes/admin/reporting/tables/llms.table.achievements.php:219
+#: includes/admin/reporting/tables/llms.table.achievements.php:240
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:98
 msgid "Achievement Title"
 msgstr ""
@@ -1452,8 +1449,7 @@ msgid "Select a Student"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:65
-#: includes/admin/reporting/tables/llms.table.certificates.php:205
-#: includes/class.llms.post-types.php:1155
+#: includes/admin/reporting/tables/llms.table.certificates.php:244
 #: includes/notifications/views/class.llms.notification.view.certificate.earned.php:131
 msgid "Certificate Title"
 msgstr ""
@@ -1548,7 +1544,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:181
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:129
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:86
-#: includes/class.llms.post-types.php:618
+#: includes/class.llms.post-types.php:651
 msgid "Membership"
 msgstr ""
 
@@ -1862,7 +1858,7 @@ msgid "Email Settings"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:60
-#: includes/functions/llms.functions.certificate.php:126
+#: includes/functions/llms.functions.certificate.php:201
 msgid "Student Email"
 msgstr ""
 
@@ -2324,7 +2320,7 @@ msgid "The status of a Legacy order cannot be changed."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.transactions.php:31
-#: includes/class.llms.post-types.php:737
+#: includes/class.llms.post-types.php:770
 #: includes/privacy/class-llms-privacy-exporters.php:274
 msgid "Transactions"
 msgstr ""
@@ -2348,7 +2344,7 @@ msgid "Refund Error: Missing or invalid payment amount"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:33
-#: includes/class.llms.post-types.php:1076
+#: includes/class.llms.post-types.php:1109
 msgid "Access Plans"
 msgstr ""
 
@@ -2424,8 +2420,8 @@ msgid "Redemptions"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:131
-#: includes/admin/reporting/tables/llms.table.achievements.php:57
-#: includes/admin/reporting/tables/llms.table.certificates.php:67
+#: includes/admin/reporting/tables/llms.table.achievements.php:65
+#: includes/admin/reporting/tables/llms.table.certificates.php:75
 #: includes/admin/reporting/tables/llms.table.quizzes.php:124
 #: includes/admin/views/status/view-log.php:44
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:125
@@ -2439,12 +2435,34 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:62
-msgid "Migrate Template"
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:75
+#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:82
+#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:151
+msgid "User"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:83
-msgid "Legacy Template"
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:76
+msgid "Template"
+msgstr ""
+
+#. Translators: %s: Post title.
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:118
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:322
+msgid "Delete Permanently"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:140
+#: includes/admin/views/metaboxes/view-award-engagement-submit.php:36
+#: includes/admin/views/metaboxes/view-award-engagement-submit.php:52
+msgid "Awarded"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:63
+msgid "Migrate legacy certificate"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:84
+msgid "Legacy"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
@@ -2457,7 +2475,7 @@ msgid "View \"%s\""
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:119
-#: includes/admin/reporting/tables/llms.table.certificates.php:50
+#: includes/admin/reporting/tables/llms.table.certificates.php:58
 #: includes/class.llms.l10n.js.php:420
 #: includes/class.llms.l10n.js.php:489
 #: templates/myaccount/my-orders.php:53
@@ -2524,7 +2542,7 @@ msgstr[1] ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:54
 #: includes/admin/views/builder/elements.php:16
-#: includes/class.llms.post-types.php:466
+#: includes/class.llms.post-types.php:499
 msgid "Section"
 msgstr ""
 
@@ -2548,7 +2566,7 @@ msgid "Date"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
-#: includes/class.llms.post-types.php:698
+#: includes/class.llms.post-types.php:731
 #: templates/myaccount/my-orders.php:23
 #: templates/myaccount/my-orders.php:33
 msgid "Order"
@@ -2667,8 +2685,8 @@ msgid "Manage Existing Enrollments"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:381
-#: includes/admin/reporting/tables/llms.table.achievements.php:217
-#: includes/admin/reporting/tables/llms.table.certificates.php:203
+#: includes/admin/reporting/tables/llms.table.achievements.php:238
+#: includes/admin/reporting/tables/llms.table.certificates.php:242
 #: includes/admin/reporting/tables/llms.table.course.students.php:398
 #: includes/admin/reporting/tables/llms.table.courses.php:300
 #: includes/admin/reporting/tables/llms.table.membership.students.php:386
@@ -2794,52 +2812,52 @@ msgstr ""
 msgid "Previously %s"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:67
+#: includes/admin/reporting/tables/llms.table.achievements.php:75
 msgid "Are you sure you want to delete this achievement? This action cannot be undone!"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:111
-#: includes/admin/reporting/tables/llms.table.certificates.php:122
+#: includes/admin/reporting/tables/llms.table.achievements.php:119
+#: includes/admin/reporting/tables/llms.table.certificates.php:130
 msgid "(scheduled)"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:218
-#: includes/admin/reporting/tables/llms.table.certificates.php:204
+#: includes/admin/reporting/tables/llms.table.achievements.php:239
+#: includes/admin/reporting/tables/llms.table.certificates.php:243
 msgid "Template ID"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:220
+#: includes/admin/reporting/tables/llms.table.achievements.php:241
 #: includes/admin/views/builder/question.php:86
 #: includes/privacy/class-llms-privacy-exporters.php:132
 msgid "Image"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:221
-#: includes/admin/reporting/tables/llms.table.certificates.php:206
-#: includes/functions/llms.functions.certificate.php:123
+#: includes/admin/reporting/tables/llms.table.achievements.php:242
+#: includes/admin/reporting/tables/llms.table.certificates.php:245
+#: includes/functions/llms.functions.certificate.php:198
 #: includes/privacy/class-llms-privacy-exporters.php:127
 #: includes/privacy/class-llms-privacy-exporters.php:167
 msgid "Earned Date"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:222
-#: includes/admin/reporting/tables/llms.table.certificates.php:207
+#: includes/admin/reporting/tables/llms.table.achievements.php:243
+#: includes/admin/reporting/tables/llms.table.certificates.php:246
 msgid "Related Post"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.achievements.php:235
+#: includes/admin/reporting/tables/llms.table.achievements.php:256
 msgid "This student has not yet earned any achievements."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.certificates.php:62
+#: includes/admin/reporting/tables/llms.table.certificates.php:70
 msgid "Download"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.certificates.php:77
+#: includes/admin/reporting/tables/llms.table.certificates.php:85
 msgid "Are you sure you want to delete this certificate? This action cannot be undone!"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.certificates.php:220
+#: includes/admin/reporting/tables/llms.table.certificates.php:259
 msgid "This student has not yet earned any certificates."
 msgstr ""
 
@@ -3653,7 +3671,7 @@ msgid "Catalog Sorting"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:40
-#: includes/class.llms.post-types.php:660
+#: includes/class.llms.post-types.php:693
 msgid "Engagements"
 msgstr ""
 
@@ -4016,7 +4034,7 @@ msgid "Purchase Link"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:55
-#: includes/class.llms.post-types.php:1082
+#: includes/class.llms.post-types.php:1115
 msgid "New Access Plan"
 msgstr ""
 
@@ -4589,7 +4607,7 @@ msgid "Expand All"
 msgstr ""
 
 #: includes/admin/views/builder/quiz.php:88
-#: includes/class.llms.post-types.php:582
+#: includes/class.llms.post-types.php:615
 msgid "Add Question"
 msgstr ""
 
@@ -4695,11 +4713,6 @@ msgstr ""
 msgid "Status:"
 msgstr ""
 
-#: includes/admin/views/metaboxes/view-award-engagement-submit.php:36
-#: includes/admin/views/metaboxes/view-award-engagement-submit.php:52
-msgid "Awarded"
-msgstr ""
-
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:39
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:54
 msgid "Scheduled"
@@ -4763,6 +4776,7 @@ msgid "Date and time"
 msgstr ""
 
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:128
+#: assets/js/llms-admin-certificate-editor.js:1
 msgid "Delete permanently"
 msgstr ""
 
@@ -5154,43 +5168,43 @@ msgid "An error was encountered during post creation."
 msgstr ""
 
 #. Translators: %d = the WP_Post ID.
-#: includes/class-llms-engagement-handler.php:316
+#: includes/class-llms-engagement-handler.php:318
 msgid "Post \"%d\" not found."
 msgstr ""
 
 #. Translators: %d = the WP_Post ID.
-#: includes/class-llms-engagement-handler.php:321
+#: includes/class-llms-engagement-handler.php:323
 msgid "Post \"%d\" is not published."
 msgstr ""
 
 #. Translators: %d = the WP_Post ID.
-#: includes/class-llms-engagement-handler.php:326
+#: includes/class-llms-engagement-handler.php:328
 msgid "Post \"%d\" is not the expected post type."
 msgstr ""
 
 #. Translators: %1$d = WP_User ID; %2$d = WP_Post ID.
-#: includes/class-llms-engagement-handler.php:352
+#: includes/class-llms-engagement-handler.php:354
 msgid "User \"%1$d\" is not enrolled in \"%2$d\"."
 msgstr ""
 
 #. Translators: %s = the WP_User ID.
-#: includes/class-llms-engagement-handler.php:423
+#: includes/class-llms-engagement-handler.php:425
 msgid "User \"%s\" has already earned this engagement."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:586
+#: includes/class-llms-engagement-handler.php:588
 msgid "Email #%1$d to user #%2$d triggered by %3$s"
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:591
+#: includes/class-llms-engagement-handler.php:593
 msgid "not sent because of dupcheck."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:604
+#: includes/class-llms-engagement-handler.php:606
 msgid "sent successfully."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:609
+#: includes/class-llms-engagement-handler.php:611
 msgid "not sent due to email sending issues."
 msgstr ""
 
@@ -5238,43 +5252,39 @@ msgstr ""
 msgid "Error creating the question post object."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:44
+#: includes/class-llms-rest-fields.php:45
 msgid "Certificate size."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:52
+#: includes/class-llms-rest-fields.php:53
 msgid "Certificate width."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:56
+#: includes/class-llms-rest-fields.php:57
 msgid "Certificate height."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:60
+#: includes/class-llms-rest-fields.php:61
 msgid "Certificate sizing unit applied to the width and height properties."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:65
+#: includes/class-llms-rest-fields.php:66
 msgid "Certificate orientation."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:70
+#: includes/class-llms-rest-fields.php:71
 msgid "Certificate margins."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:79
+#: includes/class-llms-rest-fields.php:80
 msgid "Certificate background color."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:123
-msgid "User ID of the user who earned the certificate."
-msgstr ""
-
-#: includes/class-llms-rest-fields.php:158
+#: includes/class-llms-rest-fields.php:115
 msgid "Certificate title."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:177
+#: includes/class-llms-rest-fields.php:134
 msgid "Next sequential ID."
 msgstr ""
 
@@ -5580,7 +5590,7 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:116
 #: includes/class.llms.l10n.js.php:330
-#: includes/class.llms.post-types.php:546
+#: includes/class.llms.post-types.php:579
 msgid "New Quiz"
 msgstr ""
 
@@ -5597,7 +5607,7 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:126
 #: includes/class.llms.l10n.js.php:357
-#: includes/class.llms.post-types.php:471
+#: includes/class.llms.post-types.php:504
 msgid "New Section"
 msgstr ""
 
@@ -6100,1412 +6110,1412 @@ msgstr ""
 msgid "%1$s must match %2$s"
 msgstr ""
 
-#: includes/class.llms.post-types.php:144
+#: includes/class.llms.post-types.php:151
 msgctxt "Order status"
 msgid "Completed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:145
+#: includes/class.llms.post-types.php:152
 msgid "Completed <span class=\"count\">(%s)</span>"
 msgid_plural "Completed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:150
+#: includes/class.llms.post-types.php:157
 msgctxt "Order status"
 msgid "Active"
 msgstr ""
 
-#: includes/class.llms.post-types.php:151
+#: includes/class.llms.post-types.php:158
 msgid "Active <span class=\"count\">(%s)</span>"
 msgid_plural "Active <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:154
+#: includes/class.llms.post-types.php:161
 msgctxt "Order status"
 msgid "Expired"
 msgstr ""
 
-#: includes/class.llms.post-types.php:155
+#: includes/class.llms.post-types.php:162
 msgid "Expired <span class=\"count\">(%s)</span>"
 msgid_plural "Expired <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:158
+#: includes/class.llms.post-types.php:165
 msgctxt "Order status"
 msgid "On Hold"
 msgstr ""
 
-#: includes/class.llms.post-types.php:159
+#: includes/class.llms.post-types.php:166
 msgid "On Hold <span class=\"count\">(%s)</span>"
 msgid_plural "On Hold <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:162
+#: includes/class.llms.post-types.php:169
 msgctxt "Order status"
 msgid "Pending Cancellation"
 msgstr ""
 
-#: includes/class.llms.post-types.php:163
+#: includes/class.llms.post-types.php:170
 msgid "Pending Cancellation <span class=\"count\">(%s)</span>"
 msgid_plural "Pending Cancellation <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:168
+#: includes/class.llms.post-types.php:175
 msgctxt "Order status"
 msgid "Pending Payment"
 msgstr ""
 
-#: includes/class.llms.post-types.php:169
+#: includes/class.llms.post-types.php:176
 msgid "Pending Payment <span class=\"count\">(%s)</span>"
 msgid_plural "Pending Payment <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:172
+#: includes/class.llms.post-types.php:179
 msgctxt "Order status"
 msgid "Cancelled"
 msgstr ""
 
-#: includes/class.llms.post-types.php:173
+#: includes/class.llms.post-types.php:180
 msgid "Cancelled <span class=\"count\">(%s)</span>"
 msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:176
+#: includes/class.llms.post-types.php:183
 msgctxt "Order status"
 msgid "Refunded"
 msgstr ""
 
-#: includes/class.llms.post-types.php:177
-#: includes/class.llms.post-types.php:1206
+#: includes/class.llms.post-types.php:184
+#: includes/class.llms.post-types.php:1237
 msgid "Refunded <span class=\"count\">(%s)</span>"
 msgid_plural "Refunded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:180
+#: includes/class.llms.post-types.php:187
 msgctxt "Order status"
 msgid "Failed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:181
-#: includes/class.llms.post-types.php:1190
+#: includes/class.llms.post-types.php:188
+#: includes/class.llms.post-types.php:1221
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:425
+#: includes/class.llms.post-types.php:458
 msgctxt "Admin menu name"
 msgid "Courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:426
+#: includes/class.llms.post-types.php:459
 msgid "Add Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:427
+#: includes/class.llms.post-types.php:460
 msgid "Add New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:429
+#: includes/class.llms.post-types.php:462
 msgid "Edit Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:430
+#: includes/class.llms.post-types.php:463
 msgid "New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:431
-#: includes/class.llms.post-types.php:432
+#: includes/class.llms.post-types.php:464
+#: includes/class.llms.post-types.php:465
 msgid "View Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:433
+#: includes/class.llms.post-types.php:466
 msgid "Search Courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:434
+#: includes/class.llms.post-types.php:467
 msgid "No Courses found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:435
+#: includes/class.llms.post-types.php:468
 msgid "No Courses found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:436
+#: includes/class.llms.post-types.php:469
 msgid "Parent Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:438
+#: includes/class.llms.post-types.php:471
 msgid "This is where you can add new courses."
 msgstr ""
 
-#: includes/class.llms.post-types.php:448
+#: includes/class.llms.post-types.php:481
 msgctxt "course url slug"
 msgid "course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:454
+#: includes/class.llms.post-types.php:487
 msgctxt "course archive url slug"
 msgid "courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:467
+#: includes/class.llms.post-types.php:500
 msgid "Add Section"
 msgstr ""
 
-#: includes/class.llms.post-types.php:468
+#: includes/class.llms.post-types.php:501
 msgid "Add New Section"
 msgstr ""
 
-#: includes/class.llms.post-types.php:470
+#: includes/class.llms.post-types.php:503
 msgid "Edit Section"
 msgstr ""
 
-#: includes/class.llms.post-types.php:472
-#: includes/class.llms.post-types.php:473
+#: includes/class.llms.post-types.php:505
+#: includes/class.llms.post-types.php:506
 msgid "View Section"
 msgstr ""
 
-#: includes/class.llms.post-types.php:474
+#: includes/class.llms.post-types.php:507
 msgid "Search Sections"
 msgstr ""
 
-#: includes/class.llms.post-types.php:475
+#: includes/class.llms.post-types.php:508
 msgid "No Sections found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:476
+#: includes/class.llms.post-types.php:509
 msgid "No Sections found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:477
+#: includes/class.llms.post-types.php:510
 msgid "Parent Sections"
 msgstr ""
 
-#: includes/class.llms.post-types.php:478
+#: includes/class.llms.post-types.php:511
 msgctxt "Admin menu name"
 msgid "Sections"
 msgstr ""
 
-#: includes/class.llms.post-types.php:480
+#: includes/class.llms.post-types.php:513
 msgid "This is where sections are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:502
+#: includes/class.llms.post-types.php:535
 msgid "Add Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:503
+#: includes/class.llms.post-types.php:536
 msgid "Add New Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:505
+#: includes/class.llms.post-types.php:538
 msgid "Edit Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:507
-#: includes/class.llms.post-types.php:508
+#: includes/class.llms.post-types.php:540
+#: includes/class.llms.post-types.php:541
 msgid "View Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:509
+#: includes/class.llms.post-types.php:542
 msgid "Search Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:510
+#: includes/class.llms.post-types.php:543
 msgid "No Lessons found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:511
+#: includes/class.llms.post-types.php:544
 msgid "No Lessons found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:512
+#: includes/class.llms.post-types.php:545
 msgid "Parent Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:513
+#: includes/class.llms.post-types.php:546
 msgctxt "Admin menu name"
 msgid "Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:515
+#: includes/class.llms.post-types.php:548
 msgid "This is where you can view all of the lessons."
 msgstr ""
 
-#: includes/class.llms.post-types.php:525
+#: includes/class.llms.post-types.php:558
 msgctxt "lesson url slug"
 msgid "lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:542
+#: includes/class.llms.post-types.php:575
 msgid "Add Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:543
+#: includes/class.llms.post-types.php:576
 msgid "Add New Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:545
+#: includes/class.llms.post-types.php:578
 msgid "Edit Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:547
-#: includes/class.llms.post-types.php:548
+#: includes/class.llms.post-types.php:580
+#: includes/class.llms.post-types.php:581
 msgid "View Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:549
+#: includes/class.llms.post-types.php:582
 msgid "Search Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:550
+#: includes/class.llms.post-types.php:583
 msgid "No Quizzes found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:551
+#: includes/class.llms.post-types.php:584
 msgid "No Quizzes found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:552
+#: includes/class.llms.post-types.php:585
 msgid "Parent Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:553
+#: includes/class.llms.post-types.php:586
 msgctxt "Admin menu name"
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:555
+#: includes/class.llms.post-types.php:588
 msgid "This is where you can view all of the quizzes."
 msgstr ""
 
-#: includes/class.llms.post-types.php:565
+#: includes/class.llms.post-types.php:598
 msgctxt "quiz url slug"
 msgid "quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:581
+#: includes/class.llms.post-types.php:614
 #: includes/class.llms.question.types.php:66
 msgid "Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:583
+#: includes/class.llms.post-types.php:616
 msgid "Add New Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:585
+#: includes/class.llms.post-types.php:618
 msgid "Edit Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:586
+#: includes/class.llms.post-types.php:619
 msgid "New Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:587
-#: includes/class.llms.post-types.php:588
+#: includes/class.llms.post-types.php:620
+#: includes/class.llms.post-types.php:621
 msgid "View Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:589
+#: includes/class.llms.post-types.php:622
 msgid "Search Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:590
+#: includes/class.llms.post-types.php:623
 msgid "No Questions found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:591
+#: includes/class.llms.post-types.php:624
 msgid "No Questions found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:592
+#: includes/class.llms.post-types.php:625
 msgid "Parent Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:593
+#: includes/class.llms.post-types.php:626
 msgctxt "Admin menu name"
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:595
+#: includes/class.llms.post-types.php:628
 msgid "This is where you can view all of the Quiz Questions."
 msgstr ""
 
-#: includes/class.llms.post-types.php:619
+#: includes/class.llms.post-types.php:652
 msgctxt "Admin menu name"
 msgid "Memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:620
+#: includes/class.llms.post-types.php:653
 msgid "Add Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:621
+#: includes/class.llms.post-types.php:654
 msgid "Add New Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:623
+#: includes/class.llms.post-types.php:656
 msgid "Edit Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:624
+#: includes/class.llms.post-types.php:657
 msgid "New Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:625
-#: includes/class.llms.post-types.php:626
+#: includes/class.llms.post-types.php:658
+#: includes/class.llms.post-types.php:659
 msgid "View Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:627
+#: includes/class.llms.post-types.php:660
 msgid "Search Memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:628
+#: includes/class.llms.post-types.php:661
 msgid "No Memberships found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:629
+#: includes/class.llms.post-types.php:662
 msgid "No Memberships found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:630
+#: includes/class.llms.post-types.php:663
 msgid "Parent Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:632
+#: includes/class.llms.post-types.php:665
 msgid "This is where you can add new Membership levels."
 msgstr ""
 
-#: includes/class.llms.post-types.php:643
+#: includes/class.llms.post-types.php:676
 msgctxt "membership url slug"
 msgid "membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:649
+#: includes/class.llms.post-types.php:682
 msgctxt "membership archive url slug"
 msgid "memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:661
+#: includes/class.llms.post-types.php:694
 msgid "Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:662
+#: includes/class.llms.post-types.php:695
 msgid "Add Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:663
+#: includes/class.llms.post-types.php:696
 msgid "Add New Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:665
+#: includes/class.llms.post-types.php:698
 msgid "Edit Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:666
+#: includes/class.llms.post-types.php:699
 msgid "New Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:667
-#: includes/class.llms.post-types.php:668
+#: includes/class.llms.post-types.php:700
+#: includes/class.llms.post-types.php:701
 msgid "View Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:669
+#: includes/class.llms.post-types.php:702
 msgid "Search Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:670
+#: includes/class.llms.post-types.php:703
 msgid "No Engagement found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:671
+#: includes/class.llms.post-types.php:704
 msgid "No Engagement found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:672
+#: includes/class.llms.post-types.php:705
 msgid "Parent Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:673
+#: includes/class.llms.post-types.php:706
 msgctxt "Admin menu name"
 msgid "Engagements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:675
+#: includes/class.llms.post-types.php:708
 msgid "This is where engagements are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:697
+#: includes/class.llms.post-types.php:730
 #: includes/privacy/class-llms-privacy-exporters.php:515
 msgid "Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:699
+#: includes/class.llms.post-types.php:732
 msgid "Add Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:700
+#: includes/class.llms.post-types.php:733
 msgid "Add New Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:702
+#: includes/class.llms.post-types.php:735
 msgid "Edit Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:703
+#: includes/class.llms.post-types.php:736
 msgid "New Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:704
-#: includes/class.llms.post-types.php:705
+#: includes/class.llms.post-types.php:737
+#: includes/class.llms.post-types.php:738
 msgid "View Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:706
+#: includes/class.llms.post-types.php:739
 msgid "Search Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:707
+#: includes/class.llms.post-types.php:740
 msgid "No Orders found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:708
+#: includes/class.llms.post-types.php:741
 msgid "No Orders found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:709
+#: includes/class.llms.post-types.php:742
 msgid "Parent Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:710
-#: includes/class.llms.post-types.php:750
+#: includes/class.llms.post-types.php:743
+#: includes/class.llms.post-types.php:783
 msgctxt "Admin menu name"
 msgid "Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:712
+#: includes/class.llms.post-types.php:745
 msgid "This is where orders are managed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:738
+#: includes/class.llms.post-types.php:771
 #: templates/myaccount/view-order-transactions.php:21
 msgid "Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:739
+#: includes/class.llms.post-types.php:772
 msgid "Add Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:740
+#: includes/class.llms.post-types.php:773
 msgid "Add New Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:742
+#: includes/class.llms.post-types.php:775
 msgid "Edit Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:743
+#: includes/class.llms.post-types.php:776
 msgid "New Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:744
-#: includes/class.llms.post-types.php:745
+#: includes/class.llms.post-types.php:777
+#: includes/class.llms.post-types.php:778
 msgid "View Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:746
+#: includes/class.llms.post-types.php:779
 msgid "Search Transactions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:747
+#: includes/class.llms.post-types.php:780
 msgid "No Transactions found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:748
+#: includes/class.llms.post-types.php:781
 msgid "No Transactions found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:749
+#: includes/class.llms.post-types.php:782
 msgid "Parent Transactions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:752
+#: includes/class.llms.post-types.php:785
 msgid "This is where single and recurring order transactions are stored"
 msgstr ""
 
-#: includes/class.llms.post-types.php:776
+#: includes/class.llms.post-types.php:809
 msgid "Achievement Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:777
+#: includes/class.llms.post-types.php:810
 msgid "Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:778
+#: includes/class.llms.post-types.php:811
 msgid "Add Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:779
+#: includes/class.llms.post-types.php:812
 msgid "Add New Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:781
+#: includes/class.llms.post-types.php:814
 msgid "Edit Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:782
+#: includes/class.llms.post-types.php:815
 msgid "New Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:783
-#: includes/class.llms.post-types.php:784
+#: includes/class.llms.post-types.php:816
+#: includes/class.llms.post-types.php:817
 msgid "View Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:785
+#: includes/class.llms.post-types.php:818
 msgid "Search Achievement Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:786
+#: includes/class.llms.post-types.php:819
 msgid "No Achievement Templates found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:787
+#: includes/class.llms.post-types.php:820
 msgid "No Achievement Templates found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:788
+#: includes/class.llms.post-types.php:821
 msgid "Parent Achievement Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:789
+#: includes/class.llms.post-types.php:822
 msgctxt "Admin menu name"
 msgid "Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:790
-#: includes/class.llms.post-types.php:830
+#: includes/class.llms.post-types.php:823
+#: includes/class.llms.post-types.php:863
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:96
 msgid "Achievement Image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:791
+#: includes/class.llms.post-types.php:824
 msgid "Set achievement  image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:792
+#: includes/class.llms.post-types.php:825
 msgid "Remove achievement image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:793
+#: includes/class.llms.post-types.php:826
 msgid "Use achievement image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:795
+#: includes/class.llms.post-types.php:828
 msgid "This is where achievement templates are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:816
+#: includes/class.llms.post-types.php:849
 msgid "Awarded Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:817
+#: includes/class.llms.post-types.php:850
 msgid "Awarded Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:818
+#: includes/class.llms.post-types.php:851
 msgid "Award Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:819
+#: includes/class.llms.post-types.php:852
 msgid "Award New Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:821
+#: includes/class.llms.post-types.php:854
 msgid "Edit Awarded Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:822
+#: includes/class.llms.post-types.php:855
 msgid "New Awarded Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:823
-#: includes/class.llms.post-types.php:824
+#: includes/class.llms.post-types.php:856
+#: includes/class.llms.post-types.php:857
 msgid "View Awarded Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:825
+#: includes/class.llms.post-types.php:858
 msgid "Search Awarded Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:826
+#: includes/class.llms.post-types.php:859
 msgid "No Awarded Achievements found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:827
+#: includes/class.llms.post-types.php:860
 msgid "No Awarded Achievements found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:828
+#: includes/class.llms.post-types.php:861
 msgid "Parent Awarded Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:829
+#: includes/class.llms.post-types.php:862
 msgctxt "Admin menu name"
-msgid "Award Achievement"
+msgid "Awarded Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:831
+#: includes/class.llms.post-types.php:864
 msgid "Set awarded achievement image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:832
+#: includes/class.llms.post-types.php:865
 msgid "Remove awarded achievement image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:833
+#: includes/class.llms.post-types.php:866
 msgid "Use awarded achievement image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:835
+#: includes/class.llms.post-types.php:868
 msgid "This is where you can view all of the awarded achievements."
 msgstr ""
 
-#: includes/class.llms.post-types.php:865
+#: includes/class.llms.post-types.php:898
 msgid "Certificate Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:866
+#: includes/class.llms.post-types.php:899
 msgid "Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:867
+#: includes/class.llms.post-types.php:900
 msgid "Add Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:868
+#: includes/class.llms.post-types.php:901
 msgid "Add New Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:869
+#: includes/class.llms.post-types.php:902
 msgid "Edit Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:870
+#: includes/class.llms.post-types.php:903
 msgid "New Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:871
-#: includes/class.llms.post-types.php:872
+#: includes/class.llms.post-types.php:904
+#: includes/class.llms.post-types.php:905
 msgid "View Certificate Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:873
+#: includes/class.llms.post-types.php:906
 msgid "Search Certificate Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:874
+#: includes/class.llms.post-types.php:907
 msgid "No Certificate Templates found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:875
+#: includes/class.llms.post-types.php:908
 msgid "No Certificate Templates found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:876
+#: includes/class.llms.post-types.php:909
 msgid "Parent Certificate Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:877
+#: includes/class.llms.post-types.php:910
 msgctxt "Admin menu name"
 msgid "Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:882
+#: includes/class.llms.post-types.php:915
 msgctxt "slug"
 msgid "certificate-template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:897
+#: includes/class.llms.post-types.php:930
 msgid "Awarded Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:898
+#: includes/class.llms.post-types.php:931
 msgid "Awarded Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:899
+#: includes/class.llms.post-types.php:932
 msgid "Award Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:900
+#: includes/class.llms.post-types.php:933
 msgid "Award New Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:901
+#: includes/class.llms.post-types.php:934
 msgid "Edit Awarded Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:902
+#: includes/class.llms.post-types.php:935
 msgid "New Awarded Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:903
-#: includes/class.llms.post-types.php:904
+#: includes/class.llms.post-types.php:936
+#: includes/class.llms.post-types.php:937
 msgid "View Awarded Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:905
+#: includes/class.llms.post-types.php:938
 msgid "Search Awarded Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:906
+#: includes/class.llms.post-types.php:939
 msgid "No Awarded Certificates found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:907
+#: includes/class.llms.post-types.php:940
 msgid "No Awarded Certificates found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:908
+#: includes/class.llms.post-types.php:941
 msgid "Parent Awarded Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:909
+#: includes/class.llms.post-types.php:942
 msgctxt "Admin menu name"
-msgid "Award Certificate"
+msgid "Awarded Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:915
+#: includes/class.llms.post-types.php:948
 msgctxt "slug"
 msgid "certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:932
+#: includes/class.llms.post-types.php:965
 msgid "Email Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:933
+#: includes/class.llms.post-types.php:966
 msgid "Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:934
+#: includes/class.llms.post-types.php:967
 msgid "Add Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:935
+#: includes/class.llms.post-types.php:968
 msgid "Add New Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:937
+#: includes/class.llms.post-types.php:970
 msgid "Edit Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:938
+#: includes/class.llms.post-types.php:971
 msgid "New Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:939
-#: includes/class.llms.post-types.php:940
+#: includes/class.llms.post-types.php:972
+#: includes/class.llms.post-types.php:973
 msgid "View Email Template"
 msgstr ""
 
-#: includes/class.llms.post-types.php:941
+#: includes/class.llms.post-types.php:974
 msgid "Search Email Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:942
+#: includes/class.llms.post-types.php:975
 msgid "No Emails found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:943
+#: includes/class.llms.post-types.php:976
 msgid "No Emails found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:944
+#: includes/class.llms.post-types.php:977
 msgid "Parent Email Templates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:945
+#: includes/class.llms.post-types.php:978
 msgctxt "Admin menu name"
 msgid "Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:947
+#: includes/class.llms.post-types.php:980
 msgid "This is where emails are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:968
+#: includes/class.llms.post-types.php:1001
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:970
+#: includes/class.llms.post-types.php:1003
 msgid "Add Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:971
+#: includes/class.llms.post-types.php:1004
 msgid "Add New Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:973
+#: includes/class.llms.post-types.php:1006
 msgid "Edit Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:974
+#: includes/class.llms.post-types.php:1007
 msgid "New Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:975
-#: includes/class.llms.post-types.php:976
+#: includes/class.llms.post-types.php:1008
+#: includes/class.llms.post-types.php:1009
 msgid "View Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:977
+#: includes/class.llms.post-types.php:1010
 msgid "Search Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:978
+#: includes/class.llms.post-types.php:1011
 msgid "No Coupon found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:979
+#: includes/class.llms.post-types.php:1012
 msgid "No Coupon found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:980
+#: includes/class.llms.post-types.php:1013
 msgid "Parent Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:981
+#: includes/class.llms.post-types.php:1014
 msgctxt "Admin menu name"
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:983
+#: includes/class.llms.post-types.php:1016
 msgid "This is where coupons are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:1004
+#: includes/class.llms.post-types.php:1037
 msgid "Vouchers"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1005
+#: includes/class.llms.post-types.php:1038
 msgid "Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1006
+#: includes/class.llms.post-types.php:1039
 msgid "Add Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1007
+#: includes/class.llms.post-types.php:1040
 msgid "Add New Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1009
+#: includes/class.llms.post-types.php:1042
 msgid "Edit Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1010
+#: includes/class.llms.post-types.php:1043
 msgid "New Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1011
-#: includes/class.llms.post-types.php:1012
+#: includes/class.llms.post-types.php:1044
+#: includes/class.llms.post-types.php:1045
 msgid "View Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1013
+#: includes/class.llms.post-types.php:1046
 msgid "Search Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1014
+#: includes/class.llms.post-types.php:1047
 msgid "No Voucher found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1015
+#: includes/class.llms.post-types.php:1048
 msgid "No Voucher found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1016
+#: includes/class.llms.post-types.php:1049
 msgid "Parent Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1017
+#: includes/class.llms.post-types.php:1050
 msgctxt "Admin menu name"
 msgid "Vouchers"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1019
+#: includes/class.llms.post-types.php:1052
 msgid "This is where voucher are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:1041
+#: includes/class.llms.post-types.php:1074
 #: includes/functions/llms.functions.templates.dashboard.php:950
 msgid "Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1042
+#: includes/class.llms.post-types.php:1075
 msgctxt "Admin menu name"
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1043
+#: includes/class.llms.post-types.php:1076
 msgid "Add Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1044
+#: includes/class.llms.post-types.php:1077
 msgid "Add New Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1046
+#: includes/class.llms.post-types.php:1079
 msgid "Edit Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1047
+#: includes/class.llms.post-types.php:1080
 msgid "New Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1048
-#: includes/class.llms.post-types.php:1049
+#: includes/class.llms.post-types.php:1081
+#: includes/class.llms.post-types.php:1082
 msgid "View Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1050
+#: includes/class.llms.post-types.php:1083
 msgid "Search Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1051
+#: includes/class.llms.post-types.php:1084
 msgid "No Reviews found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1052
+#: includes/class.llms.post-types.php:1085
 msgid "No Reviews found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1053
+#: includes/class.llms.post-types.php:1086
 msgid "Parent Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1055
+#: includes/class.llms.post-types.php:1088
 msgid "This is where you can add new reviews."
 msgstr ""
 
-#: includes/class.llms.post-types.php:1077
+#: includes/class.llms.post-types.php:1110
 #: includes/functions/llms-functions-access-plans.php:92
 #: templates/checkout/form-summary.php:12
 #: templates/myaccount/view-order.php:45
 msgid "Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1078
+#: includes/class.llms.post-types.php:1111
 msgid "Add Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1079
+#: includes/class.llms.post-types.php:1112
 msgid "Add New Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1081
+#: includes/class.llms.post-types.php:1114
 msgid "Edit Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1083
-#: includes/class.llms.post-types.php:1084
+#: includes/class.llms.post-types.php:1116
+#: includes/class.llms.post-types.php:1117
 msgid "View Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1085
+#: includes/class.llms.post-types.php:1118
 msgid "Search Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1086
+#: includes/class.llms.post-types.php:1119
 msgid "No Access Plans found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1087
+#: includes/class.llms.post-types.php:1120
 msgid "No Access Plans found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1088
+#: includes/class.llms.post-types.php:1121
 msgid "Parent Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1089
+#: includes/class.llms.post-types.php:1122
 msgctxt "Admin menu name"
 msgid "Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1091
+#: includes/class.llms.post-types.php:1124
 msgid "This is where access plans are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:1133
+#: includes/class.llms.post-types.php:1171
 msgid "Background Image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1134
+#: includes/class.llms.post-types.php:1172
 msgid "Set background image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1135
+#: includes/class.llms.post-types.php:1173
 msgid "Remove background image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1136
+#: includes/class.llms.post-types.php:1174
 msgid "Use background image"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1185
+#: includes/class.llms.post-types.php:1216
 msgctxt "Transaction status"
 msgid "Failed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1193
+#: includes/class.llms.post-types.php:1224
 msgctxt "Transaction status"
 msgid "Pending"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1198
+#: includes/class.llms.post-types.php:1229
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgid_plural "Pending <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:1201
+#: includes/class.llms.post-types.php:1232
 msgctxt "Transaction status"
 msgid "Refunded"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1209
+#: includes/class.llms.post-types.php:1240
 msgctxt "Transaction status"
 msgid "Succeeded"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1214
+#: includes/class.llms.post-types.php:1245
 msgid "Succeeded <span class=\"count\">(%s)</span>"
 msgid_plural "Succeeded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:1267
-#: includes/class.llms.post-types.php:1269
+#: includes/class.llms.post-types.php:1298
+#: includes/class.llms.post-types.php:1300
 msgid "Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1270
+#: includes/class.llms.post-types.php:1301
 msgid "Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1271
-#: includes/class.llms.post-types.php:1402
+#: includes/class.llms.post-types.php:1302
+#: includes/class.llms.post-types.php:1433
 msgctxt "Admin menu name"
 msgid "Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1272
+#: includes/class.llms.post-types.php:1303
 msgid "Search Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1273
+#: includes/class.llms.post-types.php:1304
 msgid "All Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1274
+#: includes/class.llms.post-types.php:1305
 msgid "Parent Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1275
+#: includes/class.llms.post-types.php:1306
 msgid "Parent Course Category:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1276
+#: includes/class.llms.post-types.php:1307
 msgid "Edit Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1277
+#: includes/class.llms.post-types.php:1308
 msgid "Update Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1278
+#: includes/class.llms.post-types.php:1309
 msgid "Add New Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1279
+#: includes/class.llms.post-types.php:1310
 msgid "New Course Category Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1287
+#: includes/class.llms.post-types.php:1318
 msgctxt "slug"
 msgid "course-category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1300
-#: includes/class.llms.post-types.php:1302
+#: includes/class.llms.post-types.php:1331
+#: includes/class.llms.post-types.php:1333
 msgid "Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1303
+#: includes/class.llms.post-types.php:1334
 msgid "Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1304
+#: includes/class.llms.post-types.php:1335
 msgctxt "Admin menu name"
 msgid "Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1305
+#: includes/class.llms.post-types.php:1336
 msgid "Search Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1306
+#: includes/class.llms.post-types.php:1337
 msgid "All Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1307
+#: includes/class.llms.post-types.php:1338
 msgid "Parent Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1308
+#: includes/class.llms.post-types.php:1339
 msgid "Parent Course Difficulty:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1309
+#: includes/class.llms.post-types.php:1340
 msgid "Edit Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1310
+#: includes/class.llms.post-types.php:1341
 msgid "Update Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1311
+#: includes/class.llms.post-types.php:1342
 msgid "Add New Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1312
+#: includes/class.llms.post-types.php:1343
 msgid "New Course Difficulty Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1320
+#: includes/class.llms.post-types.php:1351
 msgctxt "slug"
 msgid "course-difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1332
-#: includes/class.llms.post-types.php:1334
+#: includes/class.llms.post-types.php:1363
+#: includes/class.llms.post-types.php:1365
 msgid "Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1335
+#: includes/class.llms.post-types.php:1366
 msgid "Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1336
-#: includes/class.llms.post-types.php:1436
+#: includes/class.llms.post-types.php:1367
+#: includes/class.llms.post-types.php:1467
 msgctxt "Admin menu name"
 msgid "Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1337
+#: includes/class.llms.post-types.php:1368
 msgid "Search Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1338
+#: includes/class.llms.post-types.php:1369
 msgid "All Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1339
+#: includes/class.llms.post-types.php:1370
 msgid "Parent Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1340
+#: includes/class.llms.post-types.php:1371
 msgid "Parent Course Tag:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1341
+#: includes/class.llms.post-types.php:1372
 msgid "Edit Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1342
+#: includes/class.llms.post-types.php:1373
 msgid "Update Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1343
+#: includes/class.llms.post-types.php:1374
 msgid "Add New Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1344
+#: includes/class.llms.post-types.php:1375
 msgid "New Course Tag Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1352
+#: includes/class.llms.post-types.php:1383
 msgctxt "slug"
 msgid "course-tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1364
-#: includes/class.llms.post-types.php:1367
+#: includes/class.llms.post-types.php:1395
+#: includes/class.llms.post-types.php:1398
 msgid "Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1366
+#: includes/class.llms.post-types.php:1397
 msgid "Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1368
+#: includes/class.llms.post-types.php:1399
 msgctxt "Admin menu name"
 msgid "Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1369
+#: includes/class.llms.post-types.php:1400
 msgid "Search Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1370
+#: includes/class.llms.post-types.php:1401
 msgid "All Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1371
+#: includes/class.llms.post-types.php:1402
 msgid "Parent Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1372
+#: includes/class.llms.post-types.php:1403
 msgid "Parent Course Track:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1373
+#: includes/class.llms.post-types.php:1404
 msgid "Edit Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1374
+#: includes/class.llms.post-types.php:1405
 msgid "Update Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1375
+#: includes/class.llms.post-types.php:1406
 msgid "Add New Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1376
+#: includes/class.llms.post-types.php:1407
 msgid "New Course Track Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1384
+#: includes/class.llms.post-types.php:1415
 msgctxt "slug"
 msgid "course-track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1398
-#: includes/class.llms.post-types.php:1400
+#: includes/class.llms.post-types.php:1429
+#: includes/class.llms.post-types.php:1431
 msgid "Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1401
+#: includes/class.llms.post-types.php:1432
 msgid "Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1403
+#: includes/class.llms.post-types.php:1434
 msgid "Search Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1404
+#: includes/class.llms.post-types.php:1435
 msgid "All Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1405
+#: includes/class.llms.post-types.php:1436
 msgid "Parent Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1406
+#: includes/class.llms.post-types.php:1437
 msgid "Parent Membership Category:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1407
+#: includes/class.llms.post-types.php:1438
 msgid "Edit Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1408
+#: includes/class.llms.post-types.php:1439
 msgid "Update Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1409
+#: includes/class.llms.post-types.php:1440
 msgid "Add New Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1410
+#: includes/class.llms.post-types.php:1441
 msgid "New Membership Category Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1418
+#: includes/class.llms.post-types.php:1449
 msgctxt "slug"
 msgid "membership-category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1432
-#: includes/class.llms.post-types.php:1434
+#: includes/class.llms.post-types.php:1463
+#: includes/class.llms.post-types.php:1465
 msgid "Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1435
+#: includes/class.llms.post-types.php:1466
 msgid "Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1437
+#: includes/class.llms.post-types.php:1468
 msgid "Search Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1438
+#: includes/class.llms.post-types.php:1469
 msgid "All Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1439
+#: includes/class.llms.post-types.php:1470
 msgid "Parent Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1440
+#: includes/class.llms.post-types.php:1471
 msgid "Parent Membership Tag:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1441
+#: includes/class.llms.post-types.php:1472
 msgid "Edit Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1442
+#: includes/class.llms.post-types.php:1473
 msgid "Update Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1443
+#: includes/class.llms.post-types.php:1474
 msgid "Add New Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1444
+#: includes/class.llms.post-types.php:1475
 msgid "New Membership Tag Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1452
+#: includes/class.llms.post-types.php:1483
 msgctxt "slug"
 msgid "membership-tag"
 msgstr ""
 
-#: includes/class.llms.post.relationships.php:159
+#: includes/class.llms.post.relationships.php:135
 msgid "Use WordPress core  `before_delete_post` action hook"
 msgstr ""
 
-#: includes/class.llms.post.relationships.php:185
+#: includes/class.llms.post.relationships.php:161
 msgid "Use WordPress core `deleted_post` action hook."
 msgstr ""
 
 #. Translators: %s = The post type plural name.
-#: includes/class.llms.post.relationships.php:277
+#: includes/class.llms.post.relationships.php:253
 msgid "Sorry, you are not allowed to delete %s with active subscriptions."
 msgstr ""
 
@@ -7734,7 +7744,7 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.certificates.php:148
+#: includes/controllers/class.llms.controller.certificates.php:222
 msgid "You are not allowed to manage this certificate."
 msgstr ""
 
@@ -8173,79 +8183,91 @@ msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:121
+#: includes/functions/llms.functions.certificate.php:112
+msgid "Default theme font"
+msgstr ""
+
+#: includes/functions/llms.functions.certificate.php:117
+msgid "Sans-serif"
+msgstr ""
+
+#: includes/functions/llms.functions.certificate.php:123
+msgid "Serif"
+msgstr ""
+
+#: includes/functions/llms.functions.certificate.php:196
 #: includes/notifications/views/class.llms.notification.view.student.welcome.php:81
 msgid "Site Title"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:122
+#: includes/functions/llms.functions.certificate.php:197
 msgid "Site URL"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:127
+#: includes/functions/llms.functions.certificate.php:202
 msgid "Student User ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:129
+#: includes/functions/llms.functions.certificate.php:204
 msgid "Certificate ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:130
+#: includes/functions/llms.functions.certificate.php:205
 msgid "Sequential Certificate ID"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:146
+#: includes/functions/llms.functions.certificate.php:221
 msgid "Portrait"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:147
+#: includes/functions/llms.functions.certificate.php:222
 msgid "Landscape"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:247
+#: includes/functions/llms.functions.certificate.php:322
 msgctxt "Paper size name"
 msgid "A3"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:253
+#: includes/functions/llms.functions.certificate.php:328
 msgctxt "Paper size name"
 msgid "A4"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:259
+#: includes/functions/llms.functions.certificate.php:334
 msgctxt "Paper size name"
 msgid "A5"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:266
+#: includes/functions/llms.functions.certificate.php:341
 msgctxt "Paper size name"
 msgid "Letter"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:272
+#: includes/functions/llms.functions.certificate.php:347
 msgctxt "Paper size name"
 msgid "Legal"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:278
+#: includes/functions/llms.functions.certificate.php:353
 msgctxt "Paper size name"
 msgid "Ledger"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:314
+#: includes/functions/llms.functions.certificate.php:389
 msgid "Inches"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:315
+#: includes/functions/llms.functions.certificate.php:390
 msgctxt "Symbol for inches"
 msgid "\""
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:318
+#: includes/functions/llms.functions.certificate.php:393
 msgid "Millimeters"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:319
+#: includes/functions/llms.functions.certificate.php:394
 msgctxt "Symbol for millimeters"
 msgid "mm"
 msgstr ""
@@ -8863,7 +8885,7 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/models/model.llms.user.certificate.php:640
+#: includes/models/model.llms.user.certificate.php:710
 msgid "Loading custom HTML from the certificate template is deprecated. All HTML should be added to the certificate directly via the editor or applied via post content filters."
 msgstr ""
 
@@ -9751,6 +9773,22 @@ msgstr ""
 
 #: includes/privacy/class-llms-privacy.php:240
 msgid "Last Login Date"
+msgstr ""
+
+#: includes/schemas/llms-block-templates.php:34
+msgid "Presented to"
+msgstr ""
+
+#: includes/schemas/llms-block-templates.php:50
+msgid "for demonstration of excellence"
+msgstr ""
+
+#: includes/schemas/llms-block-templates.php:81
+msgid "DATE"
+msgstr ""
+
+#: includes/schemas/llms-block-templates.php:103
+msgid "SIGNED"
 msgstr ""
 
 #: includes/schemas/llms-form-locations.php:22
@@ -32682,11 +32720,6 @@ msgstr ""
 msgid "A friendly, human-readable, name used to identify the key."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:82
-#: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-api-keys.php:151
-msgid "User"
-msgstr ""
-
 #. Translators: %1$s = opening anchor tag to capabilities doc; %2$s closing anchor tag.
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-api-keys.php:86
 msgid "The owner is used to determine what user %1$scapabilities%2$s are available to the API key."
@@ -34602,6 +34635,14 @@ msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
 
+#: blocks/certificate-title/index.js:1
+msgid "Font Family"
+msgstr ""
+
+#: blocks/certificate-title/index.js:1
+msgid "Certificate of Achievement"
+msgstr ""
+
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:1
 msgid "everyone"
 msgstr ""
@@ -35383,4 +35424,14 @@ msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Replace the existing content of the form with the original default content."
+msgstr ""
+
+#: blocks/certificate-title/block.json
+msgctxt "block title"
+msgid "Certificate Title"
+msgstr ""
+
+#: blocks/certificate-title/block.json
+msgctxt "block description"
+msgid "Displays the title of a certificate."
 msgstr ""

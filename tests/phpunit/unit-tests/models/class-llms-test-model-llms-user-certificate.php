@@ -39,6 +39,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	protected function get_data() {
 		return array(
 			'allow_sharing' => 'no',
+			'awarded'       => '2021-12-10 23:02:59',
 			'background'    => '#eaeaea',
 			'engagement'    => 3,
 			'height'        => 5.5,
@@ -106,6 +107,51 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
 		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
+
+	}
+
+	/**
+	 * Test get_custom_fonts() with empty post content.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_custom_fonts() {
+
+		// No content.
+		$this->create();
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Not a block.
+		$this->create( array( 'post_content' => 'Not a block.' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Block with no fonts.
+		$this->create( array( 'post_content' => '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		$blocks = parse_blocks( '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->\n<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' );
+
+		// Invalid font.
+		$blocks[0]['attrs']['fontFamily'] = 'invalid';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Valid fonts.
+		$blocks[0]['attrs']['fontFamily'] = 'sans';
+		$blocks[2]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'sans', 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Dupcheck.
+		$blocks[0]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Nested.
+		$this->create( array( 'post_content' => '<!-- wp:group -->' . serialize_blocks( $blocks ) . '<!-- /wp:group -->' ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
 
 	}
 
@@ -207,10 +253,10 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$img = $cert->get_background_image();
 		$this->assertFalse( $img['is_default'] );
-		$this->assertEquals( 462, $img['width'] );
+		$this->assertEquals( 640, $img['width'] );
 		$this->assertEquals( 616, $img['height'] );
 		$this->assertMatchesRegularExpression(
-			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:-\d+).jpeg#',
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:(-\d+)*(-\d+x\d+)*).jpeg#',
 			$img['src']
 		);
 
@@ -458,6 +504,30 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$expect->user_id = $uid;
 		$expect->post_id = $related;
 		$this->assertEquals( $expect, $cert->get_user_postmeta() );
+
+	}
+
+	/**
+	 * Test is_awarded().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_awarded() {
+
+		$this->create();
+
+		$this->obj->set( 'status', 'publish' );
+		$this->obj->set( 'awarded', '' );
+
+		$this->assertFalse( $this->obj->is_awarded() );
+
+		$this->obj->set( 'awarded', llms_current_time( 'mysql' ) );
+		$this->assertTrue( $this->obj->is_awarded() );
+
+		$this->obj->set( 'status', 'draft' );
+		$this->assertFalse( $this->obj->is_awarded() );
 
 	}
 

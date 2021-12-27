@@ -22,7 +22,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 *
 	 * @var string
 	 */
-	const MIGRATE_ACTION = 'llms-migrate-legacy-template';
+	const MIGRATE_ACTION = 'llms-migrate-legacy-certificate';
 
 	/**
 	 * Constructor
@@ -59,8 +59,8 @@ class LLMS_Admin_Post_Table_Certificates {
 		$cert = llms_get_certificate( $post, true );
 		if ( 1 === $cert->get_template_version() ) {
 
-			$url                             = esc_url( add_query_arg( 'llms-migrate-legacy-template', 1, get_edit_post_link( $post ) ) );
-			$actions[ self::MIGRATE_ACTION ] = '<a href="' . $url . '">' . __( 'Migrate Template', 'lifterlms' ) . '</a>';
+			$url                             = esc_url( add_query_arg( self::MIGRATE_ACTION, 1, get_edit_post_link( $post ) ) );
+			$actions[ self::MIGRATE_ACTION ] = '<a href="' . $url . '">' . __( 'Migrate legacy certificate', 'lifterlms' ) . '</a>';
 
 		}
 
@@ -81,7 +81,7 @@ class LLMS_Admin_Post_Table_Certificates {
 
 		$cert = llms_get_certificate( $post, true );
 		if ( 1 === $cert->get_template_version() ) {
-			$states['llms-legacy-template'] = __( 'Legacy Template', 'lifterlms' );
+			$states['llms-legacy-template'] = __( 'Legacy', 'lifterlms' );
 		}
 
 		return $states;
