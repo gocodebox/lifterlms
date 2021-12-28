@@ -209,7 +209,7 @@ class LLMS_Controller_Certificates {
 
 		$sync = llms_get_certificate( $cert_id )->sync();
 
-		if ( ! $sync  ) {
+		if ( ! $sync ) {
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error(
 				new WP_Error(
 					'llms-sync-awarded-certificate-invalid-template',

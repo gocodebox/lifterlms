@@ -59,12 +59,12 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 		if ( 'llms_achievement' === $this->post->post_type ) {
 
 			$fields[] = array(
-				'label'      => __( 'Achievement Title', 'lifterlms' ),
-				'desc'       => __( 'The name of the achievement which will be shown to users', 'lifterlms' ),
-				'id'         => $this->prefix . 'achievement_title',
-				'type'       => 'text',
-				'class'      => 'input-full',
-				'sanitize'   => 'no_encode_quotes',
+				'label'    => __( 'Achievement Title', 'lifterlms' ),
+				'desc'     => __( 'The name of the achievement which will be shown to users', 'lifterlms' ),
+				'id'       => $this->prefix . 'achievement_title',
+				'type'     => 'text',
+				'class'    => 'input-full',
+				'sanitize' => 'no_encode_quotes',
 			);
 
 		}

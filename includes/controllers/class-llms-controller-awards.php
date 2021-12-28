@@ -26,7 +26,7 @@ class LLMS_Controller_Awards {
 	 */
 	private $post_types = array(
 		'llms_my_achievement',
-		'llms_my_certificate'
+		'llms_my_certificate',
 	);
 
 	/**
