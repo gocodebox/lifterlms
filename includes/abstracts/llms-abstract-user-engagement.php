@@ -142,4 +142,21 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		return sprintf( '_%s_earned', $this->model_post_type );
 	}
 
+	/**
+	 * Determines if the certificate has been awarded.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	public function is_awarded() {
+
+		if ( 'publish' !== $this->get( 'status' ) ) {
+			return false;
+		}
+
+		return $this->get( 'awarded' ) ? true : false;
+
+	}
+
 }

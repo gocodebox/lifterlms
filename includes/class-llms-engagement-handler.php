@@ -210,12 +210,13 @@ class LLMS_Engagement_Handler {
 	 */
 	private static function create( $type, $user_id, $template_id, $related_id = '', $engagement_id = null ) {
 
-		$title = get_post_meta( $template_id, "_llms_{$type}_title", true );
+		$title    = get_post_meta( $template_id, "_llms_{$type}_title", true );
+		$template = get_post( $template_id );
 
 		// Setup args, ultimately passed to `wp_insert_post()`.
 		$post_args = array(
 			'post_author'  => $user_id,
-			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
+			'post_content' => $template->post_content,
 			'post_date'    => llms_current_time( 'mysql' ),
 			'post_name'    => 'certificate' === $type ? llms()->certificates()->get_unique_slug( $title ) : null,
 			'post_parent'  => $template_id,
@@ -228,17 +229,13 @@ class LLMS_Engagement_Handler {
 			),
 		);
 
-		// Do deprecated filters, if this needs to be filtered it can be filtered via `LLMS_Post_Model` filters.
+		// Do deprecated filters. No direct replacement added, instead use `LLMS_Post_Model` creation filters.
 		$post_args = self::do_deprecated_creation_filters( $post_args, $type );
 
-		$model_class = sprintf( 'LLMS_User_%s', strtoupper( $type ) );
+		$model_class = sprintf( 'LLMS_User_%s', ucwords( $type ) );
 		$generated   = new $model_class( 'new', $post_args );
 		if ( ! $generated || ! $generated->get( 'id' ) ) {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
-		}
-
-		if ( 'achievement' === $type ) {
-			self::create_actions( $type, $user_id, $generated->get( 'id' ), $related_id, $engagement_id );
 		}
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
@@ -461,20 +458,6 @@ class LLMS_Engagement_Handler {
 		}
 
 		return 0;
-
-	}
-
-	private static function get_unmerged_template_content( $template_id, $type ) {
-
-		$template = get_post( $template_id );
-		$content  = $template->post_content;
-
-		if ( 'achievement' === $type ) {
-			// I believe this exists for backwards compat but I didn't dig through the code history.
-			$content = ! empty( $content ) ? $content : get_post_meta( $template_id, '_llms_achievement_content', true );
-		}
-
-		return $content;
 
 	}
 

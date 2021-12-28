@@ -246,41 +246,6 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Maybe log engagement awarding.
-	 *
-	 * Called after `$this->save()` during `$this->save_actions()`.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $post_id WP Post ID of the post being saved.
-	 * @return void
-	 */
-	protected function save_after( $post_id ) {
-
-		global $pagenow;
-		if ( 'post.php' !== $pagenow ) {
-			return;
-		}
-
-		$post      = get_post( $post_id );
-		$post_type = get_post_type( $post_id );
-
-		// If the post status is not publish/future, we're performing just an update, we don't need to award any engagement.
-		if ( ! in_array( get_post_status( $post_id ), array( 'publish', 'future' ), true ) ||
-				( ! empty( $_POST['original_post_status'] ) && 'auto-draft' !== $_POST['original_post_status'] ) /* creating */ ) {// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce already verified, see LLMS_Admin_Metabox::save().
-			return;
-		}
-
-		// Award the engagement.
-		LLMS_Engagement_Handler::create_actions(
-			str_replace( 'llms_my_', '', $post_type ),
-			$post->post_author,
-			$post_id
-		);
-
-	}
-
-	/**
 	 * Metabox specific scripts.
 	 *
 	 * @since [version]
