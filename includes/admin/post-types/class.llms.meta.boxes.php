@@ -34,7 +34,6 @@ class LLMS_Admin_Meta_Boxes {
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since [version] Instantiate award engagement submit meta box.
-	 *               Instantiate award achievement meta box.
 	 *               Instantiate certificate meta boxes to sync awarded certificates and their templates.
 	 *
 	 * @return void
@@ -43,7 +42,6 @@ class LLMS_Admin_Meta_Boxes {
 
 		// Achievements.
 		new LLMS_Meta_Box_Achievement();
-		new LLMS_Meta_Box_Award_Achievement();
 
 		// Certs.
 		new LLMS_Meta_Box_Certificate();
