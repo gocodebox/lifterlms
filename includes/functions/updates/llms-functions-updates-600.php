@@ -61,12 +61,19 @@ function migrate_award_templates() {
 					'key'     => '_llms_certificate_image',
 					'compare' => 'EXISTS',
 				),
+				array(
+					'key'     => '_llms_achievement_content',
+					'compare' => 'EXISTS',
+				),
 			),
 		)
 	);
 
 	foreach ( $query->posts as $post ) {
-		_migrate_image( $post->ID, str_replace( 'llms_', '', $post->post_type ) );
+		_migrate_image( $post->ID, llms_strip_prefixes( $post->post_type ) );
+		if ( 'llms_achievement' === $post->post_type ) {
+			_migrate_achievement_content( $post->ID );
+		}
 	}
 
 	// If there was 50 results assume there's another page and run again, otherwise we're done.
@@ -82,8 +89,19 @@ function migrate_award_templates() {
  * @return boolean
  */
 function update_db_version() {
-	\LLMS_Install::update_db_version( '6.0.0' );
+	\LLMS_Install::update_db_version( _get_db_version() );
 	return false;
+}
+
+/**
+ * Retrieves the DB version of the migration.
+ *
+ * @since [version]
+ *
+ * @return string
+ */
+function _get_db_version() {
+	return '6.0.0';
 }
 
 /**
@@ -128,18 +146,25 @@ function _migrate_awards( $type ) {
 		$query_args['meta_query'][] = array(
 			'key'     => '_llms_achievement_content',
 			'compare' => 'EXISTS',
-		) 
+		);
 	}
 	
 	$query = new \WP_Query( $query_args );
 
 	// Don't trigger deprecations.
 	remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+
+	// Don't trigger save hooks.
+	remove_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
+
 	foreach ( $query->posts as $post_id ) {
 		_migrate_award( $post_id, $type );
 	}
 	// Re-enable deprecations.
 	add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+
+	// Re-enabled save hooks.
+	add_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
 	// If there was 50 results assume there's another page and run again, otherwise we're done.
 	return ( count( $query->posts ) === $per_page );
@@ -168,7 +193,8 @@ function _migrate_award( $post_id, $type ) {
 	$obj = 'achievement' === $type ? new \LLMS_User_Achievement( $post_id ) : new \LLMS_User_Certificate( $post_id );
 
 	$updates = array(
-		'author' => $obj->get_user_id(),
+		'awarded' => $obj->get_earned_date( 'Y-m-d H:i:s' ),
+		'author'  => $obj->get_user_id(),
 	);
 
 	$title = get_post_meta( $post_id, "_llms_{$type}_title", true );
@@ -184,11 +210,34 @@ function _migrate_award( $post_id, $type ) {
 
 	_migrate_image( $post_id, $type );
 
+	if ( 'achievement' === $type ) {
+		_migrate_achievement_content( $post_id );
+	}
+
 	delete_post_meta( $post_id, "_llms_{$type}_title" );
 	delete_post_meta( $post_id, "_llms_{$type}_template" );
-	if ( 'achievement' === $type ) {
-		delete_post_meta( $post_id, '_llms_achievement_content' );
+
+}
+
+/**
+ * Migrate the achievement content legacy post meta to post_content.
+ *
+ * @since [version]
+ *
+ * @param int $post_id WP_Post ID.
+ * @return void
+ */
+function _migrate_achievement_content( $post_id ) {
+	$meta_key = '_llms_achievement_content';
+	$content  = get_post_meta( $post_id, $meta_key, true );
+	if ( $content ) {
+		wp_update_post( array(
+			'ID'           => $post_id,
+			'post_content' => $content,
+		) );
 	}
+
+	delete_post_meta( $post_id, $meta_key );
 
 }
 

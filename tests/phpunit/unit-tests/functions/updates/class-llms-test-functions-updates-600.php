@@ -96,6 +96,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	private function create_legacy_awards( $count, $type ) {
 
 		remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+		remove_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
 		$res = array();
 		$i = 0;
@@ -105,13 +106,17 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			$template_id = $this->factory->post->create( array( 'post_type' => "llms_{$type}" ) );
 			$user_id     = $this->factory->user->create();
 			$title       = sprintf( '%1$s Title %2$s', ucwords( $type ), wp_generate_password( 4, false ) );
+			$meta_input  = array(
+				"_llms_{$type}_template" => $template_id,
+				"_llms_{$type}_image"    => $image_id,
+				"_llms_{$type}_title"    => $title,
+			);
+			if ( 'achievement' === $type ) {
+				$meta_input['_llms_achievement_content'] = 'Some content.';
+			}
 			$post_id     = $this->factory->post->create( array(
 				'post_type'  => $post_type,
-				'meta_input' => array(
-					"_llms_{$type}_template" => $template_id,
-					"_llms_{$type}_image"    => $image_id,
-					"_llms_{$type}_title"    => $title,
-				),
+				'meta_input' => $meta_input,
 			) );
 
 			llms_update_user_postmeta(
@@ -125,7 +130,9 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 			$i++;
 		}
+
 		add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+		add_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
 		return $res;
 
@@ -154,11 +161,15 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			$post_type   = $post_type[0];
 			$type        = str_replace( 'llms_', '', $post_type );
 			$image_id    = $attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
+			$meta_input  = array(
+				"_llms_{$type}_image"    => $image_id,
+			);
+			if ( 'llms_achievement' === $post_type ) {
+				$meta_input['_llms_achievement_content'] = 'Some content.';
+			}
 			$post_id     = $this->factory->post->create( array(
 				'post_type'  => $post_type,
-				'meta_input' => array(
-					"_llms_{$type}_image"    => $image_id,
-				),
+				'meta_input' => $meta_input,
 			) );
 
 			$res[] = compact( 'image_id', 'post_id', 'type' );
@@ -230,9 +241,13 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 				$this->assertEquals( $award['template_id'], $post->post_parent );
 				$this->assertEquals( $award['title'], $post->post_title );
 				$this->assertEquals( $award['image_id'], get_post_thumbnail_id( $post ) );
+				if ( 'achievement' === $type ) {
+					$this->assertEquals( 'Some content.', $post->post_content );
+				}
 
 				// Metadata is deleted.
 				remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+				$this->assertFalse( metadata_exists( 'post', $post->ID, "_llms_achievement_content" ) );
 				$this->assertFalse( metadata_exists( 'post', $post->ID, "_llms_{$type}_title" ) );
 				$this->assertFalse( metadata_exists( 'post', $post->ID, "_llms_{$type}_template" ) );
 				$this->assertFalse( metadata_exists( 'post', $post->ID, "_llms_{$type}_image" ) );
@@ -267,6 +282,15 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		foreach ( $templates as $template ) {
 			$this->assertEquals( $template['image_id'], get_post_thumbnail_id( $template['post_id'] ) );
 			$this->assertFalse( metadata_exists( 'post', $template['post_id'], "_llms_{$template['type']}_image" ) );
+
+			if ( 'achievement' === $template['type'] ) {
+				$post = get_post( $template['post_id'] );
+				$this->assertEquals( 'Some content.', $post->post_content );
+				remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+				$this->assertFalse( metadata_exists( 'post', $template['post_id'], '_llms_achievement_content' ) );
+				add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
+			}
+
 		}
 
 	}
