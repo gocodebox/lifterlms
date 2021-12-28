@@ -1,6 +1,6 @@
 <?php
 /**
- * Certificates meta box
+ * Certificates meta box.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificate template meta box class
+ * Certificate template meta box class.
  *
  * @since 1.0.0
  * @since 3.37.12 Allow the certificate title field to store text with quotes.
@@ -29,13 +29,16 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id       = 'lifterlms-certificate';
-		$this->title    = __( 'Settings', 'lifterlms' );
-		$this->screens  = array(
+		$this->id            = 'lifterlms-certificate';
+		$this->title         = __( 'Settings', 'lifterlms' );
+		$this->screens       = array(
 			'llms_certificate',
 		);
-		$this->priority = 'default';
-		$this->context  = 'side';
+		$this->priority      = 'default';
+		$this->context       = 'side';
+		$this->callback_args = array(
+			'__back_compat_meta_box' => true,
+		);
 
 	}
 

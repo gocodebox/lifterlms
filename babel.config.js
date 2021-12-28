@@ -4,9 +4,11 @@
  * @package LifterLMS/Dev/Scripts
  *
  * @since Unknown
- * @version Unknown
+ * @version [version]
  */
 
-const presets = [ [ "@babel/env", ] ];
+const
+	presets = [ '@wordpress/default' ],
+	plugins = [ '@babel/plugin-proposal-class-properties' ];
 
-module.exports = { presets };
+module.exports = { plugins, presets };

@@ -86,6 +86,13 @@ abstract class LLMS_Admin_Metabox {
 	public $priority = 'default';
 
 	/**
+	 * Array of callback arguments passed to `add_meta_box()`.
+	 *
+	 * @var null
+	 */
+	public $callback_args = null;
+
+	/**
 	 * Instance of WP_Post for the current post.
 	 *
 	 * @var WP_Post
@@ -398,6 +405,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 3.37.19 Early bail if the global `$post` is empty.
+	 * @since [version] Pass callback arguments to `add_meta_box()`.
 	 *
 	 * @return void
 	 */
@@ -413,7 +421,15 @@ abstract class LLMS_Admin_Metabox {
 
 		if ( current_user_can( $this->capability, $this->post->ID ) ) {
 
-			add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+			add_meta_box(
+				$this->id,
+				$this->title,
+				array( $this, 'output' ),
+				$this->get_screens(),
+				$this->context,
+				$this->priority,
+				is_callable( $this->callback_args ) ? ( $this->callback_args )() : $this->callback_args
+			);
 
 		}
 
@@ -486,6 +502,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Save a metabox field.
 	 *
 	 * @since 3.37.12
+	 * @since [version] Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.
 	 * @param array $field   Metabox field array.
@@ -512,8 +529,22 @@ abstract class LLMS_Admin_Metabox {
 
 		}
 
-		return update_post_meta( $post_id, $field['id'], $val ) ? true : false;
+		return $this->save_field_db( $post_id, $field['id'], $val );
 
+	}
+
+	/**
+	 * Save field in the db.
+	 *
+	 * Expects an already sanitized value.
+	 *
+	 * @param int   $post_id  The WP Post ID.
+	 * @param int   $field_id The field identifier.
+	 * @param mixed $val      Value to save.
+	 * @return bool
+	 */
+	protected function save_field_db( $post_id, $field_id, $val ) {
+		return update_post_meta( $post_id, $field_id, $val ) ? true : false;
 	}
 
 	/**

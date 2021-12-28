@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,11 +22,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Controller_Certificates {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
 	 * @since 5.5.0 Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
+	 * @since [version] Handle awarded certificates sync actions.
+	 *                  Add hooks for `save_post_llms_my_certificate` and `llms_user_earned_certificate`.
 	 *
 	 * @return void
 	 */
@@ -35,16 +37,20 @@ class LLMS_Controller_Certificates {
 		add_filter( 'lifterlms_register_post_type_certificate', array( $this, 'maybe_allow_public_query' ) );
 
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
+		add_action( 'init', array( __CLASS__, 'maybe_handle_awarded_certificates_sync_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
+
+		add_action( 'save_post_llms_my_certificate', array( $this, 'on_save_award' ), 20 );
+		add_action( 'llms_user_earned_certificate', array( $this, 'on_awarded' ), 20, 2 );
 
 	}
 
 	/**
 	 * Modify certificate post type registration data during a certificate template export.
 	 *
-	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
-	 *
 	 * @since 3.37.4
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/776
 	 *
 	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
 	 * @return array
@@ -128,6 +134,202 @@ class LLMS_Controller_Certificates {
 		} elseif ( isset( $_POST['llms_enable_cert_sharing'] ) ) {
 			$this->change_sharing_settings( $cert_id, (bool) $_POST['llms_enable_cert_sharing'] );
 		}
+
+	}
+
+	/**
+	 * Handle awrded certificates sync actions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void|WP_Error
+	 */
+	public static function maybe_handle_awarded_certificates_sync_actions() {
+
+		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificates-nonce',
+				__( 'Sorry, you are not allowed to do this', 'lifterlms' )
+			);
+		}
+
+		if ( ! isset( $_GET['action'] ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificates-missing-action',
+				__( 'Sorry, you have not provided any actions', 'lifterlms' )
+			);
+		}
+
+		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		switch ( $_GET['action'] ) {
+
+			case 'sync_awarded_certificate':
+				if ( empty( $cert_id ) ) {
+					return new WP_Error(
+						'llms-sync-awarded-certificate-missing-certificate-id',
+						__( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' )
+					);
+				}
+				return self::sync_awarded_certificate( $cert_id );
+			case 'sync_awarded_certificates':
+				if ( empty( $cert_id ) ) {
+					return new WP_Error(
+						'llms-sync-awarded-certificates-missing-template-id',
+						__( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' )
+					);
+				}
+				return self::sync_awarded_certificates( $cert_id );
+			default:
+				return new WP_Error(
+					'llms-sync-awarded-certificates-invalid-action',
+					__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
+				);
+		}
+	}
+
+	/**
+	 * Records a timestamp when the certificate is awarded.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id WP_User ID of the user who earned the certificate.
+	 * @param int $post_id WP_Post ID of the certificate post.
+	 * @return boolean|string Returns `false` if the certificate could not be loaded, otherwise returns the current
+	 *                        timestamp in MySQL format.
+	 */
+	public function on_awarded( $user_id, $post_id ) {
+
+		$cert = llms_get_certificate( $post_id );
+		if ( ! $cert ) {
+			return false;
+		}
+
+		$ts = llms_current_time( 'mysql' );
+		$cert->set( 'awarded', $ts );
+
+		return $ts;
+
+	}
+
+	/**
+	 * Sync awarded certificate with its template.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $cert_id Awarded certificate id.
+	 * @return void|WP_Error
+	 */
+	private static function sync_awarded_certificate( $cert_id ) {
+
+		if ( ! current_user_can( 'edit_post', $cert_id ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificate-insufficient-permissions',
+				sprintf(
+					__( 'Sorry, you are not allowed to edit the awarded certificate #%d.', 'lifterlms' ),
+					$cert_id
+				),
+				compact( 'cert_id' )
+			);
+		}
+
+		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
+
+		$sync = llms_get_certificate( $cert_id )->sync();
+
+		if ( ! $sync  ) {
+			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error(
+				new WP_Error(
+					'llms-sync-awarded-certificate-invalid-template',
+					sprintf(
+						__( 'Sorry, the awarded certificate #%d has a not valid certificate template.', 'lifterlms' ),
+						$cert_id
+					),
+					compact( 'cert_id' )
+				)
+			);
+		} else {
+			$redirect_url = add_query_arg( 'message', 1, $redirect_url );
+		}
+
+		llms_redirect_and_exit( $redirect_url );
+
+	}
+
+	/**
+	 * Sync all the awarded certificates with their template.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $certificate_template_id Certificate template id.
+	 * @return void|WP_Error
+	 */
+	private static function sync_awarded_certificates( $certificate_template_id ) {
+
+		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
+			return new WP_Error(
+				'llms-sync-awarded-certificates-insufficient-permissions',
+				__( 'Sorry, you are not allowed to edit awarded certificates', 'lifterlms' )
+			);
+		}
+
+		/**
+		 * Fires an action to trigger the awarded certificates bulk sync.
+		 *
+		 * @since [version]
+		 *
+		 * @see LLMS_Processor_Awarded_Certificates_Bulk_Sync.
+		 *
+		 * @param int $certificate_template_id The certificate template post ID.
+		 */
+		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
+		llms_redirect_and_exit( get_edit_post_link( $certificate_template_id, 'raw' ) );
+
+	}
+
+	/**
+	 * Callback function when an `llms_my_certificate` post type is saved or updated.
+	 *
+	 * This method automatically merges the certificates `post_content` and additionally triggers
+	 * the creation actions to be fired if the certificate is newly created.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP_Post ID of the certificate.
+	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.
+	 */
+	public function on_save_award( $post_id ) {
+
+		$cert = llms_get_certificate( $post_id );
+		if ( ! $cert || 'publish' !== $cert->get( 'status' ) ) {
+			return false;
+		}
+
+		remove_action( 'save_post_llms_my_certificate', array( $this, 'on_save_award' ), 20 );
+
+		/**
+		 * Whenever an awarded certificate is updated we want to re-merge the content
+		 * in the event that any shortcodes or merge codes were added.
+		 */
+		$cert->set( 'content', $cert->merge_content() );
+
+		/**
+		 * If the certificate is being published for the first time, trigger the creation
+		 * actions necessary to trigger notifications.
+		 */
+		if ( ! $cert->is_awarded() ) {
+
+			LLMS_Engagement_Handler::create_actions(
+				'certificate',
+				$cert->get_user_id(),
+				$post_id,
+				$cert->get( 'related' ),
+				$cert->get( 'engagement' )
+			);
+
+		}
+
+		return true;
 
 	}
 

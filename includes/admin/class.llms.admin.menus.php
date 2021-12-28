@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.3.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,10 +42,6 @@ class LLMS_Admin_Menus {
 
 		// Shame shame shame.
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
-
-		// Alter admin submenu for the earned engagements items.
-		add_action( 'admin_menu', array( __CLASS__, 'modify_earned_engagements_submenu_links' ) );
-		add_filter( 'submenu_file', array( __CLASS__, 'modify_earned_engagements_submenu_file' ) );
 
 		add_filter( 'action_scheduler_post_type_args', array( $this, 'action_scheduler_menu' ) );
 
@@ -388,66 +384,6 @@ class LLMS_Admin_Menus {
 	public function status_page_init() {
 		$this->status_page_includes();
 		LLMS_Admin_Page_Status::output();
-	}
-
-
-	/**
-	 * Modify submenu item links for llm_my_certificate and llms_my_achievement.
-	 *
-	 * By default the post types submenu items link to the post type list table,
-	 * we want them to point to the "Add New" screen.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public static function modify_earned_engagements_submenu_links() {
-
-		global $submenu;
-
-		$post_types = array(
-			'llms_my_certificate',
-			'llms_my_achievement',
-		);
-
-		if ( empty( $submenu['edit.php?post_type=llms_engagement'] ) ) {
-			return;
-		}
-
-		foreach ( $post_types as $post_type ) {
-			foreach ( $submenu['edit.php?post_type=llms_engagement'] as & $engagements_submenu ) {
-				if ( "edit.php?post_type={$post_type}" === $engagements_submenu[2] ) {
-					$engagements_submenu[2] = "post-new.php?post_type={$post_type}";
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Modify the file of the earned engagements admin menu sub-menu items.
-	 *
-	 * This is needed to highlight the sub-menu item in the admin menu when editing/creating an earned engagement.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $submenu_file The submenu file.
-	 */
-	public static function modify_earned_engagements_submenu_file( $submenu_file ) {
-
-		$post_types = array(
-			'llms_my_certificate',
-			'llms_my_achievement',
-		);
-
-		foreach ( $post_types as $post_type ) {
-			if ( "edit.php?post_type={$post_type}" === $submenu_file ) {
-				$submenu_file = "post-new.php?post_type={$post_type}";
-			}
-		}
-
-		return $submenu_file;
-
 	}
 
 }

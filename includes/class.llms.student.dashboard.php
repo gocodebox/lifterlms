@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -137,9 +137,11 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Retrieve all dashboard tabs and related data
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.28.2
+	 * @since 3.0.0
+	 * @since 3.28.2 Unknown.
+	 * @since [version] Add pagination to the view-achievements and view-certificates tabs.
+	 *
+	 * @return array
 	 */
 	public static function get_tabs() {
 
@@ -176,12 +178,14 @@ class LLMS_Student_Dashboard {
 				'view-achievements' => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_achievements',
 					'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'view-achievements' ),
+					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Achievements', 'lifterlms' ),
 				),
 				'view-certificates' => array(
 					'content'  => 'lifterlms_template_student_dashboard_my_certificates',
 					'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'view-certificates' ),
+					'paginate' => true,
 					'nav_item' => true,
 					'title'    => __( 'My Certificates', 'lifterlms' ),
 				),

@@ -22,6 +22,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Post_Types {
 
 	/**
+	 * Reference to the block templates list.
+	 *
+	 * @var array
+	 */
+	private static $templates = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -212,7 +219,7 @@ class LLMS_Post_Types {
 	 * See https://core.trac.wordpress.org/ticket/30991.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add specific case for `llms_my_achievements`, `llms_my_certificates` post types.
+	 * @since [version] Add specific case for `llms_my_achievement`, `llms_my_certificate` post types.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array
@@ -346,6 +353,24 @@ class LLMS_Post_Types {
 	}
 
 	/**
+	 * Retrieves the block template for use in post type registration.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type The post type.
+	 * @return array|null Returns the block template array or null if no template is defined for the post type.
+	 */
+	private static function get_template( $post_type ) {
+
+		if ( empty( self::$templates ) ) {
+			self::$templates = require LLMS_PLUGIN_DIR . 'includes/schemas/llms-block-templates.php';
+		}
+
+		return self::$templates[ $post_type ] ?? null;
+
+	}
+
+	/**
 	 * Register a custom post type.
 	 *
 	 * Automatically checks for duplicates and filters data.
@@ -356,10 +381,12 @@ class LLMS_Post_Types {
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
 	 *              for the latter, both the name and the unprefixed name are the same.
+	 * @since [version] Automatically load templates from the `llms-block-templates` schema.
+	 *              Added return value.
 	 *
 	 * @param string $name Post type name.
 	 * @param array  $data Post type data.
-	 * @return void
+	 * @return WP_Post_Type|WP_Error
 	 */
 	public static function register_post_type( $name, $data ) {
 
@@ -376,6 +403,10 @@ class LLMS_Post_Types {
 				);
 			}
 
+			if ( empty( $data['template'] ) ) {
+				$data['template'] = self::get_template( $name );
+			}
+
 			/**
 			 * Modify post type registration arguments of a LifterLMS custom post type.
 			 *
@@ -388,9 +419,11 @@ class LLMS_Post_Types {
 			 * @param array $data Post type registration arguments passed to `register_post_type()`.
 			 */
 			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
-			register_post_type( $name, $data );
+			return register_post_type( $name, $data );
 
 		}
+
+		return get_post_type_object( $name );
 
 	}
 
@@ -826,7 +859,7 @@ class LLMS_Post_Types {
 					'not_found'             => __( 'No Awarded Achievements found', 'lifterlms' ),
 					'not_found_in_trash'    => __( 'No Awarded Achievements found in trash', 'lifterlms' ),
 					'parent'                => __( 'Parent Awarded Achievements', 'lifterlms' ),
-					'menu_name'             => _x( 'Award Achievement', 'Admin menu name', 'lifterlms' ),
+					'menu_name'             => _x( 'Awarded Achievements', 'Admin menu name', 'lifterlms' ),
 					'featured_image'        => __( 'Achievement Image', 'lifterlms' ),
 					'set_featured_image'    => __( 'Set awarded achievement image', 'lifterlms' ),
 					'remove_featured_image' => __( 'Remove awarded achievement image', 'lifterlms' ),
@@ -854,104 +887,74 @@ class LLMS_Post_Types {
 				'show_in_nav_menus'   => false,
 				'has_archive'         => false,
 				'query_var'           => false,
-				'supports'            => array( 'title', 'editor', 'thumbnail' ),
+				'supports'            => array( 'title', 'thumbnail' ),
 			)
 		);
 
 		// Certificate.
-		self::register_post_type(
+		self::register_certificate_post_type(
 			'llms_certificate',
 			array(
-				'labels'              => array(
-					'name'                  => __( 'Certificate Templates', 'lifterlms' ),
-					'singular_name'         => __( 'Certificate Template', 'lifterlms' ),
-					'add_new'               => __( 'Add Certificate Template', 'lifterlms' ),
-					'add_new_item'          => __( 'Add New Certificate Template', 'lifterlms' ),
-					'edit'                  => __( 'Edit', 'lifterlms' ),
-					'edit_item'             => __( 'Edit Certificate Template', 'lifterlms' ),
-					'new_item'              => __( 'New Certificate Template', 'lifterlms' ),
-					'view'                  => __( 'View Certificate Template', 'lifterlms' ),
-					'view_item'             => __( 'View Certificate Template', 'lifterlms' ),
-					'search_items'          => __( 'Search Certificate Templates', 'lifterlms' ),
-					'not_found'             => __( 'No Certificate Templates found', 'lifterlms' ),
-					'not_found_in_trash'    => __( 'No Certificate Templates found in trash', 'lifterlms' ),
-					'parent'                => __( 'Parent Certificate Templates', 'lifterlms' ),
-					'menu_name'             => _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
-					'featured_image'        => __( 'Background Image', 'lifterlms' ),
-					'set_featured_image'    => __( 'Set background image', 'lifterlms' ),
-					'remove_featured_image' => __( 'Remove background image', 'lifterlms' ),
-					'use_featured_image'    => __( 'Use background image', 'lifterlms' ),
-				),
-				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
-				'public'              => true,
-				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
-				'map_meta_cap'        => true,
-				'publicly_queryable'  => ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
-				'exclude_from_search' => true,
-				'show_in_menu'        => 'edit.php?post_type=llms_engagement',
-				'hierarchical'        => false,
-				'rewrite'             => array(
-					'slug'       => _x( 'certificate-template', 'slug', 'lifterlms' ),
-					'with_front' => false,
-					'feeds'      => true,
-				),
-				'show_in_nav_menus'   => false,
-				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'thumbnail' ),
-			)
+				'name'               => __( 'Certificate Templates', 'lifterlms' ),
+				'singular_name'      => __( 'Certificate Template', 'lifterlms' ),
+				'add_new'            => __( 'Add Certificate Template', 'lifterlms' ),
+				'add_new_item'       => __( 'Add New Certificate Template', 'lifterlms' ),
+				'edit_item'          => __( 'Edit Certificate Template', 'lifterlms' ),
+				'new_item'           => __( 'New Certificate Template', 'lifterlms' ),
+				'view'               => __( 'View Certificate Template', 'lifterlms' ),
+				'view_item'          => __( 'View Certificate Template', 'lifterlms' ),
+				'search_items'       => __( 'Search Certificate Templates', 'lifterlms' ),
+				'not_found'          => __( 'No Certificate Templates found', 'lifterlms' ),
+				'not_found_in_trash' => __( 'No Certificate Templates found in trash', 'lifterlms' ),
+				'parent'             => __( 'Parent Certificate Templates', 'lifterlms' ),
+				'menu_name'          => _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
+			),
+			array(
+				'map_meta_cap' => true,
+			),
+			_x( 'certificate-template', 'slug', 'lifterlms' ),
+			/**
+			 * Filters the WordPress user capability required for a user to manage certificate templates on the admin panel.
+			 *
+			 * @since Unknown
+			 *
+			 * @param string $capability User capability. Default: `manage_lifterlms`.
+			 */
+			apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' )
 		);
 
 		// Earned certificate.
-		self::register_post_type(
+		self::register_certificate_post_type(
 			'llms_my_certificate',
 			array(
-				'labels'              => array(
-					'name'                  => __( 'Awarded Certificates', 'lifterlms' ),
-					'singular_name'         => __( 'Awarded Certificate', 'lifterlms' ),
-					'add_new'               => __( 'Award Certificate', 'lifterlms' ),
-					'add_new_item'          => __( 'Award New Certificate', 'lifterlms' ),
-					'edit'                  => __( 'Edit', 'lifterlms' ),
-					'edit_item'             => __( 'Edit Awarded Certificate', 'lifterlms' ),
-					'new_item'              => __( 'New Awarded Certificate', 'lifterlms' ),
-					'view'                  => __( 'View Awarded Certificate', 'lifterlms' ),
-					'view_item'             => __( 'View Awarded Certificate', 'lifterlms' ),
-					'search_items'          => __( 'Search Awarded Certificates', 'lifterlms' ),
-					'not_found'             => __( 'No Awarded Certificates found', 'lifterlms' ),
-					'not_found_in_trash'    => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
-					'parent'                => __( 'Parent Awarded Certificates', 'lifterlms' ),
-					'menu_name'             => _x( 'Award Certificate', 'Admin menu name', 'lifterlms' ),
-					'featured_image'        => __( 'Background Image', 'lifterlms' ),
-					'set_featured_image'    => __( 'Set background image', 'lifterlms' ),
-					'remove_featured_image' => __( 'Remove background image', 'lifterlms' ),
-					'use_featured_image'    => __( 'Use background image', 'lifterlms' ),
-				),
-				'description'         => __( 'This is where you can view all of the awarded certificates.', 'lifterlms' ),
-				'public'              => true,
-				/**
-				 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
-				 *
-				 * @since [version]
-				 *
-				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
-				 *                      Default is `manage_earned_engagements`.
-				 */
-				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? true : false,
-				'capabilities'        => self::get_post_type_caps( 'my_certificate' ),
-				'map_meta_cap'        => false,
-				'publicly_queryable'  => true,
-				'exclude_from_search' => true,
-				/** This filter is documented above. */
-				'show_in_menu'        => ( current_user_can( apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP ) ) ) ? 'edit.php?post_type=llms_engagement' : false,
-				'hierarchical'        => false,
-				'rewrite'             => array(
-					'slug'       => _x( 'certificate', 'slug', 'lifterlms' ),
-					'with_front' => false,
-					'feeds'      => true,
-				),
-				'show_in_nav_menus'   => false,
-				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'thumbnail' ),
-			)
+				'name'               => __( 'Awarded Certificates', 'lifterlms' ),
+				'singular_name'      => __( 'Awarded Certificate', 'lifterlms' ),
+				'add_new'            => __( 'Award Certificate', 'lifterlms' ),
+				'add_new_item'       => __( 'Award New Certificate', 'lifterlms' ),
+				'edit_item'          => __( 'Edit Awarded Certificate', 'lifterlms' ),
+				'new_item'           => __( 'New Awarded Certificate', 'lifterlms' ),
+				'view'               => __( 'View Awarded Certificate', 'lifterlms' ),
+				'view_item'          => __( 'View Awarded Certificate', 'lifterlms' ),
+				'search_items'       => __( 'Search Awarded Certificates', 'lifterlms' ),
+				'not_found'          => __( 'No Awarded Certificates found', 'lifterlms' ),
+				'not_found_in_trash' => __( 'No Awarded Certificates found in trash', 'lifterlms' ),
+				'parent'             => __( 'Parent Awarded Certificates', 'lifterlms' ),
+				'menu_name'          => _x( 'Awarded Certificates', 'Admin menu name', 'lifterlms' ),
+			),
+			array(
+				'capabilities' => self::get_post_type_caps( 'my_certificate' ),
+				'map_meta_cap' => false,
+			),
+			_x( 'certificate', 'slug', 'lifterlms' ),
+			/**
+			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+			 *
+			 * @since [version]
+			 *
+			 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
+			 *                      Default is `manage_earned_engagements`.
+			 */
+			apply_filters( 'lifterlms_admin_my_certificates_access', LLMS_Roles::MANAGE_EARNED_ENGAGEMENT_CAP )
 		);
 
 		// Email.
@@ -1139,6 +1142,58 @@ class LLMS_Post_Types {
 				'has_archive'         => false,
 			)
 		);
+
+	}
+
+	/**
+	 * Registers awarded and template certificate post types.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type    Post type name.
+	 * @param array  $labels       Array of post type labels.
+	 * @param array  $args         Array of post type args.
+	 * @param string $rewrite_slug Post type rewrite slug.
+	 * @param string $admin_cap    User capability required to manage the post type on the admin panel.
+	 * @return void
+	 */
+	private static function register_certificate_post_type( $post_type, $labels, $args, $rewrite_slug, $admin_cap ) {
+
+		$user_can = current_user_can( $admin_cap );
+		$supports = array( 'title', 'editor', 'thumbnail' );
+
+		if ( 'llms_my_certificate' === $post_type ) {
+			$supports[] = 'author';
+		}
+
+		$base_labels = array(
+			'edit'                  => __( 'Edit', 'lifterlms' ),
+			'featured_image'        => __( 'Background Image', 'lifterlms' ),
+			'set_featured_image'    => __( 'Set background image', 'lifterlms' ),
+			'remove_featured_image' => __( 'Remove background image', 'lifterlms' ),
+			'use_featured_image'    => __( 'Use background image', 'lifterlms' ),
+		);
+
+		$base_args = array(
+			'labels'              => wp_parse_args( $labels, $base_labels ),
+			'show_ui'             => $user_can,
+			'publicly_queryable'  => 'llms_certificate' === $post_type ? $user_can : true,
+			'show_in_rest'        => $user_can,
+			'public'              => true,
+			'hierarchical'        => false,
+			'exclude_from_search' => true,
+			'show_in_menu'        => 'edit.php?post_type=llms_engagement',
+			'show_in_nav_menus'   => false,
+			'query_var'           => true,
+			'supports'            => $supports,
+			'rewrite'             => array(
+				'slug'       => $rewrite_slug,
+				'with_front' => false,
+				'feeds'      => true,
+			),
+		);
+
+		self::register_post_type( $post_type, wp_parse_args( $args, $base_args ) );
 
 	}
 

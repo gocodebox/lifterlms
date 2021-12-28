@@ -19,8 +19,6 @@ const eslintConfig = {
 		'jsdoc/require-returns': 'error',
 	},
 	settings: {
-		// Ensure that WordPress core dependencies don't throw errors when importing them.
-		'import/internal-regex': '^@wordpress/',
 		'import/core-modules': [
 			// @todo: This list needs to be expanded to include other WP Core included modules.
 			'jquery',

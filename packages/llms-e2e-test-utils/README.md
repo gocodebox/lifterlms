@@ -243,6 +243,19 @@ _Returns_
 
 -   `Array`: Element.
 
+### highlightNode
+
+Highlight (selects) the contents of a node.
+
+_Parameters_
+
+-   _selector_ `string`: Query selector.
+-   _copySelection_ `boolean`: If `true`, copies the selected text and returns it. The browser clipboard-read permission must be granted in order to read from the clipboard.
+
+_Returns_
+
+-   `boolean|string`: Returns the copied text or `true` if `copySelection` is `false`.
+
 ### importCourse
 
 Import a course JSON file
@@ -329,6 +342,20 @@ _Parameters_
 
 -   _selector_ `string`: Query selector for the select element.
 -   _value_ `string`: Option value to select.
+
+_Returns_
+
+-   `void`: 
+
+### setCheckboxSetting
+
+Toggles a LifterLMS checkbox setting.
+
+_Parameters_
+
+-   _selector_ `string`: Selector for the setting checkbox.
+-   _status_ `boolean`: Requested setting status. Use `true` for checked and `false` for unchecked.
+-   _save_ `boolean`: Whether or not to perform a save after updating the setting.
 
 _Returns_
 

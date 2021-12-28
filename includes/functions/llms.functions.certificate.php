@@ -89,6 +89,81 @@ function llms_get_certificate_content( $id = 0 ) {
 }
 
 /**
+ * Retrieves a list of fonts available for use in certificates.
+ *
+ * @since [version]
+ *
+ * @return array[] {
+ *     Array of font definition arrays. The array key is the font's unique id.
+ *
+ *     @type string      $name The human-readable name of the font.
+ *     @type string|null $href The href used to load the font or `null` for system or default fonts.
+ *     @type string|null $css  The CSS `font-family` rule value.
+ * }
+ */
+function llms_get_certificate_fonts() {
+
+	$serif = '"Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+
+	$fonts = array(
+
+		// Default fonts.
+		'default'             => array(
+			'name' => __( 'Default theme font', 'lifterlms' ),
+			'href' => null,
+			'css'  => null,
+		),
+		'sans'                => array(
+			'name' => __( 'Sans-serif', 'lifterlms' ),
+			'href' => null,
+			// From https://systemfontstack.com.
+			'css'  => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
+		),
+		'serif'               => array(
+			'name' => __( 'Serif', 'lifterlms' ),
+			'href' => null,
+			// From https://systemfontstack.com.
+			'css'  => $serif,
+		),
+
+		// Newspaper-style display fonts.
+		'pirata-one'          => array(
+			'name' => 'Pirata One',
+			'href' => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
+			'css'  => '"Pirata One", ' . $serif,
+		),
+		'unifraktur-maguntia' => array(
+			'name' => 'UnifrakturMaguntia',
+			'href' => 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap',
+			'css'  => '"UnifrakturMaguntia", ' . $serif,
+		),
+
+		// Cursive-style handwriting fonts.
+		'dancing-script'      => array(
+			'name' => 'Dancing Script',
+			'href' => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
+			'css'  => '"Dancing Script", ' . $serif,
+		),
+		'imperial-script'     => array(
+			'name' => 'Imperial Script',
+			'href' => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
+			'css'  => '"Imperial Script", ' . $serif,
+		),
+
+	);
+
+	/**
+	 * Filters the list of fonts available to certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $fonts Array of font definitions, {@see llms_get_certificate_fonts()}.
+	 */
+	return apply_filters( 'llms_certificate_fonts', $fonts );
+
+}
+
+/**
  * Retrieve an array of image data for a certificate background image
  *
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).
@@ -129,6 +204,32 @@ function llms_get_certificate_merge_codes() {
 		'{certificate_id}' => __( 'Certificate ID', 'lifterlms' ),
 		'{sequential_id}'  => __( 'Sequential Certificate ID', 'lifterlms' ),
 	);
+
+}
+
+/**
+ * Retrieves registered certificate orientations.
+ *
+ * @since [version]
+ *
+ * @return array Key value array where the array key is the orientation ID and the value is the
+ *               translated name of the orientation.
+ */
+function llms_get_certificate_orientations() {
+
+	$orientations = array(
+		'portrait'  => __( 'Portrait', 'lifterlms' ),
+		'landscape' => __( 'Landscape', 'lifterlms' ),
+	);
+
+	/**
+	 * Filters the list of available certificate orientations.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $orientations Array of orientations.
+	 */
+	return apply_filters( 'llms_certificate_orientations', $orientations );
 
 }
 
@@ -196,6 +297,112 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 	}
 
 	return $id;
+
+}
+
+/**
+ * Retrieves a list of registered certificate sizes.
+ *
+ * @since [version]
+ *
+ * @return {
+ *     Array of sizes. The array key is the size's unique ID.
+ *
+ *     @type string $name   The translated name for the size.
+ *     @type float  $width  The portrait width dimension of the size.
+ *     @type float  $height The portrait height dimension of the size.
+ *     @type string $unit   The unit used for the dimensions of the size. Must be the ID of a unit registered via {@see llms_get_certificate_units()}.
+ * }
+ */
+function llms_get_certificate_sizes() {
+
+	$sizes = array(
+		// ISO 216 sizes.
+		'A3'     => array(
+			'name'   => _x( 'A3', 'Paper size name', 'lifterlms' ),
+			'width'  => 297,
+			'height' => 420,
+			'unit'   => 'mm',
+		),
+		'A4'     => array(
+			'name'   => _x( 'A4', 'Paper size name', 'lifterlms' ),
+			'width'  => 210,
+			'height' => 297,
+			'unit'   => 'mm',
+		),
+		'A5'     => array(
+			'name'   => _x( 'A5', 'Paper size name', 'lifterlms' ),
+			'width'  => 148,
+			'height' => 210,
+			'unit'   => 'mm',
+		),
+		// North American sizes.
+		'LETTER' => array(
+			'name'   => _x( 'Letter', 'Paper size name', 'lifterlms' ),
+			'width'  => 8.5,
+			'height' => 11,
+			'unit'   => 'in',
+		),
+		'LEGAL'  => array(
+			'name'   => _x( 'Legal', 'Paper size name', 'lifterlms' ),
+			'width'  => 8.5,
+			'height' => 14,
+			'unit'   => 'in',
+		),
+		'LEDGER' => array(
+			'name'   => _x( 'Ledger', 'Paper size name', 'lifterlms' ),
+			'width'  => 11,
+			'height' => 17,
+			'unit'   => 'in',
+		),
+	);
+
+	/**
+	 * Filters registered certificate size options.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $sizes Array of registered sizes.
+	 */
+	return apply_filters( 'llms_certificate_sizes', $sizes );
+
+}
+
+/**
+ * Retrieves units available for certificate dimensions.
+ *
+ * @since [version]
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/CSS/length
+ *
+ * @return {
+ *     Array of unit information. The array key is the unit ID, which should be a valid absolute length CSS unit.
+ *
+ *     @type string $name   Translated name of the unit.
+ *     @type string $symbol Translated symbol used when displaying dimensions with the unit.
+.* }
+ */
+function llms_get_certificate_units() {
+
+	$units = array(
+		'in' => array(
+			'name'   => __( 'Inches', 'lifterlms' ),
+			'symbol' => _x( '"', 'Symbol for inches', 'lifterlms' ),
+		),
+		'mm' => array(
+			'name'   => __( 'Millimeters', 'lifterlms' ),
+			'symbol' => _x( 'mm', 'Symbol for millimeters', 'lifterlms' ),
+		),
+	);
+
+	/**
+	 * Filters the list of certificate dimension units.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $units Array of available units.
+	 */
+	return apply_filters( 'llms_certificate_units', $units );
 
 }
 

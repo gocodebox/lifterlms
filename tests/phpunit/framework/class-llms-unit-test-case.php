@@ -506,9 +506,9 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.37.4
 	 *
-	 * @param string $title Certificate title.
+	 * @param string $title   Certificate title.
 	 * @param string $content Certificate content.
-	 * @param string $image Certificate background image path.
+	 * @param int    $image   Certificate background image ID.
 	 * @return int
 	 */
 	protected function create_certificate_template( $title = 'Mock Certificate Title', $content = '', $image = '' ) {
@@ -518,7 +518,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			'post_content' => $content ? $content : '{site_title}, {current_date}',
 		) );
 		update_post_meta( $template, '_llms_certificate_title', $title );
-		update_post_meta( $template, '_llms_certificate_image', $image );
+		set_post_thumbnail( $template, $image );
 
 		return $template;
 

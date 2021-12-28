@@ -11,6 +11,11 @@ composer.lock
 !/libraries/index.php
 !/libraries/README.md
 
+# Exclude maps.
+/blocks/**/*.js.map
+/assets/css/*.map
+/assets/js/*.map
+
 # Misc.
 *.log
 .DS_Store

@@ -5,7 +5,7 @@
 		$cols: 1;
 		@while $cols <= 5 {
 			&.cols-#{$cols} .llms-access-plan {
-				width: 100% / $cols;
+				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
 		}

@@ -8,6 +8,7 @@
  * @group LLMS_User_Certificate
  *
  * @since 4.5.0
+ * @since [version] Added tests for the new methods.
  */
 class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
@@ -31,16 +32,25 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters.
 	 *
 	 * @since 4.5.0
+	 * @since [version] Add new properties.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
-			'parent'        => 2,
 			'allow_sharing' => 'no',
+			'awarded'       => '2021-12-10 23:02:59',
+			'background'    => '#eaeaea',
 			'engagement'    => 3,
+			'height'        => 5.5,
+			'margins'       => array( 2, 3, 0.5, 1.83 ),
+			'orientation'   => 'landscape',
+			'parent'        => 2,
 			'related'       => 4,
 			'sequential_id' => 5,
+			'size'          => 'A4',
+			'unit'          => 'mm',
+			'width'         => 230,
 		);
 	}
 
@@ -76,6 +86,72 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $id, $test->get( 'id' ) );
 		$this->assertEquals( $this->post_type, $test->get( 'type' ) );
 		$this->assertEquals( 'test title', $test->get( 'title' ) );
+
+	}
+
+	/**
+	 * Test the create_after() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_after() {
+
+		$actions = did_action( 'llms_certificate_synchronized' );
+
+		$template = $this->create_certificate_template();
+		update_post_meta( $template, '_llms_sequential_id', 25 );
+
+		$cert = new LLMS_User_Certificate( 'new', array( 'post_parent' => $template ) );
+
+		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
+
+	}
+
+	/**
+	 * Test get_custom_fonts() with empty post content.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_custom_fonts() {
+
+		// No content.
+		$this->create();
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Not a block.
+		$this->create( array( 'post_content' => 'Not a block.' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Block with no fonts.
+		$this->create( array( 'post_content' => '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		$blocks = parse_blocks( '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->\n<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' );
+
+		// Invalid font.
+		$blocks[0]['attrs']['fontFamily'] = 'invalid';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array(), $this->obj->get_custom_fonts() );
+
+		// Valid fonts.
+		$blocks[0]['attrs']['fontFamily'] = 'sans';
+		$blocks[2]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'sans', 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Dupcheck.
+		$blocks[0]['attrs']['fontFamily'] = 'serif';
+		$this->create( array( 'post_content' => serialize_blocks( $blocks ) ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
+
+		// Nested.
+		$this->create( array( 'post_content' => '<!-- wp:group -->' . serialize_blocks( $blocks ) . '<!-- /wp:group -->' ) );
+		$this->assertEquals( array( 'serif' ), wp_list_pluck( $this->obj->get_custom_fonts(), 'id' ) );
 
 	}
 
@@ -137,6 +213,161 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_background()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_background() {
+
+		$this->create();
+		$this->assertEquals( '#ffffff', $this->obj->get_background() );
+
+		$this->obj->set( 'background', '#eaeaea' );
+		$this->assertEquals( '#eaeaea', $this->obj->get_background() );
+
+	}
+
+	/**
+	 * Test get_background_image()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_background_image() {
+
+		// Default.
+		$cert = llms_get_certificate( $this->factory->post->create( array( 'post_type' => $this->post_type ) ) );
+
+		$img = $cert->get_background_image();
+		$this->assertTrue( $img['is_default'] );
+		$this->assertEquals( 800, $img['width'] );
+		$this->assertEquals( 616, $img['height'] );
+		$this->assertStringContainsString( 'default-certificate.png', $img['src'] );
+
+		// Has image.
+		$attachment = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		set_post_thumbnail( $cert->get( 'id' ), $attachment );
+
+		$img = $cert->get_background_image();
+		$this->assertFalse( $img['is_default'] );
+		$this->assertEquals( 640, $img['width'] );
+		$this->assertEquals( 616, $img['height'] );
+		$this->assertMatchesRegularExpression(
+			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/yura-timoshenko-R7ftweJR8ks-unsplash(?:(-\d+)*(-\d+x\d+)*).jpeg#',
+			$img['src']
+		);
+
+	}
+
+	/**
+	 * Test get_dimension(), get_height(), get_width(), and get_unit()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_dimensions() {
+
+		$this->create();
+
+		// Letter.
+		$this->obj->set( 'size', 'LETTER' );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 8.5, $this->obj->get_width() );
+		$this->assertEquals( '8.5in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 11, $this->obj->get_height() );
+		$this->assertEquals( '11in', $this->obj->get_height( true ) );
+
+		// A4.
+		$this->obj->set( 'size', 'A4' );
+
+		$this->assertEquals( 'mm', $this->obj->get_unit() );
+
+		$this->assertEquals( 210, $this->obj->get_width() );
+		$this->assertEquals( '210mm', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 297, $this->obj->get_height() );
+		$this->assertEquals( '297mm', $this->obj->get_height( true ) );
+
+		// Custom.
+		$this->obj->set( 'size', 'CUSTOM' );
+		$this->obj->set( 'unit', 'in' );
+		$this->obj->set( 'width', 20 );
+		$this->obj->set( 'height', 25 );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 20, $this->obj->get_width() );
+		$this->assertEquals( '20in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 25, $this->obj->get_height() );
+		$this->assertEquals( '25in', $this->obj->get_height( true ) );
+
+	}
+
+	/**
+	 * Test get_dimensions_for_display()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_dimensions_for_display() {
+
+		$this->create();
+
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '8.5in', $dimensions['height'] );
+		$this->assertEquals( '11in', $dimensions['width'] );
+
+		// Flip orientation.
+		$this->obj->set( 'orientation', 'portrait' );
+		$dimensions = $this->obj->get_dimensions_for_display();
+		$this->assertEquals( '11in', $dimensions['height'] );
+		$this->assertEquals( '8.5in', $dimensions['width'] );
+
+	}
+
+	/**
+	 * Test get_margins()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_margins() {
+
+		$this->create();
+
+		$this->assertEquals( array( 5, 5, 5, 5 ), $this->obj->get_margins() );
+		$this->assertEquals( array( '5%', '5%', '5%', '5%' ), $this->obj->get_margins( true ) );
+
+	}
+
+	/**
+	 * Test get_orientation()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_orientation() {
+
+		$this->create();
+		$this->assertEquals( 'landscape', $this->obj->get_orientation() );
+
+		$this->obj->set( 'orientation', 'portrait' );
+		$this->assertEquals( 'portrait', $this->obj->get_orientation() );
+
+	}
+
+	/**
 	 * Test get_related_post_id()
 	 *
 	 * @since 4.5.0
@@ -187,6 +418,55 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_size()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_size() {
+
+		$this->create();
+		$this->assertEquals( 'LETTER', $this->obj->get_size() );
+
+		$this->obj->set( 'size', 'A3' );
+		$this->assertEquals( 'A3', $this->obj->get_size() );
+
+	}
+
+	/**
+	 * Test get_template_version()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_template_version() {
+
+		$this->create();
+
+		// No content.
+		$this->assertEquals( 2, $this->obj->get_template_version() );
+
+		// Some blocks.
+		$blocks = serialize_blocks( array(
+			array(
+				'blockName'    => 'core/paragraph',
+				'innerContent' => array( 'Lorem ipsum dolor sit.' ),
+				'attrs'        => array(),
+			),
+		) );
+		$this->obj->set( 'content', $blocks );
+		$this->assertEquals( 2, $this->obj->get_template_version() );
+
+		// Content & no blocks.
+		$this->obj->set( 'content', 'No blocks' );
+		$this->assertEquals( 1, $this->obj->get_template_version() );
+
+
+	}
+
+	/**
 	 * Test get_user_id()
 	 *
 	 * @since 4.5.0
@@ -224,6 +504,30 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$expect->user_id = $uid;
 		$expect->post_id = $related;
 		$this->assertEquals( $expect, $cert->get_user_postmeta() );
+
+	}
+
+	/**
+	 * Test is_awarded().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_awarded() {
+
+		$this->create();
+
+		$this->obj->set( 'status', 'publish' );
+		$this->obj->set( 'awarded', '' );
+
+		$this->assertFalse( $this->obj->is_awarded() );
+
+		$this->obj->set( 'awarded', llms_current_time( 'mysql' ) );
+		$this->assertTrue( $this->obj->is_awarded() );
+
+		$this->obj->set( 'status', 'draft' );
+		$this->assertFalse( $this->obj->is_awarded() );
 
 	}
 
@@ -313,16 +617,21 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$this->assertEquals( $expected_content, $cert->get( 'content', true ) );
 
-
 		// Update the template and sync.
+		$thumbnail_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
 		wp_update_post( array(
-			'ID' => $template,
+			'ID'           => $template,
 			'post_content' => 'Updated and {user_login}',
+			'post_title'   => 'Template Title',
+			'meta_input'   => array(
+				'_thumbnail_id' => $thumbnail_id,
+			)
 		) );
 
 		$this->assertTrue( $cert->sync() );
 		$this->assertEquals( "Updated and {$user_info['user_login']}", $cert->get( 'content', true ) );
-
+		$this->assertEquals( 'Title', $cert->get( 'title', true ) );
+		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get('id') ) );
 	}
 
 	/**
@@ -474,8 +783,146 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'parent', $this->factory->post->create() + 1 );
 
 		// This is just testing that an error is returned, the rest of the conditions are tested against LLMS_Engagement_Handler::check_post() directly.
-		$this->assertIsWPError( $this->obj->sync() );
+		$this->assertFalse( $this->obj->sync() );
 
 	}
 
+	/**
+	 * Test sync() with a v1 template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_v1() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template V1';
+		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+		$template->set( 'background', '#000000' );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+
+		$this->assertTrue( $this->obj->sync() );
+
+		// Title and content updated.
+		$this->assertEquals( $title, $this->obj->get( 'title' ) );
+		$this->assertEquals( "ID:{$id}", $this->obj->get( 'content', true ) );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Layout meta isn't synced so it should return the default.
+		$this->assertEquals( '#ffffff', $this->obj->get( 'background' ) );
+
+	}
+
+	/**
+	 * Test sync() with a v2 template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_v2() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template V2';
+		$content     = serialize_blocks( array(
+			array(
+				'blockName'    => 'core/paragraph',
+				'innerContent' => array( 'ID:{certificate_id}' ),
+				'attrs'        => array(),
+			),
+		) );
+		$template_id = $this->create_certificate_template( $title, $content, $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+
+		$layout_meta = array(
+			'background'  => '#323323',
+			'height'      => 25,
+			'margins'     => array( 10, 5, 2.5, 1.25 ),
+			'orientation' => 'portrait',
+			'size'        => 'A3',
+			'unit'        => 'mm',
+			'width'       => 291,
+		);
+		$template->set_bulk( $layout_meta );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+
+		$this->assertTrue( $this->obj->sync() );
+
+		// Title and content updated.
+		$this->assertEquals( $title, $this->obj->get( 'title' ) );
+		$this->assertEquals( "<!-- wp:paragraph -->ID:{$id}<!-- /wp:paragraph -->", $this->obj->get( 'content', true ) );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Layout meta isn't synced so it should return the default.
+		foreach ( $layout_meta as $prop => $val ) {
+			$this->assertEquals( $val, $this->obj->get( $prop ), $prop );
+		}
+
+	}
+
+	/**
+	 * Test sync a template after removing a thumbnail.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_after_removing_thumbnail() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template Removing Thumbnail';
+		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Remove the template thumbnail.
+		delete_post_thumbnail( $template_id );
+		// Sync.
+		$this->assertTrue( $this->obj->sync() );
+
+		$this->assertFalse( (bool) get_post_thumbnail_id( $id ) );
+
+		$img = $this->obj->get_background_image();
+		$this->assertTrue( $img['is_default'] );
+
+	}
+
+	/**
+	 * Test sync a template keeps the same thumbnail.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_twice_keep_thumbnail() {
+
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template Removing Thumbnail';
+		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
+		$template    = llms_get_certificate( $template_id, true );
+
+		$this->create();
+		$this->obj->set( 'parent', $template_id );
+		$id = $this->obj->get( 'id' );
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Sync (twice).
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+	}
 }

@@ -217,10 +217,10 @@ class LLMS_Engagement_Handler {
 			'post_author'  => $user_id,
 			'post_content' => self::get_unmerged_template_content( $template_id, $type ),
 			'post_date'    => llms_current_time( 'mysql' ),
-			'post_name'    => llms()->certificates()->get_unique_slug( $title ),
+			'post_name'    => 'certificate' === $type ? llms()->certificates()->get_unique_slug( $title ) : null,
 			'post_parent'  => $template_id,
 			'post_status'  => 'publish',
-			'post_title'   => get_post_meta( $template_id, "_llms_{$type}_title", true ),
+			'post_title'   => $title,
 			'meta_input'   => array(
 				'_thumbnail_id'    => self::get_image_id( $type, $template_id ),
 				'_llms_engagement' => $engagement_id,
@@ -237,7 +237,9 @@ class LLMS_Engagement_Handler {
 			return new WP_Error( 'llms-engagement-init--create', __( 'An error was encountered during post creation.', 'lifterlms' ), compact( 'user_id', 'template_id', 'related_id', 'engagement_id', 'post_args', 'type', 'model_class' ) );
 		}
 
-		self::create_actions( $type, $user_id, $generated->get( 'id' ), $related_id, $engagement_id );
+		if ( 'achievement' === $type ) {
+			self::create_actions( $type, $user_id, $generated->get( 'id' ), $related_id, $engagement_id );
+		}
 
 		// Reinstantiate the class so the merged post_content will be retrieved if accessed immediately.
 		return new $model_class( $generated->get( 'id' ) );
@@ -444,7 +446,7 @@ class LLMS_Engagement_Handler {
 	 * @param int    $template_id WP_Post ID of the template post.
 	 * @return int WP_Post ID of the attachment or `0` when none found.
 	 */
-	private static function get_image_id( $type, $template_id ) {
+	public static function get_image_id( $type, $template_id ) {
 
 		$img_id = get_post_meta( $template_id, '_thumbnail_id', true );
 

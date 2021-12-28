@@ -9,11 +9,11 @@
  * @since [version]
  * @version [version]
  *
- * @property WP_Post $engagement     WP_Post instance of the engagement.
- * @property int     $engagement_id  WP_Post ID of the engagement.
- * @property string  $action         The action being performed.
- * @property bool    $can_publish    Whether the current user can publish the engagement.
- * @property string  $fields         Meta box fields such as student information ones.
+ * @property WP_Post $engagement    WP_Post instance of the engagement.
+ * @property int     $engagement_id WP_Post ID of the engagement.
+ * @property string  $action        The action being performed.
+ * @property bool    $can_publish   Whether the current user can publish the engagement.
+ * @property string  $fields        Meta box fields such as student information ones.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -152,7 +152,7 @@ defined( 'ABSPATH' ) || exit;
 				endif;
 			} else {
 				?>
-				<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Update', 'liftelrms' ); ?>" />
+				<input name="original_publish" type="hidden" id="original_publish" value="<?php esc_attr_e( 'Update', 'lifterlms' ); ?>" />
 				<?php submit_button( __( 'Update', 'lifterlms' ), 'primary large', 'save', false, array( 'id' => 'publish' ) ); ?>
 				<?php
 			}
