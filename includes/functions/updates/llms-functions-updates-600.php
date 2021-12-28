@@ -101,30 +101,37 @@ function _migrate_awards( $type ) {
 
 	$per_page = llms_update_util_get_items_per_page();
 
-	$query = new \WP_Query(
-		array(
-			'orderby'        => array( 'ID' => 'ASC' ),
-			'post_type'      => "llms_my_{$type}",
-			'posts_per_page' => $per_page,
-			'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
-			'fields'         => 'ids', // We just need the ID for the updates we'll perform.
-			'meta_query'     => array(
-				'relation' => 'OR',
-				array(
-					'key'     => "_llms_{$type}_title",
-					'compare' => 'EXISTS',
-				),
-				array(
-					'key'     => "_llms_{$type}_template",
-					'compare' => 'EXISTS',
-				),
-				array(
-					'key'     => "_llms_{$type}_image",
-					'compare' => 'EXISTS',
-				),
+	$query_args = array(
+		'orderby'        => array( 'ID' => 'ASC' ),
+		'post_type'      => "llms_my_{$type}",
+		'posts_per_page' => $per_page,
+		'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
+		'fields'         => 'ids', // We just need the ID for the updates we'll perform.
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array(
+				'key'     => "_llms_{$type}_title",
+				'compare' => 'EXISTS',
 			),
-		)
+			array(
+				'key'     => "_llms_{$type}_template",
+				'compare' => 'EXISTS',
+			),
+			array(
+				'key'     => "_llms_{$type}_image",
+				'compare' => 'EXISTS',
+			),
+		),
 	);
+	
+	if ( 'achievement' === $type ) {
+		$query_args['meta_query'][] = array(
+			'key'     => '_llms_achievement_content',
+			'compare' => 'EXISTS',
+		) 
+	}
+	
+	$query = new \WP_Query( $query_args );
 
 	// Don't trigger deprecations.
 	remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
@@ -179,6 +186,9 @@ function _migrate_award( $post_id, $type ) {
 
 	delete_post_meta( $post_id, "_llms_{$type}_title" );
 	delete_post_meta( $post_id, "_llms_{$type}_template" );
+	if ( 'achievement' === $type ) {
+		delete_post_meta( $post_id, '_llms_achievement_content' );
+	}
 
 }
 

@@ -151,7 +151,7 @@ return array(
 		'updates'   => array(
 			'migrate_achievements',
 			'migrate_certificates',
-			'migrate_award_templates'
+			'migrate_award_templates',
 			'update_db_version',
 		),
 	),
