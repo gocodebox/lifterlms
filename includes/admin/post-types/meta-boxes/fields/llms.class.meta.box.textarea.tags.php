@@ -20,29 +20,35 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	/**
 	 * Class constructor.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 *
 	 * @param array $_field Array containing information about field.
 	 * @return void
 	 */
 	public function __construct( $_field ) {
-
 		$this->field = $_field;
 	}
 
 	/**
 	 * Outputs the Html for the given field.
 	 *
-	 * @since unknown
+	 * @since Unknown
 	 * @since [version] Allow displaying a custom value.
+	 *               Added options for defining textarea rows and columns.
 	 *
 	 * @return void
 	 */
 	public function output() {
-		parent::output(); ?>
-
-		<textarea name="<?php echo $this->field['id']; ?>" id="<?php echo $this->field['id']; ?>" cols="60" rows="4"><?php echo ! empty( $this->field['value'] ) ? $this->field['value'] : $this->meta; ?></textarea>
-		<br /><span class="description"><?php echo $this->field['desc']; ?></span>
+		parent::output();
+		$cols = $this->field['cols'] ?? 60;
+		$rows = $this->field['rows'] ?? 4;
+		?>
+		<textarea
+			name="<?php echo $this->field['id']; ?>"
+			id="<?php echo $this->field['id']; ?>"
+			cols="<?php echo $cols; ?>"
+			rows="<?php echo $rows; ?>"
+			><?php echo ! empty( $this->field['value'] ) ? $this->field['value'] : $this->meta; ?></textarea>
 		<?php
 		parent::close_output();
 	}
