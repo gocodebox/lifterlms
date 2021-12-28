@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
  *
  * @property int    $author     WP_User ID of the user who the achievement belongs to.
+ * @property string $awarded    MySQL timestamp recorded when the achievement was first awarded.
  * @property string $content    The achievement content.
  * @property int    $engagement WP_Post ID of the `llms_engagement` post used to trigger the achievement.
  *                              An empty value or `0` indicates the achievement was awarded manually or
@@ -47,42 +48,10 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
+		'awarded'    => 'string',
 		'engagement' => 'absint',
 		'related'    => 'absint',
 	);
-
-	/**
-	 * Retrieve the HTML <img> for the achievement
-	 *
-	 * @since 3.14.0
-	 *
-	 * @param array $size Dimensions of the image to return passed as [ width, height ] (in pixels).
-	 * @return string
-	 */
-	public function get_image_html( $size = array() ) {
-
-		/**
-		 * Filters the HTML used to display an achievement image.
-		 *
-		 * @since 3.14.0
-		 * @since [version] Added `$size` parameter.
-		 *
-		 * @param string                $html        Image HTML.
-		 * @param LLMS_User_Achievement $achievement The achievement object.
-		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
-		 */
-		return apply_filters(
-			'llms_achievement_get_image_html',
-			sprintf(
-				'<img alt="%1$s" class="llms-achievement-img" src="%2$s">',
-				esc_attr( $this->get( 'title' ) ),
-				$this->get_image( $size )
-			),
-			$this,
-			$size
-		);
-
-	}
 
 	/**
 	 * Retrieve the image source for the achievement.
@@ -90,10 +59,11 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 	 * @since 3.14.0
 	 * @since [version] Set a default size when an empty array is passed and use global default image when possible.
 	 *
-	 * @param int[] $size Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @param int[] $size   Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @param null  $unused Unused parameter inherited from the parent method.
 	 * @return string Image source URL.
 	 */
-	public function get_image( $size = array(), $deprecated = null ) {
+	public function get_image( $size = array(), $unused = null ) {
 
 		$id     = $this->get( 'id' );
 		$img_id = get_post_thumbnail_id( $id );
@@ -125,6 +95,39 @@ class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
 		 */
 		return apply_filters( 'llms_achievement_get_image', $src, $this, $size );
+
+	}
+
+	/**
+	 * Retrieve the HTML <img> for the achievement.
+	 *
+	 * @since 3.14.0
+	 *
+	 * @param array $size Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @return string
+	 */
+	public function get_image_html( $size = array() ) {
+
+		/**
+		 * Filters the HTML used to display an achievement image.
+		 *
+		 * @since 3.14.0
+		 * @since [version] Added `$size` parameter.
+		 *
+		 * @param string                $html        Image HTML.
+		 * @param LLMS_User_Achievement $achievement The achievement object.
+		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
+		 */
+		return apply_filters(
+			'llms_achievement_get_image_html',
+			sprintf(
+				'<img alt="%1$s" class="llms-achievement-img" src="%2$s">',
+				esc_attr( $this->get( 'title' ) ),
+				$this->get_image( $size )
+			),
+			$this,
+			$size
+		);
 
 	}
 
