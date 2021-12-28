@@ -183,6 +183,25 @@ function llms_get_minimum_password_strength() {
 }
 
 /**
+ * Backwards compatibility for the deprecated earned engagement content meta keys.
+ *
+ * This public function is intentionally marked as private to denote it's temporary lifespan. This function
+ * will be removed in the next major release when the associated meta key is also fully removed.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param string                                      $val Default value (an empty string).
+ * @param LLMS_User_Certificate|LLMS_User_Achievement $obj User engagement object.
+ * @return string
+ */
+function llms_earned_engagement_deprecated_content( $val, $obj ) {
+	_llms_earned_engagement_deprecated_function( $obj, 'content', 'Use the WP_Post object property "post_content" instead.' );
+	return $obj->get( 'content' );
+}
+
+/**
  * Backwards compatibility for the deprecated earned engagement image meta keys.
  *
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
@@ -251,14 +270,17 @@ function llms_earned_engagement_deprecated_title( $val, $obj ) {
  *
  * @access private
  *
- * @param [type] $val [description]
- * @param [type] $obj_id [description]
- * @param [type] $key [description]
- * @return [type] [description]
+ * @param string  $val    Meta value.
+ * @param int     $obj_id Object ID.
+ * @param string  $key    Meta key.
+ * @return string
  */
 function llms_engagement_handle_deprecated_meta_keys( $val, $obj_id, $key ) {
 
 	$deprecated = array(
+		'_llms_certificate_content' => 'llms_earned_engagement_deprecated_content',
+		'_llms_achievement_content' => 'llms_earned_engagement_deprecated_content',
+
 		'_llms_certificate_title' => 'llms_earned_engagement_deprecated_title',
 		'_llms_achievement_title' => 'llms_earned_engagement_deprecated_title',
 

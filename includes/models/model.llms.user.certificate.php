@@ -645,23 +645,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Determines if the certificate has been awarded.
-	 *
-	 * @since [version]
-	 *
-	 * @return boolean
-	 */
-	public function is_awarded() {
-
-		if ( 'publish' !== $this->get( 'status' ) ) {
-			return false;
-		}
-
-		return $this->get( 'awarded' ) ? true : false;
-
-	}
-
-	/**
 	 * Is sharing enabled
 	 *
 	 * @since 4.5.0
