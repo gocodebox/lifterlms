@@ -799,6 +799,47 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_strip_prefixes().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_strip_prefixes() {
+
+		$tests = array(
+			// Input string, prefixes list, expected output string.
+
+			// Default behaviors.
+			array( 'llms_test', null, 'test' ),
+			array( 'llms_test', array(), 'test' ),
+			array( 'lifterlms_test', null, 'test' ),
+			array( 'lifterlms_test', array(), 'test' ),
+
+			// Only strip from the start of the string.
+			array( 'test_llms_test', null, 'test_llms_test' ),
+			array( 'test_lifterlms_test', null, 'test_lifterlms_test' ),
+			array( 'test_llms_', null, 'test_llms_' ),
+			array( 'test_lifterlms_', null, 'test_lifterlms_' ),
+
+			// Don't strip multiple prefixes.
+			array( 'llms_lifterlms_test', null, 'lifterlms_test' ),
+			array( 'lifterlms_llms_test', null, 'llms_test' ),
+
+			// Custom prefix.
+			array( 'test_llms_test', array( 'test_' ), 'llms_test' ),
+			array( 'test_llms_test', array( 'test_', 'llms_' ), 'llms_test' ),
+
+		);
+
+		foreach ( $tests as $data ) {
+			list( $input, $prefixes, $expect ) = $data;
+			$this->assertEquals( $expect, llms_strip_prefixes( $input, $prefixes ) );
+		}
+
+	}
+
+	/**
 	 * Test llms_trim_string()
 	 *
 	 * @since 3.3.1
