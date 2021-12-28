@@ -45,7 +45,6 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 			'height'        => 5.5,
 			'margins'       => array( 2, 3, 0.5, 1.83 ),
 			'orientation'   => 'landscape',
-			'parent'        => 2,
 			'related'       => 4,
 			'sequential_id' => 5,
 			'size'          => 'A4',
