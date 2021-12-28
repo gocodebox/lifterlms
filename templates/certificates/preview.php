@@ -12,7 +12,6 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-
 <a class="llms-certificate" data-id="<?php echo $certificate->get( 'id' ); ?>" href="<?php echo esc_url( get_permalink( $certificate->get( 'id' ) ) ); ?>" id="<?php printf( 'llms-certificate-%d', $certificate->get( 'id' ) ); ?>">
 
 	<?php do_action( 'lifterlms_before_certificate_preview', $certificate ); ?>
