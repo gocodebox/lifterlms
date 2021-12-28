@@ -20,7 +20,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	public function set_up() {
 
 		parent::set_up();
-		$this->main = new LLMS_Controller_Awards();
+		$this->main = 'LLMS_Controller_Awards';
 
 	}
 
@@ -47,10 +47,10 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 		}
 
 		// Reinstantiate.
-		$controller = new LLMS_Controller_Awards();
+		$this->main::init();
 
 		foreach ( $actions as $data ) {
-			$this->assertEquals( $data[2], has_action( $data[0], array( $controller, $data[1] ) ) );
+			$this->assertEquals( $data[2], has_action( $data[0], array( $this->main, $data[1] ) ) );
 		}
 
 	}
@@ -65,7 +65,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	public function test_on_earn_invalid_post_type() {
 
 		$post = $this->factory->post->create();
-		$this->assertFalse( $this->main->on_earn( 1, $post ) );
+		$this->assertFalse( $this->main::on_earn( 1, $post ) );
 
 	}
 
@@ -85,7 +85,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 			$ts = '2021-12-23 11:45:55';
 			llms_mock_current_time( $ts );
 
-			$this->assertEquals( $ts, $this->main->on_earn( 1, $post ) );
+			$this->assertEquals( $ts, $this->main::on_earn( 1, $post ) );
 			$this->assertEquals( $ts, get_post_meta( $post, '_llms_awarded', true ) );
 
 		}
@@ -103,7 +103,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	public function test_on_save_award_invalid_post_type() {
 
 		$post = $this->factory->post->create();
-		$this->assertFalse( $this->main->on_save( $post ) );
+		$this->assertFalse( $this->main::on_save( $post ) );
 
 	}
 
@@ -125,7 +125,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 			'post_content' => $content,
 		) );
 
-		$this->assertTrue( $this->main->on_save( $achievement_id ) );
+		$this->assertTrue( $this->main::on_save( $achievement_id ) );
 
 		$cert = new LLMS_User_Achievement( $achievement_id );
 		$this->assertEquals( $content, $cert->get( 'content', true ) );
@@ -133,7 +133,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 		$this->assertEquals( ++$actions, did_action( 'llms_user_earned_achievement' ) );
 
 		// Action shouldn't run again.
-		$this->assertTrue( $this->main->on_save( $achievement_id ) );
+		$this->assertTrue( $this->main::on_save( $achievement_id ) );
 		$this->assertEquals( $actions, did_action( 'llms_user_earned_achievement' ) );
 
 	}
@@ -157,7 +157,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 			'post_author'  => $this->factory->user->create( compact( 'first_name' ) ),
 		) );
 
-		$this->assertTrue( $this->main->on_save( $cert_id ) );
+		$this->assertTrue( $this->main::on_save( $cert_id ) );
 
 		$cert = llms_get_certificate( $cert_id );
 		$this->assertEquals( $first_name, $cert->get( 'content', true ) );
@@ -165,7 +165,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 		$this->assertEquals( ++$actions, did_action( 'llms_user_earned_certificate' ) );
 
 		// Action shouldn't run again.
-		$this->assertTrue( $this->main->on_save( $cert_id ) );
+		$this->assertTrue( $this->main::on_save( $cert_id ) );
 		$this->assertEquals( $actions, did_action( 'llms_user_earned_certificate' ) );
 
 	}

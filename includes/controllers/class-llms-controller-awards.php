@@ -24,7 +24,7 @@ class LLMS_Controller_Awards {
 	 *
 	 * @var string[]
 	 */
-	private $post_types = array(
+	private static $post_types = array(
 		'llms_my_achievement',
 		'llms_my_certificate',
 	);
@@ -36,20 +36,28 @@ class LLMS_Controller_Awards {
 
 	 * @return void
 	 */
-	public function __construct() {
+	public static function init() {
 
-		foreach ( $this->post_types as $post_type ) {
+		foreach ( self::$post_types as $post_type ) {
 
-			$unprefixed = $this->strip_prefix( $post_type );
+			$unprefixed = self::strip_prefix( $post_type );
 
-			add_action( "llms_user_earned_{$unprefixed}", array( $this, 'on_earn' ), 20, 2 );
-			add_action( "save_post_{$post_type}", array( $this, 'on_save' ), 20 );
+			add_action( "llms_user_earned_{$unprefixed}", array( __CLASS__, 'on_earn' ), 20, 2 );
+			add_action( "save_post_{$post_type}", array( __CLASS__, 'on_save' ), 20 );
 
 		}
 
 	}
 
-	private function strip_prefix( $post_type ) {
+	/**
+	 * Convert post type to award type.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type A post type string.
+	 * @return string
+	 */
+	private static function strip_prefix( $post_type ) {
 		return llms_strip_prefixes( $post_type, array( 'llms_my_' ) );
 	}
 
@@ -62,14 +70,14 @@ class LLMS_Controller_Awards {
 	 * @return boolean|LLMS_User_Achievement|LLMS_User_Certificate Returns `false` for invalid post types.
 	 *                                                             Otherwise returns the post model object.
 	 */
-	private function get_object( $post_id ) {
+	private static function get_object( $post_id ) {
 
 		$post_type = get_post_type( $post_id );
-		if ( ! in_array( $post_type, $this->post_types, true ) ) {
+		if ( ! in_array( $post_type, self::$post_types, true ) ) {
 			return false;
 		}
 
-		$class_name = sprintf( 'LLMS_User_%s', ucwords( $this->strip_prefix( $post_type ) ) );
+		$class_name = sprintf( 'LLMS_User_%s', ucwords( self::strip_prefix( $post_type ) ) );
 		return new $class_name( $post_id );
 
 	}
@@ -84,9 +92,9 @@ class LLMS_Controller_Awards {
 	 * @return boolean|string Returns `false` if the certificate could not be loaded, otherwise returns the current
 	 *                        timestamp in MySQL format.
 	 */
-	public function on_earn( $user_id, $post_id ) {
+	public static function on_earn( $user_id, $post_id ) {
 
-		$obj = $this->get_object( $post_id );
+		$obj = self::get_object( $post_id );
 		if ( ! $obj ) {
 			return false;
 		}
@@ -110,16 +118,16 @@ class LLMS_Controller_Awards {
 	 * @param int $post_id WP_Post ID of the certificate.
 	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.
 	 */
-	public function on_save( $post_id ) {
+	public static function on_save( $post_id ) {
 
-		$obj = $this->get_object( $post_id );
+		$obj = self::get_object( $post_id );
 		if ( ! $obj || 'publish' !== $obj->get( 'status' ) ) {
 			return false;
 		}
 
 		$post_type = get_post_type( $post_id );
 
-		remove_action( "save_post_{$post_type}", array( $this, 'on_save' ), 20 );
+		remove_action( "save_post_{$post_type}", array( __CLASS__, 'on_save' ), 20 );
 
 		if ( 'llms_my_certificate' === $post_type ) {
 			/**
@@ -135,7 +143,7 @@ class LLMS_Controller_Awards {
 		if ( ! $obj->is_awarded() ) {
 
 			LLMS_Engagement_Handler::create_actions(
-				$this->strip_prefix( $post_type ),
+				self::strip_prefix( $post_type ),
 				$obj->get_user_id(),
 				$post_id,
 				$obj->get( 'related' ),
@@ -150,4 +158,4 @@ class LLMS_Controller_Awards {
 
 }
 
-return new LLMS_Controller_Awards();
+return LLMS_Controller_Awards::init();
