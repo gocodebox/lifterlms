@@ -177,14 +177,14 @@ function _migrate_awards( $type ) {
 			),
 		),
 	);
-	
+
 	if ( 'achievement' === $type ) {
 		$query_args['meta_query'][] = array(
 			'key'     => '_llms_achievement_content',
 			'compare' => 'EXISTS',
 		);
 	}
-	
+
 	$query = new \WP_Query( $query_args );
 
 	// Don't trigger deprecations.
@@ -267,10 +267,12 @@ function _migrate_achievement_content( $post_id ) {
 	$meta_key = '_llms_achievement_content';
 	$content  = get_post_meta( $post_id, $meta_key, true );
 	if ( $content ) {
-		wp_update_post( array(
-			'ID'           => $post_id,
-			'post_content' => $content,
-		) );
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $content,
+			)
+		);
 	}
 
 	delete_post_meta( $post_id, $meta_key );
