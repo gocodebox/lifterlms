@@ -116,7 +116,6 @@ class LLMS_Post_Types {
 	 * De-register protected post types from wp-sitemap.xml
 	 *
 	 * @since 4.3.2
-	 * @since [version] Exclude earned achievements from the sitemap.
 	 *
 	 * @param WP_Post_Type[] $post_types Array of post types.
 	 * @return WP_Post_Type[]
@@ -127,7 +126,6 @@ class LLMS_Post_Types {
 			$post_types['lesson'],
 			$post_types['llms_quiz'],
 			$post_types['llms_certificate'],
-			$post_types['llms_my_achievement'],
 			$post_types['llms_my_certificate']
 		);
 
