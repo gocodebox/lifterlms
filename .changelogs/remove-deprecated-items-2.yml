@@ -1,17 +1,16 @@
 significance: major
 type: removed
 entry: |
-  + Removed deprecated `llms_format_decimal()` function.
-  + Removed deprecated `llms_set_person_auth_cookie()` function.
-  + Removed deprecated `LLMS_Course::sections` and `LLMS_Course::sku` properties.
-  + Removed deprecated functions from the `LLMS_Frontend_Assets` class:
-    + `enqueue_inline_script()`
-    + `is_inline_script_enqueued()`
-  + Removed deprecated `LLMS_Generator::add_custom_values()` function.
-  + Removed deprecated functions from the `LLMS_Generator` class:
-    + `add_custom_values()`
-    + `format_date()`
-    + `get_author_id_from_raw()`
-    + `get_default_post_status()`
-    + `get_generated_posts()`
-    + `increment()`
+  + Removed the deprecated `llms_format_decimal()` function.
+  + Removed the deprecated `llms_set_person_auth_cookie()` function.
+  + Removed the deprecated `LLMS_Course::sections` property.
+  + Removed the deprecated `LLMS_Course::sku` property.
+  + Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_script()` method.
+  + Removed the deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()` method.
+  + Removed the deprecated `LLMS_Generator::add_custom_values()` method.
+  + Removed the deprecated `LLMS_Generator::add_custom_values()` method.
+  + Removed the deprecated `LLMS_Generator::format_date()` method.
+  + Removed the deprecated `LLMS_Generator::get_author_id_from_raw()` method.
+  + Removed the deprecated `LLMS_Generator::get_default_post_status()` method.
+  + Removed the deprecated `LLMS_Generator::get_generated_posts()` method.
+  + Removed the deprecated `LLMS_Generator::increment()` method.

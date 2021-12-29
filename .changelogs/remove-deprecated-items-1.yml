@@ -1,12 +1,12 @@
 significance: major
 type: removed
 entry: |
-  + Removed deprecated `LLMS_Abstract_Email_Provider::output_css()`.
-  + Removed deprecated `LLMS_Abstract_Generator_Posts::increment()`.
-  + Removed deprecated `LLMS_Admin_Users_Table::load_dependencies()`.
-  + Removed deprecated `LLMS_Admin_Import::localize_stat()`.
-  + Removed deprecated `LLMS_Admin_Notices_Core::check_staging()`.
-  + Removed deprecated `LLMS_Admin_Setup_Wizard::generator_course_status()`.
-  + Removed deprecated `LLMS_Admin_Setup_Wizard::output_step_html()`.
-  + Removed deprecated `LLMS_Admin_Setup_Wizard::scripts()`.
-  + Removed deprecated `LLMS_Admin_Setup_Wizard::watch_course_generation()`.
+  + Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
+  + Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
+  + Removed the deprecated `LLMS_Admin_Users_Table::load_dependencies()` method.
+  + Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
+  + Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
+  + Removed the deprecated `LLMS_Admin_Setup_Wizard::generator_course_status()` method.
+  + Removed the deprecated `LLMS_Admin_Setup_Wizard::output_step_html()` method.
+  + Removed the deprecated `LLMS_Admin_Setup_Wizard::scripts()` method.
+  + Removed the deprecated `LLMS_Admin_Setup_Wizard::watch_course_generation()` method.
