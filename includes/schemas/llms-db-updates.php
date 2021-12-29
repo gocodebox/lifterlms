@@ -152,6 +152,7 @@ return array(
 			'migrate_achievements',
 			'migrate_certificates',
 			'migrate_award_templates',
+			'show_notice',
 			'update_db_version',
 		),
 	),

@@ -13,6 +13,17 @@ namespace LLMS\Updates\Version_6_0_0;
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Retrieves the DB version of the migration.
+ *
+ * @since [version]
+ *
+ * @return string
+ */
+function _get_db_version() {
+	return '6.0.0-alpha.1';
+}
+
+/**
  * Migrate deprecated meta values for earned achievements.
  *
  * @since [version]
@@ -82,6 +93,42 @@ function migrate_award_templates() {
 }
 
 /**
+ * Shows an admin welcome notice.
+ *
+ * @since [version]
+ *
+ * @return boolean
+ */
+function show_notice() {
+
+	$notice_id = sprintf( 'v%s-welcome-msg', str_replace( array( '.', '-' ), '', _get_db_version() ) );
+
+	$html = sprintf(
+		'<strong>%1$s</strong><br><br>%2$s<br><br>%3$s',
+		__( 'Welcome to LifterLMS 6.0.0!', 'lifterlms' ),
+		__( 'Welcome text goes here.', 'lifterlms' ), // @todo Add welcome text.
+		sprintf(
+			// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
+			__( '%1$sRead More%2$s', 'lifterlms' ),
+			'<a class="button" href="https://blog.lifterlms.com/6-0/" target="_blank" rel="noopener">', // @todo Get real link.
+			'</a>'
+		)
+	);
+
+	\LLMS_Admin_Notices::add_notice(
+		$notice_id,
+		$html,
+		array(
+			'type'             => 'success',
+			'dismiss_for_days' => 0,
+			'remindable'       => false,
+		)
+	);
+	return false;
+
+}
+
+/**
  * Update db version to 6.0.0.
  *
  * @since [version]
@@ -91,17 +138,6 @@ function migrate_award_templates() {
 function update_db_version() {
 	\LLMS_Install::update_db_version( _get_db_version() );
 	return false;
-}
-
-/**
- * Retrieves the DB version of the migration.
- *
- * @since [version]
- *
- * @return string
- */
-function _get_db_version() {
-	return '6.0.0';
 }
 
 /**

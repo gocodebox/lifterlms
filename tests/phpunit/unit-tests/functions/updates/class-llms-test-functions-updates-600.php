@@ -197,7 +197,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		$this->call_ns_func( 'update_db_version' );
 
-		$this->assertEquals( '6.0.0', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '6.0.0-alpha.1', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
@@ -275,7 +275,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		// Should run 5 times, the 5th has no results and the migration is complete.
 		$i = 1;
 		while ( $i <= 5 ) {
-			$this->assertEquals( $i !== 5, $this->call_ns_func( "migrate_award_templates" ) );
+			$this->assertEquals( $i !== 5, $this->call_ns_func( 'migrate_award_templates' ) );
 			$i++;
 		}
 
@@ -292,6 +292,30 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Test show_notice()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_show_notice() {
+
+		$notice = 'v600alpha1-welcome-msg';
+
+		// require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
+
+		$this->assertFalse( LLMS_Admin_Notices::has_notice( $notice ) );
+
+		$this->call_ns_func( 'show_notice' );
+
+		$this->assertTrue( true, LLMS_Admin_Notices::has_notice( $notice ) );
+
+		// Cleanup.
+		LLMS_Admin_Notices::delete_notice( $notice );
 
 	}
 
