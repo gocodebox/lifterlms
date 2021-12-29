@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @deprecated [version] Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+ * @deprecated [version] Class `LLMS_Achievement` is deprecated with no direct replacement.
  */
 class LLMS_Achievement {
 
