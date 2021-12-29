@@ -1,12 +1,13 @@
 LifterLMS Changelog
 ===================
 
-v6.0.0-alpha.1 - 2021-12-23
+v6.0.0-alpha.1 - 2021-12-28
 ---------------------------
 
 **This version is an unstable pre-release! We strongly advise against installing this in a production environment.**
 
-+ Initial release of version 6.0.0.
++ Initial pre-release of version 6.0.0.
++ The full changelog will be compiled with the next pre-release.
 
 
 v5.6.0 - 2021-12-07
