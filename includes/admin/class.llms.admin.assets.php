@@ -1,17 +1,17 @@
 <?php
 /**
- * Admin Assets
+ * LLMS_Admin_Assets class
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Assets class
+ * Register and enqueue admin assets.
  *
  * @since 1.0.0
  */
@@ -22,6 +22,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.5 Unknown.
+	 * @since [version] Add hooks for admin inline footer scripts, inline header styles, and block editor assets.
 	 *
 	 * @return void
 	 */
@@ -29,7 +30,111 @@ class LLMS_Admin_Assets {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
+		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'block_editor_assets' ) );
+
+	}
+
+	/**
+	 * Output inline scripts in the admin footer.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function admin_print_footer_scripts() {
+		llms()->assets->output_inline( 'footer' );
+	}
+
+	/**
+	 * Output inline styles in the header.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function admin_print_styles() {
+		llms()->assets->output_inline( 'style' );
+	}
+
+	/**
+	 * Enqueue assets for the block editor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function block_editor_assets() {
+
+		$screen = get_current_screen();
+		if ( $screen && $screen->is_block_editor && in_array( $screen->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+			$this->block_editor_assets_for_certificates();
+		}
+
+	}
+
+	/**
+	 * Enqueue block editor assets for certificate post types.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function block_editor_assets_for_certificates() {
+
+		llms()->assets->enqueue_script( 'llms-admin-certificate-editor' );
+
+		$fonts = llms_get_certificate_fonts();
+
+		$settings = array(
+			'default_image' => llms()->certificates()->get_default_image( get_the_ID() ),
+			'fonts'         => $fonts,
+			'sizes'         => llms_get_certificate_sizes(),
+			'orientations'  => llms_get_certificate_orientations(),
+			'units'         => llms_get_certificate_units(),
+			'colors'        => array(
+				array(
+					'name'  => __( 'White', 'lifterlms' ),
+					'slug'  => 'white',
+					'color' => '#ffffff',
+				),
+				array(
+					'name'  => __( 'White Smoke', 'lifterlms' ),
+					'slug'  => 'white-smoke',
+					'color' => '#f5f5f5',
+				),
+				array(
+					'name'  => __( 'Ivory', 'lifterlms' ),
+					'slug'  => 'ivory',
+					'color' => '#fffff0',
+				),
+			),
+			'merge_codes'   => llms_get_certificate_merge_codes(),
+		);
+		llms()->assets->enqueue_inline(
+			'llms-admin-certificate-settings',
+			"window.llms = window.llms || {};window.llms.certificates=JSON.parse( '" . wp_json_encode( wp_slash( $settings ) ) . "' );",
+			'footer'
+		);
+
+		$styles = '';
+		foreach ( $fonts as $id => $data ) {
+
+			if ( ! empty( $data['href'] ) ) {
+				wp_enqueue_style( 'llms-font-' . $id, $data['href'], array(), LLMS_VERSION );
+			}
+
+			$css     = $data['css'];
+			$styles .= ".editor-styles-wrapper .has-${id}-font-family { font-family: ${css} !important }\n";
+		}
+
+		llms()->assets->enqueue_inline(
+			'llms-admin-certificate-styles',
+			$styles,
+			'style'
+		);
 
 	}
 
@@ -104,10 +209,10 @@ class LLMS_Admin_Assets {
 	 * @since 4.3.3 Move logic for reporting/analytics scripts to `maybe_enqueue_reporting()`.
 	 * @since 4.4.0 Enqueue the main `llms` script.
 	 * @since 5.0.0 Clean up duplicate references to llms-select2 and register the script using `LLMS_Assets`.
-	 *               Remove topModal vendor dependency.
-	 *               Add `llms-admin-forms` on the forms post table screen.
+	 *              Remove topModal vendor dependency.
+	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
-	 *
+	 * @since [version] Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 * @return void
 	 */
 	public function admin_scripts() {
@@ -176,11 +281,11 @@ class LLMS_Admin_Assets {
 			if ( 'lesson' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
-			if ( 'llms_certificate' == $post_type ) {
+			if ( in_array( $post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 
 				wp_enqueue_script( 'llms-metabox-certificate', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-certificate' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}
-			if ( 'llms_achievement' == $post_type ) {
+			if ( in_array( $post_type, array( 'llms_achievement', 'llms_my_achievement' ), true ) ) {
 
 				wp_enqueue_script( 'llms-metabox-achievement', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-achievement' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -136,6 +136,7 @@ class LLMS_Certificates {
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
+	 * @deprecated [version] `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $certificate_id  WP_Post ID of the certificate template.
@@ -143,8 +144,8 @@ class LLMS_Certificates {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		$certificate = $this->certs['LLMS_Certificate_User'];
-		$certificate->trigger( $person_id, $certificate_id, $related_post_id );
+		_deprecated_function( 'LLMS_Certificates::trigger_engagement()', '[version]', 'LLMS_Engagement_Handler::handle_certificate()' );
+		LLMS_Engagement_Handler::handle_certificate( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
 	/**
@@ -191,9 +192,64 @@ class LLMS_Certificates {
 	}
 
 	/**
+	 * Retrieve the default certificate background image for a given certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $certificate_id WP_Post ID of the earned certificate. This is passed so that anyone filtering the default image could
+	 *                            provide a different default image based on the certificate.
+	 * @return string The full image source url.
+	 */
+	public function get_default_image( $certificate_id ) {
+
+		$src = '';
+
+		// Retrieve the stored value from the database.
+		$id = $this->get_default_image_id();
+		if ( $id ) {
+
+			$src = wp_get_attachment_url( $id );
+
+		}
+
+		// Use the attachment stored for the option in the DB and fallback to the default image from the plugin's assets dir.
+		$src = $src ? $src : llms()->engagements()->get_default_default_image_src( 'certificate' );
+
+		/**
+		 * Retrieve the default certificate background image.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $src            The full image source url.
+		 * @param int    $certificate_id The earned certificate ID.
+		 */
+		return apply_filters(
+			'lifterlms_certificate_background_image_placeholder_src',
+			$src,
+			$certificate_id
+		);
+	}
+
+	/**
+	 * Retrieve attachment ID of the default certificate background image.
+	 *
+	 * If the attachment post doesn't exist will return false. This would happen
+	 * if the post is deleted from the media library.
+	 *
+	 * @since [version]
+	 *
+	 * @return int Returns the WP_Post ID of the attachment or `0` if not set.
+	 */
+	public function get_default_image_id() {
+		$id = get_option( 'lifterlms_certificate_default_bg_img', 0 );
+		return $id && get_post( $id ) ? absint( $id ) : 0;
+	}
+
+	/**
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
+	 * @since [version] Use the certificate post title in favor of the deprecated meta value `_llms_certificate_title`.
 	 *
 	 * @param int  $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache      If true will check for existence of a cached version of the file first.
@@ -211,7 +267,7 @@ class LLMS_Certificates {
 		$cert = new LLMS_User_Certificate( $certificate_id );
 
 		// Translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'certificate_title' ), wp_generate_password( 12, false, false ) ) );
+		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'title' ), wp_generate_password( 12, false, false ) ) );
 		$filename .= '.html';
 		$filepath  = LLMS_TMP_DIR . $filename;
 
@@ -258,6 +314,47 @@ class LLMS_Certificates {
 		 * @param int    $certificate_id WP_Post ID of the earned certificate.
 		 */
 		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
+
+	}
+
+	/**
+	 * Create a unique slug for earned certificates.
+	 *
+	 * When relying only on `wp_unique_post_slug()`, predictable URLs are created for earned certificates,
+	 * such as "certificate-of-completion-1", "certificate-of-completion-2", etc... this method creates
+	 * an obtuse and randomized suffix and appends it to the post slug.
+	 *
+	 * The unique suffix will be a randomized string at least 3 characters long and made up of lowercase letters and numbers.
+	 *
+	 * When ensuring uniqueness of the generated suffix, the length of the string will be increased by one for every 5
+	 * encountered collisions.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $title The title of the certificate being created.
+	 * @return string
+	 */
+	public function get_unique_slug( $title ) {
+
+		$title = sanitize_title( $title ) . '-';
+
+		/**
+		 * Filters the minimum length of the suffix used to create a unique earned certificate slug.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $min_strlen The minimum desired suffix string length.
+		 */
+		$min_strlen = apply_filters( 'llms_certificate_unique_slug_suffix_min_length', 3 );
+
+		$i = 0;
+		do {
+			$length = $min_strlen + floor( $i / 5 );
+			$slug   = $title . strtolower( wp_generate_password( absint( $length ), false ) );
+			$i++;
+		} while ( wp_unique_post_slug( $slug, 0, 'publish', 'llms_my_certificate', 0 ) !== $slug );
+
+		return $slug;
 
 	}
 

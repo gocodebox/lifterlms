@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -97,17 +97,21 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
 	 * @since 5.6.0 Inlcude `LLMS_Prevent_Concurrent_Logins`.
+	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Block_Library`, `LLMS_Controller_Awards`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
 	 *
 	 * @return void
 	 */
 	public function includes() {
 
 		// Abstract classes that are not caught by the autoloader.
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-posts-query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-generator-posts.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-data.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-user-engagement.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-database-handler.php';
 
 		// Models.
@@ -141,6 +145,9 @@ class LLMS_Loader {
 
 		// Classes.
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-assets.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-awards-query.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-library.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-engagement-handler.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-db-ugrader.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-dom-document.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events.php';
@@ -148,6 +155,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-events-query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-grades.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-mime-type-extractor.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-rest-fields.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-prevent-concurrent-logins.php';
@@ -197,6 +205,7 @@ class LLMS_Loader {
 
 		// Controllers.
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.achievements.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-awards.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.certificates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.lesson.progression.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.orders.php';

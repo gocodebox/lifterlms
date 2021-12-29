@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 3.40.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,6 +47,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * @since 3.8.0 Unknown.
 	 * @since 3.37.3 Refactor to pull each settings group from its own method.
 	 * @since 3.40.0 Include an email delivery section.
+	 * @since [version] Include achievements section.
 	 *
 	 * @return array
 	 */
@@ -64,6 +65,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			array_merge(
 				$this->get_settings_group_email(),
 				$this->get_settings_group_email_delivery(),
+				$this->get_settings_group_achievements(),
 				$this->get_settings_group_certs()
 			)
 		);
@@ -73,7 +75,34 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve fields for the certificates settings group.
 	 *
+	 * @since [version]
+	 *
+	 * @return array[]
+	 */
+	protected function get_settings_group_achievements() {
+
+		return $this->generate_settings_group(
+			'achievment_options',
+			__( 'Achievement Settings', 'lifterlms' ),
+			'',
+			array(
+				array(
+					'title'    => __( 'Default Image', 'lifterlms' ),
+					'id'       => 'lifterlms_achievement_default_img',
+					'type'     => 'image',
+					'value'    => llms()->achievements()->get_default_image( 0 ),
+					'autoload' => false,
+				),
+			)
+		);
+
+	}
+
+	/**
+	 * Retrieve fields for the certificates settings group.
+	 *
 	 * @since 3.37.3
+	 * @since [version] Add certificate background image option.
 	 *
 	 * @return array[]
 	 */
@@ -89,6 +118,13 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'type'  => 'subtitle',
 					'desc'  => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
 					'id'    => 'cert_bg_image_settings',
+				),
+				array(
+					'title'    => __( 'Default Background Image', 'lifterlms' ),
+					'id'       => 'lifterlms_certificate_default_bg_img',
+					'type'     => 'image',
+					'value'    => llms()->certificates()->get_default_image( 0 ),
+					'autoload' => false,
 				),
 				array(
 					'title'    => __( 'Image Width', 'lifterlms' ),

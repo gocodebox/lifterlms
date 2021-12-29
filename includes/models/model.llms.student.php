@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,6 +28,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
+
+	use LLMS_Trait_Student_Awards;
 
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
@@ -179,51 +181,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	}
 
-	/**
-	 * Retrieve achievements that a user has earned
-	 *
-	 * @param    string $orderby field to order the returned results by
-	 * @param    string $order   ordering method for returned results (ASC or DESC)
-	 * @param    string $return  return type
-	 *                              obj => array of objects from $wpdb->get_results
-	 *                              achievements => array of LLMS_User_Achievement instances
-	 * @return   array
-	 * @since    2.4.0
-	 * @version  3.14.0
-	 */
-	public function get_achievements( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
-
-		$orderby = esc_sql( $orderby );
-		$order   = esc_sql( $order );
-
-		global $wpdb;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
-				$this->get_id()
-			)
-		);// db call ok; no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		if ( 'achievements' === $return ) {
-			$ret = array();
-			foreach ( $query as $obj ) {
-				$ret[] = new LLMS_User_Achievement( $obj->achievement_id );
-			}
-			return $ret;
-		}
-
-		return $query;
-
-	}
-
-
 	public function get_avatar( $size = 96 ) {
 		return '<span class="llms-student-avatar">' . get_avatar( $this->get_id(), $size, null, $this->get_name() ) . '</span>';
 	}
-
 
 	/**
 	 * Retrieve the order which enrolled a student in a given course or membership
@@ -284,46 +244,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// Couldn't find an order, return false.
 		return false;
-
-	}
-
-	/**
-	 * Retrieve certificates that a user has earned
-	 *
-	 * @param    string $orderby field to order the returned results by
-	 * @param    string $order   ordering method for returned results (ASC or DESC)
-	 * @param    string $return  return type
-	 *                              obj => array of objects from $wpdb->get_results
-	 *                              certificates => array of LLMS_User_Certificate instances
-	 * @return   array
-	 * @since    2.4.0
-	 * @version  3.14.1
-	 */
-	public function get_certificates( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
-
-		$orderby = esc_sql( $orderby );
-		$order   = esc_sql( $order );
-
-		global $wpdb;
-
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$query = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
-				$this->get_id()
-			)
-		); // db call ok; no-cache ok.
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-		if ( 'certificates' === $return ) {
-			$ret = array();
-			foreach ( $query as $obj ) {
-				$ret[] = new LLMS_User_Certificate( $obj->certificate_id );
-			}
-			return $ret;
-		}
-
-		return $query;
 
 	}
 
