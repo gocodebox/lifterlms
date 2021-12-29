@@ -1,0 +1,14 @@
+significance: minor
+type: added
+entry: >
+  + The block editor is now enabled by default for certificates.
+    + Existing certificates are marked as "legacy" and will continue to use the classic editor until migrated.
+    + To migrate a certificate, click the "Migrate Certificate" button. This will force the certificate's content into blocks.
+  + A number of new settings are available to certificates when using the block editor:
+    + Set the certificate's display (and print) size using common paper sizes such as US Letter, US Legal, A3, A4, and more.
+    + Set the certificate's display orientation: portrait of landscape.
+    + Set the certificate's inner margins.
+    + Set the certificate's background color.
+  + A new block, the Certificate Title Block, has been made available to certificates.
+    + The block works like a WordPress core Heading Block with added options for selecting from a few display fonts (provided by Google Web Fonts).
+    + The block controls the title of awarded certificates.

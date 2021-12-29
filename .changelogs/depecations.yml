@@ -1,0 +1,50 @@
+significance: minor
+type: deprecated
+entry: >
+  + Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+    + Method `LLMS_Achievement::is_enabled()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::get_blogname()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::format_string()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::get_title()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::get_content()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::get_content_html()` is deprecated with no replacement.
+    + Method `LLMS_Achievement::create()` is deprecated with no replacement.
+  + Method `LLMS_Achievments::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
+
+  + Class `LLMS_Certificate` is deprecated with no direct replacement.
+    + Method `LLMS_Certificate::is_enabled()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::get_blogname()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::format_string()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::get_title()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::get_content()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::get_content_html()` is deprecated with no replacement.
+    + Method `LLMS_Certificate::get_title()` is deprecated with no replacement.
+  + Method `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
+
+  + Method `LLMS_Engagements::init()` is deprecated with no replacement.
+
+  + Method `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`.
+
+  + Method `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`.
+
+  + Method `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
+
+  + Method `LLMS_Database_Query::set_found_results()` is deprecated.
+
+  + Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+    + Method `LLMS_Achievement_User::has_user_earned()` is deprecated with no replacement.
+    + Method `LLMS_Achievement_User::init()` is deprecated with no replacement.
+    + Method `LLMS_Achievement_User::trigger()` is deprecated with no replacement.
+    + Method `LLMS_Achievement_User::get_content_html()` is deprecated with no replacement.
+  + Class `LLMS_Certificate_User` is deprecated with no direct replacement.
+    + Method `LLMS_Certificate_User::init()` is deprecated with no replacement.
+    + Method `LLMS_Certificate_User::trigger()` is deprecated with no replacement.
+    + Method `LLMS_Certificate_User::get_content_html()` is deprecated with no replacement.
+    + Method `LLMS_Certificate_User::set_shortcode_user()` is deprecated with no replacement.
+  + Engagement debug logging is removed. Use `llms_log()` directly instead.
+
+  + Filter `llms_db_query_get_default_args` is deprecated in favor of `llms_{$this->id}_query_get_default_args`.
+
+  + Filter `llms_certificate_has_user_earned` is deprecated in favor of `llms_earned_certificate_dupcheck`.
+
+  + Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
