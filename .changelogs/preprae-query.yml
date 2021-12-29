@@ -1,0 +1,14 @@
+significance: minor
+type: deprecated
+links:
+  - "#859"
+entry: >
+  + Deprecated the misspelled protected method
+  `LLMS_Database_Query::preprare_query()` with
+  `LLMS_Database_Query::prepare_query()`.
+    + Class method `LLMS_Events_Query::preprare_query` replaced with `LLMS_Events_Query::prepare_query()`.
+    + Class method `LLMS_Query_Quiz_Attempt::preprare_query` replaced with `LLMS_Query_Quiz_Attempt::prepare_query()`.
+    + Class method `LLMS_Query_User_Postmeta::preprare_query` replaced with `LLMS_Query_User_Postmeta::prepare_query()`.
+    + Class method `LLMS_Student_Query::preprare_query` replaced with `LLMS_Student_Query::prepare_query()`.
+    + Class method `LLMS_Notifications_Query::preprare_query` replaced with `LLMS_Notifications_Query::prepare_query()`.
+    + Class method `LLMS_Notifications_Query::preprare_query` replaced with `LLMS_Notifications_Query::prepare_query()`.

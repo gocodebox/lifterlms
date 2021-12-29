@@ -1,0 +1,3 @@
+significance: minor
+type: dev
+entry: Added new utility function for stripping prefixes from strings.

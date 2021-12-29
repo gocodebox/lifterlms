@@ -1,0 +1,10 @@
+significance: major
+type: changed
+links:
+  - "#463"
+entry: Certificates no longer use the `header.php` and `footer.php` files from
+  the site's theme, instead custom templates
+  (`templates/certificates/header.php` and `templates/certificates/footer.php`)
+  are used instead. These templates are minimal and exclude theme wrappers which
+  reduces the visual conflicts encountered from theme wrappers, backgrounds, and
+  more, especially when printing certificates.
