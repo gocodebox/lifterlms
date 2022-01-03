@@ -72,7 +72,6 @@ class LLMS_Block_Library {
 			if ( $this->should_register( $id, $block ) ) {
 				register_block_type( $block['path'] );
 			}
-
 		}
 
 	}
