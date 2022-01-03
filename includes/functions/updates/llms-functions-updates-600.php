@@ -87,7 +87,7 @@ function migrate_award_templates() {
 		_migrate_image( $post->ID, llms_strip_prefixes( $post->post_type ) );
 		if ( 'llms_achievement' === $post->post_type ) {
 			_migrate_achievement_content( $post->ID );
-		} else if ( 'llms_certificate' === $post->post_type && ! $legacy_option_added ) {
+		} elseif ( 'llms_certificate' === $post->post_type && ! $legacy_option_added ) {
 			_add_legacy_opt();
 			$legacy_option_added = true;
 		}
@@ -164,7 +164,7 @@ function _migrate_awards( $type ) {
 	$query_args = array(
 		'orderby'        => array( 'ID' => 'ASC' ),
 		'post_type'      => "llms_my_{$type}",
-		// 'post_status'    => 'any',
+		'post_status'    => 'any',
 		'posts_per_page' => $per_page,
 		'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
 		'fields'         => 'ids', // We just need the ID for the updates we'll perform.
@@ -194,8 +194,6 @@ function _migrate_awards( $type ) {
 
 	$query = new \WP_Query( $query_args );
 
-
-
 	// Don't trigger deprecations.
 	remove_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
 
@@ -212,7 +210,6 @@ function _migrate_awards( $type ) {
 			_add_legacy_opt();
 			$legacy_option_added = true;
 		}
-
 	}
 	// Re-enable deprecations.
 	add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );

@@ -173,7 +173,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'certificates_options',
 			__( 'Certificate Settings', 'lifterlms' ),
 			'',
-			$settings,
+			$settings
 		);
 
 	}
