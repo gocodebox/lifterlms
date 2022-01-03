@@ -113,7 +113,8 @@ class LLMS_Block_Library {
 		global $pagenow;
 		$post_type = null;
 		if ( 'post.php' === $pagenow ) {
-			$post_type = get_post_type( llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT ) );
+			$id        = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+			$post_type = $id ? get_post_type( $id ) : $post_type;
 		} elseif ( 'post-new.php' === $pagenow ) {
 			$post_type = llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 			$post_type = $post_type ? $post_type : 'post'; // If `$_GET` is not set it's because it's a basic post.
