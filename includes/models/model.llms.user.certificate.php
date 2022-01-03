@@ -188,7 +188,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieve information about the certificate background image.
 	 *
-	 * This is a legacy function used for certificates using template version 1.
+	 * This function returns an array of information used for legacy certificates using the v1 template.
+	 *
+	 * When using the v2 template, only the `$src` value is utilized and the background image itself is
+	 * always set to 100% width and height of certificate as defined by the certificate's sizing settings.
 	 *
 	 * @since [version]
 	 *
@@ -205,7 +208,11 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$id     = $this->get( 'id' );
 		$img_id = get_post_thumbnail_id( $id );
-		$size   = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+
+		$size = 'full';
+		if ( 1 === $this->get_template_version() ) {
+			$size = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+		}
 
 		if ( ! $img_id ) {
 
@@ -218,6 +225,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			/**
 			 * Filters the display height of the default certificate background image.
 			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
+			 *
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
@@ -227,6 +238,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 			/**
 			 * Filters the display width of the default certificate background image.
+			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
 			 *
 			 * @since 2.2.0
 			 *
@@ -255,6 +270,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			/**
 			 * Filters the display height of the certificate background image.
 			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
+			 *
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
@@ -264,6 +283,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 			/**
 			 * Filters the display width of the certificate background image.
+			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
 			 *
 			 * @since 2.2.0
 			 *
@@ -492,7 +515,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$size  = $this->get_size();
 		$sizes = llms_get_certificate_sizes();
 		if ( ! $size || empty( $sizes[ $size ] ) ) {
-			$size = get_option( 'llms_certificate_default_size', 'LETTER' );
+			$size = get_option( 'lifterlms_certificate_default_size', 'LETTER' );
 		}
 
 		return $sizes[ $size ] ?? array_values( $sizes )[0];

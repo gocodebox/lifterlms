@@ -37,6 +37,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		parent::set_up();
 		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+		delete_option( 'lifterlms_has_legacy_certificates' );
 
 	}
 
@@ -48,8 +49,11 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	 * @return void
 	 */
 	public function tear_down() {
+
 		parent::tear_down();
 		remove_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+		delete_option( 'lifterlms_has_legacy_certificates' );
+
 	}
 
 	/**
@@ -224,6 +228,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $type ) {
 
+			delete_option( 'lifterlms_has_legacy_certificates' );
+
 			$awards = $this->create_legacy_awards( 12, $type );
 
 			// Should run 3 times, the 3rd has fewer than max results so we're complete.
@@ -234,6 +240,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			}
 
 			foreach ( $awards as $i => $award ) {
+
 				$post = get_post( $award['post_id'] );
 
 				// Everything is migrated.
@@ -255,9 +262,34 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 			}
 
+			$this->assertEquals( 'certificate' === $type ? 'yes' : 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+
 		}
 
 		remove_filter( 'llms_update_600_per_page', $per_page );
+
+	}
+
+	/**
+	 * Test the migrate_achievements() and migrate_certificates() functions when none exist to migrate.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_award_metas_none_found() {
+
+		$tests = array(
+			'achievement',
+			'certificate',
+		);
+
+		foreach ( $tests as $type ) {
+
+			$this->assertFalse( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
+			$this->assertEquals( 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+
+		}
 
 	}
 
@@ -292,6 +324,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			}
 
 		}
+
+		$this->assertEquals( 'yes', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
 	}
 

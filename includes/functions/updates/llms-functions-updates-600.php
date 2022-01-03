@@ -59,6 +59,7 @@ function migrate_award_templates() {
 	$query = new \WP_Query(
 		array(
 			'orderby'        => array( 'ID' => 'ASC' ),
+			'post_status'    => 'any',
 			'post_type'      => array( 'llms_achievement', 'llms_certificate' ),
 			'posts_per_page' => $per_page,
 			'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
@@ -80,10 +81,15 @@ function migrate_award_templates() {
 		)
 	);
 
+	$legacy_option_added = false;
+
 	foreach ( $query->posts as $post ) {
 		_migrate_image( $post->ID, llms_strip_prefixes( $post->post_type ) );
 		if ( 'llms_achievement' === $post->post_type ) {
 			_migrate_achievement_content( $post->ID );
+		} elseif ( 'llms_certificate' === $post->post_type && ! $legacy_option_added ) {
+			_add_legacy_opt();
+			$legacy_option_added = true;
 		}
 	}
 
@@ -158,6 +164,7 @@ function _migrate_awards( $type ) {
 	$query_args = array(
 		'orderby'        => array( 'ID' => 'ASC' ),
 		'post_type'      => "llms_my_{$type}",
+		'post_status'    => 'any',
 		'posts_per_page' => $per_page,
 		'no_found_rows'  => true, // We don't care about found rows since we'll run the query as many times as needed anyway.
 		'fields'         => 'ids', // We just need the ID for the updates we'll perform.
@@ -193,8 +200,16 @@ function _migrate_awards( $type ) {
 	// Don't trigger save hooks.
 	remove_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
+	$legacy_option_added = false;
+
 	foreach ( $query->posts as $post_id ) {
+
 		_migrate_award( $post_id, $type );
+
+		if ( 'certificate' === $type && ! $legacy_option_added ) {
+			_add_legacy_opt();
+			$legacy_option_added = true;
+		}
 	}
 	// Re-enable deprecations.
 	add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 20, 3 );
@@ -298,4 +313,15 @@ function _migrate_image( $post_id, $type ) {
 
 	delete_post_meta( $post_id, "_llms_{$type}_image" );
 
+}
+
+/**
+ * Adds an option used to determine if the site has at least one legacy certificate template.
+ *
+ * @since [version]
+ *
+ * @return void
+ */
+function _add_legacy_opt() {
+	update_option( 'lifterlms_has_legacy_certificates', 'yes', 'no' );
 }

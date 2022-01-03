@@ -102,56 +102,78 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * Retrieve fields for the certificates settings group.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Add certificate background image option.
+	 * @since [version] Add background image options.
+	 *               Only load legacy certificate options when the legacy option is enabled.
 	 *
 	 * @return array[]
 	 */
 	protected function get_settings_group_certs() {
 
+		$settings = array(
+			array(
+				'title'    => __( 'Default Background Image', 'lifterlms' ),
+				'id'       => 'lifterlms_certificate_default_bg_img',
+				'type'     => 'image',
+				'value'    => llms()->certificates()->get_default_image( 0 ),
+				'autoload' => false,
+			),
+			array(
+				'title'    => __( 'Default Size', 'lifterlms' ),
+				'id'       => 'lifterlms_certificate_default_size',
+				'type'     => 'select',
+				'options'  => $this->get_certificate_size_opts(),
+				'default'  => 'LETTER',
+				'autoload' => false,
+			),
+
+		);
+
+		if ( $this->has_legacy_certificates() ) {
+
+			$settings = array_merge(
+				$settings,
+				array(
+					array(
+						'title' => __( 'Legacy Certificate Background Image Settings', 'lifterlms' ),
+						'type'  => 'subtitle',
+						'desc'  => __( 'Use these settings to determine the dimensions of legacy certificate background images created using the classic editor. These settings have no effect on certificates created using the block editor. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
+						'id'    => 'cert_bg_image_settings',
+					),
+					array(
+						'title'    => __( 'Image Width', 'lifterlms' ),
+						'desc'     => __( 'in pixels', 'lifterlms' ),
+						'id'       => 'lifterlms_certificate_bg_img_width',
+						'default'  => '800',
+						'type'     => 'number',
+						'autoload' => false,
+					),
+					array(
+						'title'    => __( 'Image Height', 'lifterlms' ),
+						'id'       => 'lifterlms_certificate_bg_img_height',
+						'desc'     => __( 'in pixels', 'lifterlms' ),
+						'default'  => '616',
+						'type'     => 'number',
+						'autoload' => false,
+					),
+					array(
+						'title'    => __( 'Legacy compatibility', 'lifterlms' ),
+						'desc'     => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
+										'<br><em>' . __( 'Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image.', 'lifterlms' ) . '</em>',
+						'id'       => 'lifterlms_certificate_legacy_image_size',
+						'default'  => 'no',
+						'type'     => 'checkbox',
+						'autoload' => false,
+					),
+				)
+			);
+
+		}
+
 		return $this->generate_settings_group(
 			'certificates_options',
 			__( 'Certificate Settings', 'lifterlms' ),
 			'',
-			array(
-				array(
-					'title' => __( 'Background Image Settings', 'lifterlms' ),
-					'type'  => 'subtitle',
-					'desc'  => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
-					'id'    => 'cert_bg_image_settings',
-				),
-				array(
-					'title'    => __( 'Default Background Image', 'lifterlms' ),
-					'id'       => 'lifterlms_certificate_default_bg_img',
-					'type'     => 'image',
-					'value'    => llms()->certificates()->get_default_image( 0 ),
-					'autoload' => false,
-				),
-				array(
-					'title'    => __( 'Image Width', 'lifterlms' ),
-					'desc'     => __( 'in pixels', 'lifterlms' ),
-					'id'       => 'lifterlms_certificate_bg_img_width',
-					'default'  => '800',
-					'type'     => 'number',
-					'autoload' => false,
-				),
-				array(
-					'title'    => __( 'Image Height', 'lifterlms' ),
-					'id'       => 'lifterlms_certificate_bg_img_height',
-					'desc'     => __( 'in pixels', 'lifterlms' ),
-					'default'  => '616',
-					'type'     => 'number',
-					'autoload' => false,
-				),
-				array(
-					'title'    => __( 'Legacy compatibility', 'lifterlms' ),
-					'desc'     => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
-									'<br><em>' . __( 'Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image.', 'lifterlms' ) . '</em>',
-					'id'       => 'lifterlms_certificate_legacy_image_size',
-					'default'  => 'no',
-					'type'     => 'checkbox',
-					'autoload' => false,
-				),
-			)
+			$settings
 		);
 
 	}
@@ -233,6 +255,74 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			$services
 		);
+
+	}
+
+	/**
+	 * Retrieves the options array for the `lifterlms_certificate_default_size` option.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function get_certificate_size_opts() {
+
+		$units = llms_get_certificate_units();
+
+		$sizes = array();
+
+		foreach ( llms_get_certificate_sizes() as $size_id => $data ) {
+
+			$unit = $units[ $data['unit'] ] ?? '';
+
+			$sizes[ $size_id ] = sprintf(
+				'%1$s (%2$s%4$s x %3$s%4$s)',
+				$data['name'],
+				$data['width'],
+				$data['height'],
+				$unit['symbol'] ?? ''
+			);
+
+		}
+
+		return $sizes;
+
+	}
+
+	/**
+	 * Determines if legacy certificate options should be displayed.
+	 *
+	 * The option used to determine if there are certificates is set during a migration to version from versions
+	 * earlier than 6.0.0. During the migration if at least one certificate template is migrated, the option
+	 * is set and the legacy options will be displayed.
+	 *
+	 * Even after all certificates have been individually migrated the option will still be set and should be
+	 * deleted via the db, set to 'no' via the options.php screen or disabled by returning `false` from the short
+	 * circuit filter {@see llms_has_legacy_certificates}.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	private function has_legacy_certificates() {
+
+		/**
+		 * Short-circuits the legacy certificates check preventing a database call.
+		 *
+		 * This can be used to force-enable or force-disable legacy certificate settings regardless
+		 * of the value found in the database option.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $has_legacy_certificates Return `true` to force legacy certificate settings on
+		 *                                         and `false` to force them off.
+		 */
+		$pre = apply_filters( 'llms_has_legacy_certificates', null );
+		if ( ! is_null( $pre ) ) {
+			return $pre;
+		}
+
+		return llms_parse_bool( get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
 	}
 
