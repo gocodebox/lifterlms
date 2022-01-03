@@ -445,6 +445,8 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Test a lesson is correctly "moved" into a brand new section :)
 	 *
 	 * @since 5.1.3
+	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 *              Replaced the call to the deprecated `LLMS_Lesson::set_parent_course()` method with `LLMS_Lesson::set( 'parent_course', $course_id )`.
 	 *
 	 * @return void
 	 */
@@ -462,7 +464,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 		$section_id = $this->factory->post->create( array( 'post_type' => 'section' ) );
 		$section    = llms_get_post( $section_id );
 		// Add the section to the course above.
-		$section->set_parent_course( $course->get( 'id' ) );
+		$section->set( 'parent_course', $course->get( 'id' ) );
 
 		// Simulate the course lesson moved from its section to the brand new one.
 		// Build builder data.
@@ -483,7 +485,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 		);
 
 		// Check lesson parents.
-		$this->assertEquals( $course->get( 'id' ), $lesson->get_parent_course() );
+		$this->assertEquals( $course->get( 'id' ), $lesson->get( 'parent_course' ) );
 		$this->assertEquals( $section->get( 'id' ), $lesson->get_parent_section() );
 
 	}

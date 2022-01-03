@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.18.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -226,20 +226,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 
 	/**
-	 * Retrieve the order which enrolled a student in a given course or membership
-	 * Retrieves the most recently updated order for the given product
+	 * Retrieve the order which enrolled a student in a given course or membership.
 	 *
-	 * @param    int $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
-	 * @return   LLMS_Order|false        Instance of the LLMS_Order or false if none found
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Retrieves the most recently updated order for the given product.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 *
+	 * @param int $product_id WP Post ID of the LifterLMS Product (course, lesson, or membership)
+	 * @return LLMS_Order|false Instance of the LLMS_Order or false if none found
 	 */
 	public function get_enrollment_order( $product_id ) {
 
 		// If a lesson id was passed in, cascade up to the course for order retrieval.
 		if ( 'lesson' === get_post_type( $product_id ) ) {
 			$lesson     = new LLMS_Lesson( $product_id );
-			$product_id = $lesson->get_parent_course();
+			$product_id = $lesson->get( 'parent_course' );
 		}
 
 		// Attempt to locate the order via the enrollment trigger.
@@ -600,6 +602,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.37.9 Added filter `llms_user_enrollment_status_allowed_post_types`.
 	 * @since 4.4.1 Moved filter `llms_user_enrollment_status_allowed_post_types` to function `llms_get_enrollable_status_check_post_types()`.
 	 * @since 4.18.0 Added a tie-breaker when there are multiple enrollment statuses with the same date & time.
+	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query
@@ -621,7 +624,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$llms_post = llms_get_post( $product_id );
 			if ( $llms_post ) {
-				$product_id = $llms_post->get_parent_course();
+				$product_id = $llms_post->get( 'parent_course' );
 			}
 		}
 
