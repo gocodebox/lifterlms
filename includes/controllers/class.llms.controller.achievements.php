@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ class LLMS_Controller_Achievements {
 	}
 
 	/**
-	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
+	 * Handle achievement form actions to download (for students and admins) and to delete (admins only)
 	 *
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
@@ -50,21 +50,21 @@ class LLMS_Controller_Achievements {
 	}
 
 	/**
-	 * Delete a cert
+	 * Delete an achievement.
 	 *
 	 * @since 3.18.0
+	 * @since [version] Permanently delete achievement via wp_delete_post().
 	 *
-	 * @param int $cert_id WP Post ID of the llms_my_certificate.
+	 * @param int $achievement_id WP Post ID of the llms_my_achievement.
 	 * @return void
 	 */
-	private function delete( $cert_id ) {
+	private function delete( $achievement_id ) {
 
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		$cert = new LLMS_User_Achievement( $cert_id );
-		$cert->delete();
+		wp_delete_post( $achievement_id, true );
 
 	}
 

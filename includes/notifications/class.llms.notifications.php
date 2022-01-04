@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -76,6 +76,7 @@ class LLMS_Notifications {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
 	 * @since 3.38.0 Schedule processors using an async scheduled action.
+	 * @since [version] Do not load / enqueue basic notifications on the admin panel.
 	 *
 	 * @return void
 	 */
@@ -83,8 +84,10 @@ class LLMS_Notifications {
 
 		$this->load();
 
-		add_action( 'wp', array( $this, 'enqueue_basic' ) );
-		add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
+		if ( ! is_admin() ) {
+			add_action( 'wp', array( $this, 'enqueue_basic' ) );
+			add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
+		}
 
 		/**
 		 * Customize whether or not async notification dispatching should be used.

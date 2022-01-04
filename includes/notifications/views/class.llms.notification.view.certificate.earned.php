@@ -42,6 +42,15 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 */
 	public $trigger_id = 'certificate_earned';
 
+	/**
+	 * Get the HTML for the mini certificate preview.
+	 *
+	 * @since Unknown
+	 *
+	 * @param string $title   The (merged) certificate title.
+	 * @param string $content The (merged) certificate body/content.
+	 * @return string
+	 */
 	private function get_mini_html( $title, $content ) {
 		$attrs   = array(
 			'class' => array(),
@@ -129,41 +138,82 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.16.6
+	 * @since 3.8.0
+	 * @since 3.16.6 Unknown.
+	 * @since [version] Refactor to give each merge code it's own method.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string The merged string or the original code for invalid merge codes.
 	 */
 	protected function set_merge_data( $code ) {
 
-		$cert = new LLMS_User_Certificate( $this->notification->post_id );
-
-		switch ( $code ) {
-
-			case '{{CERTIFICATE_CONTENT}}':
-				$code = $cert->get( 'content' );
-				break;
-
-			case '{{CERTIFICATE_TITLE}}':
-				$code = $cert->get( 'certificate_title' );
-				break;
-
-			case '{{CERTIFICATE_URL}}':
-				$code = get_permalink( $cert->get( 'id' ) );
-				break;
-
-			case '{{MINI_CERTIFICATE}}':
-				$code = $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ), $this->set_merge_data( '{{CERTIFICATE_CONTENT}}' ) );
-				break;
-
-			case '{{STUDENT_NAME}}':
-				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
-				break;
-
+		if ( in_array( $code, array_keys( $this->set_merge_codes() ), true ) ) {
+			$method = 'set_merge_data_' . strtolower( str_replace( array( '{{', '}}' ), '', $code ) );
+			$code   = method_exists( $this, $method ) ? $this->$method( new LLMS_User_Certificate( $this->notification->post_id ) ) : $code;
 		}
 
 		return $code;
 
+	}
+
+	/**
+	 * Get merge data for the {{CERTIFICATE_CONTENT}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_content( $cert ) {
+		return $cert->get( 'content' );
+	}
+
+	/**
+	 * Get merge data for the {{CERTIFICATE_TITLE}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_title( $cert ) {
+		return $cert->get( 'title' );
+	}
+
+	/**
+	 * Get merge data for the {{CERTIFICATE_URL}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_certificate_url( $cert ) {
+		return get_permalink( $cert->get( 'id' ) );
+	}
+
+	/**
+	 * Get merge data for the {{MINI_CERTIFICATE}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_mini_certificate( $cert ) {
+		return $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ), $this->set_merge_data( '{{CERTIFICATE_CONTENT}}' ) );
+	}
+
+	/**
+	 * Get merge data for the {{STUDENT_NAME}} merge code.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $cert Earned certificate object.
+	 * @return string
+	 */
+	private function set_merge_data_student_name( $cert ) {
+		return $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 	}
 
 	/**

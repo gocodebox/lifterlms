@@ -1,35 +1,41 @@
 <?php
 /**
- * Admin Post Types
- *
- * Sets up post type custom messages and includes base metabox class.
+ * LLMS_Admin_Post_Types class.
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version 4.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Post_Types class
+ * Admin Post Types.
+ *
+ * Sets up post type custom messages and includes base metabox class.
  *
  * @since Unknown
- * @version 3.35.0 Fix l10n calls.
  */
 class LLMS_Admin_Post_Types {
 
 	/**
 	 * Constructor
 	 *
-	 * Adds functions to actions and sets filter on post_updated_messages
+	 * Adds functions to actions and sets filter on post_updated_messages.
+	 *
+	 * @since Unknown
+	 * @since [version] Disable the block editor for legacy certificates.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
-		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
-		add_action( 'metabox_init', array( $this, 'meta_metabox_init' ) );
+		add_action( 'use_block_editor_for_post', array( $this, 'use_block_editor_for_post' ), 20, 2 );
 
+		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
+
+		add_action( 'metabox_init', array( $this, 'meta_metabox_init' ) );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
 	}
@@ -46,6 +52,25 @@ class LLMS_Admin_Post_Types {
 	}
 
 	/**
+	 * Disables the block editor for legacy certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $use_block_editor Whether or not to use the block editor.
+	 * @param WP_Post $post             Post object.
+	 * @return boolean
+	 */
+	public function use_block_editor_for_post( $use_block_editor, $post ) {
+		$cert = llms_get_certificate( $post, true );
+		if ( $cert && 1 === $cert->get_template_version() ) {
+			$use_block_editor = false;
+		}
+
+		return $use_block_editor;
+
+	}
+
+	/**
 	 * Initializes core for metaboxes
 	 *
 	 * @return void
@@ -58,10 +83,11 @@ class LLMS_Admin_Post_Types {
 	 * Customize post type messages.
 	 *
 	 * @since Unknown.
-	 * @version 3.35.0 Fix l10n calls.
+	 * @since 3.35.0 Fix l10n calls.
 	 * @since 4.7.0 Added `publicly_queryable` check for permalink and preview.
+	 * @since [version] Handle `llms_my_certificate` and `llms_my_achievement` post types.
 	 *
-	 * @return array $messages
+	 * @return array $messages Post updated messages.
 	 */
 	public function llms_post_updated_messages( $messages ) {
 
@@ -75,7 +101,9 @@ class LLMS_Admin_Post_Types {
 			'llms_email',
 			'llms_email',
 			'llms_certificate',
+			'llms_my_certificate',
 			'llms_achievement',
+			'llms_my_achievement',
 			'llms_engagement',
 			'llms_quiz',
 			'llms_question',

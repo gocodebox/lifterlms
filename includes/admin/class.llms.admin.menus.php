@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Menu Items
+ * Admin Menu Items.
  *
  * @package LifterLMS/Admin/Classes
  *
