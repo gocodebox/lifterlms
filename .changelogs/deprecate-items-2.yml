@@ -1,0 +1,8 @@
+significance: minor
+type: deprecated
+entry: |
+  + Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
+  + Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
+  + Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
+  + Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
+  + Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.

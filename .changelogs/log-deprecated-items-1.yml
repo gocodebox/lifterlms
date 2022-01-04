@@ -1,0 +1,7 @@
+significance: minor
+type: changed
+entry: |
+  + Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
+  + Informed developers about the deprecated `LLMS_Section::get_order()` method.
+  + Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
+  + Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.

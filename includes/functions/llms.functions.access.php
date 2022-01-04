@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.37.10
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.16.11 Unknown.
+ * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
  *
  * @param int      $post_id WordPress Post ID of the content.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -66,7 +67,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		if ( $lesson->is_free() ) {
 			return $results;
 		} else {
-			$restriction_id = $lesson->get_parent_course();
+			$restriction_id = $lesson->get( 'parent_course' );
 			$reason         = 'enrollment_lesson';
 		}
 	} elseif ( is_singular() && 'course' === $post_type ) {
@@ -433,6 +434,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
+ * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
  *
  * @param int      $post_id WP Post ID of a course, lesson, or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -447,7 +449,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 	if ( 'lesson' === $post_type ) {
 
 		$lesson    = new LLMS_Lesson( $post_id );
-		$course_id = $lesson->get_parent_course();
+		$course_id = $lesson->get( 'parent_course' );
 
 	} elseif ( 'llms_quiz' === $post_type ) {
 		$quiz      = llms_get_post( $post_id );
@@ -459,7 +461,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		if ( ! $lesson_id ) {
 			return false;
 		}
-		$course_id = $lesson->get_parent_course();
+		$course_id = $lesson->get( 'parent_course' );
 
 	} elseif ( 'course' === $post_type ) {
 
