@@ -1190,7 +1190,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function add_lesson_to_course( $request ) {
 
-		llms_deprecated_function( __METHOD__, '[version]');
+		llms_deprecated_function( __METHOD__, '[version]' );
 		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );
