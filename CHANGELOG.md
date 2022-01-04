@@ -1,6 +1,33 @@
 LifterLMS Changelog
 ===================
 
+v6.0.0-alpha.2 - 2022-01-04
+---------------------------
+
+##### New Features
+
++ Added certificate global options for the default size of new certificates and certificate templates.
+
+##### Updates and enhancements
+
++ The site options `lifterlms_certificate_bg_img_width`,
+`lifterlms_certificate_bg_img_height`, and
+`lifterlms_certificate_legacy_image_size` are now used only for certificates
+and certificate templates created using the classic editor.
+  + The settings, found on the Engagements Settings screen, are hidden by default.
+  + During the database upgrade from versions earlier than 6.x, an site option, `llms_has_legacy_certificates`  is added when at least one certificate is found. This option will display the settings so they can continue to be used for legacy certificates.
+  + After migrating all certificates on a site, the settings will still display. In order to remove them from the screen a developer can either delete the option `llms_has_legacy_certificates` or return `false` from the filter `llms_has_legacy_certificates`.
++ Restore certificate save hooks after executing callback updates to facilitate scenarios where more than one certificate is updated in a single request.
+
+##### Bug Fixes
+
++ Only register the Certificate Title block for use on certificate post types.
+
+##### Updated Templates
+
++ [templates/certificates/content-legacy.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/certificates/content-legacy.php)
+
+
 v6.0.0-alpha.1 - 2021-12-28
 ---------------------------
 
