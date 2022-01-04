@@ -538,16 +538,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v5.7.0 - 2022-01-04 =
+= v5.7.0 - 2022-01-05 =
+
+##### Imminent Supported Version Requirement Updates
+
++ **LifterLMS 6.0, scheduled for release in early February, will drop support for PHP 7.3 and WordPress 5.4, raising the minimum required PHP version to 7.4 and the minimum required WordPress version to 5.5.**
 
 ##### Deprecations
 
-+ Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
-+ Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
-+ Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
 + Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
 + Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
 + Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
++ Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
++ Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
++ Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
 + Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
 + Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
 + Deprecated the `LLMS_Section::get_next_available_lesson_order()` method.
