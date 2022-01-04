@@ -44,6 +44,11 @@
     <!-- Exclude locale files that take forever to process -->
     <exclude-pattern>languages/*.php</exclude-pattern>
 
+    <!-- Allow dynamic styles on the certificate template. -->
+	<rule ref="WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet">
+		<exclude-pattern>templates/certificates/dynamic-styles.php</exclude-pattern>
+	</rule>
+
 	<rule ref="LifterLMS">
 
 		<!-- @todo: Apply coding standards to js -->
