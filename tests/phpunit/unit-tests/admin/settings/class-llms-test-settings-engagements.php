@@ -70,7 +70,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 				0,
 				25,
 			),
-			'lifterlms_certificate_default_bg_img' => array(
+			'lifterlms_certificate_default_img' => array(
 				0,
 				32,
 			),
