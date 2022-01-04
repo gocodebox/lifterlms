@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 4.4.3 Deprecated the `LLMS_Post_Handler::create_lesson()` method with no replacement.
- * @since [version] Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
+ * @since 5.7.0 Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
  */
 class LLMS_Post_Handler {
 
@@ -101,7 +101,7 @@ class LLMS_Post_Handler {
 	 * Creates a new Section
 	 *
 	 * @since Unknown Introduced.
-	 * @deprecated [version] There is not a replacement.
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param  int    $course_id The parent course id.
 	 * @param  string $title     An optional title for the section.

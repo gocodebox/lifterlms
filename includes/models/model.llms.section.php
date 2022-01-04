@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 4.0.0 Remove deprecated class methods.
- * @since [version] Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
+ * @since 5.7.0 Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
  *              Informed developers about the deprecated `LLMS_Section::get_order()` method.
  *              Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
  *              Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.

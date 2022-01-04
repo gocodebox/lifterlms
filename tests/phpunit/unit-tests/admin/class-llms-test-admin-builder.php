@@ -445,7 +445,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	 * Test a lesson is correctly "moved" into a brand new section :)
 	 *
 	 * @since 5.1.3
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *              Replaced the call to the deprecated `LLMS_Lesson::set_parent_course()` method with `LLMS_Lesson::set( 'parent_course', $course_id )`.
 	 *
 	 * @return void
