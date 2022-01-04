@@ -152,6 +152,8 @@ class LLMS_Controller_Awards {
 
 		}
 
+		add_action( "save_post_{$post_type}", array( __CLASS__, 'on_save' ), 20 );
+
 		return true;
 
 	}
