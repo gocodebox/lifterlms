@@ -11,43 +11,6 @@
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 	/**
-	 * Test get_default_image() and get_default_image_id()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_default_image() {
-
-		$opt_name = 'lifterlms_certificate_default_bg_img';
-
-		// Non-existent option.
-		delete_option( $opt_name );
-		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
-		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
-
-		// Empty option
-		update_option( $opt_name, '' );
-		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
-		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
-
-		// Non-existent attachment.
-		update_option( $opt_name, 123 );
-		$this->assertEquals( 0, llms()->certificates()->get_default_image_id() );
-		$this->assertStringContainsString( '/default-certificate.png', llms()->certificates()->get_default_image( 123 ) );
-
-		// A "real" attachment.
-		$attachment_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
-		update_option( $opt_name, $attachment_id );
-		$this->assertEquals( $attachment_id, llms()->certificates()->get_default_image_id() );
-		$this->assertMatchesRegularExpression(
-			'#http:\/\/example.org\/wp-content\/uploads\/\d{4}\/\d{2}\/christian-fregnan-unsplash(-)?\d*.jpg#',
-			llms()->certificates()->get_default_image( $attachment_id )
-		);
-
-	}
-
-	/**
 	 * Test trigger_engagement() method.
 	 *
 	 * @since 3.37.3
