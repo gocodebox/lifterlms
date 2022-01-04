@@ -56,7 +56,6 @@ class LLMS_Admin_Post_Table_Awards {
 			add_filter( "views_edit-{$post_type}", array( $this, 'modify_views' ) );
 		}
 
-
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
 
