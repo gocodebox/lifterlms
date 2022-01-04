@@ -451,10 +451,12 @@ class LLMS_Engagement_Handler {
 			return absint( $img_id );
 		}
 
+		if ( 'achievement' === $type ) {
+			return llms()->achievements()->get_default_image_id();
+		}
+
 		if ( 'certificate' === $type ) {
 			return llms()->certificates()->get_default_image_id();
-		} elseif ( 'achievement' === $type ) {
-			return ''; // @todo.
 		}
 
 		return 0;
