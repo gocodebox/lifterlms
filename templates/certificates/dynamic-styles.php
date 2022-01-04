@@ -40,11 +40,13 @@ $gfonts_preconnet = false;
 	html, body {
 		background-color: <?php echo $background_color; ?> !important;
 	}
+	.llms-certificate-wrapper {
+		height: <?php echo $height; ?>;
+		width: <?php echo $width; ?>;
+	}
 	.llms-certificate-container {
 		background-image: <?php echo "url( {$background_img} )"; ?>;
-		height: <?php echo $height; ?>;
 		padding: <?php echo $padding; ?>;
-		width: <?php echo $width; ?>;
 	}
 	<?php foreach ( $fonts as $font ) : ?>
 	.has-<?php echo $font['id']; ?>-font-family {
