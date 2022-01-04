@@ -14,7 +14,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$image = llms_get_certificate_image();
+$image = llms_get_certificate_image( $certificate->get( 'id' ) );
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
 	<img src="<?php echo $image['src']; ?>" style="margin-bottom:-<?php echo $image['height']; ?>px;" alt="<?php esc_html_e( 'Certificate Background', 'lifterlms' ); ?>" class="certificate-background">
