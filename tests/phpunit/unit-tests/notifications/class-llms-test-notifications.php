@@ -173,10 +173,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_processors_dispatch()
 	 *
 	 * @since 3.38.0
+	 * @since [version] Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */
 	public function test_schedule_processors_dispatch() {
+
+		as_unschedule_action( 'llms_dispatch_notification_processor_async', 'email' );
 
 		$now = time();
 		llms_tests_mock_current_time( $now );
@@ -238,10 +241,13 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_single_processor() when an existing event does not already exist.
 	 *
 	 * @since 3.38.0
+	 * @since [version] Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */
 	public function test_schedule_single_processor_new() {
+
+		as_unschedule_action( 'llms_dispatch_notification_processor_async', 'email' );
 
 		$email = $this->main->get_processor( 'email' )->push_to_queue( 1 );
 
