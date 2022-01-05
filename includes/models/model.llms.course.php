@@ -19,7 +19,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page methods to `LLMS_Trait_Sales_Page`.
- * @since [version] Removed deprecated `LLMS_Course::sections` and `LLMS_Course::sku` properties.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Course::sections` property
+ *              - `LLMS_Course::sku` property
  *
  * @property string $audio_embed                URL to an oEmbed enable audio URL.
  * @property float  $average_grade              Calculated value of the overall average grade of all *enrolled* students in the course..

@@ -21,7 +21,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  * @since 5.2.0 Removed private class property $db_updates.
- * @since [version] Removed the deprecated `db_updates()` and `update_notice()` functions.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Install::db_updates()` method
+ *              - `LLMS_Install::update_notice()` method
  */
 class LLMS_Install {
 

@@ -21,7 +21,9 @@ defined( 'ABSPATH' ) || exit;
  *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
- * @since [version] Removed deprecated `enqueue_inline_script()` and `is_inline_script_enqueued()`.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
+ *              - `LLMS_Frontend_Assets::is_inline_script_enqueued()` method
  */
 class LLMS_Frontend_Assets {
 

@@ -20,8 +20,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed these deprecated items: `dispatch_processors()` function,
- *              `llms_processors_async_dispatching` filter hook, `$_instance` property.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Notifications::dispatch_processors()` method
+ *              - `llms_processors_async_dispatching` filter hook from the `LLMS_Notifications::__construct()` method
+ *              - `LLMS_Notifications::$_instance` property
  */
 class LLMS_Notifications {
 

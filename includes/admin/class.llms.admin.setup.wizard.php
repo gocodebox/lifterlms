@@ -19,8 +19,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
  * @since 4.4.4 Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  * @since 4.8.0 Removed private class property "generated_course_id".
- * @since [version] Removed deprecated `LLMS_Admin_Setup_Wizard::generator_course_status()`, `LLMS_Admin_Setup_Wizard::output_step_html()`,
- *              `LLMS_Admin_Setup_Wizard::scripts()`, and `LLMS_Admin_Setup_Wizard::watch_course_generation()`.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Admin_Setup_Wizard::generator_course_status()` method
+ *              - `LLMS_Admin_Setup_Wizard::output_step_html()` method
+ *              - `LLMS_Admin_Setup_Wizard::scripts()` method
+ *              - `LLMS_Admin_Setup_Wizard::watch_course_generation()` method
  */
 class LLMS_Admin_Setup_Wizard {
 

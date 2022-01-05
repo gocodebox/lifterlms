@@ -8,6 +8,9 @@
  * @group frontend_assets
  *
  * @since 4.4.0
+ * @since [version] Removed testing of removed items.
+ *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
+ *              - `LLMS_Frontend_Assets::is_inline_enqueued()` method
  */
 class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 

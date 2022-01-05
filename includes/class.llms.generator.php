@@ -17,8 +17,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
- * @since [version] Removed deprecated `add_custom_values()`, `format_date()`, `get_author_id_from_raw()`,
- *              `get_default_post_status()`, `get_generated_posts()`, and `increment()`.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Generator::add_custom_values()` method
+ *              - `LLMS_Generator::format_date()` method
+ *              - `LLMS_Generator::get_author_id_from_raw()` method
+ *              - `LLMS_Generator::get_default_post_status()` method
+ *              - `LLMS_Generator::get_generated_posts()` method
+ *              - `LLMS_Generator::increment()` method
  */
 class LLMS_Generator {
 

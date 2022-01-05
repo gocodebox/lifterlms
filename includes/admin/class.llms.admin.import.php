@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *               Improve error handling.
  * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
  * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
- * @since [version] Removed deprecated `LLMS_Admin_Import::localize_stat()`.
+ * @since [version] Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
  */
 class LLMS_Admin_Import {
 

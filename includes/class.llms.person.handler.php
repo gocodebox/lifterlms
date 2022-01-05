@@ -16,8 +16,12 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
  * @since 5.0.0 Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
- * @since [version] Removed these deprecated functions: `register()`, `sanitize_field()`, `update()`,
- *              `validate_fields()`, and `voucher_toggle_script()`.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Person_Handler::register()` method
+ *              - `LLMS_Person_Handler::sanitize_field() method`
+ *              - `LLMS_Person_Handler::update()` method
+ *              - `LLMS_Person_Handler::validate_fields()` method
+ *              - `LLMS_Person_Handler::voucher_toggle_script()` method
  */
 class LLMS_Person_Handler {
 

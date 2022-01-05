@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices class
  *
  * @since 3.0.0
- * @since [version] Removed deprecated `LLMS_Admin_Notices_Core::check_staging()`.
+ * @since [version] Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
  */
 class LLMS_Admin_Notices_Core {
 

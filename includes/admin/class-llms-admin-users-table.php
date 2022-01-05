@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.34.0
  * @since 4.0.0 Add custom user table columns and action links.
- * @since [version] Removed deprecated `LLMS_Admin_Users_Table::load_dependencies()`.
+ * @since [version] Removed the deprecated `LLMS_Admin_Users_Table::load_dependencies()` method.
  */
 class LLMS_Admin_Users_Table {
 

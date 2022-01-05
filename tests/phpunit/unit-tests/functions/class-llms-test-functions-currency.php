@@ -7,6 +7,7 @@
  *
  * @since 3.24.1
  * @since 5.0.0 Moved country-related function tests to locale functions test file.
+ * @since [version] Removed testing of the removed `llms_format_decimal()` function.
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 

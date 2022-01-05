@@ -5,5 +5,5 @@ entry: |
   + Removed the deprecated `llms__deleted` action hook from the `LLMS_Abstract_Database_Store::delete()` method.
   + Removed the deprecated `llms__updated` action hook from the `LLMS_Abstract_Database_Store::update()` method.
   + Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
-  + Removed the deprecated `$purchaseable` global variable in the `lifterlms_template_pricing_table()` function.
-  + Removed the deprecated `$purchaseable` global variable in the `templates/product/pricing-table.php` file.
+  + Removed the deprecated and misspelled `$purchaseable` global variable in the `lifterlms_template_pricing_table()` function.
+  + Removed the deprecated and misspelled `$purchaseable` global variable in the `templates/product/pricing-table.php` file.

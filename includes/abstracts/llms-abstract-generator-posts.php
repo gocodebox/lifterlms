@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * noted on these methods and their preexisting changelogs have been preserved.
  *
  * @since 4.7.0
- * @since [version] Removed deprecated `LLMS_Abstract_Generator_Posts::increment()`.
+ * @since [version] Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
  */
 abstract class LLMS_Abstract_Generator_Posts {
 
