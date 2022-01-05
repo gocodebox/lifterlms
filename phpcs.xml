@@ -32,11 +32,6 @@
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
 
-	<!-- Don't throw errors for this 3rd party library -->
-	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
-		<exclude-pattern>includes/libraries/wp-background-processing/wp-background-process.php</exclude-pattern>
-	</rule>
-
     <!-- Exclude locale files that take forever to process -->
     <exclude-pattern>languages/*.php</exclude-pattern>
 

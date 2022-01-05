@@ -240,22 +240,13 @@ function llms_get_student( $user = null ) {
  * Retrieve a list of disallowed usernames.
  *
  * @since 5.0.0
+ * @since [version] Removed the deprecated `llms_usernames_blacklist` filter hook.
  *
  * @return string[]
  */
 function llms_get_usernames_blocklist() {
 
 	$list = array( 'admin', 'test', 'administrator', 'password', 'testing' );
-
-	/**
-	 * Deprecated filter.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.0.0 Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
-	 *
-	 * @param string[] $list List of banned usernames.
-	 */
-	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '[version]', 'llms_usernames_blocklist' );
 
 	/**
 	 * Modify the list of disallowed usernames
