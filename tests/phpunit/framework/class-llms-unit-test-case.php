@@ -12,6 +12,9 @@
  * @since 4.7.0 Disabled image sideloading during mock course generation.
  * @since 5.0.0 Automatically clear notices on teardown.
  *              Add a method to generate mock vouchers.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_UnitTestCase::setup_get()` method
+ *              - `LLMS_UnitTestCase::setup_post()` method
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -59,32 +62,6 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 		return $sessions;
 
-	}
-
-	/**
-	 * Setup Get data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars  mock get data
-	 * @return void
-	 */
-	protected function setup_get( $vars = array() ) {
-		$this->mockGetRequest( $vars );
-	}
-
-	/**
-	 * Setup Post data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars mock post data.
-	 * @return void
-	 */
-	protected function setup_post( $vars = array() ) {
-		$this->mockPostRequest( $vars );
 	}
 
 	/**
