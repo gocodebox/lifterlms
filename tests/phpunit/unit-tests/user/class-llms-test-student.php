@@ -100,10 +100,13 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test whether a user is_enrolled() in a course or membership
+	 * Test whether a user is_enrolled() in a course or membership.
+	 *
+	 * @since 3.5.0 Introduced.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
+	 *
 	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.28.0
 	 */
 	public function test_enrollment() {
 
@@ -191,7 +194,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 
 		// fast forward
-		llms_mock_current_time( date( 'Y-m-d', current_time( 'timestamp' ) + YEAR_IN_SECONDS ) );
+		llms_tests_mock_current_time( date( 'Y-m-d', current_time( 'timestamp' ) + YEAR_IN_SECONDS ) );
 
 		sleep( 1 ); // so the expiration status is later than the enrollment
 
@@ -213,6 +216,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -230,7 +235,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			$ts = $now + ( DAY_IN_SECONDS * rand( 1, 50 ) );
 			$date = date( $format, $ts );
 
-			llms_mock_current_time( $date );
+			llms_tests_mock_current_time( $date );
 
 			// enrollment date should match currently mocked date
 			$student->enroll( $cid );
@@ -238,7 +243,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 			$ts += HOUR_IN_SECONDS;
 			$new_date = date( $format, $ts );
-			llms_mock_current_time( $new_date );
+			llms_tests_mock_current_time( $new_date );
 
 			// updated date should be an hour later
 			$student->unenroll( $cid );

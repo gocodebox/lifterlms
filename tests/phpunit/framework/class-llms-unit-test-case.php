@@ -24,12 +24,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.17.0
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 * @since [version] Replaced use of the deprecated `llms_reset_current_time()` function with
+	 *              `llms_tests_reset_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 	}
 
 	/**

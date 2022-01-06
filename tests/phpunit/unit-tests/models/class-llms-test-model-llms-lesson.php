@@ -311,6 +311,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test the is_available() method
 	 *
 	 * @since unknown
+	 * @since [version] Replaced use of deprecated items.
+	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
+	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *
 	 * @return void
 	 */
@@ -344,10 +347,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $lesson->is_available() );
 
 		// Now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 		$lesson->set( 'drip_method', 'start' );
 		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 
@@ -355,9 +358,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $lesson->is_available() );
 
 		// Now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 
 		$prereq_id = $lesson_id;
 		$student->mark_complete( $lesson_id, 'lesson' );
@@ -373,7 +376,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 		$this->assertFalse( $lesson->is_available() );
 
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertTrue( $lesson->is_available() );
 
 	}
