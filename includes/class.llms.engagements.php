@@ -16,19 +16,21 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Changes:
+ *              - Deprecated the `LLMS_Engagements::handle_achievement()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_achievement()} method instead.
+ *              - Deprecated the `LLMS_Engagements::handle_certificate()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_certificate()} method instead.
+ *              - Deprecated the `LLMS_Engagements::handle_email()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_email()} method instead.
+ *              - Deprecated the `LLMS_Engagements::init()` method with no replacement.
+ *              - Deprecated the `LLMS_Engagements::log()` method.
+ *                Engagement debug logging is removed. Use the {@see llms_log()} function directly instead.
+ *              - Removed the deprecated `LLMS_Engagements::$_instance` property.
  */
 class LLMS_Engagements {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Engagements
-	 */
-	protected static $_instance = null; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore -- Deprecated.
 
 	/**
 	 * Enable debug logging

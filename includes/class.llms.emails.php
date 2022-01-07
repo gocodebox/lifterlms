@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,19 +18,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.8.0 Unknown.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Removed the deprecated `LLMS_Emails::$_instance` property.
  */
 class LLMS_Emails {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Emails
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Class names of all emails

@@ -25,19 +25,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since [version] Changes:
+ *              - Deprecated the `LLMS_Certificates::trigger_engagement()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_certificate()} method instead.
+ *              - Removed the deprecated `LLMS_Certificates::$_instance` property.
+ *
  */
 class LLMS_Certificates {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Certificates
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Array of Certificate types.

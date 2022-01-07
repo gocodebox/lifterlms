@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version 5.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.24.0 Unknown.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed unused private class properties `$_from_address`, `$_from_name` and `$_content_type`.
+ * @since [version] Changes:
+ *              - Deprecated the unused public class property `LLMS_Achievements::$content` with no replacement.
+ *              - Deprecated the `LLMS_Achievements::trigger_engagement()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_achievement()} method instead.
+ *              - Removed the unused private `LLMS_Achievements::$_from_address` property.
+ *              - Removed the unused private `LLMS_Achievements::$_from_name` property.
+ *              - Removed the unused private `LLMS_Achievements::$_content_type` property.
+ *              - Removed the deprecated `LLMS_Achievements::$_instance` property.
+ *
  */
 class LLMS_Achievements {
 
@@ -39,15 +47,6 @@ class LLMS_Achievements {
 	 * @var null
 	 */
 	public $content;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Achievements
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Constructor.
