@@ -37,7 +37,6 @@ class LLMS_Certificates {
 		LLMS_Trait_Award_Default_Images;
 
 	/**
-	/**
 	 * The ID for the award type.
 	 *
 	 * Used by {@see LLMS_Trait_Award_Default_Images}.
