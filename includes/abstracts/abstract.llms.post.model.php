@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1122,10 +1122,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * Encodes the results of $this->toArray().
 	 *
+	 * @todo The `mixed` return type declared by the parent method, which should be defined here as well,
+	 *       is not available until PHP 8.0. Once support is dropped for 7.4 we can add the return type declaration
+	 *       and remove the `#[ReturnTypeWillChange]` attribute. This *must* happen before the release of PHP 9.0.
+	 *
 	 * @since 3.3.0
 	 *
 	 * @return array
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		/**
 		 * Filters the properties of the model that *cannot* be set
