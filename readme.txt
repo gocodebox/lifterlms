@@ -538,7 +538,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v5.7.0 - 2022-01-05 =
+= v5.7.0 - 2022-01-11 =
 
 ##### Imminent Supported Version Requirement Updates
 
@@ -548,6 +548,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 + Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
 + Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
++ Deprecated the `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method with no replacement.
 + Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
 + Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
 + Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-01-04T16:47:23-07:00\n"
+"POT-Creation-Date: 2022-01-10T13:52:08-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.3\n"
 "X-Domain: lifterlms\n"
@@ -5211,7 +5211,7 @@ msgstr ""
 msgid "not sent due to email sending issues."
 msgstr ""
 
-#: includes/class.llms.frontend.assets.php:102
+#: includes/class.llms.frontend.assets.php:103
 msgid "Copying is not allowed."
 msgstr ""
 
