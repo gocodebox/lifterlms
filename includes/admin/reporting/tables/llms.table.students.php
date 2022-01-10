@@ -186,7 +186,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					$value = $student->get( 'last_login' );
 				}
 
-				$value = $value ? date_i18n( get_option( 'date_format' ), is_numeric( $value ) ? $value : strtotime( $value ) ) : '&ndash;';
+				$value = $value ? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), is_numeric( $value ) ? $value : strtotime( $value ) ) : '&ndash;';
 
 				break;
 

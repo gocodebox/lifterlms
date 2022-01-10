@@ -45,6 +45,14 @@ class LLMS_Admin_Menus {
 
 		add_filter( 'action_scheduler_post_type_args', array( $this, 'action_scheduler_menu' ) );
 
+
+		add_action( 'load-lifterlms_page_llms-reporting', function() {
+
+			$opts = LLMS_Admin_Screen_Options::instance();
+			$opts->add( 'aarst' );
+
+		} );
+
 	}
 
 	/**
