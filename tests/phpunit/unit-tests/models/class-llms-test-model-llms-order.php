@@ -841,7 +841,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_trial_end_date() method.
 	 *
-	 * @since 3.10.0 Introduced.
+	 * @since 3.10.0
 	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *

@@ -27,7 +27,7 @@ trait LLMS_Trait_Singleton {
 	/**
 	 * Returns a singleton instance of the class that uses this trait.
 	 *
-	 * @since 5.3.0 Introduced.
+	 * @since 5.3.0
 	 * @since [version] Removed backward compatible use of the removed `$_instance` property.
 	 *
 	 * @return self

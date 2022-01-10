@@ -32,7 +32,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the LLMS_Meta_Box_Order_Enrollment save method
 	 *
-	 * @since 3.33.0 Introduced.
+	 * @since 3.33.0
 	 * @since [version] Replaced use of deprecated items.
 	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
