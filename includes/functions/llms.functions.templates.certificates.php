@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since unknown
- * @version unknown
+ * @since 3.14.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -53,9 +53,11 @@ function llms_certificate_styles() {
 	$width      = $dimensions['width'];
 	$height     = $dimensions['height'];
 
+	$fonts = $certificate->get_custom_fonts();
+
 	llms_get_template(
 		'certificates/dynamic-styles.php',
-		compact( 'certificate', 'width', 'height', 'background_color', 'background_img', 'padding' )
+		compact( 'certificate', 'width', 'height', 'background_color', 'background_img', 'padding', 'fonts' )
 	);
 }
 
@@ -119,6 +121,7 @@ function llms_the_certificate_preview( $certificate ) {
  * Retrieve the number of columns used in certificates loops
  *
  * @since 3.14.0
+ * @since [version] Reduced default columns from 5 to 3.
  *
  * @return int
  */
@@ -130,7 +133,7 @@ function llms_get_certificates_loop_columns() {
 	 *
 	 * @param integer $cols Number of columns.
 	 */
-	return apply_filters( 'llms_certificates_loop_columns', 5 );
+	return apply_filters( 'llms_certificates_loop_columns', 3 );
 }
 
 
@@ -138,10 +141,12 @@ function llms_get_certificates_loop_columns() {
  * Get template for certificates loop
  *
  * @since 3.14.0
+ * @since [version] Updated to use the new signature of the {@see LLMS_Student::get_certificates()}.
+ *              Add pagination.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
  *                              The current student will be used if none supplied.
- * @param bool|int     $limit   Optional. Number of achievements to show (defaults to all). Default is `false`.
+ * @param bool|int     $limit   Optional. Number of certificates to show (defaults to all). Default is `false`.
  * @return void
  */
 if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
@@ -157,24 +162,76 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 			return;
 		}
 
-		$cols = llms_get_certificates_loop_columns();
+		$cols     = llms_get_certificates_loop_columns();
+		$per_page = $cols * 5;
 
 		// Get certificates.
-		$certificates = $student->get_certificates( 'updated_date', 'DESC', 'certificates' );
-		if ( $limit && $certificates ) {
-			$certificates = array_slice( $certificates, 0, $limit );
-			if ( $limit < $cols ) {
-				$cols = $limit;
-			}
+		$query        = $student->get_certificates(
+			array(
+				'page'     => max( 1, get_query_var( 'paged' ) ),
+				'per_page' => $limit ? min( $limit, $per_page ) : $per_page,
+			)
+		);
+		$certificates = $query->get_awards();
+
+		/**
+		 * If no columns are specified and we have a specified limit
+		 * and results and the limit is less than the number of columns
+		 * force the columns to equal the limit.
+		 */
+		if ( $limit && $limit < $cols && $certificates->get_number_results() ) {
+			$cols = $limit;
 		}
+
+		$pagination = 'dashboard' === LLMS_Student_Dashboard::get_current_tab( 'slug' ) ? false : array(
+			'total'   => $query->get_max_pages(),
+			'context' => 'student_dashboard',
+		);
 
 		llms_get_template(
 			'certificates/loop.php',
-			array(
-				'cols'         => $cols,
-				'certificates' => $certificates,
-			)
+			compact( 'cols', 'certificates', 'pagination' )
 		);
 
 	}
 }
+
+/**
+ * Automatically remove all non-safelisted print stylesheets from certificate and certificate templates.
+ *
+ * @since [version]
+ *
+ * @return boolean Returns `false` when run on non-certificate post types, otherwise returns `true`.
+ */
+function llms_certificates_remove_print_styles() {
+
+	if ( ! in_array( get_post_type(), array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+		return false;
+	}
+
+	/**
+	 * A list of registered print stylesheet handles which should be allowed for certificate and certificate templates.
+	 *
+	 * By default, any enqueued print stylesheets are automatically dequeued to prevent visual issues encountered when
+	 * printing certificates.
+	 *
+	 * Any stylesheets added to this safelist will not be removed from certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $safelist Array of print stylesheet handles.
+	 */
+	$safelist = apply_filters( 'llms_certificate_print_styles_safelist', array() );
+
+	$styles = wp_styles();
+	foreach ( $styles->queue as $handle ) {
+		$style = $styles->registered[ $handle ] ?? false;
+		if ( ! empty( $style->args ) && 'print' === $style->args && ! in_array( $handle, $safelist, true ) ) {
+			wp_dequeue_style( $handle );
+		}
+	}
+
+	return true;
+
+}
+add_action( 'wp_enqueue_scripts', 'llms_certificates_remove_print_styles', 999 );

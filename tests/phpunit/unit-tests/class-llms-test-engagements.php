@@ -128,34 +128,6 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test get_default_default_image_src()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_default_default_image_src() {
-
-		foreach ( array( 'achievement', 'certificate' ) as $type ) {
-
-			$this->assertStringContainsString(
-				"default-${type}.png",
-				llms()->engagements()->get_default_default_image_src( $type )
-			);
-
-			add_filter( 'llms_use_legacy_engagement_images', '__return_true' );
-			$this->assertStringContainsString(
-				"optional_${type}.png",
-				llms()->engagements()->get_default_default_image_src( $type )
-			);
-			remove_filter( 'llms_use_legacy_engagement_images', '__return_true' );
-
-		}
-
-
-	}
-
-	/**
 	 * Test handle_email() as triggered by a related post type that's enrollable.
 	 *
 	 * @since 4.4.1

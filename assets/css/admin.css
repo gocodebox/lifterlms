@@ -2496,7 +2496,17 @@ a.llms-view-as {
   width: 100%;
 }
 
-.llms-award-engagement-submitbox .llms-mb-list.student-info:before, .llms-award-engagement-submitbox .llms-mb-list.post_author_override label:before {
+.submitbox .llms-mb-section,
+.llms-award-engagement-submitbox .llms-mb-list {
+  margin-bottom: 12px;
+}
+.submitbox .llms-mb-section:last-of-type,
+.llms-award-engagement-submitbox .llms-mb-list:last-of-type {
+  margin-bottom: 0;
+}
+.sync-action:before, .submitbox .llms-mb-section.student-info:before, .submitbox .llms-mb-section.post_author_override label:before,
+.llms-award-engagement-submitbox .llms-mb-list.student-info:before,
+.llms-award-engagement-submitbox .llms-mb-list.post_author_override label:before {
   font: normal 20px/1 dashicons;
   speak: never;
   display: inline-block;
@@ -2505,14 +2515,27 @@ a.llms-view-as {
   vertical-align: top;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  content: "\f110";
   position: relative;
   top: -1px;
   color: #8c8f94;
 }
-body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.student-info:before, body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post_author_override label:before {
+body:not(.admin-color-fresh) .sync-action:before, body:not(.admin-color-fresh) .submitbox .llms-mb-section.student-info:before, body:not(.admin-color-fresh) .submitbox .llms-mb-section.post_author_override label:before,
+body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.student-info:before,
+body:not(.admin-color-fresh) .llms-award-engagement-submitbox .llms-mb-list.post_author_override label:before {
   color: currentColor;
 }
+
+.submitbox .llms-mb-section.student-info:before, .submitbox .llms-mb-section.post_author_override label:before,
+.llms-award-engagement-submitbox .llms-mb-list.student-info:before,
+.llms-award-engagement-submitbox .llms-mb-list.post_author_override label:before {
+  content: "\f110";
+}
+.sync-action:before {
+  content: "\f113";
+  color: white;
+}
+
+.submitbox .llms-mb-section.post_author_override label,
 .llms-award-engagement-submitbox .llms-mb-list.post_author_override label {
   display: inline-block;
   width: auto;

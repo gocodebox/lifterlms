@@ -120,6 +120,28 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test get_template().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_template() {
+
+		LLMS_Unit_Test_Util::set_private_property( 'LLMS_Post_Types', 'templates', array() );
+
+		// No template exists.
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( 'LLMS_Post_Types', 'get_template', array( 'fake' ) ) );
+
+		// Templates are loaded.
+		$this->assertNotEmpty( LLMS_Unit_Test_Util::get_private_property_value( 'LLMS_Post_Types', 'templates' ) );
+
+		// Template is returned.
+		$this->assertNotEmpty( LLMS_Unit_Test_Util::call_method( 'LLMS_Post_Types', 'get_template', array( 'llms_my_certificate' ) ) );
+
+	}
+
+	/**
 	 * Test register taxonomies.
 	 *
 	 * @since 3.13.0
@@ -135,6 +157,58 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 			// var_dump( sprintf( '%s: %s', $name, taxonomy_exists( $name ) ) );
 			$this->assertTrue( taxonomy_exists( $name ) );
 		}
+
+	}
+
+	/**
+	 * Test register_post_type().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_post_type() {
+
+		$slug = 'a_fake_post_type';
+		$post_type = LLMS_Post_Types::register_post_type( $slug, array() );
+		$this->assertInstanceOf( 'WP_Post_Type', $post_type );
+		$this->assertEquals( $slug, $post_type->name );
+		unregister_post_type( $slug );
+
+	}
+
+	/**
+	 * Test register_post_type() for a post type that's already been registered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_post_type_already_registered() {
+
+		$this->assertTrue( post_type_exists( 'course' ) );
+		$post_type = LLMS_Post_Types::register_post_type( 'course', array( 'menu_postion' => 10 ) );
+		$this->assertInstanceOf( 'WP_Post_Type', $post_type );
+		$this->assertEquals( 52, $post_type->menu_position );
+
+	}
+
+	/**
+	 * Test register_post_type() for a post that has a defined block template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_post_type_with_template() {
+
+		unregister_post_type( 'llms_certificate' );
+		$post_type = LLMS_Post_Types::register_post_type( 'llms_certificate', array() );
+		$this->assertInstanceOf( 'WP_Post_Type', $post_type );
+		$this->assertNotEmpty( $post_type->template );
+		unregister_post_type( 'llms_certificate' );
+
+		LLMS_Post_Types::register_post_types();
 
 	}
 

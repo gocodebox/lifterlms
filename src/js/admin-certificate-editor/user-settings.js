@@ -9,7 +9,7 @@ import { withSelect, dispatch, useSelect } from '@wordpress/data';
 import { PluginPostStatusInfo } from '@wordpress/edit-post';
 import { store as editorStore } from '@wordpress/editor';
 import { store as coreStore } from '@wordpress/core-data';
-import { addQueryArgs } from '@wordpress/url';
+import { addQueryArgs, getQueryArg } from '@wordpress/url';
 
 // Internal deps.
 import { UserSearchControl } from '@lifterlms/components';
@@ -51,7 +51,15 @@ function SelectedUser( { userId } ) {
 		);
 	}
 
-	return ( <ExternalLink href={ addQueryArgs( 'user-edit.php', { user_id: userId } ) }>{ name }</ExternalLink> );
+	return ( <ExternalLink href={ addQueryArgs(
+		'admin.php',
+		{
+			page: 'llms-reporting',
+			tab: 'students',
+			stab: 'certificates',
+			student_id: userId,
+		}
+	) }>{ name }</ExternalLink> );
 }
 
 /**
@@ -59,17 +67,21 @@ function SelectedUser( { userId } ) {
  *
  * @since [version]
  *
- * @param {Object} args        Component arguments.
- * @param {string} args.type   Current post type.
- * @param {number} args.userId WP User Id.
- * @param {string} args.status Post status of the current post.
+ * @param {Object}  args        Component arguments.
+ * @param {string}  args.type   Current post type.
+ * @param {number}  args.userId WP User Id.
+ * @param {boolean} args.isNew  Whether the current post has never been saved.
  * @return {?PluginPostStatusInfo} The component or `null` when rendered in an invalid context.
  */
-function CertificateUserSettings( { type, userId, status } ) {
+function CertificateUserSettings( { type, userId, isNew } ) {
 	// Only load for the right post type.
 	if ( 'llms_my_certificate' !== type ) {
 		return null;
 	}
+
+	// Retrieve the user ID from the URL.
+	const forceId = getQueryArg( window.location.href, 'sid' );
+	userId = forceId ? forceId : userId;
 
 	return (
 
@@ -77,15 +89,19 @@ function CertificateUserSettings( { type, userId, status } ) {
 			<StyledPanelRow>
 				<span style={ { display: 'block', width: '45%' } }>{ __( 'Student', 'lifterlms' ) }</span>
 
-				{ 'publish' === status && (
+				{ ( ! isNew || forceId ) && (
 					<SelectedUser userId={ userId } />
 				) }
-				{ 'publish' !== status && (
+				{ ( isNew && ! forceId ) && (
 					<UserSearchControl
 						selectedValue={ userId }
 						onUpdate={ ( { id } ) => {
 							const { editPost } = dispatch( editorStore );
-							editPost( { user: id } );
+							editPost(
+								{
+									author: id, // Update the post author.
+								}
+							);
 						} }
 					/>
 				) }
@@ -96,12 +112,11 @@ function CertificateUserSettings( { type, userId, status } ) {
 }
 
 const applyWithSelect = withSelect( ( select ) => {
-	const { getEditedPostAttribute } = select( editorStore );
-
+	const { getEditedPostAttribute, isEditedPostNew } = select( editorStore );
 	return {
-		status: getEditedPostAttribute( 'status' ),
+		isNew: isEditedPostNew(),
 		type: getEditedPostAttribute( 'type' ),
-		userId: getEditedPostAttribute( 'user' ),
+		userId: getEditedPostAttribute( 'author' ),
 	};
 } );
 

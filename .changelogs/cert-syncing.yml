@@ -1,0 +1,7 @@
+significance: minor
+type: added
+links:
+  - "#1078"
+entry: >
+  + Added the ability to sync awarded certificates with the template used to
+  generate them.

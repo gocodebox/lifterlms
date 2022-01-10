@@ -33,7 +33,18 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Certificates {
 
-	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Singleton,
+		LLMS_Trait_Award_Default_Images;
+
+	/**
+	/**
+	 * The ID for the award type.
+	 *
+	 * Used by {@see LLMS_Trait_Award_Default_Images}.
+	 *
+	 * @var string
+	 */
+	protected $award_type = 'certificate';
 
 	/**
 	 * Array of Certificate types.
@@ -185,60 +196,6 @@ class LLMS_Certificates {
 
 		return $filepath;
 
-	}
-
-	/**
-	 * Retrieve the default certificate background image for a given certificate.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $certificate_id WP_Post ID of the earned certificate. This is passed so that anyone filtering the default image could
-	 *                            provide a different default image based on the certificate.
-	 * @return string The full image source url.
-	 */
-	public function get_default_image( $certificate_id ) {
-
-		$src = '';
-
-		// Retrieve the stored value from the database.
-		$id = $this->get_default_image_id();
-		if ( $id ) {
-
-			$src = wp_get_attachment_url( $id );
-
-		}
-
-		// Use the attachment stored for the option in the DB and fallback to the default image from the plugin's assets dir.
-		$src = $src ? $src : llms()->engagements()->get_default_default_image_src( 'certificate' );
-
-		/**
-		 * Retrieve the default certificate background image.
-		 *
-		 * @since 2.2.0
-		 *
-		 * @param string $src            The full image source url.
-		 * @param int    $certificate_id The earned certificate ID.
-		 */
-		return apply_filters(
-			'lifterlms_certificate_background_image_placeholder_src',
-			$src,
-			$certificate_id
-		);
-	}
-
-	/**
-	 * Retrieve attachment ID of the default certificate background image.
-	 *
-	 * If the attachment post doesn't exist will return false. This would happen
-	 * if the post is deleted from the media library.
-	 *
-	 * @since [version]
-	 *
-	 * @return int Returns the WP_Post ID of the attachment or `0` if not set.
-	 */
-	public function get_default_image_id() {
-		$id = get_option( 'lifterlms_certificate_default_bg_img', 0 );
-		return $id && get_post( $id ) ? absint( $id ) : 0;
 	}
 
 	/**

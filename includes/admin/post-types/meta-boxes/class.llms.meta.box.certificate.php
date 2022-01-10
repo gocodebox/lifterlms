@@ -1,6 +1,6 @@
 <?php
 /**
- * Certificates meta box
+ * Certificates meta box.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificate template meta box class
+ * Certificate template meta box class.
  *
  * @since 1.0.0
  * @since 3.37.12 Allow the certificate title field to store text with quotes.

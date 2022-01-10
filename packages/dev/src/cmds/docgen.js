@@ -5,7 +5,7 @@ const path = require( 'path' ),
 /**
  * Generate a doc section for the specified command.
  *
- * @since [version
+ * @since 0.0.1
  *
  * @param {Command} command    A commander command instance.
  * @param {string}  parentName Name of the parent command (used for subcommands).

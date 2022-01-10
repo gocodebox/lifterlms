@@ -71,7 +71,7 @@ class LLMS_Test_Trait_Student_awards extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_certificates_deprecated() {
+	public function test_get_methods_deprecated() {
 
 		$tests = array(
 			'achievement',

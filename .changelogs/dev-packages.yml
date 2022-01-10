@@ -1,0 +1,8 @@
+significance: minor
+type: dev
+entry: >
+  + Added new Javascript UI components library, modeled after
+  `@wordpress/components`. [Read
+  more](https://github.com/gocodebox/lifterlms/tree/dev-600/packages/components).
+
+  + Added a new SVG icon library, modeled after `@wordpress/icons`. [Read more](https://github.com/gocodebox/lifterlms/tree/dev-600/packages/icons).

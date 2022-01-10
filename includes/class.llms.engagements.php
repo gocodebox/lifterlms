@@ -120,43 +120,6 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Retrieve the default image source for the given engagement type.
-	 *
-	 * The method name is not a typo. This retrieves the default image used when the default image
-	 * option is not set or doesn't exist. Thus, it retrieves the default default. Thumbs up.
-	 *
-	 * This method retrieves the image stored in the plugin's assets directory. The images
-	 * were updated with the release of this method and allows usage of the previous version's
-	 * images via the filter {@see llms_use_legacy_engagement_images}.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $type The type of engagement, either "achievement" or "certificate".
-	 * @return [type] [description]
-	 */
-	public function get_default_default_image_src( $type ) {
-
-		$img = "default-{$type}.png";
-
-		/**
-		 * Filter whether or not the legacy default images should be used for achievement and certificates.
-		 *
-		 * @since [version]
-		 *
-		 * @example add_filter( 'llms_use_legacy_engagement_images', '__return_true' );
-		 *
-		 * @param boolean $use_legacy If `true`, the legacy image will be used.
-		 * @param string  $type       The type of engagement, either "achievement" or "certificate".
-		 */
-		if ( apply_filters( 'llms_use_legacy_engagement_images', false, $type ) ) {
-			$img = "optional_{$type}.png";
-		}
-
-		return llms()->plugin_url() . '/assets/images/' . $img;
-
-	}
-
-	/**
 	 * Retrieve engagements based on the trigger type
 	 *
 	 * Joins rather than nested loops and sub queries ftw.

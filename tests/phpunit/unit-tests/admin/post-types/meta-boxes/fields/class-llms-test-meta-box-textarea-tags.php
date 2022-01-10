@@ -124,4 +124,43 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test output with rows and columns.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_rows_and_cols() {
+
+		// Set-up global post.
+		global $post;
+		$original_post = $post;
+		$post = $this->factory->post->create_and_get();
+
+		$args = array(
+			'type'       => 'textarea_w_tags',
+			'label'      => __( 'Test', 'lifterlms' ),
+			'id'         => 'without_custom_value',
+			'class'      => 'code input-full',
+		);
+
+		// Use defaults.
+		$field = new LLMS_Metabox_Textarea_W_Tags_Field( $args );
+		$this->assertOutputContains( 'cols="60"', array( $field, 'output' ) );
+		$this->assertOutputContains( 'rows="4"', array( $field, 'output' ) );
+
+		// Custom values.
+		$args['cols'] = 5;
+		$args['rows'] = 20;
+
+		$field = new LLMS_Metabox_Textarea_W_Tags_Field( $args );
+		$this->assertOutputContains( 'cols="5"', array( $field, 'output' ) );
+		$this->assertOutputContains( 'rows="20"', array( $field, 'output' ) );
+
+		// Reset global post.
+		$post = $original_post;
+
+	}
+
 }

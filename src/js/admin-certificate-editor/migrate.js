@@ -1,5 +1,3 @@
-import { addFilter } from '@wordpress/hooks';
-import { __ } from '@wordpress/i18n';
 import { subscribe, select, dispatch } from '@wordpress/data';
 import { rawHandler, serialize } from '@wordpress/blocks';
 import { store as editorStore } from '@wordpress/editor';
@@ -13,9 +11,8 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
  * @since [version]
  */
 const unsubscribe = subscribe( () => {
-
 	const search = new URLSearchParams( window.location.search ),
-		doMigration = 1 === parseInt( search.get( 'llms-migrate-legacy-template' ) );
+		doMigration = 1 === parseInt( search.get( 'llms-migrate-legacy-certificate' ) );
 
 	if ( ! doMigration ) {
 		return doUnsubscribe( false );
@@ -26,7 +23,6 @@ const unsubscribe = subscribe( () => {
 	if ( 0 !== blocks.length ) {
 		doUnsubscribe( true );
 	}
-
 } );
 
 /**
@@ -34,11 +30,10 @@ const unsubscribe = subscribe( () => {
  *
  * @since [version]
  *
- * @param {Boolean} withMigration Whether or not to perform the classic editor migration.
+ * @param {boolean} withMigration Whether or not to perform the classic editor migration.
  * @return {void}
  */
 function doUnsubscribe( withMigration ) {
-
 	unsubscribe();
 
 	if ( ! withMigration ) {
@@ -46,7 +41,6 @@ function doUnsubscribe( withMigration ) {
 	}
 
 	migrateClassicBlock();
-
 }
 
 /**
@@ -54,13 +48,11 @@ function doUnsubscribe( withMigration ) {
  *
  * @since [version]
  *
- * @return {WP_Block[]} Array of blocks.
+ * @return {WPBlock[]} Array of blocks.
  */
 function getAllBlocks() {
-
 	const { getBlocks } = select( blockEditorStore );
 	return getBlocks();
-
 }
 
 /**
@@ -71,12 +63,11 @@ function getAllBlocks() {
  *
  * @since [version]
  *
- * @link https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/freeform/convert-to-blocks-button.js
+ * @see {@link https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/freeform/convert-to-blocks-button.js}
  *
  * @return {void}
  */
 function migrateClassicBlock() {
-
 	const classics = getAllBlocks().filter( ( { name } ) => 'core/freeform' === name );
 
 	if ( 0 === classics.length ) {
@@ -86,7 +77,7 @@ function migrateClassicBlock() {
 	const { replaceBlocks } = dispatch( blockEditorStore ),
 		{ savePost } = dispatch( editorStore );
 
-	classics.forEach( block => {
+	classics.forEach( ( block ) => {
 		replaceBlocks(
 			block.clientId,
 			rawHandler( { HTML: serialize( block ) } )
@@ -94,6 +85,5 @@ function migrateClassicBlock() {
 	} );
 
 	savePost();
-
 }
 

@@ -1,0 +1,5 @@
+significance: minor
+type: added
+entry: >
+  + Added certificate global options for the default size of new certificates
+  and certificate templates.

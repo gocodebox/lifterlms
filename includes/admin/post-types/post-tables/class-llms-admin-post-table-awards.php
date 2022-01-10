@@ -56,7 +56,6 @@ class LLMS_Admin_Post_Table_Awards {
 			add_filter( "views_edit-{$post_type}", array( $this, 'modify_views' ) );
 		}
 
-
 		add_filter( 'parse_query', array( $this, 'parse_query' ), 10, 1 );
 		add_action( 'restrict_manage_posts', array( $this, 'add_filters' ), 10, 2 );
 
@@ -90,7 +89,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 */
 	public function add_filters( $post_type, $which ) {
 
-		if ( 'top' !== $which || $this->is_post_type( $post_type ) ) {
+		if ( 'top' !== $which || ! $this->is_post_type( $post_type ) ) {
 			return;
 		}
 
@@ -243,7 +242,7 @@ class LLMS_Admin_Post_Table_Awards {
 				$user->get_name()
 			);
 		} else {
-			echo '&mdash';
+			echo '&mdash;';
 		}
 	}
 

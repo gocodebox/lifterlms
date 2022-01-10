@@ -1,6 +1,6 @@
 <?php
 /**
- * Processors
+ * Processors.
  *
  * @package LifterLMS/Processors/Classes
  *
@@ -19,7 +19,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed the deprecated `LLMS_Processors::$_instance` property.
+ * @since [version] Added the awarded certificates bulk sync processor.
+                Removed the deprecated `LLMS_Processors::$_instance` property.
  */
 class LLMS_Processors {
 
@@ -35,6 +36,7 @@ class LLMS_Processors {
 	private $classes = array(
 		'course_data',
 		'membership_bulk_enroll',
+		'awarded_certificates_bulk_sync',
 	);
 
 	/**
@@ -45,15 +47,18 @@ class LLMS_Processors {
 	private $processors = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.15.0
 	 * @since 5.0.0 Remove call to removed method `includes()`.
+	 * @since [version] Made sure the admin notices file is required.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
+		// Processors may trigger a notice during a cron and notices might not be available.
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 		$this->load_all();
 
 	}

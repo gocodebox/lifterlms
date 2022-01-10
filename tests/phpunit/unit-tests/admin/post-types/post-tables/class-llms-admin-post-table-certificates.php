@@ -85,7 +85,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 		// Is legacy.
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_certificate' ) );
 		$this->assertArrayHasKey(
-			'llms-migrate-legacy-template',
+			'llms-migrate-legacy-certificate',
 			$this->main->add_actions( array(), $post )
 		);
 

@@ -15,20 +15,44 @@
  * @param string                $background_color Background color value.
  * @param string                $background_img   Image source URL for the background image.
  * @param string                $padding          Internal margin value with units, ready to be used in CSS.
+ * @param array[]               $fonts            Array of custom certificate fonts used by the certificate.
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$gfonts_preconnet = false;
 ?>
+
+<!-- Certificates Dynamic Styles -->
+<?php foreach ( $fonts as $font ) : ?>
+	<?php if ( ! empty( $font['href'] ) ) : ?>
+		<?php
+		if ( ! $gfonts_preconnet && false !== strpos( $font['href'], 'fonts.googleapis.com' ) ) :
+			$gfonts_preconnet = true;
+			?>
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<?php endif; ?>
+	<link id="llms-font--<?php echo $font['id']; ?>" href="<?php echo $font['href']; ?>" rel="stylesheet">
+	<?php endif; ?>
+<?php endforeach; ?>
 <style type="text/css">
 	html, body {
 		background-color: <?php echo $background_color; ?> !important;
 	}
-	.llms-certificate-container {
-		background-image: <?php echo "url( {$background_img} )"; ?>;
+	.llms-certificate-wrapper {
 		height: <?php echo $height; ?>;
-		padding: <?php echo $padding; ?>;
 		width: <?php echo $width; ?>;
 	}
+	.llms-certificate-container {
+		background-image: <?php echo "url( {$background_img} )"; ?>;
+		padding: <?php echo $padding; ?>;
+	}
+	<?php foreach ( $fonts as $font ) : ?>
+	.has-<?php echo $font['id']; ?>-font-family {
+		font-family: <?php echo $font['css']; ?>;
+	}
+	<?php endforeach; ?>
 </style>
 <style type="text/css" media="print">
 	@page {
@@ -36,3 +60,4 @@ defined( 'ABSPATH' ) || exit;
 		margin: 0;
 	}
 </style>
+<!-- End Certificates Dynamic Styles -->

@@ -1076,6 +1076,45 @@ function llms_set_time_limit( $limit = 0 ) {
 }
 
 /**
+ * Strips a list of prefixes from the start of a string.
+ *
+ * By default, strips `llms_` or `lifterlms_`. Other prefixes may be provided.
+ *
+ * Will strip only the first prefix found from the list of supplied prefixes.
+ *
+ * @since [version]
+ *
+ * @param string   $string   String to modify.
+ * @param string[] $prefixes List of prefixs.
+ * @return string The modified string. If no prefixes were found, the original string is returned without modification.
+ */
+function llms_strip_prefixes( $string, $prefixes = array() ) {
+
+	$prefixes = empty( $prefixes ) ? array( 'llms_', 'lifterlms_' ) : $prefixes;
+
+	foreach ( $prefixes as $prefix ) {
+		if ( 0 === strpos( $string, $prefix ) ) {
+			$string = substr( $string, strlen( $prefix ) );
+
+			/**
+			 * Most of the time we'll be using this to replace `llms_` as we don't often use `lifterlms_` for
+			 * prefixing (anymore).
+			 *
+			 * Also, while it's probably not ever in use, this will prevent double-stripping if, for example,
+			 * the string was `llms_lifterlms_something`. If we did want to strip that, the `$prefixes` should
+			 * be overwritten to have both these items stripped.
+			 *
+			 * So once we find a prefix, we'll break the loop and return the string with the stripped prefix.
+			 */
+			break;
+		}
+	}
+
+	return $string;
+
+}
+
+/**
  * Trim a string and append a suffix
  *
  * @since 3.0.0

@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property string  $allow_sharing Whether or not public certificate sharing is enabled for the certificate.
  *                                  Either "yes" or "no".
+ * @property string  $awarded       MySQL timestamp recorded when the certificate was first awarded.
  * @property string  $background    The CSS background color for the certificate.
  * @property int     $author        WP_User ID of the user who the certificate belongs to.
  * @property string  $content       The merged certificate content.
@@ -57,7 +58,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @var array
 	 */
 	protected $properties = array(
-		'allow_sharing' => 'yesno',
+		'allow_sharing' => 'string',
+		'awarded'       => 'string',
 		'background'    => 'string',
 		'engagement'    => 'absint',
 		'height'        => 'float',
@@ -186,7 +188,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieve information about the certificate background image.
 	 *
-	 * This is a legacy function used for certificates using template version 1.
+	 * This function returns an array of information used for legacy certificates using the v1 template.
+	 *
+	 * When using the v2 template, only the `$src` value is utilized and the background image itself is
+	 * always set to 100% width and height of certificate as defined by the certificate's sizing settings.
 	 *
 	 * @since [version]
 	 *
@@ -203,7 +208,11 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 		$id     = $this->get( 'id' );
 		$img_id = get_post_thumbnail_id( $id );
-		$size   = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+
+		$size = 'full';
+		if ( 1 === $this->get_template_version() ) {
+			$size = llms_parse_bool( get_option( 'lifterlms_certificate_legacy_image_size', 'yes' ) ) ? 'full' : 'lifterlms_certificate_background';
+		}
 
 		if ( ! $img_id ) {
 
@@ -216,6 +225,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			/**
 			 * Filters the display height of the default certificate background image.
 			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
+			 *
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
@@ -225,6 +238,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 			/**
 			 * Filters the display width of the default certificate background image.
+			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
 			 *
 			 * @since 2.2.0
 			 *
@@ -253,6 +270,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			/**
 			 * Filters the display height of the certificate background image.
 			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
+			 *
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
@@ -262,6 +283,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 
 			/**
 			 * Filters the display width of the certificate background image.
+			 *
+			 * This filter is used by legacy certificates only. If the certificate is utilizing
+			 * the block editor the filtered value does not affect the size of the background image as
+			 * the image is always set to fill the width and height of the certificate itself.
 			 *
 			 * @since 2.2.0
 			 *
@@ -273,6 +298,54 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		return compact( 'src', 'width', 'height', 'is_default' );
+
+	}
+
+	/**
+	 * Retrieves a list of the fonts used by the certificate.
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_get_certificate_fonts()
+	 *
+	 * @param array|null $blocks A list of parsed block arrays or null. If none supplied the certificate's
+	 *                           content is parsed and used instead.
+	 * @return array[] Array of fonts by the certificate. Each array is a font definition with the font's
+	 *                 id added to the array.
+	 */
+	public function get_custom_fonts( $blocks = null ) {
+
+		$fonts = array();
+
+		$blocks = is_null( $blocks ) ? parse_blocks( $this->get( 'content', true ) ) : $blocks;
+		foreach ( $blocks as $block ) {
+
+			if ( ! empty( $block['attrs']['fontFamily'] ) ) {
+				$fonts[] = $block['attrs']['fontFamily'];
+			}
+
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
+			}
+		}
+
+		$valid_fonts = llms_get_certificate_fonts();
+
+		return array_filter(
+			array_map(
+				function( $font ) use ( $valid_fonts ) {
+					if ( 'default' === $font ) {
+						return null;
+					}
+					$ret = $valid_fonts[ $font ] ?? null;
+					if ( $ret ) {
+						$ret['id'] = $font;
+					}
+					return $ret;
+				},
+				array_unique( $fonts )
+			)
+		);
 
 	}
 
@@ -442,7 +515,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$size  = $this->get_size();
 		$sizes = llms_get_certificate_sizes();
 		if ( ! $size || empty( $sizes[ $size ] ) ) {
-			$size = get_option( 'llms_certificate_default_size', 'LETTER' );
+			$size = get_option( 'lifterlms_certificate_default_size', 'LETTER' );
 		}
 
 		return $sizes[ $size ] ?? array_values( $sizes )[0];
@@ -692,7 +765,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		}
 
 		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
-		set_post_thumbnail( $this->get( 'id' ), get_post_thumbnail_id( $template_id ) );
+		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
+				! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) ) ) {
+			delete_post_thumbnail( $this->get( 'post' ) );
+		}
 
 		$props = array(
 			'content',
