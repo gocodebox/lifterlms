@@ -94,13 +94,13 @@ A link in the form of a URL, such as related GitHub issue or other documentation
 
 ### Changelogs
 
-Whenever any code is changed within an element, an `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
+Whenever any code is changed within an element, a `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
-#### Changes Warrating a Changelog Entry
+#### Changes Warrantying a Changelog Entry
 
 Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
 
@@ -162,7 +162,7 @@ When multiple lines are required for a single entry, subsequent lines should be 
                 A second entry aligned to with the first entry.
 ```
 
-Multiple logs with version numbers of differening lengths should not be alinged to one another.
+Multiple logs with version numbers of differing lengths should not be aligned to one another.
 
 ```
  * @since 3.3.0
