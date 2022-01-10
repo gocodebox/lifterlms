@@ -1,7 +1,7 @@
 LifterLMS Inline Documentation Standards
 ========================================
 
-The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards](wp-core-docs). We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
+The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards][wp-core-docs]. We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
 
 ## What should be documented
 
@@ -18,7 +18,7 @@ The following elements should be documented using formatted documentation blocks
 
 ## DocBlock Formatting Guidelines
 
-Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com](llms-dev). Adhering to these guidelines is essential to ensure optimum readability via the code reference.
+Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com][llms-dev]. Adhering to these guidelines is essential to ensure optimum readability via the code reference.
 
 
 ### Spacing
@@ -392,5 +392,5 @@ The file header DocBlock is used to give an overview of what is contained in the
 ```
 
 
-[llms-dev]: https://developer.lifterlms.com
-[wp-core-docs]: https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/
+[llms-dev]: https://developer.lifterlms.com/reference/
+[wp-core-docs]: https://developer.wordpress.org/coding-standards/inline-documentation-standards/

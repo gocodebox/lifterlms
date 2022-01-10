@@ -3,7 +3,7 @@ LifterLMS Coding Standards
 
 The purpose of the LifterLMS Coding Standards is to create a baseline for collaboration and review within the open source LifterLMS codebase, project, and community.
 
-The WordPress community has developed coding standards and documented them in the [WordPress codex](https://make.wordpress.org/core/handbook/best-practices/coding-standards/). Wherever possible, the LifterLMS Coding Standards aim to obey these coding standards.
+The WordPress community has developed coding standards and documented them in the [WordPress codex](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/). Wherever possible, the LifterLMS Coding Standards aim to obey these coding standards.
 
 ## Naming Conventions
 
