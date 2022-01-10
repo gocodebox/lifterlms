@@ -1,7 +1,7 @@
 LifterLMS Inline Documentation Standards
 ========================================
 
-The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards](wp-core-docs). We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
+The LifterLMS documentation standard is heavily inspired by the [WordPress core's documentation standards][wp-core-docs]. We have made customizations to these standards in areas where it aids our core team's development and release workflows. By using the WordPress core documentation standard as a starting point any contributor already familiar with the WordPress core should be able to quickly add inline documentation to LifterLMS without the need to study our standards at length.
 
 ## What should be documented
 
@@ -18,7 +18,7 @@ The following elements should be documented using formatted documentation blocks
 
 ## DocBlock Formatting Guidelines
 
-Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com](llms-dev). Adhering to these guidelines is essential to ensure optimum readability via the code reference.
+Inline documentation in the LifterLMS code base is automatically parsed and output to the code reference [developer.lifterlms.com][llms-dev]. Adhering to these guidelines is essential to ensure optimum readability via the code reference.
 
 
 ### Spacing
@@ -94,13 +94,13 @@ A link in the form of a URL, such as related GitHub issue or other documentation
 
 ### Changelogs
 
-Whenever any code is changed within an element, an `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
+Whenever any code is changed within an element, a `@since`, `@version`, or `@deprecated` tag should be added to the element to document the change(s) which have been made.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
-#### Changes Warrating a Changelog Entry
+#### Changes Warranting a Changelog Entry
 
 Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
 
@@ -162,7 +162,7 @@ When multiple lines are required for a single entry, subsequent lines should be 
                 A second entry aligned to with the first entry.
 ```
 
-Multiple logs with version numbers of differening lengths should not be alinged to one another.
+Multiple logs with version numbers of differing lengths should not be aligned to one another.
 
 ```
  * @since 3.3.0
@@ -392,5 +392,5 @@ The file header DocBlock is used to give an overview of what is contained in the
 ```
 
 
-[llms-dev]: https://developer.lifterlms.com
-[wp-core-docs]: https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/
+[llms-dev]: https://developer.lifterlms.com/reference/
+[wp-core-docs]: https://developer.wordpress.org/coding-standards/inline-documentation-standards/
