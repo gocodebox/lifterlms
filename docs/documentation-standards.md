@@ -100,7 +100,7 @@ No HTML should be used in the descriptions for these tags, though limited Markdo
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
 
-#### Changes Warrantying a Changelog Entry
+#### Changes Warranting a Changelog Entry
 
 Most code changes warrant a changelog entry to be recorded for the element but there are some exceptions.
 
