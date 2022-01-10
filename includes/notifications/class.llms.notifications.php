@@ -22,7 +22,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  * @since [version] Removed deprecated items.
  *              - `LLMS_Notifications::dispatch_processors()` method
- *              - `llms_processors_async_dispatching` filter hook from the `LLMS_Notifications::__construct()` method
  *              - `LLMS_Notifications::$_instance` property
  */
 class LLMS_Notifications {
@@ -72,6 +71,7 @@ class LLMS_Notifications {
 	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
 	 * @since 3.38.0 Schedule processors using an async scheduled action.
 	 * @since [version] Do not load / enqueue basic notifications on the admin panel.
+	 *              Removed the deprecated `llms_processors_async_dispatching` filter hook.
 	 *
 	 * @return void
 	 */

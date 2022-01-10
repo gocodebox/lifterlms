@@ -20,10 +20,6 @@ defined( 'ABSPATH' ) || exit;
  *               Hydrate before returning an array via the `to_array()` method.
  * @since 4.3.0 Add deprecated hook calls to preserve backwards compatibility for extending classes which have no `$type` property declaration.
  *              Updated the `$type` property to have a default placeholder value.
- * @since [version] Removed deprecated items.
- *              - `llms__created` action hook from the `LLMS_Abstract_Database_Store::create()` method
- *              - `llms__deleted` action hook from the `LLMS_Abstract_Database_Store::delete()` method
- *              - `llms__updated` action hook from the `LLMS_Abstract_Database_Store::update()` method
  */
 abstract class LLMS_Abstract_Database_Store {
 
