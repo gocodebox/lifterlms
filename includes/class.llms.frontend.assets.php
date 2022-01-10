@@ -143,7 +143,7 @@ class LLMS_Frontend_Assets {
 	 */
 	public static function enqueue_inline_pw_script() {
 
-		llms_deprecated_function( __CLASS__, '[version]' );
+		llms_deprecated_function( __METHOD__, '[version]' );
 		llms()->assets->enqueue_inline(
 			'llms-pw-strength',
 			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
