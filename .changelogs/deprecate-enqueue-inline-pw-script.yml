@@ -1,0 +1,3 @@
+significance: minor
+type: deprecated
+entry: Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
