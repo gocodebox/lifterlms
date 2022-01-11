@@ -39,15 +39,17 @@ class LLMS_Block_Library {
 	 */
 	private function get_blocks() {
 
-		$blocks = array(
-			'certificate-title' => array(
+		$blocks = array();
+
+		if ( llms_is_block_editor_supported_for_certificates() ) {
+			$blocks['certificate-title'] = array(
 				'path'       => null,
 				'post_types' => array(
 					'llms_certificate',
 					'llms_my_certificate',
 				),
-			),
-		);
+			);
+		}
 
 		// Add default path to all blocks.
 		foreach ( $blocks as $id => &$block ) {
