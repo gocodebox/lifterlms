@@ -1,6 +1,35 @@
 LifterLMS Changelog
 ===================
 
+v5.7.0 - 2022-01-11
+-------------------
+
+##### Updates and Enhancements
+
++ Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
++ Informed developers about the deprecated `LLMS_Section::get_order()` method.
++ Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
++ Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.
+
+##### Deprecations
+
++ Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
++ Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
++ Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
++ Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
++ Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
++ Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
++ Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
++ Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
++ Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
+
+##### Updated Templates
+
++ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-navigation.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-preview.php)
++ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/parent-course.php)
+
+
 v5.6.0 - 2021-12-07
 -------------------
 
