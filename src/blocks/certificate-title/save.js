@@ -4,11 +4,16 @@ import classnames from 'classnames';
 // Internal deps.
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 
-import { getFont } from './fonts-store';
-
-
+/**
+ * Save the block content.
+ *
+ * @since [version]
+ *
+ * @param {Object} args            Save arguments.
+ * @param {Object} args.attributes Block attributes.
+ * @return {WPElement} Block HTML fragment.
+ */
 export default function save( { attributes } ) {
-
 	const { textAlign, content, level } = attributes,
 		TagName = 'h' + level,
 		className = classnames( {
