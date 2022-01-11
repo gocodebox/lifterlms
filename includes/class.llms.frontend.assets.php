@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.6.0
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
+ * @since 5.7.0 Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
  */
 class LLMS_Frontend_Assets {
 
@@ -136,10 +137,13 @@ class LLMS_Frontend_Assets {
 	 * Output the inline PW Strength meter script
 	 *
 	 * @since 3.4.1
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @return void
 	 */
 	public static function enqueue_inline_pw_script() {
+
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		llms()->assets->enqueue_inline(
 			'llms-pw-strength',
 			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
