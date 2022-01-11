@@ -1,5 +1,5 @@
 === LifterLMS - WordPress LMS Plugin ===
-Contributors: thomasplevy, chrisbadgett, d4z_c0nf, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, d4z_c0nf, pondermatic, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 7.3
-Stable tag: 5.6.0
+Stable tag: 5.7.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,34 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.7.0 - 2022-01-11 =
+
+##### Updates and Enhancements
+
++ Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
++ Informed developers about the deprecated `LLMS_Section::get_order()` method.
++ Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
++ Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.
+
+##### Deprecations
+
++ Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
++ Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
++ Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
++ Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
++ Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
++ Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
++ Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
++ Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
++ Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
+
+##### Updated Templates
+
++ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-navigation.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-preview.php)
++ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/parent-course.php)
+
+
 = v5.6.0 - 2021-12-07 =
 
 ##### New Features
@@ -713,33 +741,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Bug Fixes
 
 + Fixed an issue encountered when a course or membership sales page redirect is enabled but no URL is saved.
-
-
-= v5.2.0 - 2021-08-10 =
-
-##### Upcoming Payment Reminder Notification
-
-+ A new notification, the "Upcoming Payment Reminder" notification has been added. This notification sends a reminder to students a configurable number of days before a payment is do for a recurring subscription.
-+ When upgrading to version 5.2.0, this notification will be automatically *disabled*, visit LifterLMS -> Settings -> Notifications and select the new notification to enable it after upgrading.
-+ Props to [@niluzok](https://github.com/niluzok) for doing the initial work required to build this notification!
-
-##### Updates
-
-+ Reworked the database upgrader script to allow for minor upgrades which don't require significant data migration to upgrade silently without requiring user consent to initiate.
-+ Improved internal methods used to generate tables in the body of email notifications.
-
-##### Bug Fixes
-
-+ Student registration date is now displayed in the site's timezone in favor of UTC time.
-+ Properly pass options `template_path` and `default_path` to the template handler when creating an admin notice using a template.
-+ Removed translation (and incorrect text domain) from a logging function encountered when a recurring payment errors as a result of the payment gateway having been deactivated.
-
-##### Deprecations
-
-+ `LLMS_Install::db_updates()` is deprecated, use ``LLMS_DB_Upgrader::enqueue_updates()` instead.
-+ `LLMS_Install::update_notice()` is deprecated with no replacement.
-+ Template `admin/notices/db-update.php` is deprecated in favor of `includes/admin/views/db-update.php`.
-+ Template `admin/notices/db-updating.php` is deprecated with no replacement.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

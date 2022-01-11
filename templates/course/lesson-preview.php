@@ -8,7 +8,12 @@
  * @since 1.0.0
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
- * @version 4.4.0
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
+ * @version 5.7.0
+ *
+ * @var LLMS_Lesson $lesson        The lesson object.
+ * @var string      $pre_text      The text to display before the lesson.
+ * @var int         $total_lessons The number of lessons in the section.
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -30,7 +35,7 @@ $data_msg     = $restrictions['is_restricted'] ? ' data-tooltip-msg="' . esc_htm
 			<?php endif; ?>
 
 			<aside class="llms-extra">
-				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get_order(), $total_lessons ); ?></span>
+				<span class="llms-lesson-counter"><?php printf( _x( '%1$d of %2$d', 'lesson order within section', 'lifterlms' ), isset( $order ) ? $order : $lesson->get( 'order' ), $total_lessons ); ?></span>
 				<?php echo $lesson->get_preview_icon_html(); ?>
 			</aside>
 
