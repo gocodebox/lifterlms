@@ -442,14 +442,14 @@ function llms_get_certificate_title( $id = 0 ) {
 }
 
 /**
- * Filters whether or not the block editor can be used to build certificates.
+ * Determines whether or not the block editor can be used to build certificates.
  *
  * The JS used for certificates in the block editor relies on WP functions and APIs available
  * since WordPress 5.8. Earlier versions of WordPress won't work.
  *
  * @since [version]
  *
- * @param type $arg Description.
+ * @return boolean
  */
 function llms_is_block_editor_supported_for_certificates() {
 
