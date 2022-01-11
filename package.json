@@ -1,5 +1,6 @@
 {
-  "name": "lifterlms",  "version": "6.0.0-alpha.2",
+  "name": "lifterlms",
+  "version": "6.0.0-alpha.2",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -12,7 +13,8 @@
   },
   "homepage": "https://lifterlms.com",
   "dependencies": {
-    "@emotion/styled": "^11.6.0"
+    "@emotion/styled": "^11.6.0",
+    "classnames": "^2.3.1"
   },
   "devDependencies": {
     "@lifterlms/brand": "file:packages/brand",
@@ -37,7 +39,7 @@
     "build:styles": "gulp styles && gulp styles-rtl",
     "dev": "llms-dev",
     "lerna": "lerna",
-    "lint:js": "wp-scripts lint-js ./src/js",
+    "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
     "pkg:docgen": "lerna run docgen",
