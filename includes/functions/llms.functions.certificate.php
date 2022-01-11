@@ -442,6 +442,37 @@ function llms_get_certificate_title( $id = 0 ) {
 }
 
 /**
+ * Filters whether or not the block editor can be used to build certificates.
+ *
+ * The JS used for certificates in the block editor relies on WP functions and APIs available
+ * since WordPress 5.8. Earlier versions of WordPress won't work.
+ *
+ * @since [version]
+ *
+ * @param type $arg Description.
+ */
+function llms_is_block_editor_supported_for_certificates() {
+
+	global $wp_version;
+	$is_supported = version_compare( $wp_version, '5.8', '>=' );
+
+	/**
+	 * Filters whether or not the block editor can be used for building certificates.
+	 *
+	 * By default, `$is_supported` will be `true` for WordPress 5.8 or later and false for versions less than
+	 * 5.8.
+	 *
+	 * This filter may be used to disable the block editor on later versions.
+	 *
+	 * @since [version]
+	 *
+	 * @param boolean $is_supported Whether or not the block editor is supported.
+	 */
+	return apply_filters( 'llms_block_editor_supported_for_certificates', $is_supported );
+
+}
+
+/**
  * Register the custom "print_certificate" image size
  *
  * @since 2.2.0
