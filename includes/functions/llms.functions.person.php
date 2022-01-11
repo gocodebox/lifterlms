@@ -255,7 +255,7 @@ function llms_get_usernames_blocklist() {
 	 *
 	 * @param string[] $list List of banned usernames.
 	 */
-	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '[version]', 'llms_usernames_blocklist' );
+	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '5.0.0', 'llms_usernames_blocklist' );
 
 	/**
 	 * Modify the list of disallowed usernames

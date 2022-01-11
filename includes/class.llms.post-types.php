@@ -328,7 +328,7 @@ class LLMS_Post_Types {
 				$data = apply_filters_deprecated(
 					"lifterlms_register_post_type_${name}",
 					array( $data ),
-					'[version]',
+					'5.5.0',
 					"lifterlms_register_post_type_${unprefixed_name}"
 				);
 			}
