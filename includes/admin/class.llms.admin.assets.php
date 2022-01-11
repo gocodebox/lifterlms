@@ -86,7 +86,10 @@ class LLMS_Admin_Assets {
 
 		llms()->assets->enqueue_script( 'llms-admin-certificate-editor' );
 
-		$fonts = llms_get_certificate_fonts();
+		global $wp_version;
+		$supports_fonts = version_compare( $wp_version, '5.9-src', '>=' );
+
+		$fonts = $supports_fonts ? llms_get_certificate_fonts() : new stdClass();
 
 		$settings = array(
 			'default_image' => llms()->certificates()->get_default_image( get_the_ID() ),
