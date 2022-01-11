@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version [version]
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -231,7 +231,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Retrieves the most recently updated order for the given product.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param int $product_id WP Post ID of the LifterLMS Product (course, lesson, or membership)
 	 * @return LLMS_Order|false Instance of the LLMS_Order or false if none found
@@ -602,7 +602,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.37.9 Added filter `llms_user_enrollment_status_allowed_post_types`.
 	 * @since 4.4.1 Moved filter `llms_user_enrollment_status_allowed_post_types` to function `llms_get_enrollable_status_check_post_types()`.
 	 * @since 4.18.0 Added a tie-breaker when there are multiple enrollment statuses with the same date & time.
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query

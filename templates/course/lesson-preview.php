@@ -8,8 +8,8 @@
  * @since 1.0.0
  * @since 3.19.2 Unknown.
  * @since 4.4.0 Use the passed `$order` param if available, in favor of retrieving the lesson's order post meta.
- * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
- * @version [version]
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
+ * @version 5.7.0
  *
  * @var LLMS_Lesson $lesson        The lesson object.
  * @var string      $pre_text      The text to display before the lesson.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *              if the previous/next one(s) status is (are) not published. Make sure to always return `false` if no previous lesson is found.
  *              Use strict comparisons where needed.
  * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
- * @since [version] Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
+ * @since 5.7.0 Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
  *              Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
  *              Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
  *
@@ -123,7 +123,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.36.2 Add available number of days to the course start date only if there's a course start date.
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param string $format Optional. Date format (passed to date_i18n()). Default is empty string.
 	 *                       When not specified the WP Core date + time formats will be used.
@@ -268,13 +268,13 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
-	 * @deprecated [version] Use `LLMS_Lesson::get( 'order' )`, via {@see LLMS_Post_Model::get()}, instead.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::get( 'order' )`, via {@see LLMS_Post_Model::get()}, instead.
 	 *
 	 * @return int
 	 */
 	public function get_order() {
 
-		llms_deprecated_function( __METHOD__, '[version]', __CLASS__ . '::get( \'order\' )' );
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::get( \'order\' )' );
 
 		return $this->get( 'order' );
 	}
@@ -284,13 +284,13 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @since 1.0.0
 	 * @since 3.0.0 Unknown.
-	 * @deprecated [version] Use `LLMS_Lesson::get( 'parent_course' )`, via {@see LLMS_Post_Model::get()}, instead.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::get( 'parent_course' )`, via {@see LLMS_Post_Model::get()}, instead.
 	 *
 	 * @return int
 	 */
 	public function get_parent_course() {
 
-		llms_deprecated_function( __METHOD__, '[version]', __CLASS__ . '::get( \'parent_course\' )' );
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::get( \'parent_course\' )' );
 
 		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_course', true ) );
 	}
@@ -673,7 +673,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Sets parent course in database
 	 *
 	 * @since Unknown Introduced.
-	 * @deprecated [version] Use `LLMS_Lesson::set( 'parent_course', $course_id )`, via {@see LLMS_Post_Model::set()}, instead.
+	 * @deprecated 5.7.0 Use `LLMS_Lesson::set( 'parent_course', $course_id )`, via {@see LLMS_Post_Model::set()}, instead.
 	 *
 	 * @param int $course_id The WP Post ID of the course to be set as parent.
 	 * @return int|bool If meta didn't exist returns the meta_id else t/f if update success.
@@ -681,7 +681,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 */
 	public function set_parent_course( $course_id ) {
 
-		llms_deprecated_function( __METHOD__, '[version]', __CLASS__ . '::set( \'parent_course\', $course_id )' );
+		llms_deprecated_function( __METHOD__, '5.7.0', __CLASS__ . '::set( \'parent_course\', $course_id )' );
 
 		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
@@ -787,7 +787,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * alone.
 	 *
 	 * @since 4.10.2
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_order()` method with `LLMS_Lesson::get( 'order' )`.
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.
@@ -860,7 +860,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @since 4.10.2
 	 * @since 4.11.0 Fix PHP Notice when trying to retrieve next lesson from an empty section.
-	 * @since [version] Replaced the call to the deprecated `LLMS_Section::get_order()` method with `LLMS_Section::get( 'order' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Section::get_order()` method with `LLMS_Section::get( 'order' )`.
 	 *
 	 * @param string $direction Direction of navigation. Accepts either "prev" or "next".
 	 * @return false|int WP_Post ID of the sibling lesson or `false` if one doesn't exist.

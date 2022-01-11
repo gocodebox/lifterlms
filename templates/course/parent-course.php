@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since  1.0.0
- * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
- * @version [version]
+ * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
