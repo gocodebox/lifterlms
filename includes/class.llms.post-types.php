@@ -1176,7 +1176,7 @@ class LLMS_Post_Types {
 			'labels'              => wp_parse_args( $labels, $base_labels ),
 			'show_ui'             => $user_can,
 			'publicly_queryable'  => 'llms_certificate' === $post_type ? $user_can : true,
-			'show_in_rest'        => $user_can,
+			'show_in_rest'        => llms_is_block_editor_supported_for_certificates() && $user_can,
 			'public'              => true,
 			'hierarchical'        => false,
 			'exclude_from_search' => true,
