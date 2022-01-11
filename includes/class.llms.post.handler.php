@@ -109,6 +109,8 @@ class LLMS_Post_Handler {
 	 */
 	public static function create_section( $course_id, $title = '' ) {
 
+		llms_deprecated_function( __METHOD__, '[version]' );
+
 		// No course id? no new section!.
 		if ( ! isset( $course_id ) ) {
 			return;
