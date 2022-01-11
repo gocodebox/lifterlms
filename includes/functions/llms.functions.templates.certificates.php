@@ -195,3 +195,43 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 
 	}
 }
+
+/**
+ * Automatically remove all non-safelisted print stylesheets from certificate and certificate templates.
+ *
+ * @since [version]
+ *
+ * @return boolean Returns `false` when run on non-certificate post types, otherwise returns `true`.
+ */
+function llms_certificates_remove_print_styles() {
+
+	if ( ! in_array( get_post_type(), array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+		return false;
+	}
+
+	/**
+	 * A list of registered print stylesheet handles which should be allowed for certificate and certificate templates.
+	 *
+	 * By default, any enqueued print stylesheets are automatically dequeued to prevent visual issues encountered when
+	 * printing certificates.
+	 *
+	 * Any stylesheets added to this safelist will not be removed from certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $safelist Array of print stylesheet handles.
+	 */
+	$safelist = apply_filters( 'llms_certificate_print_styles_safelist', array() );
+
+	$styles = wp_styles();
+	foreach ( $styles->queue as $handle ) {
+		$style = $styles->registered[ $handle ] ?? false;
+		if ( ! empty( $style->args ) && 'print' === $style->args && ! in_array( $handle, $safelist, true ) ) {
+			wp_dequeue_style( $handle );
+		}
+	}
+
+	return true;
+
+}
+add_action( 'wp_enqueue_scripts', 'llms_certificates_remove_print_styles', 999 );

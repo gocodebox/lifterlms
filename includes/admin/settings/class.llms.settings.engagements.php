@@ -112,7 +112,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		$settings = array(
 			array(
 				'title'    => __( 'Default Background Image', 'lifterlms' ),
-				'id'       => 'lifterlms_certificate_default_bg_img',
+				'id'       => 'lifterlms_certificate_default_img',
 				'type'     => 'image',
 				'value'    => llms()->certificates()->get_default_image( 0 ),
 				'autoload' => false,

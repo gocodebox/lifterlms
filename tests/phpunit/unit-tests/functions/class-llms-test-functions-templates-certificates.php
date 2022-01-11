@@ -168,4 +168,64 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_certificates_remove_print_styles() on invalid post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_certificates_remove_print_styles_wrong_post_type() {
+
+		global $post;
+
+		$post = $this->factory->post->create_and_get();
+
+		$this->assertFalse( llms_certificates_remove_print_styles() );
+		$post = null;
+
+	}
+
+	/**
+	 * Test llms_certificates_remove_print_styles().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_certificates_remove_print_styles() {
+
+		global $post;
+		$callback = function( $list ) {
+			$list[] = 'fake-print-style-safe';
+			return $list;
+		};
+		add_filter( 'llms_certificate_print_styles_safelist', $callback );
+
+		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
+
+			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+
+			wp_enqueue_style( 'fake-print-style', 'https://fake.tld/print.css', array(), '1.0.0', 'print' );
+			wp_enqueue_style( 'fake-print-style-safe', 'https://fake.tld/print-safe.css', array(), '1.0.0', 'print' );
+			wp_enqueue_style( 'fake-style', 'https://fake.tld/style.css', array(), '1.0.0' );
+
+			$this->assertTrue( llms_certificates_remove_print_styles() );
+
+			// Print style is removed.
+			$this->assertFalse( wp_style_is( 'fake-print-style' ) );
+
+			// Safelisted print style is not removed.
+			$this->assertTrue( wp_style_is( 'fake-print-style-safe' ) );
+
+			// Non-print style is not removed.
+			$this->assertTrue( wp_style_is( 'fake-style' ) );
+
+		}
+
+		remove_filter( 'llms_certificate_print_styles_safelist', $callback );
+		$post = null;
+
+	}
+
 }

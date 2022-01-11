@@ -22,7 +22,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Achievements {
 
-	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Singleton,
+		LLMS_Trait_Award_Default_Images;
 
 	/**
 	 * List of available achievement types.
@@ -30,6 +31,15 @@ class LLMS_Achievements {
 	 * @var array
 	 */
 	public $achievements = array();
+
+	/**
+	 * The ID for the award type.
+	 *
+	 * Used by {@see LLMS_Trait_Award_Default_Images}.
+	 *
+	 * @var string
+	 */
+	protected $award_type = 'achievement';
 
 	/**
 	 * Deprecated.
@@ -73,58 +83,6 @@ class LLMS_Achievements {
 		include_once 'class.llms.achievement.php';
 		$this->achievements['LLMS_Achievement_User'] = include_once 'achievements/class.llms.achievement.user.php';
 
-	}
-
-	/**
-	 * Retrieve the default achievement image for a given achievement.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $achievement_id WP_Post ID of the earned achievement. This is passed so that anyone filtering the default image could
-	 *                            provide a different default image based on the achievement.
-	 * @return string The full image source url.
-	 */
-	public function get_default_image( $achievement_id ) {
-
-		$src = '';
-
-		// Retrieve the stored value from the database.
-		$id = $this->get_default_image_id();
-		if ( $id ) {
-			$src = wp_get_attachment_url( $id );
-		}
-
-		// Use the attachment stored for the option in the DB and fallback to the default image from the plugin's assets dir.
-		$src = $src ? $src : llms()->engagements()->get_default_default_image_src( 'achievement' );
-
-		/**
-		 * Filters the default achievement image source.
-		 *
-		 * @since [version]
-		 *
-		 * @param string $src            The full image source url.
-		 * @param int    $achievement_id The earned achievement ID.
-		 */
-		return apply_filters(
-			'lifterlms_achievement_image_placeholder_src',
-			$src,
-			$achievement_id
-		);
-	}
-
-	/**
-	 * Retrieve attachment ID of the default achievement image.
-	 *
-	 * If the attachment post doesn't exist will return false. This would happen
-	 * if the post is deleted from the media library.
-	 *
-	 * @since [version]
-	 *
-	 * @return int Returns the WP_Post ID of the attachment or `0` if not set.
-	 */
-	public function get_default_image_id() {
-		$id = get_option( 'lifterlms_achievement_default_img', 0 );
-		return $id && get_post( $id ) ? absint( $id ) : 0;
 	}
 
 	/**
