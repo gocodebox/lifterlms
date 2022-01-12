@@ -208,7 +208,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $test ) {
 			list( $wp_version, $expect ) = $test;
-			$this->assertEquals( $expect, llms_is_block_editor_supported_for_certificates() );
+			$this->assertEquals( $expect, llms_is_block_editor_supported_for_certificates(), $wp_version );
 		}
 
 		$wp_version = $orig;
