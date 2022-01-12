@@ -1,3 +1,0 @@
-Test PHPUnit:
-  __delete:
-    - WP[4] # WP 5.4.

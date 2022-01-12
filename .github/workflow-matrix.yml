@@ -9,3 +9,5 @@ Test PHPUnit:
   __delete:
     # Remove the LLMS Nightly job (intended for add-ons).
     - include[2]
+    # Can be removed when default LLMS job matrix drops support for 5.4.
+    - WP[4] # WP 5.4.
