@@ -11,3 +11,5 @@ Test PHPUnit:
     - include[2]
     # Can be removed when default LLMS job matrix drops support for 5.4.
     - WP[4] # WP 5.4.
+    # Can be removed when default job matrix drops support for PHP 7.3.
+    - PHP[2] # PHP 7.3
