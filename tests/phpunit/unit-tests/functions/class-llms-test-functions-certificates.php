@@ -173,4 +173,46 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_is_block_editor_supported_for_certificates()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_is_block_editor_supported_for_certificates() {
+
+		global $wp_version;
+		$orig = $wp_version;
+
+		$tests = array(
+			// Unsupported versions.
+			array( '5.5.0', false ),
+			array( '5.6.0', false ),
+			array( '5.6.1', false ),
+			array( '5.7', false ),
+			array( '5.7.0', false ),
+			array( '5.7.5', false ),
+			// Supported versions.
+			array( '5.8', true ),
+			array( '5.8.0', true ),
+			array( '5.8.1', true ),
+			array( '5.8.3', true ),
+			array( '5.9', true ),
+			array( '5.9-alpha.1', true ),
+			array( '5.9-RC.1', true ),
+			// Future versions?
+			array( '6.0', true ),
+			array( '6.0.1', true ),
+		);
+
+		foreach ( $tests as $test ) {
+			list( $wp_version, $expect ) = $test;
+			$this->assertEquals( $expect, llms_is_block_editor_supported_for_certificates(), $wp_version );
+		}
+
+		$wp_version = $orig;
+
+	}
+
 }

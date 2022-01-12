@@ -1,7 +1,7 @@
 significance: minor
 type: added
 entry: >
-  + The block editor is now enabled by default for certificates.
+  + The block editor is now enabled by default for certificates when using WordPress versions 5.8 and later.
     + Existing certificates are marked as "legacy" and will continue to use the classic editor until migrated.
     + To migrate a certificate, click the "Migrate Certificate" button. This will force the certificate's content into blocks.
   + A number of new settings are available to certificates when using the block editor:

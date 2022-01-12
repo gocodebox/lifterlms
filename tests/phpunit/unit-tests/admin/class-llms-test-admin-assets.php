@@ -67,8 +67,11 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_block_editor_assets() {
+	public function test_block_editor_assets_for_certificates() {
 
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'Block editor is not supported for certificates on this version of WordPress.' );
+		}
 
 		$handle    = 'llms-admin-certificate-editor';
 		$inline_id = 'llms-admin-certificate-settings';

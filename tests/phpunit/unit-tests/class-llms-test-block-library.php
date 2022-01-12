@@ -20,6 +20,10 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	 */
 	public function set_up() {
 
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'No blocks supported on this version of WordPress.' );
+		}
+
 		parent::set_up();
 		$this->main     = new LLMS_Block_Library();
 		$this->registry = WP_Block_Type_Registry::get_instance();

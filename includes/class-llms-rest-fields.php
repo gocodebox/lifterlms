@@ -93,8 +93,12 @@ class LLMS_REST_Fields {
 	 */
 	public function register() {
 
-		$this->register_fields_for_certificates();
-		$this->register_fields_for_certificate_templates();
+		if ( llms_is_block_editor_supported_for_certificates() ) {
+
+			$this->register_fields_for_certificates();
+			$this->register_fields_for_certificate_templates();
+
+		}
 
 	}
 
