@@ -5,6 +5,7 @@ v?.?.? - 2021-??-??
 -------------------
 
 + Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
++ Any `@wordpress/*` modules are automatically resolved for the purposes of `eslint-plugin-import` rules.
 
 
 v2.1.0 - 2021-12-13

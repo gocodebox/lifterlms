@@ -2,7 +2,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 
 // Internal Deps.
-import metadata from './block.json'
+import metadata from './block.json';
 import edit from './edit';
 import save from './save';
 
@@ -21,6 +21,6 @@ registerBlockType(
 			src: 'awards',
 		},
 		edit,
-		save
+		save,
 	}
 );

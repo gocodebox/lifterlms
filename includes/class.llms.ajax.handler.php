@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.5.0
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,6 +31,9 @@ defined( 'ABSPATH' ) || exit;
  *                Used strict comparison where needed.
  * @since 3.37.15 Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
  * @since 3.39.0 Minor code readability updates to the `validate_coupon_code()` method.
+ * @since 5.7.0 Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
+ *              Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
+ *              Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -1075,12 +1078,14 @@ class LLMS_AJAX_Handler {
 	 * Create course's section.
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function create_section( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::section_tile( $section_id );
@@ -1139,12 +1144,14 @@ class LLMS_AJAX_Handler {
 	 * Create course's lesson.
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function create_lesson( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$lesson_id = LLMS_Post_Handler::create_lesson(
 			$request['post_id'],
 			$request['section_id'],
@@ -1176,12 +1183,14 @@ class LLMS_AJAX_Handler {
 	 * Add a lesson to a course
 	 *
 	 * @since Unknown
+	 * @deprecated 5.7.0 There is not a replacement.
 	 *
 	 * @param array $request $_POST data.
 	 * @return string
 	 */
 	public static function add_lesson_to_course( $request ) {
 
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
 
 		$html = LLMS_Meta_Box_Course_Outline::lesson_tile( $lesson_id, $request['section_id'] );

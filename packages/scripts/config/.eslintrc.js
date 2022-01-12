@@ -7,6 +7,8 @@
  * @version [version]
  */
 
+const { resolve } = require( 'path' );
+
 const eslintConfig = {
 	root: true,
 	extends: [
@@ -22,10 +24,9 @@ const eslintConfig = {
 		'import/core-modules': [
 			// @todo: This list needs to be expanded to include other WP Core included modules.
 			'jquery',
-		]
+		],
+		'import/resolver': __dirname + '/import-resolver.js',
 	}
 };
 
 module.exports = eslintConfig;
-
-

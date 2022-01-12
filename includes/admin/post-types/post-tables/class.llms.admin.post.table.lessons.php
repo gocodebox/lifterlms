@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.2.3
- * @version 4.5.1
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -86,6 +86,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 *
 	 * @since 3.2.3
 	 * @since 3.24.0 Unknown.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param string $column  Column key/name.
 	 * @param int    $post_id WP Post ID of the lesson for the row.
@@ -101,7 +102,7 @@ class LLMS_Admin_Post_Table_Lessons {
 		switch ( $column ) {
 
 			case 'course':
-				$course    = $lesson->get_parent_course();
+				$course    = $lesson->get( 'parent_course' );
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {

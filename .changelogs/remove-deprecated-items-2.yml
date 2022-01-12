@@ -5,6 +5,7 @@ entry: |
   + Removed the deprecated `llms_set_person_auth_cookie()` function.
   + Removed the deprecated `LLMS_Course::sections` property.
   + Removed the deprecated `LLMS_Course::sku` property.
+  + Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method.
   + Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_script()` method.
   + Removed the deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()` method.
   + Removed the deprecated `LLMS_Generator::add_custom_values()` method.

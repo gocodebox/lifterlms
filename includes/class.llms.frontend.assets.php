@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
  * @since [version] Removed deprecated items.
+ *              - `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method
  *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
  *              - `LLMS_Frontend_Assets::is_inline_script_enqueued()` method
  */
@@ -116,22 +117,6 @@ class LLMS_Frontend_Assets {
 		$script = ob_get_clean();
 		llms()->assets->enqueue_inline( 'llms-integrity', $script, 'header' );
 
-	}
-
-	/**
-	 * Output the inline PW Strength meter script
-	 *
-	 * @since 3.4.1
-	 *
-	 * @return void
-	 */
-	public static function enqueue_inline_pw_script() {
-		llms()->assets->enqueue_inline(
-			'llms-pw-strength',
-			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
-			'footer',
-			15
-		);
 	}
 
 	/**

@@ -26,7 +26,8 @@
       "type": "string"
     },
     "fontFamily": {
-      "type": "string"
+      "type": "string",
+      "default": "default"
     }
   },
   "supports": {

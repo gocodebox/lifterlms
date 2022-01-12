@@ -15,6 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 4.0.0 Remove deprecated class methods.
+ * @since 5.7.0 Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
+ *              Informed developers about the deprecated `LLMS_Section::get_order()` method.
+ *              Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
+ *              Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.
  * @since [version] Removed deprecated items.
  *              - `LLMS_Section::get_next_available_lesson_order()` method
  *              - `LLMS_Section::get_order()` method

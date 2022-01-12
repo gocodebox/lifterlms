@@ -13,7 +13,8 @@
   },
   "homepage": "https://lifterlms.com",
   "dependencies": {
-    "@emotion/styled": "^11.6.0"
+    "@emotion/styled": "^11.6.0",
+    "classnames": "^2.3.1"
   },
   "devDependencies": {
     "@lifterlms/brand": "file:packages/brand",
@@ -30,23 +31,6 @@
     "lerna": "^4.0.0",
     "lifterlms-lib-tasks": "^4.0.1"
   },
-  "peerDependencies": {
-    "@wordpress/block-editor": "^8.0.7",
-    "@wordpress/blocks": "^11.1.5",
-    "@wordpress/components": "^19.1.1",
-    "@wordpress/compose": "^5.0.6",
-    "@wordpress/core-data": "^4.0.8",
-    "@wordpress/data": "^6.1.4",
-    "@wordpress/dom-ready": "^3.2.3",
-    "@wordpress/edit-post": "^5.0.13",
-    "@wordpress/editor": "^12.0.10",
-    "@wordpress/element": "^4.0.4",
-    "@wordpress/hooks": "^3.2.2",
-    "@wordpress/i18n": "^4.2.4",
-    "@wordpress/plugins": "^4.0.6",
-    "@wordpress/rich-text": "^5.0.6",
-    "@wordpress/url": "^3.3.1"
-  },
   "scripts": {
     "build": "npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",
     "build:pot": "gulp pot-js && llms-dev pot",
@@ -55,7 +39,7 @@
     "build:styles": "gulp styles && gulp styles-rtl",
     "dev": "llms-dev",
     "lerna": "lerna",
-    "lint:js": "wp-scripts lint-js ./src/js",
+    "lint:js": "wp-scripts lint-js ./src/js ./src/blocks",
     "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive",
     "pkg:docgen": "lerna run docgen",

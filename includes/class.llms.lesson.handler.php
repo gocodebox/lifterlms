@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version Unknown
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Lesson_Handler
  *
  * @since 1.0.0
+ * @since 5.7.0 Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
  */
 class LLMS_Lesson_Handler {
 
@@ -49,7 +50,22 @@ class LLMS_Lesson_Handler {
 
 	}
 
+	/**
+	 * Assigns the lesson to a section and course, optionally by duplicating it.
+	 *
+	 * @since 1.2.4 Introduced.
+	 * @deprecated 5.7.0 There is not a replacement.
+	 *
+	 * @param int  $course_id
+	 * @param int  $section_id
+	 * @param int  $lesson_id
+	 * @param bool $duplicate
+	 * @param bool $reset_order
+	 * @return false|int|WP_Error
+	 */
 	public static function assign_to_course( $course_id, $section_id, $lesson_id, $duplicate = true, $reset_order = true ) {
+
+		llms_deprecated_function( __METHOD__, '5.7.0' );
 
 		// Get position of next lesson.
 		$section      = new LLMS_Section( $section_id );
