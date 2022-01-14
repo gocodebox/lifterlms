@@ -386,15 +386,15 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @return {
 	 *     Array of dimensions.
 	 *
-	 *     @type string $width  The display width (with units).
-	 *     @type string $height The display height (with units).
+	 *     @type string|float $width  The display width.
+	 *     @type string|float $height The display height.
 	 * }
 	 */
-	public function get_dimensions_for_display() {
+	public function get_dimensions_for_display( $with_units = true ) {
 
 		$orientation = $this->get_orientation();
-		$width       = $this->get_width( true );
-		$height      = $this->get_height( true );
+		$width       = $this->get_width( $with_units );
+		$height      = $this->get_height( $with_units );
 
 		return array(
 			'width'  => 'portrait' === $orientation ? $width : $height,
