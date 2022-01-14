@@ -26,7 +26,6 @@ defined( 'ABSPATH' ) || exit;
  *              - Removed the unused private `LLMS_Achievements::$_from_name` property.
  *              - Removed the unused private `LLMS_Achievements::$_content_type` property.
  *              - Removed the deprecated `LLMS_Achievements::$_instance` property.
- *
  */
 class LLMS_Achievements {
 

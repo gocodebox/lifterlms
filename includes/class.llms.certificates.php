@@ -29,7 +29,6 @@ defined( 'ABSPATH' ) || exit;
  *              - Deprecated the `LLMS_Certificates::trigger_engagement()` method.
  *                Use the {@see LLMS_Engagement_Handler::handle_certificate()} method instead.
  *              - Removed the deprecated `LLMS_Certificates::$_instance` property.
- *
  */
 class LLMS_Certificates {
 

@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *              Stop loading removed processor "table_to_csv".
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  * @since [version] Added the awarded certificates bulk sync processor.
-                Removed the deprecated `LLMS_Processors::$_instance` property.
+ *              Removed the deprecated `LLMS_Processors::$_instance` property.
  */
 class LLMS_Processors {
 
