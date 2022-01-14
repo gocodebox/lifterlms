@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function _get_db_version() {
-	return '6.0.0-alpha.2';
+	return '6.0.0-alpha.3';
 }
 
 /**
@@ -109,14 +109,22 @@ function show_notice() {
 
 	$notice_id = sprintf( 'v%s-welcome-msg', str_replace( array( '.', '-' ), '', _get_db_version() ) );
 
+	$get_started_link = admin_url( 'post-new.php?post_type=llms_certificate' );
+
 	$html = sprintf(
 		'<strong>%1$s</strong><br><br>%2$s<br><br>%3$s',
 		__( 'Welcome to LifterLMS 6.0.0!', 'lifterlms' ),
-		__( 'Welcome text goes here.', 'lifterlms' ), // @todo Add welcome text.
+		__( "This new version brings you the power to build and customize certificates using the WordPress block editor! Start building beautiful certificates using all the blocks you're already familiar, the new Certificate Title block, and new certificate settings like page size (Letter or A4, for example), orientation, background color, and more. In addition to design features, this version also adds the ability to modify already-awarded certificates and achievements and to sync template updates with the click of a button.", 'lifterlms' ), // @todo Add welcome text.
+		sprintf(
+			// Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
+			__( '%1$sGet Started%2$s', 'lifterlms' ),
+			'<a class="button-primary" href="' . esc_url( $get_started_link ) . '" >',
+			'</a>'
+		) . ' ' .
 		sprintf(
 			// Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
 			__( '%1$sRead More%2$s', 'lifterlms' ),
-			'<a class="button" href="https://blog.lifterlms.com/6-0/" target="_blank" rel="noopener">', // @todo Get real link.
+			'<a class="button" href="https://github.com/gocodebox/lifterlms/issues/1934" target="_blank" rel="noopener">',
 			'</a>'
 		)
 	);
