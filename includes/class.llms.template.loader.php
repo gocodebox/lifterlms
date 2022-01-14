@@ -506,7 +506,7 @@ class LLMS_Template_Loader {
 
 		// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
 		$override      = llms_get_template_override( $template );
-		$template_path = $override ? $override : LLMS()->plugin_path() . '/templates/';
+		$template_path = $override ? $override : llms()->plugin_path() . '/templates/';
 		return $template_path . $template;
 
 	}

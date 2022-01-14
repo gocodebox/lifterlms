@@ -208,7 +208,7 @@ class LLMS_Data {
 
 		$data = array();
 
-		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $obj ) {
+		foreach ( llms()->payment_gateways()->get_payment_gateways() as $obj ) {
 
 			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
 
@@ -237,7 +237,7 @@ class LLMS_Data {
 
 		$data = array();
 
-		$integrations = LLMS()->integrations();
+		$integrations = llms()->integrations();
 
 		foreach ( $integrations->integrations() as $obj ) {
 
@@ -264,7 +264,7 @@ class LLMS_Data {
 
 		$data = array();
 
-		$data['version']    = LLMS()->version;
+		$data['version']    = llms()->version;
 		$data['db_version'] = get_option( 'lifterlms_db_version' );
 
 		$data['course_catalog']     = self::get_page_data( 'lifterlms_shop_page_id' );
@@ -502,7 +502,7 @@ class LLMS_Data {
 	 */
 	private static function get_templates_data() {
 
-		$path = LLMS()->plugin_path() . '/templates/';
+		$path = llms()->plugin_path() . '/templates/';
 
 		$templates = array_merge( glob( $path . '*.php' ), glob( $path . '**/*.php' ) );
 

@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '5.7.0';
+	public $version = '6.0.0-alpha.3';
 
 	/**
 	 * LLMS_Assets instance
@@ -340,7 +340,7 @@ final class LifterLMS {
 
 	/**
 	 * Load all background processors and
-	 * access to them programmatically a processor via LLMS()->processors()->get( $processor )
+	 * access to them programmatically a processor via llms()->processors()->get( $processor )
 	 *
 	 * @since    3.15.0
 	 *

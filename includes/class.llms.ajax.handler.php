@@ -757,7 +757,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function remove_coupon_code( $request ) {
 
-		LLMS()->session->set( 'llms_coupon', false );
+		llms()->session->set( 'llms_coupon', false );
 
 		$plan = new LLMS_Access_Plan( $request['plan_id'] );
 
@@ -770,8 +770,8 @@ class LLMS_AJAX_Handler {
 			'checkout/form-gateways.php',
 			array(
 				'coupon'           => false,
-				'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-				'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+				'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+				'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 				'plan'             => $plan,
 			)
 		);
@@ -1017,7 +1017,7 @@ class LLMS_AJAX_Handler {
 
 				} else {
 
-					LLMS()->session->set(
+					llms()->session->set(
 						'llms_coupon',
 						array(
 							'plan_id'   => $request['plan_id'],
@@ -1041,8 +1041,8 @@ class LLMS_AJAX_Handler {
 						'checkout/form-gateways.php',
 						array(
 							'coupon'           => $coupon,
-							'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-							'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+							'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+							'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 							'plan'             => $plan,
 						)
 					);
@@ -1443,7 +1443,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'error', __( 'Missing tracking data.', 'lifterlms' ) );
 		}
 
-		$success = LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+		$success = llms()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
 
 		if ( ! is_wp_error( $success ) ) {
 			$success = array(

@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.26.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,11 +44,12 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Action triggered to queue all students who need to be enrolled
 	 *
-	 * @param    int $membership_id  WP Post ID of the membership
-	 * @param    int $course_id      WP Post ID of the course to enroll members into
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 *
+	 * @param int $membership_id WP Post ID of the membership.
+	 * @param int $course_id     WP Post ID of the course to enroll members into.
+	 * @return void
 	 */
 	public function dispatch_enrollment( $membership_id, $course_id ) {
 
@@ -66,9 +67,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$query = new LLMS_Student_Query( $args );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 
-			while ( $args['page'] <= $query->max_pages ) {
+			while ( $args['page'] <= $query->get_max_pages() ) {
 
 				$this->push_to_queue(
 					array(
@@ -160,7 +161,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		}
 
 		// turn the course data processor off
-		$course_data_processor = LLMS()->processors()->get( 'course_data' );
+		$course_data_processor = llms()->processors()->get( 'course_data' );
 		if ( $course_data_processor ) {
 			$course_data_processor->disable();
 		}

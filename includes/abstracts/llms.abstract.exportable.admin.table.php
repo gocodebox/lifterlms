@@ -266,7 +266,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @return bool
 	 */
 	public function is_export_locked() {
-		return LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
+		return llms()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
 	}
 
 }

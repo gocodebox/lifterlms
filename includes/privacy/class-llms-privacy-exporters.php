@@ -153,7 +153,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 		$title = $cert->get( 'certificate_title' );
 
-		$filename = LLMS()->certificates()->get_export( $cert->get( 'id' ), true );
+		$filename = llms()->certificates()->get_export( $cert->get( 'id' ), true );
 		if ( ! is_wp_error( $filename ) ) {
 			$title = '<a href="certificates/' . basename( $filename ) . '">' . $title . '</a>';
 		}
@@ -459,7 +459,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$delete = array();
 		if ( true === $zip->open( $archive_pathname ) ) {
 			foreach ( $certs as $cert ) {
-				$filepath                        = LLMS()->certificates()->get_export( $cert->get( 'id' ), true );
+				$filepath                        = llms()->certificates()->get_export( $cert->get( 'id' ), true );
 				$delete[ $cert->certificate_id ] = $filepath;
 				if ( is_wp_error( $filepath ) ) {
 					continue;

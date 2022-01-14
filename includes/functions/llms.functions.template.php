@@ -23,16 +23,16 @@ function llms_get_template_part( $slug, $name = '' ) {
 	$template = '';
 
 	if ( $name ) {
-		$template = llms_locate_template( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" );
+		$template = llms_locate_template( "{$slug}-{$name}.php", llms()->template_path() . "{$slug}-{$name}.php" );
 	}
 
 	// Get default slug-name.php.
-	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	if ( ! $template && $name && file_exists( llms()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
+		$template = llms()->plugin_path() . "/templates/{$slug}-{$name}.php";
 	}
 
 	if ( ! $template ) {
-		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
+		$template = llms_locate_template( "{$slug}.php", llms()->template_path() . "{$slug}.php" );
 	}
 
 	/**
@@ -66,16 +66,16 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 	$template = '';
 
 	if ( $name ) {
-		$template = llms_locate_template( "{$slug}-{$name}.php", LLMS()->template_path() . "{$slug}-{$name}.php" );
+		$template = llms_locate_template( "{$slug}-{$name}.php", llms()->template_path() . "{$slug}-{$name}.php" );
 	}
 
 	// Get default slug-name.php.
-	if ( ! $template && $name && file_exists( LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-		$template = LLMS()->plugin_path() . "/templates/{$slug}-{$name}.php";
+	if ( ! $template && $name && file_exists( llms()->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
+		$template = llms()->plugin_path() . "/templates/{$slug}-{$name}.php";
 	}
 
 	if ( ! $template ) {
-		$template = llms_locate_template( "{$slug}.php", LLMS()->template_path() . "{$slug}.php" );
+		$template = llms_locate_template( "{$slug}.php", llms()->template_path() . "{$slug}.php" );
 	}
 
 	if ( $template ) {
@@ -92,9 +92,9 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
  * @param string $template_name Name of template.
  * @param array  $args          Array of arguments accessible from the template.
  * @param string $template_path Optional. Dir path to template. Default is empty string.
- *                              If not supplied the one retrived from `LLMS()->template_path()` will be used.
+ *                              If not supplied the one retrived from `llms()->template_path()` will be used.
  * @param string $default_path  Optional. Default path is empty string.
- *                              If not supplied the template path is `LLMS()->plugin_path() . '/templates/'`.
+ *                              If not supplied the template path is `llms()->plugin_path() . '/templates/'`.
  * @return void
  */
 function llms_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
@@ -147,9 +147,9 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
  *
  * @param string $template_name Name of template.
  * @param string $template_path Optional. Dir path to template. Default is empty string.
- *                              If not supplied the one retrived from `LLMS()->template_path()` will be used.
+ *                              If not supplied the one retrived from `llms()->template_path()` will be used.
  * @param string $default_path  Optional. Default path is empty string.
- *                              If not supplied the template path is `LLMS()->plugin_path() . '/templates/'`.
+ *                              If not supplied the template path is `llms()->plugin_path() . '/templates/'`.
  * @return string
  *
  * @since 1.0.0
@@ -157,11 +157,11 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
  */
 function llms_locate_template( $template_name, $template_path = '', $default_path = '' ) {
 	if ( ! $template_path ) {
-		$template_path = LLMS()->template_path();
+		$template_path = llms()->template_path();
 	}
 
 	if ( ! $default_path ) {
-		$default_path = LLMS()->plugin_path() . '/templates/';
+		$default_path = llms()->plugin_path() . '/templates/';
 	}
 
 	// Check theme and template directories for the template.

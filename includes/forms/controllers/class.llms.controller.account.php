@@ -217,7 +217,7 @@ class LLMS_Controller_Account {
 		}
 
 		// Setup the email.
-		$email = LLMS()->mailer()->get_email(
+		$email = llms()->mailer()->get_email(
 			'reset_password',
 			array(
 				'key'           => $key,

@@ -50,7 +50,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 		}
 
 		// setup the email.
-		$mailer = LLMS()->mailer()->get_email( 'notification' );
+		$mailer = llms()->mailer()->get_email( 'notification' );
 
 		if ( ! $mailer->add_recipient( $notification->get( 'subscriber' ), 'to' ) ) {
 			$this->log( sprintf( 'error sending email notification ID #%d - subscriber does not exist', $notification_id ) );

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_AJAX::get_ajax_data()` method
+ *              - `LLMS_AJAX::register_script()` method
  */
 class LLMS_AJAX {
 
@@ -62,6 +65,7 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
+	 * @since [version] Removed the `wp_enqueue_scripts` action callback to the deprecated `LLMS_AJAX::register_script()` method.
 	 *
 	 * @return void
 	 */
@@ -74,9 +78,6 @@ class LLMS_AJAX {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
 		}
-
-		$action = is_admin() ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
-		add_action( $action, array( $this, 'register_script' ), 20 );
 
 	}
 
@@ -118,36 +119,6 @@ class LLMS_AJAX {
 
 		return $request;
 
-	}
-
-	/**
-	 * Register our AJAX JavaScript.
-	 *
-	 * @since 1.0.0
-	 * @since 3.35.0 Sanitize data & declare script versions.
-	 * @since 4.4.0 Don't register the `llms` script.
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return void
-	 */
-	public function register_script() {
-
-		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
-
-	}
-
-	/**
-	 * Get the AJAX data
-	 *
-	 * @since Unknown
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return array
-	 */
-	public function get_ajax_data() {
-		return array(
-			'nonce' => wp_create_nonce( self::NONCE ),
-		);
 	}
 
 	/**

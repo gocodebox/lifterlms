@@ -67,7 +67,7 @@ function llms_update_450_migrate_events_open_sessions() {
 	// Add the open sessions to the new table.
 	if ( ! empty( $insert ) ) {
 		$wpdb->query(
-			"INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES " . $insert . ';'
+			"INSERT INTO {$wpdb->prefix}lifterlms_events_open_sessions ( `event_id` ) VALUES " . $insert . ';' // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Values are prepared above.
 		); // db call ok; no-cache ok.
 	}
 

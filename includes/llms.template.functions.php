@@ -782,7 +782,7 @@ if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
  * @return string
  */
 function llms_placeholder_img_src() {
-	return apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/placeholder.png' );
+	return apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/placeholder.png' );
 }
 
 /**
