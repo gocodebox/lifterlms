@@ -73,7 +73,12 @@ $certificates = array(
 							'content' => '{current_date}',
 						),
 					),
-					array( 'core/separator' ),
+					array(
+						'core/separator',
+						array(
+							'align'   => 'center',
+						)
+					),
 					array(
 						'core/paragraph',
 						array(
@@ -95,7 +100,12 @@ $certificates = array(
 							'content' => '{site_title}',
 						),
 					),
-					array( 'core/separator' ),
+					array(
+						'core/separator',
+						array(
+							'align'   => 'center',
+						)
+					),
 					array(
 						'core/paragraph',
 						array(
