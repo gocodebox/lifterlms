@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 6.0.0-alpha.2\n"
+"Project-Id-Version: LifterLMS 6.0.0-alpha.3\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-01-11T11:27:10-07:00\n"
+"POT-Creation-Date: 2022-01-14T16:07:45-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.3\n"
 "X-Domain: lifterlms\n"
@@ -206,29 +206,29 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %1$sclick here%2$s for more information."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-email-provider.php:247
+#: includes/abstracts/llms-abstract-email-provider.php:248
 msgid "Security check failed."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-email-provider.php:253
+#: includes/abstracts/llms-abstract-email-provider.php:254
 msgid "You do not have permission to perform this action."
 msgstr ""
 
 #. Translators: %s = title of the email delivery plugin.
-#: includes/abstracts/llms-abstract-email-provider.php:326
+#: includes/abstracts/llms-abstract-email-provider.php:327
 msgid "%s plugin not found. Please try again."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:173
+#: includes/abstracts/llms-abstract-generator-posts.php:174
 msgid "The class \"%s\" does not exist."
 msgstr ""
 
 #. Translators: %s = post type name.
-#: includes/abstracts/llms-abstract-generator-posts.php:192
+#: includes/abstracts/llms-abstract-generator-posts.php:193
 msgid "Error creating the %s post object."
 msgstr ""
 
-#: includes/abstracts/llms-abstract-generator-posts.php:500
+#: includes/abstracts/llms-abstract-generator-posts.php:501
 msgid "Error creating new term \"%s\"."
 msgstr ""
 
@@ -502,15 +502,15 @@ msgstr ""
 msgid "Please rate %1$s <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%3$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> to help us spread the word. Thank you from the LifterLMS team!"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:70
+#: includes/admin/class-llms-admin-users-table.php:71
 msgid "Reports"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:83
+#: includes/admin/class-llms-admin-users-table.php:84
 msgid "Last Login"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:84
+#: includes/admin/class-llms-admin-users-table.php:85
 #: includes/admin/reporting/class.llms.admin.reporting.php:295
 #: includes/admin/reporting/tables/llms.table.students.php:638
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.enrollments.php:75
@@ -518,9 +518,8 @@ msgstr ""
 msgid "Enrollments"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:118
+#: includes/admin/class-llms-admin-users-table.php:119
 #: includes/admin/class.llms.admin.builder.php:61
-#: includes/admin/class.llms.admin.import.php:389
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:69
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
@@ -538,7 +537,7 @@ msgstr ""
 msgid "Courses"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:119
+#: includes/admin/class-llms-admin-users-table.php:120
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:75
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:83
 #: includes/admin/reporting/class.llms.admin.reporting.php:292
@@ -556,7 +555,7 @@ msgstr ""
 msgid "Memberships"
 msgstr ""
 
-#: includes/admin/class-llms-admin-users-table.php:228
+#: includes/admin/class-llms-admin-users-table.php:229
 msgid "Never"
 msgstr ""
 
@@ -588,25 +587,25 @@ msgid "MailHawk"
 msgstr ""
 
 #. Translators: %s = Anchor tag html linking to SendWP.com.
-#: includes/admin/class-llms-sendwp.php:83
+#: includes/admin/class-llms-sendwp.php:66
 msgid "%s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time."
 msgstr ""
 
-#: includes/admin/class-llms-sendwp.php:97
+#: includes/admin/class-llms-sendwp.php:80
 msgid "SendWP"
 msgstr ""
 
-#: includes/admin/class-llms-sendwp.php:136
+#: includes/admin/class-llms-sendwp.php:119
 msgid "Your site is connected to SendWP."
 msgstr ""
 
 #. Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
-#: includes/admin/class-llms-sendwp.php:142
+#: includes/admin/class-llms-sendwp.php:125
 msgid "%1$sManage your account%2$s."
 msgstr ""
 
 #. Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
-#: includes/admin/class-llms-sendwp.php:149
+#: includes/admin/class-llms-sendwp.php:132
 msgid "Email sending is currently disabled. %1$sVisit the SendWP Settings%2$s to enable sending.."
 msgstr ""
 
@@ -661,20 +660,20 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:99
+#: includes/admin/class.llms.admin.assets.php:102
 msgid "White"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:104
+#: includes/admin/class.llms.admin.assets.php:107
 msgid "White Smoke"
 msgstr ""
 
-#: includes/admin/class.llms.admin.assets.php:109
+#: includes/admin/class.llms.admin.assets.php:112
 msgid "Ivory"
 msgstr ""
 
 #: includes/admin/class.llms.admin.builder.php:52
-#: includes/class.llms.install.php:273
+#: includes/class.llms.install.php:276
 #: includes/class.llms.student.dashboard.php:155
 msgid "Dashboard"
 msgstr ""
@@ -773,101 +772,65 @@ msgstr ""
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:63
+#: includes/admin/class.llms.admin.import.php:64
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:105
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.memberships.php:80
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:87
 msgid "Overview"
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:89
+#: includes/admin/class.llms.admin.import.php:90
 msgid "Error: Missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:192
+#: includes/admin/class.llms.admin.import.php:193
 msgid "Import Successful!"
 msgstr ""
 
 #. Translators: %s = comma-separated list of anchors to the imported courses.
-#: includes/admin/class.llms.admin.import.php:199
+#: includes/admin/class.llms.admin.import.php:200
 msgid "Imported courses: %s"
 msgstr ""
 
 #. Translators: %s = comma-separated list of anchors to the imported users.
-#: includes/admin/class.llms.admin.import.php:203
+#: includes/admin/class.llms.admin.import.php:204
 msgid "Imported users: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:321
+#: includes/admin/class.llms.admin.import.php:322
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:325
+#: includes/admin/class.llms.admin.import.php:326
 msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:329
+#: includes/admin/class.llms.admin.import.php:330
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:333
+#: includes/admin/class.llms.admin.import.php:334
 msgid "No file was uploaded."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:337
+#: includes/admin/class.llms.admin.import.php:338
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:341
+#: includes/admin/class.llms.admin.import.php:342
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:345
+#: includes/admin/class.llms.admin.import.php:346
 msgid "File upload stopped by extension."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:349
+#: includes/admin/class.llms.admin.import.php:350
 msgid "Unknown upload error."
 msgstr ""
 
-#: includes/admin/class.llms.admin.import.php:357
+#: includes/admin/class.llms.admin.import.php:358
 msgid "Only valid JSON files can be imported."
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:385
-msgid "Authors"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:393
-#: includes/class.llms.post-types.php:496
-msgid "Sections"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:397
-#: includes/class.llms.post-types.php:531
-msgid "Lessons"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:401
-msgid "Plans"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:405
-#: includes/admin/reporting/class.llms.admin.reporting.php:293
-#: includes/admin/reporting/tables/llms.table.quizzes.php:306
-#: includes/class.llms.post-types.php:571
-#: templates/admin/reporting/tabs/quizzes/quiz.php:20
-msgid "Quizzes"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:409
-#: includes/class.llms.post-types.php:611
-msgid "Questions"
-msgstr ""
-
-#: includes/admin/class.llms.admin.import.php:413
-#: templates/checkout/form-summary.php:24
-msgid "Terms"
 msgstr ""
 
 #: includes/admin/class.llms.admin.menus.php:181
@@ -921,15 +884,15 @@ msgstr ""
 msgid "You do not have permission to access this content."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:95
+#: includes/admin/class.llms.admin.notices.core.php:78
 msgid "No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:97
+#: includes/admin/class.llms.admin.notices.core.php:80
 msgid "For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:162
+#: includes/admin/class.llms.admin.notices.core.php:145
 msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
 msgstr ""
 
@@ -937,7 +900,7 @@ msgstr ""
 #: includes/admin/class.llms.admin.page.status.php:78
 #: includes/admin/class.llms.admin.page.status.php:271
 #: includes/class-llms-staging.php:89
-#: includes/class.llms.install.php:637
+#: includes/class.llms.install.php:640
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
@@ -1129,61 +1092,61 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:87
+#: includes/admin/class.llms.admin.setup.wizard.php:92
 msgid "LifterLMS Setup Wizard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:209
+#: includes/admin/class.llms.admin.setup.wizard.php:214
 msgid "Save & Continue"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:212
+#: includes/admin/class.llms.admin.setup.wizard.php:217
 msgid "Allow"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:214
+#: includes/admin/class.llms.admin.setup.wizard.php:219
 #: includes/admin/views/import.php:16
 msgid "Import Courses"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:240
+#: includes/admin/class.llms.admin.setup.wizard.php:245
 msgid "Skip this step"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:243
+#: includes/admin/class.llms.admin.setup.wizard.php:248
 msgid "No thanks"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:287
+#: includes/admin/class.llms.admin.setup.wizard.php:292
 msgid "Welcome!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:288
+#: includes/admin/class.llms.admin.setup.wizard.php:293
 #: includes/admin/views/setup-wizard/step-pages.php:13
 msgid "Page Setup"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:289
+#: includes/admin/class.llms.admin.setup.wizard.php:294
 #: includes/admin/views/setup-wizard/step-payments.php:18
 msgid "Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:290
+#: includes/admin/class.llms.admin.setup.wizard.php:295
 #: includes/class.llms.post-types.php:1000
 msgid "Coupon"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:291
+#: includes/admin/class.llms.admin.setup.wizard.php:296
 msgid "Finish!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:366
+#: includes/admin/class.llms.admin.setup.wizard.php:371
 msgid "Toggle to import course"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:403
-#: includes/admin/class.llms.admin.setup.wizard.php:433
-#: includes/admin/class.llms.admin.setup.wizard.php:456
+#: includes/admin/class.llms.admin.setup.wizard.php:408
+#: includes/admin/class.llms.admin.setup.wizard.php:438
+#: includes/admin/class.llms.admin.setup.wizard.php:461
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
@@ -2492,11 +2455,11 @@ msgstr ""
 msgid "Awarded"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:63
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:69
 msgid "Migrate legacy certificate"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:84
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:90
 msgid "Legacy"
 msgstr ""
 
@@ -2833,6 +2796,13 @@ msgstr ""
 #: templates/admin/reporting/nav-filters.php:60
 #: templates/admin/reporting/tabs/students/student.php:20
 msgid "Students"
+msgstr ""
+
+#: includes/admin/reporting/class.llms.admin.reporting.php:293
+#: includes/admin/reporting/tables/llms.table.quizzes.php:306
+#: includes/class.llms.post-types.php:571
+#: templates/admin/reporting/tabs/quizzes/quiz.php:20
+msgid "Quizzes"
 msgstr ""
 
 #: includes/admin/reporting/class.llms.admin.reporting.php:294
@@ -3670,7 +3640,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.courses.php:100
 #: includes/admin/views/setup-wizard/step-pages.php:19
-#: includes/class.llms.install.php:255
+#: includes/class.llms.install.php:258
 msgid "Course Catalog"
 msgstr ""
 
@@ -4984,27 +4954,22 @@ msgid "Update Order"
 msgstr ""
 
 #: includes/admin/views/notices/db-update.php:17
-#: templates/admin/notices/db-update.php:19
 msgid "The LifterLMS database needs to be updated to the latest version."
 msgstr ""
 
 #: includes/admin/views/notices/db-update.php:18
-#: templates/admin/notices/db-update.php:20
 msgid "The update will only take a few minutes and it will run in the background. A notice like this will let you know when it's finished."
 msgstr ""
 
 #: includes/admin/views/notices/db-update.php:20
-#: templates/admin/notices/db-update.php:21
 msgid "See the %1$sdatabase update log%2$s for a complete list of changes scheduled for each upgrade."
 msgstr ""
 
 #: includes/admin/views/notices/db-update.php:22
-#: templates/admin/notices/db-update.php:22
 msgid "Run the Updater"
 msgstr ""
 
 #: includes/admin/views/notices/db-update.php:27
-#: templates/admin/notices/db-update.php:26
 msgid "We strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?"
 msgstr ""
 
@@ -5133,7 +5098,7 @@ msgid "This page is where your visitors will find a list of all your available c
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-pages.php:23
-#: includes/class.llms.install.php:261
+#: includes/class.llms.install.php:264
 msgid "Membership Catalog"
 msgstr ""
 
@@ -5228,51 +5193,51 @@ msgstr ""
 msgid "User \"%s\" has already earned this engagement."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:571
+#: includes/class-llms-engagement-handler.php:573
 msgid "Email #%1$d to user #%2$d triggered by %3$s"
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:576
+#: includes/class-llms-engagement-handler.php:578
 msgid "not sent because of dupcheck."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:589
+#: includes/class-llms-engagement-handler.php:591
 msgid "sent successfully."
 msgstr ""
 
-#: includes/class-llms-engagement-handler.php:594
+#: includes/class-llms-engagement-handler.php:596
 msgid "not sent due to email sending issues."
 msgstr ""
 
 #. Translators: %s = Event field key.
-#: includes/class-llms-events.php:130
+#: includes/class-llms-events.php:122
 msgid "The event is missing the \"%s\" field."
 msgstr ""
 
 #. Translators: %s = URL.
-#: includes/class-llms-events.php:150
+#: includes/class-llms-events.php:142
 msgid "The URL \"%s\" cannot be mapped to a valid post object."
 msgstr ""
 
 #. Translators: %s = key name of the missing field.
-#: includes/class-llms-events.php:187
+#: includes/class-llms-events.php:179
 msgid "Missing required field: \"%s\"."
 msgstr ""
 
 #. Translators: %s = Submitted event string.
-#: includes/class-llms-events.php:199
+#: includes/class-llms-events.php:191
 msgid "The event \"%s\" is invalid."
 msgstr ""
 
-#: includes/class-llms-events.php:219
+#: includes/class-llms-events.php:211
 msgid "An unknown error occurred during event creation."
 msgstr ""
 
-#: includes/class-llms-events.php:265
+#: includes/class-llms-events.php:257
 msgid "There was one or more errors encountered while recording the events."
 msgstr ""
 
-#: includes/class-llms-events.php:459
+#: includes/class-llms-events.php:451
 msgid "You're not allowed to store tracking events"
 msgstr ""
 
@@ -5316,15 +5281,15 @@ msgstr ""
 msgid "Certificate background color."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:115
+#: includes/class-llms-rest-fields.php:119
 msgid "Certificate title."
 msgstr ""
 
-#: includes/class-llms-rest-fields.php:134
+#: includes/class-llms-rest-fields.php:138
 msgid "Next sequential ID."
 msgstr ""
 
-#: includes/class-llms-sessions.php:82
+#: includes/class-llms-sessions.php:74
 msgid "Every %d Minutes"
 msgstr ""
 
@@ -5410,16 +5375,16 @@ msgstr ""
 msgid "Missing tracking data."
 msgstr ""
 
-#: includes/class.llms.certificates.php:181
+#: includes/class.llms.certificates.php:186
 msgid "Unable to open export file (HTML certificate) for writing."
 msgstr ""
 
-#: includes/class.llms.certificates.php:185
+#: includes/class.llms.certificates.php:190
 msgid "Unable to write to export file (HTML certificate)."
 msgstr ""
 
 #. Translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-#: includes/class.llms.certificates.php:270
+#: includes/class.llms.certificates.php:221
 msgctxt "certificate download filename"
 msgid "certificate-%1$s-%2$s"
 msgstr ""
@@ -5463,7 +5428,7 @@ msgstr ""
 msgid "minute"
 msgstr ""
 
-#: includes/class.llms.frontend.assets.php:103
+#: includes/class.llms.frontend.assets.php:106
 msgid "Copying is not allowed."
 msgstr ""
 
@@ -5498,38 +5463,38 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: includes/class.llms.generator.php:112
+#: includes/class.llms.generator.php:119
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:434
+#: includes/class.llms.generator.php:441
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:446
+#: includes/class.llms.generator.php:453
 msgid "The supplied generator is invalid."
 msgstr ""
 
-#: includes/class.llms.install.php:267
+#: includes/class.llms.install.php:270
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:348
+#: includes/class.llms.install.php:351
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:349
+#: includes/class.llms.install.php:352
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:350
+#: includes/class.llms.install.php:353
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:641
+#: includes/class.llms.install.php:644
 msgid "You are not allowed to perform the requested action."
 msgstr ""
 
@@ -6047,103 +6012,70 @@ msgstr ""
 msgid "Add to menu"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:159
-#: includes/class.llms.person.handler.php:249
+#: includes/class.llms.person.handler.php:165
+#: includes/class.llms.person.handler.php:255
 #: includes/schemas/llms-user-information-fields.php:39
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:159
-#: includes/class.llms.person.handler.php:249
+#: includes/class.llms.person.handler.php:165
+#: includes/class.llms.person.handler.php:255
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:167
-#: includes/class.llms.person.handler.php:284
+#: includes/class.llms.person.handler.php:173
+#: includes/class.llms.person.handler.php:290
 #: includes/schemas/llms-user-information-fields.php:47
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
 msgid "Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:176
+#: includes/class.llms.person.handler.php:182
 #: templates/global/form-login.php:34
 msgid "Login"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:184
+#: includes/class.llms.person.handler.php:190
 msgid "Remember me"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:193
+#: includes/class.llms.person.handler.php:199
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:218
+#: includes/class.llms.person.handler.php:224
 msgid "Lost your password? Enter your email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:220
+#: includes/class.llms.person.handler.php:226
 msgid "Lost your password? Enter your username or email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:256
-#: includes/class.llms.person.handler.php:350
+#: includes/class.llms.person.handler.php:262
+#: includes/class.llms.person.handler.php:356
 #: templates/emails/reset-password.php:15
 msgid "Reset Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:294
+#: includes/class.llms.person.handler.php:300
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:302
+#: includes/class.llms.person.handler.php:308
 msgid "A strong password is required. The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:473
+#: includes/class.llms.person.handler.php:479
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:508
-#: includes/class.llms.person.handler.php:681
+#: includes/class.llms.person.handler.php:514
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:515
-#: includes/class.llms.person.handler.php:754
+#: includes/class.llms.person.handler.php:521
 msgid "%s must be a valid email address"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:700
-#: includes/forms/class-llms-form-validator.php:328
-msgid "An account with the email address \"%s\" already exists."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:709
-#: includes/forms/class-llms-form-validator.php:347
-msgid "The username \"%s\" is invalid, please try a different username."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:713
-#: includes/forms/class-llms-form-validator.php:349
-msgid "An account with the username \"%s\" already exists."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:726
-msgid "The submitted %s was incorrect."
-msgstr ""
-
-#: includes/class.llms.person.handler.php:739
-msgid "\"%1$s\" is an invalid option for %2$s"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:746
-msgid "%s must be numeric"
-msgstr ""
-
-#: includes/class.llms.person.handler.php:774
-msgid "%1$s must match %2$s"
 msgstr ""
 
 #: includes/class.llms.post-types.php:149
@@ -6303,6 +6235,10 @@ msgctxt "course archive url slug"
 msgid "courses"
 msgstr ""
 
+#: includes/class.llms.post-types.php:496
+msgid "Sections"
+msgstr ""
+
 #: includes/class.llms.post-types.php:498
 msgid "Add Section"
 msgstr ""
@@ -6343,6 +6279,10 @@ msgstr ""
 
 #: includes/class.llms.post-types.php:511
 msgid "This is where sections are stored."
+msgstr ""
+
+#: includes/class.llms.post-types.php:531
+msgid "Lessons"
 msgstr ""
 
 #: includes/class.llms.post-types.php:533
@@ -6437,6 +6377,10 @@ msgstr ""
 #: includes/class.llms.post-types.php:596
 msgctxt "quiz url slug"
 msgid "quiz"
+msgstr ""
+
+#: includes/class.llms.post-types.php:611
+msgid "Questions"
 msgstr ""
 
 #: includes/class.llms.post-types.php:612
@@ -8042,6 +7986,18 @@ msgstr ""
 msgid "The URL \"%s\" is not valid."
 msgstr ""
 
+#: includes/forms/class-llms-form-validator.php:328
+msgid "An account with the email address \"%s\" already exists."
+msgstr ""
+
+#: includes/forms/class-llms-form-validator.php:347
+msgid "The username \"%s\" is invalid, please try a different username."
+msgstr ""
+
+#: includes/forms/class-llms-form-validator.php:349
+msgid "An account with the username \"%s\" already exists."
+msgstr ""
+
 #: includes/forms/class-llms-form-validator.php:388
 msgid "Cannot validate a form with no user input."
 msgstr ""
@@ -8111,7 +8067,6 @@ msgid "Your account information has been saved."
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:168
-#: includes/forms/frontend/class.llms.frontend.password.php:43
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -8136,7 +8091,7 @@ msgid "Your password has been updated."
 msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.account.php:341
-#: includes/functions/llms.functions.person.php:381
+#: includes/functions/llms.functions.person.php:372
 msgid "This password reset key is invalid or has already been used. Please reset your password again if needed."
 msgstr ""
 
@@ -8146,22 +8101,6 @@ msgstr ""
 
 #: includes/forms/controllers/class.llms.controller.registration.php:80
 msgid "Already logged in! Please log out and try again."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.password.php:51
-msgid "The email address entered is not associated with an account."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.password.php:66
-msgid "Invalid username or e-mail."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.password.php:80
-msgid "Could not reset password."
-msgstr ""
-
-#: includes/forms/frontend/class.llms.frontend.password.php:116
-msgid "Check your e-mail for the account confirmation link."
 msgstr ""
 
 #. Translators: %s = The invalid access plan ID.
@@ -8382,11 +8321,11 @@ msgstr ""
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:364
+#: includes/functions/llms.functions.person.php:355
 msgid "The password reset key could not be found. Please reset your password again if needed."
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:369
+#: includes/functions/llms.functions.person.php:360
 msgid "The password reset key is in an invalid format. Please reset your password again if needed."
 msgstr ""
 
@@ -8505,21 +8444,22 @@ msgstr ""
 
 #. Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
 #: includes/functions/updates/llms-functions-updates-500.php:70
+#: includes/functions/updates/llms-functions-updates-600.php:120
 msgid "%1$sGet Started%2$s"
 msgstr ""
 
 #. Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
 #: includes/functions/updates/llms-functions-updates-500.php:76
-#: includes/functions/updates/llms-functions-updates-600.php:118
+#: includes/functions/updates/llms-functions-updates-600.php:126
 msgid "%1$sRead More%2$s"
 msgstr ""
 
-#: includes/functions/updates/llms-functions-updates-600.php:114
+#: includes/functions/updates/llms-functions-updates-600.php:116
 msgid "Welcome to LifterLMS 6.0.0!"
 msgstr ""
 
-#: includes/functions/updates/llms-functions-updates-600.php:115
-msgid "Welcome text goes here."
+#: includes/functions/updates/llms-functions-updates-600.php:117
+msgid "This new version brings you the power to build and customize certificates using the WordPress block editor! Start building beautiful certificates using all the blocks you're already familiar, the new Certificate Title block, and new certificate settings like page size (Letter or A4, for example), orientation, background color, and more. In addition to design features, this version also adds the ability to modify already-awarded certificates and achievements and to sync template updates with the click of a button."
 msgstr ""
 
 #: includes/functions/updates/llms-functions-updates-3130.php:52
@@ -8907,12 +8847,12 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:681
+#: includes/models/model.llms.student.php:682
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:784
+#: includes/models/model.llms.student.php:785
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -9007,13 +8947,13 @@ msgid "%1$s completed the %2$s"
 msgstr ""
 
 #. Translators: %s = Processor ID.
-#: includes/notifications/class.llms.notifications.php:156
-#: includes/notifications/class.llms.notifications.php:527
+#: includes/notifications/class.llms.notifications.php:114
+#: includes/notifications/class.llms.notifications.php:485
 msgid "The processor \"%s\" does not exist."
 msgstr ""
 
 #. Translators: %s = Processor ID.
-#: includes/notifications/class.llms.notifications.php:567
+#: includes/notifications/class.llms.notifications.php:525
 msgid "There was an error dispatching the \"%s\" processor."
 msgstr ""
 
@@ -9887,11 +9827,11 @@ msgstr ""
 msgid "for demonstration of excellence"
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:81
+#: includes/schemas/llms-block-templates.php:86
 msgid "DATE"
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:103
+#: includes/schemas/llms-block-templates.php:113
 msgid "SIGNED"
 msgstr ""
 
@@ -33919,22 +33859,6 @@ msgstr ""
 msgid "Apply Filters"
 msgstr ""
 
-#: templates/admin/notices/db-updating.php:20
-msgid "LifterLMS database update"
-msgstr ""
-
-#: templates/admin/notices/db-updating.php:20
-msgid "Your database is being upgraded in the background."
-msgstr ""
-
-#: templates/admin/notices/db-updating.php:21
-msgid "Click here for database update FAQs"
-msgstr ""
-
-#: templates/admin/notices/db-updating.php:23
-msgid "Taking too long? Click here to run the update now."
-msgstr ""
-
 #: templates/admin/notices/staging.php:18
 msgid "It looks like you may have installed LifterLMS on a staging site!"
 msgstr ""
@@ -34283,6 +34207,10 @@ msgstr ""
 
 #: templates/checkout/form-gateways.php:63
 msgid "There are no gateways enabled which can support the necessary transaction type for this access plan."
+msgstr ""
+
+#: templates/checkout/form-summary.php:24
+msgid "Terms"
 msgstr ""
 
 #: templates/checkout/form-summary.php:44
