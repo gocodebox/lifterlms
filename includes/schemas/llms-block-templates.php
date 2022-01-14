@@ -76,8 +76,8 @@ $certificates = array(
 					array(
 						'core/separator',
 						array(
-							'align'   => 'center',
-						)
+							'align' => 'center',
+						),
 					),
 					array(
 						'core/paragraph',
@@ -103,8 +103,8 @@ $certificates = array(
 					array(
 						'core/separator',
 						array(
-							'align'   => 'center',
-						)
+							'align' => 'center',
+						),
 					),
 					array(
 						'core/paragraph',
