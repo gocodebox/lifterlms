@@ -220,31 +220,35 @@ class LLMS_Engagements {
 	 */
 	protected function get_trigger_hooks() {
 
-		/**
-		 * Filters the list of hooks which can trigger engagements to be sent/awarded
-		 *
-		 * @since Unknown
-		 *
-		 * @param string[] $hooks List of hook names..
-		 */
-		return apply_filters(
-			'lifterlms_engagement_actions',
-			array(
-				'lifterlms_access_plan_purchased',
-				'lifterlms_course_completed',
-				'lifterlms_course_track_completed',
-				'lifterlms_created_person',
-				'llms_rest_student_registered',
-				'lifterlms_lesson_completed',
-				'lifterlms_product_purchased',
-				'lifterlms_quiz_completed',
-				'lifterlms_quiz_passed',
-				'lifterlms_quiz_failed',
-				'lifterlms_section_completed',
-				'llms_user_enrolled_in_course',
-				'llms_user_added_to_membership_level',
-			)
+		$hooks = array(
+			'lifterlms_access_plan_purchased',
+			'lifterlms_course_completed',
+			'lifterlms_course_track_completed',
+			'lifterlms_lesson_completed',
+			'lifterlms_product_purchased',
+			'lifterlms_quiz_completed',
+			'lifterlms_quiz_failed',
+			'lifterlms_quiz_passed',
+			'lifterlms_section_completed',
+			'lifterlms_user_registered',
+			'llms_rest_student_registered',
+			'llms_user_added_to_membership_level',
+			'llms_user_enrolled_in_course',
 		);
+
+		// If there are any actions registered to this deprecated hook, add it to the list.
+		if ( has_action( 'lifterlms_created_person' ) ) {
+			$hooks[] = 'lifterlms_created_person';
+		}
+
+		/**
+		 * Filters the list of hooks which can trigger engagements to be sent/awarded.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string[] $hooks List of hook names.
+		 */
+		return apply_filters( 'lifterlms_engagement_actions', $hooks );
 
 	}
 
@@ -412,6 +416,7 @@ class LLMS_Engagements {
 		switch ( $action ) {
 			case 'llms_rest_student_registered':
 			case 'lifterlms_created_person':
+			case 'lifterlms_user_registered':
 				$trigger_type = 'user_registration';
 				break;
 
