@@ -193,23 +193,24 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 }
 
 /**
- * Get template override
+ * Get template override.
  *
  * @since Unknown
  * @since 4.8.0 Move template override directories logic into llms_get_template_override_directories.
+ * @since [version] Added `$extension` parameter.
  *
- * @param string $template Template file.
+ * @param string $template  Template file.
+ * @param string $extension The file extension.
  * @return mixed Template file or false if none exists.
  */
-function llms_get_template_override( $template = '' ) {
+function llms_get_template_override( $template = '', $extension = '' ) {
 
 	$dirs = llms_get_template_override_directories();
 
 	foreach ( $dirs as $dir ) {
 
 		$path = $dir . '/';
-
-		if ( file_exists( $path . $template ) ) {
+		if ( file_exists( "{$path}{$template}.{$extension}" ) ) {
 			return $path;
 		}
 	}

@@ -1,11 +1,11 @@
 <?php
 /**
- * Template loader.
+ * Template loader
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,6 +28,7 @@ class LLMS_Template_Loader {
 	 * @since 1.0.0
 	 * @since 3.20.0 Unknown.
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
+	 * @since [version] Handle block templates loading.
 	 */
 	public function __construct() {
 
@@ -35,6 +36,9 @@ class LLMS_Template_Loader {
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
+
+		// Template loading for FSE themes.
+		add_filter( 'get_block_templates', array( $this, 'block_template_loader' ), 10, 3 );
 
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
@@ -418,6 +422,67 @@ class LLMS_Template_Loader {
 	}
 
 	/**
+	 * Filter blocks templates.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Block_Template[] $result Array of found block templates.
+	 * @param array               $query {
+	 *     Optional. Arguments to retrieve templates.
+	 *
+	 *     @type array  $slug__in List of slugs to include.
+	 *     @type int    $wp_id Post ID of customized template.
+	 * }
+	 * @param array               $template_type wp_template or wp_template_part.
+	 * @return array Templates.
+	 */
+	public function block_template_loader( $result, $query, $template_type ) {
+
+		// Vail it's not a block theme, or is being retrieved a non wp_template file.
+		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
+			return $result;
+		}
+
+		$template_name = $this->get_maybe_forced_llms_template();
+
+		/**
+		 * Since LifterLMS 6.0.0 certificates have their own PHP template that do no depend on the theme.
+		 * This means that we can use the PHP template loaded in the method `LLMS_Template_Loader::template_loader()` below.
+		 */
+		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) && version_compare( '6.0.0-alpha.1', llms()->version, '<=' ) ? '' : $template_name;
+
+		if ( empty( $template_name ) ) {
+			return $result;
+		}
+
+		// Prevent template_loader to load a php template.
+		add_filter( 'llms_force_llms_template_loading', '__return_false' );
+
+		// If the template has already been found in the theme, use that.
+		if ( ! empty( $result[0]->slug ) && $result[0]->slug === $query['slug__in'][0] ) {
+			return $result;
+		}
+
+		// Based on wp-includes/block-template-utils.php::_build_block_template_result_from_file.
+		$template_file['path'] = $this->template_file_path( $template_name, 'html', 'block-templates' );
+		$template_file['slug'] = $query['slug__in'][0];
+		$template_content      = file_get_contents( $template_file['path'] );
+		$theme                 = 'lifterlms';
+		$template              = new WP_Block_Template();
+		$template->id          = $theme . '//' . $template_file['slug'];
+		$template->theme       = $theme;
+		$template->content     = _inject_theme_attribute_in_block_template_content( $template_content );
+		$template->slug        = $template_file['slug'];
+		$template->source      = 'plugin';
+		$template->type        = $template_type;
+		$template->title       = ucwords( str_replace( '-', ' ', $template_name ) );
+		$template->status      = 'publish';
+
+		return array( $template );
+
+	}
+
+	/**
 	 * Check if content should be restricted and include overrides where appropriate
 	 *
 	 * Triggers actions based on content restrictions.
@@ -426,6 +491,7 @@ class LLMS_Template_Loader {
 	 * @since 3.16.11 Unknown.
 	 * @since 3.37.2 Make sure to print notices on sales page redirect.
 	 * @since 4.10.1 Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
+	 * @since [version] Refactor: moved the template guessing in a specific method.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -433,10 +499,10 @@ class LLMS_Template_Loader {
 	public function template_loader( $template ) {
 
 		$page_restricted = llms_page_restricted( get_the_ID() );
+
 		$this->maybe_print_notices_on_sales_page_redirect();
 
 		if ( $page_restricted['is_restricted'] ) {
-
 			/**
 			 * Generic action triggered when content is restricted.
 			 *
@@ -464,50 +530,79 @@ class LLMS_Template_Loader {
 
 			// Blog should bypass checks, except when sitewide restrictions are enabled.
 			if ( is_home() && 'sitewide_membership' === $page_restricted['reason'] ) {
-
 				// Prints notices on the blog page when there's not redirects setup.
 				add_action( 'loop_start', 'llms_print_notices', 5 );
-
-				return $template;
-
 			}
+		}
 
-			// Course and membership content restrictions are handled by conditional elements in the editor.
-			if ( in_array( get_post_type(), array( 'course', 'llms_membership' ), true ) ) {
-				return $template;
+		$forced_template = apply_filters( 'llms_force_llms_template_loading', true ) ? $this->get_maybe_forced_llms_template() : false;
+		return $forced_template ? $this->template_file_path( $forced_template ) : $template;
+
+	}
+
+	/**
+	 * Retrieve the hierarchical template to be loaded
+	 *
+	 * @since [version]
+	 *
+	 * @return null|string
+	 */
+	private function get_maybe_forced_llms_template() {
+
+		$page_restricted = llms_page_restricted( get_the_ID() );
+		$template        = null;
+
+		if ( $page_restricted['is_restricted'] ) {
+
+			// Blog should bypass checks, except when sitewide restrictions are enabled.
+			if ( ( is_home() && 'sitewide_membership' === $page_restricted['reason'] ) ||
+					( in_array( get_post_type(), array( 'course', 'llms_membership' ), true ) ) ) {
+				return;
 			}
 
 			// Content is restricted.
-			$template = 'single-no-access.php';
+			$template = 'single-no-access';
 
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'courses' ) ) ) {
 
-			$template = 'archive-course.php';
+			$template = 'archive-course';
 
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) {
 
-			$template = 'archive-llms_membership.php';
+			$template = 'archive-llms_membership';
 
 		} elseif ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
 			global $wp_query;
 			$obj      = $wp_query->get_queried_object();
-			$template = 'taxonomy-' . $obj->taxonomy . '.php';
+			$template = 'taxonomy-' . $obj->taxonomy;
 
 		} elseif ( is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ) {
 
-			$template = 'single-certificate.php';
-
-		} else {
-
-			return $template;
+			$template = 'single-certificate';
 
 		}
 
+		return $template;
+
+	}
+
+	/**
+	 * Build the plugin's template file path.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $template           Template file name, without extension.
+	 * @param string $extension          Template file extension.
+	 * @param string $template_directory Template directory relateive to the plugin base directory.
+	 * @return string
+	 */
+	private function template_file_path( $template, $extension = 'php', $template_directory = 'template' ) {
+
 		// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
-		$override      = llms_get_template_override( $template );
-		$template_path = $override ? $override : LLMS()->plugin_path() . '/templates/';
-		return $template_path . $template;
+		$override      = llms_get_template_override( $template, $extension );
+		$template_path = $override ? $override : LLMS()->plugin_path() . "/{$template_directory}/";
+		return "{$template_path}{$template}.{$extension}";
 
 	}
 
