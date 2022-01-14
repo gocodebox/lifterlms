@@ -299,7 +299,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 			$user = $this->factory->user->create();
 
 			$this->assertEngagementTriggered(
-				'lifterlms_created_person', // Trigger hook.
+				'lifterlms_user_registered', // Trigger hook.
 				array( $user ), // Args passed to trigger hook.
 				$expected_action,
 				array( $user, $engagement_post_id, 'certificate' === $engagement_type ? $engagement_post_id : '', $engagement->ID ), // Expected args passed to the expected action's callback.
@@ -454,7 +454,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
-	 * @param function $callback A callback function that will be passed the engagement type, expected action, and delay.
+	 * @param Closure $callback A callback function that will be passed the engagement type, expected action, and delay.
 	 * @return void
 	 */
 	private function run_engagement_tests( $callback ) {

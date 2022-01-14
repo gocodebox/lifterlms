@@ -372,7 +372,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
 	$percentage = is_numeric( $percentage ) ? $percentage : 0;
 	$classes    = array_merge( array( 'llms-donut', $size ), $classes );
 	$classes    = implode( ' ', $classes );
-	$percentage = 'mini' === $size ? round( $percentage, 0 ) : LLMS()->grades()->round( $percentage );
+	$percentage = 'mini' === $size ? round( $percentage, 0 ) : llms()->grades()->round( $percentage );
 	return '
 		<div class="' . $classes . '" data-perc="' . $percentage . '">
 			<div class="inside">

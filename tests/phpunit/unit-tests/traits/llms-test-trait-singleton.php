@@ -5,6 +5,7 @@
  * @group Traits
  *
  * @since 5.3.0
+ * @since [version] Removed `LLMS_Test_Singleton_Trait::test_deprecated_instance()`.
  */
 class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 
@@ -64,51 +65,6 @@ class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 		};
 
 		$this->mock_class = get_class( $mock );
-	}
-
-	/**
-	 * Test the {@see LLMS_Trait_Singleton::instance()} method where the exhibiting class has a
-	 * deprecated `$_instance` property and may have it set by a 3rd party extended class.
-	 *
-	 * @since 5.3.0
-	 */
-	public function test_deprecated_instance() {
-
-		# Test where $_instance is not set.
-		$this->mock_class::init();
-		$object             = $this->mock_class::instance();
-		$instance_property  = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, 'instance' );
-		$_instance_property = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, '_instance' );
-		$this->assertEquals( $object, $instance_property );
-		$this->assertEquals( $object, $_instance_property );
-
-		# Test where $_instance is set.
-		$this->mock_class::init();
-		$object             = $this->mock_class::deprecated_instance();
-		$_instance_property = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, '_instance' );
-		$instance_property  = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, 'instance' );
-		$this->assertEquals( $object, $_instance_property );
-		$this->assertNull( $instance_property );
-
-		# Test setting $instance, then $_instance.
-		$this->mock_class::init();
-		$object1            = $this->mock_class::instance();
-		$object2            = $this->mock_class::deprecated_instance();
-		$instance_property  = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, 'instance' );
-		$_instance_property = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, '_instance' );
-		$this->assertEquals( $object1, $object2 );
-		$this->assertEquals( $object1, $instance_property );
-		$this->assertEquals( $object1, $_instance_property );
-
-		# Test setting $_instance, then $instance.
-		$this->mock_class::init();
-		$object1 = $this->mock_class::deprecated_instance();
-		$object2 = $this->mock_class::instance();
-		$instance_property = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, 'instance' );
-		$_instance_property = LLMS_Unit_Test_Util::get_private_property_value( $this->mock_class, '_instance' );
-		$this->assertEquals( $object1, $object2 );
-		$this->assertEquals( $object1, $instance_property );
-		$this->assertEquals( $object1, $_instance_property );
 	}
 
 	/**

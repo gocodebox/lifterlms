@@ -84,7 +84,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 		$rows = array();
 
-		foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
+		foreach ( llms()->notifications()->get_controllers() as $controller ) {
 
 			$rows[] = array(
 				'id'           => $controller->id,

@@ -1,0 +1,3 @@
+significance: minor
+type: removed
+entry: Removed the deprecated the `LLMS_SendWP::do_remote_install()` method in favor of the `LLMS_Abstract_Email_Provider::do_remote_install()` method.

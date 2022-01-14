@@ -22,7 +22,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	public function set_up() {
 
 		parent::set_up();
-		$this->main = LLMS()->notifications();
+		$this->main = llms()->notifications();
 
 	}
 

@@ -386,7 +386,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
 		$arr['_source']    = get_site_url();
-		$arr['_version']   = LLMS()->version;
+		$arr['_version']   = llms()->version;
 
 		ksort( $arr );
 

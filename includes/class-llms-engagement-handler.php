@@ -581,7 +581,7 @@ class LLMS_Engagement_Handler {
 		}
 
 		// Setup the email.
-		$email = LLMS()->mailer()->get_email( 'engagement', compact( 'person_id', 'email_id', 'related_id' ) );
+		$email = llms()->mailer()->get_email( 'engagement', compact( 'person_id', 'email_id', 'related_id' ) );
 		if ( $email && $email->send() ) {
 
 			if ( $related_id ) {

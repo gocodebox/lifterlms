@@ -171,7 +171,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+			$controller = llms()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
 
 			if ( $controller ) {
 
@@ -273,7 +273,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+				$controller = llms()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
 				$controller->send_test(
 					llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ),
 					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

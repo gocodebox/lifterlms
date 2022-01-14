@@ -15,6 +15,9 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+	 * @since [version] Replaced use of deprecated items.
+	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
+	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
 	 * @return void
 	 */
@@ -23,19 +26,19 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 		LLMS_Install::create_pages();
 
 		// form not submitted
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
 
 		// not submitted
-		$this->setup_get( array() );
+		$this->mockGetRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'lifterlms_before_user_login' ) );
 		$this->assertEquals( 0, did_action( 'wp_login' ) );
 
 		// form submitted but missing things
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_login_user_nonce' => wp_create_nonce( 'llms_login_user' ),
 		) );
 		do_action( 'init' );
@@ -45,7 +48,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 		llms_clear_notices();
 
 		// incomplete form
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_login_user_nonce' => wp_create_nonce( 'llms_login_user' ),
 			'email_address' => 'fake@mock.org',
 		) );
@@ -61,7 +64,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 		) );
 
 		// this should login a user
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_login_user_nonce' => wp_create_nonce( 'llms_login_user' ),
 			'llms_login' => 'test@arstarst.com',
 			'llms_password' => '123456789',

@@ -11,7 +11,6 @@
  *
  * @since 3.33.0
  * @since 4.18.0 Added some tests on the output method.
- * @version 4.18.0
  */
 class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
@@ -34,6 +33,8 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	 * Test the LLMS_Meta_Box_Order_Enrollment save method
 	 *
 	 * @since 3.33.0
+	 * @since [version] Replaced use of deprecated items.
+	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
 	 * @return void
 	 */
@@ -47,7 +48,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$student_id = $order->get( 'user_id' );
 
 		// Check enroll.
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => '',
 			'llms_student_new_enrollment_status' => 'enrolled',
@@ -57,7 +58,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$this->assertTrue( llms_is_user_enrolled( $student_id, $product_id ) );
 
 		// Check unenroll.
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => 'enrolled',
 			'llms_student_new_enrollment_status' => 'expired',
@@ -67,7 +68,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$this->assertFalse( llms_is_user_enrolled( $student_id, $product_id ) );
 
 		// Check enrollment deleted => no enrollment records + order status set to cancelled.
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'llms_delete_enrollment_status'      => 'Delete',
 			'llms_student_old_enrollment_status' => 'expired',
 			'llms_student_new_enrollment_status' => 'deleted',

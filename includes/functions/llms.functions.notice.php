@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_add_notice( $message, $notice_type = 'success' ) {
 
-	$notices = LLMS()->session->get( 'llms_notices', array() );
+	$notices = llms()->session->get( 'llms_notices', array() );
 
 	if ( 'success' === $notice_type ) {
 		$message = apply_filters( 'lifterlms_add_message', $message );
@@ -31,7 +31,7 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
 
 	$notices[ $notice_type ][] = apply_filters( 'lifterlms_add_' . $notice_type, $message );
 
-	LLMS()->session->set( 'llms_notices', $notices );
+	llms()->session->set( 'llms_notices', $notices );
 
 }
 
@@ -43,7 +43,7 @@ function llms_add_notice( $message, $notice_type = 'success' ) {
  * @version 3.12.0
  */
 function llms_clear_notices() {
-	LLMS()->session->set( 'llms_notices', array() );
+	llms()->session->set( 'llms_notices', array() );
 }
 
 /**
@@ -68,7 +68,7 @@ function llms_get_notice_types() {
  */
 function llms_get_notices() {
 
-	$all_notices  = apply_filters( 'lifterlms_print_notices', LLMS()->session->get( 'llms_notices', array() ) );
+	$all_notices  = apply_filters( 'lifterlms_print_notices', llms()->session->get( 'llms_notices', array() ) );
 	$notice_types = llms_get_notice_types();
 
 	ob_start();
@@ -103,7 +103,7 @@ function llms_notice_count( $notice_type = '' ) {
 
 	$notice_count = 0;
 
-	$all_notices = LLMS()->session->get( 'llms_notices', array() );
+	$all_notices = llms()->session->get( 'llms_notices', array() );
 
 	if ( isset( $all_notices[ $notice_type ] ) ) {
 

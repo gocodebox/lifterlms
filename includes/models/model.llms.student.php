@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
+ * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -676,7 +677,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.24.0
 	 */
 	public function get_grade( $object_id, $use_cache = true ) {
-		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
+		$grade = llms()->grades()->get_grade( $object_id, $this, $use_cache );
 		if ( is_null( $grade ) ) {
 			$grade = _x( 'N/A', 'Grade to display when no quizzes taken or available', 'lifterlms' );
 		}
@@ -1423,7 +1424,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 2.7
 	 * @since 3.7.5 Unknown.
-	 * @since 3.36.2 Added the $delete paramater, that will allow related courses enrollments data deletion.
+	 * @since 3.36.2 Added the $delete parameter, that will allow related courses enrollments data deletion.
 	 *
 	 * @param  int     $membership_id WP Post ID of the membership.
 	 * @param  string  $status        Optional. Status to update the removal to. Default is `expired`.
@@ -1473,6 +1474,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.26.0 Unknown.
 	 * @since 3.37.9 Update to accommodate custom post type enrollments added through new filters.
 	 *               Marked action `llms_user_removed_from_membership_level` as deprecated, use `llms_user_removed_from_membership` instead.
+	 * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook
+	 *              and moved the call to `LLMS_Student::remove_membership_level()` to be before triggering the
+	 *              `llms_user_removed_from_{$post_type}` action hook.
 	 *
 	 * @see llms_unenroll_student()
 	 *
@@ -1539,12 +1543,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$post_type = str_replace( 'llms_', '', get_post_type( $product_id ) );
 
+				// Run legacy action and trigger cascading unenrollments for membership relationships.
+				if ( 'membership' === $post_type ) {
+
+					// Users should be unenrolled from all courses they accessed through this membership.
+					$this->remove_membership_level( $product_id, $new_status );
+				}
+
 				/**
 				 * Trigger an action immediately following user unenrollment
 				 *
 				 * The dynamic portion of this hook, `{$post_type}` corresponds to the post type of the
 				 * `$product_id`. Note that any post type prefixed with `llms_` is stripped. For example
-				 * when triggered by a memebership (`llms_membership`) the hook will be `llms_user_removed_from_membership`.
+				 * when triggered by a membership (`llms_membership`) the hook will be `llms_user_removed_from_membership`.
 				 *
 				 * @since 3.37.9
 				 *
@@ -1554,25 +1565,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				 * @param string $new_status New enrollment status of the student after the unenrollment has taken place.
 				 */
 				do_action( "llms_user_removed_from_{$post_type}", $this->get_id(), $product_id, $trigger, $new_status );
-
-				// Run legacy action and trigger cascading unenrollments for membership relationships.
-				if ( 'membership' === $post_type ) {
-
-					// Users should be unenrolled from all courses they accessed through this membership.
-					$this->remove_membership_level( $product_id, $new_status );
-
-					/**
-					 * Execute the (deprecated) legacy action.
-					 *
-					 * @since      Unknown
-					 * @deprecated 3.37.9 Use `llms_user_removed_from_membership` instead for consistency with courses.
-					 *
-					 * @param int    $user_id    WP_User ID of the student
-					 * @param int    $product_id WP_Post ID of the product.
-					 */
-					do_action( 'llms_user_removed_from_membership_level', $this->get_id(), $product_id );
-
-				}
 
 				return true;
 

@@ -175,10 +175,13 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test is_expired function
-	 * @return   void
+	 * Test the is_expired() function.
+	 *
 	 * @since    3.2.2
-	 * @version  3.19.0
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
+	 *
+	 * @return   void
 	 */
 	public function test_is_expired() {
 
@@ -192,17 +195,17 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $this->obj->is_expired() );
 
 		// should be expired
-		llms_mock_current_time( '2016-01-02' );
+		llms_tests_mock_current_time( '2016-01-02' );
 		$this->obj->set( 'expiration_date', '01/01/2016' );
 		$this->assertTrue( $this->obj->is_expired() );
 
 		// should not be expired
-		llms_mock_current_time( '2015-01-01' );
+		llms_tests_mock_current_time( '2015-01-01' );
 		$this->obj->set( 'expiration_date', '01/01/2016' );
 		$this->assertFalse( $this->obj->is_expired() );
 
 		// should expire end of day on expiration date
-		llms_mock_current_time( '2016-01-01 12:00pm' );
+		llms_tests_mock_current_time( '2016-01-01 12:00pm' );
 		$this->obj->set( 'expiration_date', '01/01/2016' );
 		$this->assertFalse( $this->obj->is_expired() );
 

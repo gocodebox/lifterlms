@@ -59,9 +59,6 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	}
 
-
-	// public function test_get_available_fields() {}
-
 	/**
 	 * Test the get_login_fields() method.
 	 *
@@ -482,7 +479,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 			";
 
 		// Test no event registered, if no signon.
-		$user_id = llms_register_user( $data, $screen = 'registration', false );
+		$user_id = llms_register_user( $data, 'registration', false );
 		$this->assertEquals( 0, $wpdb->get_var( $wpdb->prepare( $query_signon_event, $user_id ) ) );
 
 		// Test event registered when signing on registration (defaults).
@@ -503,8 +500,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.26.1
 	 * @since 5.0.0 Create forms before running & update error codes to match updated codes.
-	 *
-	 * @expectedDeprecated LLMS_Person_Handler::update()
+	 * @since [version] Replaced the deprecated `LLMS_Person_Handler::update` function calls with `llms_update_user()`.
 	 *
 	 * @return void
 	 */
@@ -516,7 +512,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		$data = array();
 
 		// No user Id supplied.
-		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$update = llms_update_user( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
 		$this->assertEquals( 'llms-form-no-user', $update->get_error_code() );
 
@@ -525,14 +521,14 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 		// user Id Interpreted from current logged in user.
 		wp_set_current_user( $uid );
-		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$update = llms_update_user( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
 		$this->assertFalse( in_array( 'llms-form-no-user', $update->get_error_codes(), true ) );
 		wp_set_current_user( null );
 
 		// Used ID explicitly passed.
 		$data['user_id'] = $uid;
-		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$update = llms_update_user( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
 		$this->assertTrue( in_array( 'llms-form-no-user', $update->get_error_codes(), true ) );
 
@@ -557,78 +553,6 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 			'password' => $password,
 			'password_confirm' => $password,
 		) );
-
-	}
-
-	/**
-	 * test validate fields
-	 *
-	 * @since Unknown
-	 *
-	 * @expectedDeprecated LLMS_Person_Handler::validate_fields()
-	 * @expectedDeprecated LLMS_Person_Handler::get_available_fields()
-	 *
-	 * @return void
-	 */
-	public function test_validate_fields() {
-
-		LLMS_Forms::instance()->install();
-		/**
-		 * Registration
-		 */
-
-		// no data
-		$this->assertTrue( is_wp_error( LLMS_Person_Handler::validate_fields( array(), 'registration' ) ) );
-
-		$data = $this->get_mock_registration_data();
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'registration' ) );
-
-		// check emails with quotes
-		$data['email_address'] = "mock'mock@what.org";
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'registration' ) );
-
-
-		/**
-		 * Login
-		 */
-
-		// no data
-		$this->assertTrue( is_wp_error( LLMS_Person_Handler::validate_fields( array(), 'login' ) ) );
-
-		$data = array(
-			'llms_login' => 'mocker@mock.com',
-			'llms_password' => '4bKyvI41Xxnf',
-		);
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'login' ) );
-
-		// check emails with quotes
-		$data = array(
-			'llms_login' => "moc'ker@mock.com",
-			'llms_password' => '4bKyvI41Xxnf',
-		);
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'login' ) );
-
-		/**
-		 * Update
-		 */
-
-		// no data
-		$this->assertTrue( is_wp_error( LLMS_Person_Handler::validate_fields( array(), 'account' ) ) );
-
-		$data = $this->get_mock_registration_data();
-		$data['email_address_confirm'] = $data['email_address'];
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'account' ) );
-
-
-		$uid = $this->factory->user->create( array(
-			'user_email' =>"mock'mock@what.org",
-		) );
-		wp_set_current_user( $uid );
-
-		$data = $this->get_mock_registration_data();
-		$data['email_address'] = "mock'mock@what.org";
-		$data['email_address_confirm'] = $data['email_address'];
-		$this->assertTrue( LLMS_Person_Handler::validate_fields( $data, 'account' ) );
 
 	}
 

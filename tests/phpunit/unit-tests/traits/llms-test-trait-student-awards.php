@@ -102,7 +102,7 @@ class LLMS_Test_Trait_Student_awards extends LLMS_UnitTestCase {
 
 				$related = $this->factory->post->create();
 
-				llms_mock_current_time( $ts );
+				llms_tests_mock_current_time( $ts );
 				$earned = $this->$earn( $student->get( 'id' ), $this->$create(), $related );
 
 				$obj              = new stdClass();

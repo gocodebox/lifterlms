@@ -312,7 +312,7 @@ class LLMS_Controller_Certificates {
 	 */
 	private function download( $cert_id ) {
 
-		$filepath = LLMS()->certificates()->get_export( $cert_id );
+		$filepath = llms()->certificates()->get_export( $cert_id );
 		if ( is_wp_error( $filepath ) ) {
 			// @todo Need to handle errors differently on admin panel.
 			return llms_add_notice( $filepath->get_error_message(), 'error' );

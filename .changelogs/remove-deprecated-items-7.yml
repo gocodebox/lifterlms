@@ -1,0 +1,16 @@
+significance: major
+type: removed
+entry: |
+  + Removed the deprecated `LLMS_Interface_Post_Audio` interface.
+  + Removed the deprecated `LLMS_Interface_Post_Sales_Page` interface.
+  + Removed the deprecated `LLMS_Interface_Post_Video` interface.
+  + Removed the deprecated `LLMS_Achievements::$_instance` property.
+  + Removed the deprecated `LLMS_Certificates::$_instance` property.
+  + Removed the deprecated `LLMS_Emails::$_instance` property.
+  + Removed the deprecated `LLMS_Engagements::$_instance` property.
+  + Removed the deprecated `LLMS_Events::$_instance` property.
+  + Removed the deprecated `LLMS_Grades::$_instance` property.
+  + Removed the deprecated `LLMS_Integrations::$_instance` property.
+  + Removed the deprecated `LLMS_Payment_Gateways::$_instance` property.
+  + Removed the deprecated `LLMS_Processors::$_instance` property.
+  + Removed the deprecated `LLMS_Sessions::$_instance` property.

@@ -35,7 +35,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	 */
 	protected function set_body() {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$rows = array(
 			'TRANSACTION_DATE'   => __( 'Date', 'lifterlms' ),

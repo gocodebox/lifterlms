@@ -12,6 +12,9 @@
  * @since 4.7.0 Disabled image sideloading during mock course generation.
  * @since 5.0.0 Automatically clear notices on teardown.
  *              Add a method to generate mock vouchers.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_UnitTestCase::setup_get()` method
+ *              - `LLMS_UnitTestCase::setup_post()` method
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -21,12 +24,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.17.0
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 * @since [version] Replaced use of the deprecated `llms_reset_current_time()` function with
+	 *              `llms_tests_reset_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 	}
 
 	/**
@@ -46,7 +51,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		$i = 1;
 		while ( $i <= $count ) {
 			$wpdb->insert( $wpdb->prefix . 'lifterlms_sessions', array(
-				'session_key' => LLMS_Unit_Test_Util::call_method( LLMS()->session, 'generate_id' ),
+				'session_key' => LLMS_Unit_Test_Util::call_method( llms()->session, 'generate_id' ),
 				'data'        => serialize( array( microtime() ) ),
 				'expires'     => $expired ? time() - DAY_IN_SECONDS : time() + DAY_IN_SECONDS,
 			), array( '%s', '%s', '%d' ) );
@@ -59,32 +64,6 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 		return $sessions;
 
-	}
-
-	/**
-	 * Setup Get data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars  mock get data
-	 * @return void
-	 */
-	protected function setup_get( $vars = array() ) {
-		$this->mockGetRequest( $vars );
-	}
-
-	/**
-	 * Setup Post data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars mock post data.
-	 * @return void
-	 */
-	protected function setup_post( $vars = array() ) {
-		$this->mockPostRequest( $vars );
 	}
 
 	/**
@@ -381,7 +360,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	protected function get_mock_order( $plan = null, $coupon = false ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
 
 		if ( ! $plan ) {
@@ -633,7 +612,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 */
 	protected function setManualGatewayStatus( $enabled = 'yes' ) {
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), $enabled );
 
 	}

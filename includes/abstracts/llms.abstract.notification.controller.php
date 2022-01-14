@@ -268,7 +268,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		$notification->set( 'post_id', $post_id );
 		$notification->set( 'trigger_id', $this->id );
 
-		return LLMS()->notifications()->get_view( $notification );
+		return llms()->notifications()->get_view( $notification );
 
 	}
 
@@ -554,12 +554,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		// If successful, push to the processor where processing is supported.
 		if ( $id ) {
 
-			$processor = LLMS()->notifications()->get_processor( $type );
+			$processor = llms()->notifications()->get_processor( $type );
 			if ( $processor ) {
 
 				$processor->log( sprintf( 'Queuing %1$s notification ID #%2$d', $type, $id ) );
 				$processor->push_to_queue( $id );
-				LLMS()->notifications()->schedule_processing( $type );
+				llms()->notifications()->schedule_processing( $type );
 
 			}
 		}

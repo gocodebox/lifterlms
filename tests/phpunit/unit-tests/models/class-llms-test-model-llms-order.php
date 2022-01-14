@@ -438,6 +438,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -454,11 +456,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
 		// Past should still grant access.
-		llms_mock_current_time( '2010-05-05' );
+		llms_tests_mock_current_time( '2010-05-05' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
 		// Future should still grant access.
-		llms_mock_current_time( '2525-05-05' );
+		llms_tests_mock_current_time( '2525-05-05' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
 		// Check limited access by date.
@@ -487,7 +489,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		);
 
 		foreach ( $tests as $data ) {
-			llms_mock_current_time( $data['now'] );
+			llms_tests_mock_current_time( $data['now'] );
 			$this->obj->set( 'access_expires', $data['expires'] );
 			$this->assertEquals( $data['expect'], $this->obj->get_access_status() );
 			if ( 'active' === $data['expect'] ) {
@@ -534,7 +536,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'payment_gateway', 'garbage' );
 		$this->assertTrue( is_a( $this->obj->get_gateway(), 'WP_Error' ) );
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$this->obj->set( 'payment_gateway', 'manual' );
 
 		// Real gateway that's not enabled.
@@ -637,6 +639,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
 	 * @since 5.3.0 Don't rely on the date_billing_end property for ending a payment plan.
 	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter provided to `assertEquals()`.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -647,7 +651,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$plan = $this->get_plan();
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
 
-			llms_mock_current_time( $original_time );
+			llms_tests_mock_current_time( $original_time );
 
 			$plan->set( 'period', $period );
 
@@ -669,7 +673,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U') );
 
 				// Time travel a bit and recalculate the time.
-				llms_mock_current_time( date( 'Y-m-d H:i:s', $expect + HOUR_IN_SECONDS * 2 ) );
+				llms_tests_mock_current_time( date( 'Y-m-d H:i:s', $expect + HOUR_IN_SECONDS * 2 ) );
 				$future_expect = strtotime( "+{$i} {$period}", $expect );
 
 				// This will calculate the next payment date based off of the saved next payment date (which is now in the past).
@@ -713,6 +717,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown
 	 * @since 5.3.0 Updated to rely on number of successful transactions in favor of the current date.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -720,7 +726,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		$original_time = current_time( 'Y-m-d H:i:s' );
 
-		llms_mock_current_time( $original_time );
+		llms_tests_mock_current_time( $original_time );
 
 		// This should run 3 total payments over the course of 9 weeks.
 		$plan = $this->get_plan();
@@ -748,7 +754,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
 		// Time travel to when the second payment is due.
-		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
+		llms_tests_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
 
 		// Record the second payment.
 		$order->record_transaction( array(
@@ -764,7 +770,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
 
 		// Time travel to when the 3rd payment is due.
-		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
+		llms_tests_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
 
 		// Make the 3rd payment.
 		$order->record_transaction( array(
@@ -833,7 +839,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	// public function test_get_transactions() {}
 
 	/**
-	 * Test get_trial_end_deate() method
+	 * Test the get_trial_end_date() method.
+	 *
+	 * @since 3.10.0
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -861,7 +871,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			$i = 1;
 			while ( $i <= 3 ) {
 
-				llms_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
+				llms_tests_mock_current_time( date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) );
 
 				$this->obj->set( 'trial_length', $i );
 				$expect = strtotime( '+' . $i . ' ' . $period, $start );
@@ -871,7 +881,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$this->assertFalse( $this->obj->has_trial_ended() );
 
 				// Change date to future.
-				llms_mock_current_time( date( 'Y-m-d H:i:s', $this->obj->get_trial_end_date( 'U' ) + HOUR_IN_SECONDS ) );
+				llms_tests_mock_current_time( date( 'Y-m-d H:i:s', $this->obj->get_trial_end_date( 'U' ) + HOUR_IN_SECONDS ) );
 				$this->assertTrue( $this->obj->has_trial_ended() );
 
 				$i++;
@@ -1242,6 +1252,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -1252,7 +1264,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		// Freeze time.
 		$time = current_time( 'mysql' );
-		llms_mock_current_time( $time );
+		llms_tests_mock_current_time( $time );
 
 		// Prior to starting access there should be no access start date.
 		$this->assertEmpty( $order->get( 'start_date' ) );
@@ -1375,7 +1387,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order = $this->get_mock_order();
 
 		$now = current_time( 'timestamp' );
-		llms_mock_current_time( $now );
+		llms_tests_mock_current_time( $now );
 
 		// One time payment plan.
 		$plan = $this->get_plan( '25.99', 0 );
