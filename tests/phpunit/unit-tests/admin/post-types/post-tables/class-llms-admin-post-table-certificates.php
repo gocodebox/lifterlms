@@ -49,6 +49,10 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	 */
 	public function test_constructor() {
 
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'No actions are registered for this version of WordPress.' );
+		}
+
 		// Wrong screen.
 		$this->assertFalse( has_filter( 'display_post_states', array( $this->main, 'add_states' ) ) );
 		$this->assertFalse( has_filter( 'post_row_actions', array( $this->main, 'add_actions' ) ) );

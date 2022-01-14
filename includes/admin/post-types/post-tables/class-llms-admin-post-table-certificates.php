@@ -33,8 +33,12 @@ class LLMS_Admin_Post_Table_Certificates {
 	 */
 	public function __construct() {
 
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			return;
+		}
+
 		$post_types = array( 'llms_certificate', 'llms_my_certificate' );
-		if ( in_array( llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ), $post_types, true ) ) {
+		if ( in_array( llms_filter_input( INPUT_GET, 'post_type' ), $post_types, true ) ) {
 			add_filter( 'display_post_states', array( $this, 'add_states' ), 20, 2 );
 			add_filter( 'post_row_actions', array( $this, 'add_actions' ), 20, 2 );
 		}

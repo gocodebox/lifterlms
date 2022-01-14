@@ -20,6 +20,10 @@ class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 	 */
 	public function test_register_fields_for_certificates() {
 
+		if ( ! llms_is_block_editor_supported_for_certificates() ) {
+			$this->markTestSkipped( 'REST endpoints are not supported for certificates on this version of WordPress.' );
+		}
+
 		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
 
 			unregister_post_type( $post_type );
