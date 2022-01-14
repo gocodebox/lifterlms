@@ -62,15 +62,18 @@ return array(
 	),
 	'llms-admin-certificate-editor' => array(
 		'asset_file' => true,
+		'suffix'     => '',
 	),
 
 	// Modules.
 	'llms-components'               => array(
 		'asset_file' => true,
+		'suffix'     => '',
 	),
 	// Modules.
 	'llms-icons'                    => array(
 		'asset_file' => true,
+		'suffix'     => '',
 	),
 
 	// Vendor.
