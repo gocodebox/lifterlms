@@ -83,7 +83,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 			$post = $this->factory->post->create( compact( 'post_type' ) );
 
 			$ts = '2021-12-23 11:45:55';
-			llms_mock_current_time( $ts );
+			llms_tests_mock_current_time( $ts );
 
 			$this->assertEquals( $ts, $this->main::on_earn( 1, $post ) );
 			$this->assertEquals( $ts, get_post_meta( $post, '_llms_awarded', true ) );
