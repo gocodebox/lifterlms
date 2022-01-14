@@ -128,7 +128,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	protected function perform_query() {
 
 		global $wpdb;
-		return $wpdb->get_results( $this->query ); // db call ok; no-cache ok.
+		return $wpdb->get_results( $this->query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
 	}
 
