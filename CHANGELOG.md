@@ -1,6 +1,93 @@
 LifterLMS Changelog
 ===================
 
+v6.0.0-alpha.3 - 2022-01-14
+---------------------------
+
+##### Updates and Enhancements
+
++ Automatically dequeue print-only stylesheets to reduce theme and plugin conflicts when printing certificates.
++ Only enable the Certificate Title block font-family selector for WordPress 5.9 and later.
++ Only enable the Block Editor for certificates on WordPress 5.8 and later.
++ Replaced welcome message placeholder text with a real welcome message.
+
+##### Bug Fixes
+
++ Explicitly define a default font-family ("default") for the Certificate Title block.
++ Fixed visual issues encountered on certificates when resizing the browser window.
++ Fixed issue with the certificate block template on WordPress 5.8 (divider blocks aren't centered by default).
+
+##### Breaking Changes
+
++ Removed the deprecated `LLMS()` function in favor of the `llms()` function.
++ Removed the deprecated `LLMS_SendWP::do_remote_install()` method in favor of the `LLMS_Abstract_Email_Provider::do_remote_install()` method.
++ Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
++ Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
++ Removed the deprecated `LLMS_Admin_Users_Table::load_dependencies()` method.
++ Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
++ Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::generator_course_status()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::output_step_html()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::scripts()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::watch_course_generation()` method.
++ Removed the deprecated `llms_format_decimal()` function.
++ Removed the deprecated `llms_set_person_auth_cookie()` function.
++ Removed the deprecated `LLMS_Course::sections` property.
++ Removed the deprecated `LLMS_Course::sku` property.
++ Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method.
++ Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_script()` method.
++ Removed the deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()` method.
++ Removed the deprecated `LLMS_Generator::add_custom_values()` method.
++ Removed the deprecated `LLMS_Generator::add_custom_values()` method.
++ Removed the deprecated `LLMS_Generator::format_date()` method.
++ Removed the deprecated `LLMS_Generator::get_author_id_from_raw()` method.
++ Removed the deprecated `LLMS_Generator::get_default_post_status()` method.
++ Removed the deprecated `LLMS_Generator::get_generated_posts()` method.
++ Removed the deprecated `LLMS_Generator::increment()` method.
++ Removed the deprecated `llms__created` action hook from the `LLMS_Abstract_Database_Store::create()` method.
++ Removed the deprecated `llms__deleted` action hook from the `LLMS_Abstract_Database_Store::delete()` method.
++ Removed the deprecated `llms__updated` action hook from the `LLMS_Abstract_Database_Store::update()` method.
++ Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
++ Removed the deprecated and misspelled `$purchaseable` global variable in the `lifterlms_template_pricing_table()` function.
++ Removed the deprecated and misspelled `$purchaseable` global variable in the `templates/product/pricing-table.php` file.
++ Removed the deprecated `LLMS_Frontend_Password` class.
++ Removed the deprecated `LLMS_Install::db_updates()` method.
++ Removed the deprecated `LLMS_Install::update_notice()` method.
++ Removed the deprecated `LLMS_Notifications::dispatch_processors()` method.
++ Removed the deprecated `llms_processors_async_dispatching` filter hook from the `LLMS_Notifications::__construct()` method.
++ Removed the deprecated `LLMS_Notifications::$_instance` property.
++ Removed the deprecated `LLMS_Person_Handler::register()` method.
++ Removed the deprecated `LLMS_Person_Handler::sanitize_field()` method.
++ Removed the deprecated `LLMS_Person_Handler::update()` method.
++ Removed the deprecated `LLMS_Person_Handler::validate_fields()` method.
++ Removed the deprecated `LLMS_Person_Handler::voucher_toggle_script()` method.
++ Removed the deprecated `templates/admin/notices/db-update.php` file.
++ Removed the deprecated `templates/admin/notices/db-updating.php` file.
++ Removed the deprecated `llms_usernames_blacklist` filter hook in the `llms_get_usernames_blocklist()` function.
++ Removed the deprecated `includes/libraries/wp-background-processing/index.php` file.
++ Removed the deprecated `includes/libraries/wp-background-processing/wp-async-request.php` file.
++ Removed the deprecated `includes/libraries/wp-background-processing/wp-background-process.php` file.
++ Removed the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
++ Removed the deprecated `LLMS_Section::get_order()` method.
++ Removed the deprecated `LLMS_Section::get_parent_course()` method.
++ Removed the deprecated `LLMS_Section::set_parent_course()` method.
++ Removed the deprecated `LLMS_AJAX::get_ajax_data()` method.
++ Removed the deprecated `LLMS_AJAX::register_script()` method.
++ Removed the deprecated `LLMS_Interface_Post_Audio` interface.
++ Removed the deprecated `LLMS_Interface_Post_Sales_Page` interface.
++ Removed the deprecated `LLMS_Interface_Post_Video` interface.
++ Removed the deprecated `LLMS_Achievements::$_instance` property.
++ Removed the deprecated `LLMS_Certificates::$_instance` property.
++ Removed the deprecated `LLMS_Emails::$_instance` property.
++ Removed the deprecated `LLMS_Engagements::$_instance` property.
++ Removed the deprecated `LLMS_Events::$_instance` property.
++ Removed the deprecated `LLMS_Grades::$_instance` property.
++ Removed the deprecated `LLMS_Integrations::$_instance` property.
++ Removed the deprecated `LLMS_Payment_Gateways::$_instance` property.
++ Removed the deprecated `LLMS_Processors::$_instance` property.
++ Removed the deprecated `LLMS_Sessions::$_instance` property.
+
+
 v5.7.0 - 2022-01-11
 -------------------
 
