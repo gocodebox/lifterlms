@@ -47,6 +47,8 @@ class LLMS_Admin_Post_Table_Certificates {
 			add_filter( 'llms_certificate_template_version', array( $this, 'upgrade_template' ), 10 );
 		}
 
+		add_filter( 'manage_llms_my_certificate_posts_columns', array( $this, 'mod_cols' ), 10, 1 );
+
 	}
 
 	/**
@@ -90,6 +92,19 @@ class LLMS_Admin_Post_Table_Certificates {
 
 		return $states;
 
+	}
+
+	/**
+	 * Modify the columns list for the `llms_my_certificate` post type.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $cols Array of columns.
+	 * @return array
+	 */
+	public function mod_cols( $cols ) {
+		unset( $cols['author'] );
+		return $cols;
 	}
 
 	/**

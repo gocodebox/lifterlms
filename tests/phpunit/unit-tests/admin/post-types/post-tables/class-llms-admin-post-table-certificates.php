@@ -53,6 +53,9 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 			$this->markTestSkipped( 'No actions are registered for this version of WordPress.' );
 		}
 
+		// Always added.
+		$this->assertEquals( 10, has_filter( 'manage_llms_my_certificate_posts_columns', array( $this->main, 'mod_cols' ) ) );
+
 		// Wrong screen.
 		$this->assertFalse( has_filter( 'display_post_states', array( $this->main, 'add_states' ) ) );
 		$this->assertFalse( has_filter( 'post_row_actions', array( $this->main, 'add_actions' ) ) );
@@ -118,6 +121,25 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 		// Use block editor.
 		$post->post_content = '';
 		$this->assertEquals( array(), $this->main->add_states( array(), $post ) );
+
+	}
+
+	/**
+	 * Test mod_cols().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_mod_cols() {
+
+		$cols = array(
+			'col1'   => 'retain',
+			'author' => 'remove',
+			'col3'   => 'retain',
+		);
+
+		$this->assertEquals( array( 'col1', 'col3' ), array_keys( $this->main->mod_cols( $cols ) ) );
 
 	}
 
