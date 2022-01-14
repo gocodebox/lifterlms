@@ -46,8 +46,8 @@
 			"!assets/js/private/**/*.js",
 
 
-			"!assets/js/js/llms-components.js",
-			"!assets/js/js/llms-icons.js"
+			"!assets/js/llms-components.js",
+			"!assets/js/llms-icons.js"
 		],
 		"dest": "assets/js/"
 	},
