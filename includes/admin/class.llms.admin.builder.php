@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 5.1.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -165,8 +165,9 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.14.8
 	 * @since 3.16.12 Unknown.
+	 * @since [version] Allow LMS managers to get all lessons. {@link https://github.com/gocodebox/lifterlms/issues/1849}.
 	 *
-	 * @param int    $course_id   WP Post ID of the course
+	 * @param int    $course_id   NOT USED. WP Post ID of the course, lesson or llms_quiz.
 	 * @param string $post_type   Optional. Search specific post type(s). By default searches for all post types.
 	 * @param string $search_term Optional. Search term (searches post_title). Default is empty string.
 	 * @param int    $page        Optional. Used when paginating search results. Default is `1`.
@@ -186,7 +187,7 @@ class LLMS_Admin_Builder {
 			$args['post_type'] = $post_type;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
 
 			$instructor = llms_get_instructor();
 			$parents    = $instructor->get( 'parent_instructors' );

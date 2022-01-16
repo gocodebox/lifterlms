@@ -55,6 +55,100 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test LLMS_Admin_Builder::get_existing_posts() with a lesson created by users of different roles.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1849
+	 *
+	 * @return void
+	 * @throws ReflectionException
+	 */
+	public function test_get_existing_lesson_by_role() {
+
+		$all_lesson_ids        = array();
+		$instructor_lesson_ids = array();
+		$users                 = array();
+		$roles                 = array(
+			'administrator',
+			'lms_manager',
+			'instructor',
+			'instructors_assistant',
+			'student',
+		);
+
+		// Create multiple users for each role.
+		foreach ( $roles as $role ) {
+
+			for ( $user_counter = 0; $user_counter < 2; $user_counter ++ ) {
+
+				$user               = $this->factory->user->create_and_get( array( 'role' => $role ) );
+				$users[ $user->ID ] = $user;
+
+				// Create multiple courses that are authored by this instructor.
+				if ( 'instructor' === $role ) {
+					wp_set_current_user( $user->ID );
+
+					if ( ! isset( $instructor_lesson_ids[ $user->ID ] ) ) {
+						$instructor_lesson_ids[ $user->ID ] = array();
+					}
+
+					for ( $course_counter = 0; $course_counter < 2; $course_counter ++ ) {
+
+						$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 2 ) );
+						foreach ( $course->get_lessons( 'ids' ) as $lesson_id ) {
+							$all_lesson_ids[]                     = $lesson_id;
+							$instructor_lesson_ids[ $user->ID ][] = $lesson_id;
+						}
+					}
+
+					// Create an instructor assistant for this instructor.
+					$assistant = $this->factory->instructor->create_and_get( array( 'role' => 'instructors_assistant' ) );
+					$assistant->add_parent( $user->ID );
+					$users[ $assistant->get_id() ] = $assistant->get_user();
+				}
+			}
+		}
+
+		// Test each user's capability to build courses with lessons.
+		foreach ( $users as $user_id => $user ) {
+
+			wp_set_current_user( $user_id );
+			$role = reset( $user->roles ); // We created users with only one role.
+
+			// Get lessons that the user can access.
+			$lesson_search    = LLMS_Unit_Test_Util::call_method( $this->main, 'get_existing_posts', array( null, 'lesson' ) );
+			$found_lesson_ids = array();
+			foreach ( $lesson_search['results'] as $result ) {
+				$found_lesson_ids[] = $result['id'];
+			}
+
+			switch ( $role ) {
+				case 'administrator':
+				case 'lms_manager':
+					$message = "$role can build courses with all lessons.";
+					$this->assertEqualSets( $all_lesson_ids, $found_lesson_ids, $message );
+					break;
+				case 'instructor':
+					$message = 'Instructors can build courses with lessons that they have authored.';
+					$this->assertEqualSets( $instructor_lesson_ids[ $user_id ], $found_lesson_ids, $message );
+					break;
+				case 'instructors_assistant':
+					$assistant           = llms_get_instructor( $user_id );
+					$instructor_ids      = (array) $assistant->get( 'parent_instructors' );
+					$expected_lesson_ids = $instructor_lesson_ids[ reset( $instructor_ids ) ] ?? array();
+					$message             = 'Instructor\'s assistants can build courses with lessons that their ' .
+						'parent instructors have authored.';
+					$this->assertEqualSets( $expected_lesson_ids, $found_lesson_ids, $message );
+					break;
+				case 'student':
+					$this->assertEmpty( $found_lesson_ids, 'Students can not build courses with any lessons.' );
+					break;
+			}
+		}
+	}
+
+	/**
 	 * Filter callback for `llms_builder_trash_custom_item` used to mock a custom item deletion.
 	 *
 	 * @since  3.37.12
