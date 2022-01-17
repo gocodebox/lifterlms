@@ -122,7 +122,8 @@ class LLMS_Meta_Box_Certificate_Template_Sync extends LLMS_Admin_Metabox {
 			$awarded_certificates_number,
 			$awarded_certificate_label
 		);
-		$on_click   = "return confirm('${sync_alert}')";
+		$sync_alert = str_replace( "'", "\'", $sync_alert);
+		$on_click   = "return confirm('$sync_alert')";
 
 		return sprintf(
 			'<p>%4$s</p><p style="text-align:right;margin:1em 0"><a href="%1$s" class="llms-button-primary sync-action full" onclick="%2$s" style="box-sizing:border-box;">%3$s</a></p>',
