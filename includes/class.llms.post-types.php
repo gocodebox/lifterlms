@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -361,6 +361,7 @@ class LLMS_Post_Types {
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since 5.5.0 Register all the post types using `self::register_post_type()`.
+	 * @since [version] Remove all post type descriptions.
 	 *
 	 * @return void
 	 */
@@ -387,7 +388,6 @@ class LLMS_Post_Types {
 					'not_found_in_trash' => __( 'No Courses found in trash', 'lifterlms' ),
 					'parent'             => __( 'Parent Course', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can add new courses.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => true,
 				'menu_icon'           => 'dashicons-welcome-learn-more',
@@ -429,7 +429,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Sections', 'lifterlms' ),
 					'menu_name'          => _x( 'Sections', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where sections are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => false,
 				'map_meta_cap'        => true,
@@ -464,7 +463,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Lessons', 'lifterlms' ),
 					'menu_name'          => _x( 'Lessons', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the lessons.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => true,
 				'capabilities'        => self::get_post_type_caps( 'lesson' ),
@@ -504,7 +502,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Quizzes', 'lifterlms' ),
 					'menu_name'          => _x( 'Quizzes', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the quizzes.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => false,
 				'map_meta_cap'        => true,
@@ -544,7 +541,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Questions', 'lifterlms' ),
 					'menu_name'          => _x( 'Quiz Questions', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the Quiz Questions.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => false,
 				'map_meta_cap'        => true,
@@ -581,7 +577,6 @@ class LLMS_Post_Types {
 					'not_found_in_trash' => __( 'No Memberships found in trash', 'lifterlms' ),
 					'parent'             => __( 'Parent Membership', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can add new Membership levels.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => true,
 				'capabilities'        => self::get_post_type_caps( 'membership' ),
@@ -624,7 +619,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Engagement', 'lifterlms' ),
 					'menu_name'          => _x( 'Engagements', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where engagements are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -661,7 +655,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Orders', 'lifterlms' ),
 					'menu_name'          => _x( 'Orders', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where orders are managed', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -701,7 +694,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Transactions', 'lifterlms' ),
 					'menu_name'          => _x( 'Orders', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where single and recurring order transactions are stored', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => false,
 				'map_meta_cap'        => true,
@@ -740,7 +732,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Achievement', 'lifterlms' ),
 					'menu_name'          => _x( 'Achievements', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where achievements are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -776,7 +767,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Certificates', 'lifterlms' ),
 					'menu_name'          => _x( 'Certificates', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -815,7 +805,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent My Certificates', 'lifterlms' ),
 					'menu_name'          => _x( 'My Certificates', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 				'public'              => true,
 				'show_ui'             => true,
 				'map_meta_cap'        => true,
@@ -854,7 +843,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Emails', 'lifterlms' ),
 					'menu_name'          => _x( 'Emails', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where emails are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -890,7 +878,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Coupon', 'lifterlms' ),
 					'menu_name'          => _x( 'Coupons', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where coupons are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_coupons_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -926,7 +913,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Voucher', 'lifterlms' ),
 					'menu_name'          => _x( 'Vouchers', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where voucher are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_vouchers_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -962,7 +948,6 @@ class LLMS_Post_Types {
 					'not_found_in_trash' => __( 'No Reviews found in trash', 'lifterlms' ),
 					'parent'             => __( 'Parent Review', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where you can add new reviews.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => ( current_user_can( apply_filters( 'lifterlms_admin_reviews_access', 'manage_lifterlms' ) ) ) ? true : false,
 				'map_meta_cap'        => true,
@@ -998,7 +983,6 @@ class LLMS_Post_Types {
 					'parent'             => __( 'Parent Access Plans', 'lifterlms' ),
 					'menu_name'          => _x( 'Access Plans', 'Admin menu name', 'lifterlms' ),
 				),
-				'description'         => __( 'This is where access plans are stored.', 'lifterlms' ),
 				'public'              => false,
 				'show_ui'             => false,
 				'map_meta_cap'        => true,
