@@ -118,7 +118,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @since 3.8.0
 	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
-	 * @return obj
+	 * @return stdClass
 	 */
 	public function get_user_postmeta() {
 		global $wpdb;

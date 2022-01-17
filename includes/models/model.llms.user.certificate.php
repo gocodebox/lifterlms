@@ -383,7 +383,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since [version]
 	 *
-	 * @return {
+	 * @param bool $with_units Whether or not to include the unit in the return.
+	 * @return array {
 	 *     Array of dimensions.
 	 *
 	 *     @type string|float $width  The display width.

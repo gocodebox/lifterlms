@@ -660,7 +660,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		LLMS_Unit_Test_Util::call_method( $cert, 'get_merge_data' );
 
-		remove_filter( 'llms_certificate_merge_codes', $handler, 10, 2 );
+		remove_filter( 'llms_certificate_merge_codes', $handler, 10 );
 
 	}
 
