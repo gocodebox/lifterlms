@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -197,7 +197,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
  *
  * @since Unknown
  * @since 4.8.0 Move template override directories logic into llms_get_template_override_directories.
- * @since [version] Added `$extension` parameter.
+ * @since [version] Added `$extension`, and `$is_block_template` parameter.
  *
  * @param string $template  Template file.
  * @param string $extension The file extension.
@@ -244,7 +244,7 @@ function llms_get_template_override_directories() {
 	}
 
 	/**
-	 * Filters the theme override directories
+	 * Filters the theme override directories.
 	 *
 	 * Allow themes and plugins to determine which folders to look in for theme overrides.
 	 *
@@ -253,5 +253,24 @@ function llms_get_template_override_directories() {
 	 * @param string[] $theme_override_directories List of theme override directory paths.
 	 */
 	return apply_filters( 'lifterlms_theme_override_directories', $dirs );
+
+}
+
+/**
+ * Build the plugin's template file path.
+ *
+ * @since [version]
+ *
+ * @param string $template           Template file name, without extension.
+ * @param string $extension          Template file extension.
+ * @param string $template_directory Template directory relative to the plugin base directory.
+ * @return string
+ */
+function llms_template_file_path( $template, $extension = 'php', $template_directory = 'templates' ) {
+
+	// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
+	$override      = llms_get_template_override( $template, $extension );
+	$template_path = $override ? $override : LLMS()->plugin_path() . "/{$template_directory}/";
+	return "{$template_path}{$template}.{$extension}";
 
 }

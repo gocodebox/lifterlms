@@ -35,10 +35,10 @@ class LLMS_Template_Loader {
 		// Do template loading.
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
 
-		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
-
 		// Template loading for FSE themes.
-		add_filter( 'get_block_templates', array( $this, 'block_template_loader' ), 10, 3 );
+		add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 10, 3 );
+
+		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
 		// Restriction actions for each kind of restriction.
 		$reasons = apply_filters(
@@ -426,7 +426,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since [version]
 	 *
-	 * @param WP_Block_Template[] $result Array of found block templates.
+	 * @param WP_Block_Template[] $result        Array of found block templates.
 	 * @param array               $query {
 	 *     Optional. Arguments to retrieve templates.
 	 *
@@ -458,13 +458,8 @@ class LLMS_Template_Loader {
 		// Prevent template_loader to load a php template.
 		add_filter( 'llms_force_llms_template_loading', '__return_false' );
 
-		// If the template has already been found in the theme, use that.
-		if ( ! empty( $result[0]->slug ) && $result[0]->slug === $query['slug__in'][0] ) {
-			return $result;
-		}
-
 		// Based on wp-includes/block-template-utils.php::_build_block_template_result_from_file.
-		$template_file['path'] = $this->template_file_path( $template_name, 'html', 'block-templates' );
+		$template_file['path'] = llms_template_file_path( $template_name, 'html', 'block-templates' );
 		$template_file['slug'] = $query['slug__in'][0];
 		$template_content      = file_get_contents( $template_file['path'] );
 		$theme                 = 'lifterlms';
@@ -483,7 +478,7 @@ class LLMS_Template_Loader {
 	}
 
 	/**
-	 * Check if content should be restricted and include overrides where appropriate
+	 * Check if content should be restricted and include overrides where appropriate.
 	 *
 	 * Triggers actions based on content restrictions.
 	 *
@@ -528,7 +523,6 @@ class LLMS_Template_Loader {
 			 */
 			do_action( "llms_content_restricted_by_{$page_restricted['reason']}", $page_restricted );
 
-			// Blog should bypass checks, except when sitewide restrictions are enabled.
 			if ( is_home() && 'sitewide_membership' === $page_restricted['reason'] ) {
 				// Prints notices on the blog page when there's not redirects setup.
 				add_action( 'loop_start', 'llms_print_notices', 5 );
@@ -536,12 +530,12 @@ class LLMS_Template_Loader {
 		}
 
 		$forced_template = apply_filters( 'llms_force_llms_template_loading', true ) ? $this->get_maybe_forced_llms_template() : false;
-		return $forced_template ? $this->template_file_path( $forced_template ) : $template;
+		return $forced_template ? llms_template_file_path( $forced_template ) : $template;
 
 	}
 
 	/**
-	 * Retrieve the hierarchical template to be loaded
+	 * Retrieve the hierarchical template to be loaded.
 	 *
 	 * @since [version]
 	 *
@@ -556,6 +550,7 @@ class LLMS_Template_Loader {
 
 			// Blog should bypass checks, except when sitewide restrictions are enabled.
 			if ( ( is_home() && 'sitewide_membership' === $page_restricted['reason'] ) ||
+					// Course and membership content restrictions are handled by conditional elements in the editor.
 					( in_array( get_post_type(), array( 'course', 'llms_membership' ), true ) ) ) {
 				return;
 			}
@@ -584,25 +579,6 @@ class LLMS_Template_Loader {
 		}
 
 		return $template;
-
-	}
-
-	/**
-	 * Build the plugin's template file path.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $template           Template file name, without extension.
-	 * @param string $extension          Template file extension.
-	 * @param string $template_directory Template directory relateive to the plugin base directory.
-	 * @return string
-	 */
-	private function template_file_path( $template, $extension = 'php', $template_directory = 'template' ) {
-
-		// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
-		$override      = llms_get_template_override( $template, $extension );
-		$template_path = $override ? $override : LLMS()->plugin_path() . "/{$template_directory}/";
-		return "{$template_path}{$template}.{$extension}";
 
 	}
 
