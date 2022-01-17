@@ -117,7 +117,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 			$role = reset( $user->roles ); // We created users with only one role.
 
 			// Get lessons that the user can access.
-			$lesson_search    = LLMS_Unit_Test_Util::call_method( $this->main, 'get_existing_posts', array( null, 'lesson' ) );
+			$lesson_search    = LLMS_Unit_Test_Util::call_method( $this->main, 'get_existing_posts', array( 'lesson' ) );
 			$found_lesson_ids = array();
 			foreach ( $lesson_search['results'] as $result ) {
 				$found_lesson_ids[] = $result['id'];

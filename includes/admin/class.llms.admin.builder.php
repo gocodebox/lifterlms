@@ -166,14 +166,14 @@ class LLMS_Admin_Builder {
 	 * @since 3.14.8
 	 * @since 3.16.12 Unknown.
 	 * @since [version] Allow LMS managers to get all lessons. {@link https://github.com/gocodebox/lifterlms/issues/1849}.
+	 *              Removed unused `$course_id` parameter.
 	 *
-	 * @param int    $course_id   NOT USED. WP Post ID of the course, lesson or llms_quiz.
 	 * @param string $post_type   Optional. Search specific post type(s). By default searches for all post types.
 	 * @param string $search_term Optional. Search term (searches post_title). Default is empty string.
 	 * @param int    $page        Optional. Used when paginating search results. Default is `1`.
 	 * @return array
 	 */
-	private static function get_existing_posts( $course_id, $post_type = '', $search_term = '', $page = 1 ) {
+	private static function get_existing_posts( $post_type = '', $search_term = '', $page = 1 ) {
 
 		$args = array(
 			'order'          => 'ASC',
@@ -381,7 +381,7 @@ class LLMS_Admin_Builder {
 						$post_type = sanitize_text_field( $request['post_type'] );
 					}
 				}
-				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
+				wp_send_json( self::get_existing_posts( $post_type, $term, $page ) );
 				break;
 
 		}
