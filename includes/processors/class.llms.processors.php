@@ -103,7 +103,7 @@ class LLMS_Processors {
 		 *
 		 * @param string[] $classes A list of processor class ids/slugs.
 		 */
-		$classes = apply_filters( 'llms_load_processors', $this->classes );
+		$this->classes = apply_filters( 'llms_load_processors', $this->classes );
 
 		foreach ( $this->classes as $name ) {
 
