@@ -134,7 +134,7 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Handle awrded certificates sync actions.
+	 * Handle awarded certificates sync actions.
 	 *
 	 * @since [version]
 	 *

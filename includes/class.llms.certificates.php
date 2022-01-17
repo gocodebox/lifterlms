@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
- * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
- * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
+ * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's images mime types during html export.
+ * @since 4.3.1 When generating the certificate to export, if `$this->scrape_certificate()` generates a WP_Error early, return it to avoid fatal errors.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
  * @since [version] Changes:
@@ -323,7 +323,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
-	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
+	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDocument` directly.
 	 * @since 4.21.0 Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
 	 *               Also, remove the WP Admin Bar earlier.
 	 *               Move the links and images modification in specific methods.

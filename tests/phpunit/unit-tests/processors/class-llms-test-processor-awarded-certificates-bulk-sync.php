@@ -5,7 +5,7 @@
  * @package LifterLMS/Tests
  *
  * @group processors
- * @group processor_awarded_cerfificates_bulk_sync
+ * @group processor_awarded_certificates_bulk_sync
  *
  * @since [version]
  */

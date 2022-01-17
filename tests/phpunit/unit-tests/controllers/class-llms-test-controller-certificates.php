@@ -75,7 +75,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
 		$this->assertEquals( $args, $this->instance->maybe_allow_public_query( $args ) );
 
-		// Post exists but submitted nocne is incorrect.
+		// Post exists but submitted nonce is incorrect.
 		$post_id = $this->factory->post->create( array( 'post_type' => 'llms_certificate' ) );
 		update_post_meta( $post_id, '_llms_auth_nonce', 'mock-nonce' );
 
@@ -321,7 +321,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe handle awarded certificates sunc actions when not supplying a (or supplying an invalid) nonce.
+	 * Test maybe handle awarded certificates sync actions when not supplying a (or supplying an invalid) nonce.
 	 *
 	 * @since [version]
 	 *

@@ -32,11 +32,11 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 	private $schedule_hook = 'llms_awarded_certificates_bulk_sync';
 
 	/**
-	 * Action triggered to sync all the awarded certificate sthat need to be updated.
+	 * Action triggered to sync all the awarded certificates that need to be updated.
 	 *
 	 * @since [version]
 	 *
-	 * @param int certificate_template_id WP Post ID of the certificate template.
+	 * @param int $certificate_template_id WP Post ID of the certificate template.
 	 * @return void
 	 */
 	public function dispatch_sync( $certificate_template_id ) {
@@ -54,7 +54,7 @@ class LLMS_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_Abstract_Proces
 		 *
 		 * @since [version]
 		 *
-		 * @param array $args Query arguments passed to LLMS_Aards_Query.
+		 * @param array $args Query arguments passed to LLMS_Awards_Query.
 		 */
 		$args = apply_filters(
 			'llms_processor_sync_awarded_certificates_query_args',
