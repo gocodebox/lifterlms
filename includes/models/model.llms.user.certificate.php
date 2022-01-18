@@ -608,35 +608,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Retrieves the certificate's template version.
-	 *
-	 * Since LifterLMS 6.0.0, certificates are created using the block editor.
-	 *
-	 * Certificates created in the classic editor will use template version 1 while any certificates
-	 * created in the block editor use template version 2. Therefore a certificate that has content
-	 * and no blocks will use template version 1 and any empty certificates or those containing blocks
-	 * will use template version 2.
-	 *
-	 * @since [version]
-	 *
-	 * @return integer
-	 */
-	public function get_template_version() {
-
-		$version = empty( $this->get( 'content', true ) ) || has_blocks( $this->get( 'id' ) ) ? 2 : 1;
-
-		/**
-		 * Filters a certificate's template version.
-		 *
-		 * @since [version]
-		 *
-		 * @param int $version The template version.
-		 */
-		return apply_filters( 'llms_certificate_template_version', $version, $this );
-
-	}
-
-	/**
 	 * Retrieves the ID of the certificate's unit.
 	 *
 	 * @since [version]
@@ -745,73 +716,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		// Default size is configured via a site option.
 		$default_size                    = get_option( 'llms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
-
-	}
-
-	/**
-	 * Update the certificate by regenerating it from its template.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $context Sync context. Either "update" for an update to an existing certificate
-	 *                        or "create" when the certificate is being created.
-	 * @return boolean Returns a false if the parent doesn't exist, otherwise returns true.
-	 */
-	public function sync( $context = 'update' ) {
-
-		$template_id = $this->get( 'parent' );
-		$template    = llms_get_certificate( $template_id, true );
-		if ( ! $template ) {
-			return false;
-		}
-
-		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
-		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
-				! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) ) ) {
-			delete_post_thumbnail( $this->get( 'post' ) );
-		}
-
-		$props = array(
-			'content',
-		);
-
-		// If using the block editor also sync all layout properties.
-		if ( 2 === $template->get_template_version() ) {
-			$props = array_merge(
-				$props,
-				array(
-					'background',
-					'height',
-					'margins',
-					'orientation',
-					'size',
-					'unit',
-					'width',
-				)
-			);
-		}
-
-		foreach ( $props as $prop ) {
-			$raw = 'content' === $prop;
-			$this->set( $prop, $template->get( $prop, $raw ) );
-		}
-
-		// Merge content.
-		$this->set( 'content', $this->merge_content() );
-
-		/**
-		 * Action run after an awarded certificate is synchronized with its template.
-		 *
-		 * @since [version]
-		 *
-		 * @param LLMS_User_Certificate $certificate Awarded certificate object.
-		 * @param LLMS_User_Certificate $template    Certificate template object.
-		 * @param string                $context     The context within which the synchronization is run.
-		 *                                           Either "create" or "update".
-		 */
-		do_action( 'llms_certificate_synchronized', $this, $template, $context );
-
-		return true;
 
 	}
 

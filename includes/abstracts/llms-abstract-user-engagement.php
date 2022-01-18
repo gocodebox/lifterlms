@@ -98,6 +98,65 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieves the LLMS_Abstract_User_Engagement instance for a given post.
+	 *
+	 * Based on {@see llms_get_certificate()}.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post|int|null $post             A WP_Post object or a WP_Post ID. A falsy value will use the current
+	 *                                           global `$post` object (if one exists).
+	 * @param bool             $preview_template If `true`, allows loading for previewing the template.
+	 * @return LLMS_Abstract_User_Engagement|bool
+	 */
+	protected function get_template_object( $post, $preview_template ) {
+
+		$post = get_post( $post );
+		if ( ! $post ) {
+			return false;
+		}
+
+		if (
+			"llms_my_$this->model_post_type" === $post->post_type ||
+			( "llms_$this->model_post_type" === $post->post_type && $preview_template )
+		) {
+			return new static( $post );
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Retrieves the earned engagement's template version.
+	 *
+	 * Since LifterLMS 6.0.0, earned engagements are created using the block editor.
+	 *
+	 * Earned engagements created in the classic editor will use template version 1 while any earned engagements
+	 * created in the block editor use template version 2. Therefore an earned engagement that has content
+	 * and no blocks will use template version 1 and any empty earned engagements or those containing blocks
+	 * will use template version 2.
+	 *
+	 * @since [version]
+	 *
+	 * @return integer
+	 */
+	public function get_template_version() {
+
+		$version = empty( $this->get( 'content', true ) ) || has_blocks( $this->get( 'id' ) ) ? 2 : 1;
+
+		/**
+		 * Filters an earned engagement's template version.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $version The template version.
+		 */
+		return apply_filters( "llms_{$this->model_post_type}_template_version", $version, $this );
+
+	}
+
+	/**
 	 * Retrieve the user id of the user who earned the certificate
 	 *
 	 * @since 3.8.0
@@ -156,6 +215,85 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		}
 
 		return $this->get( 'awarded' ) ? true : false;
+
+	}
+
+	/**
+	 * Allow child classes to merge the post content based on content from the template.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function merge_content() {
+		return $this->get( 'content', true );
+	}
+
+	/**
+	 * Update the earned engagement by regenerating it from its template.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $context Sync context. Either "update" for an update to an existing earned engagement
+	 *                        or "create" when the earned engagement is being created.
+	 * @return boolean Returns false if the parent doesn't exist, otherwise returns true.
+	 */
+	public function sync( $context = 'update' ) {
+
+		$template_id = $this->get( 'parent' );
+		$template    = $this->get_template_object( $template_id, true );
+		if ( ! $template ) {
+			return false;
+		}
+
+		$this->set( 'title', get_post_meta( $template_id, "_llms_{$this->model_post_type}_title", true ) );
+		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
+			! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) )
+		) {
+			delete_post_thumbnail( $this->get( 'post' ) );
+		}
+
+		$props = array(
+			'content',
+		);
+
+		// If using the block editor, also sync all layout properties.
+		if ( 2 === $template->get_template_version() ) {
+			$props = array_merge(
+				$props,
+				array(
+					'background',
+					'height',
+					'margins',
+					'orientation',
+					'size',
+					'unit',
+					'width',
+				)
+			);
+		}
+
+		foreach ( $props as $prop ) {
+			$raw = 'content' === $prop;
+			$this->set( $prop, $template->get( $prop, $raw ) );
+		}
+
+		// Merge content.
+		$this->set( 'content', $this->merge_content() );
+
+		/**
+		 * Action run after an awarded engagement is synchronized with its template.
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Abstract_User_Engagement $engagement Awarded engagement object.
+		 * @param LLMS_Abstract_User_Engagement $template   Engagement template object.
+		 * @param string                        $context    The context within which the synchronization is run.
+		 *                                                  Either "create" or "update".
+		 */
+		do_action( "llms_{$this->model_post_type}_synchronized", $this, $template, $context );
+
+		return true;
 
 	}
 
