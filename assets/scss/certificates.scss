@@ -55,7 +55,7 @@ body {
 .llms-certificate-container.cert-template-v2 {
 	width: 100%;
 	height: 100%;
-	background-size: 100% 100%;
+	background-size: 100% 100% !important;
 
 	.wp-block-columns .wp-block-column > * {
 		margin-top: 0 !important;
