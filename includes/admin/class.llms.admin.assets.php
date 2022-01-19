@@ -253,6 +253,9 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 
 		global $post;
+
+		$postdata = array();
+
 		if ( ! empty( $post ) ) {
 
 			$postdata = array(
@@ -260,9 +263,12 @@ class LLMS_Admin_Assets {
 				'post_type' => $post->post_type,
 			);
 
-		} else {
+		} elseif ( 'site-editor' === $screen->base && ! empty(  $_GET['postType'] ) && ! empty( $_GET['postId'] )  ) {
 
-			$postdata = array();
+			$postdata = array(
+				'id'        => $_GET['postId'],
+				'post_type' => $_GET['postType'],
+			);
 
 		}
 
@@ -273,6 +279,7 @@ class LLMS_Admin_Assets {
 				window.llms.admin_url = "' . admin_url() . '";
 				window.llms.post = ' . json_encode( $postdata ) . ';
 				window.llms.analytics = ' . json_encode( $this->get_analytics_options() ) . ';
+				window.llms.screen_base = "' . $screen->base . '";
 			</script>
 		';
 
