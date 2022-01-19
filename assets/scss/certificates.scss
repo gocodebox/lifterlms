@@ -56,6 +56,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background-size: 100% 100% !important;
+	box-sizing: border-box; 
 
 	.wp-block-columns .wp-block-column > * {
 		margin-top: 0 !important;
