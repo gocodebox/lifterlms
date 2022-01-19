@@ -608,6 +608,35 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
+	 * Retrieves the certificate's template version.
+	 *
+	 * Since LifterLMS 6.0.0, certificates are created using the block editor.
+	 *
+	 * Certificates created in the classic editor will use template version 1 while any certificates
+	 * created in the block editor use template version 2. Therefore a certificate that has content
+	 * and no blocks will use template version 1 and any empty certificates or those containing blocks
+	 * will use template version 2.
+	 *
+	 * @since [version]
+	 *
+	 * @return integer
+	 */
+	public function get_template_version() {
+
+		$version = empty( $this->get( 'content', true ) ) || has_blocks( $this->get( 'id' ) ) ? 2 : 1;
+
+		/**
+		 * Filters a certificate's template version.
+		 *
+		 * @since [version]
+		 *
+		 * @param int $version The template version.
+		 */
+		return apply_filters( 'llms_certificate_template_version', $version, $this );
+
+	}
+
+	/**
 	 * Retrieves the ID of the certificate's unit.
 	 *
 	 * @since [version]
@@ -716,6 +745,36 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		// Default size is configured via a site option.
 		$default_size                    = get_option( 'llms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
+
+	}
+
+	/**
+	 * Sync block editor layout properties.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_User_Certificate $template
+	 * @return void
+	 */
+	protected function sync_meta( $template ) {
+
+		if ( 1 === $template->get_template_version() ) {
+			return;
+		}
+
+		$props = array(
+			'background',
+			'height',
+			'margins',
+			'orientation',
+			'size',
+			'unit',
+			'width',
+		);
+
+		foreach ( $props as $prop ) {
+			$this->set( $prop, $template->get( $prop ) );
+		}
 
 	}
 

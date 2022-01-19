@@ -128,35 +128,6 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieves the earned engagement's template version.
-	 *
-	 * Since LifterLMS 6.0.0, earned engagements are created using the block editor.
-	 *
-	 * Earned engagements created in the classic editor will use template version 1 while any earned engagements
-	 * created in the block editor use template version 2. Therefore an earned engagement that has content
-	 * and no blocks will use template version 1 and any empty earned engagements or those containing blocks
-	 * will use template version 2.
-	 *
-	 * @since [version]
-	 *
-	 * @return integer
-	 */
-	public function get_template_version() {
-
-		$version = empty( $this->get( 'content', true ) ) || has_blocks( $this->get( 'id' ) ) ? 2 : 1;
-
-		/**
-		 * Filters an earned engagement's template version.
-		 *
-		 * @since [version]
-		 *
-		 * @param int $version The template version.
-		 */
-		return apply_filters( "llms_{$this->model_post_type}_template_version", $version, $this );
-
-	}
-
-	/**
 	 * Retrieve the user id of the user who earned the certificate
 	 *
 	 * @since 3.8.0
@@ -253,33 +224,11 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			delete_post_thumbnail( $this->get( 'post' ) );
 		}
 
-		$props = array(
-			'content',
-		);
-
-		// If using the block editor, also sync all layout properties.
-		if ( 2 === $template->get_template_version() ) {
-			$props = array_merge(
-				$props,
-				array(
-					'background',
-					'height',
-					'margins',
-					'orientation',
-					'size',
-					'unit',
-					'width',
-				)
-			);
-		}
-
-		foreach ( $props as $prop ) {
-			$raw = 'content' === $prop;
-			$this->set( $prop, $template->get( $prop, $raw ) );
-		}
-
-		// Merge content.
+		// Copy the content, with optional merge codes and short codes, and optional block editor layout meta properties
+		// from the template to this earned engagement.
+		$this->set( 'content', $template->get( 'content', true ) );
 		$this->set( 'content', $this->merge_content() );
+		$this->sync_meta( $template );
 
 		/**
 		 * Action run after an awarded engagement is synchronized with its template.
@@ -295,6 +244,17 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 
 		return true;
 
+	}
+
+	/**
+	 * This is a stub that allows extended classes to sync block editor layout properties.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Abstract_User_Engagement $template
+	 * @return void
+	 */
+	protected function sync_meta( $template ) {
 	}
 
 }
