@@ -510,7 +510,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
-	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
+	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
+	 * @since [version] Use updated method signature for `LLMS_Student::get_achievements()`.
 	 *
 	 * @return void
 	 */
@@ -582,15 +583,21 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
-			// Get the latest achievement for the course.
-			$achievements       = llms()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
-			$latest_achievement = false;
-			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
-				if ( in_array( (string) $achievement->get( 'achievement_template' ), $achievements, true ) ) {
-					$latest_achievement = $achievement;
-					break;
-				}
-			}
+			// It's not stupid if it works unless it is stupid.
+			$post_ids = array_merge(
+				array( $course->get( 'id' ) ),
+				$course->get_sections( 'ids' ),
+				$course->get_lessons( 'ids' ),
+				$course->get_quizzes()
+			);
+
+			$achievements = $student->get_achievements( array(
+				'related_posts' => $post_ids,
+				'per_page'      => 1,
+				'no_found_rows' => true,
+			) )->get_awards();
+
+			$latest_achievement = $achievements ? $achievements[0] : false;
 
 			$last_activity = $student->get_events(
 				array(
