@@ -105,7 +105,7 @@ class LLMS_Meta_Box_Award_Certificate_Sync extends LLMS_Admin_Metabox {
 			'This action will replace the current title, content, and the background image with the template ones.\nAre you sure you want to proceed?',
 			'lifterlms'
 		);
-		$sync_alert = str_replace( "'", "\'", $sync_alert);
+		$sync_alert = str_replace( "'", "\'", $sync_alert );
 		$on_click   = "return confirm('$sync_alert')";
 
 		return sprintf(
