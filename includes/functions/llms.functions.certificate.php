@@ -454,7 +454,7 @@ function llms_get_certificate_title( $id = 0 ) {
 function llms_is_block_editor_supported_for_certificates() {
 
 	global $wp_version;
-	$is_supported = version_compare( $wp_version, '5.8', '>=' );
+	$is_supported = version_compare( $wp_version, '5.8-src', '>=' );
 
 	/**
 	 * Filters whether or not the block editor can be used for building certificates.

@@ -45,7 +45,7 @@ $gfonts_preconnet = false;
 		width: <?php echo $width; ?>;
 	}
 	.llms-certificate-container {
-		background-image: <?php echo "url( {$background_img} )"; ?>;
+		background-image: <?php echo "url( {$background_img} )"; ?> !important;
 		padding: <?php echo $padding; ?>;
 	}
 	<?php foreach ( $fonts as $font ) : ?>
