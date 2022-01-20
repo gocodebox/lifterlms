@@ -36,7 +36,7 @@ class LLMS_Template_Loader {
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
 
 		// Template loading for FSE themes.
-		add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 10, 3 );
+		add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 99, 3 );
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
@@ -438,7 +438,7 @@ class LLMS_Template_Loader {
 	 */
 	public function block_template_loader( $result, $query, $template_type ) {
 
-		// Vail it's not a block theme, or is being retrieved a non wp_template file.
+		// Bail it's not a block theme, or is being retrieved a non wp_template file.
 		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
 			return $result;
 		}
