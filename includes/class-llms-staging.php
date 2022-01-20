@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -76,6 +76,7 @@ class LLMS_Staging {
 	 * @since 3.32.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 4.12.0 Use `llms_filter_input()` for retrieval of `$_GET` data.
+	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -89,7 +90,7 @@ class LLMS_Staging {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
-		$action = llms_filter_input( INPUT_GET, 'llms-staging-status', FILTER_SANITIZE_STRING );
+		$action = llms_filter_input( INPUT_GET, 'llms-staging-status' );
 		if ( 'enable' === $action ) {
 			LLMS_Site::set_lock_url();
 			LLMS_Site::update_feature( 'recurring_payments', true );

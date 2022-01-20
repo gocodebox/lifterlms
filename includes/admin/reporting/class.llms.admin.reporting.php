@@ -40,12 +40,13 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public static function get_current_courses() {
 
-		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) : array();
 
 		if ( '' === $r ) {
 			$r = array();
@@ -63,12 +64,13 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public static function get_current_memberships() {
 
-		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) : array();
 
 		if ( '' === $r ) {
 			$r = array();
@@ -84,12 +86,13 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public static function get_current_range() {
 
-		return ( isset( $_GET['range'] ) ) ? llms_filter_input( INPUT_GET, 'range', FILTER_SANITIZE_STRING ) : 'last-7-days';
+		return ( isset( $_GET['range'] ) ) ? llms_filter_input_sanitize_string( INPUT_GET, 'range' ) : 'last-7-days';
 
 	}
 
@@ -99,12 +102,13 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public static function get_current_students() {
 
-		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
@@ -120,11 +124,12 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public static function get_current_tab() {
-		return isset( $_GET['tab'] ) ? llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) : 'students';
+		return isset( $_GET['tab'] ) ? llms_filter_input_sanitize_string( INPUT_GET, 'tab' ) : 'students';
 	}
 
 	/**
@@ -132,11 +137,12 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public static function get_date_end() {
-		return ( isset( $_GET['date_end'] ) ) ? llms_filter_input( INPUT_GET, 'date_end', FILTER_SANITIZE_STRING ) : '';
+		return ( isset( $_GET['date_end'] ) ) ? llms_filter_input_sanitize_string( INPUT_GET, 'date_end' ) : '';
 	}
 
 	/**
@@ -144,11 +150,12 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public static function get_date_start() {
-		return ( isset( $_GET['date_start'] ) ) ? llms_filter_input( INPUT_GET, 'date_start', FILTER_SANITIZE_STRING ) : '';
+		return ( isset( $_GET['date_start'] ) ) ? llms_filter_input_sanitize_string( INPUT_GET, 'date_start' ) : '';
 	}
 
 	/**

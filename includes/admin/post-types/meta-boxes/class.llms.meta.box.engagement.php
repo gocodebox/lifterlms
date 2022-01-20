@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -221,15 +221,17 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Custom save method
-	 * ensures that the faux fields are not saved to the postmeta table
+	 * Custom save method.
+	 *
+	 * Ensures that the faux fields are not saved to the postmeta table.
 	 *
 	 * @since 3.1.0
 	 * @since 3.11.0 Unknown.
 	 * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param    int $post_id  WP Post ID of the engagement
-	 * @return   void
+	 * @param int $post_id WP Post ID of the engagement.
+	 * @return void
 	 */
 	public function save( $post_id ) {
 
@@ -264,7 +266,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 						// Get the posted value.
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
-							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
+							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'] );
 
 						} elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
@@ -287,7 +289,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}
 
 		// Locate and store the trigger post id.
-		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type', FILTER_SANITIZE_STRING );
+		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type' );
 		switch ( $type ) {
 
 			case 'access_plan_purchased':
@@ -330,7 +332,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		if ( $var ) {
 
-			$val = llms_filter_input( INPUT_POST, '_faux_engagement_trigger_post_' . $var, FILTER_SANITIZE_STRING );
+			$val = llms_filter_input_sanitize_string( INPUT_POST, '_faux_engagement_trigger_post_' . $var );
 
 		} else {
 

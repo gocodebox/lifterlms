@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -79,6 +79,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle completion of lessons for a student.
 	 *
 	 * @since 3.29.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -88,7 +89,7 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
-		$action     = llms_filter_input( INPUT_POST, 'llms-lesson-action', FILTER_SANITIZE_STRING );
+		$action     = llms_filter_input( INPUT_POST, 'llms-lesson-action' );
 		$lesson_id  = absint( llms_filter_input( INPUT_POST, 'lesson_id' ) );
 		$student_id = absint( llms_filter_input( INPUT_POST, 'student_id' ) );
 

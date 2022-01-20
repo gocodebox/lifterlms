@@ -104,9 +104,17 @@ abstract class LLMS_Analytics_Widget {
 
 	public function __construct() {}
 
+	/**
+	 * Retrieve posted dates.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return string[]|string
+	 */
 	protected function get_posted_dates() {
 
-		$dates = llms_filter_input( INPUT_POST, 'dates', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$dates = llms_filter_input_sanitize_string( INPUT_POST, 'dates', array( FILTER_REQUIRE_ARRAY ) );
 		return $dates ? $dates : '';
 
 	}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.13.0
- * @version 4.5.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,13 +87,14 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @since 3.24.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 4.5.1 Use `$_GET` data instead of `$_POST`.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param    array $views  array of view link HTML string
 	 * @return   array
 	 */
 	public function get_views( $views ) {
 
-		$post_type       = llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type       = llms_filter_input_sanitize_string( INPUT_GET, 'post_type' );
 		$current_user_id = get_current_user_id();
 		$exclude_states  = get_post_stati(
 			array(

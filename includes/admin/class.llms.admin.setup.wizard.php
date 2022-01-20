@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,11 +142,12 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input_sanitize_string( INPUT_GET, 'step' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -391,6 +392,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
 	 * @since 4.8.0 Moved logic for each wizard step into it's own method.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error
 	 */
@@ -402,7 +404,7 @@ class LLMS_Admin_Setup_Wizard {
 
 		$res = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
-		$step = llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING );
+		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
 		if ( method_exists( $this, 'save_' . $step ) ) {
 			$res = call_user_func( array( $this, 'save_' . $step ) );
 		}
@@ -461,19 +463,20 @@ class LLMS_Admin_Setup_Wizard {
 	 * Save the "Payments" step.
 	 *
 	 * @since 4.8.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return boolean Always returns true
+	 * @return boolean Always returns true.
 	 */
 	protected function save_payments() {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is verified in `save()`.
-		$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
+		$country = isset( $_POST['country'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'country' ) : get_lifterlms_country();
 		update_option( 'lifterlms_country', $country );
 
-		$currency = isset( $_POST['currency'] ) ? llms_filter_input( INPUT_POST, 'currency', FILTER_SANITIZE_STRING ) : get_lifterlms_currency();
+		$currency = isset( $_POST['currency'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'currency' ) : get_lifterlms_currency();
 		update_option( 'lifterlms_currency', $currency );
 
-		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
+		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'manual_payments' ) : 'no';
 		update_option( 'llms_gateway_manual_enabled', $manual );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
