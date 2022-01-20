@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -319,6 +319,7 @@ class LLMS_Forms {
 	 * @since 5.0.0
 	 * @since 5.1.0 First check block's innerBlock attribute exists when checking for inner blocks.
 	 *              Also made the access visibility public.
+	 * @since [version] Pass an empty string to `strpos()` instead of `null`.
 	 *
 	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
@@ -331,7 +332,7 @@ class LLMS_Forms {
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
 				$fields = array_merge( $fields, $this->get_field_blocks( $block['innerBlocks'] ) );
-			} elseif ( false !== strpos( $block['blockName'], 'llms/form-field-' ) ) {
+			} elseif ( false !== strpos( $block['blockName'] ?? '', 'llms/form-field-' ) ) {
 				$fields[] = $block;
 			} elseif ( 'core/html' === $block['blockName'] && ! empty( $block['attrs']['type'] ) ) {
 				$fields[] = $block;
@@ -1133,6 +1134,7 @@ class LLMS_Forms {
 	 * Render form field blocks.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Pass an empty string to `strpos()` instead of `null`.
 	 *
 	 * @param string $html  Block HTML.
 	 * @param array  $block Array of block information.
@@ -1141,7 +1143,7 @@ class LLMS_Forms {
 	public function render_field_block( $html, $block ) {
 
 		// Return HTML for any non llms/form-field blocks.
-		if ( false === strpos( $block['blockName'], 'llms/form-field-' ) ) {
+		if ( false === strpos( $block['blockName'] ?? '', 'llms/form-field-' ) ) {
 			return $html;
 		}
 
