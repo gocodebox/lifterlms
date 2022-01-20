@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.7.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -256,7 +256,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 3.0.0
 	 * @since 3.2.4 Moved message generation to `llms_get_restriction_message()`
-	 * @since [version] Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
+	 * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void
