@@ -1191,7 +1191,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Scrub fields according to datatype
 	 *
 	 * @since 3.0.0
-	 * @since 3.19.2
+	 * @since 3.19.2 Unknown.
+	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
+	 *              Only strip tags from string values.
+	 *              Coerce `null` html input to an empty string.
 	 *
 	 * @param mixed  $val  Property value to scrub.
 	 * @param string $type Data type.
@@ -1199,8 +1202,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected function scrub_field( $val, $type ) {
 
-		if ( 'html' !== $type && 'array' !== $type ) {
-			$val = strip_tags( $val );
+		if ( is_string( $val ) && 'html' !== $type ) {
+			$val = wp_strip_all_tags( $val );
 		}
 
 		switch ( $type ) {
@@ -1227,7 +1230,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			case 'html':
 				$this->allowed_post_tags_set();
-				$val = wp_kses_post( $val );
+				$val = wp_kses_post( $val ?? '' );
 				$this->allowed_post_tags_unset();
 				break;
 
