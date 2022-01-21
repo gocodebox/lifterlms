@@ -8,7 +8,8 @@
  * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 5.4.0 Inform about deleted products.
- * @version [versionb]
+ * @since [version] Add new hooks.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -179,6 +180,17 @@ llms_print_notices();
 
 	<aside class="order-secondary">
 
+		<?php
+			/**
+			 * Action executed after opening the secondary order element.
+			 *
+			 * @since [version]
+			 *
+			 * @param LLMS_Order $order The current order object.
+			 */
+			do_action( 'llms_view_order_before_secondary', $order );
+		?>
+
 		<?php if ( $order->is_recurring() ) : ?>
 
 			<?php if ( isset( $_GET['confirm-switch'] ) || 'llms-active' === $order_status || $order->can_resubscribe() ) : ?>
@@ -221,6 +233,17 @@ llms_print_notices();
 			<?php endif; ?>
 
 		<?php endif; ?>
+
+		<?php
+			/**
+			 * Action executed before closing the secondary order element.
+			 *
+			 * @since [version]
+			 *
+			 * @param LLMS_Order $order The current order object.
+			 */
+			do_action( 'llms_view_order_after_secondary', $order );
+		?>
 
 	</aside>
 
