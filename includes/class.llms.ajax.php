@@ -183,7 +183,7 @@ class LLMS_AJAX {
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d",
+				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				array( $post_id )
 			),
 			ARRAY_A
