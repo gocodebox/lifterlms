@@ -686,10 +686,11 @@ class LLMS_Forms {
 	 *
 	 * This function converts the checkout form to hidden fields, the result is that users with all required fields
 	 * will be enrolled into the course with a single click (no need to head to the checkout page) and users
-	 * who are missing r equired information will be directed to the checkout page.
+	 * who are missing required information will be directed to the checkout page.
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
+	 * @since [version] Fix php 8.1 deprecation warnings when `get_form_fields()` returns `false`.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -700,6 +701,9 @@ class LLMS_Forms {
 		add_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
 		$fields = $this->get_form_fields( 'checkout', compact( 'plan' ) );
 		remove_filter( 'llms_forms_block_to_field_settings', array( $this, 'prepare_field_for_free_enroll_form' ), 999, 3 );
+
+		// If no fields are found, ensure we add to an array instead of casting false to an array (causing a PHP 8.1 deprecation warning).
+		$fields = ! is_array( $fields ) ? array() : $fields;
 
 		// Add additional fields required for form processing.
 		$fields[] = array(
