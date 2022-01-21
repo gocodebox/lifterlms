@@ -32,11 +32,16 @@ class LLMS_Template_Loader {
 	 */
 	public function __construct() {
 
+		// Template loading for FSE themes.
+		add_action(
+			'template_redirect',
+			function() {
+				add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 99, 3 );
+			}
+		);
+
 		// Do template loading.
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
-
-		// Template loading for FSE themes.
-		add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 99, 3 );
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
@@ -458,22 +463,10 @@ class LLMS_Template_Loader {
 		// Prevent template_loader to load a php template.
 		add_filter( 'llms_force_llms_template_loading', '__return_false' );
 
-		// Based on wp-includes/block-template-utils.php::_build_block_template_result_from_file.
-		$template_file['path'] = llms_template_file_path( $template_name, 'html', 'block-templates' );
-		$template_file['slug'] = $query['slug__in'][0];
-		$template_content      = file_get_contents( $template_file['path'] );
-		$theme                 = 'lifterlms';
-		$template              = new WP_Block_Template();
-		$template->id          = $theme . '//' . $template_file['slug'];
-		$template->theme       = $theme;
-		$template->content     = _inject_theme_attribute_in_block_template_content( $template_content );
-		$template->slug        = $template_file['slug'];
-		$template->source      = 'plugin';
-		$template->type        = $template_type;
-		$template->title       = ucwords( str_replace( '-', ' ', $template_name ) );
-		$template->status      = 'publish';
-
-		return array( $template );
+		return ( new LLMS_Block_Templates() )->add_llms_block_templates(
+			array(),
+			array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name ) )
+		);
 
 	}
 

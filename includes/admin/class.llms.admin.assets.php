@@ -263,13 +263,6 @@ class LLMS_Admin_Assets {
 				'post_type' => $post->post_type,
 			);
 
-		} elseif ( 'site-editor' === $screen->base && ! empty(  $_GET['postType'] ) && ! empty( $_GET['postId'] )  ) {
-
-			$postdata = array(
-				'id'        => $_GET['postId'],
-				'post_type' => $_GET['postType'],
-			);
-
 		}
 
 		echo '
@@ -279,7 +272,6 @@ class LLMS_Admin_Assets {
 				window.llms.admin_url = "' . admin_url() . '";
 				window.llms.post = ' . json_encode( $postdata ) . ';
 				window.llms.analytics = ' . json_encode( $this->get_analytics_options() ) . ';
-				window.llms.screen_base = "' . $screen->base . '";
 			</script>
 		';
 
