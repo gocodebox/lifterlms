@@ -17,10 +17,25 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Block_Templates {
 
+	/**
+	 * Directory name of the block templates
+	 *
+	 * @var string
+	 */
 	const LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME = 'block-templates';
 
-	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'lifterlms';
+	/**
+	 * Block Template namespace.
+	 *
+	 * This is used to save templates to the DB which are stored against this value in the wp_terms table.
+	 *
+	 * @var string
+	 */
+	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'lifterlms/lifterlms';
 
+	/**
+	 * Block Template slug prefix.
+	 */
 	const LLMS_BLOCK_TEMPLATES_PREFIX = 'llms_';
 
 	/**
@@ -125,11 +140,7 @@ class LLMS_Block_Templates {
 			return $template;
 		}
 
-		if ( is_array( $available_templates ) && count( $available_templates ) > 0 ) {
-			$template = $available_templates[0];
-			// When saving turn the "theme" lowercase.
-			$template->theme = 'LifterLMS' === $template->theme ? self::LLMS_BLOCK_TEMPLATES_NAMESPACE : $template->theme;
-		}
+		$template = ( is_array( $available_templates ) && count( $available_templates ) > 0 ) ? $available_templates[0] : $template;
 
 		return $template;
 
@@ -263,7 +274,7 @@ class LLMS_Block_Templates {
 		$template_content         = file_get_contents( $template_file );
 		$template                 = new \WP_Block_Template();
 		$template->id             = self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $template_slug;
-		$template->theme          = 'LifterLMS';
+		$template->theme          = self::LLMS_BLOCK_TEMPLATES_NAMESPACE;
 		$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
 		$template->source         = 'plugin'; // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
 		$template->slug           = $template_slug;
@@ -304,7 +315,7 @@ class LLMS_Block_Templates {
 		$template                 = new WP_Block_Template();
 		$template->wp_id          = $post->ID;
 		$template->id             = $theme . '//' . $post->post_name;
-		$template->theme          = self::LLMS_BLOCK_TEMPLATES_NAMESPACE === $theme ? 'LifterLMS' : $theme;
+		$template->theme          = $theme;
 		$template->content        = $post->post_content;
 		$template->slug           = $post->post_name;
 		$template->source         = 'custom';
