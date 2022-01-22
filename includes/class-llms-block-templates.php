@@ -32,7 +32,7 @@ class LLMS_Block_Templates {
 	 */
 	public function init() {
 
-		add_filter( 'get_block_templates', array( $this, 'llms_block_templates' ), 10, 3 );
+		add_filter( 'get_block_templates', array( $this, 'add_llms_block_templates' ), 10, 3 );
 		add_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
 
 	}
@@ -369,7 +369,7 @@ class LLMS_Block_Templates {
 	 * @param array               $template_type wp_template or wp_template_part.
 	 * @return WP_Block_Template[] Templates.
 	 */
-	public function llms_block_templates( $query_result, $query, $template_type = 'wp_template' ) {
+	public function add_llms_block_templates( $query_result, $query, $template_type = 'wp_template' ) {
 
 		// Bail it's not a block theme, or is being retrieved a non wp_template type requested.
 		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
