@@ -58,6 +58,7 @@ class LLMS_Block_Templates {
 
 		add_filter( 'get_block_templates', array( $this, 'add_llms_block_templates' ), 10, 3 );
 		add_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
+		add_filter( 'lifterlms_js_l10n_admin', array( $this, 'add_block_templates_admin_strings_js' ) );
 
 	}
 
@@ -497,16 +498,16 @@ class LLMS_Block_Templates {
 	private function template_titles() {
 
 		$template_titles = $this->template_titles ?? array(
-			'archive-course'             => __( 'Course Catalog', 'lifterlms' ),
-			'archive-llms_membership'    => __( 'Membership Catalog', 'lifterlms' ),
-			'single-certificate'         => __( 'Single Certificate', 'lifterlms' ),
-			'single-no-access'           => __( 'Single Requires Membership', 'lifterlms' ),
-			'taxonomy-course_cat'        => __( 'Taxonomy Course Category', 'lifterlms' ),
-			'taxonomy-course_difficulty' => __( 'Taxonomy Course Difficulty', 'lifterlms' ),
-			'taxonomy-course_tag'        => __( 'Taxonomy Course Tag', 'lifterlms' ),
-			'taxonomy-course_track'      => __( 'Taxonomy Course Track', 'lifterlms' ),
-			'taxonomy-memberhsip_cat'    => __( 'Taxonomy Membership Category', 'lifterlms' ),
-			'taxonomy-memberhsip_tag'    => __( 'Taxonomy Membership Tag', 'lifterlms' ),
+			'archive-course'             => esc_html__( 'Course Catalog', 'lifterlms' ),
+			'archive-llms_membership'    => esc_html__( 'Membership Catalog', 'lifterlms' ),
+			'single-certificate'         => esc_html__( 'Single Certificate', 'lifterlms' ),
+			'single-no-access'           => esc_html__( 'Single Requiring Membership', 'lifterlms' ),
+			'taxonomy-course_cat'        => esc_html__( 'Taxonomy Course Category', 'lifterlms' ),
+			'taxonomy-course_difficulty' => esc_html__( 'Taxonomy Course Difficulty', 'lifterlms' ),
+			'taxonomy-course_tag'        => esc_html__( 'Taxonomy Course Tag', 'lifterlms' ),
+			'taxonomy-course_track'      => esc_html__( 'Taxonomy Course Track', 'lifterlms' ),
+			'taxonomy-memberhsip_cat'    => esc_html__( 'Taxonomy Membership Category', 'lifterlms' ),
+			'taxonomy-memberhsip_tag'    => esc_html__( 'Taxonomy Membership Tag', 'lifterlms' ),
 		);
 
 		$this->template_titles = $this->template_titles ?? $template_titles;
@@ -523,7 +524,35 @@ class LLMS_Block_Templates {
 		 *     @type string $title The template readable titles.
 		 * }
 		 */
-		return apply_filters( 'llms_block_templates_titles', $this->template_titles );
+		return apply_filters( 'lifterlms_block_templates_titles', $this->template_titles );
+
+	}
+
+	/**
+	 * Block Templates admin js strings.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $strings Localization admin strings.
+	 * @return string[]
+	 */
+	public function add_block_templates_admin_strings_js( $strings ) {
+
+		return array_merge(
+			$strings,
+			array(
+				'LifterLMS Course Catalog Template'               => esc_html__( 'LifterLMS Course Catalog Template', 'lifterlms' ),
+				'LifterLMS Membership Catalog Template'           => esc_html__( 'LifterLMS Membership Catalog Template', 'lifterlms' ),
+				'LifterLMS Single Template requiring Membership'  => esc_html__( 'LifterLMS Single Template requiring Membership', 'lifterlms' ),
+				'LifterLMS Certificate Template'                  => esc_html__( 'LifterLMS Certificate Template', 'lifterlms' ),
+				'LifterLMS Course Category Taxonomy Template'     => esc_html__( 'LifterLMS Course Category Taxonomy Template', 'lifterlms' ),
+				'LifterLMS Course Difficulty Taxonomy Template'   => esc_html__( 'LifterLMS Course Difficulty Taxonomy Template', 'lifterlms' ),
+				'LifterLMS Course Tag Taxonomy Template'          => esc_html__( 'LifterLMS Course Tag Taxonomy Template', 'lifterlms' ),
+				'LifterLMS Course Track Taxonomy Template'        => esc_html__( 'LifterLMS Course Track Taxonomy Template', 'lifterlms' ),
+				'LifterLMS Membership Category Taxonomy Template' => esc_html__( 'LifterLMS Membership Category Taxonomy Template', 'lifterlms' ),
+				'LifterLMS Membership Tag Taxonomy Template'      => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
+			)
+		);
 
 	}
 
