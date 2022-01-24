@@ -11,11 +11,11 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Twenty_Twenty_One class.
+ * LLMS_Twenty_Twenty_Two class.
  *
  * @since [version]
  */
-class LLMS_Twenty_Twenty_One {
+class LLMS_Twenty_Twenty_Two {
 
 	/**
 	 * Static "constructor"
@@ -53,7 +53,7 @@ class LLMS_Twenty_Twenty_One {
 	 * @return void
 	 */
 	public static function add_inline_editor_styles() {
-		wp_add_inline_style( 'twenty-twenty-one-custom-color-overrides', self::generate_inline_styles( 'editor' ) );
+		wp_add_inline_style( 'llms-blocks-editor', self::generate_inline_styles( 'editor' ) );
 	}
 
 	/**
@@ -90,9 +90,6 @@ class LLMS_Twenty_Twenty_One {
 			// Fix form input padding.
 			$styles[] = '.llms-form-field input, .llms-form-field textarea, .llms-form-field select { padding: 6px 10px }';
 
-			// Fix lesson preview titles:
-			$styles[] = '.llms-lesson-preview h6 { margin: 0 0 10px; }';
-
 			// Question layout.
 			$styles[] = '.llms-question-wrapper ol.llms-question-choices li.llms-choice .llms-choice-text { width: calc( 100% - 110px); }';
 
@@ -116,8 +113,30 @@ class LLMS_Twenty_Twenty_One {
 			);
 		}
 
+		// Editor only.
+		if ( 'editor' === $context ) {
+
+			// Elements with a light background that become unreadable in darkmode in the block editor.
+			$styles[] = LLMS_Theme_Support::get_css(
+				array(
+					'.wp-block-llms-course-progress .progress-bar .progress--fill',
+					'.wp-block[data-type="llms/course-continue-button"] button',
+					'.wp-block[data-type="llms/lesson-progression"] button',
+				),
+				array(
+					'background-color' => 'var(--wp--preset--color--primary)',
+					'color'            => 'var(--wp--preset--color--background)',
+				),
+				$selector_prefix
+			);
+
+		}
+
+		// Fix lesson preview titles:
+		$styles[] = '.llms-lesson-preview h6 { margin: 0 0 10px; }';
+
 		// Primary background color.
-		$styles[] = $styles[] = LLMS_Theme_Support::get_css(
+		$styles[] = LLMS_Theme_Support::get_css(
 			LLMS_Theme_Support::get_selectors_primary_color_background(),
 			array(
 				'background-color' => 'var(--wp--preset--color--primary)',
@@ -144,10 +163,10 @@ class LLMS_Twenty_Twenty_One {
 	}
 
 	/**
-	 * Handle wrapping the catalog page header in 2021 theme elements.
+	 * Handle wrapping the catalog page header in 2022 theme elements.
 	 *
 	 * This method determines if the catalog title are to be displayed and adds additional actions
-	 * which will wrap the elements in 2021 theme elements depending on what is meant to be displayed.
+	 * which will wrap the elements in 2022 theme elements depending on what is meant to be displayed.
 	 *
 	 * @since [version]
 	 *
@@ -183,7 +202,7 @@ class LLMS_Twenty_Twenty_One {
 	}
 
 	/**
-	 * Output the catalog archive description 2021 theme wrapper opener
+	 * Output the catalog archive description 2022 theme wrapper opener
 	 *
 	 * @since [version]
 	 *
@@ -194,7 +213,7 @@ class LLMS_Twenty_Twenty_One {
 	}
 
 	/**
-	 * Output the catalog archive description 2021 theme wrapper closer
+	 * Output the catalog archive description 2022 theme wrapper closer
 	 *
 	 * @since [version]
 	 *
@@ -205,7 +224,7 @@ class LLMS_Twenty_Twenty_One {
 	}
 
 	/**
-	 * Output the catalog page header 2021 theme wrapper opener
+	 * Output the catalog page header 2022 theme wrapper opener
 	 *
 	 * @since [version]
 	 *
@@ -216,7 +235,7 @@ class LLMS_Twenty_Twenty_One {
 	}
 
 	/**
-	 * Output the catalog page header 2021 theme wrapper closer
+	 * Output the catalog page header 2022 theme wrapper closer
 	 *
 	 * @since [version]
 	 *
@@ -228,4 +247,4 @@ class LLMS_Twenty_Twenty_One {
 
 }
 
-return LLMS_Twenty_Twenty_One::init();
+return LLMS_Twenty_Twenty_Two::init();
