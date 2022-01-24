@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles the block templates.
+ * Handles the block templates
  *
  * @package LifterLMS/Classes
  *
@@ -35,8 +35,17 @@ class LLMS_Block_Templates {
 
 	/**
 	 * Block Template slug prefix.
+	 *
+	 * @var string
 	 */
 	const LLMS_BLOCK_TEMPLATES_PREFIX = 'llms_';
+
+	/**
+	 * Template titles in a human readable form.
+	 *
+	 * @var array
+	 */
+	private $template_titles;
 
 	/**
 	 * Init.
@@ -79,7 +88,7 @@ class LLMS_Block_Templates {
 			return $template;
 		}
 
-		list( $theme, $slug ) = $template_name_parts;
+		list( , $slug ) = $template_name_parts;
 
 		// Remove the filter at this point because if we don't then this function will infinite loop.
 		remove_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
@@ -113,8 +122,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Runs on the get_block_template hook.
 	 *
-	 * If a template is already found and passed to this function, then return it
-	 * and don't run.
+	 * If a template is already found and passed to this function, then return it and don't run.
 	 * If a template is *not* passed, try to look for one that matches the ID in the database, if that's not found defer
 	 * to Blocks templates files. Priority goes: DB-Theme, DB-Blocks, Filesystem-Theme, Filesystem-Blocks.
 	 *
@@ -139,14 +147,16 @@ class LLMS_Block_Templates {
 		}
 		list( , $slug ) = $template_name_parts;
 
+		// Get available llms templates from the filesystem.
 		$available_templates = $this->block_templates( array( $slug ), '', true );
 
 		// If this blocks template doesn't exist then we should just skip the function and let Gutenberg handle it.
-		if ( ! in_array( $slug, array_column( $available_templates, 'slug' ), true ) ) {
+		if ( ! in_array( $slug, wp_list_pluck( $available_templates, 'slug' ), true ) ) {
 			return $template;
 		}
 
-		$template = ( is_array( $available_templates ) && count( $available_templates ) > 0 ) ? $available_templates[0] : $template;
+		$template = ( is_array( $available_templates ) && count( $available_templates ) > 0 ) ?
+			$available_templates[0] : $template;
 
 		return $template;
 
@@ -164,9 +174,12 @@ class LLMS_Block_Templates {
 	 */
 	private function block_templates( $slugs = array(), $post_type = '', $fs_only = false ) {
 
+		// Get paths where to look for block templates.
 		$block_templates_paths = $this->block_templates_paths();
 
+		// Get all the slugs.
 		$template_slugs = array_map( array( $this, 'generate_template_slug_from_path' ), $block_templates_paths );
+		// If specific slugs are required, filter them only.
 		$template_slugs = empty( $slugs ) ? $template_slugs : array_intersect( $slugs, $template_slugs );
 
 		if ( empty( $template_slugs ) ) {
@@ -310,10 +323,11 @@ class LLMS_Block_Templates {
 	 */
 	private function build_template_result_from_file( $template_file, $template_slug = '' ) {
 
-		$template_slug      = $this->generate_template_slug_from_path( $template_file );
+		$template_slug      = empty( $template_slug ) ? $this->generate_template_slug_from_path( $template_file ) : $template_slug;
 		$template_file_name = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
 		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name, 'html' ); // Can be overridden.
 
+		// Is the template from the theme/child-theme.
 		$theme = false !== strpos( $template_file, get_template_directory() ) ? get_template() : get_stylesheet();
 		$theme = false !== strpos( $template_file, get_stylesheet_directory() ) ? $theme : false;
 
@@ -356,8 +370,7 @@ class LLMS_Block_Templates {
 			return new \WP_Error( 'template_missing_theme', __( 'No theme is defined for this template.', 'lifterlms' ) );
 		}
 
-		$theme          = $terms[0]->name;
-		$has_theme_file = true;
+		$theme = $terms[0]->name;
 
 		$template                 = new WP_Block_Template();
 		$template->wp_id          = $post->ID;
@@ -411,17 +424,18 @@ class LLMS_Block_Templates {
 	 * @param string $template_slug The templates slug (e.g. single-product).
 	 * @return string Human friendly title converted from the slug.
 	 */
-	public static function convert_slug_to_title( $template_slug ) {
-		switch ( $template_slug ) {
-			default:
-				// Replace all hyphens and underscores with spaces.
-				return ucwords(
-					substr(
-						preg_replace( '/[\-_]/', ' ', $template_slug ),
-						strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX )
-					)
-				);
-		}
+	private function convert_slug_to_title( $template_slug ) {
+
+		$template_titles = $this->template_titles();
+
+		$unprefixed_template_slug = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
+
+		return array_key_exists( $unprefixed_template_slug, $template_titles ) ?
+			$template_titles[ $unprefixed_template_slug ]
+			:
+			// Replace all hyphens and underscores with spaces.
+			ucwords( preg_replace( '/[\-_]/', ' ', $unprefixed_template_slug ) );
+
 	}
 
 	/**
@@ -452,7 +466,10 @@ class LLMS_Block_Templates {
 		// Retrieve templates.
 		$templates = $this->block_templates( $slugs, $post_type );
 
-		// Remove theme override templates who have a customization in the db from $query_result.
+		/**
+		 * Remove theme override templates who have a customization in the db from $query_result:
+		 * those template blocks will be already retrieved by our LLMS_Block_Templates::block_templates_from_db().
+		 */
 		$query_result = array_values(
 			array_filter(
 				$query_result,
@@ -467,6 +484,48 @@ class LLMS_Block_Templates {
 
 	}
 
+	/**
+	 * Returns an associative array of template titles.
+	 *
+	 * Keys are unprefixed template slugs.
+	 * Values are template titles in a human readable form.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function template_titles() {
+
+		$template_titles = $this->template_titles ?? array(
+			'archive-course'             => __( 'Course Catalog', 'lifterlms' ),
+			'archive-llms_membership'    => __( 'Membership Catalog', 'lifterlms' ),
+			'single-certificate'         => __( 'Single Certificate', 'lifterlms' ),
+			'single-no-access'           => __( 'Single Requires Membership', 'lifterlms' ),
+			'taxonomy-course_cat'        => __( 'Taxonomy Course Category', 'lifterlms' ),
+			'taxonomy-course_difficulty' => __( 'Taxonomy Course Difficulty', 'lifterlms' ),
+			'taxonomy-course_tag'        => __( 'Taxonomy Course Tag', 'lifterlms' ),
+			'taxonomy-course_track'      => __( 'Taxonomy Course Track', 'lifterlms' ),
+			'taxonomy-memberhsip_cat'    => __( 'Taxonomy Membership Category', 'lifterlms' ),
+			'taxonomy-memberhsip_tag'    => __( 'Taxonomy Membership Tag', 'lifterlms' ),
+		);
+
+		$this->template_titles = $this->template_titles ?? $template_titles;
+
+		/**
+		 * Filters the block template titles.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $template_titles  {
+		 *     Associative array of template titles.
+		 *
+		 *     @type string $slug  The template slug (unprefixed).
+		 *     @type string $title The template readable titles.
+		 * }
+		 */
+		return apply_filters( 'llms_block_templates_titles', $this->template_titles );
+
+	}
 
 }
 
