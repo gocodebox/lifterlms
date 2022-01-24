@@ -172,7 +172,7 @@ class LLMS_Block_Templates {
 			$this->block_templates_from_fs( $block_templates_paths, $template_slugs )
 			:
 			array_merge(
-				$this->block_templates_from_db( $template_slugs, $template_slugs ),
+				$this->block_templates_from_db( $template_slugs ),
 				$this->block_templates_from_fs( $block_templates_paths, $template_slugs )
 			);
 
@@ -227,10 +227,11 @@ class LLMS_Block_Templates {
 				array(
 					'taxonomy' => 'wp_theme',
 					'field'    => 'name',
-					'terms'    => array( self::LLMS_BLOCK_TEMPLATES_NAMESPACE ),
+					'terms'    => array( get_stylesheet(), get_template(), self::LLMS_BLOCK_TEMPLATES_NAMESPACE ),
 				),
 			),
 		);
+
 		if ( is_array( $slugs ) && count( $slugs ) > 0 ) {
 			$query_args['post_name__in'] = $slugs;
 		}
@@ -270,19 +271,25 @@ class LLMS_Block_Templates {
 
 	private function build_template_result_from_file( $template_file, $template_slug ) {
 
+		$template_file_name = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
+		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name, 'html' ); // Can be overridden.
+
+		$theme = false !== strpos( $template_file, get_template_directory() ) ? get_template() : get_stylesheet();
+		$theme = false !== strpos( $template_file, get_stylesheet_directory() ) ? $theme : false;
+
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$template_content         = file_get_contents( $template_file );
 		$template                 = new \WP_Block_Template();
-		$template->id             = self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $template_slug;
-		$template->theme          = self::LLMS_BLOCK_TEMPLATES_NAMESPACE;
+		$template->id             = $theme ? $theme . '//' . $template_slug : self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $template_slug;
+		$template->theme          = $theme ? $theme : self::LLMS_BLOCK_TEMPLATES_NAMESPACE;
 		$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
-		$template->source         = 'plugin'; // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
+		$template->source         = $theme ? 'theme' : 'plugin'; // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
 		$template->slug           = $template_slug;
 		$template->type           = 'wp_template';
 		$template->title          = $this->convert_slug_to_title( $template_slug );
 		$template->status         = 'publish';
 		$template->has_theme_file = true;
-		$template->origin         = 'plugin';
+		$template->origin         = $theme ? 'theme' : 'plugin';
 		$template->is_custom      = false; // Templates loaded from the filesystem aren't custom, ones that have been edited and loaded from the DB are.
 		$template->post_types     = array(); // Don't appear in any Edit Post template selector dropdown.
 
@@ -323,9 +330,13 @@ class LLMS_Block_Templates {
 		$template->description    = $post->post_excerpt;
 		$template->title          = $post->post_title;
 		$template->status         = $post->post_status;
-		$template->has_theme_file = $has_theme_file;
+		$template->has_theme_file = true;
 		$template->is_custom      = false;
 		$template->post_types     = array(); // Don't appear in any Edit Post template selector dropdown.
+
+		if ( self::LLMS_BLOCK_TEMPLATES_NAMESPACE === $theme ) {
+			$template->origin = 'plugin';
+		}
 
 		return $template;
 
@@ -392,6 +403,17 @@ class LLMS_Block_Templates {
 
 		// Retrieve templates.
 		$templates = $this->block_templates( $slugs, $post_type );
+
+		// Remove themeve override templates who have a customization in the db from $query_result.
+		$query_result = array_values(
+			array_filter(
+				$query_result,
+				function( $template ) use ( $templates ) {
+					$slugs = wp_list_pluck( $templates, 'slug' );
+					return ( ! in_array( $template->slug, $slugs, true ) );
+				}
+			)
+		);
 
 		return array_merge( $query_result, $templates );
 
