@@ -53,21 +53,24 @@ class LLMS_Block_Templates {
 	}
 
 	/**
-	 * This function checks if there's a blocks template (ultimately it resolves either a saved blocks template from the
-	 * database or a template file in `woo-gutenberg-products-block/templates/block-templates/`)
-	 * to return to pre_get_posts short-circuiting the query in Gutenberg.
+	 * This function checks if there's a blocks template to return to pre_get_posts short-circuiting the query in Gutenberg.
 	 *
-	 * @param \WP_Block_Template|null $template Return a block template object to short-circuit the default query,
+	 * Ultimately it resolves either a saved blocks template from the
+	 * database or a template file in `lifterlms/templates/block-templates/`.
+	 * Without this it won't be possible to save llms templates customizations in the DB.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Block_Template|null $template      Return a block template object to short-circuit the default query,
 	 *                                               or null to allow WP to run its normal queries.
-	 * @param string                  $id Template unique identifier (example: theme_slug//template_slug).
-	 * @param array                   $template_type wp_template or wp_template_part.
-	 *
-	 * @return mixed|\WP_Block_Template|\WP_Error
+	 * @param string                 $id            Template unique identifier (example: theme_slug//template_slug).
+	 * @param array                  $template_type wp_template or wp_template_part.
+	 * @return mixed|WP_Block_Template|WP_Error
 	 */
 	public function maybe_return_blocks_template( $template, $id, $template_type ) {
 
-		// 'get_block_template' was introduced in WP 5.9.
-		if ( ! function_exists( 'get_block_template' ) ) {
+		// Bail if 'get_block_template' (introduced in WP 5.9.) doesn't exist, or the requested template is not a 'wp_template' type.
+		if ( ! function_exists( 'get_block_template' ) || 'wp_template' !== $template_type ) {
 			return $template;
 		}
 
@@ -81,8 +84,7 @@ class LLMS_Block_Templates {
 		// Remove the filter at this point because if we don't then this function will infinite loop.
 		remove_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
 
-		// Check if the theme has a saved version of this template before falling back to the llms one. Please note how
-		// the slug has not been modified at this point, we're still using the default one passed to this hook.
+		// Check if the theme has a saved version of this template before falling back to the llms one.
 		$maybe_template = get_block_template( $id, $template_type );
 
 		if ( null !== $maybe_template ) {
@@ -93,7 +95,7 @@ class LLMS_Block_Templates {
 		// Theme-based template didn't exist, try switching the theme to lifterlms and try again. This function has
 		// been unhooked so won't run again.
 		add_filter( 'get_block_file_template', array( $this, 'get_single_block_template' ), 10, 3 );
-		$maybe_template = get_block_template( self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $slug, $template_type );
+		$maybe_template = get_block_template( $id, $template_type );
 
 		// Re-hook this function, it was only unhooked to stop recursion.
 		add_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
@@ -109,20 +111,24 @@ class LLMS_Block_Templates {
 
 
 	/**
-	 * Runs on the get_block_template hook. If a template is already found and passed to this function, then return it
+	 * Runs on the get_block_template hook.
+	 *
+	 * If a template is already found and passed to this function, then return it
 	 * and don't run.
 	 * If a template is *not* passed, try to look for one that matches the ID in the database, if that's not found defer
 	 * to Blocks templates files. Priority goes: DB-Theme, DB-Blocks, Filesystem-Theme, Filesystem-Blocks.
 	 *
-	 * @param \WP_Block_Template $template      The found block template.
-	 * @param string             $id            Template unique identifier (example: theme_slug//template_slug).
-	 * @param array              $template_type wp_template or wp_template_part.
+	 * @since [version]
+	 *
+	 * @param WP_Block_Template $template      The found block template.
+	 * @param string            $id            Template unique identifier (example: theme_slug//template_slug).
+	 * @param array             $template_type wp_template or wp_template_part.
 	 *
 	 * @return mixed|null
 	 */
 	public function get_single_block_template( $template, $id, $template_type ) {
 
-		// The template was already found before the filter runs, just return it immediately.
+		// The template was already found before the filter runs, or the requested template is not a 'wp_template' type, just return it immediately.
 		if ( null !== $template || 'wp_template' !== $template_type ) {
 			return $template;
 		}
@@ -192,6 +198,15 @@ class LLMS_Block_Templates {
 
 	}
 
+	/**
+	 * Get block templates from the file system.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $block_templates_paths Array of block templates paths to look for templates.
+	 * @param string[] $slugs                 Arrray of template slugs to be retrieved.
+	 * @return void
+	 */
 	private function block_templates_from_fs( $block_templates_paths, $slugs = array() ) {
 
 		$templates = array();
@@ -247,10 +262,24 @@ class LLMS_Block_Templates {
 
 	}
 
+	/**
+	 * Retrieve the block templates directory paths.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
 	private function block_templates_paths() {
 
 		$block_template_paths = array();
 
+		/**
+		 * Filter the block templates directories.
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] Array of directory paths.
+		 */
 		$block_templates_base_paths = apply_filters(
 			'lifterlms_block_templates_directories',
 			array(
@@ -269,8 +298,19 @@ class LLMS_Block_Templates {
 
 	}
 
-	private function build_template_result_from_file( $template_file, $template_slug ) {
+	/**
+	 * Build a wp template from file.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $template_file Template file path.
+	 * @param string $template_slug Template slug.
+	 *
+	 * @return WP_Block_Template
+	 */
+	private function build_template_result_from_file( $template_file, $template_slug = '' ) {
 
+		$template_slug      = $this->generate_template_slug_from_path( $template_file );
 		$template_file_name = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
 		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name, 'html' ); // Can be overridden.
 
@@ -279,7 +319,7 @@ class LLMS_Block_Templates {
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$template_content         = file_get_contents( $template_file );
-		$template                 = new \WP_Block_Template();
+		$template                 = new WP_Block_Template();
 		$template->id             = $theme ? $theme . '//' . $template_slug : self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $template_slug;
 		$template->theme          = $theme ? $theme : self::LLMS_BLOCK_TEMPLATES_NAMESPACE;
 		$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
@@ -334,7 +374,11 @@ class LLMS_Block_Templates {
 		$template->is_custom      = false;
 		$template->post_types     = array(); // Don't appear in any Edit Post template selector dropdown.
 
-		if ( self::LLMS_BLOCK_TEMPLATES_NAMESPACE === $theme ) {
+		/**
+		 * Set the 'plugin' origin
+		 * if it doesn't come from from the current theme (or its parent).
+		 */
+		if ( ! in_array( $theme, array( get_template(), get_stylesheet() ), true ) ) {
 			$template->origin = 'plugin';
 		}
 
@@ -344,6 +388,8 @@ class LLMS_Block_Templates {
 
 	/**
 	 * Converts template paths into a slug.
+	 *
+	 * @since [version]
 	 *
 	 * @param string $path           The template's path.
 	 * @param string $directory_name The template's directory name.
@@ -359,6 +405,8 @@ class LLMS_Block_Templates {
 
 	/**
 	 * Converts template slugs into readable titles.
+	 *
+	 * @since [version]
 	 *
 	 * @param string $template_slug The templates slug (e.g. single-product).
 	 * @return string Human friendly title converted from the slug.
@@ -404,7 +452,7 @@ class LLMS_Block_Templates {
 		// Retrieve templates.
 		$templates = $this->block_templates( $slugs, $post_type );
 
-		// Remove themeve override templates who have a customization in the db from $query_result.
+		// Remove theme override templates who have a customization in the db from $query_result.
 		$query_result = array_values(
 			array_filter(
 				$query_result,
