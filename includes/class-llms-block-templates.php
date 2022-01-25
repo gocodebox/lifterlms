@@ -1,6 +1,6 @@
 <?php
 /**
- * LLMS_Block_Templates class file.
+ * LLMS_Block_Templates class file
  *
  * @package LifterLMS/Classes
  *
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Block_Templates {
 
 	/**
-	 * Directory name of the block templates
+	 * Directory name of the block templates.
 	 *
 	 * @var string
 	 */
@@ -501,7 +501,7 @@ class LLMS_Block_Templates {
 			'archive-course'             => esc_html__( 'Course Catalog', 'lifterlms' ),
 			'archive-llms_membership'    => esc_html__( 'Membership Catalog', 'lifterlms' ),
 			'single-certificate'         => esc_html__( 'Single Certificate', 'lifterlms' ),
-			'single-no-access'           => esc_html__( 'Single Requiring Membership', 'lifterlms' ),
+			'single-no-access'           => esc_html__( 'Single Access Restricted', 'lifterlms' ),
 			'taxonomy-course_cat'        => esc_html__( 'Taxonomy Course Category', 'lifterlms' ),
 			'taxonomy-course_difficulty' => esc_html__( 'Taxonomy Course Difficulty', 'lifterlms' ),
 			'taxonomy-course_tag'        => esc_html__( 'Taxonomy Course Tag', 'lifterlms' ),
@@ -543,7 +543,7 @@ class LLMS_Block_Templates {
 			array(
 				'LifterLMS Course Catalog Template'               => esc_html__( 'LifterLMS Course Catalog Template', 'lifterlms' ),
 				'LifterLMS Membership Catalog Template'           => esc_html__( 'LifterLMS Membership Catalog Template', 'lifterlms' ),
-				'LifterLMS Single Template requiring Membership'  => esc_html__( 'LifterLMS Single Template requiring Membership', 'lifterlms' ),
+				'LifterLMS Single Template Access Restricted'     => esc_html__( 'LifterLMS Single Template Access Restricted', 'lifterlms' ),
 				'LifterLMS Certificate Template'                  => esc_html__( 'LifterLMS Certificate Template', 'lifterlms' ),
 				'LifterLMS Course Category Taxonomy Template'     => esc_html__( 'LifterLMS Course Category Taxonomy Template', 'lifterlms' ),
 				'LifterLMS Course Difficulty Taxonomy Template'   => esc_html__( 'LifterLMS Course Difficulty Taxonomy Template', 'lifterlms' ),
