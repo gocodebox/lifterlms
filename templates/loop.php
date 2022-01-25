@@ -4,37 +4,18 @@
  *
  * Utilized by both courses and memberships.
  *
- * @package     LifterLMS/Templates
+ * @package LifterLMS/Templates
  *
- * @since       1.0.0
- * @version     3.14.0
+ * @since 1.0.0
+ * @since [version] Moved the main part in loop-main.php.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
 <?php get_header( 'llms_loop' ); ?>
 
-<?php do_action( 'lifterlms_before_main_content' ); ?>
-
-<?php if ( apply_filters( 'lifterlms_show_page_title', true ) ) : ?>
-
-	<h1 class="page-title"><?php lifterlms_page_title(); ?></h1>
-
-<?php endif; ?>
-
-<?php do_action( 'lifterlms_archive_description' ); ?>
+<?php llms_get_template_part( 'loop', 'main' ); ?>
 
 <?php
-	/**
-	 * Hook: lifterlms_loop
-	 *
-	 * @hooked lifterlms_loop - 10
-	 */
-	do_action( 'lifterlms_loop' );
-?>
-
-<?php do_action( 'lifterlms_after_main_content' ); ?>
-
-<?php do_action( 'lifterlms_sidebar' ); ?>
-
-<?php get_footer(); ?>
+get_footer();
