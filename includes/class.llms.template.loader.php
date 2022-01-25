@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Template_Loader {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 * @since 3.20.0 Unknown.
@@ -33,12 +33,7 @@ class LLMS_Template_Loader {
 	public function __construct() {
 
 		// Template loading for FSE themes.
-		add_action(
-			'template_redirect',
-			function() {
-				add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 99, 3 );
-			}
-		);
+		add_action( 'template_redirect', array( $this, 'hook_block_template_loader' ) );
 
 		// Do template loading.
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
@@ -427,6 +422,17 @@ class LLMS_Template_Loader {
 	}
 
 	/**
+	 * Hooks the callback to load FSE block templates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function hook_block_template_loader() {
+		add_filter( 'pre_get_block_templates', array( $this, 'block_template_loader' ), 99, 3 );
+	}
+
+	/**
 	 * Filter blocks templates.
 	 *
 	 * @since [version]
@@ -448,7 +454,7 @@ class LLMS_Template_Loader {
 			return $result;
 		}
 
-		$template_name = $this->get_maybe_forced_llms_template();
+		$template_name = $this->get_maybe_forced_template();
 
 		/**
 		 * Since LifterLMS 6.0.0 certificates have their own PHP template that do no depend on the theme.
@@ -461,7 +467,7 @@ class LLMS_Template_Loader {
 		}
 
 		// Prevent template_loader to load a php template.
-		add_filter( 'llms_force_llms_template_loading', '__return_false' );
+		add_filter( 'llms_force_php_template_loading', '__return_false' );
 
 		return ( new LLMS_Block_Templates() )->add_llms_block_templates(
 			array(),
@@ -522,8 +528,15 @@ class LLMS_Template_Loader {
 			}
 		}
 
-		$forced_template = apply_filters( 'llms_force_template_loading', true ) ? $this->get_maybe_forced_llms_template() : false;
-		return $forced_template ? llms_template_file_path( $forced_template ) : $template;
+		/**
+		 * Filters whether or not forcing a LifterLMS php template to be loaded.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $force Whether or not forcing a LifterLMS php template to be loaded.
+		 */
+		$forced_template = apply_filters( 'llms_force_php_template_loading', true ) ? $this->get_maybe_forced_template() : false;
+		return $forced_template ? llms_template_file_path( "{$forced_template}.php" ) : $template;
 
 	}
 

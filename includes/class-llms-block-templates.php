@@ -326,7 +326,7 @@ class LLMS_Block_Templates {
 
 		$template_slug      = empty( $template_slug ) ? $this->generate_template_slug_from_path( $template_file ) : $template_slug;
 		$template_file_name = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
-		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name, 'html' ); // Can be overridden.
+		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name . '.html' ); // Can be overridden.
 
 		// Is the template from the theme/child-theme.
 		$theme = false !== strpos( $template_file, get_template_directory() ) ? get_template() : get_stylesheet();
