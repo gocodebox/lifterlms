@@ -655,7 +655,7 @@ class LLMS_Block_Templates {
 	public function localize_blocks() {
 		wp_localize_script(
 			'llms-blocks-editor',
-			'LLMS_Block_Templates_l10n',
+			'llmsBlockTemplatesL10n',
 			array_merge( ...array_column( $this->block_templates_config, 'admin_blocks_l10n' ) )
 		);
 	}
