@@ -470,7 +470,7 @@ class LLMS_Template_Loader {
 		 * @param string $template_slug The template slug to be loaded forced.
 		 * @param string $template      The template name to be loaded forced.
 		 */
-		$template_slug = apply_filters( 'llms_forced_block_template_slug', $template_name ? LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name : '',  $template_name );
+		$template_slug = apply_filters( 'llms_forced_block_template_slug', $template_name ? LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name : '', $template_name );
 
 		if ( empty( $template_slug ) ) {
 			return $result;
@@ -478,7 +478,7 @@ class LLMS_Template_Loader {
 
 		// Prevent template_loader to load a php template.
 		add_filter( 'llms_force_php_template_loading', '__return_false' );
-;
+
 		return llms()->block_templates()->add_llms_block_templates(
 			array(),
 			array( 'slug__in' => array( $template_slug ) )
