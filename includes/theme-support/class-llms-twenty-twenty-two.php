@@ -1,6 +1,6 @@
 <?php
 /**
- * Theme Support: Twenty Twenty-Two
+ * LLMS_Twenty_Twenty_Two class file
  *
  * @package LifterLMS/ThemeSupport/Classes
  *
@@ -11,14 +11,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Twenty_Twenty_Two class.
+ * Theme Support: Twenty Twenty-Two.
  *
  * @since [version]
  */
 class LLMS_Twenty_Twenty_Two {
 
 	/**
-	 * Static "constructor"
+	 * Static "constructor".
 	 *
 	 * @since [version]
 	 *
@@ -101,7 +101,7 @@ class LLMS_Twenty_Twenty_Two {
 					'background-image' => 'radial-gradient(ellipse at center,var(--wp--preset--color--primary) 0,var(--wp--preset--color--primary) 40%,#fafafa 45%)',
 				)
 			);
-			// Completed lesson check
+			// Completed lesson check.
 			$styles[] = LLMS_Theme_Support::get_css(
 				array(
 					'.llms-lesson-preview.is-free .llms-lesson-complete',
@@ -109,7 +109,7 @@ class LLMS_Twenty_Twenty_Two {
 				),
 				array(
 					'color' => 'var(--wp--preset--color--primary)',
-				),
+				)
 			);
 		}
 
@@ -132,7 +132,7 @@ class LLMS_Twenty_Twenty_Two {
 
 		}
 
-		// Fix lesson preview titles:
+		// Fix lesson preview titles.
 		$styles[] = '.llms-lesson-preview h6 { margin: 0 0 10px; }';
 
 		// Primary background color.
@@ -156,7 +156,6 @@ class LLMS_Twenty_Twenty_Two {
 
 		// Fix anchor buttons.
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
-
 
 		return implode( "\r", $styles );
 
