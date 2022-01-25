@@ -259,15 +259,17 @@ function llms_get_template_override_directories() {
  *
  * @since [version]
  *
- * @param string $template           Template file name, without extension.
- * @param string $template_directory Template directory relative to the plugin base directory.
+ * @param string $template                    Template file name, without extension.
+ * @param string $template_directory          Template directory relative to the plugin base directory.
+ * @param bool   $template_directory_absolute Whether the template directory is absolute or not.
  * @return string
  */
-function llms_template_file_path( $template, $template_directory = 'templates' ) {
+function llms_template_file_path( $template, $template_directory = 'templates', $template_directory_absolute = false ) {
 
 	// We have reason to use a LifterLMS template, check if there's an override we should use from a theme / etc...
-	$override      = llms_get_template_override( $template );
-	$template_path = $override ? $override : llms()->plugin_path() . "/{$template_directory}/";
-	return "{$template_path}{$template}";
+	$override           = llms_get_template_override( $template );
+	$template_directory = $template_directory_absolute ? "/{$template_directory}" : llms()->plugin_path() . "/{$template_directory}/";
+	$template_path      = $override ? $override : $template_directory;
+	return trailingslashit( $template_path ) . "{$template}";
 
 }

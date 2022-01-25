@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Block_Templates {
 
+	use LLMS_Trait_Singleton;
+
 	/**
 	 * Directory name of the block templates.
 	 *
@@ -41,24 +43,55 @@ class LLMS_Block_Templates {
 	const LLMS_BLOCK_TEMPLATES_PREFIX = 'llms_';
 
 	/**
-	 * Template titles in a human readable form.
+	 * Block templates configuration.
 	 *
 	 * @var array
 	 */
-	private $template_titles;
+	private $block_templates_config;
 
 	/**
-	 * Init.
+	 * Private Constructor.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function init() {
+	private function __construct() {
+
+		$this->configure_block_templates();
 
 		add_filter( 'get_block_templates', array( $this, 'add_llms_block_templates' ), 10, 3 );
 		add_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
-		add_filter( 'lifterlms_js_l10n_admin', array( $this, 'add_block_templates_admin_strings_js' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'localize_blocks' ), 9999 );
+	}
+
+	/**
+	 * Configure block templates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function configure_block_templates() {
+
+		$block_templates_config = array(
+			llms()->plugin_path() . '/templates/' . self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME => array(
+				'slug_prefix'       => self::LLMS_BLOCK_TEMPLATES_PREFIX,
+				'namespace'         => self::LLMS_BLOCK_TEMPLATES_NAMESPACE,
+				'blocks_dir'        => self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME, // Relative to the plugin's templates directory.
+				'admin_blocks_l10n' => $this->block_editor_l10n(),
+				'template_titles'   => $this->template_titles(),
+			),
+		);
+
+		/**
+		 * Filters the block templates configuration.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $block_templates_config Block templates configuration array.
+		 */
+		$this->block_templates_config = apply_filters( 'llms_block_templates_config', $block_templates_config );
 
 	}
 
@@ -72,7 +105,7 @@ class LLMS_Block_Templates {
 	 * @since [version]
 	 *
 	 * @param WP_Block_Template|null $template      Return a block template object to short-circuit the default query,
-	 *                                               or null to allow WP to run its normal queries.
+	 *                                              or null to allow WP to run its normal queries.
 	 * @param string                 $id            Template unique identifier (example: theme_slug//template_slug).
 	 * @param array                  $template_type wp_template or wp_template_part.
 	 * @return mixed|WP_Block_Template|WP_Error
@@ -256,7 +289,10 @@ class LLMS_Block_Templates {
 				array(
 					'taxonomy' => 'wp_theme',
 					'field'    => 'name',
-					'terms'    => array( get_stylesheet(), get_template(), self::LLMS_BLOCK_TEMPLATES_NAMESPACE ),
+					'terms'    => array_merge(
+						array( get_stylesheet(), get_template() ),
+						array_column( $this->block_templates_config, 'namespace' )
+					),
 				),
 			),
 		);
@@ -264,6 +300,15 @@ class LLMS_Block_Templates {
 		if ( is_array( $slugs ) && count( $slugs ) > 0 ) {
 			$query_args['post_name__in'] = $slugs;
 		}
+
+		/**
+		 * Filters the query arguments to retrieve the templates saved in the db.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $query_args WQ_Query argiments to retrieve the templates saved in the db.
+		 */
+		$query_args = apply_filters( 'llms_block_templates_from_db_query_args', $query_args );
 
 		$templates = ( new WP_Query( $query_args ) )->posts;
 
@@ -287,19 +332,7 @@ class LLMS_Block_Templates {
 
 		$block_template_paths = array();
 
-		/**
-		 * Filter the block templates directories.
-		 *
-		 * @since [version]
-		 *
-		 * @param string[] Array of directory paths.
-		 */
-		$block_templates_base_paths = apply_filters(
-			'lifterlms_block_templates_directories',
-			array(
-				llms()->plugin_path() . '/templates/' . self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME,
-			)
-		);
+		$block_templates_base_paths = array_keys( $this->block_templates_config );
 
 		foreach ( $block_templates_base_paths as $block_template_base_path ) {
 			$block_template_paths = array_merge(
@@ -325,18 +358,27 @@ class LLMS_Block_Templates {
 	private function build_template_result_from_file( $template_file, $template_slug = '' ) {
 
 		$template_slug      = empty( $template_slug ) ? $this->generate_template_slug_from_path( $template_file ) : $template_slug;
-		$template_file_name = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
-		$template_file      = llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name . '.html' ); // Can be overridden.
+		$template_path_info = pathinfo( $template_file );
+		$template_file_name = $template_path_info['filename'];
+		$namespace          = $this->generate_template_namespace_from_path( $template_file );
+
+		// Does this come from LifterLMS or from an add-on? In the latter case use the absolute path.
+		$template_file = false !== strpos( $template_path_info['dirname'], trailingslashit( llms()->plugin_path() ) )
+			?
+			llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name . '.html' )
+			:
+			llms_template_file_path( $template_file_name . '.html', $template_path_info['dirname'], true );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$template_content = file_get_contents( $template_file );
 
 		// Is the template from the theme/child-theme.
 		$theme = false !== strpos( $template_file, get_template_directory() ) ? get_template() : get_stylesheet();
 		$theme = false !== strpos( $template_file, get_stylesheet_directory() ) ? $theme : false;
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-		$template_content         = file_get_contents( $template_file );
 		$template                 = new WP_Block_Template();
-		$template->id             = $theme ? $theme . '//' . $template_slug : self::LLMS_BLOCK_TEMPLATES_NAMESPACE . '//' . $template_slug;
-		$template->theme          = $theme ? $theme : self::LLMS_BLOCK_TEMPLATES_NAMESPACE;
+		$template->id             = $theme ? $theme . '//' . $template_slug : $namespace . '//' . $template_slug;
+		$template->theme          = $theme ? $theme : $namespace;
 		$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
 		$template->source         = $theme ? 'theme' : 'plugin'; // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
 		$template->slug           = $template_slug;
@@ -352,7 +394,7 @@ class LLMS_Block_Templates {
 	}
 
 	/**
-	 * Build a unified template object based a post Object.
+	 * Build a unified template object based on a WP_Post object.
 	 *
 	 * @since [version]
 	 *
@@ -401,20 +443,75 @@ class LLMS_Block_Templates {
 	}
 
 	/**
-	 * Converts template paths into a slug.
+	 * Convert the template paths into a slug.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $path           The template's path.
-	 * @param string $directory_name The template's directory name.
-	 * @return string slug
+	 * @param string $path The template's path.
+	 * @return string
 	 */
-	private function generate_template_slug_from_path( $path, $directory_name = self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME ) {
-		return self::LLMS_BLOCK_TEMPLATES_PREFIX . substr(
+	private function generate_template_slug_from_path( $path ) {
+
+		$dirname = $this->block_template_config_property_from_path( $path, 'blocks_dir' );
+		$prefix  = $this->block_template_config_property_from_path( $path, 'slug_prefix' );
+
+		return $prefix . substr(
 			$path,
-			strpos( $path, $directory_name . DIRECTORY_SEPARATOR ) + 1 + strlen( $directory_name ),
+			strpos( $path, $dirname . DIRECTORY_SEPARATOR ) + 1 + strlen( $dirname ),
 			-5 // .html
 		);
+
+	}
+
+	/**
+	 * Generate the template namespace from the template path.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $path The template's path.
+	 * @return string
+	 */
+	private function generate_template_namespace_from_path( $path ) {
+
+		return $this->block_template_config_property_from_path( $path, 'namespace' );
+
+	}
+
+	/**
+	 * Generate the template slug prefix from the template path.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $path The template's path.
+	 * @return string
+	 */
+	private function generate_template_prefix_from_path( $path ) {
+
+		return $this->block_template_config_property_from_path( $path, 'prefix' );
+
+	}
+
+	/**
+	 * Retrieve a template config property from path.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $path     The template's path.
+	 * @param string $property The template's config property to retrieve.
+	 * @return string
+	 */
+	private function block_template_config_property_from_path( $path, $property ) {
+
+		$dirname    = pathinfo( $path )['dirname'];
+		$prop_value = '';
+		foreach ( $this->block_templates_config as $block_templates_base_path => $config ) {
+			if ( false !== strpos( $path, $block_templates_base_path ) ) {
+				$prop_value = $config[ $property ];
+				break;
+			}
+		}
+		return $prop_value;
+
 	}
 
 	/**
@@ -427,15 +524,13 @@ class LLMS_Block_Templates {
 	 */
 	private function convert_slug_to_title( $template_slug ) {
 
-		$template_titles = $this->template_titles();
+		$template_titles = array_merge( ...array_column( $this->block_templates_config, 'template_titles' ) );
 
-		$unprefixed_template_slug = substr( $template_slug, strlen( self::LLMS_BLOCK_TEMPLATES_PREFIX ) );
-
-		return array_key_exists( $unprefixed_template_slug, $template_titles ) ?
-			$template_titles[ $unprefixed_template_slug ]
+		return array_key_exists( $template_slug, $template_titles ) ?
+			$template_titles[ $template_slug ]
 			:
 			// Replace all hyphens and underscores with spaces.
-			ucwords( preg_replace( '/[\-_]/', ' ', $unprefixed_template_slug ) );
+			ucwords( preg_replace( '/[\-_]/', ' ', $template_slug ) );
 
 	}
 
@@ -488,7 +583,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Returns an associative array of template titles.
 	 *
-	 * Keys are unprefixed template slugs.
+	 * Keys are template slugs.
 	 * Values are template titles in a human readable form.
 	 *
 	 * @since [version]
@@ -497,20 +592,18 @@ class LLMS_Block_Templates {
 	 */
 	private function template_titles() {
 
-		$template_titles = $this->template_titles ?? array(
-			'archive-course'             => esc_html__( 'Course Catalog', 'lifterlms' ),
-			'archive-llms_membership'    => esc_html__( 'Membership Catalog', 'lifterlms' ),
-			'single-certificate'         => esc_html__( 'Single Certificate', 'lifterlms' ),
-			'single-no-access'           => esc_html__( 'Single Access Restricted', 'lifterlms' ),
-			'taxonomy-course_cat'        => esc_html__( 'Taxonomy Course Category', 'lifterlms' ),
-			'taxonomy-course_difficulty' => esc_html__( 'Taxonomy Course Difficulty', 'lifterlms' ),
-			'taxonomy-course_tag'        => esc_html__( 'Taxonomy Course Tag', 'lifterlms' ),
-			'taxonomy-course_track'      => esc_html__( 'Taxonomy Course Track', 'lifterlms' ),
-			'taxonomy-memberhsip_cat'    => esc_html__( 'Taxonomy Membership Category', 'lifterlms' ),
-			'taxonomy-memberhsip_tag'    => esc_html__( 'Taxonomy Membership Tag', 'lifterlms' ),
+		$template_titles = array(
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-course'             => esc_html__( 'Course Catalog', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-llms_membership'    => esc_html__( 'Membership Catalog', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'single-certificate'         => esc_html__( 'Single Certificate', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'single-no-access'           => esc_html__( 'Single Access Restricted', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-course_cat'        => esc_html__( 'Taxonomy Course Category', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-course_difficulty' => esc_html__( 'Taxonomy Course Difficulty', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-course_tag'        => esc_html__( 'Taxonomy Course Tag', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-course_track'      => esc_html__( 'Taxonomy Course Track', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-membership_cat'    => esc_html__( 'Taxonomy Membership Category', 'lifterlms' ),
+			self::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-membership_tag'    => esc_html__( 'Taxonomy Membership Tag', 'lifterlms' ),
 		);
-
-		$this->template_titles = $this->template_titles ?? $template_titles;
 
 		/**
 		 * Filters the block template titles.
@@ -520,11 +613,11 @@ class LLMS_Block_Templates {
 		 * @param array $template_titles  {
 		 *     Associative array of template titles.
 		 *
-		 *     @type string $slug  The template slug (unprefixed).
+		 *     @type string $slug  The template slug.
 		 *     @type string $title The template readable titles.
 		 * }
 		 */
-		return apply_filters( 'lifterlms_block_templates_titles', $this->template_titles );
+		return apply_filters( 'lifterlms_block_templates_titles', $template_titles );
 
 	}
 
@@ -533,32 +626,38 @@ class LLMS_Block_Templates {
 	 *
 	 * @since [version]
 	 *
-	 * @param string[] $strings Localization admin strings.
 	 * @return string[]
 	 */
-	public function add_block_templates_admin_strings_js( $strings ) {
+	private function block_editor_l10n() {
 
-		return array_merge(
-			$strings,
-			array(
-				'LifterLMS Course Catalog Template'               => esc_html__( 'LifterLMS Course Catalog Template', 'lifterlms' ),
-				'LifterLMS Membership Catalog Template'           => esc_html__( 'LifterLMS Membership Catalog Template', 'lifterlms' ),
-				'LifterLMS Single Template Access Restricted'     => esc_html__( 'LifterLMS Single Template Access Restricted', 'lifterlms' ),
-				'LifterLMS Certificate Template'                  => esc_html__( 'LifterLMS Certificate Template', 'lifterlms' ),
-				'LifterLMS Course Category Taxonomy Template'     => esc_html__( 'LifterLMS Course Category Taxonomy Template', 'lifterlms' ),
-				'LifterLMS Course Difficulty Taxonomy Template'   => esc_html__( 'LifterLMS Course Difficulty Taxonomy Template', 'lifterlms' ),
-				'LifterLMS Course Tag Taxonomy Template'          => esc_html__( 'LifterLMS Course Tag Taxonomy Template', 'lifterlms' ),
-				'LifterLMS Course Track Taxonomy Template'        => esc_html__( 'LifterLMS Course Track Taxonomy Template', 'lifterlms' ),
-				'LifterLMS Membership Category Taxonomy Template' => esc_html__( 'LifterLMS Membership Category Taxonomy Template', 'lifterlms' ),
-				'LifterLMS Membership Tag Taxonomy Template'      => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
-			)
+		return array(
+			'archive-course'             => esc_html__( 'LifterLMS Course Catalog Template', 'lifterlms' ),
+			'archive-llms_membership'    => esc_html__( 'LifterLMS Membership Catalog Template', 'lifterlms' ),
+			'single-certificate'         => esc_html__( 'LifterLMS Certificate Template', 'lifterlms' ),
+			'single-no-access'           => esc_html__( 'LifterLMS Single Template Access Restricted', 'lifterlms' ),
+			'taxonomy-course_cat'        => esc_html__( 'LifterLMS Course Category Taxonomy Template', 'lifterlms' ),
+			'taxonomy-course_difficulty' => esc_html__( 'LifterLMS Course Difficulty Taxonomy Template', 'lifterlms' ),
+			'taxonomy-course_tag'        => esc_html__( 'LifterLMS Course Tag Taxonomy Template', 'lifterlms' ),
+			'taxonomy-course_track'      => esc_html__( 'LifterLMS Course Track Taxonomy Template', 'lifterlms' ),
+			'taxonomy-membership_cat'    => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
+			'taxonomy-membership_tag'    => esc_html__( 'LifterLMS Membership Tag Taxonomy Template', 'lifterlms' ),
 		);
 
 	}
 
+	/**
+	 * Localize block templates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function localize_blocks() {
+		wp_localize_script(
+			'llms-blocks-editor',
+			'LLMS_Block_Templates_l10n',
+			array_merge( ...array_column( $this->block_templates_config, 'admin_blocks_l10n' ) )
+		);
+	}
+
 }
-
-$block_templates = new LLMS_Block_Templates();
-$block_templates->init();
-
-return $block_templates;

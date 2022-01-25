@@ -462,16 +462,26 @@ class LLMS_Template_Loader {
 		 */
 		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) && version_compare( '6.0.0-alpha.1', llms()->version, '<=' ) ? '' : $template_name;
 
-		if ( empty( $template_name ) ) {
+		/**
+		 * Filters the block template to be loded forced.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $template_slug The template slug to be loaded forced.
+		 * @param string $template      The template name to be loaded forced.
+		 */
+		$template_slug = apply_filters( 'llms_forced_block_template_slug', $template_name ? LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name : '',  $template_name );
+
+		if ( empty( $template_slug ) ) {
 			return $result;
 		}
 
 		// Prevent template_loader to load a php template.
 		add_filter( 'llms_force_php_template_loading', '__return_false' );
-
-		return ( new LLMS_Block_Templates() )->add_llms_block_templates(
+;
+		return llms()->block_templates()->add_llms_block_templates(
 			array(),
-			array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name ) )
+			array( 'slug__in' => array( $template_slug ) )
 		);
 
 	}
@@ -584,7 +594,14 @@ class LLMS_Template_Loader {
 
 		}
 
-		return $template;
+		/**
+		 * Filters the template to be loded forced.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $template The template slug to be loaded forced.
+		 */
+		return apply_filters( 'llms_forced_template', $template );
 
 	}
 
