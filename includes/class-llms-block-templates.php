@@ -31,7 +31,7 @@ class LLMS_Block_Templates {
 	 *
 	 * @var string
 	 */
-	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'llms/lifterlms';
+	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'lifterlms/lifterlms';
 
 	/**
 	 * Block Template slug prefix.
