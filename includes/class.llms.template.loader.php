@@ -522,7 +522,7 @@ class LLMS_Template_Loader {
 			}
 		}
 
-		$forced_template = apply_filters( 'llms_force_llms_template_loading', true ) ? $this->get_maybe_forced_llms_template() : false;
+		$forced_template = apply_filters( 'llms_force_template_loading', true ) ? $this->get_maybe_forced_llms_template() : false;
 		return $forced_template ? llms_template_file_path( $forced_template ) : $template;
 
 	}
@@ -534,7 +534,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @return null|string
 	 */
-	private function get_maybe_forced_llms_template() {
+	private function get_maybe_forced_template() {
 
 		$page_restricted = llms_page_restricted( get_the_ID() );
 		$template        = null;

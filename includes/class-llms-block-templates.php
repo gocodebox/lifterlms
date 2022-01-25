@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles the block templates
+ * LLMS_Block_Templates class file.
  *
  * @package LifterLMS/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Block_Templates class.
+ * Handles the block templates.
  *
  * @since [version]
  */
@@ -31,7 +31,7 @@ class LLMS_Block_Templates {
 	 *
 	 * @var string
 	 */
-	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'lifterlms/lifterlms';
+	const LLMS_BLOCK_TEMPLATES_NAMESPACE = 'llms/lifterlms';
 
 	/**
 	 * Block Template slug prefix.
@@ -297,7 +297,7 @@ class LLMS_Block_Templates {
 		$block_templates_base_paths = apply_filters(
 			'lifterlms_block_templates_directories',
 			array(
-				LLMS()->plugin_path() . '/templates/' . self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME,
+				llms()->plugin_path() . '/templates/' . self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME,
 			)
 		);
 
