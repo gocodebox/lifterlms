@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/ThemeSupport/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.8.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Theme Support: Twenty Twenty-Two.
  *
- * @since [version]
+ * @since 5.8.0
  */
 class LLMS_Twenty_Twenty_Two {
 
 	/**
 	 * Static "constructor".
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Enqueue inline styles for the block editor.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Enqueue inline styles on the frontend
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Generate inline CSS for a given context
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string|null $context Inline CSS context. Accepts "editor" to define styles loaded within the block editor or `null` for frontend styles.
 	 * @return string
@@ -167,7 +167,7 @@ class LLMS_Twenty_Twenty_Two {
 	 * This method determines if the catalog title are to be displayed and adds additional actions
 	 * which will wrap the elements in 2022 theme elements depending on what is meant to be displayed.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -191,7 +191,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Modify the number of catalog & checkout columns.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param int $cols Number of columns.
 	 * @return int
@@ -203,7 +203,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Output the catalog archive description 2022 theme wrapper opener
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Output the catalog archive description 2022 theme wrapper closer
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Output the catalog page header 2022 theme wrapper opener
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_Twenty_Twenty_Two {
 	/**
 	 * Output the catalog page header 2022 theme wrapper closer
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */

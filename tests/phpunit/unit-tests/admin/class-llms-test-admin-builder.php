@@ -57,7 +57,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test LLMS_Admin_Builder::get_existing_posts() with a lesson created by users of different roles.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1849
 	 *

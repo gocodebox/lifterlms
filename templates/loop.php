@@ -7,8 +7,8 @@
  * @package LifterLMS/Templates
  *
  * @since 1.0.0
- * @since [version] Moved the main part in loop-main.php.
- * @version [version]
+ * @since 5.8.0 Moved the main part in loop-main.php.
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;

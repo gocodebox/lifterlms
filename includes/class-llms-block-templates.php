@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 5.8.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Handles the block templates.
  *
- * @since [version]
+ * @since 5.8.0
  */
 class LLMS_Block_Templates {
 
@@ -52,7 +52,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Private Constructor.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Configure block templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Block_Templates {
 		/**
 		 * Filters the block templates configuration.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param array $block_templates_config Block templates configuration array.
 		 */
@@ -102,7 +102,7 @@ class LLMS_Block_Templates {
 	 * database or a template file in `lifterlms/templates/block-templates/`.
 	 * Without this it won't be possible to save llms templates customizations in the DB.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param WP_Block_Template|null $template      Return a block template object to short-circuit the default query,
 	 *                                              or null to allow WP to run its normal queries.
@@ -160,7 +160,7 @@ class LLMS_Block_Templates {
 	 * If a template is *not* passed, try to look for one that matches the ID in the database, if that's not found defer
 	 * to Blocks templates files. Priority goes: DB-Theme, DB-Blocks, Filesystem-Theme, Filesystem-Blocks.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param WP_Block_Template $template      The found block template.
 	 * @param string            $id            Template unique identifier (example: theme_slug//template_slug).
@@ -199,7 +199,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Gets the templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param array  $slugs     An array of slugs to retrieve templates for.
 	 * @param string $post_type Post Type.
@@ -248,7 +248,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Get block templates from the file system.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string[] $block_templates_paths Array of block templates paths to look for templates.
 	 * @param string[] $slugs                 Arrray of template slugs to be retrieved.
@@ -273,7 +273,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Gets the templates saved in the database.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param array $slugs An array of slugs to retrieve templates for.
 	 * @return int[]|WP_Post[] An array of found templates.
@@ -304,7 +304,7 @@ class LLMS_Block_Templates {
 		/**
 		 * Filters the query arguments to retrieve the templates saved in the db.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param array $query_args WQ_Query argiments to retrieve the templates saved in the db.
 		 */
@@ -324,7 +324,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Retrieve the block templates directory paths.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return string[]
 	 */
@@ -348,7 +348,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Build a wp template from file.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $template_file Template file path.
 	 * @param string $template_slug Template slug.
@@ -396,7 +396,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Build a unified template object based on a WP_Post object.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param WP_Post $post Template post.
 	 * @return WP_Block_Template|WP_Error Template.
@@ -445,7 +445,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Convert the template paths into a slug.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -466,7 +466,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Generate the template namespace from the template path.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -480,7 +480,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Generate the template slug prefix from the template path.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -494,7 +494,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Retrieve a template config property from path.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $path     The template's path.
 	 * @param string $property The template's config property to retrieve.
@@ -517,7 +517,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Converts template slugs into readable titles.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param string $template_slug The templates slug (e.g. single-product).
 	 * @return string Human friendly title converted from the slug.
@@ -537,7 +537,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Add lifterlms blocks templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
 	 * @param array               $query        {
@@ -586,7 +586,7 @@ class LLMS_Block_Templates {
 	 * Keys are template slugs.
 	 * Values are template titles in a human readable form.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return array
 	 */
@@ -608,7 +608,7 @@ class LLMS_Block_Templates {
 		/**
 		 * Filters the block template titles.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param array $template_titles  {
 		 *     Associative array of template titles.
@@ -624,7 +624,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Block Templates admin js strings.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return string[]
 	 */
@@ -648,7 +648,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Localize block templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */

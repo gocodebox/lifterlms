@@ -2,8 +2,8 @@
 /**
  * LifterLMS Loop main template
  *
- * @since [version]
- * @version [version]
+ * @since 5.8.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;

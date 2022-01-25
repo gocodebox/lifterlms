@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,7 +215,7 @@ class LLMS_Theme_Support {
 	 *
 	 * @since 3.37.0
 	 * @since 4.3.0 Method access changed to `public`.
-	 * @since [version] Added twenty-twenty-two compatibility.
+	 * @since 5.8.0 Added twenty-twenty-two compatibility.
 	 *
 	 * @return void
 	 */

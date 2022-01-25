@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ class LLMS_Template_Loader {
 	 * @since 1.0.0
 	 * @since 3.20.0 Unknown.
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
-	 * @since [version] Handle block templates loading.
+	 * @since 5.8.0 Handle block templates loading.
 	 */
 	public function __construct() {
 
@@ -424,7 +424,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Hooks the callback to load FSE block templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -435,7 +435,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Filter blocks templates.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @param WP_Block_Template[] $result        Array of found block templates.
 	 * @param array               $query {
@@ -465,7 +465,7 @@ class LLMS_Template_Loader {
 		/**
 		 * Filters the block template to be loded forced.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param string $template_slug The template slug to be loaded forced.
 		 * @param string $template      The template name to be loaded forced.
@@ -495,7 +495,7 @@ class LLMS_Template_Loader {
 	 * @since 3.16.11 Unknown.
 	 * @since 3.37.2 Make sure to print notices on sales page redirect.
 	 * @since 4.10.1 Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
-	 * @since [version] Refactor: moved the template guessing in a specific method.
+	 * @since 5.8.0 Refactor: moved the template guessing in a specific method.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -541,7 +541,7 @@ class LLMS_Template_Loader {
 		/**
 		 * Filters whether or not forcing a LifterLMS php template to be loaded.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param bool $force Whether or not forcing a LifterLMS php template to be loaded.
 		 */
@@ -553,7 +553,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Retrieve the hierarchical template to be loaded.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return null|string
 	 */
@@ -597,7 +597,7 @@ class LLMS_Template_Loader {
 		/**
 		 * Filters the template to be loded forced.
 		 *
-		 * @since [version]
+		 * @since 5.8.0
 		 *
 		 * @param string $template The template slug to be loaded forced.
 		 */

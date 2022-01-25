@@ -7,14 +7,14 @@
  * @group theme_support
  * @group twenty_twenty_two
  *
- * @since [version]
+ * @since 5.8.0
  */
 class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the test case.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
 	 *
 	 * @return void
@@ -45,7 +45,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Remove all the header actions setup by `handle_page_header_wrappers()`.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when the archive title is disabled.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when there's no archive description
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_page_header_wrappers() when there is an archived description
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class LLMS_Test_Twenty_Twenty_Two extends LLMS_Unit_Test_Case {
 	/**
 	 * Test modify_columns_count()
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return void
 	 */

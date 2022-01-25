@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ class LLMS_Processors {
 	 * Load all processors.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use the value from the `llms_load_processors` filter.
+	 * @since 5.8.0 Use the value from the `llms_load_processors` filter.
 	 *
 	 * @return void
 	 */

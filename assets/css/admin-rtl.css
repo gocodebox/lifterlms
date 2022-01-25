@@ -2882,6 +2882,9 @@ button[name="llms_quiz_attempt_action"].grading .save {
 .llms-form-fields {
   -webkit-box-sizing: border-box;
           box-sizing: border-box; }
+  .llms-form-fields * {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
   .llms-form-fields.flush .llms-form-field {
     padding: 0 0 10px; }
   .llms-form-fields .wp-block-columns, .llms-form-fields .wp-block-column {
