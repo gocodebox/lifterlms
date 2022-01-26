@@ -253,16 +253,15 @@ class LLMS_Admin_Assets {
 		$screen = get_current_screen();
 
 		global $post;
+
+		$postdata = array();
+
 		if ( ! empty( $post ) ) {
 
 			$postdata = array(
 				'id'        => $post->ID,
 				'post_type' => $post->post_type,
 			);
-
-		} else {
-
-			$postdata = array();
 
 		}
 

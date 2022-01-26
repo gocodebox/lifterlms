@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '5.7.0';
+	public $version = '5.8.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -167,6 +167,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
+	 * @since 5.8.0 Initialize block templates.
 	 *
 	 * @return void
 	 */
@@ -174,6 +175,7 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
 
@@ -285,6 +287,17 @@ final class LifterLMS {
 	 */
 	public function engagements() {
 		return LLMS_Engagements::instance();
+	}
+
+	/**
+	 * Block templates instance.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @return LLMS_Block_Templates
+	 */
+	public function block_templates() {
+		return LLMS_Block_Templates::instance();
 	}
 
 	/**

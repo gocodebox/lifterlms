@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.7.0\n"
+"Project-Id-Version: LifterLMS 5.8.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-01-11T10:31:12-07:00\n"
+"POT-Creation-Date: 2022-01-25T16:35:16-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.3\n"
 "X-Domain: lifterlms\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: includes/class.llms.nav.menus.php:60
 #: includes/privacy/class-llms-privacy.php:32
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "LifterLMS"
 msgstr ""
 
@@ -32,7 +32,7 @@ msgstr ""
 msgid "LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites."
 msgstr ""
 
-#: class-lifterlms.php:364
+#: class-lifterlms.php:377
 #: includes/admin/class.llms.admin.menus.php:202
 msgid "Settings"
 msgstr ""
@@ -246,7 +246,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.controller.php:336
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:56
 #: includes/llms.functions.core.php:599
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Author"
 msgstr ""
 
@@ -286,12 +286,12 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.course.students.php:416
 #: includes/admin/reporting/tables/llms.table.membership.students.php:404
 #: includes/admin/reporting/tables/llms.table.students.php:597
-#: includes/class.llms.post-types.php:843
+#: includes/class.llms.post-types.php:832
 #: includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:109
 #: includes/notifications/controllers/class.llms.notification.controller.purchase.receipt.php:124
 #: includes/notifications/controllers/class.llms.notification.controller.student.welcome.php:110
 #: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:140
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Email"
 msgstr ""
 
@@ -333,7 +333,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:177
 #: includes/admin/reporting/tables/llms.table.student.course.php:266
 #: includes/admin/views/builder/editor.php:28
-#: includes/class.llms.post-types.php:493
+#: includes/class.llms.post-types.php:491
 #: includes/functions/llms.functions.templates.dashboard.php:624
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:75
 msgid "Quiz"
@@ -342,7 +342,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:55
 #: includes/admin/reporting/tables/llms.table.quizzes.php:446
 #: includes/admin/views/builder/editor.php:20
-#: includes/class.llms.post-types.php:453
+#: includes/class.llms.post-types.php:452
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:76
 msgid "Lesson"
 msgstr ""
@@ -352,7 +352,7 @@ msgstr ""
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:53
 #: includes/admin/reporting/tables/llms.table.quizzes.php:441
 #: includes/admin/views/builder/editor.php:16
-#: includes/class.llms.post-types.php:376
+#: includes/class.llms.post-types.php:377
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:77
 #: templates/myaccount/my-grades.php:19
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
@@ -517,7 +517,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.courses.php:181
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:118
 #: includes/admin/settings/class.llms.settings.courses.php:32
-#: includes/class.llms.post-types.php:375
+#: includes/class.llms.post-types.php:376
 #: includes/integrations/class.llms.integration.buddypress.php:69
 #: includes/integrations/class.llms.integration.buddypress.php:84
 #: templates/admin/analytics/analytics.php:97
@@ -536,7 +536,7 @@ msgstr ""
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:119
 #: includes/admin/settings/class.llms.settings.memberships.php:32
 #: includes/admin/views/access-plans/access-plan.php:276
-#: includes/class.llms.post-types.php:569
+#: includes/class.llms.post-types.php:565
 #: includes/integrations/class.llms.integration.buddypress.php:95
 #: templates/admin/analytics/analytics.php:109
 #: templates/admin/reporting/nav-filters.php:91
@@ -660,91 +660,91 @@ msgid "%s Theme Settings"
 msgstr ""
 
 #. Translators: %1$s = Lesson title; %2$d = Lesson id.
-#: includes/admin/class.llms.admin.builder.php:245
+#: includes/admin/class.llms.admin.builder.php:246
 msgid "Lesson: %1$s (#%2$d)"
 msgstr ""
 
 #. Translators: %1$s = Course title; %2$d - Course id.
-#: includes/admin/class.llms.admin.builder.php:249
+#: includes/admin/class.llms.admin.builder.php:250
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:452
+#: includes/admin/class.llms.admin.builder.php:453
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:459
+#: includes/admin/class.llms.admin.builder.php:460
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:464
+#: includes/admin/class.llms.admin.builder.php:465
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:556
+#: includes/admin/class.llms.admin.builder.php:557
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:565
+#: includes/admin/class.llms.admin.builder.php:566
 msgid "You cannot edit this course!"
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:663
+#: includes/admin/class.llms.admin.builder.php:664
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:743
+#: includes/admin/class.llms.admin.builder.php:744
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:823
+#: includes/admin/class.llms.admin.builder.php:824
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. Translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:861
+#: includes/admin/class.llms.admin.builder.php:862
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. Translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:885
+#: includes/admin/class.llms.admin.builder.php:886
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1016
+#: includes/admin/class.llms.admin.builder.php:1017
 #: includes/admin/views/builder/elements.php:22
 #: includes/class.llms.l10n.js.php:94
 #: includes/class.llms.l10n.js.php:351
-#: includes/class.llms.post-types.php:458
+#: includes/class.llms.post-types.php:457
 #: includes/models/model.llms.lesson.php:424
 msgid "New Lesson"
 msgstr ""
 
 #. Translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:1032
+#: includes/admin/class.llms.admin.builder.php:1033
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. Translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1139
+#: includes/admin/class.llms.admin.builder.php:1140
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. Translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1178
+#: includes/admin/class.llms.admin.builder.php:1179
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. Translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1239
+#: includes/admin/class.llms.admin.builder.php:1240
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. Translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1319
+#: includes/admin/class.llms.admin.builder.php:1320
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -819,7 +819,7 @@ msgid "Sections"
 msgstr ""
 
 #: includes/admin/class.llms.admin.import.php:397
-#: includes/class.llms.post-types.php:452
+#: includes/class.llms.post-types.php:451
 msgid "Lessons"
 msgstr ""
 
@@ -830,13 +830,13 @@ msgstr ""
 #: includes/admin/class.llms.admin.import.php:405
 #: includes/admin/reporting/class.llms.admin.reporting.php:293
 #: includes/admin/reporting/tables/llms.table.quizzes.php:304
-#: includes/class.llms.post-types.php:492
+#: includes/class.llms.post-types.php:490
 #: templates/admin/reporting/tabs/quizzes/quiz.php:20
 msgid "Quizzes"
 msgstr ""
 
 #: includes/admin/class.llms.admin.import.php:409
-#: includes/class.llms.post-types.php:532
+#: includes/class.llms.post-types.php:529
 msgid "Questions"
 msgstr ""
 
@@ -1076,7 +1076,7 @@ msgid "Select to prevent a user from submitting more than one review."
 msgstr ""
 
 #: includes/admin/class.llms.admin.reviews.php:166
-#: includes/class.llms.post-types.php:950
+#: includes/class.llms.post-types.php:936
 msgid "Reviews"
 msgstr ""
 
@@ -1144,7 +1144,7 @@ msgid "Payments"
 msgstr ""
 
 #: includes/admin/class.llms.admin.setup.wizard.php:290
-#: includes/class.llms.post-types.php:879
+#: includes/class.llms.post-types.php:867
 msgid "Coupon"
 msgstr ""
 
@@ -1512,7 +1512,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:181
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:129
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:86
-#: includes/class.llms.post-types.php:570
+#: includes/class.llms.post-types.php:566
 msgid "Membership"
 msgstr ""
 
@@ -1935,7 +1935,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.courses.php:311
 #: includes/admin/reporting/tables/llms.table.memberships.php:311
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructors"
 msgstr ""
 
@@ -1957,26 +1957,26 @@ msgid "Instructor"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:83
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Label"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:92
 #: includes/admin/views/access-plans/access-plan.php:102
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Visibility"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:94
 #: includes/functions/llms-functions-access-plans.php:258
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Visible"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:95
 #: includes/functions/llms-functions-access-plans.php:259
 #: includes/llms.functions.core.php:540
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Hidden"
 msgstr ""
 
@@ -2283,7 +2283,7 @@ msgid "The status of a Legacy order cannot be changed."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.order.transactions.php:31
-#: includes/class.llms.post-types.php:689
+#: includes/class.llms.post-types.php:682
 #: includes/privacy/class-llms-privacy-exporters.php:274
 msgid "Transactions"
 msgstr ""
@@ -2307,7 +2307,7 @@ msgid "Refund Error: Missing or invalid payment amount"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:33
-#: includes/class.llms.post-types.php:986
+#: includes/class.llms.post-types.php:971
 msgid "Access Plans"
 msgstr ""
 
@@ -2324,25 +2324,25 @@ msgid "Catalog visibility:"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:63
-#: includes/class.llms.post-types.php:380
+#: includes/class.llms.post-types.php:381
 #: includes/class.llms.post-types.php:421
-#: includes/class.llms.post-types.php:456
-#: includes/class.llms.post-types.php:496
-#: includes/class.llms.post-types.php:536
-#: includes/class.llms.post-types.php:574
-#: includes/class.llms.post-types.php:616
-#: includes/class.llms.post-types.php:653
-#: includes/class.llms.post-types.php:693
-#: includes/class.llms.post-types.php:732
-#: includes/class.llms.post-types.php:768
-#: includes/class.llms.post-types.php:807
-#: includes/class.llms.post-types.php:846
-#: includes/class.llms.post-types.php:882
-#: includes/class.llms.post-types.php:918
-#: includes/class.llms.post-types.php:955
-#: includes/class.llms.post-types.php:990
+#: includes/class.llms.post-types.php:455
+#: includes/class.llms.post-types.php:494
+#: includes/class.llms.post-types.php:533
+#: includes/class.llms.post-types.php:570
+#: includes/class.llms.post-types.php:611
+#: includes/class.llms.post-types.php:647
+#: includes/class.llms.post-types.php:686
+#: includes/class.llms.post-types.php:724
+#: includes/class.llms.post-types.php:759
+#: includes/class.llms.post-types.php:797
+#: includes/class.llms.post-types.php:835
+#: includes/class.llms.post-types.php:870
+#: includes/class.llms.post-types.php:905
+#: includes/class.llms.post-types.php:941
+#: includes/class.llms.post-types.php:975
 #: includes/forms/class-llms-form-post-type.php:234
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Edit"
 msgstr ""
 
@@ -2422,7 +2422,7 @@ msgid "Add New"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-forms.php:53
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Location"
 msgstr ""
 
@@ -2522,7 +2522,7 @@ msgid "Date"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:52
-#: includes/class.llms.post-types.php:650
+#: includes/class.llms.post-types.php:644
 #: templates/myaccount/my-orders.php:23
 #: templates/myaccount/my-orders.php:33
 msgid "Order"
@@ -2669,7 +2669,7 @@ msgstr ""
 #: libraries/lifterlms-helper/includes/views/beta-testing.php:55
 #: libraries/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:60
 #: libraries/lifterlms-rest/includes/admin/tables/class-llms-rest-table-webhooks.php:136
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Name"
 msgstr ""
 
@@ -2807,7 +2807,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
 #: includes/schemas/llms-user-information-fields.php:76
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Last Name"
 msgstr ""
 
@@ -2815,7 +2815,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
 #: includes/schemas/llms-user-information-fields.php:68
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "First Name"
 msgstr ""
 
@@ -2935,7 +2935,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:643
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:121
-#: includes/class.llms.post-types.php:764
+#: includes/class.llms.post-types.php:755
 #: includes/integrations/class.llms.integration.buddypress.php:117
 #: includes/privacy/class-llms-privacy-exporters.php:85
 msgid "Certificates"
@@ -2943,7 +2943,7 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.students.php:647
 #: includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:120
-#: includes/class.llms.post-types.php:728
+#: includes/class.llms.post-types.php:720
 #: includes/integrations/class.llms.integration.buddypress.php:106
 #: includes/privacy/class-llms-privacy-exporters.php:44
 msgid "Achievements"
@@ -3485,7 +3485,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:249
 #: includes/schemas/llms-user-information-fields.php:120
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Country"
 msgstr ""
 
@@ -3579,6 +3579,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.courses.php:100
 #: includes/admin/views/setup-wizard/step-pages.php:19
+#: includes/class-llms-block-templates.php:596
 #: includes/class.llms.install.php:255
 msgid "Course Catalog"
 msgstr ""
@@ -3615,7 +3616,7 @@ msgid "Catalog Sorting"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:40
-#: includes/class.llms.post-types.php:612
+#: includes/class.llms.post-types.php:607
 msgid "Engagements"
 msgstr ""
 
@@ -3963,7 +3964,7 @@ msgid "Purchase Link"
 msgstr ""
 
 #: includes/admin/views/access-plans/access-plan.php:55
-#: includes/class.llms.post-types.php:992
+#: includes/class.llms.post-types.php:977
 msgid "New Access Plan"
 msgstr ""
 
@@ -4535,7 +4536,7 @@ msgid "Expand All"
 msgstr ""
 
 #: includes/admin/views/builder/quiz.php:88
-#: includes/class.llms.post-types.php:534
+#: includes/class.llms.post-types.php:531
 msgid "Add Question"
 msgstr ""
 
@@ -4943,6 +4944,7 @@ msgid "This page is where your visitors will find a list of all your available c
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-pages.php:23
+#: includes/class-llms-block-templates.php:597
 #: includes/class.llms.install.php:261
 msgid "Membership Catalog"
 msgstr ""
@@ -4986,6 +4988,79 @@ msgstr ""
 
 #: includes/admin/views/user-edit-fields.php:16
 msgid "LifterLMS Profile"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:413
+msgid "No theme is defined for this template."
+msgstr ""
+
+#: includes/class-llms-block-templates.php:598
+msgid "Single Certificate"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:599
+msgid "Single Access Restricted"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:600
+msgid "Taxonomy Course Category"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:601
+msgid "Taxonomy Course Difficulty"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:602
+msgid "Taxonomy Course Tag"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:603
+msgid "Taxonomy Course Track"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:604
+msgid "Taxonomy Membership Category"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:605
+msgid "Taxonomy Membership Tag"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:634
+msgid "LifterLMS Course Catalog Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:635
+msgid "LifterLMS Membership Catalog Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:636
+msgid "LifterLMS Certificate Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:637
+msgid "LifterLMS Single Template Access Restricted"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:638
+msgid "LifterLMS Course Category Taxonomy Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:639
+msgid "LifterLMS Course Difficulty Taxonomy Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:640
+msgid "LifterLMS Course Tag Taxonomy Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:641
+msgid "LifterLMS Course Track Taxonomy Template"
+msgstr ""
+
+#: includes/class-llms-block-templates.php:642
+#: includes/class-llms-block-templates.php:643
+msgid "LifterLMS Membership Tag Taxonomy Template"
 msgstr ""
 
 #: includes/class-llms-db-ugrader.php:281
@@ -5083,7 +5158,7 @@ msgstr ""
 #: includes/class.llms.ajax.handler.php:571
 #: includes/class.llms.ajax.handler.php:634
 #: includes/class.llms.ajax.handler.php:704
-#: includes/class.llms.template.loader.php:393
+#: includes/class.llms.template.loader.php:397
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
@@ -5301,25 +5376,25 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:66
 #: includes/class.llms.l10n.js.php:459
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Very Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:67
 #: includes/class.llms.l10n.js.php:460
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Weak"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:68
 #: includes/class.llms.l10n.js.php:461
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Medium"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:69
 #: includes/class.llms.l10n.js.php:462
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Strong"
 msgstr ""
 
@@ -5371,7 +5446,7 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:116
 #: includes/class.llms.l10n.js.php:330
-#: includes/class.llms.post-types.php:498
+#: includes/class.llms.post-types.php:496
 msgid "New Quiz"
 msgstr ""
 
@@ -5795,7 +5870,7 @@ msgstr ""
 #: includes/class.llms.person.handler.php:159
 #: includes/class.llms.person.handler.php:249
 #: includes/schemas/llms-user-information-fields.php:39
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Email Address"
 msgstr ""
 
@@ -5807,7 +5882,7 @@ msgstr ""
 #: includes/class.llms.person.handler.php:167
 #: includes/class.llms.person.handler.php:284
 #: includes/schemas/llms-user-information-fields.php:47
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Password"
 msgstr ""
 
@@ -5974,7 +6049,7 @@ msgid "Refunded"
 msgstr ""
 
 #: includes/class.llms.post-types.php:175
-#: includes/class.llms.post-types.php:1062
+#: includes/class.llms.post-types.php:1046
 msgid "Refunded <span class=\"count\">(%s)</span>"
 msgid_plural "Refunded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -5986,56 +6061,52 @@ msgid "Failed"
 msgstr ""
 
 #: includes/class.llms.post-types.php:179
-#: includes/class.llms.post-types.php:1046
+#: includes/class.llms.post-types.php:1030
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:377
+#: includes/class.llms.post-types.php:378
 msgctxt "Admin menu name"
 msgid "Courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:378
+#: includes/class.llms.post-types.php:379
 msgid "Add Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:379
+#: includes/class.llms.post-types.php:380
 msgid "Add New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:381
+#: includes/class.llms.post-types.php:382
 msgid "Edit Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:382
+#: includes/class.llms.post-types.php:383
 msgid "New Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:383
 #: includes/class.llms.post-types.php:384
+#: includes/class.llms.post-types.php:385
 msgid "View Course"
 msgstr ""
 
-#: includes/class.llms.post-types.php:385
+#: includes/class.llms.post-types.php:386
 msgid "Search Courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:386
+#: includes/class.llms.post-types.php:387
 msgid "No Courses found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:387
+#: includes/class.llms.post-types.php:388
 msgid "No Courses found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:388
+#: includes/class.llms.post-types.php:389
 msgid "Parent Course"
-msgstr ""
-
-#: includes/class.llms.post-types.php:390
-msgid "This is where you can add new courses."
 msgstr ""
 
 #: includes/class.llms.post-types.php:400
@@ -6086,1098 +6157,1037 @@ msgctxt "Admin menu name"
 msgid "Sections"
 msgstr ""
 
-#: includes/class.llms.post-types.php:432
-msgid "This is where sections are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:454
+#: includes/class.llms.post-types.php:453
 msgid "Add Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:455
+#: includes/class.llms.post-types.php:454
 msgid "Add New Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:457
+#: includes/class.llms.post-types.php:456
 msgid "Edit Lesson"
 msgstr ""
 
+#: includes/class.llms.post-types.php:458
 #: includes/class.llms.post-types.php:459
-#: includes/class.llms.post-types.php:460
 msgid "View Lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:461
+#: includes/class.llms.post-types.php:460
 msgid "Search Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:462
+#: includes/class.llms.post-types.php:461
 msgid "No Lessons found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:463
+#: includes/class.llms.post-types.php:462
 msgid "No Lessons found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:464
+#: includes/class.llms.post-types.php:463
 msgid "Parent Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:465
+#: includes/class.llms.post-types.php:464
 msgctxt "Admin menu name"
 msgid "Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:467
-msgid "This is where you can view all of the lessons."
-msgstr ""
-
-#: includes/class.llms.post-types.php:477
+#: includes/class.llms.post-types.php:475
 msgctxt "lesson url slug"
 msgid "lesson"
 msgstr ""
 
-#: includes/class.llms.post-types.php:494
+#: includes/class.llms.post-types.php:492
 msgid "Add Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:495
+#: includes/class.llms.post-types.php:493
 msgid "Add New Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:497
+#: includes/class.llms.post-types.php:495
 msgid "Edit Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:499
-#: includes/class.llms.post-types.php:500
+#: includes/class.llms.post-types.php:497
+#: includes/class.llms.post-types.php:498
 msgid "View Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:501
+#: includes/class.llms.post-types.php:499
 msgid "Search Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:502
+#: includes/class.llms.post-types.php:500
 msgid "No Quizzes found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:503
+#: includes/class.llms.post-types.php:501
 msgid "No Quizzes found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:504
+#: includes/class.llms.post-types.php:502
 msgid "Parent Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:505
+#: includes/class.llms.post-types.php:503
 msgctxt "Admin menu name"
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:507
-msgid "This is where you can view all of the quizzes."
-msgstr ""
-
-#: includes/class.llms.post-types.php:517
+#: includes/class.llms.post-types.php:514
 msgctxt "quiz url slug"
 msgid "quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:533
+#: includes/class.llms.post-types.php:530
 #: includes/class.llms.question.types.php:66
 msgid "Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:535
+#: includes/class.llms.post-types.php:532
 msgid "Add New Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:537
+#: includes/class.llms.post-types.php:534
 msgid "Edit Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:538
+#: includes/class.llms.post-types.php:535
 msgid "New Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:539
-#: includes/class.llms.post-types.php:540
+#: includes/class.llms.post-types.php:536
+#: includes/class.llms.post-types.php:537
 msgid "View Question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:541
+#: includes/class.llms.post-types.php:538
 msgid "Search Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:542
+#: includes/class.llms.post-types.php:539
 msgid "No Questions found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:543
+#: includes/class.llms.post-types.php:540
 msgid "No Questions found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:544
+#: includes/class.llms.post-types.php:541
 msgid "Parent Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:545
+#: includes/class.llms.post-types.php:542
 msgctxt "Admin menu name"
 msgid "Quiz Questions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:547
-msgid "This is where you can view all of the Quiz Questions."
-msgstr ""
-
-#: includes/class.llms.post-types.php:571
+#: includes/class.llms.post-types.php:567
 msgctxt "Admin menu name"
 msgid "Memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:572
+#: includes/class.llms.post-types.php:568
 msgid "Add Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:573
+#: includes/class.llms.post-types.php:569
 msgid "Add New Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:575
+#: includes/class.llms.post-types.php:571
 msgid "Edit Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:576
+#: includes/class.llms.post-types.php:572
 msgid "New Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:577
-#: includes/class.llms.post-types.php:578
+#: includes/class.llms.post-types.php:573
+#: includes/class.llms.post-types.php:574
 msgid "View Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:579
+#: includes/class.llms.post-types.php:575
 msgid "Search Memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:580
+#: includes/class.llms.post-types.php:576
 msgid "No Memberships found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:581
+#: includes/class.llms.post-types.php:577
 msgid "No Memberships found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:582
+#: includes/class.llms.post-types.php:578
 msgid "Parent Membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:584
-msgid "This is where you can add new Membership levels."
-msgstr ""
-
-#: includes/class.llms.post-types.php:595
+#: includes/class.llms.post-types.php:590
 msgctxt "membership url slug"
 msgid "membership"
 msgstr ""
 
-#: includes/class.llms.post-types.php:601
+#: includes/class.llms.post-types.php:596
 msgctxt "membership archive url slug"
 msgid "memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:613
+#: includes/class.llms.post-types.php:608
 msgid "Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:614
+#: includes/class.llms.post-types.php:609
 msgid "Add Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:615
+#: includes/class.llms.post-types.php:610
 msgid "Add New Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:617
+#: includes/class.llms.post-types.php:612
 msgid "Edit Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:618
+#: includes/class.llms.post-types.php:613
 msgid "New Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:619
-#: includes/class.llms.post-types.php:620
+#: includes/class.llms.post-types.php:614
+#: includes/class.llms.post-types.php:615
 msgid "View Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:621
+#: includes/class.llms.post-types.php:616
 msgid "Search Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:622
+#: includes/class.llms.post-types.php:617
 msgid "No Engagement found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:623
+#: includes/class.llms.post-types.php:618
 msgid "No Engagement found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:624
+#: includes/class.llms.post-types.php:619
 msgid "Parent Engagement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:625
+#: includes/class.llms.post-types.php:620
 msgctxt "Admin menu name"
 msgid "Engagements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:627
-msgid "This is where engagements are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:649
+#: includes/class.llms.post-types.php:643
 #: includes/privacy/class-llms-privacy-exporters.php:515
 msgid "Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:651
+#: includes/class.llms.post-types.php:645
 msgid "Add Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:652
+#: includes/class.llms.post-types.php:646
 msgid "Add New Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:654
+#: includes/class.llms.post-types.php:648
 msgid "Edit Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:655
+#: includes/class.llms.post-types.php:649
 msgid "New Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:656
-#: includes/class.llms.post-types.php:657
+#: includes/class.llms.post-types.php:650
+#: includes/class.llms.post-types.php:651
 msgid "View Order"
 msgstr ""
 
-#: includes/class.llms.post-types.php:658
+#: includes/class.llms.post-types.php:652
 msgid "Search Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:659
+#: includes/class.llms.post-types.php:653
 msgid "No Orders found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:660
+#: includes/class.llms.post-types.php:654
 msgid "No Orders found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:661
+#: includes/class.llms.post-types.php:655
 msgid "Parent Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:662
-#: includes/class.llms.post-types.php:702
+#: includes/class.llms.post-types.php:656
+#: includes/class.llms.post-types.php:695
 msgctxt "Admin menu name"
 msgid "Orders"
 msgstr ""
 
-#: includes/class.llms.post-types.php:664
-msgid "This is where orders are managed"
-msgstr ""
-
-#: includes/class.llms.post-types.php:690
+#: includes/class.llms.post-types.php:683
 #: templates/myaccount/view-order-transactions.php:21
 msgid "Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:691
+#: includes/class.llms.post-types.php:684
 msgid "Add Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:692
+#: includes/class.llms.post-types.php:685
 msgid "Add New Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:694
+#: includes/class.llms.post-types.php:687
 msgid "Edit Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:695
+#: includes/class.llms.post-types.php:688
 msgid "New Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:696
-#: includes/class.llms.post-types.php:697
+#: includes/class.llms.post-types.php:689
+#: includes/class.llms.post-types.php:690
 msgid "View Transaction"
 msgstr ""
 
-#: includes/class.llms.post-types.php:698
+#: includes/class.llms.post-types.php:691
 msgid "Search Transactions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:699
+#: includes/class.llms.post-types.php:692
 msgid "No Transactions found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:700
+#: includes/class.llms.post-types.php:693
 msgid "No Transactions found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:701
+#: includes/class.llms.post-types.php:694
 msgid "Parent Transactions"
 msgstr ""
 
-#: includes/class.llms.post-types.php:704
-msgid "This is where single and recurring order transactions are stored"
-msgstr ""
-
-#: includes/class.llms.post-types.php:729
+#: includes/class.llms.post-types.php:721
 msgid "Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:730
+#: includes/class.llms.post-types.php:722
 msgid "Add Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:731
+#: includes/class.llms.post-types.php:723
 msgid "Add New Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:733
+#: includes/class.llms.post-types.php:725
 msgid "Edit Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:734
+#: includes/class.llms.post-types.php:726
 msgid "New Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:735
-#: includes/class.llms.post-types.php:736
+#: includes/class.llms.post-types.php:727
+#: includes/class.llms.post-types.php:728
 msgid "View Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:737
+#: includes/class.llms.post-types.php:729
 msgid "Search Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:738
+#: includes/class.llms.post-types.php:730
 msgid "No Achievement found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:739
+#: includes/class.llms.post-types.php:731
 msgid "No Achievement found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:740
+#: includes/class.llms.post-types.php:732
 msgid "Parent Achievement"
 msgstr ""
 
-#: includes/class.llms.post-types.php:741
+#: includes/class.llms.post-types.php:733
 msgctxt "Admin menu name"
 msgid "Achievements"
 msgstr ""
 
-#: includes/class.llms.post-types.php:743
-msgid "This is where achievements are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:765
+#: includes/class.llms.post-types.php:756
 msgid "Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:766
+#: includes/class.llms.post-types.php:757
 msgid "Add Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:767
+#: includes/class.llms.post-types.php:758
 msgid "Add New Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:769
+#: includes/class.llms.post-types.php:760
 msgid "Edit Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:770
+#: includes/class.llms.post-types.php:761
 msgid "New Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:771
-#: includes/class.llms.post-types.php:772
+#: includes/class.llms.post-types.php:762
+#: includes/class.llms.post-types.php:763
 msgid "View Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:773
+#: includes/class.llms.post-types.php:764
 msgid "Search Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:774
+#: includes/class.llms.post-types.php:765
 msgid "No Certificates found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:775
+#: includes/class.llms.post-types.php:766
 msgid "No Certificates found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:776
+#: includes/class.llms.post-types.php:767
 msgid "Parent Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:777
+#: includes/class.llms.post-types.php:768
 msgctxt "Admin menu name"
 msgid "Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:779
-#: includes/class.llms.post-types.php:818
-msgid "This is where you can view all of the certificates."
-msgstr ""
-
-#: includes/class.llms.post-types.php:788
+#: includes/class.llms.post-types.php:778
 msgctxt "slug"
 msgid "certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:803
+#: includes/class.llms.post-types.php:793
 #: includes/class.llms.student.dashboard.php:186
 #: includes/functions/llms.functions.templates.dashboard.php:437
 msgid "My Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:804
+#: includes/class.llms.post-types.php:794
 msgid "My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:805
+#: includes/class.llms.post-types.php:795
 msgid "Add My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:806
+#: includes/class.llms.post-types.php:796
 msgid "Add New My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:808
+#: includes/class.llms.post-types.php:798
 msgid "Edit My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:809
+#: includes/class.llms.post-types.php:799
 msgid "New My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:810
-#: includes/class.llms.post-types.php:811
+#: includes/class.llms.post-types.php:800
+#: includes/class.llms.post-types.php:801
 msgid "View My Certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:812
+#: includes/class.llms.post-types.php:802
 msgid "Search My Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:813
+#: includes/class.llms.post-types.php:803
 msgid "No My Certificates found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:814
+#: includes/class.llms.post-types.php:804
 msgid "No My Certificates found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:815
+#: includes/class.llms.post-types.php:805
 msgid "Parent My Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:816
+#: includes/class.llms.post-types.php:806
 msgctxt "Admin menu name"
 msgid "My Certificates"
 msgstr ""
 
-#: includes/class.llms.post-types.php:827
+#: includes/class.llms.post-types.php:816
 msgctxt "slug"
 msgid "my_certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:842
+#: includes/class.llms.post-types.php:831
 msgid "Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:844
+#: includes/class.llms.post-types.php:833
 msgid "Add Email"
 msgstr ""
 
-#: includes/class.llms.post-types.php:845
+#: includes/class.llms.post-types.php:834
 msgid "Add New Email"
 msgstr ""
 
-#: includes/class.llms.post-types.php:847
+#: includes/class.llms.post-types.php:836
 msgid "Edit Email"
 msgstr ""
 
-#: includes/class.llms.post-types.php:848
+#: includes/class.llms.post-types.php:837
 msgid "New Email"
 msgstr ""
 
-#: includes/class.llms.post-types.php:849
-#: includes/class.llms.post-types.php:850
+#: includes/class.llms.post-types.php:838
+#: includes/class.llms.post-types.php:839
 msgid "View Email"
 msgstr ""
 
-#: includes/class.llms.post-types.php:851
+#: includes/class.llms.post-types.php:840
 msgid "Search Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:852
+#: includes/class.llms.post-types.php:841
 msgid "No Emails found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:853
+#: includes/class.llms.post-types.php:842
 msgid "No Emails found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:854
+#: includes/class.llms.post-types.php:843
 msgid "Parent Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:855
+#: includes/class.llms.post-types.php:844
 msgctxt "Admin menu name"
 msgid "Emails"
 msgstr ""
 
-#: includes/class.llms.post-types.php:857
-msgid "This is where emails are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:878
+#: includes/class.llms.post-types.php:866
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:880
+#: includes/class.llms.post-types.php:868
 msgid "Add Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:881
+#: includes/class.llms.post-types.php:869
 msgid "Add New Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:883
+#: includes/class.llms.post-types.php:871
 msgid "Edit Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:884
+#: includes/class.llms.post-types.php:872
 msgid "New Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:885
-#: includes/class.llms.post-types.php:886
+#: includes/class.llms.post-types.php:873
+#: includes/class.llms.post-types.php:874
 msgid "View Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:887
+#: includes/class.llms.post-types.php:875
 msgid "Search Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:888
+#: includes/class.llms.post-types.php:876
 msgid "No Coupon found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:889
+#: includes/class.llms.post-types.php:877
 msgid "No Coupon found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:890
+#: includes/class.llms.post-types.php:878
 msgid "Parent Coupon"
 msgstr ""
 
-#: includes/class.llms.post-types.php:891
+#: includes/class.llms.post-types.php:879
 msgctxt "Admin menu name"
 msgid "Coupons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:893
-msgid "This is where coupons are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:914
+#: includes/class.llms.post-types.php:901
 msgid "Vouchers"
 msgstr ""
 
-#: includes/class.llms.post-types.php:915
+#: includes/class.llms.post-types.php:902
 msgid "Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:916
+#: includes/class.llms.post-types.php:903
 msgid "Add Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:917
+#: includes/class.llms.post-types.php:904
 msgid "Add New Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:919
+#: includes/class.llms.post-types.php:906
 msgid "Edit Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:920
+#: includes/class.llms.post-types.php:907
 msgid "New Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:921
-#: includes/class.llms.post-types.php:922
+#: includes/class.llms.post-types.php:908
+#: includes/class.llms.post-types.php:909
 msgid "View Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:923
+#: includes/class.llms.post-types.php:910
 msgid "Search Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:924
+#: includes/class.llms.post-types.php:911
 msgid "No Voucher found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:925
+#: includes/class.llms.post-types.php:912
 msgid "No Voucher found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:926
+#: includes/class.llms.post-types.php:913
 msgid "Parent Voucher"
 msgstr ""
 
-#: includes/class.llms.post-types.php:927
+#: includes/class.llms.post-types.php:914
 msgctxt "Admin menu name"
 msgid "Vouchers"
 msgstr ""
 
-#: includes/class.llms.post-types.php:929
-msgid "This is where voucher are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:951
+#: includes/class.llms.post-types.php:937
 #: includes/functions/llms.functions.templates.dashboard.php:950
 msgid "Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:952
+#: includes/class.llms.post-types.php:938
 msgctxt "Admin menu name"
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:953
+#: includes/class.llms.post-types.php:939
 msgid "Add Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:954
+#: includes/class.llms.post-types.php:940
 msgid "Add New Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:956
+#: includes/class.llms.post-types.php:942
 msgid "Edit Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:957
+#: includes/class.llms.post-types.php:943
 msgid "New Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:958
-#: includes/class.llms.post-types.php:959
+#: includes/class.llms.post-types.php:944
+#: includes/class.llms.post-types.php:945
 msgid "View Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:960
+#: includes/class.llms.post-types.php:946
 msgid "Search Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:961
+#: includes/class.llms.post-types.php:947
 msgid "No Reviews found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:962
+#: includes/class.llms.post-types.php:948
 msgid "No Reviews found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:963
+#: includes/class.llms.post-types.php:949
 msgid "Parent Review"
 msgstr ""
 
-#: includes/class.llms.post-types.php:965
-msgid "This is where you can add new reviews."
-msgstr ""
-
-#: includes/class.llms.post-types.php:987
+#: includes/class.llms.post-types.php:972
 #: includes/functions/llms-functions-access-plans.php:92
 #: templates/checkout/form-summary.php:12
 #: templates/myaccount/view-order.php:45
 msgid "Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:988
+#: includes/class.llms.post-types.php:973
 msgid "Add Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:989
+#: includes/class.llms.post-types.php:974
 msgid "Add New Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:991
+#: includes/class.llms.post-types.php:976
 msgid "Edit Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:993
-#: includes/class.llms.post-types.php:994
+#: includes/class.llms.post-types.php:978
+#: includes/class.llms.post-types.php:979
 msgid "View Access Plan"
 msgstr ""
 
-#: includes/class.llms.post-types.php:995
+#: includes/class.llms.post-types.php:980
 msgid "Search Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:996
+#: includes/class.llms.post-types.php:981
 msgid "No Access Plans found"
 msgstr ""
 
-#: includes/class.llms.post-types.php:997
+#: includes/class.llms.post-types.php:982
 msgid "No Access Plans found in trash"
 msgstr ""
 
-#: includes/class.llms.post-types.php:998
+#: includes/class.llms.post-types.php:983
 msgid "Parent Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:999
+#: includes/class.llms.post-types.php:984
 msgctxt "Admin menu name"
 msgid "Access Plans"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1001
-msgid "This is where access plans are stored."
-msgstr ""
-
-#: includes/class.llms.post-types.php:1041
+#: includes/class.llms.post-types.php:1025
 msgctxt "Transaction status"
 msgid "Failed"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1049
+#: includes/class.llms.post-types.php:1033
 msgctxt "Transaction status"
 msgid "Pending"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1054
+#: includes/class.llms.post-types.php:1038
 msgid "Pending <span class=\"count\">(%s)</span>"
 msgid_plural "Pending <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:1057
+#: includes/class.llms.post-types.php:1041
 msgctxt "Transaction status"
 msgid "Refunded"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1065
+#: includes/class.llms.post-types.php:1049
 msgctxt "Transaction status"
 msgid "Succeeded"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1070
+#: includes/class.llms.post-types.php:1054
 msgid "Succeeded <span class=\"count\">(%s)</span>"
 msgid_plural "Succeeded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:1123
-#: includes/class.llms.post-types.php:1125
+#: includes/class.llms.post-types.php:1107
+#: includes/class.llms.post-types.php:1109
 msgid "Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1126
+#: includes/class.llms.post-types.php:1110
 msgid "Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1127
-#: includes/class.llms.post-types.php:1258
+#: includes/class.llms.post-types.php:1111
+#: includes/class.llms.post-types.php:1242
 msgctxt "Admin menu name"
 msgid "Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1128
+#: includes/class.llms.post-types.php:1112
 msgid "Search Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1129
+#: includes/class.llms.post-types.php:1113
 msgid "All Course Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1130
+#: includes/class.llms.post-types.php:1114
 msgid "Parent Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1131
+#: includes/class.llms.post-types.php:1115
 msgid "Parent Course Category:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1132
+#: includes/class.llms.post-types.php:1116
 msgid "Edit Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1133
+#: includes/class.llms.post-types.php:1117
 msgid "Update Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1134
+#: includes/class.llms.post-types.php:1118
 msgid "Add New Course Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1135
+#: includes/class.llms.post-types.php:1119
 msgid "New Course Category Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1143
+#: includes/class.llms.post-types.php:1127
 msgctxt "slug"
 msgid "course-category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1156
-#: includes/class.llms.post-types.php:1158
+#: includes/class.llms.post-types.php:1140
+#: includes/class.llms.post-types.php:1142
 msgid "Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1159
+#: includes/class.llms.post-types.php:1143
 msgid "Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1160
+#: includes/class.llms.post-types.php:1144
 msgctxt "Admin menu name"
 msgid "Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1161
+#: includes/class.llms.post-types.php:1145
 msgid "Search Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1162
+#: includes/class.llms.post-types.php:1146
 msgid "All Course Difficulties"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1163
+#: includes/class.llms.post-types.php:1147
 msgid "Parent Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1164
+#: includes/class.llms.post-types.php:1148
 msgid "Parent Course Difficulty:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1165
+#: includes/class.llms.post-types.php:1149
 msgid "Edit Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1166
+#: includes/class.llms.post-types.php:1150
 msgid "Update Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1167
+#: includes/class.llms.post-types.php:1151
 msgid "Add New Course Difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1168
+#: includes/class.llms.post-types.php:1152
 msgid "New Course Difficulty Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1176
+#: includes/class.llms.post-types.php:1160
 msgctxt "slug"
 msgid "course-difficulty"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1188
-#: includes/class.llms.post-types.php:1190
+#: includes/class.llms.post-types.php:1172
+#: includes/class.llms.post-types.php:1174
 msgid "Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1191
+#: includes/class.llms.post-types.php:1175
 msgid "Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1192
-#: includes/class.llms.post-types.php:1292
+#: includes/class.llms.post-types.php:1176
+#: includes/class.llms.post-types.php:1276
 msgctxt "Admin menu name"
 msgid "Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1193
+#: includes/class.llms.post-types.php:1177
 msgid "Search Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1194
+#: includes/class.llms.post-types.php:1178
 msgid "All Course Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1195
+#: includes/class.llms.post-types.php:1179
 msgid "Parent Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1196
+#: includes/class.llms.post-types.php:1180
 msgid "Parent Course Tag:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1197
+#: includes/class.llms.post-types.php:1181
 msgid "Edit Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1198
+#: includes/class.llms.post-types.php:1182
 msgid "Update Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1199
+#: includes/class.llms.post-types.php:1183
 msgid "Add New Course Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1200
+#: includes/class.llms.post-types.php:1184
 msgid "New Course Tag Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1208
+#: includes/class.llms.post-types.php:1192
 msgctxt "slug"
 msgid "course-tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1220
-#: includes/class.llms.post-types.php:1223
+#: includes/class.llms.post-types.php:1204
+#: includes/class.llms.post-types.php:1207
 msgid "Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1222
+#: includes/class.llms.post-types.php:1206
 msgid "Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1224
+#: includes/class.llms.post-types.php:1208
 msgctxt "Admin menu name"
 msgid "Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1225
+#: includes/class.llms.post-types.php:1209
 msgid "Search Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1226
+#: includes/class.llms.post-types.php:1210
 msgid "All Course Tracks"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1227
+#: includes/class.llms.post-types.php:1211
 msgid "Parent Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1228
+#: includes/class.llms.post-types.php:1212
 msgid "Parent Course Track:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1229
+#: includes/class.llms.post-types.php:1213
 msgid "Edit Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1230
+#: includes/class.llms.post-types.php:1214
 msgid "Update Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1231
+#: includes/class.llms.post-types.php:1215
 msgid "Add New Course Track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1232
+#: includes/class.llms.post-types.php:1216
 msgid "New Course Track Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1240
+#: includes/class.llms.post-types.php:1224
 msgctxt "slug"
 msgid "course-track"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1254
-#: includes/class.llms.post-types.php:1256
+#: includes/class.llms.post-types.php:1238
+#: includes/class.llms.post-types.php:1240
 msgid "Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1257
+#: includes/class.llms.post-types.php:1241
 msgid "Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1259
+#: includes/class.llms.post-types.php:1243
 msgid "Search Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1260
+#: includes/class.llms.post-types.php:1244
 msgid "All Membership Categories"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1261
+#: includes/class.llms.post-types.php:1245
 msgid "Parent Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1262
+#: includes/class.llms.post-types.php:1246
 msgid "Parent Membership Category:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1263
+#: includes/class.llms.post-types.php:1247
 msgid "Edit Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1264
+#: includes/class.llms.post-types.php:1248
 msgid "Update Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1265
+#: includes/class.llms.post-types.php:1249
 msgid "Add New Membership Category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1266
+#: includes/class.llms.post-types.php:1250
 msgid "New Membership Category Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1274
+#: includes/class.llms.post-types.php:1258
 msgctxt "slug"
 msgid "membership-category"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1288
-#: includes/class.llms.post-types.php:1290
+#: includes/class.llms.post-types.php:1272
+#: includes/class.llms.post-types.php:1274
 msgid "Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1291
+#: includes/class.llms.post-types.php:1275
 msgid "Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1293
+#: includes/class.llms.post-types.php:1277
 msgid "Search Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1294
+#: includes/class.llms.post-types.php:1278
 msgid "All Membership Tags"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1295
+#: includes/class.llms.post-types.php:1279
 msgid "Parent Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1296
+#: includes/class.llms.post-types.php:1280
 msgid "Parent Membership Tag:"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1297
+#: includes/class.llms.post-types.php:1281
 msgid "Edit Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1298
+#: includes/class.llms.post-types.php:1282
 msgid "Update Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1299
+#: includes/class.llms.post-types.php:1283
 msgid "Add New Membership Tag"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1300
+#: includes/class.llms.post-types.php:1284
 msgid "New Membership Tag Name"
 msgstr ""
 
-#: includes/class.llms.post-types.php:1308
+#: includes/class.llms.post-types.php:1292
 msgctxt "slug"
 msgid "membership-tag"
 msgstr ""
@@ -7356,11 +7366,11 @@ msgstr ""
 msgid "Order History"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:383
+#: includes/class.llms.template.loader.php:387
 msgid "You must be enrolled in the course to access this quiz."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:588
+#: includes/class.llms.template.loader.php:682
 msgid "This content is restricted"
 msgstr ""
 
@@ -7574,19 +7584,19 @@ msgstr ""
 
 #. Translators: %s label of the controller field.
 #: includes/forms/class-llms-form-templates.php:198
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Confirm %s"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:420
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Have a voucher?"
 msgstr ""
 
 #: includes/forms/class-llms-form-templates.php:421
 #: templates/myaccount/form-redeem-voucher.php:24
 #: templates/myaccount/form-redeem-voucher.php:25
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Voucher Code"
 msgstr ""
 
@@ -8128,12 +8138,12 @@ msgid "Catalog &amp; Search"
 msgstr ""
 
 #: includes/llms.functions.core.php:538
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Catalog only"
 msgstr ""
 
 #: includes/llms.functions.core.php:539
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Search only"
 msgstr ""
 
@@ -9409,7 +9419,7 @@ msgid "Phone Number (Reusable)"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:31
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Username"
 msgstr ""
 
@@ -9419,12 +9429,12 @@ msgid "A %s password is required with at least 8 characters. To make it stronger
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:84
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Display Name"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:94
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Address"
 msgstr ""
 
@@ -9671,12 +9681,12 @@ msgstr ""
 #: languages/countries-address-info.php:1275
 #: languages/countries-address-info.php:1280
 #: languages/countries-address-info.php:1285
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "City"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:124
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Select a Country"
 msgstr ""
 
@@ -9816,22 +9826,22 @@ msgstr ""
 #: languages/countries-address-info.php:1266
 #: languages/countries-address-info.php:1281
 #: languages/countries-address-info.php:1286
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:135
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Select a State / Region"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:142
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Postal / Zip Code"
 msgstr ""
 
 #: includes/schemas/llms-user-information-fields.php:150
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Phone Number"
 msgstr ""
 
@@ -31590,7 +31600,7 @@ msgid "LifterLMS Blocks"
 msgstr ""
 
 #: libraries/lifterlms-blocks/includes/class-llms-blocks.php:56
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Custom User Information"
 msgstr ""
 
@@ -34119,7 +34129,6 @@ msgctxt "Search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
 
-#. Translators: %1$s = Post title; %2$ = post id.
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
 msgid "in this course"
 msgstr ""
@@ -34309,586 +34318,602 @@ msgid "LifterLMS Pricing Table"
 msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+msgid "LifterLMS PHP Template"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+msgid "Attention: Do not remove this block!"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:3
+msgid "Removal will cause unintended effects on your LMS site."
+msgstr ""
+
+#. translators: %s is the template title
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
+msgid "This is an editor placeholder for the %s. On your site this will be replaced by the relevant template. You can move this placeholder around and add further blocks around it to extend the template."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:5
 msgid "Add optional placeholder text"
 msgstr ""
 
 #. Translators: %1$s = User's name; %2$s = User's id.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
 msgstr ""
 
-#. Translators: %1$s = User's name; %2$s = User's id.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Reorder instructor"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgid "Reorder option"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgid "Make default"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgid "Option label"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgid "Database key value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:4
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgid "Delete Option"
 msgstr ""
 
 #. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:21
 msgid "Option %d"
 msgstr ""
 
 #. Translators: %d = Option index in the list of options.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:21
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:8
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:23
 msgid "option_%d"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "Options"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "Add option"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "Hide keys"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "Show keys"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "100%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "75%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "66.66%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "50%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "33.33%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "25%"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:7
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
 msgid "Select a field"
 msgstr ""
 
 #. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:9
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:11
 msgid "The value \"%s\" contains invalid characters. Only letters, numbers, underscores, and hyphens are allowed."
 msgstr ""
 
 #. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:11
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
 msgid "The user meta key \"%s\" is not unique. Please choose a unique value."
 msgstr ""
 
 #. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:13
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
 msgid "The ID \"%s\" is not unique. Please choose a unique field ID."
 msgstr ""
 
 #. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:15
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
 msgid "The name \"%s\" is not unique. Please choose a globally unique field name."
 msgstr ""
 
 #. Translators: %s = user-submitted value.
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "The chosen value \"%s\" is invalid."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "The value cannot be blank."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Required"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field is required."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field is optional."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field Width"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Determines the width of the form field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Placeholder"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Displays a placeholder option as the selected instead of a default value."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Confirmation Field"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "A Confirmation field is active."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "No confirmation field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Data Storage"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Usermeta Key"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Database field key name. Only accepts alphanumeric characters, hyphens, and underscores."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field Name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "The field's HTML name attribute."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field ID"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "The field's HTML id attribute."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Field Layout"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Columns"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:17
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:19
 msgid "Stacked"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Input Confirmation Group"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Adds a required confirmation field to an input field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Remove confirmation field"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Checkboxes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A single checkbox toggle or a group of multiple checkboxes."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Radio"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A group of radio inputs which can be populated with any number of options."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Dropdown"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A select field which can be populated with any number of options."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Text"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "An input field which accepts any form of text."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A text input field which only accepts an email address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User password confirmation field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Number"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "An input field which only accepts numeric input."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "An input field which only accepts phone numbers."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Website Address / URL"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "An input field which only accepts a website address or URL."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A simple text input field."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Minimum Value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Specify the minimum allowed value. Leave blank for no minimum."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Maximum Value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Specify the maximum allowed value. Leave blank for no maximum."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Textarea"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A text field accepting multiple lines of user information."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Rows"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Specify the number of text rows for the textarea input."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Voucher Code Redemption"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Allows user to redeem a voucher code during account registration."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Toggleable"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Field is revealed when the toggle is clicked."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Field is always visible."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Display Name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Allows a user to choose how their name will be displayed publicly on the site."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Login"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Field used to collect a user's account username. If this field is omitted a username will be automatically generated based off their email address. Users can always login using either their email address or username."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Email"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's account email address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's first name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's last name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User name"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's first and last name."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Password"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's account password."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A strong password is required with at least 8 characters. To make it stronger, use both upper and lower case letters, numbers, and symbols."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Password strength meter description"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Enter a description for the password strength meter"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Password strength meter"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Password strength meter is enabled."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Password strength meter is disabled."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Minimum Password Strength"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Minimum Password Length"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Address"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A group of fields used to collect a user's full address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Street Address"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Collect a user's street address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's street address."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Street Address Additional Information"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Apartment, suite, etc…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User City"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's billing city."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Country"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's billing country."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Postal Code"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A special field used to collect a user's postal or zip code."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "User Phone"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "A field used to collect a user's phone number."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Visible in the catalog and search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Only visible in the catalog."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Only visible in search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Hidden from catalog and search results."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Catalog & Search Visibility"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Catalog Visibility"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Click to copy."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "No fields found matching your search but you can use the shortcode below if the meta information exists in the database."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Shortcode"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Insert"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "LifterLMS User Information Shortcodes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Shortcodes"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Filter by label, key, or ID…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Default value"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Optional text displayed when no information exists or the user is logged out."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Primary Instructor"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Edit instructor"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructor is visible on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Instructor is hidden on frontend"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Remove"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Search…"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "The form has been restored to the default template."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Undo"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Form Settings"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Display Form Title"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Not displaying form title."
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Revert to Default"
 msgstr ""
 
-#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:22
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Replace the existing content of the form with the original default content."
 msgstr ""
