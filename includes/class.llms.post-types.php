@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -361,7 +361,7 @@ class LLMS_Post_Types {
 	 * @since 4.5.1 Removed "excerpt" support for the course post type.
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since 5.5.0 Register all the post types using `self::register_post_type()`.
-	 * @since [version] Remove all post type descriptions.
+	 * @since 5.8.0 Remove all post type descriptions.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '5.7.0';
+	public $version = '5.8.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -167,7 +167,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
-	 * @since [version] Initialize block templates.
+	 * @since 5.8.0 Initialize block templates.
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ final class LifterLMS {
 	/**
 	 * Block templates instance.
 	 *
-	 * @since [version]
+	 * @since 5.8.0
 	 *
 	 * @return LLMS_Block_Templates
 	 */

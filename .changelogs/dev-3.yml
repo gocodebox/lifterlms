@@ -1,5 +1,0 @@
-significance: minor
-type: changed
-entry: |
-  + The minimum required WordPress core version is no 5.5.
-  + Tested against WordPress 5.9.
