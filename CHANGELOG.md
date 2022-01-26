@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v5.8.0 - 2022-01-25
+v5.8.0 - 2022-01-26
 -------------------
 
 ##### New Features
@@ -13,7 +13,7 @@ v5.8.0 - 2022-01-25
 
 + The minimum required WordPress core version is now version 5.5.
 + Tested against WordPress version 5.9.
-+ Updated LifterLMS Blocks to [v2.3.0](https://make.lifterlms.com/2022/01/25/lifterlms-blocks-version-2-3-0/).
++ Updated LifterLMS Blocks: [v2.3.0](https://make.lifterlms.com/2022/01/25/lifterlms-blocks-version-2-3-0/), [v2.3.1](https://make.lifterlms.com/2022/01/26/lifterlms-blocks-version-2-3-1/).
 + Remove the "description" registered with LifterLMS custom post types. [#710](https://github.com/gocodebox/lifterlms#710)
 
 ##### Updated Templates
