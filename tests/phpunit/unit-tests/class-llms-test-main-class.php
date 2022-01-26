@@ -63,17 +63,32 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test main instances
 	 *
 	 * @since 3.3.1
+	 * @since 5.8.0 Added tests for additional instances.
 	 *
 	 * @return void
 	 */
 	public function test_instances() {
 
-		$this->assertInstanceOf( 'LLMS_Payment_Gateways', $this->llms->payment_gateways() );
-		$this->assertInstanceOf( 'LLMS_Emails', $this->llms->mailer() );
-		$this->assertInstanceOf( 'LLMS_Integrations', $this->llms->integrations() );
-		$this->assertInstanceOf( 'LLMS_Engagements', $this->llms->engagements() );
-		$this->assertInstanceOf( 'LLMS_Certificates', $this->llms->certificates() );
-		$this->assertInstanceOf( 'LLMS_Achievements', $this->llms->achievements() );
+		$tests = array(
+			array( 'LLMS_Achievements', 'achievements' ),
+			array( 'LLMS_Block_Templates', 'block_templates' ),
+			array( 'LLMS_Certificates', 'certificates' ),
+			array( 'LLMS_Engagements', 'engagements' ),
+			array( 'LLMS_Events', 'events' ),
+			array( 'LLMS_Grades', 'grades' ),
+			array( 'LLMS_Integrations', 'integrations' ),
+			array( 'LLMS_Emails', 'mailer' ),
+			array( 'LLMS_Notifications', 'notifications' ),
+			array( 'LLMS_Payment_Gateways', 'payment_gateways' ),
+			array( 'LLMS_Processors', 'processors' ),
+		);
+
+		foreach ( $tests as $test ) {
+
+			list( $expected_class, $func ) = $test;
+			$this->assertInstanceOf( $expected_class, $this->llms->$func() );
+
+		}
 
 	}
 

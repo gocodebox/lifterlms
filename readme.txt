@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.4
-Tested up to: 5.8
+Requires at least: 5.5
+Tested up to: 5.9
 Requires PHP: 7.3
-Stable tag: 5.7.0
+Stable tag: 5.8.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,39 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v5.8.0 - 2022-01-26 =
+
+##### New Features
+
++ Add theme support for the Twenty Twenty-Two theme. [#1824](https://github.com/gocodebox/lifterlms#1824)
++ Added WordPress Full Site Editing compatibility for various LifterLMS-powered templates.
+
+##### Updates and Enhancements
+
++ The minimum required WordPress core version is now version 5.5.
++ Tested against WordPress version 5.9.
++ Updated LifterLMS Blocks: [v2.3.0](https://make.lifterlms.com/2022/01/25/lifterlms-blocks-version-2-3-0/), [v2.3.1](https://make.lifterlms.com/2022/01/26/lifterlms-blocks-version-2-3-1/).
++ Remove the "description" registered with LifterLMS custom post types. [#710](https://github.com/gocodebox/lifterlms#710)
+
+##### Updated Templates
+
++ [templates/block-templates/archive-course.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/archive-course.html)
++ [templates/block-templates/archive-llms_membership.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/archive-llms_membership.html)
++ [templates/block-templates/single-certificate.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/single-certificate.html)
++ [templates/block-templates/single-no-access.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/single-no-access.html)
++ [templates/block-templates/taxonomy-course_cat.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-course_cat.html)
++ [templates/block-templates/taxonomy-course_difficulty.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-course_difficulty.html)
++ [templates/block-templates/taxonomy-course_tag.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-course_tag.html)
++ [templates/block-templates/taxonomy-course_track.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-course_track.html)
++ [templates/block-templates/taxonomy-membership_cat.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-membership_cat.html)
++ [templates/block-templates/taxonomy-membership_tag.html](https://github.com/gocodebox/lifterlms/blob/trunk/templates/block-templates/taxonomy-membership_tag.html)
++ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-navigation.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-preview.php)
++ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/parent-course.php)
++ [templates/loop-main.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/loop-main.php)
++ [templates/loop.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/loop.php)
+
+
 = v5.7.0 - 2022-01-11 =
 
 ##### Updates and Enhancements
@@ -729,18 +762,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + templates/checkout/form-confirm-payment.php
 + templates/admin/reporting/tabs/quizzes/attempt.php
 + templates/quiz/results-attempt-questions-list.php
-
-
-= v5.2.1 - 2021-08-17 =
-
-##### Updates
-
-+ [LifterLMS Helper Version 3.4.1](https://make.lifterlms.com/2021/08/17/lifterlms-helper-version-3-4-1/).
-+ Made minor development-related changes to the `LLMS_Order` class.
-
-##### Bug Fixes
-
-+ Fixed an issue encountered when a course or membership sales page redirect is enabled but no URL is saved.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

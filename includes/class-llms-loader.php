@@ -159,6 +159,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-prevent-concurrent-logins.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-templates.php';
 
 		// Forms.
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-form-field.php';
