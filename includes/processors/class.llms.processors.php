@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 5.3.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,16 +84,17 @@ class LLMS_Processors {
 	}
 
 	/**
-	 * Load all processors
+	 * Load all processors.
 	 *
 	 * @since 3.15.0
+	 * @since 5.8.0 Use the value from the `llms_load_processors` filter.
 	 *
 	 * @return void
 	 */
 	private function load_all() {
 
 		/**
-		 * Filter the list of available processors to be loaded
+		 * Filter the list of available processors to be loaded.
 		 *
 		 * Third parties can use this filter to load custom processors.
 		 *
@@ -105,7 +106,7 @@ class LLMS_Processors {
 		 */
 		$classes = apply_filters( 'llms_load_processors', $this->classes );
 
-		foreach ( $this->classes as $name ) {
+		foreach ( $classes as $name ) {
 
 			$class = $this->load_processor( $name );
 
