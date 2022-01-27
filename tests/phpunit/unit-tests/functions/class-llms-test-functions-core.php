@@ -382,8 +382,46 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_filter_input_sanitize_string_var_not_set() {
 
-		$this->assertNull( llms_filter_input( INPUT_POST, uniqid( 'notset_' ) ) );
-		$this->assertNull( llms_filter_input( INPUT_POST, uniqid( 'notset_' ), array( FILTER_REQUIRE_ARRAY ) ) );
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ) ) );
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ), array( FILTER_REQUIRE_ARRAY ) ) );
+
+	}
+
+
+	/**
+	 * Test llms_filter_input_sanitize_string() when the input var is "empty".
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string_var_empty() {
+
+		$tests = array(
+
+			array(
+				'',
+				'',
+			),
+			array(
+				false,
+				false,
+			),
+			array(
+				'0',
+				'0',
+			),
+			array(
+				null,
+				null,
+			),
+		);
+
+		foreach ( $tests as $test ) {
+			list( $input, $output ) = $test;
+			$this->mockPostRequest( compact( 'input' ) );
+			$this->assertEquals( $output, llms_filter_input_sanitize_string( INPUT_POST, 'input' ) );
+		}
 
 	}
 
@@ -398,9 +436,9 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		$tests = array(
 			array(
-				'simple text input',
-				'simple text input',
-				'simple text input',
+				'simple text input', // Input.
+				'simple text input', // Output with quotes encoded.
+				'simple text input', // Output without quotes encoded.
 			),
 			array(
 				'input "with" double quotes.',
@@ -427,6 +465,36 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 				'Text and a tag and more tags and &#34;quotes&#34;.',
 				'Text and a tag and more tags and "quotes".',
 			),
+			array(
+				1,
+				'1',
+				'1',
+			),
+			array(
+				true,
+				'1',
+				'1',
+			),
+			array(
+				'234234',
+				'234234',
+				'234234',
+			),
+			array(
+				'true',
+				'true',
+				'true',
+			),
+			array(
+				'false',
+				'false',
+				'false',
+			),
+			array(
+				'null',
+				'null',
+				'null',
+			),
 		);
 
 		$types = array(
@@ -446,13 +514,13 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 				$this->$mock_func( compact( 'input' ) );
 
 				// Test input with quotes encoded.
-				$this->assertEquals( $output, llms_filter_input_sanitize_string( $type, 'input' ) );
+				$this->assertEquals( $output, llms_filter_input_sanitize_string( $type, 'input' ), "Input string: {$input}" );
 
 				// Quotes not encoded.
-				$this->assertEquals( $output_no_encode, llms_filter_input_sanitize_string( $type, 'input', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) );
+				$this->assertEquals( $output_no_encode, llms_filter_input_sanitize_string( $type, 'input', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ), "Input string: {$input}" );
 
 				// Requesting array when no array submitted results in the filter failing.
-				$this->assertFalse( llms_filter_input_sanitize_string( $type, 'input', array( FILTER_REQUIRE_ARRAY ) ) );
+				$this->assertFalse( llms_filter_input_sanitize_string( $type, 'input', array( FILTER_REQUIRE_ARRAY ) ), "Input string: {$input}" );
 
 				// Add to FILTER_REQUIRE_ARRAY vars.
 				$arr_input[]            = $input;

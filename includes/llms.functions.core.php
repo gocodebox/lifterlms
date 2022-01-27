@@ -630,7 +630,7 @@ function llms_filter_input_sanitize_string( $type, $variable_name, $flags = arra
 	$string = llms_filter_input( $type, $variable_name, FILTER_UNSAFE_RAW, $require_array ? FILTER_REQUIRE_ARRAY : array() );
 
 	// If we have an empty string or the input var isn't found we can return early.
-	if ( '' === $string || null === $string || false === $string ) {
+	if ( empty( $string ) ) {
 		return $string;
 	}
 
