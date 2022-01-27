@@ -1,6 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#710"
-entry: |
-  + Remove the "description" registered with LifterLMS custom post types.

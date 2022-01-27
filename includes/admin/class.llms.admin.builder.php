@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -165,7 +165,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.14.8
 	 * @since 3.16.12 Unknown.
-	 * @since [version] Allow LMS managers to get all lessons. {@link https://github.com/gocodebox/lifterlms/issues/1849}.
+	 * @since 5.8.0 Allow LMS managers to get all lessons. {@link https://github.com/gocodebox/lifterlms/issues/1849}.
 	 *              Removed unused `$course_id` parameter.
 	 *
 	 * @param string $post_type   Optional. Search specific post type(s). By default searches for all post types.
