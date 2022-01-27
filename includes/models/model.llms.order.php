@@ -654,14 +654,14 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	protected function get_creation_args( $title = '' ) {
 
-		$ts = llms_current_time( 'timestamp' );
+		$date = llms_current_time( 'mysql' );
 
 		if ( empty( $title ) ) {
 
 			$title = sprintf(
 				// Translators: %1$s = Transaction creation date.
 				__( 'Order &ndash; %1$s', 'lifterlms' ),
-				date_format( date_create( "@$ts" ), 'M d, Y @ h:i A' )
+				date_format( date_create( $date ), 'M d, Y @ h:i A' )
 			);
 
 		}
@@ -673,7 +673,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'ping_status'    => 'closed',
 				'post_author'    => 1,
 				'post_content'   => '',
-				'post_date'      => date( 'Y-m-d H:i:s', $ts ),
+				'post_date'      => $date,
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),
