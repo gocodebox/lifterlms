@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -167,30 +167,32 @@ class LLMS_AJAX {
 	/**
 	 * Check if a voucher is a duplicate.
 	 *
+	 * @since Unknown
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return void
 	 */
 	public function check_voucher_duplicate() {
 
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
+		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
+
+		$codes = implode( ', ', array_map( 'absint', $codes ) );
+
 		global $wpdb;
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
-
-		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_POST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
-		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
-
-		$codes_as_string = join( '","', $codes );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$query        = 'SELECT code
-                  FROM ' . $table . '
-                  WHERE code IN ("' . $codes_as_string . '")
-                  AND voucher_id != ' . $post_id;
-		$codes_result = $wpdb->get_results( $query, ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		$res = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				array( $post_id )
+			),
+			ARRAY_A
+		);
 
 		echo json_encode(
 			array(
 				'success'    => true,
-				'duplicates' => $codes_result,
+				'duplicates' => $res,
 			)
 		);
 
@@ -203,13 +205,15 @@ class LLMS_AJAX {
 	 * Used by Select2 AJAX functions to load paginated quiz questions
 	 * Also allows querying by question title
 	 *
+	 * @since Unknown
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return void
 	 */
 	public function query_quiz_questions() {
 
 		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
-
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term' ) : '';
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		global $wpdb;

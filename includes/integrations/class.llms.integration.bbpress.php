@@ -412,6 +412,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.11 Don't update saved forum values during course quick edits & remove redundant sanitization.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP_Post ID of the course.
 	 * @return null|int[]
@@ -419,7 +420,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	public function save_course_settings( $post_id ) {
 
 		// Return early on quick edits.
-		$action = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+		$action = llms_filter_input( INPUT_POST, 'action' );
 		if ( 'inline-save' === $action ) {
 			return null;
 		}

@@ -251,21 +251,21 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.
 	 * @version 3.36.0 Remove superfluous code.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param  int $post_id [id of post object]
-	 *
-	 * @return false|null
+	 * @param int $post_id [id of post object]
+	 * @return boolean|null
 	 */
 	public function save( $post_id ) {
 
-		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export', FILTER_SANITIZE_STRING ) ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
 			return false;
 		}
 
 		// Codes save.
 		$codes = array();
 
-		$llms_codes           = llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$llms_codes           = llms_filter_input_sanitize_string( INPUT_POST, 'llms_voucher_code', array( FILTER_REQUIRE_ARRAY ) );
 		$llms_uses            = llms_filter_input( INPUT_POST, 'llms_voucher_uses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		$llms_voucher_code_id = llms_filter_input( INPUT_POST, 'llms_voucher_code_id', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 
@@ -325,7 +325,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		}
 
 		// Set old codes as deleted.
-		$ids = llms_filter_input( INPUT_POST, 'delete_ids', FILTER_SANITIZE_STRING );
+		$ids = llms_filter_input( INPUT_POST, 'delete_ids' );
 		if ( $ids ) {
 			$delete_ids = array_map( 'absint', explode( ',', $ids ) );
 

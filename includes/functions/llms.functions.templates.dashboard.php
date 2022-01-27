@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.3.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -495,6 +495,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -521,7 +522,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
 			$page     = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
-			$sort = filter_input( INPUT_GET, 'sort', FILTER_SANITIZE_STRING );
+			$sort = llms_filter_input_sanitize_string( INPUT_GET, 'sort' );
 			if ( ! $sort ) {
 				$sort = 'date_desc';
 			}
@@ -690,6 +691,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 3.37.15 Use `in_array()`'s strict comparison.
 	 * @since 3.37.16 Fixed typo when comparing the current view.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -708,7 +710,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			),
 		);
 
-		$view = isset( $_GET['sdview'] ) ? llms_filter_input( INPUT_GET, 'sdview', FILTER_SANITIZE_STRING ) : 'view';
+		$view = isset( $_GET['sdview'] ) ? llms_filter_input( INPUT_GET, 'sdview' ) : 'view';
 
 		if ( 'view' === $view ) {
 

@@ -135,6 +135,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 * Test get_attempt_by_id() and get_attempt_by_key()
 	 *
 	 * @since 4.21.2
+	 * @since [version] Don't use an invalid fake hash length.
 	 *
 	 * @return void
 	 */
@@ -155,7 +156,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 		$this->assertFalse( $student->quizzes()->get_attempt_by_id( absint( $attempt->get( 'id' ) ) + 1 ) );
 
 		// Key doesn't exist.
-		$this->assertFalse( $student->quizzes()->get_attempt_by_key( 'FAKEHASH' ) );
+		$this->assertFalse( $student->quizzes()->get_attempt_by_key( 'FAKE' ) );
 
 		// ID exists but Wrong student.
 		wp_set_current_user( $this->factory->user->create() );

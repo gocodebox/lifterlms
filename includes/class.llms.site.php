@@ -10,7 +10,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 4.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -70,16 +70,18 @@ class LLMS_Site {
 	}
 
 	/**
-	 * Get the lock url for the current site
-	 * gets the WP site url and adds the lock string to it
+	 * Get the lock url for the current site.
+	 *
+	 * Gets the WP site url and inserts the lock string into the (approximate) middle of the url.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Pass an explicit integer to `substr_replace()`.
 	 *
 	 * @return string
 	 */
 	public static function get_lock_url() {
 		$site_url = get_site_url();
-		return substr_replace( $site_url, self::$lock_string, strlen( $site_url ) / 2, 0 );
+		return substr_replace( $site_url, self::$lock_string, intval( strlen( $site_url ) / 2 ), 0 );
 	}
 
 	/**

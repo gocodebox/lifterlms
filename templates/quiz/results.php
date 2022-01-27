@@ -7,7 +7,8 @@
  * @since 1.0.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 4.17.0 Return early if accessed without a logged in user.
- * @version 4.17.0
+ * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+ * @version [version]
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */
@@ -35,7 +36,7 @@ $attempts = $student->quizzes()->get_attempts_by_quiz(
 	)
 );
 
-$key     = llms_filter_input( INPUT_GET, 'attempt_key', FILTER_SANITIZE_STRING );
+$key     = llms_filter_input_sanitize_string( INPUT_GET, 'attempt_key' );
 $attempt = $key ? $student->quizzes()->get_attempt_by_key( $key ) : false;
 
 if ( ! $attempt && ! $attempts ) {

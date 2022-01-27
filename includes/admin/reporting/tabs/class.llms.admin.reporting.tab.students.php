@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.2.0
- * @version 4.20.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,6 +94,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 *
 	 * @since 3.2.0
 	 * @since 4.20.0 Added a report permission check and a user existence check.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -125,7 +126,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 			llms_get_template(
 				'admin/reporting/tabs/students/student.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'information',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input_sanitize_string( INPUT_GET, 'stab' ) ) : 'information',
 					'tabs'        => $tabs,
 					'student'     => $student,
 				)

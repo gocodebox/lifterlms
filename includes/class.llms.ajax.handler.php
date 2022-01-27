@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -343,13 +343,14 @@ class LLMS_AJAX_Handler {
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
 	public static function query_students() {
 
 		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES ) : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
@@ -805,6 +806,7 @@ class LLMS_AJAX_Handler {
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -813,13 +815,13 @@ class LLMS_AJAX_Handler {
 		global $wpdb;
 
 		// Grab the search term if it exists.
-		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+		$term = llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 
 		// Get the page.
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Get post type(s).
-		$post_type        = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
+		$post_type        = sanitize_text_field( llms_filter_input_sanitize_string( INPUT_POST, 'post_type' ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
@@ -827,7 +829,7 @@ class LLMS_AJAX_Handler {
 		$post_types = implode( ',', $post_types_array );
 
 		// Get post status(es).
-		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = llms_filter_input_sanitize_string( INPUT_POST, 'post_statuses' );
 		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {

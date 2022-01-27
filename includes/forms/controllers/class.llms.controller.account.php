@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 4.21.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,6 +140,7 @@ class LLMS_Controller_Account {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Refactored for readability and added new hooks.
 	 * @since 4.21.3 Increase 3rd party support for WP core hooks.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error|true `null` when nonce cannot be verified.
 	 *                            `WP_Error` when an error is encountered.
@@ -161,7 +162,7 @@ class LLMS_Controller_Account {
 
 		$err   = new WP_Error();
 		$user  = false;
-		$login = llms_filter_input( INPUT_POST, 'llms_login', FILTER_SANITIZE_STRING );
+		$login = llms_filter_input_sanitize_string( INPUT_POST, 'llms_login' );
 
 		// Login is required.
 		if ( empty( $login ) ) {
@@ -245,6 +246,7 @@ class LLMS_Controller_Account {
 	 * Redeem a voucher from the "Redeem Voucher" endpoint of the student dashboard
 	 *
 	 * @since 4.12.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|true|WP_Error Returns `null` when the form hasn't been submitted, there's a nonce error, or there's no logged in user.
 	 *                            Returns `true` on success and an error object when an error is encountered redeeming the voucher.
@@ -256,7 +258,7 @@ class LLMS_Controller_Account {
 		}
 
 		$voucher  = new LLMS_Voucher();
-		$redeemed = $voucher->use_voucher( llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING ), get_current_user_id() );
+		$redeemed = $voucher->use_voucher( llms_filter_input_sanitize_string( INPUT_POST, 'llms_voucher_code' ), get_current_user_id() );
 
 		if ( is_wp_error( $redeemed ) ) {
 			llms_add_notice( $redeemed->get_error_message(), 'error' );
@@ -303,6 +305,7 @@ class LLMS_Controller_Account {
 	 * Handle the submission of the password reset form.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
 	 */
@@ -332,8 +335,8 @@ class LLMS_Controller_Account {
 			return $valid;
 		}
 
-		$login = llms_filter_input( INPUT_POST, 'llms_reset_login', FILTER_SANITIZE_STRING );
-		$key   = llms_filter_input( INPUT_POST, 'llms_reset_key', FILTER_SANITIZE_STRING );
+		$login = llms_filter_input_sanitize_string( INPUT_POST, 'llms_reset_login' );
+		$key   = llms_filter_input_sanitize_string( INPUT_POST, 'llms_reset_key' );
 		$user  = check_password_reset_key( $key, $login );
 
 		if ( is_wp_error( $user ) ) {
@@ -341,7 +344,7 @@ class LLMS_Controller_Account {
 			return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
 		}
 
-		reset_password( $user, addslashes( llms_filter_input( INPUT_POST, 'password', FILTER_UNSAFE_RAW ) ) );
+		reset_password( $user, addslashes( llms_filter_input( INPUT_POST, 'password' ) ) );
 
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.
@@ -377,6 +380,7 @@ class LLMS_Controller_Account {
 	 * redirect to the password reset form.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -384,9 +388,9 @@ class LLMS_Controller_Account {
 
 		if ( is_llms_account_page() && isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
 
-			$user = get_user_by( 'login', wp_unslash( llms_filter_input( INPUT_GET, 'login', FILTER_SANITIZE_STRING ) ) );
+			$user = get_user_by( 'login', wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'login' ) ) );
 			$uid  = $user ? $user->ID : 0;
-			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING ) ) );
+			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'key' ) ) );
 
 			llms_set_password_reset_cookie( $val );
 			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );

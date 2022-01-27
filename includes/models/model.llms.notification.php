@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -263,10 +263,15 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Called when converting a notification to JSON
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @todo The `mixed` return type declared by the parent method, which should be defined here as well,
+	 *       is not available until PHP 8.0. Once support is dropped for 7.4 we can add the return type declaration
+	 *       and remove the `#[ReturnTypeWillChange]` attribute. This *must* happen before the release of PHP 9.0.
+	 *
+	 * @return array
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return $this->toArray();
 	}
