@@ -8,6 +8,8 @@
  * @version [version]
  *
  * @param LLMS_User_Certificate $certificate       Certificate object.
+ * @param string                $back_link         URL for the back link.
+ * @param string                $back_text         Text for the back link anchor.
  * @param boolean               $is_shaing_enabled Whether or not sharing is enabled for the certificate.
  */
 
@@ -15,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-print-certificate no-print" id="llms-print-certificate">
 
-	<a href="<?php echo esc_url( llms_get_endpoint_url( 'my-certificates', '', get_permalink( llms_get_page_id( 'myaccount' ) ) ) ); ?>">&larr; <?php echo _e( 'All certificates', 'lifterlms' ); ?></a>
+	<a class="llms-cert-return-link" href="<?php echo esc_url( $back_link ); ?>">&larr; <?php echo $back_text; ?></a>
 
 	<button class="llms-button-secondary" onClick="window.print()" type="button">
 		<?php echo _e( 'Print', 'lifterlms' ); ?>

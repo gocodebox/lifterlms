@@ -141,6 +141,44 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_certificate_actions().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_certificate_actions_backlink() {
+
+		$cert = $this->get_cert();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->assertOutputContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		$this->assertOutputContains(
+			'All certificates</a>',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		update_option( 'lifterlms_myaccount_certificates_endpoint', '' );
+
+		$this->assertOutputContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		$this->assertOutputContains(
+			'Dashboard</a>',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		update_option( 'lifterlms_myaccount_certificates_endpoint', 'my-certificates' );
+
+	}
+
 	// public function test_llms_get_certificate_preview() {}
 	// public function test_llms_the_certificate_preview() {}
 
