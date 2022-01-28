@@ -14,6 +14,9 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-print-certificate no-print" id="llms-print-certificate">
+
+	<a href="<?php echo esc_url( llms_get_endpoint_url( 'my-certificates', '', get_permalink( llms_get_page_id( 'myaccount' ) ) ) ); ?>">&larr; <?php echo _e( 'All certificates', 'lifterlms' ); ?></a>
+
 	<button class="llms-button-secondary" onClick="window.print()" type="button">
 		<?php echo _e( 'Print', 'lifterlms' ); ?>
 		<i class="fa fa-print" aria-hidden="true"></i>
