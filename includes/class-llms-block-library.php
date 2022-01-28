@@ -76,7 +76,7 @@ class LLMS_Block_Library {
 		// Only load fonts when in post editor context for a certificate post type.
 		if ( ! empty( $context->post ) && in_array( $context->post->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 
-			$theme_fonts  = $settings['__experimentalFeatures']['typography']['fontFamilies']['theme'] ?? array();
+			$theme_fonts = $settings['__experimentalFeatures']['typography']['fontFamilies']['theme'] ?? array();
 
 			$fonts        = llms_get_certificate_fonts();
 			$custom_fonts = array_map(
@@ -101,7 +101,6 @@ class LLMS_Block_Library {
 				),
 				array_merge( $theme_fonts, array_filter( $custom_fonts ) )
 			);
-
 
 		}
 

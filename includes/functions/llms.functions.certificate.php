@@ -109,40 +109,40 @@ function llms_get_certificate_fonts() {
 
 		// Default fonts.
 		'sans'                => array(
-			'name' => __( 'Sans-serif', 'lifterlms' ),
-			'href' => null,
+			'name'       => __( 'Sans-serif', 'lifterlms' ),
+			'href'       => null,
 			// From https://systemfontstack.com.
-			'fontFamily'  => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
+			'fontFamily' => '-apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Ubuntu, roboto, noto, arial, sans-serif',
 		),
 		'serif'               => array(
-			'name' => __( 'Serif', 'lifterlms' ),
-			'href' => null,
+			'name'       => __( 'Serif', 'lifterlms' ),
+			'href'       => null,
 			// From https://systemfontstack.com.
-			'fontFamily'  => $serif,
+			'fontFamily' => $serif,
 		),
 
 		// Newspaper-style display fonts.
 		'pirata-one'          => array(
-			'name' => 'Pirata One',
-			'href' => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
-			'fontFamily'  => '"Pirata One", ' . $serif,
+			'name'       => 'Pirata One',
+			'href'       => 'https://fonts.googleapis.com/css2?family=Pirata+One&display=swap',
+			'fontFamily' => '"Pirata One", ' . $serif,
 		),
 		'unifraktur-maguntia' => array(
-			'name' => 'UnifrakturMaguntia',
-			'href' => 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap',
-			'fontFamily'  => '"UnifrakturMaguntia", ' . $serif,
+			'name'       => 'UnifrakturMaguntia',
+			'href'       => 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap',
+			'fontFamily' => '"UnifrakturMaguntia", ' . $serif,
 		),
 
 		// Cursive-style handwriting fonts.
 		'dancing-script'      => array(
-			'name' => 'Dancing Script',
-			'href' => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
-			'fontFamily'  => '"Dancing Script", ' . $serif,
+			'name'       => 'Dancing Script',
+			'href'       => 'https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap',
+			'fontFamily' => '"Dancing Script", ' . $serif,
 		),
 		'imperial-script'     => array(
-			'name' => 'Imperial Script',
-			'href' => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
-			'fontFamily'  => '"Imperial Script", ' . $serif,
+			'name'       => 'Imperial Script',
+			'href'       => 'https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap',
+			'fontFamily' => '"Imperial Script", ' . $serif,
 		),
 
 	);
