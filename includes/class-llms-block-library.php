@@ -62,9 +62,18 @@ class LLMS_Block_Library {
 
 	}
 
+	/**
+	 * Loads custom fonts for the llms/certificate-title block.
+	 *
+	 * @since [version]
+	 *
+	 * @param array                   $settings Editor settings.
+	 * @param WP_Block_Editor_Context $context  Current block editor context.
+	 * @return array
+	 */
 	public function modify_editor_settings( $settings, $context ) {
 
-		// Certificate editor
+		// Only load fonts when in post editor context for a certificate post type.
 		if ( ! empty( $context->post ) && in_array( $context->post->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
 
 			$theme_fonts  = $settings['__experimentalFeatures']['typography']['fontFamilies']['theme'] ?? array();
