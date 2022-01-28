@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version 5.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -349,25 +349,17 @@ class LLMS_Block_Templates {
 	 * Build a wp template from file.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Allow template directory override when the block template comes from an add-on.
 	 *
 	 * @param string $template_file Template file path.
 	 * @param string $template_slug Template slug.
-	 *
 	 * @return WP_Block_Template
 	 */
 	private function build_template_result_from_file( $template_file, $template_slug = '' ) {
 
-		$template_slug      = empty( $template_slug ) ? $this->generate_template_slug_from_path( $template_file ) : $template_slug;
-		$template_path_info = pathinfo( $template_file );
-		$template_file_name = $template_path_info['filename'];
-		$namespace          = $this->generate_template_namespace_from_path( $template_file );
-
-		// Does this come from LifterLMS or from an add-on? In the latter case use the absolute path.
-		$template_file = false !== strpos( $template_path_info['dirname'], trailingslashit( llms()->plugin_path() ) )
-			?
-			llms_template_file_path( self::LLMS_BLOCK_TEMPLATES_DIRECTORY_NAME . '/' . $template_file_name . '.html' )
-			:
-			llms_template_file_path( $template_file_name . '.html', $template_path_info['dirname'], true );
+		$template_slug = empty( $template_slug ) ? $this->generate_template_slug_from_path( $template_file ) : $template_slug;
+		$namespace     = $this->generate_template_namespace_from_path( $template_file );  // Looks like 'lifterlms/lifterlms' or 'lifterlms-groups/lifterlms-groups', etc.
+		$template_file = $this->get_maybe_overridden_block_template_file_path( $template_file );
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$template_content = file_get_contents( $template_file );
@@ -443,6 +435,40 @@ class LLMS_Block_Templates {
 	}
 
 	/**
+	 * Retrieve the actual template file path, maybe overridden in the theme.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $template_file The template's path.
+	 * @return string
+	 */
+	private function get_maybe_overridden_block_template_file_path( $template_file ) {
+
+		$template_path_info  = pathinfo( $template_file );
+		$template_file_name  = $template_path_info['filename'];
+		$template_blocks_dir = untrailingslashit( $this->generate_template_blocks_dir_from_path( $template_file ) ); // Looks like 'block-templates'.
+
+		/**
+		 * Does this come from LifterLMS or from an add-on? In the latter case use the absolute path.
+		 *
+		 * $template_path_info['dirname'] looks like 'ABSPATH/wp-content/plugins/lifterlms/templates/block-templates' or
+		 * 'ABSPATH/wp-content/plugins/lifterlms-groups/templates/block-templates' for an add-on.
+		 */
+		return false !== strpos( $template_path_info['dirname'], trailingslashit( llms()->plugin_path() ) )
+			?
+			llms_template_file_path(
+				$template_blocks_dir . '/' . $template_file_name . '.html'
+			)
+			:
+			llms_template_file_path(
+				$template_blocks_dir . '/' . $template_file_name . '.html', // Looks like 'block-templates/single-llms_group.html'.
+				substr( $template_path_info['dirname'], 0, -1 * strlen( $template_blocks_dir ) ), // Looks like 'ABSPATH/wp-content/plugins/lifterlms-groups/templates/'.
+				true
+			);
+
+	}
+
+	/**
 	 * Convert the template paths into a slug.
 	 *
 	 * @since 5.8.0
@@ -488,6 +514,20 @@ class LLMS_Block_Templates {
 	private function generate_template_prefix_from_path( $path ) {
 
 		return $this->block_template_config_property_from_path( $path, 'prefix' );
+
+	}
+
+	/**
+	 * Generate the block template directory (relative to the templates direcotry) from the template path.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $path The template's path.
+	 * @return string
+	 */
+	private function generate_template_blocks_dir_from_path( $path ) {
+
+		return $this->block_template_config_property_from_path( $path, 'blocks_dir' );
 
 	}
 
