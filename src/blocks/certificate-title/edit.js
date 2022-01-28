@@ -1,55 +1,13 @@
 // WP Deps.
-import { createHigherOrderComponent } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { useSelect, dispatch, select } from '@wordpress/data';
 import { store as blocksStore } from '@wordpress/blocks';
 import { store as editorStore } from '@wordpress/editor';
-import { PanelRow, PanelBody } from '@wordpress/components';
-import { InspectorControls } from '@wordpress/block-editor';
-import { addFilter } from '@wordpress/hooks';
 
 // Internal deps.
 import metadata from './block.json';
-import FontSelectControl from './font-select-control';
-import { getFonts } from './fonts-store';
 
 const { name } = metadata;
-
-/**
- * Filters the BlockEdit of the block to add the font family select control.
- *
- * The font family selection is supported in WP core 5.9 or later, on earlier versions
- * the control will not display.
- *
- * @since [version]
- */
-const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
-	return ( props ) => {
-		if ( ! Object.keys( getFonts() ).length ) {
-			return <BlockEdit { ...props } />;
-		}
-
-		const { name: blockName, attributes, setAttributes } = props,
-			{ fontFamily } = attributes;
-
-		return (
-			<>
-				<BlockEdit { ...props } />
-				{ ( blockName === name ) && (
-					<InspectorControls>
-						<PanelBody title={ __( 'Font Family', 'lifterlms' ) } initialOpen={ true }>
-							<PanelRow>
-								<FontSelectControl { ...{ fontFamily, setAttributes } } />
-							</PanelRow>
-						</PanelBody>
-					</InspectorControls>
-				) }
-			</>
-		);
-	};
-}, 'withInspectorControl' );
-
-addFilter( 'editor.BlockEdit', 'lifterlms/certificate-title-controls', withInspectorControls );
 
 /**
  * Persist content to the database.
