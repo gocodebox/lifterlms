@@ -50,7 +50,7 @@ $gfonts_preconnet = false;
 	}
 	<?php foreach ( $fonts as $font ) : ?>
 	.has-<?php echo $font['id']; ?>-font-family {
-		font-family: <?php echo $font['css']; ?>;
+		font-family: <?php echo $font['fontFamily']; ?>;
 	}
 	<?php endforeach; ?>
 </style>
