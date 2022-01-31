@@ -96,8 +96,9 @@ class LLMS_Loader {
 	 * @since 4.13.0 Include `LLMS_DOM_Document` class.
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
-	 * @since 5.6.0 Inlcude `LLMS_Prevent_Concurrent_Logins`.
-	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Block_Library`, `LLMS_Controller_Awards`, `LLMS_Abstract_User_Engagement` and `LLMS_Engagement_Handler`.
+	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
+	 * @since [version] Include `LLMS_Abstract_Query`, `LLMS_Awards_Query`, `LLMS_Block_Library`, `LLMS_Controller_Awards`,
+	 *              `LLMS_Abstract_User_Engagement`, `LLMS_Engagement_Handler` and `LLMS_Abstract_Controller_User_Engagements`.
 	 *
 	 * @return void
 	 */
@@ -109,7 +110,9 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.payment.gateway.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.post.model.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-controller-user-engagements.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-generator-posts.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-processor-user-engagement-sync.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-data.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-user-engagement.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-session-database-handler.php';
@@ -251,6 +254,7 @@ class LLMS_Loader {
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
+	 * @since [version] Include `LLMS_Abstract_Meta_Box_User_Engagement_Sync`.
 	 *
 	 * @return void
 	 */
@@ -266,6 +270,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-meta-box-user-engagement-sync.php';
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
