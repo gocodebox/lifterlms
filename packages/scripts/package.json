@@ -28,5 +28,8 @@
     "@wordpress/scripts": "^20.0.2",
     "dotenv": "^8.2.0",
     "webpack-rtl-plugin": "^2.0.0"
+  },
+  "scripts": {
+    "dev": "./../dev/src/index.js"
   }
 }
