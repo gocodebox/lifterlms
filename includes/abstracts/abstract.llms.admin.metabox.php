@@ -107,9 +107,9 @@ abstract class LLMS_Admin_Metabox {
 	public $prefix = '_llms_';
 
 	/**
-	 * Array of error message strings to be displayed after an update attempt.
+	 * Array of error messages to be displayed after an update attempt.
 	 *
-	 * @var array
+	 * @var string[]|WP_Error[]
 	 */
 	private $errors = array();
 
@@ -196,11 +196,11 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown.
 	 *
-	 * @param string $text Error message text.
+	 * @param string|WP_Error $error Error message text.
 	 * @return void
 	 */
-	public function add_error( $text ) {
-		$this->errors[] = $text;
+	public function add_error( $error ) {
+		$this->errors[] = $error;
 	}
 
 	/**
@@ -219,7 +219,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @return string[]
+	 * @return string[]|WP_Error[]
 	 */
 	public function get_errors() {
 		return get_option( $this->error_opt_key, array() );
@@ -291,6 +291,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Load errors using `$this->get_errors()` instead of `get_option()`.
+	 * @since [version] Handle WP_Error objects.
 	 *
 	 * @return void
 	 */
@@ -303,6 +304,9 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		foreach ( $errors as $error ) {
+			if ( is_object( $error ) && 'WP_Error' === get_class( $error ) ) {
+				$error = $error->get_error_message();
+			}
 			echo '<div id="lifterlms_errors" class="error"><p>' . $error . '</p></div>';
 		}
 
