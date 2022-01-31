@@ -25,7 +25,7 @@ const getTitle = async function() {
  *
  * @since 2.1.0
  * @since 2.2.0 Rework to accommodate setup wizard changes in LifterLMS core.
- * @since [version] Fix title assertion on WordPress >= v5.9.
+ * @since 3.2.0 Fix title assertion on WordPress >= v5.9.
  *
  * @param {Object}   options                 Options object.
  * @param {string[]} options.coursesToImport Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
