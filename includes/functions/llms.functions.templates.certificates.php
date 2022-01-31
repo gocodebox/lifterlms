@@ -81,7 +81,7 @@ function llms_certificate_actions( $certificate ) {
 	$back_link = $cert_ep_enabled ? llms_get_endpoint_url( 'view-certificates', '', $dashboard_url ) : $dashboard_url;
 	$back_text = $cert_ep_enabled ? __( 'All certificates', 'lifterlms' ) : __( 'Dashboard', 'lifterlms' );
 
- 	$is_template        = 'llms_certificate' === $certificate->get( 'type' );
+	$is_template        = 'llms_certificate' === $certificate->get( 'type' );
 	$is_sharing_enabled = $certificate->is_sharing_enabled();
 	llms_get_template(
 		'certificates/actions.php',
