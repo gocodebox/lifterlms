@@ -8,7 +8,7 @@ import { getWPVersion } from './get-wp-version';
  * @since [version]
  *
  * @param {string} version    A version string.
- * @param {String} comparator A comparison string, eg ">=" or "<", etc...
+ * @param {string} comparator A comparison string, eg ">=" or "<", etc...
  * @return {boolean} Comparison result.
  */
 export function wpVersionCompare( version, comparator = '>=' ) {

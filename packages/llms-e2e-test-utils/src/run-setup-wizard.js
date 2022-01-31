@@ -36,7 +36,6 @@ export async function runSetupWizard( {
 	coursesToImport = [ 'LifterLMS Quickstart Course' ],
 	exit = false,
 } = {} ) {
-
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
