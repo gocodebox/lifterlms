@@ -27,6 +27,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
+		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-meta-box-user-engagement-sync.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		if ( ! class_exists( 'LLMS_Admin_Meta_Boxes' ) ) {
 			( new LLMS_Admin_Post_Types() )->include_post_type_metabox_class();
