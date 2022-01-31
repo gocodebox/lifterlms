@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1122,10 +1122,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * Encodes the results of $this->toArray().
 	 *
+	 * @todo The `mixed` return type declared by the parent method, which should be defined here as well,
+	 *       is not available until PHP 8.0. Once support is dropped for 7.4 we can add the return type declaration
+	 *       and remove the `#[ReturnTypeWillChange]` attribute. This *must* happen before the release of PHP 9.0.
+	 *
 	 * @since 3.3.0
 	 *
 	 * @return array
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		/**
 		 * Filters the properties of the model that *cannot* be set
@@ -1186,7 +1191,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Scrub fields according to datatype
 	 *
 	 * @since 3.0.0
-	 * @since 3.19.2
+	 * @since 3.19.2 Unknown.
+	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
+	 *              Only strip tags from string values.
+	 *              Coerce `null` html input to an empty string.
 	 *
 	 * @param mixed  $val  Property value to scrub.
 	 * @param string $type Data type.
@@ -1194,8 +1202,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected function scrub_field( $val, $type ) {
 
-		if ( 'html' !== $type && 'array' !== $type ) {
-			$val = strip_tags( $val );
+		if ( is_string( $val ) && 'html' !== $type ) {
+			$val = wp_strip_all_tags( $val );
 		}
 
 		switch ( $type ) {
@@ -1222,7 +1230,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			case 'html':
 				$this->allowed_post_tags_set();
-				$val = wp_kses_post( $val );
+				$val = wp_kses_post( $val ?? '' );
 				$this->allowed_post_tags_unset();
 				break;
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -243,6 +243,7 @@ class LLMS_Loader {
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
+	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -298,7 +299,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
 
 		// Load setup wizard conditionally.
-		if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+		if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page' ) ) {
 			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
 		}
 

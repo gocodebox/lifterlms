@@ -60,6 +60,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.8.0
 	 * @since 4.12.0 Added urls with "www".
+	 * @since [version] Pass an explicit integer to `substr_replace()`.
 	 *
 	 * @return void
 	 */
@@ -84,7 +85,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 			$site_url = get_site_url();
 
 			// This is what the lock url should be.
-			$lock_url = substr_replace( $site_url, LLMS_Site::$lock_string, strlen( $site_url ) / 2, 0 );
+			$lock_url = substr_replace( $site_url, LLMS_Site::$lock_string, intval( strlen( $site_url ) / 2 ), 0 );
 
 			// Make sure they match.
 			$this->assertEquals( $lock_url, LLMS_Site::get_lock_url() );
