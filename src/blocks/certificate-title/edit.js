@@ -7,8 +7,6 @@ import { store as editorStore } from '@wordpress/editor';
 // Internal deps.
 import metadata from './block.json';
 
-const { name } = metadata;
-
 /**
  * Persist content to the database.
  *
