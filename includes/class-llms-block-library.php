@@ -28,6 +28,8 @@ class LLMS_Block_Library {
 
 		add_action( 'init', array( $this, 'register' ) );
 
+		add_filter( 'block_editor_settings_all', array( $this, 'modify_editor_settings' ), 100, 2 );
+
 	}
 
 	/**
@@ -57,6 +59,52 @@ class LLMS_Block_Library {
 		}
 
 		return $blocks;
+
+	}
+
+	/**
+	 * Loads custom fonts for the llms/certificate-title block.
+	 *
+	 * @since [version]
+	 *
+	 * @param array                   $settings Editor settings.
+	 * @param WP_Block_Editor_Context $context  Current block editor context.
+	 * @return array
+	 */
+	public function modify_editor_settings( $settings, $context ) {
+
+		// Only load fonts when in post editor context for a certificate post type.
+		if ( ! empty( $context->post ) && in_array( $context->post->post_type, array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+
+			$theme_fonts = $settings['__experimentalFeatures']['typography']['fontFamilies']['theme'] ?? array();
+
+			$fonts        = llms_get_certificate_fonts();
+			$custom_fonts = array_map(
+				function( $slug, $font_data ) {
+					unset( $font_data['href'] );
+					$font_data['slug'] = $slug;
+					return $font_data;
+				},
+				array_keys( $fonts ),
+				$fonts
+			);
+
+			_wp_array_set(
+				$settings,
+				array(
+					'__experimentalFeatures',
+					'blocks',
+					'llms/certificate-title',
+					'typography',
+					'fontFamilies',
+					'custom',
+				),
+				array_merge( $theme_fonts, array_filter( $custom_fonts ) )
+			);
+
+		}
+
+		return $settings;
 
 	}
 
