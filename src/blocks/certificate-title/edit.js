@@ -4,9 +4,6 @@ import { useSelect, dispatch, select } from '@wordpress/data';
 import { store as blocksStore } from '@wordpress/blocks';
 import { store as editorStore } from '@wordpress/editor';
 
-// Internal deps.
-import metadata from './block.json';
-
 /**
  * Persist content to the database.
  *
