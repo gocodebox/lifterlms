@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificates earned by a student.
+ * A certificate awarded to a student.
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
@@ -108,8 +108,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 *
-	 * This stub can be overwritten by child classes.
-	 *
 	 * @since [version]
 	 *
 	 * @return void
@@ -117,8 +115,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	protected function after_create() {
 
 		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
-		$this->sync( 'create' );
-
+		parent::after_create();
 	}
 
 	/**
@@ -232,7 +229,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
 
@@ -246,7 +243,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $width          Display width of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
 
@@ -263,7 +260,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param string $src            The image source url.
-			 * @param int    $certificate_id WP_Post ID of the earned certificate.
+			 * @param int    $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$src = apply_filters( 'lifterlms_certificate_background_image_src', $src, $id );
 
@@ -277,7 +274,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$height = apply_filters( 'lifterlms_certificate_background_image_height', $height, $id );
 
@@ -291,7 +288,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $width          Display width of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$width = apply_filters( 'lifterlms_certificate_background_image_width', $width, $id );
 

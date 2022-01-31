@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for earned user achievements
+ * Tests for awarded user achievements
  *
  * @group models
  * @group achievements
@@ -18,6 +18,13 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	 * @var string
 	 */
 	protected $class_name = 'LLMS_User_Achievement';
+
+	/**
+	 * Will hold an instance of the model being tested by the class.
+	 *
+	 * @var LLMS_User_Achievement
+	 */
+	protected $obj;
 
 	/**
 	 * DB post type of the model being tested
@@ -38,9 +45,9 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	 */
 	protected function get_data() {
 		return array(
-			'awarded'       => '2021-12-10 23:02:59',
-			'engagement'    => 3,
-			'related'       => 4,
+			'awarded'    => '2021-12-10 23:02:59',
+			'engagement' => 3,
+			'related'    => 4,
 		);
 	}
 
@@ -56,6 +63,24 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 		parent::set_up_before_class();
 		llms()->achievements();
 
+	}
+
+	/**
+	 * Test the after_create() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_after_create() {
+
+		$actions = did_action( 'llms_achievement_synchronized' );
+
+		$template_id = $this->create_achievement_template();
+
+		$this->obj = new $this->class_name( 'new', array( 'post_parent' => $template_id ) );
+
+		$this->assertEquals( ++$actions, did_action( 'llms_achievement_synchronized' ) );
 	}
 
 	/**
@@ -279,4 +304,129 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test sync()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync() {
+
+		LLMS_Install::create_pages();
+
+		$user_info = array(
+			'first_name' => 'Walter',
+			'last_name'  => 'Sobchak',
+			'user_email' => 'sync-achievement-user@mail.tld',
+			'user_login' => 'sync-achievement-user'
+		);
+
+		$user    = $this->factory->student->create_and_get( $user_info );
+		$related = $this->factory->post->create();
+
+		$content          = '';
+		$expected_content = '';
+
+		$template    = $this->create_achievement_template( 'Title', $content, 456 );
+		/** @var LLMS_User_Achievement $achievement */
+		$achievement = LLMS_Unit_Test_Util::call_method( 'LLMS_Engagement_Handler', 'create', array(
+			'achievement',
+			$user->get( 'id' ),
+			$template,
+			$related
+		) );
+
+		$this->assertEquals( $expected_content, $achievement->get( 'content', true ) );
+
+		// Update the template and sync.
+		$thumbnail_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
+		wp_update_post( array(
+			'ID'           => $template,
+			'post_content' => 'Updated',
+			'post_title'   => 'Template Title',
+			'meta_input'   => array(
+				'_thumbnail_id' => $thumbnail_id,
+			)
+		) );
+
+		$this->assertTrue( $achievement->sync() );
+		$this->assertEquals( 'Updated', $achievement->get( 'content', true ) );
+		$this->assertEquals( 'Title', $achievement->get( 'title', true ) );
+		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $achievement->get( 'id' ) ) );
+	}
+
+	/**
+	 * Test sync() when an error is encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_errors() {
+
+		$this->create();
+		$this->obj->set( 'parent', $this->factory->post->create() + 1 );
+
+		// This is just testing that an error is returned, the rest of the conditions are tested against LLMS_Engagement_Handler::check_post() directly.
+		$this->assertFalse( $this->obj->sync() );
+	}
+
+	/**
+	 * Test syncing an awarded engagement with its template after removing a thumbnail.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_after_removing_thumbnail() {
+
+		// Create a template with a thumbnail.
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template Removing Thumbnail';
+		$template_id = $this->create_achievement_template( $title, null, $img_id );
+
+		// Create an awarded engagement.
+		$this->create( array( 'post_parent' => $template_id ) );
+
+		// Test that the awarded engagement matches the template.
+		$id = $this->obj->get( 'id' );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Remove the template thumbnail.
+		delete_post_thumbnail( $template_id );
+
+		// Sync the awarded engagement with the template.
+		$this->assertTrue( $this->obj->sync() );
+
+		// Test that the awarded engagement no longer has a thumbnail.
+		$this->assertFalse( (bool) get_post_thumbnail_id( $id ) );
+	}
+
+	/**
+	 * Test that syncing an awarded engagement with its template twice keeps the same thumbnail.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_sync_template_twice_keep_thumbnail() {
+
+		// Create a template with a thumbnail.
+		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
+		$title       = 'Sync Template Twice with Thumbnail';
+		$template_id = $this->create_achievement_template( $title, null, $img_id );
+
+		// Create an awarded engagement.
+		$this->create( array( 'post_parent' => $template_id ) );
+		$id = $this->obj->get( 'id' );
+
+		// Test that the awarded engagement matches the template.
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+
+		// Sync (twice).
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertTrue( $this->obj->sync() );
+		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
+	}
 }

@@ -481,6 +481,30 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 
 	/**
+	 * Create an achievement template post.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $title   Achievement title.
+	 * @param string $content Achievement content.
+	 * @param string $image   Achievement image path.
+	 * @return int
+	 */
+	protected function create_achievement_template( $title = 'Mock Achievement Title', $content = 'You did it!', $image = '' ) {
+
+		$template_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'llms_achievement',
+				'post_content' => $content,
+			)
+		);
+		update_post_meta( $template_id, '_llms_achievement_title', $title );
+		set_post_thumbnail( $template_id, $image );
+
+		return $template_id;
+	}
+
+	/**
 	 * Create a certificate template post.
 	 *
 	 * @since 3.37.4
@@ -492,35 +516,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 */
 	protected function create_certificate_template( $title = 'Mock Certificate Title', $content = '', $image = '' ) {
 
-		$template = $this->factory->post->create( array(
-			'post_type' => 'llms_certificate',
+		$template_id = $this->factory->post->create( array(
+			'post_type'    => 'llms_certificate',
 			'post_content' => $content ? $content : '{site_title}, {current_date}',
 		) );
-		update_post_meta( $template, '_llms_certificate_title', $title );
-		set_post_thumbnail( $template, $image );
+		update_post_meta( $template_id, '_llms_certificate_title', $title );
+		set_post_thumbnail( $template_id, $image );
 
-		return $template;
-
-	}
-
-	/**
-	 * Create an achievement template post.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $title Achievement title.
-	 * @param string $image Achievement image path.
-	 * @return int
-	 */
-	protected function create_achievement_template( $title = 'Mock Achievement Title',  $image = '' ) {
-
-		return $this->factory->post->create( array(
-			'post_type' => 'llms_achievement',
-			'meta_input' => array(
-				'_llms_achievement_title' => $title,
-				'_llms_achievement_image' => $image,
-			),
-		) );
+		return $template_id;
 	}
 
 	protected function create_email_template( $subject = 'Mock Email Title' ) {
