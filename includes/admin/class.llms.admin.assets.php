@@ -86,14 +86,8 @@ class LLMS_Admin_Assets {
 
 		llms()->assets->enqueue_script( 'llms-admin-certificate-editor' );
 
-		global $wp_version;
-		$supports_fonts = version_compare( $wp_version, '5.9-src', '>=' );
-
-		$fonts = $supports_fonts ? llms_get_certificate_fonts() : new stdClass();
-
 		$settings = array(
 			'default_image' => llms()->certificates()->get_default_image( get_the_ID() ),
-			'fonts'         => $fonts,
 			'sizes'         => llms_get_certificate_sizes(),
 			'orientations'  => llms_get_certificate_orientations(),
 			'units'         => llms_get_certificate_units(),
@@ -122,6 +116,11 @@ class LLMS_Admin_Assets {
 			'footer'
 		);
 
+		global $wp_version;
+		$supports_fonts = version_compare( $wp_version, '5.9-src', '>=' );
+
+		$fonts = $supports_fonts ? llms_get_certificate_fonts() : new stdClass();
+
 		$styles = '';
 		foreach ( $fonts as $id => $data ) {
 
@@ -129,8 +128,8 @@ class LLMS_Admin_Assets {
 				wp_enqueue_style( 'llms-font-' . $id, $data['href'], array(), LLMS_VERSION );
 			}
 
-			$css     = $data['css'];
-			$styles .= ".editor-styles-wrapper .has-${id}-font-family { font-family: ${css} !important }\n";
+			$css     = $data['fontFamily'];
+			$styles .= ".editor-styles-wrapper .has-{$id}-font-family { font-family: {$css} !important }\n";
 		}
 
 		llms()->assets->enqueue_inline(

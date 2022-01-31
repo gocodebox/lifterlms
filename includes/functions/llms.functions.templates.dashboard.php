@@ -592,11 +592,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course->get_quizzes()
 			);
 
-			$achievements = $student->get_achievements( array(
-				'related_posts' => $post_ids,
-				'per_page'      => 1,
-				'no_found_rows' => true,
-			) )->get_awards();
+			$achievements = $student->get_achievements(
+				array(
+					'related_posts' => $post_ids,
+					'per_page'      => 1,
+					'no_found_rows' => true,
+				)
+			)->get_awards();
 
 			$latest_achievement = $achievements ? $achievements[0] : false;
 

@@ -17,11 +17,13 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $args Certificate creation arguments.
+	 * @param array $args     Certificate creation arguments.
+	 * @parak bool  $template If `true` retrieves a certificate template object in favor of an awarded certificate.
 	 * @return LLMS_User_Certificate
 	 */
-	private function get_cert( $args = array() ) {
-		return llms_get_certificate( $this->factory->post->create( wp_parse_args( $args, array( 'post_type' => 'llms_my_certificate' ) ) ) );
+	private function get_cert( $args = array(), $template = false ) {
+		$post_type = $template ? 'llms_certificate' : 'llms_my_certificate';
+		return llms_get_certificate( $this->factory->post->create( wp_parse_args( $args, compact( 'post_type' ) ) ), $template );
 	}
 
 	/**
@@ -138,6 +140,105 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 			'<div class="llms-print-certificate no-print" id="llms-print-certificate">',
 			'llms_certificate_actions', array( $cert )
 		);
+
+
+		// Back link.
+		$this->assertOutputContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		// Print button.
+		$this->assertOutputContains(
+			'<button class="llms-button-secondary" type="submit" name="llms_generate_cert">',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		// Sharing button.
+		$this->assertOutputContains(
+			'<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing"',
+			'llms_certificate_actions', array( $cert )
+		);
+
+	}
+
+	/**
+	 * Test llms_certificate_actions().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_certificate_actions_template() {
+
+		$cert = $this->get_cert( array(), true );
+
+		// Cannot manage.
+		wp_set_current_user( null );
+		$this->assertOutputEmpty( 'llms_certificate_actions', array( $cert ) );
+
+		// Can manage.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertOutputContains(
+			'<div class="llms-print-certificate no-print" id="llms-print-certificate">',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		// No backlink.
+		$this->assertOutputNotContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		// Print button.
+		$this->assertOutputContains(
+			'<button class="llms-button-secondary" type="submit" name="llms_generate_cert">',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		// Sharing button.
+		$this->assertOutputNotContains(
+			'<button class="llms-button-secondary" type="submit" name="llms_enable_cert_sharing"',
+			'llms_certificate_actions', array( $cert )
+		);
+
+	}
+
+	/**
+	 * Test llms_certificate_actions().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_certificate_actions_backlink() {
+
+		$cert = $this->get_cert();
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->assertOutputContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		$this->assertOutputContains(
+			'All certificates</a>',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		update_option( 'lifterlms_myaccount_certificates_endpoint', '' );
+
+		$this->assertOutputContains(
+			'<a class="llms-cert-return-link" ',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		$this->assertOutputContains(
+			'Dashboard</a>',
+			'llms_certificate_actions', array( $cert )
+		);
+
+		update_option( 'lifterlms_myaccount_certificates_endpoint', 'my-certificates' );
 
 	}
 

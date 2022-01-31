@@ -51,6 +51,88 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test modify_editor_settings()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_editor_settings() {
+
+		if ( ! class_exists( 'WP_Block_Editor_Context' ) ) {
+			$this->markTestSkipped( 'Test not required on this version of WordPress.' );
+		}
+
+		$input = array( 'settings' => '123' );
+
+		// Like widgets or site editor.
+		$this->assertEquals(
+			$input,
+			$this->main->modify_editor_settings( $input, new WP_Block_Editor_Context() )
+		);
+
+		// Post editor but for the wrong post type.
+		$post = $this->factory->post->create_and_get();
+		$this->assertEquals(
+			$input,
+			$this->main->modify_editor_settings( $input, new WP_Block_Editor_Context( compact( 'post' ) ) )
+		);
+
+		// Settings already has theme fonts.
+		$input_with_theme = $input;
+		// Add a theme font.
+		_wp_array_set(
+			$input_with_theme,
+			array( '__experimentalFeatures', 'typography', 'fontFamilies', 'theme' ),
+			array(
+				array(
+					'fontFamily' => '"Awesome Sans"',
+					'name'       => 'Awesome Sans',
+					'slug'       => 'awesome-sans',
+				)
+			)
+		);
+
+		// Certificate context!
+		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
+
+			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+
+			$res = $this->main->modify_editor_settings( $input, new WP_Block_Editor_Context( compact( 'post' ) ) );
+
+			// Still has initial settings.
+			$this->assertEquals( '123', $res['settings'] );
+
+			// Fonts have been injected.
+			$fonts = _wp_array_get( $res, array(
+				'__experimentalFeatures',
+				'blocks',
+				'llms/certificate-title',
+				'typography',
+				'fontFamilies',
+				'custom',
+			) );
+			$this->assertEquals( array_keys( llms_get_certificate_fonts() ), wp_list_pluck( $fonts, 'slug' ) );
+
+
+			// Theme fonts are preserved.
+			$res = $this->main->modify_editor_settings( $input_with_theme, new WP_Block_Editor_Context( compact( 'post' ) ) );
+			// Fonts have been injected.
+			$fonts = _wp_array_get( $res, array(
+				'__experimentalFeatures',
+				'blocks',
+				'llms/certificate-title',
+				'typography',
+				'fontFamilies',
+				'custom',
+			) );
+			$this->assertEquals( array_merge( array( 'awesome-sans' ), array_keys( llms_get_certificate_fonts() ) ), wp_list_pluck( $fonts, 'slug' ) );
+
+		}
+
+	}
+
+	/**
 	 * Test register().
 	 *
 	 * @since [version]
