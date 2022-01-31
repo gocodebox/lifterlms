@@ -1,6 +1,14 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v3.2.0 - 2022-01-31
+-------------------
+
++ Update: `@wordpress/scripts` to [20.0.2](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2002-2022-01-31).
++ Update: `@jest/test-sequencer` to [27.4.6](https://github.com/facebook/jest/releases/tag/v27.4.6).
++ Update: The e2e bootstrap file will automatically attempt to intuit the WordPress core version being tested and store it in the `process.env.WP_VERSION`.
+
+
 v2.1.0 - 2021-12-13
 -------------------
 
