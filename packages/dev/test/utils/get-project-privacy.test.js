@@ -1,7 +1,7 @@
 jest.mock( '../../src/utils/get-project-slug' );
 
 // eslint-disable-next-line camelcase
-const child_procces = require( 'child_process' ),
+const childProcess = require( 'child_process' ),
 	getProjectSlug = require( '../../src/utils/get-project-slug' ),
 	{ getProjectPrivacy, isProjectPublic, isProjectPrivate } = require( '../../src/utils/get-project-privacy' );
 
@@ -10,7 +10,7 @@ let mockedSlug,
 	mockedApiReturn;
 
 jest.mock( 'child_process' );
-child_procces.execSync.mockImplementation( () => mockedApiReturn );
+childProcess.execSync.mockImplementation( () => mockedApiReturn );
 
 getProjectSlug.mockImplementation( () => mockedSlug );
 
