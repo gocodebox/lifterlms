@@ -162,7 +162,7 @@ class LLMS_Date {
 	 * @todo  deprecate
 	 */
 	public static function get_localized_date_string() {
-		return strftime( _x( '%1$b %2$d, %3$Y @ %4$I:%5$M %6$p', 'Localized Order DateTime', 'lifterlms' ) );
+		return strftime( _x( '%1$b %2$d, %3$Y @ %4$I:%5$M %6$p', 'Localized Order DateTime', 'lifterlms' ) ); // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- Unused deprecated function to be removed shortly.
 	}
 
 	public static function convert_to_hours_minutes_string( $time ) {

@@ -432,6 +432,7 @@ class LLMS_Admin_Assets {
 	 * Register and enqueue scripts used on and related-to reporting and analytics
 	 *
 	 * @since 4.3.3
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void
@@ -440,7 +441,7 @@ class LLMS_Admin_Assets {
 
 		if ( in_array( $screen->base, array( 'lifterlms_page_llms-reporting', 'lifterlms_page_llms-settings' ), true ) ) {
 
-			$current_tab = llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
+			$current_tab = llms_filter_input( INPUT_GET, 'tab' );
 
 			wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04', false );
 			wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), llms()->version, true );
@@ -454,8 +455,8 @@ class LLMS_Admin_Assets {
 
 				if ( in_array( $current_tab, array( 'enrollments', 'sales' ), true ) ) {
 					wp_enqueue_script( 'llms-analytics' );
-				} elseif ( 'quizzes' === $current_tab && 'attempts' === llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) {
-					wp_enqueue_script( 'llms-quiz-attempt-review', LLMS_PLUGIN_URL . 'assets/js/llms-quiz-attempt-review' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
+				} elseif ( 'quizzes' === $current_tab && 'attempts' === llms_filter_input( INPUT_GET, 'stab' ) ) {
+					wp_enqueue_script( 'llms-quiz-attempt-review', LLMS_PLUGIN_URL . 'assets/js/llms-quiz-attempt-review' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
 				}
 			}
 		}

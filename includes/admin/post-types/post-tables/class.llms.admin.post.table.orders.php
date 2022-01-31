@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version 5.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -260,6 +260,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 2.5.0
 	 * @since 3.24.3 Unknown
 	 * @since 3.35.0 Sanitize $_GET data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_Query $query Query object.
 	 * @return WP_Query
@@ -326,7 +327,7 @@ class LLMS_Admin_Post_Table_Orders {
 				'get_search_query',
 				function( $q ) {
 					if ( '' === $q ) {
-						return llms_filter_input( INPUT_GET, 's', FILTER_SANITIZE_STRING );
+						return llms_filter_input_sanitize_string( INPUT_GET, 's' );
 					}
 				}
 			);
