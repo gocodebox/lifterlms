@@ -24,8 +24,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@jest/test-sequencer": "^26.6.3",
-    "@wordpress/scripts": "^18.1.0",
+    "@jest/test-sequencer": "^27.4.6",
+    "@wordpress/scripts": "^20.0.2",
     "dotenv": "^8.2.0",
     "webpack-rtl-plugin": "^2.0.0"
   }
