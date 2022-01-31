@@ -75,10 +75,17 @@ function llms_certificate_actions( $certificate ) {
 		return;
 	}
 
+	$dashboard_url   = get_permalink( llms_get_page_id( 'myaccount' ) );
+	$cert_ep_enabled = LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' );
+
+	$back_link = $cert_ep_enabled ? llms_get_endpoint_url( 'view-certificates', '', $dashboard_url ) : $dashboard_url;
+	$back_text = $cert_ep_enabled ? __( 'All certificates', 'lifterlms' ) : __( 'Dashboard', 'lifterlms' );
+
+	$is_template        = 'llms_certificate' === $certificate->get( 'type' );
 	$is_sharing_enabled = $certificate->is_sharing_enabled();
 	llms_get_template(
 		'certificates/actions.php',
-		compact( 'certificate', 'is_sharing_enabled' )
+		compact( 'certificate', 'back_link', 'back_text', 'is_sharing_enabled', 'is_template' )
 	);
 
 }
