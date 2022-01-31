@@ -538,7 +538,7 @@ class LLMS_Block_Templates {
 	 * Add lifterlms blocks templates.
 	 *
 	 * @since 5.8.0
-	 * @since [versopm] Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
+	 * @since [version] Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
 	 * @param array               $query        {

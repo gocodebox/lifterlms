@@ -7,6 +7,7 @@
  * @group template_loader
  *
  * @since 3.41.1
+ * @since [version] Added tests for the block loader.
  */
 class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
@@ -295,6 +296,68 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test block_template_loader() for restricted pages.
+	 *
+	 * @group aaa
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_page_is_restricted() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
+
+		// Modify the template & fire actions.
+		// Check we're going to load the expected block template.
+		$this->assertEquals(
+			llms()->block_templates()->add_llms_block_templates(
+				array(),
+				array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'single-no-access' ) )
+			),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+		// Check we're going to prevent the loading of the PHP template.
+		$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+		$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+		remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		$this->assertSame( 1, did_action( 'lifterlms_content_restricted' ) );
+		$this->assertSame( 1, did_action( 'llms_content_restricted_by_mock' ) );
+
+		// Courses and memberships return the original template (but still fire actions).
+		global $post;
+		foreach ( array( 'course', 'llms_membership' ) as $i => $post_type ) {
+
+			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+			$this->mock_page_restricted_id = $post->ID;
+
+			// Check we're not to going a specific lifterlms block template.
+			$this->assertEquals(
+				array(),
+				$this->main->block_template_loader( array(), array(), 'wp_template' ),
+				$post_type
+			);
+
+			// Check we're not going to prevent the loading of the PHP template.
+			$this->assertFalse( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ), $post_type );
+			// But still the default template is loaded by the template loader.
+			$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ), $post_type );
+
+			$this->assertSame( $i + 2, did_action( 'lifterlms_content_restricted' ), $post_type );
+			$this->assertSame( $i + 2, did_action( 'llms_content_restricted_by_mock' ), $post_type );
+
+		}
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+	}
+
+	/**
 	 * Test template_loader() with the course catalog.
 	 *
 	 * @since 4.10.1
@@ -311,6 +374,54 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		LLMS_Install::create_pages();
 		$this->go_to( get_permalink( llms_get_page_id( 'courses' ) ) );
 		$this->assertEquals( 'archive-course.php', basename( $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) ) );
+
+	}
+
+	/**
+	 * Test block_template_loader() on courses archives with a block theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_for_courses() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		// Post type archive.
+		$this->go_to( get_post_type_archive_link( 'course' ) );
+		// Check we're going to load the expected block template.
+		$this->assertEquals(
+			llms()->block_templates()->add_llms_block_templates(
+				array(),
+				array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-course' ) )
+			),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+		// Check we're going to prevent the loading of the PHP template.
+		$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+		$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+		remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		// Check the course catalog page.
+		LLMS_Install::create_pages();
+		$this->go_to( get_permalink( llms_get_page_id( 'courses' ) ) );
+		// Check we're going to load the expected block template.
+		$this->assertEquals(
+			llms()->block_templates()->add_llms_block_templates(
+				array(),
+				array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-course' ) )
+			),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+		// Check we're going to prevent the loading of the PHP template.
+		$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+		$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+		remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
 
 	}
 
@@ -335,6 +446,54 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test block_template_loader() on membership archives with a block theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_for_memberships() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		// Post type archive.
+		$this->go_to( get_post_type_archive_link( 'llms_membership' ) );
+		// Check we're going to load the expected block template.
+		$this->assertEquals(
+			llms()->block_templates()->add_llms_block_templates(
+				array(),
+				array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-llms_membership' ) )
+			),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+		// Check we're going to prevent the loading of the PHP template.
+		$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+		$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+		remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		// Check the membership catalog page.
+		LLMS_Install::create_pages();
+		$this->go_to( get_permalink( llms_get_page_id( 'memberships' ) ) );
+		// Check we're going to load the expected block template.
+		$this->assertEquals(
+			llms()->block_templates()->add_llms_block_templates(
+				array(),
+				array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'archive-llms_membership' ) )
+			),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+		// Check we're going to prevent the loading of the PHP template.
+		$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+		$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+		remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+	}
+
+	/**
 	 * Test template_loader() on custom taxonomy archives.
 	 *
 	 * @since 4.10.1
@@ -351,6 +510,44 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 			$this->assertEquals( sprintf( 'taxonomy-%s.php', $tax ), basename( $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) ) );
 
 		}
+
+	}
+
+	/**
+	 * Test block_template_loader() on custom taxonomy archives with a block theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_for_taxonomies() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		foreach ( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) as $tax ) {
+
+			$this->assertFalse( has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+			$term = wp_create_term( 'mock-' . $tax, $tax );
+			$this->go_to( get_term_link( $term['term_id'] ) );
+			// Check we're going to load the expected block template.
+			$this->assertEquals(
+				llms()->block_templates()->add_llms_block_templates(
+					array(),
+					array( 'slug__in' => array( LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . 'taxonomy-' . $tax ) )
+				),
+				$this->main->block_template_loader( array(), array( 'archive' ), 'wp_template' ),
+				$tax
+			);
+			// Check we're going to prevent the loading of the PHP template.
+			$this->assertTrue( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+			$this->assertEquals( 'template-canvas.php', $this->main->template_loader( 'template-canvas.php' ) );
+			remove_filter( 'llms_force_php_template_loading', '__return_false' );
+
+		}
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
 
 	}
 
@@ -376,6 +573,47 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test block_template_loader() on certificate pages with block theme.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_for_certificates() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		global $wp_query, $post;
+
+		foreach ( array( 'llms_certificate', 'llms_my_certificate' ) as $post_type ) {
+
+			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+			$wp_query->queried_object = $post;
+			$wp_query->is_singular    = true;
+
+			$this->assertFalse( has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+
+			// Check we're not going to load a certificate block template, it doesn't exist.
+			$this->assertEquals(
+				array(),
+				$this->main->block_template_loader( array(), array(), 'wp_template' ),
+				$post_type
+			);
+
+			// Check we're not going to prevent the loading of the PHP template.
+			$this->assertFalse( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+			// The PHP template is loaded instead.
+			$this->assertEquals( 'single-certificate.php', basename( $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) ), $post_type );
+
+		}
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+	}
+
+	/**
 	 * Test template_loader() with a default unrestricted post type
 	 *
 	 * @since 4.10.1
@@ -392,6 +630,44 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		$this->assertSame( 0, did_action( 'lifterlms_content_restricted' ) );
 		$this->assertSame( 0, did_action( 'llms_content_restricted_by_sitewide_membership' ) );
 		$this->assertFalse( has_action( 'loop_start', 'llms_print_notices' ) );
+
+	}
+
+	/**
+	 * Test block_template_loader() with a default unrestricted post type.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_template_loader_default_post_type() {
+
+		! function_exists( 'wp_is_block_theme' ) && $this->markTestSkipped( 'FSE not available.' );
+
+		add_filter( 'llms_is_block_theme', '__return_true', 11 );
+
+		global $post;
+		$post = $this->factory->post->create_and_get();
+
+		// Not touched.
+
+		$this->assertFalse( has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+
+		// Check we're not going to load a certificate block template, it doesn't exist.
+		$this->assertEquals(
+			array(),
+			$this->main->block_template_loader( array(), array(), 'wp_template' )
+		);
+
+		// Check we're not going to prevent the loading of the PHP template.
+		$this->assertFalse( (bool) has_filter( 'llms_force_php_template_loading', '__return_false' ) );
+
+		$this->assertEquals( '/html/wp-content/theme/atheme/mock.php', $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) );
+		$this->assertSame( 0, did_action( 'lifterlms_content_restricted' ) );
+		$this->assertSame( 0, did_action( 'llms_content_restricted_by_sitewide_membership' ) );
+		$this->assertFalse( has_action( 'loop_start', 'llms_print_notices' ) );
+
+		remove_filter( 'llms_is_block_theme', '__return_true', 11 );
 
 	}
 
