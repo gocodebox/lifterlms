@@ -22,7 +22,8 @@
   "main": "src/index.js",
   "dependencies": {
     "@wordpress/e2e-test-utils": ">=5.4.0",
-    "css-xpath": "^1.0.0"
+    "css-xpath": "^1.0.0",
+    "semver": "^7.3.5"
   },
   "peerDependencies": {
     "lodash": "^4.17.21"

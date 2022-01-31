@@ -1,7 +1,9 @@
 import { clickAndWait } from './click-and-wait';
 import { clickElementByText } from './click-element-by-text';
 import { findElementByText } from './find-element-by-text';
+import { wpVersionCompare } from './wp-version-compare';
 import { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
+
 import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
@@ -23,6 +25,7 @@ const getTitle = async function() {
  *
  * @since 2.1.0
  * @since 2.2.0 Rework to accommodate setup wizard changes in LifterLMS core.
+ * @since [version] Fix title assertion on WordPress >= v5.9.
  *
  * @param {Object}   options                 Options object.
  * @param {string[]} options.coursesToImport Titles of the course(s) to import through the setup wizard. Pass a falsy to skip import and "Start from Scratch".
@@ -33,6 +36,7 @@ export async function runSetupWizard( {
 	coursesToImport = [ 'LifterLMS Quickstart Course' ],
 	exit = false,
 } = {} ) {
+
 	// Launch the Setup Wizard.
 	await visitAdminPage( 'admin.php', 'page=llms-setup' );
 
@@ -97,7 +101,9 @@ export async function runSetupWizard( {
 			expect(
 				await page.$eval(
 					'.editor-post-title__input',
-					( txt ) => txt.value
+					// On >= WP 5.9, this is an <h1>, earlier is a <textarea>.
+					( txt, isTextNode ) => isTextNode ? txt.textContent : txt.value,
+					wpVersionCompare( '5.9' )
 				)
 			).toBe( coursesToImport[ 0 ] );
 		} else {
