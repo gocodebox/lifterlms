@@ -7,21 +7,26 @@
  * @group admin
  * @group admin_menus
  *
- * @since 4.7.0
+ * @since [version]
  */
 class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
+
+	/**
+	 * @var LLMS_Admin_Menus
+	 */
+	private $main;
 
 	/**
 	 * Setup before class
 	 *
 	 * @since 4.7.0
 	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since [version] Removed loading the LLMS_Admin_Reporting class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.menus.php';
 	}
 
@@ -38,6 +43,23 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 		parent::set_up();
 		$this->main = new LLMS_Admin_Menus();
 
+	}
+
+	/**
+	 * Test load_admin_tools()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_load_admin_tools() {
+
+		$actions = did_action( 'llms_load_admin_tools' );
+
+		LLMS_Unit_Test_Util::call_method( $this->main, 'load_admin_tools' );
+
+		// Action ran.
+		$this->assertSame( ++$actions, did_action( 'llms_load_admin_tools' ) );
 	}
 
 	/**
@@ -91,41 +113,4 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 
 		set_current_screen( 'front' );
 	}
-
-	/**
-	 * Test status_page_includes()
-	 *
-	 * @since 4.12.0
-	 *
-	 * @return void
-	 */
-	public function test_status_page_includes() {
-
-		$classes = array(
-			'LLMS_Admin_Page_Status',
-
-			'LLMS_Admin_Tool_Batch_Eraser',
-			'LLMS_Admin_Tool_Clear_Sessions',
-			'LLMS_Admin_Tool_Recurring_Payment_Rescheduler',
-		);
-
-		$actions = did_action( 'llms_load_admin_tools' );
-
-		foreach ( $classes as $class ) {
-			$this->assertFalse( class_exists( $class ) );
-		}
-
-		LLMS_Unit_Test_Util::call_method( $this->main, 'status_page_includes' );
-
-		// Classes included.
-		foreach ( $classes as $class ) {
-			$this->assertTrue( class_exists( $class ) );
-		}
-
-		// Action ran.
-		$this->assertSame( ++$actions, did_action( 'llms_load_admin_tools' ) );
-
-
-	}
-
 }

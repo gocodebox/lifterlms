@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -299,6 +299,23 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Notify 3rd parties to load custom admin page tools.
+	 *
+	 * @since [version] Moved from LLMS_Admin_Menus::status_page_includes().
+	 *
+	 * @return void
+	 */
+	protected function load_admin_tools() {
+
+		/**
+		 * Action which can be used by 3rd parties to load custom admin page tools.
+		 *
+		 * @since 4.12.0
+		 */
+		do_action( 'llms_load_admin_tools' );
+	}
+
+	/**
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
@@ -336,10 +353,13 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.37.19
 	 * @since 4.12.0 Added `llms_load_admin_tools` action.
+	 * @deprecated [version] Use `LLMS_Admin_Menus::load_admin_tools()` instead.
 	 *
 	 * @return void
 	 */
 	protected function status_page_includes() {
+
+		llms_deprecated_function( __METHOD__, '[version]', __CLASS__ . '::load_admin_tools()' );
 
 		// Main Status Page.
 		require_once 'class.llms.admin.page.status.php';
@@ -364,11 +384,13 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.11.2
 	 * @since 3.37.19 Load tools-related files.
+	 * @since [version] Replaced deprecated call to `LLMS_Admin_Menus::status_page_includes()` with
+	 *              `LLMS_Admin_Menus::load_admin_tools().
 	 *
 	 * @return void
 	 */
 	public function status_page_actions() {
-		$this->status_page_includes();
+		$this->load_admin_tools();
 		LLMS_Admin_Page_Status::handle_actions();
 	}
 
@@ -378,11 +400,13 @@ class LLMS_Admin_Menus {
 	 * @since Unknown
 	 * @since 3.11.2 Unknown.
 	 * @since 3.37.19 Load tools-related files.
+	 * @since [version] Replaced deprecated call to `LLMS_Admin_Menus::status_page_includes()` with
+	 *              `LLMS_Admin_Menus::load_admin_tools().
 	 *
 	 * @return void
 	 */
 	public function status_page_init() {
-		$this->status_page_includes();
+		$this->load_admin_tools();
 		LLMS_Admin_Page_Status::output();
 	}
 

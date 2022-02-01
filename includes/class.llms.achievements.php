@@ -164,7 +164,7 @@ class LLMS_Achievements {
 	 * Calls trigger method passing arguments.
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Achievments::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
+	 * @deprecated [version] `LLMS_Achievements::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $achievement_id  WP_Post ID of the achievement template.
