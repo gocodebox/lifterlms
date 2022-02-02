@@ -12,6 +12,21 @@
 class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCase {
 
 	/**
+	 * @var string
+	 */
+	private $cron_hook_identifier;
+
+	/**
+	 * @var LLMS_Processor_Certificate_Sync
+	 */
+	private $main;
+
+	/**
+	 * @var string
+	 */
+	private $schedule_hook;
+
+	/**
 	 * Setup before class
 	 *
 	 * Forces processor debugging on so that we can make assertions against logged data.
@@ -24,7 +39,6 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 
 		parent::set_up_before_class();
 		llms_maybe_define_constant( 'LLMS_PROCESSORS_DEBUG', true );
-
 	}
 
 	/**
@@ -38,7 +52,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 
 		parent::set_up();
 
-		$this->main                 = llms()->processors()->get( 'awarded_certificates_bulk_sync' );
+		$this->main                 = llms()->processors()->get( 'certificate_sync' );
 		$this->cron_hook_identifier = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'cron_hook_identifier' );
 		$this->schedule_hook        = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'schedule_hook' );
 	}
@@ -54,7 +68,6 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 
 		$this->main->cancel_process();
 		parent::tear_down();
-
 	}
 
 	/**
@@ -75,9 +88,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 		$this->main->dispatch_sync( $certificate_template );
 
 		$this->assertEmpty( wp_next_scheduled( $this->cron_hook_identifier ) );
-
 	}
-
 
 	/**
 	 * Test dispatch_sync() when there are no publish/future awarded certificates to sync.
@@ -103,9 +114,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 		);
 
 		$this->main->dispatch_sync( $certificate_template );
-
 		$this->assertEmpty( wp_next_scheduled( $this->cron_hook_identifier ) );
-
 	}
 
 	/**
@@ -130,7 +139,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 			)
 		);
 
-		$handler = function( $args ) {
+		$handler = function ( $args ) {
 			$args['per_page'] = 10;
 			return $args;
 		};
@@ -147,15 +156,13 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 			$this->assertEquals( $certificate_template, $query_args['templates'] );
 			$this->assertEquals( 10, $query_args['per_page'] );
 			$this->assertEquals( array( 'publish', 'future' ), $query_args['status'] );
-			$this->assertEquals( ++$i, $query_args['page'] );
-
+			$this->assertEquals( ++ $i, $query_args['page'] );
 		}
 
 		$this->assertEquals( 2, $i ); // Two chunks.
 		$this->assertNotEmpty( wp_next_scheduled( $this->cron_hook_identifier ) );
 
 		remove_filter( 'llms_processor_sync_awarded_certificates_query_args', $handler );
-
 	}
 
 	/**
@@ -167,7 +174,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 	 */
 	public function test_schedule_sync() {
 
-		$certificate_template = $this->factory->post->create(
+		$certificate_template   = $this->factory->post->create(
 			array(
 				'post_type' => 'llms_certificate',
 			)
@@ -177,7 +184,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 				'post_type' => 'llms_certificate',
 			)
 		);
-		$awarded_certificates = $this->factory->post->create_many(
+		$awarded_certificates   = $this->factory->post->create_many(
 			2,
 			array(
 				'post_type'   => 'llms_my_certificate',
@@ -265,23 +272,21 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 		);
 
 		$this->logs->clear( 'processors' );
-
 	}
 
 	/**
-	 * Test sync_awarded_certificates() method.
+	 * Test LLMS_Processor_Certificate_Sync::task() and LLMS_Controller_Certificates::sync_awarded_engagements().
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-
 	public function test_task() {
 
 		$certificate_template = $this->factory->post->create(
 			array(
-				'post_type' => 'llms_certificate',
-				'meta_input' => array(
+				'post_type'    => 'llms_certificate',
+				'meta_input'   => array(
 					'_llms_certificate_title' => 'A certificate title'
 				),
 				'post_content' => 'Certificate post content',
@@ -297,12 +302,12 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 		);
 
 		// Manipulate awards results so to make the second sync fail.
-		$filter_awards = function( $awards ) {
+		$filter_awards = function ( $awards ) {
 			$awards[1]->set('parent', 0 ); // Remove the parent template.
 			return $awards;
 		};
 
-		add_filter('llms_awards_query_get_awards', $filter_awards );
+		add_filter( 'llms_awards_query_get_awards', $filter_awards );
 
 		$this->main->task(
 			array(
@@ -320,7 +325,7 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 			)
 		);
 
-		remove_filter('llms_awards_query_get_awards', $filter_awards );
+		remove_filter( 'llms_awards_query_get_awards', $filter_awards );
 
 		$awarded_certificates = array_map(
 			'llms_get_certificate',
@@ -358,11 +363,21 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 		);
 
 		// Check title/content sync.
-		$this->assertEquals( get_post_meta( $certificate_template, '_llms_certificate_title', true ), $awarded_certificates[0]->get( 'title', true ) );
-		$this->assertEquals( get_post( $certificate_template )->post_content , $awarded_certificates[0]->get( 'content', true ) );
-		$this->assertNotEquals( get_post_meta( $certificate_template, '_llms_certificate_title', true ), $awarded_certificates[1]->get( 'title', true ) );
-		$this->assertNotEquals( get_post( $certificate_template )->post_content , $awarded_certificates[1]->get( 'content', true ) );
-
+		$this->assertEquals(
+			get_post_meta( $certificate_template, '_llms_certificate_title', true ),
+			$awarded_certificates[0]->get( 'title', true )
+		);
+		$this->assertEquals(
+			get_post( $certificate_template )->post_content,
+			$awarded_certificates[0]->get( 'content', true )
+		);
+		$this->assertNotEquals(
+			get_post_meta( $certificate_template, '_llms_certificate_title', true ),
+			$awarded_certificates[1]->get( 'title', true )
+		);
+		$this->assertNotEquals(
+			get_post( $certificate_template )->post_content,
+			$awarded_certificates[1]->get( 'content', true )
+		);
 	}
-
 }

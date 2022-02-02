@@ -34,9 +34,10 @@ class LLMS_Processors {
 	 * @var array
 	 */
 	private $classes = array(
+		'achievement_sync',
+		'certificate_sync',
 		'course_data',
 		'membership_bulk_enroll',
-		'awarded_certificates_bulk_sync',
 	);
 
 	/**
