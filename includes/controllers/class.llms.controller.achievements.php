@@ -1,6 +1,6 @@
 <?php
 /**
- * Achievement controller
+ * LLMS_Controller_Achievements class
  *
  * @package LifterLMS/Controllers/Classes
  *
@@ -11,12 +11,22 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Achievements
+ * Handles awarded user achievements.
  *
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @since [version] Extended from the LLMS_Abstract_Controller_User_Engagements class.
  */
-class LLMS_Controller_Achievements {
+class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagements {
+
+	/**
+	 * Type of user engagement.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $engagement_type = 'achievement';
 
 	/**
 	 * Constructor
@@ -26,6 +36,8 @@ class LLMS_Controller_Achievements {
 	 * @return void
 	 */
 	public function __construct() {
+
+		parent::__construct();
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
 	}
 
@@ -48,26 +60,6 @@ class LLMS_Controller_Achievements {
 		}
 
 	}
-
-	/**
-	 * Delete an achievement.
-	 *
-	 * @since 3.18.0
-	 * @since [version] Permanently delete achievement via wp_delete_post().
-	 *
-	 * @param int $achievement_id WP Post ID of the llms_my_achievement.
-	 * @return void
-	 */
-	private function delete( $achievement_id ) {
-
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		wp_delete_post( $achievement_id, true );
-
-	}
-
 }
 
 return new LLMS_Controller_Achievements();

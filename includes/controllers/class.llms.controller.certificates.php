@@ -1,6 +1,6 @@
 <?php
 /**
- * Certificate Forms
+ * LLMS_Controller_Certificates class
  *
  * @package LifterLMS/Controllers/Classes
  *
@@ -11,15 +11,25 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Certificates class
+ * Handles awarded user certificates.
  *
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since 3.37.4 Modify `llms_certificate` post type registration to allow certificate templates to be exported.
  *               When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
  * @since 4.3.1 Properly use an `error` notice to display a WP_Error when trying to download a certificate.
+ * @since [version] Extended from the LLMS_Abstract_Controller_User_Engagements class.
  */
-class LLMS_Controller_Certificates {
+class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagements {
+
+	/**
+	 * Type of user engagement.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $engagement_type = 'certificate';
 
 	/**
 	 * Constructor.
@@ -27,18 +37,17 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
 	 * @since 5.5.0 Drop usage of deprecated `lifterlms_register_post_type_llms_certificate` in favor of `lifterlms_register_post_type_certificate`.
-	 * @since [version] Handle awarded certificates sync actions.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
+		parent::__construct();
+
 		add_filter( 'lifterlms_register_post_type_certificate', array( $this, 'maybe_allow_public_query' ) );
 
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
-		add_action( 'init', array( __CLASS__, 'maybe_handle_awarded_certificates_sync_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
-
 	}
 
 	/**
@@ -134,132 +143,6 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Handle awarded certificates sync actions.
-	 *
-	 * @since [version]
-	 *
-	 * @return void|WP_Error
-	 */
-	public static function maybe_handle_awarded_certificates_sync_actions() {
-
-		if ( ! llms_verify_nonce( '_llms_cert_sync_actions_nonce', 'llms-cert-sync-actions', 'GET' ) ) {
-			return new WP_Error(
-				'llms-sync-awarded-certificates-nonce',
-				__( 'Sorry, you are not allowed to do this', 'lifterlms' )
-			);
-		}
-
-		if ( ! isset( $_GET['action'] ) ) {
-			return new WP_Error(
-				'llms-sync-awarded-certificates-missing-action',
-				__( 'Sorry, you have not provided any actions', 'lifterlms' )
-			);
-		}
-
-		$cert_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-
-		switch ( $_GET['action'] ) {
-
-			case 'sync_awarded_certificate':
-				if ( empty( $cert_id ) ) {
-					return new WP_Error(
-						'llms-sync-awarded-certificate-missing-certificate-id',
-						__( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' )
-					);
-				}
-				return self::sync_awarded_certificate( $cert_id );
-			case 'sync_awarded_certificates':
-				if ( empty( $cert_id ) ) {
-					return new WP_Error(
-						'llms-sync-awarded-certificates-missing-template-id',
-						__( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' )
-					);
-				}
-				return self::sync_awarded_certificates( $cert_id );
-			default:
-				return new WP_Error(
-					'llms-sync-awarded-certificates-invalid-action',
-					__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
-				);
-		}
-	}
-
-	/**
-	 * Sync awarded certificate with its template.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $cert_id Awarded certificate id.
-	 * @return void|WP_Error
-	 */
-	private static function sync_awarded_certificate( $cert_id ) {
-
-		if ( ! current_user_can( 'edit_post', $cert_id ) ) {
-			return new WP_Error(
-				'llms-sync-awarded-certificate-insufficient-permissions',
-				sprintf(
-					__( 'Sorry, you are not allowed to edit the awarded certificate #%d.', 'lifterlms' ),
-					$cert_id
-				),
-				compact( 'cert_id' )
-			);
-		}
-
-		$redirect_url = get_edit_post_link( $cert_id, 'raw' );
-
-		$sync = llms_get_certificate( $cert_id )->sync();
-
-		if ( ! $sync ) {
-			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error(
-				new WP_Error(
-					'llms-sync-awarded-certificate-invalid-template',
-					sprintf(
-						__( 'Sorry, the awarded certificate #%d has a not valid certificate template.', 'lifterlms' ),
-						$cert_id
-					),
-					compact( 'cert_id' )
-				)
-			);
-		} else {
-			$redirect_url = add_query_arg( 'message', 1, $redirect_url );
-		}
-
-		llms_redirect_and_exit( $redirect_url );
-
-	}
-
-	/**
-	 * Sync all the awarded certificates with their template.
-	 *
-	 * @since [version]
-	 *
-	 * @param int $certificate_template_id Certificate template id.
-	 * @return void|WP_Error
-	 */
-	private static function sync_awarded_certificates( $certificate_template_id ) {
-
-		if ( ! current_user_can( get_post_type_object( 'llms_my_certificate' )->cap->edit_posts ) ) {
-			return new WP_Error(
-				'llms-sync-awarded-certificates-insufficient-permissions',
-				__( 'Sorry, you are not allowed to edit awarded certificates', 'lifterlms' )
-			);
-		}
-
-		/**
-		 * Fires an action to trigger the awarded certificates bulk sync.
-		 *
-		 * @since [version]
-		 *
-		 * @see LLMS_Processor_Awarded_Certificates_Bulk_Sync.
-		 *
-		 * @param int $certificate_template_id The certificate template post ID.
-		 */
-		do_action( 'llms_do_awarded_certificates_bulk_sync', $certificate_template_id );
-		llms_redirect_and_exit( get_edit_post_link( $certificate_template_id, 'raw' ) );
-
-	}
-
-	/**
 	 * Change shareable settings of a certificate.
 	 *
 	 * @since 4.5.0
@@ -277,25 +160,6 @@ class LLMS_Controller_Certificates {
 		}
 
 		return $cert->set( 'allow_sharing', $is_allowed ? 'yes' : 'no' );
-
-	}
-
-	/**
-	 * Delete a certificate.
-	 *
-	 * @since 3.18.0
-	 * @since [version] Permanently delete certificate via wp_delete_post().
-	 *
-	 * @param int $cert_id WP Post ID of the llms_my_certificate.
-	 * @return void
-	 */
-	private function delete( $cert_id ) {
-
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		wp_delete_post( $cert_id, true );
 
 	}
 
