@@ -2,7 +2,7 @@
  * Tests Bootstrap.
  *
  * @since Unknown
- * @version 2.0.0
+ * @version [version]
  */
 
 require( 'regenerator-runtime' );
@@ -51,15 +51,41 @@ jest.setTimeout( process.env.PUPPETEER_TIMEOUT || 100000 );
 
 beforeAll( async() => {
 
-	page.on( 'console', ( message ) => {
-		if ( [ 'info', 'log' ].includes( message.type() ) ) {
+	page.on( 'dialog', ( dialog ) => dialog.accept() );
+
+	page.on( 'console', ( log ) => {
+
+		const shouldLog = ( _log ) => {
+
+			// Skip logs by type.
+			if ( [ 'info', 'log', 'endGroup' ].includes( log.type() ) ) {
+				return false;
+			}
+
+			// Skip 403s.
+			if ( log.text().includes( 'Failed to load resource: the server responded with a status of 403 (Forbidden)' ) ) {
+				return false;
+			}
+
+			// Skip core block update messages.
+			if ( log.text().includes( 'Updated Block: %s core/' ) ) {
+				return false;
+			}
+
+			return true;
+
+		};
+
+		if ( ! shouldLog( log ) ) {
 			return;
 		}
-		console.log( message.type(), message.text() );
+
+		console.log( `[${ log.type()}] ${ log.text() }` );
+
 	} );
 
 	page.on( 'pageerror', ( err ) => {
-		console.log( err.message );
+		console.log( `[pageerror] ${ err.message }` );
 	} );
 
 } );

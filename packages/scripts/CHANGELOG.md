@@ -4,6 +4,8 @@
 v?.?.? - 2021-??-??
 -------------------
 
++ Improved e2e test logging to filter out "noisy" console messages originating, primarily, from the WordPress core.
++ Removed `e2e/global-teardown.js` in favor of using the `WP_ARTIFACTS_PATH` env var for determining the storage location of e2e test artifacts (screenshots and snapshots).
 + Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
 + Any `@wordpress/*` modules are automatically resolved for the purposes of `eslint-plugin-import` rules.
 
