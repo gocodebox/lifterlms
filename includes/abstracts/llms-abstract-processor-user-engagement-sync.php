@@ -15,16 +15,11 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstract_Processor {
+abstract class LLMS_Abstract_Processor_User_Engagement_Sync
+	extends LLMS_Abstract_Processor
+	implements LLMS_Interface_Case, LLMS_Interface_User_Engagement_Type {
 
-	/**
-	 * The type of the user engagement, e.g. 'achievement' or 'certificate'.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	protected $engagement_type;
+	use LLMS_Trait_User_Engagement_Type;
 
 	/**
 	 * Clear notices.
@@ -113,24 +108,6 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	}
 
 	/**
-	 * Returns a translated version of this plural user engagement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	abstract protected function get_plural_engagement_type();
-
-	/**
-	 * Returns a translated version of this singular user engagement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	abstract protected function get_singular_engagement_type();
-
-	/**
 	 * Initializer.
 	 *
 	 * @since [version]
@@ -177,13 +154,14 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 		LLMS_Admin_Notices::add_notice(
 			sprintf( 'awarded-%1$ss-sync-%2$d-done', $this->engagement_type, $args['query_args']['templates'] ),
 			sprintf(
-				/* translators: 1: plural engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag */
-				__( 'Awarded %1$s sync completed for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' ),
-				$this->get_plural_engagement_type(),
+				/* translators: 1: plural uppercase first letter awarded engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag, 6: plural lowercase awarded engagement type */
+				__( '%1$s sync completed for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' ),
+				$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED ),
 				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $args['query_args']['templates'] ) ),
 				get_the_title( $args['query_args']['templates'] ),
 				$args['query_args']['templates'],
-				'</a>'
+				'</a>',
+				$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED )
 			),
 			array(
 				'dismissible'      => true,

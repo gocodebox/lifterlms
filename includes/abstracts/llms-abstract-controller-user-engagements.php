@@ -15,16 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-abstract class LLMS_Abstract_Controller_User_Engagements {
+abstract class LLMS_Abstract_Controller_User_Engagements
+	implements LLMS_Interface_Case, LLMS_Interface_User_Engagement_Type {
 
-	/**
-	 * Type of user engagement.
-	 *
-	 * @since [version]
-	 *
-	 * @var string
-	 */
-	protected $engagement_type;
+	use LLMS_Trait_User_Engagement_Type;
 
 	/**
 	 * Constructor.
@@ -55,48 +49,6 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		}
 
 		wp_delete_post( $post_id, true );
-	}
-
-	/**
-	 * Returns an awarded child LLMS_Abstract_User_Engagement instance for the given post or false if not found.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post|int|null $post A WP_Post object or a WP_Post ID. A falsy value will use
-	 *                               the current global `$post` object (if one exists).
-	 * @return LLMS_Abstract_User_Engagement|false
-	 */
-	protected function get_awarded_engagement( $post ) {
-
-		$post = get_post( $post );
-		if ( ! $post || "llms_my_$this->engagement_type" !== $post->post_type ) {
-			return false;
-		}
-
-		$class = 'LLMS_User_' . ucfirst( $this->engagement_type );
-
-		return new $class( $post );
-	}
-
-	/**
-	 * Translates the type of this user engagement.
-	 *
-	 * @since [version]
-	 *
-	 * @param bool $is_awarded If true, returns an awarded engagement, else returns an engagement template.
-	 * @param bool $is_plural  If true, returns the plural name of this engagement type, else returns the singular name.
-	 * @return string
-	 */
-	private function get_engagement_type_name( $is_awarded, $is_plural ) {
-
-		$post_type_name   = 'llms_' . ( $is_awarded ? 'my_' : '' ) . $this->engagement_type;
-		$post_type_object = get_post_type_object( $post_type_name );
-
-		if ( is_null( $post_type_object ) ) {
-			return __( 'unknown engagement type', 'lifterlms' );
-		}
-
-		return strtolower( $is_plural ? $post_type_object->labels->name : $post_type_object->labels->singular_name );
 	}
 
 	/**
@@ -140,8 +92,10 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			$result = new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-invalid-nonce",
 				sprintf(
-					__( 'Sorry, you are not allowed to sync %s.', 'lifterlms' ),
-					$this->get_engagement_type_name( true, true )
+					/* translators: 1: plural lowercase awarded engagement type, 2: plural uppercase first letter awarded engagement type */
+					__( 'Sorry, you are not allowed to sync %1$s.', 'lifterlms' ),
+					$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED )
 				)
 			);
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $result );
@@ -157,9 +111,10 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 				$result = new WP_Error(
 					"llms-sync-missing-awarded-$this->engagement_type-id",
 					sprintf(
-						/* translators: %s: translated awarded engagement type */
-						_x( 'Sorry, you need to provide a valid %s ID.', 'awarded', 'lifterlms' ),
-						$this->get_engagement_type_name( true, false )
+						/* translators: 1: singular lowercase awarded engagement type, 2: singular uppercase first letter awarded engagement type */
+						_x( 'Sorry, you need to provide a valid %1$s ID.', 'awarded', 'lifterlms' ),
+						$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
+						$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED )
 					)
 				);
 			} else {
@@ -171,9 +126,10 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 				$result = new WP_Error(
 					"llms-sync-missing-{$this->engagement_type}-template-id",
 					sprintf(
-						/* translators: %s: translated engagement template type */
-						_x( 'Sorry, you need to provide a valid %s ID.', 'template', 'lifterlms' ),
-						$this->get_engagement_type_name( false, false )
+						/* translators: 1: singular lowercase engagement template type, 2: singular uppercase first letter engagement template type */
+						_x( 'Sorry, you need to provide a valid %1$s ID.', 'template', 'lifterlms' ),
+						$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::TEMPLATE ),
+						$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::TEMPLATE )
 					)
 				);
 			} else {
@@ -206,10 +162,11 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			return new WP_Error(
 				"llms-sync-awarded-$this->engagement_type-insufficient-permissions",
 				sprintf(
-					/* translators: 1: translated awarded engagement type, 2: awarded engagement ID */
+					/* translators: 1: singular lowercase awarded engagement type, 2: awarded engagement ID, 3: singular uppercase first letter awarded engagement type */
 					__( 'Sorry, you are not allowed to edit the awarded %1$s #%2$d.', 'lifterlms' ),
-					$this->get_engagement_type_name( true, false ),
-					$engagement_id
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
+					$engagement_id,
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED )
 				),
 				compact( 'engagement_id' )
 			);
@@ -220,11 +177,13 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			return new WP_Error(
 				"llms-sync-awarded-$this->engagement_type-invalid-template",
 				sprintf(
-					/* translators: 1: translated awarded engagement type, 2: awarded engagement ID, 3: translated awarded template type */
+					/* translators: 1: singular lowercase awarded engagement type, 2: awarded engagement ID, 3: singular lowercase engagement template type, 4: singular uppercase first letter awarded engagement type, 5: singular uppercase first letter engagement template type */
 					__( 'Sorry, the %1$s #%2$d does not have a valid %3$s.', 'lifterlms' ),
-					$this->get_engagement_type_name( true, false ),
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
 					$engagement_id,
-					$this->get_engagement_type_name( false, false )
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::TEMPLATE ),
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED ),
+					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::TEMPLATE )
 				),
 				compact( 'engagement_id' )
 			);
@@ -252,9 +211,10 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			return new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-insufficient-permissions",
 				sprintf(
-					/* translators: %s: translated awarded engagements type */
-					__( 'Sorry, you are not allowed to edit %s', 'lifterlms' ),
-					$this->get_engagement_type_name( true, true )
+					/* translators: 1: plural lowercase awarded engagement type, 2: plural uppercase first letter awarded engagement type */
+					__( 'Sorry, you are not allowed to edit %1$s.', 'lifterlms' ),
+					$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED )
 				)
 			);
 		}

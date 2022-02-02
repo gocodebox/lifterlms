@@ -39,30 +39,6 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 	 * @var string
 	 */
 	protected $schedule_hook = 'llms_awarded_certificates_bulk_sync';
-
-	/**
-	 * Returns a translated version of this plural user engagement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_plural_engagement_type() {
-
-		return __( 'certificates', 'lifterlms' );
-	}
-
-	/**
-	 * Returns a translated version of this singular user engagement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_singular_engagement_type() {
-
-		return __( 'certificate', 'lifterlms' );
-	}
 }
 
 return new LLMS_Processor_Certificate_Sync();

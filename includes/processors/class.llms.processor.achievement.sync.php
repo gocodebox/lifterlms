@@ -39,30 +39,6 @@ class LLMS_Processor_Achievement_Sync extends LLMS_Abstract_Processor_User_Engag
 	 * @var string
 	 */
 	protected $schedule_hook = 'llms_awarded_achievements_bulk_sync';
-
-	/**
-	 * Returns a translated version of this plural achievement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_plural_engagement_type() {
-
-		return __( 'achievements', 'lifterlms' );
-	}
-
-	/**
-	 * Returns a translated version of this singular achievement type.
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_singular_engagement_type() {
-
-		return __( 'achievement', 'lifterlms' );
-	}
 }
 
 return new LLMS_Processor_Achievement_Sync();
