@@ -191,8 +191,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		}
 
 		$this->title   = sprintf(
-			// translators: %1$s: Awarded engagement post type plural label.
-			__( 'Sync %1$s', 'lifterlms' ),
+			/* translators: %s: Awarded engagement post type plural label */
+			__( 'Sync %s', 'lifterlms' ),
 			$this->get_engagement_type_name( self::AWARDED, $plural_or_singular, self::CASE_NO_CHANGE )
 		);
 	}
@@ -354,7 +354,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 
 		if ( ! $sync_action ) {
 			$sync_action = sprintf(
-				// translators: %1$s: User engagement template post type singular label, %2$s: Awarded engagement post type plural label.
+				/* translators: 1: User engagement template post type singular label, 2s: Awarded engagement post type plural label */
 				__( 'This %1$s has no %2$s to sync.', 'lifterlms' ),
 				$this->get_engagement_type_name( self::TEMPLATE, self::SINGULAR, self::CASE_LOWER ),
 				$this->get_engagement_type_name( self::AWARDED, self::PLURAL, self::CASE_LOWER )
