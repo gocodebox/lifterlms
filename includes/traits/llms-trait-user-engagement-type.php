@@ -13,14 +13,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Methods to help get a user engagement type label name.
  *
- * Classes that use this trait MUST implement {@see LLMS_Interface_User_Engagement_Type} and {@see LLMS_Interface_Case}
+ * Classes that use this trait MUST implement {@see LLMS_Interface_User_Engagement_Type}
  * because traits can not define constants.
  *
  * @since [version]
  */
 trait LLMS_Trait_User_Engagement_Type {
-
-	use LLMS_Trait_Case;
 
 	/**
 	 * The type of user engagement, e.g. 'achievement' or 'certificate'.
@@ -104,7 +102,7 @@ trait LLMS_Trait_User_Engagement_Type {
 	 * @since [version]
 	 *
 	 * @param int $plural_or_singular Either the PLURAL or SINGULAR constant from {@see LLMS_Interface_User_Engagement_Type}.
-	 * @param int $case               One of the CASE_ constants from {@see LLMS_Interface_Case}.
+	 * @param int $case               One of the {@see LLMS_Case} constants.
 	 * @param int $type               Either the AWARDED or TEMPLATE constant from {@see LLMS_Interface_User_Engagement_Type}.
 	 * @return string
 	 */
@@ -112,7 +110,7 @@ trait LLMS_Trait_User_Engagement_Type {
 
 		$post_type_object = $this->get_engagement_type_object( $type );
 		$name             = $this->get_engagement_label_name( $post_type_object, $plural_or_singular );
-		$name             = $this->change_case( $name, $case );
+		$name             = LLMS_Case::change( $name, $case );
 
 		return $name;
 	}

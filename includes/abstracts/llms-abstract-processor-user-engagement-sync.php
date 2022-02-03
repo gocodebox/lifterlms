@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class LLMS_Abstract_Processor_User_Engagement_Sync
 	extends LLMS_Abstract_Processor
-	implements LLMS_Interface_Case, LLMS_Interface_User_Engagement_Type {
+	implements LLMS_Interface_User_Engagement_Type {
 
 	use LLMS_Trait_User_Engagement_Type;
 
@@ -156,12 +156,12 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync
 			sprintf(
 				/* translators: 1: plural uppercase first letter awarded engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag, 6: plural lowercase awarded engagement type */
 				__( '%1$s sync completed for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' ),
-				$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED ),
+				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::UPPER_FIRST, self::AWARDED ),
 				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $args['query_args']['templates'] ) ),
 				get_the_title( $args['query_args']['templates'] ),
 				$args['query_args']['templates'],
 				'</a>',
-				$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED )
+				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::LOWER, self::AWARDED )
 			),
 			array(
 				'dismissible'      => true,

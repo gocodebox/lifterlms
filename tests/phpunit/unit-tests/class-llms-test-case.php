@@ -1,50 +1,14 @@
 <?php
 /**
- * Tests for {@see LLMS_Trait_Case}.
+ * Tests for {@see LLMS_Case}.
  *
- * @group Traits
+ * @package LifterLMS/Tests
+ *
+ * @group case
  *
  * @since [version]
  */
-class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
-
-	/**
-	 * @var LLMS_Trait_Case
-	 */
-	protected $mock;
-
-	/**
-	 * Changes the case of a string.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $string The string to change the case of.
-	 * @param string $case   One of the CASE_ constants from {@see LLMS_Interface_Case}.
-	 * @return string
-	 */
-	private function call_change_case( $string, $case ) {
-
-		try {
-			return LLMS_Unit_Test_Util::call_method( $this->mock, 'change_case', array( $string, $case ) );
-		} catch ( Exception $exception ) {
-			return $exception->getMessage();
-		}
-	}
-
-	/**
-	 * Setup before running each test in this class.
-	 *
-	 * @since [version]
-	 */
-	public function set_up() {
-
-		parent::set_up();
-
-		$this->mock = new class() implements LLMS_Interface_Case {
-
-			use LLMS_Trait_Case;
-		};
-	}
+class LLMS_Test_Case extends LLMS_UnitTestCase {
 
 	/**
 	 * Test change_case() where all characters in the string are changed to lowercase.
@@ -57,7 +21,7 @@ class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'madam, in eden, i’m adam',
-			$this->call_change_case( 'Madam, in Eden, I’m Adam', LLMS_Interface_Case::CASE_LOWER )
+			LLMS_Case::change( 'Madam, in Eden, I’m Adam', LLMS_Case::LOWER )
 		);
 	}
 
@@ -72,13 +36,13 @@ class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'Al lets Della call Ed “Stella.”',
-			$this->call_change_case( 'Al lets Della call Ed “Stella.”', LLMS_Interface_Case::CASE_NO_CHANGE )
+			LLMS_Case::change( 'Al lets Della call Ed “Stella.”', LLMS_Case::NO_CHANGE )
 		);
 
 		// Undefined case constant.
 		$this->assertEquals(
 			'Al lets Della call Ed “Stella.”',
-			$this->call_change_case( 'Al lets Della call Ed “Stella.”', - 1 )
+			LLMS_Case::change( 'Al lets Della call Ed “Stella.”', - 1 )
 		);
 	}
 
@@ -93,7 +57,7 @@ class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'YO, BANANA BOY!',
-			$this->call_change_case( 'Yo, banana boy!', LLMS_Interface_Case::CASE_UPPER )
+			LLMS_Case::change( 'Yo, banana boy!', LLMS_Case::UPPER )
 		);
 	}
 
@@ -108,7 +72,7 @@ class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'Taco cat',
-			$this->call_change_case( 'taco cat', LLMS_Interface_Case::CASE_UPPER_FIRST )
+			LLMS_Case::change( 'taco cat', LLMS_Case::UPPER_FIRST )
 		);
 	}
 
@@ -123,7 +87,7 @@ class LLMS_Test_Trait_Case extends LLMS_UnitTestCase {
 
 		$this->assertEquals(
 			'Was It A Car Or A Cat I Saw?',
-			$this->call_change_case( 'Was it a car or a cat I saw?', LLMS_Interface_Case::CASE_UPPER_WORDS )
+			LLMS_Case::change( 'Was it a car or a cat I saw?', LLMS_Case::UPPER_WORDS )
 		);
 	}
 }

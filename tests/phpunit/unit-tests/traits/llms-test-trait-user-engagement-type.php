@@ -24,7 +24,7 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 
 		parent::set_up();
 
-		$this->mock = new class() implements LLMS_Interface_Case, LLMS_Interface_User_Engagement_Type {
+		$this->mock = new class() implements LLMS_Interface_User_Engagement_Type {
 
 			use LLMS_Trait_User_Engagement_Type;
 

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since [version]
  */
 abstract class LLMS_Abstract_Controller_User_Engagements
-	implements LLMS_Interface_Case, LLMS_Interface_User_Engagement_Type {
+	implements LLMS_Interface_User_Engagement_Type {
 
 	use LLMS_Trait_User_Engagement_Type;
 
@@ -94,8 +94,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 				sprintf(
 					/* translators: 1: plural lowercase awarded engagement type, 2: plural uppercase first letter awarded engagement type */
 					__( 'Sorry, you are not allowed to sync %1$s.', 'lifterlms' ),
-					$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED ),
-					$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED )
+					$this->get_engagement_type_name( self::PLURAL, LLMS_Case::LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::PLURAL, LLMS_Case::UPPER_FIRST, self::AWARDED )
 				)
 			);
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $result );
@@ -113,8 +113,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 					sprintf(
 						/* translators: 1: singular lowercase awarded engagement type, 2: singular uppercase first letter awarded engagement type */
 						_x( 'Sorry, you need to provide a valid %1$s ID.', 'awarded', 'lifterlms' ),
-						$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
-						$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED )
+						$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::AWARDED ),
+						$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::AWARDED )
 					)
 				);
 			} else {
@@ -128,8 +128,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 					sprintf(
 						/* translators: 1: singular lowercase engagement template type, 2: singular uppercase first letter engagement template type */
 						_x( 'Sorry, you need to provide a valid %1$s ID.', 'template', 'lifterlms' ),
-						$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::TEMPLATE ),
-						$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::TEMPLATE )
+						$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
+						$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
 					)
 				);
 			} else {
@@ -164,9 +164,9 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 				sprintf(
 					/* translators: 1: singular lowercase awarded engagement type, 2: awarded engagement ID, 3: singular uppercase first letter awarded engagement type */
 					__( 'Sorry, you are not allowed to edit the awarded %1$s #%2$d.', 'lifterlms' ),
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::AWARDED ),
 					$engagement_id,
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED )
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::AWARDED )
 				),
 				compact( 'engagement_id' )
 			);
@@ -179,11 +179,11 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 				sprintf(
 					/* translators: 1: singular lowercase awarded engagement type, 2: awarded engagement ID, 3: singular lowercase engagement template type, 4: singular uppercase first letter awarded engagement type, 5: singular uppercase first letter engagement template type */
 					__( 'Sorry, the %1$s #%2$d does not have a valid %3$s.', 'lifterlms' ),
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::AWARDED ),
 					$engagement_id,
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_LOWER, self::TEMPLATE ),
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::AWARDED ),
-					$this->get_engagement_type_name( self::SINGULAR, self::CASE_UPPER_FIRST, self::TEMPLATE )
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::AWARDED ),
+					$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
 				),
 				compact( 'engagement_id' )
 			);
@@ -213,8 +213,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements
 				sprintf(
 					/* translators: 1: plural lowercase awarded engagement type, 2: plural uppercase first letter awarded engagement type */
 					__( 'Sorry, you are not allowed to edit %1$s.', 'lifterlms' ),
-					$this->get_engagement_type_name( self::PLURAL, self::CASE_LOWER, self::AWARDED ),
-					$this->get_engagement_type_name( self::PLURAL, self::CASE_UPPER_FIRST, self::AWARDED )
+					$this->get_engagement_type_name( self::PLURAL, LLMS_Case::LOWER, self::AWARDED ),
+					$this->get_engagement_type_name( self::PLURAL, LLMS_Case::UPPER_FIRST, self::AWARDED )
 				)
 			);
 		}
