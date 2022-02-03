@@ -940,6 +940,26 @@ function llms_is_rest() {
 }
 
 /**
+ * Determine whether the current theme is a block theme.
+ *
+ * Just a wrapper for WordPress core `wp_is_block_theme()` so to filter for testing purposes.
+ *
+ * @since [version]
+ *
+ * @return string
+ */
+function llms_is_block_theme() {
+	/**
+	 * Filters whether the current theme is a block theme.
+	 *
+	 * @since [version]
+	 *
+	 * @param $is_block_theme Whether the current theme is a block theme.
+	 */
+	return apply_filters( 'llms_is_block_theme', function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() );
+}
+
+/**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
  * @thanks woocommerce <3.
