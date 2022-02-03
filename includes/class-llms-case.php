@@ -64,45 +64,65 @@ class LLMS_Case {
 	public static function change( $string, $case ) {
 
 		if ( function_exists( 'mb_convert_case' ) ) {
-			switch ( $case ) {
-				case self::LOWER:
-					$string = mb_convert_case( $string, MB_CASE_LOWER );
-					break;
-				case self::UPPER:
-					$string = mb_convert_case( $string, MB_CASE_UPPER );
-					break;
-				case self::UPPER_FIRST:
-					if ( function_exists( 'mb_substr' ) ) {
-						$string = mb_convert_case( mb_substr( $string, 0, 1 ), MB_CASE_UPPER ) . mb_substr( $string, 1 );
-					} else {
-						$string = ucfirst( $string );
-					}
-					break;
-				case self::UPPER_WORDS:
-					$string = mb_convert_case( $string, MB_CASE_TITLE );
-					break;
-				case self::NO_CHANGE:
-				default:
-			}
+			return self::change_with_multibyte( $string, $case );
 		} else {
-			switch ( $case ) {
-				case self::LOWER:
-					$string = strtolower( $string );
-					break;
-				case self::UPPER:
-					$string = strtoupper( $string );
-					break;
-				case self::UPPER_FIRST:
-					$string = ucfirst( $string );
-					break;
-				case self::UPPER_WORDS:
-					$string = ucwords( $string );
-					break;
-				case self::NO_CHANGE:
-				default:
-			}
+			return self::change_without_multibyte( $string, $case );
 		}
+	}
 
-		return $string;
+	/**
+	 * Changes the case of a string using multibyte string functions.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string The string to change the case of.
+	 * @param string $case   One of the CASE_ constants from {@see LLMS_Case}.
+	 * @return string
+	 */
+	private static function change_with_multibyte( $string, $case ) {
+
+		switch ( $case ) {
+			case self::LOWER:
+				return mb_convert_case( $string, MB_CASE_LOWER );
+			case self::UPPER:
+				return mb_convert_case( $string, MB_CASE_UPPER );
+			case self::UPPER_FIRST:
+				if ( function_exists( 'mb_substr' ) ) {
+					return mb_convert_case( mb_substr( $string, 0, 1 ), MB_CASE_UPPER ) . mb_substr( $string, 1 );
+				} else {
+					return ucfirst( $string );
+				}
+			case self::UPPER_WORDS:
+				return mb_convert_case( $string, MB_CASE_TITLE );
+			case self::NO_CHANGE:
+			default:
+				return $string;
+		}
+	}
+
+	/**
+	 * Changes the case of a string using non-multibyte PHP functions.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string The string to change the case of.
+	 * @param string $case   One of the CASE_ constants from {@see LLMS_Case}.
+	 * @return string
+	 */
+	private static function change_without_multibyte( $string, $case ) {
+
+		switch ( $case ) {
+			case self::LOWER:
+				return strtolower( $string );
+			case self::UPPER:
+				return strtoupper( $string );
+			case self::UPPER_FIRST:
+				return ucfirst( $string );
+			case self::UPPER_WORDS:
+				return ucwords( $string );
+			case self::NO_CHANGE:
+			default:
+				return $string;
+		}
 	}
 }
