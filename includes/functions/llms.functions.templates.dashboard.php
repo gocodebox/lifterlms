@@ -717,6 +717,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.37.15 Use `in_array()`'s strict comparison.
 	 * @since 3.37.16 Fixed typo when comparing the current view.
 	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *              Fix how the protected {@see LLMS_Notifications_Query::$max_pages} property is accessed.
 	 *
 	 * @return void
 	 */
@@ -762,7 +763,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			);
 
 			$pagination = array(
-				'max'     => $notifications->max_pages,
+				'max'     => $notifications->get_max_pages(),
 				'current' => $page,
 			);
 
