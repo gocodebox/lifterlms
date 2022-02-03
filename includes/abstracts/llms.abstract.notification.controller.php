@@ -458,7 +458,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			)
 		);
 
-		return (bool) $query->get_found_results();
+		return $query->has_results();
 
 	}
 
