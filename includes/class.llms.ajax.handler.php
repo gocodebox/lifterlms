@@ -114,7 +114,7 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
-		$res = $wpdb->get_results(
+		$res   = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				array( $post_id )
@@ -122,10 +122,12 @@ class LLMS_AJAX_Handler {
 			ARRAY_A
 		);
 
-		wp_send_json( array(
-			'success'    => true,
-			'duplicates' => $res,
-		) );
+		wp_send_json(
+			array(
+				'success'    => true,
+				'duplicates' => $res,
+			)
+		);
 		wp_die();
 
 	}
