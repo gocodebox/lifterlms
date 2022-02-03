@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -167,6 +167,7 @@ final class LifterLMS {
 	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 * @since 4.12.0 Check site staging/duplicate status & trigger associated actions.
 	 * @since 4.13.0 Remove site staging/duplicate check and run only on `admin_init`.
+	 * @since 5.8.0 Initialize block templates.
 	 *
 	 * @return void
 	 */
@@ -174,6 +175,7 @@ final class LifterLMS {
 
 		do_action( 'before_lifterlms_init' );
 
+		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
 
@@ -288,6 +290,17 @@ final class LifterLMS {
 	}
 
 	/**
+	 * Block templates instance.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @return LLMS_Block_Templates
+	 */
+	public function block_templates() {
+		return LLMS_Block_Templates::instance();
+	}
+
+	/**
 	 * Events instance.
 	 *
 	 * @since 3.36.0
@@ -339,8 +352,7 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Load all background processors and
-	 * access to them programmatically a processor via llms()->processors()->get( $processor )
+	 * Load all background processors.
 	 *
 	 * @since    3.15.0
 	 *

@@ -51,7 +51,7 @@ export default function BackgroundControl( { background } ) {
 	return (
 		<BaseControl
 			label={ __( 'Background Color', 'lifterlms' ) }
-			id="llms-certificate-background-color-control"
+			id="llms-certificate-control--background-color"
 		>
 			<ColorPalette
 				colors={ usePalette() }

@@ -66,11 +66,13 @@ const StyledTextControl = styled( TextControl )`
  * @return {WPElement} Component.
  */
 function MarginControl( { margin, index, editMargins } ) {
-	const [ currMargin, setMargin ] = useState( margin );
+	const [ currMargin, setMargin ] = useState( margin ),
+		marginId = [ 'top', 'right', 'bottom', 'left' ][ index ];
 
 	return (
 		<div style={ { flex: 1 } }>
 			<StyledTextControl
+				id={ `llms-certificate-control--margin--${ marginId }` }
 				value={ currMargin }
 				type="number"
 				onChange={ ( val ) => {

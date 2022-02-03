@@ -4,8 +4,18 @@
 v?.?.? - 2021-??-??
 -------------------
 
++ Improved e2e test logging to filter out "noisy" console messages originating, primarily, from the WordPress core.
++ Removed `e2e/global-teardown.js` in favor of using the `WP_ARTIFACTS_PATH` env var for determining the storage location of e2e test artifacts (screenshots and snapshots).
 + Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
 + Any `@wordpress/*` modules are automatically resolved for the purposes of `eslint-plugin-import` rules.
+
+
+v2.2.0 - 2022-01-31
+-------------------
+
++ Update: `@wordpress/scripts` to [20.0.2](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2002-2022-01-31).
++ Update: `@jest/test-sequencer` to [27.4.6](https://github.com/facebook/jest/releases/tag/v27.4.6).
++ Update: The e2e bootstrap file will automatically attempt to intuit the WordPress core version being tested and store it in the `process.env.WP_VERSION`.
 
 
 v2.1.0 - 2021-12-13

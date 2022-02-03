@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
- * @version 4.10.0
+ * @version 5.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -215,6 +215,7 @@ class LLMS_Theme_Support {
 	 *
 	 * @since 3.37.0
 	 * @since 4.3.0 Method access changed to `public`.
+	 * @since 5.8.0 Added twenty-twenty-two compatibility.
 	 *
 	 * @return void
 	 */
@@ -234,6 +235,9 @@ class LLMS_Theme_Support {
 				require_once 'class-llms-twenty-twenty-one.php';
 				break;
 
+			case 'twentytwentytwo':
+				require_once 'class-llms-twenty-twenty-two.php';
+				break;
 		}
 
 	}

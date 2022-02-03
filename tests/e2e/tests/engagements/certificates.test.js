@@ -1,120 +1,249 @@
-/**
- * Test certificates
- *
- * @since 4.5.0
- * @since 4.15.0 Added hack to work around WP core bug on 5.6.1.
- */
-
-import { visitAdminPage } from '@wordpress/e2e-test-utils';
+import { switchUserToAdmin, visitAdminPage } from '@wordpress/e2e-test-utils';
 
 import {
 	clickAndWait,
+	clickElementByText,
 	createCertificate,
 	fillField,
 	loginStudent,
 	logoutUser,
 	registerStudent,
 	toggleOpenRegistration,
+	toggleSidebarPanel,
+	visitPostPermalink,
 } from '@lifterlms/llms-e2e-test-utils';
 
+
 /**
- * Reusable set of expectations to ensure a certificate looks right
+ * Retrieves the HTML for the currently-viewed certificate.
  *
- * Intended to ensure the cert looks right on the frontend of the website
+ * Modifies the DOM to replace IDs from html wrapper attributes with a mocked ID, "9999".
  *
- * @since 4.5.0
+ * Also replaces the "Awarded" date with a mocked date, "Octember 01, 9999".
  *
- * @param {String} name  Students name.
- * @param {String} title Certificate's title.
- * @return {Void}
+ * @since [version]
+ *
+ * @param {Number} templateVersion The editor template version of the certificate.
+ * @return {string} The outerHTML of the certificate element.
  */
-async function certLooksRight( name, title = 'A Certificate!' ) {
-	expect( await page.$eval( '.llms-summary > h1', el => el.textContent ) ).toBe( title );
-	expect( await page.$eval( '.llms-summary', el => el.textContent.includes( name ) ) ).toBe( true );
+async function getCertificateHTML( templateVersion = 2 ) {
+
+	let WRAPPER = '.llms-certificate-wrapper';
+
+	if ( 1 === templateVersion ) {
+		WRAPPER = '.llms-certificate-container';
+	}
+
+	await page.waitForSelector( WRAPPER );
+
+	let html = await page.$eval( WRAPPER, el => el.outerHTML );
+
+	// Hardcode IDs for the snapshot.
+	html = html.replace( /(id="certificate-)\d+(")/, '$1999$2' ); // ID attribute.
+	html = html.replace( /( post-)\d+( )/, '$1999$2' ); // ID classname.
+
+	// Replace the awarded date with a mocked date.
+	html = html.replace( /(">On ).+(<\/p>)/, '$1Octember 01, 9999$2' );
+
+	return html;
+
+}
+
+/**
+ * Retrieves an elements CSS inline css rules a JS object.
+ *
+ * @since [version]
+ *
+ * @param {string} selector The DOM query selector string.
+ * @return {Object} An object of css rules.
+ */
+async function getElementStyles( selector ) {
+
+	return await page.$eval( selector, ( { style } ) => {
+
+		const styles = {};
+
+	    for ( let i = 0; i < style.length; i++ ) {
+	        let item = style.item( i );
+	        styles[ item ] = style[ item ];
+	    }
+
+	    return styles;
+
+	} );
+
 }
 
 describe( 'Engagements/Certificates', () => {
 
-	let certificateId, engagementId;
-
 	beforeAll( async () => {
-
+		await switchUserToAdmin();
 		await toggleOpenRegistration( true );
-
-		const posts = await createCertificate( {
-			title: 'A Certificate!',
-			engagement: 'user_registration',
-		} );
-		certificateId = posts.certificateId;
-		engagementId  = posts.engagementId;
-
 	} );
 
-
 	afterAll( async () => {
+		await switchUserToAdmin();
 		await toggleOpenRegistration( false );
 	} );
 
-	describe( 'CRUD Template', () => {
+	describe( 'Templates', () => {
 
-		it ( 'should create a certificate', async () => {
+		it ( 'should create a certificate in the block editor', async () => {
 
-			// Required due to WP core bug in 5.6.1 & later, see https://core.trac.wordpress.org/ticket/52440.
-			page.on( 'dialog', dialog => dialog.accept() );
+			await createCertificate( {
+				title: 'A Certificate!',
+			} );
 
-			await visitAdminPage( 'post.php', `post=${ certificateId }&action=edit` );
-			await clickAndWait( '#sample-permalink a' );
-			await certLooksRight( 'admin' );
+			await visitPostPermalink();
+			expect( await getCertificateHTML() ).toMatchSnapshot();
+
+		} );
+
+		it ( 'should update the DOM when certificate settings change', async () => {
+
+			await visitAdminPage( 'post-new.php', 'post_type=llms_certificate' );
+			await toggleSidebarPanel( 'Settings' );
+
+			const assertStylesMatch = async ( hint = null ) => {
+
+				expect(
+					await getElementStyles( '.is-root-container.block-editor-block-list__layout' )
+				).toMatchSnapshot(
+					{ 'background-image': expect.any( String ) },
+					hint
+				);
+
+			};
+
+			const testSize = async ( orientation, sizeName ) => {
+
+				await clickElementByText( orientation, '.llms-certificate-doc-settings button' );
+				await page.waitForTimeout( 500 );
+
+				await assertStylesMatch( `Size: ${ sizeName } (${ orientation })` );
+
+			};
+
+			// Test registered sizes.
+			const { sizes } = await page.evaluate( () => window.llms.certificates ),
+				sizeKeys = Object.keys( sizes );
+
+			const SIZE_SELECTOR = '#llms-certificate-control--size';
+			await page.waitForSelector( SIZE_SELECTOR );
+
+			// Loop through all available sizes.
+			for ( let i = 0; i < sizeKeys.length; i++ ) {
+
+				const { name } = sizes[ sizeKeys[ i ] ];
+
+				await page.select( SIZE_SELECTOR, sizeKeys[ i ] );
+
+				await testSize( 'Landscape', name );
+				await testSize( 'Portrait', name );
+
+			}
+
+			// Custom size
+			await page.select( SIZE_SELECTOR, 'CUSTOM' );
+			await fillField( '#llms-certificate-control--size--custom-width', '5.5' );
+			await fillField( '#llms-certificate-control--size--custom-height', '10' );
+			await testSize( 'Landscape', 'CUSTOM' );
+			await testSize( 'Portrait', 'CUSTOM' );
+
+
+			// Margins.
+			await fillField( '#llms-certificate-control--margin--top', '2.5' );
+			await fillField( '#llms-certificate-control--margin--right', '3' );
+			await fillField( '#llms-certificate-control--margin--bottom', '7' );
+			await fillField( '#llms-certificate-control--margin--left', '10' );
+			await assertStylesMatch( 'Margins' );
+
+			// Background color chooser.
+			const colors = await page.$$( '.components-circular-option-picker .components-circular-option-picker__option' );
+
+			for ( let j = 0; j < colors.length; j++ ) {
+
+				await colors[ j ].click();
+				await page.waitForTimeout( 500 );
+
+				const styles = await getElementStyles( '.editor-styles-wrapper' ),
+					bgColor = styles['background-color'];
+				expect( bgColor ).toMatchSnapshot( 'Background Color' );
+
+			}
 
 		} );
 
-		it ( 'should be able to view a student certificate from reporting screens', async () => {
+		// it ( 'should be able to award a certificate directly to a student', async () => {} );
 
-			// Create a user who will earn the certificate.
-			const
-				first     = 'Student',
-				last      = 'WithACert',
-				{ email } = await registerStudent( { first, last } );
-			await logoutUser();
 
-			await visitAdminPage( 'users.php', `s=${ encodeURIComponent( email ) }` );
 
-			await page.goto( await page.$eval( '#the-list tr:first-child span.llms-reporting a', el => `${ el.href }&stab=certificates` ) );
+		// it ( 'should create a certificate in the classic editor', async () => {
 
-			const reportingUrl = await page.url();
+		// 	// Required due to WP core bug in 5.6.1 & later, see https://core.trac.wordpress.org/ticket/52440.
+		// 	page.on( 'dialog', dialog => dialog.accept() );
 
-			// Navigate to the certificate page.
-			await page.goto( await page.$eval( '#llms-gb-table-certificates td.actions a', el => el.href ) );
+		// 	await visitAdminPage( 'post.php', `post=${ certificateId }&action=edit` );
+		// 	await visitPostPermalink();
+		// 	expect( await getCertificateHTML() ).toMatchSnapshot();
 
-			await certLooksRight( 'A Student Who Has a Certificate' );
+		// } );
 
-			await page.goto( reportingUrl );
-			// page.on( 'dialog', dialog => dialog.accept() ); // Uncomment when https://core.trac.wordpress.org/ticket/52440 is resolved.
-			await clickAndWait( '#llms_delete_cert' );
 
-		} );
+		// it ( 'should be able to view and delete an earned certificate from reporting screens', async () => {
+
+		// 	// Create a user who will earn the certificate.
+		// 	const
+		// 		first     = 'Student',
+		// 		last      = 'WithACert',
+		// 		{ email } = await registerStudent( { first, last } );
+		// 	await logoutUser();
+
+		// 	await visitAdminPage( 'users.php', `s=${ encodeURIComponent( email ) }` );
+
+		// 	await page.goto( await page.$eval( '#the-list tr:first-child span.llms-reporting a', el => `${ el.href }&stab=certificates` ) );
+
+		// 	const reportingUrl = await page.url();
+
+		// 	// Navigate to the certificate page.
+		// 	await page.goto( await page.$eval( '#llms-gb-table-certificates td.actions a', el => el.href ) );
+
+// expect( await getCertificateHTML() ).toMatchSnapshot();
+
+		// 	await page.goto( reportingUrl );
+		// 	// page.on( 'dialog', dialog => dialog.accept() ); // Uncomment when https://core.trac.wordpress.org/ticket/52440 is resolved.
+		// 	await clickAndWait( '#llms_delete_cert' );
+
+		// } );
 
 	} );
 
-	describe( 'Earn and View as a Student', () => {
+	describe( 'Awarded', () => {
 
-		it ( 'should reward a certificate on user registration', async () => {
+		it ( 'should award a certificate on user registration', async () => {
+
+			await createCertificate( {
+				title: 'Awarded on Registration',
+				engagement: 'user_registration',
+			} );
 
 			const
 				first = 'Maude',
 				last  = 'Lebowski',
 				user  = await registerStudent( { first, last } );
 
+			await page.waitForTimeout( 1000 );
+
 			// Certificate listed on the certs area of the dashboard.
 			const selector = '.llms-sd-section.llms-my-certificates li.llms-certificate-loop-item a.llms-certificate';
-			expect( await page.$eval( `${ selector } h4.llms-certificate-title`, el => el.textContent ) ).toBe( 'A Certificate!' );
+			expect( await page.$eval( `${ selector } h4.llms-certificate-title`, el => el.textContent ) ).toBe( 'Awarded on Registration' );
 
 			// Visit the certificate permalink.
 			await clickAndWait( selector );
 			const certUrl = await page.url();
 
-			// Cert "looks" right.
-			await certLooksRight( 'Maude Lebowski' );
+			// View the cert.
+			expect( await getCertificateHTML() ).toMatchSnapshot();
 
 			// Logged out user cannot view.
 			await logoutUser();
@@ -125,16 +254,13 @@ describe( 'Engagements/Certificates', () => {
 			await loginStudent( user.email, user.pass );
 			await page.goto( certUrl );
 
-			// Looks right to the student.
-			await certLooksRight( 'Maude Lebowski' );
-
 			// Enable sharing.
 			await clickAndWait( 'button[name="llms_enable_cert_sharing"]' );
 
 			// Logged out user can view.
 			await logoutUser();
 			await page.goto( certUrl );
-			await certLooksRight( 'Maude Lebowski' );
+			expect( await getCertificateHTML() ).toMatchSnapshot();
 			await expect( await page.$( '#llms-print-certificate' ) ).toBeNull();
 
 		} );

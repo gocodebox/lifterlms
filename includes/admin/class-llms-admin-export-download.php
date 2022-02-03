@@ -32,13 +32,14 @@ class LLMS_Admin_Export_Download {
 	/**
 	 * Serve an export file as a download
 	 *
-	 * @return  void
-	 * @since   3.28.1
-	 * @version 3.28.1
+	 * @since 3.28.1
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return void
 	 */
 	public function maybe_serve_export() {
 
-		$export = filter_input( INPUT_GET, 'llms-dl-export', FILTER_SANITIZE_STRING );
+		$export = llms_filter_input( INPUT_GET, 'llms-dl-export', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( ! $export ) {
 			return;
 		}

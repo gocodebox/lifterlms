@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 5.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,6 +149,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -209,7 +210,7 @@ class LLMS_Shortcode_Checkout {
 
 				// Use posted order key to resume a pending order.
 				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
+					$atts['order_key'] = llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' );
 
 					// Attempt to locate a pending order.
 				} elseif ( self::$uid ) {
@@ -249,7 +250,7 @@ class LLMS_Shortcode_Checkout {
 
 			}
 
-			$order = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
+			$order = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_GET, 'order' ) );
 			$atts  = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
 
 			if ( $order->get( 'coupon_id' ) ) {

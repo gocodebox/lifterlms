@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.38.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,6 +29,7 @@ function llms_cancel_payment_url() {
  *
  * @since 1.0.0
  * @since 3.38.0 Added redirect query string parameter.
+ * @since [version] Avoid passing `null` to `urldecode()` when no redirect is set in the `$_GET` array.
  *
  * @return string
  */
@@ -40,9 +41,9 @@ function llms_confirm_payment_url( $order_key = null ) {
 		$args['order'] = $order_key;
 	}
 
-	$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+	$redirect = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 	if ( $redirect ) {
-		$args['redirect'] = rawurlencode( $redirect );
+		$args['redirect'] = rawurlencode( urldecode( $redirect ) );
 	}
 
 	$url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );

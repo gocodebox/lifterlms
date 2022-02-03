@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.8.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,6 +74,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
 	 * @since 5.2.0 Merge controller additional options.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param LLMS_Notification_Controller $controller Instance of an LLMS_Notification_Controller extending class.
 	 * @return array
@@ -83,7 +84,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		$settings = array();
 
 		// Setup vars.
-		$type  = llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+		$type  = llms_filter_input_sanitize_string( INPUT_GET, 'type' );
 		$types = $controller->get_supported_types();
 		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
 		$view  = $controller->get_mock_view( $type );
@@ -171,7 +172,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = llms()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+			$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
 
 			if ( $controller ) {
 
@@ -260,6 +261,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 *
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -273,9 +275,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$controller = llms()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+				$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+
 				$controller->send_test(
-					llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ),
+					llms_filter_input_sanitize_string( INPUT_GET, 'type' ),
 					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				);
 

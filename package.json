@@ -28,8 +28,10 @@
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
+    "gulp-uglify": "^3.0.2",
     "lerna": "^4.0.0",
-    "lifterlms-lib-tasks": "^4.0.1"
+    "lifterlms-lib-tasks": "^4.0.1",
+    "postcss": "^8.4.6"
   },
   "scripts": {
     "build": "npm run build:scripts && npm run build:scripts:legacy && npm run build:styles && npm run build:pot && llms-dev readme",

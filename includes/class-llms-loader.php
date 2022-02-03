@@ -209,6 +209,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-sessions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-staging.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-prevent-concurrent-logins.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-block-templates.php';
 
 		// Forms.
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/class-llms-forms.php';
@@ -274,7 +275,8 @@ class LLMS_Loader {
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
-	 * @since [version] Include `LLMS_Abstract_Meta_Box_User_Engagement_Sync`.
+	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
+	 *              Include `LLMS_Abstract_Meta_Box_User_Engagement_Sync`.
 	 *              Removed all class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
@@ -313,7 +315,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
 
 		// Load setup wizard conditionally.
-		if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+		if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page' ) ) {
 			require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.setup.wizard.php';
 		}
 	}

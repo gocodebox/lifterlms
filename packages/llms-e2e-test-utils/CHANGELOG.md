@@ -1,10 +1,28 @@
 LifterLMS E2E Test Utils Changelog
 ==================================
 
+Unreleased
+----------
+
++ New functions: `openSidebarPanelTab()`, `publishPost()`, `toggleSidebarPanel()`, `updatePost()`, `visitPostPermalink()`.
++ Update: `createCertificate()` now creates certificates in the block editor.
++ Update: `createPost()` now sets the post's content programmatically in favor of passing it through a query string variable.
++ Update: `fillField()` now waits for the selector prior to focusing on it.
++ Update: `clickAndWait()` now returns a `Promise` in favor of void.
+
+
+v3.2.0 - 2022-01-31
+-------------------
+
++ Added: New function `wpVersionCompare()` used to run version comparisons against the currently tested version of WordPress.
++ Fixed: Tests failing when running `runSetupWizard()` on WordPress >= 5.9.
++ Update: `@wordpress/e2e-test-utils` to version [6.0.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/e2e-test-utils/CHANGELOG.md#600-2022-01-27).
+
+
 v3.1.0 - 2021-12-07
 -------------------
 
-+ Added new functions `highlightCode()` and `setCheckboxSetting()`.
++ Added new functions `highlightNode()` and `setCheckboxSetting()`.
 
 
 v3.0.0 - 2021-11-05

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 5.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -128,12 +128,14 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return string
 	 */
 	private function get_inline_script() {
 		ob_start();
 		?>
-		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input( INPUT_GET, 'view_nonce', FILTER_SANITIZE_STRING ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
+		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input_sanitize_string( INPUT_GET, 'view_nonce' ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
 	}
@@ -216,6 +218,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 4.16.0 Don't access `$_GET` directly, use `llms_filter_input()`.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -227,7 +230,7 @@ class LLMS_View_Manager {
 
 		// Ensure it's a valid view.
 		$views = $this->get_views();
-		$view  = llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		$view  = llms_filter_input( INPUT_GET, 'llms-view-as' );
 		if ( ! $view || ! isset( $views[ $view ] ) ) {
 			return 'self';
 		}

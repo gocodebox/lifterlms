@@ -506,6 +506,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Save a metabox field.
 	 *
 	 * @since 3.37.12
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since [version] Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.
@@ -519,17 +520,15 @@ abstract class LLMS_Admin_Metabox {
 		// Get the posted value & sanitize it.
 		if ( isset( $_POST[ $field['id'] ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified in `$this->save()` which calls this method.
 
-			$filters = array(
-				FILTER_SANITIZE_STRING,
-			);
+			$flags = array();
 
 			if ( isset( $field['sanitize'] ) && in_array( $field['sanitize'], array( 'shortcode', 'no_encode_quotes' ), true ) ) {
-				$filters[] = FILTER_FLAG_NO_ENCODE_QUOTES;
+				$flags[] = FILTER_FLAG_NO_ENCODE_QUOTES;
 			} elseif ( ! empty( $field['multi'] ) ) {
-				$filters[] = FILTER_REQUIRE_ARRAY;
+				$flags[] = FILTER_REQUIRE_ARRAY;
 			}
 
-			$val = llms_filter_input( INPUT_POST, $field['id'], ...$filters );
+			$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], $flags );
 
 		}
 

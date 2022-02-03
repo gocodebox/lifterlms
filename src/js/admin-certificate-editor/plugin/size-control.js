@@ -42,6 +42,7 @@ function CustomSizeControl( { width, height, unit } ) {
 		<div style={ { display: 'flex' } }>
 			<div style={ { flex: 1 } }>
 				<TextControl
+					id="llms-certificate-control--size--custom-width"
 					label={ __( 'Custom Size Width', 'lifterlms' ) }
 					placeholder={ __( 'Width', 'lifterlms' ) }
 					type="number"
@@ -55,6 +56,7 @@ function CustomSizeControl( { width, height, unit } ) {
 			</div>
 			<div style={ { flex: 1 } }>
 				<TextControl
+					id="llms-certificate-control--size--custom-height"
 					label={ __( 'Custom Size Height', 'lifterlms' ) }
 					placeholder={ __( 'Height', 'lifterlms' ) }
 					type="number"
@@ -68,6 +70,7 @@ function CustomSizeControl( { width, height, unit } ) {
 			</div>
 			<div style={ { flex: 2 } }>
 				<SelectControl
+					id="llms-certificate-control--size--custom-unit"
 					label={ __( 'Custom Size Dimension', 'lifterlms' ) }
 					hideLabelFromVision
 					value={ currUnit }
@@ -110,6 +113,7 @@ export default function SizeControl( { size: selected, width, height, unit } ) {
 	return (
 		<>
 			<SelectControl
+				id="llms-certificate-control--size"
 				label={ __( 'Size', 'lifterlms' ) }
 				value={ size }
 				options={ options }

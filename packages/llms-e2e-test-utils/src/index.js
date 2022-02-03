@@ -27,6 +27,10 @@ export { findElementByText } from './find-element-by-text';
 export { loginStudent } from './login-student';
 export { logoutUser } from './logout-user';
 
+export { openSidebarPanelTab } from './open-sidebar-panel-tab';
+
+export { publishPost } from './publish-post';
+
 export { registerStudent } from './register-student';
 export { runSetupWizard } from './run-setup-wizard';
 
@@ -35,6 +39,12 @@ export { setCheckboxSetting } from './set-checkbox-setting';
 export { setSelect2Option } from './set-select2-option';
 
 export { toggleOpenRegistration } from './toggle-open-registration';
+export { toggleSidebarPanel } from './toggle-sidebar-panel';
+
+export { updatePost } from './update-post';
 
 export { visitPage } from './visit-page';
+export { visitPostPermalink } from './visit-post-permalink';
 export { visitSettingsPage } from './visit-settings-page';
+
+export { wpVersionCompare } from './wp-version-compare';

@@ -114,6 +114,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
@@ -131,7 +132,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		);
 
 		foreach ( $actions as $action => $method ) {
-			$action = llms_filter_input( INPUT_POST, $action, FILTER_SANITIZE_STRING );
+			$action = llms_filter_input( INPUT_POST, $action );
 			if ( $action ) {
 				$this->$method( $post_id );
 				break;
@@ -145,6 +146,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null
@@ -154,7 +156,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce is verified in the save() method of this class.
 
 		$txn_id = llms_filter_input( INPUT_POST, 'llms_refund_txn_id', FILTER_SANITIZE_NUMBER_INT );
-		$amount = llms_filter_input( INPUT_POST, 'llms_refund_amount', FILTER_SANITIZE_STRING );
+		$amount = llms_filter_input_sanitize_string( INPUT_POST, 'llms_refund_amount' );
 		if ( empty( $txn_id ) ) {
 			return $this->add_error( __( 'Refund Error: Missing a transaction ID', 'lifterlms' ) );
 		} elseif ( empty( $amount ) ) {
@@ -165,8 +167,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 		$refund = $txn->process_refund(
 			$amount,
-			llms_filter_input( INPUT_POST, 'llms_refund_note', FILTER_SANITIZE_STRING ),
-			llms_filter_input( INPUT_POST, 'llms_process_refund', FILTER_SANITIZE_STRING )
+			llms_filter_input_sanitize_string( INPUT_POST, 'llms_refund_note' ),
+			llms_filter_input_sanitize_string( INPUT_POST, 'llms_process_refund' )
 		);
 
 		if ( is_wp_error( $refund ) ) {
@@ -183,6 +185,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null
@@ -199,9 +202,9 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 		$txn = $order->record_transaction(
 			array(
-				'amount'             => llms_filter_input( INPUT_POST, 'llms_txn_amount', FILTER_SANITIZE_STRING ),
-				'source_description' => llms_filter_input( INPUT_POST, 'llms_txn_source', FILTER_SANITIZE_STRING ),
-				'transaction_id'     => llms_filter_input( INPUT_POST, 'llms_txn_id', FILTER_SANITIZE_STRING ),
+				'amount'             => llms_filter_input_sanitize_string( INPUT_POST, 'llms_txn_amount' ),
+				'source_description' => llms_filter_input_sanitize_string( INPUT_POST, 'llms_txn_source' ),
+				'transaction_id'     => llms_filter_input_sanitize_string( INPUT_POST, 'llms_txn_id' ),
 				'status'             => 'llms-txn-succeeded',
 				'payment_gateway'    => 'manual',
 				'payment_type'       => 'single',
@@ -209,7 +212,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		);
 
 		if ( ! empty( $_POST['llms_txn_note'] ) ) {
-			$order->add_note( llms_filter_input( INPUT_POST, 'llms_txn_note', FILTER_SANITIZE_STRING ), true );
+			$order->add_note( llms_filter_input_sanitize_string( INPUT_POST, 'llms_txn_note' ), true );
 		}
 
 		if ( is_wp_error( $txn ) ) {
