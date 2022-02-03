@@ -344,7 +344,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	public function test_create_model() {
 
 		$date = '2021-04-22 14:34:00';
-		llms_mock_current_time( $date );
+		llms_tests_mock_current_time( $date );
 
 		$this->create( '' );
 
