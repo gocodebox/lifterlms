@@ -91,8 +91,6 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 		$mini_cert = LLMS_Unit_Test_Util::call_method( $view, 'set_merge_data', array( '{{MINI_CERTIFICATE}}' ) );
 		$this->assertEquals( 0, strpos( '<div class="llms-mini-cert">', $mini_cert ) );
 		$this->assertStringContainsString( "<h2 class=\"llms-mini-cert-title\">{$cert->get( 'title' )}</h2>", $mini_cert );
-		$this->assertStringContainsString( $expected_content, $mini_cert );
-		$this->assertStringContainsString( '</div>', $mini_cert );
 
 	}
 
