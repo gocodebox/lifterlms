@@ -18,7 +18,7 @@ $choices    = $question->get_choices();
 $cols       = llms_get_picture_choice_question_cols( count( $choices ) );
 ?>
 
-<ol class="llms-question-choices llms-cols">
+<ol class="llms-question-choices llms-flex-cols">
 	<?php foreach ( $choices as $choice ) : ?>
 
 		<li class="llms-choice type--picture llms-col-<?php echo absint( $cols ); ?>" id="choice-wrapper-<?php echo $choice->get( 'id' ); ?>">
