@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 3.17.6
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,38 +45,30 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Get the HTML for the mini certificate preview.
 	 *
 	 * @since Unknown
+	 * @since [version] Removed `$content` parameter & updated HTML to display a placeholder.
 	 *
-	 * @param string $title   The (merged) certificate title.
-	 * @param string $content The (merged) certificate body/content.
+	 * @param string $title The (merged) certificate title.
 	 * @return string
 	 */
-	private function get_mini_html( $title, $content ) {
-		$attrs   = array(
-			'class' => array(),
-			'id'    => array(),
-			'style' => array(),
-		);
-		$allowed = array(
-			'h1'     => $attrs,
-			'h2'     => $attrs,
-			'h3'     => $attrs,
-			'h4'     => $attrs,
-			'h5'     => $attrs,
-			'h6'     => $attrs,
-			'p'      => $attrs,
-			'ul'     => $attrs,
-			'ol'     => $attrs,
-			'li'     => $attrs,
-			'strong' => $attrs,
-			'em'     => $attrs,
-			'i'      => $attrs,
-			'b'      => $attrs,
-		);
+	private function get_mini_html( $title ) {
 		ob_start();
 		?>
 		<div class="llms-mini-cert">
+
 			<h2 class="llms-mini-cert-title"><?php echo $title; ?></h2>
-			<?php echo wp_kses( $content, $allowed ); ?>
+
+			<div class="llms-mini-cert--body ">
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+
+				<div class="llms-mini-cert--mock-line"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+
+				<div class="llms-mini-cert--mock-dot"></div>
+				<div class="llms-mini-cert--mock-line"></div>
+			</div>
+
 		</div>
 		<?php
 		return ob_get_clean();
@@ -200,7 +192,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * @return string
 	 */
 	private function set_merge_data_mini_certificate( $cert ) {
-		return $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ), $this->set_merge_data( '{{CERTIFICATE_CONTENT}}' ) );
+		return $this->get_mini_html( $this->set_merge_data( '{{CERTIFICATE_TITLE}}' ) );
 	}
 
 	/**
