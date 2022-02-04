@@ -304,7 +304,7 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		foreach ( $errors as $error ) {
-			if ( is_object( $error ) && 'WP_Error' === get_class( $error ) ) {
+			if ( is_wp_error( $error ) ) {
 				$error = $error->get_error_message();
 			}
 			echo '<div id="lifterlms_errors" class="error"><p>' . $error . '</p></div>';
