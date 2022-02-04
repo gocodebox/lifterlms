@@ -15,11 +15,72 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
-	extends LLMS_Admin_Metabox
-	implements LLMS_Interface_User_Engagement_Type {
+abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Metabox {
 
 	use LLMS_Trait_User_Engagement_Type;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS = 0;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT = 1;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT = 2;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_AWARDED_ENGAGEMENT = 3;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_AWARDED_ENGAGEMENTS = 4;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS = 5;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT = 6;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT = 7;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS = 8;
 
 	/**
 	 * The context to register the meta box with.
@@ -39,6 +100,24 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 	 * @var bool
 	 */
 	protected $is_syncing_all_awarded_engagements;
+
+	/**
+	 * The post type of an awarded engagement, e.g. 'llms_my_achievement' or 'llms_my_certificate'.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $post_type_awarded;
+
+	/**
+	 * The post type of an engagement template, e.g. 'llms_achievement' or 'llms_certificate'.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $post_type_template;
 
 	/**
 	 * Configure the meta box settings.
@@ -67,17 +146,11 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 
 		if ( $this->post->post_type === $this->post_type_template ) {
 			$this->is_syncing_all_awarded_engagements = true;
-			$plural_or_singular                       = self::PLURAL;
+			$this->title = $this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENTS );
 		} else {
 			$this->is_syncing_all_awarded_engagements = false;
-			$plural_or_singular                       = self::SINGULAR;
+			$this->title = $this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENT );
 		}
-
-		$this->title   = sprintf(
-			/* translators: %s: plural awarded engagement type */
-			__( 'Sync %s', 'lifterlms' ),
-			$this->get_engagement_type_name( $plural_or_singular, LLMS_Case::NO_CHANGE, self::AWARDED )
-		);
 	}
 
 	/**
@@ -140,6 +213,20 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 	}
 
 	/**
+	 * Returns a translated text of the given type.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $text_type One of the LLMS_Abstract_Meta_Box_User_Engagement_Sync::TEXT_ constants.
+	 * @param array $variables Optional variables that are used in sprintf().
+	 * @return string
+	 */
+	protected function get_text( $text_type, $variables = array() ) {
+
+		return __( 'Invalid text type.', 'lifterlms' );
+	}
+
+	/**
 	 * Function to field WP::output() method call.
 	 *
 	 * @see LLMS_Admin_Metabox::register()
@@ -155,14 +242,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 		$sync_action = $this->sync_action();
 
 		if ( ! $sync_action ) {
-			$sync_action = sprintf(
-				/* translators: 1: singular lowercase engagement template type, 2: plural lowercase awarded engagement type, 3: singular uppercase first letter engagement template type, 4: plural uppercase first letter awarded engagement type */
-				__( 'This %1$s has no %2$s to sync.', 'lifterlms' ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
-				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::LOWER, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE ),
-				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::UPPER_FIRST, self::AWARDED )
-			);
+			$sync_action = $this->get_text( self::TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS );
 		}
 
 		// Output the HTML.
@@ -189,25 +269,14 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 				return '';
 			}
 
-			$plural_or_singular = ( $awarded_number > 1 ) ? self::PLURAL : self::SINGULAR;
-			$sync_alert         = sprintf(
-				/* translators: 1: number of awarded engagements, 2: plural or singular lowercase awarded engagement type, 3: singular lowercase engagement template type, 4: plural or singular uppercase first letter awarded engagement type, 5: singular uppercase first letter engagement template type */
-				__( 'This action will replace the current title, content, background etc. of %1$d %2$s with the ones from this %3$s.\nAre you sure you want to proceed?', 'lifterlms' ),
-				$awarded_number,
-				$this->get_engagement_type_name( $plural_or_singular, LLMS_Case::LOWER, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
-				$this->get_engagement_type_name( $plural_or_singular, LLMS_Case::UPPER_FIRST, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
-			);
-			$sync_description   = sprintf(
-				/* translators: 1: number of awarded engagements, 2: plural or singular lowercase awarded engagement type, 3: singular lowercase engagement template type, 4: plural or singular uppercase first letter awarded engagement type, 5: singular uppercase first letter engagement template type */
-				__( 'Sync %1$d %2$s with this %3$s.', 'lifterlms' ),
-				$awarded_number,
-				$this->get_engagement_type_name( $plural_or_singular, LLMS_Case::LOWER, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
-				$this->get_engagement_type_name( $plural_or_singular, LLMS_Case::UPPER_FIRST, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
-			);
+			$variables = compact( 'awarded_number' );
+			if ( $awarded_number > 1 ) {
+				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS, $variables );
+				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS, $variables );
+			} else {
+				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT, $variables );
+				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT, $variables );
+			}
 		} else {
 			$awarded_model = $this->get_awarded_engagement( $this->post->ID );
 			$template_id   = $awarded_model ? $awarded_model->get( 'parent' ) : false;
@@ -216,24 +285,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync
 				return '';
 			}
 
-			$sync_alert       = sprintf(
-				/* translators: 1: singular lowercase awarded engagement type, 2: singular lowercase engagement template type, 3: singular uppercase first letter awarded engagement type, 4: singular uppercase first letter engagement template type */
-				__( 'This action will replace the current title, content, background etc. of this %1$s with the ones from the %2$s.\nAre you sure you want to proceed?', 'lifterlms' ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
-			);
-			$sync_description = sprintf(
-				/* translators: 1: singular lowercase awarded engagement type, 2: link to edit the engagement template, 3: singular lowercase engagement template type, 4: closing anchor tag, 5: singular uppercase first letter awarded engagement type, 6: singular uppercase first letter engagement template type */
-				__( 'Sync this %1$s with its %2$s%3$s%4$s.', 'lifterlms' ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::AWARDED ),
-				'<a href="' . get_edit_post_link( $template_id ) . '" target="_blank">',
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::LOWER, self::TEMPLATE ),
-				'</a>',
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::AWARDED ),
-				$this->get_engagement_type_name( self::SINGULAR, LLMS_Case::UPPER_FIRST, self::TEMPLATE )
-			);
+			$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT );
+			$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT );
 		}
 
 		$base_url = remove_query_arg( 'action' ); // Current URL without 'action' arg.

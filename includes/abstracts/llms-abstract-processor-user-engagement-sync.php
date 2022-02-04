@@ -15,11 +15,16 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-abstract class LLMS_Abstract_Processor_User_Engagement_Sync
-	extends LLMS_Abstract_Processor
-	implements LLMS_Interface_User_Engagement_Type {
+abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstract_Processor {
 
 	use LLMS_Trait_User_Engagement_Type;
+
+	/**
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE = 0;
 
 	/**
 	 * Clear notices.
@@ -108,6 +113,20 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync
 	}
 
 	/**
+	 * Returns a translated text of the given type.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $text_type One of the LLMS_Abstract_Processor_User_Engagement_Sync::TEXT_ constants.
+	 * @param array $variables Optional variables that are used in sprintf().
+	 * @return string
+	 */
+	protected function get_text( $text_type, $variables = array() ) {
+
+		return __( 'Invalid text type.', 'lifterlms' );
+	}
+
+	/**
 	 * Initializer.
 	 *
 	 * @since [version]
@@ -153,16 +172,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync
 
 		LLMS_Admin_Notices::add_notice(
 			sprintf( 'awarded-%1$ss-sync-%2$d-done', $this->engagement_type, $args['query_args']['templates'] ),
-			sprintf(
-				/* translators: 1: plural uppercase first letter awarded engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag, 6: plural lowercase awarded engagement type */
-				__( '%1$s sync completed for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' ),
-				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::UPPER_FIRST, self::AWARDED ),
-				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $args['query_args']['templates'] ) ),
-				get_the_title( $args['query_args']['templates'] ),
-				$args['query_args']['templates'],
-				'</a>',
-				$this->get_engagement_type_name( self::PLURAL, LLMS_Case::LOWER, self::AWARDED )
-			),
+			$this->get_text( self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE, array( 'template_id', $args['query_args']['templates'] ) ),
 			array(
 				'dismissible'      => true,
 				'dismiss_for_days' => 0,

@@ -24,14 +24,12 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 
 		parent::set_up();
 
-		$this->mock = new class() implements LLMS_Interface_User_Engagement_Type {
+		$this->mock = new class() {
 
 			use LLMS_Trait_User_Engagement_Type;
 
 			public function __construct() {
 				$this->engagement_type    = 'mock_cert';
-				$this->post_type_awarded  = 'llms_my_mock_cert';
-				$this->post_type_template = 'llms_mock_cert';
 			}
 		};
 	}
@@ -103,59 +101,5 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 		self::assertIsObject( $awarded_engagement );
 		self::assertEquals( 'LLMS_User_Mock_Cert', get_class( $awarded_engagement ) );
 		self::assertEquals( $awarded_id, $awarded_engagement->get( 'id' ) );
-	}
-
-	/**
-	 * Test get_engagement_label_name().
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_engagement_label_name() {
-
-		$template_post_type = get_post_type_object( 'llms_mock_cert' );
-		$awarded_post_type  = get_post_type_object( 'llms_my_mock_cert' );
-		$tests              = array(
-			array( null, LLMS_Interface_User_Engagement_Type::PLURAL, 'Unknown Engagement Type' ),
-			array( $template_post_type, LLMS_Interface_User_Engagement_Type::PLURAL, $template_post_type->labels->name ),
-			array( $template_post_type, LLMS_Interface_User_Engagement_Type::SINGULAR, $template_post_type->labels->singular_name ),
-			array( $awarded_post_type, LLMS_Interface_User_Engagement_Type::PLURAL, $awarded_post_type->labels->name ),
-			array( $awarded_post_type, LLMS_Interface_User_Engagement_Type::SINGULAR, $awarded_post_type->labels->singular_name ),
-		);
-
-		foreach ( $tests as $test ) {
-			list( $post_type_object, $plural_or_singular, $expected_name ) = $test;
-			$args = array( $post_type_object, $plural_or_singular );
-			$actual_name = LLMS_Unit_Test_Util::call_method( $this->mock, 'get_engagement_label_name', $args );
-			self::assertEquals( $expected_name, $actual_name );
-		}
-	}
-
-	/**
-	 * Test get_engagement_type_object().
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_get_engagement_type_object() {
-
-		$tests = array(
-			array( LLMS_Interface_User_Engagement_Type::AWARDED, get_post_type_object( 'llms_my_mock_cert' ) ),
-			array( LLMS_Interface_User_Engagement_Type::TEMPLATE, get_post_type_object( 'llms_mock_cert' ) ),
-			array( - 1, get_post_type_object( 'llms_mock_cert' ) ),
-		);
-
-		foreach ( $tests as $test ) {
-			list( $type, $expected_post_type_object ) = $test;
-			$actual_post_type_object = LLMS_Unit_Test_Util::call_method(
-				$this->mock,
-				'get_engagement_type_object',
-				array( $type )
-			);
-			self::assertIsObject( $actual_post_type_object );
-			self::assertEquals( $expected_post_type_object, $actual_post_type_object );
-		}
 	}
 }

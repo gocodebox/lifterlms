@@ -51,6 +51,43 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 	}
 
 	/**
+	 * Returns a translated text of the given type.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $text_type One of the LLMS_Abstract_Controller_User_Engagements::TEXT_ constants.
+	 * @param array $variables Optional variables that are used in sprintf().
+	 * @return string
+	 */
+	protected function get_text( $text_type, $variables = array() ) {
+
+		switch ( $text_type ) {
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INSUFFICIENT_PERMISSIONS:
+				return sprintf(
+					/* translators: 1: awarded certificate ID */
+					__( 'Sorry, you are not allowed to edit the awarded certificate #%1$d.', 'lifterlms' ),
+					( $variables['engagement_id'] ?? 0 )
+				);
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INVALID_TEMPLATE:
+				return sprintf(
+					/* translators: 1: awarded certificate ID */
+					__( 'Sorry, the awarded certificate #%1$d does not have a valid certificate template.', 'lifterlms' ),
+					( $variables['engagement_id'] ?? 0 )
+				);
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INSUFFICIENT_PERMISSIONS:
+				return __( 'Sorry, you are not allowed to edit awarded certificates.', 'lifterlms' );
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INVALID_NONCE:
+				return __( 'Sorry, you are not allowed to sync awarded certificates.', 'lifterlms' );
+			case self::TEXT_SYNC_MISSING_AWARDED_ENGAGEMENT_ID:
+				return __( 'Sorry, you need to provide a valid awarded certificate ID.', 'lifterlms' );
+			case self::TEXT_SYNC_MISSING_ENGAGEMENT_TEMPLATE_ID:
+				return __( 'Sorry, you need to provide a valid certificate template ID.', 'lifterlms' );
+			default:
+				return parent::get_text( $text_type );
+		}
+	}
+
+	/**
 	 * Modify certificate post type registration data during a certificate template export.
 	 *
 	 * @since 3.37.4
