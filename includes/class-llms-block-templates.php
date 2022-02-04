@@ -200,6 +200,7 @@ class LLMS_Block_Templates {
 	 * Gets the templates.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Filter template slugs array before checking if it's empty.
 	 *
 	 * @param array  $slugs     An array of slugs to retrieve templates for.
 	 * @param string $post_type Post Type.
@@ -214,7 +215,7 @@ class LLMS_Block_Templates {
 		// Get all the slugs.
 		$template_slugs = array_map( array( $this, 'generate_template_slug_from_path' ), $block_templates_paths );
 		// If specific slugs are required, filter them only.
-		$template_slugs = empty( $slugs ) ? $template_slugs : array_intersect( $slugs, $template_slugs );
+		$template_slugs = empty( array_filter( $slugs ) ) ? $template_slugs : array_intersect( $slugs, $template_slugs );
 
 		if ( empty( $template_slugs ) ) {
 			return array();
@@ -472,6 +473,7 @@ class LLMS_Block_Templates {
 	 * Convert the template paths into a slug.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Return empty string if the passed path is not in the configuration.
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -481,11 +483,14 @@ class LLMS_Block_Templates {
 		$dirname = $this->block_template_config_property_from_path( $path, 'blocks_dir' );
 		$prefix  = $this->block_template_config_property_from_path( $path, 'slug_prefix' );
 
-		return $prefix . substr(
-			$path,
-			strpos( $path, $dirname . DIRECTORY_SEPARATOR ) + 1 + strlen( $dirname ),
-			-5 // .html
-		);
+		return $dirname ?
+			$prefix . substr(
+				$path,
+				strpos( $path, $dirname . DIRECTORY_SEPARATOR ) + 1 + strlen( $dirname ),
+				-5 // .html
+			)
+			:
+			'';
 
 	}
 
@@ -507,13 +512,14 @@ class LLMS_Block_Templates {
 	 * Generate the template slug prefix from the template path.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Fix property name.
 	 *
 	 * @param string $path The template's path.
 	 * @return string
 	 */
 	private function generate_template_prefix_from_path( $path ) {
 
-		return $this->block_template_config_property_from_path( $path, 'prefix' );
+		return $this->block_template_config_property_from_path( $path, 'slug_prefix' );
 
 	}
 
@@ -535,6 +541,8 @@ class LLMS_Block_Templates {
 	 * Retrieve a template config property from path.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Return an empty string if requesting a non existing property.
+	 *               Also removed unused var `$dirname`.
 	 *
 	 * @param string $path     The template's path.
 	 * @param string $property The template's config property to retrieve.
@@ -542,11 +550,10 @@ class LLMS_Block_Templates {
 	 */
 	private function block_template_config_property_from_path( $path, $property ) {
 
-		$dirname    = pathinfo( $path )['dirname'];
 		$prop_value = '';
 		foreach ( $this->block_templates_config as $block_templates_base_path => $config ) {
 			if ( false !== strpos( $path, $block_templates_base_path ) ) {
-				$prop_value = $config[ $property ];
+				$prop_value = $config[ $property ] ?? $prop_value;
 				break;
 			}
 		}
@@ -689,11 +696,12 @@ class LLMS_Block_Templates {
 	 * Localize block templates.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Retuns the `wp_localize_script()` return value.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function localize_blocks() {
-		wp_localize_script(
+		return wp_localize_script(
 			'llms-blocks-editor',
 			'llmsBlockTemplatesL10n',
 			array_merge( ...array_column( $this->block_templates_config, 'admin_blocks_l10n' ) )
