@@ -46,23 +46,6 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test load_admin_tools()
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_load_admin_tools() {
-
-		$actions = did_action( 'llms_load_admin_tools' );
-
-		LLMS_Unit_Test_Util::call_method( $this->main, 'load_admin_tools' );
-
-		// Action ran.
-		$this->assertSame( ++$actions, did_action( 'llms_load_admin_tools' ) );
-	}
-
-	/**
 	 * Test reporting_page_init() when there's permission issues.
 	 *
 	 * @since 4.7.0
@@ -112,5 +95,39 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 		$this->assertOutputContains( '<div class="wrap lifterlms llms-reporting tab--students">', array( $this->main, 'reporting_page_init' ) );
 
 		set_current_screen( 'front' );
+	}
+
+	/**
+	 * Test status_page_includes()
+	 *
+	 * @since 4.12.0
+	 * @since [version] Updated for autoloader changes. Stopped autoloading classes when checking if they exist.
+	 *              Stopped checking for the LLMS_Admin_Page_Status class because status_page_includes() no longer loads it.
+	 *
+	 * @return void
+	 */
+	public function test_status_page_includes() {
+
+		$classes = array(
+			'LLMS_Admin_Tool_Batch_Eraser',
+			'LLMS_Admin_Tool_Clear_Sessions',
+			'LLMS_Admin_Tool_Recurring_Payment_Rescheduler',
+		);
+
+		$actions = did_action( 'llms_load_admin_tools' );
+
+		foreach ( $classes as $class ) {
+			$this->assertFalse( class_exists( $class, false ), $class );
+		}
+
+		LLMS_Unit_Test_Util::call_method( $this->main, 'status_page_includes' );
+
+		// Classes included.
+		foreach ( $classes as $class ) {
+			$this->assertTrue( class_exists( $class, false ), $class );
+		}
+
+		// Action ran.
+		$this->assertSame( ++$actions, did_action( 'llms_load_admin_tools' ) );
 	}
 }

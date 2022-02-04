@@ -237,15 +237,16 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the add-ons screen
+	 * Output the add-ons screen.
 	 *
 	 * @since 3.5.0
-	 * @since 3.22.0
+	 * @since 3.22.0 Unknown.
+	 * @since [version] Removed loading the LLMS_Admin_AddOns class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function add_ons_page_init() {
-		require_once 'class.llms.admin.addons.php';
+
 		$view = new LLMS_Admin_AddOns();
 		$view->handle_actions();
 		$view->output();
@@ -256,11 +257,12 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.13.0
 	 * @since 3.16.0 Unknown.
+	 * @since [version] Removed loading the LLMS_Admin_Builder class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function builder_init() {
-		require_once 'class.llms.admin.builder.php';
+
 		LLMS_Admin_Builder::output();
 	}
 
@@ -299,31 +301,14 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Notify 3rd parties to load custom admin page tools.
-	 *
-	 * @since [version] Moved from LLMS_Admin_Menus::status_page_includes().
-	 *
-	 * @return void
-	 */
-	protected function load_admin_tools() {
-
-		/**
-		 * Action which can be used by 3rd parties to load custom admin page tools.
-		 *
-		 * @since 4.12.0
-		 */
-		do_action( 'llms_load_admin_tools' );
-	}
-
-	/**
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
+	 * @since [version] Removed loading the LLMS_Admin_Settings class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function settings_page_init() {
-		include_once 'class.llms.admin.settings.php';
 		LLMS_Admin_Settings::output();
 	}
 
@@ -353,19 +338,14 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.37.19
 	 * @since 4.12.0 Added `llms_load_admin_tools` action.
-	 * @deprecated [version] Use `LLMS_Admin_Menus::load_admin_tools()` instead.
+	 * @since [version] Removed loading the LLMS_Admin_Page_Status and LLMS_Abstract_Admin_Tool class files
+	 *              that are now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	protected function status_page_includes() {
 
-		llms_deprecated_function( __METHOD__, '[version]', __CLASS__ . '::load_admin_tools()' );
-
-		// Main Status Page.
-		require_once 'class.llms.admin.page.status.php';
-
 		// Tools.
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-*.php' ) as $tool_path ) {
 			require_once $tool_path;
 		}
@@ -376,7 +356,6 @@ class LLMS_Admin_Menus {
 		 * @since 4.12.0
 		 */
 		do_action( 'llms_load_admin_tools' );
-
 	}
 
 	/**
@@ -384,13 +363,11 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.11.2
 	 * @since 3.37.19 Load tools-related files.
-	 * @since [version] Replaced deprecated call to `LLMS_Admin_Menus::status_page_includes()` with
-	 *              `LLMS_Admin_Menus::load_admin_tools().
 	 *
 	 * @return void
 	 */
 	public function status_page_actions() {
-		$this->load_admin_tools();
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::handle_actions();
 	}
 
@@ -400,13 +377,11 @@ class LLMS_Admin_Menus {
 	 * @since Unknown
 	 * @since 3.11.2 Unknown.
 	 * @since 3.37.19 Load tools-related files.
-	 * @since [version] Replaced deprecated call to `LLMS_Admin_Menus::status_page_includes()` with
-	 *              `LLMS_Admin_Menus::load_admin_tools().
 	 *
 	 * @return void
 	 */
 	public function status_page_init() {
-		$this->load_admin_tools();
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::output();
 	}
 
