@@ -1,12 +1,19 @@
-import { switchUserToAdmin, visitAdminPage } from '@wordpress/e2e-test-utils';
+import {
+	insertBlock,
+	switchUserToAdmin,
+	visitAdminPage
+} from '@wordpress/e2e-test-utils';
 
 import {
+	clearBlocks,
 	clickAndWait,
 	clickElementByText,
 	createCertificate,
 	fillField,
+	getAllBlocks,
 	loginStudent,
 	logoutUser,
+	openSidebarPanelTab,
 	registerStudent,
 	toggleOpenRegistration,
 	toggleSidebarPanel,
@@ -96,6 +103,58 @@ describe( 'Engagements/Certificates', () => {
 
 			await visitPostPermalink();
 			expect( await getCertificateHTML() ).toMatchSnapshot();
+
+		} );
+
+		it ( 'can reset blocks to the default template', async () => {
+
+			await visitAdminPage( 'post-new.php', 'post_type=llms_certificate' );
+
+			await page.waitForTimeout( 1000 );
+
+			// Add a title.
+			const TITLE_SELECTOR = '.is-root-container.block-editor-block-list__layout .wp-block-llms-certificate-title';
+			await page.waitForSelector( TITLE_SELECTOR );
+			await page.click( TITLE_SELECTOR );
+			await page.keyboard.type( 'Certificate Title' );
+			await page.keyboard.press( 'Tab' );
+
+			// Add a new block.
+			await insertBlock( 'Spacer' );
+
+			// Make sure sidebar is open.
+			await openSidebarPanelTab();
+
+			// Open confirmation modal.
+			await clickElementByText( 'Reset template', '.edit-post-post-status button' );
+
+			// Confirm reset.
+			await clickElementByText( 'Reset template', '.components-modal__frame button' );
+
+			await page.waitForTimeout( 1000 );
+
+			expect( await getAllBlocks( false ) ).toMatchSnapshot();
+
+		} );
+
+		it ( 'can reset blocks to the default template when there are no blocks present', async () => {
+
+			await visitAdminPage( 'post-new.php', 'post_type=llms_certificate' );
+
+			await clearBlocks();
+
+			// Make sure sidebar is open.
+			await openSidebarPanelTab();
+
+			// Open confirmation modal.
+			await clickElementByText( 'Reset template', '.edit-post-post-status button' );
+
+			// Confirm reset.
+			await clickElementByText( 'Reset template', '.components-modal__frame button' );
+
+			await page.waitForTimeout( 1000 );
+
+			expect( await getAllBlocks( false ) ).toMatchSnapshot();
 
 		} );
 
