@@ -123,7 +123,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		// Validate action.
 		// Invalid actions return a WP_Error for testing purposes and are not displayed to the user.
 		$actions = array(
-			'sync_one'  => "sync_awarded_$this->engagement_type",
+			'sync_one'  => "sync_awarded_{$this->engagement_type}",
 			'sync_many' => "sync_awarded_{$this->engagement_type}s",
 		);
 		if ( ! isset( $_GET['action'] ) ) {
@@ -141,7 +141,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		// Verify nonce.
 		if ( ! llms_verify_nonce(
 			"_llms_{$this->engagement_type}_sync_actions_nonce",
-			"llms-$this->engagement_type-sync-actions",
+			"llms-{$this->engagement_type}-sync-actions",
 			'GET'
 		) ) {
 			$result = new WP_Error(
@@ -201,7 +201,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		if ( ! current_user_can( 'edit_post', $engagement_id ) ) {
 			$variables = compact( 'engagement_id' );
 			return new WP_Error(
-				"llms-sync-awarded-$this->engagement_type-insufficient-permissions",
+				"llms-sync-awarded-{$this->engagement_type}-insufficient-permissions",
 				$this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENT_INSUFFICIENT_PERMISSIONS, $variables ),
 				$variables
 			);
@@ -211,7 +211,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		if ( ! $sync ) {
 			$variables = compact( 'engagement_id' );
 			return new WP_Error(
-				"llms-sync-awarded-$this->engagement_type-invalid-template",
+				"llms-sync-awarded-{$this->engagement_type}-invalid-template",
 				$this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENT_INVALID_TEMPLATE, $variables ),
 				$variables
 			);
@@ -235,7 +235,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 */
 	private function sync_awarded_engagements( $user_engagement_template_id ) {
 
-		if ( ! current_user_can( get_post_type_object( "llms_my_$this->engagement_type" )->cap->edit_posts ) ) {
+		if ( ! current_user_can( get_post_type_object( "llms_my_{$this->engagement_type}" )->cap->edit_posts ) ) {
 			return new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-insufficient-permissions",
 				$this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INSUFFICIENT_PERMISSIONS )

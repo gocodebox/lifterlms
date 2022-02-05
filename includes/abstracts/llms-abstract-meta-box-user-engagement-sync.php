@@ -292,10 +292,10 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		$base_url = remove_query_arg( 'action' ); // Current URL without 'action' arg.
 		$sync_url = add_query_arg(
 			'action',
-			"sync_awarded_$this->engagement_type" . ( $this->is_syncing_all_awarded_engagements ? 's' : '' ),
+			"sync_awarded_{$this->engagement_type}" . ( $this->is_syncing_all_awarded_engagements ? 's' : '' ),
 			wp_nonce_url(
 				$base_url,
-				"llms-$this->engagement_type-sync-actions",
+				"llms-{$this->engagement_type}-sync-actions",
 				"_llms_{$this->engagement_type}_sync_actions_nonce"
 			)
 		);

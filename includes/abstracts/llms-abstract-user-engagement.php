@@ -50,7 +50,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 *
 		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
-		do_action( "llms_before_delete_$this->model_post_type", $this );
+		do_action( "llms_before_delete_{$this->model_post_type}", $this );
 
 		global $wpdb;
 		$id = $this->get( 'id' );
@@ -76,7 +76,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 *
 		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
-		do_action( "llms_delete_$this->model_post_type", $this );
+		do_action( "llms_delete_{$this->model_post_type}", $this );
 	}
 
 	/**
@@ -127,7 +127,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	protected function get_user_engagement_template( $post ) {
 
 		$post = get_post( $post );
-		if ( ! $post || "llms_$this->model_post_type" !== $post->post_type ) {
+		if ( ! $post || "llms_{$this->model_post_type}" !== $post->post_type ) {
 			return false;
 		}
 
