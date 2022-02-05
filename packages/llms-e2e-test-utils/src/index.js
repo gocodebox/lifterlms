@@ -1,3 +1,5 @@
+export { clearBlocks } from './clear-blocks';
+
 export { click } from './click';
 export { clickAndWait } from './click-and-wait';
 export { clickElementByText } from './click-element-by-text';
@@ -17,6 +19,8 @@ export { dismissEditorWelcomeGuide } from './dismiss-editor-welcome-guide';
 export { enrollStudent } from './enroll-student';
 
 export { fillField } from './fill-field';
+
+export { getAllBlocks } from './get-all-blocks';
 
 export { highlightNode } from './highlight-node';
 
