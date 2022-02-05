@@ -179,27 +179,6 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	}
 
 	/**
-	 * Retrieves a child LLMS_Abstract_User_Engagement template instance for a given post or false if not found.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post|int|null $post A WP_Post object or a WP_Post ID. A falsy value will use
-	 *                               the current global `$post` object (if one exists).
-	 * @return LLMS_Abstract_User_Engagement|false
-	 */
-	protected function get_engagement_template( $post ) {
-
-		$post = get_post( $post );
-		if ( ! $post || "llms_$this->engagement_type" !== $post->post_type ) {
-			return false;
-		}
-
-		$class = 'LLMS_User_' . ucfirst( $this->engagement_type );
-
-		return new $class( $post );
-	}
-
-	/**
 	 * Not used because our meta box doesn't use the standard fields API.
 	 *
 	 * @since [version] Refactored from LLMS_Meta_Box_Award_Certificate_Sync::get_fields() and
@@ -278,10 +257,10 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT, $variables );
 			}
 		} else {
-			$awarded_model = $this->get_awarded_engagement( $this->post->ID );
+			$awarded_model = $this->get_user_engagement( $this->post->ID, true );
 			$template_id   = $awarded_model ? $awarded_model->get( 'parent' ) : false;
 
-			if ( empty( $template_id ) || ! $this->get_engagement_template( $template_id ) ) {
+			if ( empty( $template_id ) || ! $this->get_user_engagement( $template_id, false ) ) {
 				return '';
 			}
 

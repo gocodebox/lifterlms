@@ -202,7 +202,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			);
 		}
 
-		$sync = $this->get_awarded_engagement( $engagement_id )->sync();
+		$sync = $this->get_user_engagement( $engagement_id, true )->sync();
 		if ( ! $sync ) {
 			$variables = compact( 'engagement_id' );
 			return new WP_Error(

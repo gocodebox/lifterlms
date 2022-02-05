@@ -27,18 +27,20 @@ trait LLMS_Trait_User_Engagement_Type {
 	protected $engagement_type;
 
 	/**
-	 * Returns an awarded child LLMS_Abstract_User_Engagement instance for the given post or false if not found.
+	 * Returns an awarded engagement or an engagement template for the given post or false if not found.
 	 *
 	 * @since [version]
 	 *
-	 * @param WP_Post|int|null $post A WP_Post object or a WP_Post ID. A falsy value will use
-	 *                               the current global `$post` object (if one exists).
+	 * @param WP_Post|int|null $post       A WP_Post object or a WP_Post ID. A falsy value will use
+	 *                                     the current global `$post` object (if one exists).
+	 * @param int              $is_awarded If true, returns an awarded engagement, else an engagement template.
 	 * @return LLMS_Abstract_User_Engagement|false
 	 */
-	protected function get_awarded_engagement( $post ) {
+	protected function get_user_engagement( $post, $is_awarded ) {
 
-		$post = get_post( $post );
-		if ( ! $post || "llms_my_$this->engagement_type" !== $post->post_type ) {
+		$is_awarded = $is_awarded ? 'my_' : null;
+		$post       = get_post( $post );
+		if ( ! $post || "llms_{$is_awarded}{$this->engagement_type}" !== $post->post_type ) {
 			return false;
 		}
 
