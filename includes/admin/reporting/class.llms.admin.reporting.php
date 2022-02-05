@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -349,26 +349,19 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Include all required classes & files for the Reporting screens
+	 * Include all required classes & files for the Reporting screens.
 	 *
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.16.0
+	 * @since 3.2.0
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return void
 	 */
 	public static function includes() {
-
-		include_once LLMS_PLUGIN_DIR . '/includes/abstracts/abstract.llms.admin.table.php';
-
-		// Include all the table classes.
-		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/reporting/tables/*.php' ) as $filename ) {
-			include_once $filename;
-		}
 
 		// Include tab classes.
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/reporting/tabs/*.php' ) as $filename ) {
 			include_once $filename;
 		}
-
 	}
 
 	/**

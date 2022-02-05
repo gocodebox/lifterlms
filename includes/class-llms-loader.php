@@ -27,54 +27,55 @@ class LLMS_Loader {
 	 */
 	private $non_standard_classes = array(
 		// Missing "_Abstract_" from class name.
-		'llms_admin_metabox'            => 'includes/abstracts/abstract.llms.admin.metabox.php',
-		'llms_admin_table'              => 'includes/abstracts/abstract.llms.admin.table.php',
-		'llms_analytics_widget'         => 'includes/abstracts/abstract.llms.analytics.widget.php',
-		'llms_database_query'           => 'includes/abstracts/abstract.llms.database.query.php',
-		'llms_payment_gateway'          => 'includes/abstracts/abstract.llms.payment.gateway.php',
-		'llms_post_model'               => 'includes/abstracts/abstract.llms.post.model.php',
-		'llms_shortcode_course_element' => 'includes/abstracts/abstract.llms.shortcode.course.element.php',
-		'llms_shortcode'                => 'includes/abstracts/abstract.llms.shortcode.php',
-		'llms_update'                   => 'includes/abstracts/abstract.llms.update.php',
+		'llms_admin_metabox'              => 'includes/abstracts/abstract.llms.admin.metabox.php',
+		'llms_admin_table'                => 'includes/abstracts/abstract.llms.admin.table.php',
+		'llms_analytics_widget'           => 'includes/abstracts/abstract.llms.analytics.widget.php',
+		'llms_database_query'             => 'includes/abstracts/abstract.llms.database.query.php',
+		'llms_payment_gateway'            => 'includes/abstracts/abstract.llms.payment.gateway.php',
+		'llms_post_model'                 => 'includes/abstracts/abstract.llms.post.model.php',
+		'llms_shortcode_course_element'   => 'includes/abstracts/abstract.llms.shortcode.course.element.php',
+		'llms_shortcode'                  => 'includes/abstracts/abstract.llms.shortcode.php',
+		'llms_update'                     => 'includes/abstracts/abstract.llms.update.php',
 
 		// Missing "_Admin_" from class name.
-		'llms_export_api'               => 'includes/admin/class-llms-export-api.php',
+		'llms_export_api'                 => 'includes/admin/class-llms-export-api.php',
 
 		// Meta box fields.
-		'llms_metabox_field'            => 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php',
-		'meta_box_field_interface'      => 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php',
+		'llms_metabox_field'              => 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php',
+		'meta_box_field_interface'        => 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php',
 
 		// Missing "Model" from class name.
-		'llms_access_plan'              => 'includes/models/model.llms.access.plan.php',
-		'llms_add_on'                   => 'includes/models/model.llms.add-on.php',
-		'llms_coupon'                   => 'includes/models/model.llms.coupon.php',
-		'llms_course'                   => 'includes/models/model.llms.course.php',
-		'llms_event'                    => 'includes/models/class-llms-event.php',
-		'llms_instructor'               => 'includes/models/model.llms.instructor.php',
-		'llms_lesson'                   => 'includes/models/model.llms.lesson.php',
-		'llms_membership'               => 'includes/models/model.llms.membership.php',
-		'llms_notification'             => 'includes/models/model.llms.notification.php',
-		'llms_order'                    => 'includes/models/model.llms.order.php',
-		'llms_post_instructors'         => 'includes/models/model.llms.post.instructors.php',
-		'llms_product'                  => 'includes/models/model.llms.product.php',
-		'llms_question_choice'          => 'includes/models/model.llms.question.choice.php',
-		'llms_question'                 => 'includes/models/model.llms.question.php',
-		'llms_quiz_attempt'             => 'includes/models/model.llms.quiz.attempt.php',
-		'llms_quiz_attempt_question'    => 'includes/models/model.llms.quiz.attempt.question.php',
-		'llms_quiz'                     => 'includes/models/model.llms.quiz.php',
-		'llms_section'                  => 'includes/models/model.llms.section.php',
-		'llms_student'                  => 'includes/models/model.llms.student.php',
-		'llms_student_quizzes'          => 'includes/models/model.llms.student.quizzes.php',
-		'llms_transaction'              => 'includes/models/model.llms.transaction.php',
-		'llms_user_achievement'         => 'includes/models/model.llms.user.achievement.php',
-		'llms_user_certificate'         => 'includes/models/model.llms.user.certificate.php',
-		'llms_user_postmeta'            => 'includes/models/model.llms.user.postmeta.php',
+		'llms_access_plan'                => 'includes/models/model.llms.access.plan.php',
+		'llms_add_on'                     => 'includes/models/model.llms.add-on.php',
+		'llms_coupon'                     => 'includes/models/model.llms.coupon.php',
+		'llms_course'                     => 'includes/models/model.llms.course.php',
+		'llms_event'                      => 'includes/models/class-llms-event.php',
+		'llms_instructor'                 => 'includes/models/model.llms.instructor.php',
+		'llms_lesson'                     => 'includes/models/model.llms.lesson.php',
+		'llms_membership'                 => 'includes/models/model.llms.membership.php',
+		'llms_notification'               => 'includes/models/model.llms.notification.php',
+		'llms_order'                      => 'includes/models/model.llms.order.php',
+		'llms_post_instructors'           => 'includes/models/model.llms.post.instructors.php',
+		'llms_product'                    => 'includes/models/model.llms.product.php',
+		'llms_question_choice'            => 'includes/models/model.llms.question.choice.php',
+		'llms_question'                   => 'includes/models/model.llms.question.php',
+		'llms_quiz_attempt'               => 'includes/models/model.llms.quiz.attempt.php',
+		'llms_quiz_attempt_question'      => 'includes/models/model.llms.quiz.attempt.question.php',
+		'llms_quiz'                       => 'includes/models/model.llms.quiz.php',
+		'llms_section'                    => 'includes/models/model.llms.section.php',
+		'llms_student'                    => 'includes/models/model.llms.student.php',
+		'llms_student_quizzes'            => 'includes/models/model.llms.student.quizzes.php',
+		'llms_transaction'                => 'includes/models/model.llms.transaction.php',
+		'llms_user_achievement'           => 'includes/models/model.llms.user.achievement.php',
+		'llms_user_certificate'           => 'includes/models/model.llms.user.certificate.php',
+		'llms_user_postmeta'              => 'includes/models/model.llms.user.postmeta.php',
 
 		// Miscellaneous.
-		'llms_admin_reporting'          => 'includes/admin/reporting/class.llms.admin.reporting.php',
-		'llms_db_upgrader'              => 'includes/class-llms-db-ugrader.php',
-		'llms_payment_gateway_manual'   => 'includes/class.llms.gateway.manual.php',
-		'llms_table_studentmanagement'  => 'includes/admin/post-types/tables/class.llms.table.student.management.php',
+		'llms_admin_reporting'            => 'includes/admin/reporting/class.llms.admin.reporting.php',
+		'llms_table_student_certificates' => 'includes/admin/reporting/tables/llms.table.certificates.php',
+		'llms_db_upgrader'                => 'includes/class-llms-db-ugrader.php',
+		'llms_payment_gateway_manual'     => 'includes/class.llms.gateway.manual.php',
+		'llms_table_studentmanagement'    => 'includes/admin/post-types/tables/class.llms.table.student.management.php',
 	);
 
 	/**
@@ -137,6 +138,10 @@ class LLMS_Loader {
 		) {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/';
 			$file = 'class.llms.analytics.widget.' . substr( $class, 15, -7 ) . '.php';
+
+		} elseif ( 0 === strpos( $class, 'llms_table_' ) ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/';
+			$file = $fileize . '.php';
 
 		} elseif ( 0 === strpos( $class, 'llms_controller_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/controllers/';
