@@ -321,7 +321,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
-	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox:process_field}.
+	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox::process_field()}.
 	 *
 	 * @return void
 	 */
