@@ -124,7 +124,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		);
 
 		return apply_filters(
-			'llms_' . $this->model_post_type . '_get_creation_args',
+			"llms_{$this->model_post_type}_get_creation_args",
 			array(
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',

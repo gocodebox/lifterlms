@@ -259,7 +259,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		 * @param array       $args   Args of data to be passed to `wp_insert_post()`.
 		 * @param LLMS_Lesson $lesson Instance of the LLMS_Lesson.
 		 */
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
 
 	}
 
