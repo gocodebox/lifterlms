@@ -392,10 +392,11 @@ class LLMS_Notifications {
 	}
 
 	/**
-	 * Load a single view
+	 * Validate trigger and load its view.
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param  string $trigger Trigger id (eg: lesson_complete).
 	 * @param  string $path    Full path to the view file, allows third parties to load external views.
@@ -412,14 +413,11 @@ class LLMS_Notifications {
 
 		if ( file_exists( $path ) ) {
 
-			require_once $path;
 			$this->views[ $this->get_view_classname( $trigger, $prefix ) ] = $trigger;
 			return true;
-
 		}
 
 		return false;
-
 	}
 
 	/**

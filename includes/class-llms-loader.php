@@ -139,10 +139,6 @@ class LLMS_Loader {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/';
 			$file = 'class.llms.analytics.widget.' . substr( $class, 15, -7 ) . '.php';
 
-		} elseif ( 0 === strpos( $class, 'llms_table_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/';
-			$file = $fileize . '.php';
-
 		} elseif ( 0 === strpos( $class, 'llms_controller_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/controllers/';
 
@@ -159,6 +155,9 @@ class LLMS_Loader {
 		} elseif ( 0 === strpos( $class, 'llms_meta_box_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/';
 
+		} elseif ( 0 === strpos( $class, 'llms_notification_view_' ) ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/notifications/views/';
+
 		} elseif ( 0 === strpos( $class, 'llms_notification' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/notifications/';
 
@@ -167,6 +166,10 @@ class LLMS_Loader {
 
 		} elseif ( 0 === strpos( $class, 'llms_shortcode' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/shortcodes/';
+
+		} elseif ( 0 === strpos( $class, 'llms_table_' ) ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/';
+			$file = $fileize . '.php';
 
 		} elseif ( 0 === strpos( $class, 'llms_trait_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/traits/';
