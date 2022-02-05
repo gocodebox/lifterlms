@@ -132,6 +132,12 @@ class LLMS_Loader {
 		} elseif ( 0 === strpos( $class, 'llms_admin_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/';
 
+		} elseif (
+			0 === strpos( $class, 'llms_analytics_' ) && false !== strrpos( $class, '_widget', - 7 )
+		) {
+			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/';
+			$file = 'class.llms.analytics.widget.' . substr( $class, 15, -7 ) . '.php';
+
 		} elseif ( 0 === strpos( $class, 'llms_controller_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/controllers/';
 
