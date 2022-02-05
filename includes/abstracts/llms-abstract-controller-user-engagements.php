@@ -126,12 +126,13 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			'sync_one'  => "sync_awarded_{$this->engagement_type}",
 			'sync_many' => "sync_awarded_{$this->engagement_type}s",
 		);
-		if ( ! isset( $_GET['action'] ) ) {
+		$action  = llms_filter_input( INPUT_GET, 'action' );
+		if ( ! $action ) {
 			return new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-missing-action",
 				__( 'Sorry, you have not provided any actions.', 'lifterlms' )
 			);
-		} elseif ( ! in_array( $_GET['action'], $actions ) ) {
+		} elseif ( ! in_array( $action, $actions, true ) ) {
 			return new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-invalid-action",
 				__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
@@ -153,33 +154,27 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 			return $result;
 		}
 
-		$engagement_id = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		$engagement_id  = llms_filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+		$is_syncing_one = $action === $actions['sync_one'];
 
-		if ( $_GET['action'] === $actions['sync_one'] ) {
-
-			if ( empty( $engagement_id ) ) {
-				$result = new WP_Error(
-					"llms-sync-missing-awarded-$this->engagement_type-id",
-					$this->get_text( self::TEXT_SYNC_MISSING_AWARDED_ENGAGEMENT_ID )
-				);
+		if ( empty( $engagement_id ) ) {
+			if ( $is_syncing_one ) {
+				$code    = "llms-sync-missing-awarded-{$this->engagement_type}-id";
+				$message = $this->get_text( self::TEXT_SYNC_MISSING_AWARDED_ENGAGEMENT_ID );
 			} else {
-				$result = $this->sync_awarded_engagement( $engagement_id );
+				$code    = "llms-sync-missing-{$this->engagement_type}-template-id";
+				$message = $this->get_text( self::TEXT_SYNC_MISSING_ENGAGEMENT_TEMPLATE_ID );
 			}
-		} elseif ( $_GET['action'] === $actions['sync_many'] ) {
-
-			if ( empty( $engagement_id ) ) {
-				$result = new WP_Error(
-					"llms-sync-missing-{$this->engagement_type}-template-id",
-					$this->get_text( self::TEXT_SYNC_MISSING_ENGAGEMENT_TEMPLATE_ID )
-				);
+			$result = new WP_Error( $code, $message );
+		} else {
+			if ( $is_syncing_one ) {
+				$result = $this->sync_awarded_engagement( $engagement_id );
 			} else {
 				$result = $this->sync_awarded_engagements( $engagement_id );
 			}
-		} else {
-			$result = null;
 		}
 
-		if ( is_object( $result ) && 'WP_Error' === get_class( $result ) ) {
+		if ( is_wp_error( $result ) ) {
 			( new LLMS_Meta_Box_Award_Engagement_Submit() )->add_error( $result );
 		}
 
