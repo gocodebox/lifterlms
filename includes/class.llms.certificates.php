@@ -84,17 +84,15 @@ class LLMS_Certificates {
 	}
 
 	/**
-	 * Initialize Class
+	 * Initialize class.
 	 *
 	 * @since 1.0.0
 	 * @since 4.21.0 Define useful class properties used when exporting.
+	 * @since [version] Removed use of the deprecated LLMS_Certificate_User class.
 	 *
 	 * @return void
 	 */
 	public function init() {
-
-		include_once 'class.llms.certificate.php';
-		$this->certs['LLMS_Certificate_User'] = isset( $this->certs['LLMS_Certificate_User'] ) ? $this->certs['LLMS_Certificate_User'] : include_once 'certificates/class.llms.certificate.user.php';
 
 		$this->export_local_hosts = array_unique(
 			array(
