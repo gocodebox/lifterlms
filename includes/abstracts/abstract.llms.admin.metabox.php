@@ -5,15 +5,11 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
+ * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
  * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
-
-// Include all classes for each of the metabox types.
-foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename ) {
-	require_once $filename;
-}
 
 /**
  * Admin metabox abstract class.
