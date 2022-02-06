@@ -109,13 +109,17 @@ class LLMS_Loader {
 	 * @since 4.0.0 Moved from `LifterLMS` class.
 	 * @since 5.3.0 Add traits.
 	 * @since [version] Increased the number of files that are autoloaded instead of manually loaded on every request.
+	 *              Return early if not a LifterLMS core class.
 	 *
 	 * @param string $class Class name being called.
 	 * @return void
 	 */
 	public function autoload( $class ) {
 
-		$class   = strtolower( $class );
+		$class = strtolower( $class );
+		if ( 0 !== strpos( $class, 'llms_' ) && 'lifterlms' !== $class && 'meta_box_field_interface' !== $class ) {
+			return;
+		}
 		$path    = null;
 		$fileize = str_replace( '_', '-', $class );
 		$file    = 'class-' . $fileize . '.php';
