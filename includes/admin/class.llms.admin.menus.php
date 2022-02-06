@@ -338,8 +338,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.37.19
 	 * @since 4.12.0 Added `llms_load_admin_tools` action.
-	 * @since [version] Removed loading the LLMS_Admin_Page_Status and LLMS_Abstract_Admin_Tool class files
-	 *              that are now handled by the autoloader.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

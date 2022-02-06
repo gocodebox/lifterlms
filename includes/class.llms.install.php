@@ -213,18 +213,16 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Store all default options in the DB
+	 * Store all default options in the DB.
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 4.0.0 Include abstract table file.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function create_options() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
@@ -236,7 +234,6 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -500,14 +497,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * @since 3.4.3
 	 * @since 3.6.0 Unknown.
 	 * @since 5.2.0 Use `LLMS_PLUGIN_DIR` to include required class file.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function init_background_updater() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.background.updater.php';
 		self::$background_updater = new LLMS_Background_Updater();
-
 	}
 
 	/**

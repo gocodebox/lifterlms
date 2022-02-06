@@ -30,11 +30,12 @@ class LLMS_AJAX {
 	const NONCE = 'llms-ajax';
 
 	/**
-	 * Hook into ajax events
+	 * Hook into ajax events.
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -55,9 +56,7 @@ class LLMS_AJAX {
 
 		self::register();
 
-		require_once 'admin/class.llms.admin.builder.php';
 		add_filter( 'heartbeat_received', array( 'LLMS_Admin_Builder', 'heartbeat_received' ), 10, 2 );
-
 	}
 
 	/**

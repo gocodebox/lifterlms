@@ -5,7 +5,6 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
  * @version [version]
  */
 
@@ -21,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  * @since 3.37.19 Bail if the global `$post` is empty, before registering our meta boxes.
+ * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
  */
 abstract class LLMS_Admin_Metabox {
 

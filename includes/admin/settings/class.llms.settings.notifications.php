@@ -29,16 +29,15 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	public $view;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/settings/tables/class.llms.table.notification.settings.php';
 
 		$this->id    = 'notifications';
 		$this->label = __( 'Notifications', 'lifterlms' );

@@ -1334,18 +1334,17 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * "API" for the Admin Builder
+	 * "API" for the Admin Builder.
 	 *
 	 * @since 3.13.0
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array $request $_POST data.
-	 * @return mixed
+	 * @return array
 	 */
 	public static function llms_builder( $request ) {
 
-		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
-
 	}
 
 	/**

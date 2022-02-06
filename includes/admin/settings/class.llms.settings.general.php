@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 5.6.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -233,15 +233,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get advert banner html
+	 * Get advert banner HTML.
 	 *
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.22.0
+	 * @since 1.0.0
+	 * @since 3.22.0 Unknown.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return string
 	 */
 	public static function get_small_banners() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
 		$url  = esc_url( admin_url( 'admin.php?page=llms-add-ons' ) );
 
@@ -251,9 +252,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		echo '&nbsp;&nbsp;&nbsp;<a class="llms-button-primary small" href="' . $url . '">' . __( 'View More &rarr;', 'lifterlms' ) . '</a><br>';
 		$view->output_for_settings();
 		return ob_get_clean();
-
 	}
-
 }
 
 return new LLMS_Settings_General();
