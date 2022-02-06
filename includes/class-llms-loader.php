@@ -76,6 +76,7 @@ class LLMS_Loader {
 		'llms_admin_reporting'            => 'includes/admin/reporting/class.llms.admin.reporting.php',
 		'llms_table_student_certificates' => 'includes/admin/reporting/tables/llms.table.certificates.php',
 		'llms_db_upgrader'                => 'includes/class-llms-db-ugrader.php',
+		'llms_emails'                     => 'includes/class.llms.emails.php',
 		'llms_payment_gateway_manual'     => 'includes/class.llms.gateway.manual.php',
 		'llms_table_studentmanagement'    => 'includes/admin/post-types/tables/class.llms.table.student.management.php',
 	);
@@ -91,6 +92,7 @@ class LLMS_Loader {
 		'includes/admin/tools/'                 => 'llms_admin_tool_',
 		'includes/admin/'                       => 'llms_admin_',
 		'includes/controllers/'                 => 'llms_controller_',
+		'includes/emails/'                      => 'llms_email',
 		'includes/forms/'                       => 'llms_form',
 		'includes/integrations/'                => 'llms_integration_',
 		'includes/admin/post-types/meta-boxes/' => 'llms_meta_box_',

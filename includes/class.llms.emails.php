@@ -39,6 +39,7 @@ class LLMS_Emails {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -48,18 +49,13 @@ class LLMS_Emails {
 		llms()->include_template_functions();
 
 		// Email base class.
-		require_once 'emails/class.llms.email.php';
 		$this->emails['generic'] = 'LLMS_Email';
 
-		// Include email child classes.
-		require_once 'emails/class.llms.email.engagement.php';
-		$this->emails['engagement'] = 'LLMS_Email_Engagement';
-
-		require_once 'emails/class.llms.email.reset.password.php';
+		// Email child classes.
+		$this->emails['engagement']     = 'LLMS_Email_Engagement';
 		$this->emails['reset_password'] = 'LLMS_Email_Reset_Password';
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
-
 	}
 
 	/**
