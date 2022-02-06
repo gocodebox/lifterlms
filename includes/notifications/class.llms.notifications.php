@@ -413,6 +413,9 @@ class LLMS_Notifications {
 
 		if ( file_exists( $path ) ) {
 
+			if ( ! is_null( $prefix ) ) {
+				require_once $path;
+			}
 			$this->views[ $this->get_view_classname( $trigger, $prefix ) ] = $trigger;
 			return true;
 		}
