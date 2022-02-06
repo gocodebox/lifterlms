@@ -21,9 +21,11 @@ class LLMS_Loader {
 	/**
 	 * These classes do not conform to any of the LifterLMS class name or file name standards.
 	 *
+	 * @todo Rename these classes and/or add a namespace to them.
+	 *
 	 * @since [version]
 	 *
-	 * @var string[] [ lowercase_class_name => path_relative_to_LLMS_PLUGIN_DIR ]
+	 * @var string[] [ $lowercase_class_name => $path_relative_to_LLMS_PLUGIN_DIR ]
 	 */
 	private $non_standard_classes = array(
 		// Missing "_Abstract_" from class name.
@@ -79,6 +81,29 @@ class LLMS_Loader {
 	);
 
 	/**
+	 * An array of paths and what the class name starts with.
+	 *
+	 * @since [version]
+	 *
+	 * @var string[] [ $path_relative_to_LLMS_PLUGIN_DIR => $class_name_starts_with ]
+	 */
+	private $class_paths = array(
+		'includes/admin/tools/'                 => 'llms_admin_tool_',
+		'includes/admin/'                       => 'llms_admin_',
+		'includes/controllers/'                 => 'llms_controller_',
+		'includes/forms/'                       => 'llms_form',
+		'includes/integrations/'                => 'llms_integration_',
+		'includes/admin/post-types/meta-boxes/' => 'llms_meta_box_',
+		'includes/notifications/views/'         => 'llms_notification_view_',
+		'includes/notifications/'               => 'llms_notification',
+		'includes/privacy/'                     => 'llms_privacy',
+		'includes/processors/'                  => 'llms_processor',
+		'includes/shortcodes/'                  => 'llms_shortcode',
+		'includes/widgets/'                     => 'llms_widget',
+		'includes/'                             => 'llms_',
+	);
+
+	/**
 	 * Constructor
 	 *
 	 * @since 4.0.0
@@ -98,11 +123,12 @@ class LLMS_Loader {
 		} else {
 			$this->includes_frontend();
 		}
-
 	}
 
 	/**
 	 * Auto-load LLMS classes.
+	 *
+	 * @todo Add a {@link https://www.php.net/manual/en/language.namespaces.php namespace} to every file to simplify autoloading.
 	 *
 	 * @since 1.0.0
 	 * @since 3.15.0 Unknown.
@@ -127,15 +153,10 @@ class LLMS_Loader {
 		if ( array_key_exists( $class, $this->non_standard_classes ) ) {
 			$path = LLMS_PLUGIN_DIR . $this->non_standard_classes[ $class ];
 			$file = null;
+
 		} elseif ( 0 === strpos( $class, 'llms_abstract_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/abstracts/';
 			$file = $fileize . '.php';
-
-		} elseif ( 0 === strpos( $class, 'llms_admin_tool_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/admin/tools/';
-
-		} elseif ( 0 === strpos( $class, 'llms_admin_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/admin/';
 
 		} elseif (
 			0 === strpos( $class, 'llms_analytics_' ) && false !== strrpos( $class, '_widget', - 7 )
@@ -143,50 +164,27 @@ class LLMS_Loader {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/';
 			$file = 'class.llms.analytics.widget.' . substr( $class, 15, -7 ) . '.php';
 
-		} elseif ( 0 === strpos( $class, 'llms_controller_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/controllers/';
-
-		} elseif ( 0 === strpos( $class, 'llms_form' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/forms/';
-
-		} elseif ( 0 === strpos( $class, 'llms_integration_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/integrations/';
-
 		} elseif ( 0 === strpos( $class, 'llms_interface_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/interfaces/';
 			$file = $fileize . '.php';
 
-		} elseif ( 0 === strpos( $class, 'llms_meta_box_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/';
-
-		} elseif ( 0 === strpos( $class, 'llms_notification_view_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/notifications/views/';
-
-		} elseif ( 0 === strpos( $class, 'llms_notification' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/notifications/';
-
-		} elseif ( 0 === strpos( $class, 'llms_privacy' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/privacy/';
-
-		} elseif ( 0 === strpos( $class, 'llms_processor' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/processors/';
-
-		} elseif ( 0 === strpos( $class, 'llms_shortcode' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/shortcodes/';
-
 		} elseif ( 0 === strpos( $class, 'llms_table_' ) ) {
+			/** @todo Prefix file names with 'class-' */
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/reporting/tables/';
 			$file = $fileize . '.php';
 
 		} elseif ( 0 === strpos( $class, 'llms_trait_' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/traits/';
 			$file = $fileize . '.php';
+		}
 
-		} elseif ( 0 === strpos( $class, 'llms_widget' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/widgets/';
-
-		} elseif ( 0 === strpos( $class, 'llms_' ) ) {
-			$path = LLMS_PLUGIN_DIR . 'includes/';
+		if ( is_null( $path ) ) {
+			foreach ( $this->class_paths as $class_path => $class_name_starts_with ) {
+				if ( 0 === strpos( $class, $class_name_starts_with ) ) {
+					$path = LLMS_PLUGIN_DIR . $class_path;
+					break;
+				}
+			}
 		}
 
 		if ( $path ) {
@@ -214,7 +212,7 @@ class LLMS_Loader {
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
 	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
 	 * @since [version] Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
-	 *              Removed all class files that don't instantiate their class in favor of autoloading.
+	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -297,7 +295,7 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 *              Include `LLMS_Abstract_Meta_Box_User_Engagement_Sync`.
-	 *              Removed all class files that don't instantiate their class in favor of autoloading.
+	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -403,7 +401,6 @@ class LLMS_Loader {
 
 		// WP Background Processing.
 		require_once LLMS_PLUGIN_DIR . 'vendor/deliciousbrains/wp-background-processing/wp-background-processing.php';
-
 	}
 
 	/**
@@ -419,10 +416,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.frontend.assets.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.https.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.template.loader.php';
-
 	}
-
-
 }
 
 return new LLMS_Loader();
