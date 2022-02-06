@@ -132,9 +132,15 @@ class LLMS_Certificate {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @since Unknown.
+	 * @deprecated [version] `LLMS_Certificate::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
+
+		// Log "The LLMS_Certificate class is deprecated since version [version] with no alternative available.".
+		_deprecated_function( 'The ' . __CLASS__ . ' class', '[version]' );
 
 		// Settings TODO Refactor: theses can come from the email post now.
 		$this->email_type = 'html';
