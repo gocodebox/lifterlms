@@ -161,6 +161,9 @@ class LLMS_Loader {
 		} elseif ( 0 === strpos( $class, 'llms_notification' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/notifications/';
 
+		} elseif ( 0 === strpos( $class, 'llms_privacy' ) ) {
+			$path = LLMS_PLUGIN_DIR . 'includes/privacy/';
+
 		} elseif ( 0 === strpos( $class, 'llms_processor' ) ) {
 			$path = LLMS_PLUGIN_DIR . 'includes/processors/';
 
