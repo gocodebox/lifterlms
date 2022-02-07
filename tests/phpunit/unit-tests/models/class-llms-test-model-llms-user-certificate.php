@@ -645,7 +645,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * @since [version]
 	 *
 	 * @expectedDeprecated llms_certificate_merge_codes
-	 * @expectedDeprecated LLMS_Certificate::__construct
+	 * @expectedDeprecated LLMS_Certificate
 	 * @expectedDeprecated LLMS_Certificate_User::init
 	 *
 	 * @return void
