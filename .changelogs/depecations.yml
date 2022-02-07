@@ -48,3 +48,5 @@ entry: >
   + Filter `llms_certificate_has_user_earned` is deprecated in favor of `llms_earned_certificate_dupcheck`.
 
   + Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
+
+  + Method `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.

@@ -71,6 +71,21 @@ class LLMS_Admin_Post_Types {
 	}
 
 	/**
+	 * Initializes core for metaboxes.
+	 *
+	 * @since Unknown
+	 * @deprecated [version] `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.
+	 *
+	 * @return void
+	 */
+	public function meta_metabox_init() {
+
+		llms_deprecated_function( __METHOD__, '[version]' );
+
+		include_once 'llms.class.admin.metabox.php';
+	}
+
+	/**
 	 * Customize post type messages.
 	 *
 	 * @since Unknown.
