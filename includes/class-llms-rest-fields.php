@@ -96,9 +96,47 @@ class LLMS_REST_Fields {
 		if ( llms_is_block_editor_supported_for_certificates() ) {
 
 			$this->register_fields_for_certificates();
+			$this->register_fields_for_certificate_awards();
 			$this->register_fields_for_certificate_templates();
 
 		}
+
+	}
+
+	/**
+	 * Register rest fields used for awarded certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function register_fields_for_certificate_awards() {
+
+		register_rest_field(
+			'llms_my_certificate',
+			'certificate_template',
+			array(
+				'schema'          => array(
+					'description' => __( 'Certificate template ID.', 'lifterlms' ),
+					'type'        => 'integer',
+					'arg_options' => array(
+						'validate_callback' => function( $value ) {
+							return ! $value || 'llms_certificate' === get_post_type( $value );
+						},
+					),
+				),
+				'get_callback'    => function( $object ) {
+					return wp_get_post_parent_id( $object['id'] );
+				},
+				'update_callback' => function( $value, $post ) {
+					$update = array(
+						'ID'          => $post->ID,
+						'post_parent' => $value,
+					);
+					return wp_update_post( $update );
+				},
+			)
+		);
 
 	}
 
