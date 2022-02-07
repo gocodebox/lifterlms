@@ -73,12 +73,13 @@ class LLMS_Achievements {
 	 * Includes achievement class.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Removed loading of deprecated class files.
-	 *              This empty method is being kept for consistency with {@see LLMS_Certificates::init()}.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function init() {
+
+		$this->achievements['LLMS_Achievement_User'] = include_once 'achievements/class.llms.achievement.user.php';
 	}
 
 	/**

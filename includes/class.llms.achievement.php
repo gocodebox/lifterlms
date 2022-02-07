@@ -128,11 +128,9 @@ class LLMS_Achievement {
 	 * Constructor.
 	 *
 	 * @since Unknown.
-	 * @deprecated [version] `LLMS_Achievement` is deprecated with no replacement.
+	 * @deprecated [version] `LLMS_Achievement::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
-
-		_deprecated_function( __CLASS__, '[version]' );
 
 		// Settings TODO Refactor: theses can come from the achievement post now.
 		$this->enabled = get_option( 'enabled' );
