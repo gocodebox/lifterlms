@@ -4,37 +4,13 @@ import { useSelect, dispatch, select } from '@wordpress/data';
 import { store as blocksStore } from '@wordpress/blocks';
 import { store as editorStore } from '@wordpress/editor';
 
-/**
- * Persist content to the database.
- *
- * Manages where to save data based on the current post type.
- *
- * @since [version]
- *
- * @param {string} content Content to save.]
- * @return {void}
- */
-function saveContent( content ) {
-	const { getCurrentPostType } = select( editorStore ),
-		{ editPost } = dispatch( editorStore ),
-		postType = getCurrentPostType(),
-		edits = {};
-
-	if ( 'llms_certificate' === postType ) {
-		edits.certificate_title = content;
-	} else if ( 'llms_my_certificate' === postType ) {
-		edits.title = content;
-	}
-
-	if ( Object.keys( edits ).length ) {
-		editPost( edits );
-	}
-}
+// Internal deps.
+import { editCertificateTitle } from '../../js/util';
 
 /**
  * Block edit component.
  *
- * @since [version
+ * @since [version]
  *
  * @param {Object}   args               Component arguments.
  * @param {Object}   args.attributes    Block attributes object.
@@ -65,7 +41,7 @@ export default function Edit( {
 		const { content } = attrs;
 
 		if ( undefined !== content ) {
-			saveContent( content );
+			editCertificateTitle( content );
 		}
 
 		return origSetAttributes( attrs );
