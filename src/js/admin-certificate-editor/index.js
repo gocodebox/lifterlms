@@ -10,13 +10,6 @@ import CertificateDocumentSettings from './document-settings';
 import CertificateResetTemplate from './reset-template';
 import CertificateUserSettings from './user-settings';
 
-registerPlugin(
-	'llms-certificate-post-status-info',
-	{
-		render: CertificateResetTemplate,
-	}
-);
-
 /**
  * Register the document settings plugin with the block editor.
  *
@@ -39,5 +32,17 @@ registerPlugin(
 	'llms-certificate-user',
 	{
 		render: CertificateUserSettings,
+	}
+);
+
+/**
+ * Registers the certificate default template reset button.
+ *
+ * @since [version]
+ */
+registerPlugin(
+	'llms-certificate-post-status-info',
+	{
+		render: CertificateResetTemplate,
 	}
 );
