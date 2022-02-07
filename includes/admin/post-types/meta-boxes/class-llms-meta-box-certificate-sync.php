@@ -68,7 +68,7 @@ class LLMS_Meta_Box_Certificate_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 		switch ( $text_type ) {
 			case self::TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
-					/* translators: 1: number of awarded certificates */
+					/* translators: %1$d: number of awarded certificates */
 					__(
 						'This action will replace the current title, content, background etc. of %1$d awarded certificates with the ones from this certificate template.\nAre you sure you want to proceed?',
 						'lifterlms'
@@ -77,7 +77,7 @@ class LLMS_Meta_Box_Certificate_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				);
 			case self::TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: number of awarded certificates */
+					/* translators: %1$d: number of awarded certificates */
 					__(
 						'This action will replace the current title, content, background etc. of %1$d awarded certificate with the ones from this certificate template.\nAre you sure you want to proceed?',
 						'lifterlms'
@@ -95,19 +95,19 @@ class LLMS_Meta_Box_Certificate_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				return __( 'Sync Awarded certificates', 'lifterlms' );
 			case self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
-					/* translators: 1: number of awarded certificates */
+					/* translators: %1$d: number of awarded certificates */
 					__( 'Sync %1$d awarded certificates with this certificate template.', 'lifterlms' ),
 					( $variables['awarded_number'] ?? 0 )
 				);
 			case self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: number of awarded certificates */
+					/* translators: %1$d: number of awarded certificates */
 					__( 'Sync %1$d awarded certificate with this certificate template.', 'lifterlms' ),
 					( $variables['awarded_number'] ?? 0 )
 				);
 			case self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: link to edit the certificate template, 2: closing anchor tag */
+					/* translators: %1$s: link to edit the certificate template, %2$s: closing anchor tag */
 					__( 'Sync this awarded certificate with its %1$scertificate template%2$s.', 'lifterlms' ),
 					'<a href="' . get_edit_post_link( ( $variables['template_id'] ?? 0 ) ) . '" target="_blank">',
 					'</a>'

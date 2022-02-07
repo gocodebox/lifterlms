@@ -64,13 +64,13 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 		switch ( $text_type ) {
 			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INSUFFICIENT_PERMISSIONS:
 				return sprintf(
-					/* translators: 1: awarded certificate ID */
+					/* translators: %1$d: awarded certificate ID */
 					__( 'Sorry, you are not allowed to edit the awarded certificate #%1$d.', 'lifterlms' ),
 					( $variables['engagement_id'] ?? 0 )
 				);
 			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INVALID_TEMPLATE:
 				return sprintf(
-					/* translators: 1: awarded certificate ID */
+					/* translators: %1$d: awarded certificate ID */
 					__( 'Sorry, the awarded certificate #%1$d does not have a valid certificate template.', 'lifterlms' ),
 					( $variables['engagement_id'] ?? 0 )
 				);

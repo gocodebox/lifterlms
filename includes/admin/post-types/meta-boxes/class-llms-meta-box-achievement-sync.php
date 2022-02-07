@@ -68,7 +68,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 		switch ( $text_type ) {
 			case self::TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
-					/* translators: 1: number of awarded achievements */
+					/* translators: %1$d: number of awarded achievements */
 					__(
 						'This action will replace the current title, content, background etc. of %1$d awarded achievements with the ones from this achievement template.\nAre you sure you want to proceed?',
 						'lifterlms'
@@ -77,7 +77,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				);
 			case self::TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: number of awarded achievements */
+					/* translators: %1$d: number of awarded achievements */
 					__(
 						'This action will replace the current title, content, background etc. of %1$d awarded achievement with the ones from this achievement template.\nAre you sure you want to proceed?',
 						'lifterlms'
@@ -95,19 +95,19 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				return __( 'Sync Awarded Achievements', 'lifterlms' );
 			case self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
-					/* translators: 1: number of awarded achievements */
+					/* translators: %1$d: number of awarded achievements */
 					__( 'Sync %1$d awarded achievements with this achievement template.', 'lifterlms' ),
 					( $variables['awarded_number'] ?? 0 )
 				);
 			case self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: number of awarded achievements */
+					/* translators: %1$d: number of awarded achievements */
 					__( 'Sync %1$d awarded achievement with this achievement template.', 'lifterlms' ),
 					( $variables['awarded_number'] ?? 0 )
 				);
 			case self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT:
 				return sprintf(
-					/* translators: 1: link to edit the achievement template, 2: closing anchor tag */
+					/* translators: %1$s: link to edit the achievement template, %2$s: closing anchor tag */
 					__( 'Sync this awarded achievement with its %1$sachievement template%2$s.', 'lifterlms' ),
 					'<a href="' . get_edit_post_link( ( $variables['template_id'] ?? 0 ) ) . '" target="_blank">',
 					'</a>'

@@ -205,7 +205,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 		// Action already scheduled?
 		$log_message = 'awarded %1$ss bulk sync already scheduled for the %1$s template %2$s (#%3$d)';
-		/* translators: 1: engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag */
+		/* translators: %1$s: engagement type, %2$s: opening anchor tag that links to the engagement template, %3$s: engagement template name, #%4$d: engagement template ID, %5$s: closing anchor tag */
 		$notice_message = __( 'Awarded %1$ss sync already scheduled for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' );
 		$notice_id      = 'awarded-%1$ss-sync-%2$d-already-scheduled';
 
@@ -214,7 +214,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 			wp_schedule_single_event( time(), $this->schedule_hook, $args );
 			$log_message = 'awarded %1$ss bulk sync scheduled for the %1$s template %2$s (#%3$d)';
-			/* translators: 1: engagement type, 2: opening anchor tag that links to the engagement template, 3: engagement template name, 4: engagement template ID, 5: closing anchor tag */
+			/* translators: %1$s: engagement type, %2$s: opening anchor tag that links to the engagement template, %3$s: engagement template name, #%4$d: engagement template ID, %5$s: closing anchor tag */
 			$notice_message = __( 'Awarded %1$ss sync scheduled for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' );
 			$notice_id      = 'awarded-%1$ss-sync-%2$d-scheduled';
 		}

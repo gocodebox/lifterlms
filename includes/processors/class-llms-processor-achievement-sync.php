@@ -55,9 +55,9 @@ class LLMS_Processor_Achievement_Sync extends LLMS_Abstract_Processor_User_Engag
 			case self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE:
 				$template_id = $variables['template_id'] ?? '';
 				return sprintf(
-					/* translators: 1: opening anchor tag that links to the achievement template, 2: achievement template name, 3: achievement template ID, 4: closing anchor tag */
+					/* translators: %1$s: opening anchor tag that links to the achievement template, %2$s: achievement template name, %3$d: achievement template ID, %4$s: closing anchor tag */
 					__( 'Awarded Achievements sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $template_id ) ),
+					'<a href="' . get_edit_post_link( ( $template_id ) ) . '" target="_blank">',
 					get_the_title( $template_id ),
 					$template_id,
 					'</a>'

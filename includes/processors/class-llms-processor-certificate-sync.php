@@ -55,9 +55,9 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 			case self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE:
 				$template_id = $variables['template_id'] ?? '';
 				return sprintf(
-					/* translators: 1: opening anchor tag that links to the certificate template, 2: certificate template name, 3: certificate template ID, 4: closing anchor tag */
+					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, %3$d: certificate template ID, %4$s: closing anchor tag */
 					__( 'Awarded Certificates sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $template_id ) ),
+					'<a href="' . get_edit_post_link( ( $template_id ) ) . '" target="_blank">',
 					get_the_title( $template_id ),
 					$template_id,
 					'</a>'
