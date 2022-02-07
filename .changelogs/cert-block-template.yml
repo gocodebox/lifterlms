@@ -1,0 +1,3 @@
+significance: major
+type: removed
+entry: "Removed FSE template: `templates/block-templates/single-certificate.html`."

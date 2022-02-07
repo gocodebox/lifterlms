@@ -35,15 +35,15 @@ class LLMS_AJAX {
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
+                  Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		$ajax_events = array(
-			'check_voucher_duplicate' => false,
-			'query_quiz_questions'    => false,
+			'query_quiz_questions' => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -103,6 +103,7 @@ class LLMS_AJAX {
 		wp_send_json_success( $response );
 
 		die();
+
 	}
 
 	public static function scrub_request( $request ) {
@@ -138,35 +139,15 @@ class LLMS_AJAX {
 	 * Check if a voucher is a duplicate.
 	 *
 	 * @since Unknown
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated [version] `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
 	 *
 	 * @return void
 	 */
 	public function check_voucher_duplicate() {
 
-		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
-		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
+		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '[version]', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
+		LLMS_AJAX_Handler::check_voucher_duplicate();
 
-		$codes = implode( ', ', array_map( 'absint', $codes ) );
-
-		global $wpdb;
-		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
-		$res = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				array( $post_id )
-			),
-			ARRAY_A
-		);
-
-		echo json_encode(
-			array(
-				'success'    => true,
-				'duplicates' => $res,
-			)
-		);
-
-		wp_die();
 	}
 
 	/**
