@@ -166,12 +166,10 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 				$message = $this->get_text( self::TEXT_SYNC_MISSING_ENGAGEMENT_TEMPLATE_ID );
 			}
 			$result = new WP_Error( $code, $message );
+		} elseif ( $is_syncing_one ) {
+			$result = $this->sync_awarded_engagement( $engagement_id );
 		} else {
-			if ( $is_syncing_one ) {
-				$result = $this->sync_awarded_engagement( $engagement_id );
-			} else {
-				$result = $this->sync_awarded_engagements( $engagement_id );
-			}
+			$result = $this->sync_awarded_engagements( $engagement_id );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -240,9 +238,12 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		/**
 		 * Fires an action to trigger the bulk sync of awarded engagements.
 		 *
+		 * The dynamic portion of this hook, `{$this->engagement_type}`, refers to the type of awarded engagement,
+		 * either "achievement" or "certificate".
+		 *
 		 * @since [version]
 		 *
-		 * @see   LLMS_Processor_Certificate_Sync.
+		 * @see LLMS_Processor_Certificate_Sync.
 		 *
 		 * @param int $user_engagement_template_id The user engagement template post ID.
 		 */
