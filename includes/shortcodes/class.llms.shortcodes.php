@@ -35,7 +35,7 @@ class LLMS_Shortcodes {
 			/**
 			 * Filters the shortcodes to initialize
 			 *
-			 * @since Unknown.
+			 * @since Unknown
 			 *
 			 * @param string[] $shortcodes Array of shortcode class names to initialize.
 			 */
@@ -67,7 +67,7 @@ class LLMS_Shortcodes {
 			/**
 			 * Filters the path of the shortcode class file
 			 *
-			 * @since Unknown.
+			 * @since Unknown
 			 *
 			 * @param string $file  The shortcode class file name.
 			 * @param string $class The shortcode class name.
@@ -107,7 +107,7 @@ class LLMS_Shortcodes {
 				 *
 				 * The dynamic portion of the hook name, `$shortcode` refers to the shortcode tag itself.
 				 *
-				 * @since Unknown.
+				 * @since Unknown
 				 *
 				 * @param string $shortcode The shortcode tag.
 				 */
