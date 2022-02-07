@@ -13,8 +13,7 @@ import { store as editorStore } from '@wordpress/editor';
  * @param {Object[]} params.children Child components.
  * @return {?Object[]} Returns the children or `null` if the check fails.
  */
-export function ResetTemplateCheck( { children }) {
-
+export function ResetTemplateCheck( { children } ) {
 	const { getCurrentPost } = useSelect( editorStore ),
 		post = getCurrentPost(),
 		{ type, certificate_template: template } = post;
@@ -24,5 +23,4 @@ export function ResetTemplateCheck( { children }) {
 	}
 
 	return null;
-
 }

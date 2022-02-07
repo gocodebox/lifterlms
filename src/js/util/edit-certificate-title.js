@@ -32,5 +32,4 @@ export function editCertificateTitle( title, postType = null ) {
 	}
 
 	return editPost( edits );
-
 }

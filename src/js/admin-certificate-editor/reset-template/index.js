@@ -16,12 +16,11 @@ import { editCertificateTitle } from '../../util';
  * Resets the post's default post type template and then triggers a save action.
  *
  * @since [version]
- *
- * @param {Function} onComplete Callback function invoked when the reset and save actions are completed.
+ * @param {Function} onComplete  Callback function invoked when the reset and save actions are completed.
+ * @param {boolean}  isPublished Determines if the current post is published.
  * @return {void}
  */
 function resetTemplate( onComplete, isPublished ) {
-
 	const { getBlocks, getTemplate } = select( blockEditorStore ),
 		{ replaceBlocks, insertBlocks } = dispatch( blockEditorStore ),
 		{ editPost, savePost } = dispatch( editorStore ),
@@ -38,7 +37,7 @@ function resetTemplate( onComplete, isPublished ) {
 	 *
 	 * @since [version]
 	 *
-	 * @param {array} template Block template array.
+	 * @param {Array} template Block template array.
 	 */
 	doAction( 'llms.resetCertificateTemplate.before', template );
 
@@ -53,13 +52,12 @@ function resetTemplate( onComplete, isPublished ) {
 	 *
 	 * @since [version]
 	 *
-	 * @param {array} template Block template array.
+	 * @param {Array} template Block template array.
 	 */
 	doAction( 'llms.resetCertificateTemplate.after', template );
 
 	savePost();
 	onComplete();
-
 }
 
 /**
@@ -71,13 +69,12 @@ function resetTemplate( onComplete, isPublished ) {
  * @since [version]
  *
  * @param {Object}  props             Component properties.
- * @param {Boolean} props.isSaving    Whether or not the post is currently being saved. The main button is disabled during saves.
- * @param {Boolean} props.isPublished Whether or not the post is currently published. If the post is published, it will be switched to a draft during the reset.
+ * @param {boolean} props.isSaving    Whether or not the post is currently being saved. The main button is disabled during saves.
+ * @param {boolean} props.isPublished Whether or not the post is currently published. If the post is published, it will be switched to a draft during the reset.
  *
  * @return {?ResetTemplateCheck} Returns the child components to render or `null` if the button should not be displayed.
  */
 function ResetTemplateButton( { isSaving, isPublished } ) {
-
 	const [ isOpen, setIsOpen ] = useState( false ),
 		closeModal = () => setIsOpen( false ),
 		openModal = () => setIsOpen( true );
@@ -95,7 +92,7 @@ function ResetTemplateButton( { isSaving, isPublished } ) {
 						title={ __( 'Confirm template reset', 'lifterlms' ) }
 						style={ { maxWidth: '360px' } }
 						onRequestClose={ closeModal }
-						>
+					>
 						<p>{ msg }</p>
 						<div style={ { textAlign: 'right' } }>
 							<Button variant="tertiary" onClick={ closeModal }>
@@ -112,16 +109,14 @@ function ResetTemplateButton( { isSaving, isPublished } ) {
 			</PluginPostStatusInfo>
 		</ResetTemplateCheck>
 	);
-
 }
 
 export default compose( [
-	withSelect( ( select ) => {
+	withSelect( ( wpSelect ) => {
 		const {
 			isSavingPost,
 			isCurrentPostPublished,
-			isCurrentPostScheduled,
-		} = select( editorStore );
+		} = wpSelect( editorStore );
 		return {
 			isSaving: isSavingPost(),
 			isPublished: isCurrentPostPublished(),
