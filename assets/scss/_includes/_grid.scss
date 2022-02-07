@@ -16,11 +16,8 @@
 				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
-		
 		}
-	
 	}
-
 }
 
 .llms-flex-cols {
