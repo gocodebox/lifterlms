@@ -808,6 +808,7 @@ function llms_get_open_registration_status() {
  * @since 3.3.0
  * @since 3.16.11 Unknown.
  * @since 4.10.1 Made sure to only instantiate LifterLMS classes.
+ * @since [version] Converted engagement template post types to the correct class name.
  *
  * @param WP_Post|int $post  Instance of WP_Post or a WP Post ID.
  * @param mixed       $error Determine what to return if the LLMS class isn't found.
@@ -834,6 +835,11 @@ function llms_get_post( $post, $error = false ) {
 		foreach ( $post_type as $part ) {
 			$class .= '_' . ucfirst( $part );
 		}
+	}
+
+	// Engagement template post types use a different class as of LifterLMS 6.0.0.
+	if ( 'LLMS_Achievement' === $class || 'LLMS_Certificate' === $class ) {
+		$class = 'LLMS_User_' . substr( $class, 5 );
 	}
 
 	if ( $class && class_exists( $class ) ) {
