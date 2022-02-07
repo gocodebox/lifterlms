@@ -135,12 +135,20 @@
 
 	/**
 	 * Check for voucher duplicates in other posts.
+	 *
+	 * @since Unknown
+	 * @since [version] Add nonce.
+	 *
+	 * @return {void}
 	 */
 	function check_voucher_duplicate() {
 
-		var codes = get_codes_from_inputs();
-
-		var data = {action: 'check_voucher_duplicate', 'postId' : jQuery( '#post_ID' ).val(), 'codes' : codes };
+		var data = {
+			action: 'check_voucher_duplicate', 'postId' :
+			jQuery( '#post_ID' ).val(),
+			'codes' :  get_codes_from_inputs(),
+			_ajax_nonce: window.llms.ajax_nonce,
+		};
 
 		var ajax = new Ajax( 'post', data, false );
 		ajax.check_voucher_duplicate();

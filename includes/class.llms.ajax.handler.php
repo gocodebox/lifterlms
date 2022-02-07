@@ -85,6 +85,54 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Determines if voucher codes already exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function check_voucher_duplicate() {
+
+		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
+
+		if ( ! $post_id || ! $codes ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return new WP_Error( 401, __( 'Missing required permissions to perform this action.', 'lifterlms' ) );
+		}
+
+		$codes = implode(
+			',',
+			array_map(
+				function( $code ) {
+					return sprintf( "'%s'", esc_sql( $code ) );
+				},
+				array_filter( $codes )
+			)
+		);
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+		$res   = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				array( $post_id )
+			),
+			ARRAY_A
+		);
+
+		wp_send_json(
+			array(
+				'success'    => true,
+				'duplicates' => $res,
+			)
+		);
+		wp_die();
+
+	}
+
+	/**
 	 * Move a Product Access Plan to the trash
 	 *
 	 * @since 3.0.0
