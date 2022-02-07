@@ -197,7 +197,7 @@ function llms_get_minimum_password_strength() {
  * @return string
  */
 function llms_earned_engagement_deprecated_content( $val, $obj ) {
-	_llms_earned_engagement_deprecated_function( $obj, 'content', 'Use the WP_Post object property "post_content" instead.' );
+	_llms_earned_engagement_deprecated_function( $obj, 'content', 'the WP_Post object property "post_content"' );
 	return $obj->get( 'content' );
 }
 
@@ -216,7 +216,7 @@ function llms_earned_engagement_deprecated_content( $val, $obj ) {
  * @return int
  */
 function llms_earned_engagement_deprecated_image( $val, $obj ) {
-	_llms_earned_engagement_deprecated_function( $obj, 'image', 'Use the WP_Post meta key "_thumbnail_id" instead.' );
+	_llms_earned_engagement_deprecated_function( $obj, 'image', 'the WP_Post meta key "_thumbnail_id"' );
 	return get_post_thumbnail_id( $obj->get( 'id' ) );
 }
 
@@ -235,7 +235,7 @@ function llms_earned_engagement_deprecated_image( $val, $obj ) {
  * @return string
  */
 function llms_earned_engagement_deprecated_template( $val, $obj ) {
-	_llms_earned_engagement_deprecated_function( $obj, 'template', 'Use the WP_Post object property "post_parent" instead.' );
+	_llms_earned_engagement_deprecated_function( $obj, 'template', 'the WP_Post object property "post_parent"' );
 	return $obj->get( 'parent' );
 }
 
@@ -254,7 +254,7 @@ function llms_earned_engagement_deprecated_template( $val, $obj ) {
  * @return string
  */
 function llms_earned_engagement_deprecated_title( $val, $obj ) {
-	_llms_earned_engagement_deprecated_function( $obj, 'title', 'Use the WP_Post object property "post_title" instead.' );
+	_llms_earned_engagement_deprecated_function( $obj, 'title', 'the WP_Post object property "post_title"' );
 	return $obj->get( 'title' );
 }
 
@@ -324,5 +324,5 @@ add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 
 function _llms_earned_engagement_deprecated_function( $obj, $meta_key, $replacement_msg ) {
 	$classname = get_class( $obj );
 	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_' . $meta_key;
-	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]',  );
+	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]', $replacement_msg );
 }
