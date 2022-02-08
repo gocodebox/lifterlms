@@ -272,7 +272,7 @@ class LLMS_Engagement_Handler {
 		/**
 		 * Action run after a student has successfully earned an engagement.
 		 *
-		 * They dynamic portion of this hook, `{$type}`, refers to the engagement type,
+		 * The dynamic portion of this hook, `{$type}`, refers to the engagement type,
 		 * either "achievement" or "certificate".
 		 *
 		 * @since 1.0.0
