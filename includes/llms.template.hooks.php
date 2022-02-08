@@ -171,6 +171,10 @@ add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_das
 
 add_action( 'llms_my_grades_course_table', 'lifterlms_template_student_dashboard_my_grades_table', 10, 2 );
 
+add_action( 'llms_view_order_information', 'llms_template_view_order_information', 10 );
+add_action( 'llms_view_order_actions', 'llms_template_view_order_actions', 10 );
+add_action( 'llms_view_order_transactions', 'llms_template_view_order_transactions', 10, 2 );
+
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
 /**
