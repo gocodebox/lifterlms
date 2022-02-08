@@ -42,7 +42,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		/**
 		 * Action fired immediately prior to the deletion of a user's awarded engagement.
 		 *
-		 * They dynamic portion of the hook name, {@see LLMS_Abstract_User_Engagement::$model_post_type `$this->model_post_type`},
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
@@ -68,7 +68,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		/**
 		 * Action fired immediately after the deletion of a user's awarded engagement.
 		 *
-		 * They dynamic portion of the hook name, {@see LLMS_Abstract_User_Engagement::$model_post_type `$this->model_post_type`},
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
@@ -245,7 +245,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		/**
 		 * Action run after an awarded engagement is synchronized with its template.
 		 *
-		 * The dynamic portion of the hook name, {@see LLMS_Abstract_User_Engagement::model_post_type `$this->model_post_type`},
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since [version]
