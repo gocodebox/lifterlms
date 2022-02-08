@@ -192,6 +192,46 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	}
 
 	/**
+	 * Returns the sync alert and sync description texts for the sync action button, or an empty array if the sync
+	 * button should not be displayed.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function get_sync_action_texts() {
+
+		if ( $this->is_syncing_all_awarded_engagements ) {
+			$awarded_number = $this->get_awarded_engagements_number();
+
+			if ( ! $awarded_number ) {
+				return array();
+			}
+
+			$variables = compact( 'awarded_number' );
+			if ( $awarded_number > 1 ) {
+				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS, $variables );
+				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS, $variables );
+			} else {
+				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT, $variables );
+				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT, $variables );
+			}
+		} else {
+			$awarded_model = $this->get_user_engagement( $this->post->ID, true );
+			$template_id   = $awarded_model ? $awarded_model->get( 'parent' ) : false;
+
+			if ( empty( $template_id ) || ! $this->get_user_engagement( $template_id, false ) ) {
+				return array();
+			}
+
+			$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT );
+			$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT );
+		}
+
+		return compact( 'sync_alert', 'sync_description' );
+	}
+
+	/**
 	 * Returns a translated text of the given type.
 	 *
 	 * @since [version]
@@ -220,10 +260,6 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 
 		$sync_action = $this->sync_action();
 
-		if ( ! $sync_action ) {
-			$sync_action = $this->get_text( self::TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS );
-		}
-
 		// Output the HTML.
 		echo '<div class="llms-mb-container">';
 		do_action( 'llms_metabox_before_content', $this->id );
@@ -235,37 +271,15 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * Returns the sync action description and button HTML for a meta box on an engagement template or an awarded engagement.
 	 *
-	 * @since [version] Refactored from LLMS_Meta_Box_Certificate_Template_Sync::sync_action().
+	 * @since [version]
 	 *
 	 * @return string
 	 */
 	private function sync_action() {
 
-		if ( $this->is_syncing_all_awarded_engagements ) {
-			$awarded_number = $this->get_awarded_engagements_number();
-
-			if ( ! $awarded_number ) {
-				return '';
-			}
-
-			$variables = compact( 'awarded_number' );
-			if ( $awarded_number > 1 ) {
-				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS, $variables );
-				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS, $variables );
-			} else {
-				$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT, $variables );
-				$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT, $variables );
-			}
-		} else {
-			$awarded_model = $this->get_user_engagement( $this->post->ID, true );
-			$template_id   = $awarded_model ? $awarded_model->get( 'parent' ) : false;
-
-			if ( empty( $template_id ) || ! $this->get_user_engagement( $template_id, false ) ) {
-				return '';
-			}
-
-			$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT );
-			$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT );
+		$texts = $this->get_sync_action_texts();
+		if ( empty( $texts ) ) {
+			return $this->get_text( self::TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS );
 		}
 
 		$base_url = remove_query_arg( 'action' ); // Current URL without 'action' arg.
@@ -279,13 +293,13 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 			)
 		);
 
-		$sync_alert   = str_replace( "'", "\'", $sync_alert );
+		$sync_alert   = str_replace( "'", "\'", $texts['sync_alert'] );
 		$on_click     = "return confirm('$sync_alert')";
 		$button_label = __( 'Sync', 'lifterlms' );
 
 		return <<<HEREDOC
 
-<p>$sync_description</p>
+<p>{$texts['sync_description']}</p>
 <p style="text-align: right; margin: 1em 0;">
 <a href="$sync_url" class="llms-button-primary sync-action full small" onclick="$on_click" style="box-sizing:border-box;">$button_label</a>
 </p>
