@@ -36,7 +36,7 @@ class LLMS_AJAX {
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since [version] Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
-                  Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
