@@ -22,7 +22,8 @@ if ( ! function_exists( 'llms_template_view_order' ) ) {
 
 		// Validate order object and only allow the order's user to view the order.
 		if ( ! $order instanceof LLMS_Order || get_current_user_id() !== $order->get( 'user_id' ) ) {
-			return _e( 'Invalid Order.', 'lifterlms' );
+			_e( 'Invalid Order.', 'lifterlms' );
+			return;
 		}
 
 		/**
