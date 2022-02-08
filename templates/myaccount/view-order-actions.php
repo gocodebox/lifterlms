@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php endif; ?>
 
-		<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true, $order ) && in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
+		<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true, $order ) && in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ), true ) ) : ?>
 
 			<form action="" id="llms-cancel-subscription-form" method="POST">
 

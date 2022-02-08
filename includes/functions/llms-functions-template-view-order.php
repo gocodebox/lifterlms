@@ -54,7 +54,6 @@ if ( ! function_exists( 'llms_template_view_order_actions' ) ) {
 	function llms_template_view_order_actions( $order ) {
 		llms_get_template( 'myaccount/view-order-actions.php', compact( 'order' ) );
 	}
-
 }
 
 if ( ! function_exists( 'llms_template_view_order_information' ) ) {
@@ -94,7 +93,7 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
 
 		llms_get_template(
 			'myaccount/view-order-transactions.php',
-			compact( 'transactions'	)
+			compact( 'transactions' )
 		);
 
 	}

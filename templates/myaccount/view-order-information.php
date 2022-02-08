@@ -97,9 +97,17 @@ defined( 'ABSPATH' ) || exit;
 					<?php echo $order->get_price( 'total' ); ?>
 					<?php if ( $order->is_recurring() ) : ?>
 						<?php
-						// phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number in the singular so it throws a CS error but it's working as we want it to.
-						printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) );
-						// phpcs:enable WordPress.WP.I18n.MissingSingularPlaceholder
+						printf(
+							// Translators: %1$d = the billing frequency; %2$s = the billing period.
+							_n( // phpcs:ignore: WordPress.WP.I18n.MismatchedPlaceholders -- It's not an error.
+								'Every %2$s', // phpcs:ignore: WordPress.WP.I18n.MissingSingularPlaceholder -- It works as expected despite the CS warning.
+								'Every %1$d %2$ss',
+								$order->get( 'billing_frequency' ),
+								'lifterlms'
+							),
+							$order->get( 'billing_frequency' ),
+							$order->get( 'billing_period' )
+						);
 						?>
 						<?php if ( $order->get( 'billing_cycle' ) > 0 ) : ?>
 							<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_cycle' ), 'lifterlms' ), $order->get( 'billing_cycle' ), $order->get( 'billing_period' ) ); ?>
