@@ -140,15 +140,16 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	}
 
 	/**
-	 * Execute calculation for each item in the queue until all students
-	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessible via LLMS_Course
+	 * Execute calculation for each item in the queue until all students in the course have been polled.
 	 *
-	 * @param    array $item  array of processing data
-	 * @return   boolean          true to keep the item in the queue and process again
-	 *                            false to remove the item from the queue
-	 * @since    3.15.0
-	 * @version  3.26.1
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
+	 *
+	 * @since 3.15.0
+	 * @since [version] Replaced access of LLMS_Student_Query::$found_results protected property with LLMS_Student_Query::has_results().
+	 *
+	 * @param array $item Array of processing data.
+	 * @return boolean True to keep the item in the queue and process again.
+	 *                 False to remove the item from the queue.
 	 */
 	public function task( $item ) {
 
@@ -168,7 +169,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$query = new LLMS_Student_Query( $item['query_args'] );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 			foreach ( $query->get_students() as $student ) {
 				$student->enroll( $item['course_id'], $item['trigger'] );
 			}
