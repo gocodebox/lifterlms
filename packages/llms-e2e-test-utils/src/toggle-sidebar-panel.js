@@ -10,24 +10,22 @@ import { openSidebarPanelTab } from './open-sidebar-panel-tab';
  * @since [version]
  *
  * @param {string}  title        The panel title to open or close.
- * @param {Boolean} shouldBeOpen Whether or not the panel should be open.
- * @return {ElementHandle|undefined} Object that represents an in-page DOM element.
+ * @param {boolean} shouldBeOpen Whether or not the panel should be open.
+ * @return {Object|undefined} A puppeteer ElementHandle object if found.
  */
 export async function toggleSidebarPanel( title, shouldBeOpen = true ) {
-
 	await openSidebarPanelTab();
 
 	const btn = await findSidebarPanelWithTitle( title ),
 		classNames = await (
 			await btn.getProperty( 'className' )
-		 ).jsonValue(),
+		).jsonValue(),
 		isOpen = -1 !== classNames.indexOf( 'is-opened' );
 
 	// Open or close the panel as desired.
-	if ( isOpen !== shouldBeOpen  ) {
+	if ( isOpen !== shouldBeOpen ) {
 		await btn.click();
 	}
 
 	return btn;
-
 }

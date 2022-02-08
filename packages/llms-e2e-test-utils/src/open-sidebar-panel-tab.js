@@ -12,7 +12,6 @@ import {
  * @return {Promise} A promise that resolves when the desired panel becomes active.
  */
 export async function openSidebarPanelTab( tab = 'primary' ) {
-
 	await ensureSidebarOpened();
 
 	let selector = '.edit-post-sidebar__panel-tabs .components-button.edit-post-sidebar__panel-tab';
@@ -30,5 +29,4 @@ export async function openSidebarPanelTab( tab = 'primary' ) {
 	}
 
 	return page.waitForSelector( selector + '.is-active' );
-
 }

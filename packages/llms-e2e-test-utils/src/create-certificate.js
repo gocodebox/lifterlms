@@ -1,9 +1,6 @@
 // Internal deps.
-import { click } from './click';
-import { clickAndWait } from './click-and-wait';
 import { createEngagement } from './create-engagement';
 import { createPost } from './create-post';
-import { fillField } from './fill-field';
 import { updatePost } from './update-post';
 
 /**
@@ -14,7 +11,6 @@ import { updatePost } from './update-post';
  * @return {string} Block markup.
  */
 function getDefaultContent() {
-
 	return `<!-- wp:llms/certificate-title {"placeholder":"Certificate of Achievement"} -->
 <h1 class="has-text-align-center has-default-font-family"></h1>
 <!-- /wp:llms/certificate-title -->
@@ -26,7 +22,6 @@ function getDefaultContent() {
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center">On {current_date}</p>
 <!-- /wp:paragraph -->`;
-
 }
 
 /**
@@ -47,16 +42,15 @@ function getDefaultContent() {
  * }
  */
 export async function createCertificate( {
-	title      = 'Test Certificate',
-	content    = null,
+	title = 'Test Certificate',
+	content = null,
 	adminTitle = null,
 	engagement = '',
 } = {} ) {
-
 	let engagementId;
 
 	adminTitle = adminTitle || `${ title } Admin Title`;
-	content    = content || getDefaultContent( title );
+	content = content || getDefaultContent( title );
 
 	const certificateId = await createPost( 'llms_certificate', adminTitle, content ),
 		certUrl = await page.url();
@@ -72,7 +66,6 @@ export async function createCertificate( {
 	}
 
 	if ( engagement ) {
-
 		engagementId = await createEngagement( certificateId, {
 			trigger: engagement,
 			type: 'certificate',

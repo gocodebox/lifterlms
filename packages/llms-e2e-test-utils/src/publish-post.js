@@ -11,7 +11,6 @@ import { openPublishPanel } from '@wordpress/e2e-test-utils';
  * @return {Promise} Promise which resolves when the close button element is successfully clicked.
  */
 export async function publishPost() {
-
 	await openPublishPanel();
 
 	const publishButton = await page.waitForSelector(
@@ -24,5 +23,4 @@ export async function publishPost() {
 	);
 
 	return closeButton.click();
-
 }
