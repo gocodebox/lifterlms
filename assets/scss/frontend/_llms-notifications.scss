@@ -74,7 +74,7 @@
 					.llms-mini-cert-title {
 						font-size: 16px;
 						font-weight: 700;
-						margin-bottom: 12px;
+						margin: 12px auto;
 						text-align: center;
 					}
 					.llms-mini-cert--body {
@@ -89,23 +89,23 @@
 							&:nth-child(7) { width:65%; margin-right: 12px; }
 						}
 					}
-						.llms-mini-cert--mock-line {
-							border-radius: 2px;
-							height: 8px;
-							background: #b0b0b0;
-							background-image: linear-gradient( to right, #b0b0b0 0%, #a0a0a0 20%, #b0b0b0 40%, #b0b0b0 100% );
-							background-repeat: no-repeat;
-							margin: 4px auto;
-						}
-						.llms-mini-cert--mock-dot {
-							background: #b0b0b0;
-							border-radius: 50%;
-							display: inline-block;
-							content: '';
-							height: 24px;
-							width: 24px;
-						}
-						p { margin-bottom: 0; }
+					.llms-mini-cert--mock-line {
+						border-radius: 2px;
+						height: 8px;
+						background: #b0b0b0;
+						background-image: linear-gradient( to right, #b0b0b0 0%, #a0a0a0 20%, #b0b0b0 40%, #b0b0b0 100% );
+						background-repeat: no-repeat;
+						margin: 4px auto;
+					}
+					.llms-mini-cert--mock-dot {
+						background: #b0b0b0;
+						border-radius: 50%;
+						display: inline-block;
+						content: '';
+						height: 24px;
+						width: 24px;
+					}
+					p { margin-bottom: 0; }
 				}
 			}
 
