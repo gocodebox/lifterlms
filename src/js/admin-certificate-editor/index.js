@@ -7,6 +7,7 @@ import './i18n';
 import './merge-codes';
 import './migrate';
 import CertificateDocumentSettings from './document-settings';
+import CertificateResetTemplate from './reset-template';
 import CertificateUserSettings from './user-settings';
 
 /**
@@ -31,5 +32,17 @@ registerPlugin(
 	'llms-certificate-user',
 	{
 		render: CertificateUserSettings,
+	}
+);
+
+/**
+ * Registers the certificate default template reset button.
+ *
+ * @since [version]
+ */
+registerPlugin(
+	'llms-certificate-post-status-info',
+	{
+		render: CertificateResetTemplate,
 	}
 );
