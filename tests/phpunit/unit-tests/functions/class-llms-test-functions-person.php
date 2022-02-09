@@ -22,23 +22,54 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_can_user_bypass_restrictions() {
 
-		// allow admins to bypass
+		// Allow admins to bypass.
 		update_option( 'llms_grant_site_access', array( 'administrator' ) );
 
-		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		$admin      = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		$student    = $this->factory->user->create( array( 'role' => 'student' ) );
 
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
 		$this->assertFalse( llms_can_user_bypass_restrictions( $student ) );
 
 		$this->assertFalse( llms_can_user_bypass_restrictions( 'fake' ) );
 
-		// pass in a student
+		// Pass in a student.
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
 
-		// should still work with two roles
+		// Should still work with two roles.
 		update_option( 'llms_grant_site_access', array( 'administrator', 'editor' ) );
 		$this->assertTrue( llms_can_user_bypass_restrictions( $admin ) );
+
+		// Test restrictions against a post.
+		update_option( 'llms_grant_site_access', array( 'administrator', 'editor', 'instructor' ) );
+		$course_id = $this->factory->course->create( array( 'sections' => 1, 'lessons' => 1, 'quizzes' => 1 ) );
+		$course    = llms_get_post( $course_id );
+		$lesson    = $course->get_lessons()[0];
+		$quiz      = $lesson->get_quiz();
+		$tests     = array( $course_id, $lesson->get( 'id' ), $quiz->get( 'id' ) );
+
+		foreach ( $tests as $post_id ) {
+
+			$this->assertTrue( llms_can_user_bypass_restrictions( $admin, $post_id ) );
+			$this->assertFalse( llms_can_user_bypass_restrictions( $instructor, $post_id ) );
+			$this->assertFalse( llms_can_user_bypass_restrictions( $student, $post_id ) );
+
+		}
+
+		$course->set_instructors( array(
+			array(
+				'id' => $instructor,
+			)
+		) );
+
+		foreach ( $tests as $post_id ) {
+
+			$this->assertTrue( llms_can_user_bypass_restrictions( $admin, $post_id ) );
+			$this->assertTrue( llms_can_user_bypass_restrictions( $instructor, $post_id ) );
+			$this->assertFalse( llms_can_user_bypass_restrictions( $student, $post_id ) );
+
+		}
 
 	}
 
