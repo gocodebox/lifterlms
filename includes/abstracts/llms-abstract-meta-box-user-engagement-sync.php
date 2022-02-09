@@ -225,7 +225,10 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 			}
 
 			$sync_alert       = $this->get_text( self::TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT );
-			$sync_description = $this->get_text( self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT );
+			$sync_description = $this->get_text(
+				self::TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT,
+				array( 'template_id' => $template_id )
+			);
 		}
 
 		return compact( 'sync_alert', 'sync_description' );
