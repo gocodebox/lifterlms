@@ -117,7 +117,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 *
 	 * @var bool
 	 */
-	protected $is_syncing_all_awarded_engagements;
+	protected $is_current_post_a_template;
 
 	/**
 	 * The post type of an awarded engagement, e.g. 'llms_my_achievement' or 'llms_my_certificate'.
@@ -163,11 +163,11 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		$this->id = "{$this->engagement_type}_sync";
 
 		if ( $this->post->post_type === $this->post_type_template ) {
-			$this->is_syncing_all_awarded_engagements = true;
-			$this->title = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS );
+			$this->is_current_post_a_template = true;
+			$this->title                      = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS );
 		} else {
-			$this->is_syncing_all_awarded_engagements = false;
-			$this->title = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT );
+			$this->is_current_post_a_template = false;
+			$this->title                      = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT );
 		}
 	}
 
@@ -219,7 +219,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 */
 	private function get_sync_action_texts() {
 
-		if ( $this->is_syncing_all_awarded_engagements ) {
+		if ( $this->is_current_post_a_template ) {
 			$awarded_number = $this->get_awarded_engagements_number();
 
 			if ( ! $awarded_number ) {
@@ -306,7 +306,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		$base_url = remove_query_arg( 'action' ); // Current URL without 'action' arg.
 		$sync_url = add_query_arg(
 			'action',
-			"sync_awarded_{$this->engagement_type}" . ( $this->is_syncing_all_awarded_engagements ? 's' : '' ),
+			"sync_awarded_{$this->engagement_type}" . ( $this->is_current_post_a_template ? 's' : '' ),
 			wp_nonce_url(
 				$base_url,
 				"llms-{$this->engagement_type}-sync-actions",
