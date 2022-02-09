@@ -1,14 +1,15 @@
 <?php
 /**
- * Picture choice question template
+ * Picture choice question template.
  *
  * @package LifterLMS/Templates
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ * @since [version] Use `llms-flex-cols` in favor of `llms-cols` for arranging choices in columns.
+ * @version 3.16.0
  *
- * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
- * @arg  $question (obj)  LLMS_Question instance
+ * @var LLMS_Quiz_Attempt $attempt  Current quiz attempt object.
+ * @var LLMS_Question     $question Question object.
  */
 
 defined( 'ABSPATH' ) || exit;
