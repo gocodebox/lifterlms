@@ -147,7 +147,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		} elseif ( ! in_array( $action, $actions, true ) ) {
 			return new WP_Error(
 				"llms-sync-awarded-{$this->engagement_type}s-invalid-action",
-				__( 'You\'re trying to perform an invalid action.', 'lifterlms' )
+				__( "You're trying to perform an invalid action.", 'lifterlms' )
 			);
 		}
 
