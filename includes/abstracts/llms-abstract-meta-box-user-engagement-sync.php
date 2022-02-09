@@ -155,7 +155,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 		// There is no need to configure this meta box if we're not editing an engagement template or awarded engagement.
 		if (
 			is_null( $this->post ) ||
-			! in_array( $this->post->post_type, array( $this->post_type_awarded, $this->post_type_template ) )
+			! in_array( $this->post->post_type, array( $this->post_type_awarded, $this->post_type_template ), true )
 		) {
 			return;
 		}
