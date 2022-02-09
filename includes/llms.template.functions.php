@@ -15,6 +15,7 @@ require 'functions/llms-functions-conditional-tags.php';
 require 'functions/llms-functions-templates-courses.php';
 require 'functions/llms-functions-templates-memberships.php';
 require 'functions/llms-functions-templates-shared.php';
+require 'functions/llms-functions-template-view-order.php';
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';

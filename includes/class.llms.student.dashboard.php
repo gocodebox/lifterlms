@@ -340,9 +340,11 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Endpoint to output orders content
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since [version] Use `llms_template_view_order()` in favor of including the template file directly.
+	 *
+	 * @return void
 	 */
 	public static function output_orders_content() {
 
@@ -352,28 +354,8 @@ class LLMS_Student_Dashboard {
 
 		if ( ! empty( $wp->query_vars['orders'] ) ) {
 
-			$order = new LLMS_Order( $wp->query_vars['orders'] );
-
-			// Ensure people can't locate other peoples orders by dropping numbers into the url bar.
-			if ( get_current_user_id() !== $order->get( 'user_id' ) ) {
-				$order        = false;
-				$transactions = array();
-			} else {
-				$transactions = $order->get_transactions(
-					array(
-						'per_page' => apply_filters( 'llms_student_dashboard_transactions_per_page', 20 ),
-						'paged'    => isset( $_GET['txnpage'] ) ? absint( $_GET['txnpage'] ) : 1,
-					)
-				);
-			}
-
-			llms_get_template(
-				'myaccount/view-order.php',
-				array(
-					'order'        => $order,
-					'transactions' => $transactions,
-				)
-			);
+			$order = llms_get_post( $wp->query_vars['orders'] );
+			llms_template_view_order( $order );
 
 		} else {
 
