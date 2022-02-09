@@ -109,9 +109,9 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
  *
  * @access private
  *
- * @param LLMS_order $order    Order object.
- * @param integer    $per_page Transactions to display per page.
- * @param integer    $page     Results page.
+ * @param LLMS_order   $order    Order object.
+ * @param integer      $per_page Transactions to display per page.
+ * @param null|integer $page     Results page.
  * @return array Results from LLMS_Order::get_transactions().
  */
 function _llms_template_view_order_get_transactions( $order, $per_page = 20, $page = null ) {
