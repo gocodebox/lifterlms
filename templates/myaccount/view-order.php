@@ -11,9 +11,9 @@
  * @since [version] Load sub-templates using hooks and template functions.
  * @version [version]
  *
- * @param LLMS_Order $order        Current order object.
- * @param array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
- * @param string     $layout_class The view's layout classname. Either `llms-stack-cols` or an empty string for the default side-by-side layout.
+ * @var LLMS_Order $order        Current order object.
+ * @var array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
+ * @var string     $layout_class The view's layout classname. Either `llms-stack-cols` or an empty string for the default side-by-side layout.
  */
 
 defined( 'ABSPATH' ) || exit;

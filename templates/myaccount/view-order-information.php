@@ -7,7 +7,9 @@
  * @since [version]
  * @version [version]
  *
- * @param LLMS_Order $order Current order object.
+ * @var LLMS_Order                    $order   Current order object.
+ * @var LLMS_Payment_Gateway|WP_Error $gateway Instance of the LLMS_Payment_Gateway extending class used for the payment.
+ *                                             WP_Error if the gateway cannot be located, e.g. because it's no longer enabled.
  */
 
 defined( 'ABSPATH' ) || exit;

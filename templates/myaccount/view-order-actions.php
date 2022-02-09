@@ -7,7 +7,7 @@
  * @since [version]
  * @version [version]
  *
- * @param LLMS_Order $order Current order object.
+ * @var LLMS_Order $order Current order object.
  */
 
 defined( 'ABSPATH' ) || exit;
