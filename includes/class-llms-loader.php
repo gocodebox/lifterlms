@@ -311,7 +311,6 @@ class LLMS_Loader {
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
-	 *              Include `LLMS_Abstract_Meta_Box_User_Engagement_Sync`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
