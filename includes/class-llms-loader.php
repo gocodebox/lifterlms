@@ -183,7 +183,7 @@ class LLMS_Loader {
 			0 === strpos( $class, 'llms_metabox_' ) && false !== strrpos( $class, '_field', - 6 )
 		) {
 			$path = LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/';
-			$file = 'llms.class.meta.box.' . substr( $class, 13, - 6 ) . '.php';
+			$file = 'llms-class-meta-box-' . substr( $fileize, 13, - 6 ) . '.php';
 
 		} elseif ( 0 === strpos( $class, 'llms_table_' ) ) {
 			/** @todo Prefix file names with 'class-' */
