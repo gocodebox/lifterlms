@@ -31,7 +31,8 @@ if ( ! function_exists( 'llms_template_view_order' ) ) {
 		 *
 		 * @since [version]
 		 *
-		 * @param boolean $use_stacked_layout If `true`, forces usage of the stacked layout instead of the default side-by-side layout.
+		 * @param boolean    $use_stacked_layout If `true`, forces usage of the stacked layout instead of the default side-by-side layout.
+		 * @param LLMS_Order $order              The order to display.
 		 */
 		$layout_class = apply_filters( 'llms_sd_stacked_order_layout', false, $order ) ? 'llms-stack-cols' : '';
 
@@ -92,10 +93,11 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
 			$transactions = _llms_template_view_order_get_transactions( $order, $per_page, $page );
 		}
 
-		llms_get_template(
-			'myaccount/view-order-transactions.php',
-			compact( 'transactions' )
-		);
+		if ( empty( $transactions['transactions'] ) ) {
+			return;
+		}
+
+		llms_get_template( 'myaccount/view-order-transactions.php', compact( 'transactions' ) );
 
 	}
 }

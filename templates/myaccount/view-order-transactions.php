@@ -1,18 +1,17 @@
 <?php
 /**
- * View an Order
+ * Single order transactions table.
  *
  * @package LifterLMS/Templates
  *
- * @since    3.10.0
- * @version  3.10.0
+ * @since 3.10.0
+ * @since [version] Logic to return empty when no transactions present has been moved to the template function.
+ * @version [version]
+ *
+ * @param array $transactions Result array from {@see LLMS_Order::get_transactions()}.
  */
 
 defined( 'ABSPATH' ) || exit;
-
-if ( ! $transactions || ! $transactions['transactions'] ) {
-	return;
-}
 ?>
 
 <table class="orders-table transactions" id="llms-txns">
