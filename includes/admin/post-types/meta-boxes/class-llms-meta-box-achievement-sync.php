@@ -89,10 +89,6 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 					'This action will replace the current title, content, background etc. of this awarded achievement with the ones from the achievement template.\nAre you sure you want to proceed?',
 					'lifterlms'
 				);
-			case self::TEXT_SYNC_AWARDED_ENGAGEMENT:
-				return __( 'Sync Awarded Achievement', 'lifterlms' );
-			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS:
-				return __( 'Sync Awarded Achievements', 'lifterlms' );
 			case self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
 					/* translators: %1$d: number of awarded achievements */
@@ -114,6 +110,10 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				);
 			case self::TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS:
 				return __( 'This achievement template has no awarded achievements to sync.', 'lifterlms' );
+			case self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT:
+				return __( 'Sync Awarded Achievement', 'lifterlms' );
+			case self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS:
+				return __( 'Sync Awarded Achievements', 'lifterlms' );
 			default:
 				return parent::get_text( $text_type );
 		}

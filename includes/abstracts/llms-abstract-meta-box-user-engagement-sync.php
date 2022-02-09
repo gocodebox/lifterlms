@@ -47,31 +47,13 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT = 2;
 
 	/**
-	 * A text type for the title of a "sync awarded engagement" meta box.
-	 *
-	 * @since [version]
-	 *
-	 * @var int
-	 */
-	protected const TEXT_SYNC_AWARDED_ENGAGEMENT = 3;
-
-	/**
-	 * A text type for the title of a "sync awarded engagements" meta box.
-	 *
-	 * @since [version]
-	 *
-	 * @var int
-	 */
-	protected const TEXT_SYNC_AWARDED_ENGAGEMENTS = 4;
-
-	/**
 	 * A text type for a sync description about many awarded engagements being synced to the current engagement template.
 	 *
 	 * @since [version]
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS = 5;
+	protected const TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS = 3;
 
 	/**
 	 * A text type for a sync description about one awarded engagement being synced to the current engagement template.
@@ -80,7 +62,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT = 6;
+	protected const TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT = 4;
 
 	/**
 	 * A text type for a sync description about this awarded engagement being synced to its engagement template.
@@ -89,7 +71,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT = 7;
+	protected const TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT = 5;
 
 	/**
 	 * A text type for the content of a "sync awarded engagements" meta box when there are no awarded engagements to sync with.
@@ -98,7 +80,25 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS = 8;
+	protected const TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS = 6;
+
+	/**
+	 * A text type for the title of a "sync awarded engagement" meta box.
+	 *
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT = 7;
+
+	/**
+	 * A text type for the title of a "sync awarded engagements" meta box.
+	 *
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS = 8;
 
 	/**
 	 * The context to register the meta box with.
@@ -164,10 +164,10 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 
 		if ( $this->post->post_type === $this->post_type_template ) {
 			$this->is_syncing_all_awarded_engagements = true;
-			$this->title = $this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENTS );
+			$this->title = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS );
 		} else {
 			$this->is_syncing_all_awarded_engagements = false;
-			$this->title = $this->get_text( self::TEXT_SYNC_AWARDED_ENGAGEMENT );
+			$this->title = $this->get_text( self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT );
 		}
 	}
 

@@ -89,10 +89,6 @@ class LLMS_Meta_Box_Certificate_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 					'This action will replace the current title, content, background etc. of this awarded certificate with the ones from the certificate template.\nAre you sure you want to proceed?',
 					'lifterlms'
 				);
-			case self::TEXT_SYNC_AWARDED_ENGAGEMENT:
-				return __( 'Sync Awarded certificate', 'lifterlms' );
-			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS:
-				return __( 'Sync Awarded certificates', 'lifterlms' );
 			case self::TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS:
 				return sprintf(
 					/* translators: %1$d: number of awarded certificates */
@@ -114,6 +110,10 @@ class LLMS_Meta_Box_Certificate_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 				);
 			case self::TEXT_SYNC_ENGAGEMENT_TEMPLATE_NO_AWARDED_ENGAGEMENTS:
 				return __( 'This certificate template has no awarded certificates to sync.', 'lifterlms' );
+			case self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENT:
+				return __( 'Sync Awarded certificate', 'lifterlms' );
+			case self::TEXT_SYNC_TITLE_AWARDED_ENGAGEMENTS:
+				return __( 'Sync Awarded certificates', 'lifterlms' );
 			default:
 				return parent::get_text( $text_type );
 		}
