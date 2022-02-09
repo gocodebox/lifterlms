@@ -128,7 +128,16 @@ defined( 'ABSPATH' ) || exit;
 					<?php else : ?>
 						<?php echo $gateway->get_title(); ?>
 					<?php endif; ?>
-					<?php do_action( 'lifterlms_view_order_after_payment_method', $order ); ?>
+					<?php
+						/**
+						 * Action run immediately after the payment method is output within the view order information template.
+						 *
+						 * @since Unknown
+						 *
+						 * @param LLMS_Order $order Order object.
+						 */
+						do_action( 'lifterlms_view_order_after_payment_method', $order );
+					?>
 				</td>
 			</tr>
 
@@ -163,7 +172,16 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 			<?php endif; ?>
 
-			<?php do_action( 'lifterlms_view_order_table_body', $order ); ?>
+			<?php
+				/**
+				 * Action run before the closing of the `<tbody>` element on the view orders information table.
+				 *
+				 * @since Unknown
+				 *
+				 * @param LLMS_Order $order Order object.
+				 */
+				do_action( 'lifterlms_view_order_table_body', $order );
+			?>
 		</tbody>
 	</table>
 </section>

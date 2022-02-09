@@ -8,7 +8,7 @@
  * @since [version] Logic to return empty when no transactions present has been moved to the template function.
  * @version [version]
  *
- * @param array $transactions Result array from {@see LLMS_Order::get_transactions()}.
+ * @var array $transactions Result array from {@see LLMS_Order::get_transactions()}.
  */
 
 defined( 'ABSPATH' ) || exit;
