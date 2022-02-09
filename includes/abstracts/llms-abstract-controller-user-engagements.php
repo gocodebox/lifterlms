@@ -20,6 +20,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	use LLMS_Trait_User_Engagement_Type;
 
 	/**
+	 * A text type for a sync operation error message when the user can not edit an awarded engagement.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -27,6 +29,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENT_INSUFFICIENT_PERMISSIONS = 0;
 
 	/**
+	 * A text type for a sync operation error message about an awarded engagement not having a valid engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -34,6 +38,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENT_INVALID_TEMPLATE = 1;
 
 	/**
+	 * A text type for a sync operation error message about the user not being able to edit awarded engagements.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -41,6 +47,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENTS_INSUFFICIENT_PERMISSIONS = 2;
 
 	/**
+	 * A text type for a sync operation error message about an invalid nonce.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -48,6 +56,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENTS_INVALID_NONCE = 3;
 
 	/**
+	 * A text type for a sync operation error message about a missing awarded engagement ID.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -55,6 +65,8 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	protected const TEXT_SYNC_MISSING_AWARDED_ENGAGEMENT_ID = 4;
 
 	/**
+	 * A text type for a sync operation error message about a missing engagement template ID.
+	 *
 	 * @since [version]
 	 *
 	 * @var int

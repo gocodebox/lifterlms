@@ -20,6 +20,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	use LLMS_Trait_User_Engagement_Type;
 
 	/**
+	 * A text type for a sync alert about many awarded engagements being synced to the current engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -27,6 +29,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_ALERT_MANY_AWARDED_ENGAGEMENTS = 0;
 
 	/**
+	 * A text type for a sync alert about one awarded engagement being synced to the current engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -34,6 +38,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_ALERT_ONE_AWARDED_ENGAGEMENT = 1;
 
 	/**
+	 * A text type for a sync alert about this awarded engagement being synced to its engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -41,6 +47,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_ALERT_THIS_AWARDED_ENGAGEMENT = 2;
 
 	/**
+	 * A text type for the title of a "sync awarded engagement" meta box.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -48,6 +56,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENT = 3;
 
 	/**
+	 * A text type for the title of a "sync awarded engagements" meta box.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -55,6 +65,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_AWARDED_ENGAGEMENTS = 4;
 
 	/**
+	 * A text type for a sync description about many awarded engagements being synced to the current engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -62,6 +74,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_DESCRIPTION_MANY_AWARDED_ENGAGEMENTS = 5;
 
 	/**
+	 * A text type for a sync description about one awarded engagement being synced to the current engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -69,6 +83,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_DESCRIPTION_ONE_AWARDED_ENGAGEMENT = 6;
 
 	/**
+	 * A text type for a sync description about this awarded engagement being synced to its engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
@@ -76,6 +92,8 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	protected const TEXT_SYNC_DESCRIPTION_THIS_AWARDED_ENGAGEMENT = 7;
 
 	/**
+	 * A text type for the content of a "sync awarded engagements" meta box when there are no awarded engagements to sync with.
+	 *
 	 * @since [version]
 	 *
 	 * @var int

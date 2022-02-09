@@ -20,6 +20,8 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	use LLMS_Trait_User_Engagement_Type;
 
 	/**
+	 * A text type for an admin notice about completing the sync of awarded engagements to an engagement template.
+	 *
 	 * @since [version]
 	 *
 	 * @var int
