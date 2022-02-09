@@ -14,7 +14,6 @@ The following elements should be documented using formatted documentation blocks
 + Requires and includes
 + Hooks (actions and filters)
 + File headers
-+ Constants
 
 ## DocBlock Formatting Guidelines
 
