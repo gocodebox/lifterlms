@@ -946,6 +946,8 @@ function llms_modify_dashboard_pagination_links( $link ) {
  */
 function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
 
+	ob_start();
+
 	/**
 	 * Fires before the student dashboard my grades table cell content output
 	 *
@@ -1007,5 +1009,20 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
 	 */
 	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student, $restrictions );
+
+	$html = ob_get_clean();
+
+	/**
+	 * Filters the HTML returned by llms_sd_my_grades_table_content().
+	 *
+	 * @since [version]
+	 *
+	 * @param string       $html         The cell HTML.
+	 * @param string       $id           Key of the table cell.
+	 * @param LLMS_Lesson  $lesson       LLMS_Lesson.
+	 * @param LLMS_Student $student      LLMS_Student.
+	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
+	 */
+	return apply_filters( 'llms_sd_my_grades_table_content', $html, $id, $lesson, $student, $restrictions );
 
 }
