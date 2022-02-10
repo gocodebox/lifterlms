@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Tests for LLMS_Trait_Certificate_Achievement_Post_List_Table
+ * Tests for LLMS_Trait_Award_Templates_Post_List_Table
  *
  * @group Traits
  *
  * @since [version]
  */
-class LLMS_Test_Trait_Certificate_Achievement_Post_List_Table extends LLMS_UnitTestCase {
+class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase {
 
 	protected $tables;
 

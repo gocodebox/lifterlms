@@ -11,8 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // TODO: remove this when the new loader will be implemented.
-require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-certificate-achievement-template-post-list-table.php';
-
+require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post-list-table.php';
 /**
  * Customize display of the certificate post tables
  *
@@ -38,7 +37,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 */
 	public function __construct() {
 
-		$this->certificate_achievement_template_row_actions(); // defined in LLMS_Trait_Certificate_Achievement_Templates_Post_List_Table.
+		$this->award_template_row_actions(); // defined in LLMS_Trait_Award_Templates_Post_List_Table.
 
 		if ( ! llms_is_block_editor_supported_for_certificates() ) {
 			return;
