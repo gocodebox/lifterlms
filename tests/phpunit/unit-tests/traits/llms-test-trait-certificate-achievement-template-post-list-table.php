@@ -20,8 +20,14 @@ class LLMS_Test_Trait_Certificate_Achievement_Post_List_Table extends LLMS_UnitT
 
 		parent::set_up();
 		$this->tables = array(
-			'achievement' => require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/post-tables/class-llms-admin-post-table-achievements.php',
-			'certificate' => require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php',
+			'achievement' => class_exists( 'LLMS_Admin_Post_Table_Achievements' ) ?
+				new LLMS_Admin_Post_Table_Achievements()
+				:
+				require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/post-tables/class-llms-admin-post-table-achievements.php',
+			'certificate' => class_exists( 'LLMS_Admin_Post_Table_Certificates' ) ?
+				new LLMS_Admin_Post_Table_Certificates()
+				:
+				require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php',
 		);
 
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php';
@@ -60,7 +66,9 @@ class LLMS_Test_Trait_Certificate_Achievement_Post_List_Table extends LLMS_UnitT
 				)
 			);
 
-			// Actions not added because by default the post type `show_ui` is not treu.
+			// Force the post type to not show the ui.
+			get_post_type_object( "llms_{$pt}" )->show_ui = false;
+			// Actions not added because by default the post type `show_ui` is not true.
 			$this->assertEquals(
 				array(),
 				$table->add_post_actions( array(), $post ),
