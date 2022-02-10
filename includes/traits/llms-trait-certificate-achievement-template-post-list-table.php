@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since [version]
  */
-trait LLMS_Trait_Certificate_Achievement_Templates_Post_List_Table {
+trait LLMS_Trait_Award_Templates_Post_List_Table {
 
 	/**
 	 * Array of supported engagement templates post types.
@@ -34,7 +34,7 @@ trait LLMS_Trait_Certificate_Achievement_Templates_Post_List_Table {
 	 *
 	 * @return void
 	 */
-	public function certificate_achievement_template_row_actions() {
+	protected function award_template_row_actions() {
 
 		add_filter( 'post_row_actions', array( $this, 'add_post_actions' ), 20, 2 );
 

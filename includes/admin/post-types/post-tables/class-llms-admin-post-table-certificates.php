@@ -20,7 +20,7 @@ require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-certificate-achievem
  */
 class LLMS_Admin_Post_Table_Certificates {
 
-	use LLMS_Trait_Certificate_Achievement_Templates_Post_List_Table;
+	use LLMS_Trait_Award_Templates_Post_List_Table;
 
 	/**
 	 * Query string variable used to identify the migration action.
