@@ -17,6 +17,23 @@ defined( 'ABSPATH' ) || exit;
  */
 abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 
+	use LLMS_Trait_User_Engagement_Type;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 * @return void
+	 */
+	public function __construct( $model, $args = array() ) {
+
+		$this->engagement_type = $this->model_post_type;
+		parent::__construct( $model, $args );
+	}
+
 	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 *
@@ -114,27 +131,6 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieves the LLMS_Abstract_User_Engagement template instance for a given post.
-	 *
-	 * Based on {@see llms_get_certificate()}.
-	 *
-	 * @since [version]
-	 *
-	 * @param WP_Post|int|null $post A WP_Post object or a WP_Post ID. A falsy value will use the current
-	 *                               global `$post` object (if one exists).
-	 * @return LLMS_Abstract_User_Engagement|bool
-	 */
-	protected function get_user_engagement_template( $post ) {
-
-		$post = get_post( $post );
-		if ( ! $post || "llms_{$this->model_post_type}" !== $post->post_type ) {
-			return false;
-		}
-
-		return new static( $post );
-	}
-
-	/**
 	 * Retrieve the user ID of the user who earned the certificate
 	 *
 	 * @since 3.8.0
@@ -224,7 +220,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	public function sync( $context = 'update' ) {
 
 		$template_id = $this->get( 'parent' );
-		$template    = $this->get_user_engagement_template( $template_id );
+		$template    = $this->get_user_engagement( $template_id, false );
 		if ( ! $template ) {
 			return false;
 		}

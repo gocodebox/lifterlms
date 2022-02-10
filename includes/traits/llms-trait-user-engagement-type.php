@@ -27,7 +27,7 @@ trait LLMS_Trait_User_Engagement_Type {
 	protected $engagement_type;
 
 	/**
-	 * Returns an awarded engagement or an engagement template for the given post or false if not found.
+	 * Returns an awarded engagement or an engagement template, based on a LLMS_Post_Model object, for the given post or false if not found.
 	 *
 	 * @since [version]
 	 *
