@@ -230,13 +230,13 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 		if ( wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
 			$log_message    = 'awarded %1$ss bulk sync already scheduled for the %1$s template %2$s (#%3$d)';
-			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_ALREADY_SCHEDULED );
+			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_ALREADY_SCHEDULED, compact( 'engagement_template_id' ) );
 			$notice_id      = 'awarded-%1$ss-sync-%2$d-already-scheduled';
 		} else {
 
 			wp_schedule_single_event( time(), $this->schedule_hook, $args );
 			$log_message    = 'awarded %1$ss bulk sync scheduled for the %1$s template %2$s (#%3$d)';
-			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_SCHEDULED );
+			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_SCHEDULED, compact( 'engagement_template_id' ) );
 			$notice_id      = 'awarded-%1$ss-sync-%2$d-scheduled';
 		}
 
