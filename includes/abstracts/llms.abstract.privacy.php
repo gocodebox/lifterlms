@@ -45,7 +45,8 @@ abstract class LLMS_Abstract_Privacy {
 	 *
 	 * @since 3.18.0
 	 *
-	 * @param string $name  plugin name
+	 * @param string $name Plugin name.
+	 * @return void
 	 */
 	public function __construct( $name = '' ) {
 
@@ -104,7 +105,7 @@ abstract class LLMS_Abstract_Privacy {
 	 *
 	 * @since 3.18.0
 	 *
-	 * @param string $email  Email address.
+	 * @param string $email Email address.
 	 * @return false|LLMS_Student
 	 */
 	protected static function get_student_by_email( $email ) {
@@ -124,7 +125,7 @@ abstract class LLMS_Abstract_Privacy {
 	 *
 	 * @since 3.18.0
 	 *
-	 * @param array $erasers  Existing erasers.
+	 * @param array $erasers Existing erasers.
 	 * @return array
 	 */
 	public function register_erasers( $erasers = array() ) {
@@ -177,9 +178,9 @@ abstract class LLMS_Abstract_Privacy {
 	 *
 	 * @since 3.18.0
 	 *
-	 * @param string $id       exporter ID
-	 * @param string $name     Human-readable exporter name
-	 * @param mixed  $callback Callback function (callable)
+	 * @param string   $id       Exporter ID.
+	 * @param string   $name     Human-readable exporter name.
+	 * @param callable $callback Callback function.
 	 * @return array
 	 */
 	public function add_exporter( $id, $name, $callback ) {

@@ -351,6 +351,7 @@ class LLMS_Admin_Reporting {
 	 * Include all required classes & files for the Reporting screens.
 	 *
 	 * @since 3.2.0
+	 * @since 3.16.0 Unknown.
 	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
@@ -367,6 +368,7 @@ class LLMS_Admin_Reporting {
 	 * Output the reporting screen HTML.
 	 *
 	 * @since 3.2.0
+	 * @since 3.19.4 Unknown.
 	 *
 	 * @return void
 	 */

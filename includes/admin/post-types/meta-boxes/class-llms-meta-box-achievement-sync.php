@@ -47,6 +47,8 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 	/**
 	 * Post types that this meta box should be added to.
 	 *
+	 * @since [version]
+	 *
 	 * @var string[]
 	 */
 	public $screens = array(
