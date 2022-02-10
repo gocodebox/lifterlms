@@ -51,15 +51,34 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 	 */
 	protected function get_text( $text_type, $variables = array() ) {
 
+		$engagement_template_id = $variables['engagement_template_id'] ?? 0;
+
 		switch ( $text_type ) {
+			case self::TEXT_SYNC_NOTICE_ALREADY_SCHEDULED:
+				return sprintf(
+					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, #%3$d: certificate template ID, %4$s: closing anchor tag */
+					__( 'Awarded certificates sync already scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					'<a href="' . get_edit_post_link( $engagement_template_id ) . '" target="_blank">',
+					get_the_title( $engagement_template_id ),
+					$engagement_template_id,
+					'</a>'
+				);
 			case self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE:
-				$template_id = $variables['template_id'] ?? '';
 				return sprintf(
 					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, %3$d: certificate template ID, %4$s: closing anchor tag */
 					__( 'Awarded certificates sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					'<a href="' . $this->get_edit_post_link( $template_id ) . '" target="_blank">',
-					get_the_title( $template_id ),
-					$template_id,
+					'<a href="' . $this->get_edit_post_link( $engagement_template_id ) . '" target="_blank">',
+					get_the_title( $engagement_template_id ),
+					$engagement_template_id,
+					'</a>'
+				);
+			case self::TEXT_SYNC_NOTICE_SCHEDULED:
+				return sprintf(
+					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, #%3$d: certificate template ID, %4$s: closing anchor tag */
+					__( 'Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					'<a href="' . get_edit_post_link( $engagement_template_id ) . '" target="_blank">',
+					get_the_title( $engagement_template_id ),
+					$engagement_template_id,
 					'</a>'
 				);
 			default:

@@ -20,13 +20,31 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	use LLMS_Trait_User_Engagement_Type;
 
 	/**
-	 * A text type for an admin notice about completing the sync of awarded engagements to an engagement template.
+	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is already scheduled.
 	 *
 	 * @since [version]
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE = 0;
+	protected const TEXT_SYNC_NOTICE_ALREADY_SCHEDULED = 0;
+
+	/**
+	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is complete.
+	 *
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE = 1;
+
+	/**
+	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is scheduled.
+	 *
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_NOTICE_SCHEDULED = 2;
 
 	/**
 	 * Clear notices.
@@ -176,7 +194,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 			sprintf( 'awarded-%1$ss-sync-%2$d-done', $this->engagement_type, $args['query_args']['templates'] ),
 			$this->get_text(
 				self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE,
-				array( 'template_id' => $args['query_args']['templates'] )
+				array( 'engagement_template_id' => $args['query_args']['templates'] )
 			),
 			array(
 				'dismissible'      => true,
@@ -208,19 +226,17 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 		$this->clear_notices( $engagement_template_id );
 
-		// Action already scheduled?
-		$log_message = 'awarded %1$ss bulk sync already scheduled for the %1$s template %2$s (#%3$d)';
-		/* translators: %1$s: engagement type, %2$s: opening anchor tag that links to the engagement template, %3$s: engagement template name, #%4$d: engagement template ID, %5$s: closing anchor tag */
-		$notice_message = __( 'Awarded %1$ss sync already scheduled for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' );
-		$notice_id      = 'awarded-%1$ss-sync-%2$d-already-scheduled';
-
 		$args = array( $engagement_template_id );
-		if ( ! wp_next_scheduled( $this->schedule_hook, $args ) ) {
+		if ( wp_next_scheduled( $this->schedule_hook, $args ) ) {
+
+			$log_message    = 'awarded %1$ss bulk sync already scheduled for the %1$s template %2$s (#%3$d)';
+			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_ALREADY_SCHEDULED );
+			$notice_id      = 'awarded-%1$ss-sync-%2$d-already-scheduled';
+		} else {
 
 			wp_schedule_single_event( time(), $this->schedule_hook, $args );
-			$log_message = 'awarded %1$ss bulk sync scheduled for the %1$s template %2$s (#%3$d)';
-			/* translators: %1$s: engagement type, %2$s: opening anchor tag that links to the engagement template, %3$s: engagement template name, #%4$d: engagement template ID, %5$s: closing anchor tag */
-			$notice_message = __( 'Awarded %1$ss sync scheduled for the template %2$s%3$s (#%4$d)%5$s.', 'lifterlms' );
+			$log_message    = 'awarded %1$ss bulk sync scheduled for the %1$s template %2$s (#%3$d)';
+			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_SCHEDULED );
 			$notice_id      = 'awarded-%1$ss-sync-%2$d-scheduled';
 		}
 
@@ -235,14 +251,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 		LLMS_Admin_Notices::add_notice(
 			sprintf( $notice_id, $this->engagement_type, $engagement_template_id ),
-			sprintf(
-				$notice_message,
-				$this->engagement_type,
-				sprintf( '<a href="%1$s" target="_blank">', get_edit_post_link( $engagement_template_id ) ),
-				get_the_title( $engagement_template_id ),
-				$engagement_template_id,
-				'</a>'
-			),
+			$notice_message,
 			array(
 				'dismissible'      => true,
 				'dismiss_for_days' => 0,
