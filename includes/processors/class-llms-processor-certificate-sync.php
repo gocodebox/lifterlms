@@ -56,8 +56,8 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 				$template_id = $variables['template_id'] ?? '';
 				return sprintf(
 					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, %3$d: certificate template ID, %4$s: closing anchor tag */
-					__( 'Awarded Certificates sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
-					'<a href="' . get_edit_post_link( ( $template_id ) ) . '" target="_blank">',
+					__( 'Awarded certificates sync completed for the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					'<a href="' . $this->get_edit_post_link( $template_id ) . '" target="_blank">',
 					get_the_title( $template_id ),
 					$template_id,
 					'</a>'

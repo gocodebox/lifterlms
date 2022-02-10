@@ -174,7 +174,10 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 		LLMS_Admin_Notices::add_notice(
 			sprintf( 'awarded-%1$ss-sync-%2$d-done', $this->engagement_type, $args['query_args']['templates'] ),
-			$this->get_text( self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE, array( 'template_id', $args['query_args']['templates'] ) ),
+			$this->get_text(
+				self::TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE,
+				array( 'template_id' => $args['query_args']['templates'] )
+			),
 			array(
 				'dismissible'      => true,
 				'dismiss_for_days' => 0,
