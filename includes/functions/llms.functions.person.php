@@ -13,15 +13,19 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ * Determines whether or not a user can bypass enrollment, drip, and prerequisite restrictions.
  *
  * @since 3.7.0
- * @since 3.9.0
+ * @since 3.9.0 Unknown.
+ * @since [version] Added optional second parameter `$post_id`.
  *
- * @param LLMS_Student|WP_User|int $user LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
+ * @param LLMS_Student|WP_User|int $user    LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
+ * @param integer                  $post_id A WP_Post ID to check permissions against. If supplied, in addition to the user's role
+ *                                          being allowed to bypass the restrictions, the user must also have `edit_post` capabilities
+ *                                          for the requested post.
  * @return boolean
  */
-function llms_can_user_bypass_restrictions( $user = null ) {
+function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
 
 	$user = llms_get_student( $user );
 
@@ -34,11 +38,15 @@ function llms_can_user_bypass_restrictions( $user = null ) {
 		$roles = array();
 	}
 
-	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
-		return true;
+	if ( ! array_intersect( $user->get_user()->roles, $roles ) ) {
+		return false;
 	}
 
-	return false;
+	if ( $post_id && ! user_can( $user->get( 'id' ), 'edit_post', $post_id ) ) {
+		return false;
+	}
+
+	return true;
 
 }
 

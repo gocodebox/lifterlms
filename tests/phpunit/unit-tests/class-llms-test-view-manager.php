@@ -271,20 +271,121 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test modify_course_open().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_course_open() {
+
+		$course = llms_get_post( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+
+		$this->mock_view_data( 'visitor' );
+		$this->assertFalse( $this->main->modify_course_open( false, $course ) );
+
+		// Logged out user.
+		$this->mock_view_data( 'self' );
+		$this->assertFalse( $this->main->modify_course_open( false, $course ) );
+
+		// Admin can do it.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertTrue( $this->main->modify_course_open( false, $course ) );
+
+		// Instructor can't.
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $instructor );
+		$this->assertFalse( $this->main->modify_course_open( false, $course ) );
+
+		$course->set_instructors( array(
+			array(
+				'id' => $instructor,
+			)
+		) );
+		$this->assertTrue( $this->main->modify_course_open( false, $course ) );
+
+	}
+
+	/**
+	 * Test modify_restrictions().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_restrictions() {
+
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$mock_restriction = array(
+			'content_id'     => $course,
+			'is_restricted'  => true,
+			'reason'         => 'enrollment_course',
+			'restriction_id' => $course,
+		);
+
+		$expected_success = wp_parse_args( array(
+			'is_restricted' => false,
+			'reason'        => 'role-access',
+		), $mock_restriction );
+
+		$this->mock_view_data( 'visitor' );
+		$this->assertEquals( $mock_restriction, $this->main->modify_restrictions( $mock_restriction ) );
+
+		// No user.
+		$this->mock_view_data( 'self' );
+		$this->assertEquals( $mock_restriction, $this->main->modify_restrictions( $mock_restriction ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertEquals( $expected_success, $this->main->modify_restrictions( $mock_restriction ) );
+
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
+		wp_set_current_user( $instructor );
+		$this->assertEquals( $mock_restriction, $this->main->modify_restrictions( $mock_restriction ) );
+
+		llms_get_post( $course )->set_instructors( array(
+			array(
+				'id' => $instructor,
+			)
+		) );
+
+		$this->assertEquals( $expected_success, $this->main->modify_restrictions( $mock_restriction ) );
+
+	}
+
+	/**
 	 * Test should_display() when viewing valid post types with a valid user
 	 *
 	 * @since 4.5.1
+	 * @since [version] Add tests for instructors.
 	 *
 	 * @return void
 	 */
 	public function test_should_display_on_valid_post_types() {
 
 		global $post;
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$admin     = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$instructor = $this->factory->user->create( array( 'role' => 'instructor' ) );
 
 		foreach ( array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ) as $post_type ) {
+
+			wp_set_current_user( $admin );
+
 			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
 			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
+
+			wp_set_current_user( $instructor );
+			$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
+
+			if ( in_array( $post_type, array( 'course', 'llms_membership' ), true ) ) {
+				llms_get_post( $post )->set_instructors( array(
+					array(
+						'id' => $instructor,
+					)
+				) );
+				$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->main, 'should_display' ) );
+			}
+
 		}
 
 	}

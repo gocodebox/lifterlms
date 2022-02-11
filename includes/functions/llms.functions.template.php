@@ -259,7 +259,7 @@ function llms_get_template_override_directories() {
  *
  * @since 5.8.0
  *
- * @param string $template                    Template file name, without extension.
+ * @param string $template                    Template file name.
  * @param string $template_directory          Template directory relative to the plugin base directory.
  * @param bool   $template_directory_absolute Whether the template directory is absolute or not.
  * @return string

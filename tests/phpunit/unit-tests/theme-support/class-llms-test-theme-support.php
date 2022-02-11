@@ -8,6 +8,7 @@
  *
  * @since 3.37.0
  * @since 4.10.0 Added tests for Twenty Twenty-One theme.
+ * @since [version] Added tests for Twenty Twenty-Two
  */
 class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 
@@ -19,9 +20,10 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	 * @var array
 	 */
 	protected $supported = array(
-		'twentynineteen' => 'LLMS_Twenty_Nineteen',
-		'twentytwenty' => 'LLMS_Twenty_Twenty',
+		'twentynineteen'  => 'LLMS_Twenty_Nineteen',
+		'twentytwenty'    => 'LLMS_Twenty_Twenty',
 		'twentytwentyone' => 'LLMS_Twenty_Twenty_One',
+		'twentytwentytwo' => 'LLMS_Twenty_Twenty_Two',
 	);
 
 	/**
