@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function _get_db_version() {
-	return '6.0.0-alpha.3';
+	return '6.0.0-alpha.4';
 }
 
 /**
