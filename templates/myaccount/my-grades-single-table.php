@@ -4,7 +4,7 @@
  *
  * @since 3.24.0
  * @since [version] Wrap each section in a <tbody> element.
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
