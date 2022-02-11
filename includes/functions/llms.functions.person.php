@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.1.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -449,7 +449,6 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * Set or unset a user's password reset cookie.
  *
  * @since 5.0.0
- * @since [version] Always strip slashes when setting the cookie's path.
  *
  * @param string $val Cookie value.
  * @return boolean
@@ -460,7 +459,7 @@ function llms_set_password_reset_cookie( $val = '' ) {
 	$expires = $val ? 0 : time() - YEAR_IN_SECONDS;
 	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-	return llms_setcookie( $cookie, $val, $expires, untrailingslashit( $path ), COOKIE_DOMAIN, is_ssl(), true );
+	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
 
 }
 

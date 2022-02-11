@@ -308,27 +308,24 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	 * Test llms_set_password_reset_cookie() sets the cookie path properly.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Test with and without trailing slashes.
 	 *
 	 * @return void
 	 */
 	public function test_llms_set_password_reset_cookie_path() {
 
-		$paths = array(
-			'/dashboard/lost-password',
-			'/dashboard/lost-password/',
-			'/dashboard/lost-password?var1=1&var2=2',
-			'/dashboard/lost-password/?var1=1&var2=2',
-		);
+		// Regular URL path.
+		$_SERVER['REQUEST_URI'] = '/dashboard/lost-password';
 
-		foreach ( $paths as $path ) {
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertEquals( '/dashboard/lost-password', $data['path'] );
 
-			$_SERVER['REQUEST_URI'] = $path;
-			$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
-			$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
-			$this->assertEquals( '/dashboard/lost-password', $data['path'] );
+		// With query string.
+		$_SERVER['REQUEST_URI'] = '/dashboard/lost-password?var1=1&var2=2';
 
-		}
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertEquals( '/dashboard/lost-password', $data['path'] );
 
 		// Reset.
 		$_SERVER['REQUEST_URI'] = '';

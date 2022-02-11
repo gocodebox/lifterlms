@@ -1,4 +1,0 @@
-significance: minor
-type: fixed
-entry: Fixed issue encountered during password reset on sites excluding a
-  trailing slash from the site's permalink structure.
