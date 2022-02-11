@@ -80,7 +80,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
 	// Map endpoint to options.
 	$vars     = LLMS()->query->get_query_vars();
-	$endpoint = isset( $vars[ $endpoint ] ) ? $vars[ $endpoint ] : $endpoint;
+	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
 	if ( get_option( 'permalink_structure' ) ) {
 
