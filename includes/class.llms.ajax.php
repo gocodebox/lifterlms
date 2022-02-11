@@ -17,8 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
  * @since [version] Removed deprecated items.
- *              - `LLMS_AJAX::get_ajax_data()` method
- *              - `LLMS_AJAX::register_script()` method
+ *              - `LLMS_AJAX::get_ajax_data()` method.
+ *              - `LLMS_AJAX::register_script()` method.
  */
 class LLMS_AJAX {
 

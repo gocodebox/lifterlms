@@ -28,7 +28,7 @@
   clear: both;
 }
 
-.llms-cols .llms-col {
+.llms-cols .llms-cols {
   width: 100%;
 }
 @media all and (min-width: 600px) {
@@ -69,6 +69,60 @@
     width: 9.0909090909%;
   }
   .llms-cols .llms-col-12 {
+    width: 8.3333333333%;
+  }
+}
+
+.llms-flex-cols {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+}
+@media all and (min-width: 600px) {
+  .llms-flex-cols [class*=llms-col-] {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+    width: 100%;
+  }
+  .llms-flex-cols .llms-col-1 {
+    width: 100%;
+  }
+  .llms-flex-cols .llms-col-2 {
+    width: 50%;
+  }
+  .llms-flex-cols .llms-col-3 {
+    width: 33.3333333333%;
+  }
+  .llms-flex-cols .llms-col-4 {
+    width: 25%;
+  }
+  .llms-flex-cols .llms-col-5 {
+    width: 20%;
+  }
+  .llms-flex-cols .llms-col-6 {
+    width: 16.6666666667%;
+  }
+  .llms-flex-cols .llms-col-7 {
+    width: 14.2857142857%;
+  }
+  .llms-flex-cols .llms-col-8 {
+    width: 12.5%;
+  }
+  .llms-flex-cols .llms-col-9 {
+    width: 11.1111111111%;
+  }
+  .llms-flex-cols .llms-col-10 {
+    width: 10%;
+  }
+  .llms-flex-cols .llms-col-11 {
+    width: 9.0909090909%;
+  }
+  .llms-flex-cols .llms-col-12 {
     width: 8.3333333333%;
   }
 }
@@ -3024,6 +3078,9 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   z-index: 1;
 }
 
+.llms-table.llms-single-course-grades tbody tr:first-child td, .llms-table.llms-single-course-grades tbody tr:first-child th {
+  background-color: #eaeaea;
+}
 .llms-table.llms-single-course-grades th {
   font-weight: 400;
 }
