@@ -301,7 +301,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $prop Propery name.
+	 * @param string $prop Property name.
 	 * @return void
 	 */
 	private function public_prop_deprecation( $prop ) {

@@ -15,7 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * Sets up post type custom messages and includes base metabox class.
  *
- * @since Unknown
+ * @since Unknown.
+ * @since [version] Removed LLMS_Admin_Post_Types::meta_metabox_init() in favor of autoloading.
  */
 class LLMS_Admin_Post_Types {
 
@@ -35,7 +36,6 @@ class LLMS_Admin_Post_Types {
 
 		add_action( 'admin_init', array( $this, 'include_post_type_metabox_class' ) );
 
-		add_action( 'metabox_init', array( $this, 'meta_metabox_init' ) );
 		add_filter( 'post_updated_messages', array( $this, 'llms_post_updated_messages' ) );
 
 	}
@@ -71,11 +71,17 @@ class LLMS_Admin_Post_Types {
 	}
 
 	/**
-	 * Initializes core for metaboxes
+	 * Initializes core for metaboxes.
+	 *
+	 * @since Unknown
+	 * @deprecated [version] `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public function meta_metabox_init() {
+
+		llms_deprecated_function( __METHOD__, '[version]' );
+
 		include_once 'llms.class.admin.metabox.php';
 	}
 

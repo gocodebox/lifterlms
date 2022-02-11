@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Achievements earned by a student.
+ * An achievement awarded to a student.
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.

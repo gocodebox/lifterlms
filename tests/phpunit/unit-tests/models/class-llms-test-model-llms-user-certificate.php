@@ -20,6 +20,13 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	protected $class_name = 'LLMS_User_Certificate';
 
 	/**
+	 * Will hold an instance of the model being tested by the class.
+	 *
+	 * @var LLMS_User_Certificate
+	 */
+	protected $obj = null;
+
+	/**
 	 * DB post type of the model being tested
 	 *
 	 * @var string
@@ -68,6 +75,26 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test the after_create() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_after_create() {
+
+		$actions = did_action( 'llms_certificate_synchronized' );
+
+		$template_id = $this->create_certificate_template();
+		update_post_meta( $template_id, '_llms_sequential_id', 25 );
+
+		$cert = new $this->class_name( 'new', array( 'post_parent' => $template_id ) );
+
+		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( ++ $actions, did_action( 'llms_certificate_synchronized' ) );
+	}
+
+	/**
 	 * Test creation of the model
 	 *
 	 * @since 4.5.0
@@ -85,27 +112,6 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $id, $test->get( 'id' ) );
 		$this->assertEquals( $this->post_type, $test->get( 'type' ) );
 		$this->assertEquals( 'test title', $test->get( 'title' ) );
-
-	}
-
-	/**
-	 * Test the create_after() method.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_create_after() {
-
-		$actions = did_action( 'llms_certificate_synchronized' );
-
-		$template = $this->create_certificate_template();
-		update_post_meta( $template, '_llms_sequential_id', 25 );
-
-		$cert = new LLMS_User_Certificate( 'new', array( 'post_parent' => $template ) );
-
-		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
-		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
 
 	}
 
@@ -543,7 +549,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$user_info = array(
 			'first_name' => 'Walter',
-			'last_name' => 'Sobchak',
+			'last_name'  => 'Sobchak',
 			'user_email' => 'mergecontentcertuser@mail.tld',
 			'user_login' => 'mergecontentcertuser'
 		);
@@ -551,7 +557,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$user    = $this->factory->student->create_and_get( $user_info );
 		$related = $this->factory->post->create();
 
-		$content = '';
+		$content          = '';
 		$expected_content = '';
 
 		$merge_codes = llms_get_certificate_merge_codes();
@@ -630,7 +636,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( $cert->sync() );
 		$this->assertEquals( "Updated and {$user_info['user_login']}", $cert->get( 'content', true ) );
 		$this->assertEquals( 'Title', $cert->get( 'title', true ) );
-		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get('id') ) );
+		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get( 'id' ) ) );
 	}
 
 	/**
@@ -660,7 +666,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		LLMS_Unit_Test_Util::call_method( $cert, 'get_merge_data' );
 
-		remove_filter( 'llms_certificate_merge_codes', $handler, 10, 2 );
+		remove_filter( 'llms_certificate_merge_codes', $handler, 10 );
 
 	}
 
@@ -868,7 +874,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test sync a template after removing a thumbnail.
+	 * Test syncing an awarded engagement with its template after removing a thumbnail.
 	 *
 	 * @since [version]
 	 *
@@ -876,31 +882,34 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_sync_template_after_removing_thumbnail() {
 
+		// Create a template with a thumbnail.
 		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
 		$title       = 'Sync Template Removing Thumbnail';
 		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
-		$template    = llms_get_certificate( $template_id, true );
 
-		$this->create();
-		$this->obj->set( 'parent', $template_id );
+		// Create an awarded engagement.
+		$this->create( array( 'post_parent' => $template_id ) );
+
+		// Test that the awarded engagement matches the template.
 		$id = $this->obj->get( 'id' );
-		$this->assertTrue( $this->obj->sync() );
 		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
 
 		// Remove the template thumbnail.
 		delete_post_thumbnail( $template_id );
-		// Sync.
+
+		// Sync the awarded engagement with the template.
 		$this->assertTrue( $this->obj->sync() );
 
+		// Test that the awarded engagement no longer has a thumbnail.
 		$this->assertFalse( (bool) get_post_thumbnail_id( $id ) );
 
+		// Test that the background image has returned to the default.
 		$img = $this->obj->get_background_image();
 		$this->assertTrue( $img['is_default'] );
-
 	}
 
 	/**
-	 * Test sync a template keeps the same thumbnail.
+	 * Test that syncing an awarded engagement with its template twice keeps the same thumbnail.
 	 *
 	 * @since [version]
 	 *
@@ -908,20 +917,21 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_sync_template_twice_keep_thumbnail() {
 
+		// Create a template with a thumbnail.
 		$img_id      = $this->create_attachment( 'yura-timoshenko-R7ftweJR8ks-unsplash.jpeg' );
-		$title       = 'Sync Template Removing Thumbnail';
+		$title       = 'Sync Template Twice with Thumbnail';
 		$template_id = $this->create_certificate_template( $title, 'ID:{certificate_id}', $img_id );
-		$template    = llms_get_certificate( $template_id, true );
 
-		$this->create();
-		$this->obj->set( 'parent', $template_id );
+		// Create an awarded engagement.
+		$this->create( array( 'post_parent' => $template_id ) );
 		$id = $this->obj->get( 'id' );
-		$this->assertTrue( $this->obj->sync() );
+
+		// Test that the awarded engagement matches the template.
 		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
 
 		// Sync (twice).
 		$this->assertTrue( $this->obj->sync() );
+		$this->assertTrue( $this->obj->sync() );
 		$this->assertEquals( $img_id, get_post_thumbnail_id( $id ) );
-
 	}
 }

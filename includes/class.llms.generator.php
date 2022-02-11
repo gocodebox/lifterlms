@@ -67,6 +67,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 4.7.0 Move most logic into helper functions.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array|string $raw Array or a JSON string of raw content.
 	 * @return void
@@ -74,7 +75,6 @@ class LLMS_Generator {
 	public function __construct( $raw ) {
 
 		// Load generator class.
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-generator-courses.php';
 		$this->courses_generator = new LLMS_Generator_Courses();
 
 		// Parse raw data.

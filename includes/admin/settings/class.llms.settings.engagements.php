@@ -73,7 +73,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Retrieve fields for the certificates settings group.
+	 * Retrieve fields for the achievements settings group.
 	 *
 	 * @since [version]
 	 *
@@ -82,7 +82,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	protected function get_settings_group_achievements() {
 
 		return $this->generate_settings_group(
-			'achievment_options',
+			'achievement_options',
 			__( 'Achievement Settings', 'lifterlms' ),
 			'',
 			array(

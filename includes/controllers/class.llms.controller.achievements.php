@@ -1,6 +1,6 @@
 <?php
 /**
- * Achievement controller
+ * LLMS_Controller_Achievements class
  *
  * @package LifterLMS/Controllers/Classes
  *
@@ -11,12 +11,22 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Achievements
+ * Handles awarded user achievements.
  *
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @since [version] Extended from the LLMS_Abstract_Controller_User_Engagements class.
  */
-class LLMS_Controller_Achievements {
+class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagements {
+
+	/**
+	 * Type of user engagement.
+	 *
+	 * @since [version]
+	 *
+	 * @var string
+	 */
+	protected $engagement_type = 'achievement';
 
 	/**
 	 * Constructor
@@ -26,7 +36,46 @@ class LLMS_Controller_Achievements {
 	 * @return void
 	 */
 	public function __construct() {
+
+		parent::__construct();
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
+	}
+
+	/**
+	 * Returns a translated text of the given type.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $text_type One of the LLMS_Abstract_Controller_User_Engagements::TEXT_ constants.
+	 * @param array $variables Optional variables that are used in sprintf().
+	 * @return string
+	 */
+	protected function get_text( $text_type, $variables = array() ) {
+
+		switch ( $text_type ) {
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INSUFFICIENT_PERMISSIONS:
+				return sprintf(
+					/* translators: %1$d: awarded achievement ID */
+					__( 'Sorry, you are not allowed to edit the awarded achievement #%1$d.', 'lifterlms' ),
+					( $variables['engagement_id'] ?? 0 )
+				);
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENT_INVALID_TEMPLATE:
+				return sprintf(
+					/* translators: %1$d: awarded achievement ID */
+					__( 'Sorry, the awarded achievement #%1$d does not have a valid achievement template.', 'lifterlms' ),
+					( $variables['engagement_id'] ?? 0 )
+				);
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INSUFFICIENT_PERMISSIONS:
+				return __( 'Sorry, you are not allowed to edit awarded achievements.', 'lifterlms' );
+			case self::TEXT_SYNC_AWARDED_ENGAGEMENTS_INVALID_NONCE:
+				return __( 'Sorry, you are not allowed to sync awarded achievements.', 'lifterlms' );
+			case self::TEXT_SYNC_MISSING_AWARDED_ENGAGEMENT_ID:
+				return __( 'Sorry, you need to provide a valid awarded achievement ID.', 'lifterlms' );
+			case self::TEXT_SYNC_MISSING_ENGAGEMENT_TEMPLATE_ID:
+				return __( 'Sorry, you need to provide a valid achievement template ID.', 'lifterlms' );
+			default:
+				return parent::get_text( $text_type );
+		}
 	}
 
 	/**
@@ -48,26 +97,6 @@ class LLMS_Controller_Achievements {
 		}
 
 	}
-
-	/**
-	 * Delete an achievement.
-	 *
-	 * @since 3.18.0
-	 * @since [version] Permanently delete achievement via wp_delete_post().
-	 *
-	 * @param int $achievement_id WP Post ID of the llms_my_achievement.
-	 * @return void
-	 */
-	private function delete( $achievement_id ) {
-
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		wp_delete_post( $achievement_id, true );
-
-	}
-
 }
 
 return new LLMS_Controller_Achievements();

@@ -132,7 +132,10 @@ class LLMS_Certificate {
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 *
+	 * @since Unknown.
+	 * @deprecated [version] `LLMS_Certificate::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
 

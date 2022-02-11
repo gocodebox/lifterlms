@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificates earned by a student.
+ * A certificate awarded to a student.
  *
  * @since 3.8.0
  * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
@@ -108,8 +108,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 *
-	 * This stub can be overwritten by child classes.
-	 *
 	 * @since [version]
 	 *
 	 * @return void
@@ -117,8 +115,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	protected function after_create() {
 
 		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
-		$this->sync( 'create' );
-
+		parent::after_create();
 	}
 
 	/**
@@ -232,7 +229,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
 
@@ -246,7 +243,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $width          Display width of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
 
@@ -263,7 +260,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param string $src            The image source url.
-			 * @param int    $certificate_id WP_Post ID of the earned certificate.
+			 * @param int    $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$src = apply_filters( 'lifterlms_certificate_background_image_src', $src, $id );
 
@@ -277,7 +274,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $height         Display height of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$height = apply_filters( 'lifterlms_certificate_background_image_height', $height, $id );
 
@@ -291,7 +288,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			 * @since 2.2.0
 			 *
 			 * @param int $width          Display width of the image, in pixels.
-			 * @param int $certificate_id WP_Post ID of the earned certificate.
+			 * @param int $certificate_id WP_Post ID of the awarded certificate.
 			 */
 			$width = apply_filters( 'lifterlms_certificate_background_image_width', $width, $id );
 
@@ -383,7 +380,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since [version]
 	 *
-	 * @return {
+	 * @param bool $with_units Whether or not to include the unit in the return.
+	 * @return array {
 	 *     Array of dimensions.
 	 *
 	 *     @type string|float $width  The display width.
@@ -748,69 +746,32 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Update the certificate by regenerating it from its template.
+	 * Sync block editor layout properties.
 	 *
 	 * @since [version]
 	 *
-	 * @param string $context Sync context. Either "update" for an update to an existing certificate
-	 *                        or "create" when the certificate is being created.
-	 * @return boolean Returns a false if the parent doesn't exist, otherwise returns true.
+	 * @param LLMS_User_Certificate $template
+	 * @return void
 	 */
-	public function sync( $context = 'update' ) {
+	protected function sync_meta( $template ) {
 
-		$template_id = $this->get( 'parent' );
-		$template    = llms_get_certificate( $template_id, true );
-		if ( ! $template ) {
-			return false;
-		}
-
-		$this->set( 'title', get_post_meta( $template_id, '_llms_certificate_title', true ) );
-		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
-				! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) ) ) {
-			delete_post_thumbnail( $this->get( 'post' ) );
+		if ( 1 === $template->get_template_version() ) {
+			return;
 		}
 
 		$props = array(
-			'content',
+			'background',
+			'height',
+			'margins',
+			'orientation',
+			'size',
+			'unit',
+			'width',
 		);
 
-		// If using the block editor also sync all layout properties.
-		if ( 2 === $template->get_template_version() ) {
-			$props = array_merge(
-				$props,
-				array(
-					'background',
-					'height',
-					'margins',
-					'orientation',
-					'size',
-					'unit',
-					'width',
-				)
-			);
-		}
-
 		foreach ( $props as $prop ) {
-			$raw = 'content' === $prop;
-			$this->set( $prop, $template->get( $prop, $raw ) );
+			$this->set( $prop, $template->get( $prop ) );
 		}
-
-		// Merge content.
-		$this->set( 'content', $this->merge_content() );
-
-		/**
-		 * Action run after an awarded certificate is synchronized with its template.
-		 *
-		 * @since [version]
-		 *
-		 * @param LLMS_User_Certificate $certificate Awarded certificate object.
-		 * @param LLMS_User_Certificate $template    Certificate template object.
-		 * @param string                $context     The context within which the synchronization is run.
-		 *                                           Either "create" or "update".
-		 */
-		do_action( 'llms_certificate_synchronized', $this, $template, $context );
-
-		return true;
 
 	}
 

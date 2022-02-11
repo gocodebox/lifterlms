@@ -1,0 +1,3 @@
+significance: minor
+type: performance
+entry: Increased the number of files that are autoloaded instead of manually loaded.

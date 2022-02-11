@@ -73,14 +73,13 @@ class LLMS_Achievements {
 	 * Includes achievement class.
 	 *
 	 * @since 1.0.0
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function init() {
 
-		include_once 'class.llms.achievement.php';
 		$this->achievements['LLMS_Achievement_User'] = include_once 'achievements/class.llms.achievement.user.php';
-
 	}
 
 	/**
@@ -164,7 +163,7 @@ class LLMS_Achievements {
 	 * Calls trigger method passing arguments.
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Achievments::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
+	 * @deprecated [version] `LLMS_Achievements::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $achievement_id  WP_Post ID of the achievement template.

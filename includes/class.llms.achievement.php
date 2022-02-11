@@ -124,6 +124,12 @@ class LLMS_Achievement {
 		}
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @since Unknown.
+	 * @deprecated [version] `LLMS_Achievement::__construct()` is deprecated with no replacement.
+	 */
 	public function __construct() {
 
 		// Settings TODO Refactor: theses can come from the achievement post now.

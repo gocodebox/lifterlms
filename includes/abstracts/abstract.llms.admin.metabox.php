@@ -10,11 +10,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Include all classes for each of the metabox types.
-foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename ) {
-	require_once $filename;
-}
-
 /**
  * Admin metabox abstract class.
  *
@@ -25,6 +20,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  * @since 3.37.19 Bail if the global `$post` is empty, before registering our meta boxes.
+ * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -107,9 +103,9 @@ abstract class LLMS_Admin_Metabox {
 	public $prefix = '_llms_';
 
 	/**
-	 * Array of error message strings to be displayed after an update attempt.
+	 * Array of error messages to be displayed after an update attempt.
 	 *
-	 * @var array
+	 * @var string[]|WP_Error[]
 	 */
 	private $errors = array();
 
@@ -196,11 +192,11 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown.
 	 *
-	 * @param string $text Error message text.
+	 * @param string|WP_Error $error Error message text.
 	 * @return void
 	 */
-	public function add_error( $text ) {
-		$this->errors[] = $text;
+	public function add_error( $error ) {
+		$this->errors[] = $error;
 	}
 
 	/**
@@ -219,7 +215,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @return string[]
+	 * @return string[]|WP_Error[]
 	 */
 	public function get_errors() {
 		return get_option( $this->error_opt_key, array() );
@@ -291,6 +287,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Load errors using `$this->get_errors()` instead of `get_option()`.
+	 * @since [version] Handle WP_Error objects.
 	 *
 	 * @return void
 	 */
@@ -303,6 +300,9 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		foreach ( $errors as $error ) {
+			if ( is_wp_error( $error ) ) {
+				$error = $error->get_error_message();
+			}
 			echo '<div id="lifterlms_errors" class="error"><p>' . $error . '</p></div>';
 		}
 
@@ -317,7 +317,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
-	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox:process_field}.
+	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox::process_field()}.
 	 *
 	 * @return void
 	 */

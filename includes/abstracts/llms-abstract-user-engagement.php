@@ -11,11 +11,40 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Base class for shared functionality for earned engagements (certificates and achievements).
+ * Base model class for awarded engagements (certificates and achievements).
  *
  * @since [version]
  */
 abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
+
+	use LLMS_Trait_User_Engagement_Type;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
+	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
+	 * @return void
+	 */
+	public function __construct( $model, $args = array() ) {
+
+		$this->engagement_type = $this->model_post_type;
+		parent::__construct( $model, $args );
+	}
+
+	/**
+	 * Called immediately after creating / inserting a new post into the database
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function after_create() {
+
+		$this->sync( 'create' );
+	}
 
 	/**
 	 * Delete the engagement
@@ -28,15 +57,15 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	public function delete() {
 
 		/**
-		 * Action fired immediately prior to the deletion of a user's earned engagement.
+		 * Action fired immediately prior to the deletion of a user's awarded engagement.
 		 *
-		 * They dynamic portion of this hook, `{$this->model_post_type}`, refers to the engagement type,
-		 * either "achievement" or "certificate".
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
+		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
 		 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 		 *
-		 * @param LLMS_User_Certificate $certificate Certificate class object.
+		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
 		do_action( "llms_before_delete_{$this->model_post_type}", $this );
 
@@ -54,17 +83,17 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		wp_delete_post( $id, true );
 
 		/**
-		 * Action fired immediately after the deletion of a user's earned engagement.
-		 * They dynamic portion of this hook, `{$this->model_post_type}`, refers to the engagement type,
-		 * either "achievement" or "certificate".
+		 * Action fired immediately after the deletion of a user's awarded engagement.
+		 *
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
+		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
 		 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 		 *
-		 * @param LLMS_User_Certificate $certificate Certificate class object.
+		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
 		do_action( "llms_delete_{$this->model_post_type}", $this );
-
 	}
 
 	/**
@@ -77,7 +106,9 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @return string
 	 */
 	public function get_earned_date( $format = null ) {
+
 		$format = $format ? $format : get_option( 'date_format' );
+
 		return $this->get_date( 'date', $format );
 	}
 
@@ -93,12 +124,14 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @return int
 	 */
 	public function get_related_post_id() {
+
 		$meta = $this->get_user_postmeta();
+
 		return isset( $meta->post_id ) ? absint( $meta->post_id ) : $this->get( 'related' );
 	}
 
 	/**
-	 * Retrieve the user id of the user who earned the certificate
+	 * Retrieve the user ID of the user who earned the certificate
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.0 Unknown.
@@ -108,20 +141,24 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @return int
 	 */
 	public function get_user_id() {
+
 		$meta = $this->get_user_postmeta();
+
 		return isset( $meta->user_id ) ? absint( $meta->user_id ) : $this->get( 'author' );
 	}
 
 	/**
-	 * Retrieve user postmeta data for the certificate
+	 * Retrieve user postmeta data for the achievement or certificate.
 	 *
 	 * @since 3.8.0
 	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
-	 * @return obj
+	 * @return stdClass
 	 */
 	public function get_user_postmeta() {
+
 		global $wpdb;
+
 		return $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = %s",
@@ -139,11 +176,12 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @return string
 	 */
 	protected function get_user_post_meta_key() {
+
 		return sprintf( '_%s_earned', $this->model_post_type );
 	}
 
 	/**
-	 * Determines if the certificate has been awarded.
+	 * Determines if the achievement or certificate has been awarded.
 	 *
 	 * @since [version]
 	 *
@@ -155,8 +193,77 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			return false;
 		}
 
-		return $this->get( 'awarded' ) ? true : false;
-
+		return (bool) $this->get( 'awarded' );
 	}
 
+	/**
+	 * Allow child classes to merge the post content based on content from the template.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function merge_content() {
+
+		return $this->get( 'content', true );
+	}
+
+	/**
+	 * Update the awarded engagement by regenerating it from its template.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $context Sync context. Either "update" for an update to an existing awarded engagement
+	 *                        or "create" when the awarded engagement is being created.
+	 * @return boolean Returns false if the parent doesn't exist, otherwise returns true.
+	 */
+	public function sync( $context = 'update' ) {
+
+		$template_id = $this->get( 'parent' );
+		$template    = $this->get_user_engagement( $template_id, false );
+		if ( ! $template ) {
+			return false;
+		}
+
+		$this->set( 'title', get_post_meta( $template_id, "_llms_{$this->model_post_type}_title", true ) );
+		if ( get_post_thumbnail_id( $template_id ) !== get_post_thumbnail_id( $this->get( 'post' ) ) &&
+			! set_post_thumbnail( $this->get( 'post' ), get_post_thumbnail_id( $template_id ) )
+		) {
+			delete_post_thumbnail( $this->get( 'post' ) );
+		}
+
+		// Copy the content, with optional merge codes and short codes, and optional block editor layout meta properties
+		// from the template to this awarded engagement.
+		$this->set( 'content', $template->get( 'content', true ) );
+		$this->set( 'content', $this->merge_content() );
+		$this->sync_meta( $template );
+
+		/**
+		 * Action run after an awarded engagement is synchronized with its template.
+		 *
+		 * The dynamic portion of the hook name, `$this->model_post_type`,
+		 * refers to the engagement type, either "achievement" or "certificate".
+		 *
+		 * @since [version]
+		 *
+		 * @param LLMS_Abstract_User_Engagement $engagement Awarded engagement object.
+		 * @param LLMS_Abstract_User_Engagement $template   Engagement template object.
+		 * @param string                        $context    The context within which the synchronization is run.
+		 *                                                  Either "create" or "update".
+		 */
+		do_action( "llms_{$this->model_post_type}_synchronized", $this, $template, $context );
+
+		return true;
+	}
+
+	/**
+	 * This is a stub that allows extending classes to sync additional data from the template during a sync operation.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Abstract_User_Engagement $template
+	 * @return void
+	 */
+	protected function sync_meta( $template ) {
+	}
 }

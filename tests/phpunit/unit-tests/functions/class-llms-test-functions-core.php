@@ -791,6 +791,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.14 Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+	 * @since [version] Replaced use of the deprecated `LLMS_Certificate` class, an LLMS post type class that is NOT
+	 *              extended from `LLMS_Post_Model`, with `LLMS_Email`.
 	 *
 	 * @return void
 	 */
@@ -827,14 +829,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$reg_post = $this->factory->post->create();
 		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
-		// make sure an LLMS post type, which is not an istance of `LLMS_Post_Model` doesn't have a parent course.
-		// and no fatals are produced.
-		$certificate_post = $this->factory->post->create(
+		// Make sure an LLMS post type, which is not an instance of `LLMS_Post_Model` doesn't have a parent course.
+		// and no fatal errors are produced.
+		$non_model_post = $this->factory->post->create(
 			array(
-				'post_type' => 'llms_certificate',
+				'post_type' => 'llms_email',
 			)
 		);
-		$this->assertNull( llms_get_post_parent_course( $certificate_post ) );
+		$this->assertNull( llms_get_post_parent_course( $non_model_post ) );
 	}
 
 
