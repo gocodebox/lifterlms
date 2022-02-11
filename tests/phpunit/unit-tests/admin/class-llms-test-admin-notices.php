@@ -25,6 +25,33 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test add_output_actions().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_output_actions() {
+
+		remove_action( 'admin_notices', array( 'LLMS_Admin_Notices', 'output_notices' ) );
+
+		// Any screen.
+		LLMS_Admin_Notices::add_output_actions();
+		$this->assertEquals( 10, has_action( 'admin_notices', array( 'LLMS_Admin_Notices', 'output_notices' ) ) );
+
+		remove_action( 'admin_notices', array( 'LLMS_Admin_Notices', 'output_notices' ) );
+
+		// LLMS settings screen.
+		set_current_screen( 'lifterlms_page_llms-settings' );
+
+		LLMS_Admin_Notices::add_output_actions();
+		$this->assertEquals( 10, has_action( 'lifterlms_settings_notices', array( 'LLMS_Admin_Notices', 'output_notices' ) ) );
+
+		set_current_screen( 'front' );
+
+	}
+
+	/**
 	 * Test init() properly initializes the `$notices` class variable
 	 *
 	 * @since 4.10.0
