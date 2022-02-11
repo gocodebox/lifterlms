@@ -42,6 +42,108 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_endpoint_url() when pretty permalinks are disabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_endpoint_url_no_pretty_permalinks() {
+
+		LLMS_Install::create_pages();
+
+		$permalink = get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->go_to( $permalink );
+
+		foreach ( llms()->query->get_query_vars() as $var => $slug ) {
+
+			$this->assertEquals( "{$permalink}&{$slug}", llms_get_endpoint_url( $var ) );
+			$this->assertEquals( "{$permalink}&{$slug}=test", llms_get_endpoint_url( $var, 'test' ) );
+			$this->assertEquals( "https://fake.tld/?{$slug}=1", llms_get_endpoint_url( $var, 1, 'https://fake.tld/' ) );
+
+		}
+
+	}
+
+	/**
+	 * Test llms_get_endpoint_url() when pretty permalinks are enabled with a trailing slash.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_endpoint_url_with_trailing_slash_pretty_permalink() {
+
+		$orig_permastruct = get_option( 'permalink_structure' );
+
+		LLMS_Install::create_pages();
+
+		update_option( 'permalink_structure', '/%postname%/' );
+		global $wp_rewrite;
+		$wp_rewrite->init();
+
+
+		$permalink = get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->go_to( $permalink );
+
+		foreach ( llms()->query->get_query_vars() as $var => $slug ) {
+
+			$this->assertEquals( "{$permalink}{$slug}/", llms_get_endpoint_url( $var ) );
+			$this->assertEquals( "{$permalink}{$slug}/test/", llms_get_endpoint_url( $var, 'test' ) );
+			$this->assertEquals( "https://fake.tld/{$slug}/1/", llms_get_endpoint_url( $var, 1, 'https://fake.tld/' ) );
+			$this->assertEquals( "https://fake.tld/{$slug}/1/?whatever=yes", llms_get_endpoint_url( $var, 1, 'https://fake.tld/?whatever=yes' ) );
+
+		}
+
+		$this->go_to( '' );
+
+		update_option( 'permalink_structure', $orig_permastruct );
+		global $wp_rewrite;
+		$wp_rewrite->init();
+
+	}
+
+	/**
+	 * Test llms_get_endpoint_url() when pretty permalinks are enabled with a trailing slash.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1983
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_endpoint_url_without_trailing_slash_pretty_permalink() {
+
+		$orig_permastruct = get_option( 'permalink_structure' );
+
+		LLMS_Install::create_pages();
+
+		update_option( 'permalink_structure', '/%postname%' );
+		global $wp_rewrite;
+		$wp_rewrite->init();
+
+
+		$permalink = get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->go_to( $permalink );
+
+		foreach ( llms()->query->get_query_vars() as $var => $slug ) {
+
+			$this->assertEquals( "{$permalink}/{$slug}", llms_get_endpoint_url( $var ) );
+			$this->assertEquals( "{$permalink}/{$slug}/test", llms_get_endpoint_url( $var, 'test' ) );
+			$this->assertEquals( "https://fake.tld/{$slug}/1", llms_get_endpoint_url( $var, 1, 'https://fake.tld/' ) );
+			$this->assertEquals( "https://fake.tld/{$slug}/1?whatever=yes", llms_get_endpoint_url( $var, 1, 'https://fake.tld/?whatever=yes' ) );
+
+		}
+
+		$this->go_to( '' );
+
+		update_option( 'permalink_structure', $orig_permastruct );
+		global $wp_rewrite;
+		$wp_rewrite->init();
+
+	}
+
+	/**
 	 * Test the llms_get_page_id() function.
 	 *
 	 * @since 3.38.0
