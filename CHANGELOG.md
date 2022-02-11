@@ -12,6 +12,7 @@ v6.0.0-alpha.4 - 2022-02-11
 + Added a "Reset Certificate" button to restore certificates to the default template.
 + Added links from achievement and certificate templates to view all awards generated from the template.
 + Added the ability to sync achievements (sync all awards to the parent template and sync one award to it's parent).
++ Improved class autoloading.
 
 ##### Bug Fixes
 
@@ -22,7 +23,6 @@ v6.0.0-alpha.4 - 2022-02-11
 ##### Breaking Changes
 
 + Removed the Single Certificate block template.
-
 
 
 v5.8.0 - 2022-01-26
