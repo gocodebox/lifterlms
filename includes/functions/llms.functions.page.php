@@ -62,37 +62,44 @@ function llms_confirm_payment_url( $order_key = null ) {
 
 }
 
-
 /**
  * Retrieve the full URL to a LifterLMS endpoint
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
+ * @since [version] Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
- * @param string $value     Endpoint query arg value (Optional as the presence of the arg is enough in most scenarios).
+ * @param string $value     Endpoint query parameter value.
  * @param string $permalink Base URL to append the endpoint to. Optional, uses the current page when not supplied.
  * @return string
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
-	if ( ! $permalink ) {
-		$permalink = get_permalink();
-	}
+	$permalink = $permalink ? $permalink : get_permalink();
 
 	// Map endpoint to options.
 	$vars     = LLMS()->query->get_query_vars();
-	$endpoint = isset( $vars[ $endpoint ] ) ? $vars[ $endpoint ] : $endpoint;
+	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
 	if ( get_option( 'permalink_structure' ) ) {
-		if ( strstr( $permalink, '?' ) ) {
-			$query_string = '?' . parse_url( $permalink, PHP_URL_QUERY );
-			$permalink    = current( explode( '?', $permalink ) );
 
-		} else {
-			$query_string = '';
+		$query_string = '';
+		if ( strstr( $permalink, '?' ) ) {
+			$query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
+			$permalink    = current( explode( '?', $permalink ) );
 		}
-		$url = trailingslashit( $permalink ) . $endpoint . '/' . $value . $query_string;
+
+		$url = trailingslashit( $permalink );
+
+		if ( $value ) {
+			$url .= trailingslashit( $endpoint ) . user_trailingslashit( $value );
+		} else {
+			$url .= user_trailingslashit( $endpoint );
+		}
+
+		$url .= $query_string;
+
 	} else {
 		$url = add_query_arg( $endpoint, $value, $permalink );
 	}
@@ -101,11 +108,14 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	 * Filter the final endpoint URL.
 	 *
 	 * @since 1.0.0
+	 * @since [version] Added `$value` and `$permalink` parameters.
 	 *
-	 * @param string $url      The endpoint URL.
-	 * @param string $endpoint The requested endpoint.
+	 * @param string $url       The endpoint URL.
+	 * @param string $endpoint  ID of the endpoint.
+	 * @param string $value     Endpoint query parameter value.
+	 * @param string $permalink Base URL to append the endpoint to. Optional, uses the current page when not supplied.
 	 */
-	return apply_filters( 'lifterlms_get_endpoint_url', $url, $endpoint );
+	return apply_filters( 'lifterlms_get_endpoint_url', $url, $endpoint, $value, $permalink );
 }
 
 
