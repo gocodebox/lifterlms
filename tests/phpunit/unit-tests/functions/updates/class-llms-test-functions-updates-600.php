@@ -201,7 +201,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		$this->call_ns_func( 'update_db_version' );
 
-		$this->assertEquals( '6.0.0-alpha.3', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '6.0.0-alpha.4', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
