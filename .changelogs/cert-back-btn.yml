@@ -1,0 +1,6 @@
+significance: minor
+type: added
+links:
+  - "#1959"
+entry: Added a link to return to the student dashboard when viewing an awarded
+  certificate.

@@ -1,6 +1,30 @@
 LifterLMS Changelog
 ===================
 
+v6.0.0-alpha.4 - 2022-02-11
+---------------------------
+
+##### Updates and Enhancements
+
++ Removed usage of PHP features deprecated in PHP 8.1.
++ Added a link to return to the student dashboard when viewing an awarded certificate.
++ Allow block templates to be overridden from themes or plugins.
++ Added a "Reset Certificate" button to restore certificates to the default template.
++ Added links from achievement and certificate templates to view all awards generated from the template.
++ Added the ability to sync achievements (sync all awards to the parent template and sync one award to it's parent).
+
+##### Bug Fixes
+
++ Fixed certificate print compatibility issues with the OceanWP and Genesis themes.
++ Fixed custom font usage in the Certificate Title block to utilize WP Core functionality introduced in version 5.9.
++ Fixed access to protected properties in the `LLMS_Notifications_Query` class.
+
+##### Breaking Changes
+
++ Removed the Single Certificate block template.
+
+
+
 v5.8.0 - 2022-01-26
 -------------------
 
