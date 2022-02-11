@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.31.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -103,6 +103,24 @@ abstract class LLMS_Abstract_Post_Data {
 
 		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
 
+	}
+
+	/**
+	 * Retrieves the selected period from `$_GET` and validates it.
+	 *
+	 * If there is no period set or it's set to an invalid period, defaults to "today".
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function parse_period() {
+		$periods = LLMS_Admin_Reporting::get_period_filters();
+		$period  = llms_filter_input( INPUT_GET, 'period' );
+		if ( ! $period || ! array_key_exists( $period, $periods ) ) {
+			$period = 'today';
+		}
+		return $period;
 	}
 
 	/**

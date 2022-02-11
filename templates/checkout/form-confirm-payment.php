@@ -10,12 +10,13 @@
  * @since 5.0.0 Use LLMS_Forms to output form fields and title.
  *               Add field label displays when form information is output.
  * @since 5.3.0 Added clearfix to the payment details section to fix mobile layout issues.
+ * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
  * @version 5.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$order_key  = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
+$order_key  = llms_filter_input_sanitize_string( INPUT_GET, 'order' );
 $order      = llms_get_order_by_key( $order_key );
 $gateway_id = $selected_gateway->get_id();
 $fields     = LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan' => $plan ) );

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -647,24 +647,33 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.1 Set the `post_date` property using `llms_current_time()`.
+	 * @since [version] Remove usage of deprecated `strftime()`.
 	 *
 	 * @param string $title Title to create the post with.
 	 * @return array
 	 */
 	protected function get_creation_args( $title = '' ) {
 
+		$date = llms_current_time( 'mysql' );
+
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+
+			$title = sprintf(
+				// Translators: %1$s = Transaction creation date.
+				__( 'Order &ndash; %1$s', 'lifterlms' ),
+				date_format( date_create( $date ), 'M d, Y @ h:i A' )
+			);
+
 		}
 
 		return apply_filters(
-			'llms_' . $this->model_post_type . '_get_creation_args',
+			"llms_{$this->model_post_type}_get_creation_args",
 			array(
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_author'    => 1,
 				'post_content'   => '',
-				'post_date'      => llms_current_time( 'mysql' ),
+				'post_date'      => $date,
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),
@@ -684,7 +693,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                                       WP_Error if the gateway cannot be located, e.g. because it's no longer enabled.
 	 */
 	public function get_gateway() {
-		$gateways = LLMS()->payment_gateways();
+		$gateways = llms()->payment_gateways();
 		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && ( $gateway->is_enabled() || is_admin() ) ) {
 			return $gateway;

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_AJAX::get_ajax_data()` method.
+ *              - `LLMS_AJAX::register_script()` method.
  */
 class LLMS_AJAX {
 
@@ -27,19 +30,20 @@ class LLMS_AJAX {
 	const NONCE = 'llms-ajax';
 
 	/**
-	 * Hook into ajax events
+	 * Hook into ajax events.
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
+	 * @since [version] Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
+	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		$ajax_events = array(
-			'check_voucher_duplicate' => false,
-			'query_quiz_questions'    => false,
+			'query_quiz_questions' => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -52,9 +56,7 @@ class LLMS_AJAX {
 
 		self::register();
 
-		require_once 'admin/class.llms.admin.builder.php';
 		add_filter( 'heartbeat_received', array( 'LLMS_Admin_Builder', 'heartbeat_received' ), 10, 2 );
-
 	}
 
 	/**
@@ -62,6 +64,7 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
+	 * @since [version] Removed the `wp_enqueue_scripts` action callback to the deprecated `LLMS_AJAX::register_script()` method.
 	 *
 	 * @return void
 	 */
@@ -74,9 +77,6 @@ class LLMS_AJAX {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
 		}
-
-		$action = is_admin() ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
-		add_action( $action, array( $this, 'register_script' ), 20 );
 
 	}
 
@@ -103,6 +103,7 @@ class LLMS_AJAX {
 		wp_send_json_success( $response );
 
 		die();
+
 	}
 
 	public static function scrub_request( $request ) {
@@ -118,36 +119,6 @@ class LLMS_AJAX {
 
 		return $request;
 
-	}
-
-	/**
-	 * Register our AJAX JavaScript.
-	 *
-	 * @since 1.0.0
-	 * @since 3.35.0 Sanitize data & declare script versions.
-	 * @since 4.4.0 Don't register the `llms` script.
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return void
-	 */
-	public function register_script() {
-
-		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
-
-	}
-
-	/**
-	 * Get the AJAX data
-	 *
-	 * @since Unknown
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return array
-	 */
-	public function get_ajax_data() {
-		return array(
-			'nonce' => wp_create_nonce( self::NONCE ),
-		);
 	}
 
 	/**
@@ -167,34 +138,16 @@ class LLMS_AJAX {
 	/**
 	 * Check if a voucher is a duplicate.
 	 *
+	 * @since Unknown
+	 * @deprecated [version] `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
+	 *
 	 * @return void
 	 */
 	public function check_voucher_duplicate() {
 
-		global $wpdb;
-		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '[version]', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
+		LLMS_AJAX_Handler::check_voucher_duplicate();
 
-		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_POST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
-		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
-
-		$codes_as_string = join( '","', $codes );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$query        = 'SELECT code
-                  FROM ' . $table . '
-                  WHERE code IN ("' . $codes_as_string . '")
-                  AND voucher_id != ' . $post_id;
-		$codes_result = $wpdb->get_results( $query, ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
-
-		echo json_encode(
-			array(
-				'success'    => true,
-				'duplicates' => $codes_result,
-			)
-		);
-
-		wp_die();
 	}
 
 	/**
@@ -203,13 +156,15 @@ class LLMS_AJAX {
 	 * Used by Select2 AJAX functions to load paginated quiz questions
 	 * Also allows querying by question title
 	 *
+	 * @since Unknown
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return void
 	 */
 	public function query_quiz_questions() {
 
 		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
-
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term' ) : '';
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		global $wpdb;

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.32.0
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -62,6 +62,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	 *
 	 * @since 3.32.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -85,7 +86,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 			llms_get_template(
 				'admin/reporting/tabs/memberships/membership.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input_sanitize_string( INPUT_GET, 'stab' ) ) : 'overview',
 					'tabs'        => $tabs,
 					'membership'  => llms_get_post( intval( $_GET['membership_id'] ) ),
 				)

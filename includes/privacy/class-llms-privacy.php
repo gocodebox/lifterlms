@@ -5,7 +5,7 @@
  * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
- * @version 3.37.9
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,21 +21,16 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.18.0
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		parent::__construct( __( 'LifterLMS', 'lifterlms' ) );
-
-		/**
-		 * Require additional classes
-		 */
-		include_once 'class-llms-privacy-erasers.php';
-		include_once 'class-llms-privacy-exporters.php';
 
 		/**
 		 * Exporters
@@ -77,7 +72,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * @since 3.18.0
 	 *
 	 * @param string $prop Property name.
-	 * @param obj    $obj  Associated object (if any).
+	 * @param object $obj  Associated object (if any).
 	 * @return string
 	 */
 	public static function get_anon_prop_value( $prop, $obj = null ) {
@@ -309,9 +304,9 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 *
 	 * @since  3.18.0
 	 *
-	 * @param  LLMS_Student $student Student object.
-	 * @param  int          $page   Page number.
-	 * @return LLMS_Quiz_Attempt[]
+	 * @param LLMS_Student $student Student object.
+	 * @param int          $page    Page number.
+	 * @return LLMS_Query_Quiz_Attempt
 	 */
 	protected static function get_student_quizzes( $student, $page ) {
 
@@ -323,7 +318,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 				'student_id' => $student->get( 'id' ),
 			)
 		);
-
 	}
 
 }

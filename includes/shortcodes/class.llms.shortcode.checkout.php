@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 5.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,6 +149,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void
@@ -163,8 +164,8 @@ class LLMS_Shortcode_Checkout {
 
 		self::$uid = get_current_user_id();
 
-		$atts['gateways']         = LLMS()->payment_gateways()->get_enabled_payment_gateways();
-		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
+		$atts['gateways']         = llms()->payment_gateways()->get_enabled_payment_gateways();
+		$atts['selected_gateway'] = llms()->payment_gateways()->get_default_gateway();
 
 		$atts['order_key'] = '';
 
@@ -194,13 +195,13 @@ class LLMS_Shortcode_Checkout {
 			// Only retrieve if plan is a llms_access_plan and is published.
 			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
 
-				$coupon = LLMS()->session->get( 'llms_coupon' );
+				$coupon = llms()->session->get( 'llms_coupon' );
 
 				if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
 					if ( $coupon['plan_id'] == $_GET['plan'] ) {
 						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
-						LLMS()->session->set( 'llms_coupon', false );
+						llms()->session->set( 'llms_coupon', false );
 						$atts['coupon'] = false;
 					}
 				} else {
@@ -209,7 +210,7 @@ class LLMS_Shortcode_Checkout {
 
 				// Use posted order key to resume a pending order.
 				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
+					$atts['order_key'] = llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' );
 
 					// Attempt to locate a pending order.
 				} elseif ( self::$uid ) {
@@ -249,7 +250,7 @@ class LLMS_Shortcode_Checkout {
 
 			}
 
-			$order = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
+			$order = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_GET, 'order' ) );
 			$atts  = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
 
 			if ( $order->get( 'coupon_id' ) ) {
@@ -258,7 +259,7 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+			$atts['selected_gateway'] = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
 			self::confirm_payment( $atts );
 

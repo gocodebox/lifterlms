@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -81,6 +81,54 @@ class LLMS_AJAX_Handler {
 		foreach ( $request['student_ids'] as $id ) {
 			llms_enroll_student( intval( $id ), $post_id, 'admin_' . get_current_user_id() );
 		}
+
+	}
+
+	/**
+	 * Determines if voucher codes already exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function check_voucher_duplicate() {
+
+		$post_id = ! empty( $_REQUEST['postId'] ) ? absint( llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) ) : 0;
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'codes', array( FILTER_REQUIRE_ARRAY ) ) : array();
+
+		if ( ! $post_id || ! $codes ) {
+			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
+		} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return new WP_Error( 401, __( 'Missing required permissions to perform this action.', 'lifterlms' ) );
+		}
+
+		$codes = implode(
+			',',
+			array_map(
+				function( $code ) {
+					return sprintf( "'%s'", esc_sql( $code ) );
+				},
+				array_filter( $codes )
+			)
+		);
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+		$res   = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT code FROM $table WHERE code IN( $codes ) AND voucher_id != %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				array( $post_id )
+			),
+			ARRAY_A
+		);
+
+		wp_send_json(
+			array(
+				'success'    => true,
+				'duplicates' => $res,
+			)
+		);
+		wp_die();
 
 	}
 
@@ -343,13 +391,14 @@ class LLMS_AJAX_Handler {
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
 	public static function query_students() {
 
 		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES ) : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
@@ -757,7 +806,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function remove_coupon_code( $request ) {
 
-		LLMS()->session->set( 'llms_coupon', false );
+		llms()->session->set( 'llms_coupon', false );
 
 		$plan = new LLMS_Access_Plan( $request['plan_id'] );
 
@@ -770,8 +819,8 @@ class LLMS_AJAX_Handler {
 			'checkout/form-gateways.php',
 			array(
 				'coupon'           => false,
-				'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-				'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+				'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+				'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 				'plan'             => $plan,
 			)
 		);
@@ -805,6 +854,7 @@ class LLMS_AJAX_Handler {
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -813,13 +863,13 @@ class LLMS_AJAX_Handler {
 		global $wpdb;
 
 		// Grab the search term if it exists.
-		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+		$term = llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 
 		// Get the page.
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Get post type(s).
-		$post_type        = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
+		$post_type        = sanitize_text_field( llms_filter_input_sanitize_string( INPUT_POST, 'post_type' ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
@@ -827,7 +877,7 @@ class LLMS_AJAX_Handler {
 		$post_types = implode( ',', $post_types_array );
 
 		// Get post status(es).
-		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = llms_filter_input_sanitize_string( INPUT_POST, 'post_statuses' );
 		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {
@@ -1017,7 +1067,7 @@ class LLMS_AJAX_Handler {
 
 				} else {
 
-					LLMS()->session->set(
+					llms()->session->set(
 						'llms_coupon',
 						array(
 							'plan_id'   => $request['plan_id'],
@@ -1041,8 +1091,8 @@ class LLMS_AJAX_Handler {
 						'checkout/form-gateways.php',
 						array(
 							'coupon'           => $coupon,
-							'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-							'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+							'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
+							'selected_gateway' => llms()->payment_gateways()->get_default_gateway(),
 							'plan'             => $plan,
 						)
 					);
@@ -1332,18 +1382,17 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * "API" for the Admin Builder
+	 * "API" for the Admin Builder.
 	 *
 	 * @since 3.13.0
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array $request $_POST data.
-	 * @return mixed
+	 * @return array
 	 */
 	public static function llms_builder( $request ) {
 
-		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
-
 	}
 
 	/**
@@ -1443,7 +1492,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'error', __( 'Missing tracking data.', 'lifterlms' ) );
 		}
 
-		$success = LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+		$success = llms()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
 
 		if ( ! is_wp_error( $success ) ) {
 			$success = array(

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version 5.3.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,6 +42,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
 	 * @since 4.16.0 Added filters to handle modification of the student dashboard.
+	 * @since [version] Pass second parameter to `modify_course_open()` methods.
 	 *
 	 * @return void
 	 */
@@ -52,8 +53,8 @@ class LLMS_View_Manager {
 
 		// Filter page restrictions.
 		add_filter( 'llms_page_restricted', array( $this, 'modify_restrictions' ), 10, 1 );
-		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 1 );
-		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 1 );
+		add_filter( 'llms_is_course_open', array( $this, 'modify_course_open' ), 10, 2 );
+		add_filter( 'llms_is_course_enrollment_open', array( $this, 'modify_course_open' ), 10, 2 );
 
 		// Filters we'll only run when view as links are called.
 		if ( isset( $_GET['llms-view-as'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -128,12 +129,14 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return string
 	 */
 	private function get_inline_script() {
 		ob_start();
 		?>
-		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input( INPUT_GET, 'view_nonce', FILTER_SANITIZE_STRING ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
+		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input_sanitize_string( INPUT_GET, 'view_nonce' ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
 	}
@@ -159,7 +162,7 @@ class LLMS_View_Manager {
 		$nodes[] = array(
 			'id'     => $top_id,
 			'parent' => 'top-secondary',
-			'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
+			'title'  => '<span class="ab-icon"><img src="' . llms()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
 		);
 
 		// Add view as links.
@@ -216,6 +219,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 4.16.0 Don't access `$_GET` directly, use `llms_filter_input()`.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -227,7 +231,7 @@ class LLMS_View_Manager {
 
 		// Ensure it's a valid view.
 		$views = $this->get_views();
-		$view  = llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
+		$view  = llms_filter_input( INPUT_GET, 'llms-view-as' );
 		if ( ! $view || ! isset( $views[ $view ] ) ) {
 			return 'self';
 		}
@@ -292,16 +296,18 @@ class LLMS_View_Manager {
 	 * If viewing as self and self can bypass restrictions will appear as if course is open.
 	 *
 	 * @since 3.7.0
+	 * @since [version] Pass the course ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @param boolean $status The default status.
 	 * @return boolean
 	 */
-	public function modify_course_open( $status ) {
+	public function modify_course_open( $status, $course ) {
 
-		if ( 'self' === $this->get_view() && llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
-
+		if (
+			'self' === $this->get_view() &&
+			llms_can_user_bypass_restrictions( get_current_user_id(), $course->get( 'id' ) )
+		) {
 			return true;
-
 		}
 
 		return $status;
@@ -387,13 +393,17 @@ class LLMS_View_Manager {
 	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions.
 	 *
 	 * @since 3.7.0
+	 * @since [version] Pass the course ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @param array $restrictions Restriction data.
 	 * @return array
 	 */
 	public function modify_restrictions( $restrictions ) {
 
-		if ( 'self' === $this->get_view() && llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
+		if (
+			'self' === $this->get_view() &&
+			llms_can_user_bypass_restrictions( get_current_user_id(), $restrictions['restriction_id'] )
+		) {
 
 			$restrictions['is_restricted'] = false;
 			$restrictions['reason']        = 'role-access';
@@ -431,7 +441,7 @@ class LLMS_View_Manager {
 			return;
 		}
 
-		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}
@@ -449,6 +459,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 4.5.1
 	 * @since 4.16.0 Display on the student dashboard.
+	 * @since [version] When possible, pass the post ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @return boolean
 	 */
@@ -456,9 +467,11 @@ class LLMS_View_Manager {
 
 		$display = false;
 
-		if ( llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
-			global $post;
-			$display = is_admin() || is_post_type_archive() || ! $post || ( ! is_llms_checkout() && ! is_llms_account_page() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ? false : true;
+		global $post;
+		$is_restricted_post = $post && ( is_llms_checkout() || is_llms_account_page() || in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) );
+		$post_id            = $is_restricted_post ? $post->ID : null;
+		if ( llms_can_user_bypass_restrictions( get_current_user_id(), $post_id ) ) {
+			$display = is_admin() || is_post_type_archive() || ! $post || ! $is_restricted_post ? false : true;
 		}
 
 		/**

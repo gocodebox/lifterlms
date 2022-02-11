@@ -7,21 +7,25 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.1.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
+ * Determines whether or not a user can bypass enrollment, drip, and prerequisite restrictions.
  *
  * @since 3.7.0
- * @since 3.9.0
+ * @since 3.9.0 Unknown.
+ * @since [version] Added optional second parameter `$post_id`.
  *
- * @param LLMS_Student|WP_User|int $user LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
+ * @param LLMS_Student|WP_User|int $user    LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
+ * @param integer                  $post_id A WP_Post ID to check permissions against. If supplied, in addition to the user's role
+ *                                          being allowed to bypass the restrictions, the user must also have `edit_post` capabilities
+ *                                          for the requested post.
  * @return boolean
  */
-function llms_can_user_bypass_restrictions( $user = null ) {
+function llms_can_user_bypass_restrictions( $user = null, $post_id = null ) {
 
 	$user = llms_get_student( $user );
 
@@ -34,11 +38,15 @@ function llms_can_user_bypass_restrictions( $user = null ) {
 		$roles = array();
 	}
 
-	if ( array_intersect( $user->get_user()->roles, $roles ) ) {
-		return true;
+	if ( ! array_intersect( $user->get_user()->roles, $roles ) ) {
+		return false;
 	}
 
-	return false;
+	if ( $post_id && ! user_can( $user->get( 'id' ), 'edit_post', $post_id ) ) {
+		return false;
+	}
+
+	return true;
 
 }
 
@@ -240,22 +248,13 @@ function llms_get_student( $user = null ) {
  * Retrieve a list of disallowed usernames.
  *
  * @since 5.0.0
+ * @since [version] Removed the deprecated `llms_usernames_blacklist` filter hook.
  *
  * @return string[]
  */
 function llms_get_usernames_blocklist() {
 
 	$list = array( 'admin', 'test', 'administrator', 'password', 'testing' );
-
-	/**
-	 * Deprecated filter.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.0.0 Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
-	 *
-	 * @param string[] $list List of banned usernames.
-	 */
-	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '5.0.0', 'llms_usernames_blocklist' );
 
 	/**
 	 * Modify the list of disallowed usernames
@@ -453,25 +452,6 @@ function llms_set_password_reset_cookie( $val = '' ) {
 
 	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
 
-}
-
-/**
- * Sets user auth cookie by id and records the date/time of the login in the usermeta table
- *
- * @since  Unknown
- * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
- * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`.
- * @deprecated 4.5.0 Use WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
- *
- * @param int  $user_id  WP_User ID.
- * @param bool $remember Whether to remember the user.
- * @return void
- */
-function llms_set_person_auth_cookie( $user_id, $remember = false ) {
-	llms_deprecated_function( 'llms_set_person_auth_cookie', '4.5.0' );
-	wp_set_current_user( $user_id );
-	wp_set_auth_cookie( $user_id, $remember );
-	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
 }
 
 /**

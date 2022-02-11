@@ -171,10 +171,10 @@ class LLMS_Admin_Reviews {
 	}
 
 	/**
-	 * This function handles the logic to save the information that is contained
-	 * in the custom metabox. It looks at each of the values, then makes sure that
-	 * there are proper default values so that the program doesn't go crashy crashy
-	 * (nobody likes crashy crashy)
+	 * Save metabox fields.
+	 *
+	 * @since Unknown
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -182,10 +182,10 @@ class LLMS_Admin_Reviews {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified by core before triggering hook.
 
-		$enabled  = ( isset( $_POST['_llms_reviews_enabled'] ) ) ? llms_filter_input( INPUT_POST, '_llms_reviews_enabled', FILTER_SANITIZE_STRING ) : '';
-		$display  = ( isset( $_POST['_llms_display_reviews'] ) ) ? llms_filter_input( INPUT_POST, '_llms_display_reviews', FILTER_SANITIZE_STRING ) : '';
-		$num      = ( isset( $_POST['_llms_num_reviews'] ) ) ? llms_filter_input( INPUT_POST, '_llms_num_reviews', FILTER_SANITIZE_STRING ) : 0;
-		$multiple = ( isset( $_POST['_llms_multiple_reviews_disabled'] ) ) ? llms_filter_input( INPUT_POST, '_llms_multiple_reviews_disabled', FILTER_SANITIZE_STRING ) : '';
+		$enabled  = ( isset( $_POST['_llms_reviews_enabled'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_reviews_enabled' ) : '';
+		$display  = ( isset( $_POST['_llms_display_reviews'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_display_reviews' ) : '';
+		$num      = ( isset( $_POST['_llms_num_reviews'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_num_reviews' ) : 0;
+		$multiple = ( isset( $_POST['_llms_multiple_reviews_disabled'] ) ) ? llms_filter_input_sanitize_string( INPUT_POST, '_llms_multiple_reviews_disabled' ) : '';
 
 		$post_id = llms_filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT );
 

@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $status  = $order->get( 'status' );
-$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
+$gateway = llms()->payment_gateways()->get_gateway_by_id( $confirm );
 $plan    = llms_get_post( $order->get( 'plan_id' ) );
 if ( ! $plan ) {
 	return;
@@ -49,7 +49,7 @@ if ( 'llms-active' === $status ) {
 			llms_get_template(
 				'checkout/form-gateways.php',
 				array(
-					'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+					'gateways'         => llms()->payment_gateways()->get_enabled_payment_gateways(),
 					'selected_gateway' => $order->get( 'payment_gateway' ),
 					'plan'             => $plan,
 				)

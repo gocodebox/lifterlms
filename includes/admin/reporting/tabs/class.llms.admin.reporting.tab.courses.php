@@ -87,6 +87,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	 *
 	 * @since 3.15.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -112,7 +113,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 			llms_get_template(
 				'admin/reporting/tabs/courses/course.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input_sanitize_string( INPUT_GET, 'stab' ) ) : 'overview',
 					'tabs'        => $tabs,
 					'course'      => llms_get_post( intval( $_GET['course_id'] ) ),
 				)

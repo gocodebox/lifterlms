@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.16.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -69,8 +69,9 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 	 *
 	 * @since 3.16.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function output() {
 
@@ -92,7 +93,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 			llms_get_template(
 				'admin/reporting/tabs/quizzes/quiz.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input_sanitize_string( INPUT_GET, 'stab' ) ) : 'overview',
 					'tabs'        => $tabs,
 					'quiz'        => llms_get_post( intval( $_GET['quiz_id'] ) ),
 				)

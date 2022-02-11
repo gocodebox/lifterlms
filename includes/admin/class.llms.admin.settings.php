@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.0.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,16 +46,16 @@ class LLMS_Admin_Settings {
 	private static $messages = array();
 
 	/**
-	 * Inits $settings and includes settings base class.
+	 * Instantiates setting page objects, if not already done, and returns them.
 	 *
-	 * @return self::$settings array
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return LLMS_Settings_Page[] self::$settings
 	 */
 	public static function get_settings_tabs() {
 
 		if ( empty( self::$settings ) ) {
 			$settings = array();
-
-			include_once 'settings/class.llms.settings.page.php';
 
 			$settings[] = include 'settings/class.llms.settings.general.php';
 			$settings[] = include 'settings/class.llms.settings.courses.php';
@@ -66,8 +66,14 @@ class LLMS_Admin_Settings {
 			$settings[] = include 'settings/class.llms.settings.notifications.php';
 			$settings[] = include 'settings/class.llms.settings.integrations.php';
 
+			/**
+			 * Allow 3rd parties to add or remove setting pages.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param LLMS_Settings_Page[] $settings Setting page objects.
+			 */
 			self::$settings = apply_filters( 'lifterlms_get_settings_pages', $settings );
-
 		}
 
 		return self::$settings;
@@ -143,6 +149,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 3.35.1 Fix issue causing data to be saved on every page load.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -154,7 +161,7 @@ class LLMS_Admin_Settings {
 
 		self::get_settings_tabs();
 
-		$current_tab = empty( $_GET['tab'] ) ? 'general' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
+		$current_tab = empty( $_GET['tab'] ) ? 'general' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is checked in self::save().
 		if ( ! empty( $_POST ) ) {
@@ -162,12 +169,12 @@ class LLMS_Admin_Settings {
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing.
 
-		$err = llms_filter_input( INPUT_GET, 'llms_error', FILTER_SANITIZE_STRING );
+		$err = llms_filter_input_sanitize_string( INPUT_GET, 'llms_error' );
 		if ( $err ) {
 			self::set_error( $err );
 		}
 
-		$msg = llms_filter_input( INPUT_GET, 'llms_message', FILTER_SANITIZE_STRING );
+		$msg = llms_filter_input_sanitize_string( INPUT_GET, 'llms_message' );
 		if ( $msg ) {
 			self::set_message( $msg );
 		}
@@ -894,15 +901,17 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Save admin fields.
+	 *
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param    array $settings Opens array to output
-	 * @return   bool
+	 * @param array $settings Opens array to output
+	 * @return boolean
 	 */
 	public static function save_fields( $settings ) {
 
@@ -974,7 +983,7 @@ class LLMS_Admin_Settings {
 				case 'hidden':
 				case 'image':
 					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = llms_filter_input( INPUT_POST, $value['id'], FILTER_SANITIZE_STRING );
+						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $value['id'] );
 					} else {
 						$option_value = '';
 					}
@@ -987,7 +996,7 @@ class LLMS_Admin_Settings {
 
 				case 'multiselect':
 					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = llms_filter_input( INPUT_POST, $value['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+						$option_value = llms_filter_input_sanitize_string( INPUT_POST, $value['id'], array( FILTER_REQUIRE_ARRAY ) );
 					} else {
 						$option_value = '';
 					}

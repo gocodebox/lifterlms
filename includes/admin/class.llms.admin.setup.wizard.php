@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
  * @since 4.4.4 Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  * @since 4.8.0 Removed private class property "generated_course_id".
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_Admin_Setup_Wizard::generator_course_status()` method
+ *              - `LLMS_Admin_Setup_Wizard::output_step_html()` method
+ *              - `LLMS_Admin_Setup_Wizard::scripts()` method
+ *              - `LLMS_Admin_Setup_Wizard::watch_course_generation()` method
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -142,11 +147,12 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input_sanitize_string( INPUT_GET, 'step' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**
@@ -391,6 +397,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
 	 * @since 4.8.0 Moved logic for each wizard step into it's own method.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error
 	 */
@@ -402,7 +409,7 @@ class LLMS_Admin_Setup_Wizard {
 
 		$res = new WP_Error( 'llms-setup-save-invalid', __( 'There was an error saving your data, please try again.', 'lifterlms' ) );
 
-		$step = llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING );
+		$step = llms_filter_input( INPUT_POST, 'llms_setup_save' );
 		if ( method_exists( $this, 'save_' . $step ) ) {
 			$res = call_user_func( array( $this, 'save_' . $step ) );
 		}
@@ -461,19 +468,20 @@ class LLMS_Admin_Setup_Wizard {
 	 * Save the "Payments" step.
 	 *
 	 * @since 4.8.0
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return boolean Always returns true
+	 * @return boolean Always returns true.
 	 */
 	protected function save_payments() {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is verified in `save()`.
-		$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
+		$country = isset( $_POST['country'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'country' ) : get_lifterlms_country();
 		update_option( 'lifterlms_country', $country );
 
-		$currency = isset( $_POST['currency'] ) ? llms_filter_input( INPUT_POST, 'currency', FILTER_SANITIZE_STRING ) : get_lifterlms_currency();
+		$currency = isset( $_POST['currency'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'currency' ) : get_lifterlms_currency();
 		update_option( 'lifterlms_currency', $currency );
 
-		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
+		$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'manual_payments' ) : 'no';
 		update_option( 'llms_gateway_manual_enabled', $manual );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
@@ -511,61 +519,6 @@ class LLMS_Admin_Setup_Wizard {
 
 		return $gen->get_generated_courses();
 
-	}
-
-	/**
-	 * Allow the Sample Content installed during the final step to be published rather than drafted
-	 *
-	 * @since 3.3.0
-	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::generator_course_status() is deprecated with no replacement.
-	 *
-	 * @param string $status Post status.
-	 * @return string
-	 */
-	public function generator_course_status( $status ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::generator_course_status()', '4.8.0' );
-		return 'publish';
-	}
-
-	/**
-	 * Outputs the HTML "body" for the requested step
-	 *
-	 * @since 3.0.0
-	 * @since 3.30.3 Fixed spelling error.
-	 * @deprecated 4.4.4
-	 *
-	 * @param string $step Step slug.
-	 * @return void
-	 */
-	public function output_step_html( $step ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '4.4.4' );
-	}
-
-	/**
-	 * Quick and dirty JS "file"
-	 *
-	 * @since 3.0.0
-	 * @deprecated 4.4.4
-	 *
-	 * @return void
-	 */
-	public function scripts() {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '4.4.4' );
-	}
-
-	/**
-	 * Callback function to store imported course information
-	 *
-	 * Uses this to handle redirect after import and generation is completed.
-	 *
-	 * @since 3.37.14
-	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::watch_course_generation() is deprecated with no replacement.
-	 *
-	 * @param LLMS_Course $course Course object.
-	 * @return void
-	 */
-	public function watch_course_generation( $course ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::watch_course_generation()', '4.8.0' );
 	}
 
 }

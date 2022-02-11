@@ -55,8 +55,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			// Custom engagements.
 			add_filter( 'lifterlms_engagement_triggers', array( $this, 'register_engagement_triggers' ) );
 
-			add_action( 'bbp_new_topic', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
-			add_action( 'bbp_new_reply', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 5 );
+			add_action( 'bbp_new_topic', array( llms()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
+			add_action( 'bbp_new_reply', array( llms()->engagements(), 'maybe_trigger_engagement' ), 10, 5 );
 
 			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
 
@@ -412,6 +412,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.11 Don't update saved forum values during course quick edits & remove redundant sanitization.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP_Post ID of the course.
 	 * @return null|int[]
@@ -419,7 +420,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	public function save_course_settings( $post_id ) {
 
 		// Return early on quick edits.
-		$action = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+		$action = llms_filter_input( INPUT_POST, 'action' );
 		if ( 'inline-save' === $action ) {
 			return null;
 		}

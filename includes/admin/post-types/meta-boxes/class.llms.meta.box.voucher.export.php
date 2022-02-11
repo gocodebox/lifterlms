@@ -74,13 +74,21 @@ class LLMS_Meta_Box_Voucher_Export {
 		echo ob_get_clean();
 	}
 
+	/**
+	 * Export vouchers.
+	 *
+	 * @since Unknown.
+	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return [type] [description]
+	 */
 	public static function export() {
 
-		if ( empty( llms_filter_input( INPUT_POST, 'llms_generate_export', FILTER_SANITIZE_STRING ) ) || ! llms_verify_nonce( 'lifterlms_export_nonce', 'lifterlms_csv_export_data' ) ) {
+		if ( empty( llms_filter_input( INPUT_POST, 'llms_generate_export' ) ) || ! llms_verify_nonce( 'lifterlms_export_nonce', 'lifterlms_csv_export_data' ) ) {
 			return false;
 		}
 
-		$type = llms_filter_input( INPUT_POST, 'llms_voucher_export_type', FILTER_SANITIZE_STRING );
+		$type = llms_filter_input( INPUT_POST, 'llms_voucher_export_type' );
 		if ( ! empty( $type ) ) {
 
 			if ( 'vouchers' === $type || 'redeemed' === $type ) {
@@ -149,11 +157,11 @@ class LLMS_Meta_Box_Voucher_Export {
 						break;
 				}
 
-				$send_email = llms_parse_bool( llms_filter_input( INPUT_POST, 'llms_voucher_export_send_email', FILTER_SANITIZE_STRING ) );
+				$send_email = llms_parse_bool( llms_filter_input( INPUT_POST, 'llms_voucher_export_send_email' ) );
 				if ( $send_email ) {
 
 					// Send email.
-					$email_text = trim( llms_filter_input( INPUT_POST, 'llms_voucher_export_email', FILTER_SANITIZE_STRING ) );
+					$email_text = trim( llms_filter_input_sanitize_string( INPUT_POST, 'llms_voucher_export_email' ) );
 					if ( ! empty( $email_text ) ) {
 
 						$emails = array_filter( array_map( 'is_email', array_map( 'trim', explode( ',', $email_text ) ) ) );

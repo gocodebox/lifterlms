@@ -87,7 +87,7 @@ class LLMS_Admin_Post_Table_Courses {
 		$data = array(
 			'_generator' => 'LifterLMS/BulkCourseExporter',
 			'_source'    => get_site_url(),
-			'_version'   => LLMS()->version,
+			'_version'   => llms()->version,
 			'courses'    => array(),
 		);
 
