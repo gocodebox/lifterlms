@@ -74,12 +74,13 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_get_endpoint_url_with_trailing_slash_pretty_permalink() {
 
+		global $wp_rewrite;
+
 		$orig_permastruct = get_option( 'permalink_structure' );
 
 		LLMS_Install::create_pages();
 
 		update_option( 'permalink_structure', '/%postname%/' );
-		global $wp_rewrite;
 		$wp_rewrite->init();
 
 
@@ -98,7 +99,6 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 		$this->go_to( '' );
 
 		update_option( 'permalink_structure', $orig_permastruct );
-		global $wp_rewrite;
 		$wp_rewrite->init();
 
 	}
@@ -114,12 +114,13 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_get_endpoint_url_without_trailing_slash_pretty_permalink() {
 
+		global $wp_rewrite;
+
 		$orig_permastruct = get_option( 'permalink_structure' );
 
 		LLMS_Install::create_pages();
 
 		update_option( 'permalink_structure', '/%postname%' );
-		global $wp_rewrite;
 		$wp_rewrite->init();
 
 
@@ -138,7 +139,6 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 		$this->go_to( '' );
 
 		update_option( 'permalink_structure', $orig_permastruct );
-		global $wp_rewrite;
 		$wp_rewrite->init();
 
 	}
