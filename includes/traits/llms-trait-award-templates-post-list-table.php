@@ -80,6 +80,24 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 			)
 		);
 
+		$engagement_type = str_replace( 'llms_', '', $post->post_type );
+		$sync_action     = "sync_awarded_{$engagement_type}s";
+		$sync_url        = add_query_arg(
+			array(
+				'action'                                      => $sync_action,
+				"_llms_{$engagement_type}_sync_actions_nonce" => wp_create_nonce( "llms-{$engagement_type}-sync-actions" ),
+			),
+			get_edit_post_link( $post, 'raw' )
+		);
+
+		$actions[ $sync_action ] = '<a href="' . esc_html( $sync_url ) . '">' .
+			sprintf(
+				/* translators: %1$s the awarded post type name label */
+				__( 'Sync %1$s', 'lifterlms' ),
+				get_post_type_labels( get_post_type_object( $award_post_type ) )->name
+			) .
+			'</a>';
+
 		return $actions;
 
 	}
