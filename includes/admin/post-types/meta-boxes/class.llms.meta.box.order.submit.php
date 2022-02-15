@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,6 +99,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 3.36.0 Date fields require array when sanitized.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null
@@ -113,7 +114,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 		if ( isset( $_POST['_llms_order_status'] ) ) {
 
-			$new_status = llms_filter_input( INPUT_POST, '_llms_order_status', FILTER_SANITIZE_STRING );
+			$new_status = llms_filter_input_sanitize_string( INPUT_POST, '_llms_order_status' );
 			$old_status = $order->get( 'status' );
 
 			if ( $old_status !== $new_status ) {
@@ -140,7 +141,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			if ( isset( $_POST[ $key ] ) ) {
 
 				// The array of date, hour, minute that was submitted.
-				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+				$dates = llms_filter_input_sanitize_string( INPUT_POST, $key, array( FILTER_REQUIRE_ARRAY ) );
 
 				// Format the array of data as a datetime string.
 				$new_date = $dates['date'] . ' ' . sprintf( '%02d', $dates['hour'] ) . ':' . sprintf( '%02d', $dates['minute'] );

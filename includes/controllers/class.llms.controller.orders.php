@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version 5.4.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -103,6 +103,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -118,7 +119,7 @@ class LLMS_Controller_Orders {
 		}
 
 		// Ensure we have an order key we can locate the order with.
-		$key = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
+		$key = llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' );
 		if ( ! $key ) {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
@@ -240,6 +241,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -284,7 +286,7 @@ class LLMS_Controller_Orders {
 
 		foreach ( $keys as $key ) {
 			if ( isset( $_POST[ $key ] ) ) {
-				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
+				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input_sanitize_string( INPUT_POST, $key );
 			}
 		}
 
@@ -338,7 +340,7 @@ class LLMS_Controller_Orders {
 
 		// Get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {
-			$locate = llms_get_order_by_key( llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING ), 'id' );
+			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
 			if ( $locate ) {
 				$order_id = $locate;
 			}
@@ -701,6 +703,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -721,7 +724,7 @@ class LLMS_Controller_Orders {
 		}
 
 		$plan       = llms_get_post( $order->get( 'plan_id' ) );
-		$gateway_id = llms_filter_input( INPUT_POST, 'llms_payment_gateway', FILTER_SANITIZE_STRING );
+		$gateway_id = llms_filter_input_sanitize_string( INPUT_POST, 'llms_payment_gateway' );
 		$gateway    = $this->validate_selected_gateway( $gateway_id, $plan );
 
 		if ( is_wp_error( $gateway ) ) {

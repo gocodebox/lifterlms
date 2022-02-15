@@ -116,6 +116,101 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test scrub_field().
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_scrub_field() {
+
+		$types = array(
+			'absint' => array(
+				array( 1, 1 ),
+				array( 0, 0 ),
+				array( -1, 1 ),
+				array( 1.5, 1 ),
+				array( 2910, 2910 ),
+				array( '932', 932 ),
+				array( '34920.23', 34920 ),
+				array( 'string', 0 ),
+				array( '', 0 ),
+				array( null, 0 ),
+			),
+			'array' => array(
+				array( '', array() ),
+				array( 1, array( 1 ) ),
+				array( array( 1, 2, 3 ), array( 1, 2, 3 ) ),
+				array( array( 'test' ), array( 'test' ) ),
+			),
+			'boolean' => array(
+				array( true, true ),
+				array( false, false ),
+				array( 1, true ),
+				array( 0, false ),
+				array( null, false ),
+			),
+			'float' => array(
+				array( 1.0, 1.0 ),
+				array( 1, 1.0 ),
+				array( 0.234, 0.234 ),
+				array( 0, 0.0 ),
+				array( '2.230', 2.23 ),
+				array( null, 0.0 ),
+			),
+			'int' => array(
+				array( 1, 1 ),
+				array( 0, 0 ),
+				array( -1, -1 ),
+				array( 1.5, 1 ),
+				array( 2910, 2910 ),
+				array( '-932', -932 ),
+				array( '34920.23', 34920 ),
+				array( 'string', 0 ),
+				array( '', 0 ),
+				array( null, 0 ),
+			),
+			'yesno' => array(
+				array( 'yes', 'yes' ),
+				array( 'no', 'no' ),
+				array( 0, 'no' ),
+				array( 999, 'no' ),
+				array( false, 'no' ),
+				array( true, 'no' ),
+				array( null, 'no' ),
+			),
+			'text' => array(
+				array( 'yes', 'yes' ),
+				array( 'a text string.', 'a text string.' ),
+				array( 'no <b>tags</b>', 'no tags' ),
+				array( '', '' ),
+				array( null, '' ),
+			),
+			'html' => array(
+				array( 'yes', 'yes' ),
+				array( 'a text string.', 'a text string.' ),
+				array( 'Tags <b>are (mostly) okay</b>.', 'Tags <b>are (mostly) okay</b>.' ),
+				array( '', '' ),
+				array( null, '' ),
+			),
+		);
+
+		$types['bool'] = $types['boolean'];
+		$types['string'] = $types['text'];
+
+		foreach ( $types as $type => $tests ) {
+
+			foreach ( $tests as $test ) {
+
+				list( $input, $expected ) = $test;
+				$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( $this->stub, 'scrub_field', array( $input, $type ) ) );
+
+			}
+		}
+
+	}
+
+	/**
 	 * Test `set_bulk()` to ensure single quotes and double quotes are correctly slashed.
 	 *
 	 * @since 5.3.1

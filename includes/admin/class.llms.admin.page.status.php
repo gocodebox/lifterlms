@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version 4.13.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -69,6 +69,7 @@ class LLMS_Admin_Page_Status {
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 * @since 4.13.0 The `automatic-payments` tool has been moved to `LLMS_Admin_Tool_Reset_Automatic_Payments`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -78,7 +79,7 @@ class LLMS_Admin_Page_Status {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
-		$tool = llms_filter_input( INPUT_POST, 'llms_tool', FILTER_SANITIZE_STRING );
+		$tool = llms_filter_input_sanitize_string( INPUT_POST, 'llms_tool' );
 
 		/**
 		 * Custom and 3rd party tools can use this action to perform the tool's action
@@ -191,6 +192,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Use strict comparators.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -206,10 +208,10 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
+		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input_sanitize_string( INPUT_GET, 'tab' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
 		?>
 
-		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
+		<div class="wrap lifterlms llms-status llms-status--<?php echo esc_attr( $current_tab ); ?>">
 
 			<nav class="llms-nav-tab-wrapper">
 				<ul class="llms-nav-items">
@@ -292,6 +294,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
 	 * @since 3.33.2 Fix undefined variable notice.
 	 * @since 3.37.14 Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -300,7 +303,7 @@ class LLMS_Admin_Page_Status {
 		$logs        = self::get_logs();
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		$current = sanitize_title( llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING ) );
+		$current = sanitize_title( llms_filter_input_sanitize_string( INPUT_POST, 'llms_log_file' ) );
 
 		if ( $logs && ! $current ) {
 			$log_keys = array_keys( $logs );

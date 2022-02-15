@@ -6,11 +6,12 @@ const
 	{
 		ChangelogEntry,
 		getNextVersion,
-		getProjectSlug,
 		getCurrentVersion,
 		getChangelogOptions,
 		getChangelogValidationIssues,
 		getChangelogEntries,
+		getFileLink,
+		getIssueLink,
 		isProjectPublic,
 		determineVersionIncrement,
 		logResult,
@@ -68,15 +69,16 @@ function getTypeTitle( type ) {
 }
 
 /**
- * [formatChangelogItem description]
+ * Formats a single changelog item.
  *
  * @since 0.0.1
+ * @since [version] Use `getIssueLink()` for generation of issue links.
  *
  * @param {ChangelogEntry} args              The changelog entry object.
  * @param {string}         args.entry        The content of the changelog entry.
  * @param {string}         args.type         Entry type.
  * @param {string[]}       args.attributions List of individuals attributed to the entry.
- * @param {string[]}       args.linksList    of GitHub issues linked to the entry.
+ * @param {string[]}       args.links        of GitHub issues linked to the entry.
  * @param {boolean}        includeLinks      Whether or not to include links.
  * @return {string} The formatted changelog entry line.
  */
@@ -111,18 +113,7 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 
 	// Add issue links.
 	if ( includeLinks && links.length ) {
-		const slug = getProjectSlug();
-
-		links = links.map( ( v ) => {
-			let url = 'https://github.com/';
-			if ( '#' === v.charAt( 0 ) ) {
-				url += `gocodebox/${ slug }${ v }`;
-			} else {
-				url += v;
-			}
-			return `[${ v }](${ url })`;
-		} );
-		line += ' ' + links.join( ', ' );
+		line += ' ' + links.map( ( iss ) => `[${ iss }](${ getIssueLink( iss ) })` ).join( ', ' );
 	}
 
 	return line;
@@ -135,16 +126,18 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
  * which have been modified.
  *
  * @since 0.0.1
+ * @since [version] Use `getFileLink()` to generate links to the template file.
  *
  * @param {boolean} includeLinks Whether or not the entry items should be formatted as links to the GitHub repository.
+ * @param {string}  version      A semver string.
  * @return {ChangelogEntry[]} Array of changelog entry objects.
  */
-function getUpdatedTemplates( includeLinks ) {
+function getUpdatedTemplates( includeLinks, version ) {
 	try {
 		return execSync( 'git diff --name-only trunk | grep "^templates/"', true ).split( '\n' ).map( ( template ) => {
 			return {
 				type: 'template',
-				entry: includeLinks ? `[${ template }](https://github.com/gocodebox/${ getProjectSlug() }/blob/trunk/${ template })` : template,
+				entry: includeLinks ? `[${ template }](${ getFileLink( template, version ) })` : template,
 			};
 		} );
 	} catch ( e ) {}
@@ -173,7 +166,7 @@ function formatChangelogVersionEntry( version, date, entries, links ) {
 	groups.template = [];
 
 	// Add updated template list.
-	entries = [ ...entries, ...getUpdatedTemplates( links ) ];
+	entries = [ ...entries, ...getUpdatedTemplates( links, version ) ];
 
 	entries.forEach( ( entry ) => {
 		groups[ entry.type ].push( entry );

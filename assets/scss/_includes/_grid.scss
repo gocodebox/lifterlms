@@ -21,3 +21,23 @@
 	}
 
 }
+
+.llms-flex-cols {
+	display: flex;
+	flex-flow: row wrap;
+
+	[class*="llms-col"] {
+		flex: 0 1 auto;
+		width: 100%;
+	}
+
+	@media all and (min-width: 600px) {
+		$cols: 1;
+		@while $cols <= 12 {
+			.llms-col-#{$cols} {
+				width: 100% / $cols;
+			}
+			$cols: $cols + 1;
+		}
+	}	
+}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -371,9 +371,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.26.3 Only save when using the classic editor.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param    int $post_id  WP Post ID of the course
-	 * @return   void
+	 * @param int $post_id  WP Post ID of the course
+	 * @return void
 	 */
 	protected function save_before( $post_id ) {
 
@@ -383,7 +384,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
 
-			wp_set_object_terms( $post_id, llms_filter_input( INPUT_POST, '_llms_post_course_difficulty', FILTER_SANITIZE_STRING ), 'course_difficulty', false );
+			wp_set_object_terms( $post_id, llms_filter_input_sanitize_string( INPUT_POST, '_llms_post_course_difficulty' ), 'course_difficulty', false );
 			unset( $_POST['_llms_post_course_difficulty'] ); // Don't save this to the postmeta table.
 
 		}

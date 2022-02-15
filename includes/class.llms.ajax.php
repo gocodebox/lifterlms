@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,14 +32,14 @@ class LLMS_AJAX {
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
+	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
 		$ajax_events = array(
-			'check_voucher_duplicate' => false,
-			'query_quiz_questions'    => false,
+			'query_quiz_questions' => false,
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -103,6 +103,7 @@ class LLMS_AJAX {
 		wp_send_json_success( $response );
 
 		die();
+
 	}
 
 	public static function scrub_request( $request ) {
@@ -167,34 +168,16 @@ class LLMS_AJAX {
 	/**
 	 * Check if a voucher is a duplicate.
 	 *
+	 * @since Unknown
+	 * @deprecated 5.9.0 `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
+	 *
 	 * @return void
 	 */
 	public function check_voucher_duplicate() {
 
-		global $wpdb;
-		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
+		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '5.9.0', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
+		LLMS_AJAX_Handler::check_voucher_duplicate();
 
-		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_POST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
-		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
-
-		$codes_as_string = join( '","', $codes );
-
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$query        = 'SELECT code
-                  FROM ' . $table . '
-                  WHERE code IN ("' . $codes_as_string . '")
-                  AND voucher_id != ' . $post_id;
-		$codes_result = $wpdb->get_results( $query, ARRAY_A );
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
-
-		echo json_encode(
-			array(
-				'success'    => true,
-				'duplicates' => $codes_result,
-			)
-		);
-
-		wp_die();
 	}
 
 	/**
@@ -203,13 +186,15 @@ class LLMS_AJAX {
 	 * Used by Select2 AJAX functions to load paginated quiz questions
 	 * Also allows querying by question title
 	 *
+	 * @since Unknown
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
 	 * @return void
 	 */
 	public function query_quiz_questions() {
 
 		// Grab the search term if it exists.
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
-
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term' ) : '';
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		global $wpdb;

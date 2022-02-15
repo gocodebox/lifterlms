@@ -374,6 +374,176 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_filter_input_sanitize_string() when the input var isn't set.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string_var_not_set() {
+
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ) ) );
+		$this->assertNull( llms_filter_input_sanitize_string( INPUT_POST, uniqid( 'notset_' ), array( FILTER_REQUIRE_ARRAY ) ) );
+
+	}
+
+
+	/**
+	 * Test llms_filter_input_sanitize_string() when the input var is "empty".
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string_var_empty() {
+
+		$tests = array(
+
+			array(
+				'',
+				'',
+			),
+			array(
+				false,
+				false,
+			),
+			array(
+				'0',
+				'0',
+			),
+			array(
+				null,
+				null,
+			),
+		);
+
+		foreach ( $tests as $test ) {
+			list( $input, $output ) = $test;
+			$this->mockPostRequest( compact( 'input' ) );
+			$this->assertEquals( $output, llms_filter_input_sanitize_string( INPUT_POST, 'input' ) );
+		}
+
+	}
+
+	/**
+	 * Test llms_filter_input_sanitize_string().
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_filter_input_sanitize_string() {
+
+		$tests = array(
+			array(
+				'simple text input', // Input.
+				'simple text input', // Output with quotes encoded.
+				'simple text input', // Output without quotes encoded.
+			),
+			array(
+				'input "with" double quotes.',
+				'input &#34;with&#34; double quotes.',
+				'input "with" double quotes.',
+			),
+			array(
+				"input 'with' single quotes.",
+				"input &#39;with&#39; single quotes.",
+				"input 'with' single quotes.",
+			),
+			array(
+				'<a href="#">Solo Tag</a>',
+				'Solo Tag',
+				'Solo Tag',
+			),
+			array(
+				'Text and <a href="#">a tag</a> and more text',
+				'Text and a tag and more text',
+				'Text and a tag and more text',
+			),
+			array(
+				'Text and <a href="#">a tag</a> and <b>more tags</b> and "quotes".',
+				'Text and a tag and more tags and &#34;quotes&#34;.',
+				'Text and a tag and more tags and "quotes".',
+			),
+			array(
+				1,
+				'1',
+				'1',
+			),
+			array(
+				true,
+				'1',
+				'1',
+			),
+			array(
+				'234234',
+				'234234',
+				'234234',
+			),
+			array(
+				'true',
+				'true',
+				'true',
+			),
+			array(
+				'false',
+				'false',
+				'false',
+			),
+			array(
+				'null',
+				'null',
+				'null',
+			),
+		);
+
+		$types = array(
+			INPUT_GET  => 'mockGetRequest',
+			INPUT_POST => 'mockPostRequest',
+		);
+		foreach ( $types as $type => $mock_func ) {
+
+			// Setup FILTER_REQUIRE_ARRAY vars.
+			$arr_input            = array();
+			$arr_output           = array();
+			$arr_output_no_encode = array();
+
+			foreach ( $tests as $test ) {
+
+				list( $input, $output, $output_no_encode ) = $test;
+				$this->$mock_func( compact( 'input' ) );
+
+				// Test input with quotes encoded.
+				$this->assertEquals( $output, llms_filter_input_sanitize_string( $type, 'input' ), "Input string: {$input}" );
+
+				// Quotes not encoded.
+				$this->assertEquals( $output_no_encode, llms_filter_input_sanitize_string( $type, 'input', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ), "Input string: {$input}" );
+
+				// Requesting array when no array submitted results in the filter failing.
+				$this->assertFalse( llms_filter_input_sanitize_string( $type, 'input', array( FILTER_REQUIRE_ARRAY ) ), "Input string: {$input}" );
+
+				// Add to FILTER_REQUIRE_ARRAY vars.
+				$arr_input[]            = $input;
+				$arr_output[]           = $output;
+				$arr_output_no_encode[] = $output_no_encode;
+
+			}
+
+			// Test array-related input.
+			$this->$mock_func( compact( 'arr_input' ) );
+
+			// Array submitted but FILTER_REQUIRE_ARRAY not passed as an option.
+			$this->assertEquals( '', llms_filter_input_sanitize_string( $type, 'arr_input' ) );
+
+			// Array requested.
+			$this->assertEquals( $arr_output, llms_filter_input_sanitize_string( $type, 'arr_input', array( FILTER_REQUIRE_ARRAY ) ) );
+			$this->assertEquals( $arr_output_no_encode, llms_filter_input_sanitize_string( $type, 'arr_input', array( FILTER_REQUIRE_ARRAY, FILTER_FLAG_NO_ENCODE_QUOTES ) ) );
+
+		}
+
+	}
+
+	/**
 	 * Test llms_find_coupon()
 	 *
 	 * @since 3.3.1

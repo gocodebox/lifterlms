@@ -1,5 +1,5 @@
 // eslint-disable-next-line camelcase
-const child_procces = require( 'child_process' ),
+const childProcess = require( 'child_process' ),
 	{ execSync } = require( '../../src/utils' );
 
 jest.mock( 'child_process' );
@@ -7,7 +7,7 @@ jest.mock( 'child_process' );
 // Mock submitted command options.
 let cmdOpts = {};
 
-child_procces.execSync.mockImplementation( ( cmd, opts ) => cmdOpts = opts );
+childProcess.execSync.mockImplementation( ( cmd, opts ) => cmdOpts = opts );
 
 /**
  * Test execSync utility.

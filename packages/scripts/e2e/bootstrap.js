@@ -7,7 +7,8 @@
 
 require( 'regenerator-runtime' );
 
-const { existsSync } = require( 'fs' );
+const { existsSync } = require( 'fs' ),
+	{ execSync } = require( 'child_process' );
 
 // Load dotenv files.
 const envFiles = [ '.llmsenv', '.llmsenv.dist' ];
@@ -17,6 +18,20 @@ envFiles.some( ( file ) => {
 		require( 'dotenv' ).config( { path } );
 	}
 } );
+
+if ( ! process.env.WP_VERSION ) {
+
+	try {
+		const wpVersion = execSync( 'composer run env wp core version', { stdio : 'pipe' } ).toString();
+		if ( wpVersion ) {
+			process.env.WP_VERSION = wpVersion;
+		}
+	} catch ( e ) {
+		console.warn( 'Unable to automatically determine the WordPress Core Version. You can define the WP_VERSION as an environment variable. Otherwise "latest" is assumed as the WP_VERSION.' );
+		process.env.WP_VERSION = 'latest';
+	}
+
+}
 
 // Setup the WP Base URL for e2e Tests.
 if ( ! process.env.WORDPRESS_PORT ) {

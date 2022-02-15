@@ -335,6 +335,36 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test creation of the model.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return void
+	 */
+	public function test_create_model() {
+
+		$date = '2021-04-22 14:34:00';
+		llms_mock_current_time( $date );
+
+		$this->create( '' );
+
+		$id = $this->obj->get( 'id' );
+
+		$test = llms_get_post( $id );
+
+		$this->assertEquals( $id, $test->get( 'id' ) );
+		$this->assertEquals( 'llms_order', $test->get( 'type' ) );
+		$this->assertEquals( 'Order &ndash; Apr 22, 2021 @ 02:34 PM', $test->get( 'title' ) );
+
+		$this->assertEquals( $date, $test->get( 'date' ) );
+		$this->assertEquals( 'llms-pending', $test->get( 'status' ) );
+
+		$this->assertTrue( post_password_required( $id ) );
+
+	}
+
+
+	/**
 	 * Overrides test from the abstract
 	 *
 	 * Since this test isn't essential for this class we'll skip the test with a fake assertion

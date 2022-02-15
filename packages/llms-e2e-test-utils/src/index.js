@@ -38,3 +38,5 @@ export { toggleOpenRegistration } from './toggle-open-registration';
 
 export { visitPage } from './visit-page';
 export { visitSettingsPage } from './visit-settings-page';
+
+export { wpVersionCompare } from './wp-version-compare';

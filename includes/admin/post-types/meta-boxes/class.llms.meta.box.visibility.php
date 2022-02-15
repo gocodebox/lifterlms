@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.6.0
- * @version 3.35.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +87,7 @@ class LLMS_Meta_Box_Visibility {
 	 *
 	 * @since 3.6.0
 	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void
@@ -97,7 +98,7 @@ class LLMS_Meta_Box_Visibility {
 			return;
 		}
 
-		$visibility = llms_filter_input( INPUT_POST, '_llms_visibility', FILTER_SANITIZE_STRING );
+		$visibility = llms_filter_input_sanitize_string( INPUT_POST, '_llms_visibility' );
 		if ( ! $visibility ) {
 			return;
 		}

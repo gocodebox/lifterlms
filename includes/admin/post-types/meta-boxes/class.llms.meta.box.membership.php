@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.36.3
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -275,6 +275,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.36.3 Added logic to correctly sanitize fields of type 'multi' (array)
 	 *               and 'shortcode' (preventing quotes encode).
 	 *               Also align the return type to the parent `save()` method.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *
@@ -336,11 +337,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 					if ( isset( $field['id'] ) && in_array( $field['id'], $save_fields, true ) ) {
 
 						if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
-							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 						} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
-							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'], array( FILTER_REQUIRE_ARRAY ) );
 						} else {
-							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
+							$val = llms_filter_input_sanitize_string( INPUT_POST, $field['id'] );
 						}
 
 						$membership->set( substr( $field['id'], strlen( $this->prefix ) ), $val );
