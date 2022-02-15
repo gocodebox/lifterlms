@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-02-11T10:08:21-07:00\n"
+"POT-Creation-Date: 2022-02-15T16:39:54-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -363,7 +363,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:266
 #: includes/admin/views/builder/editor.php:28
 #: includes/class.llms.post-types.php:570
-#: includes/functions/llms.functions.templates.dashboard.php:650
+#: includes/functions/llms.functions.templates.dashboard.php:655
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:75
 msgid "Quiz"
 msgstr ""
@@ -396,7 +396,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.course.php:269
 #: includes/admin/reporting/tables/llms.table.student.courses.php:238
 #: includes/admin/reporting/tables/llms.table.students.php:634
-#: includes/functions/llms.functions.templates.dashboard.php:651
+#: includes/functions/llms.functions.templates.dashboard.php:656
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:78
 #: includes/notifications/views/class.llms.notification.view.quiz.graded.php:136
 #: includes/privacy/class-llms-privacy-exporters.php:227
@@ -477,7 +477,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:99
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:99
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:132
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:124
 #: includes/notifications/views/class.llms.notification.view.course.complete.php:91
 #: includes/notifications/views/class.llms.notification.view.course.track.complete.php:91
 #: includes/notifications/views/class.llms.notification.view.enrollment.php:89
@@ -490,7 +490,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:168
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:142
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:215
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:207
 #: includes/notifications/views/class.llms.notification.view.course.complete.php:112
 #: includes/notifications/views/class.llms.notification.view.course.track.complete.php:113
 #: includes/notifications/views/class.llms.notification.view.enrollment.php:114
@@ -502,7 +502,7 @@ msgstr ""
 #: includes/admin/class-llms-admin-export-download.php:49
 #: includes/admin/class-llms-admin-export-download.php:54
 #: includes/admin/class-llms-admin-export-download.php:59
-#: includes/admin/class.llms.admin.notices.php:245
+#: includes/admin/class.llms.admin.notices.php:247
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -915,7 +915,7 @@ msgstr ""
 msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:242
+#: includes/admin/class.llms.admin.notices.php:244
 #: includes/admin/class.llms.admin.page.status.php:79
 #: includes/admin/class.llms.admin.page.status.php:272
 #: includes/class-llms-staging.php:90
@@ -923,11 +923,11 @@ msgstr ""
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:315
+#: includes/admin/class.llms.admin.notices.php:317
 msgid "Dismiss"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.php:330
+#: includes/admin/class.llms.admin.notices.php:332
 msgid "Remind me later"
 msgstr ""
 
@@ -1510,7 +1510,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:65
 #: includes/admin/reporting/tables/llms.table.certificates.php:244
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:130
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:122
 msgid "Certificate Title"
 msgstr ""
 
@@ -2719,7 +2719,7 @@ msgid "Reactivate Enrollment"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:185
-#: templates/myaccount/view-order.php:34
+#: templates/myaccount/view-order.php:35
 msgid "Order #%d"
 msgstr ""
 
@@ -7136,7 +7136,7 @@ msgid "Vouchers"
 msgstr ""
 
 #: includes/class.llms.post-types.php:1060
-#: includes/functions/llms.functions.templates.dashboard.php:980
+#: includes/functions/llms.functions.templates.dashboard.php:985
 msgid "Review"
 msgstr ""
 
@@ -7743,7 +7743,7 @@ msgid "My Grades"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:176
-#: includes/functions/llms.functions.templates.dashboard.php:701
+#: includes/functions/llms.functions.templates.dashboard.php:706
 msgid "My Memberships"
 msgstr ""
 
@@ -8501,23 +8501,23 @@ msgstr ""
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:649
+#: includes/functions/llms.functions.templates.dashboard.php:654
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:689
+#: includes/functions/llms.functions.templates.dashboard.php:694
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:731
+#: includes/functions/llms.functions.templates.dashboard.php:736
 msgid "View Notifications"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:735
+#: includes/functions/llms.functions.templates.dashboard.php:740
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:980
+#: includes/functions/llms.functions.templates.dashboard.php:985
 msgid "Start"
 msgstr ""
 
@@ -9223,23 +9223,23 @@ msgstr ""
 msgid "You've been awarded an achievement!"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:106
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:98
 msgid "View Full Certificate"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:129
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:121
 msgid "Certificate Content"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:131
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:123
 msgid "Certificate URL"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:133
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:125
 msgid "Mini Certificate"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:237
+#: includes/notifications/views/class.llms.notification.view.certificate.earned.php:229
 msgid "You've earned a certificate!"
 msgstr ""
 
