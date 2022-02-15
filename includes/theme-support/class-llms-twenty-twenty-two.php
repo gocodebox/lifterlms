@@ -152,7 +152,10 @@ class LLMS_Twenty_Twenty_Two {
 			)
 		);
 
+		// Quiz.
 		$styles[] = '.llms-quiz-ui { background: transparent; }';
+		// Fix questions with pictures, and images in quiz/questions description.
+		$styles[] = '.llms-quiz-wrapper img, .llms-quiz-question-wrapper img { max-width: 100%; height: auto; }';
 
 		// Fix anchor buttons.
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
