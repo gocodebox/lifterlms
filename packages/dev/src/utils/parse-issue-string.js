@@ -18,21 +18,18 @@ const getProjectSlug = require( './get-project-slug' );
  * @return {GitHubIssueRef} An issue object.
  */
 module.exports = ( issue ) => {
-
-	let org  = 'gocodebox',
+	let org = 'gocodebox',
 		repo = getProjectSlug(),
-		num  = '';
+		num = '';
 
 	// Is an external reference.
 	if ( issue.includes( '/' ) ) {
-
-		const split   = issue.split( '/' );
-		org           = split[0];
-		[ repo, num ] = split[1].split( '#' );
+		const split = issue.split( '/' );
+		org = split[ 0 ];
+		[ repo, num ] = split[ 1 ].split( '#' );
 	} else {
 		num = issue.slice( 1 );
 	}
 
 	return { org, repo, num };
-
 };

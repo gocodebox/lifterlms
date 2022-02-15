@@ -7,19 +7,18 @@ let mockedSlug = '';
 getProjectSlug.mockImplementation( () => mockedSlug ? mockedSlug : 'lifterlms' );
 
 describe( 'repoLinks', () => {
-
 	beforeEach( () => {
 		mockedSlug = 'lifterlms';
 	} );
 
 	describe( 'getFileLink', () => {
-		const path   = 'inc/file.php',
+		const path = 'inc/file.php',
 			testData = [
-			[ 'Should use trunk if a branch is not specified', 'https://github.com/gocodebox/lifterlms/blob/trunk/inc/file.php' ],
-			[ 'Should use the specified branch', 'https://github.com/gocodebox/lifterlms/blob/dev-123/inc/file.php', 'dev-123' ],
-			[ 'Should use the specified version tag', 'https://github.com/gocodebox/lifterlms/blob/v1.0.0/inc/file.php', 'v1.0.0' ],
-			[ 'Should use the specified prerelease version tag', 'https://github.com/gocodebox/lifterlms/blob/v1.0.0-beta.3/inc/file.php', 'v1.0.0-beta.3' ],
-		];
+				[ 'Should use trunk if a branch is not specified', 'https://github.com/gocodebox/lifterlms/blob/trunk/inc/file.php' ],
+				[ 'Should use the specified branch', 'https://github.com/gocodebox/lifterlms/blob/dev-123/inc/file.php', 'dev-123' ],
+				[ 'Should use the specified version tag', 'https://github.com/gocodebox/lifterlms/blob/v1.0.0/inc/file.php', 'v1.0.0' ],
+				[ 'Should use the specified prerelease version tag', 'https://github.com/gocodebox/lifterlms/blob/v1.0.0-beta.3/inc/file.php', 'v1.0.0-beta.3' ],
+			];
 		it.each( testData )( '%s', ( name, expected, branch = undefined ) => {
 			expect( getFileLink( path, branch ) ).toBe( expected );
 		} );
@@ -47,6 +46,5 @@ describe( 'repoLinks', () => {
 			expect( getRepoLink( project, org ) ).toBe( expected );
 		} );
 	} );
-
 } );
 

@@ -38,7 +38,7 @@ function getIssueLink( issue ) {
  */
 function getRepoLink( project, org ) {
 	project = project || getProjectSlug();
-	org     = org || 'gocodebox';
+	org = org || 'gocodebox';
 	return `https://github.com/${ org }/${ project }`;
 }
 
@@ -46,4 +46,4 @@ module.exports = {
 	getFileLink,
 	getIssueLink,
 	getRepoLink,
-}
+};
