@@ -1,6 +1,13 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+v0.0.4 - 2022-02-15
+-------------------
+
++ Added: New utility methods for generating links to the project's GitHub repository.
++ Fixed: Incorrect issue link URL generated during `changelog write` command.
+
+
 v0.0.3 - 2021-12-23
 -------------------
 
