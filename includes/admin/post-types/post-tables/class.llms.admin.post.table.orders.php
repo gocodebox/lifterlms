@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -260,7 +260,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @since 2.5.0
 	 * @since 3.24.3 Unknown
 	 * @since 3.35.0 Sanitize $_GET data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_Query $query Query object.
 	 * @return WP_Query

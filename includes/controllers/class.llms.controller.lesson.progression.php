@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.17.1
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -79,7 +79,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle completion of lessons for a student.
 	 *
 	 * @since 3.29.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

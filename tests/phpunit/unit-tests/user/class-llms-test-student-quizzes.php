@@ -135,7 +135,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 * Test get_attempt_by_id() and get_attempt_by_key()
 	 *
 	 * @since 4.21.2
-	 * @since [version] Don't use an invalid fake hash length.
+	 * @since 5.9.0 Don't use an invalid fake hash length.
 	 *
 	 * @return void
 	 */

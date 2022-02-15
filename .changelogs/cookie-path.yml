@@ -1,7 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#1983"
-entry: Updated `llms_get_endpoint_url()` to better adhere to a site's permalink
-  structure with regards to the presence of a trailing slash in the generated
-  url.

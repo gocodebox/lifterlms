@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 5.8.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,7 +71,7 @@ class LLMS_Twenty_Twenty_Two {
 	 * Generate inline CSS for a given context.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Fixed stretched images in questions with pictures, and images in quiz/questions description.
+	 * @since 5.9.0 Fixed stretched images in questions with pictures, and images in quiz/questions description.
 	 *
 	 * @param string|null $context Inline CSS context. Accepts "editor" to define styles loaded within the block editor or `null` for frontend styles.
 	 * @return string

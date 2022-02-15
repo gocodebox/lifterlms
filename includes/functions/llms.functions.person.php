@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.7.0
  * @since 3.9.0 Unknown.
- * @since [version] Added optional second parameter `$post_id`.
+ * @since 5.9.0 Added optional second parameter `$post_id`.
  *
  * @param LLMS_Student|WP_User|int $user    LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used.
  * @param integer                  $post_id A WP_Post ID to check permissions against. If supplied, in addition to the user's role

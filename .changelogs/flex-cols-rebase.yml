@@ -1,4 +1,0 @@
-significance: minor
-type: changed
-entry: Picture choice questions are now organized using flexbox in favor of a
-  float-powered column layout.

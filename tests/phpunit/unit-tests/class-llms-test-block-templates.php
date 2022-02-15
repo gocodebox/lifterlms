@@ -7,7 +7,7 @@
  * @group block_templates
  *
  * @since 5.8.0
- * @since [version] Added more tests.
+ * @since 5.9.0 Added more tests.
  */
 class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 
@@ -57,7 +57,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test configure_block_templates().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_template_slug_from_path().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -185,7 +185,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_template_namespace_from_path().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -224,7 +224,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_template_prefix_from_path().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_template_prefix_from_path().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -302,7 +302,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_config_property_from_path().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -368,7 +368,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test convert_slug_to_title().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return string Human friendly title converted from the slug.
 	 */
@@ -411,7 +411,7 @@ class LLMS_Test_Block_Templates extends LLMS_UnitTestCase {
 	/**
 	 * Test localize_blocks().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,7 +149,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 5.0.0 Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $atts Shortcode atts from originating shortcode.
 	 * @return void

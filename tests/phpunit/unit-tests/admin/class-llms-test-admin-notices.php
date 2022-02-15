@@ -27,7 +27,7 @@ class LLMS_Test_Admin_Notices extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_output_actions().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

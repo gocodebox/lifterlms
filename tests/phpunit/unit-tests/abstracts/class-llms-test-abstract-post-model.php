@@ -118,7 +118,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test scrub_field().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

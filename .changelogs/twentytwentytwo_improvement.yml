@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#1976"
-entry: Fixed stretched images in quiz description/questions when using the Twenty Twenty-Two theme.

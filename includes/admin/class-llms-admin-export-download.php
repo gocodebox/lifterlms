@@ -33,7 +33,7 @@ class LLMS_Admin_Export_Download {
 	 * Serve an export file as a download
 	 *
 	 * @since 3.28.1
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

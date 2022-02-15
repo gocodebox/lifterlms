@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -275,7 +275,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.36.3 Added logic to correctly sanitize fields of type 'multi' (array)
 	 *               and 'shortcode' (preventing quotes encode).
 	 *               Also align the return type to the parent `save()` method.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *

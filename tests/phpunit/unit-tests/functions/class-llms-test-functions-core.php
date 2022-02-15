@@ -376,7 +376,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_filter_input_sanitize_string() when the input var isn't set.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -391,7 +391,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_filter_input_sanitize_string() when the input var is "empty".
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -428,7 +428,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_filter_input_sanitize_string().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

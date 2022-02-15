@@ -40,7 +40,7 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return array
 	 */
@@ -64,7 +64,7 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return array
 	 */
@@ -86,7 +86,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -102,7 +102,7 @@ class LLMS_Admin_Reporting {
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.36.3 Fixed sanitization for input data array.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return array
 	 */
@@ -124,7 +124,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -137,7 +137,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -150,7 +150,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */

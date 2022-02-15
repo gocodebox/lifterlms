@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ function llms_cancel_payment_url() {
  *
  * @since 1.0.0
  * @since 3.38.0 Added redirect query string parameter.
- * @since [version] Avoid passing `null` to `urldecode()` when no redirect is set in the `$_GET` array.
+ * @since 5.9.0 Avoid passing `null` to `urldecode()` when no redirect is set in the `$_GET` array.
  *
  * @return string
  */
@@ -67,7 +67,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
- * @since [version] Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
+ * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
  * @param string $value     Endpoint query parameter value.
@@ -108,7 +108,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	 * Filter the final endpoint URL.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Added `$value` and `$permalink` parameters.
+	 * @since 5.9.0 Added `$value` and `$permalink` parameters.
 	 *
 	 * @param string $url       The endpoint URL.
 	 * @param string $endpoint  ID of the endpoint.

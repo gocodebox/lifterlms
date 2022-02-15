@@ -10,7 +10,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,7 +75,7 @@ class LLMS_Site {
 	 * Gets the WP site url and inserts the lock string into the (approximate) middle of the url.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Pass an explicit integer to `substr_replace()`.
+	 * @since 5.9.0 Pass an explicit integer to `substr_replace()`.
 	 *
 	 * @return string
 	 */

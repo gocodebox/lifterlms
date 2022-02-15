@@ -60,7 +60,7 @@ class LLMS_Test_Site extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.8.0
 	 * @since 4.12.0 Added urls with "www".
-	 * @since [version] Pass an explicit integer to `substr_replace()`.
+	 * @since 5.9.0 Pass an explicit integer to `substr_replace()`.
 	 *
 	 * @return void
 	 */

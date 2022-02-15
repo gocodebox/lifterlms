@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -319,7 +319,7 @@ class LLMS_Forms {
 	 * @since 5.0.0
 	 * @since 5.1.0 First check block's innerBlock attribute exists when checking for inner blocks.
 	 *              Also made the access visibility public.
-	 * @since [version] Pass an empty string to `strpos()` instead of `null`.
+	 * @since 5.9.0 Pass an empty string to `strpos()` instead of `null`.
 	 *
 	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
@@ -690,7 +690,7 @@ class LLMS_Forms {
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Specifiy to pass the new 3rd param to the `llms_forms_block_to_field_settings` filter callback.
-	 * @since [version] Fix php 8.1 deprecation warnings when `get_form_fields()` returns `false`.
+	 * @since 5.9.0 Fix php 8.1 deprecation warnings when `get_form_fields()` returns `false`.
 	 *
 	 * @param LLMS_Access_Plan $plan Access plan being used for enrollment.
 	 * @return array[] List of LLMS_Form_Field settings arrays.
@@ -1138,7 +1138,7 @@ class LLMS_Forms {
 	 * Render form field blocks.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Pass an empty string to `strpos()` instead of `null`.
+	 * @since 5.9.0 Pass an empty string to `strpos()` instead of `null`.
 	 *
 	 * @param string $html  Block HTML.
 	 * @param array  $block Array of block information.

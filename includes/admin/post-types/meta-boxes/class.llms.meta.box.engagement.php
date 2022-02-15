@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -228,7 +228,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 * @since 3.1.0
 	 * @since 3.11.0 Unknown.
 	 * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP Post ID of the engagement.
 	 * @return void

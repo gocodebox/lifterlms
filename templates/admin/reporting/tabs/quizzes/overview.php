@@ -7,8 +7,8 @@
  * @since 3.16.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 4.10.1 Remove unneded require of the file LLMS_PLUGIN_DIR . 'includes/class.llms.quiz.data.php', the autoloader will do the job.
- * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING` and validate the period exists before attempting to use it.
- * @version [version]
+ * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING` and validate the period exists before attempting to use it.
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;

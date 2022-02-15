@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -319,7 +319,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.15 Use strict comparisons.
 	 * @since 4.14.0 Save builder autosave personal options.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void
