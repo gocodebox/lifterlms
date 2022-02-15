@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -352,6 +352,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.4.0 Add `ajax_nonce`.
 	 * @since 4.5.1 Add an analytics localization object.
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
+	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
 	 *
 	 * @return void
 	 */
@@ -388,11 +389,11 @@ class LLMS_Admin_Assets {
 		$forms = LLMS_Forms::instance()->get_post_type();
 
 		if ( $forms === $screen->id ) {
-			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_json_encode( wp_slash( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
+			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_slash( wp_json_encode( LLMS_Forms::instance()->get_locations() ) ) . "' );</script>";
 		}
 
 		if ( ! empty( $screen->is_block_editor ) || 'customize' === $screen->base ) {
-			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_json_encode( wp_slash( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
+			echo "<script>window.llms.userInfoFields = JSON.parse( '" . wp_slash( wp_json_encode( llms_get_user_information_fields_for_editor() ) ) . "' );</script>";
 		}
 
 	}
@@ -431,7 +432,7 @@ class LLMS_Admin_Assets {
 	 * Register and enqueue scripts used on and related-to reporting and analytics
 	 *
 	 * @since 4.3.3
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void

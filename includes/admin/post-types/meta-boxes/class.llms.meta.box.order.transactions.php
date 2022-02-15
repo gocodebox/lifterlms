@@ -114,7 +114,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
@@ -146,7 +146,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null
@@ -185,7 +185,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null

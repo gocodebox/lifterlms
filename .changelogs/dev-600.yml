@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Method `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of
-  `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.

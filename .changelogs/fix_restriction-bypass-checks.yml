@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Only allow users with `edit_post` capabilities to bypass content restrictions.

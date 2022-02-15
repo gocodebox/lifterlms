@@ -5,7 +5,7 @@
  * @group LLMS_Transaction
  * @group LLMS_Post_Model
  *
- * @since [version]
+ * @since 5.9.0
  */
 class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 
@@ -28,7 +28,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	 *
 	 * This is used by test_getters_setters
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return array
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test creation of the model.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Skip unneeded test.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

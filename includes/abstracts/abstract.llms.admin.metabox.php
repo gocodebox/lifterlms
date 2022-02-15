@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -502,7 +502,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Save a metabox field.
 	 *
 	 * @since 3.37.12
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since [version] Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,7 +149,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 3.35.1 Fix issue causing data to be saved on every page load.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -908,7 +908,7 @@ class LLMS_Admin_Settings {
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $settings Opens array to output
 	 * @return boolean

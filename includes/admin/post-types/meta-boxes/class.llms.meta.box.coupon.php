@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -237,7 +237,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void

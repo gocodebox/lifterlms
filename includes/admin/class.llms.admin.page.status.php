@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -69,7 +69,7 @@ class LLMS_Admin_Page_Status {
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 * @since 4.13.0 The `automatic-payments` tool has been moved to `LLMS_Admin_Tool_Reset_Automatic_Payments`.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -192,8 +192,8 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Use strict comparators.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -293,7 +293,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
 	 * @since 3.33.2 Fix undefined variable notice.
 	 * @since 3.37.14 Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

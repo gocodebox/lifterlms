@@ -1,17 +1,17 @@
 <?php
 /**
- * LifterLMS Admin Notices
+ * LLMS_Admin_Notices class file.
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 5.3.1
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Notices class
+ * LifterLMS Admin Notices.
  *
  * @since 3.0.0
  */
@@ -43,11 +43,13 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Add output notice actions depending on the current screen
+	 * Add output notice actions depending on the current screen.
 	 *
-	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle.
+	 * Notices are added later for LifterLMS settings screens to accommodate
+	 * settings that are updated later in the load cycle.
 	 *
 	 * @since 3.0.0
+	 * @since 5.9.0 Output notices at `admin_notices` in favor of `admin_print_styles`.
 	 *
 	 * @return void
 	 */
@@ -57,7 +59,7 @@ class LLMS_Admin_Notices {
 		if ( ! empty( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
 			add_action( 'lifterlms_settings_notices', array( __CLASS__, 'output_notices' ) );
 		} else {
-			add_action( 'admin_print_styles', array( __CLASS__, 'output_notices' ) );
+			add_action( 'admin_notices', array( __CLASS__, 'output_notices' ) );
 		}
 
 	}

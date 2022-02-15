@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -510,9 +510,14 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
+<<<<<<< HEAD
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
 	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since [version] Use updated method signature for `LLMS_Student::get_achievements()`.
+=======
+	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+>>>>>>> 7e2f6e1aaa308684e4ba1c92cb497cf22019ee4e
 	 *
 	 * @return void
 	 */
@@ -716,7 +721,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 3.37.15 Use `in_array()`'s strict comparison.
 	 * @since 3.37.16 Fixed typo when comparing the current view.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *              Fix how the protected {@see LLMS_Notifications_Query::$max_pages} property is accessed.
 	 *
 	 * @return void

@@ -8,6 +8,7 @@
  * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 5.4.0 Inform about deleted products.
+ * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
  * @since [version] Load sub-templates using hooks and template functions.
  * @version [version]
  *

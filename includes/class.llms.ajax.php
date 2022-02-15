@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,8 +35,8 @@ class LLMS_AJAX {
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
-	 * @since [version] Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
-	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -139,13 +139,13 @@ class LLMS_AJAX {
 	 * Check if a voucher is a duplicate.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
+	 * @deprecated 5.9.0 `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
 	 *
 	 * @return void
 	 */
 	public function check_voucher_duplicate() {
 
-		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '[version]', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
+		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '5.9.0', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
 		LLMS_AJAX_Handler::check_voucher_duplicate();
 
 	}
@@ -157,7 +157,7 @@ class LLMS_AJAX {
 	 * Also allows querying by question title
 	 *
 	 * @since Unknown
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

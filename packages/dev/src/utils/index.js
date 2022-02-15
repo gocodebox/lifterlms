@@ -13,8 +13,10 @@ const
 	{ isProjectPrivate, isProjectPublic, getProjectPrivacy } = require( './get-project-privacy' ),
 	getProjectSlug = require( './get-project-slug' ),
 	{ getConfig, hasConfig } = require( './configs' ),
+	{ getFileLink, getRepoLink, getIssueLink } = require( './repo-links' ),
 	logResult = require( './log-result' ),
 	parseChangelogFile = require( './parse-changelog-file' ),
+	parseIssueString = require( './parse-issue-string' ),
 	pushDistFile = require( './push-dist-file' ),
 	{ isAttributionValid, isEntryValid, isLinkValid, getChangelogValidationIssues } = require( './validate-changelog' );
 
@@ -30,8 +32,11 @@ module.exports = {
 	getConfig,
 	getCurrentVersion,
 	getDefault,
+	getFileLink,
+	getIssueLink,
 	getNextVersion,
 	getProjectSlug,
+	getRepoLink,
 	isProjectPrivate,
 	isProjectPublic,
 	getProjectPrivacy,
@@ -42,5 +47,6 @@ module.exports = {
 	isLinkValid,
 	getChangelogValidationIssues,
 	parseChangelogFile,
+	parseIssueString,
 	pushDistFile,
 };

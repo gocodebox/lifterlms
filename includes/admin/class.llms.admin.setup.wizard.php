@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,7 +147,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -397,7 +397,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
 	 * @since 4.8.0 Moved logic for each wizard step into it's own method.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error
 	 */
@@ -468,7 +468,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Save the "Payments" step.
 	 *
 	 * @since 4.8.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return boolean Always returns true.
 	 */

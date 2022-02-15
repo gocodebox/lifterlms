@@ -78,7 +78,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	 * Export vouchers.
 	 *
 	 * @since Unknown.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return [type] [description]
 	 */

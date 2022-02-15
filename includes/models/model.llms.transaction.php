@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -107,7 +107,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.37.6 Add a default date information using `llms_current_time()`.
 	 *               Remove ordering placeholders from strftime().
-	 * @since [version] Remove usage of deprecated `strftime()`.
+	 * @since 5.9.0 Remove usage of deprecated `strftime()`.
 	 *
 	 * @param int $order_id LLMS_Order ID of the related order.
 	 * @return array

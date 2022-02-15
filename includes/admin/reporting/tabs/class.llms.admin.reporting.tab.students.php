@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,7 +94,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 *
 	 * @since 3.2.0
 	 * @since 4.20.0 Added a report permission check and a user existence check.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 4.2.0 Added filter to handle the displaying of the free enroll.
 	 * @since 4.16.0 Added filters to handle modification of the student dashboard.
-	 * @since [version] Pass second parameter to `modify_course_open()` methods.
+	 * @since 5.9.0 Pass second parameter to `modify_course_open()` methods.
 	 *
 	 * @return void
 	 */
@@ -129,7 +129,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -219,7 +219,7 @@ class LLMS_View_Manager {
 	 * @since 3.7.0
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 4.16.0 Don't access `$_GET` directly, use `llms_filter_input()`.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string
 	 */
@@ -296,7 +296,7 @@ class LLMS_View_Manager {
 	 * If viewing as self and self can bypass restrictions will appear as if course is open.
 	 *
 	 * @since 3.7.0
-	 * @since [version] Pass the course ID to `llms_can_user_bypass_restrictions()`.
+	 * @since 5.9.0 Pass the course ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @param boolean $status The default status.
 	 * @return boolean
@@ -393,7 +393,7 @@ class LLMS_View_Manager {
 	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions.
 	 *
 	 * @since 3.7.0
-	 * @since [version] Pass the course ID to `llms_can_user_bypass_restrictions()`.
+	 * @since 5.9.0 Pass the course ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @param array $restrictions Restriction data.
 	 * @return array
@@ -459,7 +459,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 4.5.1
 	 * @since 4.16.0 Display on the student dashboard.
-	 * @since [version] When possible, pass the post ID to `llms_can_user_bypass_restrictions()`.
+	 * @since 5.9.0 When possible, pass the post ID to `llms_can_user_bypass_restrictions()`.
 	 *
 	 * @return boolean
 	 */

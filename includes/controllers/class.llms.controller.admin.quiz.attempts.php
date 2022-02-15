@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.9 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

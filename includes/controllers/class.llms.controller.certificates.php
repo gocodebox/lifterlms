@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -91,7 +91,7 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 	 * Modify certificate post type registration data during a certificate template export.
 	 *
 	 * @since 3.37.4
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/776
 	 *
@@ -160,7 +160,7 @@ class LLMS_Controller_Certificates extends LLMS_Abstract_Controller_User_Engagem
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.5.0 Add handler for changing certificate sharing settings.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

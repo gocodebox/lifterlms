@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -140,7 +140,7 @@ class LLMS_Controller_Account {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 3.37.17 Refactored for readability and added new hooks.
 	 * @since 4.21.3 Increase 3rd party support for WP core hooks.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error|true `null` when nonce cannot be verified.
 	 *                            `WP_Error` when an error is encountered.
@@ -246,7 +246,7 @@ class LLMS_Controller_Account {
 	 * Redeem a voucher from the "Redeem Voucher" endpoint of the student dashboard
 	 *
 	 * @since 4.12.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|true|WP_Error Returns `null` when the form hasn't been submitted, there's a nonce error, or there's no logged in user.
 	 *                            Returns `true` on success and an error object when an error is encountered redeeming the voucher.
@@ -305,7 +305,7 @@ class LLMS_Controller_Account {
 	 * Handle the submission of the password reset form.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
 	 */
@@ -380,7 +380,7 @@ class LLMS_Controller_Account {
 	 * redirect to the password reset form.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

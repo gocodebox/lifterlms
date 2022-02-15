@@ -8,7 +8,7 @@
  * @package LifterLMS/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,7 +149,7 @@ class LLMS_Reviews {
 	 * then adds the review with the appropriate content.
 	 *
 	 * @since Unknown
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

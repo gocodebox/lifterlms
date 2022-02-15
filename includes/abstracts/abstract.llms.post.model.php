@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1194,7 +1194,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.2 Unknown.
-	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
+	 * @since 5.9.0 Use `wp_strip_all_tags()` in favor of `strip_tags()`.
 	 *              Only strip tags from string values.
 	 *              Coerce `null` html input to an empty string.
 	 *

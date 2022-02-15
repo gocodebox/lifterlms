@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -103,7 +103,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -241,7 +241,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -703,7 +703,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

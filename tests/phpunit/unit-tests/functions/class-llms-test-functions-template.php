@@ -8,7 +8,7 @@
  * @group functions_template
  *
  * @since 4.8.0
- * @since [version] Added tests on llms_template_file_path().
+ * @since 5.9.0 Added tests on llms_template_file_path().
  */
 class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 
@@ -22,7 +22,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 *
 	 * @since 4.8.0
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
-	 * @since [version] Clean theme overrides directories cache.
+	 * @since 5.9.0 Clean theme overrides directories cache.
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_file_path() passing an empty template file.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -219,7 +219,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_file_path() passing a template file that doesn't exist in the theme.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -249,7 +249,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_file_path() when passing an absolute template directory (not relative to the plugin dir).
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -287,7 +287,7 @@ class LLMS_Test_Functions_Template extends LLMS_UnitTestCase {
 	 * Creates a theme and override lifterlms template directory.
 	 *
 	 * @since 4.8.0
-	 * @since [version] always remove the theme directory if it already exists.
+	 * @since 5.9.0 always remove the theme directory if it already exists.
 	 *
 	 * @param string $theme_dir_name Theme directory name.
 	 * @return void
