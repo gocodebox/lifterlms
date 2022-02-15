@@ -1,0 +1,5 @@
+significance: minor
+type: changed
+links:
+  - "#1859"
+entry: Resolved PHP 8.1 deprecation warnings.
