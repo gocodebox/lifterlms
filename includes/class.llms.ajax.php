@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
  * @since [version] Removed deprecated items.
+ *              - `LLMS_AJAX::check_voucher_duplicate()` method.
  *              - `LLMS_AJAX::get_ajax_data()` method.
  *              - `LLMS_AJAX::register_script()` method.
  */
@@ -133,21 +134,6 @@ class LLMS_AJAX {
 				'message' => $error->get_error_message(),
 			)
 		);
-	}
-
-	/**
-	 * Check if a voucher is a duplicate.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.9.0 `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
-	 *
-	 * @return void
-	 */
-	public function check_voucher_duplicate() {
-
-		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '5.9.0', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
-		LLMS_AJAX_Handler::check_voucher_duplicate();
-
 	}
 
 	/**
