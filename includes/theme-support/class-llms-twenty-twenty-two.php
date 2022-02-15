@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 5.8.0
- * @version 5.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -57,7 +57,7 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Enqueue inline styles on the frontend
+	 * Enqueue inline styles on the frontend.
 	 *
 	 * @since 5.8.0
 	 *
@@ -68,9 +68,10 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Generate inline CSS for a given context
+	 * Generate inline CSS for a given context.
 	 *
 	 * @since 5.8.0
+	 * @since [version] Fixed stretched images in questions with pictures, and images in quiz/questions description.
 	 *
 	 * @param string|null $context Inline CSS context. Accepts "editor" to define styles loaded within the block editor or `null` for frontend styles.
 	 * @return string
@@ -152,7 +153,10 @@ class LLMS_Twenty_Twenty_Two {
 			)
 		);
 
+		// Quiz.
 		$styles[] = '.llms-quiz-ui { background: transparent; }';
+		// Fix questions with pictures, and images in quiz/questions description.
+		$styles[] = '.llms-quiz-wrapper img, .llms-quiz-question-wrapper img { max-width: 100%; height: auto; }';
 
 		// Fix anchor buttons.
 		$styles[] = 'a.llms-button-action, a.llms-button-danger, a.llms-button-primary, a.llms-button-secondary { display: inline-block; }';
@@ -201,7 +205,7 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Output the catalog archive description 2022 theme wrapper opener
+	 * Output the catalog archive description 2022 theme wrapper opener.
 	 *
 	 * @since 5.8.0
 	 *
@@ -212,7 +216,7 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Output the catalog archive description 2022 theme wrapper closer
+	 * Output the catalog archive description 2022 theme wrapper closer.
 	 *
 	 * @since 5.8.0
 	 *
@@ -223,7 +227,7 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Output the catalog page header 2022 theme wrapper opener
+	 * Output the catalog page header 2022 theme wrapper opener.
 	 *
 	 * @since 5.8.0
 	 *
@@ -234,7 +238,7 @@ class LLMS_Twenty_Twenty_Two {
 	}
 
 	/**
-	 * Output the catalog page header 2022 theme wrapper closer
+	 * Output the catalog page header 2022 theme wrapper closer.
 	 *
 	 * @since 5.8.0
 	 *
