@@ -113,7 +113,7 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
 
 	// Add issue links.
 	if ( includeLinks && links.length ) {
-		line += ' ' + links.map( getIssueLink ).join( ', ' );
+		line += ' ' + links.map( ( iss ) => `[${ iss }](${ getIssueLink( iss ) })` ).join( ', ' );
 	}
 
 	return line;
