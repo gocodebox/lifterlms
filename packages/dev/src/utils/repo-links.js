@@ -7,7 +7,7 @@ const getProjectSlug = require( './get-project-slug' ),
  * @since [version]
  *
  * @param {string} path   Path to the file (relative to the root directory), eg: "includes/file.php" or "main.php".
- * @param {string} branch Branch or version number. If specifying a specific version number it should be prepended with 'v', eg: "v1.0.0". Defaults to "trunk".
+ * @param {string} branch Branch or version number. Defaults to "trunk".
  * @return {string} The full URL to a file on the project's GitHub repository.
  */
 function getFileLink( path, branch = 'trunk' ) {

@@ -133,7 +133,6 @@ function formatChangelogItem( { entry, type, attributions = [], links = [] }, in
  * @return {ChangelogEntry[]} Array of changelog entry objects.
  */
 function getUpdatedTemplates( includeLinks, version ) {
-	version = `v${ version }`;
 	try {
 		return execSync( 'git diff --name-only trunk | grep "^templates/"', true ).split( '\n' ).map( ( template ) => {
 			return {
