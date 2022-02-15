@@ -87,7 +87,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	 *
 	 * @since 3.15.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

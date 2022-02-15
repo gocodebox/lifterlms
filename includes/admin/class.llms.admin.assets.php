@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -245,7 +245,7 @@ class LLMS_Admin_Assets {
 	 * @since 4.4.0 Add `ajax_nonce`.
 	 * @since 4.5.1 Add an analytics localization object.
 	 * @since 5.0.0 Output Form location information as a window variable for block editor utilization.
-	 * @since [version] Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
+	 * @since 5.9.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
 	 *
 	 * @return void
 	 */
@@ -325,7 +325,7 @@ class LLMS_Admin_Assets {
 	 * Register and enqueue scripts used on and related-to reporting and analytics
 	 *
 	 * @since 4.3.3
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_Sreen $screen Screen object from WP `get_current_screen()`.
 	 * @return void

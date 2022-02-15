@@ -44,7 +44,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_endpoint_url() when pretty permalinks are disabled.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_endpoint_url() when pretty permalinks are enabled with a trailing slash.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_endpoint_url() when pretty permalinks are enabled with a trailing slash.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1983
 	 *

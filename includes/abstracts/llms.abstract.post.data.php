@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.31.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -110,7 +110,7 @@ abstract class LLMS_Abstract_Post_Data {
 	 *
 	 * If there is no period set or it's set to an invalid period, defaults to "today".
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return string
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -121,7 +121,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
@@ -172,7 +172,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Update enrollment data based on posted values.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -243,7 +243,7 @@ class LLMS_Loader {
 	 * @since 4.8.0 Add `LLMS_Export_API`.
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
-	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

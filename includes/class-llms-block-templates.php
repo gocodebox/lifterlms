@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -200,7 +200,7 @@ class LLMS_Block_Templates {
 	 * Gets the templates.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Filter template slugs array before checking if it's empty.
+	 * @since 5.9.0 Filter template slugs array before checking if it's empty.
 	 *
 	 * @param array  $slugs     An array of slugs to retrieve templates for.
 	 * @param string $post_type Post Type.
@@ -350,7 +350,7 @@ class LLMS_Block_Templates {
 	 * Build a wp template from file.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Allow template directory override when the block template comes from an add-on.
+	 * @since 5.9.0 Allow template directory override when the block template comes from an add-on.
 	 *
 	 * @param string $template_file Template file path.
 	 * @param string $template_slug Template slug.
@@ -438,7 +438,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Retrieve the actual template file path, maybe overridden in the theme.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @param string $template_file The template's path.
 	 * @return string
@@ -473,7 +473,7 @@ class LLMS_Block_Templates {
 	 * Convert the template paths into a slug.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Return empty string if the passed path is not in the configuration.
+	 * @since 5.9.0 Return empty string if the passed path is not in the configuration.
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -512,7 +512,7 @@ class LLMS_Block_Templates {
 	 * Generate the template slug prefix from the template path.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Fix property name.
+	 * @since 5.9.0 Fix property name.
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -526,7 +526,7 @@ class LLMS_Block_Templates {
 	/**
 	 * Generate the block template directory (relative to the templates direcotry) from the template path.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @param string $path The template's path.
 	 * @return string
@@ -541,7 +541,7 @@ class LLMS_Block_Templates {
 	 * Retrieve a template config property from path.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Return an empty string if requesting a non existing property.
+	 * @since 5.9.0 Return an empty string if requesting a non existing property.
 	 *               Also removed unused var `$dirname`.
 	 *
 	 * @param string $path     The template's path.
@@ -696,7 +696,7 @@ class LLMS_Block_Templates {
 	 * Localize block templates.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Retuns the `wp_localize_script()` return value.
+	 * @since 5.9.0 Retuns the `wp_localize_script()` return value.
 	 *
 	 * @return bool
 	 */

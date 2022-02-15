@@ -337,7 +337,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test creation of the model.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */

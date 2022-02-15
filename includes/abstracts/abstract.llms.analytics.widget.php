@@ -108,7 +108,7 @@ abstract class LLMS_Analytics_Widget {
 	 * Retrieve posted dates.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return string[]|string
 	 */

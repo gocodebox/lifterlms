@@ -137,7 +137,7 @@
 	 * Check for voucher duplicates in other posts.
 	 *
 	 * @since Unknown
-	 * @since [version] Add nonce.
+	 * @since 5.9.0 Add nonce.
 	 *
 	 * @return {void}
 	 */

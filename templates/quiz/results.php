@@ -7,8 +7,8 @@
  * @since 1.0.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 4.17.0 Return early if accessed without a logged in user.
- * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
- * @version [version]
+ * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+ * @version 5.9.0
  *
  * @property LLMS_Quiz_Attempt $attempt Attempt object.
  */

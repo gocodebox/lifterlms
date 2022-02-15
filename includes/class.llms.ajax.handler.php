@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -87,7 +87,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Determines if voucher codes already exist.
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -391,7 +391,7 @@ class LLMS_AJAX_Handler {
 	 * @since Unknown
 	 * @since 3.14.2 Unknown.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -854,7 +854,7 @@ class LLMS_AJAX_Handler {
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

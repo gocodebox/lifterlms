@@ -174,7 +174,7 @@ class LLMS_Admin_Reviews {
 	 * Save metabox fields.
 	 *
 	 * @since Unknown
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

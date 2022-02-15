@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +45,7 @@ class LLMS_Controller_Certificates {
 	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
 	 *
 	 * @since 3.37.4
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
 	 * @return array
@@ -112,7 +112,7 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.5.0 Add handler for changing certificate sharing settings.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

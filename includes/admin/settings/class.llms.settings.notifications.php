@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,7 +74,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
 	 * @since 5.2.0 Merge controller additional options.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param LLMS_Notification_Controller $controller Instance of an LLMS_Notification_Controller extending class.
 	 * @return array
@@ -261,7 +261,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 *
 	 * @since 3.24.0
 	 * @since 3.35.0 Verify nonce & Sanitize input data.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

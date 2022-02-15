@@ -251,7 +251,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.
 	 * @version 3.36.0 Remove superfluous code.
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id [id of post object]
 	 * @return boolean|null

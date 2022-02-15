@@ -273,7 +273,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_course_open().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -309,7 +309,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_restrictions().
 	 *
-	 * @since [version]
+	 * @since 5.9.0
 	 *
 	 * @return void
 	 */
@@ -356,7 +356,7 @@ class LLMS_Test_View_Manager extends LLMS_UnitTestCase {
 	 * Test should_display() when viewing valid post types with a valid user
 	 *
 	 * @since 4.5.1
-	 * @since [version] Add tests for instructors.
+	 * @since 5.9.0 Add tests for instructors.
 	 *
 	 * @return void
 	 */

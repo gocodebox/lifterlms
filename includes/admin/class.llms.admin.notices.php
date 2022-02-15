@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,7 @@ class LLMS_Admin_Notices {
 	 * settings that are updated later in the load cycle.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Output notices at `admin_notices` in favor of `admin_print_styles`.
+	 * @since 5.9.0 Output notices at `admin_notices` in favor of `admin_print_styles`.
 	 *
 	 * @return void
 	 */

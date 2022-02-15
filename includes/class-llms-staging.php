@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -76,7 +76,7 @@ class LLMS_Staging {
 	 * @since 3.32.0
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 4.12.0 Use `llms_filter_input()` for retrieval of `$_GET` data.
-	 * @since [version] Drop usage of deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
