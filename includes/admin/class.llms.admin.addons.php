@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
- * @version 4.10.1
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,12 +30,13 @@ class LLMS_Admin_AddOns {
 	public $data = array();
 
 	/**
-	 * Get the current section from the query string
-	 * defaults to "all"
+	 * Retrieves the current section from the query string.
 	 *
-	 * @return   string
-	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @since 3.5.0
+	 * @since 3.22.0 Unknown.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 *
+	 * @return string
 	 */
 	private function get_current_section() {
 
@@ -44,7 +45,7 @@ class LLMS_Admin_AddOns {
 		if ( isset( $_GET['page'] ) && 'llms-settings' === $_GET['page'] ) {
 			$section = 'featured';
 		} elseif ( isset( $_GET['section'] ) ) {
-			$section = llms_filter_input( INPUT_GET, 'section', FILTER_SANITIZE_STRING );
+			$section = llms_filter_input_sanitize_string( INPUT_GET, 'section' );
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section', $section );
@@ -223,8 +224,9 @@ class LLMS_Admin_AddOns {
 	 *
 	 * @since 3.22.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	private function handle_manage_addons() {
 
@@ -247,7 +249,7 @@ class LLMS_Admin_AddOns {
 				continue;
 			}
 
-			foreach ( llms_filter_input( INPUT_POST, 'llms_' . $action, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) as $id ) {
+			foreach ( llms_filter_input( INPUT_POST, 'llms_' . $action, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) as $id ) {
 
 				$addon = llms_get_add_on( $id );
 				if ( ! method_exists( $addon, $action ) ) {

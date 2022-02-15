@@ -604,6 +604,52 @@ function llms_get_instructors_defaults() {
 }
 
 /**
+ * Function used to sanitize user input in a manner similar to the (deprecated) FILTER_SANITIZE_STRING.
+ *
+ * This function retrieves the raw user input via `llms_filter_input()` using the FILTER_UNSAFE_RAW filter, strips
+ * all tags, and then encodes single and double quotes with the relevant HTML entity codes.
+ *
+ * In many cases, the usage of `FILTER_SANITIZE_STRING` can be easily replaced with `FILTER_SANITIZE_FULL_SPECIAL_CHARS` but
+ * in some cases, especially when storing the user input, encoding all special characters can result in an stored XSS injection
+ * so this function can be used to preserve the pre PHP 8.1 behavior where sanitization is expected during the retrieval
+ * of user input.
+ *
+ * @since 5.9.0
+ *
+ * @param string $type          One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
+ * @param string $variable_name Name of a variable to retrieve.
+ * @param int[]  $flags         Array of supported filter options and flags.
+ *                              Accepts `FILTER_REQUIRE_ARRAY` in order to require the input to be an array.
+ *                              Accepts `FILTER_FLAG_NO_ENCODE_QUOTES` to prevent encoding of quotes.
+ * @return string|string[]|null|boolean Value of the requested variable on success, `false` if the filter fails, or `null` if the `$variable_name` variable is not set.
+ */
+function llms_filter_input_sanitize_string( $type, $variable_name, $flags = array() ) {
+
+	$require_array = in_array( FILTER_REQUIRE_ARRAY, $flags, true );
+
+	$string = llms_filter_input( $type, $variable_name, FILTER_UNSAFE_RAW, $require_array ? FILTER_REQUIRE_ARRAY : array() );
+
+	// If we have an empty string or the input var isn't found we can return early.
+	if ( empty( $string ) ) {
+		return $string;
+	}
+
+	$string = $require_array ? array_map( 'wp_strip_all_tags', $string ) : wp_strip_all_tags( $string );
+
+	if ( ! in_array( FILTER_FLAG_NO_ENCODE_QUOTES, $flags, true ) ) {
+		$string = str_replace(
+			array( "'", '"' ),
+			array( '&#39;', '&#34;' ),
+			$string
+		);
+	}
+
+	return $string;
+
+}
+
+
+/**
  * Get the most recently created coupon ID for a given code
  *
  * @param string $code        Optional. The coupon's code (title). Default is empty string.

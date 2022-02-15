@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -85,6 +85,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 * @since 3.10.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 * @since 5.3.0 Update return value from void to int (for testing conditions) and include update remaining payment data when necessary.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return int Returns `-1` on invalid or missing nonce, `0` when an order cannot be found, and
@@ -111,7 +112,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		foreach ( $fields as $key ) {
 
 			if ( isset( $_POST[ $key ] ) ) {
-				$order->set( $key, llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING ) );
+				$order->set( $key, llms_filter_input_sanitize_string( INPUT_POST, $key ) );
 			}
 		}
 
@@ -125,6 +126,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 	 * Save remaining payment date for expiring recurring orders
 	 *
 	 * @since 5.3.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param LLMS_Order $order Order object
 	 * @return int Returns `-1` when there's for invalid order types, `0` when there's no changes to save, and
@@ -167,7 +169,7 @@ class LLMS_Meta_Box_Order_Details extends LLMS_Admin_Metabox {
 		);
 
 		// Store a use note if one was entered.
-		$note = llms_filter_input( INPUT_POST, '_llms_remaining_note', FILTER_SANITIZE_STRING );
+		$note = llms_filter_input_sanitize_string( INPUT_POST, '_llms_remaining_note' );
 		if ( $note ) {
 			$order->add_note( wp_strip_all_tags( $note ), true );
 		}

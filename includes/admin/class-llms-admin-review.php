@@ -82,6 +82,7 @@ class LLMS_Admin_Review {
 	 * @since 3.24.0
 	 * @since 4.14.0 Only users with `manager_lifterlms` caps can dismiss and added nonce verification.
 	 *               Use `llms_filter_input()` in favor of `filter_input()`.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -91,7 +92,7 @@ class LLMS_Admin_Review {
 			wp_die();
 		}
 
-		$success = llms_parse_bool( llms_filter_input( INPUT_POST, 'success', FILTER_SANITIZE_STRING ) );
+		$success = llms_parse_bool( llms_filter_input( INPUT_POST, 'success' ) );
 
 		update_option(
 			'llms_review',

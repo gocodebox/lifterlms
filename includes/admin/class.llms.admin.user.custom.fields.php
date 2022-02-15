@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version 5.0.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -319,6 +319,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.15 Use strict comparisons.
 	 * @since 4.14.0 Save builder autosave personal options.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void
@@ -341,7 +342,7 @@ class LLMS_Admin_User_Custom_Fields {
 		// Saves custom fields.
 		foreach ( $this->fields as $field => $data ) {
 
-			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING ), $user, $field );
+			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input_sanitize_string( INPUT_POST, $field ), $user, $field );
 			update_user_meta( $user->ID, $field, $value );
 
 		}

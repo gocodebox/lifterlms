@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
- * @version 4.4.4
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,6 +34,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @since 3.16.9 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.4.4 Made sure to exit after redirecting on attempt deletion.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -45,7 +46,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		if ( isset( $_POST['llms_quiz_attempt_action'] ) && isset( $_POST['llms_attempt_id'] ) ) {
 
-			$action  = llms_filter_input( INPUT_POST, 'llms_quiz_attempt_action', FILTER_SANITIZE_STRING );
+			$action  = llms_filter_input( INPUT_POST, 'llms_quiz_attempt_action' );
 			$attempt = new LLMS_Quiz_Attempt( absint( $_POST['llms_attempt_id'] ) );
 
 			if ( ! current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) ) ) {
@@ -87,8 +88,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in `maybe_run_actions()` method.
 
-		$remarks = isset( $_POST['remarks'] ) ? llms_filter_input( INPUT_POST, 'remarks', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
-		$points  = isset( $_POST['points'] ) ? llms_filter_input( INPUT_POST, 'points', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$remarks = isset( $_POST['remarks'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'remarks', array( FILTER_REQUIRE_ARRAY ) ) : array();
+		$points  = isset( $_POST['points'] ) ? llms_filter_input_sanitize_string( INPUT_POST, 'points', array( FILTER_REQUIRE_ARRAY ) ) : array();
 
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {

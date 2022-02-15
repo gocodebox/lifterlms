@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.1
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -647,14 +647,23 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.1 Set the `post_date` property using `llms_current_time()`.
+	 * @since 5.9.0 Remove usage of deprecated `strftime()`.
 	 *
 	 * @param string $title Title to create the post with.
 	 * @return array
 	 */
 	protected function get_creation_args( $title = '' ) {
 
+		$date = llms_current_time( 'mysql' );
+
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+
+			$title = sprintf(
+				// Translators: %1$s = Transaction creation date.
+				__( 'Order &ndash; %1$s', 'lifterlms' ),
+				date_format( date_create( $date ), 'M d, Y @ h:i A' )
+			);
+
 		}
 
 		return apply_filters(
@@ -664,7 +673,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				'ping_status'    => 'closed',
 				'post_author'    => 1,
 				'post_content'   => '',
-				'post_date'      => llms_current_time( 'mysql' ),
+				'post_date'      => $date,
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),

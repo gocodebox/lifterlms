@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Frontend/Classes
  *
  * @since 1.0.0
- * @version [vesion]
+ * @version 4.21.3
  */
 
 defined( 'ABSPATH' ) || exit;

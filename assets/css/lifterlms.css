@@ -57,6 +57,45 @@
   .llms-cols .llms-col-12 {
     width: 8.33333%; } }
 
+.llms-flex-cols {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap; }
+  .llms-flex-cols [class*="llms-col"] {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+    width: 100%; }
+  @media all and (min-width: 600px) {
+    .llms-flex-cols .llms-col-1 {
+      width: 100%; }
+    .llms-flex-cols .llms-col-2 {
+      width: 50%; }
+    .llms-flex-cols .llms-col-3 {
+      width: 33.33333%; }
+    .llms-flex-cols .llms-col-4 {
+      width: 25%; }
+    .llms-flex-cols .llms-col-5 {
+      width: 20%; }
+    .llms-flex-cols .llms-col-6 {
+      width: 16.66667%; }
+    .llms-flex-cols .llms-col-7 {
+      width: 14.28571%; }
+    .llms-flex-cols .llms-col-8 {
+      width: 12.5%; }
+    .llms-flex-cols .llms-col-9 {
+      width: 11.11111%; }
+    .llms-flex-cols .llms-col-10 {
+      width: 10%; }
+    .llms-flex-cols .llms-col-11 {
+      width: 9.09091%; }
+    .llms-flex-cols .llms-col-12 {
+      width: 8.33333%; } }
+
 .llms-button-action,
 .llms-button-danger,
 .llms-button-primary,

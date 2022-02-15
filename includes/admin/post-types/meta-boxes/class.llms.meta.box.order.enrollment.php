@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
- * @version 4.18.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -121,18 +121,19 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
 	 */
 	public function save( $post_id ) {
 
-		$update = llms_filter_input( INPUT_POST, 'llms_update_enrollment_status', FILTER_SANITIZE_STRING );
+		$update = llms_filter_input( INPUT_POST, 'llms_update_enrollment_status' );
 		if ( ! empty( $update ) ) {
 			$this->save_update_enrollment( $post_id );
 		}
 
-		$delete = llms_filter_input( INPUT_POST, 'llms_delete_enrollment_status', FILTER_SANITIZE_STRING );
+		$delete = llms_filter_input( INPUT_POST, 'llms_delete_enrollment_status' );
 		if ( ! empty( $delete ) ) {
 			$this->save_delete_enrollment( $post_id );
 		}
@@ -171,14 +172,15 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Update enrollment data based on posted values.
 	 *
 	 * @since 3.33.0
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void
 	 */
 	private function save_update_enrollment( $post_id ) {
 
-		$old_status = llms_filter_input( INPUT_POST, 'llms_student_old_enrollment_status', FILTER_SANITIZE_STRING );
-		$new_status = llms_filter_input( INPUT_POST, 'llms_student_new_enrollment_status', FILTER_SANITIZE_STRING );
+		$old_status = llms_filter_input_sanitize_string( INPUT_POST, 'llms_student_old_enrollment_status' );
+		$new_status = llms_filter_input_sanitize_string( INPUT_POST, 'llms_student_new_enrollment_status' );
 
 		if ( ! $new_status || $old_status === $new_status ) {
 			return;

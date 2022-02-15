@@ -1,38 +1,34 @@
 <?php
 /**
- * LifterLMS Order Model
+ * LLMS_Transaction model class file
  *
  * @package LifterLMS/Models/Classes
  *
- * @since  3.0.0
- * @version 3.37.6
+ * @since 3.0.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Transaction model class
- *
- * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
- * @property   $amount  (float)  Transaction charge amount
- * @property   $currency  (string)  Transaction's currency code
- * @property   $gateway_completed_date  (string)  Datetime string when the transaction was completed by the gateway (if gateway supports)
- * @property   $gateway_customer_id  (string)  Gateway's unique ID for the customer who placed the order
- * @property   $gateway_fee_amount  (float)  Fee charged to the user by the gateway for the transaction (if gateway supports)
- * @property   $gateway_source_id  (string)  Source Identifier from the gateway -- eg: credit card id or account id
- * @property   $gateway_source_description  (string)  Short description of the source from the gateway. EG: Visa 1234
- * @property   $gateway_transaction_id  (string)  Gateway's unique ID for the transaction
- * @property   $id  (int)  WP Post ID of the transaction
- * @property   $order_id  (int)  ID of the related LLMS_Order
- * @property   $payment_type  (string)  Type of payment. [recurring|single|trial]
- * @property   $payment_gateway  (string)  LifterLMS Payment Gateway ID (eg "paypal" or "stripe")
- * @property   $refund_amount  (float)  Amount refunded, will always be 0 until a refund is actually recorded
- * @property   $refund_data  (array)  Array of arrays. Contains refund data for each refund recorded for this transaction.
- * @property   $title  (string)  Post Title
+ * LifterLMS order transactions
  *
  * @since 3.0.0
- * @since 3.37.6 Transaction creation date is now specified using `llms_current_time()`.
- *               Remove ordering placeholders from strftime().
+ *
+ * @property string $api_mode                   API Mode of the gateway when the transaction was made [test|live]/
+ * @property float  $amount                     Transaction charge amount.
+ * @property string $currency                   Transaction's currency code.
+ * @property string $gateway_completed_date     Datetime string when the transaction was completed by the gateway (if gateway supports).
+ * @property string $gateway_customer_id        Gateway's unique ID for the customer who placed the order.
+ * @property float  $gateway_fee_amount         Fee charged to the user by the gateway for the transaction (if gateway supports).
+ * @property string $gateway_source_id          Source Identifier from the gateway -- eg: credit card id or account id.
+ * @property string $gateway_source_description Short description of the source from the gateway. EG: Visa 1234.
+ * @property string $gateway_transaction_id     Gateway's unique ID for the transaction.
+ * @property int    $order_id                   ID of the related LLMS_Order.
+ * @property string $payment_type               Type of payment. [recurring|single|trial].
+ * @property string $payment_gateway            LifterLMS Payment Gateway ID (eg "paypal" or "stripe").
+ * @property float  $refund_amount              Amount refunded, will always be 0 until a refund is actually recorded.
+ * @property array  $refund_data                Array of arrays. Contains refund data for each refund recorded for this transaction.
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 
@@ -49,6 +45,28 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @var string
 	 */
 	protected $model_post_type = 'transaction';
+
+	/**
+	 * Post model properties.
+	 *
+	 * @var array
+	 */
+	protected $properties = array(
+		'api_mode'                   => 'text',
+		'amount'                     => 'float',
+		'currency'                   => 'text',
+		'gateway_completed_date'     => 'text',
+		'gateway_customer_id'        => 'text',
+		'gateway_fee_amount'         => 'float',
+		'gateway_source_id'          => 'text',
+		'gateway_source_description' => 'text',
+		'gateway_transaction_id'     => 'text',
+		'order_id'                   => 'absint',
+		'payment_type'               => 'text',
+		'payment_gateway'            => 'text',
+		'refund_amount'              => 'float',
+		'refund_data'                => 'array',
+	);
 
 	/**
 	 * Determine if the transaction can be refunded
@@ -89,21 +107,20 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @since 3.0.0
 	 * @since 3.37.6 Add a default date information using `llms_current_time()`.
 	 *               Remove ordering placeholders from strftime().
+	 * @since 5.9.0 Remove usage of deprecated `strftime()`.
 	 *
 	 * @param int $order_id LLMS_Order ID of the related order.
 	 * @return array
 	 */
 	protected function get_creation_args( $order_id = 0 ) {
 
+		$date = llms_current_time( 'mysql' );
+
 		$title = sprintf(
-			// Translators: %1$d = order ID; %2$s = formatted date/time string.
+			// Translators: %1$d = Order ID; %2$s = Transaction creation date.
 			__( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ),
 			$order_id,
-			strftime(
-				// Translators: See https://www.php.net/manual/en/function.strftime.php.
-				_x( '%b %d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ), // phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText -- Adding orders to these placeholders breaks strftime().
-				llms_current_time( 'timestamp' )
-			)
+			date_format( date_create( $date ), 'M d, Y @ h:i A' )
 		);
 
 		return apply_filters(
@@ -113,7 +130,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				'ping_status'    => 'closed',
 				'post_author'    => 0,
 				'post_content'   => '',
-				'post_date'      => llms_current_time( 'mysql' ),
+				'post_date'      => $date,
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'txn-pending' ),
@@ -165,52 +182,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			return new WP_Error( 'error', sprintf( __( 'Payment gateway %s could not be located or is no longer enabled', 'lifterlms' ), $this->get( 'payment_gateway' ) ) );
 		}
 	}
-	/**
-	 * Get a property's data type for scrubbing
-	 * used by $this->scrub() to determine how to scrub the property
-	 *
-	 * @param  string $key  property key
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @return string
-	 */
-	protected function get_property_type( $key ) {
-
-		switch ( $key ) {
-
-			case 'id':
-			case 'order_id':
-				$type = 'absint';
-				break;
-
-			case 'refund_data':
-				$type = 'array';
-				break;
-
-			case 'amount':
-			case 'gateway_fee_amount':
-			case 'refund_amount':
-				$type = 'float';
-				break;
-
-			case 'api_mode':
-			case 'completed_date':
-			case 'currency':
-			case 'gateway_customer_id':
-			case 'gateway_source_id':
-			case 'gateway_source_description':
-			case 'gateway_transaction_id':
-			case 'payment_gateway':
-			case 'payment_type':
-			default:
-				$type = 'text';
-
-		}
-
-		return $type;
-
-	}
-
 
 	/**
 	 * Process a Refund

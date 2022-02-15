@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version 5.5.0
+ * @version 5.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,6 +45,7 @@ class LLMS_Controller_Certificates {
 	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
 	 *
 	 * @since 3.37.4
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
 	 * @return array
@@ -53,7 +54,7 @@ class LLMS_Controller_Certificates {
 
 		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_STRING );
+			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
 			global $wpdb;
 			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok.
@@ -111,6 +112,7 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since 4.5.0 Add handler for changing certificate sharing settings.
+	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
@@ -120,7 +122,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		$cert_id = llms_filter_input( INPUT_POST, 'certificate_id', FILTER_SANITIZE_STRING );
+		$cert_id = absint( llms_filter_input( INPUT_POST, 'certificate_id', FILTER_SANITIZE_NUMBER_INT ) );
 		if ( isset( $_POST['llms_generate_cert'] ) ) {
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
