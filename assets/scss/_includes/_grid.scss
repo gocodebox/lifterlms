@@ -1,7 +1,7 @@
 .llms-cols {
 	@extend %clearfix;
 
-	.llms-cols {
+	.llms-col {
 		width: 100%;
 	}
 
@@ -26,12 +26,12 @@
 	display: flex;
 	flex-flow: row wrap;
 
-	@media all and (min-width: 600px) {
-		[class*="llms-col-"] {
-   			flex: 0 1 auto;
-   			width: 100%;
-		}
+	[class*="llms-col"] {
+		flex: 0 1 auto;
+		width: 100%;
+	}
 
+	@media all and (min-width: 600px) {
 		$cols: 1;
 		@while $cols <= 12 {
 			.llms-col-#{$cols} {

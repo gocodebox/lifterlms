@@ -26,7 +26,7 @@
 .llms-student-dashboard .llms-sd-items:after {
   clear: both; }
 
-.llms-cols .llms-cols {
+.llms-cols .llms-col {
   width: 100%; }
 
 @media all and (min-width: 600px) {
@@ -65,12 +65,12 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap; }
+  .llms-flex-cols [class*="llms-col"] {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+    width: 100%; }
   @media all and (min-width: 600px) {
-    .llms-flex-cols [class*="llms-col-"] {
-      -webkit-box-flex: 0;
-          -ms-flex: 0 1 auto;
-              flex: 0 1 auto;
-      width: 100%; }
     .llms-flex-cols .llms-col-1 {
       width: 100%; }
     .llms-flex-cols .llms-col-2 {
