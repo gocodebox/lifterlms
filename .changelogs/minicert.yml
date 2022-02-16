@@ -1,0 +1,7 @@
+significance: major
+type: changed
+links:
+  - "#1950"
+entry: The look and behavior of the certificate {{MINI_CERTIFICATE}} pop-over
+  notification merge code now displays a placeholder preview of the certificate
+  in favor of attempting to render a tiny version of the actual certificate.
