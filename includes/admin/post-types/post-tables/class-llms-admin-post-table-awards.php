@@ -211,7 +211,7 @@ class LLMS_Admin_Post_Table_Awards {
 			printf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( get_edit_post_link( $parent_id ) ),
-				_draft_or_post_title( $post_id )
+				_draft_or_post_title( $parent_id )
 			);
 		} else {
 			echo '&mdash;';
