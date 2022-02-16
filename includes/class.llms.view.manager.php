@@ -162,7 +162,7 @@ class LLMS_View_Manager {
 		$nodes[] = array(
 			'id'     => $top_id,
 			'parent' => 'top-secondary',
-			'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
+			'title'  => '<span class="ab-icon"><img src="' . llms()->plugin_url() . '/assets/images/lifterlms-icon.png" style="height:17px;margin-top:3px;opacity:0.65;"></span>' . $title,
 		);
 
 		// Add view as links.
@@ -441,7 +441,7 @@ class LLMS_View_Manager {
 			return;
 		}
 
-		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}

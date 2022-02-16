@@ -160,7 +160,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $this->is_auto_gradeable() ) {
 
-			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
+			$grade = llms()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz      = $this->get_quiz();
 			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;

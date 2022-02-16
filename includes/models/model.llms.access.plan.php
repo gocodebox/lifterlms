@@ -386,7 +386,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @param string $text Displayed text.
 		 * @param LLMS_Access_Plan $this The access plan instance.
 		 */
-		return apply_filters( 'llms_get_free_' . $this->model_post_type . '_pricing_text', $text, $this );
+		return apply_filters( "llms_get_free_{$this->model_post_type}_pricing_text", $text, $this );
 	}
 
 	/**
@@ -505,11 +505,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			} elseif ( 'float' === $format ) {
 				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
 			} else {
-				$price = apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_' . $format . '_with_coupon', $price, $key, $price_args, $format, $this );
+				$price = apply_filters( "llms_get_{$this->model_post_type}_{$key}_{$format}_with_coupon", $price, $key, $price_args, $format, $this );
 			}
 		}
 
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_price_with_coupon', $price, $key, $price_args, $format, $this );
+		return apply_filters( "llms_get_{$this->model_post_type}_{$key}_price_with_coupon", $price, $key, $price_args, $format, $this );
 
 	}
 

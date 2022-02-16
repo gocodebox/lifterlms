@@ -77,7 +77,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 	 * @return void
 	 */
 	private function set_body_email() {
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$rows = array(
 			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),
