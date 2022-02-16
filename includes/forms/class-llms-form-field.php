@@ -787,13 +787,14 @@ class LLMS_Form_Field {
 
 		// If scripts have been enqueued, add password strength meter script.
 		if ( did_action( 'wp_enqueue_scripts' ) ) {
-			$this->enqueue_strength_meter( $meter_settings );
-		} else { // Otherwise add it whe `wp_enqueue_scripts` is fired.
-			add_action(
-				'wp_enqueue_scripts',
-				function() use ( $meter_settings ) {
-					$this->enqueue_strength_meter( $meter_settings );
-				}
+			return $this->enqueue_strength_meter( $meter_settings );
+		}
+		// Otherwise add it whe `wp_enqueue_scripts` is fired.
+		add_action(
+			'wp_enqueue_scripts',
+			function() use ( $meter_settings ) {
+				$this->enqueue_strength_meter( $meter_settings );
+			}
 			);
 		}
 
@@ -813,7 +814,7 @@ class LLMS_Form_Field {
 	 * }
 	 * @return void
 	 */
-	public function enqueue_strength_meter( $meter_settings ) {
+	private function enqueue_strength_meter( $meter_settings ) {
 
 		wp_enqueue_script( 'password-strength-meter' );
 		// Localize the script with meter data.
