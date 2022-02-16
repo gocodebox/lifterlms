@@ -7,7 +7,8 @@
  * @group form_field
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @since [version] Update tests on password strength meter enqueueing.
+ * @version [version]
  */
 class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
@@ -927,13 +928,13 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test prepare_password_strength_meter() for script enqueue
+	 * Test prepare_password_strength_meter() for script enqueue: not enqueued case.
 	 *
-	 * @since 5.0.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_prepare_password_strength_meter_assets() {
+	public function test_prepare_password_strength_meter_assets_not_enqueued() {
 
 		$field = new LLMS_Form_Field();
 
@@ -942,8 +943,47 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		$this->assertAssetNotEnqueued( 'script', 'password-strength-meter' );
 		$this->assertFalse( llms()->assets->is_inline_enqueued( 'llms-pw-strength-settings' ) );
 
+	}
+
+	/**
+	 * Test prepare_password_strength_meter() for script enqueue: enqueued deferred on `wp_enqueue_scripts` hook firing.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_assets_enqueued_deferred() {
+
+		$field = new LLMS_Form_Field();
+
 		// Enqueued.
+		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
+
 		do_action( 'wp_enqueue_scripts' );
+
+		$this->assertAssetIsEnqueued( 'script', 'password-strength-meter' );
+		$this->assertTrue( llms()->assets->is_inline_enqueued( 'llms-pw-strength-settings' ) );
+
+		// Pretend wp_enqueue_scripts was never called, for further tests.
+		global $wp_actions;
+		unset( $wp_actions[ 'wp_enqueue_scripts' ] );
+
+	}
+
+	/**
+	 * Test prepare_password_strength_meter() for script enqueue: enqueued right away b/c `wp_enqueue_scripts` already fired.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_prepare_password_strength_meter_assets_enqueued_right_away() {
+
+		$field = new LLMS_Form_Field();
+
+		do_action( 'wp_enqueue_scripts' );
+
+		// Enqueued.
 		LLMS_Unit_Test_Util::call_method( $field, 'prepare_password_strength_meter', array() );
 
 		$this->assertAssetIsEnqueued( 'script', 'password-strength-meter' );
