@@ -795,8 +795,7 @@ class LLMS_Form_Field {
 			function() use ( $meter_settings ) {
 				$this->enqueue_strength_meter( $meter_settings );
 			}
-			);
-		}
+		);
 
 	}
 
