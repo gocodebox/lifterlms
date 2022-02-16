@@ -80,23 +80,37 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 			)
 		);
 
-		$engagement_type = str_replace( 'llms_', '', $post->post_type );
-		$sync_action     = "sync_awarded_{$engagement_type}s";
-		$sync_url        = add_query_arg(
-			array(
-				'action'                                      => $sync_action,
-				"_llms_{$engagement_type}_sync_actions_nonce" => wp_create_nonce( "llms-{$engagement_type}-sync-actions" ),
-			),
-			get_edit_post_link( $post, 'raw' )
-		);
+		$awarded_number = $this->count_awarded_engagements( $post->ID );
+		if ( $awarded_number > 0 ) {
 
-		$actions[ $sync_action ] = '<a href="' . esc_html( $sync_url ) . '">' .
-			sprintf(
-				/* translators: %1$s the awarded post type name label */
-				__( 'Sync %1$s', 'lifterlms' ),
-				get_post_type_labels( get_post_type_object( $award_post_type ) )->name
-			) .
-			'</a>';
+			$engagement_type = str_replace( 'llms_', '', $post->post_type );
+			$sync_action     = "sync_awarded_{$engagement_type}s";
+			$sync_url        = add_query_arg(
+				array(
+					'action'                                      => $sync_action,
+					"_llms_{$engagement_type}_sync_actions_nonce" => wp_create_nonce( "llms-{$engagement_type}-sync-actions" ),
+				),
+				get_edit_post_link( $post, 'raw' )
+			);
+
+			if ( $awarded_number > 1 ) {
+				$text = sprintf(
+					/* translators: %1$d the number of awarded engagements, %2$s: the plural awarded post type name label */
+					_x( 'Sync %1$d %2$s', 'plural', 'lifterlms' ),
+					$awarded_number,
+					get_post_type_labels( get_post_type_object( $award_post_type ) )->name
+				);
+			} else {
+				$text = sprintf(
+					/* translators: %1$d the number of awarded engagements, %2$s: the singular awarded post type name label */
+					_x( 'Sync %1$d %2$s', 'singular', 'lifterlms' ),
+					$awarded_number,
+					get_post_type_labels( get_post_type_object( $award_post_type ) )->singular_name
+				);
+			}
+
+			$actions[ $sync_action ] = '<a href="' . esc_html( $sync_url ) . '">' . $text . '</a>';
+		}
 
 		return $actions;
 
