@@ -72,6 +72,15 @@ class LLMS_Processor_Achievement_Sync extends LLMS_Abstract_Processor_User_Engag
 					$engagement_template_id,
 					'</a>'
 				);
+			case self::TEXT_SYNC_NOTICE_NO_AWARDED_ENGAGEMENTS:
+				return sprintf(
+					/* translators: %1$s: opening anchor tag that links to the achievement template, %2$s: achievement template name, #%3$d: achievement template ID, %4$s: closing anchor tag */
+					__( 'There are no awarded achievements to sync with the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					'<a href="' . get_edit_post_link( $engagement_template_id ) . '" target="_blank">',
+					get_the_title( $engagement_template_id ),
+					$engagement_template_id,
+					'</a>'
+				);
 			case self::TEXT_SYNC_NOTICE_SCHEDULED:
 				return sprintf(
 					/* translators: %1$s: opening anchor tag that links to the achievement template, %2$s: achievement template name, #%3$d: achievement template ID, %4$s: closing anchor tag */

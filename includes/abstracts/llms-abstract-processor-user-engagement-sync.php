@@ -38,13 +38,22 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	protected const TEXT_SYNC_NOTICE_AWARDED_ENGAGEMENTS_COMPLETE = 1;
 
 	/**
+	 * A text type for an admin notice that there are no awarded engagements to sync the template with.
+	 *
+	 * @since [version]
+	 *
+	 * @var int
+	 */
+	protected const TEXT_SYNC_NOTICE_NO_AWARDED_ENGAGEMENTS = 2;
+
+	/**
 	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is scheduled.
 	 *
 	 * @since [version]
 	 *
 	 * @var int
 	 */
-	protected const TEXT_SYNC_NOTICE_SCHEDULED = 2;
+	protected const TEXT_SYNC_NOTICE_SCHEDULED = 3;
 
 	/**
 	 * Clear notices.
@@ -226,8 +235,16 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 
 		$this->clear_notices( $engagement_template_id );
 
-		$args = array( $engagement_template_id );
-		if ( wp_next_scheduled( $this->schedule_hook, $args ) ) {
+		$args           = array( $engagement_template_id );
+		$awarded_count = $this->count_awarded_engagements( $engagement_template_id );
+
+		if ( 0 === $awarded_count ) {
+
+			$log_message    = 'no awarded %1$ss to bulk sync with the %1$s template %2$s (#%3$d)';
+			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_NO_AWARDED_ENGAGEMENTS, compact( 'engagement_template_id' ) );
+			$notice_id      = 'awarded-%1$ss-sync-%2$d-no-awarded';
+
+		} elseif ( wp_next_scheduled( $this->schedule_hook, $args ) ) {
 
 			$log_message    = 'awarded %1$ss bulk sync already scheduled for the %1$s template %2$s (#%3$d)';
 			$notice_message = $this->get_text( self::TEXT_SYNC_NOTICE_ALREADY_SCHEDULED, compact( 'engagement_template_id' ) );

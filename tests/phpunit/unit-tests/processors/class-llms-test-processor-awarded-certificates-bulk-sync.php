@@ -184,6 +184,30 @@ class LLMS_Test_Processor_Awarded_Certificates_Bulk_Sync extends LLMS_UnitTestCa
 				'post_type' => 'llms_certificate',
 			)
 		);
+
+		// The template has no awarded engagements to schedule a sync with.
+		do_action(
+			'llms_do_awarded_certificates_bulk_sync',
+			$certificate_template
+		);
+		$this->assertEquals(
+			array(
+				sprintf(
+					'awarded certificates bulk sync for the certificate template %1$s (#%2$d)',
+					get_the_title( $certificate_template ),
+					$certificate_template,
+				),
+				sprintf(
+					'no awarded certificates to bulk sync with the certificate template %1$s (#%2$d)',
+					get_the_title( $certificate_template ),
+					$certificate_template,
+				),
+			),
+			$this->logs->get( 'processors' )
+		);
+
+		$this->logs->clear( 'processors' );
+
 		$awarded_certificates   = $this->factory->post->create_many(
 			2,
 			array(

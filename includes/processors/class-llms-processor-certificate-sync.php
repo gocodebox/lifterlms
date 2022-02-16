@@ -72,6 +72,15 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 					$engagement_template_id,
 					'</a>'
 				);
+			case self::TEXT_SYNC_NOTICE_NO_AWARDED_ENGAGEMENTS:
+				return sprintf(
+					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, #%3$d: certificate template ID, %4$s: closing anchor tag */
+					__( 'There are no awarded certificates to sync with the template %1$s%2$s (#%3$d)%4$s.', 'lifterlms' ),
+					'<a href="' . get_edit_post_link( $engagement_template_id ) . '" target="_blank">',
+					get_the_title( $engagement_template_id ),
+					$engagement_template_id,
+					'</a>'
+				);
 			case self::TEXT_SYNC_NOTICE_SCHEDULED:
 				return sprintf(
 					/* translators: %1$s: opening anchor tag that links to the certificate template, %2$s: certificate template name, #%3$d: certificate template ID, %4$s: closing anchor tag */
