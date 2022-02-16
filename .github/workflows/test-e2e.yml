@@ -64,7 +64,7 @@ jobs:
           wp-version: ${{ matrix.WP }}
           docker-user: ${{ secrets.DOCKER_USERNAME }}
           docker-pass: ${{ secrets.DOCKER_PASSWORD }}
-          node-version: '16'
+          node-version: '14'
 
       - name: Run test suite
         run: npm run test -- --verbose
