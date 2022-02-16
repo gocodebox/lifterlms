@@ -1,6 +1,264 @@
 LifterLMS Changelog
 ===================
 
+v6.0.0-beta.1 - 2022-02-16
+--------------------------
+
+##### New Features
+
++ Added a link to return to the student dashboard when viewing an awarded certificate. [#1959](https://github.com/gocodebox/lifterlms/issues/1959)
++ The block editor is now enabled by default for certificates when using WordPress versions 5.8 and later.
+  + Existing certificates are marked as "legacy" and will continue to use the classic editor until migrated.
+  + To migrate a certificate, click the "Migrate Certificate" button. This will force the certificate's content into blocks.
++ A number of new settings are available to certificates when using the block editor:
+  + Set the certificate's display (and print) size using common paper sizes such as US Letter, US Legal, A3, A4, and more.
+  + Set the certificate's display orientation: portrait of landscape.
+  + Set the certificate's inner margins.
+  + Set the certificate's background color.
++ A new block, the Certificate Title Block, has been made available to certificates.
+  + The block works like a WordPress core Heading Block with added options for selecting from a few display fonts (provided by Google Web Fonts).
+  + The block controls the title of awarded certificates.
++ + Added the ability to sync awarded certificates with the template used to generate them. [#1078](https://github.com/gocodebox/lifterlms/issues/1078)
++ The `post_name` of earned certificate posts will be generated with a randomized 3+ character string in favor of relying on sequential numbers.
++ Added the ability for administrators and LMS managers to edit earned certificates/achievements from the students reporting screen, as well as award new certificates/achievements to students.
++ + Added certificate global options for the default size of new certificates and certificate templates.
++ Certificate and email template merge code buttons now include `[llms-user]` information shortcodes.
++ Added certificate sequential ID functionality merge code.
+
+##### Updates and Enhancements
+
++ Added pagination to achievement and certificate reporting pages.
++ Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
++ The achivements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
++ Added new default images for use with achievements and certificates.
+  + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
+  + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
++ The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
++ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms/issues/1640)
++ Updates LifterLMS REST to [v1.0.0-beta.22](https://make.lifterlms.com/2021/12/15/lifterlms-rest-api-version-1-0-0-beta-22/).
++ The look and behavior of the certificate {{MINI_CERTIFICATE}} pop-over notification merge code now displays a placeholder preview of the certificate in favor of attempting to render a tiny version of the actual certificate. [#1950](https://github.com/gocodebox/lifterlms/issues/1950)
+
+##### Bug Fixes
+
++ + Fixed how the protected `LLMS_Notifications_Query::$found_results` property is accessed in `LLMS_Abstract_Notification_Controller::has_subscriber_received()`. + Fixed how the protected `LLMS_Notifications_Query::$max_pages` property is accessed in `lifterlms_template_student_dashboard_my_notifications()`.
++ Delayed engagements are automatically unscheduled when the related post is deleted.
++ Prior to sending a delayed engagement the recipient's enrollment in the related post is verified resulting the engagement not being triggered if the recipient's enrollment has been terminated. [#290](https://github.com/gocodebox/lifterlms/issues/290)
++ A disabled student dashboard endpoint will no longer display the endpoint's summary on the main dashboard page. [#535](https://github.com/gocodebox/lifterlms/issues/535)
++ Post search filter boxes on various post tables will now longer display a link to the selected post.
++ Basic notification code is no longer loaded on the admin panel.
+
+##### Deprecations
+
++ Public access to properties of the abstract `LLMS_Database_Query` has been deprecated.
+  + Public access to class property `LLMS_Database_Query::$found_results`. The property is no longer publicly writable but can be read via `LLMS_Database_Query::get_found_results()`.
+  + Public access to class property `LLMS_Database_Query::$max_pages`. The property is no longer publicly writable but can be read via `LLMS_Database_Query::get_max_pages()`.
+  + Public access to class property `LLMS_Database_Query::$number_results`. The property is no longer publicly writable but can be read via `LLMS_Database_Query::get_number_results()`.
+  + Public access to class property `LLMS_Database_Query::$results`. The property is no longer publicly writable but can be read via `LLMS_Database_Query::get_results()`.
+  + Public access to class property `LLMS_Database_Query::$query_vars`. The variable as a whole cannot be publicly accessed, instead use `LLMS_Database_Query::get()` and `LLMS_Database_Query::set()` to read and write to the array.
+  + The above changes were made to the abstract class `LLMS_Database_Query` but the following concrete classes that utilize the abstract are also affected by this change: `LLMS_Query_User_Postmeta`, `LLMS_Student_Query`, `LLMS_Query_Quiz_Attempt`, `LLMS_Events_Query`, and `LLMS_Notifications_Query`.
++ Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+  + Method `LLMS_Achievement::is_enabled()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::get_blogname()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::format_string()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::get_title()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::get_content()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::get_content_html()` is deprecated with no replacement.
+  + Method `LLMS_Achievement::create()` is deprecated with no replacement.
++ Method `LLMS_Achievements::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
++ Class `LLMS_Certificate` is deprecated with no direct replacement.
+  + Method `LLMS_Certificate::is_enabled()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::get_blogname()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::format_string()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::get_title()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::get_content()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::get_content_html()` is deprecated with no replacement.
+  + Method `LLMS_Certificate::get_title()` is deprecated with no replacement.
++ Method `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
++ Method `LLMS_Engagements::init()` is deprecated with no replacement.
++ Method `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`.
++ Method `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`.
++ Method `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
++ Method `LLMS_Database_Query::set_found_results()` is deprecated.
++ Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+  + Method `LLMS_Achievement_User::has_user_earned()` is deprecated with no replacement.
+  + Method `LLMS_Achievement_User::init()` is deprecated with no replacement.
+  + Method `LLMS_Achievement_User::trigger()` is deprecated with no replacement.
+  + Method `LLMS_Achievement_User::get_content_html()` is deprecated with no replacement.
++ Class `LLMS_Certificate_User` is deprecated with no direct replacement.
+  + Method `LLMS_Certificate_User::init()` is deprecated with no replacement.
+  + Method `LLMS_Certificate_User::trigger()` is deprecated with no replacement.
+  + Method `LLMS_Certificate_User::get_content_html()` is deprecated with no replacement.
+  + Method `LLMS_Certificate_User::set_shortcode_user()` is deprecated with no replacement.
++ Engagement debug logging is removed. Use `llms_log()` directly instead.
++ Filter `llms_db_query_get_default_args` is deprecated in favor of `llms_{$this->id}_query_get_default_args`.
++ Filter `llms_certificate_has_user_earned` is deprecated in favor of `llms_earned_certificate_dupcheck`.
++ Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
++ Method `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.
++ The site options `lifterlms_certificate_bg_img_width`, `lifterlms_certificate_bg_img_height`, and `lifterlms_certificate_legacy_image_size` are now used only for certificates and certificate templates created using the classic editor.
+  + The settings, found on the Engagements Settings screen, are hidden by default.
+  + During the database upgrade from versions earlier than 6.x, an site option, `llms_has_legacy_certificates`  is added when at least one certificate is found. This option will display the settings so they can continue to be used for legacy certificates.
+  + After migrating all certificates on a site, the settings will still display. In order to remove them from the screen a developer can either delete the option `llms_has_legacy_certificates` or return `false` from the filter `llms_has_legacy_certificates`.
++ Method `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`. [#290](https://github.com/gocodebox/lifterlms/issues/290)
++ Method `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`. [#290](https://github.com/gocodebox/lifterlms/issues/290)
++ The constant `LLMS_ENGAGEMENT_DEBUG` is deprecated with no replacement.
++ Engagement debugging via `LLMS_Engagements::log` is deprecated. Use `llms_log()` instead.
++ Method `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
++ Filter `lifterlms_register_post_type_llms_my_certificate` is deprecated in favor of `lifterlms_register_post_type_my_certificate`.
++ Deprecated the misspelled protected method `LLMS_Database_Query::preprare_query()` and replaced with `LLMS_Database_Query::prepare_query()`.
+  + Class method `LLMS_Events_Query::preprare_query` replaced with `LLMS_Events_Query::prepare_query()`.
+  + Class method `LLMS_Query_Quiz_Attempt::preprare_query` replaced with `LLMS_Query_Quiz_Attempt::prepare_query()`.
+  + Class method `LLMS_Query_User_Postmeta::preprare_query` replaced with `LLMS_Query_User_Postmeta::prepare_query()`.
+  + Class method `LLMS_Student_Query::preprare_query` replaced with `LLMS_Student_Query::prepare_query()`.
+  + Class method `LLMS_Notifications_Query::preprare_query` replaced with `LLMS_Notifications_Query::prepare_query()`.
+  + Class method `LLMS_Notifications_Query::preprare_query` replaced with `LLMS_Notifications_Query::prepare_query()`. [#859](https://github.com/gocodebox/lifterlms/issues/859)
+
+##### Breaking Changes
+
++ Removed FSE template: `templates/block-templates/single-certificate.html`.
++ Removed the deprecated `LLMS()` function in favor of the `llms()` function.
++ Removed the deprecated the `LLMS_SendWP::do_remote_install()` method in favor of the `LLMS_Abstract_Email_Provider::do_remote_install()` method.
++ Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
++ Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
++ Removed the deprecated `LLMS_Admin_Users_Table::load_dependencies()` method.
++ Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
++ Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::generator_course_status()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::output_step_html()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::scripts()` method.
++ Removed the deprecated `LLMS_Admin_Setup_Wizard::watch_course_generation()` method.
++ Removed the deprecated `llms_format_decimal()` function.
++ Removed the deprecated `llms_set_person_auth_cookie()` function.
++ Removed the deprecated `LLMS_Course::sections` property.
++ Removed the deprecated `LLMS_Course::sku` property.
++ Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method.
++ Removed the deprecated `LLMS_Frontend_Assets::enqueue_inline_script()` method.
++ Removed the deprecated `LLMS_Frontend_Assets::is_inline_script_enqueued()` method.
++ Removed the deprecated `LLMS_Generator::add_custom_values()` method.
++ Removed the deprecated `LLMS_Generator::add_custom_values()` method.
++ Removed the deprecated `LLMS_Generator::format_date()` method.
++ Removed the deprecated `LLMS_Generator::get_author_id_from_raw()` method.
++ Removed the deprecated `LLMS_Generator::get_default_post_status()` method.
++ Removed the deprecated `LLMS_Generator::get_generated_posts()` method.
++ Removed the deprecated `LLMS_Generator::increment()` method.
++ Removed the deprecated `llms__created` action hook from the `LLMS_Abstract_Database_Store::create()` method.
++ Removed the deprecated `llms__deleted` action hook from the `LLMS_Abstract_Database_Store::delete()` method.
++ Removed the deprecated `llms__updated` action hook from the `LLMS_Abstract_Database_Store::update()` method.
++ Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
++ Removed the deprecated and misspelled `$purchaseable` global variable in the `lifterlms_template_pricing_table()` function.
++ Removed the deprecated and misspelled `$purchaseable` global variable in the `templates/product/pricing-table.php` file.
++ Removed the deprecated `LLMS_Frontend_Password` class.
++ Removed the deprecated `LLMS_Install::db_updates()` method.
++ Removed the deprecated `LLMS_Install::update_notice()` method.
++ Removed the deprecated `LLMS_Notifications::dispatch_processors()` method.
++ Removed the deprecated `llms_processors_async_dispatching` filter hook from the `LLMS_Notifications::__construct()` method.
++ Removed the deprecated `LLMS_Notifications::$_instance` property.
++ Removed the deprecated `LLMS_Person_Handler::register()` method.
++ Removed the deprecated `LLMS_Person_Handler::sanitize_field()` method.
++ Removed the deprecated `LLMS_Person_Handler::update()` method.
++ Removed the deprecated `LLMS_Person_Handler::validate_fields()` method.
++ Removed the deprecated `LLMS_Person_Handler::voucher_toggle_script()` method.
++ Removed the deprecated `templates/admin/notices/db-update.php` file.
++ Removed the deprecated `templates/admin/notices/db-updating.php` file.
++ Removed the deprecated `llms_usernames_blacklist` filter hook in the `llms_get_usernames_blocklist()` function.
++ Removed the deprecated `includes/libraries/wp-background-processing/index.php` file.
++ Removed the deprecated `includes/libraries/wp-background-processing/wp-async-request.php` file.
++ Removed the deprecated `includes/libraries/wp-background-processing/wp-background-process.php` file.
++ Removed the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
++ Removed the deprecated `LLMS_Section::get_order()` method.
++ Removed the deprecated `LLMS_Section::get_parent_course()` method.
++ Removed the deprecated `LLMS_Section::set_parent_course()` method.
++ Removed the deprecated `LLMS_AJAX::check_voucher_duplicate()` method.
++ Removed the deprecated `LLMS_AJAX::get_ajax_data()` method.
++ Removed the deprecated `LLMS_AJAX::register_script()` method.
++ Removed the deprecated `LLMS_Interface_Post_Audio` interface.
++ Removed the deprecated `LLMS_Interface_Post_Sales_Page` interface.
++ Removed the deprecated `LLMS_Interface_Post_Video` interface.
++ Removed the deprecated `LLMS_Achievements::$_instance` property.
++ Removed the deprecated `LLMS_Certificates::$_instance` property.
++ Removed the deprecated `LLMS_Emails::$_instance` property.
++ Removed the deprecated `LLMS_Engagements::$_instance` property.
++ Removed the deprecated `LLMS_Events::$_instance` property.
++ Removed the deprecated `LLMS_Grades::$_instance` property.
++ Removed the deprecated `LLMS_Integrations::$_instance` property.
++ Removed the deprecated `LLMS_Payment_Gateways::$_instance` property.
++ Removed the deprecated `LLMS_Processors::$_instance` property.
++ Removed the deprecated `LLMS_Sessions::$_instance` property.
+
+##### Developer Notes
+
++ Added `LLMS_Awards_Query`, used for querying data about awarded certificates and achievements.
+  + The method signature `LLMS_Student::get_achievements()` and `LLMS_Student::get_certificates()` now use this class under tho hood.
+  + The previous method signature, which passed data into a direct SQL query, is now deprecated.
++ Achievement and certificate data storage locations have been modified, primarily to reduce reliance on the `wp_postmeta` table which will result in a site-wide performance improvement, especially on large sites.
+  + Meta properties `_llms_achievement_content` and `_llms_certificate_content` have been removed in favor of `WP_Post::$post_content`.
+  + Meta properties `_llms_achievement_title` and `_llms_certificate_title` have been removed in favor of `WP_Post::$post_title`.
+  + Meta properties `_llms_achievement_template` and `_llms_certificate_template` have been removed in favor of `WP_Post::$post_parent`.
+  + Meta properties `_llms_achievement_image` and `_llms_certificate_image` have been moved the meta property `_thumbnail_id` in order to utilize the WordPress core's featured image functionality and internal APIs.
++ Reliance on `lifterlms_user_postmeta` for achievement and certificate data will be removed in a future release.
+  + User postmeta properties `_achievement_earned` and `_certificate_earned` will continue to be recorded but are no longer being used internally.
+  + The `updated_date` is now accessible via `WP_Post::$post_date`.
+  + The `user_id` is now accessible via `WP_Post::$post_author`.
++ Added new Javascript UI components library, modeled after `@wordpress/components`. [Read more](https://github.com/gocodebox/lifterlms/tree/dev-600/packages/components).
++ Added a new SVG icon library, modeled after `@wordpress/icons`. [Read more](https://github.com/gocodebox/lifterlms/tree/dev-600/packages/icons).
++ The merge code button seen on certificate and email template editors is now an SVG image instead of a PNG.
++ Added utility function for escaping and quoting strings. [#1027](https://github.com/gocodebox/lifterlms/issues/1027)
++ Added new utility function for stripping prefixes from strings.
+
+##### Performance Improvements
+
++ Increased the number of files that are autoloaded instead of manually loaded.
+
+##### Updated Templates
+
++ [templates/achievements/loop.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/achievements/loop.php)
++ [templates/achievements/template.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/achievements/template.php)
++ [templates/admin/notices/db-update.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/notices/db-update.php)
++ [templates/admin/notices/db-updating.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/notices/db-updating.php)
++ [templates/admin/reporting/reporting.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/reporting/reporting.php)
++ [templates/admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/reporting/tabs/courses/overview.php)
++ [templates/admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/reporting/tabs/memberships/overview.php)
++ [templates/admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/reporting/tabs/quizzes/overview.php)
++ [templates/admin/reporting/tabs/students/information.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/admin/reporting/tabs/students/information.php)
++ [templates/block-templates/archive-course.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/archive-course.html)
++ [templates/block-templates/archive-llms_membership.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/archive-llms_membership.html)
++ [templates/block-templates/single-no-access.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/single-no-access.html)
++ [templates/block-templates/taxonomy-course_cat.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-course_cat.html)
++ [templates/block-templates/taxonomy-course_difficulty.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-course_difficulty.html)
++ [templates/block-templates/taxonomy-course_tag.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-course_tag.html)
++ [templates/block-templates/taxonomy-course_track.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-course_track.html)
++ [templates/block-templates/taxonomy-membership_cat.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-membership_cat.html)
++ [templates/block-templates/taxonomy-membership_tag.html](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/block-templates/taxonomy-membership_tag.html)
++ [templates/certificates/actions.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/actions.php)
++ [templates/certificates/content-legacy.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/content-legacy.php)
++ [templates/certificates/content.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/content.php)
++ [templates/certificates/dynamic-styles.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/dynamic-styles.php)
++ [templates/certificates/footer.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/footer.php)
++ [templates/certificates/header.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/header.php)
++ [templates/certificates/loop.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/loop.php)
++ [templates/certificates/preview.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/preview.php)
++ [templates/certificates/template.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/certificates/template.php)
++ [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/checkout/form-confirm-payment.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/checkout/form-switch-source.php)
++ [templates/content-certificate.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/content-certificate.php)
++ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/course/lesson-navigation.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/course/lesson-preview.php)
++ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/course/parent-course.php)
++ [templates/emails/footer.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/emails/footer.php)
++ [templates/emails/header.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/emails/header.php)
++ [templates/loop-main.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/loop-main.php)
++ [templates/loop.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/loop.php)
++ [templates/myaccount/my-grades-single-table.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/myaccount/my-grades-single-table.php)
++ [templates/myaccount/view-order-actions.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/myaccount/view-order-actions.php)
++ [templates/myaccount/view-order-information.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/myaccount/view-order-information.php)
++ [templates/myaccount/view-order-transactions.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/myaccount/view-order-transactions.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/myaccount/view-order.php)
++ [templates/product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/product/pricing-table.php)
++ [templates/quiz/questions/content-picture_choice.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/quiz/questions/content-picture_choice.php)
++ [templates/quiz/results.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/quiz/results.php)
++ [templates/single-certificate.php](https://github.com/gocodebox/lifterlms/blob/6.0.0-beta.1/templates/single-certificate.php)
+
+
 v5.9.0 - 2022-02-15
 -------------------
 
