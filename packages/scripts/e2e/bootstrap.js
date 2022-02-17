@@ -62,13 +62,19 @@ beforeAll( async() => {
 				return false;
 			}
 
+			const logText = log.text();
+
 			// Skip 403s.
-			if ( log.text().includes( 'Failed to load resource: the server responded with a status of 403 (Forbidden)' ) ) {
+			if ( logText.includes( 'Failed to load resource: the server responded with a status of 403 (Forbidden)' ) ) {
+				return false;
+			}
+
+			if ( logText.includes( 'Failed to load resource: the server responded with a status of 404 (Not Found)' ) ) {
 				return false;
 			}
 
 			// Skip core block update messages.
-			if ( log.text().includes( 'Updated Block: %s core/' ) ) {
+			if ( logText.includes( 'Updated Block: %s core/' ) ) {
 				return false;
 			}
 
