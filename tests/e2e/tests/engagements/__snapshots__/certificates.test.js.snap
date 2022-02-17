@@ -2,7 +2,7 @@
 
 exports[`Engagements/Certificates Awarded should award a certificate on user registration 1`] = `
 "<div class=\\"llms-certificate-wrapper\\">
-	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_my_certificate type-llms_my_certificate status-publish hentry entry\\">
+	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
 
 		
 		
@@ -24,7 +24,7 @@ exports[`Engagements/Certificates Awarded should award a certificate on user reg
 
 exports[`Engagements/Certificates Awarded should award a certificate on user registration 2`] = `
 "<div class=\\"llms-certificate-wrapper\\">
-	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_my_certificate type-llms_my_certificate status-publish hentry entry\\">
+	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
 
 		
 		
@@ -444,7 +444,7 @@ Array [
 
 exports[`Engagements/Certificates Templates should create a certificate in the block editor 1`] = `
 "<div class=\\"llms-certificate-wrapper\\">
-	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_certificate type-llms_certificate status-publish hentry entry\\">
+	<div id=\\"certificate-999\\" class=\\"llms-certificate-container cert-template-v2 post-999 llms_certificate type-llms_certificate status-publish hentry\\">
 
 		
 		
@@ -463,26 +463,6 @@ exports[`Engagements/Certificates Templates should create a certificate in the b
 	</div>
 </div>"
 `;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 1`] = `"rgb(0, 0, 0)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 2`] = `"rgb(40, 48, 61)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 3`] = `"rgb(57, 65, 77)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 4`] = `"rgb(209, 228, 221)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 5`] = `"rgb(209, 223, 228)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 6`] = `"rgb(209, 209, 228)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 7`] = `"rgb(228, 209, 209)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 8`] = `"rgb(228, 218, 209)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 9`] = `"rgb(238, 234, 221)"`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Background Color 10`] = `"rgb(255, 255, 255)"`;
 
 exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Margins 1`] = `
 Object {

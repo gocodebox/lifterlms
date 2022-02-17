@@ -17,6 +17,7 @@ import {
 	registerStudent,
 	toggleOpenRegistration,
 	toggleSidebarPanel,
+	wpVersionCompare,
 	visitPostPermalink,
 } from '@lifterlms/llms-e2e-test-utils';
 
@@ -51,6 +52,9 @@ async function getCertificateHTML( templateVersion = 2 ) {
 
 	// Replace the awarded date with a mocked date.
 	html = html.replace( /(">On ).+(<\/p>)/, '$1Octember 01, 9999$2' );
+
+	// Strip the classname added by the various themes; 2022 theme doesn't include it and this makes it so we can have a single snapshot.
+	html = html.replace( ' entry">', '">' );
 
 	return html;
 
@@ -222,12 +226,18 @@ describe( 'Engagements/Certificates', () => {
 
 			for ( let j = 0; j < colors.length; j++ ) {
 
+				// The color of the button we're pressing.
+				const expectedBgColor = await colors[ j ].evaluate( ( { style } ) => style['background-color'] );
+
+				// Press it.
 				await colors[ j ].click();
 				await page.waitForTimeout( 500 );
 
+				// Get the updated background color of the editor wrapper.
 				const styles = await getElementStyles( '.editor-styles-wrapper' ),
 					bgColor = styles['background-color'];
-				expect( bgColor ).toMatchSnapshot( 'Background Color' );
+
+				expect( bgColor ).toBe( expectedBgColor );
 
 			}
 
