@@ -42,8 +42,9 @@ trait LLMS_Trait_User_Engagement_Type {
 				'templates' => $template_id,
 				'per_page'  => 1,
 				'status'    => array(
-					'publish',
+					'draft',
 					'future',
+					'publish',
 				),
 				'type'      => $this->engagement_type,
 			)
