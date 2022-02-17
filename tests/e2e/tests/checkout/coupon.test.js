@@ -11,6 +11,7 @@ import {
 	createCourse,
 	fillField,
 	logoutUser,
+	wpVersionCompare,
 } from '@lifterlms/llms-e2e-test-utils';
 
 let courseId = null,
@@ -100,7 +101,10 @@ describe( 'Checkout/Coupons', () => {
 
 		// Return and it still found due to it being saved in session data.
 		await page.goto( planUrl );
-		expect( await page.$eval( '.llms-coupon-wrapper .llms-notice.llms-success', el => el.textContent ) ).toBe( `Coupon code "${ coupon }" has been applied to your order.` );
+
+		// For reasons I cannot discern the Twenty Twenty-Two theme converts these to smart quotes on page load... It's probably a security filter on the FSE content...
+		const couponWithQuotes = wpVersionCompare( '5.9', '>=' ) ? `“${ coupon }”` : `"${ coupon }"`;
+		expect( await page.$eval( '.llms-coupon-wrapper .llms-notice.llms-success', el => el.textContent ) ).toBe( `Coupon code ${ couponWithQuotes } has been applied to your order.` );
 
 		// Remove it.
 		await click( '#llms-remove-coupon' );
