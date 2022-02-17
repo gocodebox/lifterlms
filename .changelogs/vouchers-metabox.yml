@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links: 
+- "#2005"
+entry: Fixed impossibility to search for vouchers in the voucher list table.
