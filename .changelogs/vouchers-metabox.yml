@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links: 
+- "#2005"
+entry: Fixed an issue encountered when using the search box on the voucher admin posts list screen.
