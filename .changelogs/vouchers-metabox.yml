@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links: 
 - "#2005"
-entry: Fixed impossibility to search for vouchers in the voucher list table.
+entry: Fixed an issue encountered when using the search box on the voucher admin posts list screen.
