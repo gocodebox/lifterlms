@@ -20,7 +20,8 @@ require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post
  */
 class LLMS_Admin_Post_Table_Achievements {
 
-	use LLMS_Trait_Award_Templates_Post_List_Table, LLMS_Trait_User_Engagement_Type;
+	use LLMS_Trait_Award_Templates_Post_List_Table;
+	use LLMS_Trait_User_Engagement_Type;
 
 	/**
 	 * Constructor
