@@ -172,7 +172,7 @@ class LLMS_Test_Meta_Box_Achievement_Sync extends LLMS_PostTypeMetaboxTestCase {
 			LLMS_Unit_Test_Util::call_method( $this->metabox, 'sync_action' )
 		);
 
-		// Create various awarded achievements: only 2 of them have the required post_status (publish and future).
+		// Create various awarded achievements: only 3 of them have the required post_status (draft, future and publish).
 		foreach ( get_available_post_statuses( 'llms_my_achievement' ) as $status ) {
 			$awarded_achievements[] = $this->factory->post->create(
 				array(
@@ -189,7 +189,7 @@ class LLMS_Test_Meta_Box_Achievement_Sync extends LLMS_PostTypeMetaboxTestCase {
 		);
 
 		$this->assertStringContainsString(
-			'2 awarded achievements',
+			'3 awarded achievements',
 			LLMS_Unit_Test_Util::call_method( $this->metabox, 'sync_action' )
 		);
 
