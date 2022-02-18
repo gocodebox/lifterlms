@@ -1,6 +1,6 @@
 <?php
 /**
- * Update functions for version 6.0.1.
+ * Update functions for version 6.1.0.
  *
  * @package LifterLMS/Functions/Updates
  *
@@ -8,12 +8,12 @@
  * @version [version]
  */
 
-namespace LLMS\Updates\Version_6_0_1;
+namespace LLMS\Updates\Version_6_1_0;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * For old users: explicitly limit by default the buddypress profile endpoints to those existing prior to 6.0.1.
+ * For old users: explicitly limit by default the buddypress profile endpoints to those existing prior to 6.1.0.
  *
  * @since [version]
  *
@@ -40,12 +40,12 @@ function buddypress_profile_endpoints_bc() {
 }
 
 /**
- * Update db version to 6.0.1.
+ * Update db version to 6.1.0.
  *
  * @since [version]
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */
 function update_db_version() {
-	\LLMS_Install::update_db_version( '6.0.1' );
+	\LLMS_Install::update_db_version( '6.1.0' );
 }

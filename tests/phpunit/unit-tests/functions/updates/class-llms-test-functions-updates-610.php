@@ -1,6 +1,6 @@
 <?php
 /**
-* Test updates functions when updating to 6.0.1.
+* Test updates functions when updating to 6.1.0.
  *
  * @package LifterLMS/Tests/Functions/Updates
  *
@@ -23,7 +23,7 @@ class LLMS_Test_Functions_Updates_601 extends LLMS_UnitTestCase {
 	 */
 	public static function set_up_before_class() {
 		parent::set_up_before_class();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-601.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-610.php';
 	}
 
 	/**
@@ -41,7 +41,7 @@ class LLMS_Test_Functions_Updates_601 extends LLMS_UnitTestCase {
 		);
 
 		// Run the update.
-		\LLMS\Updates\Version_6_0_1\buddypress_profile_endpoints_bc();
+		\LLMS\Updates\Version_6_1_0\buddypress_profile_endpoints_bc();
 
 		$this->assertEquals(
 			array(),
@@ -52,7 +52,7 @@ class LLMS_Test_Functions_Updates_601 extends LLMS_UnitTestCase {
 		update_option(  'llms_integration_buddypress_enabled', 'yes' );
 
 		// Run the update.
-		\LLMS\Updates\Version_6_0_1\buddypress_profile_endpoints_bc();
+		\LLMS\Updates\Version_6_1_0\buddypress_profile_endpoints_bc();
 
 		$this->assertEquals(
 			array(
@@ -83,9 +83,9 @@ class LLMS_Test_Functions_Updates_601 extends LLMS_UnitTestCase {
 		// Remove existing db version.
 		delete_option( 'lifterlms_db_version' );
 
-		\LLMS\Updates\Version_6_0_1\update_db_version();
+		\LLMS\Updates\Version_6_1_0\update_db_version();
 
-		$this->assertEquals( '6.0.1', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '6.1.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 

@@ -67,6 +67,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
+ * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
  * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
  *              Prefer `wp_parse_url()` over the discouraged `parse_url()`.
  *              Prefer faster `strpos()` over `strstr()` since we only need to know if a substring is contained in a string.
@@ -157,8 +158,8 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
  * @since [version]
  * @access private
  *
- * @param string $url       URL to extract the Base URL, to append the endpoint to, from.
- * @param string $endpoint  Slug of the endpoint, eg "my-courses".
+ * @param string $url      URL to extract the Base URL, to append the endpoint to, from.
+ * @param string $endpoint Slug of the endpoint, eg "my-courses".
  * @return string
  */
 function _llms_normalize_endpoint_base_url( $url, $endpoint ) {

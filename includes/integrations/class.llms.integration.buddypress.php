@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BuddyPress Integration
+ * BuddyPress Integration.
  *
  * @since 1.0.0
  * @since 3.37.17 Fixed `courses` pagination.
@@ -21,7 +21,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	public $id = 'buddypress';
 
 	/**
-	 * Display order on Integrations tab
+	 * Display order on Integrations tab.
 	 *
 	 * @var integer
 	 */
@@ -191,7 +191,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Add LLMS navigation items to the BuddyPress User Profile
+	 * Add LLMS navigation items to the BuddyPress User Profile.
 	 *
 	 * @since 1.0.0
 	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
@@ -287,7 +287,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Callback for "Achievements" profile screen
+	 * Callback for "Achievements" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -304,7 +304,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Callback for "Certificates" profile screen
+	 * Callback for "Certificates" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -321,7 +321,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Callback for "Courses" profile screen
+	 * Callback for "Courses" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -424,7 +424,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Remove specific paginate links filter after the template has been rendered
+	 * Remove specific paginate links filter after the template has been rendered.
 	 *
 	 * @since 3.37.17
 	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::remove_paginate_links_filter()}.
@@ -439,7 +439,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Modify the pagination links displayed on the courses endpoint in the bp member profile
+	 * Modify the pagination links displayed on the courses endpoint in the bp member profile.
 	 *
 	 * @since 3.37.17
 	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::modify_paginate_links()}.
@@ -483,7 +483,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		// For links to page/1 let's remove it to avoid ugly URLs.
 		if ( 1 === absint( $page ) ) {
-			$link = str_replace( $wp_rewrite->pagination_base . '/' . $page . '/', '', $link );
+			$link = str_replace( user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page ), '', $link );
 		}
 
 		$endpoints = $this->get_profile_endpoints();
@@ -556,7 +556,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 
 	/**
-	 * Callback for "memberships" profile screen
+	 * Callback for "memberships" profile screen.
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -573,7 +573,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Allows restricting of BP Directory Pages for Activity and Members via LifterLMS membership restrictions
+	 * Allows restricting of BP Directory Pages for Activity and Members via LifterLMS membership restrictions.
 	 *
 	 * @since 3.12.0
 	 *
