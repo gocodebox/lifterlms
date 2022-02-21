@@ -20,6 +20,7 @@ require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post
 class LLMS_Admin_Post_Table_Certificates {
 
 	use LLMS_Trait_Award_Templates_Post_List_Table;
+	use LLMS_Trait_User_Engagement_Type;
 
 	/**
 	 * Query string variable used to identify the migration action.
@@ -37,6 +38,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 */
 	public function __construct() {
 
+		$this->engagement_type = 'certificate';
 		$this->award_template_row_actions(); // defined in LLMS_Trait_Award_Templates_Post_List_Table.
 
 		if ( ! llms_is_block_editor_supported_for_certificates() ) {

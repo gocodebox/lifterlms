@@ -27,6 +27,33 @@ trait LLMS_Trait_User_Engagement_Type {
 	protected $engagement_type;
 
 	/**
+	 * Returns the number of user engagements that have been awarded from the template.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $template_id The post ID of the template.
+	 * @return int
+	 */
+	protected function count_awarded_engagements( $template_id ) {
+
+		$awarded_engagements_query = new LLMS_Awards_Query(
+			array(
+				'fields'    => 'ids',
+				'templates' => $template_id,
+				'per_page'  => 1,
+				'status'    => array(
+					'draft',
+					'future',
+					'publish',
+				),
+				'type'      => $this->engagement_type,
+			)
+		);
+
+		return $awarded_engagements_query->get_found_results();
+	}
+
+	/**
 	 * Returns an awarded engagement or an engagement template, based on a LLMS_Post_Model object, for the given post or false if not found.
 	 *
 	 * @since [version]

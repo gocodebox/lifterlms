@@ -18,16 +18,6 @@ defined( 'ABSPATH' ) || exit;
 trait LLMS_Trait_Award_Templates_Post_List_Table {
 
 	/**
-	 * Array of supported engagement templates post types.
-	 *
-	 * @var array
-	 */
-	private $post_types = array(
-		'llms_certificate',
-		'llms_achievement',
-	);
-
-	/**
 	 * Add post row actions filter callback.
 	 *
 	 * @since [version]
@@ -36,7 +26,9 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 	 */
 	protected function award_template_row_actions() {
 
-		add_filter( 'post_row_actions', array( $this, 'add_post_actions' ), 20, 2 );
+		if ( "llms_{$this->engagement_type}" === llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+			add_filter( 'post_row_actions', array( $this, 'add_post_actions' ), 20, 2 );
+		}
 
 	}
 
@@ -51,7 +43,7 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 	 */
 	public function add_post_actions( $actions, $post ) {
 
-		if ( ! $post || ! in_array( $post->post_type, $this->post_types, true ) ) {
+		if ( ! $post || "llms_{$this->engagement_type}" !== $post->post_type ) {
 			return $actions;
 		}
 
@@ -79,6 +71,23 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 				)->name
 			)
 		);
+
+		$sync_action = "sync_awarded_{$this->engagement_type}s";
+		$sync_url    = add_query_arg(
+			array(
+				'action'                                            => $sync_action,
+				"_llms_{$this->engagement_type}_sync_actions_nonce" => wp_create_nonce( "llms-{$this->engagement_type}-sync-actions" ),
+			),
+			get_edit_post_link( $post, 'raw' )
+		);
+
+		$text = sprintf(
+			/* translators: %1$s: the plural awarded post type name label */
+			__( 'Sync %1$s', 'lifterlms' ),
+			get_post_type_labels( get_post_type_object( $award_post_type ) )->name
+		);
+
+		$actions[ $sync_action ] = '<a href="' . esc_html( $sync_url ) . '">' . $text . '</a>';
 
 		return $actions;
 

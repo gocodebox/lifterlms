@@ -172,31 +172,6 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	}
 
 	/**
-	 * Returns the number of user engagements that have been awarded from the template.
-	 *
-	 * @since [version] Refactored from LLMS_Meta_Box_Certificate_Template_Sync::sync_action().
-	 *
-	 * @return int
-	 */
-	private function get_awarded_engagements_number() {
-
-		$awarded_engagements_number = ( new LLMS_Awards_Query(
-			array(
-				'fields'    => 'ids',
-				'templates' => $this->post->ID,
-				'per_page'  => 1,
-				'status'    => array(
-					'publish',
-					'future',
-				),
-				'type'      => $this->engagement_type,
-			)
-		) )->get_found_results();
-
-		return $awarded_engagements_number;
-	}
-
-	/**
 	 * Not used because our meta box doesn't use the standard fields API.
 	 *
 	 * @since [version] Refactored from LLMS_Meta_Box_Award_Certificate_Sync::get_fields() and
@@ -220,7 +195,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	private function get_sync_action_texts() {
 
 		if ( $this->is_current_post_a_template ) {
-			$awarded_number = $this->get_awarded_engagements_number();
+			$awarded_number = $this->count_awarded_engagements( $this->post->ID );
 
 			if ( ! $awarded_number ) {
 				return array();

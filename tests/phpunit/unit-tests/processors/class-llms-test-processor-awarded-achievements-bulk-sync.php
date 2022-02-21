@@ -184,6 +184,30 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 				'post_type' => 'llms_achievement',
 			)
 		);
+
+		// The template has no awarded engagements to schedule a sync with.
+		do_action(
+			'llms_do_awarded_achievements_bulk_sync',
+			$achievement_template
+		);
+		$this->assertEquals(
+			array(
+				sprintf(
+					'awarded achievements bulk sync for the achievement template %1$s (#%2$d)',
+					get_the_title( $achievement_template ),
+					$achievement_template,
+				),
+				sprintf(
+					'no awarded achievements to bulk sync with the achievement template %1$s (#%2$d)',
+					get_the_title( $achievement_template ),
+					$achievement_template,
+				),
+			),
+			$this->logs->get( 'processors' )
+		);
+
+		$this->logs->clear( 'processors' );
+
 		$awarded_achievements   = $this->factory->post->create_many(
 			2,
 			array(

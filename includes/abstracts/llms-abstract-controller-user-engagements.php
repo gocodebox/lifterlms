@@ -260,6 +260,11 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		 * @param int $user_engagement_template_id The user engagement template post ID.
 		 */
 		do_action( "llms_do_awarded_{$this->engagement_type}s_bulk_sync", $user_engagement_template_id );
-		llms_redirect_and_exit( get_edit_post_link( $user_engagement_template_id, 'raw' ) );
+
+		if ( empty( $_SERVER['HTTP_REFERER'] ) ) {
+			llms_redirect_and_exit( get_edit_post_link( $user_engagement_template_id, 'raw' ) );
+		} else {
+			llms_redirect_and_exit( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
+		}
 	}
 }
