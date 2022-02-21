@@ -74,7 +74,7 @@ jobs:
         if: failure()
         with:
           name: error-artifacts
-          path: tmp/e2e-screenshots
+          path: tmp/artifacts
 
   ###
   #
