@@ -55,8 +55,6 @@ async function getCourseId() {
 
 	if ( ! courseId ) {
 
-		page.on( 'dialog', dialog => dialog.accept() );
-
 		await createNewPost( {
 			title: 'Test Course Builder',
 			postType: 'course',
