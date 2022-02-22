@@ -21,6 +21,10 @@ $llmsenv wp user create voucher voucher@email.tld --role=student --user_pass=pas
 # Settings/CopyPrevention -> StudentUser
 $llmsenv wp user create validcreds validcreds@email.tld --role=student --user_pass=password
 
+# CourseRestrictions -> Enrolled Users
+$llmsenv wp user create restrictionstester restrictions@email.tld --role=student --user_pass=password
+
+
 # 3. Set options.
 #################
 
