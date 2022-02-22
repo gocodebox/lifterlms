@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 4.21.0
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -151,9 +151,10 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve # of lessons completed within the period
+	 * Retrieves and returns the number of lessons completed within the period.
 	 *
 	 * @since 3.15.0
+	 * @since 5.10.0 Fixed issue when the course has no lessons.
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
 	 * @return int
@@ -164,6 +165,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		// Return early for courses without any lessons.
+		if ( empty( $lessons ) ) {
+			return 0;
+		}
+
 		return $wpdb->get_var(
 			$wpdb->prepare(
 				"

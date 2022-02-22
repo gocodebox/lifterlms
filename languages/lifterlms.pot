@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 5.9.0\n"
+"Project-Id-Version: LifterLMS 5.10.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-02-15T13:32:50-07:00\n"
+"POT-Creation-Date: 2022-02-22T12:01:16-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -283,7 +283,7 @@ msgid "Basic"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:599
-#: includes/admin/reporting/tables/llms.table.course.students.php:416
+#: includes/admin/reporting/tables/llms.table.course.students.php:426
 #: includes/admin/reporting/tables/llms.table.membership.students.php:404
 #: includes/admin/reporting/tables/llms.table.students.php:597
 #: includes/class.llms.post-types.php:832
@@ -362,7 +362,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:57
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:93
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:401
-#: includes/admin/reporting/tables/llms.table.course.students.php:442
+#: includes/admin/reporting/tables/llms.table.course.students.php:452
 #: includes/admin/reporting/tables/llms.table.quiz.attempts.php:284
 #: includes/admin/reporting/tables/llms.table.student.course.php:269
 #: includes/admin/reporting/tables/llms.table.student.courses.php:238
@@ -382,7 +382,7 @@ msgstr ""
 #: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:58
 #: includes/admin/class.llms.admin.menus.php:208
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:389
-#: includes/admin/reporting/tables/llms.table.course.students.php:422
+#: includes/admin/reporting/tables/llms.table.course.students.php:432
 #: includes/admin/reporting/tables/llms.table.membership.students.php:410
 #: includes/admin/reporting/tables/llms.table.student.courses.php:235
 #: includes/admin/reporting/tables/llms.table.student.memberships.php:134
@@ -2643,7 +2643,7 @@ msgstr ""
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:380
 #: includes/admin/reporting/tables/llms.table.achievements.php:175
 #: includes/admin/reporting/tables/llms.table.certificates.php:179
-#: includes/admin/reporting/tables/llms.table.course.students.php:397
+#: includes/admin/reporting/tables/llms.table.course.students.php:407
 #: includes/admin/reporting/tables/llms.table.courses.php:300
 #: includes/admin/reporting/tables/llms.table.membership.students.php:385
 #: includes/admin/reporting/tables/llms.table.memberships.php:300
@@ -2660,7 +2660,7 @@ msgid "ID"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:384
-#: includes/admin/reporting/tables/llms.table.course.students.php:401
+#: includes/admin/reporting/tables/llms.table.course.students.php:411
 #: includes/admin/reporting/tables/llms.table.membership.students.php:389
 #: includes/admin/reporting/tables/llms.table.student.course.php:263
 #: includes/admin/reporting/tables/llms.table.student.courses.php:231
@@ -2674,13 +2674,13 @@ msgid "Name"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:393
-#: includes/admin/reporting/tables/llms.table.course.students.php:427
+#: includes/admin/reporting/tables/llms.table.course.students.php:437
 #: includes/admin/reporting/tables/llms.table.membership.students.php:415
 msgid "Enrollment Updated"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:397
-#: includes/admin/reporting/tables/llms.table.course.students.php:437
+#: includes/admin/reporting/tables/llms.table.course.students.php:447
 #: includes/admin/reporting/tables/llms.table.student.courses.php:241
 #: includes/admin/reporting/tables/llms.table.students.php:626
 #: includes/privacy/class-llms-privacy-exporters.php:218
@@ -2691,7 +2691,7 @@ msgid "Progress"
 msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:405
-#: includes/admin/reporting/tables/llms.table.course.students.php:446
+#: includes/admin/reporting/tables/llms.table.course.students.php:456
 msgid "Last Lesson"
 msgstr ""
 
@@ -2742,7 +2742,7 @@ msgid "All Time"
 msgstr ""
 
 #: includes/admin/reporting/class.llms.admin.reporting.php:297
-#: includes/admin/reporting/tables/llms.table.course.students.php:279
+#: includes/admin/reporting/tables/llms.table.course.students.php:280
 #: includes/admin/reporting/tables/llms.table.courses.php:315
 #: includes/admin/reporting/tables/llms.table.membership.students.php:267
 #: includes/admin/reporting/tables/llms.table.memberships.php:315
@@ -2803,7 +2803,7 @@ msgstr ""
 msgid "This student has not yet earned any certificates."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.course.students.php:406
+#: includes/admin/reporting/tables/llms.table.course.students.php:416
 #: includes/admin/reporting/tables/llms.table.membership.students.php:394
 #: includes/admin/reporting/tables/llms.table.students.php:606
 #: includes/schemas/llms-user-information-fields.php:76
@@ -2811,7 +2811,7 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.course.students.php:411
+#: includes/admin/reporting/tables/llms.table.course.students.php:421
 #: includes/admin/reporting/tables/llms.table.membership.students.php:399
 #: includes/admin/reporting/tables/llms.table.students.php:611
 #: includes/schemas/llms-user-information-fields.php:68
@@ -2819,7 +2819,7 @@ msgstr ""
 msgid "First Name"
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.course.students.php:432
+#: includes/admin/reporting/tables/llms.table.course.students.php:442
 #: includes/admin/reporting/tables/llms.table.student.course.php:272
 #: includes/admin/reporting/tables/llms.table.student.courses.php:248
 msgid "Completed"
@@ -3579,7 +3579,7 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.courses.php:100
 #: includes/admin/views/setup-wizard/step-pages.php:19
-#: includes/class-llms-block-templates.php:643
+#: includes/class-llms-block-templates.php:644
 #: includes/class.llms.install.php:255
 msgid "Course Catalog"
 msgstr ""
@@ -4944,7 +4944,7 @@ msgid "This page is where your visitors will find a list of all your available c
 msgstr ""
 
 #: includes/admin/views/setup-wizard/step-pages.php:23
-#: includes/class-llms-block-templates.php:644
+#: includes/class-llms-block-templates.php:645
 #: includes/class.llms.install.php:261
 msgid "Membership Catalog"
 msgstr ""
@@ -4994,72 +4994,72 @@ msgstr ""
 msgid "No theme is defined for this template."
 msgstr ""
 
-#: includes/class-llms-block-templates.php:645
+#: includes/class-llms-block-templates.php:646
 msgid "Single Certificate"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:646
+#: includes/class-llms-block-templates.php:647
 msgid "Single Access Restricted"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:647
+#: includes/class-llms-block-templates.php:648
 msgid "Taxonomy Course Category"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:648
+#: includes/class-llms-block-templates.php:649
 msgid "Taxonomy Course Difficulty"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:649
+#: includes/class-llms-block-templates.php:650
 msgid "Taxonomy Course Tag"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:650
+#: includes/class-llms-block-templates.php:651
 msgid "Taxonomy Course Track"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:651
+#: includes/class-llms-block-templates.php:652
 msgid "Taxonomy Membership Category"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:652
+#: includes/class-llms-block-templates.php:653
 msgid "Taxonomy Membership Tag"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:681
+#: includes/class-llms-block-templates.php:682
 msgid "LifterLMS Course Catalog Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:682
+#: includes/class-llms-block-templates.php:683
 msgid "LifterLMS Membership Catalog Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:683
+#: includes/class-llms-block-templates.php:684
 msgid "LifterLMS Certificate Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:684
+#: includes/class-llms-block-templates.php:685
 msgid "LifterLMS Single Template Access Restricted"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:685
+#: includes/class-llms-block-templates.php:686
 msgid "LifterLMS Course Category Taxonomy Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:686
+#: includes/class-llms-block-templates.php:687
 msgid "LifterLMS Course Difficulty Taxonomy Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:687
+#: includes/class-llms-block-templates.php:688
 msgid "LifterLMS Course Tag Taxonomy Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:688
+#: includes/class-llms-block-templates.php:689
 msgid "LifterLMS Course Track Taxonomy Template"
 msgstr ""
 
-#: includes/class-llms-block-templates.php:689
 #: includes/class-llms-block-templates.php:690
+#: includes/class-llms-block-templates.php:691
 msgid "LifterLMS Membership Tag Taxonomy Template"
 msgstr ""
 
@@ -7575,15 +7575,24 @@ msgstr ""
 msgid "No Forms found in trash"
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:286
+#: includes/forms/class-llms-form-post-type.php:287
 msgid "Determines the front-end location where the form is displayed."
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:289
+#: includes/forms/class-llms-form-post-type.php:290
 msgid "Determines whether or not to display the form's title on the front-end."
 msgstr ""
 
-#: includes/forms/class-llms-form-post-type.php:292
+#: includes/forms/class-llms-form-post-type.php:294
+msgid "The alternative form title to be shown on checkout for free access plans."
+msgstr ""
+
+#: includes/forms/class-llms-form-post-type.php:295
+#: templates/admin/reporting/tabs/students/information.php:25
+msgid "Student Information"
+msgstr ""
+
+#: includes/forms/class-llms-form-post-type.php:298
 msgid "Determines if the form is a core form required for basic site functionality."
 msgstr ""
 
@@ -33641,10 +33650,6 @@ msgstr ""
 msgid "Last Activity Date"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/information.php:25
-msgid "Student Information"
-msgstr ""
-
 #: templates/admin/reporting/tabs/students/information.php:39
 msgid "Registered"
 msgstr ""
@@ -34903,6 +34908,14 @@ msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Not displaying form title."
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+msgid "Free Access Plan Form Title"
+msgstr ""
+
+#: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
+msgid "The form title to be shown for free access plans."
 msgstr ""
 
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24

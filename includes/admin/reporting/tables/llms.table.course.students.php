@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.18.0
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -267,12 +267,13 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since 5.10.0 Add ability to sort by completion date.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
@@ -298,6 +299,15 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 		$sort = array();
 		switch ( $this->get_orderby() ) {
+
+			case 'completed':
+				$sort = array(
+					'completed'  => $this->get_order(),
+					'last_name'  => 'ASC',
+					'first_name' => 'ASC',
+					'id'         => 'ASC',
+				);
+				break;
 
 			case 'enrolled':
 				$sort = array(

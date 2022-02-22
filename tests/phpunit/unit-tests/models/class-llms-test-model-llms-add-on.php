@@ -42,6 +42,31 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Retrieves the first `twenty*` theme that's installed on the site.
+	 *
+	 * We used to hardcode the theme but with WP 5.9 the core included themes list (in the test environment) includes
+	 * only twentytwenty and later. Doing it this way is safer because we don't actually care what theme were using,
+	 * we just need one that *is installed*.
+	 *
+	 * @since 5.10.0
+	 *
+	 * @return void
+	 */
+	private function get_wp_included_default_theme() {
+
+		foreach ( array_keys( wp_get_themes() ) as $slug ) {
+
+			if ( 0 === strpos( $slug, 'twenty' ) ) {
+				return $slug;
+			}
+
+		}
+
+		return 'default';
+
+	}
+
+	/**
 	 * Test constructor with an addon array passed in.
 	 *
 	 * @since 4.21.3
@@ -123,18 +148,19 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 * Also tests the `is_active()` and partially the `get_status()` methods.
 	 *
 	 * @since 4.21.3
+	 * @since 5.10.0 Make sure the theme is installed before testing that it's inactivate.
 	 *
 	 * @return void
 	 */
 	public function test_activate_theme_success() {
 
-		$addon = new LLMS_Add_On( array( 'title' => 'Default Theme', 'type' => 'theme', 'update_file' => 'twentynineteen' ) );
+		$addon = new LLMS_Add_On( array( 'title' => 'Default Theme', 'type' => 'theme', 'update_file' => $this->get_wp_included_default_theme() ) );
 
 		$this->assertFalse( $addon->is_active() );
 		$this->assertEquals( 'inactive', $addon->get_status() );
 		$this->assertEquals( 'Inactive', $addon->get_status( true ) );
 
-		$res   = $addon->activate();
+		$res = $addon->activate();
 		$this->assertEquals( $res, 'Default Theme was successfully activated.' );
 
 		$this->assertTrue( $addon->is_active() );
@@ -234,6 +260,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 * Test get_install_status() and is_installed()
 	 *
 	 * @since 4.21.3
+	 * @since 5.10.0 Make sure the theme is installed before checking it's install status.
 	 *
 	 * @return void
 	 */
@@ -255,7 +282,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 		$this->assertEquals( 'Not Installed', $addon->get_install_status( true ) );
 
 		// Theme installed.
-		$addon = new LLMS_Add_On( array( 'type' => 'theme', 'update_file' => 'twentynineteen' ) );
+		$addon = new LLMS_Add_On( array( 'type' => 'theme', 'update_file' => $this->get_wp_included_default_theme() ) );
 		$this->assertEquals( 'installed', $addon->get_install_status() );
 		$this->assertEquals( 'Installed', $addon->get_install_status( true ) );
 

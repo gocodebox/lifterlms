@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.0
- * @version 4.10.2
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -337,11 +337,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Set up the SQL for the select statement
+	 * Set up the SQL for the select statement.
 	 *
 	 * @since 3.13.0
 	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
 	 *               Use `$this->sql_select_columns({columns})` to determine additional columns to select.
+	 * @since 5.10.0 Add a subquery for completed date.
 	 *
 	 * @return string
 	 */
@@ -357,6 +358,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		// All the possible fields.
 		$fields = array(
+			'completed'        => "( {$this->sql_subquery( 'updated_date', '_is_complete' )} ) AS completed",
 			'date'             => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
 			'last_name'        => 'm_last.meta_value AS last_name',
 			'first_name'       => 'm_first.meta_value AS first_name',
@@ -417,16 +419,18 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL subquery for the dynamic status or date values in the main query
+	 * Generate an SQL subquery for the meta key in the main query.
 	 *
 	 * @since 3.13.0
+	 * @since 5.10.0 Add `$meta_key` argument.
 	 *
-	 * @param string $column Column name.
+	 * @param string $column   Column name.
+	 * @param string $meta_key Optional meta key to use in the WHERE condition. Defaults to '_status'.
 	 * @return string
 	 */
-	private function sql_subquery( $column ) {
+	private function sql_subquery( $column, $meta_key = '_status' ) {
 
-		$and = '';
+		global $wpdb;
 
 		$post_ids = $this->get( 'post_id' );
 		if ( $post_ids ) {
@@ -436,11 +440,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$and = "AND {$this->sql_status_in( 'meta_value' )}";
 		}
 
-		global $wpdb;
-
 		return "SELECT {$column}
 				FROM {$wpdb->prefix}lifterlms_user_postmeta
-				WHERE meta_key = '_status'
+				WHERE meta_key = '{$meta_key}'
 		  		  AND user_id = id
 		  		  {$and}
 				ORDER BY updated_date DESC
