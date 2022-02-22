@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links: 
-- "#2001"
-entry: Fixed block template slug generation from path on Windows.

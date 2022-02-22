@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.8.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -474,7 +474,7 @@ class LLMS_Block_Templates {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Return empty string if the passed path is not in the configuration.
-	 * @since [version] Use '/' in favor of DIRECTORY_SEPARATOR to avoid issues on Windows.
+	 * @since 5.10.0 Use '/' in favor of DIRECTORY_SEPARATOR to avoid issues on Windows.
 	 *
 	 * @param string $path The template's path.
 	 * @return string

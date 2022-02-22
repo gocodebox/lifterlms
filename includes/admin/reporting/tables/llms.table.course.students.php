@@ -267,9 +267,10 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since 3.15.0
+	 * @since 5.10.0 Add ability to sort by completion date.
 	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param array $args Array of query args.
@@ -299,6 +300,15 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 		$sort = array();
 		switch ( $this->get_orderby() ) {
+
+			case 'completed':
+				$sort = array(
+					'completed'  => $this->get_order(),
+					'last_name'  => 'ASC',
+					'first_name' => 'ASC',
+					'id'         => 'ASC',
+				);
+				break;
 
 			case 'enrolled':
 				$sort = array(

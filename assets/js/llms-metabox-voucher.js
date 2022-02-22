@@ -71,7 +71,7 @@
 			return changeNotSaved ? "If you leave this page you will lose your unsaved changes." : null;
 		};
 
-		$( 'input[type=submit]' ).click(function (e) {
+		$( 'input[type=submit][name=save]' ).click(function (e) {
 			var unique_values = {};
 			var duplicate     = false;
 			$( 'input[name="llms_voucher_code[]"]' ).each(function() {
@@ -88,8 +88,8 @@
 				return false;
 			}
 
-			// if course or membership is not selected, don't allow user to save
-			if ( ! ($( '#_llms_voucher_courses' ).val() || $( '#_llms_voucher_membership' ).val())) {
+			// If course or membership is not selected, don't allow user to save.
+			if ( ! $( '#_llms_voucher_courses' ).val().length && ! $( '#_llms_voucher_membership' ).val().length ) {
 				alert( 'Please select course or membership before saving.' );
 				return false;
 			}

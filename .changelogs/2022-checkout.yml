@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links: 
-- "#1997"
-entry: Fixed broken checkout on Twenty Twenty-Two Theme when using password strength meter.
