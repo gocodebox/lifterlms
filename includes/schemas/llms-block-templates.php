@@ -60,7 +60,9 @@ $certificates = array(
 	),
 	array(
 		'core/columns',
-		array(),
+		array(
+			'isStackedOnMobile' => false,
+		),
 		array(
 			array(
 				'core/column',
