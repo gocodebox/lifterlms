@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Forms
  *
  * @since 5.0.0
- * @version 5.0.1
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -75,6 +75,7 @@ function llms_get_form_html( $location, $args = array() ) {
  * Returns an empty string if the form is disabled via form settings.
  *
  * @since 5.0.0
+ * @since 5.10.0 Return specific form title for checkout forms and free access plans.
  *
  * @param string $location Form location, one of: "checkout", "registration", or "account".
  * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
@@ -87,7 +88,11 @@ function llms_get_form_title( $location, $args = array() ) {
 		return '';
 	}
 
-	return get_the_title( $post->ID );
+	return 'checkout' === $location && isset( $args['plan'] ) && $args['plan']->is_free()
+		?
+		apply_filters( 'the_title', get_post_meta( $post->ID, '_llms_form_title_free_access_plans', true ) )
+		:
+		get_the_title( $post->ID );
 
 }
 

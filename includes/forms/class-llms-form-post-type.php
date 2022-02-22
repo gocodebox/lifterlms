@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -276,19 +276,25 @@ class LLMS_Form_Post_Type {
 	 * Register custom postmeta properties for the forms post type.
 	 *
 	 * @since 5.0.0
+	 * @since 5.10.0 Added new meta for checkout forms and free access plans.
 	 *
 	 * @return void
 	 */
 	public function register_meta() {
 
 		$props = array(
-			'_llms_form_location'   => array(
+			'_llms_form_location'                => array(
 				'description' => __( 'Determines the front-end location where the form is displayed.', 'lifterlms' ),
 			),
-			'_llms_form_show_title' => array(
+			'_llms_form_show_title'              => array(
 				'description' => __( 'Determines whether or not to display the form\'s title on the front-end.', 'lifterlms' ),
 			),
-			'_llms_form_is_core'    => array(
+			// This is only actually used for 'checkout' forms.
+			'_llms_form_title_free_access_plans' => array(
+				'description' => __( 'The alternative form title to be shown on checkout for free access plans.', 'lifterlms' ),
+				'default'     => __( 'Student Information', 'lifterlms' ),
+			),
+			'_llms_form_is_core'                 => array(
 				'description' => __( 'Determines if the form is a core form required for basic site functionality.', 'lifterlms' ),
 			),
 		);

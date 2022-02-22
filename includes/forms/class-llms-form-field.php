@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.9.0
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -755,6 +755,7 @@ class LLMS_Form_Field {
 	 * Additional preparation for the password strength meter.
 	 *
 	 * @since 5.0.0
+	 * @since 5.10.0 Make sure to enqueue the strength meter js, whether or not `wp_enqueue_scripts` hook has been fired yet.
 	 *
 	 * @return void
 	 */
@@ -770,7 +771,7 @@ class LLMS_Form_Field {
 		unset( $this->settings['min_length'] );
 
 		/**
-		 * Modify password strength meter settings
+		 * Modify password strength meter settings.
 		 *
 		 * @since 5.0.0
 		 *
@@ -784,18 +785,44 @@ class LLMS_Form_Field {
 		 */
 		$meter_settings = apply_filters( 'llms_password_strength_meter_settings', $meter_settings, $this->settings, $this );
 
-		// If scripts have been enqueued, add password strength meter script and localize with meter data.
+		// If scripts have been enqueued, add password strength meter script.
 		if ( did_action( 'wp_enqueue_scripts' ) ) {
-
-			wp_enqueue_script( 'password-strength-meter' );
-			llms()->assets->enqueue_inline(
-				'llms-pw-strength-settings',
-				'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_settings = function() { return JSON.parse( \'' . wp_json_encode( $meter_settings ) . '\' ); };',
-				'footer',
-				15
-			);
-
+			return $this->enqueue_strength_meter( $meter_settings );
 		}
+		// Otherwise add it whe `wp_enqueue_scripts` is fired.
+		add_action(
+			'wp_enqueue_scripts',
+			function() use ( $meter_settings ) {
+				$this->enqueue_strength_meter( $meter_settings );
+			}
+		);
+
+	}
+
+	/**
+	 * Enqueue password strength meter script.
+	 *
+	 * @since 5.10.0
+	 *
+	 * @param array $meter_settings {
+	 *     Hash of meter configuration options.
+	 *
+	 *     @type string[] $blocklist    A list of strings that are penalized when used in the password. See "user_inputs" at https://github.com/dropbox/zxcvbn#usage.
+	 *     @type string   $min_strength The minimum acceptable password strength. Accepts "strong", "medium", or "weak". Default: "strong".
+	 *     @type int      $min_length   The minimum acceptable password length. Must be >= 6. Default: 6.
+	 * }
+	 * @return void
+	 */
+	private function enqueue_strength_meter( $meter_settings ) {
+
+		wp_enqueue_script( 'password-strength-meter' );
+		// Localize the script with meter data.
+		llms()->assets->enqueue_inline(
+			'llms-pw-strength-settings',
+			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_settings = function() { return JSON.parse( \'' . wp_json_encode( $meter_settings ) . '\' ); };',
+			'footer',
+			15
+		);
 
 	}
 
