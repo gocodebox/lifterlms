@@ -419,12 +419,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL subquery for the dynamic status or date values in the main query.
+	 * Generate an SQL subquery for the meta key in the main query.
 	 *
 	 * @since 3.13.0
 	 * @since [version] Add `$meta_key` argument.
 	 *
-	 * @param string $column Column name.
+	 * @param string $column   Column name.
 	 * @param string $meta_key Optional meta key to use in the WHERE condition. Defaults to '_status'.
 	 * @return string
 	 */
