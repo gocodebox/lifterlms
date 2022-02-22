@@ -88,12 +88,12 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 		$free_ap = $this->get_mock_plan( $price = 0 );
 
 		// Expect default.
-		$form_id = LLMS_Forms::instance()->create( 'checkout' );
+		$form_id = LLMS_Forms::instance()->create( 'checkout', true );
 		$this->assertEquals( 'Student Information', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
 
-		// Disable title, still expect default, as for free access plans that control is overridden.
+		// Disable title.
 		update_post_meta( $form_id, '_llms_form_show_title', 'no' );
-		$this->assertEquals( 'Student Information', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
+		$this->assertEquals( '', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
 		update_post_meta( $form_id, '_llms_form_show_title', 'yes' );
 
 		// Change specific title.

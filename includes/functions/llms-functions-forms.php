@@ -84,24 +84,15 @@ function llms_get_form_html( $location, $args = array() ) {
 function llms_get_form_title( $location, $args = array() ) {
 
 	$post = llms_get_form( $location, $args );
-	if ( ! $post ) {
+	if ( ! $post || ! llms_parse_bool( get_post_meta( $post->ID, '_llms_form_show_title', true ) ) ) {
 		return '';
 	}
 
-	$is_free_ap = 'checkout' === $location && isset( $args['plan'] ) && $args['plan']->is_free();
-	$show_title = $is_free_ap || llms_parse_bool( get_post_meta( $post->ID, '_llms_form_show_title', true ) );
-
-	return $is_free_ap
+	return 'checkout' === $location && isset( $args['plan'] ) && $args['plan']->is_free()
 		?
 		apply_filters( 'the_title', get_post_meta( $post->ID, '_llms_form_title_free_access_plans', true ) )
 		:
-		(
-			$show_title
-			?
-			get_the_title( $post->ID )
-			:
-			''
-		);
+		get_the_title( $post->ID );
 
 }
 
