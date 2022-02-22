@@ -24,5 +24,5 @@ export function getPostTitleTextContent() {
  * @return {Promise} A promise that resolves to return the element's text content.
  */
 export function getPostTitleSelector() {
-	return wpVersionCompare( '5.9', '>=' ) ? '.wp-block-post-title' : '.entry-title';
+	return wpVersionCompare( '5.8', '>=' ) ? '.entry-title' : '.wp-block-post-title';
 }

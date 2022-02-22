@@ -7,7 +7,7 @@ exports[`Engagements/Certificates Awarded should award a certificate on user reg
 		
 		
 		
-<h1 class=\\"has-text-align-center has-default-font-family\\" id=\\"awarded-on-registration\\">Awarded on Registration</h1>
+<h1 class=\\"has-text-align-center has-default-font-family\\">Awarded on Registration</h1>
 
 
 
@@ -29,7 +29,7 @@ exports[`Engagements/Certificates Awarded should award a certificate on user reg
 		
 		
 		
-<h1 class=\\"has-text-align-center has-default-font-family\\" id=\\"awarded-on-registration\\">Awarded on Registration</h1>
+<h1 class=\\"has-text-align-center has-default-font-family\\">Awarded on Registration</h1>
 
 
 
@@ -71,7 +71,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "presented-to",
       "content": "Presented to",
       "level": 3,
       "llms_visibility": "all",
@@ -85,7 +84,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "llms-user-display-name",
       "content": "[llms-user display_name]",
       "level": 2,
       "llms_visibility": "all",
@@ -99,7 +97,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "for-demonstration-of-excellence",
       "content": "for demonstration of excellence",
       "level": 3,
       "llms_visibility": "all",
@@ -270,7 +267,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "presented-to",
       "content": "Presented to",
       "level": 3,
       "llms_visibility": "all",
@@ -284,7 +280,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "llms-user-display-name",
       "content": "[llms-user display_name]",
       "level": 2,
       "llms_visibility": "all",
@@ -298,7 +293,6 @@ Array [
   },
   Object {
     "attributes": Object {
-      "anchor": "for-demonstration-of-excellence",
       "content": "for demonstration of excellence",
       "level": 3,
       "llms_visibility": "all",
@@ -449,7 +443,7 @@ exports[`Engagements/Certificates Templates should create a certificate in the b
 		
 		
 		
-<h1 class=\\"has-text-align-center has-default-font-family\\" id=\\"a-certificate\\">A Certificate!</h1>
+<h1 class=\\"has-text-align-center has-default-font-family\\">A Certificate!</h1>
 
 
 
