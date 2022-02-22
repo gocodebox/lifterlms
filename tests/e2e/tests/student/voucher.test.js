@@ -46,7 +46,7 @@ describe( 'StudentDashboard/RedeemVoucher', () => {
 		await clickAndWait( '#llms-redeem-voucher-submit' );
 
 		// Error message.
-		expect( await page.$eval( '.llms-notice.llms-error', el => el.textContent ) ).toMatchStringWithQuotes( `Voucher code "${ code }" could not be found.` );
+		expect( await page.$eval( '.llms-notice.llms-error', el => el.textContent.trim() ) ).toMatchStringWithQuotes( `Voucher code "${ code }" could not be found.` );
 
 	} );
 
