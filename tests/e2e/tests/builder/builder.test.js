@@ -2,11 +2,11 @@ import {
 	clickAndWait,
 	clickElementByText,
 	fillField,
+	publishPost,
 } from '@lifterlms/llms-e2e-test-utils';
 
 import {
 	createNewPost,
-	publishPost,
 	pressKeyWithModifier,
 	visitAdminPage,
 } from '@wordpress/e2e-test-utils';
