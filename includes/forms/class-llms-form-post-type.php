@@ -277,6 +277,7 @@ class LLMS_Form_Post_Type {
 	 *
 	 * @since 5.0.0
 	 * @since [version] Added new meta for checkout forms and free access plans.
+	 *
 	 * @return void
 	 */
 	public function register_meta() {

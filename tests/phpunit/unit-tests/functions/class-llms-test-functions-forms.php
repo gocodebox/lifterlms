@@ -9,7 +9,8 @@
  * @group functions
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @since [version] Added tests for form title in free access plans checkout.
+ * @version [version]
  */
 class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 
@@ -66,6 +67,38 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 		// Title disabled.
 		LLMS_Forms::instance()->create( 'account' );
 		$this->assertEquals( '', llms_get_form_title( 'account' ) );
+
+	}
+
+	/**
+	 * Test llms_get_form_title() method with free access plans.
+	 *
+	 * This runs in a separate process b/c otherwise, when running among the other tests, e.g. of the forms group,
+	 * the fallback to the default meta value doesn't work.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_form_title_free_access_plan() {
+
+		$free_ap = $this->get_mock_plan( $price = 0 );
+
+		// Expect default.
+		$form_id = LLMS_Forms::instance()->create( 'checkout' );
+		$this->assertEquals( 'Student Information', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
+
+		// Disable title, still expect default, as for free access plans that control is overridden.
+		update_post_meta( $form_id, '_llms_form_show_title', 'no' );
+		$this->assertEquals( 'Student Information', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
+		update_post_meta( $form_id, '_llms_form_show_title', 'yes' );
+
+		// Change specific title.
+		update_post_meta( $form_id, '_llms_form_title_free_access_plans', 'New title' );
+		$this->assertEquals( 'New title', llms_get_form_title( 'checkout', array( 'plan' => $free_ap ) ) );
 
 	}
 
