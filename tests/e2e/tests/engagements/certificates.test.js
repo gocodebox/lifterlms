@@ -17,7 +17,6 @@ import {
 	registerStudent,
 	toggleOpenRegistration,
 	toggleSidebarPanel,
-	wpVersionCompare,
 	visitPostPermalink,
 } from '@lifterlms/llms-e2e-test-utils';
 
