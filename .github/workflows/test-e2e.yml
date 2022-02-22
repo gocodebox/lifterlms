@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: error-artifacts-wp-${{ matrix.node-version }}
+          name: error-artifacts-wp-${{ matrix.WP }}
           path: tmp/artifacts
 
   ###
