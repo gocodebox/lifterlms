@@ -107,7 +107,7 @@ class LLMS_Admin_Tool_Wipe_Legacy_Account_Options extends LLMS_Abstract_Admin_To
 
 		$wpdb->query(
 			$wpdb->prepare(
-				$sql,
+				$sql,  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				$options_to_wipe
 			)
 		); // db call ok; no-cache ok.

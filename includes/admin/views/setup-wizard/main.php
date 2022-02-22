@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<h1 id="llms-logo">
 			<a href="https://lifterlms.com/" target="_blank">
-				<img src="<?php echo LLMS()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="LifterLMS">
+				<img src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="LifterLMS">
 			</a>
 		</h1>
 

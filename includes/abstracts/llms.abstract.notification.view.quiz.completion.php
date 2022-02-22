@@ -45,7 +45,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 */
 	protected function set_body_email() {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$btn_style = $mailer->get_button_style();
 

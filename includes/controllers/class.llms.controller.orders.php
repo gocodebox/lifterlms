@@ -144,7 +144,7 @@ class LLMS_Controller_Orders {
 		}
 
 		// Get the gateway.
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
 		// Pass the order to the gateway.
 		$gateway->confirm_pending_order( $order );
@@ -175,7 +175,7 @@ class LLMS_Controller_Orders {
 		$product_id = $order->get( 'product_id' );
 		$user_id    = $order->get( 'user_id' );
 
-		unset( LLMS()->session->llms_coupon );
+		unset( llms()->session->llms_coupon );
 
 		/**
 		 * Action fired on order complete.
@@ -895,7 +895,7 @@ class LLMS_Controller_Orders {
 	 */
 	private function validate_selected_gateway( $gateway_id, $plan ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 		$err     = new WP_Error();
 
 		// Valid gateway.

@@ -78,7 +78,7 @@ class LLMS_Notification_View_Upcoming_Payment_Reminder extends LLMS_Abstract_Not
 	 */
 	private function set_body_email() {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$rows = array(
 			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),
