@@ -4,7 +4,14 @@ LifterLMS E2E Test Utils Changelog
 Unreleased
 ----------
 
-+ New functions: `openSidebarPanelTab()`, `publishPost()`, `toggleSidebarPanel()`, `updatePost()`, `visitPostPermalink()`.
++ New functions:
+  + `getPostTitleSelector()`
+  + `getPostTitleTextContent()`
+  + `openSidebarPanelTab()`
+  + `publishPost()`
+  + `toggleSidebarPanel()`
+  + `updatePost()`
+  + `visitPostPermalink()`
 + Update: `createCertificate()` now creates certificates in the block editor.
 + Update: `createPost()` now sets the post's content programmatically in favor of passing it through a query string variable.
 + Update: `fillField()` now waits for the selector prior to focusing on it.

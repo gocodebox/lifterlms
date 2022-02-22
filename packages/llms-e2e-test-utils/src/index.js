@@ -21,6 +21,7 @@ export { enrollStudent } from './enroll-student';
 export { fillField } from './fill-field';
 
 export { getAllBlocks } from './get-all-blocks';
+export { getPostTitleSelector, getPostTitleTextContent } from './get-post-title';
 
 export { highlightNode } from './highlight-node';
 
