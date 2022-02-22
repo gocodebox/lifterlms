@@ -5,6 +5,7 @@ Unreleased
 ----------
 
 + New functions:
+  + `activateTheme()`
   + `getPostTitleSelector()`
   + `getPostTitleTextContent()`
   + `openSidebarPanelTab()`

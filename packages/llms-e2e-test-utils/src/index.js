@@ -1,3 +1,5 @@
+export { activateTheme } from './activate-theme';
+
 export { clearBlocks } from './clear-blocks';
 
 export { click } from './click';
@@ -22,6 +24,7 @@ export { fillField } from './fill-field';
 
 export { getAllBlocks } from './get-all-blocks';
 export { getPostTitleSelector, getPostTitleTextContent } from './get-post-title';
+export { getWPVersion } from './get-wp-version';
 
 export { highlightNode } from './highlight-node';
 
