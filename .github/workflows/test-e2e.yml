@@ -64,6 +64,7 @@ jobs:
           wp-version: ${{ matrix.WP }}
           docker-user: ${{ secrets.DOCKER_USERNAME }}
           docker-pass: ${{ secrets.DOCKER_PASSWORD }}
+          node-version: '14'
 
       - name: Run test suite
         run: npm run test -- --verbose
@@ -72,8 +73,8 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: error-artifacts
-          path: tmp/e2e-screenshots
+          name: error-artifacts-wp-${{ matrix.WP }}
+          path: tmp/artifacts
 
   ###
   #
