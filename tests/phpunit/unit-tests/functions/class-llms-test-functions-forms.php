@@ -9,8 +9,8 @@
  * @group functions
  *
  * @since 5.0.0
- * @since [version] Added tests for form title in free access plans checkout.
- * @version [version]
+ * @since 5.10.0 Added tests for form title in free access plans checkout.
+ * @version 5.10.0
  */
 class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 
@@ -76,7 +76,7 @@ class LLMS_Test_Functions_Forms extends LLMS_UnitTestCase {
 	 * This runs in a separate process b/c otherwise, when running among the other tests, e.g. of the forms group,
 	 * the fallback to the default meta value doesn't work.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled

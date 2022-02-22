@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -342,7 +342,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * @since 3.13.0
 	 * @since 4.10.2 Drop usage of `this->get_filter( 'select' )` in favor of `'llms_student_query_select'`.
 	 *               Use `$this->sql_select_columns({columns})` to determine additional columns to select.
-	 * @since [version] Add a subquery for completed date.
+	 * @since 5.10.0 Add a subquery for completed date.
 	 *
 	 * @return string
 	 */
@@ -422,7 +422,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Generate an SQL subquery for the meta key in the main query.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add `$meta_key` argument.
+	 * @since 5.10.0 Add `$meta_key` argument.
 	 *
 	 * @param string $column   Column name.
 	 * @param string $meta_key Optional meta key to use in the WHERE condition. Defaults to '_status'.

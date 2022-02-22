@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.10.0
  */
 class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
@@ -284,7 +284,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 * Test custom meta prop registration.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added expected meta prop '_llms_form_title_free_access_plans'.
+	 * @since 5.10.0 Added expected meta prop '_llms_form_title_free_access_plans'.
 	 *
 	 * @return void
 	 */

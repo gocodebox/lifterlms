@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-- "#1969"
-entry: Fixed ability to sort course students table by completed date.

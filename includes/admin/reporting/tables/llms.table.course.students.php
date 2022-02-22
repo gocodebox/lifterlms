@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -270,7 +270,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Add ability to sort by completion date.
+	 * @since 5.10.0 Add ability to sort by completion date.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
