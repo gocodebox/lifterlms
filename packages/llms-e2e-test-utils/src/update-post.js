@@ -8,7 +8,5 @@ import { click } from './click';
  * @return {Promise} A promise that resolves when the button is successfully pressed.
  */
 export async function updatePost() {
-	const SELECTOR = '.editor-post-publish-button__button';
-	page.waitForSelector( SELECTOR );
-	return click( SELECTOR );
+	return click( '.editor-post-publish-button__button' );
 }
