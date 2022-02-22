@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links: 
-- "#1774"
-entry: Added an option to specify a custom checkout form title for free access plans.

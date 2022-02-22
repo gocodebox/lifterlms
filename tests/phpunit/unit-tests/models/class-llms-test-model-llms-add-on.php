@@ -48,7 +48,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 * only twentytwenty and later. Doing it this way is safer because we don't actually care what theme were using,
 	 * we just need one that *is installed*.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -148,7 +148,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 * Also tests the `is_active()` and partially the `get_status()` methods.
 	 *
 	 * @since 4.21.3
-	 * @since [version] Make sure the theme is installed before testing that it's inactivate.
+	 * @since 5.10.0 Make sure the theme is installed before testing that it's inactivate.
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Test_Add_On extends LLMS_Unit_Test_Case {
 	 * Test get_install_status() and is_installed()
 	 *
 	 * @since 4.21.3
-	 * @since [version] Make sure the theme is installed before checking it's install status.
+	 * @since 5.10.0 Make sure the theme is installed before checking it's install status.
 	 *
 	 * @return void
 	 */

@@ -6,13 +6,13 @@
  *
  * @group reporting_tables
  *
- * @since [version]
+ * @since 5.10.0
  */
 class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * The course ID used in tests.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @var int
 	 */
@@ -21,7 +21,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * An instance of LLMS_Table_Course_Students to run tests on.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @var LLMS_Table_Course_Students
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Executes a student query and asserts that the resulting students match the given expected students.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @param array $args          Arguments to pass to {@see LLMS_Table_Course_Students::get_results()}.
 	 * @param array $expected_data The expected array of data.
@@ -62,7 +62,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the generate_export_file() method.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_export_file(): prevent invalid filetypes.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_export() method.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_results() method.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -284,7 +284,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the set_args() method.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -297,7 +297,7 @@ class LLMS_Test_Table_Course_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the set_columns() method.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */

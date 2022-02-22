@@ -7,8 +7,8 @@
  * @group form_field
  *
  * @since 5.0.0
- * @since [version] Update tests on password strength meter enqueueing.
- * @version [version]
+ * @since 5.10.0 Update tests on password strength meter enqueueing.
+ * @version 5.10.0
  */
 class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
@@ -930,7 +930,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() for script enqueue: not enqueued case.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -948,7 +948,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() for script enqueue: enqueued deferred on `wp_enqueue_scripts` hook firing.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */
@@ -973,7 +973,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test prepare_password_strength_meter() for script enqueue: enqueued right away b/c `wp_enqueue_scripts` already fired.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @return void
 	 */

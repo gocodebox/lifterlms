@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -276,7 +276,7 @@ class LLMS_Form_Post_Type {
 	 * Register custom postmeta properties for the forms post type.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added new meta for checkout forms and free access plans.
+	 * @since 5.10.0 Added new meta for checkout forms and free access plans.
 	 *
 	 * @return void
 	 */

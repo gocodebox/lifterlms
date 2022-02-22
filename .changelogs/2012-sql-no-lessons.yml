@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-- "#2012"
-entry: Fixed issue when the course has no lessons.

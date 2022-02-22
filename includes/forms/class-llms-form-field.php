@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -755,7 +755,7 @@ class LLMS_Form_Field {
 	 * Additional preparation for the password strength meter.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Make sure to enqueue the strength meter js, whether or not `wp_enqueue_scripts` hook has been fired yet.
+	 * @since 5.10.0 Make sure to enqueue the strength meter js, whether or not `wp_enqueue_scripts` hook has been fired yet.
 	 *
 	 * @return void
 	 */
@@ -802,7 +802,7 @@ class LLMS_Form_Field {
 	/**
 	 * Enqueue password strength meter script.
 	 *
-	 * @since [version]
+	 * @since 5.10.0
 	 *
 	 * @param array $meter_settings {
 	 *     Hash of meter configuration options.

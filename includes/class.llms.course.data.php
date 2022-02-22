@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 5.10.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -154,7 +154,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieves and returns the number of lessons completed within the period.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Fixed issue when the course has no lessons.
+	 * @since 5.10.0 Fixed issue when the course has no lessons.
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default is 'current'.
 	 * @return int
