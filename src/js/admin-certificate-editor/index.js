@@ -6,6 +6,7 @@ import './editor';
 import './i18n';
 import './merge-codes';
 import './migrate';
+import './modify-blocks';
 import CertificateDocumentSettings from './document-settings';
 import CertificateResetTemplate from './reset-template';
 import CertificateUserSettings from './user-settings';
