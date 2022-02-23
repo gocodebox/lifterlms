@@ -1,7 +1,5 @@
-import classnames from 'classnames';
-
+// WP Deps.
 import { addFilter } from '@wordpress/hooks';
-import { cloneElement } from '@wordpress/element'
 
 /**
  * Modifies the registration of the core/columns block.
@@ -16,26 +14,23 @@ import { cloneElement } from '@wordpress/element'
  *
  * @since [version]
  *
- * @link https://github.com/gocodebox/lifterlms/issues/1972
+ * @see {@link https://github.com/gocodebox/lifterlms/issues/1972}
  *
  * @param {Object} settings  Block registration settings.
  * @param {string} blockName The block's name.
  * @return {Object} Block registration settings.
  */
 function modifyColumnsBlock( settings, blockName ) {
-
 	if ( 'core/columns' === blockName ) {
-
 		// Force all the existing columns block variation to have mobile stacking disabled by default.
 		settings.variations = settings.variations.map( ( variation ) => {
 			const { attributes = {} } = variation;
 			variation.attributes = {
 				...attributes,
-				isStackedOnMobile: false
+				isStackedOnMobile: false,
 			};
 			return variation;
 		} );
-
 	}
 
 	return settings;
@@ -45,4 +40,4 @@ addFilter(
 	'blocks.registerBlockType',
 	'llms/certificate-editor/columns-block',
 	modifyColumnsBlock,
-)
+);
