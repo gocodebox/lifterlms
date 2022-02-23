@@ -79,7 +79,7 @@ jobs:
   pr-to-board:
     name: Move Pull Request to the Project Board
     runs-on: ubuntu-latest
-    if: ( 'pull_request' == github.event_name && ( 'opened' == github.event.action || 'reopened' == github.event.action || 'review_requested' == github.event.action ) )
+    if: ( 'pull_request_target' == github.event_name && ( 'opened' == github.event.action || 'reopened' == github.event.action || 'review_requested' == github.event.action ) )
     steps:
       - name: Mark PR as Awaiting Review
         uses: leonsteinhaeuser/project-beta-automations@v1.2.0
