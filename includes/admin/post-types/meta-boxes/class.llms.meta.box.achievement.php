@@ -73,7 +73,6 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 			'label'    => __( 'Achievement Content', 'lifterlms' ),
 			'desc'     => __( 'An optional short description of the achievement which will be shown to users', 'lifterlms' ),
 			'id'       => $this->prefix . 'achievement_content',
-			'default'  => '',
 			'type'     => 'textarea_w_tags',
 			'sanitize' => 'no_encode_quotes',
 			'cols'     => 80,
