@@ -33,11 +33,14 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test output when passing a custom value.
+	 * Test output when not passing a custom value.
+	 *
+	 * @since [version]
 	 *
 	 * @return void
 	 */
 	public function test_output_without_custom_value() {
+
 		// Set-up global post.
 		global $post;
 		$original_post = $post;
@@ -47,11 +50,11 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 		$field = new LLMS_Metabox_Textarea_W_Tags_Field(
 			array(
-				'type'       => 'textarea_w_tags',
-				'label'      => __( 'Test', 'lifterlms' ),
-				'id'         => 'without_custom_value',
-				'class'      => 'code input-full',
-				'value'      => '',
+				'type'  => 'textarea_w_tags',
+				'label' => __( 'Test', 'lifterlms' ),
+				'id'    => 'without_custom_value',
+				'class' => 'code input-full',
+				'value' => '',
 			),
 		);
 
@@ -67,11 +70,11 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 		$field = new LLMS_Metabox_Textarea_W_Tags_Field(
 			array(
-				'type'       => 'textarea_w_tags',
-				'label'      => __( 'Test', 'lifterlms' ),
-				'id'         => 'without_custom_value',
-				'class'      => 'code input-full',
-				'value'      => '',
+				'type'  => 'textarea_w_tags',
+				'label' => __( 'Test', 'lifterlms' ),
+				'id'    => 'without_custom_value',
+				'class' => 'code input-full',
+				'value' => '',
 			),
 		);
 		$this->assertOutputContains(
@@ -90,6 +93,8 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output when passing a custom value.
 	 *
+	 * @since [version]
+	 *
 	 * @return void
 	 */
 	public function test_output_with_custom_value() {
@@ -103,11 +108,11 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 		$field = new LLMS_Metabox_Textarea_W_Tags_Field(
 			array(
-				'type'       => 'textarea_w_tags',
-				'label'      => __( 'Test', 'lifterlms' ),
-				'id'         => 'with_custom_value',
-				'class'      => 'code input-full',
-				'value'      => 'Custom Value',
+				'type'  => 'textarea_w_tags',
+				'label' => __( 'Test', 'lifterlms' ),
+				'id'    => 'with_custom_value',
+				'class' => 'code input-full',
+				'value' => 'Custom Value',
 			),
 		);
 
@@ -124,6 +129,47 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
 	}
 
+
+	/**
+	 * Test output when forcing a meta.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_output_with_meta_forced() {
+
+		// Set-up global post.
+		global $post;
+		$original_post = $post;
+
+		$post = $this->factory->post->create_and_get();
+		update_post_meta( $post->ID, 'with_custom_value', 'This should not show' );
+
+		$field = new LLMS_Metabox_Textarea_W_Tags_Field(
+			array(
+				'type'  => 'textarea_w_tags',
+				'label' => __( 'Test', 'lifterlms' ),
+				'id'    => 'with_custom_value',
+				'class' => 'code input-full',
+				'meta'  => 'Custom Value',
+			),
+		);
+
+		$this->assertOutputContains(
+			'>Custom Value</textarea>',
+			array(
+				$field,
+				'output'
+			)
+		);
+
+		// Reset global post.
+		$post = $original_post;
+
+	}
+
+
 	/**
 	 * Test output with rows and columns.
 	 *
@@ -139,10 +185,10 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 		$post = $this->factory->post->create_and_get();
 
 		$args = array(
-			'type'       => 'textarea_w_tags',
-			'label'      => __( 'Test', 'lifterlms' ),
-			'id'         => 'without_custom_value',
-			'class'      => 'code input-full',
+			'type'  => 'textarea_w_tags',
+			'label' => __( 'Test', 'lifterlms' ),
+			'id'    => 'without_custom_value',
+			'class' => 'code input-full',
 		);
 
 		// Use defaults.
