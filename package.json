@@ -23,6 +23,7 @@
     "@lifterlms/icons": "file:packages/icons",
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@lifterlms/scripts": "file:packages/scripts",
+    "@lifterlms/utils": "file:packages/utils",
     "@wordpress/docgen": "^1.18.0",
     "copy-webpack-plugin": "^10.2.0",
     "gulp-header": "^2.0.9",
