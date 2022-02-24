@@ -75,13 +75,13 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the after_create() method.
+	 * Test sequential id increment on creation.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_after_create() {
+	public function test_sequential_id_increment() {
 
 		$actions = did_action( 'llms_certificate_synchronized' );
 
@@ -90,8 +90,45 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$cert = new $this->class_name( 'new', array( 'post_parent' => $template_id ) );
 
+		// Awarded certificate not published, no sequential id set.
+		$this->assertNotEquals( 'publish', $cert->get( 'status' ) );
+		$this->assertEquals( 1, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( '', get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
+
+		// Publish the awarded certificate, sequential id incremented.
+		wp_update_post(
+			array(
+				'ID'          => $cert->id,
+				'post_status' => 'publish',
+			)
+		);
 		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
-		$this->assertEquals( ++ $actions, did_action( 'llms_certificate_synchronized' ) );
+		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+
+		// Save the awarded certificate again, make sure the seq id is not incremented.
+		wp_update_post(
+			array(
+				'ID'          => $cert->id,
+				'post_title' => 'Title changes',
+			)
+		);
+		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+
+		// Test seq id incremented on creation if post status is publish.
+		$template_id = $this->create_certificate_template();
+		update_post_meta( $template_id, '_llms_sequential_id', 25 );
+
+		$cert = new $this->class_name( 'new', array( 'post_parent' => $template_id, 'post_status' => 'publish' ) );
+		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+
+		// No parent id, nothing to increment.
+		$cert = new $this->class_name( 'new', array(  'post_status' => 'publish' ) );
+		$this->assertEquals( 1, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( '', get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+
 	}
 
 	/**

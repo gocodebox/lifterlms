@@ -106,16 +106,19 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Called immediately after creating / inserting a new post into the database
+	 * Maybe set this awarded certificate sequential id based on the parent's meta.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	protected function after_create() {
+	public function maybe_set_sequential_id() {
 
-		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
-		parent::after_create();
+		$parent = $this->get( 'parent' );
+		if ( $parent ) {
+			$this->set( 'sequential_id', llms_get_certificate_sequential_id( $parent, true ) );
+		}
+
 	}
 
 	/**
