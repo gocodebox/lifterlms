@@ -1,9 +1,4 @@
-import ButtonGroupControl from './button-group-control';
-import CopyButton from './copy-button';
+export { default as ButtonGroupControl } from './button-group-control';
+export { default as CopyButton } from './copy-button';
 
 export * from './search-control';
-
-export {
-	ButtonGroupControl,
-	CopyButton,
-};
