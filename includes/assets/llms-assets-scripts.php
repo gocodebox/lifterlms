@@ -70,8 +70,11 @@ return array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
-	// Modules.
 	'llms-icons'                    => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+	'llms-utils'                    => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
