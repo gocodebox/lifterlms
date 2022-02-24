@@ -15,7 +15,7 @@ import { getWPVersion } from './get-wp-version';
  * @return {boolean} Comparison result.
  */
 export function wpVersionCompare( version, comparator = '>=', majorMinorOnly = true ) {
-	let wpVersion =  parse( coerce( getWPVersion() ) );
+	let wpVersion = parse( coerce( getWPVersion() ) );
 	if ( majorMinorOnly ) {
 		wpVersion = `${ wpVersion.major }.${ wpVersion.minor }.0`;
 	}

@@ -1,20 +1,18 @@
 import { getAllBlocks as realGetAllBlocks } from '@wordpress/e2e-test-utils';
- 
- /**
-  * Removes clientIds from a block and its innerBlocks.
-  *
-  * @since [version]
-  *
-  * @param {Object}   options
-  * @param {string}   options.clientId The block's clientId.
-  * @param {...mixed} options.block    The remaining block properties.
-  * @return {Object} The original block without the clientId property.
-  */
-function removeClientId( { clientId, ...block } ) {
 
+/**
+ * Removes clientIds from a block and its innerBlocks.
+ *
+ * @since [version]
+ *
+ * @param {Object} options          Options object.
+ * @param {string} options.clientId The block's clientId.
+ * @param {...*}   options.block    The remaining block properties.
+ * @return {Object} The original block without the clientId property.
+ */
+function removeClientId( { clientId, ...block } ) { // eslint-disable-line no-unused-vars
 	block.innerBlocks = removeClientIds( block.innerBlocks );
 	return block;
-
 }
 
 /**
@@ -26,7 +24,7 @@ function removeClientId( { clientId, ...block } ) {
  * @return {Object[]} Original array with clientIds removed.
  */
 function removeClientIds( blocks ) {
-	return blocks.map( ( block ) => removeClientId( block ) )
+	return blocks.map( ( block ) => removeClientId( block ) );
 }
 
 /**
@@ -39,11 +37,10 @@ function removeClientIds( blocks ) {
  *
  * @since [version]
  *
- * @param {Boolean} withClientIds Whether or not to exclude clientIds.
+ * @param {boolean} withClientIds Whether or not to exclude clientIds.
  * @return {Object[]} Array of block objects.
  */
 export async function getAllBlocks( withClientIds = true ) {
-
 	const blocks = await realGetAllBlocks();
 
 	if ( withClientIds ) {
@@ -51,5 +48,4 @@ export async function getAllBlocks( withClientIds = true ) {
 	}
 
 	return removeClientIds( blocks );
-
 }
