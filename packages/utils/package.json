@@ -25,6 +25,7 @@
   },
   "scripts": {
     "docgen": "docgen src/index.js --output README.md --to-token",
+    "lint:js": "wp-scripts lint-js ./",
     "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
   }
 }

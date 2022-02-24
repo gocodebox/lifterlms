@@ -12,6 +12,6 @@ import { untrailingSlashIt } from '../formatting';
  * @return {string} The WP Admin URL.
  */
 export function getAdminUrl() {
-	let { admin_url: url = '/wp-admin' } = window.llms || {};
+	const { admin_url: url = '/wp-admin' } = window.llms || {};
 	return untrailingSlashIt( url );
 }
