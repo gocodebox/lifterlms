@@ -15,13 +15,63 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$styles = array(
+	'title' => array(
+		'typography' => array(
+			'fontSize'   => '90px',
+			'lineHeight' => '1.1',
+		),
+		'spacing'    => array(
+			'margin' => array(
+				'top'    => '40px',
+				'bottom' => '0px',
+			),
+		),
+	),
+	'h2'    => array(
+		'typography' => array(
+			'fontSize'   => '48px',
+			'lineHeight' => '1.3',
+		),
+		'spacing'    => array(
+			'margin' => array(
+				'top'    => '0px',
+				'bottom' => '0px',
+			),
+		),
+	),
+	'h3'    => array(
+		'typography' => array(
+			'fontSize'   => '32px',
+			'lineHeight' => '1.3',
+		),
+		'spacing'    => array(
+			'margin' => array(
+				'top'    => '0px',
+				'bottom' => '0px',
+			),
+		),
+	),
+	'p'     => array(
+		'typography' => array(
+			'fontSize'   => '18px',
+			'lineHeight' => '1.6',
+		),
+	),
+);
+
 /**
  * Shared block template for the `llms_certificate` and `llms_my_certificate` post types.
  *
  * @since [version]
  */
 $certificates = array(
-	array( 'llms/certificate-title' ),
+	array(
+		'llms/certificate-title',
+		array(
+			'style' => $styles['title'],
+		),
+	),
 	array(
 		'core/spacer',
 		array(
@@ -34,6 +84,7 @@ $certificates = array(
 			'content'   => __( 'Presented to', 'lifterlms' ),
 			'level'     => 3,
 			'textAlign' => 'center',
+			'style'     => $styles['h3'],
 		),
 	),
 	array(
@@ -42,6 +93,7 @@ $certificates = array(
 			'content'   => '[llms-user display_name]',
 			'level'     => 2,
 			'textAlign' => 'center',
+			'style'     => $styles['h2'],
 		),
 	),
 	array(
@@ -50,6 +102,7 @@ $certificates = array(
 			'content'   => __( 'for demonstration of excellence', 'lifterlms' ),
 			'level'     => 3,
 			'textAlign' => 'center',
+			'style'     => $styles['h3'],
 		),
 	),
 	array(
@@ -73,6 +126,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => '{current_date}',
+							'style'   => $styles['p'],
 						),
 					),
 					array(
@@ -86,6 +140,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => __( 'DATE', 'lifterlms' ),
+							'style'   => $styles['p'],
 						),
 					),
 				),
@@ -100,6 +155,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => '{site_title}',
+							'style'   => $styles['p'],
 						),
 					),
 					array(
@@ -113,6 +169,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => __( 'SIGNED', 'lifterlms' ),
+							'style'   => $styles['p'],
 						),
 					),
 				),
