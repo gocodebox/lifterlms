@@ -47,6 +47,8 @@ class LLMS_Controller_Awards {
 
 		}
 
+		add_action( 'rest_after_insert_llms_my_certificate', array( __CLASS__, 'on_rest_insert' ), 20, 3 );
+
 	}
 
 	/**
@@ -106,6 +108,42 @@ class LLMS_Controller_Awards {
 
 	}
 
+	/**
+	 * Awarded certificate REST API insertion callback.
+	 *
+	 * Automatically syncs an awarded certificate with it's parent when inserted via the REST API and
+	 * sets a unique post name (slug).
+	 *
+	 * This method relies on the fact that there is (currently) no native way to insert an awarded
+	 * certificate into the database via the REST API with a linked parent template without using the the
+	 * `AwardCertificateButton` Javascript component. The component sets the parent and student and allows
+	 * this callback function to perform the remaining (necessary) sync operations.
+	 *
+	 * @since [version]
+	 *
+	 * @param stdClass        $post     The post object.
+	 * @param WP_Rest_Request $request  Rest request object.
+	 * @param boolean         $creating Whether or not the post is being created.
+	 * @return integer Returns an integer, primarily for unit tests: `0` if the insertion is an update,
+	 *                 `1` if the post has not parent, and `2` when the certificate is synced and updated.
+	 */
+	public static function on_rest_insert( $post, $request, $creating ) {
+
+		if ( ! $creating ) {
+			return 0;
+		}
+
+		$cert = self::get_object( $post->ID );
+		if ( ! $cert->get( 'parent' ) ) {
+			return 1;
+		}
+
+		$cert->sync( 'create' );
+		$cert->set( 'name', llms()->certificates()->get_unique_slug( $cert->get( 'title' ) ) );
+
+		return 2;
+
+	}
 
 	/**
 	 * Callback function when a post is saved or updated.
