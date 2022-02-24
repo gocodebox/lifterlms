@@ -1,15 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { Button, Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { PluginPostStatusInfo } from '@wordpress/edit-post';
-import { dispatch, select, withSelect } from '@wordpress/data';
+import { dispatch, select } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { store as editorStore } from '@wordpress/editor';
 import { synchronizeBlocksWithTemplate } from '@wordpress/blocks';
 import { doAction } from '@wordpress/hooks';
-import { compose } from '@wordpress/compose';
 
-import { ResetTemplateCheck } from './check';
+import { ResetTemplateCheck } from './reset-template-check';
 import { editCertificateTitle } from '../../util';
 
 /**
@@ -74,7 +72,7 @@ function resetTemplate( onComplete, isPublished ) {
  *
  * @return {?ResetTemplateCheck} Returns the child components to render or `null` if the button should not be displayed.
  */
-function ResetTemplateButton( { isSaving, isPublished } ) {
+export default function( { isSaving, isPublished } ) {
 	const [ isOpen, setIsOpen ] = useState( false ),
 		closeModal = () => setIsOpen( false ),
 		openModal = () => setIsOpen( true );
@@ -86,40 +84,25 @@ function ResetTemplateButton( { isSaving, isPublished } ) {
 
 	return (
 		<ResetTemplateCheck>
-			<PluginPostStatusInfo>
-				{ isOpen && (
-					<Modal
-						title={ __( 'Confirm template reset', 'lifterlms' ) }
-						style={ { maxWidth: '360px' } }
-						onRequestClose={ closeModal }
-					>
-						<p>{ msg }</p>
-						<div style={ { textAlign: 'right' } }>
-							<Button variant="tertiary" onClick={ closeModal }>
-								{ __( 'Cancel', 'lifterlms' ) }
-							</Button>
-							&nbsp;
-							<Button variant="primary" onClick={ () => resetTemplate( closeModal, isPublished ) }>
-								{ __( 'Reset template', 'lifterlms' ) }
-							</Button>
-						</div>
-					</Modal>
-				) }
-				<Button onClick={ openModal } disabled={ isSaving } isDestructive>{ __( 'Reset template', 'lifterlms' ) }</Button>
-			</PluginPostStatusInfo>
+			{ isOpen && (
+				<Modal
+					title={ __( 'Confirm template reset', 'lifterlms' ) }
+					style={ { maxWidth: '360px' } }
+					onRequestClose={ closeModal }
+				>
+					<p>{ msg }</p>
+					<div style={ { textAlign: 'right' } }>
+						<Button variant="tertiary" onClick={ closeModal }>
+							{ __( 'Cancel', 'lifterlms' ) }
+						</Button>
+						&nbsp;
+						<Button variant="primary" onClick={ () => resetTemplate( closeModal, isPublished ) }>
+							{ __( 'Reset template', 'lifterlms' ) }
+						</Button>
+					</div>
+				</Modal>
+			) }
+			<Button onClick={ openModal } disabled={ isSaving } isDestructive>{ __( 'Reset template', 'lifterlms' ) }</Button>
 		</ResetTemplateCheck>
 	);
 }
-
-export default compose( [
-	withSelect( ( wpSelect ) => {
-		const {
-			isSavingPost,
-			isCurrentPostPublished,
-		} = wpSelect( editorStore );
-		return {
-			isSaving: isSavingPost(),
-			isPublished: isCurrentPostPublished(),
-		};
-	} ),
-] )( ResetTemplateButton );
