@@ -11,7 +11,7 @@ import { wpVersionCompare } from './wp-version-compare';
  * @return {Promise} A promise that resolves to return the element's text content.
  */
 export function getPostTitleTextContent() {
-	return page.$eval( getPostTitleSelector(), el => el.textContent )
+	return page.$eval( getPostTitleSelector(), ( el ) => el.textContent );
 }
 
 /**

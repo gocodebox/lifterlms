@@ -1,8 +1,4 @@
-import {
-	arePrePublishChecksEnabled,
-	disablePrePublishChecks,
-	openPublishPanel,
-} from '@wordpress/e2e-test-utils';
+import { arePrePublishChecksEnabled } from '@wordpress/e2e-test-utils';
 
 import { updatePost } from './update-post';
 
@@ -14,12 +10,10 @@ import { updatePost } from './update-post';
  * @return {Promise} Promise which resolves when the close button element is successfully clicked.
  */
 export async function publishPost() {
-
 	const enabled = await arePrePublishChecksEnabled();
 	if ( enabled ) {
 		await page.evaluate( () => window.wp.data.dispatch( 'core/editor' ).disablePublishSidebar() );
 	}
 
 	return updatePost();
-
 }

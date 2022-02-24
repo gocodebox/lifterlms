@@ -42,13 +42,16 @@ abstract class LLMS_Metabox_Field {
 	 * @since unknown
 	 * @since 3.11.0 Unknown.
 	 * @since [version] Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
-	 *
+	 *               Avoid retrieving the meta from the db if passed.
 	 * @return void
 	 */
 	public function output() {
 
 		global $post;
-		if ( ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) || 'auto-draft' === $post->post_status ) && ! empty( $this->field['default'] ) ) {
+
+		if ( isset( $this->field['meta'] ) ) {
+			$this->meta = $this->field['meta'];
+		} elseif ( ( ! metadata_exists( 'post', $post->ID, $this->field['id'] ) || 'auto-draft' === $post->post_status ) && ! empty( $this->field['default'] ) ) {
 			$this->meta = $this->field['default'];
 		} else {
 			$this->meta = self::get_post_meta( $post->ID, $this->field['id'] );

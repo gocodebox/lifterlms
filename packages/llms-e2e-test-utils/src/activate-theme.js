@@ -9,11 +9,9 @@ import { activateTheme as wpActivateTheme } from '@wordpress/e2e-test-utils';
  * @return {string} Slug of the WP core theme.
  */
 function getThemeByCoreVersion() {
-
 	let theme;
 
 	switch ( getWPVersion().split( '.' ).slice( 0, 2 ).join( '.' ) ) {
-
 		case '5.5':
 			theme = 'twentytwenty';
 			break;
@@ -28,11 +26,9 @@ function getThemeByCoreVersion() {
 		default:
 			theme = 'twentytwentytwo';
 			break;
-
 	}
 
 	return theme;
-
 }
 
 /**
