@@ -106,16 +106,25 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	}
 
 	/**
-	 * Called immediately after creating / inserting a new post into the database
+	 * Set this awarded certificate sequential id based on the parent's meta.
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return int|false Returns the awarded certificate sequenatial id.
+	 *                   Returns false if the awarded certificate has no parent template.
 	 */
-	protected function after_create() {
+	public function update_sequential_id() {
 
-		$this->set( 'sequential_id', llms_get_certificate_sequential_id( $this->get( 'parent' ), true ) );
-		parent::after_create();
+		$parent = $this->get( 'parent' );
+		if ( ! $parent ) {
+			return false;
+		}
+
+		$next_sequential_id = llms_get_certificate_sequential_id( $parent, true );
+		$this->set( 'sequential_id', $next_sequential_id );
+
+		return $next_sequential_id;
+
 	}
 
 	/**

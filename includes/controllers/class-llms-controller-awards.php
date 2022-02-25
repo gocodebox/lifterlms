@@ -180,6 +180,10 @@ class LLMS_Controller_Awards {
 		 */
 		if ( ! $obj->is_awarded() ) {
 
+			if ( 'llms_my_certificate' === $post_type ) {
+				$obj->update_sequential_id();
+			}
+
 			LLMS_Engagement_Handler::create_actions(
 				self::strip_prefix( $post_type ),
 				$obj->get_user_id(),
