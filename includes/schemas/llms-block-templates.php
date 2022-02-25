@@ -15,17 +15,90 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$blocks_styles = array(
+	'certificate' => array(
+		'title'  => array(
+			'style' => array(
+				'typography' => array(
+					'fontSize'   => '90px',
+					'lineHeight' => '1.1',
+				),
+				'spacing'    => array(
+					'margin' => array(
+						'top'    => '40px',
+						'bottom' => '0px',
+					),
+				),
+			),
+		),
+		'h2'     => array(
+			'style' => array(
+				'typography' => array(
+					'fontSize'   => '48px',
+					'lineHeight' => '1.3',
+				),
+				'spacing'    => array(
+					'margin' => array(
+						'top'    => '0px',
+						'bottom' => '0px',
+					),
+				),
+			),
+		),
+		'h3'     => array(
+			'style' => array(
+				'typography' => array(
+					'fontSize'   => '32px',
+					'lineHeight' => '1.3',
+				),
+				'spacing'    => array(
+					'margin' => array(
+						'top'    => '0px',
+						'bottom' => '0px',
+					),
+				),
+			),
+		),
+		'p'      => array(
+			'style' => array(
+				'typography' => array(
+					'fontSize'   => '18px',
+					'lineHeight' => '1.6',
+				),
+			),
+		),
+		'spacer' => array(
+			'height' => 100,
+		),
+	),
+);
+
+
+/**
+ * Filters the template blocks styling.
+ *
+ * @since [version]
+ *
+ * @param array $blocks_styles Array of blocks styles.
+ */
+$blocks_styles = apply_filters( 'llms_block_templates_styling', $blocks_styles );
+
 /**
  * Shared block template for the `llms_certificate` and `llms_my_certificate` post types.
  *
  * @since [version]
  */
 $certificates = array(
-	array( 'llms/certificate-title' ),
+	array(
+		'llms/certificate-title',
+		array(
+			'style' => $blocks_styles['certificate']['title']['style'],
+		),
+	),
 	array(
 		'core/spacer',
 		array(
-			'height' => 100,
+			'height' => $blocks_styles['certificate']['spacer']['height'],
 		),
 	),
 	array(
@@ -34,6 +107,7 @@ $certificates = array(
 			'content'   => __( 'Presented to', 'lifterlms' ),
 			'level'     => 3,
 			'textAlign' => 'center',
+			'style'     => $blocks_styles['certificate']['h3']['style'],
 		),
 	),
 	array(
@@ -42,6 +116,7 @@ $certificates = array(
 			'content'   => '[llms-user display_name]',
 			'level'     => 2,
 			'textAlign' => 'center',
+			'style'     => $blocks_styles['certificate']['h2']['style'],
 		),
 	),
 	array(
@@ -50,12 +125,13 @@ $certificates = array(
 			'content'   => __( 'for demonstration of excellence', 'lifterlms' ),
 			'level'     => 3,
 			'textAlign' => 'center',
+			'style'     => $blocks_styles['certificate']['h3']['style'],
 		),
 	),
 	array(
 		'core/spacer',
 		array(
-			'height' => 100,
+			'height' => $blocks_styles['certificate']['spacer']['height'],
 		),
 	),
 	array(
@@ -73,6 +149,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => '{current_date}',
+							'style'   => $blocks_styles['certificate']['p']['style'],
 						),
 					),
 					array(
@@ -86,6 +163,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => __( 'DATE', 'lifterlms' ),
+							'style'   => $blocks_styles['certificate']['p']['style'],
 						),
 					),
 				),
@@ -100,6 +178,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => '{site_title}',
+							'style'   => $blocks_styles['certificate']['p']['style'],
 						),
 					),
 					array(
@@ -113,6 +192,7 @@ $certificates = array(
 						array(
 							'align'   => 'center',
 							'content' => __( 'SIGNED', 'lifterlms' ),
+							'style'   => $blocks_styles['certificate']['p']['style'],
 						),
 					),
 				),
