@@ -111,7 +111,7 @@ class LLMS_Controller_Awards {
 	/**
 	 * Awarded certificate REST API insertion callback.
 	 *
-	 * Automatically syncs an awarded certificate with it's parent when inserted via the REST API and
+	 * Automatically syncs an awarded certificate with its parent when inserted via the REST API and
 	 * sets a unique post name (slug).
 	 *
 	 * This method relies on the fact that there is (currently) no native way to insert an awarded

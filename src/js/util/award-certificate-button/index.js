@@ -17,9 +17,9 @@ import { getRedirectUrl, getScratchUrl } from './urls';
  * @since [version]
  *
  * @param {Object}   params                Component configuration object.
- * @param {string}   params.modalTitle     [description]
- * @param {string}   params.buttonLabel    [description]
- * @param {Boolean}  params.isDisabled     [description]
+ * @param {string}   params.modalTitle     Title of the modal.
+ * @param {string}   params.buttonLabel    Text of the button.
+ * @param {Boolean}  params.isDisabled     Whether or not the button is disabled.
  * @param {Boolean}  params.enableScratch  When `true`, displays a "Start from Scratch" button that links to the awarded certificate editor page.
  * @param {Boolean}  params.selectStudent  When `true`, displays a searchable select element to allow user selection of the user.
  * @param {Boolean}  params.selectTemplate When `true`, displays a searchable select element to allow user selection of the template.
