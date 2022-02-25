@@ -139,7 +139,7 @@ export default function BaseSearchControl( {
 
 	getSearchArgs = getSearchArgs ? getSearchArgs : ( searchQuery ) => ( {
 		per_page: 10,
-		search: encodeURI( searchQuery ),
+		search: searchQuery,
 		...additionalSearchArgs,
 	} );
 
