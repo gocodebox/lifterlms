@@ -55,7 +55,7 @@ trait LLMS_Trait_Earned_Engagement_Reporting_Table {
 
 		$post_new_file  = "post-new.php?post_type=$post_type";
 		$post_new_url   = esc_url( add_query_arg( 'sid', $student, admin_url( $post_new_file ) ) );
-		$add_new_button = '<a style="display:inline-block;margin-bottom:20px" href="' . $post_new_url . '" class="llms-button-primary small">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
+		$add_new_button = '<a id="llms-new-award-button" style="display:inline-block;margin-bottom:20px" href="' . $post_new_url . '" class="llms-button-secondary small">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
 
 		return $add_new_button . $table;
 

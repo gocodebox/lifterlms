@@ -15,11 +15,13 @@ const { readdirSync } = require( 'fs' ),
 	config = generate( {
 		js: [
 			'admin-addons',
+			'admin-award-certificate',
 			'admin-certificate-editor',
 
 			// Module packages.
 			'components',
-			'icons'
+			'icons',
+			'utils',
 		],
 		css: [ 'admin-addons' ],
 		outputPath: '',

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -340,6 +340,18 @@ class LLMS_Admin_Assets {
 
 		} elseif ( 'lifterlms_page_llms-add-ons' === $screen->id ) {
 			llms()->assets->enqueue_script( 'llms-addons' );
+		}
+
+		if (
+			'edit-llms_my_certificate' === $screen->id ||
+			(
+				'lifterlms_page_llms-reporting' === $screen->id &&
+				'students' === llms_filter_input( INPUT_GET, 'tab' ) &&
+				'certificates' === llms_filter_input( INPUT_GET, 'stab' )
+			)
+		) {
+			llms()->assets->enqueue_script( 'llms-admin-award-certificate' );
+			wp_enqueue_style( 'wp-editor' );
 		}
 
 	}

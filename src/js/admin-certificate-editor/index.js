@@ -7,8 +7,9 @@ import './i18n';
 import './merge-codes';
 import './migrate';
 import './modify-blocks';
+import './notices';
 import CertificateDocumentSettings from './document-settings';
-import CertificateResetTemplate from './reset-template';
+import CertificatePostStatusInfo from './post-status-info';
 import CertificateUserSettings from './user-settings';
 
 /**
@@ -44,6 +45,6 @@ registerPlugin(
 registerPlugin(
 	'llms-certificate-post-status-info',
 	{
-		render: CertificateResetTemplate,
+		render: CertificatePostStatusInfo,
 	}
 );

@@ -80,6 +80,10 @@ export default function BaseSearchControl( {
 
 	// If an ID is stored and passed into component as the selectedValue, hydrate the value from cached results or the API.
 	useEffect( () => {
+		// Nothing to hydrate.
+		if ( ! selectedValue.length ) {
+			return;
+		}
 		hydrateValues = hydrateValues || defaultHydrateValues;
 		hydrateValues( value, searchPath, loadedResults ).then(
 			( newValues ) => {
@@ -135,7 +139,7 @@ export default function BaseSearchControl( {
 
 	getSearchArgs = getSearchArgs ? getSearchArgs : ( searchQuery ) => ( {
 		per_page: 10,
-		search: encodeURI( searchQuery ),
+		search: searchQuery,
 		...additionalSearchArgs,
 	} );
 

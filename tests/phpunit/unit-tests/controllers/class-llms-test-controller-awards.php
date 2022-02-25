@@ -39,6 +39,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 			array( 'llms_user_earned_achievement', 'on_earn', 20 ),
 			array( 'save_post_llms_my_certificate', 'on_save', 20 ),
 			array( 'save_post_llms_my_achievement', 'on_save', 20 ),
+			array( 'rest_after_insert_llms_my_certificate', 'on_rest_insert', 20 ),
 		);
 
 		foreach ( $actions as $data ) {
@@ -90,6 +91,53 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 
 		}
 
+	}
+
+	/**
+	 * Test on_rest_insert() during a rest update.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_rest_insert_update() {
+		$this->assertSame( 0, $this->main::on_rest_insert( null, null, false ) );
+	}
+
+	/**
+	 * Test on_rest_insert() for a cert with no parent template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_rest_insert_no_parent() {
+		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_my_certificate' ) );
+		$this->assertSame( 1, $this->main::on_rest_insert( $post, null, true ) );
+	}
+
+	/**
+	 * Test on_rest_insert() during an insertion with a parent.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_rest_insert() {
+
+		$actions = did_action( 'llms_certificate_synchronized' );
+
+		$template_id = $this->create_certificate_template();
+		$post        = $this->factory->post->create_and_get( array(
+			'post_type'   => 'llms_my_certificate',
+			'post_parent' => $template_id,
+		) );
+
+		$this->assertSame( 2, $this->main::on_rest_insert( $post, null, true ) );
+		$this->assertEquals( ++$actions, did_action( 'llms_certificate_synchronized' ) );
+
+		$cert = llms_get_certificate( $post->ID );
+		$this->assertNotEquals( $post->post_name, $cert->get( 'name' ) );
 
 	}
 
