@@ -132,6 +132,28 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test update_sequential_id() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_sequential_id() {
+
+		$this->create();
+		// No parent.
+		$this->assertFalse( $this->obj->update_sequential_id() );
+
+		// Set a parent.
+		$template_id = $this->create_certificate_template();
+		update_post_meta( $template_id, '_llms_sequential_id', 25 );
+
+		$this->obj->set( 'parent', $template_id );
+		$this->assertEquals( 26, $this->obj->update_sequential_id() );
+
+	}
+
+	/**
 	 * Test creation of the model
 	 *
 	 * @since 4.5.0

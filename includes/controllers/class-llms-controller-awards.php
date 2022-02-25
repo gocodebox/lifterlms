@@ -143,7 +143,7 @@ class LLMS_Controller_Awards {
 		if ( ! $obj->is_awarded() ) {
 
 			if ( 'llms_my_certificate' === $post_type ) {
-				$obj->maybe_set_sequential_id();
+				$obj->update_sequential_id();
 			}
 
 			LLMS_Engagement_Handler::create_actions(
