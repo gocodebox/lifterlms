@@ -96,7 +96,7 @@ export default function( {
 						</Button>
 
 						{ enableScratch && (
-							<Button style={ { marginRight: '5px' } } variant="secondary" href={ getScratchUrl( studentId ) }>
+							<Button style={ { marginRight: '5px' } } variant="secondary" href={ getScratchUrl( currStudentId ) }>
 								{ __( 'Start from Scratch', 'lifterlms' ) }
 							</Button>
 						) }
