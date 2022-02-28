@@ -178,6 +178,7 @@ final class LifterLMS {
 		$this->block_templates();
 		$this->engagements();
 		$this->notifications();
+		( new LLMS_Media_Protector() )->register_callbacks();
 
 		do_action( 'lifterlms_init' );
 
