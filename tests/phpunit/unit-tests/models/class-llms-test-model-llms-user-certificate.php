@@ -503,6 +503,8 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'size', 'A3' );
 		$this->assertEquals( 'A3', $this->obj->get_size() );
 
+		delete_option( 'lifterlms_certificate_default_size' );
+
 	}
 
 	/**
