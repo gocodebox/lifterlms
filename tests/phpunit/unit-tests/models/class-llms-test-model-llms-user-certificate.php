@@ -490,9 +490,16 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_get_size() {
 
+		// Default default value.
 		$this->create();
 		$this->assertEquals( 'LETTER', $this->obj->get_size() );
 
+		// Updated default value.
+		update_option( 'lifterlms_certificate_default_size', 'A4' );
+		$this->create();
+		$this->assertEquals( 'A4', $this->obj->get_size() );
+
+		// Explicitly set value on the cert.
 		$this->obj->set( 'size', 'A3' );
 		$this->assertEquals( 'A3', $this->obj->get_size() );
 

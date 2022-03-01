@@ -749,7 +749,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	private function set_property_defaults() {
 
 		// Default size is configured via a site option.
-		$default_size                    = get_option( 'llms_certificate_default_size', 'LETTER' );
+		$default_size                    = get_option( 'lifterlms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
 
 	}
