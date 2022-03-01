@@ -52,6 +52,18 @@ Array [
       "fontFamily": "default",
       "level": 1,
       "placeholder": "Certificate of Achievement",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "40px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "90px",
+          "lineHeight": "1.1",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -76,6 +88,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "32px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -89,6 +113,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "48px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -102,6 +138,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "32px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -121,7 +169,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "isStackedOnMobile": true,
+      "isStackedOnMobile": false,
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
@@ -142,6 +190,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -166,6 +220,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -200,6 +260,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -224,6 +290,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -248,6 +320,18 @@ Array [
       "fontFamily": "default",
       "level": 1,
       "placeholder": "Certificate of Achievement",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "40px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "90px",
+          "lineHeight": "1.1",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -272,6 +356,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "32px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -285,6 +381,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "48px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -298,6 +406,18 @@ Array [
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
+      "style": Object {
+        "spacing": Object {
+          "margin": Object {
+            "bottom": "0px",
+            "top": "0px",
+          },
+        },
+        "typography": Object {
+          "fontSize": "32px",
+          "lineHeight": "1.3",
+        },
+      },
       "textAlign": "center",
     },
     "innerBlocks": Array [],
@@ -317,7 +437,7 @@ Array [
   },
   Object {
     "attributes": Object {
-      "isStackedOnMobile": true,
+      "isStackedOnMobile": false,
       "llms_visibility": "all",
       "llms_visibility_in": "",
       "llms_visibility_posts": "[]",
@@ -338,6 +458,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -362,6 +488,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -396,6 +528,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
@@ -420,6 +558,12 @@ Array [
               "llms_visibility": "all",
               "llms_visibility_in": "",
               "llms_visibility_posts": "[]",
+              "style": Object {
+                "typography": Object {
+                  "fontSize": "18px",
+                  "lineHeight": "1.6",
+                },
+              },
             },
             "innerBlocks": Array [],
             "isValid": true,
