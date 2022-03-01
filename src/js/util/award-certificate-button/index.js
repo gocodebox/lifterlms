@@ -16,15 +16,15 @@ import { getRedirectUrl, getScratchUrl } from './urls';
  *
  * @since [version]
  *
- * @param {Object}   params                Component configuration object.
- * @param {string}   params.modalTitle     Title of the modal.
- * @param {string}   params.buttonLabel    Text of the button.
- * @param {Boolean}  params.isDisabled     Whether or not the button is disabled.
- * @param {Boolean}  params.enableScratch  When `true`, displays a "Start from Scratch" button that links to the awarded certificate editor page.
- * @param {Boolean}  params.selectStudent  When `true`, displays a searchable select element to allow user selection of the user.
- * @param {Boolean}  params.selectTemplate When `true`, displays a searchable select element to allow user selection of the template.
- * @param {?integer} params.studentId      WP_User ID of the student to award the certificate to.
- * @param {?integer} params.templateId     WP_Post ID of the certificate template post to create the certificate from.
+ * @param {Object}  params                Component configuration object.
+ * @param {string}  params.modalTitle     Title of the modal.
+ * @param {string}  params.buttonLabel    Text of the button.
+ * @param {boolean} params.isDisabled     Whether or not the button is disabled.
+ * @param {boolean} params.enableScratch  When `true`, displays a "Start from Scratch" button that links to the awarded certificate editor page.
+ * @param {boolean} params.selectStudent  When `true`, displays a searchable select element to allow user selection of the user.
+ * @param {boolean} params.selectTemplate When `true`, displays a searchable select element to allow user selection of the template.
+ * @param {?number} params.studentId      WP_User ID of the student to award the certificate to.
+ * @param {?number} params.templateId     WP_Post ID of the certificate template post to create the certificate from.
  * @return {WPElement} The component.
  */
 export default function( {
@@ -37,7 +37,6 @@ export default function( {
 	studentId = null,
 	templateId = null,
 } ) {
-
 	const [ isOpen, setIsOpen ] = useState( false ),
 		[ isBusy, setIsBusy ] = useState( false ),
 		[ currStudentId, setStudentId ] = useState( studentId ),
@@ -50,7 +49,7 @@ export default function( {
 			createAward( currStudentId, currTemplateId ).then( ( { id } ) => {
 				window.location = getRedirectUrl( id );
 			} );
-		}
+		};
 
 	return (
 		<>
@@ -61,7 +60,7 @@ export default function( {
 					onRequestClose={ closeModal }
 				>
 
-					<p>{ getMessage( selectStudent, selectTemplate) }</p>
+					<p>{ getMessage( selectStudent, selectTemplate ) }</p>
 
 					{ selectStudent && (
 						<UserSearchControl
@@ -111,10 +110,9 @@ export default function( {
 				disabled={ isDisabled }
 				variant="secondary"
 				onClick={ openModal }
-				>
+			>
 				{ buttonLabel }
 			</Button>
 		</>
 	);
-
 }

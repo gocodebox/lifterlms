@@ -7,12 +7,11 @@ import { dispatch } from '@wordpress/data';
  *
  * @since [version]
  *
- * @param {integer} studentId  WP_User ID.
- * @param {integer} templateId WP_Post ID.
+ * @param {number} studentId  WP_User ID.
+ * @param {number} templateId WP_Post ID.
  * @return {Promise<Object>} A promise that resolves to the WP_Post object api response on success.
  */
 export default function( studentId, templateId ) {
-
 	const { saveEntityRecord } = dispatch( coreStore );
 
 	return saveEntityRecord(
@@ -24,5 +23,4 @@ export default function( studentId, templateId ) {
 			status: 'draft',
 		}
 	);
-
 }

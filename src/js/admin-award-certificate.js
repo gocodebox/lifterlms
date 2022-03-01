@@ -18,7 +18,6 @@ const WRAPPER_ID = 'llms-award-certificate-wrapper',
  * @return {?Element} DOM element for the default button or null if no button found.
  */
 function getDefaultButton() {
-
 	// Certificates post table page.
 	let btn = document.querySelector( '.page-title-action' );
 	if ( btn ) {
@@ -43,7 +42,6 @@ function getDefaultButton() {
 	}
 
 	return btn;
-
 }
 
 /**
@@ -51,10 +49,9 @@ function getDefaultButton() {
  *
  * @since [version]
  *
- * @return {Boolean} Returns `false` if no default button is found, otherwise returns true.
+ * @return {boolean} Returns `false` if no default button is found, otherwise returns true.
  */
 function insertRenderNode() {
-
 	if ( ! defaultBtn ) {
 		return false;
 	}
@@ -70,10 +67,9 @@ function insertRenderNode() {
 	defaultBtn.after( renderNode );
 
 	return true;
-
 }
 
 // Render the component.
 if ( insertRenderNode() ) {
-	render( <AwardCertificateButton { ...buttonArgs }/>, document.getElementById( WRAPPER_ID ) );
+	render( <AwardCertificateButton { ...buttonArgs } />, document.getElementById( WRAPPER_ID ) );
 }

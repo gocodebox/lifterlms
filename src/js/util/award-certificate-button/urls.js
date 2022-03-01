@@ -9,7 +9,7 @@ import { getAdminUrl } from '@lifterlms/utils';
  *
  * @since [version]
  *
- * @param {integer} post WP_Post ID.
+ * @param {number} post WP_Post ID.
  * @return {string} The edit post URL for awarded certificate draft.
  */
 export function getRedirectUrl( post ) {
@@ -28,7 +28,7 @@ export function getRedirectUrl( post ) {
  *
  * @since [version]
  *
- * @param {?integer} sid WP_User ID of the selected student.
+ * @param {?number} sid WP_User ID of the selected student.
  * @return {string} The URL.
  */
 export function getScratchUrl( sid = null ) {

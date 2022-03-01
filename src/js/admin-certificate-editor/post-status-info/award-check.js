@@ -14,6 +14,5 @@ export function AwardCheck( { postType, children } ) {
 	if ( postType && 'llms_certificate' === postType ) {
 		return children;
 	}
-
 	return null;
 }

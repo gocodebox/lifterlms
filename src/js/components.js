@@ -10,4 +10,7 @@ const { components = {} } = window.llms;
  *
  * @since [version]
  */
-window.llms.components = { ...Components };
+window.llms.components = {
+	...components,
+	...Components,
+};
