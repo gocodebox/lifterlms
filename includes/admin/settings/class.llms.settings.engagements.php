@@ -87,7 +87,8 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'',
 			array(
 				array(
-					'title'    => __( 'Default Image', 'lifterlms' ),
+					'title'    => __( 'Placeholder Image', 'lifterlms' ),
+					'desc'     => $this->get_award_image_desc( __( 'achievement', 'lifterlms' ) ),
 					'id'       => 'lifterlms_achievement_default_img',
 					'type'     => 'image',
 					'value'    => llms()->achievements()->get_default_image( 0 ),
@@ -111,7 +112,8 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 		$settings = array(
 			array(
-				'title'    => __( 'Default Background Image', 'lifterlms' ),
+				'title'    => __( 'Placeholder Background Image', 'lifterlms' ),
+				'desc'     => $this->get_award_image_desc( __( 'certificates', 'lifterlms' ) ),
 				'id'       => 'lifterlms_certificate_default_img',
 				'type'     => 'image',
 				'value'    => llms()->certificates()->get_default_image( 0 ),
@@ -286,6 +288,24 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		}
 
 		return $sizes;
+
+	}
+
+	/**
+	 * Retrieves the award image setting description HTML.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type Translated post type name.
+	 * @return string
+	 */
+	private function get_award_image_desc( $post_type ) {
+
+		$desc = sprintf(
+			__( 'A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image.', 'lifterlms' ),
+			$post_type
+		);
+		return "<br><i>{$desc}</i>";
 
 	}
 
