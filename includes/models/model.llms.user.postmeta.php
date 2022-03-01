@@ -151,25 +151,22 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve a link for the item on the admin panel
 	 *
-	 * @param    string $context  display context [course|student]
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Don't use deprecated achievement and certificate meta data.
+	 *        		 Combined redundant cases into a single case.
+	 *               Fixed return value.
+	 *
+	 * @param string $context Display context either "course" or "student".
+	 * @return string
 	 */
 	public function get_link( $context = 'course' ) {
+
+		$url = '';
 
 		switch ( $this->get( 'meta_key' ) ) {
 
 			case '_achievement_earned':
-				$achievement = new LLMS_User_Achievement( $this->get( 'meta_value' ) );
-				$url         = get_edit_post_link( $achievement->get( 'achievement_template' ) );
-				break;
-
 			case '_certificate_earned':
-				$certificate = new LLMS_User_Certificate( $this->get( 'meta_value' ) );
-				$url         = get_edit_post_link( $certificate->get( 'certificate_template' ) );
-				break;
-
 			case '_email_sent':
 				$url = get_edit_post_link( $this->get( 'meta_value' ) );
 				break;
@@ -201,7 +198,9 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 						)
 					);
 				}
-		}// End switch().
+		}
+
+		return $url;
 
 	}
 
