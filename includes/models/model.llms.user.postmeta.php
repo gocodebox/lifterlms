@@ -167,7 +167,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.15.0
 	 * @since [version] Don't use deprecated achievement and certificate meta data.
-	 *        		 Combined redundant cases into a single case.
+	 *               Combined redundant cases into a single case.
 	 *               Fixed return value.
 	 *
 	 * @param string $context Display context either "course" or "student".
