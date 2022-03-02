@@ -508,6 +508,64 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_size|unit|widh|height() when using custom default values.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sizes_custom_default() {
+
+		// Default default value.
+		$this->create();
+		$this->assertEquals( 'LETTER', $this->obj->get_size() );
+
+		// Updated default value.
+		update_option( 'lifterlms_certificate_default_custom_size', 'yes' );
+		$this->create();
+		$this->assertEquals( 'CUSTOM', $this->obj->get_size() );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 8.5, $this->obj->get_width() );
+		$this->assertEquals( '8.5in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 11, $this->obj->get_height() );
+		$this->assertEquals( '11in', $this->obj->get_height( true ) );
+
+		// Updated default values.
+		update_option( 'lifterlms_certificate_default_custom_unit', 'mm' );
+		update_option( 'lifterlms_certificate_default_custom_width', 200 );
+		update_option( 'lifterlms_certificate_default_custom_height', 150 );
+		$this->create();
+
+		$this->assertEquals( 'mm', $this->obj->get_unit() );
+
+		$this->assertEquals( 200, $this->obj->get_width() );
+		$this->assertEquals( '200mm', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 150, $this->obj->get_height() );
+		$this->assertEquals( '150mm', $this->obj->get_height( true ) );
+
+		// Reset custom size option
+		delete_option( 'lifterlms_certificate_default_custom_size' );
+		$this->create();
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 8.5, $this->obj->get_width() );
+		$this->assertEquals( '8.5in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 11, $this->obj->get_height() );
+		$this->assertEquals( '11in', $this->obj->get_height( true ) );
+
+		// Reset other options.
+		delete_option( 'lifterlms_certificate_default_custom_unit' );
+		delete_option( 'lifterlms_certificate_default_custom_width' );
+		delete_option( 'lifterlms_certificate_default_custom_height' );
+
+	}
+
+	/**
 	 * Test get_template_version()
 	 *
 	 * @since [version]

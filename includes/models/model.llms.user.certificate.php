@@ -319,7 +319,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @return array[] Array of fonts by the certificate. Each array is a font definition with the font's
 	 *                 id added to the array.
 	 */
-	public function get_custom_fonts( $blocks = null ) {
+	public function get_default_custom_fonts( $blocks = null ) {
 
 		$fonts = array();
 
@@ -331,7 +331,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			}
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
+				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_default_custom_fonts( $block['innerBlocks'] ), 'id' ) );
 			}
 		}
 
@@ -752,6 +752,13 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$default_size                    = get_option( 'lifterlms_certificate_default_size', 'LETTER' );
 		$this->property_defaults['size'] = ! $default_size ? 'LETTER' : $default_size;
 
+		// Custom size.
+		if ( llms_parse_bool( get_option( 'lifterlms_certificate_default_custom_size', false ) ) ) {
+			$this->property_defaults['size']   = 'CUSTOM';
+			$this->property_defaults['width']  = get_option( 'lifterlms_certificate_default_custom_width', 8.5 );
+			$this->property_defaults['height'] = get_option( 'lifterlms_certificate_default_custom_height', 11 );
+			$this->property_defaults['unit']   = get_option( 'lifterlms_certificate_default_custom_unit', 'in' );
+		}
 	}
 
 	/**
