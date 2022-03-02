@@ -1,4 +1,4 @@
-# Copyright (C) 2015-2022 LifterLMS
+# Copyright (C) 2014-2022 LifterLMS
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-02-22T12:45:42-07:00\n"
+"POT-Creation-Date: 2022-03-02T10:34:29-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -402,7 +402,7 @@ msgstr ""
 #: includes/privacy/class-llms-privacy-exporters.php:227
 #: includes/privacy/class-llms-privacy-exporters.php:319
 #: templates/admin/reporting/tabs/quizzes/attempt.php:49
-#: templates/admin/reporting/tabs/students/courses-course.php:121
+#: templates/admin/reporting/tabs/students/courses-course.php:150
 #: templates/myaccount/my-grades-single.php:27
 #: templates/myaccount/my-grades.php:22
 msgid "Grade"
@@ -1500,6 +1500,8 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.award.engagement.submit.php:57
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:148
 #: includes/admin/views/metaboxes/view-award-engagement-submit.php:149
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
 msgid "Award"
 msgstr ""
 
@@ -1646,7 +1648,7 @@ msgstr ""
 
 #. Translators: %s = Course title.
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:129
-#: templates/admin/reporting/tabs/students/courses-course.php:39
+#: templates/admin/reporting/tabs/students/courses-course.php:48
 msgid "Course: %s"
 msgstr ""
 
@@ -1913,7 +1915,7 @@ msgid "Capacity Reached Message"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:37
-#: includes/admin/settings/class.llms.settings.engagements.php:192
+#: includes/admin/settings/class.llms.settings.engagements.php:194
 msgid "Email Settings"
 msgstr ""
 
@@ -2431,6 +2433,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:74
 #: includes/class.llms.l10n.js.php:416
 #: includes/class.llms.l10n.js.php:485
+#: assets/js/llms-admin-award-certificate.js:1
 #: assets/js/llms-admin-certificate-editor.js:20
 msgid "Cancel"
 msgstr ""
@@ -2503,6 +2506,8 @@ msgid "User"
 msgstr ""
 
 #: includes/admin/post-types/post-tables/class-llms-admin-post-table-awards.php:75
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
 msgid "Template"
 msgstr ""
 
@@ -2725,7 +2730,7 @@ msgstr ""
 
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:189
 #: includes/models/model.llms.quiz.attempt.php:611
-#: includes/models/model.llms.user.postmeta.php:101
+#: includes/models/model.llms.user.postmeta.php:115
 msgid "[Deleted]"
 msgstr ""
 
@@ -2789,7 +2794,7 @@ msgstr ""
 #: includes/admin/reporting/tables/llms.table.student.courses.php:241
 #: includes/admin/reporting/tables/llms.table.students.php:629
 #: includes/privacy/class-llms-privacy-exporters.php:218
-#: templates/admin/reporting/tabs/students/courses-course.php:109
+#: templates/admin/reporting/tabs/students/courses-course.php:138
 #: templates/myaccount/my-grades-single.php:22
 #: templates/myaccount/my-grades.php:21
 msgid "Progress"
@@ -3744,88 +3749,100 @@ msgid "Engagements"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:90
-msgid "Default Image"
+msgid "Placeholder Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:114
-msgid "Default Background Image"
+#: includes/admin/settings/class.llms.settings.engagements.php:91
+msgid "achievement"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:121
+#: includes/admin/settings/class.llms.settings.engagements.php:115
+msgid "Placeholder Background Image"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:116
+msgid "certificate"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:123
 msgid "Default Size"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:137
+#: includes/admin/settings/class.llms.settings.engagements.php:139
 msgid "Legacy Certificate Background Image Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:139
+#: includes/admin/settings/class.llms.settings.engagements.php:141
 msgid "Use these settings to determine the dimensions of legacy certificate background images created using the classic editor. These settings have no effect on certificates created using the block editor. After changing these settings, you may need to <a href=\"http://wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank\">regenerate your thumbnails</a>."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:143
+#: includes/admin/settings/class.llms.settings.engagements.php:145
 msgid "Image Width"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:144
-#: includes/admin/settings/class.llms.settings.engagements.php:153
+#: includes/admin/settings/class.llms.settings.engagements.php:146
+#: includes/admin/settings/class.llms.settings.engagements.php:155
 msgid "in pixels"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:151
+#: includes/admin/settings/class.llms.settings.engagements.php:153
 msgid "Image Height"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:159
+#: includes/admin/settings/class.llms.settings.engagements.php:161
 msgid "Legacy compatibility"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:160
+#: includes/admin/settings/class.llms.settings.engagements.php:162
 msgid "Use legacy certificate image sizes."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:161
+#: includes/admin/settings/class.llms.settings.engagements.php:163
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:174
+#: includes/admin/settings/class.llms.settings.engagements.php:176
 msgid "Certificate Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:193
+#: includes/admin/settings/class.llms.settings.engagements.php:195
 msgid "Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:196
+#: includes/admin/settings/class.llms.settings.engagements.php:198
 msgid "Sender Name"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:197
+#: includes/admin/settings/class.llms.settings.engagements.php:199
 msgid "Name to be displayed in From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:203
+#: includes/admin/settings/class.llms.settings.engagements.php:205
 msgid "Sender Email"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:204
+#: includes/admin/settings/class.llms.settings.engagements.php:206
 msgid "Email Address displayed in the From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:210
+#: includes/admin/settings/class.llms.settings.engagements.php:212
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:217
+#: includes/admin/settings/class.llms.settings.engagements.php:219
 msgid "Email Footer Text"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:218
+#: includes/admin/settings/class.llms.settings.engagements.php:220
 msgid "Text you would like displayed in the footer of all emails."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:254
+#: includes/admin/settings/class.llms.settings.engagements.php:256
 msgid "Email Delivery"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:305
+msgid "A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.general.php:76
@@ -5088,6 +5105,8 @@ msgid "Exit Setup"
 msgstr ""
 
 #: includes/admin/views/setup-wizard/main.php:59
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
 msgid "Start from Scratch"
 msgstr ""
 
@@ -5749,7 +5768,7 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:118
 #: includes/class.llms.l10n.js.php:332
-#: includes/models/model.llms.user.postmeta.php:104
+#: includes/models/model.llms.user.postmeta.php:118
 msgid "quiz"
 msgstr ""
 
@@ -9037,35 +9056,35 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/models/model.llms.user.certificate.php:714
+#: includes/models/model.llms.user.certificate.php:723
 msgid "Loading custom HTML from the certificate template is deprecated. All HTML should be added to the certificate directly via the editor or applied via post content filters."
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:112
+#: includes/models/model.llms.user.postmeta.php:126
 msgid "%1$s earned the achievement \"%2$s\""
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:117
+#: includes/models/model.llms.user.postmeta.php:131
 msgid "%1$s earned the certificate \"%2$s\""
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:122
+#: includes/models/model.llms.user.postmeta.php:136
 msgid "Email \"%1$s\" was sent to %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:127
+#: includes/models/model.llms.user.postmeta.php:141
 msgid "%1$s purchased the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:133
+#: includes/models/model.llms.user.postmeta.php:147
 msgid "%1$s enrolled into the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:135
+#: includes/models/model.llms.user.postmeta.php:149
 msgid "%1$s unenrolled from the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:141
+#: includes/models/model.llms.user.postmeta.php:155
 msgid "%1$s completed the %2$s"
 msgstr ""
 
@@ -9695,12 +9714,12 @@ msgid "%s Title"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:197
-#: templates/admin/reporting/tabs/students/courses-course.php:86
+#: templates/admin/reporting/tabs/students/courses-course.php:115
 msgid "Enrollment Status"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:202
-#: templates/admin/reporting/tabs/students/courses-course.php:74
+#: templates/admin/reporting/tabs/students/courses-course.php:103
 #: templates/myaccount/my-grades-single.php:32
 #: templates/myaccount/my-grades.php:20
 msgid "Enrollment Date"
@@ -9967,19 +9986,19 @@ msgstr ""
 msgid "Awarded certificates sync scheduled for the template %1$s%2$s (#%3$d)%4$s."
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:34
+#: includes/schemas/llms-block-templates.php:107
 msgid "Presented to"
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:50
+#: includes/schemas/llms-block-templates.php:125
 msgid "for demonstration of excellence"
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:86
+#: includes/schemas/llms-block-templates.php:165
 msgid "DATE"
 msgstr ""
 
-#: includes/schemas/llms-block-templates.php:113
+#: includes/schemas/llms-block-templates.php:194
 msgid "SIGNED"
 msgstr ""
 
@@ -32197,7 +32216,7 @@ msgstr ""
 msgid "No HTML was returned."
 msgstr ""
 
-#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:136
+#: libraries/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:137
 msgid "Sorry, you are not allowed to edit the object instructors."
 msgstr ""
 
@@ -33239,17 +33258,17 @@ msgid "Instructor deleted"
 msgstr ""
 
 #. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:435
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:436
 msgid "\"%s\" is not a valid status."
 msgstr ""
 
 #. Translators: %s = Invalid permission string.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:441
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:442
 msgid "\"%s\" is not a valid topic."
 msgstr ""
 
 #. Translators: %s = field name.
-#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:448
+#: libraries/lifterlms-rest/includes/class-llms-rest-webhooks.php:449
 msgid "\"%s\" is required."
 msgstr ""
 
@@ -33339,12 +33358,12 @@ msgid "List of course instructors. Defaults to current user when creating a new 
 msgstr ""
 
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:227
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:371
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:372
 msgid "URL to an oEmbed enable audio URL."
 msgstr ""
 
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-courses-controller.php:236
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:380
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:381
 msgid "URL to an oEmbed enable video URL."
 msgstr ""
 
@@ -33593,48 +33612,48 @@ msgstr ""
 msgid "You are not allowed to edit this instructor."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:162
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:163
 msgid "Invalid course_id param. It must be a valid Course ID."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:173
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:174
 #: libraries/lifterlms-rest/includes/server/class-llms-rest-sections-controller.php:217
 msgid "Invalid order param. It must be greater than 0."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:194
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:195
 msgid "Invalid drip_days param. It must be greater than 0."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:327
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:328
 msgid "WordPress post ID of the parent item. Must be a Section ID. 0 indicates an \"orphaned\" lesson which can be edited and viewed by instructors and admins but cannot be read by students."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:335
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:336
 msgid "WordPress post ID of the lesson's parent course."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:344
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:345
 msgid "Order of the lesson within its immediate parent."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:354
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:355
 msgid "Lesson ID of the prerequisite lesson."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:362
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:363
 msgid "Determines the weight of the lesson when grading the course."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:389
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:390
 msgid "The date and time when the lesson becomes available. Applicable only when drip_method is date. Format: Y-m-d H:i:s."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:397
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:398
 msgid "Number of days to wait before allowing access to the lesson. Applicable only when drip_method is enrollment, start, or prerequisite."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:406
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:407
 msgid ""
 "Determine the method with which to make the lesson content available.\n"
 "\t\t\t\t\t<ul>\n"
@@ -33646,23 +33665,23 @@ msgid ""
 "\t\t\t\t\t</ul>"
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:423
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:424
 msgid "Denotes a lesson that's publicly accessible regardless of course enrollment."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:429
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:430
 msgid "Associate a quiz with this lesson."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:438
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:439
 msgid "Determines if a quiz is enabled for the lesson."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:444
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:445
 msgid "The post ID of the associated quiz."
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:453
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:454
 msgid ""
 "Determines lesson progression requirements related to the quiz.\n"
 "\t\t\t\t\t\t\t<ul>\n"
@@ -33671,7 +33690,7 @@ msgid ""
 "\t\t\t\t\t\t\t</ul>"
 msgstr ""
 
-#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:518
+#: libraries/lifterlms-rest/includes/server/class-llms-rest-lessons-controller.php:519
 msgid "Filter lessons by the parent post (section) ID."
 msgstr ""
 
@@ -34241,19 +34260,19 @@ msgstr ""
 msgid "Quiz events coming soon..."
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:44
+#: templates/admin/reporting/tabs/students/courses-course.php:53
 msgid "Edit course"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:57
+#: templates/admin/reporting/tabs/students/courses-course.php:66
 msgid "View course reports"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:98
+#: templates/admin/reporting/tabs/students/courses-course.php:127
 msgid "Completed Date"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:98
+#: templates/admin/reporting/tabs/students/courses-course.php:127
 msgid "Last Activity Date"
 msgstr ""
 
@@ -34709,6 +34728,36 @@ msgid_plural "%d add-ons"
 msgstr[0] ""
 msgstr[1] ""
 
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Award a New Certificate"
+msgstr ""
+
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Create a new certificate award from the selected template for the selected student."
+msgstr ""
+
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Create a new certificate award from this template for the selected student."
+msgstr ""
+
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Create a new certificate award from the selected template for this student."
+msgstr ""
+
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Award to"
+msgstr ""
+
+#: assets/js/llms-admin-award-certificate.js:1
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Search for a certificate template…"
+msgstr ""
+
 #: assets/js/llms-admin-certificate-editor.js:1
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:24
 msgid "Insert"
@@ -34720,6 +34769,10 @@ msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:1
 msgid "Merge code"
+msgstr ""
+
+#: assets/js/llms-admin-certificate-editor.js:1
+msgid "The certificate award has been created as a draft."
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:1
@@ -34827,11 +34880,21 @@ msgid "Search…"
 msgstr ""
 
 #: assets/js/llms-components.js:13
+msgid "Search for posts…"
+msgstr ""
+
+#. Translators: %1$s = Post title; %2$s = Post id.
+#: assets/js/llms-components.js:14
+msgctxt "Post search result label"
+msgid "%1$s (ID# %2$d)"
+msgstr ""
+
+#: assets/js/llms-components.js:14
 msgid "Search users by email or name…"
 msgstr ""
 
 #. Translators: %1$s = User's name; %2$s = User's id.
-#: assets/js/llms-components.js:14
+#: assets/js/llms-components.js:15
 #: libraries/lifterlms-blocks/assets/js/llms-blocks.js:6
 msgctxt "User search result label"
 msgid "%1$s (ID# %2$d)"
