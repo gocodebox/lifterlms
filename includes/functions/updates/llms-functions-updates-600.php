@@ -81,15 +81,22 @@ function migrate_award_templates() {
 		)
 	);
 
-	$legacy_option_added = false;
+	$legacy_certificates_option_added = false;
+	$legacy_achievements_option_added = false;
 
 	foreach ( $query->posts as $post ) {
 		_migrate_image( $post->ID, llms_strip_prefixes( $post->post_type ) );
+
 		if ( 'llms_achievement' === $post->post_type ) {
 			_migrate_achievement_content( $post->ID );
-		} elseif ( 'llms_certificate' === $post->post_type && ! $legacy_option_added ) {
-			_add_legacy_opt();
-			$legacy_option_added = true;
+
+			if ( ! $legacy_achievements_option_added ) {
+				_add_legacy_opt( 'achievement' );
+				$legacy_achievements_option_added = true;
+			}
+		} elseif ( 'llms_certificate' === $post->post_type && ! $legacy_certificates_option_added ) {
+			_add_legacy_opt( 'certificate' );
+			$legacy_certificates_option_added = true;
 		}
 	}
 
@@ -208,15 +215,19 @@ function _migrate_awards( $type ) {
 	// Don't trigger save hooks.
 	remove_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
-	$legacy_option_added = false;
+	$legacy_certificates_option_added = false;
+	$legacy_achievements_option_added = false;
 
 	foreach ( $query->posts as $post_id ) {
 
 		_migrate_award( $post_id, $type );
 
-		if ( 'certificate' === $type && ! $legacy_option_added ) {
-			_add_legacy_opt();
-			$legacy_option_added = true;
+		if ( 'certificate' === $type && ! $legacy_certificates_option_added ) {
+			_add_legacy_opt( $type );
+			$legacy_certificates_option_added = true;
+		} elseif ( 'achievement' === $type && ! $legacy_achievements_option_added ) {
+			_add_legacy_opt( $type );
+			$legacy_achievements_option_added = true;
 		}
 	}
 	// Re-enable deprecations.
@@ -324,12 +335,13 @@ function _migrate_image( $post_id, $type ) {
 }
 
 /**
- * Adds an option used to determine if the site has at least one legacy certificate template.
+ * Adds an option used to determine if the site has at least one legacy achievement or certificate template or award.
  *
  * @since [version]
  *
+ * @param string $engagement_type Either 'achievement' or 'certificate'.
  * @return void
  */
-function _add_legacy_opt() {
-	update_option( 'lifterlms_has_legacy_certificates', 'yes', 'no' );
+function _add_legacy_opt( $engagement_type ) {
+	update_option( "lifterlms_has_legacy_{$engagement_type}s", 'yes', 'no' );
 }

@@ -37,6 +37,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		parent::set_up();
 		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+		delete_option( 'lifterlms_has_legacy_achievements' );
 		delete_option( 'lifterlms_has_legacy_certificates' );
 
 	}
@@ -52,6 +53,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		parent::tear_down();
 		remove_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
+		delete_option( 'lifterlms_has_legacy_achievements' );
 		delete_option( 'lifterlms_has_legacy_certificates' );
 
 	}
@@ -228,6 +230,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $type ) {
 
+			delete_option( 'lifterlms_has_legacy_achievements' );
 			delete_option( 'lifterlms_has_legacy_certificates' );
 
 			$awards = $this->create_legacy_awards( 12, $type );
@@ -262,6 +265,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 			}
 
+			$this->assertEquals( 'achievement' === $type ? 'yes' : 'no', get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
 			$this->assertEquals( 'certificate' === $type ? 'yes' : 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
 		}
@@ -287,6 +291,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		foreach ( $tests as $type ) {
 
 			$this->assertFalse( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
+			$this->assertEquals( 'no', get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
 			$this->assertEquals( 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
 		}
@@ -325,6 +330,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		}
 
+		$this->assertEquals( 'yes', get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
 		$this->assertEquals( 'yes', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
 	}

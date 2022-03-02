@@ -36,6 +36,15 @@ class LLMS_Test_Trait_Award_Default_Images extends LLMS_UnitTestCase {
 	 */
 	public function test_get_default_default_image_src() {
 
+		$certificate_version_1_id = $this->factory->post->create( array(
+			'post_type'    => 'llms_certificate',
+			'post_content' => 'Version 1 Certificate.',
+		) );
+		$certificate_version_2_id = $this->factory->post->create( array(
+			'post_type'    => 'llms_certificate',
+			'post_content' => '<!-- wp:llms/certificate-title {"placeholder":"Version 2 Certificate"} -->',
+		) );
+
 		foreach ( $this->instances as $id => $instance ) {
 
 			$this->assertStringContainsString(
@@ -50,6 +59,33 @@ class LLMS_Test_Trait_Award_Default_Images extends LLMS_UnitTestCase {
 			);
 			remove_filter( 'llms_use_legacy_award_images', '__return_true' );
 
+			update_option( "lifterlms_has_legacy_{$id}s", 'yes', 'no' );
+			switch ( $id ) {
+				case 'achievement':
+					$this->assertStringContainsString(
+						"optional_{$id}.png",
+						LLMS_Unit_Test_Util::call_method( $instance, 'get_default_default_image_src' )
+					);
+					break;
+				case 'certificate':
+					$previous_post = $GLOBALS['post'] ?? null;
+
+					$GLOBALS['post'] = $certificate_version_1_id;
+					$this->assertStringContainsString(
+						"optional_{$id}.png",
+						LLMS_Unit_Test_Util::call_method( $instance, 'get_default_default_image_src' )
+					);
+
+					$GLOBALS['post'] = $certificate_version_2_id;
+					$this->assertStringContainsString(
+						"default-{$id}.png",
+						LLMS_Unit_Test_Util::call_method( $instance, 'get_default_default_image_src' )
+					);
+
+					$GLOBALS['post'] = $previous_post;
+					break;
+			}
+			delete_option( "lifterlms_has_legacy_{$id}s" );
 		}
 
 	}
