@@ -18,6 +18,7 @@ import {
 	toggleOpenRegistration,
 	toggleSidebarPanel,
 	visitPostPermalink,
+	wpVersionCompare,
 } from '@lifterlms/llms-e2e-test-utils';
 
 
@@ -84,7 +85,14 @@ async function getElementStyles( selector ) {
 
 }
 
-describe( 'Engagements/Certificates', () => {
+// These tests are only run on WordPress 5.8 & Later.
+const describeIf = ( condition ) => condition ? describe : describe.skip,
+	shouldRun = wpVersionCompare( '5.8' );
+
+// Avoid error "Your test suite must contain at least one test.".
+shouldRun || test.skip( 'Engagements/Certificates', () => {} );
+
+describeIf( 'Engagements/Certificates', ( shouldRun ) => {
 
 	beforeAll( async () => {
 		await switchUserToAdmin();
