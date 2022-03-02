@@ -113,7 +113,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		$settings = array(
 			array(
 				'title'    => __( 'Placeholder Background Image', 'lifterlms' ),
-				'desc'     => $this->get_award_image_desc( __( 'certificates', 'lifterlms' ) ),
+				'desc'     => $this->get_award_image_desc( __( 'certificate', 'lifterlms' ) ),
 				'id'       => 'lifterlms_certificate_default_img',
 				'type'     => 'image',
 				'value'    => llms()->certificates()->get_default_image( 0 ),
