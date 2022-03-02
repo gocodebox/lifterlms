@@ -499,11 +499,73 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->create();
 		$this->assertEquals( 'A4', $this->obj->get_size() );
 
+		// Update default value again.
+		update_option( 'lifterlms_certificate_default_size', 'USER_DEFINED' );
+		$this->create();
+		$this->assertEquals( 'USER_DEFINED', $this->obj->get_size() );
+
 		// Explicitly set value on the cert.
 		$this->obj->set( 'size', 'A3' );
 		$this->assertEquals( 'A3', $this->obj->get_size() );
 
 		delete_option( 'lifterlms_certificate_default_size' );
+
+	}
+
+	/**
+	 * Test get_size|unit|widh|height() when using custom default values.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_sizes_user_defined() {
+
+		// Default default value.
+		$this->create();
+		$this->assertEquals( 'LETTER', $this->obj->get_size() );
+
+		// Updated default value.
+		update_option( 'lifterlms_certificate_default_size', 'USER_DEFINED' );
+		$this->create();
+		$this->assertEquals( 'USER_DEFINED', $this->obj->get_size() );
+
+		$this->assertEquals( 'mm', $this->obj->get_unit() );
+
+		$this->assertEquals( 400, $this->obj->get_width() );
+		$this->assertEquals( '400mm', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 400, $this->obj->get_height() );
+		$this->assertEquals( '400mm', $this->obj->get_height( true ) );
+
+		// Updated default values.
+		update_option( 'lifterlms_certificate_default_user_defined_unit', 'in' );
+		update_option( 'lifterlms_certificate_default_user_defined_width', 200 );
+		update_option( 'lifterlms_certificate_default_user_defined_height', 150 );
+
+		$this->assertEquals( 'in', $this->obj->get_unit() );
+
+		$this->assertEquals( 200, $this->obj->get_width() );
+		$this->assertEquals( '200in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 150, $this->obj->get_height() );
+		$this->assertEquals( '150in', $this->obj->get_height( true ) );
+
+		// Reset custom size option
+		delete_option( 'lifterlms_certificate_default_size' );
+		$this->create();
+		$this->assertEquals( 'LETTER', $this->obj->get_size() );
+
+		$this->assertEquals( 8.5, $this->obj->get_width() );
+		$this->assertEquals( '8.5in', $this->obj->get_width( true ) );
+
+		$this->assertEquals( 11, $this->obj->get_height() );
+		$this->assertEquals( '11in', $this->obj->get_height( true ) );
+
+		// Reset other options.
+		delete_option( 'lifterlms_certificate_default_user_defined_unit' );
+		delete_option( 'lifterlms_certificate_default_user_defined_width' );
+		delete_option( 'lifterlms_certificate_default_user_defined_height' );
 
 	}
 
