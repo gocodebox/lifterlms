@@ -78,18 +78,15 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 				'LETTER',
 				'A4'
 			),
-			'lifterlms_certificate_default_custom_size' => array(
-				'yes'
-			),
-			'lifterlms_certificate_default_custom_width' => array(
+			'lifterlms_certificate_default_user_defined_width' => array(
 				8.5,
 				120,
 			),
-			'lifterlms_certificate_default_custom_height' => array(
+			'lifterlms_certificate_default_user_defined_height' => array(
 				11,
 				200
 			),
-			'lifterlms_certificate_default_custom_unit' => array(
+			'lifterlms_certificate_default_user_defined_unit' => array(
 				'in',
 				'mm'
 			),

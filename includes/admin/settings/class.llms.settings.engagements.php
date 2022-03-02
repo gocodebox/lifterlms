@@ -130,23 +130,10 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				'autoload' => false,
 			),
 			array(
-				'title'             => __( 'Custom default size', 'lifterlms' ),
-				'id'                => 'lifterlms_certificate_default_custom_size',
-				'type'              => 'checkbox',
-				'desc'              => __( 'Use a custom size.', 'lifterlms' ) .
-										'<br><em>' . __( 'Enabling this will override the above size setting with the custom defined.', 'lifterlms' ) . '</em>',
-				'default'           => false,
-				'autoload'          => false,
-				'custom_attributes' => array(
-					'class'         => 'llms-conditional-controller',
-					'data-controls' => '#lifterlms_certificate_default_custom_width,#lifterlms_certificate_default_custom_height,#lifterlms_certificate_default_custom_unit',
-				),
-			),
-			array(
 				'title'             => __( 'Custom width', 'lifterlms' ),
-				'id'                => 'lifterlms_certificate_default_custom_width',
+				'id'                => 'lifterlms_certificate_default_user_defined_width',
 				'type'              => 'number',
-				'default'           => $certificate_sizes['LETTER']['width'],
+				'default'           => $certificate_sizes['USER_DEFINED']['width'],
 				'autoload'          => false,
 				'custom_attributes' => array(
 					'step' => '0.01',
@@ -154,9 +141,9 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			),
 			array(
 				'title'             => __( 'Custom height', 'lifterlms' ),
-				'id'                => 'lifterlms_certificate_default_custom_height',
+				'id'                => 'lifterlms_certificate_default_user_defined_height',
 				'type'              => 'number',
-				'default'           => $certificate_sizes['LETTER']['height'],
+				'default'           => $certificate_sizes['USER_DEFINED']['height'],
 				'autoload'          => false,
 				'custom_attributes' => array(
 					'step' => '0.01',
@@ -164,10 +151,10 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			),
 			array(
 				'title'    => __( 'Custom unit', 'lifterlms' ),
-				'id'       => 'lifterlms_certificate_default_custom_unit',
+				'id'       => 'lifterlms_certificate_default_user_defined_unit',
 				'type'     => 'select',
 				'options'  => $this->get_certificate_units_opts(),
-				'default'  => $certificate_sizes['LETTER']['unit'],
+				'default'  => $certificate_sizes['USER_DEFINED']['unit'],
 				'autoload' => false,
 			),
 		);
@@ -334,7 +321,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Retrieves the options array for the `lifterlms_certificate_default_custom_units` option.
+	 * Retrieves the options array for the `lifterlms_certificate_default_user_defined_units` option.
 	 *
 	 * @since [version]
 	 *
