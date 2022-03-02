@@ -319,7 +319,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * @return array[] Array of fonts by the certificate. Each array is a font definition with the font's
 	 *                 id added to the array.
 	 */
-	public function get_default_custom_fonts( $blocks = null ) {
+	public function get_custom_fonts( $blocks = null ) {
 
 		$fonts = array();
 
@@ -331,7 +331,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			}
 
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_default_custom_fonts( $block['innerBlocks'] ), 'id' ) );
+				$fonts = array_merge( $fonts, wp_list_pluck( $this->get_custom_fonts( $block['innerBlocks'] ), 'id' ) );
 			}
 		}
 
