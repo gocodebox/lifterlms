@@ -30,6 +30,18 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	public $id = 'engagements';
 
 	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		parent::__construct();
+		add_action( "lifterlms_settings_{$this->id}", array( $this, 'output_js' ) );
+	}
+
+	/**
 	 * Retrieve the page label.
 	 *
 	 * @since 3.37.3
@@ -123,6 +135,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			),
 			array(
 				'title'    => __( 'Default Size', 'lifterlms' ),
+				'desc'     => '<br>' . __( 'The default size used when creating new certificates.', 'lifterlms' ),
 				'id'       => 'lifterlms_certificate_default_size',
 				'type'     => 'select',
 				'options'  => $this->get_certificate_size_opts(),
@@ -130,7 +143,13 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				'autoload' => false,
 			),
 			array(
-				'title'             => __( 'Custom width', 'lifterlms' ),
+				'title' => __( 'User Defined Certificate Size', 'lifterlms' ),
+				'desc'  => __( 'Use these settings to customize the User Defined Certificate size.', 'lifterlms' ),
+				'id'    => 'cert_user_defined_size_settings',
+				'type'  => 'subtitle',
+			),
+			array(
+				'title'             => __( 'Width', 'lifterlms' ),
 				'id'                => 'lifterlms_certificate_default_user_defined_width',
 				'type'              => 'number',
 				'default'           => $certificate_sizes['USER_DEFINED']['width'],
@@ -140,7 +159,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			),
 			array(
-				'title'             => __( 'Custom height', 'lifterlms' ),
+				'title'             => __( 'Height', 'lifterlms' ),
 				'id'                => 'lifterlms_certificate_default_user_defined_height',
 				'type'              => 'number',
 				'default'           => $certificate_sizes['USER_DEFINED']['height'],
@@ -150,7 +169,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 				),
 			),
 			array(
-				'title'    => __( 'Custom unit', 'lifterlms' ),
+				'title'    => __( 'Unit', 'lifterlms' ),
 				'id'       => 'lifterlms_certificate_default_user_defined_unit',
 				'type'     => 'select',
 				'options'  => $this->get_certificate_units_opts(),
@@ -357,7 +376,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			__( 'A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image.', 'lifterlms' ),
 			$post_type
 		);
-		return "<br><i>{$desc}</i>";
+		return "<br>{$desc}";
 
 	}
 
@@ -396,6 +415,43 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 		return llms_parse_bool( get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 
+	}
+
+	/**
+	 * Outputs inline Javascript utilized on the engagements settings tab.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_js() {
+		?>
+		<script>(function(){
+			const fields = {
+				height: document.getElementById( 'lifterlms_certificate_default_user_defined_height' ),
+				width: document.getElementById( 'lifterlms_certificate_default_user_defined_width' ),
+				unit: document.getElementById( 'lifterlms_certificate_default_user_defined_unit' ),
+			};
+			/**
+			 * Updates the USER_DEFINED <option> text when the values of the custom inputs change.
+			 *
+			 * @since [version]
+			 *
+			 * @return {void}
+			 */
+			function updateOptionText() {
+				const opt = document.getElementById( 'lifterlms_certificate_default_size' ).querySelector( 'option[value="USER_DEFINED"]' ),
+					newStr = fields.width.value + fields.unit.value + ' x ' + fields.height.value + fields.unit.value;
+				if ( opt ) {
+					opt.textContent = opt.textContent.replace( / \(.*\)/, ' (' + newStr + ')' );
+				}
+			}
+			// When any of the fields change, update the value of the option.
+			Object.values( fields ).map( function( el ) {
+				el.addEventListener( 'change', updateOptionText );
+			} );
+		})();</script>
+		<?php
 	}
 
 }
