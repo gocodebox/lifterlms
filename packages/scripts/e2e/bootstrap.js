@@ -45,7 +45,7 @@ if ( ! process.env.WP_BASE_URL ) {
 }
 
 // Retry tests automatically to prevent against false positives.
-jest.retryTimes( 2 );
+// jest.retryTimes( 2 );
 
 // The Jest timeout is increased because these tests are a bit slow.
 jest.setTimeout( process.env.PUPPETEER_TIMEOUT || 100000 );

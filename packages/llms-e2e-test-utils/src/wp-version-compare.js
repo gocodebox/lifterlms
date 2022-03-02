@@ -19,5 +19,5 @@ export function wpVersionCompare( version, comparator = '>=', majorMinorOnly = t
 	if ( majorMinorOnly ) {
 		wpVersion = `${ wpVersion.major }.${ wpVersion.minor }.0`;
 	}
-	return cmp( coerce( version ), comparator, wpVersion );
+	return cmp( wpVersion, comparator, coerce( version ) );
 }
