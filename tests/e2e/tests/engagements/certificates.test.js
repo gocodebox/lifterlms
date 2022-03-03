@@ -90,9 +90,9 @@ const describeIf = ( condition ) => condition ? describe : describe.skip,
 	shouldRun = wpVersionCompare( '5.8' );
 
 // Avoid error "Your test suite must contain at least one test.".
-shouldRun || test.skip( 'Engagements/Certificates', () => {} );
+shouldRun || test.skip( 'Engagements/Certificates', () => {} )
 
-describeIf( 'Engagements/Certificates', ( shouldRun ) => {
+describeIf( shouldRun )( 'Engagements/Certificates', () => {
 
 	beforeAll( async () => {
 		await switchUserToAdmin();
