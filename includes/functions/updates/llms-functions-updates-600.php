@@ -81,15 +81,21 @@ function migrate_award_templates() {
 		)
 	);
 
-	$legacy_option_added = false;
+	$legacy_option_added['achievement'] = false;
+	$legacy_option_added['certificate'] = false;
 
 	foreach ( $query->posts as $post ) {
-		_migrate_image( $post->ID, llms_strip_prefixes( $post->post_type ) );
-		if ( 'llms_achievement' === $post->post_type ) {
+
+		$type           = llms_strip_prefixes( $post->post_type );
+		$image_migrated = _migrate_image( $post->ID, $type );
+
+		if ( 'achievement' === $type ) {
 			_migrate_achievement_content( $post->ID );
-		} elseif ( 'llms_certificate' === $post->post_type && ! $legacy_option_added ) {
-			_add_legacy_opt();
-			$legacy_option_added = true;
+		}
+
+		if ( ! $legacy_option_added[ $type ] && ! $image_migrated ) {
+			_add_legacy_opt( $type );
+			$legacy_option_added[ $type ] = true;
 		}
 	}
 
@@ -209,13 +215,12 @@ function _migrate_awards( $type ) {
 	remove_action( "save_post_llms_my_{$type}", array( 'LLMS_Controller_Awards', 'on_save' ), 20 );
 
 	$legacy_option_added = false;
-
 	foreach ( $query->posts as $post_id ) {
 
-		_migrate_award( $post_id, $type );
+		$image_migrated = _migrate_award( $post_id, $type );
 
-		if ( 'certificate' === $type && ! $legacy_option_added ) {
-			_add_legacy_opt();
+		if ( ! $legacy_option_added && ! $image_migrated ) {
+			_add_legacy_opt( $type );
 			$legacy_option_added = true;
 		}
 	}
@@ -245,7 +250,7 @@ function _migrate_awards( $type ) {
  *
  * @param int    $post_id WP_Post ID.
  * @param string $type    Award type, either "achievement" or "certificate".
- * @return void
+ * @return bool `true` if there was an image to migrate, else `false`.
  */
 function _migrate_award( $post_id, $type ) {
 
@@ -267,7 +272,7 @@ function _migrate_award( $post_id, $type ) {
 	}
 	$obj->set_bulk( $updates );
 
-	_migrate_image( $post_id, $type );
+	$image_migrated = _migrate_image( $post_id, $type );
 
 	if ( 'achievement' === $type ) {
 		_migrate_achievement_content( $post_id );
@@ -276,6 +281,7 @@ function _migrate_award( $post_id, $type ) {
 	delete_post_meta( $post_id, "_llms_{$type}_title" );
 	delete_post_meta( $post_id, "_llms_{$type}_template" );
 
+	return $image_migrated;
 }
 
 /**
@@ -310,26 +316,31 @@ function _migrate_achievement_content( $post_id ) {
  *
  * @param int    $post_id WP_Post ID.
  * @param string $type    Award type, either "achievement" or "certificate".
- * @return void
+ * @return bool `true` if there was an image to migrate, else `false`.
  */
 function _migrate_image( $post_id, $type ) {
 
-	$image = get_post_meta( $post_id, "_llms_{$type}_image", true );
+	$image_migrated = false;
+	$image          = get_post_meta( $post_id, "_llms_{$type}_image", true );
 	if ( $image ) {
 		set_post_thumbnail( $post_id, $image );
+		$image_migrated = true;
 	}
 
 	delete_post_meta( $post_id, "_llms_{$type}_image" );
 
+	return $image_migrated;
 }
 
 /**
- * Adds an option used to determine if the site has at least one legacy certificate template.
+ * Adds an option used to determine if the site has at least one legacy achievement or certificate template or award
+ * that uses the default image.
  *
  * @since [version]
  *
+ * @param string $engagement_type Either 'achievement' or 'certificate'.
  * @return void
  */
-function _add_legacy_opt() {
-	update_option( 'lifterlms_has_legacy_certificates', 'yes', 'no' );
+function _add_legacy_opt( $engagement_type ) {
+	update_option( "llms_has_{$engagement_type}s_with_legacy_default_image", 'yes', 'no' );
 }
