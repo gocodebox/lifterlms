@@ -85,14 +85,8 @@ async function getElementStyles( selector ) {
 
 }
 
-// These tests are only run on WordPress 5.8 & Later.
-const describeIf = ( condition ) => condition ? describe : describe.skip,
-	shouldRun = wpVersionCompare( '5.8' );
-
-// Avoid error "Your test suite must contain at least one test.".
-shouldRun || test.skip( 'Engagements/Certificates', () => {} )
-
-describeIf( shouldRun )( 'Engagements/Certificates', () => {
+// This suite runs on WP Version 5.8 & later.
+describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 	beforeAll( async () => {
 		await switchUserToAdmin();
