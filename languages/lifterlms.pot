@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-02T10:34:29-07:00\n"
+"POT-Creation-Date: 2022-03-03T16:41:39-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -1464,7 +1464,7 @@ msgid "Visitors must belong to one of these memberships to access this %s"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:33
-#: includes/admin/settings/class.llms.settings.engagements.php:86
+#: includes/admin/settings/class.llms.settings.engagements.php:98
 msgid "Achievement Settings"
 msgstr ""
 
@@ -1915,7 +1915,7 @@ msgid "Capacity Reached Message"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:37
-#: includes/admin/settings/class.llms.settings.engagements.php:194
+#: includes/admin/settings/class.llms.settings.engagements.php:242
 msgid "Email Settings"
 msgstr ""
 
@@ -3743,105 +3743,131 @@ msgstr ""
 msgid "Catalog Sorting"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:40
+#: includes/admin/settings/class.llms.settings.engagements.php:52
 #: includes/class.llms.post-types.php:686
 msgid "Engagements"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:90
+#: includes/admin/settings/class.llms.settings.engagements.php:102
 msgid "Placeholder Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:91
+#: includes/admin/settings/class.llms.settings.engagements.php:103
 msgid "achievement"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:115
+#: includes/admin/settings/class.llms.settings.engagements.php:129
 msgid "Placeholder Background Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:116
+#: includes/admin/settings/class.llms.settings.engagements.php:130
 msgid "certificate"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:123
+#: includes/admin/settings/class.llms.settings.engagements.php:137
 msgid "Default Size"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:139
-msgid "Legacy Certificate Background Image Settings"
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.engagements.php:141
-msgid "Use these settings to determine the dimensions of legacy certificate background images created using the classic editor. These settings have no effect on certificates created using the block editor. After changing these settings, you may need to <a href=\"http://wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank\">regenerate your thumbnails</a>."
-msgstr ""
-
-#: includes/admin/settings/class.llms.settings.engagements.php:145
-msgid "Image Width"
+#: includes/admin/settings/class.llms.settings.engagements.php:138
+msgid "The default size used when creating new certificates."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:146
-#: includes/admin/settings/class.llms.settings.engagements.php:155
-msgid "in pixels"
+msgid "User Defined Certificate Size"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:153
-msgid "Image Height"
+#: includes/admin/settings/class.llms.settings.engagements.php:147
+msgid "Use these settings to customize the User Defined Certificate size."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:161
-msgid "Legacy compatibility"
+#: includes/admin/settings/class.llms.settings.engagements.php:152
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Width"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.engagements.php:162
+#: assets/js/llms-admin-certificate-editor.js:20
+msgid "Height"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:172
+msgid "Unit"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:187
+msgid "Legacy Certificate Background Image Settings"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:189
+msgid "Use these settings to determine the dimensions of legacy certificate background images created using the classic editor. These settings have no effect on certificates created using the block editor. After changing these settings, you may need to <a href=\"http://wordpress.org/extend/plugins/regenerate-thumbnails/\" target=\"_blank\">regenerate your thumbnails</a>."
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:193
+msgid "Image Width"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:194
+#: includes/admin/settings/class.llms.settings.engagements.php:203
+msgid "in pixels"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:201
+msgid "Image Height"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:209
+msgid "Legacy compatibility"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.engagements.php:210
 msgid "Use legacy certificate image sizes."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:163
+#: includes/admin/settings/class.llms.settings.engagements.php:211
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:176
+#: includes/admin/settings/class.llms.settings.engagements.php:224
 msgid "Certificate Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:195
+#: includes/admin/settings/class.llms.settings.engagements.php:243
 msgid "Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:198
+#: includes/admin/settings/class.llms.settings.engagements.php:246
 msgid "Sender Name"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:199
+#: includes/admin/settings/class.llms.settings.engagements.php:247
 msgid "Name to be displayed in From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:205
+#: includes/admin/settings/class.llms.settings.engagements.php:253
 msgid "Sender Email"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:206
+#: includes/admin/settings/class.llms.settings.engagements.php:254
 msgid "Email Address displayed in the From field"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:212
+#: includes/admin/settings/class.llms.settings.engagements.php:260
 msgid "Header Image"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:219
+#: includes/admin/settings/class.llms.settings.engagements.php:267
 msgid "Email Footer Text"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:220
+#: includes/admin/settings/class.llms.settings.engagements.php:268
 msgid "Text you would like displayed in the footer of all emails."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:256
+#: includes/admin/settings/class.llms.settings.engagements.php:304
 msgid "Email Delivery"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.engagements.php:305
+#: includes/admin/settings/class.llms.settings.engagements.php:376
 msgid "A default image used for any %1$s template or award which does not specify an image. Changing this setting will affect all existing templates and awards which do not specify their own image."
 msgstr ""
 
@@ -8409,20 +8435,24 @@ msgctxt "Paper size name"
 msgid "Ledger"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:384
+#: includes/functions/llms.functions.certificate.php:354
+msgid "User defined"
+msgstr ""
+
+#: includes/functions/llms.functions.certificate.php:390
 msgid "Inches"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:385
+#: includes/functions/llms.functions.certificate.php:391
 msgctxt "Symbol for inches"
 msgid "\""
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:388
+#: includes/functions/llms.functions.certificate.php:394
 msgid "Millimeters"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:389
+#: includes/functions/llms.functions.certificate.php:395
 msgctxt "Symbol for millimeters"
 msgid "mm"
 msgstr ""
@@ -8596,21 +8626,21 @@ msgstr ""
 
 #. Translators: %1$s = Opening anchor tag to Forms admin page; %2$s = Closing anchor tag.
 #: includes/functions/updates/llms-functions-updates-500.php:70
-#: includes/functions/updates/llms-functions-updates-600.php:120
+#: includes/functions/updates/llms-functions-updates-600.php:126
 msgid "%1$sGet Started%2$s"
 msgstr ""
 
 #. Translators: %1$s = Opening anchor tag to the welcome blog post on lifterlms.com; %2$s = Closing anchor tag.
 #: includes/functions/updates/llms-functions-updates-500.php:76
-#: includes/functions/updates/llms-functions-updates-600.php:126
+#: includes/functions/updates/llms-functions-updates-600.php:132
 msgid "%1$sRead More%2$s"
 msgstr ""
 
-#: includes/functions/updates/llms-functions-updates-600.php:116
+#: includes/functions/updates/llms-functions-updates-600.php:122
 msgid "Welcome to LifterLMS 6.0.0!"
 msgstr ""
 
-#: includes/functions/updates/llms-functions-updates-600.php:117
+#: includes/functions/updates/llms-functions-updates-600.php:123
 msgid "This new version brings you the power to build and customize certificates using the WordPress block editor! Start building beautiful certificates using all the blocks you're already familiar, the new Certificate Title block, and new certificate settings like page size (Letter or A4, for example), orientation, background color, and more. In addition to design features, this version also adds the ability to modify already-awarded certificates and achievements and to sync template updates with the click of a button."
 msgstr ""
 
@@ -34812,15 +34842,7 @@ msgid "Custom Size Width"
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:20
-msgid "Width"
-msgstr ""
-
-#: assets/js/llms-admin-certificate-editor.js:20
 msgid "Custom Size Height"
-msgstr ""
-
-#: assets/js/llms-admin-certificate-editor.js:20
-msgid "Height"
 msgstr ""
 
 #: assets/js/llms-admin-certificate-editor.js:20
