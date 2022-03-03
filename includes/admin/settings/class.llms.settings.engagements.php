@@ -322,7 +322,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			return $pre;
 		}
 
-		return llms_parse_bool( get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+		return llms_parse_bool( get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ) );
 
 	}
 

@@ -114,7 +114,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	 */
 	public function test_get_settings_with_legacy() {
 
-		update_option( 'lifterlms_has_legacy_certificates', 'yes' );
+		update_option( 'llms_has_certificates_with_legacy_default_image', 'yes' );
 		$this->expect_legacy_opts = true;
 		parent::test_get_settings();
 		$this->expect_legacy_opts = false;
@@ -183,7 +183,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	 */
 	public function test_save_with_legacy_opts() {
 
-		update_option( 'lifterlms_has_legacy_certificates', 'yes' );
+		update_option( 'llms_has_certificates_with_legacy_default_image', 'yes' );
 		$this->expect_legacy_opts = true;
 		parent::test_save();
 		$this->expect_legacy_opts = false;

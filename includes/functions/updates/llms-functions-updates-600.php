@@ -333,7 +333,8 @@ function _migrate_image( $post_id, $type ) {
 }
 
 /**
- * Adds an option used to determine if the site has at least one legacy achievement or certificate template or award.
+ * Adds an option used to determine if the site has at least one legacy achievement or certificate template or award
+ * that uses the default image.
  *
  * @since [version]
  *
@@ -341,5 +342,5 @@ function _migrate_image( $post_id, $type ) {
  * @return void
  */
 function _add_legacy_opt( $engagement_type ) {
-	update_option( "lifterlms_has_legacy_{$engagement_type}s", 'yes', 'no' );
+	update_option( "llms_has_{$engagement_type}s_with_legacy_default_image", 'yes', 'no' );
 }

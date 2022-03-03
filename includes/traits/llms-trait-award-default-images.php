@@ -31,8 +31,8 @@ trait LLMS_Trait_Award_Default_Images {
 	 * images via the filter {@see llms_use_legacy_engagement_images}.
 	 *
 	 * The legacy default image URL is returned if the current certificate version is 1 and the
-	 * 'lifterlms_has_legacy_certificates' option is 'yes' or the type is achievement and the
-	 * 'lifterlms_has_legacy_achievements' option is 'yes. These options are set when LifterLMS is updated
+	 * 'llms_has_achievements_with_legacy_default_image' option is 'yes' or the type is achievement and the
+	 * 'llms_has_certificates_with_legacy_default_image' option is 'yes. These options are set when LifterLMS is updated
 	 * to 6.0.0 and there are legacy user engagements ({@see \LLMS\Updates\Version_6_0_0\_add_legacy_opt()}).
 	 *
 	 * @since [version]
@@ -46,12 +46,12 @@ trait LLMS_Trait_Award_Default_Images {
 
 		switch ( $this->award_type ) {
 			case 'achievement':
-				$use_legacy = llms_parse_bool( get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
+				$use_legacy = llms_parse_bool( get_option( 'llms_has_achievements_with_legacy_default_image', 'no' ) );
 				break;
 			case 'certificate':
 				$certificate = llms_get_certificate( null, true );
 				if ( $certificate && 1 === $certificate->get_template_version() ) {
-					$use_legacy = llms_parse_bool( get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+					$use_legacy = llms_parse_bool( get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ) );
 				}
 				break;
 		}

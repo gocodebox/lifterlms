@@ -37,8 +37,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		parent::set_up();
 		add_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
-		delete_option( 'lifterlms_has_legacy_achievements' );
-		delete_option( 'lifterlms_has_legacy_certificates' );
+		delete_option( 'llms_has_achievements_with_legacy_default_image' );
+		delete_option( 'llms_has_certificates_with_legacy_default_image' );
 
 	}
 
@@ -53,8 +53,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		parent::tear_down();
 		remove_filter( 'llms_update_items_per_page', array( $this, 'per_page' ) );
-		delete_option( 'lifterlms_has_legacy_achievements' );
-		delete_option( 'lifterlms_has_legacy_certificates' );
+		delete_option( 'llms_has_achievements_with_legacy_default_image' );
+		delete_option( 'llms_has_certificates_with_legacy_default_image' );
 
 	}
 
@@ -236,8 +236,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 			list( $type, $use_default_image ) = $test;
 
-			delete_option( 'lifterlms_has_legacy_achievements' );
-			delete_option( 'lifterlms_has_legacy_certificates' );
+			delete_option( 'llms_has_achievements_with_legacy_default_image' );
+			delete_option( 'llms_has_certificates_with_legacy_default_image' );
 
 			$awards = $this->create_legacy_awards( 12, $type, $use_default_image );
 
@@ -274,12 +274,12 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 			// Test both legacy options because sometimes paranoia helps sanity.
 			$this->assertEquals(
 				'achievement' === $type && $use_default_image ? 'yes' : 'no',
-				get_option( "lifterlms_has_legacy_achievements", 'no' ),
+				get_option( "llms_has_achievements_with_legacy_default_image", 'no' ),
 				"\$type = $type, \$use_default_image = " . ( $use_default_image ? 'true' : 'false' )
 			);
 			$this->assertEquals(
 				'certificate' === $type && $use_default_image ? 'yes' : 'no',
-				get_option( 'lifterlms_has_legacy_certificates', 'no' ),
+				get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ),
 				"\$type = $type, \$use_default_image = " . ( $use_default_image ? 'true' : 'false' )
 			);
 
@@ -306,8 +306,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 		foreach ( $tests as $type ) {
 
 			$this->assertFalse( $this->call_ns_func( "migrate_{$type}s", array( $type ) ) );
-			$this->assertEquals( 'no', get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
-			$this->assertEquals( 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+			$this->assertEquals( 'no', get_option( 'llms_has_achievements_with_legacy_default_image', 'no' ) );
+			$this->assertEquals( 'no', get_option( 'llms_has_certificates_with_legacy_default_image', 'no' ) );
 
 		}
 
@@ -324,8 +324,8 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
 		foreach ( array( false, true ) as $use_default_image ) {
 
-			delete_option( 'lifterlms_has_legacy_achievements' );
-			delete_option( 'lifterlms_has_legacy_certificates' );
+			delete_option( 'llms_has_achievements_with_legacy_default_image' );
+			delete_option( 'llms_has_certificates_with_legacy_default_image' );
 
 			$templates = $this->create_legacy_templates( 20, $use_default_image );
 
@@ -349,8 +349,14 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 				}
 			}
 
-			$this->assertEquals( $use_default_image ? 'yes' : 'no', get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
-			$this->assertEquals( $use_default_image ? 'yes' : 'no', get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
+			$this->assertEquals(
+				$use_default_image ? 'yes' : 'no',
+				get_option( 'llms_has_achievements_with_legacy_default_image', 'no' )
+			);
+			$this->assertEquals(
+				$use_default_image ? 'yes' : 'no',
+				get_option( 'llms_has_certificates_with_legacy_default_image', 'no' )
+			);
 		}
 
 	}
