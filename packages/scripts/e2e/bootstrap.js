@@ -157,3 +157,28 @@ expect.extend( {
 
 	}
 } );
+
+
+/**
+ * Global helper function that conditionally runs a describe() block if the condition is met.
+ *
+ * @since [version]
+ *
+ * @example describeIf( true )( 'SuiteName', () => {} )
+ *
+ * @param {boolean} condition If truthy, the suite runs as normal, otherwise it's skipped.
+ * @return {Function} Returns either `describe()` or `describe.skip()` depending on the condition.
+ */
+global.describeIf = condition => condition ? describe : describe.skip;
+
+/**
+ * Global helper function that conditionally runs a test() if the condition is met.
+ *
+ * @since [version]
+ *
+ * @example testIf( true )( 'SuiteName', () => {} )
+ *
+ * @param {boolean} condition If truthy, the suite runs as normal, otherwise it's skipped.
+ * @return {Function} Returns either `test()` or `test.skip()` depending on the condition.
+ */
+global.testIf = condition => condition ? test : test.skip;
