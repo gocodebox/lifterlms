@@ -46,7 +46,7 @@ trait LLMS_Trait_Award_Default_Images {
 
 		switch ( $this->award_type ) {
 			case 'achievement':
-				$use_legacy = 'yes' === get_option( 'lifterlms_has_legacy_achievements', 'no' );
+				$use_legacy = llms_parse_bool( get_option( 'lifterlms_has_legacy_achievements', 'no' ) );
 				break;
 			case 'certificate':
 				$certificate = llms_get_certificate( null, true );
