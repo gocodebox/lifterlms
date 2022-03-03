@@ -51,7 +51,7 @@ trait LLMS_Trait_Award_Default_Images {
 			case 'certificate':
 				$certificate = llms_get_certificate( null, true );
 				if ( $certificate && 1 === $certificate->get_template_version() ) {
-					$use_legacy = 'yes' === get_option( 'lifterlms_has_legacy_certificates', 'no' );
+					$use_legacy = llms_parse_bool( get_option( 'lifterlms_has_legacy_certificates', 'no' ) );
 				}
 				break;
 		}
