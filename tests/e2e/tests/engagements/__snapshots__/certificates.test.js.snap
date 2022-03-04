@@ -607,16 +607,16 @@ Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
   "background-repeat-y": "no-repeat",
-  "background-size": "5.5in 10in",
+  "background-size": "5.5mm 10mm",
   "box-sizing": "border-box",
   "margin-left": "auto",
   "margin-right": "auto",
-  "min-height": "10in",
+  "min-height": "10mm",
   "padding-bottom": "7%",
   "padding-left": "10%",
   "padding-right": "3%",
   "padding-top": "2.5%",
-  "width": "5.5in",
+  "width": "5.5mm",
 }
 `;
 
@@ -733,16 +733,16 @@ Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
   "background-repeat-y": "no-repeat",
-  "background-size": "10in 5.5in",
+  "background-size": "10mm 5.5mm",
   "box-sizing": "border-box",
   "margin-left": "auto",
   "margin-right": "auto",
-  "min-height": "5.5in",
+  "min-height": "5.5mm",
   "padding-bottom": "5%",
   "padding-left": "5%",
   "padding-right": "5%",
   "padding-top": "5%",
-  "width": "10in",
+  "width": "10mm",
 }
 `;
 
@@ -751,16 +751,16 @@ Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
   "background-repeat-y": "no-repeat",
-  "background-size": "5.5in 10in",
+  "background-size": "5.5mm 10mm",
   "box-sizing": "border-box",
   "margin-left": "auto",
   "margin-right": "auto",
-  "min-height": "10in",
+  "min-height": "10mm",
   "padding-bottom": "5%",
   "padding-left": "5%",
   "padding-right": "5%",
   "padding-top": "5%",
-  "width": "5.5in",
+  "width": "5.5mm",
 }
 `;
 
@@ -869,5 +869,41 @@ Object {
   "padding-right": "5%",
   "padding-top": "5%",
   "width": "8.5in",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: User defined (Landscape) 1`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "400mm 400mm",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "400mm",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "400mm",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: User defined (Portrait) 1`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "400mm 400mm",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "400mm",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "400mm",
 }
 `;
