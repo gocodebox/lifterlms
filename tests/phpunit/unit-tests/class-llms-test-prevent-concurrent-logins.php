@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LifterLMS Prevemt Concurrent Logins class
+ * Tests for LifterLMS Prevent Concurrent Logins class
  *
  * @group LLMS_Prevent_Concurrent_Logins
  *
@@ -135,7 +135,7 @@ class LLMS_Test_Prevent_Concurrent_Logins extends  LLMS_UnitTestCase {
 			wp_get_all_sessions()
 		);
 
-		// Allow current user to login mutiple times via a filter.
+		// Allow current user to login multiple times via a filter.
 		$allow_current_user = function( $allow, $uid ) use ( $user_id ) {
 			return $uid === $user_id ? true : $allow;
 		};
