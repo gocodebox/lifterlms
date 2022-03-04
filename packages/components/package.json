@@ -26,7 +26,7 @@
   "dependencies": {
     "@emotion/styled": "^11.6.0",
     "@wordpress/api-fetch": "^5.2.6",
-    "@wordpress/components": "^19.4.0",
+    "@wordpress/components": "^19.5.0",
     "@wordpress/compose": "^5.0.6",
     "@wordpress/element": "^4.0.4",
     "@wordpress/i18n": "^4.2.4",
