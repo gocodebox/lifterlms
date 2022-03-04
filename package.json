@@ -12,6 +12,10 @@
     "url": "https://github.com/gocodebox/lifterlms/issues"
   },
   "homepage": "https://lifterlms.com",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@emotion/styled": "^11.6.0",
     "classnames": "^2.3.1"
@@ -25,7 +29,6 @@
     "@lifterlms/scripts": "file:packages/scripts",
     "@lifterlms/utils": "file:packages/utils",
     "@wordpress/docgen": "^1.18.0",
-    "copy-webpack-plugin": "^10.2.0",
     "gulp-header": "^2.0.9",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
