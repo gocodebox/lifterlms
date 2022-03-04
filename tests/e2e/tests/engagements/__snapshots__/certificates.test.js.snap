@@ -47,7 +47,7 @@ exports[`Engagements/Certificates Awarded should award a certificate on user reg
 exports[`Engagements/Certificates Legacy should be able to edit legacy certificates in the classic editor 1`] = `
 "<div class=\\"llms-certificate-container\\" style=\\"width:800px; height:616px;\\">
 	<img src=\\"/wp-content/plugins/lifterlms/assets/images/default-certificate.png\\" style=\\"margin-bottom:-616px;\\" alt=\\"Certificate Background\\" class=\\"certificate-background\\">
-	<div id=\\"certificate-999\\" class=\\"post-17 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
+	<div id=\\"certificate-999\\" class=\\"post-999 llms_my_certificate type-llms_my_certificate status-publish hentry\\">
 
 		<div class=\\"llms-summary\\">
 

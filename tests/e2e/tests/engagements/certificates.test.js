@@ -1,7 +1,8 @@
 import {
 	insertBlock,
 	switchUserToAdmin,
-	visitAdminPage
+	trashAllPosts,
+	visitAdminPage,
 } from '@wordpress/e2e-test-utils';
 
 import {
@@ -49,7 +50,7 @@ async function getCertificateHTML( templateVersion = 2 ) {
 
 	// Hardcode IDs for the snapshot.
 	html = html.replace( /(id="certificate-)\d+(")/, '$1999$2' ); // ID attribute.
-	html = html.replace( /( post-)\d+( )/, '$1999$2' ); // ID classname.
+	html = html.replace( /(post-)\d+( )/, '$1999$2' ); // ID classname.
 
 	// Replace the awarded date with a mocked date.
 	html = html.replace( /(">On ).+(<\/p>)/, '$1Octember 01, 9999$2' );
@@ -125,6 +126,8 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 	afterAll( async () => {
 		await switchUserToAdmin();
 		await toggleOpenRegistration( false );
+		// Ensure future tests don't get Certificate notifications.
+		await trashAllPosts( 'llms_engagement' );
 	} );
 
 	describe( 'Templates', () => {

@@ -172,4 +172,4 @@ Object {
 }
 `;
 
-exports[`OpenRegistration Registration should register a new user with a voucher. 1`] = `" <h4 class=\\"llms-notification-title\\">You've earned a certificate!</h4> <div class=\\"llms-notification-body\\"><div class=\\"llms-mini-cert\\"> <h2 class=\\"llms-mini-cert-title\\">Awarded on Registration</h2> <div class=\\"llms-mini-cert--body \\"> <div class=\\"llms-mini-cert--mock-line\\"></div> <div class=\\"llms-mini-cert--mock-line\\"></div> <div class=\\"llms-mini-cert--mock-line\\"></div> <div class=\\"llms-mini-cert--mock-line\\"></div> <div class=\\"llms-mini-cert--mock-line\\"></div> <div class=\\"llms-mini-cert--mock-dot\\"></div> <div class=\\"llms-mini-cert--mock-line\\"></div> <p></p></div> <p></p></div> </div> "`;
+exports[`OpenRegistration Registration should register a new user with a voucher. 1`] = `" <h4 class=\\"llms-notification-title\\">Course enrollment success!</h4> <div class=\\"llms-notification-body\\"><p>Congratulations! You enrolled in LifterLMS Quickstart Course</p> </div> "`;
