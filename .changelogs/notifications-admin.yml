@@ -1,0 +1,3 @@
+significance: minor
+type: fixed
+entry: Basic notification code is no longer loaded on the admin panel.

@@ -11,6 +11,7 @@
 
 import {
 	clickAndWait,
+	getPostTitleSelector,
 	highlightNode,
 	logoutUser,
 	loginStudent,
@@ -73,7 +74,7 @@ describe( 'Setting/CopyPrevention', () => {
 		it ( 'is allowed to copy content', async () => {
 
 			watchForEvent( 'llms-copy-prevented' );
-			expect( await highlightNode( 'h1.entry-title', true ) ).toBe( 'Integrity-Test' );
+			expect( await highlightNode( getPostTitleSelector(), true ) ).toBe( 'Integrity-Test' );
 			expect( caughtEvents.length ).toStrictEqual( 0 );
 
 		} );
@@ -92,7 +93,7 @@ describe( 'Setting/CopyPrevention', () => {
 		it ( 'is not allowed to copy content', async () => {
 
 			watchForEvent( 'llms-copy-prevented' );
-			expect( await highlightNode( 'h1.entry-title', true ) ).toBe( 'Copying is not allowed.' );
+			expect( await highlightNode( getPostTitleSelector(), true ) ).toBe( 'Copying is not allowed.' );
 			expect( caughtEvents[0].eventName ).toBe( 'llms-copy-prevented' );
 
 		} );
@@ -112,7 +113,7 @@ describe( 'Setting/CopyPrevention', () => {
 
 			await visitPage( 'integrity-test' );
 			watchForEvent( 'llms-copy-prevented' );
-			expect( await highlightNode( 'h1.entry-title', true ) ).toBe( 'Copying is not allowed.' );
+			expect( await highlightNode( getPostTitleSelector(), true ) ).toBe( 'Copying is not allowed.' );
 			expect( caughtEvents[0].eventName ).toBe( 'llms-copy-prevented' );
 
 		} );

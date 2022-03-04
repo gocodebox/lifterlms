@@ -1,0 +1,6 @@
+significance: major
+type: removed
+entry: |
+  + Removed the deprecated `LLMS_AJAX::check_voucher_duplicate()` method.
+  + Removed the deprecated `LLMS_AJAX::get_ajax_data()` method.
+  + Removed the deprecated `LLMS_AJAX::register_script()` method.

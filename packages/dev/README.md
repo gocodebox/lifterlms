@@ -75,7 +75,7 @@ Options:
   -T, --title <title>            Changelog entry file name. Uses the current
                                  git branch name as the default. Automatically
                                  appends a number to the title if the title
-                                 already exists. (default: "trunk")
+                                 already exists. (default: "dev")
   -i, --interactive              Create the changelog interactively. (default:
                                  false)
   -E, --use-editor               When creating a changelog interactively, will
@@ -157,7 +157,7 @@ Options:
                             determining the version based on changelog entry
                             significance.
   -l, --log-file <file>     The changelog file. (default: "CHANGELOG.md")
-  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2021-12-23")
+  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2021-12-27")
   -L, --links               Add GitHub links to templates and issues in
                             changelog entries. (default: false)
   -n, --no-links            Do not add GitHub links in changelog entries. Use
@@ -267,7 +267,7 @@ Options:
                                     committed and force-pushed to the specified
                                     branch before creating the release. Pass
                                     --no-archive to skip this step. (default:
-                                    "dev-0.0.3-alpha.0.zip")
+                                    "dev-0.0.3.zip")
   -A, --no-archive                  Skip creation from an archive file and use
                                     the target --branch for release creation.
   -c, --commit-message <message>    Customize the commit message used when

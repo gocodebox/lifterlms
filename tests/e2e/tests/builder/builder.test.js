@@ -2,11 +2,11 @@ import {
 	clickAndWait,
 	clickElementByText,
 	fillField,
+	publishPost,
 } from '@lifterlms/llms-e2e-test-utils';
 
 import {
 	createNewPost,
-	publishPost,
 	pressKeyWithModifier,
 	visitAdminPage,
 } from '@wordpress/e2e-test-utils';
@@ -54,8 +54,6 @@ let courseId = null;
 async function getCourseId() {
 
 	if ( ! courseId ) {
-
-		page.on( 'dialog', dialog => dialog.accept() );
 
 		await createNewPost( {
 			title: 'Test Course Builder',

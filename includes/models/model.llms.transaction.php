@@ -124,7 +124,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		);
 
 		return apply_filters(
-			'llms_' . $this->model_post_type . '_get_creation_args',
+			"llms_{$this->model_post_type}_get_creation_args",
 			array(
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
@@ -174,7 +174,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * @return LLMS_Payment_Gateway or WP_Error
 	 */
 	public function get_gateway() {
-		$gateways = LLMS()->payment_gateways();
+		$gateways = llms()->payment_gateways();
 		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && $gateway->is_enabled() || is_admin() ) {
 			return $gateway;

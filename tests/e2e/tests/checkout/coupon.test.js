@@ -1,9 +1,3 @@
-/**
- * Test coupon-related actions on the checkout screen
- *
- * @since 3.39.0
- */
-
 import {
 	click,
 	createAccessPlan,
@@ -100,7 +94,8 @@ describe( 'Checkout/Coupons', () => {
 
 		// Return and it still found due to it being saved in session data.
 		await page.goto( planUrl );
-		expect( await page.$eval( '.llms-coupon-wrapper .llms-notice.llms-success', el => el.textContent ) ).toBe( `Coupon code "${ coupon }" has been applied to your order.` );
+
+		expect( await page.$eval( '.llms-coupon-wrapper .llms-notice.llms-success', el => el.textContent ) ).toMatchStringWithQuotes( `Coupon code "${ coupon }" has been applied to your order.` );
 
 		// Remove it.
 		await click( '#llms-remove-coupon' );

@@ -7,8 +7,6 @@
  * @group certificates
  *
  * @since 3.37.3
- * @since 4.21.0 Added tests on modify_dom_links() and modify_dom_images().
- * @version 4.21.0
  */
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
@@ -17,6 +15,9 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
+	 * @since [version] Expect deprecated warning and actually call the method instead of using the abstract method `earn_certificate()`.
+	 *
+	 * @expectedDeprecated LLMS_Certificates::trigger_engagement()
 	 *
 	 * @return void
 	 */
@@ -26,13 +27,16 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$template = $this->create_certificate_template();
 		$related = $this->factory->post->create( array( 'post_type' => 'course' ) );
 
-		$earned = $this->earn_certificate( $user, $template, $related );
+		llms_enroll_student( $user, $related );
 
-		// User ID.
-		$this->assertEquals( $user, $earned[0] );
+		llms()->certificates()->trigger_engagement( $user, $template, $related );
 
-		// Related ID.
-		$this->assertEquals( $related, $earned[2] );
+		$student = llms_get_student( $user );
+
+		$earned = $student->get_certificates( array() );
+
+		// Related ID matches.
+		$this->assertEquals( $related, $earned->get_awards()[0]->get( 'related' ) );
 
 	}
 
@@ -54,7 +58,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		$cert_id = $earned[1];
 
-		$path = LLMS()->certificates()->get_export( $cert_id );
+		$path = llms()->certificates()->get_export( $cert_id );
 		$this->assertTrue( false !== strpos( $path, '/uploads/llms-tmp/certificate-mock-certificate-title' ) );
 		$this->assertTrue( false !== strpos( $path, '.html' ) );
 
@@ -79,22 +83,78 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		$cert_id = $earned[1];
 
 		// Generate a new cert when item not found in the cache.
-		$orig_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$orig_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertTrue( false !== strpos( $orig_path, '/uploads/llms-tmp/certificate-mock-certificate-title' ) );
 
 		// Store the filepath for future use.
 		$this->assertEquals( $orig_path, get_post_meta( $cert_id, '_llms_export_filepath', true ) );
 
 		// Get it again, should return the original path from the cache.
-		$cached_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$cached_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertEquals( $orig_path, $cached_path );
 
 		// Delete the file (simulate LLMS_TMP_DIR file expiration).
 		unlink( $orig_path );
 
 		// Should regen since the file saved in meta data doesn't exist anymore.
-		$new_path = LLMS()->certificates()->get_export( $cert_id, true );
+		$new_path = llms()->certificates()->get_export( $cert_id, true );
 		$this->assertTrue( $orig_path !== $new_path );
+
+	}
+
+	/**
+	 * Test get_unique_slug()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_unique_slug() {
+
+		$slugs = array();
+
+		$i = 0;
+		while ( $i < 250 ) {
+
+			$post = $this->factory->post->create_and_get( array(
+				'post_type' => 'llms_my_certificate',
+				'post_name' => llms()->certificates()->get_unique_slug( 'A Title' ),
+			) );
+
+			$slugs[] = $post->post_name;
+
+			$i++;
+
+		}
+
+		$this->assertEquals( 250, count( array_unique( $slugs ) ) );
+
+	}
+
+	/**
+	 * Test get_unique_slug() will increase the suffix string length after encountering collisions.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_unique_slug_length_increase() {
+
+		$handler = function( $password, $len ) {
+			return 3 === $len ? 'aaa' : $password;
+		};
+		add_filter( 'random_password', $handler, 10, 2 );
+
+		// Create a post with the '-aaa' suffix so we can have a real fake collision.
+		$post = $this->factory->post->create_and_get( array(
+			'post_type' => 'llms_my_certificate',
+			'post_name' => llms()->certificates()->get_unique_slug( 'A Title' ),
+		) );
+		$this->assertEquals( 11, strlen( $post->post_name ) );
+		$this->assertEquals( 'a-title-aaa', $post->post_name );
+
+		// This request will result find '-aaa' as a collision and then try 4 more times and then increase to 4 characters.
+		$this->assertEquals( 12, strlen( llms()->certificates()->get_unique_slug( 'A Title' ) ) );
 
 	}
 
@@ -135,7 +195,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		);
 
 		LLMS_Unit_Test_Util::call_method(
-			LLMS()->certificates(),
+			llms()->certificates(),
 			'modify_dom_links',
 			array( $dom )
 		);
@@ -150,7 +210,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		foreach ( $stylesheet_hrefs as $stylesheet_href => $contained ) {
 
 			$stylesheet_raw = LLMS_Unit_Test_Util::call_method(
-				LLMS()->certificates(),
+				llms()->certificates(),
 				'get_stylesheet_raw',
 				array( $stylesheet_href, false )
 			);
@@ -180,7 +240,6 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		LLMS_Unit_Test_Files::remove( WP_CONTENT_DIR . '/example-style-2.css' );
 
 	}
-
 
 	/**
 	 * Test modify_dom_images()
@@ -229,11 +288,11 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 		);
 
 		// Re-init certificates to apply the filter above.
-		LLMS()->certificates()->init();
+		llms()->certificates()->init();
 
 		// Modify DOM images.
 		LLMS_Unit_Test_Util::call_method(
-			LLMS()->certificates(),
+			llms()->certificates(),
 			'modify_dom_images',
 			array( $dom )
 		);
@@ -250,7 +309,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 			);
 
 			$image_data_type = LLMS_Unit_Test_Util::call_method(
-				LLMS()->certificates(),
+				llms()->certificates(),
 				'get_image_data_and_type',
 				array( $image_src, false )
 			);

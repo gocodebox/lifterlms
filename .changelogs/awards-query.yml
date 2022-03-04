@@ -1,0 +1,7 @@
+significance: minor
+type: dev
+entry: >
+  + Added `LLMS_Awards_Query`, used for querying data about awarded certificates
+  and achievements.
+    + The method signature `LLMS_Student::get_achievements()` and `LLMS_Student::get_certificates()` now use this class under tho hood.
+    + The previous method signature, which passed data into a direct SQL query, is now deprecated.

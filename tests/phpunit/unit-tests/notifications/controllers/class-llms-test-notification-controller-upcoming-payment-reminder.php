@@ -76,7 +76,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 		}
 
 		// Check notification not sent for gateway that do not support recurring payments.
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		$manual->supports['recurring_payments'] = false;
 		$order->set( 'gateway', 'manual' );
 		foreach ( $this->types as $type ) {
@@ -167,6 +167,8 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 *
 	 * @since 5.2.0
 	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
+	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
@@ -217,7 +219,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 		$this->controller->unschedule_upcoming_payment_reminders( $order );
 
 		// Fast forward.
-		llms_mock_current_time( date( 'Y-m-d', $next_payment_date + WEEK_IN_SECONDS ) );
+		llms_tests_mock_current_time( date( 'Y-m-d', $next_payment_date + WEEK_IN_SECONDS ) );
 
 		// Try to schedule a notification that should be happen 1 week - 1 day in the past.
 		foreach ( $this->types as $type ) {

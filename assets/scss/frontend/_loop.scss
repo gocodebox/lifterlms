@@ -9,7 +9,7 @@
 		$cols: 1;
 		@while $cols <= 6 {
 			&.cols-#{$cols} .llms-loop-item {
-				width: 100% / $cols;
+				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
 		}

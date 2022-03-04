@@ -16,6 +16,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 * @since 3.36.1 Conditionally require LLMS_Admin_Meta_Boxes.
 	 * @since 3.37.12 Call parent method.
 	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
+	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -24,9 +25,6 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 		parent::set_up_before_class();
 
 		// Manually include required files.
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
-		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.post-types.php';
 		if ( ! class_exists( 'LLMS_Admin_Meta_Boxes' ) ) {
 			( new LLMS_Admin_Post_Types() )->include_post_type_metabox_class();

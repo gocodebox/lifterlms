@@ -81,6 +81,47 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test summary
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_handle_certificate_title_not_a_cert() {
+
+		global $post;
+
+		$types = array(
+			'post' => array( 10, 'Untitled' ),
+			'llms_certificate' => array( false, '' ),
+			'llms_my_certificate' => array( false, '' ),
+		);
+
+		// Mock the filter callback function.
+		function twenty_twenty_one_post_title( $title ) {
+			return 'Untitled';
+		}
+
+		foreach ( $types as $post_type => $data ) {
+
+			add_filter( 'the_title', 'twenty_twenty_one_post_title' );
+
+			list( $expect_priority, $expected_title ) = $data;
+
+			$post = $this->factory->post->create_and_get( array( 'post_type' => $post_type, 'post_title' => '' ) );
+
+			LLMS_Twenty_Twenty_One::handle_certificate_title();
+
+			$this->assertEquals( $expect_priority, has_filter( 'the_title', 'twenty_twenty_one_post_title' ) );
+			$this->assertEquals( $expected_title, get_the_title() );
+
+		}
+
+		$post = null;
+
+	}
+
+	/**
 	 * Test handle_page_header_wrappers() when the archive title is disabled.
 	 *
 	 * @since 4.10.0
