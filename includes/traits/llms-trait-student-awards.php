@@ -32,7 +32,7 @@ trait LLMS_Trait_Student_Awards {
 	 * @param string       $order           Deprecated signature only: Ordering method for returned results (ASC or DESC).
 	 * @param string       $return          Deprecated signature only: Return type. Accepts "obj" for an array of objects from
 	 *                                      $wpdb->get_results and "certificates" for an array of LLMS_User_Certificate instances.
-	 * @return LLMS_Awards_Query|object[]|LLMS_User_Achievment[]
+	 * @return LLMS_Awards_Query|object[]|LLMS_User_Achievement[]
 	 */
 	public function get_achievements( $args_or_orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 

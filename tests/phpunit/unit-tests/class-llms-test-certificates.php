@@ -337,7 +337,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 		}
 
-		// Get images do not have loading, sizes, and srcset attibutes.
+		// Get images do not have loading, sizes, and srcset attributes.
 		foreach ( $dom->getElementsByTagName( 'img' ) as $img ) {
 			$this->assertEmpty( $img->getAttribute( 'srcset' ) );
 			$this->assertEmpty( $img->getAttribute( 'sizes' ) );

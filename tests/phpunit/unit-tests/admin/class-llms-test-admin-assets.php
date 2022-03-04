@@ -30,7 +30,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down test case
 	 *
-	 * Dequeue & Dereqister all assets that may have been enqueued during tests.
+	 * Dequeue & Deregister all assets that may have been enqueued during tests.
 	 *
 	 * @since 4.3.3
 	 * @since 5.3.3 Renamed from `tearDown()` for compat with WP core changes.
