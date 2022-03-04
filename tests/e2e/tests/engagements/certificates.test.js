@@ -14,6 +14,7 @@ import {
 	loginStudent,
 	logoutUser,
 	openSidebarPanelTab,
+	publishPost,
 	registerStudent,
 	toggleOpenRegistration,
 	toggleSidebarPanel,
@@ -56,7 +57,35 @@ async function getCertificateHTML( templateVersion = 2 ) {
 	// Strip the classname added by the various themes; 2022 theme doesn't include it and this makes it so we can have a single snapshot.
 	html = html.replace( ' entry">', '">' );
 
+	// Replace img src url (only on template v1).
+	html = html.replace( /(src=")(http:\/\/.*)(\/wp-content)/, '$1$3' );
+
 	return html;
+
+}
+
+/**
+ * Adds isStackedOnMobile block attribute to blocks on WP 5.8 so our snapshots can
+ * be taken for 5.9 and later.
+ *
+ * @since [version]
+ *
+ * @param {Object[]} blocks Array of WP_Block objects.
+ * @return {Object[]} Updated array.
+ */
+function backportColumnsAttrs( blocks ) {
+
+	// On 5.8 snapshots fail because isStackedOnMobile didn't exist.
+	if ( wpVersionCompare( '5.9', '<' ) ) {
+		blocks = blocks.map( ( block ) => {
+			if ( 'core/columns' === block.name ) {
+				block.attributes.isStackedOnMobile = false;
+			}
+			return block;
+		} );
+	}
+
+	return blocks;
 
 }
 
@@ -138,7 +167,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 			await page.waitForTimeout( 1000 );
 
-			expect( await getAllBlocks( false ) ).toMatchSnapshot();
+			expect( backportColumnsAttrs( await getAllBlocks( false ) ) ).toMatchSnapshot();
 
 		} );
 
@@ -159,7 +188,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 			await page.waitForTimeout( 1000 );
 
-			expect( await getAllBlocks( false ) ).toMatchSnapshot();
+			expect( backportColumnsAttrs( await getAllBlocks( false ) ) ).toMatchSnapshot();
 
 		} );
 
@@ -244,51 +273,59 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 
 		} );
 
-		// it ( 'should be able to award a certificate directly to a student', async () => {} );
+	} );
+
+	describe( 'Legacy', () => {
+
+		it ( 'should be able to edit legacy certificates in the classic editor', async () => {
+
+			// Find the bootstrapped post.
+			await page.goto( `${ process.env.WP_BASE_URL}/wp-admin/edit.php?s=Template-V1&post_type=llms_my_certificate`  );
+			const POST_ROW = '#the-list tr:first-child';
+
+			// Post state label present.
+			expect( await page.$eval( `${ POST_ROW } .post-state`, ( { textContent } ) => textContent ) ).toBe( 'Legacy' );
+
+			// Load the classic editor.
+			await clickAndWait( `${ POST_ROW } a.row-title` );
+
+			// Confirm it's classic.
+			expect( await page.$eval( 'input#title', ( { value } ) => value ) ).toBe( 'Template-V1' );
+
+			// Load the cert on the frontend.
+			await clickAndWait( '#sample-permalink a' );
+			expect( await getCertificateHTML( 1 ) ).toMatchSnapshot();
+
+		} );
 
 
+		it ( 'should be able to migrate a legacy certificates to the block editor', async () => {
 
-		// it ( 'should create a certificate in the classic editor', async () => {
+			// Find the bootstrapped post.
+			await page.goto( `${ process.env.WP_BASE_URL}/wp-admin/edit.php?s=Template-V1&post_type=llms_my_certificate`  );
+			const POST_ROW = '#the-list tr:first-child';
 
-		// 	// Required due to WP core bug in 5.6.1 & later, see https://core.trac.wordpress.org/ticket/52440.
-		// 	page.on( 'dialog', dialog => dialog.accept() );
+			// Migrate link.
+			await page.hover( '#the-list tr:first-child' );
+			await clickAndWait( `${ POST_ROW } .row-actions .llms-migrate-legacy-certificate a` );
 
-		// 	await visitAdminPage( 'post.php', `post=${ certificateId }&action=edit` );
-		// 	await visitPostPermalink();
-		// 	expect( await getCertificateHTML() ).toMatchSnapshot();
+			// For some reason clicking the toggle button (handled via insertBlock) is resulting in errors.
+			await page.evaluate( () => wp.data.dispatch( 'core/edit-post' ).setIsInserterOpened( true ) );
 
-		// } );
+			// The template isn't actually migrated until an edit is made, otherwise it retains it's initial HTML.
+			await insertBlock( 'Paragraph' );
+			await publishPost();
 
+			await visitPostPermalink();
+			expect( await getCertificateHTML() ).toMatchSnapshot();
 
-		// it ( 'should be able to view and delete an earned certificate from reporting screens', async () => {
-
-		// 	// Create a user who will earn the certificate.
-		// 	const
-		// 		first     = 'Student',
-		// 		last      = 'WithACert',
-		// 		{ email } = await registerStudent( { first, last } );
-		// 	await logoutUser();
-
-		// 	await visitAdminPage( 'users.php', `s=${ encodeURIComponent( email ) }` );
-
-		// 	await page.goto( await page.$eval( '#the-list tr:first-child span.llms-reporting a', el => `${ el.href }&stab=certificates` ) );
-
-		// 	const reportingUrl = await page.url();
-
-		// 	// Navigate to the certificate page.
-		// 	await page.goto( await page.$eval( '#llms-gb-table-certificates td.actions a', el => el.href ) );
-
-// expect( await getCertificateHTML() ).toMatchSnapshot();
-
-		// 	await page.goto( reportingUrl );
-		// 	// page.on( 'dialog', dialog => dialog.accept() ); // Uncomment when https://core.trac.wordpress.org/ticket/52440 is resolved.
-		// 	await clickAndWait( '#llms_delete_cert' );
-
-		// } );
+		} );
 
 	} );
 
 	describe( 'Awarded', () => {
+
+		// it ( 'should be able to award a certificate directly to a student', async () => {} );
 
 		it ( 'should award a certificate on user registration', async () => {
 
