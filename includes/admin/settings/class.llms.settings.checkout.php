@@ -56,7 +56,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 */
 	public function get_gateway_table_html() {
 
-		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+		$gateways = llms()->payment_gateways()->get_payment_gateways();
 
 		usort( $gateways, array( $this, 'sort_gateways' ) );
 
@@ -112,7 +112,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		$sections = array();
 
-		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+		$gateways = llms()->payment_gateways()->get_payment_gateways();
 
 		foreach ( $gateways as $id => $gateway ) {
 			$sections[ $id ] = $gateway->get_admin_title();
@@ -364,7 +364,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			'class' => 'top',
 		);
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $curr_section );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( $curr_section );
 		if ( ! $gateway ) {
 
 			$settings[] = array(
@@ -418,7 +418,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		parent::save();
 
 		// Save display order of gateways.
-		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
+		foreach ( llms()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
 			$option = $gateway->get_option_name( 'display_order' );
 			if ( isset( $_POST[ $option ] ) ) {
 				update_option( $option, absint( $_POST[ $option ] ) );

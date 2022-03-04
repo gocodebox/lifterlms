@@ -51,6 +51,6 @@ export async function createVoucher( {
 
 	return await page.$$eval(
 		'#llms_voucher_tbody input[name="llms_voucher_code[]"',
-		( inputs ) => inputs.map( ( input ) => input.value )
+		( inputs ) => inputs.map( ( { value } ) => value )
 	);
 }

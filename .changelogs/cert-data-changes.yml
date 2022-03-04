@@ -1,0 +1,14 @@
+significance: minor
+type: dev
+entry: >
+  + Achievement and certificate data storage locations have been modified,
+  primarily to reduce reliance on the `wp_postmeta` table which will result in a
+  site-wide performance improvement, especially on large sites.
+    + Meta properties `_llms_achievement_content` and `_llms_certificate_content` have been removed in favor of `WP_Post::$post_content`.
+    + Meta properties `_llms_achievement_title` and `_llms_certificate_title` have been removed in favor of `WP_Post::$post_title`.
+    + Meta properties `_llms_achievement_template` and `_llms_certificate_template` have been removed in favor of `WP_Post::$post_parent`.
+    + Meta properties `_llms_achievement_image` and `_llms_certificate_image` have been moved the meta property `_thumbnail_id` in order to utilize the WordPress core's featured image functionality and internal APIs.
+  + Reliance on `lifterlms_user_postmeta` for achievement and certificate data will be removed in a future release.
+    + User postmeta properties `_achievement_earned` and `_certificate_earned` will continue to be recorded but are no longer being used internally.
+    + The `updated_date` is now accessible via `WP_Post::$post_date`.
+    + The `user_id` is now accessible via `WP_Post::$post_author`.

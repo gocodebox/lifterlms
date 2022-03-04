@@ -248,7 +248,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 		$plan = $this->get_mock_plan( 1 );
 		$plan->set( 'product_id', $course->get( 'id' ) );
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), 'no' );
 
 		// no gateways available

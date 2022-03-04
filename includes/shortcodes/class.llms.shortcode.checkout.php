@@ -164,8 +164,8 @@ class LLMS_Shortcode_Checkout {
 
 		self::$uid = get_current_user_id();
 
-		$atts['gateways']         = LLMS()->payment_gateways()->get_enabled_payment_gateways();
-		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
+		$atts['gateways']         = llms()->payment_gateways()->get_enabled_payment_gateways();
+		$atts['selected_gateway'] = llms()->payment_gateways()->get_default_gateway();
 
 		$atts['order_key'] = '';
 
@@ -195,13 +195,13 @@ class LLMS_Shortcode_Checkout {
 			// Only retrieve if plan is a llms_access_plan and is published.
 			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
 
-				$coupon = LLMS()->session->get( 'llms_coupon' );
+				$coupon = llms()->session->get( 'llms_coupon' );
 
 				if ( isset( $coupon['coupon_id'] ) && isset( $coupon['plan_id'] ) ) {
 					if ( $coupon['plan_id'] == $_GET['plan'] ) {
 						$atts['coupon'] = new LLMS_Coupon( $coupon['coupon_id'] );
 					} else {
-						LLMS()->session->set( 'llms_coupon', false );
+						llms()->session->set( 'llms_coupon', false );
 						$atts['coupon'] = false;
 					}
 				} else {
@@ -259,7 +259,7 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+			$atts['selected_gateway'] = llms()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
 			self::confirm_payment( $atts );
 

@@ -1,0 +1,4 @@
+significance: minor
+type: changed
+entry: The URL of certificate temaplate previews has been changed from
+  "certificate" to "certificate-template".

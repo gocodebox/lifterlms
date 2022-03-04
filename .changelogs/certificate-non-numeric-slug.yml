@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: The `post_name` of earned certificate posts will be generated with a
+  randomized 3+ character string in favor of relying on sequential numbers.

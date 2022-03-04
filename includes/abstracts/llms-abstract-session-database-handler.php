@@ -48,7 +48,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
 
-		return $wpdb->query( $query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->query( $query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
 	}
 

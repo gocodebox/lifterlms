@@ -1,14 +1,17 @@
 .button.llms-merge-code-button {
 	vertical-align: middle;
-	img {
-		margin-right: 3px;
-		margin-top: -3px;
-		vertical-align: middle;
+	svg {
+		margin-right: 2px;
+		position: relative;
+		top: 4px;
+		width: 16px;
+		g {
+			fill: currentColor;
+		}
 	}
 }
 
 .llms-mb-container {
-	.button.llms-merge-code-button img { margin-right: 4px; }
 	.llms-merge-code-wrapper {
 		float: right;
 		top: -5px;
@@ -31,7 +34,7 @@
 	overflow: hidden;
 	position: absolute;
 	top: 30px;
-	width: 160px;
+	width: 200px;
 
 	ul {
 		margin: 0;

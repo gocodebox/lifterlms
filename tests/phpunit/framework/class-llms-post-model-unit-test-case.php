@@ -60,10 +60,11 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	*/
 
 	/**
-	 * Will hold an instance of the model being tested by the class
-	 * @var  obj
+	 * Will hold an instance of the model being tested by the class.
+	 *
+	 * @var LLMS_Post_Model
 	 */
-	protected $obj = null;
+	protected $obj;
 
 
 	/**

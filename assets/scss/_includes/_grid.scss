@@ -13,7 +13,7 @@
 		$cols: 1;
 		@while $cols <= 12 {
 			.llms-col-#{$cols} {
-				width: 100% / $cols;
+				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
 		}

@@ -12,6 +12,9 @@
  * @since 4.7.0 Disabled image sideloading during mock course generation.
  * @since 5.0.0 Automatically clear notices on teardown.
  *              Add a method to generate mock vouchers.
+ * @since [version] Removed deprecated items.
+ *              - `LLMS_UnitTestCase::setup_get()` method
+ *              - `LLMS_UnitTestCase::setup_post()` method
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -21,12 +24,14 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.17.0
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
+	 * @since [version] Replaced use of the deprecated `llms_reset_current_time()` function with
+	 *              `llms_tests_reset_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
 	 */
 	public function set_up() {
 		parent::set_up();
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 	}
 
 	/**
@@ -46,7 +51,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		$i = 1;
 		while ( $i <= $count ) {
 			$wpdb->insert( $wpdb->prefix . 'lifterlms_sessions', array(
-				'session_key' => LLMS_Unit_Test_Util::call_method( LLMS()->session, 'generate_id' ),
+				'session_key' => LLMS_Unit_Test_Util::call_method( llms()->session, 'generate_id' ),
 				'data'        => serialize( array( microtime() ) ),
 				'expires'     => $expired ? time() - DAY_IN_SECONDS : time() + DAY_IN_SECONDS,
 			), array( '%s', '%s', '%d' ) );
@@ -59,32 +64,6 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 		return $sessions;
 
-	}
-
-	/**
-	 * Setup Get data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars  mock get data
-	 * @return void
-	 */
-	protected function setup_get( $vars = array() ) {
-		$this->mockGetRequest( $vars );
-	}
-
-	/**
-	 * Setup Post data to mock post and request data
-	 *
-	 * @since 3.19.0
-	 * @deprecated 3.33.0 Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
-	 *
-	 * @param array $vars mock post data.
-	 * @return void
-	 */
-	protected function setup_post( $vars = array() ) {
-		$this->mockPostRequest( $vars );
 	}
 
 	/**
@@ -381,7 +360,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	protected function get_mock_order( $plan = null, $coupon = false ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
 
 		if ( ! $plan ) {
@@ -502,25 +481,93 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 
 	/**
+	 * Create an achievement template post.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $title   Achievement title.
+	 * @param string $content Achievement content.
+	 * @param string $image   Achievement image path.
+	 * @return int
+	 */
+	protected function create_achievement_template( $title = 'Mock Achievement Title', $content = 'You did it!', $image = '' ) {
+
+		$template_id = $this->factory->post->create(
+			array(
+				'post_type'    => 'llms_achievement',
+				'post_content' => $content,
+			)
+		);
+		update_post_meta( $template_id, '_llms_achievement_title', $title );
+		set_post_thumbnail( $template_id, $image );
+
+		return $template_id;
+	}
+
+	/**
 	 * Create a certificate template post.
 	 *
 	 * @since 3.37.4
 	 *
-	 * @param string $title Certificate title.
+	 * @param string $title   Certificate title.
 	 * @param string $content Certificate content.
-	 * @param string $image Certificate background image path.
+	 * @param int    $image   Certificate background image ID.
 	 * @return int
 	 */
 	protected function create_certificate_template( $title = 'Mock Certificate Title', $content = '', $image = '' ) {
 
-		$template = $this->factory->post->create( array(
-			'post_type' => 'llms_certificate',
+		$template_id = $this->factory->post->create( array(
+			'post_type'    => 'llms_certificate',
 			'post_content' => $content ? $content : '{site_title}, {current_date}',
 		) );
-		update_post_meta( $template, '_llms_certificate_title', $title );
-		update_post_meta( $template, '_llms_certificate_image', $image );
+		update_post_meta( $template_id, '_llms_certificate_title', $title );
+		set_post_thumbnail( $template_id, $image );
 
-		return $template;
+		return $template_id;
+	}
+
+	protected function create_email_template( $subject = 'Mock Email Title' ) {
+
+		return $this->factory->post->create( array(
+			'post_type' => 'llms_email',
+			'meta_input' => array(
+				'_llms_email_subject' => $subject,
+			),
+		) );
+	}
+
+	/**
+	 * Earn an achievement for a user.
+	 *
+	 * @since 3.37.3
+	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
+	 * @since [version] Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
+	 *
+	 * @param int      $user       WP_User ID.
+	 * @param int      $template   WP_Post ID of the `llms_certificate` template.
+	 * @param int      $related    WP_Post ID of the related post.
+	 * @param int|null $engagement WP_Post ID of the engagement post.
+	 * @return int[] {
+	 *     Indexed array containing information about the earned certificate.
+	 *
+	 *     int $0 WP_User ID.
+	 *     int $1 WP_Post ID of the earned cert (`llms_my_achievement`).
+	 *     int $2 WP_Post ID of the related post.
+	 *     int $3 WP_Post ID of the triggering engagement.
+	 * }
+	 */
+	protected function earn_achievement( $user_id, $template_id, $related_id, $engagement_id = null ) {
+
+		llms_enroll_student( $user_id, $related_id );
+
+		$earned = LLMS_Engagement_Handler::handle_achievement( array( $user_id, $template_id, $related_id, $engagement_id ) );
+
+		return array(
+			$user_id,
+			$earned->get( 'id' ),
+			$related_id,
+			$engagement_id,
+		);
 
 	}
 
@@ -529,31 +576,33 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
+	 * @since [version] Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
 	 *
-	 * @param int $user WP_User ID.
-	 * @param int $template WP_Post ID of the `llms_certificate` template.
-	 * @param int $related WP_Post ID of the related post.
+	 * @param int      $user       WP_User ID.
+	 * @param int      $template   WP_Post ID of the `llms_certificate` template.
+	 * @param int      $related    WP_Post ID of the related post.
+	 * @param int|null $engagement WP_Post ID of the engagement post.
 	 * @return int[] {
 	 *     Indexed array containing information about the earned certificate.
-	 *     int $0 WP_User ID
-	 *     int $1 WP_Post ID of the earned cert (`llms_my_certificate`)
+	 *
+	 *     int $0 WP_User ID.
+	 *     int $1 WP_Post ID of the earned cert (`llms_my_certificate`).
 	 *     int $2 WP_Post ID of the related post.
+	 *     int $3 WP_Post ID of the triggering engagement.
 	 * }
 	 */
-	protected function earn_certificate( $user, $template, $related ) {
+	protected function earn_certificate( $user_id, $template_id, $related_id, $engagement_id = null ) {
 
-		global $llms_user_earned_certs;
-		$llms_user_earned_certs = array();
+		llms_enroll_student( $user_id, $related_id );
 
-		// Watch for generation so we can compare against it later.
-		add_action( 'llms_user_earned_certificate', function( $user_id, $cert_id, $related_id ) {
-			global $llms_user_earned_certs;
-			$llms_user_earned_certs[] = array( $user_id, $cert_id, $related_id );
-		}, 10, 3 );
+		$earned = LLMS_Engagement_Handler::handle_certificate( array( $user_id, $template_id, $related_id, $engagement_id ) );
 
-		LLMS()->certificates()->trigger_engagement( $user, $template, $related );
-
-		return array_shift( $llms_user_earned_certs );
+		return array(
+			$user_id,
+			$earned->get( 'id' ),
+			$related_id,
+			$engagement_id,
+		);
 
 	}
 
@@ -566,8 +615,88 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 */
 	protected function setManualGatewayStatus( $enabled = 'yes' ) {
 
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		$manual = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), $enabled );
+
+	}
+
+	/**
+	 * Create an engagement post and template post
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $trigger_type    Type of trigger (see list below).
+	 * @param string  $engagement_type Type of engagement to be awarded (email, achievement, certificate).
+	 * @param integer $delay           Sending delay for the created engagement trigger.
+	 * @return WP_Post Post object for the created `llms_engagement` post type.
+	 */
+	public function create_mock_engagement( $trigger_type, $engagement_type, $delay = 0, $trigger_post = null, $engagement_post = null ) {
+
+		if ( ! $trigger_post ) {
+
+			/**
+			 * Trigger Types
+			 *
+			 * user_registration
+			 *
+			 * course_completed
+			 * lesson_completed
+			 * section_completed
+			 *
+			 * course_track_completed
+			 *
+			 * quiz_completed
+			 * quiz_passed
+			 * quiz_failed
+			 *
+			 * course_enrollment
+			 * membership_enrollment
+			 *
+			 * access_plan_purchased
+			 * course_purchased
+			 * membership_purchased
+			 */
+			switch ( $trigger_type ) {
+				case 'user_registration':
+					$trigger_post = 0;
+					break;
+
+				case 'course_completed':
+				case 'lesson_completed':
+				case 'section_completed':
+				case 'quiz_completed':
+				case 'quiz_passed':
+				case 'quiz_failed':
+				case 'course_enrollment':
+				case 'membership_enrollment':
+				case 'access_plan_purchased':
+				case 'course_purchased':
+				case 'membership_purchased':
+					$post_type    = str_replace( array( '_completed', '_enrollment', '_passed', '_failed', '_purchased' ), '', $trigger_type );
+					$post_type    = in_array( $post_type, array( 'access_plan', 'membership', 'quiz' ), true ) ? 'llms_' . $post_type : $post_type;
+					$trigger_post = $this->factory->post->create( compact( 'post_type' ) );
+					break;
+			}
+
+		}
+
+		if ( ! $engagement_post ) {
+
+			$engagement_create_func = "create_{$engagement_type}_template";
+			$engagement_post        = $this->$engagement_create_func();
+
+		}
+
+		return $this->factory->post->create_and_get( array(
+			'post_type'  => 'llms_engagement',
+			'meta_input' => array(
+				'_llms_trigger_type'            => $trigger_type,
+				'_llms_engagement_trigger_post' => $trigger_post,
+				'_llms_engagement_type'         => $engagement_type,
+				'_llms_engagement'              => $engagement_post,
+				'_llms_engagement_delay'        => $delay,
+			)
+		) );
 
 	}
 

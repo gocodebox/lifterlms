@@ -29,7 +29,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	 */
 	public function test_calculate_grade() {
 
-		$grader = LLMS()->grades();
+		$grader = llms()->grades();
 
 		$student = $this->get_mock_student();
 		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 5, 5, 10 )[0] );
@@ -97,7 +97,7 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	 */
 	public function test_get_grade() {
 
-		$grader = LLMS()->grades();
+		$grader = llms()->grades();
 
 		$student = $this->get_mock_student();
 		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 5, 5, 10 )[0] );
@@ -170,16 +170,16 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	 */
 	public function test_round() {
 
-		$this->assertEquals( 0, LLMS()->grades()->round( 0 ) );
-		$this->assertEquals( 1.5, LLMS()->grades()->round( 1.5 ) );
-		$this->assertEquals( 25, LLMS()->grades()->round( 25 ) );
-		$this->assertEquals( 25.0, LLMS()->grades()->round( 25.0 ) );
-		$this->assertEquals( 1.67, LLMS()->grades()->round( 1.666 ) );
-		$this->assertEquals( 251.67, LLMS()->grades()->round( 251.666 ) );
-		$this->assertEquals( 82.12, LLMS()->grades()->round( 82.123 ) );
-		$this->assertEquals( 98.13, LLMS()->grades()->round( 98.125 ) );
-		$this->assertEquals( 75.12, LLMS()->grades()->round( 75.12 ) );
-		$this->assertEquals( 0.02, LLMS()->grades()->round( 0.015559 ) );
+		$this->assertEquals( 0, llms()->grades()->round( 0 ) );
+		$this->assertEquals( 1.5, llms()->grades()->round( 1.5 ) );
+		$this->assertEquals( 25, llms()->grades()->round( 25 ) );
+		$this->assertEquals( 25.0, llms()->grades()->round( 25.0 ) );
+		$this->assertEquals( 1.67, llms()->grades()->round( 1.666 ) );
+		$this->assertEquals( 251.67, llms()->grades()->round( 251.666 ) );
+		$this->assertEquals( 82.12, llms()->grades()->round( 82.123 ) );
+		$this->assertEquals( 98.13, llms()->grades()->round( 98.125 ) );
+		$this->assertEquals( 75.12, llms()->grades()->round( 75.12 ) );
+		$this->assertEquals( 0.02, llms()->grades()->round( 0.015559 ) );
 
 	}
 

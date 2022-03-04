@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 
-	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+	$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 	$err     = new WP_Error();
 
 	// Valid gateway.
@@ -347,7 +347,7 @@ function llms_setup_pending_order( $data = array() ) {
 	}
 
 	$person  = llms_get_student( $person_id );
-	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+	$gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
 
 	/**
 	 * Filter the return of pending order setup data.
