@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
 						<td>
 							<?php echo $order->get_coupon_amount( 'trial' ); ?>
 							(<?php echo llms_price( $order->get_price( 'coupon_value_trial', array(), 'float' ) * - 1 ); ?>)
-							[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
+							[<code><?php echo $order->get( 'coupon_code' ); ?></code>]
 						</td>
 					</tr>
 				<?php endif; ?>
@@ -87,7 +87,7 @@ defined( 'ABSPATH' ) || exit;
 						<td>
 							<?php echo $order->get_coupon_amount( 'regular' ); ?>
 							(<?php echo llms_price( $order->get_price( 'coupon_value', array(), 'float' ) * - 1 ); ?>)
-							[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
+							[<code><?php echo $order->get( 'coupon_code' ); ?></code>]
 						</td>
 					</tr>
 				<?php endif; ?>

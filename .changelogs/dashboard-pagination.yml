@@ -2,4 +2,4 @@ significance: minor
 type: changed
 links:
   - "#669"
-entry: The achivements and certificates dashboard endpoints are now paginated.
+entry: The achievements and certificates dashboard endpoints are now paginated.
