@@ -73,15 +73,15 @@ class LLMS_Test_Notification_Achievement_Earned extends LLMS_NotificationTestCas
 		$view = $this->get_view();
 
 		$user       = llms_get_student( $this->last_setup_args[0] );
-		$achievment = new LLMS_User_Achievement( $this->last_setup_args[1] );
+		$achievement = new LLMS_User_Achievement( $this->last_setup_args[1] );
 
 		// $img_url = get_the_post_thumbnail_url( $this->last_setup_args[1] );
 
 		$tests = array(
-			'{{ACHIEVEMENT_CONTENT}}'   => $achievment->get( 'content' ),
+			'{{ACHIEVEMENT_CONTENT}}'   => $achievement->get( 'content' ),
 			// '{{ACHIEVEMENT_IMAGE}}'     => '',
 			// '{{ACHIEVEMENT_IMAGE_URL}}' => '',
-			'{{ACHIEVEMENT_TITLE}}'     => $achievment->get( 'title' ),
+			'{{ACHIEVEMENT_TITLE}}'     => $achievement->get( 'title' ),
 			'{{STUDENT_NAME}}'          => 'you',
 		);
 

@@ -14,7 +14,7 @@ class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase 
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [versopm]
+	 * @since [version]
 	 */
 	public function set_up() {
 

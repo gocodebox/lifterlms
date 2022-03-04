@@ -66,7 +66,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_delayed_enagagement_deleted() {
+	public function test_delayed_engagement_deleted() {
 
 		$users = $this->factory->user->create_many( 5 );
 
