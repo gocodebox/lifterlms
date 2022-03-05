@@ -441,6 +441,7 @@ class LLMS_Post_Types {
 	 *             Add thumbnail support for achievement and certificates (earned and template)
 	 *             Renames `llms_certificate` slug from `certificate` to `certificate-template`.
 	 *             Rename `llms_my_certificate` slug from `my_certificate` to `certificate`.
+	 *             Replaced the use of the deprecated `get_page() function with `get_post()`.
 	 *
 	 * @return void
 	 */
@@ -482,7 +483,7 @@ class LLMS_Post_Types {
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'author', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post', 'llms-sales-page' ),
-				'has_archive'         => ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $catalog_id && get_post( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
@@ -672,7 +673,7 @@ class LLMS_Post_Types {
 				),
 				'query_var'           => true,
 				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-sales-page' ),
-				'has_archive'         => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
+				'has_archive'         => ( $membership_page_id && get_post( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
 			)
