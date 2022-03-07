@@ -244,6 +244,7 @@ function llms_get_certificate_orientations() {
 function llms_get_certificate_sequential_id( $template_id, $increment = false ) {
 
 	$key    = '_llms_sequential_id';
+	$update = $increment;
 	$id     = absint( get_post_meta( $template_id, $key, true ) );
 
 	// No id, get the initial ID.
@@ -252,7 +253,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		/**
 		 * Determines the default starting number for the a certificate's sequential ID.
 		 *
-		 * The returned number *must* be an absolute integer. The returned value will be
+		 * The returned number *must* be an absolute integer (zero included). The returned value will be
 		 * passed through `absint()` to sanitize the filtered value.
 		 *
 		 * @since 6.0.0
@@ -262,12 +263,12 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		 */
 		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
 		$id          = absint( $starting_id );
-		$increment   = true;
+		$update      = true;
 
 	}
 
-	if ( $increment ) {
-		update_post_meta( $template_id, $key, $id + 1 );
+	if ( $update ) {
+		update_post_meta( $template_id, $key, $increment ? $id + 1 : $id );
 	}
 
 	/**
