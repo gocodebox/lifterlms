@@ -638,25 +638,7 @@ exports[`Engagements/Certificates Templates should create a certificate in the b
 </div>"
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Margins 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "5.5mm 10mm",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "10mm",
-  "padding-bottom": "7%",
-  "padding-left": "10%",
-  "padding-right": "3%",
-  "padding-top": "2.5%",
-  "width": "5.5mm",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A3 (Landscape) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 1`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -674,7 +656,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A3 (Portrait) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 2`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -692,7 +674,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A4 (Landscape) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 3`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -710,7 +692,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A4 (Portrait) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 4`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -728,7 +710,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A5 (Landscape) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 5`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -746,7 +728,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: A5 (Portrait) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 6`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -764,115 +746,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: CUSTOM (Landscape) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "10mm 5.5mm",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "5.5mm",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "10mm",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: CUSTOM (Portrait) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "5.5mm 10mm",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "10mm",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "5.5mm",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Ledger (Landscape) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "17in 11in",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "11in",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "17in",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Ledger (Portrait) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "11in 17in",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "17in",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "11in",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Legal (Landscape) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "14in 8.5in",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "8.5in",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "14in",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Legal (Portrait) 1`] = `
-Object {
-  "background-image": Any<String>,
-  "background-repeat-x": "no-repeat",
-  "background-repeat-y": "no-repeat",
-  "background-size": "8.5in 14in",
-  "box-sizing": "border-box",
-  "margin-left": "auto",
-  "margin-right": "auto",
-  "min-height": "14in",
-  "padding-bottom": "5%",
-  "padding-left": "5%",
-  "padding-right": "5%",
-  "padding-top": "5%",
-  "width": "8.5in",
-}
-`;
-
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Letter (Landscape) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 7`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -890,7 +764,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: Letter (Portrait) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 8`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -908,7 +782,79 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: User defined (Landscape) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 9`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "14in 8.5in",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "8.5in",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "14in",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 10`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "8.5in 14in",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "14in",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "8.5in",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 11`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "17in 11in",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "11in",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "17in",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 12`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "11in 17in",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "17in",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "11in",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 13`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -926,7 +872,7 @@ Object {
 }
 `;
 
-exports[`Engagements/Certificates Templates should update the DOM when certificate settings change: Size: User defined (Portrait) 1`] = `
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 14`] = `
 Object {
   "background-image": Any<String>,
   "background-repeat-x": "no-repeat",
@@ -941,5 +887,59 @@ Object {
   "padding-right": "5%",
   "padding-top": "5%",
   "width": "400mm",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 15`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "10mm 5.5mm",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "5.5mm",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "10mm",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 16`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "5.5mm 10mm",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "10mm",
+  "padding-bottom": "5%",
+  "padding-left": "5%",
+  "padding-right": "5%",
+  "padding-top": "5%",
+  "width": "5.5mm",
+}
+`;
+
+exports[`Engagements/Certificates Templates should update the DOM when certificate settings change 17`] = `
+Object {
+  "background-image": Any<String>,
+  "background-repeat-x": "no-repeat",
+  "background-repeat-y": "no-repeat",
+  "background-size": "5.5mm 10mm",
+  "box-sizing": "border-box",
+  "margin-left": "auto",
+  "margin-right": "auto",
+  "min-height": "10mm",
+  "padding-bottom": "7%",
+  "padding-left": "10%",
+  "padding-right": "3%",
+  "padding-top": "2.5%",
+  "width": "5.5mm",
 }
 `;

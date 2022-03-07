@@ -200,13 +200,12 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 			await visitAdminPage( 'post-new.php', 'post_type=llms_certificate' );
 			await toggleSidebarPanel( 'Settings' );
 
-			const assertStylesMatch = async ( hint = null ) => {
+			const assertStylesMatch = async () => {
 
 				expect(
 					await getElementStyles( '.is-root-container.block-editor-block-list__layout' )
 				).toMatchSnapshot(
 					{ 'background-image': expect.any( String ) },
-					hint
 				);
 
 			};
@@ -216,7 +215,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 				await clickElementByText( orientation, '.llms-certificate-doc-settings button' );
 				await page.waitForTimeout( 500 );
 
-				await assertStylesMatch( `Size: ${ sizeName } (${ orientation })` );
+				await assertStylesMatch();
 
 			};
 
@@ -252,7 +251,7 @@ describeIf( wpVersionCompare( '5.8' ) )( 'Engagements/Certificates', () => {
 			await fillField( '#llms-certificate-control--margin--right', '3' );
 			await fillField( '#llms-certificate-control--margin--bottom', '7' );
 			await fillField( '#llms-certificate-control--margin--left', '10' );
-			await assertStylesMatch( 'Margins' );
+			await assertStylesMatch();
 
 			// Background color chooser.
 			const colors = await page.$$( '.components-circular-option-picker .components-circular-option-picker__option' );

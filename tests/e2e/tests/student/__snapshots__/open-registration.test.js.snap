@@ -2,29 +2,7 @@
 
 exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 1`] = `"Province*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 2`] = `"City*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 3`] = `"Postal code*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 4`] = `"Region*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 5`] = `"District*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 6`] = `"Postal code*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 7`] = `"State*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 8`] = `"City*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 9`] = `"ZIP code*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 10`] = `"Emirate*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 11`] = `"City*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 12`] = `"Postal code*"`;
-
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: China 1`] = `
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 2`] = `
 Object {
   "AH": "Anhui",
   "BJ": "Beijing",
@@ -63,7 +41,13 @@ Object {
 }
 `;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: Peru 1`] = `
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 3`] = `"City*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 4`] = `"Postal code*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 5`] = `"Region*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 6`] = `
 Object {
   "AMA": "Amazonas",
   "ANC": "Áncash",
@@ -92,25 +76,11 @@ Object {
 }
 `;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: Tokelau 1`] = `
-Object {
-  " ": " ",
-}
-`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 7`] = `"District*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: United Arab Emirates 1`] = `
-Object {
-  "AJ": "Ajman Emirate",
-  "AZ": "Abu Dhabi Emirate",
-  "DU": "Dubai",
-  "FU": "Fujairah",
-  "RK": "Ras al-Khaimah",
-  "SH": "Sharjah Emirate",
-  "UQ": "Umm al-Quwain",
-}
-`;
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 8`] = `"Postal code*"`;
 
-exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country: United States 1`] = `
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 9`] = `
 Object {
   "AK": "Alaska",
   "AL": "Alabama",
@@ -171,5 +141,35 @@ Object {
   "WY": "Wyoming",
 }
 `;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 10`] = `"State*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 11`] = `"City*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 12`] = `"ZIP code*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 13`] = `
+Object {
+  "AJ": "Ajman Emirate",
+  "AZ": "Abu Dhabi Emirate",
+  "DU": "Dubai",
+  "FU": "Fujairah",
+  "RK": "Ras al-Khaimah",
+  "SH": "Sharjah Emirate",
+  "UQ": "Umm al-Quwain",
+}
+`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 14`] = `"Emirate*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 15`] = `
+Object {
+  " ": " ",
+}
+`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 16`] = `"City*"`;
+
+exports[`OpenRegistration Localization should localize city, state, and postcode fields when changing the selected country 17`] = `"Postal code*"`;
 
 exports[`OpenRegistration Registration should register a new user with a voucher. 1`] = `" <h4 class=\\"llms-notification-title\\">Course enrollment success!</h4> <div class=\\"llms-notification-body\\"><p>Congratulations! You enrolled in LifterLMS Quickstart Course</p> </div> "`;
