@@ -23,7 +23,7 @@ describe( 'Bootstrap', () => {
 
 		console.log( 'before' );
 
-		expct( true ).toBe( true );
+		expect( true ).toBe( true );
 
 		console.log( 'after' );
 
