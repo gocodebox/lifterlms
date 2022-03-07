@@ -103,8 +103,8 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 				'post_status' => 'publish',
 			)
 		);
-		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
-		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+		$this->assertEquals( 25, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( 25, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
 
 		// Save the awarded certificate again, make sure the seq id is not incremented.
 		wp_update_post(
@@ -113,16 +113,16 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 				'post_title' => 'Title changes',
 			)
 		);
-		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
-		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+		$this->assertEquals( 25, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( 25, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
 
 		// Test seq id incremented on creation if post status is publish.
 		$template_id = $this->create_certificate_template();
 		update_post_meta( $template_id, '_llms_sequential_id', 25 );
 
 		$cert = new $this->class_name( 'new', array( 'post_parent' => $template_id, 'post_status' => 'publish' ) );
-		$this->assertEquals( 26, $cert->get( 'sequential_id' ) );
-		$this->assertEquals( 26, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
+		$this->assertEquals( 25, $cert->get( 'sequential_id' ) );
+		$this->assertEquals( 25, get_post_meta( $cert->get('id'), '_llms_sequential_id', true ) );
 
 		// No parent id, nothing to increment.
 		$cert = new $this->class_name( 'new', array(  'post_status' => 'publish' ) );
@@ -146,10 +146,12 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		// Set a parent.
 		$template_id = $this->create_certificate_template();
-		update_post_meta( $template_id, '_llms_sequential_id', 25 );
+		update_post_meta( $template_id, '_llms_sequential_id', 15 );
 
 		$this->obj->set( 'parent', $template_id );
-		$this->assertEquals( 26, $this->obj->update_sequential_id() );
+		$this->assertEquals( 15, $this->obj->update_sequential_id() );
+
+		$this->assertEquals( 16, llms_get_certificate_sequential_id( $template_id, false ) );
 
 	}
 

@@ -229,11 +229,11 @@ function llms_get_certificate_orientations() {
 }
 
 /**
- * Retrieve the current or next sequential ID for a given certificate template.
+ * Retrieve the next sequential ID for a given certificate template and optionally increment it.
  *
- * If there's no existing ID, the ID starts at 1 and will *not* be incremented.
+ * If there's no existing ID.
  *
- * When the ID is incremented the new value is automatically persisted to the database.
+ * When an increment is requested, the new incremented ID will be automatically persisted to the database.
  *
  * @since 6.0.0
  *
@@ -264,20 +264,20 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
 		$id          = absint( $starting_id );
 
-		// Don't increment the starting ID!
+		// If there's no stored ID we don't want to increment it because it'll default to 1 next time anyway.
 		$increment = false;
 		$update    = true;
 
 	}
 
-	if ( $increment ) {
-		++$id;
+	if ( $update ) {
+		update_post_meta( $template_id, $key, $increment ? $id + 1 : $id );
 	}
 
 	/**
 	 * Filters the sequential ID number for a given certificate template.
 	 *
-	 * The returned number *must* be an absolute integer (zero included). The returned value will be
+	 * The returned number *must* be an absolute integer. The returned value will be
 	 * passed through `absint()` to sanitize the filtered value.
 	 *
 	 * @since 6.0.0
@@ -285,13 +285,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 	 * @param int $id          The sequential ID.
 	 * @param int $template_id WP_Post ID of the certificate template.
 	 */
-	$id = absint( apply_filters( 'llms_certificate_sequential_id', $id, $template_id ) );
-
-	if ( $update ) {
-		update_post_meta( $template_id, $key, $id );
-	}
-
-	return $id;
+	return absint( apply_filters( 'llms_certificate_sequential_id', $id, $template_id ) );
 
 }
 

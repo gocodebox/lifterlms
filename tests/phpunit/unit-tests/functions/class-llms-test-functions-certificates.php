@@ -131,22 +131,37 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 		$template_id = $this->factory->post->create( array( 'post_type' => 'llms_certificate' ) );
 
-		// Default ID (skips incrementing).
-		$this->assertEquals( 1, llms_get_certificate_sequential_id( $template_id, true ) );
+		$id = 1;
+		while ( $id <= 100 ) {
 
-		// Increment the ID.
-		$this->assertEquals( 2, llms_get_certificate_sequential_id( $template_id, true ) );
+			// Just get the next ID, don't increment.
+			$this->assertEquals( $id, llms_get_certificate_sequential_id( $template_id, false ) );
+			$this->assertEquals( $id, absint( get_post_meta( $template_id, '_llms_sequential_id', true ) ) );
 
-		// Retrieve the stored ID.
-		$this->assertEquals( 2, llms_get_certificate_sequential_id( $template_id, false ) );
+			// Increment the ID.
+			$this->assertEquals( $id, llms_get_certificate_sequential_id( $template_id, true ) );
+			$this->assertEquals( $id + 1, absint( get_post_meta( $template_id, '_llms_sequential_id', true ) ) );
 
-		// Set it to a new value & retrieve it.
-		update_post_meta( $template_id, '_llms_sequential_id', 923409 );
-		$this->assertEquals( 923409, llms_get_certificate_sequential_id( $template_id, false ) );
+			$id++;
 
-		// Increment it and retrieve it.
-		$this->assertEquals( 923410, llms_get_certificate_sequential_id( $template_id, true ) );
-		$this->assertEquals( 923410, llms_get_certificate_sequential_id( $template_id, false ) );
+		}
+
+		// Big numbers.
+		$id = 923409;
+		update_post_meta( $template_id, '_llms_sequential_id', $id );
+		while ( $id <= 923512 ) {
+
+			// Just get the next ID, don't increment.
+			$this->assertEquals( $id, llms_get_certificate_sequential_id( $template_id, false ) );
+			$this->assertEquals( $id, absint( get_post_meta( $template_id, '_llms_sequential_id', true ) ) );
+
+			// Increment the ID.
+			$this->assertEquals( $id, llms_get_certificate_sequential_id( $template_id, true ) );
+			$this->assertEquals( $id + 1, absint( get_post_meta( $template_id, '_llms_sequential_id', true ) ) );
+
+			$id++;
+
+		}
 
 	}
 
