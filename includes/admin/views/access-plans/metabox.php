@@ -5,8 +5,8 @@
  * @package  LifterLMS/Admin/Views
  *
  * @since 3.0.0
- * @since [version] Fix closing tag inside the `llms-no-plans-msg` div element.
- * @version [version]
+ * @since 6.0.0 Fix closing tag inside the `llms-no-plans-msg` div element.
+ * @version 6.0.0
  *
  * @var LLMS_Course $course
  * @var array $checkout_redirection_types checkout redirect setting options.

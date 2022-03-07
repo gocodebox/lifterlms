@@ -6,14 +6,14 @@
  * @group student
  * @group student_awards
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Trait_Student_awards extends LLMS_UnitTestCase {
 
 	/**
 	 * Test all trait methods.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_Trait_Student_awards extends LLMS_UnitTestCase {
 	/**
 	 * Test get_achievements & get_certificates() deprecated method signature.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedDeprecated LLMS_Student::get_achievements()
 	 * @expectedDeprecated LLMS_Student::get_certificates()

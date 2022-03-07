@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -237,7 +237,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 *
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return string
 	 */

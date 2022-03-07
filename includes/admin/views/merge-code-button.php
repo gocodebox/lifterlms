@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @see llms_merge_code_button()
  *

@@ -9,8 +9,8 @@
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @since 5.4.0 Inform about deleted products.
  * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
- * @since [version] Load sub-templates using hooks and template functions.
- * @version [version]
+ * @since 6.0.0 Load sub-templates using hooks and template functions.
+ * @version 6.0.0
  *
  * @var LLMS_Order $order        Current order object.
  * @var array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
@@ -51,7 +51,7 @@ llms_print_notices();
 		 *
 		 * @hooked llms_template_view_order_information 10
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param LLMS_Order $order The order being displayed.
 		 */
@@ -62,7 +62,7 @@ llms_print_notices();
 		 *
 		 * @hooked llms_template_view_order_information 10
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param LLMS_Order $order The order being displayed.
 		 */

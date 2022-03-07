@@ -7,14 +7,14 @@
  * @group controllers
  * @group controller_awards
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 * @return void
 	 */
 	public function set_up() {
@@ -27,7 +27,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test __construct()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_earn() when an invalid post type is passed in.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_earn()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_rest_insert() during a rest update.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_rest_insert() for a cert with no parent template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_rest_insert() during an insertion with a parent.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -144,7 +144,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_save() with an invalid post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -158,7 +158,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_save() for a achievement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class LLMS_Test_Controller_Awards extends LLMS_UnitTestCase {
 	/**
 	 * Test on_save() for a certificate.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

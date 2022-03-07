@@ -436,7 +436,7 @@ class LLMS_Template_Loader {
 	 * Filter blocks templates.
 	 *
 	 * @since 5.8.0
-	 * @since [version] Remove LifterLMS 6.0 version check about the certificate template.
+	 * @since 6.0.0 Remove LifterLMS 6.0 version check about the certificate template.
 	 *               Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
 	 *
 	 * @param WP_Block_Template[] $result        Array of found block templates.

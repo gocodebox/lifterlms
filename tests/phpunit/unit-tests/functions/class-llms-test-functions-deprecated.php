@@ -5,14 +5,14 @@
  * @group functions
  * @group deprecated
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Deprecated extends LLMS_UnitTestCase {
 
 	/**
 	 * Test earned engagement deprecated keys against an invalid post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Functions_Deprecated extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_my_certificate deprecated keys
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_content'
 	 * @expectedDeprecated LLMS_User_Certificate meta key 'certificate_image'
@@ -88,7 +88,7 @@ class LLMS_Test_Functions_Deprecated extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_my_achievement deprecated keys
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_content'
 	 * @expectedDeprecated LLMS_User_Achievement meta key 'achievement_image'

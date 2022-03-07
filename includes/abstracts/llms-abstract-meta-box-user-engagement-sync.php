@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Base meta box class for syncing between awarded engagements (certificates or achievements) and templates.
  *
- * @since [version]
+ * @since 6.0.0
  */
 abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Metabox {
 
@@ -22,7 +22,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync alert about many awarded engagements being synced to the current engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -31,7 +31,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync alert about one awarded engagement being synced to the current engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync alert about this awarded engagement being synced to its engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -49,7 +49,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync description about many awarded engagements being synced to the current engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -58,7 +58,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync description about one awarded engagement being synced to the current engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -67,7 +67,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for a sync description about this awarded engagement being synced to its engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -76,7 +76,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for the content of a "sync awarded engagements" meta box when there are no awarded engagements to sync with.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -85,7 +85,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for the title of a "sync awarded engagement" meta box.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -94,7 +94,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * A text type for the title of a "sync awarded engagements" meta box.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -113,7 +113,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 * If true, we are syncing all awarded engagements with their template,
 	 * else we are syncing a single awarded engagement with its template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var bool
 	 */
@@ -122,7 +122,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * The post type of an awarded engagement, e.g. 'llms_my_achievement' or 'llms_my_certificate'.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -131,7 +131,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * The post type of an engagement template, e.g. 'llms_achievement' or 'llms_certificate'.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -140,7 +140,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * Configure the meta box settings.
 	 *
-	 * @since [version] Refactored from LLMS_Meta_Box_Award_Certificate_Sync::configure() and
+	 * @since 6.0.0 Refactored from LLMS_Meta_Box_Award_Certificate_Sync::configure() and
 	 *              LLMS_Meta_Box_Certificate_Template_Sync::configure().
 	 *
 	 * @return void
@@ -174,7 +174,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * Not used because our meta box doesn't use the standard fields API.
 	 *
-	 * @since [version] Refactored from LLMS_Meta_Box_Award_Certificate_Sync::get_fields() and
+	 * @since 6.0.0 Refactored from LLMS_Meta_Box_Award_Certificate_Sync::get_fields() and
 	 *              LLMS_Meta_Box_Certificate_Template_Sync::get_fields().
 	 *
 	 * @return array
@@ -188,7 +188,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 * Returns the sync alert and sync description texts for the sync action button, or an empty array if the sync
 	 * button should not be displayed.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -230,7 +230,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Meta_Box_User_Engagement_Sync::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().
@@ -247,7 +247,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	 * @see LLMS_Admin_Metabox::register()
 	 * @see do_meta_boxes()
 	 *
-	 * @since [version] Refactored from LLMS_Meta_Box_Award_Certificate_Sync::output() and
+	 * @since 6.0.0 Refactored from LLMS_Meta_Box_Award_Certificate_Sync::output() and
 	 *              LLMS_Meta_Box_Certificate_Template_Sync::output().
 	 *
 	 * @return void
@@ -267,7 +267,7 @@ abstract class LLMS_Abstract_Meta_Box_User_Engagement_Sync extends LLMS_Admin_Me
 	/**
 	 * Returns the sync action description and button HTML for a meta box on an engagement template or an awarded engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */

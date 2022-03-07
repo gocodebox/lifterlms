@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post
 /**
  * Customize display of the certificate post tables
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Admin_Post_Table_Certificates {
 
@@ -32,7 +32,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	/**
 	 * Add post row actions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array   $actions Array of post row actions.
 	 * @param WP_Post $post    Post object for the row.
@@ -85,7 +85,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	/**
 	 * Add state information denoting the usage of the legacy template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string[] $states Array of post states.
 	 * @param WP_Post  $post   Post object.
@@ -105,7 +105,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	/**
 	 * Modify the columns list for the `llms_my_certificate` post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $cols Array of columns.
 	 * @return array
@@ -118,7 +118,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	/**
 	 * Callback function for `llms_certificate_template_version` forcing an upgrade to version 2.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param integer $version Current template version.
 	 * @return integer

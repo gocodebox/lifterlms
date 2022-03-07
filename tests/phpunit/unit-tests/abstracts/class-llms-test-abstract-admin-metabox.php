@@ -96,7 +96,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	 * Test add_error(), get_errors(), has_errors(), and save_errors().
 	 *
 	 * @since 3.37.12
-	 * @since [version] Add WP_Error test.
+	 * @since 6.0.0 Add WP_Error test.
 	 *
 	 * @return void.
 	 */
@@ -150,7 +150,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test output_errors().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

@@ -15,7 +15,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Set up before class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test delayed triggers are unscheduled when the triggering engagement post is trashed/deleted.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/290
 	 *
@@ -131,7 +131,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() as triggered by a related post type that's enrollable.
 	 *
 	 * @since 4.4.1
-	 * @since [version] Update test against new error codes and expect deprecated warning.
+	 * @since 6.0.0 Update test against new error codes and expect deprecated warning.
 	 *
 	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
@@ -195,7 +195,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() as triggered by the same related post type with different emails.
 	 *
 	 * @since 4.4.3
-	 * @since [version] Expect deprecated warning.
+	 * @since 6.0.0 Expect deprecated warning.
 	 *
 	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
@@ -257,7 +257,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	 * Test handle_email() with no related post (as found during registration)
 	 *
 	 * @since 4.4.1
-	 * @since [version] Expect deprecated warning.
+	 * @since 6.0.0 Expect deprecated warning.
 	 *
 	 * @expectedDeprecated LLMS_Engagements::handle_email
 	 *
@@ -285,7 +285,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_trigger_engagement() for the user registration trigger
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -313,7 +313,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_trigger_engagement() for the completion hooks (course, section, lesson)
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -346,7 +346,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_trigger_engagement() for the enrollment hooks
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -384,7 +384,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_trigger_engagement() for the purchase hooks
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -423,7 +423,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test unschedule_delayed_engagements()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -452,7 +452,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Runs tests for all engagements types
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param Closure $callback A callback function that will be passed the engagement type, expected action, and delay.
 	 * @return void
@@ -480,7 +480,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Simulates triggering of an engagement and asserts that it ran the expected action
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $trigger_filter  The action hook used to trigger the engagement.
 	 * @param array  $trigger_args    Arguments passed to the hook, eg: lifterlms_access_plan_purchased.

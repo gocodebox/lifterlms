@@ -23,7 +23,7 @@ class LLMS_Test_Student_Query extends LLMS_UnitTestCase {
 	 * Test get() and set() functions
 	 *
 	 * @since 3.4.0
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Student_Query extends LLMS_UnitTestCase {
 	 * Test some real queries
 	 *
 	 * @since 3.13.0
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @return void
 	 */

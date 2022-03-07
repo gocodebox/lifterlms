@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Query awarded achievements and engagements.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * Valid query arguments
  *
@@ -63,7 +63,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Retrieve query argument default values.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -94,7 +94,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Map input arguments to WP_Query arguments.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -117,7 +117,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Retrieve an array of award objects for the given result set returned by the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array Array of LLMS_User_Achievement and/or LLMS_User_Certificate objects.
 	 */
@@ -132,7 +132,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 		/**
 		 * Filters the query results array.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param array             $awards Array of LLMS_User_Achievement and/or LLMS_User_Certificate objects.
 		 * @param LLMS_Awards_Query $query  Instance of the query class.
@@ -144,7 +144,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Retrieve the object for a given result.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int|WP_Post $post Post object or ID.
 	 * @return LLMS_User_Achievement|LLMS_User_Certificate|null Returns the award object or `null` for unexpected post types.
@@ -165,7 +165,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Parse arguments needed for the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -197,7 +197,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Retrieve the post type(s) based on the `$type` input.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string[]
 	 */
@@ -220,7 +220,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Prepares the `meta_query` ultimately passed to the WP_Query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array An array of meta query arrays.
 	 */
@@ -253,7 +253,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Retrieve meta query parts for related posts, engagements, and templates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array An array of meta query arrays.
 	 */
@@ -303,7 +303,7 @@ class LLMS_Awards_Query extends LLMS_Abstract_Posts_Query {
 	/**
 	 * Prepare the WP_Query arguments for the awards query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array Array of arguments suitable to pass to a WP_Query.
 	 */

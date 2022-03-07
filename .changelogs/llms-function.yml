@@ -1,3 +1,0 @@
-significance: minor
-type: removed
-entry: Removed the deprecated `LLMS()` function in favor of the `llms()` function.

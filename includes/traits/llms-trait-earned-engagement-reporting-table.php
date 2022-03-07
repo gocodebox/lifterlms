@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * This trait should only be used by classes that extend from the {@see LLMS_Admin_Table} class.
  *
- * @since [version]
+ * @since 6.0.0
  */
 trait LLMS_Trait_Earned_Engagement_Reporting_Table {
 
 	/**
 	 * Add award engaement button above the table.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */

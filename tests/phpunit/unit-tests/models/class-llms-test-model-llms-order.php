@@ -468,7 +468,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
@@ -669,7 +669,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
 	 * @since 5.3.0 Don't rely on the date_billing_end property for ending a payment plan.
 	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter provided to `assertEquals()`.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
@@ -747,7 +747,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since Unknown
 	 * @since 5.3.0 Updated to rely on number of successful transactions in favor of the current date.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
@@ -872,7 +872,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the get_trial_end_date() method.
 	 *
 	 * @since 3.10.0
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
@@ -1282,7 +1282,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void

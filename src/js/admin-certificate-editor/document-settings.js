@@ -14,7 +14,7 @@ import TitleControl, { Check as TitleControlCheck } from './plugin/title-control
 /**
  * Render the certificate settings editor panel.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   args              Component arguments.
  * @param {string}   args.type         Current post type.

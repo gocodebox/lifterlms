@@ -203,7 +203,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.14.8
 	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
-	 * @since [version] Mock oembed results to prevent rate limiting issues causing tests to fail.
+	 * @since 6.0.0 Mock oembed results to prevent rate limiting issues causing tests to fail.
 	 *
 	 * @return void
 	 */
@@ -322,7 +322,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test the is_available() method
 	 *
 	 * @since unknown
-	 * @since [version] Replaced use of deprecated items.
+	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
 	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *

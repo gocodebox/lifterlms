@@ -7,7 +7,7 @@ import editCertificate from '../edit-certificate';
 /**
  * Format the label for a size in the SizeControl.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args        Component args.
  * @param {string} args.name   Name of the size.
@@ -25,7 +25,7 @@ function formatSizeLabel( { name, width, height, unit } ) {
 /**
  * Control component group for defining a custom size.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args        Component args.
  * @param {number} args.width  Current width.
@@ -91,7 +91,7 @@ function CustomSizeControl( { width, height, unit } ) {
 /**
  * Size control selector.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args        Component args.
  * @param {string} args.size   Selected size ID.

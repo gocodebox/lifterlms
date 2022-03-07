@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Meta box to sync between awarded achievements and achievement templates.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagement_Sync {
 
 	/**
 	 * Type of user engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -29,7 +29,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 	/**
 	 * The post type of an awarded engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -38,7 +38,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 	/**
 	 * The post type of an engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 	/**
 	 * Post types that this meta box should be added to.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string[]
 	 */
@@ -59,7 +59,7 @@ class LLMS_Meta_Box_Achievement_Sync extends LLMS_Abstract_Meta_Box_User_Engagem
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Meta_Box_User_Engagement_Sync::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().

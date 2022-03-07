@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Certificates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @deprecated [version] Class `LLMS_Certificate_User` is deprecated with no direct replacement.
+ * @deprecated 6.0.0 Class `LLMS_Certificate_User` is deprecated with no direct replacement.
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
@@ -99,7 +99,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
 	 * removed alongside this class in the next major release.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @access private
 	 *
@@ -108,7 +108,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . $name, '[version]' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -147,7 +147,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		 * Deprecated.
 		 *
 		 * @since Unknown.
-		 * @deprecated [version] Filter `llms_certificate_has_user_earned` is deprecated in favor of `llms_earned_certificate_dupcheck`.
+		 * @deprecated 6.0.0 Filter `llms_certificate_has_user_earned` is deprecated in favor of `llms_earned_certificate_dupcheck`.
 		 *
 		 * @param boolean               $has_earned Whether or not the certificate has been earned.
 		 * @param LLMS_Certificate_User $user_cert  The user certificate object.
@@ -161,7 +161,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 *
 	 * @since Unknown
 	 * @since 3.24.0 Unknown.
-	 * @deprecated [version] `LLMS_Certificate_User::init()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate_User::init()` is deprecated with no replacement.
 	 *
 	 * @param int $email_id  ID of Certificate.
 	 * @param int $person_id ID of the user receiving the certificate.
@@ -199,7 +199,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * Award the cert to a user.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate_User::trigger()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate_User::trigger()` is deprecated with no replacement.
 	 *
 	 * @param int $user_id   ID of the user receiving the certificate.
 	 * @param int $email_id  ID of the certificate.
@@ -235,7 +235,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
 	 * @since 5.0.0 Merge the [llms-user] (and others) shortcode.
-	 * @deprecated [version] `LLMS_Certificate_User::get_content_html()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate_User::get_content_html()` is deprecated with no replacement.
 	 *
 	 * @return string
 	 */
@@ -286,7 +286,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * Set the user ID used by [llms-user] to the user earning the certificate.
 	 *
 	 * @since 5.0.0
-	 * @deprecated [version] `LLMS_Certificate_User::set_shortcode_user()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate_User::set_shortcode_user()` is deprecated with no replacement.
 	 *
 	 * @param int $uid WP_User ID of the current user.
 	 * @return int

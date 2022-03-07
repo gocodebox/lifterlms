@@ -33,7 +33,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

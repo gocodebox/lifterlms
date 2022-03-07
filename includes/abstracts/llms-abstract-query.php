@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Database Query abstract class.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * Query Arguments
  *
@@ -116,7 +116,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args Query arguments. When not provided the default arguments will be used.
 	 * @return void
@@ -135,7 +135,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Set result counts and pagination properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -157,7 +157,7 @@ abstract class LLMS_Abstract_Query {
 	 * Extending classes can override or extend this method to customize the default query
 	 * arguments for the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -177,7 +177,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Determines the total number of found results for the given query and returns it.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -187,7 +187,7 @@ abstract class LLMS_Abstract_Query {
 	 * Retrieve a query variable with an optional fallback value when the value is not set.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Moved from `LLMS_Database_Query` and updated to use the null coalesce operator.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` and updated to use the null coalesce operator.
 	 *
 	 * @param string $key     Variable key.
 	 * @param mixed  $default Default value.
@@ -202,7 +202,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected `$arguments` variable.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -215,7 +215,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected `$arguments_default` variable.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -228,7 +228,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected `$arguments_original` variable.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -241,7 +241,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected `$query` variable.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return mixed
 	 */
@@ -252,7 +252,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Retrieve a list of fields that are allowed to be used for result sorting.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string[]
 	 */
@@ -270,7 +270,7 @@ abstract class LLMS_Abstract_Query {
 		 * The dynamic portion of this hook, `$this->id`, refers to ID of the extending
 		 * query class.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param array $allowed_fields Default arguments.
 		 */
@@ -283,7 +283,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Added new default arg `no_found_rows` set to false.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return array
 	 */
@@ -313,7 +313,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected property `$found_results`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -329,7 +329,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected property `$max_pages`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -342,7 +342,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Retrieves the value of the protected property `$number_results`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -355,7 +355,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Drop use of `this->get_filter('get_results')` in favor of `"llms_{$this->id}_query_get_results"`.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return array
 	 */
@@ -382,7 +382,7 @@ abstract class LLMS_Abstract_Query {
 	 * Determine if the query has at least one result.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return bool
 	 */
@@ -395,7 +395,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.14.0 Unknown.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return boolean
 	 */
@@ -408,7 +408,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.30.3 Return true if there are no results.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return boolean
 	 */
@@ -428,7 +428,7 @@ abstract class LLMS_Abstract_Query {
 	/**
 	 * Perform the query and return the results.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -439,7 +439,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * Should return the query which will be used by `query()`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return mixed
 	 */
@@ -450,7 +450,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Drop use of `$this->get_filter('prepare_query')` in favor of `"llms_{$this->id}_query_prepare_query"`.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return void
 	 */
@@ -482,7 +482,7 @@ abstract class LLMS_Abstract_Query {
 	 *
 	 * @since 3.15.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @param string|int|array $ids String/Int or array of strings/ints.
 	 * @return array
@@ -508,7 +508,7 @@ abstract class LLMS_Abstract_Query {
 	 * Removes any invalid sort fields before preparing a query.
 	 *
 	 * @since 3.34.0
-	 * @since [version] Moved from `LLMS_Database_Query`.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query`.
 	 *              Use `get_allowed_sort_fields()`.
 	 *
 	 * @return void
@@ -535,7 +535,7 @@ abstract class LLMS_Abstract_Query {
 	 * Sets a query variable.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @param string $key Variable key.
 	 * @param mixed  $val Variable value.
@@ -551,7 +551,7 @@ abstract class LLMS_Abstract_Query {
 	 * @since 3.8.0
 	 * @since 3.34.0 Sanitizes sort parameters.
 	 * @since 4.5.1 Added filter `"llms_{$this->id}_query_parse_args"`.
-	 * @since [version] Moved from `LLMS_Database_Query` abstract.
+	 * @since 6.0.0 Moved from `LLMS_Database_Query` abstract.
 	 *
 	 * @return void
 	 */

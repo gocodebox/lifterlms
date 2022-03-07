@@ -362,7 +362,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Don't output HTML when the endpoint is disabled.
+	 * @since 6.0.0 Don't output HTML when the endpoint is disabled.
 	 *
 	 * @param bool $preview If `true`, outputs a short list of achievements to display on the dashboard
 	 *                      landing page. Otherwise displays all of the earned achievements for display
@@ -414,7 +414,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 	 *
 	 * @since 3.14.0
 	 * @since 3.19.0 Unknown
-	 * @since [version] Output short list when `$preview` is `true`.
+	 * @since 6.0.0 Output short list when `$preview` is `true`.
 	 *               Don't output any HTML when the endpoint is disabled.
 	 *
 	 * @param bool $preview If `true`, outputs a short list of certificates to display on the dashboard
@@ -512,8 +512,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 * @since 3.26.3 Unknown.
 <<<<<<< HEAD
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Use updated method signature for `LLMS_Student::get_achievements()`.
+	 * @since 6.0.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
 =======
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
@@ -1020,7 +1020,7 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 	/**
 	 * Filters the HTML returned by llms_sd_my_grades_table_content().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string       $html         The cell HTML.
 	 * @param string       $id           Key of the table cell.

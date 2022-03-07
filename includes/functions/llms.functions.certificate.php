@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Expects the input post to be either an `llms_my_certificate` post. An `llms_certificate` post can be used
  * when `$preview_template` is `true`.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param WP_Post|int|null $post             A WP_Post object or a WP_Post ID. A falsy value will use the current global `$post` object (if one exists).
  * @param boolean          $preview_template If `true`, allows loading an `llms_certificate` post type for previewing the template.
@@ -49,7 +49,7 @@ function llms_get_certificate( $post = null, $preview_template = false ) {
  *
  * @since 2.2.0
  * @since 3.18.0 Unknown.
- * @since [version] Use `llms_get_certificate()` and `LLMS_User_Certificate` methods.
+ * @since 6.0.0 Use `llms_get_certificate()` and `LLMS_User_Certificate` methods.
  *                If this function is used out of the intended certificate context this will now
  *                return an empty string, whereas previously it returned the content of the post.
  *
@@ -78,7 +78,7 @@ function llms_get_certificate_content( $id = 0 ) {
 	 * Filter the `post_content` of a certificate or certificate template.
 	 *
 	 * @since Unknown
-	 * @since [version] Added the `$certificate` parameter.
+	 * @since 6.0.0 Added the `$certificate` parameter.
 	 *
 	 * @param string                     $content     The certificate content.
 	 * @param int                        $id          The ID of the certificate.
@@ -91,7 +91,7 @@ function llms_get_certificate_content( $id = 0 ) {
 /**
  * Retrieves a list of fonts available for use in certificates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return array[] {
  *     Array of font definition arrays. The array key is the font's unique id.
@@ -150,7 +150,7 @@ function llms_get_certificate_fonts() {
 	/**
 	 * Filters the list of fonts available to certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array[] $fonts Array of font definitions, {@see llms_get_certificate_fonts()}.
 	 */
@@ -164,7 +164,7 @@ function llms_get_certificate_fonts() {
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder).
  *
  * @since 2.2.0
- * @since [version] Use `LLMS_User_Certificate::get_background_image()`.
+ * @since 6.0.0 Use `LLMS_User_Certificate::get_background_image()`.
  *
  * @param int $id Optional. WP Certificate Post ID. Default is 0.
  *                When not provide the current post id will be used.
@@ -181,7 +181,7 @@ function llms_get_certificate_image( $id = 0 ) {
 /**
  * Retrieve a list of merge codes that can be used in certificate templates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return array[] Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
  */
@@ -205,7 +205,7 @@ function llms_get_certificate_merge_codes() {
 /**
  * Retrieves registered certificate orientations.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return array Key value array where the array key is the orientation ID and the value is the
  *               translated name of the orientation.
@@ -220,7 +220,7 @@ function llms_get_certificate_orientations() {
 	/**
 	 * Filters the list of available certificate orientations.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $orientations Array of orientations.
 	 */
@@ -235,7 +235,7 @@ function llms_get_certificate_orientations() {
  *
  * When the ID is incremented the new value is automatically persisted to the database.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param integer $template_id WP_Post ID of the certificate template (`llms_certificate`) post.
  * @param boolean $increment   Whether or not to increment the current ID.
@@ -256,7 +256,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		 * The returned number *must* be an absolute integer (zero included). The returned value will be
 		 * passed through `absint()` to sanitize the filtered value.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param int $starting_id The starting number.
 		 * @param int $template_id WP_Post ID of the certificate template.
@@ -280,7 +280,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 	 * The returned number *must* be an absolute integer (zero included). The returned value will be
 	 * passed through `absint()` to sanitize the filtered value.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $id          The sequential ID.
 	 * @param int $template_id WP_Post ID of the certificate template.
@@ -298,7 +298,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 /**
  * Retrieves a list of registered certificate sizes.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {
  *     Array of sizes. The array key is the size's unique ID.
@@ -361,7 +361,7 @@ function llms_get_certificate_sizes() {
 	/**
 	 * Filters registered certificate size options.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $sizes Array of registered sizes.
 	 */
@@ -372,7 +372,7 @@ function llms_get_certificate_sizes() {
 /**
  * Retrieves units available for certificate dimensions.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/CSS/length
  *
@@ -399,7 +399,7 @@ function llms_get_certificate_units() {
 	/**
 	 * Filters the list of certificate dimension units.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $units Array of available units.
 	 */
@@ -413,7 +413,7 @@ function llms_get_certificate_units() {
  * This function is intended for use on the certificate's front-end display template.
  *
  * @since 2.2.0
- * @since [version] Use `LLMS_User_Certificate()` to retrieve the title for earned certificates.
+ * @since 6.0.0 Use `LLMS_User_Certificate()` to retrieve the title for earned certificates.
  *
  * @param int $id WP Certificate Post ID. When not provide the current post id will be used.
  * @return string The title of the certificate.
@@ -433,7 +433,7 @@ function llms_get_certificate_title( $id = 0 ) {
 	 * Filter the title of a certificate or certificate template.
 	 *
 	 * @since Unknown
-	 * @since [version] Added the `$certificate` parameter.
+	 * @since 6.0.0 Added the `$certificate` parameter.
 	 *
 	 * @param string $title The certificate title.
 	 * @param int    $id    The ID of the certificate.
@@ -448,7 +448,7 @@ function llms_get_certificate_title( $id = 0 ) {
  * The JS used for certificates in the block editor relies on WP functions and APIs available
  * since WordPress 5.8. Earlier versions of WordPress won't work.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return boolean
  */
@@ -465,7 +465,7 @@ function llms_is_block_editor_supported_for_certificates() {
 	 *
 	 * This filter may be used to disable the block editor on later versions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param boolean $is_supported Whether or not the block editor is supported.
 	 */

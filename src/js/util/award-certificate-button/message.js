@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Retrieves the message based on the selectors present in the modal.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {boolean} selectStudent  Whether or not the student selector is present.
  * @param {boolean} selectTemplate Whether or not the template selector is present.

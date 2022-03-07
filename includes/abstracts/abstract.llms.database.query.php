@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Retrieve query argument default values.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -51,7 +51,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Escape and add quotes to a string, useful for array mapping when building queries.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use {@see llms_esc_and_quote_str()}.
+	 * @since 6.0.0 Use {@see llms_esc_and_quote_str()}.
 	 *
 	 * @param mixed $input Input data.
 	 * @return string
@@ -65,7 +65,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Added new default arg `no_found_rows` set to false.
-	 * @since [version] Call parent method.
+	 * @since 6.0.0 Call parent method.
 	 *
 	 * @todo This should be removed in favor of the parent method only when the
 	 *       `llms_db_query_get_default_args` hook is removed.
@@ -85,7 +85,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 * Filters the query default args.
 		 *
 		 * @since 3.8.0
-		 * @deprecated [version] Filter `llms_db_query_get_default_args` is deprecated in favor of `llms_{$this->id}_query_get_default_args`.
+		 * @deprecated 6.0.0 Filter `llms_db_query_get_default_args` is deprecated in favor of `llms_{$this->id}_query_get_default_args`.
 		 *
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
@@ -121,7 +121,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Performs the SQL query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array An integer-keyed array of row objects.
 	 */
@@ -137,13 +137,13 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.1 Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
-	 * @deprecated [version] `LLMS_Database_Query::set_found_results()` is deprecated.
+	 * @deprecated 6.0.0 `LLMS_Database_Query::set_found_results()` is deprecated.
 	 *
 	 * @return void
 	 */
 	protected function set_found_results() {
 
-		_deprecated_function( 'LLMS_Database_Query::set_found_results()', '[version]' );
+		_deprecated_function( 'LLMS_Database_Query::set_found_results()', '6.0.0' );
 
 		// If no results, or found rows not required, bail early b/c no reason to calculate anything.
 		if ( ! $this->number_results || $this->get( 'no_found_rows' ) ) {
@@ -158,7 +158,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Perform a SQL to retrieve the total number of found results for the given query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -279,7 +279,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Used by `__get()` and `__set()` and will be removed when these are properly removed in the next
 	 * major release.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -299,7 +299,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Throws a deprecation message when a formerly public property is accessed directly.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $prop Property name.
 	 * @return void
@@ -313,14 +313,14 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		$class     = get_called_class();
 		$is_method = method_exists( $this, $val );
 		$suffix    = $is_method ? '()' : '';
-		_deprecated_function( "Public access to property {$class}::{$prop}", '[version]', $has_replacement ? "{$class}::{$val}{$suffix}" : '' );
+		_deprecated_function( "Public access to property {$class}::{$prop}", '6.0.0', $has_replacement ? "{$class}::{$val}{$suffix}" : '' );
 
 	}
 
 	/**
 	 * Preserve backwards compat for read access to formerly public and removed class properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $key Property key name.
 	 * @return mixed
@@ -335,7 +335,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			return method_exists( $this, $val ) ? $this->$val() : $this->$val;
 		} elseif ( 'sql' === $key ) {
 			$class = get_called_class();
-			_deprecated_function( "Property {$class}::sql", '[version]', "{$class}::get_query()" );
+			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::get_query()" );
 			return $this->query;
 		}
 
@@ -344,7 +344,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Preserve backwards compat for write access to formerly public and removed class properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $key Property name.
 	 * @param mixed  $val Property value.
@@ -358,7 +358,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			$this->$key = $val;
 		} elseif ( 'sql' === $key ) {
 			$class = get_called_class();
-			_deprecated_function( "Property {$class}::sql", '[version]', "{$class}::query" );
+			_deprecated_function( "Property {$class}::sql", '6.0.0', "{$class}::query" );
 			$this->query = $val;
 		}
 
@@ -367,7 +367,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	/**
 	 * Handle backwards compatibility for the misspelled (and removed) method `preprare_query()`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $name Method name.
 	 * @param array  $args Arguments passed to the method.
@@ -376,7 +376,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	public function __call( $name, $args ) {
 		if ( 'preprare_query' === $name ) {
 			$class = get_called_class();
-			_deprecated_function( "{$class}::preprare_query()", '[version]', "{$class}::prepare_query()" );
+			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
 			return $this->prepare_query();
 		}
 	}
@@ -392,14 +392,14 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 	 * Once the `preprare_query()` method is fully removed in the next major release this
 	 * method can be removed in favor of the abstract from the parent class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return mixed
 	 */
 	protected function prepare_query() {
 		if ( method_exists( $this, 'preprare_query' ) ) {
 			$class = get_called_class();
-			_deprecated_function( "{$class}::preprare_query()", '[version]', "{$class}::prepare_query()" );
+			_deprecated_function( "{$class}::preprare_query()", '6.0.0', "{$class}::prepare_query()" );
 			return $this->preprare_query();
 		} else {
 			_doing_it_wrong(

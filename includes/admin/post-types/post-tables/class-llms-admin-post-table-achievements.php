@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post
 /**
  * Customize display of the achievement post table.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Admin_Post_Table_Achievements {
 
@@ -26,7 +26,7 @@ class LLMS_Admin_Post_Table_Achievements {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

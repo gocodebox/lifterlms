@@ -7,14 +7,14 @@
  * @group engagements
  * @group engagement_handler
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 
 	/**
 	 * Test can_process()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_achievement()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_certificate().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -231,7 +231,7 @@ class LLMS_Test_Engagement_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test do_deprecated_creation_filters()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedDeprecated lifterlms_new_achievement
 	 * @expectedDeprecated lifterlms_new_page

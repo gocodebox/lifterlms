@@ -193,7 +193,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Use strict comparators.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

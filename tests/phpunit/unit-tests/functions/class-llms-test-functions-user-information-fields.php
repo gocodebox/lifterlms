@@ -79,7 +79,7 @@ class LLMS_Test_Functions_User_Info_fields extends LLMS_UnitTestCase {
 	/**
 	 * Test _llms_add_user_info_to_merge_buttons()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

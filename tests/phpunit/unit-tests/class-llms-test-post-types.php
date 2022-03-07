@@ -12,7 +12,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * LifterLMS Custom Post Types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * LifterLMS Custom Post Types for earned engagements.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * LifterLMS Custom Taxonomies.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -71,7 +71,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * LifterLMS Custom Post Statuses.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -122,7 +122,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test get_template().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -145,7 +145,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * Test register taxonomies.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Use `$this->taxonomies` member.
+	 * @since 6.0.0 Use `$this->taxonomies` member.
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test register_post_type().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -180,7 +180,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test register_post_type() for a post type that's already been registered.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -196,7 +196,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test register_post_type() for a post that has a defined block template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -216,7 +216,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * Test register post types.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Use `$this->post_types` member.
+	 * @since 6.0.0 Use `$this->post_types` member.
 	 *
 	 * @return void
 	 */
@@ -234,7 +234,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	 * Test register post statusess.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Use `$this->post_statuses` member.
+	 * @since 6.0.0 Use `$this->post_statuses` member.
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test LLMS_Post_Types::get_post_type_caps() when argument is an array.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -354,7 +354,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Test LLMS_Post_Types::get_post_type_caps() when argument is a string.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -406,7 +406,7 @@ class LLMS_Test_Post_Types extends LLMS_UnitTestCase {
 	/**
 	 * Check actual post types capabilities.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

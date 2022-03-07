@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Templates/Certificates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @param LLMS_User_Certificate $certificate      Certificate object.
  * @param string                $width            Width (with unit) accounting for the orientation value.

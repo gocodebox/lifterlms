@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -200,7 +200,7 @@ add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
 /**
  * Single Certificate
  *
- * @since [version]
+ * @since 6.0.0
  */
 add_action( 'wp_head', 'llms_certificate_styles' );
 add_action( 'llms_display_certificate', 'llms_certificate_content', 10 );

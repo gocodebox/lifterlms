@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0
  * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed the deprecated `LLMS_Sessions::$_instance` property.
+ * @since 6.0.0 Removed the deprecated `LLMS_Sessions::$_instance` property.
  */
 class LLMS_Sessions {
 

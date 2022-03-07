@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,7 +94,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.37.8
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
-	 * @since [version] Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param LLMS_Quiz $quiz Quiz object.
 	 * @return string
@@ -145,7 +145,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
 	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
-	 * @since [version] Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.

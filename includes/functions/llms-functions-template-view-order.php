@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 if ( ! function_exists( 'llms_template_view_order' ) ) {
@@ -13,7 +13,7 @@ if ( ! function_exists( 'llms_template_view_order' ) ) {
 	/**
 	 * Loads the template for a single order view on the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Order $order The order to display.
 	 * @return void
@@ -29,7 +29,7 @@ if ( ! function_exists( 'llms_template_view_order' ) ) {
 		/**
 		 * Allows customization of the view order layout on the student dashboard.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param boolean    $use_stacked_layout If `true`, forces usage of the stacked layout instead of the default side-by-side layout.
 		 * @param LLMS_Order $order              The order to display.
@@ -48,7 +48,7 @@ if ( ! function_exists( 'llms_template_view_order_actions' ) ) {
 	/**
 	 * Loads the single order view actions sidebar on the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Order $order The order to display.
 	 * @return void
@@ -63,7 +63,7 @@ if ( ! function_exists( 'llms_template_view_order_information' ) ) {
 	/**
 	 * Loads the single order view information main area on the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Order $order The order to display.
 	 * @return void
@@ -79,7 +79,7 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
 	/**
 	 * Loads the single order view transactions table on the student dashboard.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Order $order        The order to display.
 	 * @param array      $transactions Result array from LLMS_Order::get_transactions(). If null, will load transactions from the order.
@@ -105,7 +105,7 @@ if ( ! function_exists( 'llms_template_view_order_transactions' ) ) {
 /**
  * Loads transactions for the given order.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *

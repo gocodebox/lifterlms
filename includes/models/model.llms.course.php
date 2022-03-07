@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.2.1 Check for an empty sales page URL or ID.
  * @since 5.3.0 Move audio and video embed methods to `LLMS_Trait_Audio_Video_Embed`.
  *              Move sales page methods to `LLMS_Trait_Sales_Page`.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_Course::sections` property
  *              - `LLMS_Course::sku` property
  *
@@ -369,7 +369,7 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 *
 	 * @since 3.15.0
 	 * @since 4.12.0 Use cached value where possible.
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param boolean $skip_cache Default: `false`. Whether or not to bypass the cache. If `true`, bypasses the cache.
 	 * @return int

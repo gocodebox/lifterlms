@@ -8,14 +8,14 @@
  * @group post_tables
  * @group post_table_certificates
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up before class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test __construct().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test add_actions().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test add_states().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test mod_cols().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

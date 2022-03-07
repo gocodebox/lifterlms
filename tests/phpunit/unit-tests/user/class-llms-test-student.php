@@ -103,7 +103,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test whether a user is_enrolled() in a course or membership.
 	 *
 	 * @since 3.5.0
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return   void
@@ -216,7 +216,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void

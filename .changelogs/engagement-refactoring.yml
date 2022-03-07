@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Filter `lifterlms_register_post_type_llms_my_certificate` is deprecated
-  in favor of `lifterlms_register_post_type_my_certificate`.

@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 4.10.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ class LLMS_Twenty_Twenty_One {
 	 * Static "constructor"
 	 *
 	 * @since 4.10.0
-	 * @since [version] Add `handle_certificicate_title` callback.
+	 * @since 6.0.0 Add `handle_certificicate_title` callback.
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Twenty_Twenty_One {
 	 * Designers may opt to exclude the certificate title for aesthetic reasons, in this scenario
 	 * we should simply *not display* a title.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

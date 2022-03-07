@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Load the LifterLMS block library.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Block_Library {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Block_Library {
 	/**
 	 * Retrieves a list of blocks to register.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string[] A list of directory paths that can individually be passed to `register_block_type()`.
 	 */
@@ -65,7 +65,7 @@ class LLMS_Block_Library {
 	/**
 	 * Loads custom fonts for the llms/certificate-title block.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array                   $settings Editor settings.
 	 * @param WP_Block_Editor_Context $context  Current block editor context.
@@ -111,7 +111,7 @@ class LLMS_Block_Library {
 	/**
 	 * Register all blocks in the LifterLMS block library.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Block_Library {
 	 *
 	 * See related issue links below.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @link https://github.com/WordPress/gutenberg/issues/28517
 	 * @link https://github.com/WordPress/gutenberg/issues/12931

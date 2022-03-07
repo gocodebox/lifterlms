@@ -9,8 +9,8 @@
  * @group metaboxes
  * @group metaboxes_fields
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup before class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output when not passing a custom value.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output when passing a custom value.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output when forcing a meta.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Test_Metabox_Textarea_W_Tags_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test output with rows and columns.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

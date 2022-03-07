@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 *
 	 * @since 1.0.0
 	 * @since 3.1.0 Allow regular key=>val arrays to be passed.
-	 * @since [version] Added required attribute when required :D.
+	 * @since 6.0.0 Added required attribute when required :D.
 	 *
 	 * @return void
 	 */

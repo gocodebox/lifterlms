@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Registers REST fields used by LifterLMS objects.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_REST_Fields {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Retrieves an array of data used to register fields for certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -87,7 +87,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Register the REST fields.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Register rest fields used for awarded certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Register rest fields used for certificate templates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -196,7 +196,7 @@ class LLMS_REST_Fields {
 	/**
 	 * Register fields for template and earned certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_REST_Fields {
 	 *
 	 * Removing this probably isn't generally idea but I cannot conceive of any other way to handle this.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @link https://github.com/WordPress/gutenberg/tree/trunk/packages/editor/src/components/post-author
 	 *

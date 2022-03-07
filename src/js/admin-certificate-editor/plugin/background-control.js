@@ -16,7 +16,7 @@ import editCertificate from '../edit-certificate';
  *
  * @see {@link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#block-color-palettes}
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {Object[]} Array of color palette objects.
  */
@@ -40,7 +40,7 @@ function usePalette() {
 /**
  * Certificate background color control.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args            Function arguments object.
  * @param {string} args.background Value of the background color.

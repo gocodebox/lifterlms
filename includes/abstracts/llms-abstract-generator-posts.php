@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 4.7.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * noted on these methods and their preexisting changelogs have been preserved.
  *
  * @since 4.7.0
- * @since [version] Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
+ * @since 6.0.0 Removed the deprecated `LLMS_Abstract_Generator_Posts::increment()` method.
  */
 abstract class LLMS_Abstract_Generator_Posts {
 

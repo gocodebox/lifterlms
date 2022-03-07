@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -199,7 +199,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Renamed from `preprare_query()`.
+	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 *
 	 * @return string
 	 */

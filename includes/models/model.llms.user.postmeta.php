@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,7 +166,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 * Retrieve a link for the item on the admin panel
 	 *
 	 * @since 3.15.0
-	 * @since [version] Don't use deprecated achievement and certificate meta data.
+	 * @since 6.0.0 Don't use deprecated achievement and certificate meta data.
 	 *               Combined redundant cases into a single case.
 	 *               Fixed return value.
 	 *

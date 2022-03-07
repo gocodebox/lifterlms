@@ -7,7 +7,7 @@ import { store as editorStore } from '@wordpress/editor';
  * The component is rendered for certificate templates and awarded certificates so long as the template
  * is *not* connected to a template.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   params          Component parameters.
  * @param {Object[]} params.children Child components.

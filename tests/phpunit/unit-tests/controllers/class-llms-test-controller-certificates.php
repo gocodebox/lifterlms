@@ -10,7 +10,7 @@
  *
  * @since 3.37.4
  * @since 4.5.0 Added tests for managing certificate sharing settings.
- * @since [version] Added tests for handling awarded certificates sync actions.
+ * @since 6.0.0 Added tests for handling awarded certificates sync actions.
  */
 class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
@@ -22,7 +22,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Add nonce to array.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $data Data array.
 	 * @param bool  $real If true, uses a real nonce. Otherwise uses a fake nonce (useful for testing negative cases).
@@ -330,7 +330,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_awarded_engagement_sync_actions() when not supplying a certificate/template id.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -368,7 +368,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_awarded_engagement_sync_actions() when not supplying an action or supplying an invalid action.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -404,7 +404,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_awarded_engagement_sync_actions() when not supplying a nonce or supplying an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -441,7 +441,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test sync_awarded_engagement() handling.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -495,7 +495,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test sync_awarded_certificate method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -537,7 +537,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test sync_awarded_engagements handling.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

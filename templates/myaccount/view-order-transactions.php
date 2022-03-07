@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since 3.10.0
- * @since [version] Logic to return empty when no transactions present has been moved to the template function.
- * @version [version]
+ * @since 6.0.0 Logic to return empty when no transactions present has been moved to the template function.
+ * @version 6.0.0
  *
  * @var array $transactions Result array from {@see LLMS_Order::get_transactions()}.
  */

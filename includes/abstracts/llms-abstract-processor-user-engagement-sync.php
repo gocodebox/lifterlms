@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Base processor class for syncing awarded engagements (certificates or achievements) to their engagement template.
  *
- * @since [version]
+ * @since 6.0.0
  */
 abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstract_Processor {
 
@@ -22,7 +22,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is already scheduled.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -31,7 +31,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is complete.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * A text type for an admin notice that there are no awarded engagements to sync the template with.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -49,7 +49,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * A text type for an admin notice that the sync of awarded engagements to an engagement template is scheduled.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -58,7 +58,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Clear notices.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $engagement_template_id WP Post ID of the user engagement template.
 	 * @return void
@@ -80,7 +80,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Action triggered to sync all the awarded engagements that need to be updated.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $engagement_template_id WP Post ID of the engagement template.
 	 * @return void
@@ -103,7 +103,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 		 * {@see LLMS_Abstract_Processor_User_Engagement_Sync::$engagement_type `$this->engagement_type`},
 		 * refers to the engagement type, either 'achievement' or 'certificate'.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param array $args Query arguments passed to LLMS_Awards_Query.
 		 */
@@ -144,7 +144,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Processor_User_Engagement_Sync::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().
@@ -158,7 +158,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Initializer.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Perform actions when the process is completed.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args Array of processing data.
 	 * @return void
@@ -218,7 +218,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	 *
 	 * This will schedule an event that will setup the queue of items for the background process.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $engagement_template_id WP Post ID of the user engagement template.
 	 * @return void
@@ -284,7 +284,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Sync awarded engagements.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Abstract_User_Engagement[] $engagements Array of awarded engagements to sync.
 	 * @param int                             $template_id Engagement template ID.
@@ -312,7 +312,7 @@ abstract class LLMS_Abstract_Processor_User_Engagement_Sync extends LLMS_Abstrac
 	/**
 	 * Execute sync for each item in the queue until all awarded engagements are synced.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args Array of processing data.
 	 * @return boolean `true` to keep the item in the queue and process again.

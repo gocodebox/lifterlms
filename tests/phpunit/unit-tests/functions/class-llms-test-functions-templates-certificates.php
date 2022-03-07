@@ -8,14 +8,14 @@
  * @group functions_template
  * @group functions_template_certificates
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 
 	/**
 	 * Retrieve a certificate for testing.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args     Certificate creation arguments.
 	 * @parak bool  $template If `true` retrieves a certificate template object in favor of an awarded certificate.
@@ -29,7 +29,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_content() with a v1 certificate template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_content() with a v2 certificate template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_styles() with an invalid post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_styles() with an v1 template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_styles() with an v2 template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_actions().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_actions().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificate_actions().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -248,7 +248,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificates_loop_columns().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -259,7 +259,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_certificates_loop() when there's no logged in student.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -272,7 +272,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificates_remove_print_styles() on invalid post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -290,7 +290,7 @@ class LLMS_Test_Functions_Templates_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_certificates_remove_print_styles().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

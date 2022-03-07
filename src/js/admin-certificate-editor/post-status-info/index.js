@@ -9,7 +9,7 @@ import ResetButton from './reset-template-button';
 /**
  * Renders a button / modal interface used to generate awarded certificates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}  params             Component options.
  * @param {boolean} params.isPublished Whether or not the current post is published.

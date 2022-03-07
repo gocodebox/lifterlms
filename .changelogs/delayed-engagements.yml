@@ -1,8 +1,0 @@
-significance: minor
-type: fixed
-links:
-  - "#290"
-entry: >
-  + Delayed engagements are automatically unscheduled when the related post is deleted.
-
-  + Prior to sending a delayed engagement the recipient's enrollment in the related post is verified resulting the engagement not being triggered if the recipient's enrollment has been terminated.

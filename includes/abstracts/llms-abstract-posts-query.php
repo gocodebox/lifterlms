@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * get passed into a `WP_Query`, ideally for a specific post type
  * or list of post types.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * Valid query arguments
  *
@@ -65,7 +65,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Set result counts and pagination properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Retrieve query argument default values.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -104,7 +104,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Retrieve total found results for the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -115,7 +115,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Map input arguments to WP_Query arguments.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -135,7 +135,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Retrieve the WP_Query object for the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return WP_Query
 	 */
@@ -146,7 +146,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	/**
 	 * Performs the query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return WP_Post[]|int[] Array of results corresponding to the value specified in the `$fields` query argument.
 	 */
@@ -162,7 +162,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	 *
 	 * Should return the query which will be used by `query()`.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return mixed
 	 */
@@ -186,7 +186,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	 *
 	 * Overrides parent method to ensure only allowed post types can be queried.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $key Variable key.
 	 * @param mixed  $val Variable value.
@@ -208,7 +208,7 @@ abstract class LLMS_Abstract_Posts_Query extends LLMS_Abstract_Query {
 	 * Any post types not explicitly included in the `$allowed_post_types` list are
 	 * removed from the input.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string[] $val Array of post types to query.
 	 * @return string[] Cleaned array.

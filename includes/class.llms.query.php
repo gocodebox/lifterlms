@@ -36,7 +36,7 @@ class LLMS_Query {
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
 	 * @since 4.5.0 Added action to serve 404s on unviewable certificates.
-	 * @since [version] Add callback to redirect old `llms_my_certificates` requests to the new url.
+	 * @since 6.0.0 Add callback to redirect old `llms_my_certificates` requests to the new url.
 	 */
 	public function __construct() {
 
@@ -292,7 +292,7 @@ class LLMS_Query {
 	 * exists with the parsed slug. This check is important to prevent against
 	 * collisions which are theoretically possible, though probably unlikely.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

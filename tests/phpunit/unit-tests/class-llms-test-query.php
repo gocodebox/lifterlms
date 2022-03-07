@@ -161,7 +161,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 * to mock the `$wp_query` and `$post` globals.
 	 *
 	 * @since 4.5.0
-	 * @since [version] Ensure a post author exists for tested posts.
+	 * @since 6.0.0 Ensure a post author exists for tested posts.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -214,7 +214,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_redirect_certificates() when a redirect is not expected.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -237,7 +237,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_redirect_certificates() in scenarios where a redirect is not expected.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

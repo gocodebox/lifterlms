@@ -23,7 +23,7 @@ class LLMS_Loader {
 	 *
 	 * @todo Rename these classes and/or add a namespace to them.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string[] [ $lowercase_class_name => $path_relative_to_LLMS_PLUGIN_DIR ]
 	 */
@@ -93,7 +93,7 @@ class LLMS_Loader {
 	/**
 	 * An array of paths and what the class name starts with.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string[] [ $path_relative_to_LLMS_PLUGIN_DIR => $class_name_starts_with ]
 	 */
@@ -145,7 +145,7 @@ class LLMS_Loader {
 	 * @since 3.15.0 Unknown.
 	 * @since 4.0.0 Moved from `LifterLMS` class.
 	 * @since 5.3.0 Add traits.
-	 * @since [version] Increased the number of files that are autoloaded instead of manually loaded on every request.
+	 * @since 6.0.0 Increased the number of files that are autoloaded instead of manually loaded on every request.
 	 *              Return early if not a LifterLMS core class.
 	 *
 	 * @param string $class Class name being called.
@@ -228,7 +228,7 @@ class LLMS_Loader {
 	 * @since 5.0.0 Include `LLMS_Forms`, `LLMS_Form_Post_Type`, `LLMS_Form_Templates`, and `LLMS_Form_Handler`.
 	 * @since 5.2.0 Include `LLMS_DB_Upgrader`.
 	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
-	 * @since [version] Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
+	 * @since 6.0.0 Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
@@ -311,7 +311,7 @@ class LLMS_Loader {
 	 * @since 4.12.0 Class `LLMS_Staging` always loaded instead of only loaded on admin panel.
 	 * @since 5.0.0 Include `LLMS_Forms_Unsupported_Versions` class.
 	 * @since 5.9.0 Drop usage of deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

@@ -15,7 +15,7 @@ let hasSaved = false;
 /**
  * Retrieves the current media object for the certificate's featured image.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {Object} The featured image object or an empty object if no featured image is set.
  */
@@ -33,7 +33,7 @@ function getFeaturedMedia() {
  * Utilizes the current featured image if set otherwise falls back to the global
  * default certificate background image.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {string} The background image source url.
  */
@@ -58,7 +58,7 @@ function getBackgroundImage() {
  * removes margins and spacing between blocks so that what is displayed in the editor
  * more closely resembles what will be displayed on the frontend.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {void}
  */
@@ -75,7 +75,7 @@ function applyBlockVisualFixes() {
 /**
  * Determines whether or not the current post has a certificate title block.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @see {@link https://github.com/WordPress/gutenberg/issues/37540}
  *
@@ -101,7 +101,7 @@ function hasCertificateTitle() {
  * content and none are found in the post's content as returned from the server it will update the editor's
  * content with the content returned from the server.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @see {@link https://github.com/WordPress/gutenberg/issues/26763}
  *
@@ -132,7 +132,7 @@ function maybeRefreshContent( content, editedContent ) {
 /**
  * Replace the content in the editor with the specified content.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {string} content HTML/Block markup string.
  * @return {void}
@@ -155,7 +155,7 @@ function refreshContent( content ) {
  *
  * Sets the width, margins, background image, color, etc...
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {void}
  */

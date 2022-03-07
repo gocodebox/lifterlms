@@ -7,14 +7,14 @@
  * @group admin
  * @group metaboxes
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -26,7 +26,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_modify_post_thumbnail_html().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Test_Admin_Meta_Boxes extends LLMS_Unit_Test_Case {
 	/**
 	 * Test maybe_modify_title_placeholder().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

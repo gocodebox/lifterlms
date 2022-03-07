@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0 Removed private method `includes()`.
  *              Stop loading removed processor "table_to_csv".
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Added the awarded certificates bulk sync processor.
+ * @since 6.0.0 Added the awarded certificates bulk sync processor.
  *              Removed the deprecated `LLMS_Processors::$_instance` property.
  */
 class LLMS_Processors {
@@ -52,7 +52,7 @@ class LLMS_Processors {
 	 *
 	 * @since 3.15.0
 	 * @since 5.0.0 Remove call to removed method `includes()`.
-	 * @since [version] Made sure the admin notices file is required.
+	 * @since 6.0.0 Made sure the admin notices file is required.
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_Processors {
 	 * Load a single processor
 	 *
 	 * @since 3.15.0
-	 * @since [version] Added the ability to load processor class files with dashes in their file name.
+	 * @since 6.0.0 Added the ability to load processor class files with dashes in their file name.
 	 *
 	 * @param string $name Name of the processor.
 	 * @return LLMS_Abstract_Processor|boolean Instance of the processor if found and not yet included, `false` if

@@ -3,8 +3,8 @@
  * My Grades Single Course Table Template
  *
  * @since 3.24.0
- * @since [version] Wrap each section in a <tbody> element.
- * @version [version]
+ * @since 6.0.0 Wrap each section in a <tbody> element.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

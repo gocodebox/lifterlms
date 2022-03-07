@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Certificates
  *
  * @since 3.14.0
- * @since [version] Add pagination.
+ * @since 6.0.0 Add pagination.
  * @version 3.14.0
  *
  * @param LLMS_User_Certificate[] $certificates Array of certificates to display.

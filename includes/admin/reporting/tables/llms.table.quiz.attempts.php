@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -184,7 +184,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 * @since 3.25.0 Unknown.
-	 * @since [version] Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void

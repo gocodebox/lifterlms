@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ class LLMS_Roles {
 	/**
 	 * The capability name to manage earned engagament.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -52,7 +52,7 @@ class LLMS_Roles {
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
 	 * @since 3.34.0 Added capabilities for student management.
 	 * @since 4.21.2 Added the `view_grades` capability.
-	 * @since [version] Added `manage_earned_engagement` capability.
+	 * @since 6.0.0 Added `manage_earned_engagement` capability.
 	 *
 	 * @link https://lifterlms.com/docs/roles-and-capabilities/
 	 *
@@ -95,7 +95,7 @@ class LLMS_Roles {
 	 * @since 3.13.0
 	 * @since 3.34.0 Added student management capabilities.
 	 * @since 4.21.2 Added 'view_grades' to the list of instructor/assistant caps which are not automatically available.
-	 * @since [version] Added `manage_earned_engagement` to the list of instructor/assistant caps which are not automatically available.
+	 * @since 6.0.0 Added `manage_earned_engagement` to the list of instructor/assistant caps which are not automatically available.
 	 *
 	 * @param string $role Name of the role.
 	 * @return string[]

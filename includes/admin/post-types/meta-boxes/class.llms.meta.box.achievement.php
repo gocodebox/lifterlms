@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 * Configure the metabox settings.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added support for the `llms_my_achievement` post type.
+	 * @since 6.0.0 Added support for the `llms_my_achievement` post type.
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Allow some fields to store values with quotes.
-	 * @since [version] Removed the deprecated achievement background image meta field.
+	 * @since 6.0.0 Removed the deprecated achievement background image meta field.
 	 *              Made the title field conditional based on viewed post type.
 	 *
 	 * @return array
@@ -96,7 +96,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 *
 	 * Stores the `achievement_content` field as `post_content` in favor of storing it in the postmeta table.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $post_id  The WP Post ID.
 	 * @param int   $field_id The field identifier.

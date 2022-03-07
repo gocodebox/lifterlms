@@ -7,7 +7,7 @@
  * @group template_loader
  *
  * @since 3.41.1
- * @since [version] Added tests for the block loader.
+ * @since 6.0.0 Added tests for the block loader.
  */
 class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
@@ -300,7 +300,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 *
 	 * @group aaa
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -380,7 +380,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_loader() on courses archives with a block theme.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -448,7 +448,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_loader() on membership archives with a block theme.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -516,7 +516,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_loader() on custom taxonomy archives with a block theme.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -575,7 +575,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_loader() on certificate pages with block theme.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -636,7 +636,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	/**
 	 * Test block_template_loader() with a default unrestricted post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

@@ -6,8 +6,8 @@
  *
  * @since 1.0.0
  * @since 4.21.0 Make certificate background alt localizable.
- * @since [version] Moved HTML content to `templates/certificates/content.php` and `templates/certificates/actions.php`.
- * @version [version]
+ * @since 6.0.0 Moved HTML content to `templates/certificates/content.php` and `templates/certificates/actions.php`.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ $certificate = llms_get_certificate( get_the_ID(), true );
 /**
  * Action triggered to display a single certificate.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @hooked llms_certificate_content - 10.
  * @hooked llms_certificate_actions - 20.

@@ -135,7 +135,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 3.4.0
 	 * @since 4.10.0 Fix faulty tests, use assertSame in favor of assertEquals.
-	 * @since [version] Mock oembed results to prevent rate limiting issues causing tests to fail.
+	 * @since 6.0.0 Mock oembed results to prevent rate limiting issues causing tests to fail.
 	 *
 	 * @return void
 	 */

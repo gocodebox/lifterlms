@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -244,7 +244,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
-	 * @since [version] Removed deprecated `llms__created` action hook.
+	 * @since 6.0.0 Removed deprecated `llms__created` action hook.
 	 *
 	 * @return int|false Record ID on success, false on error or when there's nothing to save.
 	 */
@@ -285,7 +285,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
-	 * @since [version] Removed deprecated `llms__deleted` action hook.
+	 * @since 6.0.0 Removed deprecated `llms__deleted` action hook.
 	 *
 	 * @return boolean `true` on success, `false` otherwise.
 	 */
@@ -349,7 +349,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
-	 * @since [version] Removed deprecated `llms__updated` action hook.
+	 * @since 6.0.0 Removed deprecated `llms__updated` action hook.
 	 *
 	 * @param array $data Data to update as key=>val.
 	 * @return boolean

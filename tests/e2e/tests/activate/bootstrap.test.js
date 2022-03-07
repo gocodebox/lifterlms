@@ -4,7 +4,7 @@
  * @since 3.37.8
  * @since 3.37.14 Fix package references.
  * @since 4.0.0-rc.1 Use `runSetupWizard()`.
- * @since [version] Add theme activation based on current WP version.
+ * @since 6.0.0 Add theme activation based on current WP version.
  */
 
 import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-test-utils';

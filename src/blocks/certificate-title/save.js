@@ -7,7 +7,7 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 /**
  * Save the block content.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args            Save arguments.
  * @param {Object} args.attributes Block attributes.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
  * @since 5.0.0 Private methods `LLMS_Person_Handler::fill_fields()` and `LLMS_Person_Handler::insert_data()` were removed.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_Person_Handler::register()` method
  *              - `LLMS_Person_Handler::sanitize_field() method`
  *              - `LLMS_Person_Handler::update()` method

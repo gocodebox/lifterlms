@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 * @since 3.0.0
 	 * @since 3.16.8 Unknown.
 	 * @since 3.35.0 Sanitize `$_REQUEST` data.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

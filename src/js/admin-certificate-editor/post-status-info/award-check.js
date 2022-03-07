@@ -3,7 +3,7 @@
  *
  * The component is rendered for certificate templates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   params          Component parameters.
  * @param {Object[]} params.postType Current post type.

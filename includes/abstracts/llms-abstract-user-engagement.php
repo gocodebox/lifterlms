@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Base model class for awarded engagements (certificates and achievements).
  *
- * @since [version]
+ * @since 6.0.0
  */
 abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 
@@ -22,7 +22,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post.
 	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
@@ -37,7 +37,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Delete the engagement
 	 *
 	 * @since 3.18.0
-	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+	 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
 	 * @return void
 	 */
@@ -63,7 +63,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
-		 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+		 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 		 *
 		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
@@ -89,7 +89,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
 		 * @since 3.18.0
-		 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+		 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 		 *
 		 * @param LLMS_Abstract_User_Engagement $User_Engagement Achievement or certificate class object.
 		 */
@@ -100,7 +100,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Retrieve the date the achievement was earned (created)
 	 *
 	 * @since 3.14.0
-	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+	 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
 	 * @param string $format Date format string.
 	 * @return string
@@ -119,7 +119,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 *
 	 * @since 3.8.0
 	 * @since 4.5.0 Force return to an integer.
-	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+	 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
 	 * @return int
 	 */
@@ -136,7 +136,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * @since 3.8.0
 	 * @since 3.9.0 Unknown.
 	 * @since 4.5.0 Force return to an integer.
-	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+	 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
 	 * @return int
 	 */
@@ -151,7 +151,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Retrieve user postmeta data for the achievement or certificate.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
+	 * @since 6.0.0 Migrated from LLMS_User_Certificate and LLMS_User_Achievement.
 	 *
 	 * @return stdClass
 	 */
@@ -171,7 +171,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Retrieve the user postmeta key recorded when the engagement is earned.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -183,7 +183,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Determines if the achievement or certificate has been awarded.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return boolean
 	 */
@@ -199,7 +199,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Allow child classes to merge the post content based on content from the template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -211,7 +211,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * Update the awarded engagement by regenerating it from its template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $context Sync context. Either "update" for an update to an existing awarded engagement
 	 *                        or "create" when the awarded engagement is being created.
@@ -244,7 +244,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 		 * The dynamic portion of the hook name, `$this->model_post_type`,
 		 * refers to the engagement type, either "achievement" or "certificate".
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param LLMS_Abstract_User_Engagement $engagement Awarded engagement object.
 		 * @param LLMS_Abstract_User_Engagement $template   Engagement template object.
@@ -259,7 +259,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	/**
 	 * This is a stub that allows extending classes to sync additional data from the template during a sync operation.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_Abstract_User_Engagement $template
 	 * @return void

@@ -5,7 +5,7 @@
  * @package LifterLMS/Traits
  *
  * @since 5.3.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ trait LLMS_Trait_Singleton {
 	 * Returns a singleton instance of the class that uses this trait.
 	 *
 	 * @since 5.3.0
-	 * @since [version] Removed backward compatible use of the removed `$_instance` property.
+	 * @since 6.0.0 Removed backward compatible use of the removed `$_instance` property.
 	 *
 	 * @return self
 	 */

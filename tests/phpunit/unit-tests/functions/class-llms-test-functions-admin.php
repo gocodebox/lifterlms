@@ -121,7 +121,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test lms_merge_code_button() when no merge codes are passed or exist in the current context.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test lms_merge_code_button() when custom merge codes are passed.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -152,7 +152,7 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * Test lms_merge_code_button() on the `llms_certificate` screen.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

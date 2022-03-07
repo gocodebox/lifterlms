@@ -4,7 +4,7 @@
  * @package LifterLMS/Dev/Scripts
  *
  * @since Unknown
- * @version [version]
+ * @version 6.0.0
  */
 
 const

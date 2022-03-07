@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -113,7 +113,7 @@ class LLMS_PlayNice {
 	 * @since 5.0.0 Remove inclusion of removed files:
 	 *                    + forms/frontend/class.llms.frontend.forms.php
 	 *                    + forms/frontend/class.llms.frontend.password.php
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

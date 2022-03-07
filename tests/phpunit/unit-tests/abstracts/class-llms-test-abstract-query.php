@@ -8,14 +8,14 @@
  * @group query
  * @group abstract_query
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a mocked abstract.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return LLMS_Abstract_Query
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test count_results(), get_number_results(), get_found_results(), get_max_pages(), and has_results().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get() and set()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get_allowed_sort_fields()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -127,7 +127,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get_default_args()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -155,7 +155,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get_results()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test is_first_page()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test is_last_page()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -222,7 +222,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test sanitize_id_array()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -264,7 +264,7 @@ class LLMS_Test_Abstract_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test sanitize_sort()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

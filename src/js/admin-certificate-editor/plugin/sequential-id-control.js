@@ -7,7 +7,7 @@ import editCertificate from '../edit-certificate';
 /**
  * Certificates next sequential id control component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args              Component arguments.
  * @param {string} args.sequentialId Current sequential ID.

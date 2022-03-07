@@ -7,8 +7,8 @@
  *
  * @package LifterLMS/Templates/Certificates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

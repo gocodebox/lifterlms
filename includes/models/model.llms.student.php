@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.2.0 The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  *              Added new filter to allow customization of object completion data.
  * @since 5.2.0 Changed the date to be relative to the local time zone in `get_registration_date`.
- * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
+ * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook from the `LLMS_Student::unenroll()` method.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1474,7 +1474,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 3.26.0 Unknown.
 	 * @since 3.37.9 Update to accommodate custom post type enrollments added through new filters.
 	 *               Marked action `llms_user_removed_from_membership_level` as deprecated, use `llms_user_removed_from_membership` instead.
-	 * @since [version] Removed the deprecated `llms_user_removed_from_membership_level` action hook
+	 * @since 6.0.0 Removed the deprecated `llms_user_removed_from_membership_level` action hook
 	 *              and moved the call to `LLMS_Student::remove_membership_level()` to be before triggering the
 	 *              `llms_user_removed_from_{$post_type}` action hook.
 	 *

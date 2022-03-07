@@ -1,7 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#1640"
-entry: The certificate merge code, `{first_name}`, now outputs an empty string
-  in favor of falling back to the user's nickname when there is no first name
-  for the user.

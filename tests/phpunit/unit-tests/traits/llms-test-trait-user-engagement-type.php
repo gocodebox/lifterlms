@@ -4,7 +4,7 @@
  *
  * @group Traits
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 
@@ -18,7 +18,7 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 */
 	public function set_up() {
 
@@ -55,7 +55,7 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 	/**
 	 * Tear down after class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Test_Trait_User_Engagement_Type extends LLMS_UnitTestCase {
 	/**
 	 * Test get_user_engagement().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

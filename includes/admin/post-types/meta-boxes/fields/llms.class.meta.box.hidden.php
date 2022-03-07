@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

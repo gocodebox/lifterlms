@@ -12,7 +12,7 @@ import editCertificate from '../edit-certificate';
 /**
  * Retrieve a description for the margin based on it's index in the margins array.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {number} index Index of the margin.
  * @return {string} Margin description.
@@ -31,7 +31,7 @@ function getDesc( index ) {
 /**
  * Styled Text Control
  *
- * @since [version]
+ * @since 6.0.0
  */
 const StyledTextControl = styled( TextControl )`
 	& .components-base-control__field {
@@ -57,7 +57,7 @@ const StyledTextControl = styled( TextControl )`
 /**
  * Single margin control component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   args             Component arguments.
  * @param {number}   args.margin      Current value of the margin.
@@ -87,7 +87,7 @@ function MarginControl( { margin, index, editMargins } ) {
 /**
  * Certificate margins control.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   args         Function arguments object.
  * @param {number[]} args.margins Array of numbers representing the certificate's margins.

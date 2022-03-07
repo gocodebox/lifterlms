@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Admin/Views/Metaboxes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @property WP_Post $engagement    WP_Post instance of the engagement.
  * @property int     $engagement_id WP_Post ID of the engagement.

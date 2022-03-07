@@ -8,7 +8,7 @@
  * @group LLMS_User_Certificate
  *
  * @since 4.5.0
- * @since [version] Added tests for the new methods.
+ * @since 6.0.0 Added tests for the new methods.
  */
 class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
@@ -39,7 +39,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters.
 	 *
 	 * @since 4.5.0
-	 * @since [version] Add new properties.
+	 * @since 6.0.0 Add new properties.
 	 *
 	 * @return array
 	 */
@@ -63,7 +63,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sequential id increment on creation.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test update_sequential_id() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -177,7 +177,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_custom_fonts() with empty post content.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -279,7 +279,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_background()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -296,7 +296,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_background_image()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -329,7 +329,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_dimension(), get_height(), get_width(), and get_unit()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -378,7 +378,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_dimensions_for_display()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -401,7 +401,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_margins()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -417,7 +417,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_orientation()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -453,7 +453,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_sequential_id()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -484,7 +484,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_size()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -515,7 +515,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_size|unit|widh|height() when using custom default values.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -572,7 +572,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_template_version()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -645,7 +645,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test is_awarded().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -669,7 +669,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test merge_content()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -772,7 +772,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_merge_data() to ensure deprecated hooks run when they're attached.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedDeprecated llms_certificate_merge_codes
 	 * @expectedDeprecated LLMS_Certificate_User::init
@@ -908,7 +908,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sync() when an error is encountered.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -925,7 +925,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sync() with a v1 template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -956,7 +956,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sync() with a v2 template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -1006,7 +1006,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test syncing an awarded engagement with its template after removing a thumbnail.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -1041,7 +1041,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test that syncing an awarded engagement with its template twice keeps the same thumbnail.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

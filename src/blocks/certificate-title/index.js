@@ -11,7 +11,7 @@ const { name } = metadata;
 /**
  * Register the Certificate Title block.
  *
- * @since [version]
+ * @since 6.0.0
  */
 registerBlockType(
 	name,

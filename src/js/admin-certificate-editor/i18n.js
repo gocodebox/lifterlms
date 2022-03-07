@@ -8,7 +8,7 @@ import { store as editorStore } from '@wordpress/editor';
  *
  * This subscription "translates" the "Move to trash" button to "Delete permanently".
  *
- * @since [version]
+ * @since 6.0.0
  */
 const unsubscribe = subscribe( () => {
 	const { getCurrentPostType } = select( editorStore ),
@@ -22,7 +22,7 @@ const unsubscribe = subscribe( () => {
 /**
  * Performs unsubscribe on the subscription and optionally applies the desired translation.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {boolean} withFilter Whether or not the addFilter call should be applied.
  * @return {void}

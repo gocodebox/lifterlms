@@ -8,7 +8,7 @@
  * @group LLMS_User_Achievement
  *
  * @since 4.5.0
- * @since [version] Added tests for the new methods.
+ * @since 6.0.0 Added tests for the new methods.
  */
 class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 
@@ -39,7 +39,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters.
 	 *
 	 * @since 4.5.0
-	 * @since [version] Add new properties.
+	 * @since 6.0.0 Add new properties.
 	 *
 	 * @return array
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the after_create() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_image()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -191,7 +191,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_image_html()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -283,7 +283,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test is_awarded().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -307,7 +307,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sync()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -359,7 +359,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test sync() when an error is encountered.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -375,7 +375,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test syncing an awarded engagement with its template after removing a thumbnail.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -406,7 +406,7 @@ class LLMS_Test_LLMS_User_Achievement extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test that syncing an awarded engagement with its template twice keeps the same thumbnail.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

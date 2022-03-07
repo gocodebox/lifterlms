@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Method `LLMS_Engagements::handle_email` is deprecated in favor of
-  `LLMS_Engagement_Handler::handle_email`.

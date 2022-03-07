@@ -173,7 +173,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_processors_dispatch()
 	 *
 	 * @since 3.38.0
-	 * @since [version] Unschedule processors scheduled during earlier tests.
+	 * @since 6.0.0 Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */
@@ -241,7 +241,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test schedule_single_processor() when an existing event does not already exist.
 	 *
 	 * @since 3.38.0
-	 * @since [version] Unschedule processors scheduled during earlier tests.
+	 * @since 6.0.0 Unschedule processors scheduled during earlier tests.
 	 *
 	 * @return void
 	 */

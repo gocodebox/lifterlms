@@ -79,7 +79,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Functional test for the unenroll() method.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Changed use of the deprecated `llms_user_removed_from_membership_level` action hook to `llms_user_removed_from_membership`.
+	 * @since 6.0.0 Changed use of the deprecated `llms_user_removed_from_membership_level` action hook to `llms_user_removed_from_membership`.
 	 *
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *

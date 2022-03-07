@@ -7,7 +7,7 @@
  * @group functions
  * @group updates
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Updates extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Functions_Updates extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Functions_Updates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_util_get_items_per_page()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

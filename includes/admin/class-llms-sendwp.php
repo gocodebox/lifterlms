@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
  * @since 3.40.0 Refactor to utilize `LLMS_Abstract_Email_Provider`.
- * @since [version] Removed `LLMS_SendWP::do_remote_install()` in favor of `LLMS_Abstract_Email_Provider::do_remote_install()`.
+ * @since 6.0.0 Removed `LLMS_SendWP::do_remote_install()` in favor of `LLMS_Abstract_Email_Provider::do_remote_install()`.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_Generator::add_custom_values()` method
  *              - `LLMS_Generator::format_date()` method
  *              - `LLMS_Generator::get_author_id_from_raw()` method
@@ -67,7 +67,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.3.0
 	 * @since 4.7.0 Move most logic into helper functions.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array|string $raw Array or a JSON string of raw content.
 	 * @return void

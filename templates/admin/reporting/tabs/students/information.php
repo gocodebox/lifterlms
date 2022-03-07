@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.2.0
- * @since [version] Use `LLMS_Student::get_awards_count()`.
- * @version [version]
+ * @since 6.0.0 Use `LLMS_Student::get_awards_count()`.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

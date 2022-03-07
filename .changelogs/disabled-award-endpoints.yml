@@ -1,6 +1,0 @@
-significance: minor
-type: fixed
-links:
-  - "#535"
-entry: A disabled student dashboard endpoint will no longer display the
-  endpoint's summary on the main dashboard page.

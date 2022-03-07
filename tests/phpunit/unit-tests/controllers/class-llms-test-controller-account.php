@@ -67,7 +67,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.37.17 Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
-	 * @since [version] Replaced use of deprecated items.
+	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
 	 * @return void

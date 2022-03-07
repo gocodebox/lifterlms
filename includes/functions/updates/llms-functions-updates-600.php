@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 namespace LLMS\Updates\Version_6_0_0;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieves the DB version of the migration.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return string
  */
@@ -26,7 +26,7 @@ function _get_db_version() {
 /**
  * Migrate deprecated meta values for earned achievements.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
@@ -37,7 +37,7 @@ function migrate_achievements() {
 /**
  * Migrate deprecated meta values for earned certificates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
@@ -48,7 +48,7 @@ function migrate_certificates() {
 /**
  * Migrates meta data for achievement and certificate template posts.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return bool Returns `true` if more records need to be updated and `false` upon completion.
  */
@@ -107,7 +107,7 @@ function migrate_award_templates() {
 /**
  * Shows an admin welcome notice.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return boolean
  */
@@ -151,7 +151,7 @@ function show_notice() {
 /**
  * Update db version to 6.0.0.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return boolean
  */
@@ -166,7 +166,7 @@ function update_db_version() {
  * Queries 50 earned awards at a time and migrates their data by moving meta data
  * to the new location and then deleting the deprecated meta values.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param string $type Award type, either "achievement" or "certificate".
  * @return boolean Returns `true` if there are more results and `false` if there are no further results.
@@ -246,7 +246,7 @@ function _migrate_awards( $type ) {
  *
  * And then deletes the previous metadata after performing the necessary updates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param int    $post_id WP_Post ID.
  * @param string $type    Award type, either "achievement" or "certificate".
@@ -287,7 +287,7 @@ function _migrate_award( $post_id, $type ) {
 /**
  * Migrate the achievement content legacy post meta to post_content.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param int $post_id WP_Post ID.
  * @return void
@@ -312,7 +312,7 @@ function _migrate_achievement_content( $post_id ) {
  * Migrate the attachment image id from the legacy post meta location
  * to the WP core's featured image.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param int    $post_id WP_Post ID.
  * @param string $type    Award type, either "achievement" or "certificate".
@@ -336,7 +336,7 @@ function _migrate_image( $post_id, $type ) {
  * Adds an option used to determine if the site has at least one legacy achievement or certificate template or award
  * that uses the default image.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param string $engagement_type Either 'achievement' or 'certificate'.
  * @return void

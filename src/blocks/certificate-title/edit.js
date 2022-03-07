@@ -10,7 +10,7 @@ import { editCertificateTitle } from '../../js/util';
 /**
  * Block edit component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   args               Component arguments.
  * @param {Object}   args.attributes    Block attributes object.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Display the student achievements reporting table.
  *
  * @since 3.2.0
- * @since [version] Allow pagination.
+ * @since 6.0.0 Allow pagination.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
@@ -45,7 +45,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * Get HTML for buttons in the actions cell of the table.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Show a button to edit earned achievements.
+	 * @since 6.0.0 Show a button to edit earned achievements.
 	 *
 	 * @param int $achievement_id WP Post ID of the achievement post.
 	 * @return void
@@ -83,7 +83,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 *
 	 * @since 3.2.0
 	 * @since 3.18.0 Unknown.
-	 * @since [version] Retrieve earned date using the LLMS_User_Achievement model.
+	 * @since 6.0.0 Retrieve earned date using the LLMS_User_Achievement model.
 	 *
 	 * @param  string                $key         The column id / key.
 	 * @param  LLMS_User_Achievement $achievement Object of achievement data.
@@ -162,7 +162,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * Get table results.
 	 *
 	 * @since Unknown
-	 * @since [version] Don't use deprecated signature for retrieving achievements.
+	 * @since 6.0.0 Don't use deprecated signature for retrieving achievements.
 	 *              Paginate results.
 	 *
 	 * @param array $args Table query arguments.

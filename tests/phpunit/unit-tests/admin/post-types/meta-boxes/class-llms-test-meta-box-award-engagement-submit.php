@@ -9,15 +9,15 @@
  * @group metaboxes
  * @group metaboxes_post_type
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Tear down test.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test the get_screens() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test get fields.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test current_student_id() method on creation passing no params.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test current_student_id() method passing `true` as `$creating` param.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -126,7 +126,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test current_student_id() when editing an awarded engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test current_student_id() when creating an awarded engagement passing the student id via GET.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Meta_Box_Award_Engagement_Submit extends LLMS_PostTypeMetaboxTes
 	/**
 	 * Test current_student_id() when editing an already awarded engagement passing the student id via GET.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

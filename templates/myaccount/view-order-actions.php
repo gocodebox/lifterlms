@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @var LLMS_Order $order Current order object.
  */
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Action executed after opening the secondary order element.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param LLMS_Order $order The current order object.
 		 */
@@ -73,7 +73,7 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Action executed before closing the secondary order element.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param LLMS_Order $order The current order object.
 		 */

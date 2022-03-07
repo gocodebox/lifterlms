@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -352,7 +352,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

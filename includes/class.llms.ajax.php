@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_AJAX::check_voucher_duplicate()` method.
  *              - `LLMS_AJAX::get_ajax_data()` method.
  *              - `LLMS_AJAX::register_script()` method.
@@ -37,7 +37,7 @@ class LLMS_AJAX {
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -65,7 +65,7 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
-	 * @since [version] Removed the `wp_enqueue_scripts` action callback to the deprecated `LLMS_AJAX::register_script()` method.
+	 * @since 6.0.0 Removed the `wp_enqueue_scripts` action callback to the deprecated `LLMS_AJAX::register_script()` method.
 	 *
 	 * @return void
 	 */

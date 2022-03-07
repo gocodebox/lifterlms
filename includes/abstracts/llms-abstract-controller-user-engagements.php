@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Base class that handles awarded user engagements (achievements and certificates).
  *
- * @since [version]
+ * @since 6.0.0
  */
 abstract class LLMS_Abstract_Controller_User_Engagements {
 
@@ -22,7 +22,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message when the user can not edit an awarded engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -31,7 +31,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message about an awarded engagement not having a valid engagement template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message about the user not being able to edit awarded engagements.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -49,7 +49,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message about an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -58,7 +58,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message about a missing awarded engagement ID.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -67,7 +67,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * A text type for a sync operation error message about a missing engagement template ID.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -76,7 +76,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 * Delete an awarded user engagement.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Permanently delete user engagement via wp_delete_post().
+	 * @since 6.0.0 Permanently delete user engagement via wp_delete_post().
 	 *              Refactored from LLMS_Controller_Achievements::delete() and LLMS_Controller_Certificates::delete().
 	 *
 	 * @param int $post_id WP Post ID of the awarded engagement.
@@ -107,7 +107,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Controller_User_Engagements::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().
@@ -126,7 +126,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 *
 	 * If the sync is successful, the {@see llms_redirect_and_exit()} function is called and this method does not return.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return null|WP_Error
 	 */
@@ -196,7 +196,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 *
 	 * If the sync is successful, the {@see llms_redirect_and_exit()} function is called and this method does not return.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $engagement_id Awarded engagement id.
 	 * @return void|WP_Error
@@ -233,7 +233,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 	 * If the preflight checks are successful, the {@see llms_redirect_and_exit()} function is called after the sync is
 	 * triggered and this method does not return.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $user_engagement_template_id User engagement template ID.
 	 * @return void|WP_Error
@@ -253,7 +253,7 @@ abstract class LLMS_Abstract_Controller_User_Engagements {
 		 * The dynamic portion of this hook, `{$this->engagement_type}`, refers to the type of awarded engagement,
 		 * either "achievement" or "certificate".
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @see LLMS_Processor_Certificate_Sync.
 		 *

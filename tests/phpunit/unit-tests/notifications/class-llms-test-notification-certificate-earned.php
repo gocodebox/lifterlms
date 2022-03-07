@@ -6,7 +6,7 @@
  *
  * @group notifications
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCase {
 
@@ -34,7 +34,7 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 	/**
 	 * Function used to setup arguments passed to a notification controller's `action_callback()` function.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int[]
 	 */
@@ -63,7 +63,7 @@ class LLMS_Test_Notification_Certificate_Earned extends LLMS_NotificationTestCas
 	/**
 	 * Test set_merge_data()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  *
  * @group Traits
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase {
 
@@ -14,7 +14,7 @@ class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase 
 	/**
 	 * Setup before running each test in this class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 */
 	public function set_up() {
 
@@ -37,7 +37,7 @@ class LLMS_Test_Trait_Award_Templates_Post_List_Table extends LLMS_UnitTestCase 
 	/**
 	 * Test the add_post_actions() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 */
 	public function test_add_post_actions() {
 

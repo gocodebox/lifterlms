@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -102,7 +102,7 @@ function llms_get_user_information_fields_for_editor() {
  *
  * This is a callback function for the `llms_merge_codes_for_button` filter.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *

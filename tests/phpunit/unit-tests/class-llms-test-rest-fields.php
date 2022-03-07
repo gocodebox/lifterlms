@@ -7,14 +7,14 @@
  * @group rest
  * @group rest_fields
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 	/**
 	 * Retrieves a rest route for a given post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type A WP_Post_Type name.
 	 * @return string
@@ -51,7 +51,7 @@ class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 	/**
 	 * Test certificate rest fields
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 	/**
 	 * Test register_fields_for_certificate_awards()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_REST_Fields extends LLMS_REST_Unit_Test_Case {
 	/**
 	 * Test register_fields_for_certificate_templates()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

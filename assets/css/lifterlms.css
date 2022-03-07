@@ -35,42 +35,6 @@
   .llms-cols [class*=llms-col-] {
     float: left;
   }
-  .llms-cols .llms-col-1 {
-    width: 100%;
-  }
-  .llms-cols .llms-col-2 {
-    width: 50%;
-  }
-  .llms-cols .llms-col-3 {
-    width: 33.3333333333%;
-  }
-  .llms-cols .llms-col-4 {
-    width: 25%;
-  }
-  .llms-cols .llms-col-5 {
-    width: 20%;
-  }
-  .llms-cols .llms-col-6 {
-    width: 16.6666666667%;
-  }
-  .llms-cols .llms-col-7 {
-    width: 14.2857142857%;
-  }
-  .llms-cols .llms-col-8 {
-    width: 12.5%;
-  }
-  .llms-cols .llms-col-9 {
-    width: 11.1111111111%;
-  }
-  .llms-cols .llms-col-10 {
-    width: 10%;
-  }
-  .llms-cols .llms-col-11 {
-    width: 9.0909090909%;
-  }
-  .llms-cols .llms-col-12 {
-    width: 8.3333333333%;
-  }
 }
 
 .llms-flex-cols {
@@ -88,45 +52,45 @@
           flex: 0 1 auto;
   width: 100%;
 }
+
 @media all and (min-width: 600px) {
-  .llms-flex-cols .llms-col-1 {
+  .llms-cols .llms-col-1, .llms-flex-cols .llms-col-1 {
     width: 100%;
   }
-  .llms-flex-cols .llms-col-2 {
+  .llms-cols .llms-col-2, .llms-flex-cols .llms-col-2 {
     width: 50%;
   }
-  .llms-flex-cols .llms-col-3 {
+  .llms-cols .llms-col-3, .llms-flex-cols .llms-col-3 {
     width: 33.3333333333%;
   }
-  .llms-flex-cols .llms-col-4 {
+  .llms-cols .llms-col-4, .llms-flex-cols .llms-col-4 {
     width: 25%;
   }
-  .llms-flex-cols .llms-col-5 {
+  .llms-cols .llms-col-5, .llms-flex-cols .llms-col-5 {
     width: 20%;
   }
-  .llms-flex-cols .llms-col-6 {
+  .llms-cols .llms-col-6, .llms-flex-cols .llms-col-6 {
     width: 16.6666666667%;
   }
-  .llms-flex-cols .llms-col-7 {
+  .llms-cols .llms-col-7, .llms-flex-cols .llms-col-7 {
     width: 14.2857142857%;
   }
-  .llms-flex-cols .llms-col-8 {
+  .llms-cols .llms-col-8, .llms-flex-cols .llms-col-8 {
     width: 12.5%;
   }
-  .llms-flex-cols .llms-col-9 {
+  .llms-cols .llms-col-9, .llms-flex-cols .llms-col-9 {
     width: 11.1111111111%;
   }
-  .llms-flex-cols .llms-col-10 {
+  .llms-cols .llms-col-10, .llms-flex-cols .llms-col-10 {
     width: 10%;
   }
-  .llms-flex-cols .llms-col-11 {
+  .llms-cols .llms-col-11, .llms-flex-cols .llms-col-11 {
     width: 9.0909090909%;
   }
-  .llms-flex-cols .llms-col-12 {
+  .llms-cols .llms-col-12, .llms-flex-cols .llms-col-12 {
     width: 8.3333333333%;
   }
 }
-
 .llms-button-action,
 .llms-button-danger,
 .llms-button-primary,
@@ -2278,6 +2242,7 @@ ul.llms-certificates-loop.loop-cols-5 li.llms-certificate-loop-item,
   border-bottom: none;
 }
 .llms-question-wrapper ol.llms-question-choices li.llms-choice.type--picture label {
+  display: inline-block;
   padding: 0;
 }
 .llms-question-wrapper ol.llms-question-choices li.llms-choice.type--picture .llms-marker {

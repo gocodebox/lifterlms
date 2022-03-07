@@ -27,7 +27,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * Test drip restrictions.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Replaced use of deprecated items.
+	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
 	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *

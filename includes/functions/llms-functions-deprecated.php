@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -188,7 +188,7 @@ function llms_get_minimum_password_strength() {
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -207,7 +207,7 @@ function llms_earned_engagement_deprecated_content( $val, $obj ) {
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -226,7 +226,7 @@ function llms_earned_engagement_deprecated_image( $val, $obj ) {
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -245,7 +245,7 @@ function llms_earned_engagement_deprecated_template( $val, $obj ) {
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -266,7 +266,7 @@ function llms_earned_engagement_deprecated_title( $val, $obj ) {
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -312,7 +312,7 @@ add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 
  * This public function is intentionally marked as private to denote it's temporary lifespan. This function
  * will be removed in the next major release when the associated meta key is also fully removed.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @access private
  *
@@ -324,5 +324,5 @@ add_filter( 'get_post_metadata', 'llms_engagement_handle_deprecated_meta_keys', 
 function _llms_earned_engagement_deprecated_function( $obj, $meta_key, $replacement_msg ) {
 	$classname = get_class( $obj );
 	$keyname   = strtolower( str_replace( 'LLMS_User_', '', $classname ) ) . '_' . $meta_key;
-	_deprecated_function( "{$classname} meta key '{$keyname}'", '[version]', $replacement_msg );
+	_deprecated_function( "{$classname} meta key '{$keyname}'", '6.0.0', $replacement_msg );
 }

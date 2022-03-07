@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_Metabox_Textarea_W_Tags_Field extends LLMS_Metabox_Field implements M
 	 * Outputs the Html for the given field.
 	 *
 	 * @since Unknown
-	 * @since [version] Allow displaying a custom value.
+	 * @since 6.0.0 Allow displaying a custom value.
 	 *               Added options for defining textarea rows and columns.
 	 *
 	 * @return void

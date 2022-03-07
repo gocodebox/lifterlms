@@ -6,14 +6,14 @@
  * @group awards
  * @group awards_default_images
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Trait_Award_Default_Images extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Trait_Award_Default_Images extends LLMS_UnitTestCase {
 	/**
 	 * Test get_default_default_image_src().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Trait_Award_Default_Images extends LLMS_UnitTestCase {
 	/**
 	 * Test get_default_image() and get_default_image_id()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

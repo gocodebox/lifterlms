@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ class LLMS_Shortcodes {
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

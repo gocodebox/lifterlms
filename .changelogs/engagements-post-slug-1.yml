@@ -1,6 +1,0 @@
-significance: minor
-type: changed
-entry: The URL of earned user certificates has been changed from
-  "my_certificate" to "certificate". Requests to the old url are automatically
-  redirected to the new url, including instances where the URL slug has been
-  translated.

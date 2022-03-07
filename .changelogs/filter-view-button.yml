@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Post search filter boxes on various post tables will now longer display a
-  link to the selected post.

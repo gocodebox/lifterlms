@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Schemas
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @see LLMS_Post_Types::get_template().
  * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-templates/
@@ -77,7 +77,7 @@ $blocks_styles = array(
 /**
  * Filters the template blocks styling.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param array $blocks_styles Array of blocks styles.
  */
@@ -86,7 +86,7 @@ $blocks_styles = apply_filters( 'llms_block_templates_styling', $blocks_styles )
 /**
  * Shared block template for the `llms_certificate` and `llms_my_certificate` post types.
  *
- * @since [version]
+ * @since 6.0.0
  */
 $certificates = array(
 	array(

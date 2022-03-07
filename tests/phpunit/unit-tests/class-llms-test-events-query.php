@@ -42,7 +42,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Test that the events query, using default args, calculates found rows
 	 *
 	 * @since 4.7.0
-	 * @since [version] Don't call deprecated `preprare_query()`.
+	 * @since 6.0.0 Don't call deprecated `preprare_query()`.
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_Events_Query extends LLMS_Unit_Test_Case {
 	 * Test that the events query, passing no_found_rows as true doesn't calculate found rows
 	 *
 	 * @since 4.7.0
-	 * @since [version] Don't call deprecated `preprare_query()`.
+	 * @since 6.0.0 Don't call deprecated `preprare_query()`.
 	 *
 	 * @return void
 	 */

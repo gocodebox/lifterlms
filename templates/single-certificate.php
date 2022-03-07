@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates
  *
  * @since Unknown
- * @since [version] Use custom header and footer templates in favor of the templates provided by the current theme.
- * @version [version]
+ * @since 6.0.0 Use custom header and footer templates in favor of the templates provided by the current theme.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -7,14 +7,14 @@
  * @group blocks
  * @group block_library
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	/**
 	 * Deregister all LifterLMS blocks.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	/**
 	 * Test modify_editor_settings()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	/**
 	 * Test register().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	/**
 	 * Test register() when in the block editor for an existing post.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -191,7 +191,7 @@ class LLMS_Test_Block_Library extends LLMS_UnitTestCase {
 	/**
 	 * Test register() when in the block editor for a new post.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

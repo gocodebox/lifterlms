@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.24.0
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed the deprecated `LLMS_Grades::$_instance` property.
+ * @since 6.0.0 Removed the deprecated `LLMS_Grades::$_instance` property.
  */
 class LLMS_Grades {
 

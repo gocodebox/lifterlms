@@ -8,14 +8,14 @@
  * @group functions_template
  * @group functions_template_view_order
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 
 	/**
 	 * Utility used to get the number of times a set of actions has run.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order() with invalid input.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -88,7 +88,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order() when accessed by another user.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -131,7 +131,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order_actions().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order_information().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -177,7 +177,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order_transactions() for an order with no transactions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -191,7 +191,7 @@ class LLMS_Test_Functions_Templates_View_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_template_view_order_transactions() for an order with no transactions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -181,7 +181,7 @@ function llms_get_checkout_redirection_types( $product_type = '' ) {
  *
  * @since 3.1.0
  * @since 3.17.4 Unknown.
- * @since [version] Move HTML into view file: `includes/admin/views/merge-code-editor-button.php`.
+ * @since 6.0.0 Move HTML into view file: `includes/admin/views/merge-code-editor-button.php`.
  *                Move certificate merge code list to `llms_get_certificate_merge_codes()`.
  *
  * @param string  $target Target to add the merge code to. Accepts the ID of a tinymce editor or a DOM ID (#element-id).

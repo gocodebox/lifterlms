@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Templates/Certificates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @param LLMS_User_Certificate $certificate Certificate object.
  */
@@ -29,7 +29,7 @@ $image = llms_get_certificate_image( $certificate->get( 'id' ) );
 				 * Output content prior to the main content of a single certificate.
 				 *
 				 * @since Unknown.
-				 * @since [version] Added the `$certificate` parameter.
+				 * @since 6.0.0 Added the `$certificate` parameter.
 				 *
 				 * @param LLMS_User_Certificate $certificate Certificate object.
 				 */
@@ -44,7 +44,7 @@ $image = llms_get_certificate_image( $certificate->get( 'id' ) );
 				 * Output content after to the main content of a single certificate.
 				 *
 				 * @since Unknown.
-				 * @since [version] Added the `$certificate` parameter.
+				 * @since 6.0.0 Added the `$certificate` parameter.
 				 *
 				 * @param LLMS_User_Certificate $certificate Certificate object.
 				 */

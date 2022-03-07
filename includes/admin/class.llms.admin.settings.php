@@ -48,7 +48,7 @@ class LLMS_Admin_Settings {
 	/**
 	 * Instantiates setting page objects, if not already done, and returns them.
 	 *
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return LLMS_Settings_Page[] self::$settings
 	 */

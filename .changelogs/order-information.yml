@@ -1,5 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#2033"
-entry: The coupon code in the student's order details table is now wrapped in a `<code>` tag instead of an `<a>` tag.

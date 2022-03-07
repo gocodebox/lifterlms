@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.2.0
  * @since 3.35.0 Get student ID more reliably.
- * @since [version] Allow pagination.
+ * @since 6.0.0 Allow pagination.
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
@@ -46,7 +46,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Get HTML for buttons in the actions cell of the table.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Show a button to edit earned certificates.
+	 * @since 6.0.0 Show a button to edit earned certificates.
 	 *
 	 * @param int $certificate_id  WP Post ID of the llms_my_certificate
 	 * @return void
@@ -93,7 +93,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 *
 	 * @since 3.2.0
 	 * @since 3.18.0 Unknown.
-	 * @since [version] Retrieve date using the LLMS_User_Certificate model.
+	 * @since 6.0.0 Retrieve date using the LLMS_User_Certificate model.
 	 *
 	 * @param  string                $key         The column id / key.
 	 * @param  LLMS_User_Certificate $certificate Object of certificate data.
@@ -167,7 +167,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Get table results.
 	 *
 	 * @since Unknown
-	 * @since [version] Paginate results.
+	 * @since 6.0.0 Paginate results.
 	 *
 	 * @param array $args
 	 * @return void

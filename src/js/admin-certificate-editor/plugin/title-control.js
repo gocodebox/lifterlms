@@ -13,7 +13,7 @@ import editCertificate from '../edit-certificate';
  * when a `lifterlms/certificate-title` block is found in the content of an `llms_certificate`
  * post type.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}      props          Component properties.
  * @param {WPElement[]} props.children Child components.
@@ -39,7 +39,7 @@ export function Check( { children } ) {
 /**
  * Certificates title control component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args       Component arguments.
  * @param {string} args.title Currently selected title value.

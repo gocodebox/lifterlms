@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  * @since 5.2.0 Removed private class property $db_updates.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_Install::db_updates()` method
  *              - `LLMS_Install::update_notice()` method
  */
@@ -218,7 +218,7 @@ class LLMS_Install {
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 4.0.0 Include abstract table file.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -497,7 +497,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * @since 3.4.3
 	 * @since 3.6.0 Unknown.
 	 * @since 5.2.0 Use `LLMS_PLUGIN_DIR` to include required class file.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

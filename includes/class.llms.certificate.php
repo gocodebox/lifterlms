@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 4.0.0 Remove previously deprecated class property `$enabled`.
- * @deprecated [version] Class `LLMS_Certificate` is deprecated with no direct replacement.
+ * @deprecated 6.0.0 Class `LLMS_Certificate` is deprecated with no direct replacement.
  */
 class LLMS_Certificate {
 
@@ -116,7 +116,7 @@ class LLMS_Certificate {
 	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
 	 * removed alongside this class in the next major release.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @access private
 	 *
@@ -125,7 +125,7 @@ class LLMS_Certificate {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . $name, '[version]' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -135,7 +135,7 @@ class LLMS_Certificate {
 	 * Constructor.
 	 *
 	 * @since Unknown.
-	 * @deprecated [version] `LLMS_Certificate::__construct()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
 
@@ -151,7 +151,7 @@ class LLMS_Certificate {
 	 * Is Enabled
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::is_enabled()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::is_enabled()` is deprecated with no replacement.
 	 *
 	 * @return boolean
 	 */
@@ -163,7 +163,7 @@ class LLMS_Certificate {
 	 * Get Blog Name
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::get_blogname()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_blogname()` is deprecated with no replacement.
 	 *
 	 * @return string [blog name]
 	 */
@@ -175,7 +175,7 @@ class LLMS_Certificate {
 	 * Format String
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::format_string()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::format_string()` is deprecated with no replacement.
 	 *
 	 * @param  string $string [Find and replace merge fields]
 	 * @return string [formatted string]
@@ -188,7 +188,7 @@ class LLMS_Certificate {
 	 * Get Blog Title
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::get_title()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_title()` is deprecated with no replacement.
 	 *
 	 * @return string [Blog title]
 	 */
@@ -200,7 +200,7 @@ class LLMS_Certificate {
 	 * Get Content
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::get_content()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_content()` is deprecated with no replacement.
 	 *
 	 * @return string [Post Content]
 	 */
@@ -217,7 +217,7 @@ class LLMS_Certificate {
 	 * Get Content HTML
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Certificate::get_content_html()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_content_html()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
@@ -228,7 +228,7 @@ class LLMS_Certificate {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
-	 * @deprecated [version] `LLMS_Certificate::get_title()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Certificate::get_title()` is deprecated with no replacement.
 	 *
 	 * @param string $content HTML formatted post content.
 	 * @return void

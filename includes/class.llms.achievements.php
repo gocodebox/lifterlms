@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.24.0 Unknown.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Changes:
+ * @since 6.0.0 Changes:
  *              - Deprecated the unused public class property `LLMS_Achievements::$content` with no replacement.
  *              - Deprecated the `LLMS_Achievements::trigger_engagement()` method.
  *                Use the {@see LLMS_Engagement_Handler::handle_achievement()} method instead.
@@ -51,7 +51,7 @@ class LLMS_Achievements {
 	/**
 	 * Deprecated.
 	 *
-	 * @deprecated [version] Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
+	 * @deprecated 6.0.0 Unused public class property `LLMS_Achievements::$content` is deprecated with no replacement.
 	 *
 	 * @var null
 	 */
@@ -73,7 +73,7 @@ class LLMS_Achievements {
 	 * Includes achievement class.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Achievements {
 	 * Calls trigger method passing arguments.
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Achievements::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
+	 * @deprecated 6.0.0 `LLMS_Achievements::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $achievement_id  WP_Post ID of the achievement template.
@@ -171,7 +171,7 @@ class LLMS_Achievements {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $achievement_id, $related_post_id ) {
-		_deprecated_function( 'LLMS_Achievements::trigger_engagement()', '[version]', 'LLMS_Engagement_Handler::handle_achievements()' );
+		_deprecated_function( 'LLMS_Achievements::trigger_engagement()', '6.0.0', 'LLMS_Engagement_Handler::handle_achievements()' );
 		LLMS_Engagement_Handler::handle_achievement( array( $person_id, $achievement_id, $related_post_id, null ) );
 	}
 

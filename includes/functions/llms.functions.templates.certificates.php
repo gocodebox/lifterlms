@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Loads the certificate content template.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param LLMS_User_Certificate $certificate Certificate object.
  * @return void
@@ -31,7 +31,7 @@ function llms_certificate_content( $certificate ) {
  *
  * Hooked to action `wp_head` at priority 10.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return void
  */
@@ -64,7 +64,7 @@ function llms_certificate_styles() {
 /**
  * Loads the certificate actions template.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param LLMS_User_Certificate $certificate Certificate object.
  * @return void
@@ -128,7 +128,7 @@ function llms_the_certificate_preview( $certificate ) {
  * Retrieve the number of columns used in certificates loops
  *
  * @since 3.14.0
- * @since [version] Reduced default columns from 5 to 3.
+ * @since 6.0.0 Reduced default columns from 5 to 3.
  *
  * @return int
  */
@@ -148,7 +148,7 @@ function llms_get_certificates_loop_columns() {
  * Get template for certificates loop
  *
  * @since 3.14.0
- * @since [version] Updated to use the new signature of the {@see LLMS_Student::get_certificates()}.
+ * @since 6.0.0 Updated to use the new signature of the {@see LLMS_Student::get_certificates()}.
  *              Add pagination.
  *
  * @param LLMS_Student $student Optional. LLMS_Student (uses current if none supplied). Default is `null`.
@@ -206,7 +206,7 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 /**
  * Automatically remove all non-safelisted print stylesheets from certificate and certificate templates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return boolean Returns `false` when run on non-certificate post types, otherwise returns `true`.
  */
@@ -224,7 +224,7 @@ function llms_certificates_remove_print_styles() {
 	 *
 	 * Any stylesheets added to this safelist will not be removed from certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string[] $safelist Array of print stylesheet handles.
 	 */

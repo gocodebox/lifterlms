@@ -15,7 +15,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
-	 * @since [version] Expect deprecated warning and actually call the method instead of using the abstract method `earn_certificate()`.
+	 * @since 6.0.0 Expect deprecated warning and actually call the method instead of using the abstract method `earn_certificate()`.
 	 *
 	 * @expectedDeprecated LLMS_Certificates::trigger_engagement()
 	 *
@@ -105,7 +105,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test get_unique_slug()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -134,7 +134,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test get_unique_slug() will increase the suffix string length after encountering collisions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

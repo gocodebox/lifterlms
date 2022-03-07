@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Processors/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Processor: Sync awarded certificates to their certificate template.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engagement_Sync {
 
 	/**
 	 * The type of the user engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -43,7 +43,7 @@ class LLMS_Processor_Certificate_Sync extends LLMS_Abstract_Processor_User_Engag
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Processor_User_Engagement_Sync::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().

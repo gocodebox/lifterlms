@@ -248,7 +248,7 @@ function llms_get_student( $user = null ) {
  * Retrieve a list of disallowed usernames.
  *
  * @since 5.0.0
- * @since [version] Removed the deprecated `llms_usernames_blacklist` filter hook.
+ * @since 6.0.0 Removed the deprecated `llms_usernames_blacklist` filter hook.
  *
  * @return string[]
  */

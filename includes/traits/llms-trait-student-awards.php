@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * This trait should only be used by classes that extend from the {@see LLMS_Abstract_User_Data} class.
  *
- * @since [version]
+ * @since 6.0.0
  */
 trait LLMS_Trait_Student_Awards {
 
@@ -24,7 +24,7 @@ trait LLMS_Trait_Student_Awards {
 	 *
 	 * @since 2.4.0
 	 * @since 3.14.0 Unknown.
-	 * @since [version] Moved from `LLMS_Student` class.
+	 * @since 6.0.0 Moved from `LLMS_Student` class.
 	 *              Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
 	 *
 	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
@@ -41,7 +41,7 @@ trait LLMS_Trait_Student_Awards {
 			return $this->get_awards( $args_or_orderby, 'achievement' );
 		}
 
-		_deprecated_function( 'LLMS_Student::get_achievements()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
+		_deprecated_function( 'LLMS_Student::get_achievements()', '6.0.0', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_achievements/ for more information.' );
 
 		$orderby = esc_sql( $args_or_orderby );
 		$order   = esc_sql( $order );
@@ -72,7 +72,7 @@ trait LLMS_Trait_Student_Awards {
 	/**
 	 * Query student awards.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array  $args Query arguments to pass into `LLMS_Awards_Query`.
 	 * @param string $type Award type. Accepts "any", "achievement", or "certificate".
@@ -92,7 +92,7 @@ trait LLMS_Trait_Student_Awards {
 	/**
 	 * Retrieve the total number of awards earned by the student.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $type Award type. Accepts "any", "achievement", or "certificate".
 	 * @return int
@@ -118,7 +118,7 @@ trait LLMS_Trait_Student_Awards {
 	 *
 	 * @since 2.4.0
 	 * @since 3.14.1 Unknown.
-	 * @since [version] Moved from `LLMS_Student` class.
+	 * @since 6.0.0 Moved from `LLMS_Student` class.
 	 *              Introduced alternate usage via `LLMS_Awards_Query` and deprecated previous behavior.
 	 *
 	 * @param string|array $args_or_orderby An array of arguments to pass to LLMS_Awards_Query. The deprecated method
@@ -135,7 +135,7 @@ trait LLMS_Trait_Student_Awards {
 			return $this->get_awards( $args_or_orderby, 'certificate' );
 		}
 
-		_deprecated_function( 'LLMS_Student::get_certificates()', '[version]', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
+		_deprecated_function( 'LLMS_Student::get_certificates()', '6.0.0', 'The behavior of this method has changed. Please refer to https://developer.lifterlms.com/reference/classes/llms_student/get_certificates/ for more information.' );
 
 		$orderby = esc_sql( $args_or_orderby );
 		$order   = esc_sql( $order );

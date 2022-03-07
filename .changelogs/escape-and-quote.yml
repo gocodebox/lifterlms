@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-links:
-  - "#1027"
-entry: Added utility function for escaping and quoting strings.

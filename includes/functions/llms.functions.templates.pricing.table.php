@@ -197,7 +197,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	 *
 	 * @since 3.0.0
 	 * @since 3.38.0 Fixed spelling error in variable passed to template.
-	 * @since [version] Removed the deprecated and misspelled `$purchaseable` global variable.
+	 * @since 6.0.0 Removed the deprecated and misspelled `$purchaseable` global variable.
 	 *
 	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void

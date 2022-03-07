@@ -1,5 +1,0 @@
-significance: minor
-type: dev
-links:
-  - "#2016"
-entry: Added the ability to force an admin metabox field value through the new `meta` arg.

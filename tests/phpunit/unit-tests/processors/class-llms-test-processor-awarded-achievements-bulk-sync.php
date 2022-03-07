@@ -7,7 +7,7 @@
  * @group processors
  * @group processor_awarded_achievements_bulk_sync
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCase {
 
@@ -31,7 +31,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	 *
 	 * Forces processor debugging on so that we can make assertions against logged data.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version].
+	 * @since 6.0.0.
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Test dispatch_sync() when there are no awarded achievements to sync.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Test dispatch_sync() when there are no publish/future awarded achievements to sync.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Test dispatch_sync() when there are awarded achievements to sync.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Test schedule_sync() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -301,7 +301,7 @@ class LLMS_Test_Processor_Awarded_Achievements_Bulk_Sync extends LLMS_UnitTestCa
 	/**
 	 * Test LLMS_Processor_Achievement_Sync::task() and LLMS_Controller_Achievements::sync_awarded_engagements().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

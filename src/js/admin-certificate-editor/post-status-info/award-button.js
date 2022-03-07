@@ -4,7 +4,7 @@ import { AwardCertificateButton } from '../../util';
 /**
  * Renders a button / modal interface used to generate awarded certificates.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}  params             Component options.
  * @param {number}  params.postId      WP_Post ID of the template.

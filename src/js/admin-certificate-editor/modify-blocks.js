@@ -12,7 +12,7 @@ import { addFilter } from '@wordpress/hooks';
  * to disable the toggle we'll have to accept that. Realistically it won't have much impact
  * anyway but it would be good to be able to disable it.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @see {@link https://github.com/gocodebox/lifterlms/issues/1972}
  *

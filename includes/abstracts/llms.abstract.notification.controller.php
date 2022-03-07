@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -440,7 +440,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Determine if the notification is a potential duplicate
 	 *
 	 * @since 3.11.0
-	 * @since [version] Fixed how the protected {@see LLMS_Notifications_Query::$found_results} property is accessed.
+	 * @since 6.0.0 Fixed how the protected {@see LLMS_Notifications_Query::$found_results} property is accessed.
 	 *
 	 * @param string $type       Notification type id.
 	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...

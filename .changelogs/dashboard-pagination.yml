@@ -1,5 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#669"
-entry: The achievements and certificates dashboard endpoints are now paginated.

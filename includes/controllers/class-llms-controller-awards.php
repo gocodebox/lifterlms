@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Controllers/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * Handles actions for `llms_my_achievement` and `llms_my_certificate` post types.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Controller_Awards {
 
@@ -32,7 +32,7 @@ class LLMS_Controller_Awards {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Controller_Awards {
 	/**
 	 * Convert post type to award type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type A post type string.
 	 * @return string
@@ -66,7 +66,7 @@ class LLMS_Controller_Awards {
 	/**
 	 * Retrieves the award post model for the given WP_Post.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param integer $post_id WP_Post ID.
 	 * @return boolean|LLMS_User_Achievement|LLMS_User_Certificate Returns `false` for invalid post types.
@@ -87,7 +87,7 @@ class LLMS_Controller_Awards {
 	/**
 	 * Records a timestamp when the award is earned.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $user_id WP_User ID of the user who earned the certificate.
 	 * @param int $post_id WP_Post ID of the certificate post.
@@ -119,7 +119,7 @@ class LLMS_Controller_Awards {
 	 * `AwardCertificateButton` Javascript component. The component sets the parent and student and allows
 	 * this callback function to perform the remaining (necessary) sync operations.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param stdClass        $post     The post object.
 	 * @param WP_Rest_Request $request  Rest request object.
@@ -151,7 +151,7 @@ class LLMS_Controller_Awards {
 	 * This method automatically merges the certificates `post_content` and additionally triggers
 	 * the creation actions to be fired if the certificate is newly created.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $post_id WP_Post ID of the certificate.
 	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.

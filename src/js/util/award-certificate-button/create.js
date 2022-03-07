@@ -5,7 +5,7 @@ import { dispatch } from '@wordpress/data';
 /**
  * Creates a new awarded certificate post for a given student with a specified parent template.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {number} studentId  WP_User ID.
  * @param {number} templateId WP_Post ID.

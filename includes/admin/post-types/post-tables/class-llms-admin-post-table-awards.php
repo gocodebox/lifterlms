@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Post table customizations for awarded achievements and certificates.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Admin_Post_Table_Awards {
 
@@ -37,7 +37,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Add post table columns.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $cols Array of post table columns.
 	 * @return array
@@ -81,7 +81,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Add filters to the top of the post table
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type Post Type of the current posts table.
 	 * @param string $which     Positioning of the filters, either "top" or "bottom".
@@ -106,7 +106,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 *
 	 * Changes the language for "Move to trash" to "Delete permanently" since the post type doesn't support trash.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $actions Array of bulk actions.
 	 * @return array
@@ -125,7 +125,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 *
 	 * Displays "Awarded" in favor of "Published".
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string  $text        Default status text.
 	 * @param WP_Post $post        Post object.
@@ -145,7 +145,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Retrieves the post object given the current screen.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int     $id       WP_Post id.
 	 * @param boolean $template Whether or not a template is being requested.
@@ -167,7 +167,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Determines if the specified post type is one of the post types affected by this class.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type A post type to test.
 	 * @return boolean
@@ -179,7 +179,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Manage content of awarded certificate columns.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $column  Column key/name.
 	 * @param int    $post_id WP Post ID of the llms_my_certificate for the row.
@@ -198,7 +198,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Output the content for a template column.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $post_id WP_Post ID for the row.
 	 * @return void
@@ -221,7 +221,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Output the content for a user column.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $post_id WP_Post ID for the row.
 	 * @return void
@@ -255,7 +255,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * cron and we've updated "Move to trash" language to "Delete permanently". Users will be able to navigate
 	 * to the trash page and restore from the trash if they can know/guess the link, and that's okay. I guess.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @link https://github.com/WordPress/gutenberg/issues/13024
 	 *
@@ -270,7 +270,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Modify the main WP Query.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param WP_Query $query The WordPress Query.
 	 * @return WP_Query
@@ -303,7 +303,7 @@ class LLMS_Admin_Post_Table_Awards {
 	/**
 	 * Modify post row actions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array   $actions Existing actions.
 	 * @param WP_Post $post    Post object.

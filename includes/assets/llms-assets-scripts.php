@@ -18,7 +18,7 @@
  * @package LifterLMS/Assets
  *
  * @since 4.4.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.8.0 Added llms-admin-setup.
  * @since 5.0.0 Added llms-select2.
  * @since 5.5.0 Added llms-addons.
- * @since [version] Added llms-admin-certificate-editor.
+ * @since 6.0.0 Added llms-admin-certificate-editor.
  */
 return array(
 

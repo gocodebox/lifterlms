@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Sets up post type custom messages and includes base metabox class.
  *
  * @since Unknown.
- * @since [version] Removed LLMS_Admin_Post_Types::meta_metabox_init() in favor of autoloading.
+ * @since 6.0.0 Removed LLMS_Admin_Post_Types::meta_metabox_init() in favor of autoloading.
  */
 class LLMS_Admin_Post_Types {
 
@@ -26,7 +26,7 @@ class LLMS_Admin_Post_Types {
 	 * Adds functions to actions and sets filter on post_updated_messages.
 	 *
 	 * @since Unknown
-	 * @since [version] Disable the block editor for legacy certificates.
+	 * @since 6.0.0 Disable the block editor for legacy certificates.
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Admin_Post_Types {
 	/**
 	 * Disables the block editor for legacy certificates.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param boolean $use_block_editor Whether or not to use the block editor.
 	 * @param WP_Post $post             Post object.
@@ -74,13 +74,13 @@ class LLMS_Admin_Post_Types {
 	 * Initializes core for metaboxes.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Admin_Post_Types::meta_metabox_init()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public function meta_metabox_init() {
 
-		llms_deprecated_function( __METHOD__, '[version]' );
+		llms_deprecated_function( __METHOD__, '6.0.0' );
 
 		include_once 'llms.class.admin.metabox.php';
 	}
@@ -91,7 +91,7 @@ class LLMS_Admin_Post_Types {
 	 * @since Unknown.
 	 * @since 3.35.0 Fix l10n calls.
 	 * @since 4.7.0 Added `publicly_queryable` check for permalink and preview.
-	 * @since [version] Handle `llms_my_certificate` and `llms_my_achievement` post types.
+	 * @since 6.0.0 Handle `llms_my_certificate` and `llms_my_achievement` post types.
 	 *
 	 * @return array $messages Post updated messages.
 	 */

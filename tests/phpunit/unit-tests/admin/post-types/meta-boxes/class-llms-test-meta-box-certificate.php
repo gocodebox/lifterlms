@@ -9,15 +9,15 @@
  * @group metaboxes
  * @group metaboxes_post_type
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 class LLMS_Test_Meta_Box_Certificate extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Meta_Box_Certificate extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the get_screens() method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Meta_Box_Certificate extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test get fields.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

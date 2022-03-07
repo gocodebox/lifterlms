@@ -45,7 +45,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	 * Return an array of mock settings and possible values.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Update settings.
+	 * @since 6.0.0 Update settings.
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	 *
 	 * Calls the parent test method `test_get_setting()` after setting up data to enable legacy opts.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	/**
 	 * Test the save() method with legacy options enabled.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

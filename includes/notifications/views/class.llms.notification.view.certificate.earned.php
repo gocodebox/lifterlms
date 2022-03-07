@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +45,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * Get the HTML for the mini certificate preview.
 	 *
 	 * @since Unknown
-	 * @since [version] Removed `$content` parameter & updated HTML to display a placeholder.
+	 * @since 6.0.0 Removed `$content` parameter & updated HTML to display a placeholder.
 	 *
 	 * @param string $title The (merged) certificate title.
 	 * @return string
@@ -131,7 +131,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 *
 	 * @since 3.8.0
 	 * @since 3.16.6 Unknown.
-	 * @since [version] Refactor to give each merge code it's own method.
+	 * @since 6.0.0 Refactor to give each merge code it's own method.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string The merged string or the original code for invalid merge codes.
@@ -150,7 +150,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{CERTIFICATE_CONTENT}} merge code.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string
@@ -162,7 +162,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{CERTIFICATE_TITLE}} merge code.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string
@@ -174,7 +174,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{CERTIFICATE_URL}} merge code.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string
@@ -186,7 +186,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{MINI_CERTIFICATE}} merge code.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string
@@ -198,7 +198,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	/**
 	 * Get merge data for the {{STUDENT_NAME}} merge code.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $cert Earned certificate object.
 	 * @return string

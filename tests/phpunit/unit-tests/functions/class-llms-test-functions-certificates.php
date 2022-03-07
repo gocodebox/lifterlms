@@ -8,14 +8,14 @@
  * @group functions_certificates
  * @group certificates
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_certificate().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_content().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_fonts().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_merge_codes()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_sequential_id()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_title().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_is_block_editor_supported_for_certificates()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

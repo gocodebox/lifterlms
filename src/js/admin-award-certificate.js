@@ -13,7 +13,7 @@ const WRAPPER_ID = 'llms-award-certificate-wrapper',
 /**
  * Retrieves the DOM Element selector for the default button to be replaced by the component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {?Element} DOM element for the default button or null if no button found.
  */
@@ -47,7 +47,7 @@ function getDefaultButton() {
 /**
  * Inserts the wrapper element node where the new component button will be rendered.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {boolean} Returns `false` if no default button is found, otherwise returns true.
  */

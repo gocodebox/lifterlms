@@ -7,14 +7,14 @@
  * @group admin
  * @group admin_post_types
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Admin_Post_Types extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Set Up Before Class
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Admin_Post_Types extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Admin_Post_Types extends LLMS_Unit_Test_Case {
 	/**
 	 * Test use_block_editor_for_post().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

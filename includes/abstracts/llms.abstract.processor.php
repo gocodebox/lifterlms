@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -205,7 +205,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 *
 	 * This method is useful when the processor has completed and creates an admin notice that contains an edit post link.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int|WP_Post $id      Optional. Post ID or post object. Default is the global `$post`.
 	 * @param string      $context Optional. How to output the '&' character. Default '&amp;'.
@@ -238,7 +238,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		 *
 		 * This is identical to the `get_edit_post_link` filter hook in {@see get_edit_post_link()}.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param string $link    The edit link.
 		 * @param int    $post_id Post ID.

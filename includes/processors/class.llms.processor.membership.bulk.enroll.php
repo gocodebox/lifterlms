@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,7 +45,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * Action triggered to queue all students who need to be enrolled
 	 *
 	 * @since 3.15.0
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param int $membership_id WP Post ID of the membership.
 	 * @param int $course_id     WP Post ID of the course to enroll members into.
@@ -145,7 +145,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Replaced access of LLMS_Student_Query::$found_results protected property with LLMS_Student_Query::has_results().
+	 * @since 6.0.0 Replaced access of LLMS_Student_Query::$found_results protected property with LLMS_Student_Query::has_results().
 	 *
 	 * @param array $item Array of processing data.
 	 * @return boolean True to keep the item in the queue and process again.

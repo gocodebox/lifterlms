@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since unknown
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ abstract class LLMS_Metabox_Field {
 	 *
 	 * @since unknown
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
+	 * @since 6.0.0 Do not print empty labels; do not print the description block if both 'desc' and 'label' are empty.
 	 *               Avoid retrieving the meta from the db if passed.
 	 * @return void
 	 */

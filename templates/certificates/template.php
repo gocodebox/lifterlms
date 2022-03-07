@@ -17,9 +17,9 @@
  * @package LifterLMS/Templates/Certificates
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  *
- * @deprecated [version]
+ * @deprecated 6.0.0
  */
 defined( 'ABSPATH' ) || exit; ?>
 

@@ -13,7 +13,7 @@ import { editCertificateTitle } from '../../util';
 /**
  * Resets the post's default post type template and then triggers a save action.
  *
- * @since [version]
+ * @since 6.0.0
  * @param {Function} onComplete  Callback function invoked when the reset and save actions are completed.
  * @param {boolean}  isPublished Determines if the current post is published.
  * @return {void}
@@ -33,7 +33,7 @@ function resetTemplate( onComplete, isPublished ) {
 	/**
 	 * Action run before the default certificate post type template is reset.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param {Array} template Block template array.
 	 */
@@ -48,7 +48,7 @@ function resetTemplate( onComplete, isPublished ) {
 	/**
 	 * Action run after the default certificate post type template is reset.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param {Array} template Block template array.
 	 */
@@ -64,7 +64,7 @@ function resetTemplate( onComplete, isPublished ) {
  * Renders a "Reset template" button near the "Move to trash" button in the post status
  * area of the editor document settings sidebar.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}  props             Component properties.
  * @param {boolean} props.isSaving    Whether or not the post is currently being saved. The main button is disabled during saves.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -217,7 +217,7 @@ class LLMS_Post_Types {
 	 * See https://core.trac.wordpress.org/ticket/30991.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add specific case for `llms_my_achievement`, `llms_my_certificate` post types.
+	 * @since 6.0.0 Add specific case for `llms_my_achievement`, `llms_my_certificate` post types.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array
@@ -279,7 +279,7 @@ class LLMS_Post_Types {
 	/**
 	 * Get an array of capabilities for earned engagements post types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -353,7 +353,7 @@ class LLMS_Post_Types {
 	/**
 	 * Retrieves the block template for use in post type registration.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type The post type.
 	 * @return array|null Returns the block template array or null if no template is defined for the post type.
@@ -379,7 +379,7 @@ class LLMS_Post_Types {
 	 *              is different from `$name`. E.g. it'll be triggered when registering when using
 	 *              `lifterlms_register_post_type_llms_engagement` but not when using `lifterlms_register_post_type_course`,
 	 *              for the latter, both the name and the unprefixed name are the same.
-	 * @since [version] Automatically load templates from the `llms-block-templates` schema.
+	 * @since 6.0.0 Automatically load templates from the `llms-block-templates` schema.
 	 *              Added return value.
 	 *
 	 * @param string $name Post type name.
@@ -436,7 +436,7 @@ class LLMS_Post_Types {
 	 * @since 4.17.0 Add "llms-sales-page" feature to course and membership post types.
 	 * @since 5.5.0 Register all the post types using `self::register_post_type()`.
 	 * @since 5.8.0 Remove all post type descriptions.
-	 * @since [version] Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
+	 * @since 6.0.0 Show `llms_my_certificate` ui (edit) only to who can `manage_lifterlms`.
 	 *             Register `llms_my_achievement` post type.
 	 *             Add thumbnail support for achievement and certificates (earned and template)
 	 *             Renames `llms_certificate` slug from `certificate` to `certificate-template`.
@@ -860,7 +860,7 @@ class LLMS_Post_Types {
 				/**
 				 * Filters the needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
 				 *
-				 * @since [version]
+				 * @since 6.0.0
 				 *
 				 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_achievement` post type in the admin.
 				 *                      Default is `manage_earned_engagements`.
@@ -939,7 +939,7 @@ class LLMS_Post_Types {
 			/**
 			 * Filters the needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *
-			 * @since [version]
+			 * @since 6.0.0
 			 *
 			 * @param bool $show_ui The needed capability to generate and allow a UI for managing `llms_my_certificate` post type in the admin.
 			 *                      Default is `manage_earned_engagements`.
@@ -1133,7 +1133,7 @@ class LLMS_Post_Types {
 	/**
 	 * Registers awarded and template certificate post types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type    Post type name.
 	 * @param array  $labels       Array of post type labels.

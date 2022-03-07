@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Award engagement submit meta box class.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 
 	/**
 	 * ID of the student who earned (is about to earn) the engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var int
 	 */
@@ -29,7 +29,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Allowed post types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string[]
 	 */
@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Configure the metabox settings.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -84,7 +84,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Function to field WP::output() method call.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Student fields.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -129,7 +129,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Student fields on creation html.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -170,7 +170,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Current student information html.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -220,7 +220,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Retrieve the current student id.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param null|bool $creating Whether or not we're awarding an engagement.
 	 *                            If not provided, it'll be dynamically retrieved if the current screen's action is 'add'.
@@ -248,7 +248,7 @@ class LLMS_Meta_Box_Award_Engagement_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Metabox specific scripts.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

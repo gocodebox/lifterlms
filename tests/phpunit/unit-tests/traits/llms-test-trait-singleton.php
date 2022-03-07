@@ -5,7 +5,7 @@
  * @group Traits
  *
  * @since 5.3.0
- * @since [version] Removed `LLMS_Test_Singleton_Trait::test_deprecated_instance()`.
+ * @since 6.0.0 Removed `LLMS_Test_Singleton_Trait::test_deprecated_instance()`.
  */
 class LLMS_Test_Singleton_Trait extends LLMS_UnitTestCase {
 

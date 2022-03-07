@@ -500,7 +500,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.26.1
 	 * @since 5.0.0 Create forms before running & update error codes to match updated codes.
-	 * @since [version] Replaced the deprecated `LLMS_Person_Handler::update` function calls with `llms_update_user()`.
+	 * @since 6.0.0 Replaced the deprecated `LLMS_Person_Handler::update` function calls with `llms_update_user()`.
 	 *
 	 * @return void
 	 */

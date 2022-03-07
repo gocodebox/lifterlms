@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Retrieve the number of quiz attempts for a quiz
 	 *
 	 * @since 3.16.0
-	 * @since [version] Don't access `LLMS_Query_Quiz_Attempt` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param int $quiz_id WP Post ID of the quiz.
 	 * @return int

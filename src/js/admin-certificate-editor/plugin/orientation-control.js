@@ -7,7 +7,7 @@ import editCertificate from '../edit-certificate';
 /**
  * Certificates orientation control component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args             Component arguments.
  * @param {string} args.orientation Currently selected orientation value.

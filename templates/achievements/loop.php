@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Achievements
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.0.0
  *
  * @param LLMS_User_Achievements[] $achievements List of achievements to display.
  * @param int                      $cols         Number of columns to display.

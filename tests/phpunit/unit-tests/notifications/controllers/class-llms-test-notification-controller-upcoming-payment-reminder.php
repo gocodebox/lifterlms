@@ -167,7 +167,7 @@ class LLMS_Test_Notification_Controller_Upcoming_Payment_Reminder extends LLMS_U
 	 *
 	 * @since 5.2.0
 	 * @since 5.3.3 Use `assertEqualsWithDelta()` in favor of 4th parameter to `assertEquals()`.
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void

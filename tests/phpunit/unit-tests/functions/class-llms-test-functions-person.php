@@ -10,7 +10,7 @@
  * @since 3.9.0 Add tests for `llms_get_student()`.
  * @since 3.9.0 Add tests for `llms_get_usernames_blacklist()`.
  * @since 5.0.0 Add tests for `llms_set_password_reset_cookie()` and `llms_parse_password_reset_cookie()`.
- * @since [version] Removed testing of the removed `llms_set_person_auth_cookie()` function.
+ * @since 6.0.0 Removed testing of the removed `llms_set_person_auth_cookie()` function.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 

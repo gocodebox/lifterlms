@@ -6,14 +6,14 @@
  *
  * @group awards_query
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_number_results(), get_found_results(), get_max_pages(), has_results(), and get_results().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 	/**
 	 * Run a query for awards earned or not earned by a specific user
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test query by related_posts or engagements
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test query() for parent template relationships
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -210,7 +210,7 @@ class LLMS_Test_Awards_Query extends LLMS_UnitTestCase {
 	/**
 	 * Run a query for manual awards only
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

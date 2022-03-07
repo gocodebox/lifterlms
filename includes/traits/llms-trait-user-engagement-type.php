@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Methods and properties to help with user engagements.
  *
- * @since [version]
+ * @since 6.0.0
  */
 trait LLMS_Trait_User_Engagement_Type {
 
 	/**
 	 * The type of user engagement, e.g. 'achievement' or 'certificate'.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -29,7 +29,7 @@ trait LLMS_Trait_User_Engagement_Type {
 	/**
 	 * Returns the number of user engagements that have been awarded from the template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $template_id The post ID of the template.
 	 * @return int
@@ -56,7 +56,7 @@ trait LLMS_Trait_User_Engagement_Type {
 	/**
 	 * Returns an awarded engagement or an engagement template, based on a LLMS_Post_Model object, for the given post or false if not found.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param WP_Post|int|null $post       A WP_Post object or a WP_Post ID. A falsy value will use
 	 *                                     the current global `$post` object (if one exists).

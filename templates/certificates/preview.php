@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Certificates
  *
  * @since 3.14.0
- * @version [version]
+ * @version 6.0.0
  *
  * @param LLMS_User_Certificate $certificate Certificate object being displayed.
  */

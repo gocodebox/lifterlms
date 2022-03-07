@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -77,7 +77,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 *               Improve performance of the student query by removing unneeded sort columns.
 	 * @since 4.21.0 When there's no students found in the course, run the `task_complete()` method to ensure data
 	 *               from a previous calculation is cleared.
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @return void|null

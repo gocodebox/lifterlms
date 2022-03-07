@@ -15,7 +15,7 @@ import CertificateUserSettings from './user-settings';
 /**
  * Register the document settings plugin with the block editor.
  *
- * @since [version]
+ * @since 6.0.0
  */
 registerPlugin(
 	'llms-certificate-doc-settings',
@@ -28,7 +28,7 @@ registerPlugin(
 /**
  * Registers the awarded certificate user selection / display control.
  *
- * @since [version]
+ * @since 6.0.0
  */
 registerPlugin(
 	'llms-certificate-user',
@@ -40,7 +40,7 @@ registerPlugin(
 /**
  * Registers the certificate default template reset button.
  *
- * @since [version]
+ * @since 6.0.0
  */
 registerPlugin(
 	'llms-certificate-post-status-info',

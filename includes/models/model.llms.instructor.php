@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -182,7 +182,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * @since 3.13.0
 	 * @since 3.32.0 Validate `post_id` data passed into this function to ensure only students
 	 *               in courses/memberships for this instructor are returned.
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @see LLMS_Student_Query
 	 *

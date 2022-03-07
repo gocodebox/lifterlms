@@ -8,14 +8,14 @@
  * @group query
  * @group abstract_posts_query
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 
 	/**
 	 * Set up the test case.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a mocked abstract.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return LLMS_Abstract_Posts_Query
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test count_results(), get_number_results(), get_found_results(), get_max_pages(), and has_results().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test default_arguments()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test prepare_query()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Test_Abstract_Posts_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get() and set() and additionally test sanitize_post_types().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

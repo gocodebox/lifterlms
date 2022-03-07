@@ -18,7 +18,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
 	 * @since 5.0.0 Install forms during setup.
-	 * @since [version] Replaced use of deprecated items.
+	 * @since 6.0.0 Replaced use of deprecated items.
 	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
 	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *

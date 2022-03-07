@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -146,7 +146,7 @@ add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
 /**
  * Escape and add quotes to a string, useful for array mapping when building queries.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param string $str Input string.
  * @return string Escaped string wrapped in quotation marks.
@@ -561,7 +561,7 @@ function llms_get_product_visibility_options() {
  * @since 3.8.0 Unknown.
  * @since 4.10.2 Instantiate the student query passing `no_found_rows` arg as `true`,
  *               as we don't need (and do not return) pagination info, e.g. max_pages.
- * @since [version] Don't access `LLMS_Student_Query` properties directly.
+ * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
  *
  * @param int          $post_id  WP_Post id of a course or membership.
  * @param string|array $statuses List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
@@ -944,7 +944,7 @@ function llms_is_rest() {
  *
  * Just a wrapper for WordPress core `wp_is_block_theme()` so to filter for testing purposes.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return string
  */
@@ -952,7 +952,7 @@ function llms_is_block_theme() {
 	/**
 	 * Filters whether the current theme is a block theme.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param $is_block_theme Whether the current theme is a block theme.
 	 */
@@ -1148,7 +1148,7 @@ function llms_set_time_limit( $limit = 0 ) {
  *
  * Will strip only the first prefix found from the list of supplied prefixes.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param string   $string   String to modify.
  * @param string[] $prefixes List of prefixs.

@@ -178,7 +178,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	 * Test the is_expired() function.
 	 *
 	 * @since    3.2.2
-	 * @since [version] Replaced use of the deprecated `llms_mock_current_time()` function
+	 * @since 6.0.0 Replaced use of the deprecated `llms_mock_current_time()` function
 	 *              with `llms_tests_mock_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return   void

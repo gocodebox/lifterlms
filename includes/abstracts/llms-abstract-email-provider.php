@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Abstract_Email_Provider
  *
  * @since 3.40.0
- * @since [version] Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
+ * @since 6.0.0 Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
  */
 abstract class LLMS_Abstract_Email_Provider {
 

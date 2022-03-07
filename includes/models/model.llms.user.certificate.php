@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * A certificate awarded to a student.
  *
  * @since 3.8.0
- * @since [version] Utilize `LLMS_Abstract_User_Engagement` abstract.
+ * @since 6.0.0 Utilize `LLMS_Abstract_User_Engagement` abstract.
  *
  * @property string  $allow_sharing Whether or not public certificate sharing is enabled for the certificate.
  *                                  Either "yes" or "no".
@@ -91,7 +91,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * Overrides parent method to setup default properties that depend on other property values.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string|int|LLMS_Post_Model|WP_Post $model Existing post or model object or ID
 	 * @param array                              $args  Args to create the post, only applies when $model is 'new'.
@@ -108,7 +108,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Set this awarded certificate sequential id based on the parent's meta.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int|false Returns the awarded certificate sequenatial id.
 	 *                   Returns false if the awarded certificate has no parent template.
@@ -131,7 +131,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Can user manage and make some actions on the certificate
 	 *
 	 * @since 4.5.0
-	 * @since [version] Prevent logged out users from managing certificates not assigned to a user.
+	 * @since 6.0.0 Prevent logged out users from managing certificates not assigned to a user.
 	 *
 	 * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
 	 * @return bool
@@ -183,7 +183,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the certificate background color value.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -199,7 +199,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * When using the v2 template, only the `$src` value is utilized and the background image itself is
 	 * always set to 100% width and height of certificate as defined by the certificate's sizing settings.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array {
 	 *     Returns an associative array of information about the background image.
@@ -310,7 +310,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves a list of the fonts used by the certificate.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @see llms_get_certificate_fonts()
 	 *
@@ -358,7 +358,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the value for either the width or height.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string  $dimension Dimension key, either "width" or "height".
 	 * @param boolean $with_unit Whether or not to include the unit in the return.
@@ -387,7 +387,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * When the certificate is displaying in landscape the width and height are transposed
 	 * automatically by this method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param bool $with_units Whether or not to include the unit in the return.
 	 * @return array {
@@ -413,7 +413,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieve the height dimension.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param boolean $with_unit Whether or not to include the unit in the return.
 	 * @return string|float If `$with_unit` is `true`, returns a string with the unit, otherwise returns the height as a float.
@@ -425,7 +425,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the certificate's margins.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param boolean $with_units Whether or not to include the percent sign unit in the return.
 	 * @return float[] Array of floats representing the margins. The margins are listed as they would be
@@ -450,7 +450,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieve merge codes and data.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array Array mapping merge codes to the merge data.
 	 */
@@ -494,7 +494,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the certificate's orientation value.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @see llms_get_certificate_orientations()
 	 *
@@ -511,7 +511,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * size is not set to CUSTOM as this is not a valid size and the sitewide default
 	 * will be returned.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @see llms_get_certificate_sizes()
 	 *
@@ -543,7 +543,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *   + 12345  = 012345
 	 *   + 999999 = 999999
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -554,7 +554,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		 *
 		 * These settings are passed as arguments to `str_pad()`.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @link https://www.php.net/manual/en/function.str-pad.php
 		 *
@@ -589,7 +589,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		/**
 		 * Filters the formatted certificate sequential ID string.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param string                $id          The formatted sequential ID.
 		 * @param int                   $raw_id      The raw ID before formatting was applied.
@@ -603,7 +603,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the ID of the certificate's size.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @see llms_get_certificate_sizes()
 	 *
@@ -623,7 +623,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * and no blocks will use template version 1 and any empty certificates or those containing blocks
 	 * will use template version 2.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return integer
 	 */
@@ -634,7 +634,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		/**
 		 * Filters a certificate's template version.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param int $version The template version.
 		 */
@@ -645,7 +645,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieves the ID of the certificate's unit.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @see llms_get_certificate_units()
 	 *
@@ -665,7 +665,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Retrieve the width dimension.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param boolean $with_unit Whether or not to include the unit in the return.
 	 * @return string|float If `$with_unit` is `true`, returns a string with the unit, otherwise returns the width as a float.
@@ -698,7 +698,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Merges the post content based on content from the template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string
 	 */
@@ -742,7 +742,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Configure non-static property defaults.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -757,7 +757,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	/**
 	 * Sync block editor layout properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param LLMS_User_Certificate $template
 	 * @return void

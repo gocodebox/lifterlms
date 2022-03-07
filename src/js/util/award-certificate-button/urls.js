@@ -7,7 +7,7 @@ import { getAdminUrl } from '@lifterlms/utils';
 /**
  * Retrieves the redirect URL for the newly created certificate.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {number} post WP_Post ID.
  * @return {string} The edit post URL for awarded certificate draft.
@@ -26,7 +26,7 @@ export function getRedirectUrl( post ) {
 /**
  * Retrieves the url for the "Start from Scratch" button.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {?number} sid WP_User ID of the selected student.
  * @return {string} The URL.

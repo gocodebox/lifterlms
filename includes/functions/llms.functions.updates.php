@@ -20,7 +20,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-upd
 /**
  * Get the number of items per page used in paginated migration queries.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return int
  */
@@ -33,7 +33,7 @@ function llms_update_util_get_items_per_page() {
 	 * way pagination functionality can be tested without having to tests
 	 * a large number of items.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $per_page Number of items per page.
 	 */

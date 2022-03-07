@@ -254,7 +254,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table
 	 *
 	 * @since 3.4.0
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void

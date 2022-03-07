@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Classes that utilize this trait should declare a protected class property `$award_type`, which
  * is used to define the award's type ID. Core supported types are 'achievement' and 'certificate'.
  *
- * @since [version]
+ * @since 6.0.0
  */
 trait LLMS_Trait_Award_Default_Images {
 
@@ -35,7 +35,7 @@ trait LLMS_Trait_Award_Default_Images {
 	 * 'llms_has_certificates_with_legacy_default_image' option is 'yes. These options are set when LifterLMS is updated
 	 * to 6.0.0 and there are legacy user engagements ({@see \LLMS\Updates\Version_6_0_0\_add_legacy_opt()}).
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string The URL to the default image.
 	 */
@@ -59,7 +59,7 @@ trait LLMS_Trait_Award_Default_Images {
 		/**
 		 * Filter whether or not the legacy default images should be used for achievement and certificates.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @example add_filter( 'llms_use_legacy_award_images', '__return_true' );
 		 *
@@ -77,7 +77,7 @@ trait LLMS_Trait_Award_Default_Images {
 	/**
 	 * Retrieve the default image for a given object.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $object_id WP_Post ID of the earned achievement. This is passed so that anyone filtering the default image could
 	 *                       provide a different default image based on the achievement.
@@ -102,7 +102,7 @@ trait LLMS_Trait_Award_Default_Images {
 		 * The dynamic portion of this hook, {$this->award_type}, refers to the award type, either "achievement" or "certificate".
 		 *
 		 * @since 2.2.0
-		 * @since [version] Merged achievement and certificate filters into a single dynamic filter.
+		 * @since 6.0.0 Merged achievement and certificate filters into a single dynamic filter.
 		 *
 		 * @param string $src       The full image source url.
 		 * @param int    $object_id The WP_Post ID of the award.
@@ -120,7 +120,7 @@ trait LLMS_Trait_Award_Default_Images {
 	 * If the attachment post doesn't exist will return false. This would happen
 	 * if the post is deleted from the media library.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int Returns the WP_Post ID of the attachment or `0` if not set.
 	 */

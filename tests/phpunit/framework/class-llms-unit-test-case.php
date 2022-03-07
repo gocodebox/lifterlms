@@ -12,7 +12,7 @@
  * @since 4.7.0 Disabled image sideloading during mock course generation.
  * @since 5.0.0 Automatically clear notices on teardown.
  *              Add a method to generate mock vouchers.
- * @since [version] Removed deprecated items.
+ * @since 6.0.0 Removed deprecated items.
  *              - `LLMS_UnitTestCase::setup_get()` method
  *              - `LLMS_UnitTestCase::setup_post()` method
  */
@@ -24,7 +24,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.17.0
 	 * @since 5.3.3 Renamed from `setUp()` for compat with WP core changes.
-	 * @since [version] Replaced use of the deprecated `llms_reset_current_time()` function with
+	 * @since 6.0.0 Replaced use of the deprecated `llms_reset_current_time()` function with
 	 *              `llms_tests_reset_current_time()` from the `lifterlms-tests` project.
 	 *
 	 * @return void
@@ -483,7 +483,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Create an achievement template post.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $title   Achievement title.
 	 * @param string $content Achievement content.
@@ -541,7 +541,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
-	 * @since [version] Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
+	 * @since 6.0.0 Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
 	 *
 	 * @param int      $user       WP_User ID.
 	 * @param int      $template   WP_Post ID of the `llms_certificate` template.
@@ -576,7 +576,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.37.3
 	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
-	 * @since [version] Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
+	 * @since 6.0.0 Add `$engagement` param & use `LLMS_Engagement_Handler::handle_certificate()` in favor of deprecated `LLMS_Certificates::trigger_engagement()`.
 	 *
 	 * @param int      $user       WP_User ID.
 	 * @param int      $template   WP_Post ID of the `llms_certificate` template.
@@ -623,7 +623,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Create an engagement post and template post
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string  $trigger_type    Type of trigger (see list below).
 	 * @param string  $engagement_type Type of engagement to be awarded (email, achievement, certificate).

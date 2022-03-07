@@ -53,7 +53,7 @@ class LLMS_Test_Instructor extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_students().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Instructor extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_students() for an instructor with no courses available to access
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

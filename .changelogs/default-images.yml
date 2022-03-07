@@ -1,8 +1,0 @@
-significance: minor
-type: changed
-links:
-  - "#1081"
-entry: >
-  + Added new default images for use with achievements and certificates.
-    + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
-    + The old default images can be used by filtering `llms_use_legacy_engagement_images`.

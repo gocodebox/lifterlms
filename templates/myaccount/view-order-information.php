@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  *
  * @var LLMS_Order                    $order   Current order object.
  * @var LLMS_Payment_Gateway|WP_Error $gateway Instance of the LLMS_Payment_Gateway extending class used for the payment.

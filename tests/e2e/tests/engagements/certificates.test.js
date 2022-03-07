@@ -31,7 +31,7 @@ import {
  *
  * Also replaces the "Awarded" date with a mocked date, "Octember 01, 9999".
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Number} templateVersion The editor template version of the certificate.
  * @return {string} The outerHTML of the certificate element.
@@ -69,7 +69,7 @@ async function getCertificateHTML( templateVersion = 2 ) {
  * Adds isStackedOnMobile block attribute to blocks on WP 5.8 so our snapshots can
  * be taken for 5.9 and later.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object[]} blocks Array of WP_Block objects.
  * @return {Object[]} Updated array.
@@ -93,7 +93,7 @@ function backportColumnsAttrs( blocks ) {
 /**
  * Retrieves an elements CSS inline css rules a JS object.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {string} selector The DOM query selector string.
  * @return {Object} An object of css rules.

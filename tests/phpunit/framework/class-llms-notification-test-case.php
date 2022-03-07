@@ -32,7 +32,7 @@ abstract class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Function used to setup arguments passed to a notification controller's `action_callback()` function.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -41,7 +41,7 @@ abstract class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a notification controller for the tested notification.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return object A child class of an LLMS_Abstract_Notification_Controller.
 	 */
@@ -55,7 +55,7 @@ abstract class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a notification object for the tested notification.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return LLMS_Notification
 	 */
@@ -74,7 +74,7 @@ abstract class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a notification view for the tested notification.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return object A child class of an LLMS_Abstract_Notification_View.
 	 */
@@ -89,7 +89,7 @@ abstract class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 	 * Test notification view and controller are registered.
 	 *
 	 * @since 3.8.0
-	 * @since [version] Test the notification view exists.
+	 * @since 6.0.0 Test the notification view exists.
 	 *
 	 * @return void
 	 */

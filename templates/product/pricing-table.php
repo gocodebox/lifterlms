@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.0.0
- * @since [version] Removed the deprecated and misspelled `$purchaseable` global variable.
- * @version [version]
+ * @since 6.0.0 Removed the deprecated and misspelled `$purchaseable` global variable.
+ * @version 6.0.0
  *
  * @var LLMS_Product $product          Product object of the course or membership.
  * @var bool         $is_enrolled      Determines if current viewer is enrolled in $product.

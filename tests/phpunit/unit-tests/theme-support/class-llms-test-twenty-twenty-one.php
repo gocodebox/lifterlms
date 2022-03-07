@@ -83,7 +83,7 @@ class LLMS_Test_Twenty_Twenty_One extends LLMS_Unit_Test_Case {
 	/**
 	 * Test summary
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

@@ -9,7 +9,7 @@
  *              Split `is_error()` method tests into multiple tests.
  * @since 3.37.4 Don't test against core metadata.
  * @since 4.7.0 Add tests for image sideloading methods.
- * @since [version] Removed testing of the removed `LLMS_Generator::get_generated_posts()` method.
+ * @since 6.0.0 Removed testing of the removed `LLMS_Generator::get_generated_posts()` method.
  */
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 

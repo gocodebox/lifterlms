@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  * @since 3.37.19 Bail if the global `$post` is empty, before registering our meta boxes.
- * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+ * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -287,7 +287,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Load errors using `$this->get_errors()` instead of `get_option()`.
-	 * @since [version] Handle WP_Error objects.
+	 * @since 6.0.0 Handle WP_Error objects.
 	 *
 	 * @return void
 	 */
@@ -317,7 +317,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
-	 * @since [version] Move single field processing logic to a specific method {@see LLMS_Admin_Metabox::process_field()}.
+	 * @since 6.0.0 Move single field processing logic to a specific method {@see LLMS_Admin_Metabox::process_field()}.
 	 *
 	 * @return void
 	 */
@@ -363,7 +363,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Process single field.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $field Metabox field.
 	 * @return string
@@ -405,7 +405,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 3.37.19 Early bail if the global `$post` is empty.
-	 * @since [version] Pass callback arguments to `add_meta_box()`.
+	 * @since 6.0.0 Pass callback arguments to `add_meta_box()`.
 	 *
 	 * @return void
 	 */
@@ -453,7 +453,7 @@ abstract class LLMS_Admin_Metabox {
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
 	 * @since 3.37.12 Move field sanitization and updates to the `save_field()` method.
-	 * @since [version] Allow skipping the saving of a field.
+	 * @since 6.0.0 Allow skipping the saving of a field.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
@@ -503,7 +503,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.37.12
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since [version] Move the DB saving in another method.
+	 * @since 6.0.0 Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.
 	 * @param array $field   Metabox field array.

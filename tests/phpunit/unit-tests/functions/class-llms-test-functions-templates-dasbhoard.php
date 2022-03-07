@@ -8,14 +8,14 @@
  * @group functions_template
  * @group functions_template_dashboard
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 
 	/**
 	 * Test lifterlms_template_student_dashboard_my_achievements() with no student.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_achievements() when the endpoint is disabled.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_achievements() when showing a preview.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_achievements() when showing all.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_certificates() with no student.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_certificates() when the endpoint is disabled.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -118,7 +118,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_certificates() when showing a preview.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_Functions_Templates_Dashboard extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_student_dashboard_my_certificates() when showing all.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

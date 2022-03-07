@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * Configure the metabox settings.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Renamed from "Certificate Settings" to "Settings".
+	 * @since 6.0.0 Renamed from "Certificate Settings" to "Settings".
 	 *              Moved to the side context with default priority.
 	 *
 	 * @return void
@@ -51,7 +51,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
 	 * @since 3.37.12 Allow the certificate title field to store text with quotes.
-	 * @since [version] Remove the background image option (in favor of featured image metabox).
+	 * @since 6.0.0 Remove the background image option (in favor of featured image metabox).
 	 *              Expose the "Next Sequential ID" option.
 	 *
 	 * @return array Array of metabox fields.

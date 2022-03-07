@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -150,7 +150,7 @@ class LLMS_Admin_Post_Tables {
 	 * Get the HTML for a post type select2 filter
 	 *
 	 * @since 3.12.0
-	 * @since [version] Don't display a dynamic view post button.
+	 * @since 6.0.0 Don't display a dynamic view post button.
 	 *
 	 * @param string $name      Name of the select element.
 	 * @param string $post_type Post type to search by.

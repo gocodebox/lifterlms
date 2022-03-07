@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -106,7 +106,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 * @since 3.8.0
 	 * @since 3.8.2 Unknown.
 	 * @since 4.7.0 Use `achievement_title` in favor of `title` for the {{ACHIEVEMENT_TITLE}} merge code.
-	 * @since [version] Use `title` in favor of deprecated `achievement_title` meta key for the {{ACHIEVEMENT_TITLE}} merge code.
+	 * @since 6.0.0 Use `title` in favor of deprecated `achievement_title` meta key for the {{ACHIEVEMENT_TITLE}} merge code.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string

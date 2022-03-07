@@ -17,7 +17,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

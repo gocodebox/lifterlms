@@ -17,7 +17,7 @@ import { UserSearchControl } from '@lifterlms/components';
 /**
  * Force the PanelRow to full-width.
  *
- * @since [version]
+ * @since 6.0.0
  */
 export const StyledPanelRow = styled( PanelRow )`
 	width: 100%;
@@ -28,7 +28,7 @@ export const StyledPanelRow = styled( PanelRow )`
  *
  * This component is displayed for published certificates in place of the <UserSearchControl>.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} args        Component arguments.
  * @param {Object} args.userId WP_User ID of the selected user.
@@ -65,7 +65,7 @@ function SelectedUser( { userId } ) {
 /**
  * Render the certificate settings editor panel.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}  args        Component arguments.
  * @param {string}  args.type   Current post type.

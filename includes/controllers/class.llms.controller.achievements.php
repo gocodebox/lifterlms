@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
- * @since [version] Extended from the LLMS_Abstract_Controller_User_Engagements class.
+ * @since 6.0.0 Extended from the LLMS_Abstract_Controller_User_Engagements class.
  */
 class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagements {
 
 	/**
 	 * Type of user engagement.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -44,7 +44,7 @@ class LLMS_Controller_Achievements extends LLMS_Abstract_Controller_User_Engagem
 	/**
 	 * Returns a translated text of the given type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int   $text_type One of the LLMS_Abstract_Controller_User_Engagements::TEXT_ constants.
 	 * @param array $variables Optional variables that are used in sprintf().

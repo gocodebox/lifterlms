@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.17.4 Unknown.
  * @since 3.24.0 Unknown.
  * @since 3.30.3 Explicitly define undefined properties.
- * @deprecated [version] Class `LLMS_Achievement_User` is deprecated with no direct replacement.
+ * @deprecated 6.0.0 Class `LLMS_Achievement_User` is deprecated with no direct replacement.
  */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -97,7 +97,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
 	 * removed alongside this class in the next major release.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @access private
 	 *
@@ -106,7 +106,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . $name, '[version]' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -125,7 +125,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 *
 	 * @since 3.4.1
 	 * @since 3.17.4 Unknown.
-	 * @deprecated [version] `LLMS_Achievement_User::has_user_earned()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::has_user_earned()` is deprecated with no replacement.
 	 *
 	 * @return boolean
 	 */
@@ -163,7 +163,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 *
 	 * @since 1.0.0
 	 * @since 3.24.0 Unknown.
-	 * @deprecated [version] `LLMS_Achievement_User::init()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::init()` is deprecated with no replacement.
 	 *
 	 * @param int $id        Id of post.
 	 * @param int $person_id Id of user.
@@ -197,7 +197,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * Creates new instance of WP_User and calls parent method create
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Achievement_User::trigger()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::trigger()` is deprecated with no replacement.
 	 *
 	 * @param int $user_id   ID of user.
 	 * @param int $id        ID of post.
@@ -234,7 +234,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * Gets post content and replaces merge fields with user meta-data
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Achievement_User::get_content_html()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement_User::get_content_html()` is deprecated with no replacement.
 	 *
 	 * @return string
 	 */

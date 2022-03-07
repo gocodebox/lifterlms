@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -258,7 +258,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Don't access `LLMS_Student_Query` properties directly.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param array $args Optional. Array of query args. Default empty array.
 	 * @return void

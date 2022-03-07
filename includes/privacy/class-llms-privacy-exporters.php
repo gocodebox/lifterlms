@@ -5,7 +5,7 @@
  * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -143,7 +143,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get data for a certificate.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Replaced the use of the deprecated `certificate_title` meta key with the post's title property.
+	 * @since 6.0.0 Replaced the use of the deprecated `certificate_title` meta key with the post's title property.
 	 *
 	 * @param LLMS_User_Certificate $cert Certificate object.
 	 * @return array
@@ -432,7 +432,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Adds certificate files into the `/certificates/` directory within the archive.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Replaced the use of the deprecated `wp_get_user_request_data()` function with `wp_get_user_request()`.
+	 * @since 6.0.0 Replaced the use of the deprecated `wp_get_user_request_data()` function with `wp_get_user_request()`.
 	 *
 	 * @param string $archive_pathname     Full path to the zip archive.
 	 * @param string $archive_url          Full URI to the zip archive.

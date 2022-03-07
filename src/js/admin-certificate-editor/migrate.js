@@ -8,7 +8,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
  *
  * This subscription "translates" the "Move to trash" button to "Delete permanently".
  *
- * @since [version]
+ * @since 6.0.0
  */
 const unsubscribe = subscribe( () => {
 	const search = new URLSearchParams( window.location.search ),
@@ -28,7 +28,7 @@ const unsubscribe = subscribe( () => {
 /**
  * Performs unsubscribe on the subscription and optionally migrates classic editor blocks.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {boolean} withMigration Whether or not to perform the classic editor migration.
  * @return {void}
@@ -46,7 +46,7 @@ function doUnsubscribe( withMigration ) {
 /**
  * Helper to retrieve a list of all blocks.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @return {WPBlock[]} Array of blocks.
  */
@@ -61,7 +61,7 @@ function getAllBlocks() {
  * This performs logic largely similar to the classic blocks "Convert to Blocks"
  * button. Also forces a post update after migrating.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @see {@link https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/freeform/convert-to-blocks-button.js}
  *

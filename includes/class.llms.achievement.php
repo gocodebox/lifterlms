@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @deprecated [version] Class `LLMS_Achievement` is deprecated with no direct replacement.
+ * @deprecated 6.0.0 Class `LLMS_Achievement` is deprecated with no direct replacement.
  */
 class LLMS_Achievement {
 
@@ -109,7 +109,7 @@ class LLMS_Achievement {
 	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
 	 * removed alongside this class in the next major release.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @access private
 	 *
@@ -118,7 +118,7 @@ class LLMS_Achievement {
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
-		_deprecated_function( __CLASS__ . '::' . $name, '[version]' );
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
 		if ( method_exists( $this, $name ) ) {
 			$this->$name( ...$args );
 		}
@@ -128,7 +128,7 @@ class LLMS_Achievement {
 	 * Constructor.
 	 *
 	 * @since Unknown.
-	 * @deprecated [version] `LLMS_Achievement::__construct()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::__construct()` is deprecated with no replacement.
 	 */
 	public function __construct() {
 
@@ -144,7 +144,7 @@ class LLMS_Achievement {
 	 *
 	 * @since Unknown
 	 * @since 3.24.0 Unknown.
-	 * @deprecated [version] `LLMS_Achievement::is_enabled()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::is_enabled()` is deprecated with no replacement.
 	 *
 	 * @return bool
 	 */
@@ -159,7 +159,7 @@ class LLMS_Achievement {
 	 * Used by achievement merge fields.
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Achievement::get_blogname()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_blogname()` is deprecated with no replacement.
 	 *
 	 * @return string
 	 */
@@ -171,7 +171,7 @@ class LLMS_Achievement {
 	 * Format String
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Achievement::format_string()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::format_string()` is deprecated with no replacement.
 	 *
 	 * @param string $string Un-formatted string.
 	 * @return string Formatted string.
@@ -184,7 +184,7 @@ class LLMS_Achievement {
 	 * Queries Achievement title postmeta
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Achievement::get_title()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_title()` is deprecated with no replacement.
 	 *
 	 * @return string
 	 */
@@ -197,7 +197,7 @@ class LLMS_Achievement {
 	 *
 	 * @since   1.0.0
 	 * @version 1.4.1
-	 * @deprecated [version] `LLMS_Achievement::get_content()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_content()` is deprecated with no replacement.
 	 *
 	 * @return string Data needed to generate achievement.
 	 */
@@ -213,7 +213,7 @@ class LLMS_Achievement {
 	 * then saves new achievement post and updates user_postmeta table.
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Achievement::get_content_html()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_content_html()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
@@ -224,7 +224,7 @@ class LLMS_Achievement {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown
-	 * @deprecated [version] `LLMS_Achievement::create()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Achievement::create()` is deprecated with no replacement.
 	 *
 	 * @param string $content Achievement body content.
 	 * @return void

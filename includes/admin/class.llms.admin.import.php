@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *               Improve error handling.
  * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
  * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
- * @since [version] Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
+ * @since 6.0.0 Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
  */
 class LLMS_Admin_Import {
 

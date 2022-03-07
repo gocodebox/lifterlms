@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * @since 3.8.0 Unknown.
 	 * @since 3.37.3 Refactor to pull each settings group from its own method.
 	 * @since 3.40.0 Include an email delivery section.
-	 * @since [version] Include achievements section.
+	 * @since 6.0.0 Include achievements section.
 	 *
 	 * @return array
 	 */
@@ -87,7 +87,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve fields for the achievements settings group.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array[]
 	 */
@@ -115,7 +115,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * Retrieve fields for the certificates settings group.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Add background image options.
+	 * @since 6.0.0 Add background image options.
 	 *               Only load legacy certificate options when the legacy option is enabled.
 	 *
 	 * @return array[]
@@ -311,7 +311,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieves the options array for the `lifterlms_certificate_default_size` option.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -342,7 +342,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieves the options array for the `lifterlms_certificate_default_user_defined_units` option.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return array
 	 */
@@ -365,7 +365,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieves the award image setting description HTML.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $post_type Translated post type name.
 	 * @return string
@@ -391,7 +391,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * deleted via the db, set to 'no' via the options.php screen or disabled by returning `false` from the short
 	 * circuit filter {@see llms_has_legacy_certificates}.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return boolean
 	 */
@@ -403,7 +403,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		 * This can be used to force-enable or force-disable legacy certificate settings regardless
 		 * of the value found in the database option.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param boolean $has_legacy_certificates Return `true` to force legacy certificate settings on
 		 *                                         and `false` to force them off.
@@ -420,7 +420,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Outputs inline Javascript utilized on the engagements settings tab.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -435,7 +435,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			/**
 			 * Updates the USER_DEFINED <option> text when the values of the custom inputs change.
 			 *
-			 * @since [version]
+			 * @since 6.0.0
 			 *
 			 * @return {void}
 			 */

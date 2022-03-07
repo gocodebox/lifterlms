@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Changes:
+ * @since 6.0.0 Changes:
  *              - Deprecated the `LLMS_Engagements::handle_achievement()` method.
  *                Use the {@see LLMS_Engagement_Handler::handle_achievement()} method instead.
  *              - Deprecated the `LLMS_Engagements::handle_certificate()` method.
@@ -46,7 +46,7 @@ class LLMS_Engagements {
 	 * Adds actions to events that trigger engagements.
 	 *
 	 * @since 2.3.0
-	 * @since [version] Added deprecation warning when using constant `LLMS_ENGAGEMENT_DEBUG`.
+	 * @since 6.0.0 Added deprecation warning when using constant `LLMS_ENGAGEMENT_DEBUG`.
 	 *              Don't call deprecated `init()` method.
 	 *
 	 * @return void
@@ -54,7 +54,7 @@ class LLMS_Engagements {
 	private function __construct() {
 
 		if ( defined( 'LLMS_ENGAGEMENT_DEBUG' ) && LLMS_ENGAGEMENT_DEBUG ) {
-			_deprecated_function( 'Constant: LLMS_ENGAGEMENT_DEBUG', '[version]' );
+			_deprecated_function( 'Constant: LLMS_ENGAGEMENT_DEBUG', '6.0.0' );
 			$this->debug = true;
 		}
 
@@ -67,7 +67,7 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 * @since 3.11.0 Unknown.
 	 * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
-	 * @since [version] Moved the list of hooks to the `get_trigger_hooks()` method.
+	 * @since 6.0.0 Moved the list of hooks to the `get_trigger_hooks()` method.
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Engagements {
 	/**
 	 * Retrieve a group id used when scheduling delayed engagement action triggers.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $engagement_id WP_Post ID of the `llms_engagement` post type.
 	 * @return string
@@ -126,7 +126,7 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.13.1 Unknown.
-	 * @since [version] Removed engagement debug logging & moved filter onto the return instead of calling in `maybe_trigger_engagement()`.
+	 * @since 6.0.0 Removed engagement debug logging & moved filter onto the return instead of calling in `maybe_trigger_engagement()`.
 	 *
 	 * @param string     $trigger_type    Name of the trigger to look for.
 	 * @param int|string $related_post_id The WP_Post ID of the related post or an empty string.
@@ -201,7 +201,7 @@ class LLMS_Engagements {
 		/**
 		 * Filters the list of engagements to be triggered for a given trigger type and related post.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param object[] $results         Array of engagement objects.
 		 * @param string   $trigger_type    Name of the engagement trigger.
@@ -214,7 +214,7 @@ class LLMS_Engagements {
 	/**
 	 * Retrieve a list of hooks that trigger engagements to be awarded.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return string[]
 	 */
@@ -256,19 +256,19 @@ class LLMS_Engagements {
 	 * Include engagement types (excluding email)
 	 *
 	 * @since Unknown
-	 * @deprecated [version] `LLMS_Engagements::init()` is deprecated with no replacement.
+	 * @deprecated 6.0.0 `LLMS_Engagements::init()` is deprecated with no replacement.
 	 *
 	 * @return void
 	 */
 	public function init() {
-		_deprecated_function( 'LLMS_Engagements::init()', '[version]' );
+		_deprecated_function( 'LLMS_Engagements::init()', '6.0.0' );
 	}
 
 	/**
 	 * Award an achievement
 	 *
 	 * @since 2.3.0
-	 * @deprecated [version] `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`.
+	 * @deprecated 6.0.0 `LLMS_Engagements::handle_achievement` is deprecated in favor of `LLMS_Engagement_Handler::handle_achievement`.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -281,7 +281,7 @@ class LLMS_Engagements {
 	 * @return void
 	 */
 	public function handle_achievement( $args ) {
-		_deprecated_function( 'LLMS_Engagements::handle_achievement', '[version]', 'LLMS_Engagement_Handler::handle_achievement' );
+		_deprecated_function( 'LLMS_Engagements::handle_achievement', '6.0.0', 'LLMS_Engagement_Handler::handle_achievement' );
 		LLMS_Engagement_Handler::handle_achievement( $args );
 	}
 
@@ -289,7 +289,7 @@ class LLMS_Engagements {
 	 * Award a certificate
 	 *
 	 * @since 2.3.0
-	 * @deprecated [version] `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`.
+	 * @deprecated 6.0.0 `LLMS_Engagements::handle_certificate` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate`.
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -302,7 +302,7 @@ class LLMS_Engagements {
 	 * @return void
 	 */
 	public function handle_certificate( $args ) {
-		_deprecated_function( 'LLMS_Engagements::handle_certificate', '[version]', 'LLMS_Engagement_Handler::handle_certificate' );
+		_deprecated_function( 'LLMS_Engagements::handle_certificate', '6.0.0', 'LLMS_Engagement_Handler::handle_certificate' );
 		LLMS_Engagement_Handler::handle_certificate( $args );
 	}
 
@@ -318,7 +318,7 @@ class LLMS_Engagements {
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
 	 *              Fixed dupcheck log message and error message which reversed the email and person order.
-	 * @deprecated [version] `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
+	 * @deprecated 6.0.0 `LLMS_Engagements::handle_email` is deprecated in favor of `LLMS_Engagement_Handler::handle_email`.
 	 *
 	 * @param mixed[] $args {
 	 *     An array of arguments from the triggering hook.
@@ -332,7 +332,7 @@ class LLMS_Engagements {
 	 *                       the email has failed or is prevented.
 	 */
 	public function handle_email( $args ) {
-		_deprecated_function( 'LLMS_Engagements::handle_email', '[version]', 'LLMS_Engagement_Handler::handle_email' );
+		_deprecated_function( 'LLMS_Engagements::handle_email', '6.0.0', 'LLMS_Engagement_Handler::handle_email' );
 		$res = LLMS_Engagement_Handler::handle_email( $args );
 		if ( true === $res ) {
 			return $res;
@@ -344,7 +344,7 @@ class LLMS_Engagements {
 	/**
 	 * Parse incoming hook / callback data to determine if an engagement should be triggered from a given hook
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $action Action hook name.
 	 * @param array  $args   Array of arguments passed to the callback function.
@@ -403,7 +403,7 @@ class LLMS_Engagements {
 	/**
 	 * Get the engagement trigger type based on the action and related post id
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string     $action          Name of the triggering action hook.
 	 * @param int|string $related_post_id WP_Post ID of the related post or an empty string.
@@ -453,7 +453,7 @@ class LLMS_Engagements {
 	 * @since 2.3.0
 	 * @since 3.11.0 Unknown.
 	 * @since 3.39.0 Treat also `llms_rest_student_registered` action.
-	 * @since [version] Major refactor to reduce code complexity.
+	 * @since 6.0.0 Major refactor to reduce code complexity.
 	 *
 	 * @return void
 	 */
@@ -483,7 +483,7 @@ class LLMS_Engagements {
 	/**
 	 * Parse engagement objects from the DB and return data needed to trigger the engagements
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param object $engagement   The engagement object from the `get_engagements()` query.
 	 * @param array  $trigger_data Parsed hook data from `parse_hook()`.
@@ -559,7 +559,7 @@ class LLMS_Engagements {
 	/**
 	 * Triggers or schedules an engagement
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $data  Handler data from `parse_engagement()`.
 	 * @param int   $delay The engagement send delay (in days).
@@ -609,7 +609,7 @@ class LLMS_Engagements {
 	 *
 	 * The `deleted_post` action param `$post` has been added since WordPress 5.5.0.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int          $post_id WP_Post ID.
 	 * @param WP_Post|null $post    Post object of the deleted post.
@@ -631,14 +631,14 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.7.9
 	 * @since 3.12.0 Unknown.
-	 * @deprecated [version] Engagement debug logging is removed. Use `llms_log()` directly instead.
+	 * @deprecated 6.0.0 Engagement debug logging is removed. Use `llms_log()` directly instead.
 	 *
 	 * @param mixed $log Data to write to the log.
 	 * @return void
 	 */
 	public function log( $log ) {
 
-		_deprecated_function( 'LLMS_Engagements::log()', '[version]', 'llms_log()' );
+		_deprecated_function( 'LLMS_Engagements::log()', '6.0.0', 'llms_log()' );
 
 		if ( $this->debug ) {
 			llms_log( $log, 'engagements' );

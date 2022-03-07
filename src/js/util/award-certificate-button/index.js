@@ -14,7 +14,7 @@ import { getRedirectUrl, getScratchUrl } from './urls';
 /**
  * Button and modal interface for creating a draft certificate from a specified template for a specific student.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}  params                Component configuration object.
  * @param {string}  params.modalTitle     Title of the modal.

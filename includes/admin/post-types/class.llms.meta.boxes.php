@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_Admin_Meta_Boxes {
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Instantiate award engagement submit meta box.
+	 * @since 6.0.0 Instantiate award engagement submit meta box.
 	 *               Instantiate meta boxes to sync awarded certificates and achievements with their templates.
 	 *
 	 * @return void
@@ -198,7 +198,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * This additional content is only displayed when there's no featured image set
 	 * for the template.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $content  Default metabox HTML.
 	 * @param int    $post_id  WP_Post ID of the post being edited.
@@ -242,7 +242,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * are for internal use only to help avoid confusion as to why there are two separate
 	 * titles.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string  $placeholder Default placeholder text.
 	 * @param WP_Post $post        Post object.
@@ -304,7 +304,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Check whether the post is a LifterLMS post type.
 	 *
 	 * @since unknown
-	 * @since [version] Added 'llms_my_achievement' and 'llms_my_certificate'.
+	 * @since 6.0.0 Added 'llms_my_achievement' and 'llms_my_certificate'.
 	 *
 	 * @param WP_Post $post WP_Post instance.
 	 * @return boolean
@@ -333,7 +333,7 @@ class LLMS_Admin_Meta_Boxes {
 		 *
 		 * Used to determine whether or not fire actions of the type "lifterlms_process_{$post->post_type}_meta" on save.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param string[] $post_types Array of post type names.
 		 * @param WP_Post  $post       WP_Post instance.

@@ -122,7 +122,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_esc_and_quote_str()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -791,7 +791,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.14 Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
-	 * @since [version] Replaced use of the deprecated `LLMS_Certificate` class, an LLMS post type class that is NOT
+	 * @since 6.0.0 Replaced use of the deprecated `LLMS_Certificate` class, an LLMS post type class that is NOT
 	 *              extended from `LLMS_Post_Model`, with `LLMS_Email`.
 	 *
 	 * @return void
@@ -973,7 +973,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_strip_prefixes().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

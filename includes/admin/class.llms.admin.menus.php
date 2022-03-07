@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -241,7 +241,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.5.0
 	 * @since 3.22.0 Unknown.
-	 * @since [version] Removed loading the LLMS_Admin_AddOns class file that is now handled by the autoloader.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_AddOns class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
@@ -257,7 +257,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.13.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Removed loading the LLMS_Admin_Builder class file that is now handled by the autoloader.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Builder class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
@@ -304,7 +304,7 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
-	 * @since [version] Removed loading the LLMS_Admin_Settings class file that is now handled by the autoloader.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Settings class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
@@ -338,7 +338,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.37.19
 	 * @since 4.12.0 Added `llms_load_admin_tools` action.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */

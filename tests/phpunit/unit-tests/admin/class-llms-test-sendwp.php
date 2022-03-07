@@ -88,7 +88,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do_remote_install() error with no nonce submitted.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
 	 * @throws ReflectionException
@@ -108,7 +108,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
-	 * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
 	 * @throws ReflectionException
@@ -132,7 +132,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
-	 * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
 	 * @throws ReflectionException
@@ -162,7 +162,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
-	 * @since [version] Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
 	 * @throws ReflectionException

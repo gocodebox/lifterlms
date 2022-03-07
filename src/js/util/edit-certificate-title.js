@@ -10,7 +10,7 @@ import { store as editorStore } from '@wordpress/editor';
  * To edit the actual post title of a `llms_certificate` post (not the awarded certificate's title), use
  * `wp.data.dispatch( 'core/editor' ).editPost()` directly.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {string} title    The desired certificate title.
  * @param {string} postType The current post type, automatically reads it from the current post if omitted.

@@ -135,7 +135,7 @@ function lifterlms_loop( $query = null ) {
  * This is a wrapper around WP's `paginate_links()` method with common styling
  * and helpers for use within LifterLMS.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param array $args {
  *     Pagination arguments.

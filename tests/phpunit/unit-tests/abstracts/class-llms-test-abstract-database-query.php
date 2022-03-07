@@ -30,7 +30,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a stub for the abstract.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return LLMS_Database_Query
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test usage of deprecated preprare_query() when the method is defined
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test usage of deprecated preprare_query() when the method is not defined and `prepare_query()` doesn't overload the default method.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @expectedIncorrectUsage LLMS_Database_Query::prepare_query
 	 *
@@ -97,7 +97,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test usage of deprecated preprare_query() when the method is not defined (if it was removed, for example).
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test __get() and __set() for deprecated properties.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test default_arguments()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -206,7 +206,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * This is because no_found_rows by default is false.
 	 *
 	 * @since 4.5.1
-	 * @since [version] Use getters instead of direct property access.
+	 * @since 6.0.0 Use getters instead of direct property access.
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	 * Test when found rows and max pages are not set
 	 *
 	 * @since 4.5.1
-	 * @since [version] Use getters instead of direct property access.
+	 * @since 6.0.0 Use getters instead of direct property access.
 	 *
 	 * @return void
 	 */
@@ -253,7 +253,7 @@ class LLMS_Test_Database_Query extends LLMS_UnitTestCase {
 	/**
 	 * Test get_skip()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

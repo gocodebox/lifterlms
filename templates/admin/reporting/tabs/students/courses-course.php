@@ -9,8 +9,8 @@
  * @since 3.36.2 Upgrade UI to utilize reporting widgets.
  *               Add edit link tooltip and update icon.
  *               Add a link to view full course reporting screen.
- * @since [version] Provide existing hooks with more information and add a new hook.
- * @version [version]
+ * @since 6.0.0 Provide existing hooks with more information and add a new hook.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ $table->get_results(
  * Action run prior to content on the student course reporting screen.
  *
  * @since Unknown
- * @since [version] Added the `$student` and `$course` parameters.
+ * @since 6.0.0 Added the `$student` and `$course` parameters.
  *
  * @param LLMS_Student $student Current student.
  * @param LLMS_course  $course  Current course.
@@ -71,7 +71,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 					/**
 					 * Action run after default action buttons on the student course reporting screen.
 					 *
-					 * @since [version]
+					 * @since 6.0.0
 					 *
 					 * @param LLMS_Student $student Current student.
 					 * @param LLMS_course  $course  Current course.
@@ -86,7 +86,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		 * Action run before the default widgets on the student course reporting screen.
 		 *
 		 * @since Unknown
-		 * @since [version] Added the `$course` parameter.
+		 * @since 6.0.0 Added the `$course` parameter.
 		 *
 		 * @param LLMS_Student $student Current student.
 		 * @param LLMS_course  $course  Current course.
@@ -155,7 +155,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
 		 * Action run after the default widgets on the student course reporting screen.
 		 *
 		 * @since Unknown
-		 * @since [version] Added the `$course` parameter.
+		 * @since 6.0.0 Added the `$course` parameter.
 		 *
 		 * @param LLMS_Student $student Current student.
 		 * @param LLMS_course  $course  Current course.
@@ -174,7 +174,7 @@ do_action( 'llms_reporting_student_single_course_before_content', $student, $cou
  * Action run after the content on the student course reporting screen.
  *
  * @since Unknown
- * @since [version] Added the `$student` and `$course` parameters.
+ * @since 6.0.0 Added the `$student` and `$course` parameters.
  *
  * @param LLMS_Student $student Current student.
  * @param LLMS_course  $course  Current course.

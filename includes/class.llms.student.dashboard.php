@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -139,7 +139,7 @@ class LLMS_Student_Dashboard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.28.2 Unknown.
-	 * @since [version] Add pagination to the view-achievements and view-certificates tabs.
+	 * @since 6.0.0 Add pagination to the view-achievements and view-certificates tabs.
 	 *
 	 * @return array
 	 */
@@ -342,7 +342,7 @@ class LLMS_Student_Dashboard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Use `llms_template_view_order()` in favor of including the template file directly.
+	 * @since 6.0.0 Use `llms_template_view_order()` in favor of including the template file directly.
 	 *
 	 * @return void
 	 */

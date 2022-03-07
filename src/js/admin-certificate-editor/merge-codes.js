@@ -11,7 +11,7 @@ import { Icon, lifterlms } from '@lifterlms/icons';
 /**
  * Displays a single <tr> for a merge code.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object}   args            Component arguments.
  * @param {Function} args.closeModal Function to close the modal.
@@ -55,7 +55,7 @@ function MergeCodeTableRow( { closeModal, onChange, value } ) {
 /**
  * RichText format edit component.
  *
- * @since [version]
+ * @since 6.0.0
  *
  * @param {Object} props Component properties.
  * @return {WPElement} The component.
@@ -106,7 +106,7 @@ function Edit( props ) {
 /**
  * Register a RichText format with the block editor.
  *
- * @since [version]
+ * @since 6.0.0
  */
 registerFormatType( 'llms/certificate-merge-codes', {
 	title: __( 'LifterLMS Certificate Merge Codes', 'lifterlms' ),

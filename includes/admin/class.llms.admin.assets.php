@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.5 Unknown.
-	 * @since [version] Add hooks for admin inline footer scripts, inline header styles, and block editor assets.
+	 * @since 6.0.0 Add hooks for admin inline footer scripts, inline header styles, and block editor assets.
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Output inline scripts in the admin footer.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -51,7 +51,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Output inline styles in the header.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Enqueue assets for the block editor.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -78,7 +78,7 @@ class LLMS_Admin_Assets {
 	/**
 	 * Enqueue block editor assets for certificate post types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Admin_Assets {
 	 *              Remove topModal vendor dependency.
 	 *              Add `llms-admin-forms` on the forms post table screen.
 	 * @since 5.5.0 Use `LLMS_Assets` for the enqueue of `llms-admin-add-ons`.
-	 * @since [version] Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
+	 * @since 6.0.0 Enqueue certificate and achievement related js in `llms_my_certificate`, `llms_my_achievement` post types as well.
 	 * @return void
 	 */
 	public function admin_scripts() {

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Traits
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Certificate/Achievement Templates Post List Table trait.
  *
- * @since [version]
+ * @since 6.0.0
  */
 trait LLMS_Trait_Award_Templates_Post_List_Table {
 
 	/**
 	 * Add post row actions filter callback.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 	/**
 	 * Add post row actions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array   $actions Array of post row actions.
 	 * @param WP_Post $post    Post object for the row.

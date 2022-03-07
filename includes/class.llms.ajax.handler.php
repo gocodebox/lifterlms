@@ -1385,7 +1385,7 @@ class LLMS_AJAX_Handler {
 	 * "API" for the Admin Builder.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array

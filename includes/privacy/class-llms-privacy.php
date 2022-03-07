@@ -5,7 +5,7 @@
  * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Constructor.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Retrieve student achievements.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Updated the use of `LLMS_Student::get_achievements()` with its new behavior.
+	 * @since 6.0.0 Updated the use of `LLMS_Student::get_achievements()` with its new behavior.
 	 *
 	 * @param LLMS_Student $student Student object.
 	 * @return LLMS_User_Achievement[]
@@ -208,7 +208,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Retrieve student certificates.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Updated the use of `LLMS_Student::get_certificates()` with its new behavior.
+	 * @since 6.0.0 Updated the use of `LLMS_Student::get_certificates()` with its new behavior.
 	 *
 	 * @param LLMS_Student $student Student object.
 	 * @return LLMS_User_Certificate[]

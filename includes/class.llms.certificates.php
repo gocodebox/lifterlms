@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.3.1 When generating the certificate to export, if `$this->scrape_certificate()` generates a WP_Error early, return it to avoid fatal errors.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Changes:
+ * @since 6.0.0 Changes:
  *              - Deprecated the `LLMS_Certificates::trigger_engagement()` method.
  *                Use the {@see LLMS_Engagement_Handler::handle_certificate()} method instead.
  *              - Removed the deprecated `LLMS_Certificates::$_instance` property.
@@ -88,7 +88,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 1.0.0
 	 * @since 4.21.0 Define useful class properties used when exporting.
-	 * @since [version] Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Certificates {
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
+	 * @deprecated 6.0.0 `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $certificate_id  WP_Post ID of the certificate template.
@@ -149,7 +149,7 @@ class LLMS_Certificates {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		_deprecated_function( 'LLMS_Certificates::trigger_engagement()', '[version]', 'LLMS_Engagement_Handler::handle_certificate()' );
+		_deprecated_function( 'LLMS_Certificates::trigger_engagement()', '6.0.0', 'LLMS_Engagement_Handler::handle_certificate()' );
 		LLMS_Engagement_Handler::handle_certificate( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
@@ -200,7 +200,7 @@ class LLMS_Certificates {
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
-	 * @since [version] Use the certificate post title in favor of the deprecated meta value `_llms_certificate_title`.
+	 * @since 6.0.0 Use the certificate post title in favor of the deprecated meta value `_llms_certificate_title`.
 	 *
 	 * @param int  $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache      If true will check for existence of a cached version of the file first.
@@ -280,7 +280,7 @@ class LLMS_Certificates {
 	 * When ensuring uniqueness of the generated suffix, the length of the string will be increased by one for every 5
 	 * encountered collisions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $title The title of the certificate being created.
 	 * @return string
@@ -292,7 +292,7 @@ class LLMS_Certificates {
 		/**
 		 * Filters the minimum length of the suffix used to create a unique earned certificate slug.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param int $min_strlen The minimum desired suffix string length.
 		 */

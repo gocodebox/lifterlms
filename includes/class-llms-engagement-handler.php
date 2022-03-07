@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 6.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * For emails, the email is triggered and sending recorded in the user postmeta table.
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Engagement_Handler {
 
@@ -31,7 +31,7 @@ class LLMS_Engagement_Handler {
 	 * Before arriving here the input data ($user_id, $template_id, etc...) has already been validated to ensure
 	 * that it exists and the engagement can be processed using this data.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string   $type          The engagement type, either "achievement" or "certificate".
 	 * @param int      $user_id       WP_User ID of the student earning the engagement.
@@ -49,7 +49,7 @@ class LLMS_Engagement_Handler {
 		 * This filter is used internally to skip running checks for immediate engagements which cannot
 		 * suffer from the issues that these checks seek to avoid.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param boolean  $skip_checks   Whether or not to skip checks.
 		 * @param string   $type          The engagement type, either "achievement" or "certificate".
@@ -98,7 +98,7 @@ class LLMS_Engagement_Handler {
 		 * The dynamic portion of this hook, `{$type}` refers to the type of engagement being processed, either "email",
 		 * "certificate", or "achievement".
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param boolean|WP_Error[] $can_process   An array of WP_Errors or true if the engagement can be processed.
 		 * @param int                $user_id       WP_User ID of the student earning the engagement.
@@ -115,7 +115,7 @@ class LLMS_Engagement_Handler {
 	/**
 	 * Apply deprecated creation filters based on the engagement type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array  $args Array of creation arguments.
 	 * @param string $type The engagement type, accepts "achievement" or "certificate".
@@ -152,7 +152,7 @@ class LLMS_Engagement_Handler {
 	 * hooks are fully removed. As such, this method is considered private for the purposes of semantic versioning and
 	 * will removed in the next major release without being officially deprecated.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @access private
 	 *
@@ -198,7 +198,7 @@ class LLMS_Engagement_Handler {
 	 * Before arriving here the input data ($user_id, $template_id, etc...) has already been validated to ensure
 	 * that it exists and the engagement can be processed using this data.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string   $type          The engagement type, either "achievement" or "certificate".
 	 * @param int      $user_id       WP_User ID of the student earning the engagement.
@@ -276,7 +276,7 @@ class LLMS_Engagement_Handler {
 		 * either "achievement" or "certificate".
 		 *
 		 * @since 1.0.0
-		 * @since [version] Added the `$engagement_id` parameter.
+		 * @since 6.0.0 Added the `$engagement_id` parameter.
 		 *
 		 * @param int             $user_id       WP_User ID of the student who earned the engagement.
 		 * @param int             $generated_id  WP_Post ID of the generated engagement post.
@@ -301,7 +301,7 @@ class LLMS_Engagement_Handler {
 	 *   + It must be published
 	 *   + Optionally, it must match the specified post type.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int    $post_id   WP_Post ID.
 	 * @param string $post_type The expected post type.
@@ -334,7 +334,7 @@ class LLMS_Engagement_Handler {
 	 *
 	 * This check will return true when running against non-enrollable post types.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @param int $user_id WP_User ID.
@@ -358,7 +358,7 @@ class LLMS_Engagement_Handler {
 	/**
 	 * Check if the engagement for the specified template and related post has already been earned / awarded to a given user.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $type          Engagement type, either "certificate" or "achievement".
 	 * @param int    $user_id       WP_User ID of the user earning the engagement.
@@ -402,7 +402,7 @@ class LLMS_Engagement_Handler {
 		 *
 		 * If `true` is returned the default error message will be used.
 		 *
-		 * @since [version]
+		 * @since 6.0.0
 		 *
 		 * @param boolean $is_duplicate Whether or not the engagement has already been earned.
 		 */
@@ -437,7 +437,7 @@ class LLMS_Engagement_Handler {
 	 * If no global option is found, returns `0`. During front-end display, the hardcoded image will be used
 	 * in the template if the earned engagement's thumbnail is set to a fasly.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $type        Type of engagement, either "achievement" or "certificate".
 	 * @param int    $template_id WP_Post ID of the template post.
@@ -466,7 +466,7 @@ class LLMS_Engagement_Handler {
 	/**
 	 * Handle validation and creation of an earned achievement or certificate.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param string $type Type of engagement, either "achievement" or "certificate".
 	 * @param array  $args {
@@ -498,7 +498,7 @@ class LLMS_Engagement_Handler {
 	/**
 	 * Award an achievement
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -517,7 +517,7 @@ class LLMS_Engagement_Handler {
 	/**
 	 * Award an certificate
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $args {
 	 *     Indexed array of arguments.
@@ -545,7 +545,7 @@ class LLMS_Engagement_Handler {
 	 *              Log successes and failures to the `engagement-emails` log file instead of the main `llms` log.
 	 * @since 4.4.3 Fixed different emails triggered by the same related post not sent because of a wrong duplicate check.
 	 *              Fixed dupcheck log message and error message which reversed the email and person order.
-	 * @since [version] Moved from `LLMS_Engagements` class.
+	 * @since 6.0.0 Moved from `LLMS_Engagements` class.
 	 *                Removed engagement debug logging.
 	 *                Ensure related post, email template, and engagement all exist and are published before processing.
 	 *

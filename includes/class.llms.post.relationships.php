@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -90,7 +90,7 @@ class LLMS_Post_Relationships {
 	 *
 	 * @since 3.16.12
 	 * @since 5.4.0 Prevent course/membership with active subscriptions deletion.
-	 * @since [version] Added hook to cleanup user post meta data when awarded certs and achievements are deleted.
+	 * @since 6.0.0 Added hook to cleanup user post meta data when awarded certs and achievements are deleted.
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,7 @@ class LLMS_Post_Relationships {
 	/**
 	 * Maybe delete LifterLMS user post meta related to earned engagements.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int $post_id Post ID.
 	 * @return void

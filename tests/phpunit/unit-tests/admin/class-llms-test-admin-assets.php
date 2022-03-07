@@ -63,7 +63,7 @@ class LLMS_Test_Admin_Assets extends LLMS_Unit_Test_Case {
 	/**
 	 * Test block_editor_assets()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

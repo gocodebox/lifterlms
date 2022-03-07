@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_menus
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 
@@ -21,7 +21,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 4.7.0
 	 * @since 5.3.3 Renamed from `setUpBeforeClass()` for compat with WP core changes.
-	 * @since [version] Removed loading the LLMS_Admin_Reporting class file that is now handled by the autoloader.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Reporting class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Admin_Menus extends LLMS_Unit_Test_Case {
 	 * Test status_page_includes()
 	 *
 	 * @since 4.12.0
-	 * @since [version] Updated for autoloader changes. Stopped autoloading classes when checking if they exist.
+	 * @since 6.0.0 Updated for autoloader changes. Stopped autoloading classes when checking if they exist.
 	 *              Stopped checking for the LLMS_Admin_Page_Status class because status_page_includes() no longer loads it.
 	 *
 	 * @return void

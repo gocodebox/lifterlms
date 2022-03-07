@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_600
  *
- * @since [version]
+ * @since 6.0.0
  */
 class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Tear down the test
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Callback function to reduce items per page for testing.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return int
 	 */
@@ -72,7 +72,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Calls a namespaced function with the specified arguments.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param [type] $func [description]
 	 * @param array $args [description]
@@ -85,7 +85,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Creates one or more awards of a given type using the pre-migration data structure.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int    $count             Number of award posts to create.
 	 * @param string $type              Type of award, either "achievement" or "certificate".
@@ -148,7 +148,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Creates one or more award templates of a given type using the pre-migration data structure.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param int  $count             Number of award posts to create.
 	 * @param bool $use_default_image If `true`, then the award will not use a custom image.
@@ -192,7 +192,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Test update_db_version()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Test the migrate_achievements() and migrate_certificates() functions.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Test the migrate_achievements() and migrate_certificates() functions when none exist to migrate.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -316,7 +316,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Test migrate_award_templates().
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */
@@ -364,7 +364,7 @@ class LLMS_Test_Functions_Updates_600 extends LLMS_UnitTestCase {
 	/**
 	 * Test show_notice()
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @return void
 	 */

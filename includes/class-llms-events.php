@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
- * @since [version] Removed the deprecated `LLMS_Events::$_instance` property.
+ * @since 6.0.0 Removed the deprecated `LLMS_Events::$_instance` property.
  */
 class LLMS_Events {
 

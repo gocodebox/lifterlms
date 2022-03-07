@@ -1,4 +1,0 @@
-significance: minor
-type: deprecated
-entry: Engagement debugging via `LLMS_Engagements::log` is deprecated. Use
-  `llms_log()` instead.
