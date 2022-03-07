@@ -11,6 +11,24 @@ import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-te
 
 describe( 'Bootstrap', () => {
 
+	beforeAll( () => {
+		console.log( 'before all' );
+	} );
+
+	afterAll( () => {
+		console.log( 'after all' );
+	} );
+
+	it ( 'should not say you are probably offline', () => {
+
+		console.log( 'before' );
+
+		expct( true ).toBe( true );
+
+		console.log( 'after' );
+
+	} );
+
 	it ( 'should configure the correct theme based on the tested WP version.', async () => {
 		await activateTheme();
 	} );
