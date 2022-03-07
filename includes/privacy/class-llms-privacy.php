@@ -189,27 +189,35 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	}
 
 	/**
-	 * Retrieve student certificates
+	 * Retrieve student achievements.
 	 *
 	 * @since 3.18.0
+	 * @since [version] Updated the use of `LLMS_Student::get_achievements()` with its new behavior.
 	 *
 	 * @param LLMS_Student $student Student object.
-	 * @return array
+	 * @return LLMS_User_Achievement[]
 	 */
 	protected static function get_student_achievements( $student ) {
-		return $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
+
+		$query = $student->get_achievements( array( 'sort' => array( 'date' => 'DESC' ) ) );
+
+		return $query->get_awards();
 	}
 
 	/**
-	 * Retrieve student certificates
+	 * Retrieve student certificates.
 	 *
 	 * @since 3.18.0
+	 * @since [version] Updated the use of `LLMS_Student::get_certificates()` with its new behavior.
 	 *
 	 * @param LLMS_Student $student Student object.
-	 * @return array
+	 * @return LLMS_User_Certificate[]
 	 */
 	protected static function get_student_certificates( $student ) {
-		return $student->get_certificates( 'updated_date', 'DESC', 'certificates' );
+
+		$query = $student->get_certificates( array( 'sort' => array( 'date' => 'DESC' ) ) );
+
+		return $query->get_awards();
 	}
 
 	/**
