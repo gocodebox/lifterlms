@@ -20,7 +20,7 @@ const config = {
 			height: dimensions[ 1 ],
 		},
 	},
-	// exitOnPageError: false,
+	exitOnPageError: false,
 };
 
 if ( false === config.launch.headless ) {
