@@ -538,7 +538,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
-= v6.0.0 - 2022-03-07 =
+= v6.0.0 - 2022-03-08 =
 
 ##### New Features
 

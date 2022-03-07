@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v6.0.0 - 2022-03-07
+v6.0.0 - 2022-03-08
 -------------------
 
 **This malor release of LifterLMS focuses on improving the experience of creating, designing, and managing achievements and certificates: use the block editor to design certificates, sync awards with their templates, award achievements and certificates on demand without requiring an engagement trigger, and [much more](https://lifterlms.com/docs/getting-started-with-lifterlms-6-0/). In addition, this release removes a significant number of previously deprecated classes, methods, and functions. Please read the full Breaking Changes sections for more information on removed code.**
