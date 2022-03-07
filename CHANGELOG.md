@@ -4,7 +4,7 @@ LifterLMS Changelog
 v6.0.0 - 2022-03-08
 -------------------
 
-**This malor release of LifterLMS focuses on improving the experience of creating, designing, and managing achievements and certificates: use the block editor to design certificates, sync awards with their templates, award achievements and certificates on demand without requiring an engagement trigger, and [much more](https://lifterlms.com/docs/getting-started-with-lifterlms-6-0/). In addition, this release removes a significant number of previously deprecated classes, methods, and functions. Please read the full Breaking Changes sections for more information on removed code.**
+**This major release of LifterLMS focuses on improving the experience of creating, designing, and managing achievements and certificates: use the block editor to design certificates, sync awards with their templates, award achievements and certificates on demand without requiring an engagement trigger, and [much more](https://lifterlms.com/docs/getting-started-with-lifterlms-6-0/). In addition, this release removes a significant number of previously deprecated classes, methods, and functions. Please read the full Breaking Changes sections for more information on removed code.**
 
 ##### New Features
 
@@ -280,12 +280,12 @@ v6.0.0-rc.1 - 2022-03-03
 
 + Added pagination to achievement and certificate reporting pages.
 + Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
-+ The achivements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
++ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
 + Added new default images for use with achievements and certificates.
   + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
   + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
 + The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
-+ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The URL of certificate template previews has been changed from "certificate" to "certificate-template".
 + The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms/issues/1640)
 + Updates LifterLMS REST to [v1.0.0-beta.23](https://make.lifterlms.com/2022/02/23/lifterlms-rest-api-version-1-0-0-beta-23/).
 + Updated LifterLMS Blocks to [version 2.4.0](https://make.lifterlms.com/2022/02/25/lifterlms-blocks-version-2-4-0/).
@@ -522,12 +522,12 @@ v6.0.0-beta.2 - 2022-02-22
 
 + Added pagination to achievement and certificate reporting pages.
 + Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
-+ The achivements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
++ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
 + Added new default images for use with achievements and certificates.
   + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
   + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
 + The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
-+ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The URL of certificate template previews has been changed from "certificate" to "certificate-template".
 + The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms/issues/1640)
 + Updates LifterLMS REST to [v1.0.0-beta.22](https://make.lifterlms.com/2021/12/15/lifterlms-rest-api-version-1-0-0-beta-22/).
 + The look and behavior of the certificate {{MINI_CERTIFICATE}} pop-over notification merge code now displays a placeholder preview of the certificate in favor of attempting to render a tiny version of the actual certificate. [#1950](https://github.com/gocodebox/lifterlms/issues/1950)
@@ -822,12 +822,12 @@ v6.0.0-beta.1 - 2022-02-16
 
 + Added pagination to achievement and certificate reporting pages.
 + Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
-+ The achivements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
++ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
 + Added new default images for use with achievements and certificates.
   + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
   + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
 + The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
-+ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The URL of certificate template previews has been changed from "certificate" to "certificate-template".
 + The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms/issues/1640)
 + Updates LifterLMS REST to [v1.0.0-beta.22](https://make.lifterlms.com/2021/12/15/lifterlms-rest-api-version-1-0-0-beta-22/).
 + The look and behavior of the certificate {{MINI_CERTIFICATE}} pop-over notification merge code now displays a placeholder preview of the certificate in favor of attempting to render a tiny version of the actual certificate. [#1950](https://github.com/gocodebox/lifterlms/issues/1950)
@@ -1325,12 +1325,12 @@ v6.0.0-alpha.1 - 2021-12-28
 
 + Added pagination to achievement and certificate reporting pages.
 + Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms#463)
-+ The achivements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms#669)
++ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms#669)
 + Added new default images for use with achievements and certificates.
   + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
   + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms#1081)
 + The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
-+ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The URL of certificate template previews has been changed from "certificate" to "certificate-template".
 + The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms#1640)
 + Updates LifterLMS REST to [v1.0.0-beta.22](https://make.lifterlms.com/2021/12/15/lifterlms-rest-api-version-1-0-0-beta-22/).
 
@@ -1571,7 +1571,7 @@ v5.3.0 - 2021-08-31
 ##### Development updates
 
 + Introduced `LLMS_Trait_Singleton` to replace redundant singleton pattern definitions across classes in the codebase.
-+ Moveed the loading of the autoloader to the main `lifterlms.php` file.
++ Moved the loading of the autoloader to the main `lifterlms.php` file.
 + Updated the `LLMS_Payment_Gateway` abstract class to utilize `LLMS_Abstract_Options_Data` for accessing gateway options.
 + Audio and video embed methods shared by `LLMS_Course` and `LLMS_Membership` have been relocated to `LLMS_Trait_Audio_Video_Embed`.
 + Sales page methods shared by `LLMS_Course` and `LLMS_Membership` have been relocated to `LLMS_Trait_Sales_Page`.
@@ -1997,7 +1997,7 @@ v4.21.3 - 2021-05-31
 
 ##### Deprecations
 
-+ Class `LLMS_Frontend_Password` is deprecated, see deprecated methods and their replacments below:
++ Class `LLMS_Frontend_Password` is deprecated, see deprecated methods and their replacements below:
 
   + `LLMS_Frontend_Password::retrieve_password()` is deprecated in favor of `LLMS_Controller_Account::lost_password()`.
   + `LLMS_Frontend_Password::check_password_reset_key()` is deprecated in favor of `check_password_reset_key()`.
@@ -2247,7 +2247,7 @@ v4.10.2 - 2021-01-04
 
 ##### Updates
 
-+ Improveed performance of `llms_get_enrolled_students()`.
++ Improved performance of `llms_get_enrolled_students()`.
 + Refactored lesson navigation query functions.
 
 ##### Bug fixes
@@ -2273,7 +2273,7 @@ v4.10.0 - 2020-12-01
 ##### Updates
 
 + Adds native theme support for the WordPress default theme Twenty Twenty-One.
-+ Improved the `llms_archive_description()` function and releated filter.
++ Improved the `llms_archive_description()` function and related filter.
 
 ##### Bug fixes
 
@@ -2335,7 +2335,7 @@ v4.7.0 - 2020-11-02
 
 ##### Updates
 
-+ Major refractor of the `LLMS_Generator` class.
++ Major refactor of the `LLMS_Generator` class.
 + Course export structure improved to include images and reusable blocks found in post content.
 + When importing courses images will be automatically sideloaded into the media library as new attachment posts
 + When importing courses reusable blocks will be imported
@@ -2350,7 +2350,7 @@ v4.7.0 - 2020-11-02
 + Replaced an instance of the LifterLMS (old) 1.0 rocket logo with the current rocket logo. Thanks [@imknight](https://github.com/imknight)!
 + Ensure builder `switch-number` fields are set with the `number` type attribute. Thanks [@imknight](https://github.com/imknight)!
 + Don't display a "View Post" link when updating post types that aren't publicly queryable. Thanks [@imknight](https://github.com/imknight)!
-+ Fixed the incorrect output of an achievment's title in a popover notification when using the {{ACHIEVEMENT_TITLE}} merge code. Thanks [@CadenG150](https://github.com/@CadenG150)!
++ Fixed the incorrect output of an achievement's title in a popover notification when using the {{ACHIEVEMENT_TITLE}} merge code. Thanks [@CadenG150](https://github.com/@CadenG150)!
 + Fixed an error encountered when plugins utilize the `WP_Users_List_Table` class outside of the `users.php` screen.
 
 ##### Deprecations
@@ -3083,7 +3083,7 @@ v3.37.12 - 2020-03-10
 ##### Updates
 
 + Tested up to WordPress Core version 5.4.
-+ Added support for post revisions for course, lesson, and mebership post types.
++ Added support for post revisions for course, lesson, and membership post types.
 
 ##### Developer updates
 
@@ -3171,7 +3171,7 @@ v3.38.0-beta.2 - 2019-12-19
 v3.38.0-beta.1 - 2019-12-13
 ---------------------------
 
-##### Form Management Improvments
+##### Form Management Improvements
 
 + Forms (registration, checkout, account) are now managed via a block editor interface.
 + Customize field labels, description, and placeholders in a simple WYSIWYG interface.
@@ -3212,7 +3212,7 @@ v3.38.0-beta.1 - 2019-12-13
 
 ##### Removed unused Javascript assets
 
-+ Remove unused bootstrap transiton and collapse scripts.
++ Remove unused bootstrap transition and collapse scripts.
 + Remove topModal vendor dependency.
 + Remove password strength inline enqueues.
 
@@ -3304,7 +3304,7 @@ v3.37.1 - 2019-11-13
 --------------------
 
 + TwentyTwenty Theme: Fixed course information block misalignment.
-+ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
++ Fixed conflict with WooCommerce resulting from the movement of the deprecated LifterLMS function `is_filtered()`.
 
 
 v3.37.0 - 2019-11-11
@@ -5483,7 +5483,7 @@ v3.10.1 - 2017-07-12
 + Add new filter `llms_allow_subscription_cancellation` useful for preventing students from self-cancelling their subscriptions on the student dashboard. [More info](https://lifterlms.com/docs/lifterlms-filters/#llms_allow_subscription_cancellation).
 + Add new API for querying students via AJAX select2 elements
 + Select2 Post Query elements can now query multiple post types simultaneously
-+ Seletc2 Post Query elements can now support `<optgroup>`
++ Select2 Post Query elements can now support `<optgroup>`
 
 ###### i18n
 
@@ -6652,8 +6652,8 @@ v2.7.4 - 2016-05-26
 v2.7.3 - 2016-05-23
 -------------------
 
-+ Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter
-+ Added second parameter to `lifterlms_registration_redirect` to allow access to the registered users's user_id
++ Added a separate filter for login redirects `lifterlms_login_redirect` and added the user_id as a second parameter available to the filter.
++ Added second parameter to `lifterlms_registration_redirect` to allow access to the registered user's user_id.
 + Fixed a timestamp conversion issue on Course sale price checks that caused indefinite sales (those with no date restrictions) to appear not on sale during certain periods of time. The period would differ depending on the server's timezone settings and the time of visit.
 + Added a "Pointer" when hovering quiz summary accordion to allow for a slightly more obvious user experience that the elements are expandable.
 + Added some new localization methods to ensure strings that only appear in Javascript files will be translator friendly. This initially fixes a few issues on the Quiz Summary page and during quiz taking where strings only appeared in Javascript and were, therefore, completely inaccessible to translators.
@@ -7006,7 +7006,7 @@ _We've completely rewritten the certificates template (but it's all backwards co
 + Fixed some CSS issues on Voucher screens
 + Updated Courses settings retrieval function to retrieve the correct "shop" page id
 + Added translation functions to voucher export meta box class
-+ Vouchers Export metabox will only allow export after a voucher has been published. This prevent's an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
++ Vouchers Export metabox will only allow export after a voucher has been published. This prevents an issue caused by attempting to export voucher codes before they were saved in the database via the publish / save action.
 + Vouchers can no longer be saved with a use of "0"
 + added a CSS class for various syllabus outputs that notes that the lesson has an icon. Previously CSS relied on "is-complete" to output styles for having an icon but with the addition of placeholders the "is-complete" is used only to note that the lesson is completed and "has-icon" is a more semantic class that applies to both complete and incomplete lessons with an icon.
 + Removed the membership restriction metabox from some post types where it shouldn't have been displaying.
