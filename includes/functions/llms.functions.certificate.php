@@ -253,7 +253,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		/**
 		 * Determines the default starting number for the a certificate's sequential ID.
 		 *
-		 * The returned number *must* be an absolute integer (zero included). The returned value will be
+		 * The returned number *must* be an absolute integer. The returned value will be
 		 * passed through `absint()` to sanitize the filtered value.
 		 *
 		 * @since 6.0.0
@@ -264,7 +264,7 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
 		$id          = absint( $starting_id );
 
-		// If there's no stored ID we don't want to increment it because it'll default to 1 next time anyway.
+		// If there's no stored ID don't increment again or we'll end up getting 2 instead of 1 for the first id.
 		$increment = false;
 		$update    = true;
 
