@@ -151,7 +151,31 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'parent', $template_id );
 		$this->assertEquals( 15, $this->obj->update_sequential_id() );
 
+		// Incremented the templates's ID.
 		$this->assertEquals( 16, llms_get_certificate_sequential_id( $template_id, false ) );
+
+	}
+
+	/**
+	 * Test update_sequential_id() when creating several awards from a single template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_sequential_id_multi() {
+
+		$template_id = $this->create_certificate_template();
+
+		$id = 1;
+		while ( $id <= 5 ) {
+
+			$this->create();
+			$this->obj->set( 'parent', $template_id );
+			$this->assertEquals( $id, $this->obj->update_sequential_id(), $id );
+
+			$id++;
+		}
 
 	}
 

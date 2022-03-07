@@ -244,7 +244,6 @@ function llms_get_certificate_orientations() {
 function llms_get_certificate_sequential_id( $template_id, $increment = false ) {
 
 	$key    = '_llms_sequential_id';
-	$update = $increment;
 	$id     = absint( get_post_meta( $template_id, $key, true ) );
 
 	// No id, get the initial ID.
@@ -263,15 +262,12 @@ function llms_get_certificate_sequential_id( $template_id, $increment = false ) 
 		 */
 		$starting_id = apply_filters( 'llms_certificate_sequential_id_starting_number', 1, $template_id );
 		$id          = absint( $starting_id );
-
-		// If there's no stored ID don't increment again or we'll end up getting 2 instead of 1 for the first id.
-		$increment = false;
-		$update    = true;
+		$increment   = true;
 
 	}
 
-	if ( $update ) {
-		update_post_meta( $template_id, $key, $increment ? $id + 1 : $id );
+	if ( $increment ) {
+		update_post_meta( $template_id, $key, $id + 1 );
 	}
 
 	/**
