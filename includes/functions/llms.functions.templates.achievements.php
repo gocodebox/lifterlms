@@ -101,7 +101,7 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 		 * and results and the limit is less than the number of columns
 		 * force the columns to equal the limit.
 		 */
-		if ( ! $columns && $limit && $limit < $cols && $achievements->get_number_results() ) {
+		if ( ! $columns && $limit && $limit < $cols && $query->get_number_results() ) {
 			$cols = $limit;
 		}
 

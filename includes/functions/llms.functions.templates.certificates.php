@@ -186,7 +186,7 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 		 * and results and the limit is less than the number of columns
 		 * force the columns to equal the limit.
 		 */
-		if ( $limit && $limit < $cols && $certificates->get_number_results() ) {
+		if ( $limit && $limit < $cols && $query->get_number_results() ) {
 			$cols = $limit;
 		}
 
