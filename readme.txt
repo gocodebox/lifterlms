@@ -540,9 +540,10 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 = v6.0.0 - 2022-03-08 =
 
+**This major release of LifterLMS focuses on improving the experience of creating, designing, and managing achievements and certificates: use the block editor to design certificates, sync awards with their templates, award achievements and certificates on demand without requiring an engagement trigger, and [much more](https://lifterlms.com/docs/getting-started-with-lifterlms-6-0/). In addition, this release removes a significant number of previously deprecated classes, methods, and functions. Please read the full Breaking Changes sections for more information on removed code.**
+
 ##### New Features
 
-+ Added a link to return to the student dashboard when viewing an awarded certificate. [#1959](https://github.com/gocodebox/lifterlms/issues/1959)
 + The block editor is now enabled by default for certificates when using WordPress versions 5.8 and later.
   + Existing certificates are marked as "legacy" and will continue to use the classic editor until migrated.
   + To migrate a certificate, click the "Migrate Certificate" button. This will force the certificate's content into blocks.
@@ -554,39 +555,43 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + A new block, the Certificate Title Block, has been made available to certificates.
   + The block works like a WordPress core Heading Block with added options for selecting from a few display fonts (provided by Google Web Fonts).
   + The block controls the title of awarded certificates.
-+ + Added the ability to sync awarded certificates with the template used to generate them. [#1078](https://github.com/gocodebox/lifterlms/issues/1078)
-+ The `post_name` of earned certificate posts will be generated with a randomized 3+ character string in favor of relying on sequential numbers.
 + Added the ability for administrators and LMS managers to edit earned certificates/achievements from the students reporting screen, as well as award new certificates/achievements to students.
-+ + Added certificate global options for the default size of new certificates and certificate templates.
++ Added the ability to sync awarded certificates with the template used to generate them. [#1078](https://github.com/gocodebox/lifterlms/issues/1078)
++ The `post_name` of earned certificate posts will be generated with a randomized 3+ character string in favor of relying on sequential numbers.
++ Added certificate global options for the default size of new certificates and certificate templates.
 + Certificate and email template merge code buttons now include [llms-user] information shortcodes.
-+ Added certificate sequential ID functionality merge code. [Read more](@TODO).
++ Added certificate sequential ID functionality merge code.
++ Added a link to return to the student dashboard when viewing an awarded certificate. [#1959](https://github.com/gocodebox/lifterlms/issues/1959)
 + Provide additional information to hooks on the student single course reporting screen.
 
 ##### Updates and Enhancements
 
-+ Added pagination to achievement and certificate reporting pages.
-+ Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
-+ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
 + Added new default images for use with achievements and certificates.
   + The site-wide default images can be customized on the admin panel under Settings -> Engagements.
-  + The old default images can be used by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
+  + The old default images will automatically be used for legacy certificates and can be forced by filtering `llms_use_legacy_engagement_images`. [#1081](https://github.com/gocodebox/lifterlms/issues/1081)
++ Certificates no longer use the `header.php` and `footer.php` files from the site's theme, instead custom templates (`templates/certificates/header.php` and `templates/certificates/footer.php`) are used instead. These templates are minimal and exclude theme wrappers which reduces the visual conflicts encountered from theme wrappers, backgrounds, and more, especially when printing certificates. [#463](https://github.com/gocodebox/lifterlms/issues/463)
++ The achievements and certificates dashboard endpoints are now paginated. [#669](https://github.com/gocodebox/lifterlms/issues/669)
++ Added pagination to achievement and certificate reporting pages.
 + The URL of earned user certificates has been changed from "my_certificate" to "certificate". Requests to the old url are automatically redirected to the new url, including instances where the URL slug has been translated.
-+ The URL of certificate temaplate previews has been changed from "certificate" to "certificate-template".
++ The URL of certificate template previews has been changed from "certificate" to "certificate-template".
 + The certificate merge code, `{first_name}`, now outputs an empty string in favor of falling back to the user's nickname when there is no first name for the user. [#1640](https://github.com/gocodebox/lifterlms/issues/1640)
-+ Updates LifterLMS REST to [v1.0.0-beta.23](https://make.lifterlms.com/2022/02/23/lifterlms-rest-api-version-1-0-0-beta-23/).
-+ Updated LifterLMS Blocks to [version 2.4.0](https://make.lifterlms.com/2022/02/25/lifterlms-blocks-version-2-4-0/).
 + The look and behavior of the certificate {{MINI_CERTIFICATE}} pop-over notification merge code now displays a placeholder preview of the certificate in favor of attempting to render a tiny version of the actual certificate. [#1950](https://github.com/gocodebox/lifterlms/issues/1950)
 + The coupon code in the student's order details table is now wrapped in a `<code>` tag instead of an `<a>` tag. [#2033](https://github.com/gocodebox/lifterlms/issues/2033)
++ Updates LifterLMS REST to [v1.0.0-beta.23](https://make.lifterlms.com/2022/02/23/lifterlms-rest-api-version-1-0-0-beta-23/).
++ Updated LifterLMS Blocks to [version 2.4.0](https://make.lifterlms.com/2022/02/25/lifterlms-blocks-version-2-4-0/).
 
 ##### Bug Fixes
 
-+ + Fixed how the protected `LLMS_Notifications_Query::$found_results` property is accessed in `LLMS_Abstract_Notification_Controller::has_subscriber_received()`. + Fixed how the protected `LLMS_Notifications_Query::$max_pages` property is accessed in `lifterlms_template_student_dashboard_my_notifications()`.
 + Delayed engagements are automatically unscheduled when the related post is deleted.
-+ Prior to sending a delayed engagement the recipient's enrollment in the related post is verified resulting the engagement not being triggered if the recipient's enrollment has been terminated. [#290](https://github.com/gocodebox/lifterlms/issues/290)
 + A disabled student dashboard endpoint will no longer display the endpoint's summary on the main dashboard page. [#535](https://github.com/gocodebox/lifterlms/issues/535)
++ Prior to sending a delayed engagement the recipient's enrollment in the related post is verified resulting the engagement not being triggered if the recipient's enrollment has been terminated. [#290](https://github.com/gocodebox/lifterlms/issues/290)
 + Post search filter boxes on various post tables will now longer display a link to the selected post.
 + Basic notification code is no longer loaded on the admin panel.
 + Fixed the label hover on picture type quizzes in some themes. [#2015](https://github.com/gocodebox/lifterlms/issues/2015)
+
+##### Database Migration
+
++ A database migration is required when upgrading from versions earlier than 6.0.0. A description of the required updates can be found at [https://lifterlms.com/docs/lifterlms-database-updates/#600](https://lifterlms.com/docs/lifterlms-database-updates/#600).
 
 ##### Deprecations
 
