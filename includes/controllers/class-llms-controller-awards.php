@@ -138,11 +138,34 @@ class LLMS_Controller_Awards {
 			return 1;
 		}
 
+		add_filter( 'llms_certificate_merge_data', array( __CLASS__, 'on_rest_insert_merge_data' ) );
+
 		$cert->sync( 'create' );
 		$cert->set( 'name', llms()->certificates()->get_unique_slug( $cert->get( 'title' ) ) );
 
+		remove_filter( 'llms_certificate_merge_data', array( __CLASS__, 'on_rest_insert_merge_data' ) );
+
 		return 2;
 
+	}
+
+	/**
+	 * Modifies the merge data used when awarded a certificate using the REST API.
+	 *
+	 * This removes the `{sequential_id}` merge data. When creating the draft we don't want to use
+	 * the default `1` or whatever the parent's ID is. If we use `1` that's just generally incorrect and
+	 * if we use the parent's ID it might become the wrong ID by the time the certificate is published / awarded.
+	 *
+	 * Removing this will not merge the ID but on awarding the ID will be automatically merged with other merge codes.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $merge_data Merge data.
+	 * @return array
+	 */
+	public static function on_rest_insert_merge_data( $merge_data ) {
+		unset( $merge_data['{sequential_id}'] );
+		return $merge_data;
 	}
 
 	/**
@@ -167,7 +190,14 @@ class LLMS_Controller_Awards {
 
 		remove_action( "save_post_{$post_type}", array( __CLASS__, 'on_save' ), 20 );
 
+		$is_awarded = $obj->is_awarded();
+
 		if ( 'llms_my_certificate' === $post_type ) {
+
+			if ( ! $is_awarded ) {
+				$obj->update_sequential_id();
+			}
+
 			/**
 			 * Whenever an awarded certificate is updated we want to re-merge the content
 			 * in the event that any shortcodes or merge codes were added.
@@ -179,10 +209,6 @@ class LLMS_Controller_Awards {
 		 * If the award is being published for the first time, trigger the creation actions.
 		 */
 		if ( ! $obj->is_awarded() ) {
-
-			if ( 'llms_my_certificate' === $post_type ) {
-				$obj->update_sequential_id();
-			}
 
 			LLMS_Engagement_Handler::create_actions(
 				self::strip_prefix( $post_type ),
