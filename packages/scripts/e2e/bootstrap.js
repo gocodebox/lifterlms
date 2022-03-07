@@ -95,6 +95,10 @@ beforeAll( async() => {
 		console.log( `[pageerror] ${ err.message }` );
 	} );
 
+	page.on( 'error', ( err ) => {
+		console.log( `[error] ${ err.message }`, err );
+	} );
+
 } );
 
 
