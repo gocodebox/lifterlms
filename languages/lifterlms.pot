@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-07T10:08:15-07:00\n"
+"POT-Creation-Date: 2022-03-07T13:50:05-07:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.0\n"
 "X-Domain: lifterlms\n"
@@ -8405,54 +8405,54 @@ msgstr ""
 msgid "Landscape"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:317
+#: includes/functions/llms.functions.certificate.php:308
 msgctxt "Paper size name"
 msgid "A3"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:323
+#: includes/functions/llms.functions.certificate.php:314
 msgctxt "Paper size name"
 msgid "A4"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:329
+#: includes/functions/llms.functions.certificate.php:320
 msgctxt "Paper size name"
 msgid "A5"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:336
+#: includes/functions/llms.functions.certificate.php:327
 msgctxt "Paper size name"
 msgid "Letter"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:342
+#: includes/functions/llms.functions.certificate.php:333
 msgctxt "Paper size name"
 msgid "Legal"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:348
+#: includes/functions/llms.functions.certificate.php:339
 msgctxt "Paper size name"
 msgid "Ledger"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:354
+#: includes/functions/llms.functions.certificate.php:345
 msgid "User defined"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:390
+#: includes/functions/llms.functions.certificate.php:381
 msgid "Inches"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:391
+#: includes/functions/llms.functions.certificate.php:382
 msgctxt "Symbol for inches"
 msgid "\""
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:394
+#: includes/functions/llms.functions.certificate.php:385
 msgid "Millimeters"
 msgstr ""
 
-#: includes/functions/llms.functions.certificate.php:395
+#: includes/functions/llms.functions.certificate.php:386
 msgctxt "Symbol for millimeters"
 msgid "mm"
 msgstr ""
