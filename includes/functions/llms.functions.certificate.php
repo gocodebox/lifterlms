@@ -231,7 +231,7 @@ function llms_get_certificate_orientations() {
 /**
  * Retrieve the next sequential ID for a given certificate template and optionally increment it.
  *
- * If there's no existing ID.
+ * If there's no existing ID, a default ID of 1 will be used. This can be customized using the filter `llms_certificate_sequential_id_starting_number`.
  *
  * When an increment is requested, the new incremented ID will be automatically persisted to the database.
  *
