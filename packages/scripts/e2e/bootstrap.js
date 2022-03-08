@@ -2,7 +2,7 @@
  * Tests Bootstrap.
  *
  * @since Unknown
- * @version [version]
+ * @version 3.0.0
  */
 
 require( 'regenerator-runtime' );
@@ -113,7 +113,7 @@ expect.extend( {
 	 * This matcher allows us to check strings that have quotes in them that may or may not be texturized depending
 	 * on the theme being tested against.
 	 *
-	 * @since [version]
+	 * @since 3.0.0
 	 *
 	 * @see {@link https://github.com/WordPress/gutenberg/issues/37754}
 	 *
@@ -166,7 +166,7 @@ expect.extend( {
 /**
  * Global helper function that conditionally runs a describe() block if the condition is met.
  *
- * @since [version]
+ * @since 3.0.0
  *
  * @example describeIf( true )( 'SuiteName', () => {} )
  *
@@ -178,7 +178,7 @@ global.describeIf = condition => condition ? describe : describe.skip;
 /**
  * Global helper function that conditionally runs a test() if the condition is met.
  *
- * @since [version]
+ * @since 3.0.0
  *
  * @example testIf( true )( 'SuiteName', () => {} )
  *

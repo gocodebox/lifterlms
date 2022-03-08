@@ -5,7 +5,7 @@ exports.interfaceVersion = interfaceVersion;
 /**
  * Determine if an imported module / path is a WordPress package.
  *
- * @since [version]
+ * @since 3.0.0
  *
  * @param {string} source Module name or path.
  * @return {Boolean} Returns `true` if the module looks like a WordPress package.

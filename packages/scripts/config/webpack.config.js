@@ -4,7 +4,7 @@
  * @package LifterLMS_Groups/Scripts/Dev
  *
  * @since Unknown
- * @version [version]
+ * @version 3.0.0
  */
 
 // Deps.
@@ -19,7 +19,7 @@ const
  * Used by dependency extractor to handle requests to convert names of scripts included in the LifterLMS Core.
  *
  * @since 1.2.1
- * @since [version] Load `@lifterlms/*` packages into the `window.llms` namespace.
+ * @since 3.0.0 Load `@lifterlms/*` packages into the `window.llms` namespace.
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
@@ -42,7 +42,7 @@ function requestToExternal( request ) {
  * Used by dependency extractor to handle requests to scripts included in the LifterLMS Core.
  *
  * @since 1.2.1
- * @since [version] Use `llms-*` as the script ID for `@lifterlms/*` packages.
+ * @since 3.0.0 Use `llms-*` as the script ID for `@lifterlms/*` packages.
  *
  * @param {string} request External script slug/id.
  * @return {String|Array} A string
