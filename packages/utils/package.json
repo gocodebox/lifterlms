@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/utils",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "JS Utility library for LifterLMS.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -25,6 +25,7 @@
   },
   "scripts": {
     "docgen": "docgen src/index.js --output README.md --to-token",
+    "dev": "./../dev/src/index.js",
     "lint:js": "wp-scripts lint-js ./",
     "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
   }

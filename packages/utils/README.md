@@ -1,4 +1,5 @@
-# LifterLMS JS Utilities
+LifterLMS JS Utilities
+======================
 
 Javascript utility library for use in LifterLMS and LifterLMS add-ons.
 

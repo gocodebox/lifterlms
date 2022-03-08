@@ -7,7 +7,7 @@ import { untrailingSlashIt } from '../formatting';
  * present on the WordPress admin panel. If used out of context a default partial path url, `/wp-admin`
  * will be returned.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @return {string} The WP Admin URL.
  */
