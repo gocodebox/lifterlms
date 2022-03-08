@@ -15,13 +15,13 @@ const { Icon, ...icons } = Icons;
 function App() {
 	return (
 		<>
-		{ Object.entries( icons ).map( ( [ id, icon ] ) => {
-			return (
-				<div key={ id } id={ id }>
-					<Icon icon={ icon } size="48" />
-				</div>
-			);
-		} ) }
+			{ Object.entries( icons ).map( ( [ id, icon ] ) => {
+				return (
+					<div key={ id } id={ id }>
+						<Icon icon={ icon } size="48" />
+					</div>
+				);
+			} ) }
 		</>
 	);
 }

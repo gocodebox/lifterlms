@@ -28,7 +28,6 @@ let docs = `<table>
 	<tbody>`;
 
 $( '#app div' ).each( ( i, el ) => {
-
 	const id = $( el ).attr( 'id' );
 	writeFileSync( `${ BUILD_DIR }/${ id }.svg`, $( el ).html() );
 
@@ -39,7 +38,6 @@ $( '#app div' ).each( ( i, el ) => {
 			<td><code>&lt;Icon icon={ ${ id } } /&gt;</code></td>
 		</tr>
 	`;
-
 } );
 
 docs += `</tbody>
