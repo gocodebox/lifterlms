@@ -51,7 +51,7 @@
     "test:unit": "wp-scripts test-unit-js ./src/js --config packages/scripts/config/jest-unit.config.js --verbose",
     "pkg:docgen": "lerna run docgen",
     "pkg:hoist": "lerna bootstrap --hoist",
-    "pkg:lint:js": "wp-scripts lint-js ./packages/components ./packages/dev ./packages/llms-e2e-test-utils/**/*.js ./packages/utils",
+    "pkg:lint:js": "lerna run lint:js",
     "pkg:test": "wp-scripts test-unit-js ./packages --config packages/scripts/config/jest-unit.config.js --verbose",
     "postinstall": "npm run pkg:hoist",
     "start": "wp-scripts start",
