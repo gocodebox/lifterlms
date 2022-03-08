@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -199,10 +199,11 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.15.0
+	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 *
 	 * @return string
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

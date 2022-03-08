@@ -73,7 +73,7 @@ class LLMS_Notification_View_Manual_Payment_Due extends LLMS_Abstract_Notificati
 	 * @since 5.2.0 Build the table with mailer helper.
 	 */
 	private function set_body_email() {
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		$rows = array(
 			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),

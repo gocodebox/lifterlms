@@ -18,6 +18,29 @@ foreach ( glob( LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-upd
 }
 
 /**
+ * Get the number of items per page used in paginated migration queries.
+ *
+ * @since 6.0.0
+ *
+ * @return int
+ */
+function llms_update_util_get_items_per_page() {
+	/**
+	 * Filters the number of items per page in migration queries.
+	 *
+	 * This filter exists primarily to allow phpunit tests for migration
+	 * functions and queries to reduce the number of items per query. In this
+	 * way pagination functionality can be tested without having to tests
+	 * a large number of items.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param int $per_page Number of items per page.
+	 */
+	return apply_filters( 'llms_update_items_per_page', 50 );
+}
+
+/**
  * Duplicate a WP Post & all relate metadata
  *
  * @since 3.16.0

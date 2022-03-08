@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,10 @@ defined( 'ABSPATH' ) || exit;
  *              Method `is_inline_script_enqueued()` is deprecated in favor of `LLMS_Frontend_Assets::is_inline_enqueued()`.
  *              Private properties `$enqueued_inline_scripts` and `$inline_scripts` have been removed.
  *              Removed private methods `get_inline_scripts()` and `output_inline_scripts()`.
- * @since 5.7.0 Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Frontend_Assets::enqueue_inline_pw_script()` method
+ *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
+ *              - `LLMS_Frontend_Assets::is_inline_script_enqueued()` method
  */
 class LLMS_Frontend_Assets {
 
@@ -117,42 +120,6 @@ class LLMS_Frontend_Assets {
 	}
 
 	/**
-	 * Enqueue an inline script
-	 *
-	 * @version 3.4.1
-	 * @deprecated 4.4.0 Use `LLMS_Assets::enqueue_inline()` instead.
-	 *
-	 * @param string $id       Unique id for the script, used to prevent duplicates.
-	 * @param string $script   JS to enqueue, do not add <script> tags!.
-	 * @param string $location Where to enqueue, accepts "header" or "footer".
-	 * @param float  $priority Enqueue priority.
-	 * @return boolean
-	 */
-	public static function enqueue_inline_script( $id, $script, $location = 'footer', $priority = 10 ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::enqueue_inline_script()', '4.4.0', 'LLMS_Assets::enqueue_inline()' );
-		return llms()->assets->enqueue_inline( $id, $script, $location, $priority ) ? true : false;
-	}
-
-	/**
-	 * Output the inline PW Strength meter script
-	 *
-	 * @since 3.4.1
-	 * @deprecated 5.7.0 There is not a replacement.
-	 *
-	 * @return void
-	 */
-	public static function enqueue_inline_pw_script() {
-
-		llms_deprecated_function( __METHOD__, '5.7.0' );
-		llms()->assets->enqueue_inline(
-			'llms-pw-strength',
-			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
-			'footer',
-			15
-		);
-	}
-
-	/**
 	 * Enqueue Styles
 	 *
 	 * @since 1.0.0
@@ -224,7 +191,7 @@ class LLMS_Frontend_Assets {
 		}
 
 		// Doesn't seem like there's any reason to enqueue this script on the frontend.
-		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 
 		// I think we only need this on account and checkout pages.
 		llms()->assets->enqueue_script( 'llms-form-checkout' );
@@ -259,7 +226,7 @@ class LLMS_Frontend_Assets {
 		$scripts = array(
 			'llms-ajaxurl'           => 'window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ) . '";',
 			'llms-ajax-nonce'        => 'window.llms.ajax_nonce = "' . wp_create_nonce( LLMS_AJAX::NONCE ) . '";',
-			'llms-tracking-settings' => "window.llms.tracking = '" . wp_json_encode( LLMS()->events()->get_client_settings() ) . "';",
+			'llms-tracking-settings' => "window.llms.tracking = '" . wp_json_encode( llms()->events()->get_client_settings() ) . "';",
 			'llms-LLMS-obj'          => 'window.LLMS = window.LLMS || {};',
 			'llms-l10n'              => 'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';',
 		);
@@ -290,20 +257,6 @@ class LLMS_Frontend_Assets {
 			);
 		}
 
-	}
-
-	/**
-	 * Determine if an inline script has already been enqueued
-	 *
-	 * @since 3.4.1
-	 * @deprecated 4.4.0
-	 *
-	 * @param string $handle Handle of the inline script.
-	 * @return boolean
-	 */
-	public static function is_inline_script_enqueued( $handle ) {
-		llms_deprecated_function( 'LLMS_Frontend_Assets::is_inline_enqueued()', '4.4.0', 'LLMS_Frontend_Assets::is_inline_enqueued()' );
-		return llms()->assets->is_inline_enqueued( $handle );
 	}
 
 	/**

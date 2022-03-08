@@ -18,6 +18,9 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
 	 * @since 5.0.0 Install forms during setup.
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `LLMS_UnitTestCase::setup_get()` method with `LLMS_Unit_Test_Mock_Requests::mockGetRequest()`
+	 *              - `LLMS_UnitTestCase::setup_post()` method with `LLMS_Unit_Test_Mock_Requests::mockPostRequest()`
 	 *
 	 * @return void
 	 */
@@ -27,19 +30,19 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		LLMS_Forms::instance()->install( true );
 
 		// form not submitted
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
 
 		// not submitted
-		$this->setup_get( array() );
+		$this->mockGetRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
 
 		// form submitted but missing things
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 		) );
 		do_action( 'init' );
@@ -52,7 +55,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		$uid = $this->factory->user->create();
 		wp_set_current_user( $uid );
 		// form submitted but missing things
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 		) );
 		do_action( 'init' );
@@ -65,7 +68,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		wp_set_current_user( null );
 
 		// incomplete form
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 			'user_login' => '',
 			'email_address' => 'fake@mock.org',
@@ -78,7 +81,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		llms_clear_notices();
 
 		// this should register a user
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_register_person_nonce' => wp_create_nonce( 'llms_register_person' ),
 			'user_login' => '',
 			'email_address' => 'fake@mock.org',

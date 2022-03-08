@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 4.21.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -76,7 +76,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * @since 4.12.0 Add throttling by course in progress and adjust last_run calculation to be specific to the course.
 	 *               Improve performance of the student query by removing unneeded sort columns.
 	 * @since 4.21.0 When there's no students found in the course, run the `task_complete()` method to ensure data
-	 *                  from a previous calculation is cleared.
+	 *               from a previous calculation is cleared.
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @param int $course_id WP Post ID of the course.
 	 * @return void|null
@@ -103,20 +104,20 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$query = new LLMS_Student_Query( $args );
 
 		// No students in the course, run task completion.
-		if ( ! $query->found_results ) {
+		if ( ! $query->get_found_results() ) {
 			return $this->task_complete( $course, $this->get_task_data(), true );
 		}
 
 		// Store the total number of students right away.
-		$course->set( 'enrolled_students', $query->found_results );
+		$course->set( 'enrolled_students', $query->get_found_results() );
 
 		// Throttle processing.
-		if ( $this->maybe_throttle( $query->found_results, $course_id ) ) {
+		if ( $this->maybe_throttle( $query->get_found_results(), $course_id ) ) {
 			return $this->dispatch_calc_throttled( $course_id );
 		}
 
 		// Add each page to the queue.
-		while ( $args['page'] <= $query->max_pages ) {
+		while ( $args['page'] <= $query->get_max_pages() ) {
 			$this->push_to_queue( $args );
 			$args['page']++;
 		}

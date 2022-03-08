@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.26.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,11 +44,12 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Action triggered to queue all students who need to be enrolled
 	 *
-	 * @param    int $membership_id  WP Post ID of the membership
-	 * @param    int $course_id      WP Post ID of the course to enroll members into
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 *
+	 * @param int $membership_id WP Post ID of the membership.
+	 * @param int $course_id     WP Post ID of the course to enroll members into.
+	 * @return void
 	 */
 	public function dispatch_enrollment( $membership_id, $course_id ) {
 
@@ -66,9 +67,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$query = new LLMS_Student_Query( $args );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 
-			while ( $args['page'] <= $query->max_pages ) {
+			while ( $args['page'] <= $query->get_max_pages() ) {
 
 				$this->push_to_queue(
 					array(
@@ -139,15 +140,16 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	}
 
 	/**
-	 * Execute calculation for each item in the queue until all students
-	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessible via LLMS_Course
+	 * Execute calculation for each item in the queue until all students in the course have been polled.
 	 *
-	 * @param    array $item  array of processing data
-	 * @return   boolean          true to keep the item in the queue and process again
-	 *                            false to remove the item from the queue
-	 * @since    3.15.0
-	 * @version  3.26.1
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
+	 *
+	 * @since 3.15.0
+	 * @since 6.0.0 Replaced access of LLMS_Student_Query::$found_results protected property with LLMS_Student_Query::has_results().
+	 *
+	 * @param array $item Array of processing data.
+	 * @return boolean True to keep the item in the queue and process again.
+	 *                 False to remove the item from the queue.
 	 */
 	public function task( $item ) {
 
@@ -160,14 +162,14 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		}
 
 		// turn the course data processor off
-		$course_data_processor = LLMS()->processors()->get( 'course_data' );
+		$course_data_processor = llms()->processors()->get( 'course_data' );
 		if ( $course_data_processor ) {
 			$course_data_processor->disable();
 		}
 
 		$query = new LLMS_Student_Query( $item['query_args'] );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 			foreach ( $query->get_students() as $student ) {
 				$student->enroll( $item['course_id'], $item['trigger'] );
 			}

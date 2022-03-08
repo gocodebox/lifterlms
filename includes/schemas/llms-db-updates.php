@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 5.2.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -143,6 +143,17 @@ return array(
 		'updates' => array(
 			'llms_update_520_upcoming_reminder_notification_backward_compat',
 			'llms_update_520_update_db_version',
+		),
+	),
+	'6.0.0'  => array(
+		'type'      => 'manual',
+		'namespace' => true,
+		'updates'   => array(
+			'migrate_achievements',
+			'migrate_certificates',
+			'migrate_award_templates',
+			'show_notice',
+			'update_db_version',
 		),
 	),
 );

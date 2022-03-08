@@ -8,6 +8,9 @@
  * @group frontend_assets
  *
  * @since 4.4.0
+ * @since 6.0.0 Removed testing of removed items.
+ *              - `LLMS_Frontend_Assets::enqueue_inline_script()` method
+ *              - `LLMS_Frontend_Assets::is_inline_enqueued()` method
  */
 class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 
@@ -56,29 +59,6 @@ class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 		$this->assertArrayHasKey( 'llms-integrity', $this->get_inline_scripts() );
 
 		LLMS_Unit_Test_Util::set_private_property( llms()->assets, 'inline', array() );
-
-	}
-
-	/**
-	 * Test inline script management functions
-	 *
-	 * @since 3.4.1
-	 *
-	 * @expectedDeprecated LLMS_Frontend_Assets::enqueue_inline_script()
-	 * @expectedDeprecated LLMS_Frontend_Assets::is_inline_enqueued()
-	 *
-	 * @return void
-	 */
-	public function test_inline_scripts() {
-
-		// New script should return true.
-		$this->assertTrue( LLMS_Frontend_Assets::enqueue_inline_script( 'test-id', 'alert("hello");', 'footer', 25 ) );
-
-		// Script should be enqueued.
-		$this->assertTrue( LLMS_Frontend_Assets::is_inline_script_enqueued( 'test-id' ) );
-
-		// Fake script not enqueued.
-		$this->assertFalse( LLMS_Frontend_Assets::is_inline_script_enqueued( 'fake-id' ) );
 
 	}
 

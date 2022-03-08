@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.12
- * @version 5.4.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -90,6 +90,7 @@ class LLMS_Post_Relationships {
 	 *
 	 * @since 3.16.12
 	 * @since 5.4.0 Prevent course/membership with active subscriptions deletion.
+	 * @since 6.0.0 Added hook to cleanup user post meta data when awarded certs and achievements are deleted.
 	 *
 	 * @return void
 	 */
@@ -98,9 +99,72 @@ class LLMS_Post_Relationships {
 		add_action( 'delete_post', array( $this, 'maybe_update_relationships' ) );
 		add_action( 'pre_delete_post', array( __CLASS__, 'maybe_prevent_product_deletion' ), 10, 2 );
 
+		add_action( 'before_delete_post', array( __CLASS__, 'maybe_clean_earned_engagments_related_user_post_meta' ) );
+
 	}
 
+	/**
+	 * Maybe delete LifterLMS user post meta related to earned engagements.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param int $post_id Post ID.
+	 * @return void
+	 */
+	public static function maybe_clean_earned_engagments_related_user_post_meta( $post_id ) {
 
+		$post_types = array(
+			'llms_my_certificate',
+			'llms_my_achievement',
+		);
+		$post_type  = get_post_type( $post_id );
+
+		if ( ! in_array( $post_type, $post_types, true ) ) {
+			return;
+		}
+
+		$earned_engagement = 'llms_my_certificate' === $post_type ? new LLMS_User_Certificate( $post_id ) : new LLMS_User_Achievement( $post_id );
+
+		do_action_deprecated(
+			'llms_before_delete_' . str_replace( 'llms_my_', '', $post_type ),
+			array(
+				$earned_engagement,
+			),
+			'[version]',
+			'',
+			__( 'Use WordPress core  `before_delete_post` action hook', 'lifterlms' )
+		);
+
+		global $wpdb;
+		$wpdb->delete(
+			"{$wpdb->prefix}lifterlms_user_postmeta",
+			array(
+				'user_id'    => $earned_engagement->get_user_id(),
+				'meta_key'   => '_' . str_replace( 'llms_my_', '', $post_type ) . '_earned',
+				'meta_value' => $post_id,
+			),
+			array( '%d', '%s', '%d' )
+		); // no-cache ok.
+
+		add_action(
+			'after_delete_post',
+			function( $post_id ) use ( $earned_engagement, $post_type ) {
+
+				if ( $earned_engagement->get( 'id' ) === $post_id ) {
+					do_action_deprecated(
+						'llms_delete_' . str_replace( 'llms_my_', '', $post_type ),
+						array(
+							$earned_engagement,
+						),
+						'[version]',
+						'',
+						__( 'Use WordPress core `deleted_post` action hook.', 'lifterlms' )
+					);
+				}
+
+			}
+		);
+	}
 
 	/**
 	 * Determine whether a product deletion should take place.

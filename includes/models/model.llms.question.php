@@ -190,7 +190,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			)
 		);
 
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+		return apply_filters( "llms_{$this->model_post_type}_get_creation_args", $args, $this );
 
 	}
 

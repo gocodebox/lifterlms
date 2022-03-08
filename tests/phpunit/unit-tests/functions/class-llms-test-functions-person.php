@@ -10,6 +10,7 @@
  * @since 3.9.0 Add tests for `llms_get_student()`.
  * @since 3.9.0 Add tests for `llms_get_usernames_blacklist()`.
  * @since 5.0.0 Add tests for `llms_set_password_reset_cookie()` and `llms_parse_password_reset_cookie()`.
+ * @since 6.0.0 Removed testing of the removed `llms_set_person_auth_cookie()` function.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
@@ -351,19 +352,6 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 		// Reset.
 		unset( $_SERVER['HTTPS'] );
 
-	}
-
-	/**
-	 * Test llms_set_person_auth_cookie()
-	 *
-	 * @since 4.5.0
-	 *
-	 * @expectedDeprecated llms_set_person_auth_cookie
-	 *
-	 * @return void
-	 */
-	public function test_llms_set_person_auth_cookie() {
-		llms_set_person_auth_cookie( $this->factory->user->create() );
 	}
 
 	/**

@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Abstract_Email_Provider
  *
  * @since 3.40.0
+ * @since 6.0.0 Removed the deprecated `LLMS_Abstract_Email_Provider::output_css()` method.
  */
 abstract class LLMS_Abstract_Email_Provider {
 
@@ -388,18 +389,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		$screen = get_current_screen();
 		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab' ) && ! $this->is_connected() );
 
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since 3.40.0
-	 * @deprecated 3.40.0
-	 *
-	 * @return void
-	 */
-	public function output_css() {
-		llms_deprecated_function( 'LLMS_Abstract_Email_Provider::output_css()', '3.40.0' );
 	}
 
 }

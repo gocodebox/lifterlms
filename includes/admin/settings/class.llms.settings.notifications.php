@@ -29,16 +29,15 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	public $view;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/settings/tables/class.llms.table.notification.settings.php';
 
 		$this->id    = 'notifications';
 		$this->label = __( 'Notifications', 'lifterlms' );
@@ -172,7 +171,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = LLMS()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+			$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
 
 			if ( $controller ) {
 
@@ -275,7 +274,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$controller = LLMS()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+				$controller = llms()->notifications()->get_controller( llms_filter_input_sanitize_string( INPUT_GET, 'notification' ) );
+
 				$controller->send_test(
 					llms_filter_input_sanitize_string( INPUT_GET, 'type' ),
 					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

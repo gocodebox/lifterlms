@@ -35,15 +35,23 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	protected $class_label = 'Engagements';
 
 	/**
+	 * Determines whether or not legacy setting should be added to the mock settings array.
+	 *
+	 * @var boolean
+	 */
+	private $expect_legacy_opts = false;
+
+	/**
 	 * Return an array of mock settings and possible values.
 	 *
 	 * @since 3.37.3
+	 * @since 6.0.0 Update settings.
 	 *
 	 * @return void
 	 */
 	protected function get_mock_settings() {
 
-		return array(
+		$settings = array(
 			'lifterlms_email_from_name' => array(
 				esc_attr( get_bloginfo( 'title' ) ),
 				'mock from name',
@@ -58,18 +66,70 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 			'lifterlms_email_footer_text' => array(
 				'footer text content',
 			),
-			'lifterlms_certificate_bg_img_width' => array(
-				800,
-				1024,
+			'lifterlms_achievement_default_img' => array(
+				0,
+				25,
 			),
-			'lifterlms_certificate_bg_img_height' => array(
-				616,
-				1200,
+			'lifterlms_certificate_default_img' => array(
+				0,
+				32,
 			),
-			'lifterlms_certificate_legacy_image_size' => array(
-				'yes',
+			'lifterlms_certificate_default_size' => array(
+				'LETTER',
+				'A4'
+			),
+			'lifterlms_certificate_default_user_defined_width' => array(
+				8.5,
+				120,
+			),
+			'lifterlms_certificate_default_user_defined_height' => array(
+				11,
+				200
+			),
+			'lifterlms_certificate_default_user_defined_unit' => array(
+				'in',
+				'mm'
 			),
 		);
+
+		if ( $this->expect_legacy_opts ) {
+			$settings = array_merge(
+				$settings,
+				array(
+					'lifterlms_certificate_bg_img_width' => array(
+						800,
+						1024,
+					),
+					'lifterlms_certificate_bg_img_height' => array(
+						616,
+						1200,
+					),
+					'lifterlms_certificate_legacy_image_size' => array(
+						'yes',
+					),
+				)
+			);
+		}
+
+		return $settings;
+
+	}
+
+	/**
+	 * Ensure all editable settings exist in the settings array when the legacy option is set.
+	 *
+	 * Calls the parent test method `test_get_setting()` after setting up data to enable legacy opts.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_get_settings_with_legacy() {
+
+		update_option( 'llms_has_certificates_with_legacy_default_image', 'yes' );
+		$this->expect_legacy_opts = true;
+		parent::test_get_settings();
+		$this->expect_legacy_opts = false;
 
 	}
 
@@ -125,5 +185,22 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 		remove_filter( 'llms_email_delivery_services', array( $this, 'get_mock_email_provider' ) );
 
 	}
+
+	/**
+	 * Test the save() method with legacy options enabled.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_save_with_legacy_opts() {
+
+		update_option( 'llms_has_certificates_with_legacy_default_image', 'yes' );
+		$this->expect_legacy_opts = true;
+		parent::test_save();
+		$this->expect_legacy_opts = false;
+
+	}
+
 
 }

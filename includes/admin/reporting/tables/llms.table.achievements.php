@@ -1,48 +1,64 @@
 <?php
 /**
- * Admin Achievements Table
+ * LLMS_Table_Achievements class file
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Achievements class
+ * Display the student achievements reporting table.
  *
  * @since 3.2.0
- * @since 3.35.0 Get student ID more reliably.
+ * @since 6.0.0 Allow pagination.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Earned_Engagement_Reporting_Table;
+
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'achievements';
 
 	/**
-	 * Instance of LLMS_Student
+	 * Instance of LLMS_Student.
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $student = null;
 
 	/**
-	 * Get HTML for buttons in the actions cell of the table
+	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @param    int $achievement_id WP Post ID of the achievement post.
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @var boolean
+	 */
+	protected $is_paginated = true;
+
+	/**
+	 * Get HTML for buttons in the actions cell of the table.
+	 *
+	 * @since 3.18.0
+	 * @since 6.0.0 Show a button to edit earned achievements.
+	 *
+	 * @param int $achievement_id WP Post ID of the achievement post.
+	 * @return void
 	 */
 	private function get_actions_html( $achievement_id ) {
 		ob_start();
 		?>
+		<?php if ( get_edit_post_link( $achievement_id ) ) : ?>
+		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $achievement_id ) ); ?>">
+			<?php _e( 'Edit', 'lifterlms' ); ?>
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</a>
+		<?php endif; ?>
 		<form action="" method="POST" style="display:inline;">
 
 			<button type="submit" class="llms-button-danger small" id="llms_delete_achievement" name="llms_delete_achievement">
@@ -62,30 +78,36 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 		return ob_get_clean();
 	}
 
-
 	/**
-	 * Retrieve data for the columns
+	 * Retrieve data for the columns.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object of achievement data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.18.0
+	 * @since 3.2.0
+	 * @since 3.18.0 Unknown.
+	 * @since 6.0.0 Retrieve earned date using the LLMS_User_Achievement model.
+	 *
+	 * @param  string                $key         The column id / key.
+	 * @param  LLMS_User_Achievement $achievement Object of achievement data.
+	 * @return mixed
 	 */
-	public function get_data( $key, $data ) {
+	public function get_data( $key, $achievement ) {
+
+		// Handle old object being passed in.
+		if ( ! is_a( $achievement, 'LLMS_User_Achievement' ) && property_exists( $achievement, 'achievement_id' ) ) {
+			$achievement = new LLMS_User_Achievement( $achievement->certificate_id );
+		}
 
 		switch ( $key ) {
 
 			case 'actions':
-				$value = $this->get_actions_html( $data->achievement_id );
+				$value = $this->get_actions_html( $achievement->get( 'id' ) );
 				break;
 
 			case 'related':
-				if ( $data->post_id && 'llms_achievement' !== get_post_type( $data->post_id ) ) {
-					if ( is_numeric( $data->post_id ) ) {
-						$value = $this->get_post_link( $data->post_id, get_the_title( $data->post_id ) );
+				if ( $achievement->get( 'related' ) && 'llms_achievement' !== get_post_type( $achievement->get( 'related' ) ) ) {
+					if ( is_numeric( $achievement->get( 'related' ) ) ) {
+						$value = $this->get_post_link( $achievement->get( 'related' ), get_the_title( $achievement->get( 'related' ) ) );
 					} else {
-						$value = $data->post_id;
+						$value = $achievement->get( 'related' );
 					}
 				} else {
 					$value = '&ndash;';
@@ -93,20 +115,22 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 				break;
 
 			case 'earned':
-				$value = date_i18n( 'F j, Y', strtotime( $data->earned_date ) );
+				$value = $achievement->get_earned_date();
+				$value = 'future' === $achievement->get( 'status' ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
 				break;
 
 			case 'id':
-				$value = $data->achievement_id;
+				$value = $achievement->get( 'id' );
 				break;
 
 			case 'image':
-				$value = wp_get_attachment_image( get_post_meta( $data->achievement_id, '_llms_achievement_image', true ), array( 64, 64 ) );
+				$src   = $achievement->get_image( array( 32, 32 ) );
+				$value = '<img src="' . esc_url( $src ) . '" alt="' . $achievement->get( 'title' ) . '" width="32" height="32">';
 				break;
 
 			case 'template_id':
 				// Prior to 3.2 this data wasn't recorded.
-				$template = get_post_meta( $data->achievement_id, '_llms_achievement_template', true );
+				$template = $achievement->get( 'parent' );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
@@ -115,7 +139,7 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 				break;
 
 			case 'name':
-				$value = get_post_meta( $data->achievement_id, '_llms_achievement_title', true );
+				$value = $achievement->get( 'title' );
 				break;
 
 			default:
@@ -123,10 +147,27 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		}
 
-		return $this->filter_get_data( $value, $key, $data );
+		// Pass the "legacy" object to the filter.
+		$backwards_compat_obj = array(
+			'post_id'        => $achievement->get( 'related' ),
+			'achievement_id' => $achievement->get( 'id' ),
+			'earned_date'    => $achievement->get_earned_date(),
+		);
+
+		return $this->filter_get_data( $value, $key, (object) $backwards_compat_obj );
 
 	}
 
+	/**
+	 * Get table results.
+	 *
+	 * @since Unknown
+	 * @since 6.0.0 Don't use deprecated signature for retrieving achievements.
+	 *              Paginate results.
+	 *
+	 * @param array $args Table query arguments.
+	 * @return void
+	 */
 	public function get_results( $args = array() ) {
 
 		$args = $this->clean_args( $args );
@@ -137,7 +178,29 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$this->tbody_data = $this->student->get_achievements();
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$query = $this->student->get_achievements(
+			array(
+				'per_page' => 10,
+				'status'   => array( 'publish', 'future' ),
+				'paged'    => $this->current_page,
+				'sort'     => array(
+					'date' => 'ASC',
+					'ID'   => 'ASC',
+				),
+			)
+		);
+
+		$this->max_pages = $query->get_max_pages();
+
+		if ( $this->max_pages > $this->current_page ) {
+			$this->is_last_page = false;
+		}
+
+		$this->tbody_data = $query->get_awards();
 
 	}
 

@@ -257,7 +257,7 @@ class LLMS_Notification implements JsonSerializable {
 	 * @version  3.8.0
 	 */
 	public function get_view() {
-		return LLMS()->notifications()->get_view( $this );
+		return llms()->notifications()->get_view( $this );
 	}
 
 	/**

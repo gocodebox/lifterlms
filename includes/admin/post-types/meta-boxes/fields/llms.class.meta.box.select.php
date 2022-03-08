@@ -1,17 +1,17 @@
 <?php
 /**
- * Meta box field: Select
+ * Meta box field: Select.
  *
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version Unknown
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Select_Field class
+ * LLMS_Metabox_Select_Field class.
  *
  * @since Unknown
  */
@@ -19,9 +19,9 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 *
-	 * @param array $_field Array containing information about field
+	 * @param array $_field Array containing information about field.
 	 */
 	public function __construct( $_field ) {
 
@@ -29,10 +29,11 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	}
 
 	/**
-	 * outputs the Html for the given field
+	 * Outputs the Html for the given field.
 	 *
 	 * @since 1.0.0
 	 * @since 3.1.0 Allow regular key=>val arrays to be passed.
+	 * @since 6.0.0 Added required attribute when required :D.
 	 *
 	 * @return void
 	 */
@@ -64,6 +65,9 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php echo $controls; ?>
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
+		<?php if ( ! empty( $this->field['required'] ) && ! $allow_null ) : ?>
+			required="required"
+		<?php endif; ?>
 			class="<?php echo esc_attr( $this->field['class'] ); ?>"
 			<?php if ( array_key_exists( 'multi', $this->field ) && $this->field['multi'] ) : ?>
 				multiple="multiple"

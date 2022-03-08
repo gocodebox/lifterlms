@@ -6,7 +6,6 @@
  */
 
 var   gulp              = require( 'gulp' )
-	, notify            = require( 'gulp-notify' )
 	, requirejsOptimize = require( 'gulp-requirejs-optimize' )
 	, rename            = require( 'gulp-rename' )
 	, sourcemaps        = require( 'gulp-sourcemaps' )
@@ -29,11 +28,7 @@ gulp.task( 'js-builder', function( cb ) {
 				include: [ 'main' ],
 				preserveLicenseComments: false
 			};
-		} ).on( 'error', notify.onError( {
-			message: '<%= error.message %>',
-			sound: 'Frog',
-			title: 'js-builder error'
-		} ) ) )
+		} ).on( 'error', ( err ) => console.log( err ) ) )
 		.pipe( rename( 'llms-builder.js' ) )
 		.pipe( sourcemaps.write( '../maps/js', { destPath: 'assets/js' } ) )
 		.pipe( gulp.dest( 'assets/js/' ) )
@@ -52,11 +47,7 @@ gulp.task( 'js-builder', function( cb ) {
 				include: [ 'main' ],
 				preserveLicenseComments: false
 			};
-		} ).on( 'error', notify.onError( {
-			message: '<%= error.message %>',
-			sound: 'Frog',
-			title: 'js-builder error'
-		} ) ) )
+		} ).on( 'error', ( err ) => console.log( err ) ) )
 		.pipe( rename( 'llms-builder.min.js' ) )
 		.pipe( sourcemaps.write( '../maps/js', { destPath: 'assets/js' } ) )
 		.pipe( gulp.dest( 'assets/js/' ) );

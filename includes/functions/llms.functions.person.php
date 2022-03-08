@@ -248,22 +248,13 @@ function llms_get_student( $user = null ) {
  * Retrieve a list of disallowed usernames.
  *
  * @since 5.0.0
+ * @since 6.0.0 Removed the deprecated `llms_usernames_blacklist` filter hook.
  *
  * @return string[]
  */
 function llms_get_usernames_blocklist() {
 
 	$list = array( 'admin', 'test', 'administrator', 'password', 'testing' );
-
-	/**
-	 * Deprecated filter.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.0.0 Filter `llms_usernames_blacklist` is deprecated, use `llms_usernames_blocklist` instead.
-	 *
-	 * @param string[] $list List of banned usernames.
-	 */
-	$list = apply_filters_deprecated( 'llms_usernames_blacklist', array( $list ), '5.0.0', 'llms_usernames_blocklist' );
 
 	/**
 	 * Modify the list of disallowed usernames
@@ -461,25 +452,6 @@ function llms_set_password_reset_cookie( $val = '' ) {
 
 	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
 
-}
-
-/**
- * Sets user auth cookie by id and records the date/time of the login in the usermeta table
- *
- * @since  Unknown
- * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
- * @since  3.36.0 Pass the `$remember` param to `wp_set_auth_cookie()`.
- * @deprecated 4.5.0 Use WP core methods such as `wp_signon()`, `wp_set_current_user()`, and/or `wp_set_auth_cookie()`.
- *
- * @param int  $user_id  WP_User ID.
- * @param bool $remember Whether to remember the user.
- * @return void
- */
-function llms_set_person_auth_cookie( $user_id, $remember = false ) {
-	llms_deprecated_function( 'llms_set_person_auth_cookie', '4.5.0' );
-	wp_set_current_user( $user_id );
-	wp_set_auth_cookie( $user_id, $remember );
-	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
 }
 
 /**

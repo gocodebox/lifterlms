@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Functions
  *
  * @since 3.0.0
- * @version 3.30.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -179,95 +179,69 @@ function llms_get_checkout_redirection_types( $product_type = '' ) {
 /**
  * Add a "merge code" button that to auto-add merge codes to email & etc...
  *
- * @param    string  $target  target to add the merge code to
- *                            accepts the ID of a tinymce editor
- *                            a DOM ID (#element-id)
- *                            and fallback to outputting an alert where the code can be copied from
- * @param    boolean $echo    if truthy, echos the HTML, otherwise returns it
- * @param    array   $codes   optional array of custom codes to pass in, otherwise the codes are determined
- *                            what is available for the post type
- * @return   void|string
- * @since    3.1.0
- * @version  3.17.4
+ * @since 3.1.0
+ * @since 3.17.4 Unknown.
+ * @since 6.0.0 Move HTML into view file: `includes/admin/views/merge-code-editor-button.php`.
+ *                Move certificate merge code list to `llms_get_certificate_merge_codes()`.
+ *
+ * @param string  $target Target to add the merge code to. Accepts the ID of a tinymce editor or a DOM ID (#element-id).
+ * @param boolean $echo   If `true`, echos the HTML output.
+ * @param array   $codes  Optional array of custom codes to pass in, otherwise the codes are determined
+ *                        what is available for the post type.
+ * @return string Returns the HTML for the merge code button.
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
 
 	$screen = get_current_screen();
 
-	if ( ! $codes && $screen ) {
+	if ( ! $codes && $screen && isset( $screen->post_type ) ) {
 
-		if ( isset( $screen->post_type ) ) {
+		switch ( $screen->post_type ) {
 
-			switch ( $screen->post_type ) {
+			case 'llms_certificate':
+				$codes = llms_get_certificate_merge_codes();
+				break;
 
-				case 'llms_certificate':
-					$codes = array(
-						'{site_title}'    => __( 'Site Title', 'lifterlms' ),
-						'{site_url}'      => __( 'Site URL', 'lifterlms' ),
-						'{current_date}'  => __( 'Earned Date', 'lifterlms' ),
-						'{first_name}'    => __( 'Student First Name', 'lifterlms' ),
-						'{last_name}'     => __( 'Student Last Name', 'lifterlms' ),
-						'{email_address}' => __( 'Student Email', 'lifterlms' ),
-						'{student_id}'    => __( 'Student User ID', 'lifterlms' ),
-						'{user_login}'    => __( 'Student Username', 'lifterlms' ),
-					);
+			case 'llms_email':
+				$codes = array(
+					'{site_title}'    => __( 'Website Title', 'lifterlms' ),
+					'{site_url}'      => __( 'Website URL', 'lifterlms' ),
+					'{email_address}' => __( 'Student Email Address', 'lifterlms' ),
+					'{user_login}'    => __( 'Student Username', 'lifterlms' ),
+					'{first_name}'    => __( 'Student First Name', 'lifterlms' ),
+					'{last_name}'     => __( 'Student Last Name', 'lifterlms' ),
+					'{current_date}'  => __( 'Current Date', 'lifterlms' ),
+				);
+				break;
 
-					break;
+			default:
+				$codes = array();
 
-				case 'llms_email':
-					$codes = array(
-						'{site_title}'    => __( 'Website Title', 'lifterlms' ),
-						'{site_url}'      => __( 'Website URL', 'lifterlms' ),
-						'{email_address}' => __( 'Student Email Address', 'lifterlms' ),
-						'{user_login}'    => __( 'Student Username', 'lifterlms' ),
-						'{first_name}'    => __( 'Student First Name', 'lifterlms' ),
-						'{last_name}'     => __( 'Student Last Name', 'lifterlms' ),
-						'{current_date}'  => __( 'Current Date', 'lifterlms' ),
-					);
-
-					break;
-
-				default:
-					$codes = array();
-
-			}// End switch().
-		}// End if().
-	}// End if().
-
-	$codes = apply_filters( 'llms_merge_codes_for_button', $codes, $screen, $target );
-
-	if ( ! $codes ) {
-		return;
+		}
 	}
 
-	ob_start();
+	/**
+	 * Filters the list of available merge codes in the specified context.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array[]        $codes  Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
+	 * @param WP_Screen|null $screen The screen object from `get_current_screen().
+	 * @param string         $target Target to add the merge code to. Accepts the ID of a tinymce editor or a DOM ID (#element-id).
+	 */
+	$codes = apply_filters( 'llms_merge_codes_for_button', $codes, $screen, $target );
 
-	echo '<div class="llms-merge-code-wrapper">';
-
-	echo '<button class="button llms-merge-code-button" type="button"><img alt="LifterLMS" src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png">' . __( 'Merge Codes', 'lifterlms' ) . '</button>';
-
-	?>
-	<div class="llms-merge-codes" data-target="<?php echo $target; ?>">
-		<ul>
-		<?php if ( $codes ) : ?>
-			<?php foreach ( $codes as $code => $desc ) : ?>
-				<li data-code="<?php echo $code; ?>"><?php echo $desc; ?></li>
-			<?php endforeach; ?>
-		<?php else : ?>
-			<li><?php _e( 'No merge codes found.', 'lifterlms' ); ?></li>
-		<?php endif; ?>
-		</ul>
-	</div>
-	<?php
-
-	echo '</div><!-- .llms-merge-code-wrapper -->';
-
-	$html = ob_get_clean();
+	$html = '';
+	if ( $codes ) {
+		ob_start();
+		include LLMS_PLUGIN_DIR . 'includes/admin/views/merge-code-button.php';
+		$html = ob_get_clean();
+	}
 
 	if ( $echo ) {
 		echo $html;
-	} else {
-		return $html;
 	}
+
+	return $html;
 
 }

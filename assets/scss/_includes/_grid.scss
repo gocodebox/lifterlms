@@ -1,27 +1,27 @@
+//
+// Floated columns.
+//
+// Utilized prior to the introduction of `.llms-flex-cols`. Prefer
+// usage of flex cols for new code where possible.
+//
 .llms-cols {
 	@extend %clearfix;
 
-	.llms-col {
-		width: 100%;
-	}
+	.llms-col { width: 100%; }
 
 	@media all and (min-width: 600px) {
 		[class*="llms-col-"] {
 			float: left;
 		}
-
-		$cols: 1;
-		@while $cols <= 12 {
-			.llms-col-#{$cols} {
-				width: 100% / $cols;
-			}
-			$cols: $cols + 1;
-		}
-
 	}
 
 }
 
+//
+// Flex-box columns.
+//
+// Preferred over floated `.llms-cols` wherever possible.
+//
 .llms-flex-cols {
 	display: flex;
 	flex-flow: row wrap;
@@ -30,14 +30,17 @@
 		flex: 0 1 auto;
 		width: 100%;
 	}
+}
 
-	@media all and (min-width: 600px) {
+@media all and (min-width: 600px) {
+	.llms-cols, .llms-flex-cols {
 		$cols: 1;
 		@while $cols <= 12 {
 			.llms-col-#{$cols} {
-				width: 100% / $cols;
+				width: calc( 100% / $cols );
 			}
 			$cols: $cols + 1;
 		}
-	}	
+	}
 }
+

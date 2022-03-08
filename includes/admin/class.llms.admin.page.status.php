@@ -193,6 +193,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Use strict comparators.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -240,14 +241,12 @@ class LLMS_Admin_Page_Status {
 					break;
 
 				case 'report':
-					include_once 'class.llms.admin.system-report.php';
 					LLMS_Admin_System_Report::output();
 					break;
 
 				case 'tools':
 					self::output_tools_content();
 					break;
-
 			}
 
 			do_action( 'llms_after_admin_page_status', $current_tab );

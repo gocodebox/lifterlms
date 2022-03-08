@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Metabox Abstract
+ * Admin Metabox Abstract.
  *
  * @package LifterLMS/Abstracts/Classes
  *
@@ -9,11 +9,6 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-
-// Include all classes for each of the metabox types.
-foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename ) {
-	require_once $filename;
-}
 
 /**
  * Admin metabox abstract class.
@@ -25,6 +20,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  * @since 3.37.19 Bail if the global `$post` is empty, before registering our meta boxes.
+ * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -86,6 +82,13 @@ abstract class LLMS_Admin_Metabox {
 	public $priority = 'default';
 
 	/**
+	 * Array of callback arguments passed to `add_meta_box()`.
+	 *
+	 * @var null
+	 */
+	public $callback_args = null;
+
+	/**
 	 * Instance of WP_Post for the current post.
 	 *
 	 * @var WP_Post
@@ -100,9 +103,9 @@ abstract class LLMS_Admin_Metabox {
 	public $prefix = '_llms_';
 
 	/**
-	 * Array of error message strings to be displayed after an update attempt.
+	 * Array of error messages to be displayed after an update attempt.
 	 *
-	 * @var array
+	 * @var string[]|WP_Error[]
 	 */
 	private $errors = array();
 
@@ -189,11 +192,11 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown.
 	 *
-	 * @param string $text Error message text.
+	 * @param string|WP_Error $error Error message text.
 	 * @return void
 	 */
-	public function add_error( $text ) {
-		$this->errors[] = $text;
+	public function add_error( $error ) {
+		$this->errors[] = $error;
 	}
 
 	/**
@@ -212,7 +215,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.37.12
 	 *
-	 * @return string[]
+	 * @return string[]|WP_Error[]
 	 */
 	public function get_errors() {
 		return get_option( $this->error_opt_key, array() );
@@ -262,7 +265,7 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
-		// etup html for nav and content.
+		// Setup html for nav and content.
 		$this->process_fields();
 
 		// output the html.
@@ -284,6 +287,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Load errors using `$this->get_errors()` instead of `get_option()`.
+	 * @since 6.0.0 Handle WP_Error objects.
 	 *
 	 * @return void
 	 */
@@ -296,6 +300,9 @@ abstract class LLMS_Admin_Metabox {
 		}
 
 		foreach ( $errors as $error ) {
+			if ( is_wp_error( $error ) ) {
+				$error = $error->get_error_message();
+			}
 			echo '<div id="lifterlms_errors" class="error"><p>' . $error . '</p></div>';
 		}
 
@@ -310,6 +317,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
+	 * @since 6.0.0 Move single field processing logic to a specific method {@see LLMS_Admin_Metabox::process_field()}.
 	 *
 	 * @return void
 	 */
@@ -343,32 +351,47 @@ abstract class LLMS_Admin_Metabox {
 			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . $current . '"><ul>';
 
 			foreach ( $tab['fields'] as $field ) {
-
-				$name = ucfirst(
-					strtr(
-						preg_replace_callback(
-							'/(\w+)/',
-							function( $m ) {
-								return ucfirst( $m[1] );
-							},
-							$field['type']
-						),
-						'-',
-						'_'
-					)
-				);
-
-				$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
-				$field_class      = new $field_class_name( $field );
-				ob_start();
-				$field_class->Output();
-				$this->content .= ob_get_clean();
-				unset( $field_class );
+				$this->content .= $this->process_field( $field );
 			}
 
 			$this->content .= '</ul></div>';
 
 		}
+
+	}
+
+	/**
+	 * Process single field.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $field Metabox field.
+	 * @return string
+	 */
+	protected function process_field( $field ) {
+
+		$name = ucfirst(
+			strtr(
+				preg_replace_callback(
+					'/(\w+)/',
+					function( $m ) {
+						return ucfirst( $m[1] );
+					},
+					$field['type']
+				),
+				'-',
+				'_'
+			)
+		);
+
+		$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
+		$field_class      = new $field_class_name( $field );
+		ob_start();
+		$field_class->Output();
+		$field_html = ob_get_clean();
+		unset( $field_class );
+
+		return $field_html;
 
 	}
 
@@ -382,6 +405,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
 	 * @since 3.37.19 Early bail if the global `$post` is empty.
+	 * @since 6.0.0 Pass callback arguments to `add_meta_box()`.
 	 *
 	 * @return void
 	 */
@@ -397,7 +421,15 @@ abstract class LLMS_Admin_Metabox {
 
 		if ( current_user_can( $this->capability, $this->post->ID ) ) {
 
-			add_meta_box( $this->id, $this->title, array( $this, 'output' ), $this->get_screens(), $this->context, $this->priority );
+			add_meta_box(
+				$this->id,
+				$this->title,
+				array( $this, 'output' ),
+				$this->get_screens(),
+				$this->context,
+				$this->priority,
+				is_callable( $this->callback_args ) ? ( $this->callback_args )() : $this->callback_args
+			);
 
 		}
 
@@ -421,6 +453,7 @@ abstract class LLMS_Admin_Metabox {
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
 	 * @since 3.37.12 Move field sanitization and updates to the `save_field()` method.
+	 * @since 6.0.0 Allow skipping the saving of a field.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
@@ -453,9 +486,8 @@ abstract class LLMS_Admin_Metabox {
 
 				// Loop through the fields.
 				foreach ( $data['fields'] as $field ) {
-
-					// Don't save things that don't have an ID.
-					if ( isset( $field['id'] ) ) {
+					// Don't save things that don't have an ID or that are set to be skipped.
+					if ( isset( $field['id'] ) && empty( $field['skip_save'] ) ) {
 						$this->save_field( $post_id, $field );
 					}
 				}
@@ -471,6 +503,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.37.12
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.0.0 Move the DB saving in another method.
 	 *
 	 * @param int   $post_id WP_Post ID.
 	 * @param array $field   Metabox field array.
@@ -495,8 +528,22 @@ abstract class LLMS_Admin_Metabox {
 
 		}
 
-		return update_post_meta( $post_id, $field['id'], $val ) ? true : false;
+		return $this->save_field_db( $post_id, $field['id'], $val );
 
+	}
+
+	/**
+	 * Save field in the db.
+	 *
+	 * Expects an already sanitized value.
+	 *
+	 * @param int   $post_id  The WP Post ID.
+	 * @param int   $field_id The field identifier.
+	 * @param mixed $val      Value to save.
+	 * @return bool
+	 */
+	protected function save_field_db( $post_id, $field_id, $val ) {
+		return update_post_meta( $post_id, $field_id, $val ) ? true : false;
 	}
 
 	/**

@@ -13,6 +13,11 @@
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	/**
+	 * @var LLMS_SendWP
+	 */
+	protected $sendwp;
+
+	/**
 	 * Setup before class
 	 *
 	 * @since 3.40.0
@@ -83,12 +88,14 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do_remote_install() error with no nonce submitted.
 	 *
 	 * @since 3.37.0
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_do_remote_install_no_nonce() {
 
-		$res = $this->sendwp->do_remote_install();
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
 
 		$this->assertArrayHasKey( 'message', $res );
 		$this->assertEquals( 'llms_sendwp_install_nonce_failure', $res['code'] );
@@ -101,8 +108,10 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_do_remote_install_no_user() {
 
@@ -110,7 +119,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
 		) );
 
-		$res = $this->sendwp->do_remote_install();
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
 
 		$this->assertArrayHasKey( 'message', $res );
 		$this->assertEquals( 'llms_sendwp_install_unauthorized', $res['code'] );
@@ -123,8 +132,10 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_do_remote_install_plugins_api_error() {
 
@@ -137,7 +148,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 			return new WP_Error( 'plugins_api_failed', 'Error' );
 		};
 		add_filter( 'plugins_api', $handler, 10, 3 );
-		$res = $this->sendwp->do_remote_install();
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
 		remove_filter( 'plugins_api', $handler, 10 );
 
 		$this->assertArrayHasKey( 'message', $res );
@@ -151,8 +162,10 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add mock nonce to test.
+	 * @since 6.0.0 Changed {@see LLMS_SendWP::do_remote_install()} access from public to protected.
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_do_remote_install_success() {
 
@@ -162,12 +175,12 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 		) );
 
 		// Install.
-		$res = $this->sendwp->do_remote_install();
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
 		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
 		$this->assertEquals( 2007, $res['partner_id'] );
 
 		// Already installed, activate.
-		$res = $this->sendwp->do_remote_install();
+		$res = LLMS_Unit_Test_Util::call_method( $this->sendwp, 'do_remote_install' );
 		$this->assertEquals( array( 'partner_id', 'register_url', 'client_name', 'client_secret', 'client_redirect', ), array_keys( $res ) );
 		$this->assertEquals( 2007, $res['partner_id'] );
 
@@ -179,6 +192,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * @since 3.40.0
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_get_connect_setting() {
 
@@ -201,6 +215,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * @since 3.40.0
 	 *
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function test_should_output_inline() {
 

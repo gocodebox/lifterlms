@@ -1,6 +1,18 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v?.?.? - 2021-??-??
+-------------------
+
++ **[Breaking]** Upgrade `@wordpress/scripts` to [22.1.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2210-2022-03-03).
++ Added a custom Jest matcher, `toMatchStringWithQuotes()` to allow easy testing for strings that may be texturized by `wp_texturize()` depending on the theme.
++ Added jest testing helper functions, `testIf()` and `describeIf()` to allow simple conditional tests.
++ Improved e2e test logging to filter out "noisy" console messages originating, primarily, from the WordPress core.
++ Removed `e2e/global-teardown.js` in favor of using the `WP_ARTIFACTS_PATH` env var for determining the storage location of e2e test artifacts (screenshots and snapshots).
++ Internal modules can be defined as WordPress script dependencies by using `llms-{$package_name}` and accessed via `window.llms.{$package_name}`.
++ Any `@wordpress/*` modules are automatically resolved for the purposes of `eslint-plugin-import` rules.
+
+
 v2.2.0 - 2022-01-31
 -------------------
 

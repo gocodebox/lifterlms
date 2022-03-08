@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -245,6 +245,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	 * Retrieve the number of enrolled students in the membership.
 	 *
 	 * @since 3.32.0
+	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
 	 *
 	 * @return int
 	 */
@@ -258,7 +259,7 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 			)
 		);
 
-		return $query->found_results;
+		return $query->get_found_results();
 
 	}
 

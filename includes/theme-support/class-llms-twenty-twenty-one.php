@@ -5,7 +5,7 @@
  * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 4.10.0
- * @version 4.10.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,7 @@ class LLMS_Twenty_Twenty_One {
 	 * Static "constructor"
 	 *
 	 * @since 4.10.0
+	 * @since 6.0.0 Add `handle_certificicate_title` callback.
 	 *
 	 * @return void
 	 */
@@ -48,6 +49,8 @@ class LLMS_Twenty_Twenty_One {
 		// Use theme colors for various LifterLMS elements.
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'add_inline_styles' ) );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'add_inline_editor_styles' ) );
+
+		add_action( 'wp', array( __CLASS__, 'handle_certificate_title' ) );
 
 	}
 
@@ -248,6 +251,24 @@ class LLMS_Twenty_Twenty_One {
 		$styles[] = '.is-dark-theme .llms-progress .progress-bar-complete { opacity: 0.5; }';
 
 		return implode( "\r", $styles );
+
+	}
+
+	/**
+	 * Don't show the default "Untitled" post title for certificates without a title.
+	 *
+	 * Designers may opt to exclude the certificate title for aesthetic reasons, in this scenario
+	 * we should simply *not display* a title.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public static function handle_certificate_title() {
+
+		if ( in_array( get_post_type(), array( 'llms_certificate', 'llms_my_certificate' ), true ) ) {
+			remove_filter( 'the_title', 'twenty_twenty_one_post_title' );
+		}
 
 	}
 

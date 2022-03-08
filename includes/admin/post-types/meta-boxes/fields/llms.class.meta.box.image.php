@@ -44,12 +44,12 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 		parent::output();
 
 		if ( 'achievement_meta_box' === $this->field['section'] ) {
-			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
+			$image = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php
 			$imgclass = 'llms_achievement_image';
 		} else {
-			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png' );
+			$image = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_certificate.png' );
 			?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_certificate_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php

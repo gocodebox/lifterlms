@@ -27,6 +27,9 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	 * Test drip restrictions.
 	 *
 	 * @since 3.16.0
+	 * @since 6.0.0 Replaced use of deprecated items.
+	 *              - `llms_reset_current_time()` with `llms_tests_reset_current_time()` from the `lifterlms-tests` project
+	 *              - `llms_mock_current_time()` with `llms_tests_mock_current_time()` from the `lifterlms-tests` project
 	 *
 	 * @return void
 	 */
@@ -60,10 +63,10 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
 		// now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
-		llms_reset_current_time();
+		llms_tests_reset_current_time();
 		$lesson->set( 'drip_method', 'start' );
 		$course->set( 'start_date', date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) );
 
@@ -71,7 +74,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		$this->assertEquals( $lesson_id, llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
 		// now available.
-		llms_mock_current_time( '+4 days' );
+		llms_tests_mock_current_time( '+4 days' );
 		$this->assertFalse( llms_is_post_restricted_by_drip_settings( $lesson_id ) );
 
 	}

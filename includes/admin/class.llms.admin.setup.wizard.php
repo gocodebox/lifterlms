@@ -19,6 +19,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
  * @since 4.4.4 Method `LLMS_Admin_Setup_Wizard::scripts()` & `LLMS_Admin_Setup_Wizard::output_step_html()` are deprecated with no replacements.
  * @since 4.8.0 Removed private class property "generated_course_id".
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Admin_Setup_Wizard::generator_course_status()` method
+ *              - `LLMS_Admin_Setup_Wizard::output_step_html()` method
+ *              - `LLMS_Admin_Setup_Wizard::scripts()` method
+ *              - `LLMS_Admin_Setup_Wizard::watch_course_generation()` method
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -514,61 +519,6 @@ class LLMS_Admin_Setup_Wizard {
 
 		return $gen->get_generated_courses();
 
-	}
-
-	/**
-	 * Allow the Sample Content installed during the final step to be published rather than drafted
-	 *
-	 * @since 3.3.0
-	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::generator_course_status() is deprecated with no replacement.
-	 *
-	 * @param string $status Post status.
-	 * @return string
-	 */
-	public function generator_course_status( $status ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::generator_course_status()', '4.8.0' );
-		return 'publish';
-	}
-
-	/**
-	 * Outputs the HTML "body" for the requested step
-	 *
-	 * @since 3.0.0
-	 * @since 3.30.3 Fixed spelling error.
-	 * @deprecated 4.4.4
-	 *
-	 * @param string $step Step slug.
-	 * @return void
-	 */
-	public function output_step_html( $step ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::output_step_html()', '4.4.4' );
-	}
-
-	/**
-	 * Quick and dirty JS "file"
-	 *
-	 * @since 3.0.0
-	 * @deprecated 4.4.4
-	 *
-	 * @return void
-	 */
-	public function scripts() {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::scripts()', '4.4.4' );
-	}
-
-	/**
-	 * Callback function to store imported course information
-	 *
-	 * Uses this to handle redirect after import and generation is completed.
-	 *
-	 * @since 3.37.14
-	 * @deprecated 4.8.0 LLMS_Admin_Setup_Wizard::watch_course_generation() is deprecated with no replacement.
-	 *
-	 * @param LLMS_Course $course Course object.
-	 * @return void
-	 */
-	public function watch_course_generation( $course ) {
-		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::watch_course_generation()', '4.8.0' );
 	}
 
 }

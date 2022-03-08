@@ -15,7 +15,7 @@ is_admin() || exit;
 
 	<header class="llms-header">
 		<div class="llms-inside-wrap">
-			<img class="lifterlms-logo" src="<?php echo LLMS()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
+			<img class="lifterlms-logo" src="<?php echo llms()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
 		</div>
 	</header>
 

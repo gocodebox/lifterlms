@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 * @since 3.0.0
 	 * @since 3.16.8 Unknown.
 	 * @since 3.35.0 Sanitize `$_REQUEST` data.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -50,11 +51,7 @@ class LLMS_Analytics_Widget_Ajax {
 			'registrations',
 			'lessoncompletions',
 			'coursecompletions',
-
 		);
-
-		// Include the abstract.
-		include LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.analytics.widget.php';
 
 		$method = str_replace( 'llms_widget_', '', sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) );
 
@@ -62,12 +59,9 @@ class LLMS_Analytics_Widget_Ajax {
 
 		if ( file_exists( $file ) ) {
 
-			include $file;
 			$class = 'LLMS_Analytics_' . ucwords( $method ) . '_Widget';
 			add_action( 'wp_ajax_llms_widget_' . $method, array( new $class(), 'output' ) );
-
 		}
-
 	}
 
 }

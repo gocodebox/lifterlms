@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  *                                          ie: "order" for the "llms_order" post type
  * @property      string  $modified         The post's local modified time.
  * @property      string  $name             The post's slug.
+ * @property      int     $parent           WP_Post ID of the post's parent post.
  * @property-read WP_Post $post             Instance of WP_Post
  * @property      string  $status           The post's status.
  * @property      string  $title            The post's title.
@@ -307,7 +308,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return int WP Post ID of the new Post on success or 0 on error.
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( wp_slash( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) ), true );
+		return wp_insert_post( wp_slash( apply_filters( "llms_new_{$this->model_post_type}", $this->get_creation_args( $title ) ) ), true );
 	}
 
 	/**
@@ -385,7 +386,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
 		$arr['_source']    = get_site_url();
-		$arr['_version']   = LLMS()->version;
+		$arr['_version']   = llms()->version;
 
 		ksort( $arr );
 
@@ -599,7 +600,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 *
 		 * @param string $format The date format.
 		 */
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_date_format', $format );
+		return apply_filters( "llms_get_{$this->model_post_type}_date_format", $format );
 	}
 
 	/**
@@ -911,6 +912,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 				'date_gmt'       => 'text',
 				'excerpt'        => 'html',
 				'password'       => 'text',
+				'parent'         => 'absint',
 				'menu_order'     => 'absint',
 				'modified'       => 'text',
 				'modified_gmt'   => 'text',
@@ -946,7 +948,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 * @param array           $properties Array of properties defined by the model
 		 * @param LLMS_Post_Model $llms_post  The LLMS_Post_Model instance.
 		 */
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_properties', $props, $this );
+		return apply_filters( "llms_get_{$this->model_post_type}_properties", $props, $this );
 	}
 
 	/**
@@ -1034,9 +1036,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param $label The registered Label of the post's current status.
+		 * @param string $label The registered label of the post's current status.
 		 */
-		return apply_filters( 'llms_get_' . $this->model_post_type . '_status_name', $obj->label );
+		return apply_filters( "llms_get_{$this->model_post_type}_status_name", $obj->label );
 	}
 
 	/**
@@ -1707,7 +1709,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			 * @param string          $key       The custom field name.
 			 * @param LLMS_Post_Model $llms_post The LLMS_Post_Model instance.
 			 */
-			if ( in_array( $key, $props, true ) || apply_filters( 'llms_' . $this->model_post_type . '_skip_custom_field', false, $key, $this ) ) {
+			if ( in_array( $key, $props, true ) || apply_filters( "llms_{$this->model_post_type}_skip_custom_field", false, $key, $this ) ) {
 				continue;
 			}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Views/Classes
  *
  * @since 3.8.0
- * @version 4.7.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -105,7 +105,8 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 *
 	 * @since 3.8.0
 	 * @since 3.8.2 Unknown.
-	 * @since 4.7.0 Use `achievement_title` in favor of `title` for the {{ACHIEVEMENT_TITLE}} merge code
+	 * @since 4.7.0 Use `achievement_title` in favor of `title` for the {{ACHIEVEMENT_TITLE}} merge code.
+	 * @since 6.0.0 Use `title` in favor of deprecated `achievement_title` meta key for the {{ACHIEVEMENT_TITLE}} merge code.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string
@@ -129,12 +130,12 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 			case '{{ACHIEVEMENT_IMAGE_URL}}':
 				$code = $achievement->get_image( 'medium', 'achievement_image' );
 				if ( ! $code ) {
-					$code = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
+					$code = apply_filters( 'lifterlms_placeholder_img_src', llms()->plugin_url() . '/assets/images/optional_achievement.png' );
 				}
 				break;
 
 			case '{{ACHIEVEMENT_TITLE}}':
-				$code = $achievement->get( 'achievement_title' );
+				$code = $achievement->get( 'title' );
 				break;
 
 			case '{{STUDENT_NAME}}':

@@ -120,6 +120,30 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_esc_and_quote_str()
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_esc_and_quote_str() {
+
+		$tests = array(
+			array( 'test', "'test'" ),
+			array( '1', "'1'" ),
+			array( 1, "'1'" ),
+			array( 0, "'0'" ),
+			array( false, "''" ),
+			array( "", "''" ),
+		);
+		foreach ( $tests as $test ) {
+			list( $input, $expected ) = $test;
+			$this->assertEquals( $expected, llms_esc_and_quote_str( $input ) );
+		}
+
+	}
+
+	/**
 	 * Test llms_get_completable_post_types()
 	 *
 	 * @since 4.2.0
@@ -767,6 +791,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.6.0
 	 * @since 3.37.14 Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+	 * @since 6.0.0 Replaced use of the deprecated `LLMS_Certificate` class, an LLMS post type class that is NOT
+	 *              extended from `LLMS_Post_Model`, with `LLMS_Email`.
 	 *
 	 * @return void
 	 */
@@ -803,14 +829,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$reg_post = $this->factory->post->create();
 		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
-		// make sure an LLMS post type, which is not an istance of `LLMS_Post_Model` doesn't have a parent course.
-		// and no fatals are produced.
-		$certificate_post = $this->factory->post->create(
+		// Make sure an LLMS post type, which is not an instance of `LLMS_Post_Model` doesn't have a parent course.
+		// and no fatal errors are produced.
+		$non_model_post = $this->factory->post->create(
 			array(
-				'post_type' => 'llms_certificate',
+				'post_type' => 'llms_email',
 			)
 		);
-		$this->assertNull( llms_get_post_parent_course( $certificate_post ) );
+		$this->assertNull( llms_get_post_parent_course( $non_model_post ) );
 	}
 
 
@@ -941,6 +967,47 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'https://lifterlms.com [301] YES' );
 		llms_redirect_and_exit( 'https://lifterlms.com', array( 'status' => 301 ) );
+
+	}
+
+	/**
+	 * Test llms_strip_prefixes().
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_strip_prefixes() {
+
+		$tests = array(
+			// Input string, prefixes list, expected output string.
+
+			// Default behaviors.
+			array( 'llms_test', null, 'test' ),
+			array( 'llms_test', array(), 'test' ),
+			array( 'lifterlms_test', null, 'test' ),
+			array( 'lifterlms_test', array(), 'test' ),
+
+			// Only strip from the start of the string.
+			array( 'test_llms_test', null, 'test_llms_test' ),
+			array( 'test_lifterlms_test', null, 'test_lifterlms_test' ),
+			array( 'test_llms_', null, 'test_llms_' ),
+			array( 'test_lifterlms_', null, 'test_lifterlms_' ),
+
+			// Don't strip multiple prefixes.
+			array( 'llms_lifterlms_test', null, 'lifterlms_test' ),
+			array( 'lifterlms_llms_test', null, 'llms_test' ),
+
+			// Custom prefix.
+			array( 'test_llms_test', array( 'test_' ), 'llms_test' ),
+			array( 'test_llms_test', array( 'test_', 'llms_' ), 'llms_test' ),
+
+		);
+
+		foreach ( $tests as $data ) {
+			list( $input, $prefixes, $expect ) = $data;
+			$this->assertEquals( $expect, llms_strip_prefixes( $input, $prefixes ) );
+		}
 
 	}
 

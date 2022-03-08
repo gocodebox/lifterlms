@@ -7,6 +7,7 @@
  * @group admin
  * @group metaboxes
  * @group order_details
+ * @group metaboxes_post_type
  *
  * @since 5.3.0
  */

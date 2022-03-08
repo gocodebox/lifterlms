@@ -173,6 +173,7 @@
 			&.type--picture {
 				border-bottom: none;
 				label {
+					display: inline-block;
 					padding: 0;
 				}
 				.llms-marker {

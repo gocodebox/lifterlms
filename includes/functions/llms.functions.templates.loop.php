@@ -130,6 +130,83 @@ function lifterlms_loop( $query = null ) {
 }
 
 /**
+ * Link pagination helper.
+ *
+ * This is a wrapper around WP's `paginate_links()` method with common styling
+ * and helpers for use within LifterLMS.
+ *
+ * @since 6.0.0
+ *
+ * @param array $args {
+ *     Pagination arguments.
+ *
+ *     @type integer $current Current page number. Defaults to `1` or the value of `get_query_var( 'paged' )`.
+ *     @type integer $total   Total number of pages to display. Defaults to `1` or `$wp_query->max_num_pages`.
+ *     @type string  $context Display context. Adds additional customization depending on the context. Supported
+ *                            contexts are "student_dashboard" which automatically filters links for use on the
+ *                            dashboard.
+ * }
+ * @return string
+ */
+function llms_paginate_links( $args ) {
+
+	global $wp_query;
+
+	$args = wp_parse_args(
+		$args,
+		array(
+			'current' => max( 1, get_query_var( 'paged' ) ),
+			'total'   => max( 1, $wp_query->max_num_pages ),
+			'context' => '',
+		)
+	);
+
+	// Don't display pagination if there's only one page of results and `show_for_single` isn't explicitly enabled.
+	if ( $args['total'] <= 1 ) {
+		return '';
+	}
+
+	/**
+	 * Filter the list of CSS classes on the pagination wrapper element.
+	 *
+	 * @since 4.10.0
+	 *
+	 * @param string[] $classes Array of CSS classes.
+	 */
+	$classes = apply_filters( 'llms_get_pagination_wrapper_classes', array( 'llms-pagination' ) );
+
+	if ( 'student_dashboard' === $args['context'] ) {
+		add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+	}
+
+	$links = paginate_links(
+		array(
+			'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+			'format'    => '?page=%#%',
+			'total'     => $args['total'],
+			'current'   => $args['current'],
+			'prev_next' => true,
+			// Translators: %s = Left double arrow character.
+			'prev_text' => sprintf( _x( '%s Previous', 'pagination link text', 'lifterlms' ), '«' ),
+			// Translators: %s = Right double arrow character.
+			'next_text' => sprintf( _x( 'Next %s', 'pagination link text', 'lifterlms' ), '»' ),
+			'type'      => 'list',
+		)
+	);
+
+	if ( 'student_dashboard' === $args['context'] ) {
+		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+	}
+
+	return sprintf(
+		'<nav class="%1$s">%2$s</nav>',
+		esc_attr( implode( ' ', $classes ) ),
+		$links
+	);
+
+}
+
+/**
  * Retrieve the number of columns for llms loops
  *
  * @return   int

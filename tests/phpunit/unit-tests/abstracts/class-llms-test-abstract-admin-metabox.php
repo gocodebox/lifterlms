@@ -96,29 +96,30 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	 * Test add_error(), get_errors(), has_errors(), and save_errors().
 	 *
 	 * @since 3.37.12
+	 * @since 6.0.0 Add WP_Error test.
 	 *
 	 * @return void.
 	 */
 	public function test_errors_get_set_save() {
 
-		$stub = $this->get_stub();
+		$stub   = $this->get_stub();
+		$errors = array(
+			1 => 'Error message.',
+			2 => 'Second message.',
+			3 => new WP_Error( 'brown', 'Third Message' ),
+		);
 
 		// No messages.
 		$this->assertEquals( array(), $stub->get_errors() );
 		$this->assertEquals( false, $stub->has_errors() );
 
-		// Has a message.
-		$stub->add_error( 'Error message.' );
-		$this->assertEquals( true, $stub->has_errors() );
-		$stub->save_errors();
-		$this->assertEquals( array( 'Error message.' ), $stub->get_errors() );
-
-		// Has 2 messages.
-		$stub->add_error( 'Second message.' );
-		$this->assertEquals( true, $stub->has_errors() );
-		$stub->save_errors();
-		$this->assertEquals( array( 'Error message.', 'Second message.' ), $stub->get_errors() );
-
+		// Has a specific number of messages.
+		foreach ( $errors as $error_number => $error ) {
+			$stub->add_error( $error );
+			$this->assertEquals( true, $stub->has_errors() );
+			$stub->save_errors();
+			$this->assertEquals( array_slice( $errors, 0, $error_number ), $stub->get_errors() );
+		}
 	}
 
 	/**
@@ -144,6 +145,28 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 		$stub->screens[] = 'page';
 		$this->assertEquals( array( 'post', 'page' ), LLMS_Unit_Test_Util::call_method( $stub, 'get_screens' ) );
 
+	}
+
+	/**
+	 * Test output_errors().
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_output_errors() {
+
+		$stub   = $this->get_stub();
+		$errors = array(
+			'string error'   => 'string error',
+			'WP_Error error' => new WP_Error( 'blue', 'WP_Error error' ),
+		);
+
+		foreach ( $errors as $contains => $error ) {
+			$stub->add_error( $error );
+			$stub->save_errors();
+			$this->assertOutputContains( $contains, array( $stub, 'output_errors' ) );
+		}
 	}
 
 	/**

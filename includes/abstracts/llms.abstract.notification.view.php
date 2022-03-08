@@ -515,7 +515,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		if ( ! in_array( $type, array( 'negative', 'positive', 'warning' ), true ) ) {
 			$ret = '';
 		} else {
-			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
+			$ret = llms()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
 		}
 		return apply_filters( 'llms_notification_get_icon_default', $ret, $type, $this );
 	}
@@ -747,7 +747,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	protected function set_merge_data_default( $code ) {
 
-		$mailer = LLMS()->mailer();
+		$mailer = llms()->mailer();
 
 		switch ( $code ) {
 

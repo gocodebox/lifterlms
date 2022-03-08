@@ -133,13 +133,13 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 			array(
 				'type'     => 'action',
 				'hook'     => 'bbp_new_topic',
-				'method'   => array( LLMS()->engagements(), 'maybe_trigger_engagement' ),
+				'method'   => array( llms()->engagements(), 'maybe_trigger_engagement' ),
 				'priority' => 10,
 			),
 			array(
 				'type'     => 'action',
 				'hook'     => 'bbp_new_reply',
-				'method'   => array( LLMS()->engagements(), 'maybe_trigger_engagement' ),
+				'method'   => array( llms()->engagements(), 'maybe_trigger_engagement' ),
 				'priority' => 10,
 			),
 			array(
@@ -182,7 +182,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 		update_option( 'llms_integration_bbpress_enabled', 'yes' );
 
 		// Refresh cached available integrations list.
-		LLMS()->integrations()->get_available_integrations();
+		llms()->integrations()->get_available_integrations();
 
 	}
 
@@ -203,7 +203,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 			$this->setup_mock_bbPress();
 		}
 
-		$this->main = LLMS()->integrations()->get_integration( 'bbpress' );
+		$this->main = llms()->integrations()->get_integration( 'bbpress' );
 
 		if ( ! $this->hooks ) {
 			$this->setup_hooks();

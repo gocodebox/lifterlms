@@ -7,34 +7,9 @@
  *
  * @since 3.24.1
  * @since 5.0.0 Moved country-related function tests to locale functions test file.
+ * @since 6.0.0 Removed testing of the removed `llms_format_decimal()` function.
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
-
-	/**
-	 * test the llms_format_decimal() function
-	 *
-	 * @since 3.24.1
-	 *
-	 * @expectedDeprecated llms_format_decimal()
-	 *
-	 * @return void
-	 */
-	public function test_llms_format_decimal() {
-
-		// test the most trivial case
-		$this->assertEquals( 3.3333, llms_format_decimal( 3.3333 ) );
-
-		// test the $dp argument
-		$this->assertEquals( 3.33, llms_format_decimal( 3.3333 , true ) );
-
-		// test the $trim_zeros argument
-		$this->assertSame( '3.33', llms_format_decimal( '3.330' , false, true ) );
-		$this->assertSame( '3', llms_format_decimal( '3.0' , false, true ) );
-
-		// test localized decimal formatting
-		update_option( 'lifterlms_price_decimal_sep', ',' );
-		$this->assertSame( '3.0', llms_format_decimal( '3,0' ) );
-	}
 
 	/**
 	 * test the get_lifterlms_currency() function

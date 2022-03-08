@@ -15,6 +15,19 @@
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	/**
+	 * Teardown the test case
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		parent::tear_down();
+		global $wpdb;
+		$wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}lifterlms_quiz_attempts" );
+	}
+
+	/**
 	 * Get an initialized mock attempt
 	 *
 	 * @since 3.9.2
@@ -484,7 +497,6 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			},
 			$attempts
 		);
-
 
 		// Test get siblings of the first attempt equals to the created array of attempts (id).
 		$this->assertEquals(

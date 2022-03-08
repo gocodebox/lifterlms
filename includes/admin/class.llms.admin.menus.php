@@ -1,11 +1,11 @@
 <?php
 /**
- * Admin Menu Items
+ * Admin Menu Items.
  *
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 5.3.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -237,15 +237,16 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the add-ons screen
+	 * Output the add-ons screen.
 	 *
 	 * @since 3.5.0
-	 * @since 3.22.0
+	 * @since 3.22.0 Unknown.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_AddOns class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function add_ons_page_init() {
-		require_once 'class.llms.admin.addons.php';
+
 		$view = new LLMS_Admin_AddOns();
 		$view->handle_actions();
 		$view->output();
@@ -256,11 +257,12 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.13.0
 	 * @since 3.16.0 Unknown.
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Builder class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function builder_init() {
-		require_once 'class.llms.admin.builder.php';
+
 		LLMS_Admin_Builder::output();
 	}
 
@@ -302,11 +304,11 @@ class LLMS_Admin_Menus {
 	 * Output the HTML for admin settings screens
 	 *
 	 * @since Unknown
+	 * @since 6.0.0 Removed loading the LLMS_Admin_Settings class file that is now handled by the autoloader.
 	 *
 	 * @return void
 	 */
 	public function settings_page_init() {
-		include_once 'class.llms.admin.settings.php';
 		LLMS_Admin_Settings::output();
 	}
 
@@ -336,16 +338,13 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since 3.37.19
 	 * @since 4.12.0 Added `llms_load_admin_tools` action.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	protected function status_page_includes() {
 
-		// Main Status Page.
-		require_once 'class.llms.admin.page.status.php';
-
 		// Tools.
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
 		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-*.php' ) as $tool_path ) {
 			require_once $tool_path;
 		}
@@ -356,7 +355,6 @@ class LLMS_Admin_Menus {
 		 * @since 4.12.0
 		 */
 		do_action( 'llms_load_admin_tools' );
-
 	}
 
 	/**

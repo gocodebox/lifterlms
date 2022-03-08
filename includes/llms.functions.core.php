@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.4.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,6 +142,18 @@ function llms_cleanup_tmp() {
 
 }
 add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
+
+/**
+ * Escape and add quotes to a string, useful for array mapping when building queries.
+ *
+ * @since 6.0.0
+ *
+ * @param string $str Input string.
+ * @return string Escaped string wrapped in quotation marks.
+ */
+function llms_esc_and_quote_str( $str ) {
+	return "'" . esc_sql( $str ) . "'";
+}
 
 /**
  * Retrieve an array of post types which can be completed by students
@@ -360,7 +372,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
 	$percentage = is_numeric( $percentage ) ? $percentage : 0;
 	$classes    = array_merge( array( 'llms-donut', $size ), $classes );
 	$classes    = implode( ' ', $classes );
-	$percentage = 'mini' === $size ? round( $percentage, 0 ) : LLMS()->grades()->round( $percentage );
+	$percentage = 'mini' === $size ? round( $percentage, 0 ) : llms()->grades()->round( $percentage );
 	return '
 		<div class="' . $classes . '" data-perc="' . $percentage . '">
 			<div class="inside">
@@ -549,6 +561,7 @@ function llms_get_product_visibility_options() {
  * @since 3.8.0 Unknown.
  * @since 4.10.2 Instantiate the student query passing `no_found_rows` arg as `true`,
  *               as we don't need (and do not return) pagination info, e.g. max_pages.
+ * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
  *
  * @param int          $post_id  WP_Post id of a course or membership.
  * @param string|array $statuses List of enrollment statuses to query by status query is an OR relationship. Default is 'enrolled'.
@@ -571,8 +584,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 		)
 	);
 
-	if ( $query->results ) {
-		return wp_list_pluck( $query->results, 'id' );
+	if ( $query->has_results() ) {
+		return wp_list_pluck( $query->get_results(), 'id' );
 	}
 
 	return array();
@@ -927,6 +940,26 @@ function llms_is_rest() {
 }
 
 /**
+ * Determine whether the current theme is a block theme.
+ *
+ * Just a wrapper for WordPress core `wp_is_block_theme()` so to filter for testing purposes.
+ *
+ * @since 6.0.0
+ *
+ * @return string
+ */
+function llms_is_block_theme() {
+	/**
+	 * Filters whether the current theme is a block theme.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param $is_block_theme Whether the current theme is a block theme.
+	 */
+	return apply_filters( 'llms_is_block_theme', function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() );
+}
+
+/**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
  * @thanks woocommerce <3.
@@ -1105,6 +1138,45 @@ function llms_set_time_limit( $limit = 0 ) {
 		@set_time_limit( $limit ); // @phpcs:ignore
 
 	}
+
+}
+
+/**
+ * Strips a list of prefixes from the start of a string.
+ *
+ * By default, strips `llms_` or `lifterlms_`. Other prefixes may be provided.
+ *
+ * Will strip only the first prefix found from the list of supplied prefixes.
+ *
+ * @since 6.0.0
+ *
+ * @param string   $string   String to modify.
+ * @param string[] $prefixes List of prefixs.
+ * @return string The modified string. If no prefixes were found, the original string is returned without modification.
+ */
+function llms_strip_prefixes( $string, $prefixes = array() ) {
+
+	$prefixes = empty( $prefixes ) ? array( 'llms_', 'lifterlms_' ) : $prefixes;
+
+	foreach ( $prefixes as $prefix ) {
+		if ( 0 === strpos( $string, $prefix ) ) {
+			$string = substr( $string, strlen( $prefix ) );
+
+			/**
+			 * Most of the time we'll be using this to replace `llms_` as we don't often use `lifterlms_` for
+			 * prefixing (anymore).
+			 *
+			 * Also, while it's probably not ever in use, this will prevent double-stripping if, for example,
+			 * the string was `llms_lifterlms_something`. If we did want to strip that, the `$prefixes` should
+			 * be overwritten to have both these items stripped.
+			 *
+			 * So once we find a prefix, we'll break the loop and return the string with the stripped prefix.
+			 */
+			break;
+		}
+	}
+
+	return $string;
 
 }
 

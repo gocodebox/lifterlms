@@ -5,7 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.2.0
- * @version 3.15.0
+ * @since 6.0.0 Use `LLMS_Student::get_awards_count()`.
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +24,6 @@ if ( ! is_admin() ) {
 
 		<header>
 			<h3><?php _e( 'Student Information', 'lifterlms' ); ?></h3>
-
 		</header>
 		<?php
 
@@ -67,7 +67,7 @@ if ( ! is_admin() ) {
 				'cols' => 'd-1of2',
 				'icon' => 'trophy',
 				'id'   => 'llms-reporting-student-achievements',
-				'data' => count( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) ),
+				'data' => $student->get_awards_count( 'achievement' ),
 				'text' => __( 'Achievements earned', 'lifterlms' ),
 			)
 		);
@@ -77,7 +77,7 @@ if ( ! is_admin() ) {
 				'cols' => 'd-1of2',
 				'icon' => 'certificate',
 				'id'   => 'llms-reporting-student-certificates',
-				'data' => count( $student->get_certificates( 'updated_date', 'DESC', 'certificates' ) ),
+				'data' => $student->get_awards_count( 'certificate' ),
 				'text' => __( 'Certificates earned', 'lifterlms' ),
 			)
 		);

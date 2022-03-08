@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -96,3 +96,42 @@ function llms_get_user_information_fields_for_editor() {
 		$fields
 	);
 }
+
+/**
+ * Add [llms-user] shortcodes to email and certificate template editor instances.
+ *
+ * This is a callback function for the `llms_merge_codes_for_button` filter.
+ *
+ * @since 6.0.0
+ *
+ * @access private
+ *
+ * @see llms_merge_codes_for_button
+ *
+ * @param array[]        $codes  Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
+ * @param WP_Screen|null $screen The screen object from `get_current_screen().
+ * @return array[]
+ */
+function _llms_add_user_info_to_merge_buttons( $codes, $screen ) {
+
+	if ( $screen && ! empty( $screen->post_type ) && in_array( $screen->post_type, array( 'llms_certificate', 'llms_email' ), true ) ) {
+
+		foreach ( llms_get_user_information_fields_for_editor() as $field ) {
+
+			if ( 'password' === $field['id'] ) {
+				continue;
+			}
+
+			if ( 'llms_billing_address_2' === $field['id'] ) {
+				$field['label'] = __( 'Address Line 2', 'lifterlms' );
+			}
+
+			$shortcode           = "[llms-user {$field['data_store_key']}]";
+			$codes[ $shortcode ] = $field['label'];
+
+		}
+	}
+
+	return $codes;
+}
+add_filter( 'llms_merge_codes_for_button', '_llms_add_user_info_to_merge_buttons', 10, 2 );

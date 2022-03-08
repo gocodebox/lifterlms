@@ -146,7 +146,6 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		}
 
-
 		$this->go_to( '' );
 
 		// Teardown.
@@ -162,6 +161,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 	 * to mock the `$wp_query` and `$post` globals.
 	 *
 	 * @since 4.5.0
+	 * @since 6.0.0 Ensure a post author exists for tested posts.
 	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -173,7 +173,8 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		global $post, $wp_query;
 		$temp = $post;
 
-		$admin = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$admin       = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$post_author = $this->factory->user->create();
 
 		// Not set.
 		$post = null;
@@ -189,7 +190,7 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 
 		foreach ( $tests as $post_type => $expect ) {
 
-			$post = $this->factory->post->create_and_get( compact( 'post_type' ) );
+			$post = $this->factory->post->create_and_get( compact( 'post_type', 'post_author' ) );
 			$wp_query->init();
 
 			// Logged out user.
@@ -207,6 +208,92 @@ class LLMS_Test_Query extends LLMS_UnitTestCase {
 		}
 
 		$post = $temp;
+
+	}
+
+	/**
+	 * Test maybe_redirect_certificates() when a redirect is not expected.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_certificates_caught() {
+
+		global $wp, $wp_query;
+
+		$cert = $this->factory->post->create_and_get( array( 'post_type' => 'llms_my_certificate' ) );
+
+		$wp->request = '/my_certificate/' . $cert->post_name;
+		$wp_query->is_404 = true;
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( sprintf( '%1$s [302] YES', get_permalink( $cert->ID ) ) );
+
+		$this->main->maybe_redirect_certificate();
+
+	}
+
+	/**
+	 * Test maybe_redirect_certificates() in scenarios where a redirect is not expected.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return void
+	 */
+	public function test_maybe_redirect_certificates_not_caught() {
+
+		$this->set_permalink_structure( '/%postname%/' );
+
+		// Assert that the LLMS_Unit_Test_Exception_Redirect is not thrown.
+		$this->expectNotToPerformAssertions();
+
+		global $wp, $wp_query;
+
+		// Not a 404.
+		$wp->request = '/fake/url';
+		$wp_query->is_404 = false;
+		$this->main->maybe_redirect_certificate();
+
+		// Is a 404 but url doesn't contain "/my_certificate/".
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		// Does contain "/my_certificate/" but isn't a 404.
+		$wp->request = '/my_certificate/slug';
+		$wp_query->is_404 = false;
+		$this->main->maybe_redirect_certificate();
+
+		// Doesn't redirect because the certificate doesn't exist.
+		$wp->request = '/my_certificate/fake-slug-doesnt-exist';
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		// A real post that contains "/my_certificate/" but isn't an `llms_my_certificate` post type.
+		// This is something of a dumb test because in this scenario the page would be loaded and not 404 but just in case...
+		$parent = $this->factory->post->create( array( 'post_type' => 'page', 'post_name' => 'my_certificate' ) );
+		$wp->request = wp_parse_url( get_permalink( $parent ), PHP_URL_PATH );
+		$wp_query->is_404 = true;
+		$this->main->maybe_redirect_certificate();
+
+		// The child post.
+		$child = $this->factory->post->create( array( 'post_type' => 'page', 'post_parent' => $parent ) );
+		$wp->request = wp_parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$this->main->maybe_redirect_certificate();
+
+		// Create this scenario: https://github.com/gocodebox/lifterlms/pull/1855#pullrequestreview-804521213
+		$parent_parent = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		wp_update_post( array( 'ID' => $parent, 'post_parent' => $parent_parent ) );
+
+		$child_post  = get_post( $child );
+		$parent_post = get_post( $parent_parent );
+
+		$cert = $this->factory->post->create( array( 'post_type' => 'llms_my_certificate', 'post_name' => "{$parent_post->post_name}{$child_post->post_name}" ) );
+
+		$wp->request = wp_parse_url( get_permalink( $child ), PHP_URL_PATH );
+		$this->main->maybe_redirect_certificate();
+
+		$this->set_permalink_structure( false );
 
 	}
 

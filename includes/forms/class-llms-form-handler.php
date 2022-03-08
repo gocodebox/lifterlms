@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.4.1
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -341,6 +341,7 @@ class LLMS_Form_Handler {
 	 * @since 5.0.0
 	 * @since 5.1.0 Added "lifterlms_user_${action}_required_data" filter, to filter the required fields validity of the form submission.
 	 * @since 5.4.1 Sanitize filed only after validation. See https://github.com/gocodebox/lifterlms/issues/1829.
+	 * @since 6.0.0 Notify developers of the deprecated `lifterlms_created_person` action hook.
 	 *
 	 * @param array   $posted_data User-submitted form data.
 	 * @param string  $location    Form location ID.
@@ -452,7 +453,12 @@ class LLMS_Form_Handler {
 			 * @param array  $posted_data Array of user-submitted data.
 			 * @param string $location    Form location.
 			 */
-			do_action( 'lifterlms_created_person', $user_id, $posted_data, $location );
+			do_action_deprecated(
+				'lifterlms_created_person',
+				array( $user_id, $posted_data, $location ),
+				'5.0.0',
+				'lifterlms_user_registered'
+			);
 
 			/**
 			 * Fire an action after a user has been registered.

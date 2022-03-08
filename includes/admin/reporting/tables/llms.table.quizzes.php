@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version 4.2.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -94,6 +94,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.37.8
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param LLMS_Quiz $quiz Quiz object.
 	 * @return string
@@ -112,7 +113,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			)
 		);
 
-		$msg  = $query->found_results ? __( 'Are you sure you want to delete this quiz and all associated student attempts?', 'lifterlms' ) : __( 'Are you sure you want to delete this quiz?', 'lifterlms' );
+		$msg  = $query->has_results() ? __( 'Are you sure you want to delete this quiz and all associated student attempts?', 'lifterlms' ) : __( 'Are you sure you want to delete this quiz?', 'lifterlms' );
 		$msg .= ' ' . __( 'This action cannot be undone!', 'lifterlms' );
 
 		ob_start();
@@ -144,6 +145,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
 	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
+	 * @since 6.0.0 Don't access `LLMS_Query_Quiz_Attempt` properties directly.
 	 *
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.
@@ -174,7 +176,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 						'quiz_id' => $quiz->get( 'id' ),
 					)
 				);
-				$value = '<a href="' . $url . '">' . $query->found_results . '</a>';
+				$value = '<a href="' . $url . '">' . $query->get_found_results() . '</a>';
 
 				break;
 
@@ -187,7 +189,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 					)
 				);
 
-				$attempts = count( $query->results );
+				$attempts = $query->get_number_results();
 
 				if ( ! $attempts ) {
 					$value = 0;

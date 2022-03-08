@@ -60,7 +60,7 @@ class LLMS_Test_LLMS_Transaction extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_create_model() {
 
-		llms_mock_current_time( '2021-03-05 01:05:23' );
+		llms_tests_mock_current_time( '2021-03-05 01:05:23' );
 
 		$this->create( 123 );
 

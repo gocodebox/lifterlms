@@ -357,7 +357,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// If the product doesn't have any purchase restrictions, make sure we have a purchasable plan & active gateways.
 		if ( ! $this->has_restrictions() ) {
-			$gateways    = LLMS()->payment_gateways();
+			$gateways    = llms()->payment_gateways();
 			$purchasable = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
 		}
 

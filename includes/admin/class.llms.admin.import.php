@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 4.8.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *               Improve error handling.
  * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
  * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Admin_Import::localize_stat()` method.
  */
 class LLMS_Admin_Import {
 
@@ -281,7 +282,7 @@ class LLMS_Admin_Import {
 		}
 
 		// Fixes an issue where hooks are loaded in an unexpected order causing template functions required to parse an import aren't available.
-		LLMS()->include_template_functions();
+		llms()->include_template_functions();
 
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -363,62 +364,6 @@ class LLMS_Admin_Import {
 		}
 
 		return true;
-
-	}
-
-	/**
-	 * Localize statistic information for display on success.
-	 *
-	 * @since 3.35.0
-	 * @deprecated 4.7.0 `LLMS_Admin_Import::localize_stat()` is deprecated with no replacement.
-	 *
-	 * @param string $stat Statistic key name.
-	 * @return string
-	 */
-	protected function localize_stat( $stat ) {
-
-		llms_deprecated_function( 'LLMS_Admin_Import::localize_stat()', '4.7.0' );
-
-		switch ( $stat ) {
-
-			case 'authors':
-				$name = __( 'Authors', 'lifterlms' );
-				break;
-
-			case 'courses':
-				$name = __( 'Courses', 'lifterlms' );
-				break;
-
-			case 'sections':
-				$name = __( 'Sections', 'lifterlms' );
-				break;
-
-			case 'lessons':
-				$name = __( 'Lessons', 'lifterlms' );
-				break;
-
-			case 'plans':
-				$name = __( 'Plans', 'lifterlms' );
-				break;
-
-			case 'quizzes':
-				$name = __( 'Quizzes', 'lifterlms' );
-				break;
-
-			case 'questions':
-				$name = __( 'Questions', 'lifterlms' );
-				break;
-
-			case 'terms':
-				$name = __( 'Terms', 'lifterlms' );
-				break;
-
-			default:
-				$name = $stat;
-
-		}
-
-		return $name;
 
 	}
 
