@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -171,6 +171,10 @@ add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_das
 
 add_action( 'llms_my_grades_course_table', 'lifterlms_template_student_dashboard_my_grades_table', 10, 2 );
 
+add_action( 'llms_view_order_information', 'llms_template_view_order_information', 10 );
+add_action( 'llms_view_order_actions', 'llms_template_view_order_actions', 10 );
+add_action( 'llms_view_order_transactions', 'llms_template_view_order_transactions', 10, 2 );
+
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 
 /**
@@ -192,6 +196,15 @@ add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pri
  * @since Unknown
  */
 add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
+
+/**
+ * Single Certificate
+ *
+ * @since 6.0.0
+ */
+add_action( 'wp_head', 'llms_certificate_styles' );
+add_action( 'llms_display_certificate', 'llms_certificate_content', 10 );
+add_action( 'llms_display_certificate', 'llms_certificate_actions', 20 );
 
 if ( ! is_admin() ) {
 	add_filter( 'post_class', 'llms_post_classes', 20, 3 );

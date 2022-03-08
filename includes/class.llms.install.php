@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.2.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,6 +21,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Added db update functions for session manager library cleanup.
  * @since 4.15.0 Added db update functions for orphan access plans cleanup.
  * @since 5.2.0 Removed private class property $db_updates.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Install::db_updates()` method
+ *              - `LLMS_Install::update_notice()` method
  */
 class LLMS_Install {
 
@@ -61,7 +64,7 @@ class LLMS_Install {
 	 * @return void
 	 */
 	public static function check_version() {
-		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== llms()->version ) {
 			self::install();
 			do_action( 'lifterlms_updated' );
 		}
@@ -210,18 +213,16 @@ class LLMS_Install {
 	}
 
 	/**
-	 * Store all default options in the DB
+	 * Store all default options in the DB.
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 4.0.0 Include abstract table file.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function create_options() {
-
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
@@ -233,7 +234,6 @@ class LLMS_Install {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -497,14 +497,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 * @since 3.4.3
 	 * @since 3.6.0 Unknown.
 	 * @since 5.2.0 Use `LLMS_PLUGIN_DIR` to include required class file.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public static function init_background_updater() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.background.updater.php';
 		self::$background_updater = new LLMS_Background_Updater();
-
 	}
 
 	/**
@@ -538,8 +537,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		LLMS_Post_Types::register_post_types();
 		LLMS_Post_Types::register_taxonomies();
 
-		LLMS()->query->init_query_vars();
-		LLMS()->query->add_endpoints();
+		llms()->query->init_query_vars();
+		llms()->query->add_endpoints();
 
 		self::create_cron_jobs();
 		self::create_files();
@@ -660,7 +659,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_db_version( $version = null ) {
 		delete_option( 'lifterlms_db_version' );
-		add_option( 'lifterlms_db_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_db_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**
@@ -674,7 +673,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	 */
 	public static function update_llms_version( $version = null ) {
 		delete_option( 'lifterlms_current_version' );
-		add_option( 'lifterlms_current_version', is_null( $version ) ? LLMS()->version : $version );
+		add_option( 'lifterlms_current_version', is_null( $version ) ? llms()->version : $version );
 	}
 
 	/**
@@ -736,35 +735,6 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		// Return 0 if the first Administrator cannot 'manage_options' or the current site has no Administrators.
 		return ! empty( $first_admin_user ) && $first_admin_user[0]->has_cap( $capability ) ? $first_admin_user[0]->ID : 0;
 
-	}
-
-	/**
-	 * Queue all required db updates into the bg update queue
-	 *
-	 * @since 3.0.0
-	 * @since 3.4.3 Unknown.
-	 * @deprecated 5.2.0 LLMS_Install::db_updates() is deprecated, use LLMS_DB_Upgrader::enqueue_updates() instead.
-	 *
-	 * @return void
-	 */
-	public static function db_updates() {
-
-		_deprecated_function( 'LLMS_Install::db_updates()', '5.2.0', 'LLMS_DB_Upgrader::enqueue_updates()' );
-		$upgrader = new LLMS_DB_Upgrader( get_option( 'lifterlms_db_version' ) );
-		$upgrader->enqueue_updates();
-
-	}
-
-	/**
-	 * Stores an admin notice for the current state of the background updater
-	 *
-	 * @since 3.4.3
-	 * @deprecated 5.2.0 LLMS_Install::update_notice() is deprecated with no replacement.
-	 *
-	 * @return void
-	 */
-	public static function update_notice() {
-		_deprecated_function( 'LLMS_Install::update_notice()', '5.2.0' );
 	}
 
 }

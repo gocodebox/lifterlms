@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.4.0
- * @version 5.10.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -155,10 +155,11 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * @since 3.4.0
 	 * @since 3.13.0 Unknown.
 	 * @since 4.10.2 Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
+	 * @since 6.0.0 Renamed from `preprare_query()`.
 	 *
 	 * @return string
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

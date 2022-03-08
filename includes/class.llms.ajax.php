@@ -16,6 +16,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Unknown.
  * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_AJAX::check_voucher_duplicate()` method.
+ *              - `LLMS_AJAX::get_ajax_data()` method.
+ *              - `LLMS_AJAX::register_script()` method.
  */
 class LLMS_AJAX {
 
@@ -27,12 +31,13 @@ class LLMS_AJAX {
 	const NONCE = 'llms-ajax';
 
 	/**
-	 * Hook into ajax events
+	 * Hook into ajax events.
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 * @since 5.9.0 Move `check_voucher_duplicate()` to `LLMS_AJAX_Handler`.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -52,9 +57,7 @@ class LLMS_AJAX {
 
 		self::register();
 
-		require_once 'admin/class.llms.admin.builder.php';
 		add_filter( 'heartbeat_received', array( 'LLMS_Admin_Builder', 'heartbeat_received' ), 10, 2 );
-
 	}
 
 	/**
@@ -62,6 +65,7 @@ class LLMS_AJAX {
 	 *
 	 * @since Unknown
 	 * @since 4.4.0 Move `register_script()` to script enqueue hook in favor of `wp_loaded`.
+	 * @since 6.0.0 Removed the `wp_enqueue_scripts` action callback to the deprecated `LLMS_AJAX::register_script()` method.
 	 *
 	 * @return void
 	 */
@@ -74,9 +78,6 @@ class LLMS_AJAX {
 			add_action( 'wp_ajax_' . $method, array( $handler, 'handle' ) );
 			add_action( 'wp_ajax_nopriv_' . $method, array( $handler, 'handle' ) );
 		}
-
-		$action = is_admin() ? 'admin_enqueue_scripts' : 'wp_enqueue_scripts';
-		add_action( $action, array( $this, 'register_script' ), 20 );
 
 	}
 
@@ -122,36 +123,6 @@ class LLMS_AJAX {
 	}
 
 	/**
-	 * Register our AJAX JavaScript.
-	 *
-	 * @since 1.0.0
-	 * @since 3.35.0 Sanitize data & declare script versions.
-	 * @since 4.4.0 Don't register the `llms` script.
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return void
-	 */
-	public function register_script() {
-
-		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
-
-	}
-
-	/**
-	 * Get the AJAX data
-	 *
-	 * @since Unknown
-	 * @deprecated 4.4.0 Retrieve ajax nonce via `window.llms.ajax-nonce` in favor of `wp_ajax_data.nonce`.
-	 *
-	 * @return array
-	 */
-	public function get_ajax_data() {
-		return array(
-			'nonce' => wp_create_nonce( self::NONCE ),
-		);
-	}
-
-	/**
 	 * Sends a JSON response with the details of the given error.
 	 *
 	 * @param WP_Error $error
@@ -163,21 +134,6 @@ class LLMS_AJAX {
 				'message' => $error->get_error_message(),
 			)
 		);
-	}
-
-	/**
-	 * Check if a voucher is a duplicate.
-	 *
-	 * @since Unknown
-	 * @deprecated 5.9.0 `LLMS_AJAX::check_voucher_duplicate()` is deprecated in favor of `LLMS_AJAX_HANDLER::check_voucher_duplicate()`.
-	 *
-	 * @return void
-	 */
-	public function check_voucher_duplicate() {
-
-		_deprecated_function( 'LLMS_AJAX::check_voucher_duplicate()', '5.9.0', 'LLMS_AJAX_Handler::check_voucher_duplicate()' );
-		LLMS_AJAX_Handler::check_voucher_duplicate();
-
 	}
 
 	/**

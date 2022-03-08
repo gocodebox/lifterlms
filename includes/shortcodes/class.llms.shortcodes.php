@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 4.12.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,11 +19,12 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes {
 
 	/**
-	 * Init shortcodes array
+	 * Initialize shortcodes array.
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -34,9 +35,9 @@ class LLMS_Shortcodes {
 			/**
 			 * Filters the shortcodes to initialize
 			 *
-			 * @since unknown
+			 * @since Unknown
 			 *
-			 * @param string[] $shortcodes Array of shortcodes class names to initialize.
+			 * @param string[] $shortcodes Array of shortcode class names to initialize.
 			 */
 			'llms_load_shortcodes',
 			array(
@@ -58,8 +59,6 @@ class LLMS_Shortcodes {
 		);
 
 		// Include abstracts.
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
 
 		foreach ( $scs as $class ) {
@@ -68,9 +67,9 @@ class LLMS_Shortcodes {
 			/**
 			 * Filters the path of the shortcode class file
 			 *
-			 * @since unknown
+			 * @since Unknown
 			 *
-			 * @param string $file The shortcode class file name.
+			 * @param string $file  The shortcode class file name.
 			 * @param string $class The shortcode class name.
 			 */
 			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
@@ -81,8 +80,8 @@ class LLMS_Shortcodes {
 		}
 
 		/**
-		 * @deprecated  2.0.0
-		 * @todo        deprecate
+		 * @deprecated 2.0.0
+		 * @todo       deprecate
 		 */
 		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
@@ -98,27 +97,24 @@ class LLMS_Shortcodes {
 			'lifterlms_login'              => __CLASS__ . '::login',
 			'lifterlms_pricing_table'      => __CLASS__ . '::pricing_table',
 			'lifterlms_memberships'        => __CLASS__ . '::memberships',
-
 		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
 
 			add_shortcode(
 				/**
-				 * Filters the shortcode tag
+				 * Filters the shortcode tag.
 				 *
 				 * The dynamic portion of the hook name, `$shortcode` refers to the shortcode tag itself.
 				 *
-				 * @since unknown
+				 * @since Unknown
 				 *
 				 * @param string $shortcode The shortcode tag.
 				 */
 				apply_filters( "{$shortcode}_shortcode_tag", $shortcode ),
 				$function
 			);
-
 		}
-
 	}
 
 	/**

@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.14.0
- * @version 3.36.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -244,6 +244,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__created` action to preserve backwards compatibility.
+	 * @since 6.0.0 Removed deprecated `llms__created` action hook.
 	 *
 	 * @return int|false Record ID on success, false on error or when there's nothing to save.
 	 */
@@ -272,15 +273,6 @@ abstract class LLMS_Abstract_Database_Store {
 			 */
 			do_action( "llms_{$this->type}_created", $this->id, $this );
 
-			/**
-			 * Deprecated hook resulting from bug.
-			 *
-			 * @deprecated 4.3.0
-			 *
-			 * @link https://github.com/gocodebox/lifterlms/issues/1248
-			 */
-			do_action_deprecated( 'llms__created', $this->id, $this );
-
 			return $this->id;
 		}
 		return false;
@@ -293,6 +285,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__deleted` action to preserve backwards compatibility.
+	 * @since 6.0.0 Removed deprecated `llms__deleted` action hook.
 	 *
 	 * @return boolean `true` on success, `false` otherwise.
 	 */
@@ -321,15 +314,6 @@ abstract class LLMS_Abstract_Database_Store {
 			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
 			 */
 			do_action( "llms_{$this->type}_deleted", $id, $this );
-
-			/**
-			 * Deprecated hook resulting from bug.
-			 *
-			 * @deprecated 4.3.0
-			 *
-			 * @link https://github.com/gocodebox/lifterlms/issues/1248
-			 */
-			do_action_deprecated( 'llms__deleted', $id, $this );
 
 			return true;
 		}
@@ -365,6 +349,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @since 3.14.0
 	 * @since 3.24.0 Unknown.
 	 * @since 4.3.0 Added deprecated hook call to `llms__updated` action to preserve backwards compatibility.
+	 * @since 6.0.0 Removed deprecated `llms__updated` action hook.
 	 *
 	 * @param array $data Data to update as key=>val.
 	 * @return boolean
@@ -388,15 +373,6 @@ abstract class LLMS_Abstract_Database_Store {
 			 * @param LLMS_Abstract_Database_Store $obj Instance of the record object.
 			 */
 			do_action( "llms_{$this->type}_updated", $this->id, $this );
-
-			/**
-			 * Deprecated hook resulting from bug.
-			 *
-			 * @deprecated 4.3.0
-			 *
-			 * @link https://github.com/gocodebox/lifterlms/issues/1248
-			 */
-			do_action_deprecated( 'llms__updated', $this->id, $this );
 
 			return true;
 		}

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 5.6.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -78,7 +78,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 			'desc'  => '
 				<div class="llms-list">
 					<ul>
-						<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), LLMS()->version ) . '</p></li>
+						<li><p>' . sprintf( __( 'Version: %s', 'lifterlms' ), llms()->version ) . '</p></li>
 						<li><p>' . sprintf( __( 'Need help? Get support on the %1$sforums%2$s', 'lifterlms' ), '<a href="https://wordpress.org/support/plugin/lifterlms" target="_blank">', '</a>' ) . '</p></li>
 						<li><p>' . sprintf( __( 'Looking for a quickstart guide, shortcodes, or developer documentation? Get started at %s', 'lifterlms' ), '<a href="https://lifterlms.com/docs" target="_blank">https://lifterlms.com/docs</a>' ) . '</p></li>
 						<li><p>' . sprintf( __( 'Get LifterLMS news, updates, and more on our %1$sblog%2$s', 'lifterlms' ), '<a href="http://blog.lifterlms.com/" target="_blank">', '</a>' ) . '</p></li>
@@ -233,15 +233,16 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get advert banner html
+	 * Get advert banner HTML.
 	 *
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  3.22.0
+	 * @since 1.0.0
+	 * @since 3.22.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return string
 	 */
 	public static function get_small_banners() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
 		$url  = esc_url( admin_url( 'admin.php?page=llms-add-ons' ) );
 
@@ -251,9 +252,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 		echo '&nbsp;&nbsp;&nbsp;<a class="llms-button-primary small" href="' . $url . '">' . __( 'View More &rarr;', 'lifterlms' ) . '</a><br>';
 		$view->output_for_settings();
 		return ob_get_clean();
-
 	}
-
 }
 
 return new LLMS_Settings_General();

@@ -42,7 +42,7 @@ class LLMS_Events_Core {
 	 */
 	public function on_signon( $username, $user ) {
 
-		return LLMS()->events()->record(
+		return llms()->events()->record(
 			array(
 				'actor_id'     => $user->ID,
 				'object_type'  => 'user',
@@ -70,7 +70,7 @@ class LLMS_Events_Core {
 			return false;
 		}
 
-		return LLMS()->events()->record(
+		return llms()->events()->record(
 			array(
 				'actor_id'     => $uid,
 				'object_type'  => 'user',

@@ -33,7 +33,7 @@ function llms_update_500_legacy_options_autoload_off() {
 
 	$wpdb->query(
 		$wpdb->prepare(
-			$sql,
+			$sql, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No user input, it's safe.
 			$legacy_options_to_stop_autoloading
 		)
 	); // db call ok; no-cache ok.

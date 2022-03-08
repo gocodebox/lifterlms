@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 5.7.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,11 @@ defined( 'ABSPATH' ) || exit;
  *              Informed developers about the deprecated `LLMS_Section::get_order()` method.
  *              Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
  *              Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.
+ * @since 6.0.0 Removed deprecated items.
+ *              - `LLMS_Section::get_next_available_lesson_order()` method
+ *              - `LLMS_Section::get_order()` method
+ *              - `LLMS_Section::get_parent_course()` method
+ *              - `LLMS_Section::set_parent_course()` method
  *
  * @property int    $order         The section's order within its parent course.
  * @property int    $parent_course The WP_Post ID of the section's parent course.
@@ -264,67 +269,6 @@ class LLMS_Section extends LLMS_Post_Model {
 
 		return $arr;
 
-	}
-
-	/**
-	 * Retrieve the order of the section within the course
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.3.0 Use `LLMS_Section::get( 'order' )`, via {@see LLMS_Post_Model::get()}, instead.
-	 *
-	 * @return int
-	 */
-	public function get_order() {
-
-		llms_deprecated_function( __METHOD__, '3.3.0', __CLASS__ . '::get( \'order\' )' );
-
-		return $this->get( 'order' );
-	}
-
-	/**
-	 * Get the next lesson order for assigning a lesson to a section
-	 *
-	 * @since Unknown
-	 * @deprecated 4.0.0 With no replacement.
-	 *
-	 * @return int
-	 */
-	public function get_next_available_lesson_order() {
-
-		llms_deprecated_function( __METHOD__, '4.0.0' );
-
-		return $this->count_children_lessons() + 1;
-	}
-
-	/**
-	 * Retrieve the post ID of the section's parent course
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.3.0 Use `LLMS_Section::get( 'parent_course' )`, via {@see LLMS_Post_Model::get()}, instead.
-	 *
-	 * @return int
-	 */
-	public function get_parent_course() {
-
-		llms_deprecated_function( __METHOD__, '3.3.0', __CLASS__ . '::get( \'parent_course\' )' );
-
-		return $this->get( 'parent_course' );
-	}
-
-	/**
-	 * Set parent course
-	 *
-	 * @since Unknown
-	 * @deprecated 4.0.0 Use `LLMS_Section::set( 'parent_course' )`, via {@see LLMS_Post_Model::set()}, instead.
-	 *
-	 * @param int $course_id ID of course post.
-	 * @return int|bool
-	 */
-	public function set_parent_course( $course_id ) {
-
-		llms_deprecated_function( __METHOD__, '4.0.0', __CLASS__ . '::set( \'parent_course\', $course_id )' );
-		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
-		return $meta;
 	}
 
 }

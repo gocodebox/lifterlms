@@ -46,16 +46,16 @@ class LLMS_Admin_Settings {
 	private static $messages = array();
 
 	/**
-	 * Inits $settings and includes settings base class.
+	 * Instantiates setting page objects, if not already done, and returns them.
 	 *
-	 * @return self::$settings array
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 *
+	 * @return LLMS_Settings_Page[] self::$settings
 	 */
 	public static function get_settings_tabs() {
 
 		if ( empty( self::$settings ) ) {
 			$settings = array();
-
-			include_once 'settings/class.llms.settings.page.php';
 
 			$settings[] = include 'settings/class.llms.settings.general.php';
 			$settings[] = include 'settings/class.llms.settings.courses.php';
@@ -66,8 +66,14 @@ class LLMS_Admin_Settings {
 			$settings[] = include 'settings/class.llms.settings.notifications.php';
 			$settings[] = include 'settings/class.llms.settings.integrations.php';
 
+			/**
+			 * Allow 3rd parties to add or remove setting pages.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param LLMS_Settings_Page[] $settings Setting page objects.
+			 */
 			self::$settings = apply_filters( 'lifterlms_get_settings_pages', $settings );
-
 		}
 
 		return self::$settings;

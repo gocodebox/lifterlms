@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,29 +15,34 @@ defined( 'ABSPATH' ) || exit;
  *
  * Handles certificate generation and exports.
  *
- * @see LLMS()->certificates()
+ * @see llms()->certificates()
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
- * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
- * @since 4.3.1 When generating the certificate the to export, if `$this->scrape_certificate()` generates a WP_Error early return it to avoid fatals.
+ * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's images mime types during html export.
+ * @since 4.3.1 When generating the certificate to export, if `$this->scrape_certificate()` generates a WP_Error early, return it to avoid fatal errors.
  * @since 4.21.0 Added new class properties: `$export_local_hosts`, `$export_blocked_stylesheet_hosts`, and `$export_blocked_image_hosts`.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Changes:
+ *              - Deprecated the `LLMS_Certificates::trigger_engagement()` method.
+ *                Use the {@see LLMS_Engagement_Handler::handle_certificate()} method instead.
+ *              - Removed the deprecated `LLMS_Certificates::$_instance` property.
  */
 class LLMS_Certificates {
 
-	use LLMS_Trait_Singleton;
+	use LLMS_Trait_Singleton,
+		LLMS_Trait_Award_Default_Images;
 
 	/**
-	 * Singleton instance.
+	 * The ID for the award type.
 	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
+	 * Used by {@see LLMS_Trait_Award_Default_Images}.
 	 *
-	 * @var LLMS_Certificates
+	 * @var string
 	 */
-	protected static $_instance = null;
+	protected $award_type = 'certificate';
 
 	/**
 	 * Array of Certificate types.
@@ -79,16 +84,16 @@ class LLMS_Certificates {
 	}
 
 	/**
-	 * Initialize Class
+	 * Initialize class.
 	 *
 	 * @since 1.0.0
 	 * @since 4.21.0 Define useful class properties used when exporting.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	public function init() {
 
-		include_once 'class.llms.certificate.php';
 		$this->certs['LLMS_Certificate_User'] = isset( $this->certs['LLMS_Certificate_User'] ) ? $this->certs['LLMS_Certificate_User'] : include_once 'certificates/class.llms.certificate.user.php';
 
 		$this->export_local_hosts = array_unique(
@@ -136,6 +141,7 @@ class LLMS_Certificates {
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
+	 * @deprecated 6.0.0 `LLMS_Certificates::trigger_engagement()` is deprecated in favor of `LLMS_Engagement_Handler::handle_certificate()`.
 	 *
 	 * @param int $person_id       WP_User ID.
 	 * @param int $certificate_id  WP_Post ID of the certificate template.
@@ -143,8 +149,8 @@ class LLMS_Certificates {
 	 * @return void
 	 */
 	public function trigger_engagement( $person_id, $certificate_id, $related_post_id ) {
-		$certificate = $this->certs['LLMS_Certificate_User'];
-		$certificate->trigger( $person_id, $certificate_id, $related_post_id );
+		_deprecated_function( 'LLMS_Certificates::trigger_engagement()', '6.0.0', 'LLMS_Engagement_Handler::handle_certificate()' );
+		LLMS_Engagement_Handler::handle_certificate( array( $person_id, $certificate_id, $related_post_id, null ) );
 	}
 
 	/**
@@ -194,6 +200,7 @@ class LLMS_Certificates {
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
+	 * @since 6.0.0 Use the certificate post title in favor of the deprecated meta value `_llms_certificate_title`.
 	 *
 	 * @param int  $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache      If true will check for existence of a cached version of the file first.
@@ -211,7 +218,7 @@ class LLMS_Certificates {
 		$cert = new LLMS_User_Certificate( $certificate_id );
 
 		// Translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'certificate_title' ), wp_generate_password( 12, false, false ) ) );
+		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'title' ), wp_generate_password( 12, false, false ) ) );
 		$filename .= '.html';
 		$filepath  = LLMS_TMP_DIR . $filename;
 
@@ -262,6 +269,47 @@ class LLMS_Certificates {
 	}
 
 	/**
+	 * Create a unique slug for earned certificates.
+	 *
+	 * When relying only on `wp_unique_post_slug()`, predictable URLs are created for earned certificates,
+	 * such as "certificate-of-completion-1", "certificate-of-completion-2", etc... this method creates
+	 * an obtuse and randomized suffix and appends it to the post slug.
+	 *
+	 * The unique suffix will be a randomized string at least 3 characters long and made up of lowercase letters and numbers.
+	 *
+	 * When ensuring uniqueness of the generated suffix, the length of the string will be increased by one for every 5
+	 * encountered collisions.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $title The title of the certificate being created.
+	 * @return string
+	 */
+	public function get_unique_slug( $title ) {
+
+		$title = sanitize_title( $title ) . '-';
+
+		/**
+		 * Filters the minimum length of the suffix used to create a unique earned certificate slug.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int $min_strlen The minimum desired suffix string length.
+		 */
+		$min_strlen = apply_filters( 'llms_certificate_unique_slug_suffix_min_length', 3 );
+
+		$i = 0;
+		do {
+			$length = $min_strlen + floor( $i / 5 );
+			$slug   = $title . strtolower( wp_generate_password( absint( $length ), false ) );
+			$i++;
+		} while ( wp_unique_post_slug( $slug, 0, 'publish', 'llms_my_certificate', 0 ) !== $slug );
+
+		return $slug;
+
+	}
+
+	/**
 	 * Modify the HTML using DOMDocument.
 	 *
 	 * Preparations include:
@@ -275,7 +323,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.37.3
 	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
-	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDOcument` directly.
+	 * @since 4.8.0 Use `llms_get_dom_document()` in favor of loading `DOMDocument` directly.
 	 * @since 4.21.0 Allow external assets (e.g. images/stylesheets from CDN) to be embedded/inlined.
 	 *               Also, remove the WP Admin Bar earlier.
 	 *               Move the links and images modification in specific methods.

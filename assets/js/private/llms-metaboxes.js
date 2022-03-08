@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @version 5.3.0
+ * @version 6.0.0
  */
 ( function( $ ) {
 
@@ -926,19 +926,22 @@
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 *
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.21.0
+		 * @since 3.0.0
+		 * @since 3.21.0 Unknown.
+		 * @since 6.0.0 Show element at 100% width if not displaying a view button.
+		 *
+		 * @return void
 		 */
 		this.post_select = function( $el ) {
 
-			var multi = 'multiple' === $el.attr( 'multiple' );
+			var multi = 'multiple' === $el.attr( 'multiple' ),
+				noViewBtn = $el.attr( 'data-no-view-button' );
 
 			$el.llmsPostsSelect2( {
-				width: multi ? '100%' : '65%',
+				width: multi || noViewBtn ? '100%' : '65%',
 			} );
 
-			if ( multi || $el.attr( 'data-no-view-button' ) ) {
+			if ( multi || noViewBtn ) {
 				return;
 			}
 

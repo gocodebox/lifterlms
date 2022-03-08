@@ -197,6 +197,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	 *
 	 * @since 3.0.0
 	 * @since 3.38.0 Fixed spelling error in variable passed to template.
+	 * @since 6.0.0 Removed the deprecated and misspelled `$purchaseable` global variable.
 	 *
 	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void
@@ -225,22 +226,9 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		$has_free         = $product->has_free_access_plan();
 		$has_restrictions = $product->has_restrictions();
 
-		/**
-		 * Fix variable spelling in a backwards compatible way
-		 *
-		 * If the template "product/pricing-table.php" is overwritten and relies
-		 * on the misspelled variable, passing both versions in will ensure the
-		 * template continues to function as expected.
-		 *
-		 * @link https://github.com/gocodebox/lifterlms/issues/1128
-		 *
-		 * @deprecated 3.38.0
-		 */
-		$purchaseable = $purchasable;
-
 		llms_get_template(
 			'product/pricing-table.php',
-			compact( 'product', 'is_enrolled', 'purchasable', 'purchaseable', 'has_free', 'has_restrictions' )
+			compact( 'product', 'is_enrolled', 'purchasable', 'has_free', 'has_restrictions' )
 		);
 
 	}

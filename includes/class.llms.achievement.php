@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
- * @version 3.24.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @deprecated 6.0.0 Class `LLMS_Achievement` is deprecated with no direct replacement.
  */
 class LLMS_Achievement {
 
@@ -98,6 +99,37 @@ class LLMS_Achievement {
 	 */
 	public $userid;
 
+	/**
+	 * Alert when deprecated methods are used.
+	 *
+	 * This class as well as core classes extending it have been deprecated. All public and protected methods
+	 * have been changed to private and will be made accessible through this magic method which also emits a
+	 * deprecation warning.
+	 *
+	 * This public method has been intentionally marked as private to denote it's temporary lifespan. It will be
+	 * removed alongside this class in the next major release.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @access private
+	 *
+	 * @param string $name Name of the method being called.
+	 * @param array  $args Arguments provided to the method.
+	 * @return void
+	 */
+	public function __call( $name, $args ) {
+		_deprecated_function( __CLASS__ . '::' . $name, '6.0.0' );
+		if ( method_exists( $this, $name ) ) {
+			$this->$name( ...$args );
+		}
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @since Unknown.
+	 * @deprecated 6.0.0 `LLMS_Achievement::__construct()` is deprecated with no replacement.
+	 */
 	public function __construct() {
 
 		// Settings TODO Refactor: theses can come from the achievement post now.
@@ -110,79 +142,94 @@ class LLMS_Achievement {
 	/**
 	 * Checks if achievement is enabled
 	 *
-	 * @return   bool
-	 * @since    Unknown
-	 * @version  3.24.0
-	 * @todo     returning true always. Need to build setting to disable / enable
+	 * @since Unknown
+	 * @since 3.24.0 Unknown.
+	 * @deprecated 6.0.0 `LLMS_Achievement::is_enabled()` is deprecated with no replacement.
+	 *
+	 * @return bool
 	 */
-	public function is_enabled() {
+	private function is_enabled() {
 		$enabled = 'yes' == $this->enabled ? true : false;
 		return true;
 	}
 
 	/**
 	 * Get Blog name
-	 * Used by achievement merge fields
 	 *
-	 * @return string [Blogname from options]
+	 * Used by achievement merge fields.
+	 *
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_blogname()` is deprecated with no replacement.
+	 *
+	 * @return string
 	 */
-	public function get_blogname() {
+	private function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
 	/**
 	 * Format String
 	 *
-	 * @param  string $string [un-formatted string]
-	 * @return string         [formatted string]
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement::format_string()` is deprecated with no replacement.
+	 *
+	 * @param string $string Un-formatted string.
+	 * @return string Formatted string.
 	 */
-	public function format_string( $string ) {
+	private function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
 	}
-
 
 	/**
 	 * Queries Achievement title postmeta
 	 *
-	 * @return string [display title of the achievement]
+	 * @since Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_title()` is deprecated with no replacement.
+	 *
+	 * @return string
 	 */
-	public function get_title() {
+	private function get_title() {
 		return apply_filters( '_llms_achievement_title' . $this->id, $this->title, $this->object );
 	}
 
 	/**
 	 * Get the content of the Achievement
 	 *
-	 * @return  string data needed to generate achievement
 	 * @since   1.0.0
 	 * @version 1.4.1
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_content()` is deprecated with no replacement.
+	 *
+	 * @return string Data needed to generate achievement.
 	 */
-	public function get_content() {
-
+	private function get_content() {
 		$achievement_content = $this->content;
-
 		return $achievement_content;
 	}
 
 	/**
-	 * Generate HTML output of achievement
+	 * Generate HTML output of achievement.
+	 *
 	 * Converts merge fields to raw data sources and wraps content in HTML
 	 * then saves new achievement post and updates user_postmeta table.
 	 *
-	 * @return   void
-	 * @since    1.0.0
+	 * @since 1.0.0
+	 * @deprecated 6.0.0 `LLMS_Achievement::get_content_html()` is deprecated with no replacement.
+	 *
+	 * @return void
 	 */
-	public function get_content_html() {}
+	private function get_content_html() {}
 
 	/**
 	 * Create the achievement
 	 *
-	 * @param    string $content  achievement body content
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown
+	 * @deprecated 6.0.0 `LLMS_Achievement::create()` is deprecated with no replacement.
+	 *
+	 * @param string $content Achievement body content.
+	 * @return void
 	 */
-	public function create( $content ) {
+	private function create( $content ) {
 		global $wpdb;
 
 		$new_user_achievement = apply_filters(
@@ -220,11 +267,7 @@ class LLMS_Achievement {
 			);
 		}
 
-		/**
-		 * Allow 3rd parties to hook into the generation of an achievement
-		 * Notifications uses this
-		 * note 3rd param $this->lesson_id is actually the related post id (but misnamed)
-		 */
+		// This hook is documented in includes/class-llms-engagement-handler.php.
 		do_action( 'llms_user_earned_achievement', $this->userid, $new_user_achievement_id, $this->lesson_id );
 
 	}

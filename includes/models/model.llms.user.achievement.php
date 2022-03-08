@@ -1,156 +1,134 @@
 <?php
 /**
- * LifterLMS User Achievement
+ * LLMS_User_Achievement model
  *
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 3.18.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_User_Achievement model.
+ * An achievement awarded to a student.
  *
  * @since 3.8.0
- * @since 3.18.0 Unknown.
+ * @since 6.0.0 Utilize `LLMS_Abstract_User_Engagement` abstract.
+ *
+ * @property int    $author     WP_User ID of the user who the achievement belongs to.
+ * @property string $awarded    MySQL timestamp recorded when the achievement was first awarded.
+ * @property string $content    The achievement content.
+ * @property int    $engagement WP_Post ID of the `llms_engagement` post used to trigger the achievement.
+ *                              An empty value or `0` indicates the achievement was awarded manually or
+ *                              before the engagement value was stored.
+ * @property int    $parent     WP_Post ID of the template `llms_achievement` post.
+ * @property int    $related    WP_Post ID of the related post.
+ * @property string $title      Achievement title.
  */
-class LLMS_User_Achievement extends LLMS_Post_Model {
+class LLMS_User_Achievement extends LLMS_Abstract_User_Engagement {
 
-	protected $db_post_type    = 'llms_my_achievement';
+	/**
+	 * Database (WP) post type name
+	 *
+	 * @var string
+	 */
+	protected $db_post_type = 'llms_my_achievement';
+
+	/**
+	 * Post type model name
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'achievement';
 
+	/**
+	 * Object properties
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
-		// 'achievement_title' => 'string', // use get( 'title' )
-		'achievement_image'    => 'absint',
-		// 'achievement_content' => 'html', // use get( 'content' )
-		'achievement_template' => 'absint',
+		'awarded'    => 'string',
+		'engagement' => 'absint',
+		'related'    => 'absint',
 	);
 
 	/**
-	 * Delete the certificate
+	 * Retrieve the image source for the achievement.
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.14.0
+	 * @since 6.0.0 Set a default size when an empty array is passed and use global default image when possible.
+	 *
+	 * @param int[] $size   Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @param null  $unused Unused parameter inherited from the parent method.
+	 * @return string Image source URL.
 	 */
-	public function delete() {
+	public function get_image( $size = array(), $unused = null ) {
 
-		do_action( 'llms_before_delete_achievement', $this );
+		$id     = $this->get( 'id' );
+		$img_id = get_post_thumbnail_id( $id );
 
-		global $wpdb;
-		$id = $this->get( 'id' );
-		$wpdb->delete(
-			"{$wpdb->prefix}lifterlms_user_postmeta",
-			array(
-				'user_id'    => $this->get_user_id(),
-				'meta_key'   => '_achievement_earned',
-				'meta_value' => $id,
-			),
-			array( '%d', '%s', '%d' )
-		);
-		wp_delete_post( $id, true );
+		$size = empty( $size ) ? array( 380, 380 ) : $size;
 
-		do_action( 'llms_delete_achievement', $this );
+		/**
+		 * Filters the size used to retrieve an achievement image.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int[] $size Dimensions of the image passed as [ width, height ] (in pixels).
+		 */
+		$size = apply_filters( 'llms_achievement_image_size', $size );
+
+		if ( ! $img_id ) {
+			$src = llms()->achievements()->get_default_image( $id );
+		} else {
+			list( $src ) = wp_get_attachment_image_src( $img_id, $size );
+		}
+
+		/**
+		 * Filter the image source URL for the achievement.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param string                $src         Image source URL.
+		 * @param LLMS_User_Achievement $achievement The achievement object.
+		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
+		 */
+		return apply_filters( 'llms_achievement_get_image', $src, $this, $size );
 
 	}
 
 	/**
-	 * Retrieve the date the achievement was earned (created)
+	 * Retrieve the HTML <img> for the achievement.
 	 *
-	 * @param    string $format  date format string
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
-	 */
-	public function get_earned_date( $format = null ) {
-		$format = $format ? $format : get_option( 'date_format' );
-		return $this->get_date( 'date', $format );
-	}
-
-	/**
-	 * Retrieve the HTML <img> for the achievement
+	 * @since 3.14.0
 	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @param array $size Dimensions of the image to return passed as [ width, height ] (in pixels).
+	 * @return string
 	 */
 	public function get_image_html( $size = array() ) {
 
+		/**
+		 * Filters the HTML used to display an achievement image.
+		 *
+		 * @since 3.14.0
+		 * @since 6.0.0 Added `$size` parameter.
+		 *
+		 * @param string                $html        Image HTML.
+		 * @param LLMS_User_Achievement $achievement The achievement object.
+		 * @param int[]                 $size        Dimensions of the image to return passed as [ width, height ] (in pixels).
+		 */
 		return apply_filters(
 			'llms_achievement_get_image_html',
-			sprintf( '<img alt="%1$s" class="llms-achievement-img" src="%2$s">', esc_attr( $this->get( 'title' ) ), $this->get_image( $size ) ),
-			$this
+			sprintf(
+				'<img alt="%1$s" class="llms-achievement-img" src="%2$s">',
+				esc_attr( $this->get( 'title' ) ),
+				$this->get_image( $size )
+			),
+			$this,
+			$size
 		);
 
-	}
-
-	/**
-	 * Retrieve the image source for the achievement
-	 *
-	 * @param    array $size  dimensions of the image to return (width x height)
-	 * @return   string
-	 * @since    3.14.0
-	 * @version  3.14.0
-	 */
-	public function get_image( $size = array(), $key = 'achievement_image' ) {
-
-		if ( ! $size ) {
-			$size = apply_filters( 'llms_achievement_image_default_size', array( 300, 300 ) );
-		}
-
-		if ( ! $this->get( 'achievement_image' ) ) {
-			$src = LLMS()->plugin_url() . '/assets/images/optional_achievement.png';
-		} else {
-			$src = parent::get_image( $size, $key );
-		}
-
-		return apply_filters( 'llms_achievement_get_image', $src, $this );
-
-	}
-
-	/**
-	 * Get the WP Post ID of the post which triggered the earning of the achievement
-	 * This would be a lesson, course, section, track, etc...
-	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_related_post_id() {
-		$meta = $this->get_user_postmeta();
-		return $meta->post_id;
-	}
-
-	/**
-	 * Retrieve the user id of the user who earned the achievement
-	 *
-	 * @return   int
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_user_id() {
-		$meta = $this->get_user_postmeta();
-		return $meta->user_id;
-	}
-
-	/**
-	 * Retrieve user postmeta data for the achievement
-	 *
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function get_user_postmeta() {
-		global $wpdb;
-		return $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT user_id, post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_value = %d AND meta_key = '_achievement_earned'",
-				$this->get( 'id' )
-			)
-		);
 	}
 
 }

@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.3.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,19 +18,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.8.0 Unknown.
  * @since 5.3.0 Replace singleton code with `LLMS_Trait_Singleton`.
+ * @since 6.0.0 Removed the deprecated `LLMS_Emails::$_instance` property.
  */
 class LLMS_Emails {
 
 	use LLMS_Trait_Singleton;
-
-	/**
-	 * Singleton instance.
-	 *
-	 * @deprecated 5.3.0 Use {@see LLMS_Trait_Singleton::instance()}.
-	 *
-	 * @var LLMS_Emails
-	 */
-	protected static $_instance = null;
 
 	/**
 	 * Class names of all emails
@@ -47,27 +39,23 @@ class LLMS_Emails {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
 		// Template functions.
-		LLMS()->include_template_functions();
+		llms()->include_template_functions();
 
 		// Email base class.
-		require_once 'emails/class.llms.email.php';
 		$this->emails['generic'] = 'LLMS_Email';
 
-		// Include email child classes.
-		require_once 'emails/class.llms.email.engagement.php';
-		$this->emails['engagement'] = 'LLMS_Email_Engagement';
-
-		require_once 'emails/class.llms.email.reset.password.php';
+		// Email child classes.
+		$this->emails['engagement']     = 'LLMS_Email_Engagement';
 		$this->emails['reset_password'] = 'LLMS_Email_Reset_Password';
 
 		$this->emails = apply_filters( 'lifterlms_email_classes', $this->emails );
-
 	}
 
 	/**

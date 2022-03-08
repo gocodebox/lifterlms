@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.15.0
- * @version 4.21.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -191,6 +191,60 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		// Return all the data.
 		return $data;
 
+	}
+
+	/**
+	 * Returns the edit post link for a post.
+	 *
+	 * This is based on the WordPress {@see get_edit_post_link()} function, but does not check if the user can
+	 * edit the post or if the post's post type has an edit link defined.
+	 *
+	 * When the background processor is running, the current user ID is 0. This prevents {@see current_user_can()}
+	 * from ever returning true and also causes the post's post type edit link to be set to an empty string in
+	 * {@see WP_Post_Type::set_props()}.
+	 *
+	 * This method is useful when the processor has completed and creates an admin notice that contains an edit post link.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param int|WP_Post $id      Optional. Post ID or post object. Default is the global `$post`.
+	 * @param string      $context Optional. How to output the '&' character. Default '&amp;'.
+	 * @return string|null The edit post link for the given post. Null if the post type does not exist
+	 *                     or does not allow an editing UI.
+	 */
+	protected function get_edit_post_link( $id = 0, $context = 'display' ) {
+
+		$post = get_post( $id );
+		if ( ! $post ) {
+			return null;
+		}
+
+		$post_type_object = get_post_type_object( $post->post_type );
+		if ( ! $post_type_object ) {
+			return null;
+		}
+
+		if ( 'revision' === $post->post_type ) {
+			$action = '';
+		} elseif ( 'display' === $context ) {
+			$action = '&amp;action=edit';
+		} else {
+			$action = '&action=edit';
+		}
+		$link = admin_url( sprintf( 'post.php?post=%d%s', $post->ID, $action ) );
+
+		/**
+		 * Filters the post edit link.
+		 *
+		 * This is identical to the `get_edit_post_link` filter hook in {@see get_edit_post_link()}.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param string $link    The edit link.
+		 * @param int    $post_id Post ID.
+		 * @param string $context The link context. If set to 'display' then ampersands are encoded.
+		 */
+		return apply_filters( 'get_edit_post_link', $link, $post->ID, $context );
 	}
 
 	/**

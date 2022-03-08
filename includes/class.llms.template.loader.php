@@ -436,6 +436,8 @@ class LLMS_Template_Loader {
 	 * Filter blocks templates.
 	 *
 	 * @since 5.8.0
+	 * @since 6.0.0 Remove LifterLMS 6.0 version check about the certificate template.
+	 *               Use `llms_is_block_theme()` in favor of `wp_is_block_theme()`.
 	 *
 	 * @param WP_Block_Template[] $result        Array of found block templates.
 	 * @param array               $query {
@@ -449,8 +451,8 @@ class LLMS_Template_Loader {
 	 */
 	public function block_template_loader( $result, $query, $template_type ) {
 
-		// Bail it's not a block theme, or is being retrieved a non wp_template file.
-		if ( ! function_exists( 'wp_is_block_theme' ) || ! wp_is_block_theme() || 'wp_template' !== $template_type ) {
+		// Bail if it's not a block theme, or is being retrieved a non wp_template file.
+		if ( ! llms_is_block_theme() || 'wp_template' !== $template_type ) {
 			return $result;
 		}
 
@@ -460,15 +462,15 @@ class LLMS_Template_Loader {
 		 * Since LifterLMS 6.0.0 certificates have their own PHP template that do no depend on the theme.
 		 * This means that we can use the PHP template loaded in the method `LLMS_Template_Loader::template_loader()` below.
 		 */
-		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) && version_compare( '6.0.0-alpha.1', llms()->version, '<=' ) ? '' : $template_name;
+		$template_name = is_singular( array( 'llms_certificate', 'llms_my_certificate' ) ) ? '' : $template_name;
 
 		/**
 		 * Filters the block template to be loded forced.
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param string $template_slug The template slug to be loaded forced.
-		 * @param string $template      The template name to be loaded forced.
+		 * @param string $template_slug The template slug to be force loaded.
+		 * @param string $template      The name of template to be force loaded.
 		 */
 		$template_slug = apply_filters( 'llms_forced_block_template_slug', $template_name ? LLMS_Block_Templates::LLMS_BLOCK_TEMPLATES_PREFIX . $template_name : '', $template_name );
 

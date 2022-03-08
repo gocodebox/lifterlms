@@ -107,8 +107,8 @@ class LLMS_Admin_Notices {
 				'remindable'       => false,
 				'type'             => 'info', // Info, warning, success, error.
 				'template'         => false, // Template name, eg "admin/notices/notice.php".
-				'template_path'    => '', // Allow override of default LLMS()->template_path().
-				'default_path'     => '', // Allow override of default path LLMS()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
+				'template_path'    => '', // Allow override of default llms()->template_path().
+				'default_path'     => '', // Allow override of default path llms()->plugin_path() . '/templates/'. An addon may add a notice and pass it's own path in here.
 			)
 		);
 

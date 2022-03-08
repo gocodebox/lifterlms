@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version 5.0.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -100,12 +100,12 @@ class LLMS_PlayNice {
 	}
 
 	/**
-	 * OptimizePress LiveEditor fix
+	 * OptimizePress LiveEditor fix.
 	 *
 	 * The live editor for OptimizePress does not work because it is trying to load a frontend environment
-	 * in the admin area and needs access lifterlms frontend files.
+	 * in the admin area and needs access to LifterLMS frontend files.
 	 *
-	 * This function loads all frontend files when the optimizepress live editor is initialized.
+	 * This function loads all frontend files when the OptimizePress live editor is initialized.
 	 *
 	 * @since 3.2.2
 	 * @since 3.19.6 Unknown.
@@ -113,6 +113,7 @@ class LLMS_PlayNice {
 	 * @since 5.0.0 Remove inclusion of removed files:
 	 *                    + forms/frontend/class.llms.frontend.forms.php
 	 *                    + forms/frontend/class.llms.frontend.password.php
+	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
 	 *
 	 * @return void
 	 */
@@ -128,11 +129,6 @@ class LLMS_PlayNice {
 
 		include_once 'class.llms.template.loader.php';
 		include_once 'class.llms.frontend.assets.php';
-		include_once 'shortcodes/class.llms.shortcodes.php';
-
-		include_once 'shortcodes/class.llms.shortcode.my.account.php';
-		include_once 'shortcodes/class.llms.shortcode.checkout.php';
-
 	}
 
 	/**

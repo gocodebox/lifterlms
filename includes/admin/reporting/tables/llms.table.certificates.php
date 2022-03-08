@@ -5,40 +5,51 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.18.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Student_Certificates class
+ * LLMS_Table_Student_Certificates class.
  *
  * @since 3.2.0
  * @since 3.35.0 Get student ID more reliably.
+ * @since 6.0.0 Allow pagination.
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
+	use LLMS_Trait_Earned_Engagement_Reporting_Table;
+
 	/**
-	 * Unique ID for the Table
+	 * Unique ID for the Table.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'certificates';
 
 	/**
-	 * Instance of LLMS_Student
+	 * Instance of LLMS_Student.
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected $student = null;
 
 	/**
-	 * Get HTML for buttons in the actions cell of the table
+	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @param    int $certificate_id  WP Post ID of the llms_my_certificate
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @var boolean
+	 */
+	protected $is_paginated = true;
+
+	/**
+	 * Get HTML for buttons in the actions cell of the table.
+	 *
+	 * @since 3.18.0
+	 * @since 6.0.0 Show a button to edit earned certificates.
+	 *
+	 * @param int $certificate_id  WP Post ID of the llms_my_certificate
+	 * @return void
 	 */
 	private function get_actions_html( $certificate_id ) {
 		ob_start();
@@ -47,7 +58,12 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			<?php _e( 'View', 'lifterlms' ); ?>
 			<i class="fa fa-external-link" aria-hidden="true"></i>
 		</a>
-
+		<?php if ( get_edit_post_link( $certificate_id ) ) : ?>
+		<a class="llms-button-secondary small" href="<?php echo esc_url( get_edit_post_link( $certificate_id ) ); ?>">
+			<?php _e( 'Edit', 'lifterlms' ); ?>
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		</a>
+		<?php endif; ?>
 		<form action="" method="POST" style="display:inline;">
 
 			<button type="submit" class="llms-button-secondary small" name="llms_generate_cert">
@@ -73,27 +89,36 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve data for the columns
+	 * Retrieve data for the columns.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object of achievement data
-	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.18.0
+	 * @since 3.2.0
+	 * @since 3.18.0 Unknown.
+	 * @since 6.0.0 Retrieve date using the LLMS_User_Certificate model.
+	 *
+	 * @param  string                $key         The column id / key.
+	 * @param  LLMS_User_Certificate $certificate Object of certificate data.
+	 * @return mixed
 	 */
-	public function get_data( $key, $data ) {
+	public function get_data( $key, $certificate ) {
+
+		// Handle old object being passed in.
+		if ( ! is_a( $certificate, 'LLMS_User_Certificate' ) && property_exists( $certificate, 'certificate_id' ) ) {
+			$certificate = llms_get_certificate( $certificate->certificate_id );
+		}
+
 		switch ( $key ) {
 
 			case 'actions':
-				$value = $this->get_actions_html( $data->certificate_id );
+				$value = $this->get_actions_html( $certificate->get( 'id' ) );
 				break;
 
 			case 'related':
-				if ( $data->post_id && 'llms_certificate' !== get_post_type( $data->post_id ) ) {
-					if ( is_numeric( $data->post_id ) ) {
-						$value = $this->get_post_link( $data->post_id, get_the_title( $data->post_id ) );
+				$related = $certificate->get( 'related' );
+				if ( $related && 'llms_certificate' !== get_post_type( $related ) ) {
+					if ( is_numeric( $related ) ) {
+						$value = $this->get_post_link( $related, get_the_title( $related ) );
 					} else {
-						$value = $data->post_id;
+						$value = $related;
 					}
 				} else {
 					$value = '&ndash;';
@@ -101,20 +126,20 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				break;
 
 			case 'earned':
-				$value = date_i18n( 'F j, Y', strtotime( $data->earned_date ) );
+				$value = $certificate->get_earned_date();
+				$value = 'future' === get_post_status( $certificate->get( 'id' ) ) ? $value . ' ' . __( '(scheduled)', 'lifterlms' ) : $value;
 				break;
 
 			case 'id':
-				$value = $data->certificate_id;
+				$value = $certificate->get( 'id' );
 				break;
 
 			case 'name':
-				$value = get_post_meta( $data->certificate_id, '_llms_certificate_title', true );
+				$value = $certificate->get( 'title' );
 				break;
 
-			// Prior to 3.2 this data wasn't recorded.
 			case 'template_id':
-				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
+				$template = $certificate->get( 'parent' );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
@@ -125,12 +150,28 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}
 
-		return $this->filter_get_data( $value, $key, $data );
+		// Pass the "legacy" object to the filter.
+		$backwards_compat_obj = array(
+			'post_id'        => $certificate->get( 'related' ),
+			'certificate_id' => $certificate->get( 'id' ),
+			'earned_date'    => $certificate->get_earned_date(),
+		);
+
+		return $this->filter_get_data( $value, $key, $backwards_compat_obj );
 
 	}
 
+	/**
+	 * Get table results.
+	 *
+	 * @since Unknown
+	 * @since 6.0.0 Paginate results.
+	 *
+	 * @param array $args
+	 * @return void
+	 */
 	public function get_results( $args = array() ) {
 
 		$args = $this->clean_args( $args );
@@ -141,7 +182,29 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 		$this->student = $args['student'];
 
-		$this->tbody_data = $this->student->get_certificates();
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$query = $this->student->get_certificates(
+			array(
+				'per_page' => 10,
+				'status'   => array( 'publish', 'future' ),
+				'paged'    => $this->current_page,
+				'sort'     => array(
+					'date' => 'ASC',
+					'ID'   => 'ASC',
+				),
+			)
+		);
+
+		$this->max_pages = $query->get_max_pages();
+
+		if ( $this->max_pages > $this->current_page ) {
+			$this->is_last_page = false;
+		}
+
+		$this->tbody_data = $query->get_awards();
 
 	}
 

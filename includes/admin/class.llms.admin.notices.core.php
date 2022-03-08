@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version 4.12.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices class
  *
  * @since 3.0.0
+ * @since 6.0.0 Removed the deprecated `LLMS_Admin_Notices_Core::check_staging()` method.
  */
 class LLMS_Admin_Notices_Core {
 
@@ -62,24 +63,6 @@ class LLMS_Admin_Notices_Core {
 	}
 
 	/**
-	 * Outputs a notice that allows users to enable or disable automated recurring payments
-	 *
-	 * Appears when we identify that the url has changed or when an admin resets the settings
-	 * from the button on the general settings tab.
-	 *
-	 * @since 3.0.0
-	 * @since 3.7.4 Automatically disable recurring payments when a clone is detected.
-	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
-	 * @deprecated 4.12.0 `LLMS_Admin_Notices_Core::check_staging()` is deprecated in favor of `LLMS_Staging::notice()`.
-	 *
-	 * @return void
-	 */
-	public static function check_staging() {
-		llms_deprecated_function( 'LLMS_Admin_Notices_Core::check_staging()', '4.12.0', 'LLMS_Staging::notice()' );
-		LLMS_Staging::notice();
-	}
-
-	/**
 	 * Check for gateways and output gateway notice
 	 *
 	 * @since 3.0.0
@@ -91,7 +74,7 @@ class LLMS_Admin_Notices_Core {
 	public static function gateways() {
 		$id = 'no-gateways';
 
-		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', LLMS()->payment_gateways()->has_gateways( true ) ) ) {
+		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', llms()->payment_gateways()->has_gateways( true ) ) ) {
 			$html  = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
 			$html .= sprintf(
 				__( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ),

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.34.0
- * @version 4.7.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.34.0
  * @since 4.0.0 Add custom user table columns and action links.
+ * @since 6.0.0 Removed the deprecated `LLMS_Admin_Users_Table::load_dependencies()` method.
  */
 class LLMS_Admin_Users_Table {
 
@@ -231,26 +232,6 @@ class LLMS_Admin_Users_Table {
 		}
 
 		return $output;
-
-	}
-
-	/**
-	 * Load dependencies used by the class.
-	 *
-	 * @since 4.0.0
-	 * @deprecated 4.7.0 `LLMS_Admin_Users_Table::load_dependencies()` is deprecated with no replacement. The included
-	 *                   class, `LLMS_Admin_Reporting` is now always loaded.
-	 *
-	 * @return void
-	 */
-	public function load_dependencies() {
-
-		llms_deprecated_function( 'LLMS_Admin_Users_Table::load_dependencies()', '4.7.0' );
-
-		$screen = get_current_screen();
-		if ( $screen && 'users' === $screen->id ) {
-			require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
-		}
 
 	}
 
