@@ -33,6 +33,7 @@
   },
   "scripts": {
     "docgen": "docgen src/index.js --output README.md --to-token",
-    "dev": "./../dev/src/index.js"
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./"
   }
 }
