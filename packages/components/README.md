@@ -12,6 +12,15 @@ To use components you can add `llms-components` as a dependency to your script a
 const { ButtonGroupControl } = window.llms.components;
 ```
 
+## LifterLMS Versions
+
+The following table records the module version and which LifterLMS versions it has been included in.
+
+| Module Version | LifterLMS Version |
+| -------------- | ----------------- |
+| 1.0.0          | 6.0.0             |
+
+
 ## Installation
 
 Install the module as a dependency in your project:

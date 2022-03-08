@@ -20,6 +20,15 @@ Install the module as a dependency in your project:
 npm i -S @lifterlms/utils`
 ```
 
+## LifterLMS Versions
+
+The following table records the module version and which LifterLMS versions it has been included in.
+
+| Module Version | LifterLMS Version |
+| -------------- | ----------------- |
+| 1.0.0          | 6.0.0             |
+
+
 ## Changelog
 
 [View the Changelog](./CHANGELOG.md)
