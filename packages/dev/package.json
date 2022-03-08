@@ -39,6 +39,8 @@
     "yaml": "^1.10.2"
   },
   "scripts": {
-    "docgen": "llms-dev docgen"
+    "docgen": "npm run dev docgen",
+    "dev": "./src/index.js",
+    "test": "cd ../../ && wp-scripts test-unit-js ./packages/dev --config ./packages/scripts/config/jest-unit.config.js --verbose && cd packages/dev"
   }
 }
