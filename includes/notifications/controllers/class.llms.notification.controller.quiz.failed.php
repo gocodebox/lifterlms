@@ -84,6 +84,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 *
 	 * @since 3.24.0
 	 * @since [version] Fixed access of protected LLMS_Abstract_Query properties.
+	 *              Fixed issue where void was returned instead of an empty array if the type was 'email'.
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @return array
@@ -91,7 +92,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	public function get_test_settings( $type ) {
 
 		if ( 'email' !== $type ) {
-			return;
+			return array();
 		}
 
 		$query    = new LLMS_Query_Quiz_Attempt(
