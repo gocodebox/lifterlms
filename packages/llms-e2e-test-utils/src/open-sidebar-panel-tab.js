@@ -5,7 +5,7 @@ import {
 /**
  * Opens a sidebar panel tab if it's not already open.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {string} tab Tab to select, accepts "primary" to select the main document settings tab or "block"
  *                     to select the block tab.

@@ -3,7 +3,7 @@ import { toggleSidebarPanel } from './toggle-sidebar-panel';
 /**
  * Visits a post on the frontend by from within the block editor.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {Promise} A promise representing the link click.
  */

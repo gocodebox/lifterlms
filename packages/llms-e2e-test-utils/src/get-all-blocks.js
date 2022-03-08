@@ -3,7 +3,7 @@ import { getAllBlocks as realGetAllBlocks } from '@wordpress/e2e-test-utils';
 /**
  * Removes clientIds from a block and its innerBlocks.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {Object} options          Options object.
  * @param {string} options.clientId The block's clientId.
@@ -18,7 +18,7 @@ function removeClientId( { clientId, ...block } ) { // eslint-disable-line no-un
 /**
  * Removes clientIds from a list of blocks.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {Object[]} blocks Array of WP_Block objects.
  * @return {Object[]} Original array with clientIds removed.
@@ -35,7 +35,7 @@ function removeClientIds( blocks ) {
  * that excludes (possibly nested) blocks with clientIds that will not
  * match future test runs.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {boolean} withClientIds Whether or not to exclude clientIds.
  * @return {Object[]} Array of block objects.

@@ -7,7 +7,7 @@ import { openSidebarPanelTab } from './open-sidebar-panel-tab';
 /**
  * Opens or closes an editor sidebar panel based on the panel's title.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {string}  title        The panel title to open or close.
  * @param {boolean} shouldBeOpen Whether or not the panel should be open.

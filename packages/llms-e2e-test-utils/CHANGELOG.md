@@ -1,8 +1,8 @@
 LifterLMS E2E Test Utils Changelog
 ==================================
 
-Unreleased
-----------
+v3.3.0 - 2022-03-08
+-------------------
 
 + New functions:
   + `activateTheme()`

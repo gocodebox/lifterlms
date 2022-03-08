@@ -4,7 +4,7 @@ import { activateTheme as wpActivateTheme } from '@wordpress/e2e-test-utils';
 /**
  * Retrieves the default WP theme based on the WP core version.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {string} Slug of the WP core theme.
  */
@@ -34,7 +34,7 @@ function getThemeByCoreVersion() {
 /**
  * Activates a theme.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @param {?string} theme Accepts a theme slug. If not supplied, loads the default theme for the tested WP version.
  * @return {Promise} Promise that resolves when the theme is activated.

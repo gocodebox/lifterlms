@@ -6,7 +6,7 @@ import { wpVersionCompare } from './wp-version-compare';
  * This function uses a dynamically-determined selector based on the current WP version (and assumed theme)
  * run by default with that version.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {Promise} A promise that resolves to return the element's text content.
  */
@@ -19,7 +19,7 @@ export function getPostTitleTextContent() {
  *
  * On 5.9+ we're testing against the 2022 theme, on 5.8 & earlier we're using 2021.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {Promise} A promise that resolves to return the element's text content.
  */

@@ -1,7 +1,7 @@
 /**
  * Deletes all blocks in the editor.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {Promise} Promise from page.evaluate().
  */

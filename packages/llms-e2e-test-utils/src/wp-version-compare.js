@@ -6,7 +6,7 @@ import { getWPVersion } from './get-wp-version';
  * Run a version compare against the currently tested version of WordPress.
  *
  * @since 3.2.0
- * @since [version] Added `majorMinorOnly` argument option.
+ * @since 3.3.0 Added `majorMinorOnly` argument option.
  *
  * @param {string}  version        A version string.
  * @param {string}  comparator     A comparison string, eg ">=" or "<", etc...

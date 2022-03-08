@@ -6,7 +6,7 @@ import { updatePost } from './update-post';
 /**
  * Retrieve default block editor content.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {string} Block markup.
  */
@@ -28,7 +28,7 @@ function getDefaultContent() {
  * Create and publish a new certificate
  *
  * @since 2.1.2
- * @since [version] Updated to utilize the block editor in favor of classic.
+ * @since 3.3.0 Updated to utilize the block editor in favor of classic.
  *
  * @param {Object} args            Optional creation arguments.
  * @param {string} args.title      Certificate title.

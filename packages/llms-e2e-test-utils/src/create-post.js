@@ -6,7 +6,7 @@ import { publishPost } from './publish-post';
  * Create and publish a new post
  *
  * @since 2.2.0
- * @since [version] Set the post's content with `setPostContent()`.
+ * @since 3.3.0 Set the post's content with `setPostContent()`.
  *
  * @param {string}  postType WP_Post type.
  * @param {string}  title    Post title.

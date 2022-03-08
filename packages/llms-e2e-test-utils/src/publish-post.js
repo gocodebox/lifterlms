@@ -5,7 +5,7 @@ import { updatePost } from './update-post';
 /**
  * Disables prepublish checks and clicks the post publish button.
  *
- * @since [version]
+ * @since 3.3.0
  *
  * @return {Promise} Promise which resolves when the close button element is successfully clicked.
  */

@@ -14,7 +14,7 @@ const { clickAndWait } = require( './click-and-wait' );
  * @since 3.37.8
  * @since 2.1.2 Wait 1 second before navigating to logout page.
  * @since 3.0.0 Use `waitForTimeout()` in favor of deprecated `waitFor()`.
- * @since [version] Returns a promise rather than void.
+ * @since 3.3.0 Returns a promise rather than void.
  *
  * @return {Promise} Promise which resolves after the user is logged out and the page reloaded.
  */
