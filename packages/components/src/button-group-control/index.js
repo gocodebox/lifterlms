@@ -8,7 +8,7 @@ import { useState } from '@wordpress/element';
  * Similar to the experimental `<RadioGroup>` component from @wordpress/components but it allows
  * passing in an array of options.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @see BaseControl https://github.com/WordPress/gutenberg/tree/trunk/packages/components/src/base-control
  *

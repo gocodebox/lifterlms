@@ -8,7 +8,7 @@ import BaseSearchControl from './base-search-control';
  * This component is a wrapper around the <BaseSearchControl> component. It is configured
  * to search users via the WordPress user REST API endpoint.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @param {Object}    args                         Component arguments.
  * @param {string}    args.searchPath              Required. API path used to perform the search.

@@ -10,7 +10,7 @@ import { BaseControl } from '@wordpress/components';
  * Addresses issues arising from WP core styles loaded in the block editor that create visual
  * issues with our components.
  *
- * @since [version]
+ * @since 1.0.0
  */
 export const StyledBaseControl = styled( BaseControl )`
 	width: 100%;

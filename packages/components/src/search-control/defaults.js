@@ -7,7 +7,7 @@ import apiFetch from '@wordpress/api-fetch';
 /**
  * Default function used to hydrate stored numeric IDs to the equivalent object.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @param {Array}    values        Array of values.
  * @param {string}   path          API request path.
@@ -57,7 +57,7 @@ export const defaultStyles = {
  * are lighter highlights). So if you're using a non-default admin color scheme the select will probably
  * look a bit weird. I'm sorry.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @see https://react-select.com/styles#overriding-the-theme
  *
@@ -89,7 +89,7 @@ export function defaultTheme( theme ) {
  * Accepts an array of raw API results adds a label and value for use by the <Select>
  * component.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @param {Object[]} results                 API result array.
  * @param {Function} formatSearchResultLabel Label formatting function.

@@ -21,7 +21,7 @@ import {
 /**
  * Searchable <select> element powered by a WordPress REST API endpoint.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @param {Object}    args                         Component arguments.
  * @param {string}    args.searchPath              Required. API path used to perform the search.
@@ -115,7 +115,7 @@ export default function BaseSearchControl( {
 	 *
 	 * Updates the current value's state and calls the `onUpdate()` user function.
 	 *
-	 * @since [version]
+	 * @since 1.0.0
 	 *
 	 * @param {?Object[]} newValues Newly selected values.
 	 * @return {void}
@@ -130,7 +130,7 @@ export default function BaseSearchControl( {
 	 *
 	 * On search term update callback function.
 	 *
-	 * @since [version]
+	 * @since 1.0.0
 	 */
 	const loadOptions = debounce(
 		searchDebounceDelay,

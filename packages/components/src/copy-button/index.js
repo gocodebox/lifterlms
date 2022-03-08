@@ -8,7 +8,7 @@ import { useCopyToClipboard } from '@wordpress/compose';
  * Uses the `useCopyToClipboard()` hook with a <Button> on WP 5.8 & later, otherwise falls back
  * to the deprecated <ClipboardButton>.
  *
- * @since [version]
+ * @since 1.0.0
  *
  * @param {Object}   args             Component arguments.
  * @param {string}   args.buttonText  Text to to display within the button.
