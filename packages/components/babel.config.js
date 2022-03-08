@@ -1,8 +1,14 @@
 /**
  * Babel config
  *
+ * @package LifterLMS/Dev/Scripts
+ *
  * @since [version]
  * @version [version]
  */
 
-module.exports = { presets: [ '@babel/preset-react' ] };
+const
+	presets = [ '@wordpress/default' ],
+	plugins = [ '@babel/plugin-proposal-class-properties' ];
+
+module.exports = { presets };
