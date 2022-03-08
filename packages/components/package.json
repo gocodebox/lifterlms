@@ -39,6 +39,9 @@
     "@testing-library/react": "^12.1.2"
   },
   "scripts": {
-    "docgen": "docgen src/index.js --output README.md --to-token"
+    "docgen": "docgen src/index.js --output README.md --to-token",
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./",
+    "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
   }
 }
