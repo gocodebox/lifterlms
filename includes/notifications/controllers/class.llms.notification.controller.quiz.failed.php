@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Controllers/Classes
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,12 +80,13 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * Get an array of LifterLMS Admin Page settings to send test notifications.
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Fixed access of protected LLMS_Abstract_Query properties.
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_test_settings( $type ) {
 
@@ -103,7 +104,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 			'' => '',
 		);
 		$attempts = array();
-		$results  = $query->results;
+		$results  = $query->get_results();
 		if ( $query->has_results() ) {
 			foreach ( $query->get_attempts() as $attempt ) {
 				$quiz    = llms_get_post( $attempt->get( 'quiz_id' ) );
