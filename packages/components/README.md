@@ -103,6 +103,29 @@ _Returns_
 
 -   `Object`: The copy button fragment.
 
+### PostSearchControl
+
+Searchable <select> element powered by a WordPress REST API users endpoint.
+
+This component is a wrapper around the <BaseSearchControl> component. It is configured
+to search users via the WordPress user REST API endpoint.
+
+_Parameters_
+
+-   _args_ `Object`: Component arguments.
+-   _args.postType_ `string`: Post type endpoint.
+-   _args.baseSearchPath_ `string`: Base search path used to create the searchPath.
+-   _args.searchPath_ `?string`: API path used to perform the search. If passed, will be used instead of the path generated from `args.postType` and `args.baseSearchPath`.
+-   _args.placeholder_ `string`: The placeholder displayed within an empty search control.
+-   _args.className_ `string`: HTML class attribute added to the select control.
+-   _args.formatSearchResultLabel_ `?Function`: Function invoked to format the display label for a result. The function is passed
+-   _args.additionalSearchArgs_ `Object`: An object representing a single result and should return a string.
+-   _args.baseProps_ `...*`: Any remaining properties are passed to the <BaseSearchControl> component.
+
+_Returns_
+
+-   `BaseSearchControl`: The component.
+
 ### UserSearchControl
 
 Searchable <select> element powered by a WordPress REST API users endpoint.
