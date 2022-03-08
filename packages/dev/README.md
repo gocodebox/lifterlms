@@ -47,42 +47,26 @@ Get help with a specific command by running: `llms-dev help [command]`.
 ### changelog add
 
 ```bash
-Usage: llms-dev changelog add [options]
+Usage: index changelog add [options]
 
 Create a new changelog entry.
 
 Options:
-  -s, --significance <level>     The semantic version significance of the
-                                 change. Accepts: major, minor, patch.
-                                 (default: "patch")
-  -t, --type <type>              The type of change. Accepts: added, changed,
-                                 fixed, deprecated, removed, dev, performance,
-                                 security. (default: "changed")
-  -c, --comment <comment>        An internal-use comment to include with the
-                                 changelog entry which is not published with
-                                 the final changelog.
-  -l, --links <issues...>        Link the changelog to one or more GitHub
-                                 issues. Can be provided multiple times to link
-                                 to multiple issues.
-  -a, --attributions <users...>  Attribute the changelog entry to one or more
-                                 individuals. Attributions are provided to
-                                 thank contributions which originate from
-                                 outside the LifterLMS organization. Provide a
-                                 GitHub username or a markdown-formatted
-                                 anchor. Can be provided multiple times to
-                                 attribute to multiple users.
+  -s, --significance <level>     The semantic version significance of the change. Accepts: major, minor, patch. (default: "patch")
+  -t, --type <type>              The type of change. Accepts: added, changed, fixed, deprecated, removed, dev, performance, security. (default:
+                                 "changed")
+  -c, --comment <comment>        An internal-use comment to include with the changelog entry which is not published with the final changelog.
+  -l, --links <issues...>        Link the changelog to one or more GitHub issues. Can be provided multiple times to link to multiple issues.
+  -a, --attributions <users...>  Attribute the changelog entry to one or more individuals. Attributions are provided to thank contributions which
+                                 originate from outside the LifterLMS organization. Provide a GitHub username or a markdown-formatted anchor. Can be
+                                 provided multiple times to attribute to multiple users.
   -e, --entry <entry>            The changelog entry.
-  -T, --title <title>            Changelog entry file name. Uses the current
-                                 git branch name as the default. Automatically
-                                 appends a number to the title if the title
-                                 already exists. (default: "dev")
-  -i, --interactive              Create the changelog interactively. (default:
-                                 false)
-  -E, --use-editor               When creating a changelog interactively, will
-                                 open an editor to write the entry, This is
-                                 useful when creating multi-line entries.
-  -d, --dir <directory>          Directory where changelog entries are stored.
-                                 (default: ".changelogs")
+  -T, --title <title>            Changelog entry file name. Uses the current git branch name as the default. Automatically appends a number to the
+                                 title if the title already exists. (default: "dev")
+  -i, --interactive              Create the changelog interactively. (default: false)
+  -E, --use-editor               When creating a changelog interactively, will open an editor to write the entry, This is useful when creating
+                                 multi-line entries.
+  -d, --dir <directory>          Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help                     display help for command
 
 ```
@@ -90,13 +74,12 @@ Options:
 ### changelog list
 
 ```bash
-Usage: llms-dev changelog list [options]
+Usage: index changelog list [options]
 
 List existing changelog entries.
 
 Options:
-  -d, --dir <directory>  Directory where changelog entries are stored.
-                         (default: ".changelogs")
+  -d, --dir <directory>  Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help             display help for command
 
 ```
@@ -104,22 +87,17 @@ Options:
 ### changelog validate
 
 ```bash
-Usage: llms-dev changelog validate [options] [entries...]
+Usage: index changelog validate [options] [entries...]
 
 Validate existing changelog entries.
 
 Arguments:
-  entries                Optionally specify a list of changelog entries to
-                         validate. If omitted will validate all existing
-                         entries.
+  entries                Optionally specify a list of changelog entries to validate. If omitted will validate all existing entries.
 
 Options:
-  -f, --format [format]  Output format. Accepts: list, json, yaml. (default:
-                         "list")
-  -s, --silent           Skip validation output and communicate validation
-                         status only through the exit status of the command.
-  -d, --dir <directory>  Directory where changelog entries are stored.
-                         (default: ".changelogs")
+  -f, --format [format]  Output format. Accepts: list, json, yaml. (default: "list")
+  -s, --silent           Skip validation output and communicate validation status only through the exit status of the command.
+  -d, --dir <directory>  Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help             display help for command
 
 ```
@@ -127,7 +105,7 @@ Options:
 ### changelog version
 
 ```bash
-Usage: llms-dev changelog version [options] <which>
+Usage: index changelog version [options] <which>
 
 List existing changelog entries.
 
@@ -135,10 +113,8 @@ Arguments:
   which                     Which version to retrieve. Accepts: current, next.
 
 Options:
-  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor,
-                            prepatch or prerelease version increments.
-  -d, --dir <directory>     Directory where changelog entries are stored.
-                            (default: ".changelogs")
+  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
+  -d, --dir <directory>     Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help                display help for command
 
 ```
@@ -146,28 +122,20 @@ Options:
 ### changelog write
 
 ```bash
-Usage: llms-dev changelog write [options]
+Usage: index changelog write [options]
 
 Write existing changelog entries to the changelog file.
 
 Options:
-  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor,
-                            prepatch or prerelease version increments.
-  -F, --force <version>     Use the specified version string instead of
-                            determining the version based on changelog entry
-                            significance.
+  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
+  -F, --force <version>     Use the specified version string instead of determining the version based on changelog entry significance.
   -l, --log-file <file>     The changelog file. (default: "CHANGELOG.md")
-  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2021-12-27")
-  -L, --links               Add GitHub links to templates and issues in
-                            changelog entries. (default: false)
-  -n, --no-links            Do not add GitHub links in changelog entries. Use
-                            this option to override the --links flag.
-  -D, --dry-run             Output what would be written to the changelog
-                            instead of writing it to the changelog file.
-  -k, --keep-entries        Preserve entry files deletion after the changelog
-                            is written.
-  -d, --dir <directory>     Directory where changelog entries are stored.
-                            (default: ".changelogs")
+  -d, --date <YYYY-MM-DD>   Changelog publication date. (default: "2022-03-08")
+  -L, --links               Add GitHub links to templates and issues in changelog entries. (default: false)
+  -n, --no-links            Do not add GitHub links in changelog entries. Use this option to override the --links flag.
+  -D, --dry-run             Output what would be written to the changelog instead of writing it to the changelog file.
+  -k, --keep-entries        Preserve entry files deletion after the changelog is written.
+  -d, --dir <directory>     Directory where changelog entries are stored. (default: ".changelogs")
   -h, --help                display help for command
 
 ```
@@ -175,7 +143,7 @@ Options:
 ### docgen
 
 ```bash
-Usage: llms-dev docgen [options]
+Usage: index docgen [options]
 
 Generates documentation for the CLI.
 
@@ -187,28 +155,18 @@ Options:
 ### pot
 
 ```bash
-Usage: llms-dev pot [options]
+Usage: index pot [options]
 
 Generate i18n pot and json files using the WP-CLI.
 
 Options:
-  -d, --text-domain <text-domain>  Specify the text domain. Used to generate
-                                   the filenames for generated files. (default:
-                                   "dev")
-  -e, --exclude <glob...>          Specify files to exclude from scanning.
-                                   (default: "vendor/**, node_modules/**,
-                                   tmp/**, dist/**, docs/**, src/**, tests/**,
-                                   *.js.map")
-  -ee, --extra-exclude <glob...>   Additional files to add to the --exclude
-                                   option.
-  -d, --dir <directory>            Output directory where generated files will
-                                   be stored. (default: "i18n")
-  -t, --translator <translator>    Customize the Last Translator header.
-                                   (default: "Team LifterLMS
-                                   <team@lifterlms.com>")
-  -b, --bugs <url>                 Customize the bug report location header.
-                                   (default:
-                                   "https://lifterlms.com/my-account/my-tickets")
+  -d, --text-domain <text-domain>  Specify the text domain. Used to generate the filenames for generated files. (default: "llms-e2e-test-utils")
+  -e, --exclude <glob...>          Specify files to exclude from scanning. (default: "vendor/**, node_modules/**, tmp/**, dist/**, docs/**, src/**,
+                                   tests/**, *.js.map")
+  -ee, --extra-exclude <glob...>   Additional files to add to the --exclude option.
+  -d, --dir <directory>            Output directory where generated files will be stored. (default: "i18n")
+  -t, --translator <translator>    Customize the Last Translator header. (default: "Team LifterLMS <team@lifterlms.com>")
+  -b, --bugs <url>                 Customize the bug report location header. (default: "https://lifterlms.com/my-account/my-tickets")
   -h, --help                       display help for command
 
 ```
@@ -216,23 +174,17 @@ Options:
 ### readme
 
 ```bash
-Usage: llms-dev readme [options]
+Usage: index readme [options]
 
 Create a readme.txt file suitable for the WordPress.org plugin repository.
 
 Options:
-  -o, --output-file <filename>     Specify the output readme file name.
-                                   (default: "readme.txt")
-  -i, --input-file <filename>      Specify the input changelog file name.
-                                   (default: "CHANGELOG.md")
-  -d, --dir <directory>            Directory where the readme part files are
-                                   stored (default: ".wordpress-org/readme")
-  -l, --changelog-length <number>  Specify the number of versions to display
-                                   before truncating the changelog. (default:
-                                   10)
-  -r, --read-more <url>            Specify the "Read More" url where changelogs
-                                   are published. (default:
-                                   "https://make.lifterlms.com/tag/dev")
+  -o, --output-file <filename>     Specify the output readme file name. (default: "readme.txt")
+  -i, --input-file <filename>      Specify the input changelog file name. (default: "CHANGELOG.md")
+  -d, --dir <directory>            Directory where the readme part files are stored (default: ".wordpress-org/readme")
+  -l, --changelog-length <number>  Specify the number of versions to display before truncating the changelog. (default: 10)
+  -r, --read-more <url>            Specify the "Read More" url where changelogs are published. (default:
+                                   "https://make.lifterlms.com/tag/llms-e2e-test-utils")
   -h, --help                       display help for command
 
 ```
@@ -240,17 +192,14 @@ Options:
 ### release archive
 
 ```bash
-Usage: llms-dev release archive [options]
+Usage: index release archive [options]
 
 Build a distribution archive (.zip) file for the project.
 
 Options:
-  -i, --inspect    Automatically unzip the zip file after creation. (default:
-                   false)
-  -d, --dir <dir>  Directory where the generated archive file will be saved,
-                   relative to the project root directory. (default: "dist")
-  -v, --verbose    Output extra information with result messages. (default:
-                   false)
+  -i, --inspect    Automatically unzip the zip file after creation. (default: false)
+  -d, --dir <dir>  Directory where the generated archive file will be saved, relative to the project root directory. (default: "dist")
+  -v, --verbose    Output extra information with result messages. (default: false)
   -h, --help       display help for command
 
 ```
@@ -258,49 +207,28 @@ Options:
 ### release create
 
 ```bash
-Usage: llms-dev release create [options]
+Usage: index release create [options]
 
 Create a GitHub release and tag from a specified file or branch.
 
 Options:
-  -a, --archive <zip>               If specified, the zip file will be
-                                    committed and force-pushed to the specified
-                                    branch before creating the release. Pass
-                                    --no-archive to skip this step. (default:
-                                    "dev-0.0.3.zip")
-  -A, --no-archive                  Skip creation from an archive file and use
-                                    the target --branch for release creation.
-  -c, --commit-message <message>    Customize the commit message used when
-                                    pushing to the target branch. Used only
-                                    when releasing from an archive. The
-                                    placeholder "%s" is replaced with the
-                                    release version. (default: "Release v%s [ci
-                                    skip]")
-  -d, --dir <directory>             Directory where distribution files are
-                                    stored. (default: "dist")
-  -b, --branch <branch>             Target branch to use when creating the
-                                    release. (default: "release")
-  -l, --logfile <file>              Specify the changelog file. (default:
-                                    "CHANGELOG.md")
-  -p, --prerelease                  Mark the GitHub release as a prerelease and
-                                    skip merging.
-  -P, --prerelease-branch <branch>  When creating a prerelease, use this branch
-                                    as the target branch in favor of the
-                                    default branch specified via the --branch
-                                    option. (default: "prerelease")
-  -D, --draft                       Create the release as an unpublished draft
-                                    and skip merging.
-  -M, --merge <branch>              Merge open PRs on the specified branch
-                                    before creating the release. If publishing
-                                    a prerelease, or draft merging is
-                                    automatically disabled as if passing
-                                    "--no-merge". (default: "dev")
-  -n, --no-merge                    Disable merging before release creation.
-                                    Automatically passed when publishing a
-                                    prerelease.
+  -a, --archive <zip>               If specified, the zip file will be committed and force-pushed to the specified branch before creating the release.
+                                    Pass --no-archive to skip this step. (default: "llms-e2e-test-utils-3.2.0.zip")
+  -A, --no-archive                  Skip creation from an archive file and use the target --branch for release creation.
+  -c, --commit-message <message>    Customize the commit message used when pushing to the target branch. Used only when releasing from an archive. The
+                                    placeholder "%s" is replaced with the release version. (default: "Release v%s [ci skip]")
+  -d, --dir <directory>             Directory where distribution files are stored. (default: "dist")
+  -b, --branch <branch>             Target branch to use when creating the release. (default: "release")
+  -l, --logfile <file>              Specify the changelog file. (default: "CHANGELOG.md")
+  -p, --prerelease                  Mark the GitHub release as a prerelease and skip merging.
+  -P, --prerelease-branch <branch>  When creating a prerelease, use this branch as the target branch in favor of the default branch specified via the
+                                    --branch option. (default: "prerelease")
+  -D, --draft                       Create the release as an unpublished draft and skip merging.
+  -M, --merge <branch>              Merge open PRs on the specified branch before creating the release. If publishing a prerelease, or draft merging is
+                                    automatically disabled as if passing "--no-merge". (default: "dev")
+  -n, --no-merge                    Disable merging before release creation. Automatically passed when publishing a prerelease.
   -Y, --yes                         Skip confirmations.
-  -v, --verbose                     Output extra information with result
-                                    messages.
+  -v, --verbose                     Output extra information with result messages.
   -h, --help                        display help for command
 
 ```
@@ -308,19 +236,15 @@ Options:
 ### release prepare
 
 ```bash
-Usage: llms-dev release prepare [options]
+Usage: index release prepare [options]
 
 Prepare and build a release.
 
 Options:
-  -F, --force <version>     Specify a version to use. If not specified uses
-                            `changelog version next` to determine the version.
-  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor,
-                            prepatch or prerelease version increments.
-  -y, --yes                 Specify no-interaction mode. Responds "yes" to all
-                            confirmation prompts.
-  -b, --build <cmd>         Specify an npm script to use for the build command.
-                            (default: "build")
+  -F, --force <version>     Specify a version to use. If not specified uses `changelog version next` to determine the version.
+  -p, --preid <identifier>  Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
+  -y, --yes                 Specify no-interaction mode. Responds "yes" to all confirmation prompts.
+  -b, --build <cmd>         Specify an npm script to use for the build command. (default: "build")
   -B, --no-build            Disabled build script.
   -h, --help                display help for command
 
@@ -329,17 +253,27 @@ Options:
 ### update-version
 
 ```bash
-Usage: llms-dev update-version [options]
+Usage: index update-version [options]
 
 Update the project version and replace all [version] placeholders.
 
 Options:
-  -i, --increment <level>                     Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease. (default: "patch")
+  -i, --increment <level>                     Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch,
+                                              or prerelease. (default: "patch")
   -p, --preid <identifier>                    Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
   -F, --force <version>                       Specify an explicit version instead of incrementing the current version with --increment.
-  -r, --replacements <replacement...>]        Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested and a regex used to perform the replacement. It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag. (default: [["./**","(?<=@(?:since|version|deprecated) +)(\\[version\\])"],["./*.php,./**/*.php","(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=')(\\[version\\])(?=')"],["*lifterlms*.php","(?<=[Vv]ersion *[:=] *[ '\"])(0|[1-9]d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?"],["*lifterlms*.php","(?<=define\\( '(?:LLMS|LIFTERLMS).*_VERSION', ')(.*)(?=' \\);)"],["./style.css","(?<=Version: )(.+)"]])
-  -e, --extra-replacements <replacement...>]  Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them. (default: [])
-  -E, --exclude <glob...>                     Specify files to exclude from the update. (default: "./vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**")
+  -r, --replacements <replacement...>]        Replacements to be made. Each replacement is an array containing a list of globs for the files to be
+                                              tested and a regex used to perform the replacement. It is recommended that this argument to configured
+                                              via a configuration file as opposed to being passed via a CLI flag. (default:
+                                              [["./**","(?<=@(?:since|version|deprecated)
+                                              +)(\\[version\\])"],["./*.php,./**/*.php","(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=')(\\[version\\])(?=')"],["*lifterlms*.php","(?<=[Vv]ersion
+                                              *[:=] *[
+                                              '\"])(0|[1-9]d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?"],["*lifterlms*.php","(?<=define\\(
+                                              '(?:LLMS|LIFTERLMS).*_VERSION', ')(.*)(?=' \\);)"],["./style.css","(?<=Version: )(.+)"]])
+  -e, --extra-replacements <replacement...>]  Additional replacements added to --replacements array. This option allows adding to the default
+                                              replacements instead of overwriting them. (default: [])
+  -E, --exclude <glob...>                     Specify files to exclude from the update. (default: "./vendor/**, ./node_modules/**, ./tmp/**, ./dist/**,
+                                              ./docs/**, ./packages/**")
   -s, --skip-config                           Skip updating the version of the package.json or composer.json file. (default: true)
   -h, --help                                  display help for command
 
