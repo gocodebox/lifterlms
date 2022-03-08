@@ -7,7 +7,6 @@
  */
 
 import { render } from 'react-dom';
-import { renderToStaticMarkup } from 'react-dom/server';
 import * as Icons from '../src';
 
 const { Icon, ...icons } = Icons;
