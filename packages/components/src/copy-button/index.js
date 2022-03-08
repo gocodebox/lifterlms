@@ -18,7 +18,13 @@ import { useCopyToClipboard } from '@wordpress/compose';
  * @param {...*}     args.buttonProps Remaining properties passed to the underlying <Button> component.
  * @return {Object} The copy button fragment.
  */
-export default function( { buttonText, copyText, onCopy, tooltipText = null, ...buttonProps } ) {
+export default function ( {
+	buttonText,
+	copyText,
+	onCopy,
+	tooltipText = null,
+	...buttonProps
+} ) {
 	tooltipText = tooltipText || __( 'Click to copy.', 'lifterlms' );
 
 	const canUseHook = 'undefined' !== typeof useCopyToClipboard;
@@ -36,7 +42,11 @@ export default function( { buttonText, copyText, onCopy, tooltipText = null, ...
 	// WP < 5.8.
 	const BackwardsButton = () => {
 		return (
-			<ClipboardButton { ...buttonProps } text={ copyText } onCopy={ onCopy }>
+			<ClipboardButton
+				{ ...buttonProps }
+				text={ copyText }
+				onCopy={ onCopy }
+			>
 				{ buttonText }
 			</ClipboardButton>
 		);

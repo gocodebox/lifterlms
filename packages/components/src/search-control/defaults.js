@@ -15,15 +15,20 @@ import apiFetch from '@wordpress/api-fetch';
  * @return {Object[]} Hydrated result array.
  */
 export async function defaultHydrateValues( values, path, loadedResults ) {
-	const isResultHydrated = ( result ) => isPlainObject( result ) && result.label && result.value;
+	const isResultHydrated = ( result ) =>
+		isPlainObject( result ) && result.label && result.value;
 
-	return Promise.all( values.map( async ( value ) => {
-		if ( ! isResultHydrated( value ) && Number.isInteger( value ) ) {
-			value = loadedResults.find( ( { id } ) => id === value ) || await apiFetch( { path: `${ path }/${ value }` } );
-		}
+	return Promise.all(
+		values.map( async ( value ) => {
+			if ( ! isResultHydrated( value ) && Number.isInteger( value ) ) {
+				value =
+					loadedResults.find( ( { id } ) => id === value ) ||
+					( await apiFetch( { path: `${ path }/${ value }` } ) );
+			}
 
-		return value;
-	} ) );
+			return value;
+		} )
+	);
 }
 
 /**
@@ -91,7 +96,11 @@ export function defaultTheme( theme ) {
  * @param {Function} formatSearchResultValue Value formatting function.
  * @return {Object[]} Formatted results.
  */
-export function defaultFormatSearchResults( results, formatSearchResultLabel, formatSearchResultValue ) {
+export function defaultFormatSearchResults(
+	results,
+	formatSearchResultLabel,
+	formatSearchResultValue
+) {
 	return results.map( ( result ) => ( {
 		...result,
 		label: formatSearchResultLabel( result ),

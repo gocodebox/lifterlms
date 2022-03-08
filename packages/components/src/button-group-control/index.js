@@ -23,7 +23,14 @@ import { useState } from '@wordpress/element';
  *                                   can optionally include an "icon" property.
  * @return {BaseControl} The rendered component.
  */
-export default function( { label, onClick = () => {}, className = null, id = null, selected = '', options = [] } ) {
+export default function ( {
+	label,
+	onClick = () => {},
+	className = null,
+	id = null,
+	selected = '',
+	options = [],
+} ) {
 	const [ selectedValue, setSelectedValue ] = useState( selected );
 
 	className = className ? ` ${ className }` : '';
@@ -35,19 +42,22 @@ export default function( { label, onClick = () => {}, className = null, id = nul
 			id={ id }
 		>
 			<ButtonGroup style={ { display: 'flex' } }>
-				{ options.map( ( { label: buttonLabel, value, icon = null } ) =>
-					( <Button style={ { padding: '6px 8px' } }
-						key={ value }
-						isPrimary={ value === selectedValue }
-						isSecondary={ value !== selectedValue }
-						icon={ icon }
-						onClick={ () => {
-							setSelectedValue( value );
-							onClick( value );
-						} }
-					>
-						{ buttonLabel }
-					</Button> )
+				{ options.map(
+					( { label: buttonLabel, value, icon = null } ) => (
+						<Button
+							style={ { padding: '6px 8px' } }
+							key={ value }
+							isPrimary={ value === selectedValue }
+							isSecondary={ value !== selectedValue }
+							icon={ icon }
+							onClick={ () => {
+								setSelectedValue( value );
+								onClick( value );
+							} }
+						>
+							{ buttonLabel }
+						</Button>
+					)
 				) }
 			</ButtonGroup>
 		</BaseControl>

@@ -33,21 +33,30 @@ export default function PostSearchControl( {
 	...baseProps
 } ) {
 	// Default result label.
-	formatSearchResultLabel = formatSearchResultLabel ? formatSearchResultLabel : ( { title, id } ) => sprintf(
-		// Translators: %1$s = Post title; %2$s = Post id.
-		_x( '%1$s (ID# %2$d)', 'Post search result label', 'lifterlms' ),
-		title.rendered,
-		id
-	);
+	formatSearchResultLabel = formatSearchResultLabel
+		? formatSearchResultLabel
+		: ( { title, id } ) =>
+				sprintf(
+					// Translators: %1$s = Post title; %2$s = Post id.
+					_x(
+						'%1$s (ID# %2$d)',
+						'Post search result label',
+						'lifterlms'
+					),
+					title.rendered,
+					id
+				);
 
 	return (
-		<BaseSearchControl { ...{
-			searchPath: searchPath || `${ baseSearchPath }${ postType }`,
-			className,
-			placeholder,
-			formatSearchResultLabel,
-			additionalSearchArgs,
-			...baseProps,
-		} } />
+		<BaseSearchControl
+			{ ...{
+				searchPath: searchPath || `${ baseSearchPath }${ postType }`,
+				className,
+				placeholder,
+				formatSearchResultLabel,
+				additionalSearchArgs,
+				...baseProps,
+			} }
+		/>
 	);
 }

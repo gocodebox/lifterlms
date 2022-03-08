@@ -11,7 +11,12 @@ import { addQueryArgs } from '@wordpress/url';
 
 // Internal Deps.
 import { StyledBaseControl } from './styled-base-control';
-import { defaultHydrateValues, defaultStyles, defaultTheme, defaultFormatSearchResults } from './defaults';
+import {
+	defaultHydrateValues,
+	defaultStyles,
+	defaultTheme,
+	defaultFormatSearchResults,
+} from './defaults';
 
 /**
  * Searchable <select> element powered by a WordPress REST API endpoint.
@@ -75,8 +80,11 @@ export default function BaseSearchControl( {
 } ) {
 	// Setup state variables.
 	const [ loadedResults, setLoadedResults ] = useState( [] ),
-		addLoadedResults = ( newResults ) => setLoadedResults( loadedResults.concat( newResults ) ),
-		[ value, setValue ] = useState( Array.isArray( selectedValue ) ? selectedValue : [ selectedValue ] );
+		addLoadedResults = ( newResults ) =>
+			setLoadedResults( loadedResults.concat( newResults ) ),
+		[ value, setValue ] = useState(
+			Array.isArray( selectedValue ) ? selectedValue : [ selectedValue ]
+		);
 
 	// If an ID is stored and passed into component as the selectedValue, hydrate the value from cached results or the API.
 	useEffect( () => {
@@ -87,7 +95,11 @@ export default function BaseSearchControl( {
 		hydrateValues = hydrateValues || defaultHydrateValues;
 		hydrateValues( value, searchPath, loadedResults ).then(
 			( newValues ) => {
-				newValues = formatSearchResults( newValues, formatSearchResultLabel, formatSearchResultValue );
+				newValues = formatSearchResults(
+					newValues,
+					formatSearchResultLabel,
+					formatSearchResultValue
+				);
 				const toAdd = differenceBy( newValues, loadedResults, 'id' );
 				if ( toAdd.length ) {
 					addLoadedResults( toAdd );
@@ -120,50 +132,69 @@ export default function BaseSearchControl( {
 	 *
 	 * @since [version]
 	 */
-	const loadOptions = debounce( searchDebounceDelay, ( searchQuery, callback ) => {
-		apiFetch( { path: getSearchURL( searchPath, getSearchArgs( searchQuery ) ) } ).then(
-			( results ) => {
-				const formatted = formatSearchResults( results, formatSearchResultLabel, formatSearchResultValue );
+	const loadOptions = debounce(
+		searchDebounceDelay,
+		( searchQuery, callback ) => {
+			apiFetch( {
+				path: getSearchURL( searchPath, getSearchArgs( searchQuery ) ),
+			} ).then( ( results ) => {
+				const formatted = formatSearchResults(
+					results,
+					formatSearchResultLabel,
+					formatSearchResultValue
+				);
 				addLoadedResults( formatted );
 				callback( formatted );
-			}
-		);
-	} );
+			} );
+		}
+	);
 
 	// Setup defaults.
 	id = id || uniqueId( `${ className }--` );
 
 	formatSearchResults = formatSearchResults || defaultFormatSearchResults;
-	formatSearchResultLabel = formatSearchResultLabel ? formatSearchResultLabel : ( res ) => res?.id;
-	formatSearchResultValue = formatSearchResultValue ? formatSearchResultValue : ( res ) => res?.id;
+	formatSearchResultLabel = formatSearchResultLabel
+		? formatSearchResultLabel
+		: ( res ) => res?.id;
+	formatSearchResultValue = formatSearchResultValue
+		? formatSearchResultValue
+		: ( res ) => res?.id;
 
-	getSearchArgs = getSearchArgs ? getSearchArgs : ( searchQuery ) => ( {
-		per_page: 10,
-		search: searchQuery,
-		...additionalSearchArgs,
-	} );
+	getSearchArgs = getSearchArgs
+		? getSearchArgs
+		: ( searchQuery ) => ( {
+				per_page: 10,
+				search: searchQuery,
+				...additionalSearchArgs,
+		  } );
 
-	getSearchURL = getSearchURL ? getSearchURL : ( path, args ) => addQueryArgs( path, args );
+	getSearchURL = getSearchURL
+		? getSearchURL
+		: ( path, args ) => addQueryArgs( path, args );
 
 	selectProps.styles = selectProps.styles || defaultStyles;
 	selectProps.theme = selectProps.theme || defaultTheme;
 
 	if ( null === defaultOptions && value.length ) {
-		defaultOptions = loadedResults.length ? uniqBy( loadedResults, 'id' ) : true;
+		defaultOptions = loadedResults.length
+			? uniqBy( loadedResults, 'id' )
+			: true;
 	}
 
 	return (
 		<StyledBaseControl { ...{ id, label } }>
-			<Select { ...{
-				className,
-				classNamePrefix,
-				value,
-				placeholder,
-				loadOptions,
-				defaultOptions,
-				onChange,
-				...selectProps,
-			} } />
+			<Select
+				{ ...{
+					className,
+					classNamePrefix,
+					value,
+					placeholder,
+					loadOptions,
+					defaultOptions,
+					onChange,
+					...selectProps,
+				} }
+			/>
 		</StyledBaseControl>
 	);
 }
