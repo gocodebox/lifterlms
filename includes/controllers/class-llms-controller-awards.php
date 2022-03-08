@@ -158,7 +158,7 @@ class LLMS_Controller_Awards {
 	 *
 	 * Removing this will not merge the ID but on awarding the ID will be automatically merged with other merge codes.
 	 *
-	 * @since [version]
+	 * @since 6.0.0
 	 *
 	 * @param array $merge_data Merge data.
 	 * @return array
