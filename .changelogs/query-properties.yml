@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Fixed access of protected LLMS_Abstract_Query properties.
