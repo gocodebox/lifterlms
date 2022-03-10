@@ -9,9 +9,9 @@ import request from './request';
  *
  * @param {Object} data Access plan object data, {@link https://developer.lifterlms.com/rest-api/#tag/Access-Plans/paths/~1access-plans/post}.
  * @yield {Object} Yields an action object signaling the successful creation of the access plan or an error.
+ * @return {void}
  */
 export function* createPlan( data ) {
-
 	try {
 		if ( data.id ) {
 			throw { ...ERRORS.CREATE_ITEM_WITH_ID, data };
@@ -19,7 +19,7 @@ export function* createPlan( data ) {
 
 		const plan = yield request( {
 			data,
-			method: 'POST'
+			method: 'POST',
 		} );
 		return {
 			type: ACTION_TYPES.CREATE_ITEM,
@@ -37,12 +37,13 @@ export function* createPlan( data ) {
  *
  * @param {number} id WP_Post ID of the access plan.
  * @yield {Object} Yields an action object signaling the successful deletion of the access plan or an error.
+ * @return {void}
  */
 export function* deletePlan( id ) {
 	try {
 		yield request( {
 			path: id,
-			method: 'DELETE'
+			method: 'DELETE',
 		} );
 		return {
 			type: ACTION_TYPES.DELETE_ITEM,
@@ -83,7 +84,6 @@ export function receiveError( error ) {
 	};
 }
 
-
 /**
  * Updates a plan via a REST API request and returns an action signaling the creation of the new plan.
  *
@@ -91,11 +91,10 @@ export function receiveError( error ) {
  *
  * @param {Object} edits Access plan object data, {@link https://developer.lifterlms.com/rest-api/#tag/Access-Plans/paths/~1access-plans~1{id}/post}.
  * @yield {Object} Yields an action object signaling the successful creation of the access plan or an error.
+ * @return {void}
  */
 export function* updatePlan( edits ) {
-
 	try {
-
 		const { id, ...data } = edits;
 		if ( ! id ) {
 			throw { ...ERRORS.UPDATE_ITEM_MISSING_ID, edits };

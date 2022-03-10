@@ -16,4 +16,4 @@ export const mockPlans = {
 export const mockApiError = {
 	err: true,
 	code: 'fake-api-err',
-}
+};

@@ -3,8 +3,8 @@
  *
  * @since [version]
  *
- * @param {Object}   state         Current state tree.
- * @param {Object[]} state.errors  Array of error objects.
+ * @param {Object}   state        Current state tree.
+ * @param {Object[]} state.errors Array of error objects.
  * @return {Object[]} Array of error objects.
  */
 export function getErrors( { errors } ) {
@@ -16,9 +16,9 @@ export function getErrors( { errors } ) {
  *
  * @since [version]
  *
- * @param {Object}   state         Current state tree.
- * @param {Object[]} state.errors  Array of error objects.
- * @return {Boolean} Returns `true` if there are errors, otherwise `false`.
+ * @param {Object}   state        Current state tree.
+ * @param {Object[]} state.errors Array of error objects.
+ * @return {boolean} Returns `true` if there are errors, otherwise `false`.
  */
 export function hasErrors( { errors } ) {
 	return errors.length > 0;
@@ -46,9 +46,6 @@ export function getPlans( { plans }, postId ) {
  * Retrieves a single plan by ID.
  *
  * @since [version]
- *
- * @see [Reference]
- * @link [URL]
  *
  * @param {Object} state       Current state tree.
  * @param {Object} state.plans Plan objects in the current state.

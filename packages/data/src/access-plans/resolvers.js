@@ -35,7 +35,6 @@ export function* getPlan( id ) {
  * @yield {Object} Yields an action object signaling the successful retrieval of the plans or an error.
  */
 export function* getPlans( postId = null ) {
-
 	const query = postId ? {} : { post_id: postId };
 	try {
 		const plans = yield request( { query } );
@@ -43,5 +42,4 @@ export function* getPlans( postId = null ) {
 	} catch ( error ) {
 		yield receiveError( error );
 	}
-
 }

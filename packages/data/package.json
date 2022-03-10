@@ -22,15 +22,19 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@wordpress/api-fetch": "^6.0.1",
+    "@wordpress/data-controls": "^2.3.2",
+    "@wordpress/editor": "^12.2.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@lifterlms/scripts": "^2.2.0"
+  },
   "scripts": {
     "docgen": "docgen src/index.js --output README.md --to-token",
     "dev": "./../dev/src/index.js",
     "lint:js": "wp-scripts lint-js ./",
     "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
-  },
-  "dependencies": {
-    "@wordpress/api-fetch": "^6.0.1",
-    "@wordpress/data-controls": "^2.3.2",
-    "@wordpress/editor": "^12.2.2"
   }
 }

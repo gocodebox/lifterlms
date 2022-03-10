@@ -4,17 +4,13 @@ import { ACTION_TYPES } from '../constants';
 import { defaultState, mockErrors, mockPlans } from './__data__';
 
 describe( 'AccessPlans/reducer', () => {
-
 	test( 'DEFAULT', () => {
-
 		const state = reducer( undefined, {} );
 		expect( state ).toEqual( defaultState );
 		expect( state ).not.toBe( defaultState );
-
 	} );
 
 	test( 'CREATE_ITEM', () => {
-
 		const plan = {
 			id: 123,
 		};
@@ -25,20 +21,21 @@ describe( 'AccessPlans/reducer', () => {
 		} );
 		expect( state.plans ).toEqual( { 123: plan } );
 		expect( state.errors.length ).toStrictEqual( 0 );
-
 	} );
 
 	test( 'UPDATE_ITEM', () => {
-
 		const plan = {
 			id: 123,
-			price: 0.00,
+			price: 0.0,
 		};
 
-		const state = reducer( { ...defaultState, plans: { ...mockPlans } }, {
-			type: ACTION_TYPES.UPDATE_ITEM,
-			plan,
-		} );
+		const state = reducer(
+			{ ...defaultState, plans: { ...mockPlans } },
+			{
+				type: ACTION_TYPES.UPDATE_ITEM,
+				plan,
+			}
+		);
 
 		// Plan updated.
 		expect( state.plans[ 123 ] ).toEqual( plan );
@@ -49,17 +46,18 @@ describe( 'AccessPlans/reducer', () => {
 
 		// No errors added.
 		expect( state.errors.length ).toStrictEqual( 0 );
-
 	} );
 
 	test( 'DELETE_ITEM', () => {
-
 		const id = 789;
 
-		const state = reducer( { ...defaultState, plans: { ...mockPlans } }, {
-			type: ACTION_TYPES.DELETE_ITEM,
-			id,
-		} );
+		const state = reducer(
+			{ ...defaultState, plans: { ...mockPlans } },
+			{
+				type: ACTION_TYPES.DELETE_ITEM,
+				id,
+			}
+		);
 		// Plan deleted.
 		expect( state.plans[ 789 ] ).toBe( undefined );
 		expect( Object.keys( state.plans ).length ).toStrictEqual( 1 );
@@ -69,17 +67,18 @@ describe( 'AccessPlans/reducer', () => {
 
 		// No errors added.
 		expect( state.errors.length ).toStrictEqual( 0 );
-
 	} );
 
 	test( 'RECEIVE_ERROR', () => {
-
 		const error = mockErrors[ 0 ];
 
-		const state = reducer( { ...defaultState, plans: { ...mockPlans } }, {
-			type: ACTION_TYPES.RECEIVE_ERROR,
-			error,
-		} );
+		const state = reducer(
+			{ ...defaultState, plans: { ...mockPlans } },
+			{
+				type: ACTION_TYPES.RECEIVE_ERROR,
+				error,
+			}
+		);
 
 		// Plans remain unchanged.
 		expect( state.plans ).toEqual( mockPlans );
@@ -87,11 +86,9 @@ describe( 'AccessPlans/reducer', () => {
 		// Error added.
 		expect( state.errors[ 0 ] ).toBe( error );
 		expect( state.errors.length ).toStrictEqual( 1 );
-
 	} );
 
 	test( 'RECEIVE_ITEMS', () => {
-
 		const state = reducer( defaultState, {
 			type: ACTION_TYPES.RECEIVE_ITEMS,
 			plans: Object.values( mockPlans ),
@@ -103,7 +100,5 @@ describe( 'AccessPlans/reducer', () => {
 
 		// No errors added.
 		expect( state.errors.length ).toStrictEqual( 0 );
-
 	} );
-
 } );

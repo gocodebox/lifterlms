@@ -4,12 +4,20 @@ import { filter } from 'lodash';
 // Internal deps.
 import { ACTION_TYPES } from './constants';
 
+/**
+ * Converts an array of plan objects to an object keyed by plan ID.
+ *
+ * @since [version]
+ *
+ * @param {Object[]} plans Array of plan objects.
+ * @return {Object} Object of plan objects keyed by plan id.
+ */
 function arrayToObject( plans ) {
 	return plans.reduce( ( obj, plan ) => {
 		return {
 			...obj,
 			[ plan.id ]: plan,
-		}
+		};
 	}, {} );
 }
 
@@ -25,8 +33,10 @@ function arrayToObject( plans ) {
 function deletePlan( state, planId ) {
 	return {
 		...state,
-		plans: arrayToObject( filter( state.plans, ( ( { id } ) => planId !== id ) ) ),
-	}
+		plans: arrayToObject(
+			filter( state.plans, ( { id } ) => planId !== id )
+		),
+	};
 }
 
 /**
@@ -41,10 +51,7 @@ function deletePlan( state, planId ) {
 function receiveError( state, error ) {
 	return {
 		...state,
-		errors: [
-			...state.errors,
-			error,
-		],
+		errors: [ ...state.errors, error ],
 	};
 }
 
@@ -63,7 +70,7 @@ function receivePlans( state, plans ) {
 		plans: {
 			...state.plans,
 			...arrayToObject( plans ),
-		}
+		},
 	};
 }
 
@@ -90,31 +97,23 @@ const reducer = (
 	},
 	{ type, id, plan, plans, error }
 ) => {
-
 	switch ( type ) {
-
 		case ACTION_TYPES.CREATE_ITEM:
 		case ACTION_TYPES.UPDATE_ITEM:
 			return receivePlans( state, [ plan ] );
-			break;
 
 		case ACTION_TYPES.DELETE_ITEM:
 			return deletePlan( state, id );
-			break;
 
 		case ACTION_TYPES.RECEIVE_ERROR:
 			return receiveError( state, error );
-			break;
 
 		case ACTION_TYPES.RECEIVE_ITEMS:
 			return receivePlans( state, plans );
-			break;
 
 		default:
 			return state;
-
 	}
-
 };
 
 export default reducer;
