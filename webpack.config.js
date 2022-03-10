@@ -20,6 +20,7 @@ const { readdirSync } = require( 'fs' ),
 
 			// Module packages.
 			'components',
+			'data',
 			'icons',
 			'utils',
 		],
