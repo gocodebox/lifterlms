@@ -1,9 +1,10 @@
-import * as icons from '../../packages/icons/src';
+import { loadModule } from './util';
+import * as Icons from '../../packages/icons/src';
 
 /**
  * Expose @lifterlms/icons via the global `window.llms` object.
  *
  * @since 6.0.0
+ * @since [version] Use `loadModule()` to load the module.
  */
-window.llms = window.llms || {};
-window.llms.icons = icons;
+loadModule( 'icons', Icons );

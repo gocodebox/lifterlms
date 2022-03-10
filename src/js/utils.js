@@ -1,9 +1,10 @@
-import * as utils from '../../packages/utils/src';
+import { loadModule } from './util';
+import * as Utils from '../../packages/utils/src';
 
 /**
  * Expose @lifterlms/utils via the global `window.llms` object.
  *
  * @since 6.0.0
+ * @since [version] Use `loadModule()` to load the module.
  */
-window.llms = window.llms || {};
-window.llms.utils = utils;
+loadModule( 'utils', Utils );
