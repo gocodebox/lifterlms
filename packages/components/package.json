@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/components",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.0",
   "description": "UI components for LifterLMS.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
