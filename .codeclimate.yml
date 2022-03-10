@@ -1,0 +1,34 @@
+vesion: '2'
+
+exclude_patterns:
+  # Ignore dot directories.
+  - .changelogs/
+  - .config/
+  - .github/
+  - .source/
+  - .wordpress-org
+  - ._private/
+  # Misc non-code directories.
+  - dist/
+  - docs/
+  - gulpfile.js/
+  - gulpfile.js
+  - i18n/
+  - languages/
+  - libraries/
+  - tests/
+  - tmp/
+  # Included vendor packages.
+  - '**/vendor/'
+  - '**/node_modules/'
+  # Minified scripts.
+  - '**/*.min.js'
+  - '**/index.php'
+  - '**/*.asset.php'
+  - assets/js/llms.js
+  - assets/js/llms-admin-addons.js
+  - assets/js/llms-builder.js
+  - assets/js/llms-components.js
+  - assets/js/llms-icons.js
+  - assets/js/llms-metaboxes.js
+  - assets/js/llms-utils.js

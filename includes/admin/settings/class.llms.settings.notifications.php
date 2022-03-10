@@ -75,7 +75,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since 5.2.0 Merge controller additional options.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
-	 * @param LLMS_Notification_Controller $controller Instance of an LLMS_Notification_Controller extending class.
+	 * @param LLMS_Abstract_Notification_Controller $controller Instance of an LLMS_Abstract_Notification_Controller extending class.
 	 * @return array
 	 */
 	private function get_notification_settings( $controller ) {
