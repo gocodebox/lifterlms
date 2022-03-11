@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1425,6 +1425,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 2.7
 	 * @since 3.7.5 Unknown.
 	 * @since 3.36.2 Added the $delete parameter, that will allow related courses enrollments data deletion.
+	 * @since [version] Prevent course enrollment changes if the user was auto-enrolled in the course by a different membership.
 	 *
 	 * @param  int     $membership_id WP Post ID of the membership.
 	 * @param  string  $status        Optional. Status to update the removal to. Default is `expired`.
@@ -1433,38 +1434,55 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 */
 	private function remove_membership_level( $membership_id, $status = 'expired', $delete = false ) {
 
-		// Remove the user from the membership level.
+		global $wpdb;
+
+		// Remove the user from the given membership level.
 		$membership_levels = $this->get_membership_levels();
-		$key               = array_search( $membership_id, $membership_levels );
+		$key               = array_search( $membership_id, $membership_levels, true );
 		if ( false !== $key ) {
 			unset( $membership_levels[ $key ] );
 		}
 		update_user_meta( $this->get_id(), '_llms_restricted_levels', $membership_levels );
 
-		global $wpdb;
-		// Locate all enrollments triggered by this membership level.
-		$q = $wpdb->get_results(
+		// Fetch all of this user's enrolled course IDs triggered by any membership.
+		$course_ids_enrolled_by_any_membership = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
-				array( $this->get_id(), 'membership_' . $membership_id )
-			),
-			'OBJECT_K'
+				"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta " .
+				"WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value LIKE %s",
+				array( $this->get_id(), 'membership_%' )
+			)
 		); // db call ok; no-cache ok.
+		$course_ids_enrolled_by_any_membership = array_map( 'intval', $course_ids_enrolled_by_any_membership ); // Cast strings to integers.
 
-		$courses = array_keys( $q );
-
-		if ( $courses ) {
-
-			// Loop through all the courses and update the enrollment status.
-			foreach ( $courses  as $course_id ) {
-				if ( ! $delete ) {
-					$this->unenroll( $course_id, 'membership_' . $membership_id, $status );
-				} else {
-					$this->delete_enrollment( $course_id, 'membership_' . $membership_id );
-				}
-			}
+		// Get the unique auto-enrollment course IDs, with any post status, of other membership levels.
+		$other_memberships_auto_enroll_course_ids = array();
+		foreach ( $membership_levels as $membership_level ) {
+			$membership_auto_enroll_course_ids         = ( new LLMS_Membership( $membership_level ) )->get( 'auto_enroll' );
+			$other_memberships_auto_enroll_course_ids += array_flip( $membership_auto_enroll_course_ids );
 		}
 
+		// Get the auto-enrollment course IDs, with any post status, of the given membership.
+		$given_membership_auto_enroll_course_ids = ( new LLMS_Membership( $membership_id ) )->get( 'auto_enroll' );
+
+		// Loop through all the auto-enrolled courses and update the enrollment status.
+		foreach ( $given_membership_auto_enroll_course_ids as $given_membership_auto_enroll_course_id ) {
+
+			// Do not change course enrollment if the user does not have one. It may have been deleted manually.
+			if ( ! in_array( $given_membership_auto_enroll_course_id, $course_ids_enrolled_by_any_membership, true ) ) {
+				continue;
+			}
+
+			// Do not change course enrollment if the course was auto-enrolled by another existing membership.
+			if ( array_key_exists( $given_membership_auto_enroll_course_id, $other_memberships_auto_enroll_course_ids ) ) {
+				continue;
+			}
+
+			if ( $delete ) {
+				$this->delete_enrollment( $given_membership_auto_enroll_course_id, 'any' );
+			} else {
+				$this->unenroll( $given_membership_auto_enroll_course_id, 'any', $status );
+			}
+		}
 	}
 
 	/**

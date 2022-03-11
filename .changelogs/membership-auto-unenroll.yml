@@ -1,0 +1,8 @@
+significance: patch
+type: fixed
+links:
+  - "#1861"
+entry: Prevent course enrollment changes while removing a user's membership level
+  if the user was auto-enrolled in the course by a different membership.
+
+
