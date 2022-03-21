@@ -451,8 +451,10 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Retrieve merge codes and data.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added `{earned_date}` merge code.
+	 *               Allowed `{current_date}` to be mocked.
 	 *
-	 * @return array Array mapping merge codes to the merge data.
+	 * @return string[] Array mapping merge codes to the merge data.
 	 */
 	protected function get_merge_data() {
 
@@ -460,6 +462,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$user_id       = $this->get_user_id();
 		$related_id    = $this->get( 'related' );
 		$engagement_id = $this->get( 'engagement' );
+		$date_format   = get_option( 'date_format' );
 
 		$user = get_userdata( $user_id );
 
@@ -474,7 +477,8 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 			'{email_address}'  => $user ? $user->user_email : '',
 			'{student_id}'     => $user ? $user_id : '',
 			// Certificate.
-			'{current_date}'   => wp_date( get_option( 'date_format' ) ),
+			'{current_date}'   => wp_date( $date_format, llms_current_time( 'timestamp' ) ),
+			'{earned_date}'    => $this->get_date( 'date', $date_format ),
 			'{certificate_id}' => $this->get( 'id' ),
 			'{sequential_id}'  => $this->get_sequential_id(),
 		);

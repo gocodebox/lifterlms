@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -182,15 +182,17 @@ function llms_get_certificate_image( $id = 0 ) {
  * Retrieve a list of merge codes that can be used in certificate templates.
  *
  * @since 6.0.0
+ * @since [version] Changed `{current_date}` label from 'Earned Date' to 'Current Date' and added `{earned_date}` merge code.
  *
- * @return array[] Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
+ * @return string[] Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
  */
 function llms_get_certificate_merge_codes() {
 
 	return array(
 		'{site_title}'     => __( 'Site Title', 'lifterlms' ),
 		'{site_url}'       => __( 'Site URL', 'lifterlms' ),
-		'{current_date}'   => __( 'Earned Date', 'lifterlms' ),
+		'{current_date}'   => __( 'Current Date', 'lifterlms' ),
+		'{earned_date}'    => __( 'Earned Date', 'lifterlms' ),
 		'{first_name}'     => __( 'Student First Name', 'lifterlms' ),
 		'{last_name}'      => __( 'Student Last Name', 'lifterlms' ),
 		'{email_address}'  => __( 'Student Email', 'lifterlms' ),
