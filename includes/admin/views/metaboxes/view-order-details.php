@@ -6,6 +6,8 @@
  *
  * @since 5.3.0
  * @since 5.4.0 Inform about deleted products.
+ * @since [version] Add validation to the remaining payments input.
+ *              Allow the number of remaining payments to be `0` for already-completed payment plans.
  * @version 5.4.0
  *
  * @property LLMS_Order           $order                     Order object.
@@ -165,7 +167,8 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php
 		if ( $order->has_plan_expiration() ) :
-			$remaining = $order->get_remaining_payments();
+			$remaining               = $order->get_remaining_payments();
+			$remaining_input_min_val = 0 === $remaining ? 0 : 1;
 			?>
 			<div class="llms-metabox-field">
 				<label><?php _e( 'Remaining Payments:', 'lifterlms' ); ?></label>
@@ -178,7 +181,7 @@ defined( 'ABSPATH' ) || exit;
 
 						<label>
 							<span><?php _e( 'Remaining payments', 'lifterlms' ); ?></span>
-							<input type="number" id="llms-num-remaining-payments" value="<?php echo $remaining; ?>" min="1" step="1">
+							<input type="number" id="llms-num-remaining-payments" value="<?php echo $remaining; ?>" min="<?php echo $remaining_input_min_val; ?>" step="1">
 						</label>
 
 						<label>
@@ -187,14 +190,26 @@ defined( 'ABSPATH' ) || exit;
 							<em><?php _e( 'For internal use only, not visible to the customer.', 'lifterlms' ); ?></em>
 						</label>
 
-						<button id="llms-save-remaining-payments" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
+						<button id="llms-save-remaining-payments" name="fake" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
 
 						<script>
 							(function(){
 								document.getElementById( 'llms-save-remaining-payments' ).addEventListener( 'click', function() {
+									var remainingEl = document.getElementById( 'llms-num-remaining-payments' ),
+										errEl       = document.getElementById( 'llms-remaining-payments-err' ),
+										remaining   = remainingEl.value,
+										note        = document.getElementById( 'llms-remaining-payments-note' ).value;
+
+									if ( errEl ) {
+										errEl.remove();
+									}
+
+									if ( ! remainingEl.checkValidity() ) {
+										remainingEl.insertAdjacentHTML( 'afterend', '<em id="llms-remaining-payments-err" class="llms-error">' + remainingEl.validationMessage + '</em>' );
+										return;
+									}
+
 									tb_remove();
-									var remaining = document.getElementById( 'llms-num-remaining-payments' ).value,
-										note      = document.getElementById( 'llms-remaining-payments-note' ).value;
 
 									document.querySelector( 'input[name="_llms_remaining_payments"]' ).value = remaining;
 									document.querySelector( 'input[name="_llms_remaining_note"]' ).value = note;
