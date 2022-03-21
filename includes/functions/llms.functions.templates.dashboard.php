@@ -510,14 +510,9 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
-<<<<<<< HEAD
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
-	 * @since 6.0.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
-=======
-	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/memebership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
->>>>>>> 7e2f6e1aaa308684e4ba1c92cb497cf22019ee4e
+	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
 	 *
 	 * @return void
 	 */
