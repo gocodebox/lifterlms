@@ -190,7 +190,7 @@ defined( 'ABSPATH' ) || exit;
 							<em><?php _e( 'For internal use only, not visible to the customer.', 'lifterlms' ); ?></em>
 						</label>
 
-						<button id="llms-save-remaining-payments" name="fake" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
+						<button id="llms-save-remaining-payments" class="button button-primary button-large"><?php _e( 'Save', 'lifterlms' ); ?></button>
 
 						<script>
 							(function(){
