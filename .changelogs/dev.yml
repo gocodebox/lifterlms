@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#2067"
-entry: Fixes an issue encountered when editing an order with a completed payment plan.
+entry: Fixed an issue encountered when editing an order with a completed payment plan.
