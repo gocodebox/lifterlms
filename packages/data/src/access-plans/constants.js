@@ -1,60 +1,58 @@
 // WP Deps.
 import { __ } from '@wordpress/i18n';
 
-/**
- * Action types.
- *
- * @type {Object}
- */
-export const ACTION_TYPES = {
-	CREATE_ITEM: 'CREATE_PLAN',
-	EDIT_ITEM: 'EDIT_PLAN',
-	DELETE_ITEM: 'DELETE_ITEM',
-	RECEIVE_ERROR: 'RECEIVE_ERROR',
-	RECEIVE_ITEMS: 'RECEIVE_PLANS',
-	UPDATE_ITEM: 'UPDATE_ITEM',
-};
+// Internal deps.
+import { NAMESPACE, API_VERSION } from '../constants';
 
 /**
- * Error objects.
+ * Data store reducer key.
  *
- * @type {Object}
+ * @type {string}
  */
-export const ERRORS = {
-	CREATE_ITEM_WITH_ID: {
-		name: 'create-resource-with-id',
-		message: __(
-			'The supplied access plan object contains a resource ID and cannot be created.',
-			'lifterlms'
-		),
-	},
-
-	UPDATE_ITEM_MISSING_DATA: {
-		name: 'missing-update-data',
-		message: __(
-			'The supplied access plan object contains no data to update.',
-			'lifterlms'
-		),
-	},
-	UPDATE_ITEM_MISSING_ID: {
-		name: 'missing-resource-id',
-		message: __(
-			'The supplied access plan object is missing the required id key.',
-			'lifterlms'
-		),
-	},
-};
+export const STORE_NAME = 'llms/access-plans';
 
 /**
  * API path Resource name.
  *
  * @type {string}
  */
-export const RESOURCE_NAME = 'access-plans';
+export const API_RESOURCE_NAME = 'access-plans';
 
 /**
- * Data store reducer key
+ * Entity record kind.
  *
  * @type {string}
  */
-export const STORE_NAME = 'llms/access-plans';
+export const ENTITY_KIND = `${ NAMESPACE }/postType`;
+
+/**
+ * Entity record name.
+ *
+ * @type {string}
+ */
+export const ENTITY_NAME = 'accessPlan';
+
+/**
+ * Entity configuration object.
+ *
+ * @type {Object}
+ */
+export const ENTITY_CONFIG = {
+	kind: ENTITY_KIND,
+	name: ENTITY_NAME,
+	baseURL: `${ NAMESPACE }/${ API_VERSION }/${ API_RESOURCE_NAME }`,
+	baseURLParams: {
+		context: 'edit',
+	},
+	label: __( 'Access Plan', 'lifterlms' ),
+	transientEdits: {
+		blocks: true,
+		selection: true,
+	},
+	mergedEdits: {
+		meta: true,
+	},
+	rawAttributes: [ 'title', 'excerpt', 'content' ],
+	getTitle: ( record ) => record?.title?.rendered || record?.title,
+};
+

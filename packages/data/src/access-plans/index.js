@@ -7,14 +7,12 @@
 
 // WP Deps.
 import { createReduxStore, register } from '@wordpress/data';
-import { controls } from '@wordpress/data-controls';
 
 // Internal Deps.
 import { STORE_NAME } from './constants';
 import * as actions from './actions';
-import * as resolvers from './resolvers';
 import * as selectors from './selectors';
-import reducer from './reducer';
+import { registerEntity } from './entity';
 
 /**
  * Data store configuration.
@@ -22,15 +20,16 @@ import reducer from './reducer';
  * @type {Object}
  */
 export const storeConfig = {
-	reducer,
+	reducer: ( state ) => state,
 	actions,
-	controls,
 	selectors,
-	resolvers,
 };
 
 // Create the store.
 export const store = createReduxStore( STORE_NAME, storeConfig );
 
+registerEntity();
+
 // Register it with @wordpress/data.
 register( store );
+
