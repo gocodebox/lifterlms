@@ -696,7 +696,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * Test merge_content()
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added testing of the `{earned_date}` merge code.
+	 * @since 6.1.0 Added testing of the `{earned_date}` merge code.
 	 *
 	 * @return void
 	 */

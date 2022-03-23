@@ -5,7 +5,7 @@
  * @package LifterLMS/Notifications/Controllers/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -83,7 +83,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * Get an array of LifterLMS Admin Page settings to send test notifications.
 	 *
 	 * @since 3.24.0
-	 * @since [version] Fixed access of protected LLMS_Abstract_Query properties.
+	 * @since 6.1.0 Fixed access of protected LLMS_Abstract_Query properties.
 	 *              Fixed issue where void was returned instead of an empty array if the type was 'email'.
 	 *
 	 * @param string $type Notification type [basic|email].
