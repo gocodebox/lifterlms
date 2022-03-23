@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -272,14 +272,6 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
 
-			if ( 'course' == $post_type || 'llms_membership' == $post_type ) {
-
-				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), llms()->version, true );
-				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
-				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
-
-			}
-
 			if ( 'lesson' == $post_type ) {
 				wp_enqueue_script( 'llms-metabox-fields', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-fields' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
 			}
@@ -353,6 +345,43 @@ class LLMS_Admin_Assets {
 			llms()->assets->enqueue_script( 'llms-admin-award-certificate' );
 			wp_enqueue_style( 'wp-editor' );
 		}
+
+		// Course & Membership editor scripts.
+		if ( 'post' === $screen->base && in_array( $screen->post_type, array( 'course', 'llms_membership' ), true ) ) {
+
+			wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), llms()->version, true );
+			wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
+			wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), llms()->version, true );
+
+			llms()->assets->enqueue_script( 'llms-admin-edit-post-sidebar' );
+			llms()->assets->enqueue_script( 'llms-admin-access-plan-editor' );
+			$this->access_plan_l10n();
+
+		}
+
+	}
+
+	private function access_plan_l10n() {
+
+		$product = new LLMS_Product( get_post() );
+		$post_type_obj = get_post_type_object( get_post_type() );
+
+		$periods = array();
+		foreach ( llms_get_access_plan_period_options() as $period => $singular ) {
+			$periods[ $period ] = array( $singular, ucwords( llms_get_time_period_l10n( $period, 2 ) ) );
+
+		}
+
+		$object = array(
+			'visibilities' => llms_get_access_plan_visibility_options( true ),
+			'periods'      => $periods,
+			'lengths'      => llms_get_access_plan_period_max_lengths(),
+			'limit'        => $product->get_access_plan_limit(),
+			'redirects'    => llms_get_checkout_redirection_types( $post_type_obj->labels->singular_name ),
+		);
+
+		$object = wp_json_encode( $object );
+		llms()->assets->enqueue_inline( 'llms-access-plan-editor-vars', "window.llms=window.llms||{};window.llms.accessPlanOptions=JSON.parse('{$object}');", 'footer' );
 
 	}
 
