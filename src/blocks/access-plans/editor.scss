@@ -1,0 +1,66 @@
+.wp-block-llms-access-plans {
+	padding-top: 20px; // Offsets negative top margin applied by the .llms-ap--featured element.
+
+	// .components-placeholder {
+	// 	.components-placeholder__label {
+	// 		.dashicon {
+	// 			margin-right: 10px;
+	// 		}
+	// 	}
+	// }
+
+	.llms-ap-list--wrap {
+		// align-items: flex-end;
+		flex-wrap: wrap;
+		row-gap: 30px;
+
+		.llms-ap--wrap {
+			border: 1px solid #ececec;
+			border-radius: 4px;
+			box-shadow: 0 3px 6px -3px #dadada;
+			margin-left: 0;
+			padding: 0px 12px 24px;
+			// flex: ;
+			text-align: center;
+			z-index: 1;
+
+			& + .llms-ap--wrap {
+				margin-right: -1px;
+			}
+
+			&.is-featured-plan {
+				// flex: 1.5;
+				z-index: 2;
+
+				.llms-ap--title {
+					font-size: 115%;
+				}
+			}
+
+			.llms-ap--featured {
+				background: #ececec;
+				border-radius: 4px;
+				display: block;
+				font-size: 14px;
+				margin: -18px auto 12px;
+				padding: 6px 12px;
+				width: fit-content;
+			}
+			.llms-ap--title {
+				display: block;
+				margin: 12px auto;
+			}
+
+			&:not(.is-featured-plan) {
+				.llms-ap--button.wp-block-button__link {
+					background: #ececec !important;
+					color: initial !important;
+					font-size: 85%;
+				}
+			}
+
+
+		}
+	}
+//F9FAFB
+}

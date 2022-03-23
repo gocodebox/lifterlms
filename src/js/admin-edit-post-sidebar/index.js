@@ -27,6 +27,7 @@ export const title = __( 'LifterLMS settings', 'lifterlms' );
 export const { Slot, Fill } = createSlotFill( name );
 
 const LifterLMSIcon = () => <Icon icon={ lifterlms } />;
+
 /**
  * Render component for the sidebar.
  *
