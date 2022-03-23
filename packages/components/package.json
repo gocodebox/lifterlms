@@ -24,12 +24,18 @@
     "access": "public"
   },
   "dependencies": {
+    "@dnd-kit/core": "^5.0.3",
+    "@dnd-kit/modifiers": "^5.0.0",
+    "@dnd-kit/sortable": "^6.0.1",
+    "@dnd-kit/utilities": "^3.1.0",
+    "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.6.0",
     "@wordpress/api-fetch": "^5.2.6",
     "@wordpress/components": "^19.5.0",
     "@wordpress/compose": "^5.0.6",
     "@wordpress/element": "^4.0.4",
     "@wordpress/i18n": "^4.2.4",
+    "@wordpress/icons": "^8.1.0",
     "@wordpress/url": "^3.3.1",
     "lodash": "^4.17.21",
     "react-select": "^5.2.1",
