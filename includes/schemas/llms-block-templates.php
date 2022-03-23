@@ -87,7 +87,7 @@ $blocks_styles = apply_filters( 'llms_block_templates_styling', $blocks_styles )
  * Shared block template for the `llms_certificate` and `llms_my_certificate` post types.
  *
  * @since 6.0.0
- * @since [version] Changed the certificate template's use of the `{current_date}` merge code to `{earned_date}`.
+ * @since 6.1.0 Changed the certificate template's use of the `{current_date}` merge code to `{earned_date}`.
  */
 $certificates = array(
 	array(

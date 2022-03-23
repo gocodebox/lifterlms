@@ -451,7 +451,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Retrieve merge codes and data.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added `{earned_date}` merge code.
+	 * @since 6.1.0 Added `{earned_date}` merge code.
 	 *               Allowed `{current_date}` to be mocked.
 	 *
 	 * @return string[] Array mapping merge codes to the merge data.
