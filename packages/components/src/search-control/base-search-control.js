@@ -54,6 +54,7 @@ import {
  * @param {?Function} args.formatSearchResultLabel Function invoked to format the display label for a result. The function is passed
  *                                                 an object representing a single result and should return a string.
  * @param {?Function} args.formatSearchResultValue Function invoked to format the saved value for a result. The function is passed
+ * @param {?string}   args.help                    BaseControl help text.
  *                                                 an object representing a single result and should the value to be stored.
  * @param {...*}      args.selectProps             Any remaining properties are passed to the <Select> component, {@link https://react-select.com/props#select-props}.
  * @return {StyledBaseControl} The component.
@@ -66,6 +67,7 @@ export default function BaseSearchControl( {
 	defaultOptions = null,
 	getSearchArgs = null,
 	label = null,
+	help = null,
 	getSearchURL = null,
 	hydrateValues = null,
 	formatSearchResults = null,
@@ -182,7 +184,7 @@ export default function BaseSearchControl( {
 	}
 
 	return (
-		<StyledBaseControl { ...{ id, label } }>
+		<StyledBaseControl { ...{ id, label, help } }>
 			<Select
 				{ ...{
 					className,
