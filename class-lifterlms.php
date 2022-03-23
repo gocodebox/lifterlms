@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 5.8.0
+ * @version 6.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0.0';
+	public $version = '6.1.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -66,6 +66,7 @@ final class LifterLMS {
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 * @since 4.13.0 Check site duplicate status on `admin_init`.
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
+	 * @since 6.1.0 Automatically load payment gateways.
 	 *
 	 * @return void
 	 */
@@ -95,6 +96,7 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
 		add_action( 'init', array( $this, 'init_session' ), 6 ); // After table installation which happens at init 5.
+		add_action( 'init', array( $this, 'payment_gateways' ) );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 
