@@ -3,17 +3,19 @@ import { BaseControl, Button, ButtonGroup } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
 /**
- * Button Group Control component
+ * Button Group Control component.
  *
  * Similar to the experimental `<RadioGroup>` component from @wordpress/components but it allows
  * passing in an array of options.
  *
  * @since 1.0.0
+ * @since [version] Added `help` parameter passed to <BaseControl>.
  *
  * @see BaseControl https://github.com/WordPress/gutenberg/tree/trunk/packages/components/src/base-control
  *
  * @param {Object}   props           Component properties object.
  * @param {string}   props.label     Control label text.
+ * @param {string}   props.help      Control help text.
  * @param {string}   props.className Control element css class name attribute.
  * @param {string}   props.id        Control element ID attribute.
  * @param {Function} props.onClick   Callback function when a button in the group is clicked.
@@ -27,6 +29,7 @@ export default function ( {
 	label,
 	onClick = () => {},
 	className = null,
+	help = null,
 	id = null,
 	selected = '',
 	options = [],
@@ -38,6 +41,7 @@ export default function ( {
 	return (
 		<BaseControl
 			label={ label }
+			help={ help }
 			className={ `llms-button-group-control${ className }` }
 			id={ id }
 		>
