@@ -1,0 +1,3 @@
+significance: minor
+type: changed
+entry: Changed the label for the `{current_date}` certificate merge code from 'Earned Date' to 'Current Date'.
