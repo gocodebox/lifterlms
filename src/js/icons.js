@@ -1,4 +1,4 @@
-import { loadModule } from './util';
+import loadModule from './util/load-module';
 import * as Icons from '../../packages/icons/src';
 
 /**
