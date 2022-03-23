@@ -696,6 +696,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 * Test merge_content()
 	 *
 	 * @since 6.0.0
+	 * @since 6.1.0 Added testing of the `{earned_date}` merge code.
 	 *
 	 * @return void
 	 */
@@ -715,6 +716,8 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		$content          = '';
 		$expected_content = '';
+		$date_format      = get_option( 'date_format' );
+		$earned_date      = null;
 
 		$merge_codes = llms_get_certificate_merge_codes();
 		// Add user info shortcodes.
@@ -736,7 +739,9 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 					$expected = get_permalink( llms_get_page_id( 'myaccount' ) );
 					break;
 				case '{current_date}':
-					$expected = date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) );
+				case '{earned_date}':
+					$expected = wp_date( $date_format, llms_current_time( 'timestamp' ) );
+					$earned_date = $expected;
 					break;
 				case '{email_address}':
 					$expected = $user_info['user_email'];
@@ -770,19 +775,30 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 
 		}
 
+		// Create a certificate template and award it to the student.
+		llms_tests_mock_current_time( 'now' );
 		$template = $this->create_certificate_template( 'Title', $content, 456 );
-		$cert     = LLMS_Unit_Test_Util::call_method( 'LLMS_Engagement_Handler', 'create', array( 'certificate', $user->get( 'id' ), $template, $related ) );
+		/** @var LLMS_User_Certificate $cert */
+		$cert = LLMS_Unit_Test_Util::call_method(
+			'LLMS_Engagement_Handler',
+			'create',
+			array( 'certificate', $user->get( 'id' ), $template, $related )
+		);
 
 		// Add the cert id (not available until the earned post exists).
 		$expected_content = str_replace( '[[CERTID]]', $cert->get( 'id' ), $expected_content );
 
 		$this->assertEquals( $expected_content, $cert->get( 'content', true ) );
 
+		// Time travel to the future.
+		llms_tests_mock_current_time( 'now +1 day' );
+		$updated_date = wp_date( $date_format, llms_current_time( 'timestamp' ) );
+
 		// Update the template and sync.
 		$thumbnail_id = $this->create_attachment( 'christian-fregnan-unsplash.jpg' );
 		wp_update_post( array(
 			'ID'           => $template,
-			'post_content' => 'Updated and {user_login}',
+			'post_content' => 'Updated on {current_date}. Earned on {earned_date}. Login = {user_login}.',
 			'post_title'   => 'Template Title',
 			'meta_input'   => array(
 				'_thumbnail_id' => $thumbnail_id,
@@ -790,7 +806,8 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 		) );
 
 		$this->assertTrue( $cert->sync() );
-		$this->assertEquals( "Updated and {$user_info['user_login']}", $cert->get( 'content', true ) );
+		$expected = "Updated on {$updated_date}. Earned on {$earned_date}. Login = {$user_info['user_login']}.";
+		$this->assertEquals( $expected, $cert->get( 'content', true ) );
 		$this->assertEquals( 'Title', $cert->get( 'title', true ) );
 		$this->assertEquals( $thumbnail_id, get_post_thumbnail_id( $cert->get( 'id' ) ) );
 	}

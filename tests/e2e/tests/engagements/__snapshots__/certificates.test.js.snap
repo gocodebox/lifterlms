@@ -221,7 +221,7 @@ Array [
           Object {
             "attributes": Object {
               "align": "center",
-              "content": "{current_date}",
+              "content": "{earned_date}",
               "dropCap": false,
               "llms_visibility": "all",
               "llms_visibility_in": "",
@@ -489,7 +489,7 @@ Array [
           Object {
             "attributes": Object {
               "align": "center",
-              "content": "{current_date}",
+              "content": "{earned_date}",
               "dropCap": false,
               "llms_visibility": "all",
               "llms_visibility_in": "",
