@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0.0';
+	public $version = '6.1.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -66,7 +66,7 @@ final class LifterLMS {
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 * @since 4.13.0 Check site duplicate status on `admin_init`.
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
-	 * @since [version] Automatically load payment gateways.
+	 * @since 6.1.0 Automatically load payment gateways.
 	 *
 	 * @return void
 	 */

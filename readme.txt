@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.5
 Tested up to: 5.9
 Requires PHP: 7.3
-Stable tag: 6.0.0
+Stable tag: 6.1.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,27 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.1.0 - 2022-03-23 =
+
+##### Upcoming PHP Version Requirement Change
+
+**LifterLMS will drop support for PHP 7.3 by May, 2022. This will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
+
+##### New Features
+
++ Added the `{earned_date}` certificate merge code.
+
+##### Updates and Enhancements
+
++ Changed the label for the `{current_date}` certificate merge code from 'Earned Date' to 'Current Date'.
++ Updates LifterLMS REST to [v1.0.0-beta.24](https://make.lifterlms.com/2022/03/17/lifterlms-rest-api-version-1-0-0-beta-24/).
+
+##### Bug Fixes
+
++ Fixed an issue encountered when editing an order with a completed payment plan. [#2067](https://github.com/gocodebox/lifterlms/issues/2067)
++ Fixed access of protected LLMS_Abstract_Query properties.
+
+
 = v6.0.0 - 2022-03-08 =
 
 **This major release of LifterLMS focuses on improving the experience of creating, designing, and managing achievements and certificates: use the block editor to design certificates, sync awards with their templates, award achievements and certificates on demand without requiring an engagement trigger, and [much more](https://lifterlms.com/docs/getting-started-with-lifterlms-6-0/). In addition, this release removes a significant number of previously deprecated classes, methods, and functions. Please read the full Breaking Changes sections for more information on removed code.**
@@ -1005,24 +1026,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ##### Templates Updated
 
 + templates/myaccount/view-order.php
-
-
-= v5.3.3 - 2021-10-05 =
-
-##### Updates
-
-+ Update woocommerce/actions-scheduler to version 3.3.0.
-
-##### Bug fixes
-
-+ Fixed an issue causing the latest earned achievement to not display on the "My Grades" tab in certain scenarios.
-+ Fix issue causing a `waiting...` message to display on the JS dev console.
-+ Fix improper usage of `apply_filters_deprecated()` encountered when using deprecated theme settings filters in the course builder.
-+ Fixed missing text domain, thanks [chetansatasiya](https://github.com/chetansatasiya)!
-
-##### Developer notes
-
-+ Improved the `LLMS.waitFor()` runtime JS dependency loader to output improved debugging information.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

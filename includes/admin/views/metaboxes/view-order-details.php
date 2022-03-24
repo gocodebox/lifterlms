@@ -6,7 +6,7 @@
  *
  * @since 5.3.0
  * @since 5.4.0 Inform about deleted products.
- * @since [version] Add validation to the remaining payments input.
+ * @since 6.1.0 Add validation to the remaining payments input.
  *              Allow the number of remaining payments to be `0` for already-completed payment plans.
  * @version 5.4.0
  *

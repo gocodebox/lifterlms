@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version [version]
+ * @version 6.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -182,7 +182,7 @@ function llms_get_certificate_image( $id = 0 ) {
  * Retrieve a list of merge codes that can be used in certificate templates.
  *
  * @since 6.0.0
- * @since [version] Changed `{current_date}` label from 'Earned Date' to 'Current Date' and added `{earned_date}` merge code.
+ * @since 6.1.0 Changed `{current_date}` label from 'Earned Date' to 'Current Date' and added `{earned_date}` merge code.
  *
  * @return string[] Associative array of merge codes where the array key is the merge code and the array value is a name / description of the merge code.
  */

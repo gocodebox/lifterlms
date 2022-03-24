@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2067"
-entry: Fixed an issue encountered when editing an order with a completed payment plan.
