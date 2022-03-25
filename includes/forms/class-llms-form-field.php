@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -148,6 +148,52 @@ class LLMS_Form_Field {
 
 	}
 
+	/**
+	 * Returns an array of form field objects from this checkbox or radio field's options array.
+	 *
+	 * @since [version] Moved from `LLMS_Form_Field::get_field_html()` and added the hidden logic.
+	 *
+	 * @param string $is_hidden If true, returns only the checked fields and sets their type to 'hidden',
+	 *                          else returns all options as `$this->settings['type']` form fields.
+	 * @return LLMS_Form_Field[]
+	 */
+	public function explode_options_to_fields( $is_hidden = false ) {
+
+		$fields = array();
+		$value  = ! empty( $this->settings['value'] ) || is_array( $this->settings['value'] )
+			? $this->settings['value']
+			: $this->settings['default'];
+
+		foreach ( $this->settings['options'] as $key => $val ) {
+
+			$name    = $this->settings['name'];
+			$checked = $value === $key;
+
+			if ( 'checkbox' === $this->settings['type'] ) {
+				$name    .= '[]';
+				$value   = is_array( $value ) ? $value : array( $value );
+				$checked = in_array( $key, $value, true );
+			}
+
+			if ( $is_hidden && false === $checked ) {
+				continue;
+			}
+
+			$fields[] = new LLMS_Form_Field(
+				array(
+					'data_store' => false,
+					'id'         => sprintf( '%1$s--%2$s', $this->settings['id'], $key ),
+					'name'       => $name,
+					'value'      => $key,
+					'label'      => $val,
+					'checked'    => $checked,
+					'type'       => $is_hidden ? 'hidden' : $this->settings['type'],
+				)
+			);
+		}
+
+		return $fields;
+	}
 
 	/**
 	 * Get default field settings.
@@ -226,6 +272,7 @@ class LLMS_Form_Field {
 	 * Retrieve the full HTML for the field.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Moved exploding of checkbox and radio options to `explode_options_to_fields()`.
 	 *
 	 * @return string
 	 */
@@ -250,7 +297,6 @@ class LLMS_Form_Field {
 		$extra_attrs  = array();
 		$inner_html   = '';
 		$self_closing = false;
-		$tag          = 'input';
 
 		switch ( $this->settings['type'] ) {
 
@@ -279,32 +325,9 @@ class LLMS_Form_Field {
 				} else {
 
 					$classes[] = 'llms-input-group';
-					$value     = ! empty( $this->settings['value'] ) || is_array( $this->settings['value'] ) ? $this->settings['value'] : $this->settings['default'];
-
-					foreach ( $this->settings['options'] as $key => $val ) {
-
-						$name    = $this->settings['name'];
-						$checked = $value === $key;
-
-						if ( 'checkbox' === $this->settings['type'] ) {
-							$name   .= '[]';
-							$value   = is_array( $value ) ? $value : array( $value );
-							$checked = in_array( $key, $value, true );
-						}
-
-						$field       = new self(
-							array(
-								'data_store' => false,
-								'id'         => sprintf( '%1$s--%2$s', $this->settings['id'], $key ),
-								'name'       => $name,
-								'value'      => $key,
-								'label'      => $val,
-								'checked'    => $checked,
-								'type'       => $this->settings['type'],
-							)
-						);
+					$fields    = $this->explode_options_to_fields( false );
+					foreach ( $fields as $field ) {
 						$inner_html .= $field->get_html();
-
 					}
 				}
 

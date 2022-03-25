@@ -7,9 +7,30 @@
  * @group forms
  *
  * @since 5.0.0
- * @version 5.1.1
+ * @version [version]
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
+
+	/**
+	 * @var LLMS_Forms
+	 */
+	private LLMS_Forms $forms;
+
+	/**
+	 * Serializes checkboxes attributes and appends a 'llms/form-field-checkboxes' block markup to the form.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $form_id    WP post ID of the form to append to.
+	 * @param array $checkboxes Attributes, {@see LLMS_Test_Forms::get_checkboxes_attributes()}.
+	 * @return void
+	 */
+	private function append_checkboxes_to_form( $form_id, $checkboxes ) {
+
+		$form_post               = get_post( $form_id );
+		$form_post->post_content .= '<!-- wp:llms/form-field-checkboxes ' . wp_json_encode( $checkboxes ) . ' /-->';
+		wp_update_post( $form_post );
+	}
 
 	/**
 	 * Setup the test
@@ -41,6 +62,40 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		global $wpdb;
 		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_form' ) );
 
+	}
+
+	/**
+	 * Returns an array of attributes for a 'llms/form-field-checkboxes' block to be serialized into
+	 * a form's `post_content`.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $form_id WP post ID of the form.
+	 * @return array
+	 */
+	private function get_checkboxes_attributes( $form_id ) {
+
+		$checkboxes = array(
+			'field' => 'checkbox',
+			'id'    => "checkbox-{$form_id}-1",
+			'label' => 'Do you like coffee?',
+			'options' => array(
+				array(
+					'text'    => 'Yes',
+					'key'     => 'like_coffee_yes',
+				),
+				array(
+					'text'    => 'No',
+					'key'     => 'like_coffee_no',
+				),
+				array(
+					'text'    => 'No, but I like the smell of it.',
+					'key'     => 'like_coffee_smell',
+				),
+			),
+		);
+
+		return $checkboxes;
 	}
 
 	/**
@@ -569,15 +624,18 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 
 	/**
-	 * Test the get_fields_settings_from_blocks() method
+	 * Test the get_fields_settings_from_blocks() method.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added checkboxes.
 	 *
 	 * @return void
 	 */
 	public function test_get_fields_settings_from_blocks() {
 
-		$this->forms->create( 'checkout', true );
+		$form_id    = $this->forms->create( 'checkout', true );
+		$checkboxes = $this->get_checkboxes_attributes( $form_id );
+		$this->append_checkboxes_to_form( $form_id, $checkboxes );
 
 		$blocks = $this->forms->get_form_blocks( 'checkout' );
 
@@ -603,42 +661,60 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 			'llms_billing_state',
 			'llms_billing_zip',
 			'llms_phone',
+			$checkboxes['id'],
 		);
 		$this->assertEquals( $expect, wp_list_pluck( $fields, 'name' ) );
 
 	}
 
 	/**
-	 * Test get_free_enroll_form_fields()
+	 * Test get_free_enroll_form_fields().
 	 *
 	 * @since 5.0.0
+	 * @since [version] Added checkboxes.
 	 *
 	 * @return void
 	 */
 	public function test_get_free_enroll_form_fields() {
 
 		$plan = $this->get_mock_plan();
-		wp_set_current_user( $this->factory->user->create() );
 
-		$this->forms->create( 'checkout', true );
+		$form_id = $this->forms->create( 'checkout', true );
+
+		// Add a checkboxes block to the form.
+		$checkboxes = $this->get_checkboxes_attributes( $form_id );
+		$this->append_checkboxes_to_form( $form_id, $checkboxes );
+		$checkboxes_id    = $checkboxes['id'];
+		$checkboxes_key_2 = $checkboxes['options'][2]['key'];
+
+		// The user has checked the 2nd checkbox.
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+		add_user_meta( $user_id, $checkboxes_id, array( $checkboxes_key_2 ) );
+
+		// Expected field IDs and names.
+		$expected_fields = array(
+			array( 'id' => 'first_name', 'name' => 'first_name' ),
+			array( 'id' => 'last_name', 'name' => 'last_name' ),
+			array( 'id' => 'llms_billing_address_1', 'name' => 'llms_billing_address_1' ),
+			array( 'id' => 'llms_billing_address_2', 'name' => 'llms_billing_address_2' ),
+			array( 'id' => 'llms_billing_city', 'name' => 'llms_billing_city' ),
+			array( 'id' => 'llms_billing_country', 'name' => 'llms_billing_country' ),
+			array( 'id' => 'llms_billing_state', 'name' => 'llms_billing_state' ),
+			array( 'id' => 'llms_billing_zip', 'name' => 'llms_billing_zip' ),
+			array( 'id' => 'llms_phone', 'name' => 'llms_phone' ),
+			array( 'id' => "{$checkboxes_id}--{$checkboxes_key_2}", 'name' => "{$checkboxes_id}[]" ),
+			array( 'id' => null, 'name' => 'free_checkout_redirect' ),
+			array( 'id' => 'llms-plan-id', 'name' => 'llms_plan_id' ),
+		);
 
 		$fields = $this->forms->get_free_enroll_form_fields( $plan );
+		$this->assertCount( count( $expected_fields ), $fields );
 
-		// Expected field list by name.
-		$expect = array(
-			'first_name',
-			'last_name',
-			'llms_billing_address_1',
-			'llms_billing_address_2',
-			'llms_billing_city',
-			'llms_billing_country',
-			'llms_billing_state',
-			'llms_billing_zip',
-			'llms_phone',
-			'free_checkout_redirect',
-			'llms_plan_id',
-		);
-		$this->assertEquals( $expect, wp_list_pluck( $fields, 'name' ) );
+		foreach ( $fields as $index => $field ) {
+			$actual = array( 'id' => $field['id'] ?? null, 'name' => $field['name'] );
+			$this->assertEquals( $expected_fields[ $index ], $actual );
+		}
 
 		// Only hidden fields.
 		$this->assertEquals( array( 'hidden' ), array_unique( wp_list_pluck( $fields, 'type' ) ) );
