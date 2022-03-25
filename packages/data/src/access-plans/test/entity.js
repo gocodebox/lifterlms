@@ -11,6 +11,6 @@ describe( 'AccessPlans/entity', () => {
 		mockCoreStore( 'actions', { addEntities } );
 
 		registerEntity();
-		expect( addEntities ).toHaveBeenCalledWith( ENTITY_CONFIG );
+		expect( addEntities ).toHaveBeenCalledWith( [ ENTITY_CONFIG ] );
 	} );
 } );

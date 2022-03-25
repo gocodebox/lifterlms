@@ -13,5 +13,5 @@ import { ENTITY_CONFIG } from './constants';
  */
 export function registerEntity() {
 	const { addEntities } = dispatch( coreStore );
-	return addEntities( ENTITY_CONFIG );
+	return addEntities( [ ENTITY_CONFIG ] );
 }
