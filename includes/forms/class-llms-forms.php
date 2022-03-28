@@ -461,7 +461,7 @@ class LLMS_Forms {
 	 * @since 5.0.0
 	 * @since 5.1.0 Pass the whole list of blocks to the `$this->block_to_field_settings()` method
 	 *              to better check whether a block is visible.
-	 * @since [version] Exploded hidden checkbox and radio fields.
+	 * @since [version] Exploded hidden checkbox fields.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
@@ -479,9 +479,9 @@ class LLMS_Forms {
 			}
 			if (
 				'hidden' === ( $settings['type'] ?? null ) &&
-				in_array( $block['attrs']['field'] ?? null, array( 'checkbox', 'radio' ) )
+				isset( $block['attrs']['field'] ) && 'checkbox' === $block['attrs']['field']
 			) {
-				// Convert hidden checkbox or radio settings into multiple "checked" hidden fields.
+				// Convert hidden checkbox settings into multiple "checked" hidden fields.
 				$settings['type'] = $block['attrs']['field'];
 				$field            = new LLMS_Form_Field( $settings );
 				$form_fields      = $field->explode_options_to_fields( true );
