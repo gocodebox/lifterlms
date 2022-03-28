@@ -183,34 +183,37 @@
 			ajax: {
 				dataType: 'JSON',
 				delay: 250,
-				method: 'POST',
-				url: window.ajaxurl,
+				method: 'GET',
+				url: '/wp-json/llms/v1/students',
 				data: function( params ) {
 					return {
-						_ajax_nonce: window.llms.ajax_nonce,
-						action: 'query_students',
-						page: params.page,
+						_wpnonce: window.wpApiSettings.nonce,
+						context: 'edit',
+						page: params.page || 1,
+						per_page: 10,
 						not_enrolled_in: params.not_enrolled_in || options.not_enrolled_in,
 						enrolled_in: params.enrolled_in || options.enrolled_in,
 						roles: params.roles || options.roles,
-						term: params.term,
+						search: params.term,
+						search_columns: 'email,name,username',
 					};
 				},
 				processResults: function( data, params ) {
+					var page       = params.page || 1;
+					var totalPages = this._request.getResponseHeader( 'X-WP-TotalPages' );
 					return {
-						results: $.map( data.items, function( item ) {
+						results: $.map( data, function( item ) {
 
 							return {
-								text: item.name + ' <' + item.email +'>',
+								text: item.name + ' <' + item.email + '>',
 								id: item.id,
 							};
 
 						} ),
 						pagination: {
-							more: data.more
+							more: page < totalPages
 						}
 					};
-
 				},
 			},
 			cache: true,
