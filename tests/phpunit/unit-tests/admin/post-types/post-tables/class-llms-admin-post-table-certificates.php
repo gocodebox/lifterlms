@@ -9,6 +9,7 @@
  * @group post_table_certificates
  *
  * @since 6.0.0
+ * @since [version] Added tests for `add_states()` method on posts that aren't certificates.
  */
 class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 
@@ -120,6 +121,23 @@ class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 
 		// Use block editor.
 		$post->post_content = '';
+		$this->assertEquals( array(), $this->main->add_states( array(), $post ) );
+
+	}
+
+	/**
+	 * Test add_states() on posts which are not certificates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_states_no_certificate_post() {
+
+		$post = $this->factory->post->create_and_get();
+		$this->assertEquals( array(), $this->main->add_states( array(), $post ) );
+
+		$post = null;
 		$this->assertEquals( array(), $this->main->add_states( array(), $post ) );
 
 	}
