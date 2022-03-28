@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "#2080"
+entry: Fixed an isue that produced a fatal on the Engagements > Certificates
+  screen with BuddyBoss theme, if a menu was set to be displayed on the Profile
+  Dropdown location.
