@@ -9,7 +9,7 @@
  * @group post_table_certificates
  *
  * @since 6.0.0
- * @since [version] Added tests for `add_states()` method on posts that arent' certificates.
+ * @since [version] Added tests for `add_states()` method on posts that aren't certificates.
  */
 class LLMS_Test_Admin_Post_Table_Certificates extends LLMS_UnitTestCase {
 
