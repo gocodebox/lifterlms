@@ -476,8 +476,8 @@ class LLMS_Forms {
 
 			if ( empty( $settings ) ) {
 				continue;
-
-			} elseif (
+			}
+			if (
 				'hidden' === ( $settings['type'] ?? null ) &&
 				in_array( $block['attrs']['field'] ?? null, array( 'checkbox', 'radio' ) )
 			) {

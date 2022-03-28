@@ -175,11 +175,11 @@ class LLMS_Form_Field {
 				$checked = in_array( $key, $value, true );
 			}
 
-			if ( $is_hidden && false === $checked ) {
+			if ( $is_hidden && ! $checked ) {
 				continue;
 			}
 
-			$fields[] = new LLMS_Form_Field(
+			$fields[] = new self(
 				array(
 					'data_store' => false,
 					'id'         => sprintf( '%1$s--%2$s', $this->settings['id'], $key ),
