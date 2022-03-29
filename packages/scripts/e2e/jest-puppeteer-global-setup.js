@@ -4,7 +4,7 @@ async function setup( jestConfig = {} ) {
 	try {
 		await wpSetup( jestConfig );
 	} catch ( error ) {
-		console.log( 'Caught you.' );
+		console.log( 'Catch setup' );
 		console.log( error );
 	}
 }

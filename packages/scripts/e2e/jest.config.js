@@ -40,6 +40,7 @@ config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 
 config.globalSetup = require.resolve( './jest-puppeteer-global-setup.js' ),
+config.globalTeardown = require.resolve( './jest-puppeteer-global-teardown.js' ),
 
 
 /**
