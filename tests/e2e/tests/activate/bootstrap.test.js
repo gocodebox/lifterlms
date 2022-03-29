@@ -12,15 +12,11 @@ import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-te
 
 describe( 'Bootstrap', () => {
 
+	// The first test will intermittently fail with the "You are probably offline" fetch error.
+	jest.retryTimes( 2 );
+
 	it ( 'should configure the correct theme based on the tested WP version.', async () => {
-		try {
-			await activateTheme();
-		} catch ( e ) {
-
-			console.log( 'caught test wrapper' );
-			console.log( e );
-
-		}
+		await activateTheme();
 	} );
 
 	it ( 'should load and run the entire setup wizard.', async () => {
