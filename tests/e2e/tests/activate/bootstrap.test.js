@@ -12,6 +12,7 @@ import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-te
 
 describe( 'Bootstrap', () => {
 
+	jest.retryTimes( 2 );
 	it ( 'should configure the correct theme based on the tested WP version.', async () => {
 		await activateTheme();
 	} );
