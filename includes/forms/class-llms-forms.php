@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -456,14 +456,15 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Retrieve an array of LLMS_Form_Fields settings arrays from an array of blocks
+	 * Retrieve an array of LLMS_Form_Field settings from an array of blocks.
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Pass the whole list of blocks to the `$this->block_to_field_settings()` method
-	 *              To better check whether a block is visible.
+	 *              to better check whether a block is visible.
+	 * @since [version] Exploded hidden checkbox fields.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
-	 * @return false|array
+	 * @return array
 	 */
 	public function get_fields_settings_from_blocks( $blocks ) {
 
@@ -472,7 +473,22 @@ class LLMS_Forms {
 
 		foreach ( $blocks as $block ) {
 			$settings = $this->block_to_field_settings( $block, $blocks );
-			if ( $settings ) {
+
+			if ( empty( $settings ) ) {
+				continue;
+			}
+			if (
+				'hidden' === ( $settings['type'] ?? null ) &&
+				isset( $block['attrs']['field'] ) && 'checkbox' === $block['attrs']['field']
+			) {
+				// Convert hidden checkbox settings into multiple "checked" hidden fields.
+				$settings['type'] = $block['attrs']['field'];
+				$field            = new LLMS_Form_Field( $settings );
+				$form_fields      = $field->explode_options_to_fields( true );
+				foreach ( $form_fields as $form_field ) {
+					$fields[] = $form_field->get_settings();
+				}
+			} else {
 				$field    = new LLMS_Form_Field( $settings );
 				$fields[] = $field->get_settings();
 			}
@@ -1115,7 +1131,7 @@ class LLMS_Forms {
 	 * Backwards incompatible changes and/or method removal may occur without notice.
 	 *
 	 * @since 5.0.0
-	 * @since [versino] Added `$block_list` param.
+	 * @since 5.1.0 Added `$block_list` param.
 	 * @access private
 	 *
 	 * @param array   $attrs      LLMS_Form_Field settings array for the field.

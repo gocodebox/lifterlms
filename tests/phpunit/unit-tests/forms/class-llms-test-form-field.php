@@ -13,7 +13,38 @@
 class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 
 	/**
-	 * Retrive a new user with specified user meta data.
+	 * Returns an array of attributes for a 'llms/form-field-checkboxes' block to be serialized into
+	 * a form's `post_content`.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	private function get_checkboxes_attributes() {
+
+		$checkboxes = array(
+			'datastore' => 'user_meta',
+			'type'      => 'checkbox',
+			'id'        => 'matrix-choices-1',
+			'name'      => 'matrix_choices_1',
+			'label'     => 'Matrix Choices',
+			'options'   => array(
+				array(
+					'key'  => 'blue_pill',
+					'text' => 'Believe whatever you want to believe.',
+				),
+				array(
+					'key'  => 'red_pill',
+					'text' => 'I show you how deep the rabbit hole goes',
+				),
+			),
+		);
+
+		return $checkboxes;
+	}
+
+	/**
+	 * Retrieve a new user with specified user meta data.
 	 *
 	 * @since 5.0.0
 	 *
@@ -45,6 +76,67 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 		parent::tear_down();
 		wp_set_current_user( null );
 
+	}
+
+	/**
+	 * Test the 'explode_options_to_fields()' method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_explode_options_to_fields() {
+
+		$checkboxes = $this->get_checkboxes_attributes();
+
+		// The user has checked the 2nd option.
+		$user_id = $this->factory->user->create();
+		wp_set_current_user( $user_id );
+		add_user_meta( $user_id, $checkboxes['name'], array( $checkboxes['options'][1]['key'] ) );
+
+		$field_with_options = new LLMS_Form_Field( $checkboxes );
+
+		// Test on a form that is not hidden.
+		$fields = $field_with_options->explode_options_to_fields( false );
+		$this->assertCount( count( $checkboxes['options'] ), $fields );
+
+		foreach ( $fields as $index => $field ) {
+			$expected_key = $checkboxes['options'][ $index ]['key'];
+			$settings     = $field->get_settings();
+
+			$this->assertEquals( ( 1 === $index ), $settings['checked'] );
+			$this->assertFalse( $settings['data_store'] );
+
+			$equals = array(
+				"{$checkboxes['id']}--{$expected_key}"   => $settings['id'],
+				"{$checkboxes['name']}[]"                => $settings['name'],
+				$checkboxes['options'][ $index ]['text'] => $settings['label'],
+				'checkbox'                               => $settings['type'],
+				$expected_key                            => $settings['value'],
+			);
+			$this->assertEquals( array_keys( $equals ), array_values( $equals ) );
+		}
+
+		// Test on a form that is hidden.
+		$fields = $field_with_options->explode_options_to_fields( true );
+		$this->assertCount( 1, $fields );
+
+		foreach ( $fields as $field ) {
+			$expected_key = $checkboxes['options'][1]['key'];
+			$settings     = $field->get_settings();
+
+			$this->assertEquals( true, $settings['checked'] );
+			$this->assertFalse( $settings['data_store'] );
+
+			$equals = array(
+				"{$checkboxes['id']}--{$expected_key}" => $settings['id'],
+				"{$checkboxes['name']}[]"              => $settings['name'],
+				$checkboxes['options'][1]['text']      => $settings['label'],
+				'hidden'                               => $settings['type'],
+				$expected_key                          => $settings['value'],
+			);
+			$this->assertEquals( array_keys( $equals ), array_values( $equals ) );
+		}
 	}
 
 	/**
