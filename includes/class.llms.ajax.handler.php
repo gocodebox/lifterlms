@@ -393,7 +393,6 @@ class LLMS_AJAX_Handler {
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @deprecated [version] `LLMS_AJAX_Handler::query_students()` is deprecated in favor of the REST API list students endpoint.
-	 *                   'GET https://example.tld/wp-json/llms/v1/students' instead.
 	 *
 	 * @return void
 	 */
