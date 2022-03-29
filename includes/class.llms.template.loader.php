@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,14 +29,26 @@ class LLMS_Template_Loader {
 	 * @since 3.20.0 Unknown.
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 * @since 5.8.0 Handle block templates loading.
+	 * @since [version] Added 'llms_template_loader_priority' filter.
 	 */
 	public function __construct() {
 
 		// Template loading for FSE themes.
 		add_action( 'template_redirect', array( $this, 'hook_block_template_loader' ) );
 
+		/**
+		* Filters the template loading priority.
+		*
+		* Callback for the WP core filter `template_include`.
+		*
+		* @since [version]
+		*
+		* @param $priority The filter callback priority.
+		*/
+		$template_loader_cb_priority = apply_filters( 'llms_template_loader_priority', 100 );
+
 		// Do template loading.
-		add_filter( 'template_include', array( $this, 'template_loader' ) );
+		add_filter( 'template_include', array( $this, 'template_loader' ), $template_loader_cb_priority );
 
 		add_action( 'rest_api_init', array( $this, 'maybe_prepare_post_content_restriction' ) );
 
