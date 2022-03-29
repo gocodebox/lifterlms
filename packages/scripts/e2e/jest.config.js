@@ -5,6 +5,8 @@
  * @version 3.0.0
  */
 
+const path = require( 'path' );
+
 /**
  * Load the jest-puppeteer config file
  *
@@ -36,6 +38,9 @@ config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 
 // Don't transform specified modules.
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
+
+config.globalSetup = require.resolve( './jest-puppeteer-global-setup.js' ),
+
 
 /**
  * Jest Config
