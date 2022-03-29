@@ -9,23 +9,22 @@
 
 import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-test-utils';
 
-try {
 
-	describe( 'Bootstrap', () => {
+describe( 'Bootstrap', () => {
 
-		it ( 'should configure the correct theme based on the tested WP version.', async () => {
+	it ( 'should configure the correct theme based on the tested WP version.', async () => {
+		try {
 			await activateTheme();
-		} );
+		} catch ( e ) {
 
-		it ( 'should load and run the entire setup wizard.', async () => {
-			await runSetupWizard();
-		} );
+			console.log( 'caught test wrapper' );
+			console.log( e );
 
+		}
 	} );
 
-} catch ( e ) {
+	it ( 'should load and run the entire setup wizard.', async () => {
+		await runSetupWizard();
+	} );
 
-	console.log( 'caught test wrapper' );
-	console.log( e );
-
-}
+} );
