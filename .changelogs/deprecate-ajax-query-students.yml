@@ -1,0 +1,3 @@
+significance: minor
+type: deprecated
+entry: Deprecated `LLMS_AJAX_Handler::query_students()`. Use the [REST API list students](https://developer.lifterlms.com/rest-api/#tag/Students/paths/~1students/get) endpoint instead.
