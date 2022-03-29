@@ -1,4 +1,4 @@
-significance: patch
+significance: minor
 type: dev
 entry: Added new filter `llms_template_loader_priority` to control the priority
   of the `template_include` hook callback used to load restricted content

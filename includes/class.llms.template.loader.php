@@ -43,7 +43,7 @@ class LLMS_Template_Loader {
 		*
 		* @since [version]
 		*
-		* @param $priority The filter callback priority.
+		* @param int $priority The filter callback priority.
 		*/
 		$template_loader_cb_priority = apply_filters( 'llms_template_loader_priority', 100 );
 
