@@ -12,9 +12,6 @@ import { activateTheme, visitPage, runSetupWizard } from '@lifterlms/llms-e2e-te
 
 describe( 'Bootstrap', () => {
 
-	// The first test will intermittently fail with the "You are probably offline" fetch error.
-	jest.retryTimes( 2 );
-
 	it ( 'should configure the correct theme based on the tested WP version.', async () => {
 		await activateTheme();
 	} );
