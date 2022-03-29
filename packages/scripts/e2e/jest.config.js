@@ -39,7 +39,7 @@ config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 // Don't transform specified modules.
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 
-config.reporters = [ require.resolve( './jest-puppeteer-reporter.js' ) ];
+// config.reporters = [ require.resolve( './jest-puppeteer-reporter.js' ) ];
 
 /**
  * Jest Config
