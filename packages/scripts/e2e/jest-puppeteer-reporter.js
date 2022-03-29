@@ -4,7 +4,7 @@ class LLMSReporter extends DefaultReporter {
 
 	async onTestResult( test, testResult, aggregatedResults ) {
 
-		console.log( testResult );
+		console.dir( testResult, { depth: null } );
 
 		await super.onTestResult( test, testResult, aggregatedResults );
 
