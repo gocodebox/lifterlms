@@ -39,6 +39,8 @@ config.testMatch = [ '**/tests/**/*.test.[jt]s?(x)' ];
 // Don't transform specified modules.
 config.transformIgnorePatterns = [ `/node_modules/(?!${ esModules })` ];
 
+config.reporters = [ 'default' ];
+
 /**
  * Jest Config
  *
