@@ -25,6 +25,7 @@ try {
 
 } catch ( e ) {
 
+	console.log( 'caught test wrapper' );
 	console.log( e );
 
 }
