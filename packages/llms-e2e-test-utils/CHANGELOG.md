@@ -1,6 +1,12 @@
 LifterLMS E2E Test Utils Changelog
 ==================================
 
+Unreleased
+----------
+
++ Update: `activateTheme()` to remove reliance on `@wordpress/e2e-test-utils` `activateTheme()`.
+
+
 v3.3.0 - 2022-03-08
 -------------------
 
