@@ -156,7 +156,7 @@ return array(
 			'update_db_version',
 		),
 	),
-	'6.0.1'  => array(
+	'6.2.0'  => array(
 		'type'      => 'auto',
 		'namespace' => true,
 		'updates'   => array(
