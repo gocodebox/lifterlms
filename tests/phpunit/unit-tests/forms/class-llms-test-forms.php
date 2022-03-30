@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.2.0
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
@@ -19,7 +19,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Serializes checkboxes attributes and appends a 'llms/form-field-checkboxes' block markup to the form.
 	 *
-	 * @since [version]
+	 * @since 6.2.0
 	 *
 	 * @param int   $form_id    WP post ID of the form to append to.
 	 * @param array $checkboxes Attributes, {@see LLMS_Test_Forms::get_checkboxes_attributes()}.
@@ -68,7 +68,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Returns an array of attributes for a 'llms/form-field-checkboxes' block to be serialized into
 	 * a form's `post_content`.
 	 *
-	 * @since [version]
+	 * @since 6.2.0
 	 *
 	 * @param int $form_id WP post ID of the form.
 	 * @return array
@@ -627,7 +627,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Test the get_fields_settings_from_blocks() method.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added checkboxes.
+	 * @since 6.2.0 Added checkboxes.
 	 *
 	 * @return void
 	 */
@@ -671,7 +671,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 * Test get_free_enroll_form_fields().
 	 *
 	 * @since 5.0.0
-	 * @since [version] Added checkboxes.
+	 * @since 6.2.0 Added checkboxes.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -151,7 +151,7 @@ class LLMS_Form_Field {
 	/**
 	 * Returns an array of form field objects from this checkbox or radio field's options array.
 	 *
-	 * @since [version] Moved from `LLMS_Form_Field::get_field_html()` and added the hidden logic.
+	 * @since 6.2.0 Moved from `LLMS_Form_Field::get_field_html()` and added the hidden logic.
 	 *
 	 * @param string $is_hidden If true, returns only the checked fields and sets their type to 'hidden',
 	 *                          else returns all options as `$this->settings['type']` form fields.
@@ -272,7 +272,7 @@ class LLMS_Form_Field {
 	 * Retrieve the full HTML for the field.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Moved exploding of checkbox and radio options to `explode_options_to_fields()`.
+	 * @since 6.2.0 Moved exploding of checkbox and radio options to `explode_options_to_fields()`.
 	 *
 	 * @return string
 	 */

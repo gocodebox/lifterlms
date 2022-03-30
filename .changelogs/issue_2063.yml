@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2063"
-entry: Fixed a compatiblity issue with the Divi Theme Builder ignoring access
-  restrictions when using template with custom body.
