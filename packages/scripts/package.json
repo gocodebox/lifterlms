@@ -1,6 +1,6 @@
 {
   "name": "@lifterlms/scripts",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Test, build, and development scripts for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@jest/test-sequencer": "^27.4.6",
-    "@wordpress/scripts": "^22.1.0",
+    "@wordpress/scripts": "^22.2.0",
     "dotenv": "^8.2.0",
     "webpack-rtl-plugin": "^2.0.0"
   },

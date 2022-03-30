@@ -7,6 +7,12 @@ Unreleased
 + Update: `activateTheme()` to remove reliance on `@wordpress/e2e-test-utils` `activateTheme()`.
 
 
+v4.0.0 - 2022-03-30
+-------------------
+
++ **Breaking**: Upgraded `@wordpress/e2e-test-utils` to [v7.0.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/e2e-test-utils/CHANGELOG.md#700-2022-03-11).
+
+
 v3.3.0 - 2022-03-08
 -------------------
 

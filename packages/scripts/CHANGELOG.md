@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+v3.1.0 - 2022-03-30
+-------------------
+
++ Upgraded `@wordpress/scripts` to [v22.2.0](https://github.com/WordPress/gutenberg/blob/trunk/packages/scripts/CHANGELOG.md#2220-2022-03-11).
+
+
 v3.0.0 - 2022-03-08
 -------------------
 
