@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 // TODO: remove this when the new loader will be implemented.
 require_once LLMS_PLUGIN_DIR . '/includes/traits/llms-trait-award-templates-post-list-table.php';
 /**
- * Customize display of the certificate post tables
+ * Customize display of the certificate post tables.
  *
  * @since 6.0.0
  */
@@ -86,6 +86,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Add state information denoting the usage of the legacy template.
 	 *
 	 * @since 6.0.0
+	 * @since 6.2.0 Made sure to only process certificates.
 	 *
 	 * @param string[] $states Array of post states.
 	 * @param WP_Post  $post   Post object.
@@ -94,7 +95,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	public function add_states( $states, $post ) {
 
 		$cert = llms_get_certificate( $post, true );
-		if ( 1 === $cert->get_template_version() ) {
+		if ( $cert && 1 === $cert->get_template_version() ) {
 			$states['llms-legacy-template'] = __( 'Legacy', 'lifterlms' );
 		}
 
