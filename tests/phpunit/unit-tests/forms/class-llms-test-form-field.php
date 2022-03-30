@@ -16,7 +16,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	 * Returns an array of attributes for a 'llms/form-field-checkboxes' block to be serialized into
 	 * a form's `post_content`.
 	 *
-	 * @since [version]
+	 * @since 6.2.0
 	 *
 	 * @return array
 	 */
@@ -81,7 +81,7 @@ class LLMS_Test_Form_Field extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the 'explode_options_to_fields()' method.
 	 *
-	 * @since [version]
+	 * @since 6.2.0
 	 *
 	 * @return void
 	 */

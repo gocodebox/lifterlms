@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -86,7 +86,7 @@ class LLMS_Admin_Post_Table_Certificates {
 	 * Add state information denoting the usage of the legacy template.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Made sure to only process certificates.
+	 * @since 6.2.0 Made sure to only process certificates.
 	 *
 	 * @param string[] $states Array of post states.
 	 * @param WP_Post  $post   Post object.

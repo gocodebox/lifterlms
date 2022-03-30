@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -461,7 +461,7 @@ class LLMS_Forms {
 	 * @since 5.0.0
 	 * @since 5.1.0 Pass the whole list of blocks to the `$this->block_to_field_settings()` method
 	 *              to better check whether a block is visible.
-	 * @since [version] Exploded hidden checkbox fields.
+	 * @since 6.2.0 Exploded hidden checkbox fields.
 	 *
 	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array

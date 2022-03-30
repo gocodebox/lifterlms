@@ -1,4 +1,0 @@
-significance: patch
-type: changed
-entry: Changed the `llmsStudentsSelect2()` JavaScript function to use the LifterLMS REST API
-  "list students" endpoint instead of the `LLMS_AJAX_Handler::query_students()` PHP function.

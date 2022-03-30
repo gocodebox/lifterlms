@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: LifterLMS 6.1.0\n"
+"Project-Id-Version: LifterLMS 6.2.0\n"
 "Report-Msgid-Bugs-To: https://lifterlms.com/my-account/my-tickets\n"
 "Last-Translator: Team LifterLMS <team@lifterlms.com>\n"
 "Language-Team: Team LifterLMS <team@lifterlms.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-23T16:46:37-06:00\n"
+"POT-Creation-Date: 2022-03-30T12:36:00-06:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: llms/dev 0.0.4-alpha.1\n"
 "X-Domain: lifterlms\n"
@@ -1528,7 +1528,7 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:69
-#: includes/class.llms.ajax.handler.php:942
+#: includes/class.llms.ajax.handler.php:945
 #: includes/llms.functions.core.php:990
 msgid "ID#"
 msgstr ""
@@ -2528,7 +2528,7 @@ msgstr ""
 msgid "Migrate legacy certificate"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:98
+#: includes/admin/post-types/post-tables/class-llms-admin-post-table-certificates.php:99
 msgid "Legacy"
 msgstr ""
 
@@ -5493,7 +5493,7 @@ msgstr ""
 #: includes/class.llms.ajax.handler.php:76
 #: includes/class.llms.ajax.handler.php:100
 #: includes/class.llms.ajax.handler.php:257
-#: includes/class.llms.ajax.handler.php:990
+#: includes/class.llms.ajax.handler.php:993
 msgid "Missing required parameters"
 msgstr ""
 
@@ -5517,58 +5517,58 @@ msgstr ""
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:620
-#: includes/class.llms.ajax.handler.php:683
-#: includes/class.llms.ajax.handler.php:753
-#: includes/class.llms.template.loader.php:397
+#: includes/class.llms.ajax.handler.php:623
+#: includes/class.llms.ajax.handler.php:686
+#: includes/class.llms.ajax.handler.php:756
+#: includes/class.llms.template.loader.php:409
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:632
+#: includes/class.llms.ajax.handler.php:635
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:642
+#: includes/class.llms.ajax.handler.php:645
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:690
-#: includes/class.llms.ajax.handler.php:758
+#: includes/class.llms.ajax.handler.php:693
+#: includes/class.llms.ajax.handler.php:761
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:701
+#: includes/class.llms.ajax.handler.php:704
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:994
+#: includes/class.llms.ajax.handler.php:997
 msgid "Invalid status"
 msgstr ""
 
 #. Translators: %s = action add|remove|delete.
-#: includes/class.llms.ajax.handler.php:1016
+#: includes/class.llms.ajax.handler.php:1019
 msgid "Action \"%1$s\" failed. Please try again"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1044
+#: includes/class.llms.ajax.handler.php:1047
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1048
+#: includes/class.llms.ajax.handler.php:1051
 msgid "Please enter a plan ID."
 msgstr ""
 
 #. Translators: %s = coupon code.
-#: includes/class.llms.ajax.handler.php:1057
+#: includes/class.llms.ajax.handler.php:1060
 #: includes/functions/llms.functions.order.php:278
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1438
+#: includes/class.llms.ajax.handler.php:1441
 msgid "Missing Required Parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1492
+#: includes/class.llms.ajax.handler.php:1495
 msgid "Missing tracking data."
 msgstr ""
 
@@ -7815,11 +7815,11 @@ msgstr ""
 msgid "Order History"
 msgstr ""
 
-#: includes/class.llms.template.loader.php:387
+#: includes/class.llms.template.loader.php:399
 msgid "You must be enrolled in the course to access this quiz."
 msgstr ""
 
-#: includes/class.llms.template.loader.php:684
+#: includes/class.llms.template.loader.php:696
 msgid "This content is restricted"
 msgstr ""
 

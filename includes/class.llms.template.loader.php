@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ class LLMS_Template_Loader {
 	 * @since 3.20.0 Unknown.
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 * @since 5.8.0 Handle block templates loading.
-	 * @since [version] Added 'llms_template_loader_priority' filter.
+	 * @since 6.2.0 Added 'llms_template_loader_priority' filter.
 	 */
 	public function __construct() {
 
@@ -41,7 +41,7 @@ class LLMS_Template_Loader {
 		*
 		* Callback for the WP core filter `template_include`.
 		*
-		* @since [version]
+		* @since 6.2.0
 		*
 		* @param int $priority The filter callback priority.
 		*/

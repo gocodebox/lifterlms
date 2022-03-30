@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2080"
-entry: Fixed an error encountered on the Engagements > Certificates
-  screen when using the BuddyBoss theme.
