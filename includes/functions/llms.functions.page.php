@@ -69,7 +69,6 @@ function llms_confirm_payment_url( $order_key = null ) {
  * @since 3.26.3 Unknown.
  * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
  * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
- *              Prefer `wp_parse_url()` over the discouraged `parse_url()`.
  *              Prefer faster `strpos()` over `strstr()` since we only need to know if a substring is contained in a string.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
@@ -92,7 +91,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	$is_base_permalink = true;
 
 	/**
-	 * No permalink available, e.g. in BuddyBress profile endpoint.
+	 * No permalink available, e.g. in BuddyPress profile endpoint.
 	 *
 	 * We need to get the base URL to append the endpoint to, starting from
 	 * the current requested URL.
@@ -147,13 +146,13 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 }
 
 /**
- * Normalize then endpoint base URL.
+ * Normalize the endpoint base URL.
  *
- * E.g. on my grades, page 2, it'll look like
+ * E.g., in the BuddyPress profile's tab, on my grades, page 2, it'll look like
  * //example.com/members/admin/courses/my-courses/page/2/
  *
- * We then need to normalize this: remove /my-courses/ (the endpoint)
- * and the pagination information /page/2/.
+ * We then need to normalize the endpoint base URL, which means
+ * removing /my-courses/ (the endpoint) and the pagination information /page/2/.
  *
  * @since [version]
  * @access private
