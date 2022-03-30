@@ -1,5 +1,5 @@
 import { getWPVersion } from './get-wp-version';
-import { activateTheme as wpActivateTheme } from '@wordpress/e2e-test-utils';
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
  * Retrieves the default WP theme based on the WP core version.
@@ -35,11 +35,23 @@ function getThemeByCoreVersion() {
  * Activates a theme.
  *
  * @since 3.3.0
+ * @since [version] Don't use WP activateTheme, see https://github.com/WordPress/gutenberg/issues/39862.
  *
  * @param {?string} theme Accepts a theme slug. If not supplied, loads the default theme for the tested WP version.
  * @return {Promise} Promise that resolves when the theme is activated.
  */
 export async function activateTheme( theme = null ) {
 	theme = theme || getThemeByCoreVersion();
-	return wpActivateTheme( theme );
+
+	await visitAdminPage( 'themes.php' );
+	const activateButton = await page.$(
+		`div[data-slug="${ theme }"] .button.activate`
+	);
+	if ( ! activateButton ) {
+		return Promise.resolve();
+	}
+
+	await page.click( `div[data-slug="${ theme }"] .button.activate` );
+	return page.waitForSelector( `div[data-slug="${ theme }"].active` );
+
 }

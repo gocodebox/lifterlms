@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.5
 Tested up to: 5.9
 Requires PHP: 7.3
-Stable tag: 6.1.0
+Stable tag: 6.2.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,28 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.2.0 - 2022-03-30 =
+
+##### Updates and Enhancements
+
++ Changed the `llmsStudentsSelect2()` JavaScript function to use the LifterLMS REST API "list students" endpoint instead of the `LLMS_AJAX_Handler::query_students()` PHP function.
++ Upgraded LifterLMS Blocks to [v2.4.1](https://make.lifterlms.com/2022/03/30/lifterlms-blocks-version-2-4-1/).
+
+##### Bug Fixes
+
++ Fixed issue with hidden checkboxes on LifterLMS forms.
++ Fixed a compatiblity issue with the Divi Theme Builder ignoring access restrictions when using template with custom body. [#2063](https://github.com/gocodebox/lifterlms/issues/2063)
++ Fixed an error encountered on the Engagements > Certificates screen when using the BuddyBoss theme. [#2080](https://github.com/gocodebox/lifterlms/issues/2080)
+
+##### Deprecations
+
++ Deprecated `LLMS_AJAX_Handler::query_students()`. Use the [REST API list students](https://developer.lifterlms.com/rest-api/#tag/Students/paths/~1students/get) endpoint instead.
+
+##### Developer Notes
+
++ Added new filter `llms_template_loader_priority` to control the priority of the `template_include` hook callback used to load restricted content templates.
+
+
 = v6.1.0 - 2022-03-23 =
 
 ##### Upcoming PHP Version Requirement Change
@@ -1007,25 +1029,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Exclude internal-use-only properties (related to reporting caches and student counts) when exporting or cloning courses. [#1532](https://github.com/gocodebox/lifterlms/issues/1532)
 + Don't sanitize input from user forms until validation has succeeded. [#1829](https://github.com/gocodebox/lifterlms/issues/1829.)
 + Fixed an issue encountered when fields are removed from reusable blocks, causing some user forms from functioning as expected. [#1832](https://github.com/gocodebox/lifterlms/issues/1832)
-
-
-= v5.4.0 - 2021-10-14 =
-
-##### Updates
-
-+ Added logic to prevent the permanent deletion of courses or memberships with active subscriptions.
-+ When a subscription attempts to charge a recurring payment against a deleted course or membership the transaction will be cancelled and the order marked as failed.
-+ Updates LifterLMS Blocks to [v2.2.1](https://make.lifterlms.com/2021/09/29/lifterlms-blocks-version-2-2-1/).
-+ Updates LifterLMS REST to [v1.0.0-beta.20](https://make.lifterlms.com/2021/10/11/lifterlms-rest-api-version-1-0-0-beta-20/).
-
-##### Bug fixes
-
-+ Fixed issue encountered when cloning lessons with attached assignments.
-+ Fixed an error encountered when viewing an order for a deleted course or membership on the student dashboard.
-
-##### Templates Updated
-
-+ templates/myaccount/view-order.php
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

@@ -5,6 +5,8 @@
  * @version 3.0.0
  */
 
+const path = require( 'path' );
+
 /**
  * Load the jest-puppeteer config file
  *

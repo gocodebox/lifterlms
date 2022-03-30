@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version 6.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -392,10 +392,13 @@ class LLMS_AJAX_Handler {
 	 * @since 3.14.2 Unknown.
 	 * @since 5.5.0 Do not encode quotes when sanitizing search term.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @deprecated 6.2.0 `LLMS_AJAX_Handler::query_students()` is deprecated in favor of the REST API list students endpoint.
 	 *
 	 * @return void
 	 */
 	public static function query_students() {
+
+		_deprecated_function( __METHOD__, '6.2.0', 'the REST API list students endpoint' );
 
 		// Grab the search term if it exists.
 		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input_sanitize_string( INPUT_POST, 'term', array( FILTER_FLAG_NO_ENCODE_QUOTES ) ) : '';
