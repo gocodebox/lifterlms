@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Integration.
+ * BuddyPress Integration
  *
  * @package LifterLMS/Integrations/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BuddyPress Integration.
+ * BuddyPress Integration
  *
  * @since 1.0.0
  * @since 3.37.17 Fixed `courses` pagination.
@@ -21,7 +21,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	public $id = 'buddypress';
 
 	/**
-	 * Display order on Integrations tab.
+	 * Display order on Integrations tab
 	 *
 	 * @var integer
 	 */
@@ -190,7 +190,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Add LLMS navigation items to the BuddyPress User Profile.
+	 * Add LLMS navigation items to the BuddyPress User Profile
 	 *
 	 * @since 1.0.0
 	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
@@ -245,7 +245,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Checks if the BuddyPress plugin is installed & activated.
+	 * Checks if the BuddyPress plugin is installed & activated
 	 *
 	 * @since 1.0.0
 	 *
@@ -273,7 +273,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Callback for "Certificates" profile screen.
+	 * Callback for "Certificates" profile screen
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -290,7 +290,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Callback for "Courses" profile screen.
+	 * Callback for "Courses" profile screen
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
@@ -375,7 +375,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Remove specific paginate links filter after the template has been rendered.
+	 * Remove specific paginate links filter after the template has been rendered
 	 *
 	 * @since 3.37.17
 	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::remove_paginate_links_filter()}.
@@ -390,7 +390,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Modify the pagination links displayed on the courses endpoint in the bp member profile.
+	 * Modify the pagination links displayed on the courses endpoint in the bp member profile
 	 *
 	 * @since 3.37.17
 	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::modify_paginate_links()}.

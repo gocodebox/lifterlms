@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -67,7 +67,8 @@ function llms_confirm_payment_url( $order_key = null ) {
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
- * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
+ * @since [version] Fall back on `wp_guess_url()` if `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
+ *              Prefer `wp_parse_url()` over the discouraged `parse_url()`.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
  * @param string $value     Endpoint query parameter value.

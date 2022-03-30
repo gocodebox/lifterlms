@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -513,6 +513,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
+	 * @since [version] Prevent trying to access to a non existing index when retrieving the slug from the `$wp_query`.
 	 *
 	 * @return void
 	 */
@@ -524,7 +525,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		}
 
 		global $wp_query, $wp_rewrite;
-		$slug = $wp_query->query['my-grades'];
+		$slug = $wp_query->query['my-grades'] ?? '';
 
 		// List courses.
 		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
