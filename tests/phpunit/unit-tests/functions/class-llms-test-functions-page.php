@@ -289,7 +289,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 
 		LLMS_Install::create_pages();
 
-		// Get the coures endpoint url when on the dashboard's my grades tab.
+		// Get the courses endpoint url when on the dashboard's my grades tab.
 		$account_url = llms_get_page_url( 'myaccount' );
 		$this->go_to( $account_url . '&my-grades' );
 
@@ -316,9 +316,20 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 			llms_get_endpoint_url( $endpoint ),
 		);
 
-		// Simulate we're on a location for which there are is no permalink:
-		// e.g. on a BuddyPress courses profile page (page 2).
+		/**
+		 * Simulate we're on a location for which there is no permalink.
+		 * Since llms_get_endpoint_url's third parameter `$permalink` is not passed,
+		 * the endpoint url is based off the current URL.
+		 */
 		$buddypress_lifterlms_base_url = home_url( '/members/admin/courses/' );
+		// e.g. on a BuddyPress courses profile base url.
+		$this->go_to( $buddypress_lifterlms_base_url );
+		$this->assertEquals(
+			$buddypress_lifterlms_base_url . 'my-courses/',
+			llms_get_endpoint_url( $endpoint ),
+		);
+
+		// Now on a BuddyPress courses profile page (page 2).
 		$this->go_to( $buddypress_lifterlms_base_url . 'my-courses/page/2/' );
 		set_query_var( 'page', 2 );
 		$this->assertEquals(
@@ -326,7 +337,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 			llms_get_endpoint_url( $endpoint ),
 		);
 
-		// e.g. on a BuddyPress courses profile page (page 1).
+		// Now on a BuddyPress my-courses profile page (page 1).
 		$this->go_to( $buddypress_lifterlms_base_url . 'my-courses/' );
 		set_query_var( 'page', 1 );
 		$this->assertEquals(

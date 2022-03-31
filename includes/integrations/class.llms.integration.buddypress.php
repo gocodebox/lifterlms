@@ -268,11 +268,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $accout_update_redirect_url Account update redirect url.
+	 * @param string $account_update_redirect_url Account update redirect url.
 	 * @return string
 	 */
-	public function maybe_alter_update_account_redirect( $accout_update_redirect_url ) {
-		return bp_is_my_profile() ? wp_guess_url() : $accout_update_redirect_url;
+	public function maybe_alter_update_account_redirect( $account_update_redirect_url ) {
+		return bp_is_my_profile() ? bp_get_requested_url() : $account_update_redirect_url;
 	}
 
 	/**
@@ -459,6 +459,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Modify the pagination links for the endpoints in the bp member profile.
 	 *
+	 * This fixes the pagination not correctly working on the first tab.
+	 *
 	 * @since [version]
 	 *
 	 * @param string $link Default link.
@@ -466,6 +468,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function modify_paginate_links( $link ) {
 
+		// With ugly permalinks actually the whole BuddyPress member profile page doesn't work.
 		if ( ! get_option( 'permalink_structure' ) ) {
 			return $link;
 		}
@@ -473,26 +476,31 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		global $wp_rewrite;
 
 		$query = wp_parse_url( $link, PHP_URL_QUERY );
-
+		// Remove query vars if any, we'll add them back later.
 		if ( $query ) {
 			$link = str_replace( '?' . $query, '', $link );
 		}
 
+		// Retrieve link's page number.
 		$parts = explode( '/', untrailingslashit( $link ) );
 		$page  = end( $parts );
 
-		// For links to page/1 let's remove it to avoid ugly URLs.
+		// For links to page 1 let's remove it to avoid ugly URLs.
 		if ( 1 === absint( $page ) ) {
-			$link = str_replace( user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page ), '', $link );
+			$link = str_replace(
+				user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page ),
+				'',
+				$link
+			);
 		}
 
 		$endpoints = $this->get_profile_endpoints();
-
+		// If we're not the first tab, our job is done, add back the query var and return.
 		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
 			return $query ? $link . '?' . $query : $link;
 		}
 
-		// Retrieve the current subnav item.
+		// Retrieve the current subnav item, so the subnav item of the first tab.
 		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
 				/** This filter is documented above */
@@ -503,20 +511,22 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		if ( is_array( $first_subnav_item ) ) {
 			$first_subnav_item = reset( $first_subnav_item );
-		} else {
-			return $link;
+		} else { // Bail.
+			return $query ? $link . '?' . $query : $link;
 		}
 
+		$current_page = llms_get_paged_query_var();
 		/**
 		 * Here's the core of this filter.
 		 *
-		 * What happens is that the paginate links on the 'my-courses' tab (as example for the fist tab) are of this type:
-		 * `example.local/members/admin/courses/page/N`
+		 * What happens is that the pagination links on the first page of the first tab,
+		 * e.g. 'my-courses' endpoint (as example for the first tab) are of this type:
+		 * `example.local/members/admin/courses/page/N`,
 		 * where 'courses' is the slug of the main nav item.
 		 * While the "working" paginate links must be of the type:
 		 * `example.local/members/admin/courses/my-courses/page/N`
-		 * where 'courses' is the slug of the main nav item, and the 'my-courses' is the slug of
-		 * the subnav item, which is also the default "endpoint content" for the main nav item.
+		 * where 'courses' is the slug of the main nav item, and 'my-courses' is the slug of
+		 * the subnav item which is the default subnav for the main nav item.
 		 *
 		 * So what we do here is to replace all the occurrences of something like
 		 * `example.local/members/admin/courses/page/N` to something like
@@ -524,33 +534,33 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 *
 		 * Despite one might expect, `$first_subnav_item->link` doesn't point to `example.local/members/admin/courses/my-courses/`
 		 * but to `example.local/members/admin/courses/`, which is the link of the parent nav, the main nav item,
-		 * this because the 'my-courses' subnav item is the default of the 'courses' nav item.
+		 * this because the 'my-courses' subnav item is the default of the 'courses' nav item (default_subnav_slug).
 		 */
-		$search  = $first_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page . '/';
-		$replace = $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page . '/';
-
-		/**
-		 * For links to page/1 let's back on the main nav item link to avoid ugly URLs, so we replace something like
-		 * `example.local/members/admin/courses/my-courses/`
-		 * to something like
-		 * `example.local/members/admin/courses/`
-		 */
-		if ( 1 === absint( $page ) ) {
-			$search  = $first_subnav_item->link . $first_subnav_item->slug . '/';
+		if ( 1 === $current_page ) {
+			$search  = user_trailingslashit( $first_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page );
+			$replace = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page );
+		} elseif ( 1 === absint( $page ) ) {
+			/**
+			 * For links to page 1, when not on page 1, let's back on the main nav item URL, so we replace something like
+			 * `example.local/members/admin/courses/my-courses/`
+			 * to something like
+			 * `example.local/members/admin/courses/`
+			 */
+			$search  = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug );
 			$replace = $first_subnav_item->link;
 		}
 
-		$link = str_replace(
-			$search,
-			$replace,
-			trailingslashit( $link )
-		);
+		$link = isset( $replace )
+			?
+			str_replace(
+				$search,
+				$replace,
+				user_trailingslashit( $link )
+			)
+			:
+			$link;
 
-		if ( $query ) {
-			$link .= '?' . $query;
-		}
-
-		return $link;
+		return $query ? $link . '?' . $query : $link;
 
 	}
 

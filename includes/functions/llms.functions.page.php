@@ -277,6 +277,6 @@ function llms_get_paged_query_var() {
 	} else {
 		$paged = 1;
 	}
-	return $paged;
+	return (int) $paged;
 
 }
