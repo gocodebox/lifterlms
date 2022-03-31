@@ -154,7 +154,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function get_profile_endpoints( $active_only = true ) {
 
-		if ( ! isset( $this->endpoints ) ) {
+		if ( ! isset( $this->endpoints ) || is_null( $this->endpoints ) ) {
 			$this->populate_profile_endpoints();
 		}
 
