@@ -90,13 +90,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		if ( $this->is_available() ) {
 
-			$endpoints = $this->get_profile_endpoints( false );
-
-			$display_eps = array();
-
-			foreach ( $endpoints as $ep_key => $endpoint ) {
-				$display_eps[ $ep_key ] = $endpoint['title'];
-			}
+			$display_eps = $this->get_profile_endpoints_options();
 
 			$settings[] = array(
 				'class'   => 'llms-select2',
@@ -115,92 +109,27 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	}
 
 	/**
-	 * Populate list of endpoints from LifterLMS Dashboard Settings.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function populate_profile_endpoints() {
-
-		$exclude_llms_eps = array( 'dashboard', 'signout' );
-		$endpoints        = array_diff_key( LLMS_Student_Dashboard::get_tabs(), array_flip( $exclude_llms_eps ) );
-
-		foreach ( $endpoints as $ep_key => &$endpoint ) {
-			unset( $endpoint['nav_item'] );
-			unset( $endpoint['url'] );
-		}
-
-		/**
-		 * Filter profile endpoints.
-		 *
-		 * Modify the LifterLMS dashboard endpoints which can be added to the BuddyPress profile page as custom tabs.
-		 *
-		 * @since [version]
-		 *
-		 * @param array $endpoints Array of endpoint data.
-		 */
-		$this->endpoints = apply_filters( 'llms_buddypress_profile_endpoints', $endpoints );
-
-	}
-
-	/**
-	 * Get a list of custom endpoints to add to BuddyPress profile page.
-	 *
-	 * @since [version]
-	 *
-	 * @param bool $active_only If true, returns only active endpoints.
-	 * @return array
-	 */
-	public function get_profile_endpoints( $active_only = true ) {
-
-		if ( ! isset( $this->endpoints ) || is_null( $this->endpoints ) ) {
-			$this->populate_profile_endpoints();
-		}
-
-		$endpoints = $this->endpoints;
-
-		if ( $active_only ) {
-
-			$active = $this->get_option( 'profile_endpoints', array_keys( $endpoints ) );
-
-			// If no endpoints are saved an empty string is returned and we need an array for the comparison below.
-			if ( '' === $active ) {
-				return array();
-			}
-
-			foreach ( array_keys( $endpoints ) as $endpoint ) {
-
-				// Remove endpoints that aren't stored in the settings.
-				if ( ! in_array( $endpoint, $active, true ) ) {
-					unset( $endpoints[ $endpoint ] );
-				}
-			}
-		}
-
-		// Remove endpoints that don't have an endpoint.
-		foreach ( $endpoints as $ep_key => $endpoint ) {
-
-			if ( empty( $endpoint['endpoint'] ) ) {
-				unset( $endpoints[ $ep_key ] );
-			}
-		}
-
-		return $endpoints;
-
-	}
-
-	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile.
 	 *
 	 * @since 1.0.0
 	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
-	 *
+	 *              Use `bp_loggedin_user_domain()` to determine the current user domain
+	 *              to be used in the profile nav item's links, in favor of relying on the global `$bp`.
 	 * @return void
 	 */
 	public function add_profile_nav_items() {
 
-		global $bp;
+		/**
+		 * Determine user domain to use.
+		 *
+		 * Note: we only display our tabs on the current user profile,
+		 * this implies we don't display our tabs to visitors.
+		 */
+		$user_domain           = bp_loggedin_user_domain();
+		$displayed_user_domain = bp_displayed_user_domain();
+		if ( ! $user_domain || $user_domain !== $displayed_user_domain ) {
+			return;
+		}
 
 		$profile_endpoints = $this->get_profile_endpoints();
 		if ( empty( $profile_endpoints ) ) {
@@ -209,41 +138,38 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		$first_endpoint = reset( $profile_endpoints );
 		/**
-		 * Filters the LifterLMS main nav item slug in the buddypress profile menu.
+		 * Filters the LifterLMS main nav item slug in the BuddyPress  profile menu.
 		 *
 		 * @since [version]
 		 *
-		 * @param string $slug The LifterLMS main nav item slug in the buddypress profile menu.
+		 * @param string $slug The LifterLMS main nav item slug in the BuddyPress profile menu.
 		 */
 		$main_nav_slug = apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
-		$parent_url    = $bp->loggedin_user->domain . $main_nav_slug . '/';
+		$parent_url    = $user_domain . $main_nav_slug . '/';
 
 		// Add the main nav menu.
 		bp_core_new_nav_item(
 			array(
 				/**
-				 * Filters the LifterLMS main nav item label in the buddypress profile menu.
+				 * Filters the LifterLMS main nav item label in the BuddyPress profile menu.
 				 *
 				 * @since [version]
 				 *
-				 * @param string $label The LifterLMS main nav item label in the buddypress profile menu.
+				 * @param string $label The LifterLMS main nav item label in the BuddyPress profile menu.
 				 */
-				'name'                    => apply_filters( 'llms_bp_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
-				'slug'                    => $main_nav_slug,
+				'name'                => apply_filters( 'llms_bp_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
+				'slug'                => $main_nav_slug,
 				/**
-				 * Filters the LifterLMS main nav item position in the buddypress profile menu.
+				 * Filters the LifterLMS main nav item position in the BuddyPress profile menu.
 				 *
 				 * @since [version]
 				 *
-				 * @param string $position The LifterLMS main nav item position in the buddypress profile menu.
+				 * @param string $position The LifterLMS main nav item position in the BuddyPress profile menu.
 				 */
-				'position'                => apply_filters( 'llms_bp_main_nav_item_position', 20 ),
-				'show_for_displayed_user' => false,
-				'default_subnav_slug'     => $first_endpoint['endpoint'],
+				'position'            => apply_filters( 'llms_bp_main_nav_item_position', 20 ),
+				'default_subnav_slug' => $first_endpoint['endpoint'],
 			)
 		);
-
-		$is_my_profile = bp_is_my_profile(); // Only let the logged in user access subnav screens.
 
 		foreach ( $profile_endpoints as $ep_key => $profile_endpoint ) {
 			// Add sub nav item.
@@ -256,7 +182,6 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 					'screen_function' => function() use ( $ep_key, $profile_endpoint ) {
 						$this->endpoint_content( $ep_key, $profile_endpoint['content'] );
 					},
-					'user_has_access' => $is_my_profile,
 				)
 			);
 		}
@@ -628,6 +553,101 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		return $results;
+
+	}
+
+	/**
+	 * Get profile endpoints options.
+	 *
+	 * Used to populate the settings' select.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function get_profile_endpoints_options() {
+
+		$endpoints = $this->get_profile_endpoints( false );
+
+		return array_combine(
+			array_keys( $endpoints ),
+			array_column( $endpoints, 'title' )
+		);
+
+	}
+
+	/**
+	 * Populate list of endpoints from LifterLMS Dashboard Settings.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function populate_profile_endpoints() {
+
+		$exclude_llms_eps = array( 'dashboard', 'signout' );
+		$exclude_fields   = array( 'nav_item', 'url', 'paginate' );
+		$endpoints        = array();
+
+		foreach ( LLMS_Student_Dashboard::get_tabs() as $ep_key => $endpoint ) {
+			if ( ! in_array( $ep_key, $exclude_llms_eps, true ) ) {
+				$endpoints[ $ep_key ] = array_diff_key( $endpoint, array_flip( $exclude_fields ) );
+			}
+		}
+
+		/**
+		 * Filter profile endpoints.
+		 *
+		 * Modify the LifterLMS dashboard endpoints which can be added to the BuddyPress profile page as custom tabs.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $endpoints Array of endpoint data.
+		 */
+		$this->endpoints = apply_filters( 'llms_buddypress_profile_endpoints', $endpoints );
+
+	}
+
+	/**
+	 * Get a list of custom endpoints to add to BuddyPress profile page.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $active_only If true, returns only active endpoints.
+	 * @return array
+	 */
+	public function get_profile_endpoints( $active_only = true ) {
+
+		if ( ! isset( $this->endpoints ) || is_null( $this->endpoints ) ) {
+			$this->populate_profile_endpoints();
+		}
+
+		// Remove endpoints that don't have an 'endpoint' value.
+		$endpoints = array_filter(
+			$this->endpoints,
+			function ( $endpoint ) {
+				return ! empty( $endpoint['endpoint'] );
+			}
+		);
+
+		if ( $active_only ) {
+
+			// If no endpoints are saved an empty string is returned.
+			$active = $this->get_option( 'profile_endpoints', array_keys( $endpoints ) );
+
+			// Filter active endpoints only.
+			$endpoints = '' === $active
+				?
+				array()
+				:
+				array_intersect_key(
+					$endpoints,
+					array_flip( $active )
+				);
+
+		}
+
+		return $endpoints;
 
 	}
 
