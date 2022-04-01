@@ -67,6 +67,8 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		parent::tear_down();
 
+		// Reset private property endpoints.
+		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
 		unset( $GLOBALS['bp_displayed_user'], $GLOBALS['bp_current_user'], $GLOBALS['bp_nav'] );
 
 	}
@@ -161,9 +163,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			$this->assertEmpty( array_column( $endpoints, $field ), $field );
 		}
 
-		// Reset private property endpoints.
-		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
-
 	}
 
 	/**
@@ -210,9 +209,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		// Empty array.
 		$this->assertEmpty( $profile_endpoints );
 
-		// Reset private property endpoints.
-		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
-
 	}
 
 	/**
@@ -236,13 +232,10 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			$endpoints_options
 		);
 
-		// Reset private property endpoints.
-		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
-
 	}
 
 	/**
-	 * Test add_profile_nav_items()
+	 * Test add_profile_nav_items().
 	 *
 	 * @since [version]
 	 *
@@ -254,7 +247,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		// User not logged in.
 		$this->main->add_profile_nav_items();
-
 		$this->assertEmpty( $bp_nav );
 
 		// Log in as admin.
@@ -263,11 +255,42 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		// Visit someone else profile.
 		$bp_displayed_user = 'test_user';
+		$this->main->add_profile_nav_items();
 		$this->assertEmpty( $bp_nav );
 
-		// Visit admin profile.
+		// Admin visiting admin profile.
 		$bp_displayed_user = 'admin';
-		$this->assertEmpty( $bp_nav );
+		$this->main->add_profile_nav_items();
+		$this->assertNotEmpty( $bp_nav );
+
+		// Test the first item is always the first endpoint.
+		$endpoints = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'endpoints' );
+		$this->assertEquals(
+			reset( $bp_nav )['slug'],
+			'courses'
+		);
+		$this->assertEquals(
+			reset( $bp_nav )['name'],
+			'Courses'
+		);
+		$this->assertEquals(
+			reset( $bp_nav )['default_subnav_slug'],
+			reset($endpoints)['endpoint']
+		);
+		// Pop the first endpoint.
+		$new_endpoints = $endpoints;
+		array_shift( $new_endpoints );
+		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', $new_endpoints );
+		// Test again.
+		$this->main->add_profile_nav_items();
+		$this->assertEquals(
+			reset( $bp_nav )['default_subnav_slug'],
+			reset($new_endpoints)['endpoint']
+		);
+		$this->assertNotEquals(
+			reset( $bp_nav )['default_subnav_slug'],
+			reset($endpoints)['endpoint']
+		);
 
 	}
 
@@ -384,7 +407,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			}
 		}
 
-		// Create the mock buddypress class.
+		// Create the mock BuddyPress class.
 		$this->mock_buddypress = $this->getMockBuilder( 'BuddyPress' )
 			->getMock();
 

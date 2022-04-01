@@ -288,7 +288,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		// Store what endpoint key we're processing.
 		$this->current_endpoint_key = $ep_key;
 
-		// Register scripts.
+		// Enqueue scripts.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 20 );
 
 		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
