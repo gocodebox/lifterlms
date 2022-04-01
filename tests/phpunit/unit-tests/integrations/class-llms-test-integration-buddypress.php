@@ -69,7 +69,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		// Reset private property endpoints.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
-		unset( $GLOBALS['bp_displayed_user'], $GLOBALS['bp_current_user'], $GLOBALS['bp_nav'] );
+		unset( $GLOBALS['bp'], $GLOBALS['bp_displayed_user'], $GLOBALS['bp_current_user'], $GLOBALS['bp_nav'] );
 
 	}
 
@@ -377,14 +377,13 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		if ( ! function_exists( 'bp_loggedin_user_domain' ) ) {
 			function bp_loggedin_user_domain() {
 				global $bp_current_user;
-				return is_user_logged_in() ? ( $bp_current_user ?? 'admin' ) : '';
+				return is_user_logged_in() ? home_url() . '/members/' . ( $bp_current_user ?? 'admin' ) : '';
 			}
 		}
-
 		if ( ! function_exists( 'bp_displayed_user_domain' ) ) {
 			function bp_displayed_user_domain() {
 				global $bp_displayed_user;
-				return $bp_displayed_user ?? '';
+				return isset( $bp_displayed_user ) ? home_url() . '/members/' . $bp_displayed_user : '';
 			}
 		}
 		if ( ! function_exists( 'bp_core_new_nav_item' ) ) {
@@ -406,10 +405,51 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 				$bp_nav[ $args['parent_slug'] ][ $args['slug'] ] = $args;
 			}
 		}
+		if ( ! function_exists( 'bp_core_load_template' ) ) {
+			function bp_core_load_template( $default_template = '' ) {
+				do_action( 'bp_template_content' );
+			}
+		}
+		if ( ! function_exists( 'buddypress' ) ) {
+			function buddypress() {
+				global $bp;
+				return $bp;
+			}
+		}
 
 		// Create the mock BuddyPress class.
 		$this->mock_buddypress = $this->getMockBuilder( 'BuddyPress' )
+			->disableOriginalConstructor()
 			->getMock();
+
+		$GLOBALS['bp'] = $this->mock_buddypress;
+		// Mock members and members->nav properties, so to be able to mock members->nav->get_secondary method.
+		$this->mock_buddypress->members      = new stdClass();
+		$this->mock_buddypress->members->nav = $this->getMockBuilder( 'BP_Core_Nav' )
+			->disableOriginalConstructor()
+			->setMethods( array( 'get_secondary' ) )
+			->getMock();
+
+		// Mock get_secondary method for the members->nav.
+		$this->mock_buddypress->members->nav->
+				method( 'get_secondary' )->will(
+					$this->returnCallback(
+						function( $args ) {
+							if ( empty( $args ) ) {
+								return false;
+							}
+							global $bp_nav;
+							if ( ! empty( $bp_nav[ $args['parent_slug'] ][ $args['slug'] ] ) ) {
+								$to_return = new stdClass();
+								$to_return->slug = $args['slug'];
+								$to_return->link =  bp_loggedin_user_domain() . '/' . $args['slug'] . '/';
+								return array(
+									$to_return
+								);
+							}
+						}
+					)
+				);
 
 		// Enable the integration.
 		update_option( 'llms_integration_buddypress_enabled', 'yes' );

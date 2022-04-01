@@ -384,7 +384,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Modify the pagination links for the endpoints in the bp member profile.
 	 *
-	 * This fixes the pagination not correctly working on the first tab.
+	 * This fixes the pagination not correctly working on the fist subnav.
 	 *
 	 * @since [version]
 	 *
@@ -420,12 +420,12 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		$endpoints = $this->get_profile_endpoints();
-		// If we're not the first tab, our job is done, add back the query var and return.
+		// If we're not the first subnav, our job is done, add back the query var and return.
 		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
 			return $query ? $link . '?' . $query : $link;
 		}
 
-		// Retrieve the current subnav item, so the subnav item of the first tab.
+		// Retrieve our first subnav menu item.
 		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
 				/** This filter is documented above */
@@ -444,8 +444,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		/**
 		 * Here's the core of this filter.
 		 *
-		 * What happens is that the pagination links on the first page of the first tab,
-		 * e.g. 'my-courses' endpoint (as example for the first tab) are of this type:
+		 * What happens is that the pagination links on the first page of the fist subnav,
+		 * e.g. 'my-courses' endpoint (as example for the fist subnav) are of this type:
 		 * `example.local/members/admin/courses/page/N`,
 		 * where 'courses' is the slug of the main nav item.
 		 * While the "working" paginate links must be of the type:
