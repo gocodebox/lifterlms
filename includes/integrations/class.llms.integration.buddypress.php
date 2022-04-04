@@ -125,17 +125,17 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 * Note: we only display our tabs on the current user profile,
 		 * this implies we don't display our tabs to visitors.
 		 */
-		$user_domain           = bp_loggedin_user_domain();
-		$displayed_user_domain = bp_displayed_user_domain();
-		if ( ! $user_domain || $user_domain !== $displayed_user_domain ) {
+		if ( ! bp_is_my_profile() ) {
 			return;
 		}
 
 		$profile_endpoints = $this->get_profile_endpoints();
+
 		if ( empty( $profile_endpoints ) ) {
 			return;
 		}
 
+		$user_domain    = bp_loggedin_user_domain();
 		$first_endpoint = reset( $profile_endpoints );
 		/**
 		 * Filters the LifterLMS main nav item slug in the BuddyPress  profile menu.

@@ -33,6 +33,28 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	private $hooks = array();
 
 	/**
+	 * Logged in user slug to be used to build the profile domain.
+	 *
+	 * @var string
+	 */
+	private $loggedin_user_slug;
+
+	/**
+	 * Displayed user slug to be used to build the profile domain.
+	 *
+	 * @var string
+	 */
+	private $displayed_user_slug;
+
+
+	/**
+	 * Displayed user id to be used to build the profile nav.
+	 *
+	 * @var string
+	 */
+	private $displayed_user_id;
+
+	/**
 	 * Setup the test case.
 	 *
 	 * @since [version]
@@ -69,7 +91,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 		// Reset private property endpoints.
 		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', null );
-		unset( $GLOBALS['bp'], $GLOBALS['bp_displayed_user'], $GLOBALS['bp_current_user'], $GLOBALS['bp_nav'] );
+		unset( $GLOBALS['bp'] );
 
 	}
 
@@ -243,55 +265,95 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 */
 	public function test_add_profile_nav_items() {
 
-		global $bp_nav, $bp_displayed_user, $bp_current_user;
+		$bp = buddypress();
 
 		// User not logged in.
+		do_action( 'bp_setup_nav' ); // Setup nav.
 		$this->main->add_profile_nav_items();
-		$this->assertEmpty( $bp_nav );
+		$this->assertEmpty( $bp->members->nav->nav );
 
 		// Log in as admin.
 		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_id );
+		$this->loggedin_user_slug = 'admin';
+		$this->_set_loggedin_user_domain();
 
 		// Visit someone else profile.
-		$bp_displayed_user = 'test_user';
+		$this->_set_bp_is_my_profile_false();
+		$this->displayed_user_id = $admin_id + 1;
+		$this->_set_displayed_user_id();
+		$this->_setup_members_nav();
 		$this->main->add_profile_nav_items();
-		$this->assertEmpty( $bp_nav );
+		$this->assertEmpty( $bp->members->nav->nav[ $this->displayed_user_id ] );
 
-		// Admin visiting admin profile.
-		$bp_displayed_user = 'admin';
+		// 'admin' visiting 'admin' profile.
+		$this->_set_bp_is_my_profile_true();
+		$this->displayed_user_id = $admin_id;
+		$this->_set_displayed_user_id();
+		$this->_setup_members_nav();
 		$this->main->add_profile_nav_items();
-		$this->assertNotEmpty( $bp_nav );
+		$this->assertNotEmpty( $bp->members->nav->nav[ $this->displayed_user_id ] );
 
-		// Test the first item is always the first endpoint.
 		$endpoints = LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'endpoints' );
-		$this->assertEquals(
-			reset( $bp_nav )['slug'],
-			'courses'
-		);
-		$this->assertEquals(
-			reset( $bp_nav )['name'],
-			'Courses'
-		);
-		$this->assertEquals(
-			reset( $bp_nav )['default_subnav_slug'],
-			reset($endpoints)['endpoint']
-		);
-		// Pop the first endpoint.
-		$new_endpoints = $endpoints;
-		array_shift( $new_endpoints );
-		LLMS_Unit_Test_Util::set_private_property( $this->main, 'endpoints', $new_endpoints );
-		// Test again.
-		$this->main->add_profile_nav_items();
-		$this->assertEquals(
-			reset( $bp_nav )['default_subnav_slug'],
-			reset($new_endpoints)['endpoint']
-		);
-		$this->assertNotEquals(
-			reset( $bp_nav )['default_subnav_slug'],
-			reset($endpoints)['endpoint']
+		$this->assertNotEmpty(
+			$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses' ]
 		);
 
+		// Check all the endpoints are registered as subnav items of 'course'.
+		foreach ( $endpoints as $key => $endpoint ) {
+			$this->assertNotEmpty(
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]
+			);
+			$this->assertEquals(
+				$endpoint['title'],
+				$bp->members->nav->nav[ $this->displayed_user_id ][ 'courses/' . $endpoint['endpoint'] ]->name
+			);
+		}
+
+
+		// Reset.
+		$this->_clear_bp_is_my_profile();
+		$this->_clear_displayed_user_domain();
+		$this->_clear_loggedin_user_domain();
+		$this->_clear_displayed_user_id();
+
+	}
+
+	/**
+	 * Test endpoint_content() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_endpoint_content() {
+
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_id );
+
+		$profile_endpoints = LLMS_Unit_Test_Util::call_method( $this->main, 'get_profile_endpoints', array( false ) );
+		foreach ( $profile_endpoints as $key => $endpoint ) {
+
+			$content = $this->get_output( array( $this->main, 'endpoint_content' ), array( $key, $endpoint['content'] ) );
+			// Current endpoint set.
+			$this->assertEquals(
+				$key,
+				LLMS_Unit_Test_Util::get_private_property_value( $this->main, 'current_endpoint_key' ),
+				$key
+			);
+
+
+			// BuddyPress tab content is the $endpoint['content'].
+			$this->assertEquals(
+				$this->get_output( $endpoint['content'] ),
+				$content,
+				$key
+			);
+
+			// Remove the current endpoint callback, for the next loop.
+			remove_action( 'bp_template_content', $endpoint['content'] );
+
+		}
 	}
 
 	/**
@@ -376,33 +438,57 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		// Mock functions.
 		if ( ! function_exists( 'bp_loggedin_user_domain' ) ) {
 			function bp_loggedin_user_domain() {
-				global $bp_current_user;
-				return is_user_logged_in() ? home_url() . '/members/' . ( $bp_current_user ?? 'admin' ) : '';
+				/**
+				 * BuddyPress filter.
+				 *
+				 * @since BuddyPress 1.0.0
+				 */
+				return apply_filters( 'bp_loggedin_user_domain', '' );
 			}
 		}
-		if ( ! function_exists( 'bp_displayed_user_domain' ) ) {
-			function bp_displayed_user_domain() {
-				global $bp_displayed_user;
-				return isset( $bp_displayed_user ) ? home_url() . '/members/' . $bp_displayed_user : '';
+		// Mock functions.
+		if ( ! function_exists( 'bp_displayed_user_id' ) ) {
+			function bp_displayed_user_id() {
+				/**
+				 * BuddyPress filter.
+				 *
+				 * @since BuddyPress 1.0.0
+				 */
+				return apply_filters( 'bp_displayed_user_id', 0 );
+			}
+		}
+		if ( ! function_exists( 'bp_is_my_profile' ) ) {
+			function bp_is_my_profile() {
+				/**
+				 * BuddyPress filter.
+				 *
+				 * @since BuddyPress 1.2.4
+				 */
+				return apply_filters( 'bp_is_my_profile', false );
 			}
 		}
 		if ( ! function_exists( 'bp_core_new_nav_item' ) ) {
 			function bp_core_new_nav_item( $args ) {
-				global $bp_nav;
 				if ( empty( $args['slug'] ) ) {
-					return;
+					return false;
 				}
-				$bp_nav[$args['slug']] = $args;
+				$bp = buddypress();
+				$args['primary'] = true;
+				$bp->members->nav->nav[ $bp->members->nav->object_id ][$args['slug']] = new ArrayObject(
+					$args, ArrayObject::ARRAY_AS_PROPS
+				);
 			}
 		}
 		if ( ! function_exists( 'bp_core_new_subnav_item' ) ) {
 			function bp_core_new_subnav_item( $args ) {
-				global $bp_nav;
-				if ( empty( $args['slug'] ) || empty( $args['parent_slug'] || empty( $bp_nav[ $args['parent_slug'] ] ) ) ) {
+				if ( empty( $args['slug'] ) || empty( $args['parent_slug'] ) ) {
 					return;
 				}
-				$bp_nav[ $args['parent_slug'] ] = is_array( $bp_nav[ $args['parent_slug'] ] ) ? $bp_nav[ $args['parent_slug'] ] : array();
-				$bp_nav[ $args['parent_slug'] ][ $args['slug'] ] = $args;
+				$bp = buddypress();
+				$args['secondary'] = true;
+				$bp->members->nav->nav[ $bp->members->nav->object_id ][$args['parent_slug'] . '/' . $args['slug']] = new ArrayObject(
+					$args, ArrayObject::ARRAY_AS_PROPS
+				);
 			}
 		}
 		if ( ! function_exists( 'bp_core_load_template' ) ) {
@@ -423,6 +509,10 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			->getMock();
 
 		$GLOBALS['bp'] = $this->mock_buddypress;
+
+		// Mock user properties.
+		$this->mock_buddypress->displayed_user = new stdClass();
+		$this->mock_buddypress->loggedin_user  = new stdClass();
 		// Mock members and members->nav properties, so to be able to mock members->nav->get_secondary method.
 		$this->mock_buddypress->members      = new stdClass();
 		$this->mock_buddypress->members->nav = $this->getMockBuilder( 'BP_Core_Nav' )
@@ -430,26 +520,31 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			->setMethods( array( 'get_secondary' ) )
 			->getMock();
 
-		// Mock get_secondary method for the members->nav.
+		// Mock get and get_secondary method for the members->nav.
 		$this->mock_buddypress->members->nav->
 				method( 'get_secondary' )->will(
 					$this->returnCallback(
-						function( $args ) {
-							if ( empty( $args ) ) {
+						function ( $args ) {
+							$params = wp_parse_args( $args, array( 'parent_slug' => '' ) );
+
+							// No need to search children if the parent is not set.
+							if ( empty( $params['parent_slug'] ) && empty( $params['secondary'] ) ) {
 								return false;
 							}
-							global $bp_nav;
-							if ( ! empty( $bp_nav[ $args['parent_slug'] ][ $args['slug'] ] ) ) {
-								$to_return = new stdClass();
-								$to_return->slug = $args['slug'];
-								$to_return->link =  bp_loggedin_user_domain() . '/' . $args['slug'] . '/';
-								return array(
-									$to_return
-								);
+
+							$secondary_nav = wp_list_filter( $this->nav[ $this->object_id ], $params );
+
+							if ( ! $secondary_nav ) {
+								return false;
 							}
+
+							return $secondary_nav;
 						}
 					)
 				);
+
+		$this->mock_buddypress->members->nav->nav = array();
+		$this->mock_buddypress->members->nav->object_id = 0;
 
 		// Enable the integration.
 		update_option( 'llms_integration_buddypress_enabled', 'yes' );
@@ -457,6 +552,160 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		// Refresh cached available integrations list.
 		llms()->integrations()->get_available_integrations();
 
+	}
+
+
+	/**
+	 * Utility to set the logged in user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _set_loggedin_user_domain() {
+		add_filter( 'bp_loggedin_user_domain', array( $this, 'loggedin_user_domain_filter_cb' ) );
+	}
+
+	/**
+	 * Utility to clear the logged in user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _clear_loggedin_user_domain() {
+		remove_filter( 'bp_loggedin_user_domain', array( $this, 'loggedin_user_domain_filter_cb' ) );
+	}
+
+	/**
+	 * Call back that sets the logged in user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function loggedin_user_domain_filter_cb() {
+		return home_url() . '/members/' . $this->loggedin_user_slug . '/';
+	}
+
+	/**
+	 * Utility to set the displayed user id.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _set_displayed_user_id() {
+		add_filter( 'bp_displayed_user_id', array( $this, 'displayed_user_id_filter_cb' ) );
+	}
+
+	/**
+	 * Utility to clear the displayed user id.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _clear_displayed_user_id() {
+		remove_filter( 'bp_displayed_user_id', array( $this, 'displayed_user_id_filter_cb' ) );
+	}
+
+	/**
+	 * Call back that sets the displayed user id.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function displayed_user_id_filter_cb() {
+		return $this->displayed_user_id;
+	}
+
+
+	/**
+	 * Utility to set the displayed user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _set_displayed_user_domain() {
+		add_filter( 'bp_displayed_user_domain', array( $this, 'displayed_user_domain_filter_cb' ) );
+	}
+
+	/**
+	 * Utility to clear the displayed user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _clear_displayed_user_domain() {
+		remove_filter( 'bp_displayed_user_domain', array( $this, 'displayed_user_domain_filter_cb' ) );
+	}
+
+	/**
+	 * Call back that sets the displayed user domain.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	private function displayed_user_domain_filter_cb() {
+		return home_url() . '/members/' . $this->displayed_user_slug . '/';
+	}
+
+	/**
+	 * Utility to simulate we're on the BuddyPress my profile.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _set_bp_is_my_profile_true() {
+		add_filter( 'bp_is_my_profile', '__return_true' );
+	}
+
+	/**
+	 * Utility to simulate we're NOT on the BuddyPress my profile.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _set_bp_is_my_profile_false() {
+		remove_filter( 'bp_is_my_profile', '__return_false' );
+	}
+
+	/**
+	 * Utility to clear simulations.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _clear_bp_is_my_profile() {
+		remove_filter( 'bp_is_my_profile', '__return_true' );
+		remove_filter( 'bp_is_my_profile', '__return_false' );
+	}
+
+	/**
+	 * Utility to setup members nav.
+	 *
+	 * This is done in the BP_Core_Nav constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _setup_members_nav() {
+		$displayed_user_id = (int) bp_displayed_user_id();
+		if ( $displayed_user_id ) {
+			$bp = buddypress();
+
+			$bp->members->nav->object_id = $displayed_user_id;
+			$bp->members->nav->nav[ $displayed_user_id ] = array();
+		}
 	}
 
 }
