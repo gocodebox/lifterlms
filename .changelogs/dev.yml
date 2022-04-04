@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2096"
+entry: Fixed an issue the prevented the students searching in some admin areas
+  when WordPress was installed in a subdirectory.
