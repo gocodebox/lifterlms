@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -703,14 +703,20 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Merges the post content based on content from the template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added optional `$content` parameter.
 	 *
+	 * @param string $content Optional. The content with merge codes. Defaults to `$this->content`.
 	 * @return string
 	 */
-	public function merge_content() {
+	public function merge_content( $content = null ) {
+
+		if ( is_null( $content ) ) {
+			$content = $this->get( 'content', true );
+		}
 
 		// Merge.
 		$merge   = $this->get_merge_data();
-		$content = str_replace( array_keys( $merge ), array_values( $merge ), $this->get( 'content', true ) );
+		$content = str_replace( array_keys( $merge ), array_values( $merge ), $content );
 
 		// Do shortcodes.
 		LLMS_Shortcodes::init(); // In certain circumstances shortcodes won't be registered yet.

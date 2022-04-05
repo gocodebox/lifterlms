@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -200,18 +200,25 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Allow child classes to merge the post content based on content from the template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added optional `$content` parameter.
 	 *
+	 * @param string $content Optional. The content with merge codes. Defaults to `$this->content`.
 	 * @return string
 	 */
-	public function merge_content() {
+	public function merge_content( $content = null ) {
 
-		return $this->get( 'content', true );
+		if ( is_null( $content ) ) {
+			$content = $this->get( 'content', true );
+		}
+
+		return $content;
 	}
 
 	/**
 	 * Update the awarded engagement by regenerating it from its template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added replacement of references to reusable blocks with their actual blocks.
 	 *
 	 * @param string $context Sync context. Either "update" for an update to an existing awarded engagement
 	 *                        or "create" when the awarded engagement is being created.
@@ -232,10 +239,15 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			delete_post_thumbnail( $this->get( 'post' ) );
 		}
 
+		// Replace references to reusable blocks with their actual blocks.
+		$content = $template->get( 'content', true );
+		$blocks  = parse_blocks( $content );
+		$blocks  = LLMS_Forms::instance()->load_reusable_blocks( $blocks );
+		$content = serialize_blocks( $blocks );
+
 		// Copy the content, with optional merge codes and short codes, and optional block editor layout meta properties
 		// from the template to this awarded engagement.
-		$this->set( 'content', $template->get( 'content', true ) );
-		$this->set( 'content', $this->merge_content() );
+		$this->set( 'content', $this->merge_content( $content ) );
 		$this->sync_meta( $template );
 
 		/**

@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2058"
+entry: Fixed an issue where merge codes in reusable blocks on certificate templates were not replaced when the
+  template was displayed or when the certificate was awarded and published.
