@@ -268,7 +268,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		$bp = buddypress();
 
 		// User not logged in.
-		do_action( 'bp_setup_nav' ); // Setup nav.
+		$this->_setup_members_nav();
 		$this->main->add_profile_nav_items();
 		$this->assertEmpty( $bp->members->nav->nav );
 
@@ -330,7 +330,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_id );
 
-		$profile_endpoints = LLMS_Unit_Test_Util::call_method( $this->main, 'get_profile_endpoints', array( false ) );
+		$profile_endpoints = LLMS_Unit_Test_Util::call_method( $this->main, 'get_profile_endpoints' );
 		foreach ( $profile_endpoints as $key => $endpoint ) {
 
 			$content = $this->get_output( array( $this->main, 'endpoint_content' ), array( $key, $endpoint['content'] ) );
@@ -353,6 +353,116 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			remove_action( 'bp_template_content', $endpoint['content'] );
 
 		}
+	}
+
+	/**
+	 * Test modify_paginate_links() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_modify_paginate_links() {
+
+		global $wp_rewrite;
+
+		$original_permalink_structure = get_option( 'permalink_structure' );
+		// Ugly permalinks, bail.
+		if ( empty( $origianl_permalink_structure ) ) {
+			$this->assertEquals(
+				'whatever',
+				$this->main->modify_paginate_links(
+					'whatever'
+				)
+			);
+		}
+
+		// Pretty permalinks.
+		update_option( 'permalink_structure', '/%postname%/' );
+		$wp_rewrite->init();
+
+		// Enroll to many courses.
+		$admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_id );
+		$this->loggedin_user_slug = 'admin';
+		$this->_set_loggedin_user_domain();
+		//$this->factory->student->create_and_enroll_many( 30, $this->factory->post->create( array( 'post_type' => 'course' ) ) );
+
+		// 'admin' visiting 'admin' profile.
+		$this->_set_bp_is_my_profile_true();
+		$this->displayed_user_id = $admin_id;
+		$this->_set_displayed_user_id();
+		$this->_setup_members_nav();
+		$this->main->add_profile_nav_items();
+
+		// Go to my-grades tab, not the first subnav.
+		$my_grades = home_url() . '/members/' . $this->loggedin_user_slug . '/courses/my-grades/';
+		$this->go_to( $my_grades );
+		LLMS_Unit_Test_Util::set_private_property( $this->main, 'current_endpoint_key', 'my-grades' );
+
+		// Link to page 1: page/1/ stripped.
+		$this->assertEquals(
+			$my_grades,
+			$this->main->modify_paginate_links(
+				$my_grades . 'page/1/'
+			)
+		);
+
+		// Link to page 2: nothing to do.
+		$this->assertEquals(
+			$my_grades . 'page/2/',
+			$this->main->modify_paginate_links(
+				$my_grades . 'page/2/'
+			)
+		);
+
+		// Link to page 1 but with query args.
+		$this->assertEquals(
+			$my_grades . '?query=arg_1',
+			$this->main->modify_paginate_links(
+				$my_grades . 'page/1/?query=arg_1'
+			)
+		);
+
+		// Test first subnav.
+		$fist_subnav_first_page = home_url() . '/members/' . $this->loggedin_user_slug . '/courses/';
+		$profile_endpoints      = LLMS_Unit_Test_Util::call_method( $this->main, 'get_profile_endpoints' );
+		$first_endpoint_slug    = reset( $profile_endpoints )['endpoint'];
+		$first_endpoint_key     = key( $profile_endpoints );
+		// Go to first subnav.
+		$this->go_to( $fist_subnav_first_page );
+		set_query_var( 'page', 1 );
+		LLMS_Unit_Test_Util::set_private_property( $this->main, 'current_endpoint_key', $first_endpoint_key );
+
+		// Link to page 2.
+		$this->assertEquals(
+			$fist_subnav_first_page . $first_endpoint_slug  . '/page/2/',
+			$this->main->modify_paginate_links(
+				$fist_subnav_first_page . 'page/2/'
+			)
+		);
+
+		// Go to page 2.
+		$this->go_to( $fist_subnav_first_page . $first_endpoint_slug  . '/page/2/' );
+		set_query_var( 'page', 2 );
+
+		// Link to page 1: expect link to the first subnav first page === defaults to the parent nav URL.
+		$this->assertEquals(
+			$fist_subnav_first_page,
+			$this->main->modify_paginate_links(
+				$fist_subnav_first_page . $first_endpoint_slug  . '/page/1/'
+			)
+		);
+
+		// Reset.
+		$this->_clear_bp_is_my_profile();
+		$this->_clear_displayed_user_domain();
+		$this->_clear_loggedin_user_domain();
+		$this->_clear_displayed_user_id();
+		update_option( 'permalink_structure', $original_permalink_structure );
+		$wp_rewrite->init();
+		set_query_var( 'page', 1 );
+
 	}
 
 	/**
@@ -468,26 +578,51 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		}
 		if ( ! function_exists( 'bp_core_new_nav_item' ) ) {
 			function bp_core_new_nav_item( $args ) {
+
 				if ( empty( $args['slug'] ) ) {
 					return false;
 				}
-				$bp = buddypress();
-				$args['primary'] = true;
+				$bp                           = buddypress();
+				$args['primary']              = true;
+				$args['link']                 = trailingslashit( bp_loggedin_user_domain() . $args['slug'] );
+				$args['default_subnav_slug '] = $args['default_subnav_slug'];
+
 				$bp->members->nav->nav[ $bp->members->nav->object_id ][$args['slug']] = new ArrayObject(
 					$args, ArrayObject::ARRAY_AS_PROPS
 				);
+
 			}
 		}
 		if ( ! function_exists( 'bp_core_new_subnav_item' ) ) {
 			function bp_core_new_subnav_item( $args ) {
+
 				if ( empty( $args['slug'] ) || empty( $args['parent_slug'] ) ) {
 					return;
 				}
+
 				$bp = buddypress();
 				$args['secondary'] = true;
+				$args['link']      = trailingslashit( $args['parent_url'] . $args['slug'] );
+
+				$parent_nav = $bp->members->nav->get_primary(
+					array(
+						'slug' => $args['parent_slug'],
+					),
+					false
+				);
+
+				// If this sub item is the default for its parent, skip the slug.
+				if ( $parent_nav ) {
+					$parent_nav_item = reset( $parent_nav );
+					if ( ! empty( $parent_nav_item->default_subnav_slug ) && $args['slug'] === $parent_nav_item->default_subnav_slug ) {
+						$args['link'] = trailingslashit( $args['parent_url'] );
+					}
+				}
+
 				$bp->members->nav->nav[ $bp->members->nav->object_id ][$args['parent_slug'] . '/' . $args['slug']] = new ArrayObject(
 					$args, ArrayObject::ARRAY_AS_PROPS
 				);
+
 			}
 		}
 		if ( ! function_exists( 'bp_core_load_template' ) ) {
@@ -516,31 +651,58 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 		$this->mock_buddypress->members      = new stdClass();
 		$this->mock_buddypress->members->nav = $this->getMockBuilder( 'BP_Core_Nav' )
 			->disableOriginalConstructor()
-			->setMethods( array( 'get_secondary' ) )
+			->setMethods( array( 'get_secondary', 'get_primary' ) )
 			->getMock();
 
-		// Mock get and get_secondary method for the members->nav.
+		// Mock get_primary and get_secondary method for the members->nav.
 		$this->mock_buddypress->members->nav->
-				method( 'get_secondary' )->will(
-					$this->returnCallback(
-						function ( $args ) {
-							$params = wp_parse_args( $args, array( 'parent_slug' => '' ) );
+			method( 'get_primary' )->will(
+				$this->returnCallback(
+					function ( $args ) {
 
-							// No need to search children if the parent is not set.
-							if ( empty( $params['parent_slug'] ) && empty( $params['secondary'] ) ) {
-								return false;
-							}
+						$params = wp_parse_args( $args, array( 'primary' => true ) );
 
-							$secondary_nav = wp_list_filter( $this->nav[ $this->object_id ], $params );
-
-							if ( ! $secondary_nav ) {
-								return false;
-							}
-
-							return $secondary_nav;
+						// This parameter is not overridable.
+						if ( empty( $params['primary'] ) ) {
+							return false;
 						}
-					)
-				);
+
+						$bp = buddypress();
+						$primary_nav =wp_list_filter( $bp->members->nav->nav[ $bp->members->nav->object_id ], $params );
+
+						if ( ! $primary_nav ) {
+							return false;
+						}
+
+						return $primary_nav;
+
+					}
+				)
+			);
+		$this->mock_buddypress->members->nav->
+			method( 'get_secondary' )->will(
+				$this->returnCallback(
+					function ( $args ) {
+
+						$params = wp_parse_args( $args, array( 'parent_slug' => '' ) );
+
+						// No need to search children if the parent is not set.
+						if ( empty( $params['parent_slug'] ) && empty( $params['secondary'] ) ) {
+							return false;
+						}
+
+						$bp = buddypress();
+						$secondary_nav = wp_list_filter( $bp->members->nav->nav[ $bp->members->nav->object_id ], $params );
+
+						if ( ! $secondary_nav ) {
+							return false;
+						}
+
+						return $secondary_nav;
+
+					}
+				)
+			);
 
 		$this->mock_buddypress->members->nav->nav = array();
 		$this->mock_buddypress->members->nav->object_id = 0;
@@ -704,6 +866,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
 			$bp->members->nav->object_id = $displayed_user_id;
 			$bp->members->nav->nav[ $displayed_user_id ] = array();
+
 		}
 	}
 

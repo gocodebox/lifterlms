@@ -394,15 +394,15 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function modify_paginate_links( $link ) {
 
+		global $wp_rewrite;
+
 		// With ugly permalinks actually the whole BuddyPress member profile page doesn't work.
 		if ( ! get_option( 'permalink_structure' ) ) {
 			return $link;
 		}
 
-		global $wp_rewrite;
-
-		$query = wp_parse_url( $link, PHP_URL_QUERY );
 		// Remove query vars if any, we'll add them back later.
+		$query = wp_parse_url( $link, PHP_URL_QUERY );
 		if ( $query ) {
 			$link = str_replace( '?' . $query, '', $link );
 		}
@@ -412,7 +412,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		$page  = end( $parts );
 
 		// For links to page 1 let's remove it to avoid ugly URLs.
-		if ( 1 === absint( $page ) ) {
+		if ( 1 === (int) $page ) {
 			$link = str_replace(
 				user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page ),
 				'',
@@ -421,6 +421,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		$endpoints = $this->get_profile_endpoints();
+
 		// If we're not the first subnav, our job is done, add back the query var and return.
 		if ( key( $endpoints ) !== $this->current_endpoint_key ) {
 			return $query ? $link . '?' . $query : $link;
@@ -442,6 +443,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		}
 
 		$current_page = llms_get_paged_query_var();
+
 		/**
 		 * Here's the core of this filter.
 		 *
@@ -464,7 +466,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 */
 		if ( 1 === $current_page ) {
 			$link = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page );
-		} elseif ( 1 === absint( $page ) ) {
+		} elseif ( 1 === (int) $page ) {
 			/**
 			 * For links to page 1, when not on page 1, let's back on the main nav item URL, so we replace something like
 			 * `example.local/members/admin/courses/my-courses/`
