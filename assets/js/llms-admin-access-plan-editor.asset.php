@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('llms-components', 'llms-data', 'lodash', 'wp-components', 'wp-data', 'wp-date', 'wp-editor', 'wp-element', 'wp-hooks', 'wp-i18n', 'wp-plugins', 'wp-polyfill', 'wp-url'), 'version' => 'cea52280dfb039452ed87819317e6563');

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "llms/access-plans",
+  "title": "Access Plans",
+  "category": "llms-blocks",
+  "description": "List course or membership access plans.",
+  "textdomain": "lifterlms",
+  "attributes": {
+    "postId": {
+      "type": "integer"
+    },
+    "useCurrentPost": {
+      "type": "boolean",
+      "default": true
+    },
+    "planIds": {
+      "type": "array"
+    },
+    "accentColor": {
+      "type": "string"
+    },
+    "customAccentColor": {
+      "type": "string"
+    },
+    "accentTextColor": {
+      "type": "string"
+    },
+    "customAccentTextColor": {
+      "type": "string"
+    },
+    "plansPerRow": {
+      "type": "integer",
+      "default": 3
+    }
+  },
+  "providesContext": {
+    "llms/access-plans/planIds": "planIds"
+  },
+  "supports": {
+    "align": [ "wide", "full" ],
+    "anchor": true,
+    "className": true,
+    "llms_visibility": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.css"
+}

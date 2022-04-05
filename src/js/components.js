@@ -1,16 +1,10 @@
+import loadModule from './util/load-module';
 import * as Components from '../../packages/components/src';
-
-window.llms = window.llms || {};
-
-// Preserve components from `lifterlms-blocks`.
-const { components = {} } = window.llms;
 
 /**
  * Expose @lifterlms/components via the global `window.llms` object.
  *
  * @since 6.0.0
+ * @since [version] Use `loadModule()` to load the module.
  */
-window.llms.components = {
-	...components,
-	...Components,
-};
+loadModule( 'components', Components, true );

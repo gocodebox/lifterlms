@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('llms-icons', 'wp-components', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-polyfill'), 'version' => 'd591be30b181b01e0c6d5ee3dc91aabe');

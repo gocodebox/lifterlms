@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadModule should extend an object that already exists at the specified key when extend is true 1`] = `
+Object {
+  "a": 1,
+  "b": 2,
+  "test": 1,
+  "test2": "abc",
+  "test3": Array [
+    4,
+    5,
+    6,
+  ],
+  "test4": [Function],
+}
+`;

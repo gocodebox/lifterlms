@@ -1,0 +1,40 @@
+{
+  "name": "@lifterlms/data",
+  "version": "0.0.0",
+  "description": "LifterLMS redux data stores.",
+  "author": "Team LifterLMS <dev@lifterlms.com>",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/gocodebox/lifterlms/tree/master/packages/data",
+  "keywords": [
+    "lifterlms",
+    "wordpress",
+    "redux"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "packages/data"
+  },
+  "bugs": {
+    "url": "https://github.com/gocodebox/lifterlms/labels/package%3A%20data"
+  },
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^6.0.1",
+    "@wordpress/data-controls": "^2.3.2",
+    "@wordpress/editor": "^12.2.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@lifterlms/scripts": "^2.2.0"
+  },
+  "scripts": {
+    "docgen": "docgen src/index.js --output README.md --to-token",
+    "dev": "./../dev/src/index.js",
+    "lint:js": "wp-scripts lint-js ./",
+    "test": "wp-scripts test-unit-js ./ --config ../scripts/config/jest-unit.config.js --verbose"
+  }
+}

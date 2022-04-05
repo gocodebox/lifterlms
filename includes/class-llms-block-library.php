@@ -41,11 +41,17 @@ class LLMS_Block_Library {
 	 */
 	private function get_blocks() {
 
-		$blocks = array();
+		$defaults = array(
+			'path'       => null,
+			'post_types' => array(),
+		);
+
+		$blocks = array(
+			'access-plans' => array(),
+		);
 
 		if ( llms_is_block_editor_supported_for_certificates() ) {
 			$blocks['certificate-title'] = array(
-				'path'       => null,
 				'post_types' => array(
 					'llms_certificate',
 					'llms_my_certificate',
@@ -55,7 +61,10 @@ class LLMS_Block_Library {
 
 		// Add default path to all blocks.
 		foreach ( $blocks as $id => &$block ) {
+
+			$block = array_merge( $defaults, $block );
 			$block['path'] = is_null( $block['path'] ) ? LLMS_PLUGIN_DIR . 'blocks/' . $id : $block['path'];
+
 		}
 
 		return $blocks;
@@ -118,7 +127,6 @@ class LLMS_Block_Library {
 	public function register() {
 
 		foreach ( $this->get_blocks() as $id => $block ) {
-
 			if ( $this->should_register( $id, $block ) ) {
 				register_block_type( $block['path'] );
 			}
@@ -156,6 +164,11 @@ class LLMS_Block_Library {
 		$registry = WP_Block_Type_Registry::get_instance();
 		if ( $registry->is_registered( 'llms/' . $id ) ) {
 			return false;
+		}
+
+		// If no post types specified, the block can be used anywhere.
+		if ( empty( $block['post_types'] ) ) {
+			return true;
 		}
 
 		// Ensure the block is only registered in the correct context.

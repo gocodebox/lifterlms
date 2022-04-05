@@ -35,9 +35,11 @@
 	"scripts": {
 		"src": [
 			"assets/js/**/*.js",
+			"!assets/js/llms-admin-access-plan-editor.js",
 			"!assets/js/llms-admin-addons.js",
 			"!assets/js/llms-admin-award-certificate.js",
 			"!assets/js/llms-admin-certificate-editor.js",
+			"!assets/js/llms-admin-edit-post-sidebar.js",
 
 			"!assets/js/**/*.min.js",
 			"!assets/js/llms-builder*.js",
@@ -46,8 +48,8 @@
 			"!assets/js/partials/**/*.js",
 			"!assets/js/private/**/*.js",
 
-
 			"!assets/js/llms-components.js",
+			"!assets/js/llms-data.js",
 			"!assets/js/llms-icons.js",
 			"!assets/js/llms-utils.js"
 		],

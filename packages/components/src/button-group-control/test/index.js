@@ -14,6 +14,7 @@ describe( 'ButtonGroupControl', () => {
 				id: 'group-id',
 				className: 'extra-class',
 				label: 'Label',
+				help: 'Help',
 				options: [
 					{
 						label: 'Button 1',
@@ -29,6 +30,7 @@ describe( 'ButtonGroupControl', () => {
 			{ container } = render( <ButtonGroupControl { ...args } /> ),
 			control = container.firstChild,
 			label = control.querySelector( 'label' ),
+			help = control.querySelector( '.components-base-control__help' ),
 			buttons = control.querySelectorAll( 'button' );
 
 		expect(
@@ -41,6 +43,8 @@ describe( 'ButtonGroupControl', () => {
 
 		expect( label.getAttribute( 'for' ) ).toBe( args.id );
 		expect( label.textContent ).toBe( args.label );
+
+		expect( help.textContent ).toBe( args.help );
 
 		expect( buttons.length ).toBe( args.options.length );
 		expect( buttons[ 0 ].textContent ).toBe( args.options[ 0 ].label );

@@ -54,7 +54,15 @@ return array(
 		'file_name'  => 'llms-admin-addons',
 		'suffix'     => '',
 	),
+	'llms-admin-access-plan-editor' => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
 	'llms-admin-award-certificate'  => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+	'llms-admin-edit-post-sidebar'  => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),
@@ -71,6 +79,10 @@ return array(
 
 	// Modules.
 	'llms-components'               => array(
+		'asset_file' => true,
+		'suffix'     => '',
+	),
+	'llms-data'                     => array(
 		'asset_file' => true,
 		'suffix'     => '',
 	),

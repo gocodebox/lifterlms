@@ -251,13 +251,49 @@ function llms_get_access_plan_period_options() {
  *
  * @return array
  */
-function llms_get_access_plan_visibility_options() {
+function llms_get_access_plan_visibility_options( $with_extended_info = false ) {
+
+	$visibilities = array(
+			'hidden'   => array(
+				'title' => __( 'Hidden', 'lifterlms' ),
+				'help'  => __( 'Excluded from pricing tables and accessible only by direct link.', 'lifterlms' ),
+				'icon'  => 'hidden',
+				'color' => '#909090',
+			),
+			'visible'  => array(
+				'title' => __( 'Visible', 'lifterlms' ),
+				'help'  => __( 'Displayed in pricing tables.', 'lifterlms' ),
+				'icon'  => 'visibility',
+				'color' => '#404040',
+			),
+			'featured' => array(
+				'title' => __( 'Featured', 'lifterlms' ),
+				'help'  => __( 'Displayed and highlighted in pricing tables.', 'lifterlms' ),
+				'icon'  => 'star-filled',
+				'color' => '#ffb900',
+			),
+	);
+
+	if ( $with_extended_info ) {
+		return $visibilities;
+	}
+
 	return apply_filters(
 		'lifterlms_access_plan_visibility_options',
-		array(
-			'visible'  => __( 'Visible', 'lifterlms' ),
-			'hidden'   => __( 'Hidden', 'lifterlms' ),
-			'featured' => __( 'Featured', 'lifterlms' ),
-		)
+		wp_list_pluck( $visibilities, 'title' ),
 	);
+}
+
+function llms_get_access_plan_period_max_lengths() {
+
+	return apply_filters(
+		'llms_access_plan_period_max_lengths',
+		array(
+			'year'  => 6,
+			'month' => 24,
+			'week'  => 52,
+			'day'   => 90
+		),
+	);
+
 }

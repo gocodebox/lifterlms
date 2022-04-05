@@ -20,7 +20,6 @@ The following table records the module version and which LifterLMS versions it h
 | -------------- | ----------------- |
 | 1.0.0          | 6.0.0             |
 
-
 ## Installation
 
 Install the module as a dependency in your project:
@@ -60,7 +59,8 @@ _Parameters_
 -   _args.hydrateValues_ `?Function`: Function invoked to hydrate integer values. The function is passed the currently selected values, the `searchPath`, and an array of cached (and hydrated) objects previously loaded from the server.
 -   _args.formatSearchResults_ `?Function`: Function invoked to format results retrieved from the server. The function is passed an array of objects from the server. It should return an array of objects, each containing at least a value and label property.
 -   _args.formatSearchResultLabel_ `?Function`: Function invoked to format the display label for a result. The function is passed an object representing a single result and should return a string.
--   _args.formatSearchResultValue_ `?Function`: Function invoked to format the saved value for a result. The function is passed an object representing a single result and should the value to be stored.
+-   _args.formatSearchResultValue_ `?Function`: Function invoked to format the saved value for a result. The function is passed
+-   _args.help_ `?string`: BaseControl help text. an object representing a single result and should the value to be stored.
 -   _args.selectProps_ `...*`: Any remaining properties are passed to the <Select> component, {@link <https://react-select.com/props#select-props}>.
 
 _Returns_
@@ -69,7 +69,7 @@ _Returns_
 
 ### ButtonGroupControl
 
-Button Group Control component
+Button Group Control component.
 
 Similar to the experimental `<RadioGroup>` component from @wordpress/components but it allows
 passing in an array of options.
@@ -82,6 +82,7 @@ _Parameters_
 
 -   _props_ `Object`: Component properties object.
 -   _props.label_ `string`: Control label text.
+-   _props.help_ `string`: Control help text.
 -   _props.className_ `string`: Control element css class name attribute.
 -   _props.id_ `string`: Control element ID attribute.
 -   _props.onClick_ `Function`: Callback function when a button in the group is clicked.
@@ -91,6 +92,33 @@ _Parameters_
 _Returns_
 
 -   `BaseControl`: The rendered component.
+
+### ConfirmButton
+
+A Button component that requires user confirmation before performing the onClick callback function.
+
+When clicked the button's state will change and will display confirmation language. When clicked again
+the onClick callback will be executed.
+
+Optionally, after the initial click an "Cancel" button can be displayed adjacent to the initial button. When clicked
+the primary button will return to its initial state.
+
+_Parameters_
+
+-   _props_ `Object`: Component properties object.
+-   _props.confirmText_ `string`: Button text displayed to confirm the action.
+-   _props.processingText_ `string`: Button text displayed while performing the onClick callback.
+-   _props.cancelText_ `string`: Button text displayed in the cancel button.
+-   _props.allowCancel_ `boolean`: Whether or not cancellation is allowed in the confirmation state.
+-   _props.confirmIsDescructive_ `boolean`: If `true`, the <Button> component will be passed `isDestructive` in the confirmation state.
+-   _props.processingIsBusy_ `boolean`: If `true`, the <Button> component will be passed `isBusy` in the processing state.
+-   _props.onClick_ `Function`: The onClick callback function executed when the button is clicked in the confirmation state.
+-   _props.children_ `Object[]`: Child components to render within the button. Only displayed in the default state.
+-   _props.btnProps_ `Object`: Properties passed to the <Button> component.
+
+_Returns_
+
+-   `WPElement`: The component.
 
 ### CopyButton
 
@@ -111,6 +139,43 @@ _Parameters_
 _Returns_
 
 -   `Object`: The copy button fragment.
+
+### DatePickerControl
+
+A datepicker control.
+
+_Parameters_
+
+-   _props_ `Object`: Component properties.
+-   _props.label_ `string`: BaseControl label.
+-   _props.className_ `string`: BaseControl CSS class names.
+-   _props.id_ `string`: BaseControl id.
+-   _props.onChange_ `Function`: Callback function when the date changes.
+-   _props.isInvalidDate_ `Function`: Callback function which receives a Date object and should return a boolean to signify whether or not the supplied date is valid.
+-   _props.currentDate_ `Date|string`: The currently selected date as a Date object or a datetime string that can be passed into the Date constructor.
+-   _props.dateFormat_ `string`: The date display format.
+-   _props.is12Hour_ `boolean`: Whether or not a 12 hour time clock should be used which allows selecting AM/PM.
+-   _props.allowEmpty_ `boolean`: Whether or not to allow an empty value to be selected.
+-   _props.emptyValue_ `string`: The text string displayed when an empty value is selected.
+
+_Returns_
+
+-   `BaseControl`: The component.
+
+### DragHandle
+
+Drag handle button component for use in sortable lists
+
+_Parameters_
+
+-   _props_ `Object`: 
+-   _props.label_ `string`: Helper text displayed in tooltip.
+-   _props.setNodeRef_ `Function`: Reference node setter, passed via dndkit.
+-   _props.listeners_ `Array`: Listener array, passed via dndkit.
+
+_Returns_
+
+-   `Button`: Draghandle button component.
 
 ### PostSearchControl
 
@@ -134,6 +199,28 @@ _Parameters_
 _Returns_
 
 -   `BaseSearchControl`: The component.
+
+### SortableList
+
+Component for a rending a sortable list
+
+_Parameters_
+
+-   _props_ `Object`: 
+-   _props.ListItem_ `Object`: Component used to display each item in the sortable list.
+-   _props.manageState_ `Object`: An object used to manage the state of the items in the list. Should contain 4 keys referencing functions: createItem, deleteItem, updateItem, updateItems.
+-   _props.items_ `Object[]`: Array of item objects. Each item _must_ contain an unique `id` property.
+-   _props.sortableStrategy_ `Object`: Sortable strategy passed to DndContext.
+-   _props.ctxModifiers_ `Array`: Context modifieds, passed to DndContext.
+-   _props.dragHandle_ `boolean`: If `true`, flags that the `ListItem` component will provide it's own drag handle and no innate drag functionality is provided.
+-   _props.listClassName_ `string`: CSS classname applied to the list wrapper element.
+-   _props.themeId_ `string`: The ID of the theme to use.
+-   _props.itemClassName_ `string`: CSS classname applied to each ListItem.
+-   _props.extraProps_ `Object`: Extra properties passed on to ListItem.
+
+_Returns_
+
+-   `DndContext`: Drag and drop context component.
 
 ### UserSearchControl
 
