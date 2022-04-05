@@ -302,6 +302,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		// Remove specific paginate links filter after the template has been rendered.
 		add_action( 'bp_template_content', array( $this, 'remove_paginate_links_filter' ), 15 );
 
+		// This triggers 'bp_template_content' action hook.
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 
 	}
@@ -453,8 +454,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 * where 'courses' is the slug of the main nav item, and 'my-courses' is the slug of
 		 * the subnav item which is the default subnav for the main nav item.
 		 *
-		 * So what we do here is to replace all the occurrences of something like
-		 * `example.local/members/admin/courses/page/N` to something like
+		 * So what we do here is replacing the link that looks like:
+		 * `example.local/members/admin/courses/page/N` to something like:
 		 * `example.local/members/admin/courses/my-courses/page/N`
 		 *
 		 * Despite one might expect, `$first_subnav_item->link` doesn't point to `example.local/members/admin/courses/my-courses/`
@@ -462,8 +463,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 * this because the 'my-courses' subnav item is the default of the 'courses' nav item (default_subnav_slug).
 		 */
 		if ( 1 === $current_page ) {
-			$search  = user_trailingslashit( $first_subnav_item->link . $wp_rewrite->pagination_base . '/' . $page );
-			$replace = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page );
+			$link = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug . '/' . $wp_rewrite->pagination_base . '/' . $page );
 		} elseif ( 1 === absint( $page ) ) {
 			/**
 			 * For links to page 1, when not on page 1, let's back on the main nav item URL, so we replace something like
@@ -471,19 +471,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			 * to something like
 			 * `example.local/members/admin/courses/`
 			 */
-			$search  = user_trailingslashit( $first_subnav_item->link . $first_subnav_item->slug );
-			$replace = $first_subnav_item->link;
+			$link = $first_subnav_item->link;
 		}
-
-		$link = isset( $replace )
-			?
-			str_replace(
-				$search,
-				$replace,
-				user_trailingslashit( $link )
-			)
-			:
-			$link;
 
 		return $query ? $link . '?' . $query : $link;
 

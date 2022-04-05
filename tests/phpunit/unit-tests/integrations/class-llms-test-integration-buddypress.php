@@ -310,7 +310,6 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 			);
 		}
 
-
 		// Reset.
 		$this->_clear_bp_is_my_profile();
 		$this->_clear_displayed_user_domain();
