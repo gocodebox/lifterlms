@@ -144,7 +144,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 *
 		 * @param string $slug The LifterLMS main nav item slug in the BuddyPress profile menu.
 		 */
-		$main_nav_slug = apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
+		$main_nav_slug = apply_filters( 'llms_buddypress_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) );
 		$parent_url    = $user_domain . $main_nav_slug . '/';
 
 		// Add the main nav menu.
@@ -157,7 +157,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				 *
 				 * @param string $label The LifterLMS main nav item label in the BuddyPress profile menu.
 				 */
-				'name'                => apply_filters( 'llms_bp_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
+				'name'                => apply_filters( 'llms_buddypress_main_nav_item_label', _x( 'Courses', 'BuddyPress profile main nav item label', 'lifterlms' ) ),
 				'slug'                => $main_nav_slug,
 				/**
 				 * Filters the LifterLMS main nav item position in the BuddyPress profile menu.
@@ -166,7 +166,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				 *
 				 * @param string $position The LifterLMS main nav item position in the BuddyPress profile menu.
 				 */
-				'position'            => apply_filters( 'llms_bp_main_nav_item_position', 20 ),
+				'position'            => apply_filters( 'llms_buddypress_main_nav_item_position', 20 ),
 				'default_subnav_slug' => $first_endpoint['endpoint'],
 			)
 		);
@@ -431,7 +431,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		$first_subnav_item = buddypress()->members->nav->get_secondary(
 			array(
 				/** This filter is documented above */
-				'parent_slug' => apply_filters( 'llms_bp_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) ),
+				'parent_slug' => apply_filters( 'llms_buddypress_main_nav_item_slug', _x( 'courses', 'BuddyPress profile main nav item slug', 'lifterlms' ) ),
 				'slug'        => $endpoints[ $this->current_endpoint_key ]['endpoint'],
 			)
 		);

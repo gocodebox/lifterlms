@@ -255,7 +255,7 @@ function llms_lostpassword_url() {
 add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
 
 /**
- * Returns the query var for the requested page number.
+ * Returns the page number query var for the current request.
  *
  * `paged`:
  * Used on the homepage, blogpage, archive pages and pages to calculate pagination.
