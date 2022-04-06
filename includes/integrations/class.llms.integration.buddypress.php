@@ -73,6 +73,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks' ), 40, 1 );
 			add_filter( 'lifterlms_update_account_redirect', array( $this, 'maybe_alter_update_account_redirect' ) );
 
+			// Groups Add-on integration.
+			add_filter( 'llms_groups_enqueue_dashboard_style', array( $this, 'return_true_on_bp_my_profile' ) );
+			add_filter( 'llms_groups_maybe_hide_dashboard_tab', array( $this, 'return_true_on_bp_my_profile' ) );
+
 		}
 
 	}
@@ -480,6 +484,17 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	}
 
+	/**
+	 * Helper that returns true when on BuddyPress My Profile.
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed $arg Argument to return when not on BuddyPress My Profile.
+	 * @return mixed
+	 */
+	public function return_true_on_bp_my_profile( $arg = null ) {
+		return bp_is_my_profile() ? true : $arg;
+	}
 
 	/**
 	 * Callback for "memberships" profile screen.
