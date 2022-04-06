@@ -13,6 +13,7 @@
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
  * @since 4.4.2 Added additional navigation testing scenarios.
  * @since 4.11.0 Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
+ * @since [version] Added tests on comment_status reflecting default settings on lesson creation.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -607,6 +608,32 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			++$i;
 
 		}
+
+	}
+
+	/**
+	 * Test comment status on creation.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_comment_status_on_creation() {
+
+		$original_comments_status = get_default_comment_status( $this->post_type );
+		update_option( 'default_comment_status', 'open' );
+		$lesson = new LLMS_Lesson( 'new', 'Lesson with open comments' );
+		$this->assertEquals(
+			'open',
+			$lesson->get( 'comment_status' )
+		);
+		update_option( 'default_comment_status', 'closed' );
+		$lesson = new LLMS_Lesson( 'new', 'Lesson with closed comments' );
+		$this->assertEquals(
+			'closed',
+			$lesson->get( 'comment_status' )
+		);
+		update_option( 'default_comment_status', $original_comments_status );
 
 	}
 
