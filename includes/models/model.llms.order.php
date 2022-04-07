@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1318,36 +1318,25 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Initialize a pending order
+	 * Initializes a new order with user, plan, gateway, and coupon metadata.
 	 *
-	 * Used during checkout.
 	 * Assumes all data passed in has already been validated.
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
 	 * @since 5.3.0 Don't set unused legacy property `date_billing_end`.
+	 * @since [version] Use `LLMS_Order::set_user_data()` to update user data.
 	 *
-	 * @param LLMS_Student         $person  The LLMS_Student placing the order.
-	 * @param LLMS_Access_Plan     $plan    The purchase LLMS_Access_Plan.
-	 * @param LLMS_Payment_Gateway $gateway The LLMS_Payment_Gateway used.
-	 * @param LLMS_Coupon          $coupon  LLMS_Coupon if a coupon was used or false.
+	 * @param array|LLMS_Student|WP_User|integer $user_data User info for the person placing the order. See
+	 *                                                      {@see LLMS_Order::set_user_data()} for more info.
+	 * @param LLMS_Access_Plan                   $plan      The purchase access plan.
+	 * @param LLMS_Payment_Gateway               $gateway   Gateway being used.
+	 * @param LLMS_Coupon                        $coupon    Coupon object or `false` if no coupon used.
 	 * @return LLMS_Order
 	 */
-	public function init( $person, $plan, $gateway, $coupon = false ) {
+	public function init( $user_data, $plan, $gateway, $coupon = false ) {
 
-		// User related information.
-		$this->set( 'user_id', $person->get_id() );
-		$this->set( 'user_ip_address', llms_get_ip_address() );
-		$this->set( 'billing_address_1', $person->get( 'billing_address_1' ) );
-		$this->set( 'billing_address_2', $person->get( 'billing_address_2' ) );
-		$this->set( 'billing_city', $person->get( 'billing_city' ) );
-		$this->set( 'billing_country', $person->get( 'billing_country' ) );
-		$this->set( 'billing_email', $person->get( 'user_email' ) );
-		$this->set( 'billing_first_name', $person->get( 'first_name' ) );
-		$this->set( 'billing_last_name', $person->get( 'last_name' ) );
-		$this->set( 'billing_state', $person->get( 'billing_state' ) );
-		$this->set( 'billing_zip', $person->get( 'billing_zip' ) );
-		$this->set( 'billing_phone', $person->get( 'phone' ) );
+		$this->set_user_data( $user_data );
 
 		// Access plan data.
 		$this->set( 'plan_id', $plan->get( 'id' ) );
@@ -1436,7 +1425,27 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'access_period', $plan->get( 'access_period' ) );
 		}
 
-		do_action( 'lifterlms_new_pending_order', $this, $person );
+		/**
+		 * Action triggered after a the order is initialized.
+		 *
+		 * @since Unknown.
+		 * @since [version] Added `$user_data` parameter.
+		 *                 The `$student` parameter returns an "empty" student object
+		 *                 if the method's input data is an array instead of an existing
+		 *                 user object.
+		 *
+		 * @param LLMS_Order   $order                           The order object.
+		 * @param LLMS_Student $student                         The student object. If an array of data is passed
+		 *                                                      to `LLMS_Order::init()` then an empty student object
+		 *                                                      will be passed.
+		 * @param array|LLMS_Student|WP_User|integer $user_data User data.
+		 */
+		do_action(
+			'lifterlms_new_pending_order',
+			$this,
+			is_array( $user_data ) ? new LLMS_Student( -1 ) : llms_get_student( $user_data ),
+			$user_data,
+		);
 
 		return $this;
 
@@ -1700,6 +1709,81 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( array_key_exists( $status, llms_get_order_statuses( $this->get( 'order_type' ) ) ) ) {
 			$this->set( 'status', $status );
 		}
+
+	}
+
+	/**
+	 * Sets user-related metadata for the order.
+	 *
+	 * @since [version]
+	 *
+	 * @param array|LLMS_Student|WP_User|integer $user_or_data Accepts a raw array user meta-data or
+	 *                                                         an input string accepted by `llms_get_student()`.
+	 *                                                         When passing an existing user the data will be pulled
+	 *                                                         from the user metadata and saved to the order.
+	 * @return array {
+	 *     Returns an associative array representing the user metadata that was stored on the order.
+	 *
+	 *     @type integer $user_id            User's WP_User id.
+	 *     @type string  $user_ip_address    User's ip address.
+	 *     @type string  $billing_email      User's email.
+	 *     @type string  $billing_first_name User's first name.
+	 *     @type string  $billing_last_name  User's last name.
+	 *     @type string  $billing_address_1  User's address line 1.
+	 *     @type string  $billing_address_2  User's address line 2.
+	 *     @type string  $billing_city       User's city.
+	 *     @type string  $billing_state      User's state.
+	 *     @type string  $billing_zip        User's zip.
+	 *     @type string  $billing_country    User's country.
+	 *     @type string  $billing_phone      User's phone.
+	 * }
+	 */
+	public function set_user_data( $user_or_data ) {
+
+		$to_set = array(
+			'user_id'            => '',
+			'billing_email'      => '',
+			'billing_first_name' => '',
+			'billing_last_name'  => '',
+			'billing_address_1'  => '',
+			'billing_address_2'  => '',
+			'billing_city'       => '',
+			'billing_state'      => '',
+			'billing_zip'        => '',
+			'billing_country'    => '',
+			'billing_phone'      => '',
+		);
+
+		$user = ! is_array( $user_or_data ) ? llms_get_student( $user_or_data ) : false;
+		if ( $user ) {
+
+			$user_or_data = array();
+
+			$map = array(
+				'user_id'            => 'id',
+				'billing_email'      => 'user_email',
+				'billing_phone'      => 'phone',
+				'billing_first_name' => 'first_name',
+				'billing_last_name'  => 'last_name',
+			);
+
+			foreach ( $to_set as $order_key => &$val ) {
+				$to_set[ $order_key ] = $user->get( $map[ $order_key ] ?? $order_key );
+			}
+
+		}
+
+		// Only use the default IP address if it wasn't specified in the input array.
+		$to_set['user_ip_address'] = $user_or_data['user_ip_address'] ?? llms_get_ip_address();
+
+		// Merge the data and remove excess keys.
+		$to_set = array_intersect_key(
+			array_merge( $to_set, $user_or_data ),
+			$to_set,
+		);
+
+		$this->set_bulk( $to_set );
+		return $to_set;
 
 	}
 

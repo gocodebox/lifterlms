@@ -374,4 +374,39 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_validate_user() with validation errors.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_validate_user_errors() {
+
+		$ret = llms_validate_user( array() );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+
+	}
+
+	/**
+	 * Test llms_validate_user() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_validate_user_success() {
+
+		$user = $this->factory->user->create_and_get( array( 'first_name' => 'Kyle' ) );
+
+		wp_set_current_user( $user->ID );
+
+		$this->assertTrue( llms_validate_user( array( 'first_name' => 'Not Kyle' ), 'checkout' ) );
+
+		$user = get_user_by( 'id', $user->ID );
+		$this->assertEquals( 'Kyle', $user->first_name );
+
+	}
+
 }

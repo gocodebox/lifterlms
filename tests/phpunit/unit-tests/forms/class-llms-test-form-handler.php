@@ -8,7 +8,6 @@
  * @group form_handler
  *
  * @since 5.0.0
- * @version 5.4.1
  */
 class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
@@ -290,6 +289,42 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$this->assertIsWPError( $ret );
 		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
 		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" has already been redeemed the maximum number of times.', $code->code ), $ret );
+
+	}
+
+	/**
+	 * Test submit() with the validate_only flag and validation errors.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_validate_only_error() {
+
+		$ret = $this->handler->submit( array(), 'checkout', array( 'validate_only' => true ) );
+
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+
+	}
+
+
+	/**
+	 * Test submit() with the validate_only flag and no validation errors.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_validate_only_success() {
+
+		$this->assertTrue(
+			$this->handler->submit(
+				$this->get_data_for_form_submit(),
+				'checkout',
+				array( 'validate_only' => true )
+			)
+		);
 
 	}
 

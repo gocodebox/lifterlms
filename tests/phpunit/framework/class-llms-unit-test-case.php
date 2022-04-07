@@ -358,7 +358,18 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	}
 
-	protected function get_mock_order( $plan = null, $coupon = false ) {
+	/**
+	 * Retrieves a mock order object.
+	 *
+	 * @since Unknown
+	 * @since [version] Added `$student` parameter to allow supplying the student for the order.
+	 *
+	 * @param LLMS_Access_Plan $plan    An access plan object. If not supplied will create one.
+	 * @param boolean          $coupon  If `true` will create (and apply) a coupon to the order.
+	 * @param LLMS_Student     $student Student object. If not supplied will create one.
+	 * @return void
+	 */
+	protected function get_mock_order( $plan = null, $coupon = false, $student = null ) {
 
 		$gateway = llms()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
@@ -385,7 +396,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		}
 
 		$order = new LLMS_Order( 'new' );
-		return $order->init( $this->get_mock_student(), $plan, $gateway, $coupon );
+		return $order->init( $student ? $student : $this->get_mock_student(), $plan, $gateway, $coupon );
 
 	}
 
