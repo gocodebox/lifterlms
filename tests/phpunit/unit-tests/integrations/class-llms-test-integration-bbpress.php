@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LLMS_Admin_Review class
+ * Tests for LLMS_Integration_BBPress class
  *
  * @package LifterLMS/Tests/Integrations
  *

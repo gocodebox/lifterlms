@@ -21,7 +21,7 @@
  * @package LifterLMS/Schemas
  *
  * @since 5.2.0
- * @version 6.0.0
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -153,6 +153,14 @@ return array(
 			'migrate_certificates',
 			'migrate_award_templates',
 			'show_notice',
+			'update_db_version',
+		),
+	),
+	'6.3.0'  => array(
+		'type'      => 'auto',
+		'namespace' => true,
+		'updates'   => array(
+			'buddypress_profile_endpoints_bc',
 			'update_db_version',
 		),
 	),
