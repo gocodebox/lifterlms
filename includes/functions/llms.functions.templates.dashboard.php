@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,6 +161,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.14.0
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
+	 * @since [version] Fix paged query not working when using plain permalinks.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -243,7 +244,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			$query_args = apply_filters(
 				'llms_dashboard_courses_wp_query_args',
 				array(
-					'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+					'paged'          => llms_get_paged_query_var(),
 					'orderby'        => $orderby,
 					'order'          => $order,
 					'post__in'       => $courses['results'],
@@ -506,14 +507,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 
 	/**
-	 * Output the "My Grades" template screen on the student dashboard
+	 * Output the "My Grades" template screen on the student dashboard.
 	 *
 	 * @since 3.24.0
 	 * @since 3.26.3 Unknown.
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
-	 *
+	 * @since [version] Prevent trying to access to a non existing index when retrieving the slug from the `$wp_query`.
+	 *              Fixed pagination not working when using plain permalinks.
 	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_grades() {
@@ -524,7 +526,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		}
 
 		global $wp_query, $wp_rewrite;
-		$slug = $wp_query->query['my-grades'];
+		$slug = $wp_query->query['my-grades'] ?? '';
 
 		// List courses.
 		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
@@ -537,7 +539,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			 * @param int $per_page The number of courses per pages to be displayed. Default is `10`.
 			 */
 			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
-			$page     = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+			$page     = llms_get_paged_query_var();
 
 			$sort = llms_filter_input_sanitize_string( INPUT_GET, 'sort' );
 			if ( ! $sort ) {
@@ -718,6 +720,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.37.16 Fixed typo when comparing the current view.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *              Fix how the protected {@see LLMS_Notifications_Query::$max_pages} property is accessed.
+	 * @since [version] Fix paged query not working when using plain permalinks.
 	 *
 	 * @return void
 	 */
@@ -740,7 +743,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 
 		if ( 'view' === $view ) {
 
-			$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+			$page = llms_get_paged_query_var();
 
 			$notifications = new LLMS_Notifications_Query(
 				array(
@@ -894,6 +897,7 @@ endif;
  *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
+ * @since [version] Fixed pagination when using plain permalinks.
  *
  * @param string $link Default link.
  * @return string
@@ -916,15 +920,23 @@ function llms_modify_dashboard_pagination_links( $link ) {
 
 	global $wp_rewrite;
 
-	$query = parse_url( $link, PHP_URL_QUERY );
+	$query = wp_parse_url( $link, PHP_URL_QUERY );
 
 	if ( $query ) {
 		$link = str_replace( '?' . $query, '', $link );
 	}
+	// No plain permalinks.
+	if ( get_option( 'permalink_structure' ) ) {
+		$parts = explode( '/', untrailingslashit( $link ) );
+		$page  = end( $parts );
+		$link  = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $wp_rewrite->pagination_base . '/' . $page . '/', llms_get_page_url( 'myaccount' ) );
+	} else { // With plain permalinks.
+		preg_match( '/paged?=([0-9]+)/', $link, $pages ); // Extract the 'page(d)' var.
+		$paged  = empty( $pages ) || count( $pages ) < 2 || $pages[1] < 2 ? '' : $pages[0]; // No pagination or page 1 nothing to add.
+		$query .= $paged ? '&' . $paged : '';
+		$link   = home_url();
+	}
 
-	$parts = explode( '/', untrailingslashit( $link ) );
-	$page  = end( $parts );
-	$link  = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $wp_rewrite->pagination_base . '/' . $page . '/', llms_get_page_url( 'myaccount' ) );
 	if ( $query ) {
 		$link .= '?' . $query;
 	}

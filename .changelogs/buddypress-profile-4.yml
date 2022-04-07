@@ -1,0 +1,7 @@
+significance: minor
+type: dev
+entry: |
+  + Added new filter `llms_buddypress_profile_endpoints` to control the LifterLMS endpoints to be added to the BuddyPress profile.
+  + Added new filter `llms_buddypress_min_nav_item_slug` to control the LifterLMS main BuddyPress' nav item slug.
+  + Added new filter `llms_buddypress_min_nav_item_label` to control the LifterLMS main BuddyPress' nav item label.
+  + Added new filter `llms_buddypress_min_nav_item_position` to control the LifterLMS main BuddyPress' nav item position.

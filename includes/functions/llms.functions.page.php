@@ -1,17 +1,17 @@
 <?php
 /**
- * Page functions
+ * Page functions.
  *
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get url for when user cancels payment
+ * Get url for when user cancels payment.
  *
  * @since 1.0.0
  *
@@ -25,7 +25,7 @@ function llms_cancel_payment_url() {
 }
 
 /**
- * Get url for redirect when user confirms payment
+ * Get url for redirect when user confirms payment.
  *
  * @since 1.0.0
  * @since 3.38.0 Added redirect query string parameter.
@@ -52,7 +52,7 @@ function llms_confirm_payment_url( $order_key = null ) {
 	}
 
 	/**
-	 * Filter the checkout confirmation URL
+	 * Filter the checkout confirmation URL.
 	 *
 	 * @since 1.0.0
 	 *
@@ -63,11 +63,13 @@ function llms_confirm_payment_url( $order_key = null ) {
 }
 
 /**
- * Retrieve the full URL to a LifterLMS endpoint
+ * Retrieve the full URL to a LifterLMS endpoint.
  *
  * @since 1.0.0
  * @since 3.26.3 Unknown.
  * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
+ * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
+ *              Prefer faster `strpos()` over `strstr()` since we only need to know if a substring is contained in a string.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
  * @param string $value     Endpoint query parameter value.
@@ -76,18 +78,43 @@ function llms_confirm_payment_url( $order_key = null ) {
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 
-	$permalink = $permalink ? $permalink : get_permalink();
-
 	// Map endpoint to options.
 	$vars     = llms()->query->get_query_vars();
 	$endpoint = $vars[ $endpoint ] ?? $endpoint;
 
+	/**
+	 * In our dashboard endpoints, get_permalink() always returns the dashboard page permalink:
+	 * something like https://example.com/dashboard/
+	 * which is the base URL to append the endpoint to.
+	 */
+	$permalink         = $permalink ? $permalink : get_permalink();
+	$is_base_permalink = true;
+
+	/**
+	 * No permalink available, e.g. in BuddyPress profile endpoint.
+	 *
+	 * We need to get the base URL to append the endpoint to, starting from
+	 * the current requested URL.
+	 */
+	if ( ! $permalink && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$permalink         = home_url( filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_URL ) );
+		$is_base_permalink = false;
+	}
+
 	if ( get_option( 'permalink_structure' ) ) {
 
 		$query_string = '';
-		if ( strstr( $permalink, '?' ) ) {
+
+		if ( false !== strpos( $permalink, '?' ) ) {
 			$query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
 			$permalink    = current( explode( '?', $permalink ) );
+		}
+
+		/**
+		 * Normalize the permalink when not referring to the base URL.
+		 */
+		if ( ! $is_base_permalink ) {
+			$permalink = _llms_normalize_endpoint_base_url( $permalink, $endpoint );
 		}
 
 		$url = trailingslashit( $permalink );
@@ -118,9 +145,46 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	return apply_filters( 'lifterlms_get_endpoint_url', $url, $endpoint, $value, $permalink );
 }
 
+/**
+ * Normalize the endpoint base URL.
+ *
+ * E.g., in the BuddyPress profile's tab, on my grades, page 2, it'll look like
+ * //example.com/members/admin/courses/my-courses/page/2/
+ *
+ * We then need to normalize the endpoint base URL, which means
+ * removing /my-courses/ (the endpoint) and the pagination information /page/2/.
+ *
+ * @since [version]
+ * @access private
+ *
+ * @param string $url      URL to extract the Base URL, to append the endpoint to, from.
+ * @param string $endpoint Slug of the endpoint, eg "my-courses".
+ * @return string
+ */
+function _llms_normalize_endpoint_base_url( $url, $endpoint ) {
+
+	$_url = untrailingslashit( $url );
+
+	// Remove pagination.
+	global $wp_rewrite;
+	$page       = llms_get_paged_query_var();
+	$pagination = '/' . $wp_rewrite->pagination_base . '/' . $page;
+
+	if ( $page > 1 && substr( $_url, -1 * strlen( $pagination ) ) === $pagination ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$_url = substr( $_url, 0, -1 * strlen( $pagination ) );
+	}
+
+	// Remove the endpoint slug from the URL if it's its last part.
+	if ( substr( $_url, -1 * strlen( $endpoint ) ) === $endpoint ) { // PHP8: str_ends_with(string $haystack, string $needle).
+		$url = substr( $_url, 0, -1 * strlen( $endpoint ) );
+	}
+
+	return $url;
+
+}
 
 /**
- * Retrieve the WordPress Page ID of a LifterLMS Core Page
+ * Retrieve the WordPress Page ID of a LifterLMS Core Page.
  *
  * Available core pages are:
  * + checkout (formerly "shop")
@@ -143,7 +207,7 @@ function llms_get_page_id( $page ) {
 	$id = get_option( 'lifterlms_' . $page . '_page_id' );
 
 	/**
-	 * Filter the ID of the requested LifterLMS Page
+	 * Filter the ID of the requested LifterLMS Page.
 	 *
 	 * The dynamic portion of this filter, {$page}, refers to the LifterLMS page slug/name.
 	 *
@@ -162,7 +226,8 @@ function llms_get_page_id( $page ) {
 
 
 /**
- * Retrieve the URL for a LifterLMS Page
+ * Retrieve the URL for a LifterLMS Page.
+ *
  * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
  *
  * @since  3.0.0
@@ -178,7 +243,7 @@ function llms_get_page_url( $page, $args = array() ) {
 
 
 /**
- * Returns the url to the lost password endpoint url
+ * Returns the url to the lost password endpoint url.
  *
  * @since Unknown
  *
@@ -188,3 +253,30 @@ function llms_lostpassword_url() {
 	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
 add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
+
+/**
+ * Returns the page number query var for the current request.
+ *
+ * `paged`:
+ * Used on the homepage, blogpage, archive pages and pages to calculate pagination.
+ * 1st page is 0 and from there the number correspond to the page number
+ * `page`:
+ * Used on a static front page and single pages for pagination (`<!--nextpage-->`).
+ * Pagination on these pages works the same, a static front page is treated as single page on pagination.
+ *
+ * @since [version]
+ *
+ * @return int
+ */
+function llms_get_paged_query_var() {
+
+	if ( get_query_var( 'paged' ) ) {
+		$paged = get_query_var( 'paged' );
+	} elseif ( get_query_var( 'page' ) ) {
+		$paged = get_query_var( 'page' );
+	} else {
+		$paged = 1;
+	}
+	return (int) $paged;
+
+}
