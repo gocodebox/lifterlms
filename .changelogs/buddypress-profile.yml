@@ -1,4 +1,0 @@
-significance: patch
-type: fixed
-entry: Fixed paged queries in student dashboard not working when using plain
-  permalinks.

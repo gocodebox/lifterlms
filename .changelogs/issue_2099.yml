@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2099"
-entry: Fixed lesson's comments status not reflecting default global setting when
-  created with the course builder.

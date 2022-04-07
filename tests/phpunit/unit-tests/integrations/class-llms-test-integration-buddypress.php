@@ -7,7 +7,7 @@
  * @group integrations
  * @group integration_buddypress
  *
- * @since [version]
+ * @since 6.3.0
  */
 class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 
@@ -57,7 +57,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -98,7 +98,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that attributes are setup properly.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test configure().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_installed().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test populate_profile_endpoints().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_profile_endpoints().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_profile_endpoints_options().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -259,7 +259,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_profile_nav_items().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -321,7 +321,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test endpoint_content() method.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -358,7 +358,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test modify_paginate_links() method.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -468,7 +468,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Add or remove hooks based on hooks defined in the $this->hooks array.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param string $action Either "add" or "remove".
 	 * @return void
@@ -487,7 +487,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Run assertions for all hooks in the $this->hooks array.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param mixed $equals If `null`, asserts that the priority matches the configured priority. Otherwise all hooks equal this value.
 	 * @return void
@@ -506,7 +506,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup all the hooks defined in the configuration method.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -538,7 +538,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the mock BuddyPress class and functions.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -719,7 +719,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to set the logged in user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -730,7 +730,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to clear the logged in user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -741,7 +741,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Call back that sets the logged in user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return string
 	 */
@@ -752,7 +752,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to set the displayed user id.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -763,7 +763,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to clear the displayed user id.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -774,7 +774,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Call back that sets the displayed user id.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return string
 	 */
@@ -786,7 +786,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to set the displayed user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -797,7 +797,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to clear the displayed user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -808,7 +808,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Call back that sets the displayed user domain.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return string
 	 */
@@ -819,7 +819,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to simulate we're on the BuddyPress my profile.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -830,7 +830,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to simulate we're NOT on the BuddyPress my profile.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -841,7 +841,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	/**
 	 * Utility to clear simulations.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -855,7 +855,7 @@ class LLMS_Test_Integration_Buddypress extends LLMS_Unit_Test_Case {
 	 *
 	 * This is done in the BP_Core_Nav constructor.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */

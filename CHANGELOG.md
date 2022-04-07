@@ -1,6 +1,46 @@
 LifterLMS Changelog
 ===================
 
+v6.3.0 - 2022-04-07
+-------------------
+
+##### Upcoming PHP Version Requirement Change
+
+**LifterLMS will drop support for PHP 7.3 by May, 2022. This will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
+
+##### New Features
+
++ Automatically add student's dashboard endpoints to the BuddyPress profile nav. [#627](https://github.com/gocodebox/lifterlms/issues/627)
+
+##### Updates and Enhancements
+
++ Upgraded LifterLMS Blocks to [v2.4.2](https://make.lifterlms.com/2022/04/07/lifterlms-blocks-version-2-4-2/).
++ Updated LifterLMS Helper to [v3.4.2](https://make.lifterlms.com/2022/04/01/lifterlms-helper-version-3-4-2/).
+
+##### Bug Fixes
+
++ Fixed paged queries in student dashboard not working when using plain permalinks.
++ Fixed an issue that prevented searching students in some admin areas when WordPress was installed in a subdirectory. [#2096](https://github.com/gocodebox/lifterlms/issues/2096)
++ Fixed lesson's comments status not reflecting default global setting when created with the course builder. [#2099](https://github.com/gocodebox/lifterlms/issues/2099)
+
+##### Deprecations
+
++ Deprecated `LLMS_Integration_Buddypress::achievements_screen()` method with no replacement.
++ Deprecated `LLMS_Integration_Buddypress::certificates_screen()` method with no replacement.
++ Deprecated `LLMS_Integration_Buddypress::courses_screen()` method with no replacement.
++ Deprecated `LLMS_Integration_Buddypress::memberships_screen()` method with no replacement.
++ Deprecated `LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()` method with no replacement.
++ Deprecated `LLMS_Integration_Buddypress::modify_courses_paginate_links()` method with no replacement.
+
+##### Developer Notes
+
++ Added `llms_get_paged_query_var()` function that returns the page number query var for the current request.
++ Added new filter `llms_buddypress_profile_endpoints` to control the LifterLMS endpoints to be added to the BuddyPress profile.
++ Added new filter `llms_buddypress_min_nav_item_slug` to control the LifterLMS main BuddyPress' nav item slug.
++ Added new filter `llms_buddypress_min_nav_item_label` to control the LifterLMS main BuddyPress' nav item label.
++ Added new filter `llms_buddypress_min_nav_item_position` to control the LifterLMS main BuddyPress' nav item position.
+
+
 v6.2.0 - 2022-03-30
 -------------------
 

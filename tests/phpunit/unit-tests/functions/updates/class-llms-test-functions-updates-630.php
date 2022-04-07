@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_630
  *
- * @since [version]
+ * @since 6.3.0
  */
 class LLMS_Test_Functions_Updates_630 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_630 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Functions_Updates_630 extends LLMS_UnitTestCase {
 	/**
 	 * Test buddypress_profile_endpoints_bc() method.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Test_Functions_Updates_630 extends LLMS_UnitTestCase {
 	/**
 	 * Test update_db_version().
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */

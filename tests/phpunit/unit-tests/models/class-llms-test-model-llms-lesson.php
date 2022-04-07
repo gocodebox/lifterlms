@@ -13,7 +13,7 @@
  * @since 4.4.0 Added tests on next/previous lessons retrieval.
  * @since 4.4.2 Added additional navigation testing scenarios.
  * @since 4.11.0 Addeed additional tests when retrieving next/prev lesson with empty sibling sections.
- * @since [version] Added tests on comment_status reflecting default settings on lesson creation.
+ * @since 6.3.0 Added tests on comment_status reflecting default settings on lesson creation.
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -614,7 +614,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test comment status on creation.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
