@@ -82,6 +82,7 @@ class LLMS_Order_Generator {
 
 	/**
 	 * User Action: perform user validation only.
+	 *
 	 * @var string
 	 */
 	const UA_VALIDATE = 'validate';
