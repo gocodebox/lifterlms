@@ -1,6 +1,12 @@
 @lifterlms/scripts CHANGELOG
 ============================
 
+Unreleased
+----------
+
++ Added eslint configuration overrides for jest unit and e2e tests.
+
+
 v3.1.0 - 2022-03-30
 -------------------
 

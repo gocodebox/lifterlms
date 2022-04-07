@@ -7,7 +7,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.4.3
- * @version 5.6.0
+ * @version 6.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ function llms_update_util_get_items_per_page() {
 }
 
 /**
- * Duplicate a WP Post & all relate metadata
+ * Duplicate a WP Post & all relate metadata.
  *
  * @since 3.16.0
  *

@@ -17,6 +17,17 @@ npm install --save-dev @lifterlms/scripts
 
 [CHANGELOG](./CHANGELOG.md)
 
-## API
+## Configuration Files
 
-API Docs to be written.
+### ESLint Plugin
+
+The [eslint](./config/.eslintrc.js) configuration file specifies a shared set of rules for linting Javascript files across LifterLMS projects.
+
+The configuration is a modified version of the [@wordpress/eslint-plugin/recommended-with-formatting](https://github.com/WordPress/gutenberg/blob/trunk/packages/eslint-plugin/configs/recommended-with-formatting.js).
+
+Example usage `.eslintrc.js`
+
+```js
+const config = require( '@lifterlms/scripts/config/.eslintrc.js' );
+module.exports = config;
+```
