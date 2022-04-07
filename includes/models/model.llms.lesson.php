@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -217,7 +217,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * An array of default arguments to pass to $this->create() when creating a new post.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Retrieve `comment_status` parameter value from the global discussion settings.
+	 * @since 6.3.0 Retrieve `comment_status` parameter value from the global discussion settings.
 	 *
 	 * @param array $args Optional. Args of data to be passed to `wp_insert_post()`. Default `null`.
 	 * @return array

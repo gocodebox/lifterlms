@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version [version]
+ * @version 6.3.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -154,7 +154,7 @@
 	 * @since 4.4.0 Update ajax nonce source.
 	 * @since 6.2.0 Use the LifterLMS REST API "list students" endpoint
 	 *              instead of the `LLMS_AJAX_Handler::query_students()` PHP function.
-	 * @since [version] Fixed student's REST API URL.
+	 * @since 6.3.0 Fixed student's REST API URL.
 	 *
 	 * @param {Object} options Options passed to Select2. Each default option will be pulled from the elements data-attributes.
 	 * @return {jQuery}

@@ -1,5 +1,0 @@
-significance: minor
-type: added
-links:
-  - "#627"
-entry: Automatically add student's dashboard endpoints to the BuddyPress profile nav.

@@ -8,7 +8,7 @@
  * @group functions_page
  *
  * @since 3.38.0
- * @since [version] Added tests for llms_get_paged_query_var(), llms_get_endpoint_url(), _llms_normalize_endpoint_base_url().
+ * @since 6.3.0 Added tests for llms_get_paged_query_var(), llms_get_endpoint_url(), _llms_normalize_endpoint_base_url().
  */
 class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 
@@ -197,7 +197,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_paged_query_var() function.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test the _llms_normalize_endpoint_base_url() function.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -281,7 +281,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_endpoint_url() function.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */

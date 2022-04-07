@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since [version]
- * @version [version]
+ * @since 6.3.0
+ * @version 6.3.0
  */
 
 namespace LLMS\Updates\Version_6_3_0;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * For old users: explicitly limit by default the buddypress profile endpoints to those existing prior to 6.3.0.
  *
- * @since [version]
+ * @since 6.3.0
  *
  * @return bool True if it needs to run again, false otherwise.
  */
@@ -42,7 +42,7 @@ function buddypress_profile_endpoints_bc() {
 /**
  * Update db version to 6.3.0.
  *
- * @since [version]
+ * @since 6.3.0
  *
  * @return void|true True if it needs to run again, nothing if otherwise.
  */

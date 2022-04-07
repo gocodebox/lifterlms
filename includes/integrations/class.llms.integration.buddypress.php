@@ -5,7 +5,7 @@
  * @package LifterLMS/Integrations/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Retrieve integration settings.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return array
 	 */
@@ -116,7 +116,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Add LLMS navigation items to the BuddyPress User Profile.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Display all registered dashboard tabs (enabled in the settings) automatically.
+	 * @since 6.3.0 Display all registered dashboard tabs (enabled in the settings) automatically.
 	 *              Use `bp_loggedin_user_domain()` to determine the current user domain
 	 *              to be used in the profile nav item's links, in favor of relying on the global `$bp`.
 	 * @return void
@@ -144,7 +144,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		/**
 		 * Filters the LifterLMS main nav item slug in the BuddyPress  profile menu.
 		 *
-		 * @since [version]
+		 * @since 6.3.0
 		 *
 		 * @param string $slug The LifterLMS main nav item slug in the BuddyPress profile menu.
 		 */
@@ -157,7 +157,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				/**
 				 * Filters the LifterLMS main nav item label in the BuddyPress profile menu.
 				 *
-				 * @since [version]
+				 * @since 6.3.0
 				 *
 				 * @param string $label The LifterLMS main nav item label in the BuddyPress profile menu.
 				 */
@@ -166,7 +166,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 				/**
 				 * Filters the LifterLMS main nav item position in the BuddyPress profile menu.
 				 *
-				 * @since [version]
+				 * @since 6.3.0
 				 *
 				 * @param string $position The LifterLMS main nav item position in the BuddyPress profile menu.
 				 */
@@ -195,7 +195,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Redirect on the same bb profile page when successfully update the account.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param string $account_update_redirect_url Account update redirect url.
 	 * @return string
@@ -220,13 +220,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function achievements_screen() {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::achievements_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::achievements_screen()', '6.3.0' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -237,13 +237,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function certificates_screen() {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::certificates_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::certificates_screen()', '6.3.0' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -255,13 +255,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
 	 * @since 3.37.17 Added action and filters to fix handling pagination links mofication.
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function courses_screen() {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::courses_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::courses_screen()', '6.3.0' );
 
 		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
 		add_filter( 'llms_modify_dashboard_pagination_links_disable', '__return_true', 999 );
@@ -281,7 +281,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Callback for endpoint profile content.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param string   $ep_key         The endpoint's key being processed.
 	 * @param Callable $ep_template_cb The endpoint's template callback.
@@ -314,7 +314,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Enqueue assets specific for the profile endpoints.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -345,7 +345,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Remove specific paginate links filter after the template has been rendered.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -357,13 +357,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Remove specific paginate links filter after the template has been rendered.
 	 *
 	 * @since 3.37.17
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::remove_paginate_links_filter()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::remove_paginate_links_filter()}.
 	 *
 	 * @return void
 	 */
 	public function remove_courses_paginate_links_filter() {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()', '6.3.0' );
 
 		remove_filter( 'paginate_links', array( $this, 'modify_courses_paginate_links' ) );
 	}
@@ -372,14 +372,14 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 * Modify the pagination links displayed on the courses endpoint in the bp member profile.
 	 *
 	 * @since 3.37.17
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::modify_paginate_links()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::modify_paginate_links()}.
 	 *
 	 * @param string $link Default link.
 	 * @return string
 	 */
 	public function modify_courses_paginate_links( $link ) {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::modify_courses_paginate_links()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::modify_courses_paginate_links()', '6.3.0' );
 
 		$this->current_endpoint_key;
 		return $this->modify_paginate_links( $link );
@@ -391,7 +391,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * This fixes the pagination not correctly working on the fist subnav.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param string $link Default link.
 	 * @return string
@@ -487,7 +487,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Helper that returns true when on BuddyPress My Profile.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param mixed $arg Argument to return when not on BuddyPress My Profile.
 	 * @return mixed
@@ -501,13 +501,13 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
-	 * @deprecated [version] Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
+	 * @deprecated 6.3.0 Deprecated with no replacement. {@see LLMS_Integration_Buddypress::endpoint_content()}.
 	 *
 	 * @return void
 	 */
 	public function memberships_screen() {
 
-		llms_deprecated_function( 'LLMS_Integration_Buddypress::memberships_screen()', '[version]' );
+		llms_deprecated_function( 'LLMS_Integration_Buddypress::memberships_screen()', '6.3.0' );
 
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -567,7 +567,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * Used to populate the settings' select.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -585,7 +585,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Populate list of endpoints from LifterLMS Dashboard Settings.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @return void
 	 */
@@ -606,7 +606,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 		 *
 		 * Modify the LifterLMS dashboard endpoints which can be added to the BuddyPress profile page as custom tabs.
 		 *
-		 * @since [version]
+		 * @since 6.3.0
 		 *
 		 * @param array $endpoints Array of endpoint data.
 		 */
@@ -617,7 +617,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Get a list of custom endpoints to add to BuddyPress profile page.
 	 *
-	 * @since [version]
+	 * @since 6.3.0
 	 *
 	 * @param bool $active_only If true, returns only active endpoints.
 	 * @return array

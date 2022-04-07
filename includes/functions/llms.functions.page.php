@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -68,7 +68,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  * @since 1.0.0
  * @since 3.26.3 Unknown.
  * @since 5.9.0 Update to ensure the generated URL has (or doesn't have) a trailing slash based on the site's permalink settings.
- * @since [version] Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
+ * @since 6.3.0 Try to build the correct URL even when `get_permalink()` returns an empty string (e.g. in BuddyPress profile endpoints).
  *              Prefer faster `strpos()` over `strstr()` since we only need to know if a substring is contained in a string.
  *
  * @param string $endpoint  ID of the endpoint, eg "view-courses".
@@ -154,7 +154,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
  * We then need to normalize the endpoint base URL, which means
  * removing /my-courses/ (the endpoint) and the pagination information /page/2/.
  *
- * @since [version]
+ * @since 6.3.0
  * @access private
  *
  * @param string $url      URL to extract the Base URL, to append the endpoint to, from.
@@ -264,7 +264,7 @@ add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );
  * Used on a static front page and single pages for pagination (`<!--nextpage-->`).
  * Pagination on these pages works the same, a static front page is treated as single page on pagination.
  *
- * @since [version]
+ * @since 6.3.0
  *
  * @return int
  */

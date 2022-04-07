@@ -1,9 +1,0 @@
-significance: minor
-type: deprecated
-entry: |
-  + Deprecated `LLMS_Integration_Buddypress::achievements_screen()` method with no replacement.
-  + Deprecated `LLMS_Integration_Buddypress::certificates_screen()` method with no replacement.
-  + Deprecated `LLMS_Integration_Buddypress::courses_screen()` method with no replacement.
-  + Deprecated `LLMS_Integration_Buddypress::memberships_screen()` method with no replacement.
-  + Deprecated `LLMS_Integration_Buddypress::remove_courses_paginate_links_filter()` method with no replacement.
-  + Deprecated `LLMS_Integration_Buddypress::modify_courses_paginate_links()` method with no replacement.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,7 +161,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 * @since 3.14.0
 	 * @since 3.26.3 Unknown.
 	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
-	 * @since [version] Fix paged query not working when using plain permalinks.
+	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -514,7 +514,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	 * @since 5.3.2 Cast achievement_template ID to string when comparing to the list of achievement IDs related the course/membership (list of strings).
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 * @since 6.0.0 Use updated method signature for `LLMS_Student::get_achievements()`.
-	 * @since [version] Prevent trying to access to a non existing index when retrieving the slug from the `$wp_query`.
+	 * @since 6.3.0 Prevent trying to access to a non existing index when retrieving the slug from the `$wp_query`.
 	 *              Fixed pagination not working when using plain permalinks.
 	 * @return void
 	 */
@@ -720,7 +720,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.37.16 Fixed typo when comparing the current view.
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *              Fix how the protected {@see LLMS_Notifications_Query::$max_pages} property is accessed.
-	 * @since [version] Fix paged query not working when using plain permalinks.
+	 * @since 6.3.0 Fix paged query not working when using plain permalinks.
 	 *
 	 * @return void
 	 */
@@ -897,7 +897,7 @@ endif;
  *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
- * @since [version] Fixed pagination when using plain permalinks.
+ * @since 6.3.0 Fixed pagination when using plain permalinks.
  *
  * @param string $link Default link.
  * @return string
