@@ -1444,7 +1444,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			'lifterlms_new_pending_order',
 			$this,
 			is_array( $user_data ) ? new LLMS_Student( -1 ) : llms_get_student( $user_data ),
-			$user_data,
+			$user_data
 		);
 
 		return $this;
@@ -1770,7 +1770,6 @@ class LLMS_Order extends LLMS_Post_Model {
 			foreach ( $to_set as $order_key => &$val ) {
 				$to_set[ $order_key ] = $user->get( $map[ $order_key ] ?? $order_key );
 			}
-
 		}
 
 		// Only use the default IP address if it wasn't specified in the input array.
@@ -1779,7 +1778,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		// Merge the data and remove excess keys.
 		$to_set = array_intersect_key(
 			array_merge( $to_set, $user_or_data ),
-			$to_set,
+			$to_set
 		);
 
 		$this->set_bulk( $to_set );
