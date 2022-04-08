@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 6.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -463,7 +463,7 @@ class LLMS_Forms {
 	 *              to better check whether a block is visible.
 	 * @since 6.2.0 Exploded hidden checkbox fields.
 	 *
-	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
+	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
 	public function get_fields_settings_from_blocks( $blocks ) {
@@ -629,6 +629,75 @@ class LLMS_Forms {
 		return apply_filters( 'llms_get_form_post', $post, $location, $args );
 
 	}
+
+	/**
+	 * Retrieves only core forms.
+	 *
+	 * When in presence of more than one form per location it selects the one with lower id.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $return What to return: 'posts', for an array of WP_Post; 'ids' for an array of WP_Post ids.
+	 * @return WP_Post[]|int[]
+	 */
+	public function get_core_forms( $return = 'posts', $use_cache = true ) {
+
+		global $wpdb;
+
+		$forms = false;
+
+		if ( $use_cache ) {
+			$forms_cache_key = 'posts' === $return ? 'llms_core_forms' : 'llms_core_form_ids';
+			$forms           = wp_cache_get( $forms_cache_key );
+		}
+
+		if ( false !== $forms ) {
+			return $forms;
+		}
+
+		$locations = implode(
+			',',
+			array_map(
+				function( $location ) {
+					return sprintf( "'%s'", esc_sql( $location ) );
+				},
+				array_keys( $this->get_locations() )
+			)
+		);
+
+		$form_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"
+			SELECT MIN({$wpdb->posts}.ID) AS ID
+			FROM $wpdb->posts
+			INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )
+			INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id )
+			WHERE 1=1
+			AND (
+				( {$wpdb->postmeta}.meta_key=%s AND wp_postmeta.meta_value IN ({$locations}) )
+				AND
+				( mt1.meta_key=%s AND mt1.meta_value=%s )
+			  )
+			AND wp_posts.post_type=%s
+			GROUP BY {$wpdb->postmeta}.meta_value
+			",
+				'_llms_form_location',
+				'_llms_form_is_core',
+				'yes',
+				'llms_form'
+			)
+		);
+
+		$form_ids = array_map( 'absint', $form_ids );
+		$forms    = 'post' === $return ? array_map( 'get_post', $form_ids ) : $form_ids;
+
+		// Cache anyways.
+		wp_cache_set( $forms_cache_key, $forms );
+
+		return $forms;
+
+	}
+
 
 	/**
 	 * Retrieve additional fields added to the form programmatically.

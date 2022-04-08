@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 5.10.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -181,6 +181,7 @@ class LLMS_Form_Post_Type {
 	 * deletion and trash actions when run against one of the core form.
 	 *
 	 * @since 5.0.0
+	 * @since [version] TODO.
 	 *
 	 * @param null|bool $prevent Whether or not the action has been prevented.
 	 * @param WP_Post   $post    The form post object.
@@ -188,12 +189,13 @@ class LLMS_Form_Post_Type {
 	 */
 	public function maybe_prevent_deletion( $prevent, $post ) {
 
-		if ( $post->post_type === $this->post_type && llms_parse_bool( get_post_meta( $post->ID, '_llms_form_is_core', 'yes' ) ) ) {
+		if ( $post->post_type === $this->post_type && ! in_array( $post->ID, LLMS_Forms::instance()->get_core_forms( 'ids' ), true ) ) {
 			$prevent = false;
 		}
 
 		return $prevent;
 	}
+
 
 	/**
 	 * Modify the permalink of a given form.

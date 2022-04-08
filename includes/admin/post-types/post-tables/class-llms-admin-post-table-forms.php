@@ -96,6 +96,7 @@ class LLMS_Admin_Post_Table_Forms {
 	 * Manage available bulk actions.
 	 *
 	 * @since 5.0.0
+	 * @since [version] TODO.
 	 *
 	 * @param array $actions Array of actions.
 	 * @return array
@@ -107,7 +108,7 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		// Core forms cannot be deleted.
-		if ( llms_parse_bool( get_post_meta( $post->ID, '_llms_form_is_core', true ) ) ) {
+		if ( in_array( $post->ID, LLMS_Forms::instance()->get_core_forms( 'ids' ), true ) ) {
 			unset( $actions['trash'] );
 		}
 
