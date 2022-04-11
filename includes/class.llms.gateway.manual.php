@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -54,11 +54,12 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Output payment instructions if the order is pending
+	 * Output payment instructions if the order is pending.
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since 3.0.0
+	 * @since [version] Allowed classes extended from this manual payment gateway class to display payment instructions.
+	 *
+	 * @return void
 	 */
 	public function before_view_order_table() {
 
@@ -68,10 +69,11 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			$order = new LLMS_Order( intval( $wp->query_vars['orders'] ) );
 
-			if ( 'manual' === $order->get( 'payment_gateway' ) && in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold' ) ) ) {
-
+			if (
+				$order->get( 'payment_gateway' ) === $this->id &&
+				in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold', true ) )
+			) {
 				echo $this->get_payment_instructions();
-
 			}
 		}
 
