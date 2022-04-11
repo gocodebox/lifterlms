@@ -192,7 +192,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 * Test maybe_prevent_deletion() for non-core forms.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Updated to test that core forms duplicates can be deleted.
+	 * @since [version] Updated to test that core form duplicates can be deleted.
 	 *
 	 * @return void
 	 */

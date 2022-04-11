@@ -633,7 +633,7 @@ class LLMS_Forms {
 	/**
 	 * Check whether a given form is a core form.
 	 *
-	 * When in presence of more than one form per location, the core form is identified as the one with lower id.
+	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
 	 *
 	 * @since [version]
 	 *
@@ -655,7 +655,7 @@ class LLMS_Forms {
 	/**
 	 * Retrieves only core forms.
 	 *
-	 * When in presence of more than one form per location it selects the one with lower id.
+	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
 	 *
 	 * @since [version]
 	 *
@@ -675,21 +675,17 @@ class LLMS_Forms {
 
 		$locations              = array_keys( $this->get_locations() );
 		$locations_placeholders = implode( ',', array_fill( 0, count( $locations ), '%s' ) );
-		$prepare_values         = array_merge( $locations, array( $this->get_post_type() ) );
+		$prepare_values         = array_merge( array( $this->get_post_type() ), $locations );
 
 		$query = "
 SELECT MIN({$wpdb->posts}.ID) AS ID
 FROM $wpdb->posts
-INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )
-INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id )
-WHERE 1=1
-AND (
-	( {$wpdb->postmeta}.meta_key='_llms_form_location' AND {$wpdb->postmeta}.meta_value IN ({$locations_placeholders}) )
-	AND
-	( mt1.meta_key='_llms_form_is_core' AND mt1.meta_value='yes' )
-	)
-AND {$wpdb->posts}.post_type=%s
-GROUP BY {$wpdb->postmeta}.meta_value";
+INNER JOIN {$wpdb->postmeta} AS locations ON {$wpdb->posts}.ID = locations.post_id AND locations.meta_key='_llms_form_location'
+INNER JOIN {$wpdb->postmeta} AS is_cores ON {$wpdb->posts}.ID = is_cores.post_id AND is_cores.meta_key='_llms_form_is_core'
+WHERE {$wpdb->posts}.post_type = %s
+AND locations.meta_value IN ({$locations_placeholders})
+AND is_cores.meta_value = 'yes'
+GROUP BY locations.meta_value";
 
 		$form_ids = $wpdb->get_col(
 			$wpdb->prepare(
@@ -701,7 +697,6 @@ GROUP BY {$wpdb->postmeta}.meta_value";
 		$form_ids = array_map( 'absint', $form_ids );
 		$forms    = 'post' === $return ? array_map( 'get_post', $form_ids ) : $form_ids;
 
-		// Cache anyways.
 		wp_cache_set( $forms_cache_key, $forms );
 
 		return $forms;
