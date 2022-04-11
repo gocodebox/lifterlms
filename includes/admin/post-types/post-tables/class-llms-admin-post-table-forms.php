@@ -96,7 +96,7 @@ class LLMS_Admin_Post_Table_Forms {
 	 * Manage available bulk actions.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Use `LLMS_Forms::get_core_forms()` to determine whether a form is a core form and cannot be deleted.
+	 * @since [version] Use `LLMS_Forms::is_a_core_form()` to determine whether a form is a core form and cannot be deleted.
 	 *
 	 * @param array $actions Array of actions.
 	 * @return array
@@ -108,7 +108,7 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		// Core forms cannot be deleted.
-		if ( in_array( $post->ID, LLMS_Forms::instance()->get_core_forms( 'ids' ), true ) ) {
+		if ( LLMS_Forms::instance()->is_a_core_form( $post ) ) {
 			unset( $actions['trash'] );
 		}
 

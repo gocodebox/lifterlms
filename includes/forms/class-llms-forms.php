@@ -631,6 +631,28 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Check whether a given form is a core form.
+	 *
+	 * When in presence of more than one form per location, the core form is identified as the one with lower id.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post|int $form Form's WP_Post instance, or its ID.
+	 * @return boolean
+	 */
+	public function is_a_core_form( $form ) {
+
+		$form_id = $form instanceof WP_Post ? $form->ID : $form;
+
+		if ( ! $form_id ) {
+			return false;
+		}
+
+		return in_array( $form_id, $this->get_core_forms( 'ids' ), true );
+
+	}
+
+	/**
 	 * Retrieves only core forms.
 	 *
 	 * When in presence of more than one form per location it selects the one with lower id.
@@ -640,7 +662,7 @@ class LLMS_Forms {
 	 * @param string $return What to return: 'posts', for an array of WP_Post; 'ids' for an array of WP_Post ids.
 	 * @return WP_Post[]|int[]
 	 */
-	public function get_core_forms( $return = 'posts', $use_cache = true ) {
+	private function get_core_forms( $return = 'posts', $use_cache = true ) {
 
 		global $wpdb;
 
