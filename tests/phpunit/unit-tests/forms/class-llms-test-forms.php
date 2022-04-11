@@ -1550,16 +1550,16 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 */
 	public function test_is_a_core_form() {
 
-		$locs = $this->forms->get_locations();
+		$locations = $this->forms->get_locations();
 
-		$created = array();
+		$created_ids = array();
 
 		// Create new forms.
-		foreach ( $locs as $loc => $data ) {
-			$created[] = $this->forms->create( $loc );
+		foreach ( $locations as $location_id => $data ) {
+			$created_ids[] = $this->forms->create( $location_id );
 		}
-		foreach ( $created as $creat ) {
-			$this->assertTrue( $this->forms->is_a_core_form( $creat ) );
+		foreach ( $created_ids as $created_id ) {
+			$this->assertTrue( $this->forms->is_a_core_form( $created_id ) );
 		}
 
 	}
@@ -1574,22 +1574,22 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 */
 	public function test_is_a_core_form_not_core_form() {
 
-		$locs = $this->forms->get_locations();
+		$locations = $this->forms->get_locations();
 
 		$core      = array();
 		$core_dups = array();
 		$new       = array();
 
 		// Create new forms.
-		foreach ( $locs as $loc => $data ) {
-			$core[] = $this->forms->create( $loc );
+		foreach ( $locations as $location_id => $data ) {
+			$core[] = $this->forms->create( $location_id );
 			// Duplicate core forms.
 			$core_dups[] = $this->factory->post->create(
 				array(
 					'post_type' => 'llms_form',
 				)
 			);
-			update_post_meta( end( $core_dups ), '_llms_form_location', $loc );
+			update_post_meta( end( $core_dups ), '_llms_form_location', $location_id );
 			update_post_meta( end( $core_dups ), '_llms_form_is_core', 'yes' );
 		}
 		// Create 3 additional billing forms.
