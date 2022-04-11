@@ -96,7 +96,7 @@ class LLMS_Admin_Post_Table_Forms {
 	 * Manage available bulk actions.
 	 *
 	 * @since 5.0.0
-	 * @since [version] TODO.
+	 * @since [version] Use `LLMS_Forms::get_core_forms()` to determine whether a form is a core form and cannot be deleted.
 	 *
 	 * @param array $actions Array of actions.
 	 * @return array

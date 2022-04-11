@@ -655,36 +655,28 @@ class LLMS_Forms {
 			return $forms;
 		}
 
-		$locations = implode(
-			',',
-			array_map(
-				function( $location ) {
-					return sprintf( "'%s'", esc_sql( $location ) );
-				},
-				array_keys( $this->get_locations() )
-			)
-		);
+		$locations              = array_keys( $this->get_locations() );
+		$locations_placeholders = implode( ',', array_fill( 0, count( $locations ), '%s' ) );
+		$prepare_values         = array_merge( $locations, array( $this->get_post_type() ) );
+
+		$query = "
+SELECT MIN({$wpdb->posts}.ID) AS ID
+FROM $wpdb->posts
+INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )
+INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id )
+WHERE 1=1
+AND (
+	( {$wpdb->postmeta}.meta_key='_llms_form_location' AND wp_postmeta.meta_value IN ({$locations_placeholders}) )
+	AND
+	( mt1.meta_key='_llms_form_is_core' AND mt1.meta_value='yes' )
+	)
+AND wp_posts.post_type=%s
+GROUP BY {$wpdb->postmeta}.meta_value";
 
 		$form_ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"
-			SELECT MIN({$wpdb->posts}.ID) AS ID
-			FROM $wpdb->posts
-			INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )
-			INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id )
-			WHERE 1=1
-			AND (
-				( {$wpdb->postmeta}.meta_key=%s AND wp_postmeta.meta_value IN ({$locations}) )
-				AND
-				( mt1.meta_key=%s AND mt1.meta_value=%s )
-			  )
-			AND wp_posts.post_type=%s
-			GROUP BY {$wpdb->postmeta}.meta_value
-			",
-				'_llms_form_location',
-				'_llms_form_is_core',
-				'yes',
-				'llms_form'
+				$query, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+				$prepare_values
 			)
 		);
 
