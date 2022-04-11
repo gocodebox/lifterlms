@@ -666,12 +666,8 @@ class LLMS_Forms {
 
 		global $wpdb;
 
-		$forms = false;
-
-		if ( $use_cache ) {
-			$forms_cache_key = 'posts' === $return ? 'llms_core_forms' : 'llms_core_form_ids';
-			$forms           = wp_cache_get( $forms_cache_key );
-		}
+		$forms_cache_key = 'posts' === $return ? 'llms_core_forms' : 'llms_core_form_ids';
+		$forms           = $use_cache ? wp_cache_get( $forms_cache_key ) : false;
 
 		if ( false !== $forms ) {
 			return $forms;

@@ -1542,23 +1542,75 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test is_a_core_form() method passing something which is not a core form.
+	 * Test is_a_core_form() method passing something which is a core form.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_is_a_core_form_with_core_form() {
+	public function test_is_a_core_form() {
 
 		$locs = $this->forms->get_locations();
+
 		$created = array();
 
 		// Create new forms.
 		foreach ( $locs as $loc => $data ) {
-			$id = $this->forms->create( $loc );
-			$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+			$created[] = $this->forms->create( $loc );
+		}
+		foreach ( $created as $creat ) {
+			$this->assertTrue( $this->forms->is_a_core_form( $creat ) );
 		}
 
 	}
 
+
+	/**
+	 * Test is_a_core_form() method passing something which is a form but NOT a core form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form_not_core_form() {
+
+		$locs = $this->forms->get_locations();
+
+		$core      = array();
+		$core_dups = array();
+		$new       = array();
+
+		// Create new forms.
+		foreach ( $locs as $loc => $data ) {
+			$core[] = $this->forms->create( $loc );
+			// Duplicate core forms.
+			$core_dups[] = $this->factory->post->create(
+				array(
+					'post_type' => 'llms_form',
+				)
+			);
+			update_post_meta( end( $core_dups ), '_llms_form_location', $loc );
+			update_post_meta( end( $core_dups ), '_llms_form_is_core', 'yes' );
+		}
+		// Create 3 additional billing forms.
+		for ( $i = 0; $i < 3; $i++ ) {
+			$core_dups[] = $this->factory->post->create(
+				array(
+					'post_type' => 'llms_form',
+				)
+			);
+			update_post_meta( end( $core_dups ), '_llms_form_location', 'checkout' );
+		}
+
+		foreach ( $core as $c ) {
+			$this->assertTrue( $this->forms->is_a_core_form( $c ), $c );
+		}
+		foreach ( $core_dups as $cd ) {
+			$this->assertFalse( $this->forms->is_a_core_form( $cd ), $cd );
+		}
+		foreach ( $new as $n ) {
+			$this->assertFalse( $this->forms->is_a_core_form( $n ), $n );
+		}
+
+	}
 }
