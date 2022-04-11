@@ -71,7 +71,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			if (
 				$order->get( 'payment_gateway' ) === $this->id &&
-				in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold' ) )
+				in_array( $order->get( 'status' ), array( 'llms-pending', 'llms-on-hold', true ) )
 			) {
 				echo $this->get_payment_instructions();
 			}
