@@ -213,11 +213,11 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 */
 	public function test_maybe_prevent_deletion() {
 		$forms = array();
-		foreach ( array_keys( LLMS_Forms::instance()->get_locations() ) as $loc ) {
-			$forms[] = get_post( LLMS_Forms::instance()->create( $loc ) );
+		foreach ( array_keys( LLMS_Forms::instance()->get_locations() ) as $location ) {
+			$forms[] = get_post( LLMS_Forms::instance()->create( $location ) );
 		}
 		foreach ( $forms as $form ) {
-			$this->assertFalse( $this->main->maybe_prevent_deletion( null, $form ), $loc );
+			$this->assertFalse( $this->main->maybe_prevent_deletion( null, $form ), $location );
 		}
 
 	}

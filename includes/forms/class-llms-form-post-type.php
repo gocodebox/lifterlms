@@ -196,7 +196,6 @@ class LLMS_Form_Post_Type {
 		return $prevent;
 	}
 
-
 	/**
 	 * Modify the permalink of a given form.
 	 *
