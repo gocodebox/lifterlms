@@ -688,11 +688,11 @@ INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id 
 INNER JOIN {$wpdb->postmeta} AS mt1 ON ( {$wpdb->posts}.ID = mt1.post_id )
 WHERE 1=1
 AND (
-	( {$wpdb->postmeta}.meta_key='_llms_form_location' AND wp_postmeta.meta_value IN ({$locations_placeholders}) )
+	( {$wpdb->postmeta}.meta_key='_llms_form_location' AND {$wpdb->postmeta}.meta_value IN ({$locations_placeholders}) )
 	AND
 	( mt1.meta_key='_llms_form_is_core' AND mt1.meta_value='yes' )
 	)
-AND wp_posts.post_type=%s
+AND {$wpdb->posts}.post_type=%s
 GROUP BY {$wpdb->postmeta}.meta_value";
 
 		$form_ids = $wpdb->get_col(

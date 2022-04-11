@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version 6.2.0
+ * @version [version]
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
@@ -1518,6 +1518,46 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		$expected = ob_get_clean();
 
 		$this->assertEquals( $expected, $this->forms->render_field_block( '', $blocks[0] ) );
+
+	}
+
+	/**
+	 * Test is_a_core_form() method passing something which is not a form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form_with_no_form() {
+
+		$fake_form = new stdClass();
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form ) );
+
+		$fake_form_id = 939393;
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+
+		$fake_form_id = $this->factory->post->create();
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+
+	}
+
+	/**
+	 * Test is_a_core_form() method passing something which is not a core form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form_with_core_form() {
+
+		$locs = $this->forms->get_locations();
+		$created = array();
+
+		// Create new forms.
+		foreach ( $locs as $loc => $data ) {
+			$id = $this->forms->create( $loc );
+			$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+		}
 
 	}
 
