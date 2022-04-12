@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Abstract_Notification_View class
+ * LLMS_Abstract_Notification_View class.
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
@@ -549,7 +549,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Get available merge codes for the current notification
+	 * Get available merge codes for the current notification.
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
@@ -558,12 +558,15 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @return array
 	 */
 	public function get_merge_codes() {
+
 		if ( ! isset( $this->merge_codes ) ) {
 			$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
 			asort( $codes );
 			$this->merge_codes = $codes;
 		}
+
 		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->merge_codes, $this );
+
 	}
 
 	/**
@@ -592,7 +595,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Merge a string
+	 * Merge a string.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.19 Use `in_array` with strict comparison.
@@ -603,17 +606,17 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	private function get_merged_string( $string ) {
 
-		// only merge if there's codes in the string.
+		// Only merge if there's codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
 			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
 
-				// set defaults.
+				// Set defaults.
 				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
 
 					$func = 'set_merge_data_default';
 
-					// set customs with extended class func.
+					// Set customs with extended class func.
 				} else {
 
 					$func = 'set_merge_data';
@@ -639,14 +642,16 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	private function get_used_merge_codes( $string ) {
 
-		$merged_codes = array_keys( $this->get_merge_codes() );
-
-		return array_filter(
-			$merged_codes,
-			function ( $code ) use ( $string ) {
-				return false !== strpos( $string, $code );
-			}
+		return array_keys(
+			array_filter(
+				$this->get_merge_codes(),
+				function ( $code ) use ( $string ) {
+					return false !== strpos( $string, $code );
+				},
+				ARRAY_FILTER_USE_KEY
+			)
 		);
+
 	}
 
 	/**
