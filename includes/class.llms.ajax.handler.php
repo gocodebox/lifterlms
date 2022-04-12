@@ -600,10 +600,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Start a Quiz Attempt
+	 * Start a Quiz Attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
+	 * @since [version] Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -624,8 +625,14 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		// Limit reached?
+		if ( isset( $request['quiz_id'] ) && ! ( new LLMS_Quiz( $request['quiz_id'] ) )->is_open() ) {
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz", 'lifterlms' ) );
+			return $err;
+		}
+
 		$attempt = false;
-		if ( isset( $request['attempt_key'] ) && $request['attempt_key'] ) {
+		if ( ! empty( $request['attempt_key'] ) ) {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
 		}
 
