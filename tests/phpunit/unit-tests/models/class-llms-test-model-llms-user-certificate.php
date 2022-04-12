@@ -697,6 +697,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 	 *
 	 * @since 6.0.0
 	 * @since 6.1.0 Added testing of the `{earned_date}` merge code.
+	 * @since [version] Added testing of a reusable block with a merge code and a shortcode.
 	 *
 	 * @return void
 	 */
@@ -740,7 +741,7 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 					break;
 				case '{current_date}':
 				case '{earned_date}':
-					$expected = wp_date( $date_format, llms_current_time( 'timestamp' ) );
+					$expected    = wp_date( $date_format, llms_current_time( 'timestamp' ) );
 					$earned_date = $expected;
 					break;
 				case '{email_address}':
@@ -768,12 +769,20 @@ class LLMS_Test_LLMS_User_Certificate extends LLMS_PostModelUnitTestCase {
 				case '[llms-user display_name]':
 					$expected = "{$user_info['first_name']} {$user_info['last_name']}";
 					break;
-
 			}
 
 			$expected_content .= "{$desc}: {$expected}\n\n";
-
 		}
+
+		// Add a reusable block.
+		$reusable_id      = $this->factory->post->create( array(
+			'post_type'    => 'wp_block',
+			'post_content' => "<!-- wp:paragraph --><p>Merge Email: {email_address}</p><!-- /wp:paragraph -->\n" .
+			                  "<!-- wp:paragraph --><p>Shortcode Email: [llms-user user_email]</p><!-- /wp:paragraph -->",
+		) );
+		$content          .= "<!-- wp:block {\"ref\":{$reusable_id}} /-->\n\n";
+		$expected_content .= "<!-- wp:paragraph --><p>Merge Email: {$user_info['user_email']}</p><!-- /wp:paragraph -->\n" .
+		                     "<!-- wp:paragraph --><p>Shortcode Email: {$user_info['user_email']}</p><!-- /wp:paragraph -->\n\n";
 
 		// Create a certificate template and award it to the student.
 		llms_tests_mock_current_time( 'now' );
