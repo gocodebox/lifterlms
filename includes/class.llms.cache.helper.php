@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -82,6 +82,9 @@ class LLMS_Cache_Helper {
 	 * This prevents caching for the Checkout & Student Dashboard pages.
 	 *
 	 * @since 3.15.0
+	 * @since [version] Force no caching on quiz pages.
+	 *               Added `llms_no_cache` filter hook.
+	 *               Added 'no-store' to the default WordPress nocache headers.
 	 *
 	 * @return void
 	 */
@@ -92,9 +95,9 @@ class LLMS_Cache_Helper {
 		}
 
 		/**
-		 * Filter the list of pages that LifterLMS will send nocache headers for
+		 * Filter the list of pages that LifterLMS will send nocache headers for.
 		 *
-		 * @since 3.15..0
+		 * @since 3.15.0
 		 *
 		 * @param int[] $ids List of WP_Post IDs.
 		 */
@@ -106,14 +109,53 @@ class LLMS_Cache_Helper {
 			)
 		);
 
-		if ( is_page( $ids ) ) {
+		/**
+		 * Filter whether or not LifterLMS will send nocache headers.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $no_cache Whether or not LifterLMS will send nocache headers.
+		 */
+		$do_not_cache = apply_filters( 'llms_no_cache', is_page( $ids ) || is_quiz() );
+
+		if ( $do_not_cache ) {
+
+			add_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
 			llms_maybe_define_constant( 'DONOTCACHEPAGE', true );
 			llms_maybe_define_constant( 'DONOTCACHEOBJECT', true );
 			llms_maybe_define_constant( 'DONOTCACHEDB', true );
 			nocache_headers();
 
+			remove_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
+
 		}
+
+	}
+
+	/**
+	 * Set additional nocache headers.
+	 *
+	 * @since [version]
+	 *
+	 * @see wp_get_nocache_headers()
+	 *
+	 * @param array $headers {
+	 *     Header names and field values.
+	 *
+	 *     @type string $Expires       Expires header.
+	 *     @type string $Cache-Control Cache-Control header.
+	 * }
+	 * @return array
+	 */
+	public static function additional_nocache_headers( $headers ) {
+
+		$headers['Cache-Control'] = isset( $headers['Cache-Control'] )
+			?
+			$headers['Cache-Control'] . ', no-store'
+			:
+			'no-cache, no-store, must-revalidate';
+		return $headers;
 
 	}
 
