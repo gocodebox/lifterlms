@@ -199,17 +199,12 @@ class LLMS_Controller_Awards {
 				$obj->update_sequential_id();
 			}
 
-			// Replace references to reusable blocks with their actual blocks.
-			$content = $obj->get( 'content', true );
-			$blocks  = parse_blocks( $content );
-			$blocks  = LLMS_Forms::instance()->load_reusable_blocks( $blocks );
-			$content = serialize_blocks( $blocks );
-
 			/**
-			 * Whenever an awarded certificate is updated we want to re-merge the content
+			 * Whenever an awarded certificate is updated, we want to re-merge the content
 			 * in the event that any shortcodes or merge codes were added.
 			 */
-			$obj->set( 'content', $obj->merge_content( $content ) );
+			$content = $obj->get( 'content', true );
+			$obj->set( 'content', $obj->merge_content( $content, true ) );
 		}
 
 		/**

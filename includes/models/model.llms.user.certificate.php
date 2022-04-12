@@ -703,16 +703,15 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Merges the post content based on content from the template.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added optional `$content` parameter.
+	 * @since [version] Added optional `$content` and `$load_reusable_blocks` parameters.
 	 *
-	 * @param string $content Optional. The content with merge codes. Defaults to `$this->content`.
+	 * @param string $content              Optionally use the given content instead of `$this->content`.
+	 * @param bool   $load_reusable_blocks Optionally replace reusable blocks with their actual blocks.
 	 * @return string
 	 */
-	public function merge_content( $content = null ) {
+	public function merge_content( $content = null, $load_reusable_blocks = false ) {
 
-		if ( is_null( $content ) ) {
-			$content = $this->get( 'content', true );
-		}
+		$content = parent::merge_content( $content, $load_reusable_blocks );
 
 		// Merge.
 		$merge   = $this->get_merge_data();
