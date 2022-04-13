@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -206,3 +206,57 @@ function llms_log( $message, $handle = 'llms' ) {
 	return $ret ? true : false;
 
 }
+
+/**
+ * Automatically anonymize a list of registered "secure" strings before writing logs.
+ *
+ * This function is a callback for the `llms_log_message` filter. It loads secure strings
+ * defined in the `llms_secure_strings` filter and automatically anonymizes them when
+ * they are found within the supplied log message.
+ *
+ * @since [version]
+ *
+ * @access private
+ *
+ * @param mixed  $message The data to log.
+ * @param string $handle  Log file handle.
+ * @return string
+ */
+function _llms_secure_log_messages( $message, $handle ) {
+
+	/**
+	 * Filters a list of "secure" strings which should be anonymized prior to logging.
+	 *
+	 * A plugin or theme that might log potentially sensitive data (such as API keys), the
+	 * API key strings can be registered with this filter to automatically be anonymized
+	 * if they are found within logs.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $secure_strings An array of secure strings that should be anonymized.
+	 * @param string[] $handle         The log handle. This can be used to only register strings for a specific log file.
+	 */
+	$secure_strings = apply_filters( 'llms_secure_strings', array(), $handle );
+
+	// Nothing to do.
+	if ( empty( $secure_strings ) ) {
+		return $message;
+	}
+
+	$find    = array();
+	$replace = array();
+
+	foreach ( $secure_strings as $string ) {
+		$message = is_array( $message ) || is_object( $message ) ? print_r( $message, true ) : $message; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
+		if ( false !== strpos( $message, $string ) ) {
+			$find[]  = $string;
+			$replace = llms_anonymize_string( $string );
+		}
+	}
+
+	$message = str_replace( $find, $replace, $message );
+
+	return $message;
+
+}
+add_filter( 'llms_log_message', '_llms_secure_log_messages', 999, 2 );
