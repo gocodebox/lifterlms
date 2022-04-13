@@ -1,0 +1,6 @@
+significance: minor
+type: dev
+links:
+  - "#2092"
+entry: Added new filter 'llms_no_cache' to control whether or not LifterLMS will
+  send nocache headers.

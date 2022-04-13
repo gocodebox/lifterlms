@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Reinforce taking quiz prevention when attempts limit reached.
