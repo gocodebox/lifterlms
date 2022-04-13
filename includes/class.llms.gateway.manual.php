@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -150,21 +150,21 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Handle a Pending Order
-	 * Called by LLMS_Controller_Orders->create_pending_order() on checkout form submission
-	 * All data will be validated before it's passed to this function
+	 * Handle a Pending Order.
 	 *
-	 * @param   obj       $order   Instance LLMS_Order for the order being processed
-	 * @param   obj       $plan    Instance LLMS_Access_Plan for the order being processed
-	 * @param   obj       $person  Instance of LLMS_Student for the purchasing customer
-	 * @param   obj|false $coupon  Instance of LLMS_Coupon applied to the order being processed, or false when none is being used
-	 * @return  void
-	 * @since   3.0.0
-	 * @version 3.10.0
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_redirect()` and `exit()`.
+	 *
+	 * @param LLMS_Order          $order   Order object.
+	 * @param LLMS_Access_Plan    $plan    Access plan object.
+	 * @param LLMS_Student        $student Student object.
+	 * @param LLMS_Coupon|boolean $coupon  Coupon object or `false` when no coupon is being used for the order.
+	 * @return void
 	 */
-	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
+	public function handle_pending_order( $order, $plan, $student, $coupon = false ) {
 
-		// No payment (free orders).
+		// Free orders (no payment is due).
 		if ( floatval( 0 ) === $order->get_initial_price( array(), 'float' ) ) {
 
 			// Free access plans do not generate receipts.
@@ -190,22 +190,32 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 			}
 
-			$this->complete_transaction( $order );
-
-			// Payment due.
-		} else {
-
-			/**
-			 * @hooked LLMS_Notification: manual_payment_due - 10
-			 */
-			do_action( 'llms_manual_payment_due', $order, $this );
-
-			// Show the user payment instructions for the order.
-			do_action( 'lifterlms_handle_pending_order_complete', $order );
-			wp_redirect( $order->get_view_link() );
-			exit;
+			return $this->complete_transaction( $order );
 
 		}
+
+		/**
+		 * Action triggered when a manual payment is due.
+		 *
+		 * @hooked LLMS_Notification: manual_payment_due - 10
+		 *
+		 * @since Unknown.
+		 *
+		 * @param LLMS_Order                  $order   The order object.
+		 * @param LLMS_Payment_Gateway_Manual $gateway Manual gateway instance.
+		 */
+		do_action( 'llms_manual_payment_due', $order, $this );
+
+		/**
+		 * Action triggered when the pending order processing has been completed.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param LLMS_Order $order The order object.
+		 */
+		do_action( 'lifterlms_handle_pending_order_complete', $order );
+
+		llms_redirect_and_exit( $order->get_view_link() );
 
 	}
 
