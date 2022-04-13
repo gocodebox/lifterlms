@@ -83,7 +83,6 @@ class LLMS_Cache_Helper {
 	 *
 	 * @since 3.15.0
 	 * @since [version] Force no caching on quiz pages.
-	 *               Added `llms_no_cache` filter hook.
 	 *               Added 'no-store' to the default WordPress nocache headers.
 	 *
 	 * @return void
