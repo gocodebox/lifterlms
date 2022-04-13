@@ -131,17 +131,17 @@ function llms_get_callable_name( $callable ) {
 
 	if ( is_array( $callable ) && ! empty( $callable ) ) {
 
-		// Class and class method: [ $class, 'method' ].
+		// Class and class method: [ $class, 'method' ]. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 		if ( is_object( $callable[0] ) ) {
 			return get_class( $callable[0] ) . '->' . $callable[1];
 		}
 
-		// Static class + method: [ 'class', 'method' ].
+		// Static class + method: [ 'class', 'method' ]. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 		return implode( '::', $callable );
 
 	}
 
-	// Invokable class: $class.
+	// Invokable class: $class. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 	if ( is_object( $callable ) ) {
 		return get_class( $callable );
 	}
@@ -187,7 +187,7 @@ function llms_log( $message, $handle = 'llms' ) {
 	$message = apply_filters( 'llms_log_message', $message, $handle );
 
 	$ret = false;
-	$fh  = fopen( llms_get_log_path( $handle ), 'a' );
+	$fh  = fopen( llms_get_log_path( $handle ), 'a' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 
 	// Open the file (creates it if it doesn't already exist).
 	if ( $fh ) {
@@ -197,9 +197,9 @@ function llms_log( $message, $handle = 'llms' ) {
 			$message = print_r( $message, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
 		}
 
-		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" );
+		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
 
-		fclose( $fh );
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 
 	}
 
