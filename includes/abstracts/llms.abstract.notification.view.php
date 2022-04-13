@@ -88,9 +88,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	protected $user;
 
 	/**
-	 * Merge codes
+	 * Merge codes.
 	 *
-	 * @var $merge_codes
+	 * @var string[]
 	 */
 	protected $merge_codes;
 
