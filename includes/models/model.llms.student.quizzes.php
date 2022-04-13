@@ -161,14 +161,18 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the # of attempts remaining by a student for a given quiz
+	 * Get the # of attempts remaining by a student for a given quiz.
 	 *
 	 * @since 3.16.0
+	 * @since [version] Added parameter `$allow_negative` to allow remaining negative remaining attempts.
+	 *               It can happen when the allowed attempts number is decreased to a number lower than
+	 *               the number of the attempts already made by a given student.
 	 *
-	 * @param int $quiz_id WP Post ID of the Quiz.
+	 * @param int  $quiz_id        WP Post ID of the Quiz.
+	 * @param bool $allow_negative Allow returning negative remaining attempts.
 	 * @return mixed
 	 */
-	public function get_attempts_remaining_for_quiz( $quiz_id ) {
+	public function get_attempts_remaining_for_quiz( $quiz_id, $allow_negative = false ) {
 
 		$quiz = llms_get_post( $quiz_id );
 
@@ -187,7 +191,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			$remaining = ( $allowed - $used );
 
 			// Don't show negative attempts.
-			$ret = max( 0, $remaining );
+			$ret = $allow_negative ? $remaining : max( 0, $remaining );
 
 		}
 
