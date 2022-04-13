@@ -606,7 +606,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 */
 	private function get_merged_string( $string ) {
 
-		// Only merge if there's codes in the string.
+		// Only merge if there are codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
 			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
