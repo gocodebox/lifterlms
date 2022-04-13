@@ -315,4 +315,52 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test _llms_secure_log_messages() when no secure strings are registered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test__llms_secure_log_messages_no_strings_registered() {
+		$this->assertEquals( 'log', _llms_secure_log_messages( 'log', 'llms' ) );
+	}
+
+
+	/**
+	 * Test _llms_secure_log_messages() when no secure strings are registered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test__llms_secure_log_messages() {
+
+
+		$handler = function( $strings ) {
+
+			$strings[] = 'abcd';
+			$strings[] = '1234567890';
+			$strings[] = 'xyz'; // Not found.
+
+			return $strings;
+		};
+
+		add_filter( 'llms_secure_strings', $handler );
+
+		$input_log = array(
+			'abcd',
+			'other stuff',
+			'1234567890',
+			'more logs',
+		); 
+
+		$this->assertEquals( 
+			'["********90","other stuff","********90","more logs"]',
+			_llms_secure_log_messages( json_encode( $input_log ), 'llms' )
+		);
+
+		remove_filter( 'llms_secure_strings', $handler );
+	}
+
 }
