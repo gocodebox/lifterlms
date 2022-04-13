@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the LLMS_Abstract_Notification_View
+ * Tests for the LLMS_Abstract_Notification_View.
  *
  * @group abstracts
  * @group notifications
@@ -10,7 +10,7 @@
 class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 
 	/**
-	 * Setup the test case
+	 * Setup the test case.
 	 *
 	 * @since [version]
 	 *
@@ -22,7 +22,7 @@ class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 
 		global $wpdb;
 
-		$this->main   = $this->get_stub(
+		$this->main = $this->get_stub(
 			new LLMS_Notification( $wpdb->insert_id )
 		);
 
