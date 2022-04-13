@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version 5.10.0
+ * @version [version]
  */
 class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
@@ -189,14 +189,17 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_prevent_deletion() for non-core forms
+	 * Test maybe_prevent_deletion() for non-core forms.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Updated to test that core form duplicates can be deleted.
 	 *
 	 * @return void
 	 */
 	public function test_maybe_prevent_deletion_not_core() {
 		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_form' ) );
+		$this->assertNull( $this->main->maybe_prevent_deletion( null, $post ) );
+		update_post_meta( $post->ID, '_llms_form_is_core', 'yes' );
 		$this->assertNull( $this->main->maybe_prevent_deletion( null, $post ) );
 	}
 
@@ -204,13 +207,19 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 * Test maybe_prevent_deletion() for core forms that cannot be deleted.
 	 *
 	 * @since 5.0.0
+	 * @since [version] Updated to test that only real core forms cannot be deleted.
 	 *
 	 * @return void
 	 */
 	public function test_maybe_prevent_deletion() {
-		$post = $this->factory->post->create_and_get( array( 'post_type' => 'llms_form' ) );
-		update_post_meta( $post->ID, '_llms_form_is_core', 'yes' );
-		$this->assertFalse( $this->main->maybe_prevent_deletion( null, $post ) );
+		$forms = array();
+		foreach ( array_keys( LLMS_Forms::instance()->get_locations() ) as $location ) {
+			$forms[] = get_post( LLMS_Forms::instance()->create( $location ) );
+		}
+		foreach ( $forms as $form ) {
+			$this->assertFalse( $this->main->maybe_prevent_deletion( null, $form ), $location );
+		}
+
 	}
 
 	/**
