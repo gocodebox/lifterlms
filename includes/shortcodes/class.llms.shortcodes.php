@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,17 @@ defined( 'ABSPATH' ) || exit;
  * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function __construct() {
+
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+	}
 
 	/**
 	 * Initialize shortcodes array.

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -230,10 +230,14 @@ class LLMS_Loader {
 	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
 	 * @since 6.0.0 Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Instantiated `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 *
 	 * @return void
 	 */
 	public function includes() {
+
+		// Instantiate LLMS_Shortcodes before LLMS_Controller_Orders.
+		new LLMS_Shortcodes();
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';
