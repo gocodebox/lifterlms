@@ -149,11 +149,12 @@ class LLMS_Cache_Helper {
 	 */
 	public static function additional_nocache_headers( $headers ) {
 
-		$headers['Cache-Control'] = isset( $headers['Cache-Control'] )
-			?
-			$headers['Cache-Control'] . ', no-store'
-			:
-			'no-cache, no-store, must-revalidate';
+		if ( ! isset( $headers['Cache-Control'] ) ) {
+			$headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+		} elseif ( false === strpos( $headers['Cache-Control'], 'no-store' ) ) {
+			$headers['Cache-Control'] .= ', no-store';
+		}
+
 		return $headers;
 
 	}
