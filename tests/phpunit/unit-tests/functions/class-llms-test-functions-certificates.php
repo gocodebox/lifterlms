@@ -97,7 +97,11 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_llms_get_certificate_image() {}
+	public function test_llms_get_certificate_image() {
+
+		$this->markTestIncomplete();
+
+	}
 
 	/**
 	 * Test llms_get_certificate_merge_codes()
