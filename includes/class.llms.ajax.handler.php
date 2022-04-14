@@ -627,7 +627,7 @@ class LLMS_AJAX_Handler {
 
 		// Limit reached?
 		if ( isset( $request['quiz_id'] ) && ! ( new LLMS_Quiz( $request['quiz_id'] ) )->is_open() ) {
-			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz", 'lifterlms' ) );
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
 		}
 
@@ -726,7 +726,7 @@ class LLMS_AJAX_Handler {
 		$quiz_id = $attempt->get( 'quiz_id' );
 		if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() &&
 				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
-			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz", 'lifterlms' ) );
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
 		}
 

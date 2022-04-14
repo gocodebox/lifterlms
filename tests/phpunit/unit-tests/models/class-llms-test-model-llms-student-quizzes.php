@@ -28,7 +28,7 @@ class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 	 *
 	 * @var LLMS_Quiz
 	 */
-	protected $quiz_id;
+	protected $quiz;
 
 	/**
 	 * Setup test.
@@ -107,6 +107,9 @@ class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 			-1,
 			$this->student->quizzes()->get_attempts_remaining_for_quiz( $this->quiz->get( 'id' ), true )
 		);
+
+		// Reset attempts limit.
+		$this->quiz->set( 'limit_attempts', 'no' );
 
 	}
 
