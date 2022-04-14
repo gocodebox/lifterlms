@@ -619,4 +619,4 @@ class LLMS_Shortcodes {
 
 }
 
-new LLMS_Shortcodes();
+return new LLMS_Shortcodes();
