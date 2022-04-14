@@ -581,7 +581,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 *
 	 * @param string[] $strings Array of secure strings.
 	 * @param string   $handle  The log handle.
-	 * @return [type] [description]
+	 * @return string[]
 	 */
 	public function get_secure_strings( $strings, $handle ) {
 

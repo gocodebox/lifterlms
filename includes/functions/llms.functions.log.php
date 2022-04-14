@@ -251,7 +251,7 @@ function _llms_secure_log_messages( $message, $handle ) {
 	 * @since [version]
 	 *
 	 * @param string[] $secure_strings An array of secure strings that should be anonymized.
-	 * @param string[] $handle         The log handle. This can be used to only register strings for a specific log file.
+	 * @param string   $handle         The log handle. This can be used to only register strings for a specific log file.
 	 */
 	$secure_strings = apply_filters( 'llms_secure_strings', array(), $handle );
 
