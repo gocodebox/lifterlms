@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2098"
+entry: Added Aosta (AO) among Italian provinces.
