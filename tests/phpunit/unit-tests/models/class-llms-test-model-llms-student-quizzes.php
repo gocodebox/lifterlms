@@ -31,7 +31,7 @@ class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 	protected $quiz_id;
 
 	/**
-	 * Setup test
+	 * Setup test.
 	 *
 	 * @since [version]
 	 *
