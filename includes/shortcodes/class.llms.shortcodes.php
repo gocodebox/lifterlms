@@ -19,6 +19,17 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes {
 
 	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function __construct() {
+
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+	}
+
+	/**
 	 * Initialize shortcodes array.
 	 *
 	 * @since 1.0.0
@@ -611,3 +622,5 @@ class LLMS_Shortcodes {
 	}
 
 }
+
+return new LLMS_Shortcodes();

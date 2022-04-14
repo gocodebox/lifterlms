@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -703,6 +703,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Merges the post content based on content from the template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Removed initialization of shortcodes now that they are registered earlier.
 	 *
 	 * @return string
 	 */
@@ -713,7 +714,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$content = str_replace( array_keys( $merge ), array_values( $merge ), $this->get( 'content', true ) );
 
 		// Do shortcodes.
-		LLMS_Shortcodes::init(); // In certain circumstances shortcodes won't be registered yet.
 		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );
 		$content = do_shortcode( $content );
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );
