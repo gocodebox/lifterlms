@@ -150,28 +150,22 @@ class LLMS_Cache_Helper {
 	public static function additional_nocache_headers( $headers ) {
 
 		// First tree are the default ones.
-		$nocache_headers = array(
+		$nocache_headers_cache_control = array(
 			'no-cache',
 			'must-revalidate',
 			'max-age=0',
 			'no-store',
 		);
 
-		$headers['Cache-Control'] = implode(
-			', ',
-			empty( $headers['Cache-Control'] ) ?
-				$nocache_headers
-				:
-				array_unique(
-					array_merge(
-						$nocache_headers,
-						array_map(
-							'trim',
-							explode( ',', $headers['Cache-Control'] )
-						)
-					)
-				)
-		);
+		if ( ! empty( $headers['Cache-Control'] ) ) {
+			$original_headers_cache_control = array_map( 'trim', explode( ',', $headers['Cache-Control'] ) );
+			// Merge original headers with our nocache headers.
+			$nocache_headers_cache_control = array_merge( $nocache_headers_cache_control, $original_headers_cache_control );
+			// Avoid duplicates.
+			$nocache_headers_cache_control = array_unique( $nocache_headers_cache_control );
+		}
+
+		$headers['Cache-Control'] = implode( ', ', $nocache_headers_cache_control );
 
 		return $headers;
 
