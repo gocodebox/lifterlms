@@ -30,7 +30,7 @@
  * @see get_lifterlms_countries()
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -89,7 +89,7 @@ return array(
 	'CK' => __( 'Cook Islands', 'lifterlms' ),
 	'CR' => __( 'Costa Rica', 'lifterlms' ),
 	'CI' => __( 'Cote D\'Ivoire (Ivory Coast)', 'lifterlms' ),
-	'HR' => __( 'Croatia (Hrvatska)', 'lifterlms' ),
+	'HR' => __( 'Croatia', 'lifterlms' ),
 	'CU' => __( 'Cuba', 'lifterlms' ),
 	'CW' => __( 'Curaçao', 'lifterlms' ),
 	'CY' => __( 'Cyprus', 'lifterlms' ),
@@ -150,8 +150,6 @@ return array(
 	'KZ' => __( 'Kazakhstan', 'lifterlms' ),
 	'KE' => __( 'Kenya', 'lifterlms' ),
 	'KI' => __( 'Kiribati', 'lifterlms' ),
-	'KP' => __( 'Korea North', 'lifterlms' ),
-	'KR' => __( 'Korea South', 'lifterlms' ),
 	'XK' => __( 'Kosovo', 'lifterlms' ),
 	'KW' => __( 'Kuwait', 'lifterlms' ),
 	'KG' => __( 'Kyrgyzstan', 'lifterlms' ),
@@ -197,6 +195,7 @@ return array(
 	'NG' => __( 'Nigeria', 'lifterlms' ),
 	'NU' => __( 'Niue', 'lifterlms' ),
 	'NF' => __( 'Norfolk Island', 'lifterlms' ),
+	'KP' => __( 'North Korea', 'lifterlms' ),
 	'MP' => __( 'Northern Mariana Islands', 'lifterlms' ),
 	'NO' => __( 'Norway', 'lifterlms' ),
 	'OM' => __( 'Oman', 'lifterlms' ),
@@ -240,6 +239,7 @@ return array(
 	'SO' => __( 'Somalia', 'lifterlms' ),
 	'ZA' => __( 'South Africa', 'lifterlms' ),
 	'GS' => __( 'South Georgia', 'lifterlms' ),
+	'KR' => __( 'South Korea', 'lifterlms' ),
 	'SS' => __( 'South Sudan', 'lifterlms' ),
 	'ES' => __( 'Spain', 'lifterlms' ),
 	'LK' => __( 'Sri Lanka', 'lifterlms' ),
