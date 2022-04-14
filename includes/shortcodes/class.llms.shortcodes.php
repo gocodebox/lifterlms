@@ -5,7 +5,6 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @since [version] Added self instantiation.
  * @version [version]
  */
 
