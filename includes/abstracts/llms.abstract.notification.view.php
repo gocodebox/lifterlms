@@ -609,10 +609,12 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		// Only merge if there are codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
+			$merge_code_defaults = $this->get_merge_code_defaults();
+
 			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
 
 				// Set defaults.
-				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
+				if ( array_key_exists( $code, $merge_code_defaults ) ) {
 
 					$func = 'set_merge_data_default';
 
