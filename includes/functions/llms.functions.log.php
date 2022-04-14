@@ -235,7 +235,7 @@ function llms_log( $message, $handle = 'llms' ) {
  *
  * @access private
  *
- * @param string $message The data to log.
+ * @param string $message The string to log.
  * @param string $handle  Log file handle.
  * @return string
  */
