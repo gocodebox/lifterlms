@@ -6,8 +6,7 @@
  *
  * @since 3.33.0
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
- *
- * @version [vrsion]
+ * @version 3.36.2
  */
 class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 

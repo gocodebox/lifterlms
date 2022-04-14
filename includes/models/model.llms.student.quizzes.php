@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,7 +161,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the # of attempts remaining by a student for a given quiz.
+	 * Get the number of attempts remaining by a student for a given quiz.
 	 *
 	 * @since 3.16.0
 	 * @since [version] Added parameter `$allow_negative` to allow remaining negative remaining attempts.
@@ -195,6 +195,16 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		}
 
+		/**
+		 * Filters the number of attempts remaining by a student for a given quiz.
+		 *
+		 * @since 3.16.0
+		 *
+		 * @param mixed                $ret             The number of attempts remaining by a student for a given quiz,
+		 *                                              or 'Unlimited' for quizzes with no attempts limit.
+		 * @param LLMS_Quiz            $quiz            Quiz object.
+		 * @param LLMS_Student_Quizzes $student_quizzes Student quizzes object.
+		 */
 		return apply_filters( 'llms_student_quiz_attempts_remaining_for_quiz', $ret, $quiz, $this );
 
 	}
