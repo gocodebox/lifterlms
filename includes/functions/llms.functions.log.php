@@ -204,7 +204,7 @@ function llms_log( $message, $handle = 'llms' ) {
 		 *
 		 * This hook filters the log message in its final string format To filter the log message
 		 * before string conversion, use `llms_log_message`.
-		 * 
+		 *
 		 * @since [version]
 		 *
 		 * @see llms_log_message
