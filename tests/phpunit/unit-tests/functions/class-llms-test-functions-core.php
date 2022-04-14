@@ -22,6 +22,37 @@
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
+	 * Test llms_anonymize_string().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_anonymize_string() {
+
+		$tests = array(
+			array( 'A', '*' ),
+			array( 'ABCD', '***D' ),
+			array( 'ABCDEF', '*****F' ),
+			array( 'ABCDEFG', '*****FG' ),
+			array( 'ABCDEFGHIJ', '********IJ' ),
+			array( 'ABCDEFGHIJK', 'AB*******JK' ),
+			array( 'ABCDE!FGHIJK.com', 'AB************om' ),
+			array( 'hello@lifterlms.com', '****o@li*********om' ),
+			array( '^|5M{Qx0Bq@)U*yPrgAc+({MBwSQUumW6', '^|*****************************W6' ),
+		);
+
+		foreach ( $tests as $i => $test ) {
+			list( $input, $expected ) = $test;
+			$this->assertEquals( $expected, llms_anonymize_string( $input ), "{$i}: {$input}" );
+		}
+
+		$this->assertEquals( 'TE%%%%%%%%%%%%%%%%%%%%AR', llms_anonymize_string( 'TEST WITH ALTERNATE CHAR', '%' ) );
+		$this->assertEquals( 'TEXXXXXXXXXXXXXXXXXXXXAR', llms_anonymize_string( 'TEST WITH ALTERNATE CHAR', 'X' ) );
+
+	}
+
+	/**
 	 * Test the llms_assoc_array_insert
 	 *
 	 * @since 3.21.0
