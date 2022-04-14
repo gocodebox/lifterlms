@@ -356,7 +356,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 		); 
 
 		$this->assertEquals( 
-			'["********90","other stuff","********90","more logs"]',
+			'["***d","other stuff","********90","more logs"]',
 			_llms_secure_log_messages( json_encode( $input_log ), 'llms' )
 		);
 

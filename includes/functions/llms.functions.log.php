@@ -177,9 +177,14 @@ function llms_get_log_path( $handle ) {
 function llms_log( $message, $handle = 'llms' ) {
 
 	/**
-	 * Filter a log message before it's written to the logger.
+	 * Filter a log data before it's written to the logger.
+	 *
+	 * This hook filters the log message in its raw format which may be a string, object, or array. To
+	 * filter the final log message after string conversion, use `llms_log_message_string`.
 	 *
 	 * @since 4.12.0
+	 *
+	 * @see llms_log_message_string
 	 *
 	 * @param mixed  $message Data to log.
 	 * @param string $handle  Allow creation of multiple log files by handle.
@@ -197,6 +202,21 @@ function llms_log( $message, $handle = 'llms' ) {
 			$message = print_r( $message, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
 		}
 
+		/**
+		 * Filter a log message before it's written to the logger.
+		 *
+		 * This hook filters the log message in its final string format To filter the log message
+		 * before string conversion, use `llms_log_message`.
+		 * 
+		 * @since [version]
+		 *
+		 * @see llms_log_message
+		 *
+		 * @param string $message Log message string.
+		 * @param string $handle  Allow creation of multiple log files by handle.
+		 */
+		$message = apply_filters( 'llms_log_message_string', $message, $handle );
+
 		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
 
 		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
@@ -210,7 +230,7 @@ function llms_log( $message, $handle = 'llms' ) {
 /**
  * Automatically anonymize a list of registered "secure" strings before writing logs.
  *
- * This function is a callback for the `llms_log_message` filter. It loads secure strings
+ * This function is a callback for the `llms_log_message_string` filter. It loads secure strings
  * defined in the `llms_secure_strings` filter and automatically anonymizes them when
  * they are found within the supplied log message.
  *
@@ -218,7 +238,7 @@ function llms_log( $message, $handle = 'llms' ) {
  *
  * @access private
  *
- * @param mixed  $message The data to log.
+ * @param string $message The data to log.
  * @param string $handle  Log file handle.
  * @return string
  */
@@ -247,10 +267,9 @@ function _llms_secure_log_messages( $message, $handle ) {
 	$replace = array();
 
 	foreach ( $secure_strings as $string ) {
-		$message = is_array( $message ) || is_object( $message ) ? print_r( $message, true ) : $message; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
 		if ( false !== strpos( $message, $string ) ) {
-			$find[]  = $string;
-			$replace = llms_anonymize_string( $string );
+			$find[]    = $string;
+			$replace[] = llms_anonymize_string( $string );
 		}
 	}
 
@@ -259,4 +278,4 @@ function _llms_secure_log_messages( $message, $handle ) {
 	return $message;
 
 }
-add_filter( 'llms_log_message', '_llms_secure_log_messages', 999, 2 );
+add_filter( 'llms_log_message_string', '_llms_secure_log_messages', 999, 2 );
