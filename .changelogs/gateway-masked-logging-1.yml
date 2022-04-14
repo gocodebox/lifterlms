@@ -1,0 +1,5 @@
+significance: minor
+type: dev
+entry: Added a new filter, `llms_secure_strings` allowing developers to
+  register strings that should be automatically masked when written to log
+  files.
