@@ -6,10 +6,13 @@
  *
  * @since 3.33.0
  * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
- *
- * @version [vrsion]
  */
 class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
+
+	/**
+	 * @var LLMS_Student
+	 */
+	private $student;
 
 	/**
 	 * Setup test
@@ -73,6 +76,60 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 		$this->assertEquals( 2, did_action( 'llms_user_enrolled_in_course' ) );
 		$this->assertEquals( 1, did_action( 'llms_user_added_to_membership_level' ) );
 
+	}
+
+	/**
+	 * Test remove_membership_level() where the user is auto-enrolled in courses by other memberships.
+	 *
+	 * @see LLMS_Student::remove_membership_level()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_remove_membership_level_with_auto_enrolled_courses() {
+
+		$course_count = 4;
+		$course_ids   = $this->factory->course->create_many( $course_count );
+		$membership_1 = $this->factory->membership->create_and_get();
+		$membership_2 = $this->factory->membership->create_and_get();
+		$membership_3 = $this->factory->membership->create_and_get();
+
+		// Membership 'm1' will auto-enroll the first two courses, while membership 'm2' will auto-enroll in all courses.
+		// Membership 'm3' does not have any auto-enroll courses.
+		$this->assertTrue( $membership_1->add_auto_enroll_courses( array_slice( $course_ids, 0, 1 ) ) );
+		$this->assertTrue( $membership_2->add_auto_enroll_courses( $course_ids ) );
+
+		// Enroll the student in all memberships.
+		$this->assertTrue( $this->student->enroll( $membership_1->get( 'id' ) ) );
+		$this->assertTrue( $this->student->enroll( $membership_2->get( 'id' ) ) );
+		$this->assertTrue( $this->student->enroll( $membership_3->get( 'id' ) ) );
+
+		// The student should be auto-enrolled in all courses.
+		$course_enrollments = $this->student->get_enrollments( 'course' );
+		$this->assertEqualSets( $course_ids, $course_enrollments['results'] );
+
+		/**
+		 * After expiring the 'm1' membership enrollment, which calls {@see LLMS_Student::remove_membership_level()},
+		 * the user should still be enrolled in all courses with an enrollment status of 'enrolled'.
+		 */
+		$this->student->unenroll( $membership_1->get( 'id' ) );
+		foreach ( $course_ids as $key => $course_id ) {
+			$status = $this->student->get_enrollment_status( $course_id );
+			$this->assertEquals( 'enrolled', $status, 'course #' . ( $key + 1 ) . " of $course_count" );
+		}
+
+		/**
+		 * After deleting the 'm1' membership enrollment and expiring the 'm2' membership enrollment,
+		 * which calls {@see LLMS_Student::remove_membership_level()},
+		 * the user's enrollment in all courses should be expired.
+		 */
+		$this->student->delete_enrollment( $membership_1->get( 'id' ) );
+		$this->student->unenroll( $membership_2->get( 'id' ) );
+		foreach ( $course_ids as $key => $course_id ) {
+			$status = $this->student->get_enrollment_status( $course_id );
+			$this->assertEquals( 'expired', $status, 'course #' . ( $key + 1 ) . " of $course_count" );
+		}
 	}
 
 	/**
