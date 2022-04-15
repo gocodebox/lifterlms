@@ -1,0 +1,3 @@
+significance: patch
+type: fixed
+entry: Stop using the deprecated `FILTER_SANITIZE_STRING` constant.
