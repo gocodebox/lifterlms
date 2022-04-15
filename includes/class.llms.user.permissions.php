@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 5.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -105,6 +105,7 @@ class LLMS_User_Permissions {
 	 * Handle capabilities checks for lms content to allow *editing* content based on course instructor
 	 *
 	 * @since 3.13.0
+	 * @since [version] TODO.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
@@ -132,7 +133,7 @@ class LLMS_User_Permissions {
 		}
 
 		$instructor = llms_get_instructor( $args[1] );
-		if ( $instructor && $instructor->is_instructor( $args[2] ) ) {
+		if ( $instructor && $instructor->is_instructor( $args[2], true ) ) {
 			$allcaps[ $cap[0] ] = true;
 		}
 

@@ -5,13 +5,13 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Instructor model class
+ * LLMS_Instructor model class.
  *
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
  *
@@ -24,12 +24,13 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
-	 * Add a parent instructor to an assistant instructor
+	 * Add a parent instructor to an assistant instructor.
 	 *
-	 * @param    mixed $parent_ids WP User ID of the parent instructor or array of User IDs to add multiple
-	 * @return   boolean
-	 * @since    3.13.0
-	 * @version  3.14.4
+	 * @since 3.13.0
+	 * @since [version] Remove duplicates just once.
+	 *
+	 * @param mixed $parent_ids WP User ID of the parent instructor or array of User IDs to add multiple
+	 * @return boolean
 	 */
 	public function add_parent( $parent_ids ) {
 
@@ -48,11 +49,11 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		// Make ints.
 		$parent_ids = array_map( 'absint', $parent_ids );
 
-		// Add the new parents.
+		// Add the new parents, removing duplicates.
 		$parents = array_unique( array_merge( $parents, $parent_ids ) );
 
-		// Remove duplicates and save.
-		return $this->set( 'parent_instructors', array_unique( $parents ) );
+		// Save.
+		return $this->set( 'parent_instructors', $parents );
 
 	}
 
@@ -125,35 +126,60 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve instructor's posts (courses and memberships, mixed)
+	 * Retrieve instructor's posts (courses and memberships, mixed).
 	 *
-	 * @param    array  $args    query arguments passed to WP_Query
-	 * @param    string $return  return format [llms_posts|ids|posts|query]
-	 * @return   mixed
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since [version] Added `$include_assistant` parameter.
+	 *
+	 * @param array   $args              Query arguments passed to WP_Query.
+	 * @param string  $return            Return format [llms_posts|ids|posts|query].
+	 * @param boolean $include_assistant Include posts whose instructor is just a parent of this instructor.
+	 * @return mixed
 	 */
-	public function get_posts( $args = array(), $return = 'llms_posts' ) {
+	public function get_posts( $args = array(), $return = 'llms_posts', $include_assistant = false ) {
 
-		$serialized_id = serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+		$parent_instructors = $include_assistant ? $this->get( 'parent_instructors' ) : array();
+		$instructor_ids     = array_merge(
+			$parent_instructors,
 			array(
-				'id' => $this->get_id(),
+				$this->get_id(),
 			)
 		);
-		$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
+
+		$serialized_ids = array();
+		foreach ( $instructor_ids as $id ) {
+			$serialized_id    = serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+				array(
+					'id' => $id,
+				)
+			);
+			$serialized_ids[] = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
+		}
+
+		if ( 1 === count( $serialized_ids ) ) {
+			$meta_query = array(
+				array(
+					'compare' => 'LIKE',
+					'key'     => '_llms_instructors',
+					'value'   => $serialized_id,
+				),
+			);
+		} else {
+			$meta_query = array(
+				array(
+					'compare' => 'REGEXP',
+					'key'     => '_llms_instructors',
+					'value'   => '(' . implode( '|', $serialized_ids ) . ')',
+				),
+			);
+		}
 
 		$args = wp_parse_args(
 			$args,
 			array(
 				'post_type'   => array( 'course', 'llms_membership' ),
 				'post_status' => 'publish',
-				'meta_query'  => array(
-					array(
-						'compare' => 'LIKE',
-						'key'     => '_llms_instructors',
-						'value'   => $serialized_id,
-					),
-				),
+				'meta_query'  => $meta_query,
 			)
 		);
 
@@ -248,14 +274,16 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Determine if the user is an instructor on a post
+	 * Determine if the user is an instructor on a post.
 	 *
-	 * @param    int $post_id  WP Post ID of a course or membership
-	 * @return   boolean
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since [version] Added `$include_assistant` parameter.
+	 *
+	 * @param int     $post_id      WP Post ID of a course or membership.
+	 * @param boolean $as_assistant Whether to check the current instructor is only an assistant of the post's instructor.
+	 * @return boolean
 	 */
-	public function is_instructor( $post_id = null ) {
+	public function is_instructor( $post_id = null, $as_assistant = false ) {
 
 		$ret = false;
 
@@ -307,7 +335,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 					'post__in'       => $check_ids,
 					'posts_per_page' => 1,
 				),
-				'query'
+				'query',
+				$as_assistant
 			);
 
 			$ret = $query->have_posts();
