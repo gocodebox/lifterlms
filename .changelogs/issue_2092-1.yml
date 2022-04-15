@@ -1,0 +1,3 @@
+significance: patch
+type: changed
+entry: Improved checks related to the number of quiz attempts allowed for each student.

@@ -8,7 +8,7 @@
  * @group cache_helper
  *
  * @since 4.0.0
- * @version 4.0.0
+ * @version [version]
  */
 class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 
@@ -59,6 +59,48 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 
 		// Cached item is gone.
 		$this->assertFalse( wp_cache_get( sprintf( 'fake_%s', $prefix ), $group ) );
+
+	}
+
+	/**
+	 * Test additional_nocache_headers() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_additional_nocache_headers() {
+
+		$headers = array();
+
+		$this->assertEquals(
+			array(
+				'Cache-Control' => 'no-cache, must-revalidate, max-age=0, no-store',
+			),
+			LLMS_Cache_Helper::additional_nocache_headers( $headers )
+		);
+
+		$headers = array(
+			'Cache-Control' => '',
+		);
+
+		$this->assertEquals(
+			array(
+				'Cache-Control' => 'no-cache, must-revalidate, max-age=0, no-store',
+			),
+			LLMS_Cache_Helper::additional_nocache_headers( $headers )
+		);
+
+		$headers = array(
+			'Cache-Control' => 'no-cache, something, no-store, something-else',
+		);
+
+		$this->assertEquals(
+			array(
+				'Cache-Control' => 'no-cache, must-revalidate, max-age=0, no-store, something, something-else',
+			),
+			LLMS_Cache_Helper::additional_nocache_headers( $headers )
+		);
 
 	}
 
