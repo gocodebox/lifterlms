@@ -161,7 +161,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 				array(
 					'compare' => 'LIKE',
 					'key'     => '_llms_instructors',
-					'value'   => $serialized_id,
+					'value'   => $serialized_ids[0],
 				),
 			);
 		} else {
