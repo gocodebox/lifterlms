@@ -7,6 +7,7 @@
  * @group user_permissions
  *
  * @since 3.34.0
+ * @since [version] Update tests for instructor's assistants.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
@@ -367,7 +368,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 * Test view_grades cap in various scenarios and different user types
 	 *
 	 * @since 4.21.2
-	 *
+	 * @since [version] Update tests: instructor's assistants can view parent instructor's student's grades.
 	 * @return void
 	 */
 	public function test_view_grades_cap() {
@@ -422,6 +423,99 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 			$this->assertFalse( current_user_can( 'view_grades', $users['student3'], $quiz_id ), $role );
 
+		}
+
+		// Instructor's assistants can view parent instructor's student's grades.
+		$course->instructors()->set_instructors( array(
+			array( 'id' => $users['instructor'] ),
+		) );
+
+		wp_set_current_user( $users[ 'assistant' ] );
+
+		$this->assertTrue( current_user_can( 'view_grades', $users['student'], $quiz_id ) );
+		$this->assertTrue( current_user_can( 'view_grades', $users['student2'], $quiz_id ) );
+		$this->assertFalse( current_user_can( 'view_grades', $users['student3'], $quiz_id ));
+
+		// Remove the assistant from the parent instructor.
+		$assistant->set( 'parent_instructors', array() );
+		$this->assertFalse( current_user_can( 'view_grades', $users['student'], $quiz_id ) );
+		$this->assertFalse( current_user_can( 'view_grades', $users['student2'], $quiz_id ) );
+		$this->assertFalse( current_user_can( 'view_grades', $users['student3'], $quiz_id ));
+
+	}
+
+	/**
+	 * Test instructor's assistant can edit the lms content of their parent instructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_assistants_can_edit_instructor_lms_content() {
+
+		$users   = $this->create_mock_users();
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		$this->assertFalse( user_can( $users['assistant'], 'edit_course', $course->get( 'id' ) ) );
+
+		// Assign an instructor to the course.
+		$course->instructors()->set_instructors( array(
+			array( 'id' => $users['instructor'] ),
+		) );
+		$this->assertTrue( user_can( $users['instructor'], 'edit_course', $course->get( 'id' ) ) );
+		$this->assertFalse( user_can( $users['assistant'], 'edit_course', $course->get( 'id' ) ) );
+
+		// Assign the assistant to the course's instructor.
+		$assistant = llms_get_instructor( $users['assistant'] );
+		$assistant->add_parent( $users['instructor'] );
+		$this->assertTrue( user_can( $users['instructor'], 'edit_course', $course->get( 'id' ) ) );
+		$this->assertTrue( user_can( $users['assistant'], 'edit_course', $course->get( 'id' ) ) );
+
+	}
+
+	/**
+	 * Test instructor's assistant can edit/view/delete students beloinging to their parent instructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_assistants_can_manage_instructor_students() {
+
+		$users   = $this->create_mock_users();
+		$course  = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		foreach ( array( 'view', 'edit', 'delete' ) as $cap_prefix ) {
+			$this->assertFalse( user_can( $users['assistant'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
+		}
+		// Enroll a student into the course.
+		llms_enroll_student( $users['student'], $course->get( 'id' ) );
+		$this->assertFalse( user_can( $users['assistant'], "view_students", $users['student'] ) );
+		foreach ( array(  'edit', 'delete' ) as $cap_prefix ) {
+			$this->assertFalse( user_can( $users['assistant'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
+		}
+
+		// Assign an instructor to the course.
+		$course->instructors()->set_instructors( array(
+			array( 'id' => $users['instructor'] ),
+		) );
+		$this->assertTrue( user_can( $users['instructor'], "view_students", $users['student'] ) );
+		$this->assertFalse( user_can( $users['assistant'], "view_students", $users['student'] ) );
+		foreach ( array( 'edit', 'delete' ) as $cap_prefix ) {
+			$this->assertFalse( user_can( $users['instructor'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
+			$this->assertFalse( user_can( $users['assistant'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
+		}
+		$this->assertTrue( user_can( $users['instructor'], 'edit_course', $course->get( 'id' ) ) );
+		$this->assertFalse( user_can( $users['assistant'], 'edit_course', $course->get( 'id' ) ) );
+
+		// Assign the assistant to the course's instructor.
+		$assistant = llms_get_instructor( $users['assistant'] );
+		$assistant->add_parent( $users['instructor'] );
+		$this->assertTrue( user_can( $users['instructor'], "view_students", $users['student'] ) );
+		$this->assertTrue( user_can( $users['assistant'], "view_students", $users['student'] ) );
+		foreach ( array( 'edit', 'delete' ) as $cap_prefix ) {
+			$this->assertFalse( user_can( $users['instructor'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
+			$this->assertFalse( user_can( $users['assistant'], "{$cap_prefix}_students", $users['student'] ), $cap_prefix );
 		}
 
 	}
