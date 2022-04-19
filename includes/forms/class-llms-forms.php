@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -635,7 +635,7 @@ class LLMS_Forms {
 	 *
 	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param WP_Post|int $form Form's WP_Post instance, or its ID.
 	 * @return boolean
@@ -657,7 +657,7 @@ class LLMS_Forms {
 	 *
 	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string $return What to return: 'posts', for an array of WP_Post; 'ids' for an array of WP_Post ids.
 	 * @return WP_Post[]|int[]

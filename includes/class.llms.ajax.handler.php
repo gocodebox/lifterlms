@@ -604,7 +604,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
-	 * @since [version] Make sure attempts limit was not reached.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -680,7 +680,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
-	 * @since [version] Make sure attempts limit was not reached.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string

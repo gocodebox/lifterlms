@@ -1,6 +1,42 @@
 LifterLMS Changelog
 ===================
 
+v6.4.0 - 2022-04-19
+-------------------
+
+##### Upcoming PHP Version Requirement Change
+
+**LifterLMS will drop support for PHP 7.3 by May, 2022. This will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
+
+##### New Features
+
++ Any "secure" payment gateway options will be automatically masked when written to debug log files.
+
+##### Updates and Enhancements
+
++ When building notification content, only parse merge codes used in the notification. [#1465](https://github.com/gocodebox/lifterlms/issues/1465)
++ Improved checks related to the number of quiz attempts allowed for each student.
++ Prevent browser page caching on quizzes. [#2092](https://github.com/gocodebox/lifterlms/issues/2092)
+
+##### Bug Fixes
+
++ Allowed classes extended from the manual payment gateway class to display payment instructions.
++ Allowed the `LLMS_Shortcode_User_Info` class to be filtered by the `llms_load_shortcodes` and `llms_load_shortcode_path` hooks.
++ Stop using the deprecated `FILTER_SANITIZE_STRING` constant.
++ Fixed an issue that caused shortcodes to not be replaced in some engagement emails. [#2070](https://github.com/gocodebox/lifterlms/issues/2070)
++ Improve core forms detection so to exclude duplicates. [#2052](https://github.com/gocodebox/lifterlms/issues/2052)
++ Added Aosta (AO) to the list of Italian provinces. [#2098](https://github.com/gocodebox/lifterlms/issues/2098)
++ Fixed a compatibility issue with the Elementor Pro Theme Builder encountered on course and membership catalogs. [#2111](https://github.com/gocodebox/lifterlms/issues/2111)
++ Fixed an issue where merge codes in reusable blocks on certificate templates were not replaced when the template was displayed or when the certificate was awarded and published. [#2058](https://github.com/gocodebox/lifterlms/issues/2058)
++ Fixed an issue with OceanWP and Twenty Twenty themes where the Terms and Conditions checkbox was displayed incorrectly. [#1938](https://github.com/gocodebox/lifterlms/issues/1938)
+
+##### Developer Notes
+
++ Added a new filter, `llms_secure_strings` allowing developers to register strings that should be automatically masked when written to log files.
++ Added new filter `llms_no_cache` to control whether or not LifterLMS will send nocache headers. [#2092](https://github.com/gocodebox/lifterlms/issues/2092)
++ Added new filter `llms_template_loader_restricted_priority` to control the priority of the `template_include` hook callback used to load restricted content single templates.
+
+
 v6.3.0 - 2022-04-07
 -------------------
 

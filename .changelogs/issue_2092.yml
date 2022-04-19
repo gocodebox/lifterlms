@@ -1,5 +1,0 @@
-significance: patch
-type: changed
-links:
-  - "#2092"
-entry: Prevent browser page caching on quizzes.

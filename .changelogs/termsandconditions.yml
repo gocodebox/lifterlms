@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#1938"
-entry: Fixed an issue with OceanWP and Twenty Twenty, where the terms and conditions checkbox displayed incorrectly.

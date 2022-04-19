@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -57,7 +57,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Output payment instructions if the order is pending.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allowed classes extended from this manual payment gateway class to display payment instructions.
+	 * @since 6.4.0 Allowed classes extended from this manual payment gateway class to display payment instructions.
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_redirect()` and `exit()`.
+	 * @since 6.4.0 Use `llms_redirect_and_exit()` in favor of `wp_redirect()` and `exit()`.
 	 *
 	 * @param LLMS_Order          $order   Order object.
 	 * @param LLMS_Access_Plan    $plan    Access plan object.

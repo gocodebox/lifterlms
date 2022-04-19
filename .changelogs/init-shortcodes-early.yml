@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2070"
-entry: Fixed an issue that caused shortcodes to not be replaced in some engagement emails.

@@ -8,7 +8,7 @@
  * @group ajax
  * @group quizzes
  *
- * @since [version]
+ * @since 6.4.0
  */
 class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 
@@ -36,7 +36,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test quiz_start() when no student logged in.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test attempts limit check in quiz_start().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_AJAX_Handler_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test attempts limit check in quiz_answer_question().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

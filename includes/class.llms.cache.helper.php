@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -82,7 +82,7 @@ class LLMS_Cache_Helper {
 	 * This prevents caching for the Checkout & Student Dashboard pages.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Force no caching on quiz pages.
+	 * @since 6.4.0 Force no caching on quiz pages.
 	 *               Added 'no-store' to the default WordPress nocache headers.
 	 *
 	 * @return void
@@ -111,7 +111,7 @@ class LLMS_Cache_Helper {
 		/**
 		 * Filter whether or not LifterLMS will send nocache headers.
 		 *
-		 * @since [version]
+		 * @since 6.4.0
 		 *
 		 * @param bool $no_cache Whether or not LifterLMS will send nocache headers.
 		 */
@@ -135,7 +135,7 @@ class LLMS_Cache_Helper {
 	/**
 	 * Set additional nocache headers.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @see wp_get_nocache_headers()
 	 *

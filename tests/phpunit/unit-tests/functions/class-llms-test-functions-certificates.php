@@ -87,7 +87,7 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_get_certificate_content() with reusable blocks and merge codes.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

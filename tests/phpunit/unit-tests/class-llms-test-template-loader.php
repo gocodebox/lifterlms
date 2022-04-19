@@ -8,7 +8,7 @@
  *
  * @since 3.41.1
  * @since 6.0.0 Added tests for the block loader.
- * @since [version] Updated tests on single restricted content template loading.
+ * @since 6.4.0 Updated tests on single restricted content template loading.
  */
 class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
@@ -267,7 +267,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Test template_loader() for restricted pages.
 	 *
 	 * @since 4.10.1
-	 * @since [version] Updated to reflect changes in the `template_loader()` method for single restricted content template.
+	 * @since 6.4.0 Updated to reflect changes in the `template_loader()` method for single restricted content template.
 	 *
 	 * @return void
 	 */

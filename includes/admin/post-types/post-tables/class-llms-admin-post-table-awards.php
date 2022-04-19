@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -146,7 +146,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * Retrieves the post object given the current screen.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int     $id       WP_Post id.
 	 * @param boolean $template Whether or not a template is being requested.

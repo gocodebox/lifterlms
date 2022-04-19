@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -175,7 +175,7 @@ class LLMS_Controller_Awards {
 	 * the creation actions to be fired if the certificate is newly created.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added replacement of references to reusable blocks with their actual blocks.
+	 * @since 6.4.0 Added replacement of references to reusable blocks with their actual blocks.
 	 *
 	 * @param int $post_id WP_Post ID of the certificate.
 	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.

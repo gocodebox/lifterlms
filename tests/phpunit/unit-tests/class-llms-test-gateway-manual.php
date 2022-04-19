@@ -6,14 +6,14 @@
  * @group gateways
  * @group gateway_manual
  *
- * @since [version]
+ * @since 6.4.0
  */
 class LLMS_Test_Gateway_Manual extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Gateway_Manual extends LLMS_UnitTestCase {
 	/**
 	 * Test handle_pending_order() for a paid order.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

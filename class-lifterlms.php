@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '6.3.0';
+	public $version = '6.4.0';
 
 	/**
 	 * LLMS_Assets instance
@@ -67,7 +67,7 @@ final class LifterLMS {
 	 * @since 4.13.0 Check site duplicate status on `admin_init`.
 	 * @since 5.3.0 Move the loading of the LifterLMS autoloader to the main `lifterlms.php` file.
 	 * @since 6.1.0 Automatically load payment gateways.
-	 * @since [version] Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
+	 * @since 6.4.0 Moved registration of `LLMS_Shortcodes::init()` with the 'init' hook to `LLMS_Shortcodes::__construct()`.
 	 *
 	 * @return void
 	 */
