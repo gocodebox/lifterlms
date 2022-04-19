@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/PostTables/Classes
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -146,6 +146,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 * Retrieves the post object given the current screen.
 	 *
 	 * @since 6.0.0
+	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @param int     $id       WP_Post id.
 	 * @param boolean $template Whether or not a template is being requested.
@@ -153,7 +154,7 @@ class LLMS_Admin_Post_Table_Awards {
 	 */
 	private function get_object( $id, $template = false ) {
 
-		$post_type = llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type = llms_filter_input( INPUT_GET, 'post_type' );
 
 		if ( 'llms_my_achievement' === $post_type ) {
 			return new LLMS_User_Achievement( $id );

@@ -3,7 +3,7 @@
  * States
  *
  * Returns a multi-dimensional array of countries and country states (or provinces / regions) and their respective codes.
- * 
+ *
  * Countries with an empty array have no states.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -32,7 +32,7 @@
  * @see llms_get_states()
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -2237,6 +2237,8 @@ return array(
 		'AG' => __( 'Agrigento', 'lifterlms' ),
 		'AL' => __( 'Alessandria', 'lifterlms' ),
 		'AN' => __( 'Ancona', 'lifterlms' ),
+		// 'Aosta' manually added, see https://github.com/gocodebox/lifterlms/issues/2098.
+		'AO' => __( 'Aosta', 'lifterlms' ),
 		'AP' => __( 'Ascoli Piceno', 'lifterlms' ),
 		'AT' => __( 'Asti', 'lifterlms' ),
 		'AV' => __( 'Avellino', 'lifterlms' ),
