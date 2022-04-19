@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Any "secure" payment gateway options will be automatically masked when
+  written to debug log files.

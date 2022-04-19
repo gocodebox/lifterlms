@@ -1,0 +1,5 @@
+significance: patch
+type: changed
+links:
+  - "#1465"
+entry: When building notification content, only parse merge codes used in the notification.

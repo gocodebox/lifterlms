@@ -704,6 +704,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 *
 	 * @since 6.0.0
 	 * @since [version] Added optional `$content` and `$load_reusable_blocks` parameters.
+	 *              Removed initialization of shortcodes now that they are registered earlier.
 	 *
 	 * @param string $content              Optionally use the given content instead of `$this->content`.
 	 * @param bool   $load_reusable_blocks Optionally replace reusable blocks with their actual blocks.
@@ -718,7 +719,6 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 		$content = str_replace( array_keys( $merge ), array_values( $merge ), $content );
 
 		// Do shortcodes.
-		LLMS_Shortcodes::init(); // In certain circumstances shortcodes won't be registered yet.
 		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );
 		$content = do_shortcode( $content );
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );

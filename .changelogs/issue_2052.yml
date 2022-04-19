@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - "#2052"
+entry: Improve core forms detection so to exclude duplicates.
