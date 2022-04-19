@@ -58,7 +58,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve an array of user ids for assistant instructors attached to the instructor
+	 * Retrieve an array of user ids for assistant instructors attached to the instructor.
 	 *
 	 * @since 3.14.4
 	 * @since 3.34.0 Uses object ID instead of current user id.
@@ -82,16 +82,19 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve instructor's courses
+	 * Retrieve instructor's courses.
 	 *
-	 * @uses     $this->get_posts()
-	 * @param    array  $args    query argument, see $this->get_posts()
-	 * @param    string $return  return format, see $this->get_posts()
-	 * @return   mixed
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since [version] Added `$as_assistant` parameter.
+	 *
+	 * @see LLMS_Instructor::get_posts()
+	 *
+	 * @param array   $args         Query arguments passed to WP_Query.
+	 * @param string  $return       Return format. Any of llms_posts | ids | posts | query.
+	 * @param boolean $as_assistant Include posts whose instructor is just a parent of this instructor.
+	 * @return mixed
 	 */
-	public function get_courses( $args = array(), $return = 'llms_posts' ) {
+	public function get_courses( $args = array(), $return = 'llms_posts', $as_assistant = false ) {
 
 		$args = wp_parse_args(
 			$args,
@@ -99,21 +102,24 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 				'post_type' => 'course',
 			)
 		);
-		return $this->get_posts( $args, $return );
+		return $this->get_posts( $args, $return, $as_assistant );
 
 	}
 
 	/**
-	 * Retrieve instructor's memberships
+	 * Retrieve instructor's memberships.
 	 *
-	 * @uses     $this->get_posts()
-	 * @param    array  $args    query argument, see $this->get_posts()
-	 * @param    string $return  return format, see $this->get_posts()
-	 * @return   mixed
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 * @since [version] Added `$as_assistant` parameter.
+	 *
+	 * @see LLMS_Instructor::get_posts()
+	 *
+	 * @param array   $args         Query arguments passed to WP_Query.
+	 * @param string  $return       Return format. Any of llms_posts | ids | posts | query.
+	 * @param boolean $as_assistant Include posts whose instructor is just a parent of this instructor.
+	 * @return mixed
 	 */
-	public function get_memberships( $args = array(), $return = 'llms_posts' ) {
+	public function get_memberships( $args = array(), $return = 'llms_posts', $as_assistant = false ) {
 
 		$args = wp_parse_args(
 			$args,
@@ -121,7 +127,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 				'post_type' => 'llms_membership',
 			)
 		);
-		return $this->get_posts( $args, $return );
+		return $this->get_posts( $args, $return, $as_assistant );
 
 	}
 
@@ -129,24 +135,20 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Retrieve instructor's posts (courses and memberships, mixed).
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added `$include_assistant` parameter.
+	 * @since [version] Added `$as_assistant` parameter.
 	 *
-	 * @param array   $args              Query arguments passed to WP_Query.
-	 * @param string  $return            Return format [llms_posts|ids|posts|query].
-	 * @param boolean $include_assistant Include posts whose instructor is just a parent of this instructor.
+	 * @param array   $args         Query arguments passed to WP_Query.
+	 * @param string  $return       Return format. Any of llms_posts | ids | posts | query.
+	 * @param boolean $as_assistant Include posts whose instructor is just a parent of this instructor.
 	 * @return mixed
 	 */
-	public function get_posts( $args = array(), $return = 'llms_posts', $include_assistant = false ) {
+	public function get_posts( $args = array(), $return = 'llms_posts', $as_assistant = false ) {
 
-		$parent_instructors = $include_assistant ? $this->get( 'parent_instructors' ) : array();
-		$instructor_ids     = array_merge(
-			$parent_instructors,
-			array(
-				$this->get_id(),
-			)
-		);
+		$instructor_ids   = $as_assistant ? $this->get( 'parent_instructors' ) : array();
+		$instructor_ids   = array_filter( is_array( $instructor_ids ) ? $instructor_ids : array( $instructor_ids ) );
+		$instructor_ids[] = $this->get_id();
+		$serialized_ids   = array();
 
-		$serialized_ids = array();
 		foreach ( $instructor_ids as $id ) {
 			$serialized_id    = serialize( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 				array(
@@ -156,7 +158,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			$serialized_ids[] = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
 		}
 
-		if ( 1 === count( $serialized_ids ) ) {
+		if ( 1 === count( $serialized_ids ) ) { // Instructor with no parent.
 			$meta_query = array(
 				array(
 					'compare' => 'LIKE',
@@ -203,25 +205,28 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve instructor's students
+	 * Retrieve instructor's students.
 	 *
 	 * @since 3.13.0
 	 * @since 3.32.0 Validate `post_id` data passed into this function to ensure only students
 	 *               in courses/memberships for this instructor are returned.
 	 * @since 6.0.0 Don't access `LLMS_Student_Query` properties directly.
+	 * @since [version] Added `$as_assistant` parameter.
 	 *
 	 * @see LLMS_Student_Query
 	 *
-	 * @param array $args Array of args passed to LLMS_Student_Query.
+	 * @param array   $args         Array of args passed to LLMS_Student_Query.
+	 * @param boolean $as_assistant Include students of posts whose instructor is just a parent of this instructor.
 	 * @return LLMS_Student_Query
 	 */
-	public function get_students( $args = array() ) {
+	public function get_students( $args = array(), $as_assistant = false ) {
 
 		$ids = $this->get_posts(
 			array(
 				'posts_per_page' => -1,
 			),
-			'ids'
+			'ids',
+			$as_assistant
 		);
 
 		// If post IDs were passed we need to verify they're IDs that the instructor has access to.
@@ -247,11 +252,13 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Determines if the instructor is an instructor to a specific student.
 	 *
 	 * @since 3.34.0
+	 * @since [version] Added `$as_assistant` parameter.
 	 *
-	 * @param LLMS_Student|WP_User|int $student Student or user object or WP User ID.
+	 * @param LLMS_Student|WP_User|int $student      Student or user object or WP User ID.
+	 * @param boolean                  $as_assistant Include students of posts whose instructor is just a parent of this instructor.
 	 * @return bool
 	 */
-	public function has_student( $student ) {
+	public function has_student( $student, $as_assistant = false ) {
 
 		$student = llms_get_student( $student );
 		if ( ! $student ) {
@@ -277,7 +284,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Determine if the user is an instructor on a post.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added `$include_assistant` parameter.
+	 * @since [version] Added `$as_assistant` parameter.
 	 *
 	 * @param int     $post_id      WP Post ID of a course or membership.
 	 * @param boolean $as_assistant Whether to check the current instructor is only an assistant of the post's instructor.
@@ -348,7 +355,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Used by exporter / cloner to get instructor data
+	 * Used by exporter / cloner to get instructor data.
 	 *
 	 * @since 3.16.11
 	 * @since 3.30.3 Renamed "descrpition" key to "description".
