@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version 5.2.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -131,17 +131,17 @@ function llms_get_callable_name( $callable ) {
 
 	if ( is_array( $callable ) && ! empty( $callable ) ) {
 
-		// Class and class method: [ $class, 'method' ].
+		// Class and class method: [ $class, 'method' ]. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 		if ( is_object( $callable[0] ) ) {
 			return get_class( $callable[0] ) . '->' . $callable[1];
 		}
 
-		// Static class + method: [ 'class', 'method' ].
+		// Static class + method: [ 'class', 'method' ]. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 		return implode( '::', $callable );
 
 	}
 
-	// Invokable class: $class.
+	// Invokable class: $class. (phpcs:ignore Squiz.PHP.CommentedOutCode.Found).
 	if ( is_object( $callable ) ) {
 		return get_class( $callable );
 	}
@@ -177,9 +177,14 @@ function llms_get_log_path( $handle ) {
 function llms_log( $message, $handle = 'llms' ) {
 
 	/**
-	 * Filter a log message before it's written to the logger.
+	 * Filter a log data before it's written to the logger.
+	 *
+	 * This hook filters the log message in its raw format which may be a string, object, or array. To
+	 * filter the final log message after string conversion, use `llms_log_message_string`.
 	 *
 	 * @since 4.12.0
+	 *
+	 * @see llms_log_message_string
 	 *
 	 * @param mixed  $message Data to log.
 	 * @param string $handle  Allow creation of multiple log files by handle.
@@ -187,22 +192,87 @@ function llms_log( $message, $handle = 'llms' ) {
 	$message = apply_filters( 'llms_log_message', $message, $handle );
 
 	$ret = false;
-	$fh  = fopen( llms_get_log_path( $handle ), 'a' );
+	$fh  = fopen( llms_get_log_path( $handle ), 'a' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 
 	// Open the file (creates it if it doesn't already exist).
 	if ( $fh ) {
 
-		// Print array or objects with `print_r`.
-		if ( is_array( $message ) || is_object( $message ) ) {
-			$message = print_r( $message, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
-		}
+		$message = is_array( $message ) || is_object( $message ) ? print_r( $message, true ) : $message; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- This is intentional.
 
-		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" );
+		/**
+		 * Filter a log message before it's written to the logger.
+		 *
+		 * This hook filters the log message in its final string format To filter the log message
+		 * before string conversion, use `llms_log_message`.
+		 *
+		 * @since 6.4.0
+		 *
+		 * @see llms_log_message
+		 *
+		 * @param string $message Log message string.
+		 * @param string $handle  Allow creation of multiple log files by handle.
+		 */
+		$message = apply_filters( 'llms_log_message_string', $message, $handle );
 
-		fclose( $fh );
+		$ret = fwrite( $fh, gmdate( 'Y-m-d H:i:s' ) . ' - ' . $message . "\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite
+
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
 
 	}
 
 	return $ret ? true : false;
 
 }
+
+/**
+ * Automatically anonymize a list of registered "secure" strings before writing logs.
+ *
+ * This function is a callback for the `llms_log_message_string` filter. It loads secure strings
+ * defined in the `llms_secure_strings` filter and automatically anonymizes them when
+ * they are found within the supplied log message.
+ *
+ * @since 6.4.0
+ *
+ * @access private
+ *
+ * @param string $message The string to log.
+ * @param string $handle  Log file handle.
+ * @return string
+ */
+function _llms_secure_log_messages( $message, $handle ) {
+
+	/**
+	 * Filters a list of "secure" strings which should be anonymized prior to logging.
+	 *
+	 * A plugin or theme that might log potentially sensitive data (such as API keys), the
+	 * API key strings can be registered with this filter to automatically be anonymized
+	 * if they are found within logs.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string[] $secure_strings An array of secure strings that should be anonymized.
+	 * @param string   $handle         The log handle. This can be used to only register strings for a specific log file.
+	 */
+	$secure_strings = apply_filters( 'llms_secure_strings', array(), $handle );
+
+	// Nothing to do.
+	if ( empty( $secure_strings ) ) {
+		return $message;
+	}
+
+	$find    = array();
+	$replace = array();
+
+	foreach ( $secure_strings as $string ) {
+		if ( false !== strpos( $message, $string ) ) {
+			$find[]    = $string;
+			$replace[] = llms_anonymize_string( $string );
+		}
+	}
+
+	$message = str_replace( $find, $replace, $message );
+
+	return $message;
+
+}
+add_filter( 'llms_log_message_string', '_llms_secure_log_messages', 999, 2 );

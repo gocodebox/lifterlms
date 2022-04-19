@@ -600,10 +600,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Start a Quiz Attempt
+	 * Start a Quiz Attempt.
 	 *
 	 * @since 3.9.0
 	 * @since 3.16.4 Unknown.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 *                       required:
@@ -624,8 +625,14 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
+		// Limit reached?
+		if ( isset( $request['quiz_id'] ) && ! ( new LLMS_Quiz( $request['quiz_id'] ) )->is_open() ) {
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
+			return $err;
+		}
+
 		$attempt = false;
-		if ( isset( $request['attempt_key'] ) && $request['attempt_key'] ) {
+		if ( ! empty( $request['attempt_key'] ) ) {
 			$attempt = $student->quizzes()->get_attempt_by_key( $request['attempt_key'] );
 		}
 
@@ -669,10 +676,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * AJAX Quiz answer question
+	 * AJAX Quiz answer question.
 	 *
 	 * @since 3.9.0
 	 * @since 3.27.0 Unknown.
+	 * @since 6.4.0 Make sure attempts limit was not reached.
 	 *
 	 * @param array $request $_POST data.
 	 * @return WP_Error|string
@@ -699,9 +707,26 @@ class LLMS_AJAX_Handler {
 		$question_id = absint( $request['question_id'] );
 		$answer      = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
 
-		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
+		$student_quizzes = $student->quizzes();
+		$attempt         = $student_quizzes->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {
-			$err->add( 500, __( 'There was an error recording your answer the quiz. Please return to the lesson and begin again.', 'lifterlms' ) );
+			$err->add( 500, __( 'There was an error recording your answer. Please return to the lesson and begin again.', 'lifterlms' ) );
+			return $err;
+		}
+
+		/**
+		 * Check limit not reached.
+		 *
+		 * First check whether the quiz is open (so to leverage the `llms_quiz_is_open` filter ),
+		 * if not, check also for remaining attempts.
+		 *
+		 * At this point the current attempt has already been counted (maybe the last allowed),
+		 * so we check that the remaining attempt is just greater than -1.
+		 */
+		$quiz_id = $attempt->get( 'quiz_id' );
+		if ( ! ( new LLMS_Quiz( $quiz_id ) )->is_open() &&
+				$student_quizzes->get_attempts_remaining_for_quiz( $quiz_id, true ) < 0 ) {
+			$err->add( 400, __( "You've reached the maximum number of attempts for this quiz.", 'lifterlms' ) );
 			return $err;
 		}
 

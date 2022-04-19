@@ -5,13 +5,13 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 5.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Abstract_Notification_View class
+ * LLMS_Abstract_Notification_View class.
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
@@ -86,6 +86,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @var LLMS_Student
 	 */
 	protected $user;
+
+	/**
+	 * Merge codes.
+	 *
+	 * @var string[]
+	 */
+	protected $merge_codes;
 
 	/**
 	 * Replace merge codes with actual values
@@ -542,17 +549,24 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Get available merge codes for the current notification
+	 * Get available merge codes for the current notification.
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
+	 * @since 6.4.0 Cache merge codes.
 	 *
 	 * @return array
 	 */
 	public function get_merge_codes() {
-		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
-		asort( $codes );
-		return apply_filters( $this->get_filter( 'get_merge_codes' ), $codes, $this );
+
+		if ( ! isset( $this->merge_codes ) ) {
+			$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
+			asort( $codes );
+			$this->merge_codes = $codes;
+		}
+
+		return apply_filters( $this->get_filter( 'get_merge_codes' ), $this->merge_codes, $this );
+
 	}
 
 	/**
@@ -581,27 +595,30 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Merge a string
+	 * Merge a string.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.19 Use `in_array` with strict comparison.
+	 * @since 6.4.0 Only populate effectively used merged data.
 	 *
 	 * @param string $string An unmerged string.
 	 * @return string
 	 */
 	private function get_merged_string( $string ) {
 
-		// only merge if there's codes in the string.
+		// Only merge if there are codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
-			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
+			$merge_code_defaults = $this->get_merge_code_defaults();
 
-				// set defaults.
-				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
+			foreach ( $this->get_used_merge_codes( $string ) as $code ) {
+
+				// Set defaults.
+				if ( array_key_exists( $code, $merge_code_defaults ) ) {
 
 					$func = 'set_merge_data_default';
 
-					// set customs with extended class func.
+					// Set customs with extended class func.
 				} else {
 
 					$func = 'set_merge_data';
@@ -614,6 +631,28 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		}
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
+
+	}
+
+	/**
+	 * Retrieve merge codes used in a given string.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $string Text string whereto look for merge codes.
+	 * @return array Returns a list of merge codes actually used in the passed string.
+	 */
+	private function get_used_merge_codes( $string ) {
+
+		return array_keys(
+			array_filter(
+				$this->get_merge_codes(),
+				function ( $code ) use ( $string ) {
+					return false !== strpos( $string, $code );
+				},
+				ARRAY_FILTER_USE_KEY
+			)
+		);
 
 	}
 

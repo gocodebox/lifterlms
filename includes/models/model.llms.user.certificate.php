@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version 6.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -703,17 +703,22 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Merges the post content based on content from the template.
 	 *
 	 * @since 6.0.0
+	 * @since 6.4.0 Added optional `$content` and `$load_reusable_blocks` parameters.
+	 *              Removed initialization of shortcodes now that they are registered earlier.
 	 *
+	 * @param string $content              Optionally use the given content instead of `$this->content`.
+	 * @param bool   $load_reusable_blocks Optionally replace reusable blocks with their actual blocks.
 	 * @return string
 	 */
-	public function merge_content() {
+	public function merge_content( $content = null, $load_reusable_blocks = false ) {
+
+		$content = parent::merge_content( $content, $load_reusable_blocks );
 
 		// Merge.
 		$merge   = $this->get_merge_data();
-		$content = str_replace( array_keys( $merge ), array_values( $merge ), $this->get( 'content', true ) );
+		$content = str_replace( array_keys( $merge ), array_values( $merge ), $content );
 
 		// Do shortcodes.
-		LLMS_Shortcodes::init(); // In certain circumstances shortcodes won't be registered yet.
 		add_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );
 		$content = do_shortcode( $content );
 		remove_filter( 'llms_user_info_shortcode_user_id', array( $this, 'get_user_id' ) );

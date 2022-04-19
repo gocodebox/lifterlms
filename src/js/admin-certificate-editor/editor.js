@@ -92,16 +92,17 @@ function hasCertificateTitle() {
 /**
  * Sync saved content with displayed content.
  *
- * We process merge and shortcodes server-side when a published `llms_my_certificate` is updated.
+ * We process merge codes, shortcodes and reusable blocks server-side when a published `llms_my_certificate` is updated.
  * When the content is returned from the server, it is not updated in the block editor (it's assumed that
  * the content doesn't change).
  *
- * This function waits until a save has been processed and then determines if the editor's content should
- * be updated by looking for merge or shortcodes in the editor's content. If any are found in the editor's
+ * This function waits until a save has been processed and then determines if the editor's content should be updated
+ * by looking for merge codes, shortcodes or reusable blocks in the editor's content. If any are found in the editor's
  * content and none are found in the post's content as returned from the server it will update the editor's
  * content with the content returned from the server.
  *
  * @since 6.0.0
+ * @since 6.4.0 Added refresh if the edited content contains a WordPress reusable block.
  *
  * @see {@link https://github.com/WordPress/gutenberg/issues/26763}
  *
@@ -119,7 +120,7 @@ function maybeRefreshContent( content, editedContent ) {
 	} else if ( ! isSaving && hasSaved ) {
 		hasSaved = false;
 
-		const REGEX = /(\{[A-Za-z_].*\})|(\[llms-user .+])/g,
+		const REGEX = /(\{[A-Za-z_].*\})|(\[llms-user .+]|(<!-- wp:block .+? \/-->))/g,
 			actualMatch = content.match( REGEX ),
 			editedMatch = editedContent.match( REGEX );
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version 6.2.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -463,7 +463,7 @@ class LLMS_Forms {
 	 *              to better check whether a block is visible.
 	 * @since 6.2.0 Exploded hidden checkbox fields.
 	 *
-	 * @param  array $blocks Array of WP Block arrays from `parse_blocks()`.
+	 * @param array $blocks Array of WP Block arrays from `parse_blocks()`.
 	 * @return array
 	 */
 	public function get_fields_settings_from_blocks( $blocks ) {
@@ -629,6 +629,80 @@ class LLMS_Forms {
 		return apply_filters( 'llms_get_form_post', $post, $location, $args );
 
 	}
+
+	/**
+	 * Check whether a given form is a core form.
+	 *
+	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param WP_Post|int $form Form's WP_Post instance, or its ID.
+	 * @return boolean
+	 */
+	public function is_a_core_form( $form ) {
+
+		$form_id = $form instanceof WP_Post ? $form->ID : $form;
+
+		if ( ! $form_id ) {
+			return false;
+		}
+
+		return in_array( $form_id, $this->get_core_forms( 'ids' ), true );
+
+	}
+
+	/**
+	 * Retrieves only core forms.
+	 *
+	 * When there are multiple forms for a location, the core form is identified as the one with the lowest ID.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $return What to return: 'posts', for an array of WP_Post; 'ids' for an array of WP_Post ids.
+	 * @return WP_Post[]|int[]
+	 */
+	private function get_core_forms( $return = 'posts', $use_cache = true ) {
+
+		global $wpdb;
+
+		$forms_cache_key = 'posts' === $return ? 'llms_core_forms' : 'llms_core_form_ids';
+		$forms           = $use_cache ? wp_cache_get( $forms_cache_key ) : false;
+
+		if ( false !== $forms ) {
+			return $forms;
+		}
+
+		$locations              = array_keys( $this->get_locations() );
+		$locations_placeholders = implode( ',', array_fill( 0, count( $locations ), '%s' ) );
+		$prepare_values         = array_merge( array( $this->get_post_type() ), $locations );
+
+		$query = "
+SELECT MIN({$wpdb->posts}.ID) AS ID
+FROM $wpdb->posts
+INNER JOIN {$wpdb->postmeta} AS locations ON {$wpdb->posts}.ID = locations.post_id AND locations.meta_key='_llms_form_location'
+INNER JOIN {$wpdb->postmeta} AS is_cores ON {$wpdb->posts}.ID = is_cores.post_id AND is_cores.meta_key='_llms_form_is_core'
+WHERE {$wpdb->posts}.post_type = %s
+AND locations.meta_value IN ({$locations_placeholders})
+AND is_cores.meta_value = 'yes'
+GROUP BY locations.meta_value";
+
+		$form_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				$query, // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+				$prepare_values
+			)
+		);
+
+		$form_ids = array_map( 'absint', $form_ids );
+		$forms    = 'post' === $return ? array_map( 'get_post', $form_ids ) : $form_ids;
+
+		wp_cache_set( $forms_cache_key, $forms );
+
+		return $forms;
+
+	}
+
 
 	/**
 	 * Retrieve additional fields added to the form programmatically.
@@ -1024,29 +1098,32 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Loads reusable blocks into a block list
+	 * Loads reusable blocks into a block list.
 	 *
-	 * By default, a reusable block contains a reference to the block post (which will be
-	 * loaded during rendering). This is problematic for us since we want to review then
-	 * entire block list so we can see all fields for validation purposes and so on.
+	 * A reusable block contains a reference to the block post, e.g. `<!-- wp:block {"ref":2198} /-->`,
+	 * which will be loaded during rendering.
 	 *
-	 * This function will replace each reusable block with the parsed blocks
-	 * from it's reference post.
+	 * Dereferencing the reusable blocks allows the entire block list to be reviewed and to validate all form fields.
+	 * This function will replace each reusable block with the parsed blocks from its reference post.
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Access turned to public.
 	 *
-	 * @param array[] $blocks List of WP_Block arrays.
+	 * @param array[] $blocks An array of blocks from `parse_blocks()`,
+	 *                        where each block is usually an array cast from `WP_Block_Parser_Block`.
+	 *
 	 * @return array[]
 	 */
 	public function load_reusable_blocks( $blocks ) {
 
 		$loaded = array();
 
-		foreach ( $blocks as $index => $block ) {
+		foreach ( $blocks as $block ) {
 
+			// Skip blocks that are not reusable blocks.
 			if ( 'core/block' === $block['blockName'] ) {
 
+				// Skip reusable blocks that do not exist or are not published.
 				$post = get_post( $block['attrs']['ref'] );
 				if ( ! $post || 'publish' !== get_post_status( $post ) ) {
 					continue;
@@ -1054,15 +1131,14 @@ class LLMS_Forms {
 
 				$loaded = array_merge( $loaded, $this->parse_blocks( $post->post_content ) );
 				continue;
-
 			}
 
+			// Does this block's inner blocks have references to reusable blocks?
 			if ( $block['innerBlocks'] ) {
 				$block['innerBlocks'] = $this->load_reusable_blocks( $block['innerBlocks'] );
 			}
 
 			$loaded[] = $block;
-
 		}
 
 		return $loaded;

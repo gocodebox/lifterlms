@@ -33,6 +33,63 @@ require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
 require_once 'functions/llms.functions.user.postmeta.php';
 
+if ( ! function_exists( 'llms_anonymize_string' ) ) {
+	/**
+	 * Anonymize a string.
+	 *
+	 * Masks the characters in a string with the specified character leaving a small number
+	 * of characters visible. For example `llms_anonymize_string( 'MY_SECRET_STRING' ) will return
+	 * 'MY************NG'.
+	 *
+	 * The number of retained original characters is dependent on the string's length:
+	 *
+	 * | Length        | At start | At end | Example      |
+	 * | ------------- | -------- | ------ | ------------ |
+	 * | 1             | 0        | 0      | *            |
+	 * | >= 2 && <= 6  | 0        | 1      | *****A       |
+	 * | >= 7 && <= 10 | 0        | 2      | ********AA   |
+	 * | >= 11         | 2        | 2      | AA*******AA  |
+	 *
+	 * Any string that validates as an email address using `is_email()` will be split at the `@` symbol
+	 * and each part of the email address will be anonymized separately, for example:
+	 * `llms_anonymize_string( 'help@lifterlms.com' )` will return '***p@li*********om'.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @param string $string The input string to be anonymized.
+	 * @param string $char   The character used to mask the string.
+	 * @return string
+	 */
+	function llms_anonymize_string( $string, $char = '*' ) {
+
+		if ( is_email( $string ) ) {
+			$parts = explode( '@', $string );
+			return llms_anonymize_string( $parts[0] ) . '@' . llms_anonymize_string( $parts[1] );
+		}
+
+		$len = strlen( $string );
+
+		$at_front = 2;
+		$at_back  = 2;
+		if ( 1 === $len ) {
+			return $char;
+		} elseif ( $len <= 6 ) {
+			$at_front = 0;
+			$at_back  = 1;
+		} elseif ( $len <= 10 ) {
+			$at_front = 0;
+		}
+
+		$start = substr( $string, 0, $at_front );
+		$body  = str_repeat( $char, strlen( $string ) - ( $at_front + $at_back ) );
+		$end   = substr( $string, - $at_back );
+
+		return "{$start}{$body}{$end}";
+
+	}
+}
+
+
 /**
  * Insert elements into an associative array after a specific array key
  *

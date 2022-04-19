@@ -85,6 +85,116 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_get_certificate_content() with reusable blocks and merge codes.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_certificate_content_reusable_blocks() {
+
+		// Define reusable blocks.
+		$reusable_blocks = array(
+			// Multiple blocks.
+			1 => "<!-- wp:paragraph --><p>reusable block 1 paragraph 1</p><!-- /wp:paragraph -->\n" .
+			     "<!-- wp:paragraph --><p>reusable block 1 paragraph 2</p><!-- /wp:paragraph -->",
+
+			// Multiple blocks containing different LifterLMS merge codes.
+			2 => "<!-- wp:paragraph --><p>reusable block 2 Certificate ID: {certificate_id}</p><!-- /wp:paragraph -->\n" .
+			     "<!-- wp:paragraph --><p>reusable block 2 Sequential ID: {sequential_id}</p><!-- /wp:paragraph -->",
+
+			// One block with two levels of inner blocks.
+			3 => "<!-- wp:columns --><div class=\"wp-block-columns\">\n" .
+			     "    <!-- wp:column --><div class=\"wp-block-column\">\n" .
+			     "        <!-- wp:paragraph --><p>reusable block 3 column 1</p><!-- /wp:paragraph -->\n" .
+			     "    <!-- /wp:column --></div>\n" .
+			     "    <!-- wp:column --><div class=\"wp-block-column\">\n" .
+			     "        <!-- wp:paragraph --><p>reusable block 3 column 2</p><!-- /wp:paragraph -->\n" .
+			     "    <!-- /wp:column --></div>\n" .
+			     "<!-- /wp:columns -->",
+
+			// One block and multiple references to different reusable blocks.
+			4 => "<!-- wp:paragraph --><p>reusable block 4 paragraph 1</p><!-- /wp:paragraph -->\n" .
+			     "<!-- wp:block {\"ref\":{REUSABLE_BLOCK_1}} /-->\n" .
+			     "<!-- wp:block {\"ref\":{REUSABLE_BLOCK_2}} /-->",
+
+			// One block with two levels of inner blocks that reference different reusable blocks.
+			5 => "<!-- wp:columns --><div class=\"wp-block-columns\">\n" .
+			     "    <!-- wp:column --><div class=\"wp-block-column\">\n" .
+			     "        <!-- wp:block {\"ref\":{REUSABLE_BLOCK_1}} /-->\n" .
+			     "    <!-- /wp:column --></div>\n" .
+			     "    <!-- wp:column --><div class=\"wp-block-column\">\n" .
+			     "        <!-- wp:block {\"ref\":{REUSABLE_BLOCK_4}} /-->\n" .
+			     "    <!-- /wp:column --></div>\n" .
+			     "<!-- /wp:columns -->",
+		);
+
+		$reusable_posts   = array();
+		$template_blocks  = array();
+		$template_posts   = array();
+		$reusable_pattern = '/{REUSABLE_BLOCK_(\d+?)}/';
+
+		foreach ( $reusable_blocks as $key => $reusable_block ) {
+
+			// Replace reusable block merge codes with their reusable post ID.
+			while ( preg_match_all( $reusable_pattern, $reusable_block, $matches, PREG_SET_ORDER ) ) {
+				foreach ( $matches as $match ) {
+					$reusable_block = str_replace( $match[0], $reusable_posts[ $match[1] ]->ID, $reusable_block );
+				}
+			}
+
+			// Create reusable block.
+			$reusable_posts[ $key ] = $this->factory->post->create_and_get( array(
+				'post_type'    => 'wp_block',
+				'post_content' => $reusable_block,
+			) );
+
+			// Create template with only the reference to a reusable block.
+			$template_blocks[ $key ] = null;
+			$template_posts[ $key ]  = $this->factory->post->create_and_get( array(
+				'post_type'    => 'llms_certificate',
+				'post_content' => "<!-- wp:block {\"ref\":{$reusable_posts[ $key ]->ID}} /-->",
+			) );
+
+			// Create template with a paragraph block and a reference to a reusable block.
+			$template_blocks[ $key + 100 ] = "<!-- wp:paragraph --><p>template 10$key reusable block $key</p>" .
+			                                 "<!-- /wp:paragraph -->";
+			$template_posts[ $key + 100 ]  = $this->factory->post->create_and_get( array(
+				'post_type'    => 'llms_certificate',
+				'post_content' => $template_blocks[ $key + 100 ] .
+				                  "<!-- wp:block {\"ref\":{$reusable_posts[ $key ]->ID}} /-->",
+			) );
+		}
+
+		$reusable_pattern = '/<!-- wp:block {"ref":{REUSABLE_BLOCK_(\d+?)}} \/-->/';
+
+		foreach ( $template_posts as $key => $template_post ) {
+
+			$reusable_key = $key < 100 ? $key : $key - 100;
+			$expected     = $template_blocks[ $key ] . $reusable_blocks[ $reusable_key ];
+
+			// Replace reusable block merge codes with their reusable block content.
+			while ( preg_match_all( $reusable_pattern, $expected, $matches, PREG_SET_ORDER ) ) {
+				foreach ( $matches as $match ) {
+					$expected = str_replace( $match[0], $reusable_blocks[ $match[1] ], $expected );
+				}
+			}
+			$expected = preg_replace( '/<!--.+?-->/', '', $expected );
+
+			$sequence_id = llms_get_certificate_sequential_id( $template_post->ID, false );
+			$sequence_id = str_pad( $sequence_id, 6, '0', STR_PAD_LEFT );
+			$expected    = str_replace( '{certificate_id}', $template_post->ID, $expected );
+			$expected    = str_replace( '{sequential_id}', $sequence_id, $expected );
+
+			$this->assertEquals(
+				$expected,
+				llms_get_certificate_content( $template_post->ID ),
+				"template #$key, reusable block #$reusable_key"
+			);
+		}
+	}
+
+	/**
 	 * Test llms_get_certificate_fonts().
 	 *
 	 * @since 6.0.0
@@ -97,7 +207,11 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_llms_get_certificate_image() {}
+	public function test_llms_get_certificate_image() {
+
+		$this->markTestIncomplete();
+
+	}
 
 	/**
 	 * Test llms_get_certificate_merge_codes()

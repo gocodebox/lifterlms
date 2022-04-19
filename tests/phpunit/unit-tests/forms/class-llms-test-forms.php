@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version 6.2.0
+ * @version 6.4.0
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
@@ -1521,4 +1521,96 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test is_a_core_form() method passing something which is not a form.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form_with_no_form() {
+
+		$fake_form = new stdClass();
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form ) );
+
+		$fake_form_id = 939393;
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+
+		$fake_form_id = $this->factory->post->create();
+		$this->assertFalse( $this->forms->is_a_core_form( $fake_form_id ) );
+
+	}
+
+	/**
+	 * Test is_a_core_form() method passing something which is a core form.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form() {
+
+		$locations = $this->forms->get_locations();
+
+		$created_ids = array();
+
+		// Create new forms.
+		foreach ( $locations as $location_id => $data ) {
+			$created_ids[] = $this->forms->create( $location_id );
+		}
+		foreach ( $created_ids as $created_id ) {
+			$this->assertTrue( $this->forms->is_a_core_form( $created_id ) );
+		}
+
+	}
+
+
+	/**
+	 * Test is_a_core_form() method passing something which is a form but NOT a core form.
+	 *
+	 * @since 6.4.0
+	 *
+	 * @return void
+	 */
+	public function test_is_a_core_form_not_core_form() {
+
+		$locations = $this->forms->get_locations();
+
+		$core      = array();
+		$core_dups = array();
+		$new       = array();
+
+		// Create new forms.
+		foreach ( $locations as $location_id => $data ) {
+			$core[] = $this->forms->create( $location_id );
+			// Duplicate core forms.
+			$core_dups[] = $this->factory->post->create(
+				array(
+					'post_type' => 'llms_form',
+				)
+			);
+			update_post_meta( end( $core_dups ), '_llms_form_location', $location_id );
+			update_post_meta( end( $core_dups ), '_llms_form_is_core', 'yes' );
+		}
+		// Create 3 additional billing forms.
+		for ( $i = 0; $i < 3; $i++ ) {
+			$core_dups[] = $this->factory->post->create(
+				array(
+					'post_type' => 'llms_form',
+				)
+			);
+			update_post_meta( end( $core_dups ), '_llms_form_location', 'checkout' );
+		}
+
+		foreach ( $core as $c ) {
+			$this->assertTrue( $this->forms->is_a_core_form( $c ), $c );
+		}
+		foreach ( $core_dups as $cd ) {
+			$this->assertFalse( $this->forms->is_a_core_form( $cd ), $cd );
+		}
+		foreach ( $new as $n ) {
+			$this->assertFalse( $this->forms->is_a_core_form( $n ), $n );
+		}
+
+	}
 }

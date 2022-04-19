@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,12 +19,24 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes {
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 6.4.0
+	 * @return void
+	 */
+	public function __construct() {
+
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+	}
+
+	/**
 	 * Initialize shortcodes array.
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
 	 *
 	 * @return void
 	 */
@@ -33,7 +45,7 @@ class LLMS_Shortcodes {
 		// New method.
 		$scs = apply_filters(
 			/**
-			 * Filters the shortcodes to initialize
+			 * Filters the shortcodes to initialize.
 			 *
 			 * @since Unknown
 			 *
@@ -55,24 +67,28 @@ class LLMS_Shortcodes {
 				'LLMS_Shortcode_Membership_Link',
 				'LLMS_Shortcode_My_Achievements',
 				'LLMS_Shortcode_Registration',
+				'LLMS_Shortcode_User_Info',
 			)
 		);
 
-		// Include abstracts.
-		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
+		$hyphenated_file_classes = array(
+			'LLMS_Shortcode_User_Info',
+		);
 
 		foreach ( $scs as $class ) {
 
-			$filename = strtolower( str_replace( '_', '.', $class ) );
+			$separator = in_array( $class, $hyphenated_file_classes, true ) ? '-' : '.';
+			$filename  = "class{$separator}" . strtolower( str_replace( '_', $separator, $class ) );
+
 			/**
-			 * Filters the path of the shortcode class file
+			 * Filters the path of the shortcode class file.
 			 *
 			 * @since Unknown
 			 *
 			 * @param string $file  The shortcode class file name.
 			 * @param string $class The shortcode class name.
 			 */
-			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
+			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . "includes/shortcodes/{$filename}.php", $class );
 
 			if ( file_exists( $path ) ) {
 				require_once $path;
@@ -606,3 +622,5 @@ class LLMS_Shortcodes {
 	}
 
 }
+
+return new LLMS_Shortcodes();
