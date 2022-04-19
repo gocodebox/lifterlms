@@ -102,10 +102,10 @@ class LLMS_User_Permissions {
 	}
 
 	/**
-	 * Handle capabilities checks for lms content to allow *editing* content based on course instructor
+	 * Handle capabilities checks for lms content to allow *editing* content based on course instructor.
 	 *
 	 * @since 3.13.0
-	 * @since [version] TODO.
+	 * @since [version] Allow instructor's assistants to edit their parent instructor posts.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
@@ -179,6 +179,7 @@ class LLMS_User_Permissions {
 	 *   + Any instructor/assistant who can `edit_post` for the course the quiz belongs to can view grades of the students within that course.
 	 *
 	 * @since 4.21.2
+	 * @since [version] Allow instructor's assistants to view their parent instructor's student grades.
 	 *
 	 * @param bool[] $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                        represent whether the user has that capability.
@@ -211,7 +212,7 @@ class LLMS_User_Permissions {
 			$allcaps[ $requested_cap ] = true;
 		} elseif ( current_user_can( 'edit_post', $post_id ) ) {
 			$instructor = llms_get_instructor( $current_user_id );
-			if ( $instructor && $instructor->has_student( $requested_user_id ) ) {
+			if ( $instructor && $instructor->has_student( $requested_user_id, true ) ) {
 				$allcaps[ $requested_cap ] = true;
 			}
 		}
@@ -229,6 +230,7 @@ class LLMS_User_Permissions {
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
 	 * @since 3.37.14 Use strict comparison.
 	 * @since 4.21.2 Add logic to handle the `view_grades` capability.
+	 * @since [version] Allow instructor's assistants to view their parent instructor's students.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
@@ -283,7 +285,7 @@ class LLMS_User_Permissions {
 			$others_cap = str_replace( '_', '_others_', $required_cap );
 			if ( $user_id && $object_id && ! user_can( $user_id, $others_cap ) ) {
 				$instructor = llms_get_instructor( $user_id );
-				if ( ! $instructor || ! $instructor->has_student( $object_id ) ) {
+				if ( ! $instructor || ! $instructor->has_student( $object_id, true ) ) {
 					unset( $allcaps[ $required_cap ] );
 				}
 			}

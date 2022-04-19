@@ -147,6 +147,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		$instructor_ids   = $as_assistant ? $this->get( 'parent_instructors' ) : array();
 		$instructor_ids   = array_filter( is_array( $instructor_ids ) ? $instructor_ids : array( $instructor_ids ) );
 		$instructor_ids[] = $this->get_id();
+		$instructor_ids   = array_unique( $instructor_ids );
 		$serialized_ids   = array();
 
 		foreach ( $instructor_ids as $id ) {
@@ -269,7 +270,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			array(
 				'posts_per_page' => -1,
 			),
-			'ids'
+			'ids',
+			$as_assistant
 		);
 
 		if ( ! $ids ) {
