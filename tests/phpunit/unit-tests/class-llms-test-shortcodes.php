@@ -140,7 +140,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	/**
 	 * Tests that the shortcodes are initialized before the WordPress 'init' action hook calls any other LifterLMS callbacks.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

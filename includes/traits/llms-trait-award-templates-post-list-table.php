@@ -5,7 +5,7 @@
  * @package LifterLMS/Traits
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 	 * Add post row actions filter callback.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */

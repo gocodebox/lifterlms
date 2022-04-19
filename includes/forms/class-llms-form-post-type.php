@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -181,7 +181,7 @@ class LLMS_Form_Post_Type {
 	 * deletion and trash actions when run against one of the core form.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Use `LLMS_Forms::is_a_core_form()` to determine whether a form is a core form and cannot be deleted.
+	 * @since 6.4.0 Use `LLMS_Forms::is_a_core_form()` to determine whether a form is a core form and cannot be deleted.
 	 *
 	 * @param null|bool $prevent Whether or not the action has been prevented.
 	 * @param WP_Post   $post    The form post object.

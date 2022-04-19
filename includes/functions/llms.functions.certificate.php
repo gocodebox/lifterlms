@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,7 +52,7 @@ function llms_get_certificate( $post = null, $preview_template = false ) {
  * @since 6.0.0 Use `llms_get_certificate()` and `LLMS_User_Certificate` methods.
  *                If this function is used out of the intended certificate context this will now
  *                return an empty string, whereas previously it returned the content of the post.
- * @since [version] Fixed issue with merge codes in reusable blocks by merging *after* filtering the post content.
+ * @since 6.4.0 Fixed issue with merge codes in reusable blocks by merging *after* filtering the post content.
  *
  * @param integer $id WP Post ID of the cert (optional if used within a loop).
  * @return string

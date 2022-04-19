@@ -8,7 +8,7 @@
  * @group cache_helper
  *
  * @since 4.0.0
- * @version [version]
+ * @version 6.4.0
  */
 class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 
@@ -65,7 +65,7 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 	/**
 	 * Test additional_nocache_headers() method.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

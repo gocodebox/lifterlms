@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -703,7 +703,7 @@ class LLMS_User_Certificate extends LLMS_Abstract_User_Engagement {
 	 * Merges the post content based on content from the template.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added optional `$content` and `$load_reusable_blocks` parameters.
+	 * @since 6.4.0 Added optional `$content` and `$load_reusable_blocks` parameters.
 	 *              Removed initialization of shortcodes now that they are registered earlier.
 	 *
 	 * @param string $content              Optionally use the given content instead of `$this->content`.

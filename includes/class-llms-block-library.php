@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,7 +142,7 @@ class LLMS_Block_Library {
 	 * See related issue links below.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @link https://github.com/WordPress/gutenberg/issues/28517
 	 * @link https://github.com/WordPress/gutenberg/issues/12931

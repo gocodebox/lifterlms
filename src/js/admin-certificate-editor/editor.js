@@ -102,7 +102,7 @@ function hasCertificateTitle() {
  * content with the content returned from the server.
  *
  * @since 6.0.0
- * @since [version] Added refresh if the edited content contains a WordPress reusable block.
+ * @since 6.4.0 Added refresh if the edited content contains a WordPress reusable block.
  *
  * @see {@link https://github.com/WordPress/gutenberg/issues/26763}
  *

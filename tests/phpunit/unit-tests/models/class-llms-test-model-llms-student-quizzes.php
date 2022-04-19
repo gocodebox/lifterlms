@@ -4,8 +4,8 @@
  *
  * @group LLMS_Student_Quizzes
  *
- * @since [version]
- * @version [version]
+ * @since 6.4.0
+ * @version 6.4.0
  */
 class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 
@@ -33,7 +33,7 @@ class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_LLMS_Student_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test get_attempts_remaining_for_quiz().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

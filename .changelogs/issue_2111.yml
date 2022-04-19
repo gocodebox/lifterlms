@@ -1,6 +1,0 @@
-significance: patch
-type: fixed
-links:
-  - "#2111"
-entry: "Fixed a compatibility with the Elementor Pro: course/membership catalogs
-  built with its Theme Builder were overridden by our default templates."

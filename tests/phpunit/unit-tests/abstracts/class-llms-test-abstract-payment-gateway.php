@@ -35,7 +35,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Mock callback method used to add a secure option to the mock gateway's settings.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param array[] $settings Existing settings array
 	 * @return array[]
@@ -53,7 +53,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test get_secure_strings().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test log().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -160,7 +160,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	/**
 	 * Test log() masks secure strings.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

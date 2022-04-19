@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -553,7 +553,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Cache merge codes.
+	 * @since 6.4.0 Cache merge codes.
 	 *
 	 * @return array
 	 */
@@ -599,7 +599,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.19 Use `in_array` with strict comparison.
-	 * @since [version] Only populate effectively used merged data.
+	 * @since 6.4.0 Only populate effectively used merged data.
 	 *
 	 * @param string $string An unmerged string.
 	 * @return string
@@ -637,7 +637,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve merge codes used in a given string.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string $string Text string whereto look for merge codes.
 	 * @return array Returns a list of merge codes actually used in the passed string.

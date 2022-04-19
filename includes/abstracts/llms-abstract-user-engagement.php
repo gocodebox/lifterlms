@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 6.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -200,7 +200,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Allow child classes to merge the post content based on content from the template.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added optional `$content` and `$load_reusable_blocks` parameters.
+	 * @since 6.4.0 Added optional `$content` and `$load_reusable_blocks` parameters.
 	 *
 	 * @param string $content              Optionally use the given content instead of `$this->content`.
 	 * @param bool   $load_reusable_blocks Optionally replace reusable blocks with their actual blocks.
@@ -225,7 +225,7 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Update the awarded engagement by regenerating it from its template.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Added replacement of references to reusable blocks with their actual blocks.
+	 * @since 6.4.0 Added replacement of references to reusable blocks with their actual blocks.
 	 *
 	 * @param string $context Sync context. Either "update" for an update to an existing awarded engagement
 	 *                        or "create" when the awarded engagement is being created.

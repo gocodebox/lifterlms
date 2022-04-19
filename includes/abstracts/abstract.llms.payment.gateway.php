@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -577,7 +577,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
 	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string[] $strings Array of secure strings.
 	 * @param string   $handle  The log handle.
@@ -609,7 +609,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		/**
 		 * Filters the list of the gateway's secure strings.
 		 *
-		 * @since [version]
+		 * @since 6.4.0
 		 *
 		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
 		 * @param string    $id              The gateway ID.
@@ -827,7 +827,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Log messages if logging is enabled
 	 *
 	 * @since 3.0.0
-	 * @since [version] Load the gateway's `secure_option` settings into `llms_secure_strings` hook when logging.
+	 * @since 6.4.0 Load the gateway's `secure_option` settings into `llms_secure_strings` hook when logging.
 	 *
 	 * @return void
 	 */

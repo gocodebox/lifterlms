@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -164,7 +164,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * Get the number of attempts remaining by a student for a given quiz.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Added parameter `$allow_negative` to allow remaining negative remaining attempts.
+	 * @since 6.4.0 Added parameter `$allow_negative` to allow remaining negative remaining attempts.
 	 *               It can happen when the allowed attempts number is decreased to a number lower than
 	 *               the number of the attempts already made by a given student.
 	 *

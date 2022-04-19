@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -205,7 +205,7 @@ function llms_log( $message, $handle = 'llms' ) {
 		 * This hook filters the log message in its final string format To filter the log message
 		 * before string conversion, use `llms_log_message`.
 		 *
-		 * @since [version]
+		 * @since 6.4.0
 		 *
 		 * @see llms_log_message
 		 *
@@ -231,7 +231,7 @@ function llms_log( $message, $handle = 'llms' ) {
  * defined in the `llms_secure_strings` filter and automatically anonymizes them when
  * they are found within the supplied log message.
  *
- * @since [version]
+ * @since 6.4.0
  *
  * @access private
  *
@@ -248,7 +248,7 @@ function _llms_secure_log_messages( $message, $handle ) {
 	 * API key strings can be registered with this filter to automatically be anonymized
 	 * if they are found within logs.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string[] $secure_strings An array of secure strings that should be anonymized.
 	 * @param string   $handle         The log handle. This can be used to only register strings for a specific log file.

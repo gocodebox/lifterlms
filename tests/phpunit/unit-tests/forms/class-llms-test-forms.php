@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.4.0
  */
 class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
@@ -1524,7 +1524,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_a_core_form() method passing something which is not a form.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -1544,7 +1544,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_a_core_form() method passing something which is a core form.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -1568,7 +1568,7 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	/**
 	 * Test is_a_core_form() method passing something which is a form but NOT a core form.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

@@ -30,7 +30,7 @@ class LLMS_Template_Loader {
 	 * @since 3.41.1 Predispose posts content restriction in REST requests.
 	 * @since 5.8.0 Handle block templates loading.
 	 * @since 6.2.0 Added 'llms_template_loader_priority' filter.
-	 * @since [version] Reverted back the priority of the `$this->template_loader()` callback
+	 * @since 6.4.0 Reverted back the priority of the `$this->template_loader()` callback
 	 *              (`template_include` hook's callback) from 100 to 10.
 	 */
 	public function __construct() {
@@ -517,7 +517,7 @@ class LLMS_Template_Loader {
 	 * @since 3.37.2 Make sure to print notices on sales page redirect.
 	 * @since 4.10.1 Refactor to reduce code duplication and replace usage of `llms_shop` with `courses` for catalog check.
 	 * @since 5.8.0 Refactor: moved the template guessing in a specific method.
-	 * @since [version] Defer single content restricted template loading.
+	 * @since 6.4.0 Defer single content restricted template loading.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -572,7 +572,7 @@ class LLMS_Template_Loader {
 			/**
 			 * Filters the template loading priority for single restricted content.
 			 *
-			 * @since [version]
+			 * @since 6.4.0
 			 *
 			 * @param int $priority The filter callback priority.
 			 */
@@ -590,7 +590,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Force the PHP template to be loaded.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string $template The original template to load.
 	 * @return string
