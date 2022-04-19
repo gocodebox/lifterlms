@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -200,18 +200,32 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 	 * Allow child classes to merge the post content based on content from the template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added optional `$content` and `$load_reusable_blocks` parameters.
 	 *
+	 * @param string $content              Optionally use the given content instead of `$this->content`.
+	 * @param bool   $load_reusable_blocks Optionally replace reusable blocks with their actual blocks.
 	 * @return string
 	 */
-	public function merge_content() {
+	public function merge_content( $content = null, $load_reusable_blocks = false ) {
 
-		return $this->get( 'content', true );
+		if ( is_null( $content ) ) {
+			$content = $this->get( 'content', true );
+		}
+
+		if ( $load_reusable_blocks ) {
+			$blocks  = parse_blocks( $content );
+			$blocks  = LLMS_Forms::instance()->load_reusable_blocks( $blocks );
+			$content = serialize_blocks( $blocks );
+		}
+
+		return $content;
 	}
 
 	/**
 	 * Update the awarded engagement by regenerating it from its template.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added replacement of references to reusable blocks with their actual blocks.
 	 *
 	 * @param string $context Sync context. Either "update" for an update to an existing awarded engagement
 	 *                        or "create" when the awarded engagement is being created.
@@ -232,10 +246,10 @@ abstract class LLMS_Abstract_User_Engagement extends LLMS_Post_Model {
 			delete_post_thumbnail( $this->get( 'post' ) );
 		}
 
-		// Copy the content, with optional merge codes and short codes, and optional block editor layout meta properties
+		// Copy the content with optional merge codes, shortcodes, and optional block editor layout meta properties
 		// from the template to this awarded engagement.
-		$this->set( 'content', $template->get( 'content', true ) );
-		$this->set( 'content', $this->merge_content() );
+		$content = $template->get( 'content', true );
+		$this->set( 'content', $this->merge_content( $content, true ) );
 		$this->sync_meta( $template );
 
 		/**

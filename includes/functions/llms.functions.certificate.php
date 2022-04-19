@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 2.2.0
- * @version 6.1.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,6 +52,7 @@ function llms_get_certificate( $post = null, $preview_template = false ) {
  * @since 6.0.0 Use `llms_get_certificate()` and `LLMS_User_Certificate` methods.
  *                If this function is used out of the intended certificate context this will now
  *                return an empty string, whereas previously it returned the content of the post.
+ * @since [version] Fixed issue with merge codes in reusable blocks by merging *after* filtering the post content.
  *
  * @param integer $id WP Post ID of the cert (optional if used within a loop).
  * @return string
@@ -66,13 +67,17 @@ function llms_get_certificate_content( $id = 0 ) {
 		// If `$id` was empty to use the global, ensure an id is available in filter on the return.
 		$id = $certificate->get( 'id' );
 
-		// Get merged content for templates or the already-merged content of the earned cert, retrieve the raw because we filter it again below.
-		$content = 'llms_certificate' === get_post_type( $id ) ? $certificate->merge_content() : $certificate->get( 'content', true );
-
+		// Get raw content because we filter it again below.
+		$content = $certificate->get( 'content', true );
 	}
 
 	/** WordPress core filter documented at {@link https://developer.wordpress.org/reference/hooks/the_content/}. */
 	$content = apply_filters( 'the_content', $content );
+
+	// Get merged content for templates.
+	if ( 'llms_certificate' === get_post_type( $id ) ) {
+		$content = $certificate->merge_content( $content );
+	}
 
 	/**
 	 * Filter the `post_content` of a certificate or certificate template.

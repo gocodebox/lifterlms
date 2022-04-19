@@ -1098,29 +1098,32 @@ GROUP BY locations.meta_value";
 	}
 
 	/**
-	 * Loads reusable blocks into a block list
+	 * Loads reusable blocks into a block list.
 	 *
-	 * By default, a reusable block contains a reference to the block post (which will be
-	 * loaded during rendering). This is problematic for us since we want to review then
-	 * entire block list so we can see all fields for validation purposes and so on.
+	 * A reusable block contains a reference to the block post, e.g. `<!-- wp:block {"ref":2198} /-->`,
+	 * which will be loaded during rendering.
 	 *
-	 * This function will replace each reusable block with the parsed blocks
-	 * from it's reference post.
+	 * Dereferencing the reusable blocks allows the entire block list to be reviewed and to validate all form fields.
+	 * This function will replace each reusable block with the parsed blocks from its reference post.
 	 *
 	 * @since 5.0.0
 	 * @since 5.1.0 Access turned to public.
 	 *
-	 * @param array[] $blocks List of WP_Block arrays.
+	 * @param array[] $blocks An array of blocks from `parse_blocks()`,
+	 *                        where each block is usually an array cast from `WP_Block_Parser_Block`.
+	 *
 	 * @return array[]
 	 */
 	public function load_reusable_blocks( $blocks ) {
 
 		$loaded = array();
 
-		foreach ( $blocks as $index => $block ) {
+		foreach ( $blocks as $block ) {
 
+			// Skip blocks that are not reusable blocks.
 			if ( 'core/block' === $block['blockName'] ) {
 
+				// Skip reusable blocks that do not exist or are not published.
 				$post = get_post( $block['attrs']['ref'] );
 				if ( ! $post || 'publish' !== get_post_status( $post ) ) {
 					continue;
@@ -1128,15 +1131,14 @@ GROUP BY locations.meta_value";
 
 				$loaded = array_merge( $loaded, $this->parse_blocks( $post->post_content ) );
 				continue;
-
 			}
 
+			// Does this block's inner blocks have references to reusable blocks?
 			if ( $block['innerBlocks'] ) {
 				$block['innerBlocks'] = $this->load_reusable_blocks( $block['innerBlocks'] );
 			}
 
 			$loaded[] = $block;
-
 		}
 
 		return $loaded;

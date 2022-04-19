@@ -5,7 +5,7 @@
  * @package LifterLMS/Controllers/Classes
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -115,7 +115,7 @@ class LLMS_Controller_Awards {
 	 * sets a unique post name (slug).
 	 *
 	 * This method relies on the fact that there is (currently) no native way to insert an awarded
-	 * certificate into the database via the REST API with a linked parent template without using the the
+	 * certificate into the database via the REST API with a linked parent template without using the
 	 * `AwardCertificateButton` Javascript component. The component sets the parent and student and allows
 	 * this callback function to perform the remaining (necessary) sync operations.
 	 *
@@ -175,6 +175,7 @@ class LLMS_Controller_Awards {
 	 * the creation actions to be fired if the certificate is newly created.
 	 *
 	 * @since 6.0.0
+	 * @since [version] Added replacement of references to reusable blocks with their actual blocks.
 	 *
 	 * @param int $post_id WP_Post ID of the certificate.
 	 * @return boolean Returns `true` if the certificate can't be loaded, otherwise returns `true`.
@@ -199,10 +200,11 @@ class LLMS_Controller_Awards {
 			}
 
 			/**
-			 * Whenever an awarded certificate is updated we want to re-merge the content
+			 * Whenever an awarded certificate is updated, we want to re-merge the content
 			 * in the event that any shortcodes or merge codes were added.
 			 */
-			$obj->set( 'content', $obj->merge_content() );
+			$content = $obj->get( 'content', true );
+			$obj->set( 'content', $obj->merge_content( $content, true ) );
 		}
 
 		/**
