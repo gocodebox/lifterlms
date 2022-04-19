@@ -1,0 +1,6 @@
+significance: patch
+type: fixed
+links:
+  - "#2122"
+entry: Allow instructor's assistants to edit their parent instructors posts, and
+  view students, and grades of the students, belonging to the parent instructor.
