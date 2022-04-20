@@ -336,27 +336,24 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 				return false;
 			}
 			break;
-		default: // Don't pass other post types than lesson or quiz.
+		default: // Don't pass other post types.
 			return false;
 	}
 
 	$lesson  = new LLMS_Lesson( $lesson_id );
 	$user_id = $user_id ?? get_current_user_id();
 	/**
-	 * Filters whether or not bypass drip restrictions on completed lessons.
+	 * Filters whether or not to bypass drip restrictions on completed lessons.
 	 *
 	 * @since [version]
 	 *
-	 * @param boolean $drip_bypass Whether or not bypass drip restrictions on completed lessons.
+	 * @param boolean $drip_bypass Whether or not to bypass drip restrictions on completed lessons.
 	 * @param int     $post_id     WP Post ID of a lesson or quiz potentially restricted by drip settings.
 	 * @param int     $user_id     WP User ID.
 	 */
 	$is_available = apply_filters( 'llms_lesson_drip_bypass_if_completed', true, $post_id, $user_id ) &&
-		llms_is_complete( $user_id, $lesson_id, 'lesson' )
-		?
-		true
-		:
-		$lesson->is_available();
+	                llms_is_complete( $user_id, $lesson_id, 'lesson' ) ||
+	                $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
 
@@ -394,7 +391,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 				return false;
 			}
 			break;
-		default: // Don't pass other post types than lesson or quiz.
+		default: // Don't pass other post types.
 			return false;
 	}
 
@@ -488,7 +485,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		case 'course':
 			$course_id = $post_id;
 			break;
-		default: // Don't pass other post types than lesson or quiz.
+		default: // Don't pass other post types.
 			return false;
 	}
 
