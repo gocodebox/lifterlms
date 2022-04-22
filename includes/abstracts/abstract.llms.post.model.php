@@ -1,17 +1,19 @@
 <?php
 /**
- * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
+ * LLMS_Post_Model abstract class file
  *
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Post_Model abstract class
+ * LLMS_Post_Model abstract class.
+ *
+ * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types.
  *
  * @property      string  $author           ID of post author.
  * @property      string  $content          The post's content.
@@ -1256,53 +1258,90 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Setter
+	 * Setter.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
 	 * @since 3.34.0 Turned to be only a wrapper for the set_bulk() method.
+	 * @since [version] Introduced `$allow_same_meta_value` param.
 	 *
-	 * @param string|array $key_or_array Key of the property or an associative array of key/val pairs.
-	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
-	 *                                   This parameter will be ignored when the first parameter is an associative array of key/val pairs.
-	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
+	 * @param string|array $key_or_array          Key of the property or an associative array of key/val pairs.
+	 * @param mixed        $val                   Value to set the property with.
+	 *                                            This parameter will be ignored when the first parameter is an associative array of key/val pairs.
+	 * @param boolean      $allow_same_meta_value Whether or not updating a meta with the same value as stored in the db is allowed.
+	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database and `$allow_same_meta_value` is `false`.
 	 */
-	public function set( $key_or_array, $val = '' ) {
+	public function set( $key_or_array, $val = '', $allow_same_meta_value = false ) {
 
-		$model_array = array();
+		$model_array = $key_or_array;
+
 		if ( ! is_array( $key_or_array ) ) {
 			$model_array = array(
 				$key_or_array => $val,
 			);
-		} else {
-			$model_array = $key_or_array;
 		}
-		return $this->set_bulk( $model_array );
+
+		return $this->set_bulk( $model_array, $allow_same_meta_value );
 
 	}
 
 
 	/**
-	 * Bulk setter
+	 * Bulk setter.
 	 *
 	 * @since 3.34.0
 	 * @since 3.36.1 Use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
 	 * @since 5.3.1 Fix quote slashing when the user is not an admin.
+	 * @since [version] Introduced `$allow_same_meta_value` param.
+	 *               Code reorganization.
 	 *
-	 * @param array $model_array Associative array of key/val pairs.
-	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
+	 * @param array   $model_array           Associative array of key/val pairs.
+	 * @param array   $wp_error              Whether or not return a WP_Error.
+	 * @param boolean $allow_same_meta_value Whether or not updating a meta with the same value as stored in the db is allowed.
 	 * @return boolean|WP_Error True on success. If the param $wp_error is set to false this will be false on error or if there was nothing to update.
 	 *                          Otherwise, this will be a WP_Error object collecting all the errors encountered along the way.
 	 */
-	public function set_bulk( $model_array, $wp_error = false ) {
+	public function set_bulk( $model_array, $wp_error = false, $allow_same_meta_value = false ) {
 
 		if ( empty( $model_array ) ) {
-			if ( ! $wp_error ) {
-				return false;
-			} else {
-				return new WP_Error( 'empty_data', __( 'Empty data', 'lifterlms' ) );
+			return $wp_error ? new WP_Error( 'empty_data', __( 'Empty data', 'lifterlms' ) ) : false;
+		}
+
+		$llms_post = $this->parse_properties_to_set( $model_array );
+
+		if ( empty( $llms_post ) ) {
+			return $wp_error ? new WP_Error( 'invalid_data', __( 'Invalid data', 'lifterlms' ) ) : false;
+		}
+
+		$update_post_properties = $this->update_post_properties( $llms_post['post'] );
+		$update_meta_properties = $this->update_meta_properties( $llms_post['meta'], $allow_same_meta_value );
+
+		$error = is_wp_error( $update_post_properties ) ? $update_post_properties : new WP_Error();
+		if ( is_wp_error( $update_meta_properties ) ) {
+			foreach ( $update_meta_properties->get_error_messages( 'invalid_meta' ) as $message ) {
+				$error->add( 'invalid_meta', $message );
 			}
 		}
+
+		if ( ! empty( $error->has_errors() ) ) {
+			return $wp_error ? $error : false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Parse the LifterLMS post properties to set.
+	 *
+	 * Logic moved from `set_bulk()` method.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $model_array Associative array of key/val pairs.
+	 * @return array|false False if nothing to set. An array that contains all the post properties and all the metas to set, otherwise.
+	 */
+	private function parse_properties_to_set( $model_array ) {
 
 		$llms_post = array(
 			'post' => array(),
@@ -1317,19 +1356,20 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			// Sanitize the post properties keys by removing the 'post_' prefix.
 			if ( 'post_' === substr( $key, 0, 5 ) ) {
 				$_key = substr( $key, 5 );
-				if ( in_array( $_key, $post_properties ) ) {
+				if ( in_array( $_key, $post_properties, true ) ) {
 					$key = $_key;
 				}
 			}
 
 			$val = $this->scrub( $key, $val );
 
-			// Update WordPress Post Properties using the wp_insert_post() function.
 			/**
+			 * WordPress Post properties to be updated using the wp_insert_post() function.
+			 *
 			 * The 'edit_date' must be passed to the wp_update_post() function in order
 			 * to allow 'drafty' posts' creation date to be modified.
 			 */
-			if ( in_array( $key, $post_properties ) || 'edit_date' === $key ) {
+			if ( in_array( $key, $post_properties, true ) || 'edit_date' === $key ) {
 
 				$type          = 'post';
 				$llms_post_key = "post_{$key}";
@@ -1358,7 +1398,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 						$val = stripslashes( apply_filters( 'title_save_pre', addslashes( $val ) ) );
 						break;
 				}
-			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
+			} elseif ( ! in_array( $key, $unsettable_properties, true ) ) {
 				$type          = 'meta';
 				$llms_post_key = $key;
 			} else {
@@ -1366,7 +1406,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			}
 
 			/**
-			 * Filters the property value prior to be set
+			 * Filters the property value prior to be set.
 			 *
 			 * The first dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 			 * "lesson", "membership", etc...
@@ -1381,51 +1421,123 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		}
 
-		if ( empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ) {
-			if ( ! $wp_error ) {
-				return false;
-			} else {
-				return new WP_Error( 'invalid_data', __( 'Invalid data', 'lifterlms' ) );
-			}
+		return empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ? false : $llms_post;
+	}
+
+	/**
+	 * Update post properties.
+	 *
+	 * Logic moved from `set_bulk()` method.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $post_properties Array of post properties to set.
+	 * @return void|WP_Error
+	 */
+	private function update_post_properties( $post_properties ) {
+
+		if ( empty( $post_properties ) ) {
+			return;
+		}
+
+		$args = array_merge(
+			$post_properties,
+			array(
+				'ID' => $this->get( 'id' ),
+			)
+		);
+
+		$update_post = wp_update_post( wp_slash( $args ), true );
+
+		if ( is_wp_error( $update_post ) ) {
+			return $update_post;
+		}
+
+		// Update this post.
+		$this->post = get_post( $this->get( 'id' ) );
+
+	}
+
+
+	/**
+	 * Update post meta properties.
+	 *
+	 * Logic moved from `set_bulk()` method.
+	 *
+	 * @param array   $post_meta_properties  Array of post meta properties to set.
+	 * @param boolean $allow_same_meta_value Whether or not updating a meta with the same value as stored in the db is allowed.
+	 *                                       By default `update_post_meta` doesn't allow that.
+	 * @return void|WP_Error
+	 */
+	private function update_meta_properties( $post_meta_properties, $allow_same_meta_value ) {
+
+		if ( empty( $post_meta_properties ) ) {
+			return;
 		}
 
 		$error = new WP_Error();
 
-		if ( ! empty( $llms_post['post'] ) ) {
+		foreach ( $post_meta_properties as $key => $val ) {
 
-			$args = array_merge(
-				$llms_post['post'],
-				array(
-					'ID' => $this->get( 'id' ),
-				)
-			);
-
-			$update_post = wp_update_post( wp_slash( $args ), true );
-
-			if ( ! is_wp_error( $update_post ) ) {
-				// Update this post.
-				$this->post = get_post( $this->get( 'id' ) );
-			} else {
-				$error = $update_post;
-			}
-		}
-
-		if ( ! empty( $llms_post['meta'] ) ) {
-			foreach ( $llms_post['meta'] as $key => $val ) {
-				$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
-				if ( ! ( is_numeric( $u ) || true === $u ) ) {
-					$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
+			if ( $allow_same_meta_value ) {
+				/**
+				 * Do pretty much(*) the same check for a duplicate value as in `update_metadata()`
+				 * to avoid `update_post_meta()` returning false.
+				 * {@see WP_REST_Meta_Fields::update_meta_value()}.
+				 *
+				 * If the new value to be set equals the old one don't update it.
+				 *
+				 * (*) This is not exactly the same check you can find in `update_metadata()` as that
+				 * account for multiple meta values for the same key, while we don't.
+				 */
+				$old_value = get_post_meta( $this->id, $this->meta_prefix . $key, true );
+				if ( $this->is_meta_value_same_as_stored_value( $key, $old_value, $val ) ) {
+					continue;
 				}
 			}
+
+			$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
+
+			if ( ! ( is_numeric( $u ) || true === $u ) ) {
+				$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
+			}
 		}
 
-		if ( ! empty( $error->errors ) ) {
-			return $wp_error ? $error : false;
+		if ( $error->has_errors() ) {
+			return $error;
 		}
 
-		return true;
 	}
 
+	/**
+	 * Checks if the user provided value is equivalent to a stored value for the given meta key.
+	 *
+	 * {@see WP_REST_Meta_Fields::is_meta_value_same_as_stored_value()}.
+	 *
+	 * @param string $key          The un-prefixed meta key being checked.
+	 * @param mixed  $stored_value The currently stored value retrieved from get_metadata().
+	 * @param mixed  $new_value    The new value.
+	 * @return bool
+	 */
+	private function is_meta_value_same_as_stored_value( $key, $stored_value, $new_value ) {
+
+		$sanitized = sanitize_meta( $this->meta_prefix . $key, $new_value, 'post', $this->db_post_type );
+
+		// The return value of get_metadata will always be a string for scalar types.
+		$scalar_types = array(
+			'string',
+			'text',
+			'absint',
+			'yesno',
+			'html',
+			'float',
+		);
+		if ( in_array( $this->get_property_type( $key ), $string_types, true ) ) {
+			$sanitized = (string) $sanitized;
+		}
+
+		return $sanitized === $stored_value;
+	}
 
 	/**
 	 * Update terms for the post for a given taxonomy
