@@ -1532,7 +1532,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'html',
 			'float',
 		);
-		if ( in_array( $this->get_property_type( $key ), $string_types, true ) ) {
+		if ( in_array( $this->get_property_type( $key ), $scalar_types, true ) ) {
 			$sanitized = (string) $sanitized;
 		}
 
