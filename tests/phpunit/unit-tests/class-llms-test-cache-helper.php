@@ -29,8 +29,7 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 			return;
 		}
 
-		function is_wpe()
-		{
+		function is_wpe() {
 			return getenv('IS_WPE');
 		}
 	}
