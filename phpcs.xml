@@ -24,7 +24,7 @@
     <exclude-pattern>*.asset.php</exclude-pattern>
 
     <!-- Let ESLint handle ESNext JS -->
-    <exclude-pattern>src/**/*</exclude-pattern>
+    <exclude-pattern type="relative">src/**/*</exclude-pattern>
     <exclude-pattern>webpack.config.js</exclude-pattern>
 
     <!-- Exclude node packages -->
