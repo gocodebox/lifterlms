@@ -351,9 +351,8 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	 * @param int     $post_id     WP Post ID of a lesson or quiz potentially restricted by drip settings.
 	 * @param int     $user_id     WP User ID.
 	 */
-	$is_available = apply_filters( 'llms_lesson_drip_bypass_if_completed', true, $post_id, $user_id );
-	
-	$is_available = ( $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
+	$drip_bypass  = apply_filters( 'llms_lesson_drip_bypass_if_completed', true, $post_id, $user_id );
+	$is_available = ( $drip_bypass && $user_id && llms_is_complete( $user_id, $lesson_id, 'lesson' ) ) || $lesson->is_available();
 
 	return $is_available ? false : $lesson_id;
 
