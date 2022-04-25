@@ -2,4 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#1835"
-entry: Fixed already completed lesson's content locked by drip content restrictions.
+entry: Students who have already completed a lesson will now automatically bypass the lesson's drip restrictions.
