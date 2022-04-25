@@ -2,5 +2,4 @@ significance: patch
 type: fixed
 links:
   - "#1717"
-entry: Added automatic exclusion of dashboard and checkout pages, including
-  dashboard endpoints like 'lost-pasword', from the WP Engine server-side cache.
+entry: Added automatic exclusion of "no cache" pages from the WP Engine server-side cache.
