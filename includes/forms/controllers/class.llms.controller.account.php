@@ -392,6 +392,7 @@ class LLMS_Controller_Account {
 			$uid  = $user ? $user->ID : 0;
 			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'key' ) ) );
 
+			( new LLMS_Cache_Helper() )->maybe_no_cache();
 			llms_set_password_reset_cookie( $val );
 			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );
 		}
