@@ -9,6 +9,7 @@
  * @group post_models
  *
  * @since 4.10.0
+ * @since [version] Added tests on updating meta with the same value as the ones stored in the db.
  */
 class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
@@ -206,6 +207,105 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 				$this->assertEquals( $expected, LLMS_Unit_Test_Util::call_method( $this->stub, 'scrub_field', array( $input, $type ) ) );
 
 			}
+		}
+
+	}
+
+	/**
+	 * Test setting meta with the same values as the stored ones, default behavior: not allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_meta_same_value_unallowed() {
+
+		$values = array(
+			'meta_1' => 'val_1',
+			'meta_2' => 'val_2',
+		);
+
+		$result = $this->stub->set_bulk(
+			$values,
+			true
+		);
+
+		$this->assertTrue( $result );
+
+		// Update with the same values, plus a new one.
+		$new_values = array_merge(
+			$values,
+			array(
+				'meta_3' => 'val_3',
+			)
+		);
+
+		$result = $this->stub->set_bulk(
+			$new_values,
+			true
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'invalid_meta', $result );
+
+		foreach ( $result->get_error_messages( 'invalid_meta' ) as $i => $message ) {
+			$this->assertEquals(
+				sprintf( 'Cannot insert/update the meta_%1$s meta', $i + 1 ),
+				$message,
+				$message
+			);
+		}
+
+		// Meta 3 updated.
+		$this->assertEquals( 'val_3', $this->stub->get( 'meta_3' ) );
+
+	}
+
+
+	/**
+	 * Test setting meta with the same values as the stored ones, allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_meta_same_value_allowed() {
+
+		$values = array(
+			'meta_1' => 'val_1',
+			'meta_2' => 'val_2',
+		);
+
+		$result = $this->stub->set_bulk(
+			$values,
+			true
+		);
+
+		$this->assertTrue( $result );
+
+		// Update with the same values, plus a new one.
+		$new_values = array_merge(
+			$values,
+			array(
+				'meta_3' => 'val_3',
+			)
+		);
+
+		$result = $this->stub->set_bulk(
+			$new_values,
+			true,
+			true
+		);
+
+		$this->assertTrue( $result );
+
+		// Meta updated.
+		foreach ( $new_values as $key => $value ) {
+			$this->assertEquals(
+				$this->stub->get( $key ),
+				$value,
+				$key
+			);
 		}
 
 	}
