@@ -1339,7 +1339,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since [version]
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
-	 * @return array|false False if nothing to set. An array that contains all the post properties and all the metas to set, otherwise.
+	 * @return array|bool Returns `false` if nothing to set or an array that contains all the post properties and all the metas to set.
 	 */
 	private function parse_properties_to_set( $model_array ) {
 
