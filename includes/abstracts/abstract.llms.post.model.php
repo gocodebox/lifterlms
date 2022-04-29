@@ -1161,7 +1161,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	protected function scrub( $key, $val ) {
 		/**
-		 * Filters the property type being scrubbed
+		 * Filters the property type being scrubbed.
 		 *
 		 * The dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
@@ -1174,7 +1174,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$type = apply_filters( "llms_get_{$this->model_post_type}_property_type", $this->get_property_type( $key ), $this );
 
 		/**
-		 * Filters the scrubbed property
+		 * Filters the scrubbed property.
 		 *
 		 * The first dynamic portion of this hook, `$this->model_post_type`, refers to the model's post type. For example "course",
 		 * "lesson", "membership", etc...
@@ -1532,6 +1532,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'html',
 			'float',
 		);
+
 		if ( in_array( $this->get_property_type( $key ), $scalar_types, true ) ) {
 			$sanitized = (string) $sanitized;
 		}

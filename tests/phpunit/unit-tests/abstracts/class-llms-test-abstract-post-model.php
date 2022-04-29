@@ -223,7 +223,25 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$values = array(
 			'meta_1' => 'val_1',
 			'meta_2' => 'val_2',
+			'meta_3' => array( // Non scalar value.
+				'val_3',
+			),
 		);
+
+		$declare_property_types = function( $props ) {
+			return array_merge(
+				$props,
+				array(
+					'meta_1' => 'text',
+					'meta_2' => 'text',
+					'meta_3' => 'array',
+					'meta_4' => 'absint',
+				)
+			);
+		};
+
+		$model_post_type = LLMS_Unit_Test_Util::get_private_property_value( $this->stub, 'model_post_type' );
+		add_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
 
 		$result = $this->stub->set_bulk(
 			$values,
@@ -236,7 +254,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$new_values = array_merge(
 			$values,
 			array(
-				'meta_3' => 'val_3',
+				'meta_4' => 4,
 			)
 		);
 
@@ -256,11 +274,11 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			);
 		}
 
-		// Meta 3 updated.
-		$this->assertEquals( 'val_3', $this->stub->get( 'meta_3' ) );
+		// Meta 4 updated.
+		$this->assertEquals( 4, $this->stub->get( 'meta_4' ) );
 
+		remove_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
 	}
-
 
 	/**
 	 * Test setting meta with the same values as the stored ones, allowed.
@@ -274,7 +292,25 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$values = array(
 			'meta_1' => 'val_1',
 			'meta_2' => 'val_2',
+			'meta_3' => array( // Non scalar value.
+				'val_3',
+			),
 		);
+
+		$declare_property_types = function( $props ) {
+			return array_merge(
+				$props,
+				array(
+					'meta_1' => 'text',
+					'meta_2' => 'text',
+					'meta_3' => 'array',
+					'meta_4' => 'absint',
+				)
+			);
+		};
+
+		$model_post_type = LLMS_Unit_Test_Util::get_private_property_value( $this->stub, 'model_post_type' );
+		add_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
 
 		$result = $this->stub->set_bulk(
 			$values,
@@ -287,7 +323,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$new_values = array_merge(
 			$values,
 			array(
-				'meta_3' => 'val_3',
+				'meta_4' => 4,
 			)
 		);
 
@@ -307,6 +343,35 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 				$key
 			);
 		}
+
+		// Update meta 3 with a different array.
+		$new_values = array_merge(
+			$values,
+			array(
+				'meta_3' => array(
+					'value_3_changed',
+				),
+			)
+		);
+
+		$result = $this->stub->set_bulk(
+			$new_values,
+			true,
+			true
+		);
+
+		$this->assertTrue( $result );
+
+		// Meta updated.
+		foreach ( $new_values as $key => $value ) {
+			$this->assertEquals(
+				$this->stub->get( $key ),
+				$value,
+				$key
+			);
+		}
+
+		remove_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
 
 	}
 
