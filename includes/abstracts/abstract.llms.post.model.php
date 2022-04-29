@@ -1531,6 +1531,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'yesno',
 			'html',
 			'float',
+			'int',
+			'bool',
+			'boolean',
 		);
 
 		if ( in_array( $this->get_property_type( $key ), $scalar_types, true ) ) {

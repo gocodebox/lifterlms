@@ -220,46 +220,27 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 */
 	public function test_set_meta_same_value_unallowed() {
 
-		$values = array(
-			'meta_1' => 'val_1',
-			'meta_2' => 'val_2',
-			'meta_3' => array( // Non scalar value.
-				'val_3',
-			),
-		);
+		$meta = $this->_stage_meta_test();
 
-		$declare_property_types = function( $props ) {
-			return array_merge(
-				$props,
-				array(
-					'meta_1' => 'text',
-					'meta_2' => 'text',
-					'meta_3' => 'array',
-					'meta_4' => 'absint',
-				)
-			);
-		};
-
-		$model_post_type = LLMS_Unit_Test_Util::get_private_property_value( $this->stub, 'model_post_type' );
-		add_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
-
+		// Set all the meta except the last one.
 		$result = $this->stub->set_bulk(
-			$values,
+			array_column(
+				array_slice( $meta, 0, count( $meta ) - 1, true ),
+				'value',
+				'meta'
+			),
 			true
 		);
 
 		$this->assertTrue( $result );
 
-		// Update with the same values, plus a new one.
-		$new_values = array_merge(
-			$values,
-			array(
-				'meta_4' => 4,
-			)
-		);
-
+		// Update with the same values, plus a new one (the latest).
 		$result = $this->stub->set_bulk(
-			$new_values,
+			array_column(
+				$meta,
+				'value',
+				'meta'
+			),
 			true
 		);
 
@@ -274,10 +255,11 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			);
 		}
 
-		// Meta 4 updated.
-		$this->assertEquals( 4, $this->stub->get( 'meta_4' ) );
+		// Last meta updated.
+		$this->assertEquals( end( $meta )['value'], $this->stub->get( end( $meta )['meta'] ) );
 
-		remove_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
+		$this->_unstage_meta_test();
+
 	}
 
 	/**
@@ -289,46 +271,27 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	 */
 	public function test_set_meta_same_value_allowed() {
 
-		$values = array(
-			'meta_1' => 'val_1',
-			'meta_2' => 'val_2',
-			'meta_3' => array( // Non scalar value.
-				'val_3',
+		$meta = $this->_stage_meta_test();
+
+		// Set all the meta.
+		$result = $this->stub->set_bulk(
+			array_column(
+				$meta,
+				'value',
+				'meta'
 			),
-		);
-
-		$declare_property_types = function( $props ) {
-			return array_merge(
-				$props,
-				array(
-					'meta_1' => 'text',
-					'meta_2' => 'text',
-					'meta_3' => 'array',
-					'meta_4' => 'absint',
-				)
-			);
-		};
-
-		$model_post_type = LLMS_Unit_Test_Util::get_private_property_value( $this->stub, 'model_post_type' );
-		add_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
-
-		$result = $this->stub->set_bulk(
-			$values,
 			true
 		);
 
 		$this->assertTrue( $result );
 
-		// Update with the same values, plus a new one.
-		$new_values = array_merge(
-			$values,
-			array(
-				'meta_4' => 4,
-			)
-		);
-
+		// Update with the same value.
 		$result = $this->stub->set_bulk(
-			$new_values,
+			array_column(
+				$meta,
+				'value',
+				'meta'
+			),
 			true,
 			true
 		);
@@ -336,26 +299,27 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$this->assertTrue( $result );
 
 		// Meta updated.
-		foreach ( $new_values as $key => $value ) {
+		foreach ( $meta as $m ) {
 			$this->assertEquals(
-				$this->stub->get( $key ),
-				$value,
-				$key
+				$this->stub->get( $m['meta'] ),
+				$m['value'],
+				$m['meta']
 			);
 		}
 
-		// Update meta 3 with a different array.
-		$new_values = array_merge(
-			$values,
-			array(
-				'meta_3' => array(
-					'value_3_changed',
-				),
+		// Update meta with different values.
+		$values = array_combine(
+			array_column(
+				$meta,
+				'meta'
+			),
+			array_values(
+				$this->get_all_types_fields( true )
 			)
 		);
 
 		$result = $this->stub->set_bulk(
-			$new_values,
+			$values,
 			true,
 			true
 		);
@@ -363,7 +327,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$this->assertTrue( $result );
 
 		// Meta updated.
-		foreach ( $new_values as $key => $value ) {
+		foreach ( $values as $key => $value ) {
 			$this->assertEquals(
 				$this->stub->get( $key ),
 				$value,
@@ -371,7 +335,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			);
 		}
 
-		remove_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
+		$this->_unstage_meta_test();
 
 	}
 
@@ -479,4 +443,98 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Stages tests on meta fields and returns an array of meta to tests.
+	 *
+	 * @return void
+	 */
+	private function _stage_meta_test() {
+
+		$types = $this->get_all_types_fields();
+
+		$meta = array();
+		$i = 1;
+
+		// Build meta.
+		foreach ( $types as $type => $value ) {
+			$meta[] = array(
+				'meta'  => 'meta_' . $i++,
+				'type'  => $type,
+				'value' => $value,
+			);
+		}
+
+		$declare_property_types = function( $props ) use ( $meta ) {
+			return array_merge(
+				$props,
+				array_column( $meta, 'type', 'meta' )
+			);
+		};
+
+		$model_post_type = LLMS_Unit_Test_Util::get_private_property_value( $this->stub, 'model_post_type' );
+		add_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
+
+		$on_unstage = function() use ( $declare_property_types, $model_post_type ) {
+			remove_filter( "llms_get_{$model_post_type}_properties", $declare_property_types );
+		};
+
+		if ( ! has_action( 'llms_test_meta_test_unstage', $on_unstage ) ) {
+			add_action( 'llms_test_meta_test_unstage', $on_unstage );
+		}
+
+		return $meta;
+
+	}
+
+	/**
+	 * Unstage meta test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function _unstage_meta_test() {
+		do_action( 'llms_test_meta_test_unstage' );
+	}
+
+	/**
+	 * All types fields with values.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $alt Alternative values.
+	 * @return array
+	 */
+	private function get_all_types_fields( $alt = false ) {
+
+		$types = ! $alt
+			?
+			array(
+				'absint'  => 1,
+				'array'   => array( 1 ),
+				'boolean' => true,
+				'float'   => 1.0,
+				'int'     => -1,
+				'yesno'   => 'yes',
+				'text'    => 'a text string.',
+				'html'    => 'Tags <b>are (mostly) okay</b>.',
+			)
+			:
+			array(
+				'absint'  => 2,
+				'array'   => array( 2 ),
+				'boolean' => false,
+				'float'   => 2.0,
+				'int'     => -2,
+				'yesno'   => 'no',
+				'text'    => 'a different text string.',
+				'html'    => 'Different Tags <b>are (mostly) okay</b>.',
+			);
+
+		$types['bool'] = $types['boolean'];
+		$types['string'] = $types['text'];
+
+		return $types;
+
+	}
 }
