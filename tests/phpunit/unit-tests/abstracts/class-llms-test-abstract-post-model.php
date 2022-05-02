@@ -9,7 +9,7 @@
  * @group post_models
  *
  * @since 4.10.0
- * @since [version] Added tests on updating meta with the same value as the ones stored in the db.
+ * @since [version] Added various tests on set_bulk() method.
  */
 class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
@@ -336,6 +336,107 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		}
 
 		$this->_unstage_meta_test();
+
+	}
+
+	/**
+	 * Test set_bulk() method passing empty data array.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_empty_data() {
+
+		// Return WP_Error, don't allow same meta value.
+		$result = $this->stub->set_bulk(
+			array(),
+			true,
+			false
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'empty_data', $result );
+
+		// Return WP_Error, allow same meta value.
+		$result = $this->stub->set_bulk(
+			array(),
+			true,
+			true
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'empty_data', $result );
+
+		// Don't return WP_Error, don't allow same meta value.
+		$this->assertFalse(
+			$this->stub->set_bulk(
+				array(),
+				false,
+				true
+			)
+		);
+
+		// Don't return WP_Error, allow same meta value.
+		$this->assertFalse(
+			$this->stub->set_bulk(
+				array(),
+				false,
+				false
+			)
+		);
+
+	}
+
+	/**
+	 * Test set_bulk() method passing invalid data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_invalid_data() {
+
+		// Setting only unsettable properties produces invalid data error.
+		$unsettable_properties = LLMS_Unit_Test_Util::call_method( $this->stub, 'get_unsettable_properties' );
+
+		// Return WP_Error, don't allow same meta value.
+		$result = $this->stub->set_bulk(
+			array_flip( $unsettable_properties ),
+			true,
+			false
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'invalid_data', $result );
+
+		// Return WP_Error, allow same meta value.
+		$result = $this->stub->set_bulk(
+			array_flip( $unsettable_properties ),
+			true,
+			false
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'invalid_data', $result );
+
+		// Don't return WP_Error, don't allow same meta value.
+		$this->assertFalse(
+			$this->stub->set_bulk(
+				array_flip( $unsettable_properties ),
+				false,
+				false
+			)
+		);
+
+		// Don't return WP_Error, allow same meta value.
+		$this->assertFalse(
+			$this->stub->set_bulk(
+				array_flip( $unsettable_properties ),
+				false,
+				true
+			)
+		);
 
 	}
 
