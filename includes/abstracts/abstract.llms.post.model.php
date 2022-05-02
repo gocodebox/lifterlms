@@ -1281,7 +1281,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			);
 		}
 
-		return $this->set_bulk( $model_array, $allow_same_meta_value );
+		return $this->set_bulk( $model_array, false, $allow_same_meta_value );
 
 	}
 

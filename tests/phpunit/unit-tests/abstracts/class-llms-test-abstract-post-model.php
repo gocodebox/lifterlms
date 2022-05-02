@@ -9,7 +9,7 @@
  * @group post_models
  *
  * @since 4.10.0
- * @since [version] Added various tests on set_bulk() method.
+ * @since [version] Added various tests on set()/set_bulk() methods.
  */
 class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
@@ -437,6 +437,110 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 				true
 			)
 		);
+
+	}
+
+	/**
+	 * Test setting (bulk) post property that would generate an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_post_properties_with_error() {
+
+		// Simulate empty content error.
+		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+		$properties = array(
+			'content' => '',
+			'title'   => ''
+		);
+
+		// Returning WP_Error, don't allow same meta.
+		$result = $this->stub->set_bulk(
+			$properties,
+			true,
+			false
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'empty_content', $result );
+
+		// Returning WP_Error, allow same meta.
+		$result = $this->stub->set_bulk(
+			$properties,
+			true,
+			true
+		);
+
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'empty_content', $result );
+
+		// Not returning WP_Error, do not allow same meta.
+		$this->assertFalse(
+			$result = $this->stub->set_bulk(
+				$properties,
+				false,
+				false
+			)
+		);
+
+		// Not returning WP_Error, allow same meta.
+		$this->assertFalse(
+			$result = $this->stub->set_bulk(
+				$properties,
+				false,
+				true
+			)
+		);
+
+		// Simulate empty content error.
+		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+	}
+
+
+	/**
+	 * Test setting post property that would generate an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_post_properties_with_error() {
+
+		// Simulate empty content error.
+		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+		$properties = array(
+			'content' => '',
+			'title'   => '',
+		);
+
+		foreach ( $properties as $key => $val ) {
+
+			$this->assertFalse(
+				// Allow same meta.
+				$this->stub->set(
+					$key,
+					$val,
+					true,
+				)
+			);
+
+			$this->assertFalse(
+				// Don't allow same meta.
+				$this->stub->set(
+					$key,
+					$val,
+					false,
+				)
+			);
+		}
+
+		// Simulate empty content error.
+		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
 
 	}
 
