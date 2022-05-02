@@ -212,13 +212,13 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test setting meta with the same values as the stored ones, default behavior: not allowed.
+	 * Test (bulk) setting meta with the same values as the stored ones, default behavior: not allowed.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_set_meta_same_value_unallowed() {
+	public function test_set_bulk_meta_same_value_unallowed() {
 
 		$meta = $this->_stage_meta_test();
 
@@ -227,7 +227,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			array_column(
 				array_slice( $meta, 0, count( $meta ) - 1, true ),
 				'value',
-				'meta'
+				'key'
 			),
 			true
 		);
@@ -239,7 +239,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			array_column(
 				$meta,
 				'value',
-				'meta'
+				'key'
 			),
 			true
 		);
@@ -256,20 +256,71 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		}
 
 		// Last meta updated.
-		$this->assertEquals( end( $meta )['value'], $this->stub->get( end( $meta )['meta'] ) );
+		$this->assertEquals( end( $meta )['value'], $this->stub->get( end( $meta )['key'] ) );
 
 		$this->_unstage_meta_test();
 
 	}
 
 	/**
-	 * Test setting meta with the same values as the stored ones, allowed.
+	 * Test setting meta with the same values as the stored ones, default behavior: not allowed.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_set_meta_same_value_allowed() {
+	public function test_set_meta_same_value_unallowed() {
+
+		$meta = $this->_stage_meta_test();
+
+		// Set all the meta except the last one.
+		$result = $this->stub->set_bulk(
+			array_column(
+				array_slice( $meta, 0, count( $meta ) - 1, true ),
+				'value',
+				'key'
+			),
+		);
+
+		$this->assertTrue( $result );
+
+		// Update with the same values, plus a new one (the latest).
+		foreach ( $meta as $i => $mdata ) {
+			if ( $i + 1 < count( $meta ) ) {
+				$this->assertFalse(
+					$this->stub->set(
+						$mdata['key'],
+						$mdata['value']
+					),
+					$mdata['key']
+				);
+			} else {
+				$this->assertTrue(
+					$this->stub->set(
+						$mdata['key'],
+						$mdata['value']
+					),
+					$mdata['key']
+				);
+			}
+
+		}
+
+		// Last meta updated.
+		$this->assertEquals( end( $meta )['value'], $this->stub->get( end( $meta )['key'] ) );
+
+		$this->_unstage_meta_test();
+
+	}
+
+	/**
+	 * Test (bulk) setting meta with the same values as the stored ones, allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_meta_same_value_allowed() {
 
 		$meta = $this->_stage_meta_test();
 
@@ -278,7 +329,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			array_column(
 				$meta,
 				'value',
-				'meta'
+				'key'
 			),
 			true
 		);
@@ -290,7 +341,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 			array_column(
 				$meta,
 				'value',
-				'meta'
+				'key'
 			),
 			true,
 			true
@@ -301,9 +352,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		// Meta updated.
 		foreach ( $meta as $m ) {
 			$this->assertEquals(
-				$this->stub->get( $m['meta'] ),
+				$this->stub->get( $m['key'] ),
 				$m['value'],
-				$m['meta']
+				$m['key']
 			);
 		}
 
@@ -311,7 +362,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$values = array_combine(
 			array_column(
 				$meta,
-				'meta'
+				'key'
 			),
 			array_values(
 				$this->get_all_types_fields( true )
@@ -333,6 +384,81 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 				$value,
 				$key
 			);
+		}
+
+		$this->_unstage_meta_test();
+
+	}
+
+	/**
+	 * Test (bulk) setting meta with the same values as the stored ones, allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_meta_same_value_allowed() {
+
+		$meta = $this->_stage_meta_test();
+
+		// Set all the meta.
+		$result = $this->stub->set_bulk(
+			array_column(
+				$meta,
+				'value',
+				'key'
+			),
+			true
+		);
+
+		$this->assertTrue( $result );
+
+		// Update with the same value.
+		foreach ( $meta as $mdata ) {
+			$result = $this->stub->set(
+				$mdata['key'],
+				$mdata['value'],
+				true
+			);
+
+			$this->assertTrue( $result, $mdata['key'] );
+
+			// Meta updated.
+			$this->assertEquals(
+				$this->stub->get( $mdata['key'] ),
+				$mdata['value'],
+				$mdata['key']
+			);
+
+		}
+
+		// Update meta with different values.
+		$values = array_combine(
+			array_column(
+				$meta,
+				'key'
+			),
+			array_values(
+				$this->get_all_types_fields( true )
+			)
+		);
+
+		foreach ( $meta as $mdata ) {
+			$result = $this->stub->set(
+				$mdata['key'],
+				$mdata['value'],
+				true
+			);
+
+			$this->assertTrue( $result, $mdata['key'] );
+
+			// Meta updated.
+			$this->assertEquals(
+				$this->stub->get( $mdata['key'] ),
+				$mdata['value'],
+				$mdata['key']
+			);
+
 		}
 
 		$this->_unstage_meta_test();
@@ -526,7 +652,8 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 					$key,
 					$val,
 					true,
-				)
+				),
+				$key
 			);
 
 			$this->assertFalse(
@@ -535,12 +662,111 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 					$key,
 					$val,
 					false,
-				)
+				),
+				$key
 			);
 		}
 
 		// Simulate empty content error.
 		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+	}
+
+	/**
+	 * Test set_bulk() with post properties.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_post_properties_with_no_errors() {
+
+		// Array of the type 'property' => 'type'.
+		$post_properties = LLMS_Unit_Test_Util::call_method( $this->stub, 'get_post_properties' );
+		$values          = array(
+			'author'         => $this->factory->user->create(),
+			'content'        => '<div> Some html </div>',
+			'date'           => date( 'Y-m-d H:i:s' ),
+			'date_gmt'       => gmdate( 'Y-m-d H:i:s' ),
+			'excerpt'        => '<div> Some excerpt </div>',
+			'password'       => 'pw',
+			'parent'         => $this->factory->post->create(),
+			'menu_order'     => 1,
+			'modified'       => date( 'Y-m-d H:i:s' ),
+			'modified_gmt'   => gmdate( 'Y-m-d H:i:s' ),
+			'name'           => sanitize_title( 'Some slug' ),
+			'status'         => 'publish',
+			'title'          => 'Title',
+			'type'           => $this->stub->get( 'type' ),
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		);
+
+		$post_properties = array_merge(
+			$post_properties,
+			$values
+		);
+
+		// Allow returning WP Error.
+		$this->assertTrue(
+			$this->stub->set_bulk(
+				$post_properties,
+				true
+			)
+		);
+
+		// Don't allow returning WP Error.
+		$this->assertTrue(
+			$this->stub->set_bulk(
+				$post_properties
+			)
+		);
+	}
+
+	/**
+	 * Test set_bulk() with post properties.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_post_properties_with_no_errors() {
+
+		// Array of the type 'property' => 'type'.
+		$post_properties = LLMS_Unit_Test_Util::call_method( $this->stub, 'get_post_properties' );
+		$values          = array(
+			'author'         => $this->factory->user->create(),
+			'content'        => '<div> Some html </div>',
+			'date'           => date( 'Y-m-d H:i:s' ),
+			'date_gmt'       => gmdate( 'Y-m-d H:i:s' ),
+			'excerpt'        => '<div> Some excerpt </div>',
+			'password'       => 'pw',
+			'parent'         => $this->factory->post->create(),
+			'menu_order'     => 1,
+			'modified'       => date( 'Y-m-d H:i:s' ),
+			'modified_gmt'   => gmdate( 'Y-m-d H:i:s' ),
+			'name'           => sanitize_title( 'Some slug' ),
+			'status'         => 'publish',
+			'title'          => 'Title',
+			'type'           => $this->stub->get( 'type' ),
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		);
+
+		$post_properties = array_merge(
+			$post_properties,
+			$values
+		);
+
+		foreach ( $post_properties as $property => $value ) {
+			$this->assertTrue(
+				$this->stub->set(
+					$property,
+					$value
+				),
+				$property
+			);
+		}
 
 	}
 
@@ -579,6 +805,47 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$this->assertEquals( $content, $saved_post->post_content );
 		$this->assertEquals( $excerpt, $saved_post->post_excerpt );
 		$this->assertEquals( $title, $saved_post->post_title );
+
+	}
+
+	/**
+	 * Test `set()` to ensure single quotes and double quotes are correctly slashed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_quotes() {
+
+		$properties = array(
+			'content' => 'Content with "Double" Quotes and \'Single\' Quotes',
+			'excerpt' => 'Excerpt with "Double" Quotes and \'Single\' Quotes',
+			'title'   => 'Title with "Double" Quotes and \'Single\' Quotes',
+		);
+
+		# Test with KSES filters.
+		foreach ( $properties as $key => $value ) {
+			$this->stub->set(
+				$key,
+				$value
+			);
+
+			$saved_post = get_post( $this->stub->get( 'id' ) );
+			$this->assertEquals( $value, $saved_post->{"post_{$key}"}, $key );
+		}
+
+		# Test without KSES filters.
+		kses_remove_filters();
+		foreach ( $properties as $key => $value ) {
+			$this->stub->set(
+				$key,
+				$value
+			);
+
+			$saved_post = get_post( $this->stub->get( 'id' ) );
+			$this->assertEquals( $value, $saved_post->{"post_{$key}"}, $key );
+		}
+
 	}
 
 	/**
@@ -630,9 +897,9 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	public function test_toArray_expanded_author() {
 
 		$data = array(
-			'role'       => 'editor',
-			'first_name' => 'Jeffrey',
-			'last_name'  => 'Lebowski',
+			'role'        => 'editor',
+			'first_name'  => 'Jeffrey',
+			'last_name'   => 'Lebowski',
 			'description' => "Let me explain something to you. Um, I am not \"Mr. Lebowski\". You're Mr. Lebowski. I'm the Dude. So that's what you call me.",
 		);
 		$user = $this->factory->user->create_and_get( $data );
@@ -663,7 +930,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		// Build meta.
 		foreach ( $types as $type => $value ) {
 			$meta[] = array(
-				'meta'  => 'meta_' . $i++,
+				'key'   => 'meta_' . $i++,
 				'type'  => $type,
 				'value' => $value,
 			);
@@ -672,7 +939,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 		$declare_property_types = function( $props ) use ( $meta ) {
 			return array_merge(
 				$props,
-				array_column( $meta, 'type', 'meta' )
+				array_column( $meta, 'type', 'key' )
 			);
 		};
 
@@ -736,7 +1003,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 				'html'    => 'Different Tags <b>are (mostly) okay</b>.',
 			);
 
-		$types['bool'] = $types['boolean'];
+		$types['bool']   = $types['boolean'];
 		$types['string'] = $types['text'];
 
 		return $types;
