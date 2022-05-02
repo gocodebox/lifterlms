@@ -1,0 +1,6 @@
+significance: patch
+type: dev
+links:
+  - "#909"
+entry: Allow avoiding error returning when updating an LLMS_Post_Model post meta
+  with the same value as the one stored in the db.
