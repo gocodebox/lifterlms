@@ -54,6 +54,104 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test confirm() when validation errors are encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_confirm_validation_errors() {
+
+		$gen = new LLMS_Order_Generator( array() );
+		$res = $gen->confirm();
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( $gen::E_ORDER_NOT_FOUND, $res );
+
+	}
+
+	/**
+	 * Test confirm() when the gateway encounters an error.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_confirm_gateway_errors() {
+
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'fake-confirm-err';
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+			public function confirm_pending_order( $order ) {
+				return new WP_Error( 'gateway-err', 'Message' );
+			}
+		};
+
+		$gateway->supports['recurring_payments'] = true;
+		$gateway->set_option( 'enabled', 'yes' );
+		llms()->payment_gateways()->payment_gateways[] = $gateway;
+
+
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'payment_gateway', 'fake-confirm-err' );
+
+		$data                         = $this->get_mock_data();
+		$data['llms_order_key']       = $order->get( 'order_key' );
+		$data['llms_payment_gateway'] = 'fake-confirm-err';
+
+		$gen = new LLMS_Order_Generator( $data );
+		LLMS_Unit_Test_Util::set_private_property( $gen, 'gateway', $gateway );
+
+		$res = $gen->confirm();
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'gateway-err', $res );
+
+
+	}
+
+	/**
+	 * Test confirm() success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_confirm_success() {
+
+		$gateway = new class() extends LLMS_Payment_Gateway {
+			public $id = 'fake-confirm-success';
+			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
+			public function confirm_pending_order( $order ) {
+				return array(
+					'txn_id' => 12345,
+				);
+			}
+		};
+
+		$gateway->supports['recurring_payments'] = true;
+		$gateway->set_option( 'enabled', 'yes' );
+		llms()->payment_gateways()->payment_gateways[] = $gateway;
+
+
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'payment_gateway', 'fake-confirm-success' );
+
+		$data                         = $this->get_mock_data();
+		$data['llms_order_key']       = $order->get( 'order_key' );
+		$data['llms_payment_gateway'] = 'fake-confirm-success';
+
+		$gen = new LLMS_Order_Generator( $data );
+		LLMS_Unit_Test_Util::set_private_property( $gen, 'gateway', $gateway );
+
+		$this->assertEquals( array( 'txn_id' => 12345 ), $gen->confirm() );
+
+		// User data should have been stored.
+		$this->assertEquals( $data['email_address'], $order->get( 'billing_email' ) );
+
+	}
+
+	/**
 	 * Test create() when an error is encountered creating the order post.
 	 *
 	 * @since [version]
@@ -65,10 +163,11 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		// Forces an error to be encountered during order creation.
 		add_filter( 'wp_insert_post_empty_content', '__return_true' );
 
-		$res = LLMS_Unit_Test_Util::call_method( new LLMS_Order_Generator( array() ), 'create' );
+		$gen = new LLMS_Order_Generator( array() );
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'create' );
 
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_CREATE_ORDER, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_CREATE_ORDER, $res );
 
 		remove_filter( 'wp_insert_post_empty_content', '__return_true' );
 
@@ -120,7 +219,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$data = array( 'input' => 1 );
 		$gen  = new LLMS_Order_Generator( $data );
 
-		foreach ( array( 'coupon', 'gateway', 'plan', 'student' ) as $var ) {
+		foreach ( array( 'coupon', 'gateway', 'plan', 'student', 'order' ) as $var ) {
 			LLMS_Unit_Test_Util::set_private_property( $gen, $var, "{$var}_value" );
 		}
 
@@ -141,8 +240,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 				'gateway'     => 'gateway_value',
 				'plan'        => 'plan_value',
 				'student'     => 'student_value',
-				'user_action' => LLMS_Order_Generator::UA_COMMIT,
 				'extra'       => 1,
+				'order'       => 'order_value',
 			),
 			$res
 		);
@@ -162,7 +261,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$res = $gen->generate();
 
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_PLAN_REQUIRED, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_PLAN_REQUIRED, $res );
 
 	}
 
@@ -233,8 +332,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$data = $this->get_mock_data();
 
-		$gen = new LLMS_Order_Generator( $data, LLMS_Order_Generator::UA_VALIDATE );
-		$res = $gen->generate();
+		$gen = new LLMS_Order_Generator( $data );
+		$res = $gen->generate( $gen::UA_VALIDATE );
 
 		$this->assertTrue( is_a( $res, 'LLMS_Order' ) );
 
@@ -256,7 +355,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	public function test_getters() {
 
 		$gen = new LLMS_Order_Generator( array() );
-		foreach ( array( 'coupon', 'gateway', 'plan', 'student' ) as $var ) {
+		foreach ( array( 'coupon', 'gateway', 'plan', 'student', 'order' ) as $var ) {
 			$val = "{$var}_value";
 			LLMS_Unit_Test_Util::set_private_property( $gen, $var, $val );
 			$this->assertEquals( $val, $gen->{"get_{$var}"}() );
@@ -284,6 +383,62 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		// Actual key submitted.
 		$order = new LLMS_Order( 'new' );
 		$gen = new LLMS_Order_Generator( array( 'llms_order_key' => $order->get( 'order_key' ) ) );
+		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+	}
+
+	/**
+	 * Test get_order_id() lookup by user/email & plan.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_order_id_by_user_and_plan() {
+
+		$user_id = $this->factory->user->create( array( 'user_email' => 'email@test.tld' ) );
+		$plan_id = $this->factory->post->create( array( 'post_type' => 'llms_access_plan' ) );
+
+		$order = new LLMS_Order( 'new' );
+		$order->set_bulk( compact( 'user_id', 'plan_id' ) );
+
+		// Lookup by email of an existing user & plan.
+		$gen = new LLMS_Order_Generator( array( 
+			'llms_plan_id'  => $plan_id,
+			'email_address' => 'email@test.tld',
+		) );
+		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+		// Lookup using current user and plan.
+		wp_set_current_user( $user_id );
+		$gen = new LLMS_Order_Generator( array( 
+			'llms_plan_id'  => $plan_id,
+		) );
+		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
+
+	}
+
+
+	/**
+	 * Test get_order_id() lookup by email (for a non-existent user) & plan.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_order_id_by_email_and_plan() {
+
+		$billing_email = 'notstored@email.tld';
+		$plan_id       = $this->factory->post->create( array( 'post_type' => 'llms_access_plan' ) );
+
+		$order = new LLMS_Order( 'new' );
+		$order->set_bulk( compact( 'billing_email', 'plan_id' ) );
+
+		// Lookup by email of an existing user & plan.
+		$gen = new LLMS_Order_Generator( array( 
+			'llms_plan_id'  => $plan_id,
+			'email_address' => $billing_email,
+		) );
 		$this->assertEquals( $order->get( 'id' ), LLMS_Unit_Test_Util::call_method( $gen, 'get_order_id' ) );
 
 	}
@@ -389,9 +544,28 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$gen = new LLMS_Order_Generator( array() );
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_PLAN_REQUIRED, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_PLAN_REQUIRED, $res );
 
 	}
+
+	/**
+	 * Test validate() when a validation error is encountered() with order data.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_error_order() {
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_order_key' => 'fake',
+		) );
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate', array( true ) );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( $gen::E_ORDER_NOT_FOUND, $res );
+
+	}
+
 
 	/**
 	 * Test validate() success.
@@ -405,6 +579,31 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$data = $this->get_mock_data();
 		$gen = new LLMS_Order_Generator( $data );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate' ) );
+
+		// Order not validated.
+		$this->assertNull( $gen->get_order() );
+
+	}
+
+	/**
+	 * Test validate() success with order validation.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_success_with_order() {
+
+		$order = new LLMS_Order( 'new' );
+
+		$data                   = $this->get_mock_data();
+		$data['llms_order_key'] = $order->get( 'order_key' );
+
+		$gen = new LLMS_Order_Generator( $data );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate', array( true ) ) );
+
+		// Order was validated
+		$this->assertEquals( $order, $gen->get_order() );
 
 	}
 
@@ -434,7 +633,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$gen = new LLMS_Order_Generator( array( 'llms_coupon_code' => 'fake' ) );
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_coupon' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_COUPON_NOT_FOUND, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_COUPON_NOT_FOUND, $res );
 
 	}
 
@@ -460,7 +659,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_coupon' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_COUPON_INVALID, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_COUPON_INVALID, $res );
 
 	}
 
@@ -505,7 +704,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_gateway' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_GATEWAY_REQUIRED, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_GATEWAY_REQUIRED, $res );
 
 	}
 
@@ -573,6 +772,67 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test validate_order() when the order can't be found.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_order_not_found() {
+
+		$gen = new LLMS_Order_Generator( array() );
+
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_order' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( $gen::E_ORDER_NOT_FOUND, $res );
+
+
+	}
+
+	/**
+	 * Test validate_order() when the order can't be confirmed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_order_not_confirmable() {
+
+		$order = new LLMS_Order( 'new' );
+		$order->set( 'status', 'llms-completed' );
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_order_key' => $order->get( 'order_key' ),
+		) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_order' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( $gen::E_ORDER_NOT_CONFIRMABLE, $res );
+
+	}
+
+	/**
+	 * Test validate_order() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_order_success() {
+
+
+		$order = new LLMS_Order( 'new' );
+
+		$gen = new LLMS_Order_Generator( array(
+			'llms_order_key' => $order->get( 'order_key' ),
+		) );
+
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate_order' ) );
+		$this->assertEquals( $order, $gen->get_order() );
+
+	}
+
+	/**
 	 * Test validate_plan() when no plan is supplied.
 	 *
 	 * @since [version]
@@ -585,7 +845,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_PLAN_REQUIRED, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_PLAN_REQUIRED, $res );
 
 	}
 
@@ -604,7 +864,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_plan' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_PLAN_NOT_FOUND, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_PLAN_NOT_FOUND, $res );
 
 	}
 
@@ -661,7 +921,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$gen = new LLMS_Order_Generator( array() );
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_terms' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_SITE_TERMS, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_SITE_TERMS, $res );
 
 		$gen = new LLMS_Order_Generator( array(
 			'llms_agree_to_terms' => 'yes',
@@ -721,7 +981,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		llms_enroll_student( $uid, $plan->get( 'product_id' ) );
 		$res = LLMS_Unit_Test_Util::call_method( $gen, 'validate_user' );
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( LLMS_Order_Generator::E_USER_ENROLLED, $res );
+		$this->assertWPErrorCodeEquals( $gen::E_USER_ENROLLED, $res );
 
 	}
 

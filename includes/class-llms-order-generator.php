@@ -46,6 +46,20 @@ class LLMS_Order_Generator {
 	const E_GATEWAY_REQUIRED = 'llms-order-gen-gateway-required';
 
 	/**
+	 * Error code: missing or invalid order key during confirmation.
+	 *
+	 * @var string
+	 */
+	const E_ORDER_NOT_FOUND = 'llms-order-gen-order-not-found';
+
+	/**
+	 * Error code: order cannot be confirmed.
+	 *
+	 * @var string
+	 */
+	const E_ORDER_NOT_CONFIRMABLE = 'llms-order-gent-order-not-confirmable';
+
+	/**
 	 * Error code: required plan ID not submitted.
 	 *
 	 * @var string
@@ -82,6 +96,7 @@ class LLMS_Order_Generator {
 
 	/**
 	 * User Action: perform user validation only.
+	 *
 	 * @var string
 	 */
 	const UA_VALIDATE = 'validate';
@@ -129,39 +144,34 @@ class LLMS_Order_Generator {
 	protected $plan = null;
 
 	/**
+	 * The order.
+	 *
+	 * Derived from `$this->data['llms_order_key']`.
+	 *
+	 * Will be empty until the order is validated.
+	 *
+	 * This is only used during confirmation of existing orders.
+	 *
+	 * @var LLMS_Order|null
+	 */
+	protected $order = null;
+
+	/**
 	 * The student used to generate the order.
 	 *
 	 * Will be empty until the user is created / update following all validations.
-	 *
-	 * If `$this->user_action` is `validate` then the student will not be set and will
-	 * remain empty.
 	 *
 	 * @var LLMS_Student|null
 	 */
 	protected $student = null;
 
 	/**
-	 * The user action.
-	 *
-	 * Accepts `validate` or `commit`.
-	 *
-	 * The `validate` action will validate the user extracting the relevant data from
-	 * `$this->data` and store the data on the order (without creating the user).
-	 *
-	 * The "commit" action will perform the `validate` action and then persist the user
-	 * to the database via either a user registration or user update.
-	 *
-	 * @var string
-	 */
-	protected $user_action = 'commit';
-
-	/**
 	 * Constructor.
 	 *
 	 * @since [version]
 	 *
-	 * @param array $data {
-	 *     An associative array of input data used to generate the order, usually from $_POST.
+	 * @param array  $data {
+	 *      An associative array of input data used to generate the order, usually from $_POST.
 	 *
 	 *     @type integer $llms_plan_id         An LLMS_Access_Plan ID.
 	 *     @type string  $llms_agree_to_terms  A yes/no value determining whether or not the user has agreed to the site's terms.
@@ -170,17 +180,50 @@ class LLMS_Order_Generator {
 	 *     @type string  $llms_order_key       Optional. An `LLMS_Order` key used to modify an existing pending order rather than creating a new one.
 	 *     @type array   ...$user_data         All remaining data is passed to the user creation functions.
 	 * }
-	 * @param string $user_action The user action, accepts `LLMS_Order_Generator::UA_COMMIT` or `LLMS_Order_Generator::UA_VALIDATE`.
 	 */
-	public function __construct( $data, $user_action = self::UA_COMMIT ) {
-
-		$this->data        = $data;
-		$this->user_action = $user_action;
-
+	public function __construct( $data ) {
+		$this->data = $data;
 	}
 
 	/**
-	 * Creates a new order.
+	 * Confirms an existing pending order.
+	 *
+	 * @since [version]
+	 *
+	 * @return WP_Error|array Returns an array of data from the payment gateway's `confirm_pending_order()` method on success.
+	 */
+	public function confirm() {
+
+		$validate = $this->validate( true );
+		if ( is_wp_error( $validate ) ) {
+			return $validate;
+		}
+
+		$gateway_confirm = $this->gateway->confirm_pending_order( $this->order );
+		if ( is_wp_error( $gateway_confirm ) ) {
+			return $gateway_confirm;
+		}
+
+		$user = $this->commit_user();
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
+
+		// Save the user to the order.
+		$this->order->set_user_data( $this->get_user_data() );
+
+		if ( 'SUCCESS' === ( $gateway_confirm['status'] ?? null ) && ! empty( $gateway_confirm['transaction'] ) ) {
+			// Record the transaction.
+			$this->order->record_transaction( $gateway_confirm['transaction'] );
+		}
+
+		return $gateway_confirm;
+
+	}
+
+
+	/**
+	 * Creates a new pending order.
 	 *
 	 * @since [version]
 	 *
@@ -217,11 +260,15 @@ class LLMS_Order_Generator {
 			'plan' => $this->plan,
 		);
 
-		if ( get_current_user_id() ) {
-			return llms_update_user( $this->data, 'checkout', $args );
-		}
+		$user = get_current_user_id() ? 
+			llms_update_user( $this->data, 'checkout', $args ) : 
+			llms_register_user( $this->data, 'checkout', true, $args );
 
-		return llms_register_user( $this->data, 'checkout', true, $args );
+		if ( ! is_wp_error( $user ) ) {
+			$this->student = llms_get_student( $user );
+		}
+		
+		return $user;
 
 	}
 
@@ -235,7 +282,7 @@ class LLMS_Order_Generator {
 	 *
 	 * @param string $code      Error code.
 	 * @param string $message   Error message.
-	 * @param array $extra_data Additional data to pass to WP_Error's 3rd parameter.
+	 * @param array  $extra_data Additional data to pass to WP_Error's 3rd parameter.
 	 * @return WP_Error
 	 */
 	protected function error( $code, $message, $extra_data = array() ) {
@@ -250,6 +297,31 @@ class LLMS_Order_Generator {
 	}
 
 	/**
+	 * Attempts to locate a user ID.
+	 *
+	 * Uses the logged in users information and falls back to a lookup by email address if available.
+	 *
+	 * @since [version]
+	 *
+	 * @param string|null $email An email address, if available.
+	 * @return null|integer Returns the WP_User ID or null if not found.
+	 */
+	private function find_user_id( $email = null ) {
+
+		if ( is_user_logged_in() ) {
+			return get_current_user_id();
+		}
+
+		if ( $email ) {
+			$user = get_user_by( 'email', $email );
+			return $user ? $user->ID : null;	
+		}
+
+		return null;
+
+	}
+
+	/**
 	 * Generates an order.
 	 *
 	 * Uses data submitted during class construction and performs all necessary
@@ -257,21 +329,21 @@ class LLMS_Order_Generator {
 	 *
 	 * @since [version]
 	 *
+	 * @param string $user_action The user action, accepts `LLMS_Order_Generator::UA_COMMIT` or `LLMS_Order_Generator::UA_VALIDATE`.
 	 * @return WP_Error|LLMS_Order
 	 */
-	public function generate() {
+	public function generate( $user_action = self::UA_COMMIT ) {
 
 		$validate = $this->validate();
 		if ( is_wp_error( $validate ) ) {
 			return $validate;
 		}
 
-		if ( self::UA_COMMIT === $this->user_action ) {
+		if ( self::UA_COMMIT === $user_action ) {
 			$user = $this->commit_user();
 			if ( is_wp_error( $user ) ) {
 				return $user;
 			}
-			$this->student = llms_get_student( $user );
 		}
 
 		return $this->create();
@@ -312,12 +384,27 @@ class LLMS_Order_Generator {
 	 */
 	protected function get_order_id() {
 
-		$key      = $this->data['llms_order_key'] ?? null;
 		$order_id = null;
+		$key      = $this->data['llms_order_key'] ?? null;
+		$email    = $this->data['email_address'] ?? null;
+		$plan_id  = $this->data['llms_plan_id'] ?? null;
 
+		// Try to lookup using the order key if it was supplied.
 		if ( $key ) {
-			$locate   = llms_get_order_by_key( $key, 'id' );
-			$order_id = $locate;
+			$order_id = llms_get_order_by_key( $key, 'id' );
+		}
+
+		// Try to lookup by user ID.
+		if ( ! $order_id ) {
+
+			$user_id  = $this->find_user_id( $email );
+			$order_id = $user_id ? llms_locate_order_for_user_and_plan( $user_id, $plan_id ) : $order_id;
+
+		}
+
+		// Lookup by email address.
+		if ( ! $order_id && $email ) {
+			$order_id = llms_locate_order_for_email_and_plan( $email, $plan_id );
 		}
 
 		return $order_id ? $order_id : 'new';
@@ -333,6 +420,17 @@ class LLMS_Order_Generator {
 	 */
 	public function get_plan() {
 		return $this->plan;
+	}
+
+	/**
+	 * Retrieves the order object.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Order|null
+	 */
+	public function get_order() {
+		return $this->order;
 	}
 
 	/**
@@ -380,13 +478,12 @@ class LLMS_Order_Generator {
 
 		foreach ( $data as $key => &$val ) {
 			$data_key = $map[ $key ] ?? "llms_{$key}";
-			$val = $this->data[ $data_key ] ?? '';
+			$val      = $this->data[ $data_key ] ?? '';
 		}
 
 		$data['user_id'] = $this->student ? $this->student->get( 'id' ) : '';
 
 		return $data;
-
 
 	}
 
@@ -395,9 +492,10 @@ class LLMS_Order_Generator {
 	 *
 	 * @since [version]
 	 *
+	 * @param boolean $validate_order Whether or not order data should be validated. This is `true` when running `confirm()` and `false` otherwise.
 	 * @return boolean|WP_Errors Returns `true` if all validations pass or an error object.
 	 */
-	protected function validate() {
+	protected function validate( $validate_order = false ) {
 
 		/**
 		 * Allows 3rd party validation prior to generation of an order.
@@ -409,7 +507,7 @@ class LLMS_Order_Generator {
 		 * @param null|WP_Error $validation_errors Halts checkout and returns the supplied error.
 		 */
 		$before_validation = apply_filters( 'llms_before_generate_order_validation', null );
-		if ( is_wp_error( $before_validation) ) {
+		if ( is_wp_error( $before_validation ) ) {
 			return $before_validation;
 		}
 
@@ -420,6 +518,10 @@ class LLMS_Order_Generator {
 			'validate_terms',
 			'validate_user',
 		);
+
+		if ( $validate_order ) {
+			array_unshift( $validations, 'validate_order' );
+		}
 
 		foreach ( $validations as $func ) {
 			$res = $this->{$func}();
@@ -509,6 +611,39 @@ class LLMS_Order_Generator {
 		}
 
 		$this->gateway = llms()->payment_gateways()->get_gateway_by_id( $gateway_id );
+		return true;
+
+	}
+
+	/**
+	 * Validates the order.
+	 *
+	 * Ensures the submitted order key is valid and that the order can be confirmed.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean|WP_Error Returns `true` on success or an error object.
+	 */
+	protected function validate_order() {
+
+		$order_id = $this->get_order_id();
+
+		if ( 'new' === $order_id || 'llms_order' !== get_post_type( $order_id ) ) {
+			return $this->error(
+				self::E_ORDER_NOT_FOUND,
+				__( 'Could not locate an order to confirm.', 'lifterlms' )
+			);
+		}
+
+		$order = llms_get_post( $order_id );
+		if ( ! $order->can_be_confirmed() ) {
+			return $this->error(
+				self::E_ORDER_NOT_CONFIRMABLE,
+				__( 'Could not locate an order to confirm.', 'lifterlms' )
+			);	
+		}
+
+		$this->order = $order;
 		return true;
 
 	}
