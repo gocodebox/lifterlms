@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -214,6 +214,7 @@ class LLMS_Frontend_Assets {
 	 * Enqueue inline scripts.
 	 *
 	 * @since 4.4.0
+	 * @since [version] Include checkout page script data for ajax-powered gateways.
 	 *
 	 * @return void
 	 */
@@ -230,6 +231,15 @@ class LLMS_Frontend_Assets {
 			'llms-LLMS-obj'          => 'window.LLMS = window.LLMS || {};',
 			'llms-l10n'              => 'window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';',
 		);
+
+		if ( is_llms_checkout() ) {
+			$controller = LLMS_Controller_Checkout::instance();
+			$urls       = array(
+				'createPendingOrder'  => $controller->get_url( $controller::ACTION_CREATE_PENDING_ORDER ),
+				'confirmPendingOrder' => $controller->get_url( $controller::ACTION_CONFIRM_PENDING_ORDER ),
+			);
+			$scripts['llms-checkout-urls'] = "window.llms.checkoutUrls = JSON.parse( '" . wp_json_encode( $urls ) . "' );";
+		}
 
 		// Enqueue them.
 		foreach ( $scripts as $handle => $script ) {
