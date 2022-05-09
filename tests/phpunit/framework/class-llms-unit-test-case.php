@@ -269,6 +269,57 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Retrieves an array of data as would be found in `$_POST` from a checkout form submission.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan|null $plan An access plan or `null` to automatically create one with default values from `get_mock_plan()`.
+	 * @return array
+	 */
+	protected function get_mock_checkout_data_array( $plan = null ) {
+
+		$plan = $plan ? $plan : $this->get_mock_plan();
+
+		$data = array(
+			'llms_plan_id'         => $plan->get( 'id' ),
+			'llms_payment_gateway' => 'manual',
+		);
+		$user_data = $this->get_mock_user_data_array();
+
+		return array_merge( $data, $user_data );
+
+	}
+
+	/**
+	 * Retrieves an array user data as would be found in `$_POST` from a checkout or registration form submission.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_mock_user_data_array() {
+
+		$email = wp_generate_password( 5, false ) . '@' . wp_generate_password( 5, false ) . '.tld';
+
+		return array(
+			'email_address'          => $email,
+			'email_address_confirm'  => $email,
+			'password'               => '12345678',
+			'password_confirm'       => '12345678',
+			'first_name'             => 'Fred',
+			'last_name'              => 'Stevens',
+			'llms_phone'             => '1234567890',
+			'llms_billing_address_1' => '123 A Street',
+			'llms_billing_address_2' => '#456',
+			'llms_billing_city'      => 'City',
+			'llms_billing_state'     => 'State',
+			'llms_billing_zip'       => '12345',
+			'llms_billing_country'   => 'CA',
+		);
+
+	}
+
+	/**
 	 * Generates an array of course data which can be passed to a Generator
 	 * @param    int     $iterator      number for use as course number
 	 * @param    int     $num_sections  number of sections to generate for the course
