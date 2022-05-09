@@ -258,6 +258,37 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test can_be_confirmed().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_can_be_confirmed() {
+
+		$statuses = array(
+			// Can be confirmed.
+			'llms-pending'        => true,
+
+			// Cannot be confirmed.
+			'llms-completed'      => false,
+			'llms-active'         => false,
+			'llms-expired'        => false,
+			'llms-on-hold'        => false,
+			'llms-pending-cancel' => false,
+			'llms-cancelled'      => false,
+			'llms-refunded'       => false,
+			'llms-failed'         => false,
+		);
+
+		foreach ( $statuses as $status => $expected ) {
+			$this->obj->set_status( $status );
+			$this->assertEquals( $expected, $this->obj->can_be_confirmed() );
+		}
+
+	}
+
+	/**
 	 * Test the can_be_retried() method.
 	 *
 	 * @since Unknown.

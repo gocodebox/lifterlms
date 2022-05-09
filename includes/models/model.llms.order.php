@@ -358,6 +358,37 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determines if an order can be confirmed.
+	 *
+	 * An order can be confirmed only when the order's status is pending.
+	 *
+	 * Additional requirements can be introduced via the filter `llms_order_can_be_confirmed`.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolaen
+	 */
+	public function can_be_confirmed() {
+
+		/**
+		 * Determine if the order can be confirmed.
+		 *
+		 * @since 3.34.4
+		 *
+		 * @param boolean    $can_be_confirmed Whether or not the order can be confirmed.
+		 * @param LLMS_Order $order            Order object.
+		 * @param string     $gateway_id       Payment gateway ID.
+		 */
+		return apply_filters( 
+			'llms_order_can_be_confirmed',
+			( 'llms-pending' === $this->get( 'status' ) ),
+			$this,
+			$this->get( 'payment_gateway' )
+		);
+
+	}
+
+	/**
 	 * Determine if the order can be retried for recurring payments
 	 *
 	 * @since 3.10.0
