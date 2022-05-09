@@ -1,0 +1,4 @@
+significance: minor
+type: deprecated
+entry: Method `LLMS_Controller_Orders::create_pending_order()` is deprecated in
+  favor of `LLMS_Controller_Checkout::create_pending_order()`.

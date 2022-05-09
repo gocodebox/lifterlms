@@ -173,6 +173,34 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test deprecated create_pending_order().
+	 *
+	 * @since [version]
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::create_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_create_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$res = $controller->create_pending_order();
+	}
+
+	/**
+	 * Test deprecated confirm_pending_order().
+	 *
+	 * @since [version]
+	 *
+	 * @expectedDeprecated LLMS_Controller_Orders::confirm_pending_order
+	 *
+	 * @return void
+	 */
+	public function test_confirm_pending_order() {
+		$controller = new LLMS_Controller_Orders();
+		$controller->confirm_pending_order();
+	}
+
+	/**
 	 * Test order error statuses.
 	 *
 	 * @since 3.19.0
