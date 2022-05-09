@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @version 5.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,6 +161,44 @@ function llms_get_possible_order_statuses( $order ) {
 	}
 
 	return $statuses;
+
+}
+
+/**
+ * Locates an order by email address and access plan ID.
+ *
+ * Used during AJAX checkout order creation when users are not created until the gateway confirms success.
+ *
+ * Ensures that only a single pending order for a given plan and email address will exist at any given time.
+ *
+ * @since [version]
+ *
+ * @param string $email   An email address.
+ * @param int    $plan_id Access plan WP_Post ID.
+ * @return null|int Returns the post id if found, otherwise returns `null`.
+ */
+function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
+
+	$query = new WP_Query( array(
+		'post_type'      => 'llms_order',
+		'post_status'    => 'llms-pending',
+		'fields'         => 'ids',
+		'posts_per_page' => 1,
+		'no_found_rows'  => true,
+		'meta_query'     => array(
+			'relation' => 'AND',
+			array(
+				'key'   => '_llms_billing_email',
+				'value' => $email,
+			),
+			array(
+				'key'   => '_llms_plan_id',
+				'value' => $plan_id,
+			),
+		),
+	) );
+
+	return $query->posts[0] ?? null;
 
 }
 

@@ -115,6 +115,44 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test llms_locate_order_for_email_and_plan().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_locate_order_for_email_and_plan() {
+
+		$order   = new LLMS_Order( 'new' );
+		$email   = 'locate_order_for_email_and_plan@fake.tld';
+		$plan_id = $this->factory->post->create( array(
+			'post_type' => 'llms_access_plan',
+		) );
+
+		$order->set( 'plan_id', $plan_id );
+		$order->set_status( 'llms-pending' );
+
+		// Invalid email & plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id + 1 ) );
+
+		// Invalid email & valid plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+
+		$order->set( 'billing_email', $email );
+		
+		// Valid email & invalid plan.
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id + 1 ) );
+
+		// Valid email & valid plan.
+		$this->assertEquals( $order->get( 'id' ), llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+
+		// Only locates pending orders.
+		$order->set_status( 'llms-failed' ); 
+		$this->assertNull( llms_locate_order_for_email_and_plan( $email, $plan_id ) );
+
+	}
+
+	/**
 	 * Test llms_locate_order_for_user_and_plan() method.
 	 *
 	 * @since 3.30.1
