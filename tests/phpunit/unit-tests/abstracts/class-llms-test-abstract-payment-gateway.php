@@ -92,6 +92,34 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test complete_transaction_ajax().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_complete_transaction_ajax() {
+
+		$order = new LLMS_Order( 'new' );
+		$res = $this->main->complete_transaction_ajax( $order );
+
+		$this->assertArrayHasKey( 'redirect', $res );
+		$this->assertEquals( 'SUCCESS', $res['status'] );
+
+		// With extra data.
+		$res = $this->main->complete_transaction_ajax( $order, array( 'yes' => 1 ) );
+		$this->assertArrayHasKey( 'redirect', $res );
+		$this->assertEquals( 'SUCCESS', $res['status'] );
+		$this->assertSame( 1, $res['yes'] );
+
+		// Overwrite defaults.
+		$res = $this->main->complete_transaction_ajax( $order, array( 'status' => 'ERROR' ) );
+		$this->assertArrayHasKey( 'redirect', $res );
+		$this->assertEquals( 'ERROR', $res['status'] );
+
+	}
+
+	/**
 	 * Test get_option_name()
 	 *
 	 * Tests options-related methods:

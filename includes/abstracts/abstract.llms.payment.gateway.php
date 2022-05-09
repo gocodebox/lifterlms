@@ -198,6 +198,34 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
+	 * This should be called by AJAX-powered gateways after verify a transaction was completed successfully.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order The order being processed.
+	 * @param array      $data  Data to add to the default success return array.
+	 * @return array {
+	 *     An array of return data. The actual return array may include additional data from the payment gateway.
+	 *
+	 *     @type string $redirect The complete transaction redirect URL.
+	 *     @type string $status   The status code, always 'SUCCESS'.
+	 * }
+	 */
+	public function complete_transaction_ajax( $order, $data = array() ) {
+
+		$data = wp_parse_args( $data, array(
+			'redirect' => $this->get_complete_transaction_redirect_url( $order ),
+			'status'   => 'SUCCESS',
+		) );
+
+		// Ensure notification processors get dispatched since shutdown wont be called.
+		do_action( 'llms_dispatch_notification_processors' );
+
+		return $data;
+
+	}
+
+	/**
 	 * Confirm a Payment
 	 *
 	 * Called by {@see LLMS_Controller_Orders::confirm_pending_order} on confirm form submission.
@@ -606,7 +634,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		if ( $this->id !== $handle ) {
 			return $strings;
 		}
-r
+
 		return array_merge( $strings, $this->retrieve_secure_strings() );
 
 	}
