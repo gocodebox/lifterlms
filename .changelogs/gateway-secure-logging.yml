@@ -1,0 +1,5 @@
+significance: minor
+type: dev
+entry: Improved payment gateway secure string logging by adding a method,
+  `add_secure_string()` allowing developers to add secure strings during runtime
+  without the necessity of registering the strings using filters.

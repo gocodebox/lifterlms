@@ -57,7 +57,7 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_get_secure_strings() {
+	public function test_add_get_and_retrieve_secure_strings() {
 
 		$strings = array( 'abcdefg' );
 
@@ -75,6 +75,14 @@ class LLMS_Test_Payment_Gateway extends LLMS_UnitTestCase {
 			array( 'abcdefg', 'MY-KEY' ),
 			$this->main->get_secure_strings( $strings, 'cash-now' )
 		);
+
+		// Has strings loaded at runtime.
+		$this->main->add_secure_string( 'Another String' );
+		$this->assertEquals( array( 'Another String', 'MY-KEY' ), $this->main->retrieve_secure_strings() );
+
+		// Dupchecked.
+		$this->main->add_secure_string( 'Another String' );
+		$this->assertEquals( array( 'Another String', 'MY-KEY' ), $this->main->retrieve_secure_strings() );
 
 		// Another log file.
 		$this->assertEquals( $strings, $this->main->get_secure_strings( $strings, 'llms' ) );

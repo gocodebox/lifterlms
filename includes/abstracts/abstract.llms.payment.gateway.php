@@ -139,11 +139,30 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	public $title = '';
 
 	/**
+	 * Strings to mask when writing debug logs.
+	 *
+	 * @var array
+	 */
+	protected $secure_strings = array();
+
+	/**
 	 * Option's data version
 	 *
 	 * @var integer
 	 */
 	protected $version = 2;
+
+	/**
+	 * Adds a string to the gateway's list of secure strings.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $string The string to add.
+	 * @return void
+	 */
+	public function add_secure_string( $string ) {
+		$this->secure_strings[] = (string) $string;
+	}
 
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
@@ -570,14 +589,12 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
+	 * Adds the gateways registered secured strings to the default list of site-wide secure strings.
 	 *
 	 * This is the callback for the `llms_secure_strings` filter (called via `llms_log()`).
 	 *
-	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
-	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter.
-	 *
-	 * @since [version]
+	 * @since 6.4.0
+	 * @since [version] Load strings from `retrieve_secure_strings()`.
 	 *
 	 * @param string[] $strings Array of secure strings.
 	 * @param string   $handle  The log handle.
@@ -589,34 +606,8 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 		if ( $this->id !== $handle ) {
 			return $strings;
 		}
-
-		$gateway_strings = array();
-		foreach ( $this->get_admin_settings_fields() as $field ) {
-
-			if ( empty( $field['id'] ) || empty( $field['secure_option'] ) ) {
-				continue;
-			}
-
-			$string = llms_get_secure_option( $field['secure_option'], '', $field['id'] );
-			if ( empty( $string ) ) {
-				continue;
-			}
-
-			$gateway_strings[] = $string;
-
-		}
-
-		/**
-		 * Filters the list of the gateway's secure strings.
-		 *
-		 * @since [version]
-		 *
-		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
-		 * @param string    $id              The gateway ID.
-		 */
-		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
-
-		return array_merge( $strings, $gateway_strings );
+r
+		return array_merge( $strings, $this->retrieve_secure_strings() );
 
 	}
 
@@ -936,6 +927,49 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * @return mixed
 	 */
 	public function process_refund( $transaction, $amount = 0, $note = '' ) {}
+
+	/**
+	 * Retrieves a list of "secure" strings which should be anonymized if they're found within debug logs.
+	 *
+	 * This method will load the value any gateway option with a `secure_option` declaration. Additional
+	 * strings can be added to the list using the `llms_get_gateway_secure_strings` filter or via the
+	 * gateway's `add_secure_string()` method.
+	 *
+	 * @since [version]
+	 * 
+	 * @return string[]
+	 */
+	public function retrieve_secure_strings() {
+
+		$gateway_strings = $this->secure_strings;
+		foreach ( $this->get_admin_settings_fields() as $field ) {
+
+			if ( empty( $field['id'] ) || empty( $field['secure_option'] ) ) {
+				continue;
+			}
+
+			$string = llms_get_secure_option( $field['secure_option'], '', $field['id'] );
+			if ( empty( $string ) ) {
+				continue;
+			}
+
+			$gateway_strings[] = $string;
+
+		}
+
+		/**
+		 * Filters the list of the gateway's secure strings.
+		 *
+		 * @since 6.4.0
+		 *
+		 * @param strings[] $gateway_strings List of secure strings for the payment gateway.
+		 * @param string    $id              The gateway ID.
+		 */
+		$gateway_strings = apply_filters( 'llms_get_gateway_secure_strings', $gateway_strings, $this->id );
+
+		return array_values( array_unique( $gateway_strings ) );
+
+	}
 
 	/**
 	 * Determine if a feature is supported by the gateway
