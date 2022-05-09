@@ -13,47 +13,6 @@
 class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 	/**
-	 * Retrieves an array of mock user data for use in generator data submission.
-	 *
-	 * @since [version]
-	 *
-	 * @return array
-	 */
-	private function get_mock_user_data() {
-
-		$email = wp_generate_password( 5, false ) . '@' . wp_generate_password( 5, false ) . '.tld';
-
-		return array(
-			'email_address'          => $email,
-			'email_address_confirm'  => $email,
-			'password'               => '12345678',
-			'password_confirm'       => '12345678',
-			'first_name'             => 'Fred',
-			'last_name'              => 'Stevens',
-			'llms_phone'             => '1234567890',
-			'llms_billing_address_1' => '123 A Street',
-			'llms_billing_address_2' => '#456',
-			'llms_billing_city'      => 'City',
-			'llms_billing_state'     => 'State',
-			'llms_billing_zip'       => '12345',
-			'llms_billing_country'   => 'CA',
-		);
-
-	}
-
-	private function get_mock_data() {
-
-		$data = array(
-			'llms_plan_id'         => $this->get_mock_plan()->get( 'id' ),
-			'llms_payment_gateway' => 'manual',
-		);
-		$user_data = $this->get_mock_user_data();
-
-		return array_merge( $data, $user_data );
-
-	}
-
-	/**
 	 * Test confirm() when validation errors are encountered.
 	 *
 	 * @since [version]
@@ -95,7 +54,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-err' );
 
-		$data                         = $this->get_mock_data();
+		$data                         = $this->get_mock_checkout_data_array();
 		$data['llms_order_key']       = $order->get( 'order_key' );
 		$data['llms_payment_gateway'] = 'fake-confirm-err';
 
@@ -137,7 +96,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-success' );
 
-		$data                         = $this->get_mock_data();
+		$data                         = $this->get_mock_checkout_data_array();
 		$data['llms_order_key']       = $order->get( 'order_key' );
 		$data['llms_payment_gateway'] = 'fake-confirm-success';
 
@@ -184,7 +143,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		LLMS_Forms::instance()->install( true );
 
-		$data = $this->get_mock_user_data();
+		$data = $this->get_mock_user_data_array();
 
 		// Register a new user.
 		$gen = new LLMS_Order_Generator( $data );
@@ -274,7 +233,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_generate_user_commit_errors() {
 
-		$data = $this->get_mock_data();
+		$data = $this->get_mock_checkout_data_array();
 
 		// After validation passes, register the user so the commit will fail.
 		$handler = function( $valid ) use ( $data ) {
@@ -304,7 +263,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_generate_success_user_commit() {
 
-		$data = $this->get_mock_data();
+		$data = $this->get_mock_checkout_data_array();
 
 		$gen = new LLMS_Order_Generator( $data );
 		$res = $gen->generate();
@@ -330,7 +289,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_generate_success_user_validate() {
 
-		$data = $this->get_mock_data();
+		$data = $this->get_mock_checkout_data_array();
 
 		$gen = new LLMS_Order_Generator( $data );
 		$res = $gen->generate( $gen::UA_VALIDATE );
@@ -452,7 +411,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_get_user_data() {
 
-		$data     = $this->get_mock_user_data();
+		$data     = $this->get_mock_user_data_array();
 		$gen      = new LLMS_Order_Generator( $data );
 		$expected = array(
 			'billing_email'      => $data['email_address'],
@@ -576,7 +535,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_validate_success() {
 
-		$data = $this->get_mock_data();
+		$data = $this->get_mock_checkout_data_array();
 		$gen = new LLMS_Order_Generator( $data );
 		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $gen, 'validate' ) );
 
@@ -596,7 +555,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$order = new LLMS_Order( 'new' );
 
-		$data                   = $this->get_mock_data();
+		$data                   = $this->get_mock_checkout_data_array();
 		$data['llms_order_key'] = $order->get( 'order_key' );
 
 		$gen = new LLMS_Order_Generator( $data );
@@ -961,7 +920,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	public function test_validate_user_enrollment() {
 
 		$plan = $this->get_mock_plan();
-		$data = $this->get_mock_user_data();
+		$data = $this->get_mock_user_data_array();
 
 		$data['llms_plan_id'] = $plan->get( 'id' );
 
@@ -994,7 +953,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_validate_user_success() {
 
-		$data = $this->get_mock_user_data();
+		$data = $this->get_mock_user_data_array();
 		LLMS_Forms::instance()->install( true );
 
 		$gen = new LLMS_Order_Generator( $data );
