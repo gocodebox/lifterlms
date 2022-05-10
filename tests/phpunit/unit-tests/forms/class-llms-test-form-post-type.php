@@ -7,7 +7,7 @@
  * @group forms
  *
  * @since 5.0.0
- * @version [version]
+ * @version 6.4.0
  */
 class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 
@@ -192,7 +192,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 * Test maybe_prevent_deletion() for non-core forms.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Updated to test that core form duplicates can be deleted.
+	 * @since 6.4.0 Updated to test that core form duplicates can be deleted.
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_Test_Form_Post_Type extends LLMS_UnitTestCase {
 	 * Test maybe_prevent_deletion() for core forms that cannot be deleted.
 	 *
 	 * @since 5.0.0
-	 * @since [version] Updated to test that only real core forms cannot be deleted.
+	 * @since 6.4.0 Updated to test that only real core forms cannot be deleted.
 	 *
 	 * @return void
 	 */

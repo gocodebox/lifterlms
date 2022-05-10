@@ -54,7 +54,7 @@ if ( ! function_exists( 'llms_anonymize_string' ) ) {
 	 * and each part of the email address will be anonymized separately, for example:
 	 * `llms_anonymize_string( 'help@lifterlms.com' )` will return '***p@li*********om'.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @param string $string The input string to be anonymized.
 	 * @param string $char   The character used to mask the string.

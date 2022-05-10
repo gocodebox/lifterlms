@@ -24,7 +24,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_anonymize_string().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

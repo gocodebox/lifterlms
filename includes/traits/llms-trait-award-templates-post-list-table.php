@@ -5,7 +5,7 @@
  * @package LifterLMS/Traits
  *
  * @since 6.0.0
- * @version 6.0.0
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,12 +21,13 @@ trait LLMS_Trait_Award_Templates_Post_List_Table {
 	 * Add post row actions filter callback.
 	 *
 	 * @since 6.0.0
+	 * @since 6.4.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
 	 *
 	 * @return void
 	 */
 	protected function award_template_row_actions() {
 
-		if ( "llms_{$this->engagement_type}" === llms_filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+		if ( "llms_{$this->engagement_type}" === llms_filter_input( INPUT_GET, 'post_type' ) ) {
 			add_filter( 'post_row_actions', array( $this, 'add_post_actions' ), 20, 2 );
 		}
 

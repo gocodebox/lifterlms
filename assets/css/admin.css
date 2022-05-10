@@ -3567,7 +3567,7 @@ button[name=llms_quiz_attempt_action].grading .save {
 .llms-form-field.type-radio input,
 .llms-form-field.type-radio label, .llms-form-field.type-checkbox input,
 .llms-form-field.type-checkbox label {
-  display: inline;
+  display: inline-block;
   width: auto;
 }
 .llms-form-field.type-radio input, .llms-form-field.type-checkbox input {

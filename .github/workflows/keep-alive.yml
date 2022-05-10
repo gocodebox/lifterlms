@@ -1,0 +1,53 @@
+###
+#
+# This workflow file is deployed into this repository via the "Sync Organization Files" workflow.
+#
+# Direct edits to this file are at risk of being overwritten by the next sync. All edits should be made
+# to the source file.
+#
+# @see Sync workflow {@link https://github.com/gocodebox/.github/actions/workflows/workflow-sync.yml}
+# @see Workflow template {@link https://github.com/gocodebox/.github/blob/trunk/.github/workflow-templates/keep-alive.yml}
+#
+# Keep Repo Alive
+#
+# This workflow ensures that cronjob workflows are not automatically disabled after 60 days of repo inactivity.
+# The workflow will automatically add an empty commit if the repo's latest commitwas made more than 50 days ago. This empty commit will prevent GitHub from automatically disabling this (and other)
+# cronjob actions in the repo.
+#
+###
+name: Keep Repo Alive
+
+on:
+  # Once daily at 00:00 UTC.
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+
+  keep-alive:
+    name: Keep Repo Alive
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ORG_WORKFLOWS }}
+          fetch-depth: 0
+      - name: Add keep-alive commit
+        run: |
+          LAST_COMMIT_TIME=$( git --no-pager log -1 --format=%ct )
+          NOW=$( date +%s )
+          DIFF_IN_DAYS=$(( ( NOW - LAST_COMMIT_TIME ) / 86400 ))
+
+          echo "Days since last commit: $DIFF_IN_DAYS"
+
+          if [[ $DIFF_IN_DAYS > 50 ]]; then
+            echo "Adding a keep-alive commit."
+          
+            git config --global user.name "keepalive[bot]"
+            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            git commit --allow-empty -m "Automated commit from the Keep Repo Alive workflow"
+            git push origin HEAD
+          else
+            echo "No keep-alive commit required."
+          fi

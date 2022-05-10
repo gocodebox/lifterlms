@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Allowed the `LLMS_Shortcode_User_Info` class to be filtered by the `llms_load_shortcodes` and `llms_load_shortcode_path` hooks.

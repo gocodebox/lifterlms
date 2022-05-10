@@ -230,11 +230,15 @@ class LLMS_Loader {
 	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
 	 * @since 6.0.0 Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since 6.4.0 Included `LLMS_Shortcodes` before `LLMS_Controller_Orders`.
 	 * @since [version] Include `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */
 	public function includes() {
+
+		// Instantiate LLMS_Shortcodes before LLMS_Controller_Orders.
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class.llms.shortcodes.php';
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';

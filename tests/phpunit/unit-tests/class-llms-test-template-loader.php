@@ -8,6 +8,7 @@
  *
  * @since 3.41.1
  * @since 6.0.0 Added tests for the block loader.
+ * @since 6.4.0 Updated tests on single restricted content template loading.
  */
 class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
@@ -266,6 +267,7 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 	 * Test template_loader() for restricted pages.
 	 *
 	 * @since 4.10.1
+	 * @since 6.4.0 Updated to reflect changes in the `template_loader()` method for single restricted content template.
 	 *
 	 * @return void
 	 */
@@ -274,7 +276,12 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 		add_filter( 'llms_page_restricted', array( $this, 'mock_page_restricted' ), 10, 2 );
 
 		// Modify the template & fire actions.
-		$this->assertEquals( 'single-no-access.php', basename( $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) ) );
+		// `template_loader()` returns the original template for single restricted content.
+		$this->assertEquals( 'mock.php', basename( $this->main->template_loader( '/html/wp-content/theme/atheme/mock.php' ) ) );
+		// And defers the single restricted content template redirect at `template_include|100`.
+		$this->assertSame( 100, has_filter( 'template_include', array( $this->main, 'maybe_force_php_template' ) ) );
+		// `maybe_force_php_template()` returns the single restricted content template.
+		$this->assertEquals( 'single-no-access.php', basename( $this->main->maybe_force_php_template( '/html/wp-content/theme/atheme/mock.php' ) ) );
 		$this->assertSame( 1, did_action( 'lifterlms_content_restricted' ) );
 		$this->assertSame( 1, did_action( 'llms_content_restricted_by_mock' ) );
 
@@ -297,8 +304,6 @@ class LLMS_Test_Template_Loader extends LLMS_UnitTestCase {
 
 	/**
 	 * Test block_template_loader() for restricted pages.
-	 *
-	 * @group aaa
 	 *
 	 * @since 6.0.0
 	 *

@@ -318,7 +318,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test _llms_secure_log_messages() when no secure strings are registered.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Functions_Logs extends LLMS_UnitTestCase {
 	/**
 	 * Test _llms_secure_log_messages() when no secure strings are registered.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

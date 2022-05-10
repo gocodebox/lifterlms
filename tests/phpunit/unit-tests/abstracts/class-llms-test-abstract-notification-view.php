@@ -5,14 +5,14 @@
  * @group abstracts
  * @group notifications
  *
- * @since [version]
+ * @since 6.4.0
  */
 class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve the abstract class mock stub.
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return LLMS_Abstract_Notification_View
 	 */
@@ -128,7 +128,7 @@ class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 	/**
 	 * Test get_used_merge_codes().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Abstract_Notification_View extends LLMS_UnitTestCase {
 	/**
 	 * Test get_merged_string().
 	 *
-	 * @since [version]
+	 * @since 6.4.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,13 +19,24 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Shortcodes {
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 6.4.0
+	 * @return void
+	 */
+	public function __construct() {
+
+		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
+	}
+
+	/**
 	 * Initialize shortcodes array.
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
 	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 * @since 6.0.0 Removed loading of class files that don't instantiate their class in favor of autoloading.
-	 * @since [version] Allowed `LLMS_Shortcode_User_Info` class to be filtered.
+	 * @since 6.4.0 Allowed `LLMS_Shortcode_User_Info` class to be filtered.
 	 *
 	 * @return void
 	 */
@@ -611,3 +622,5 @@ class LLMS_Shortcodes {
 	}
 
 }
+
+return new LLMS_Shortcodes();

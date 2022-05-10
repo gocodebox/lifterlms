@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -141,7 +141,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	/**
 	 * Strings to mask when writing debug logs.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $secure_strings = array();
 
@@ -849,7 +849,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * Log messages if logging is enabled
 	 *
 	 * @since 3.0.0
-	 * @since [version] Load the gateway's `secure_option` settings into `llms_secure_strings` hook when logging.
+	 * @since 6.4.0 Load the gateway's `secure_option` settings into `llms_secure_strings` hook when logging.
 	 *
 	 * @return void
 	 */

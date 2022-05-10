@@ -1,3 +1,0 @@
-significance: patch
-type: fixed
-entry: Allowed classes extended from the manual payment gateway class to display payment instructions.
