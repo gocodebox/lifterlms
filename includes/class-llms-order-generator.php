@@ -280,8 +280,8 @@ class LLMS_Order_Generator {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $code      Error code.
-	 * @param string $message   Error message.
+	 * @param string $code       Error code.
+	 * @param string $message    Error message.
 	 * @param array  $extra_data Additional data to pass to WP_Error's 3rd parameter.
 	 * @return WP_Error
 	 */
