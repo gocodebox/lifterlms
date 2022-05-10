@@ -383,6 +383,8 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_validate_user_errors() {
 
+		LLMS_Forms::instance()->install( true );
+
 		$ret = llms_validate_user( array() );
 		$this->assertIsWPError( $ret );
 		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
@@ -398,11 +400,19 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_validate_user_success() {
 
-		$user = $this->factory->user->create_and_get( array( 'first_name' => 'Kyle' ) );
+		LLMS_Forms::instance()->install( true );
+
+		$data = $this->get_mock_user_data_array();
+		$user = $this->factory->user->create_and_get( array( 
+			'first_name' => 'Kyle',
+			'user_email' => $data['email_address'],
+		) );
 
 		wp_set_current_user( $user->ID );
 
-		$this->assertTrue( llms_validate_user( array( 'first_name' => 'Not Kyle' ), 'checkout' ) );
+		$args['first_name'] = 'NotKyle';
+
+		$this->assertTrue( llms_validate_user( $data , 'checkout' ) );
 
 		$user = get_user_by( 'id', $user->ID );
 		$this->assertEquals( 'Kyle', $user->first_name );
