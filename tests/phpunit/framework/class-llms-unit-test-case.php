@@ -35,6 +35,39 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Loads a payment gateway class.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Payment_Gateway $gateway Gateway class instance.
+	 * @param boolean              $enabled Whether or not to enable the gateway.
+	 * @return void
+	 */
+	protected function load_payment_gateway( $gateway, $enabled = true ) {
+		$gateway->set_option( 'enabled', $enabled ? 'yes' : 'no' );
+		llms()->payment_gateways()->payment_gateways[] = $gateway;
+	}
+
+	/**
+	 * Unload a payment gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $id Gateway ID.
+	 * @return void
+	 */
+	protected function unload_payment_gateway( $id ) {
+
+		foreach ( llms()->payment_gateways()->payment_gateways as $i => $gateway ) {
+			if ( $id !== $gateway->id ) {
+				continue;
+			}
+			unset( llms()->payment_gateways()->payment_gateways[ $i ] );
+		}
+
+	}
+
+	/**
 	 * Create mock user session data.
 	 *
 	 * @since 4.0.0
