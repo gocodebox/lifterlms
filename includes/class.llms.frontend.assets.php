@@ -233,8 +233,8 @@ class LLMS_Frontend_Assets {
 		);
 
 		if ( is_llms_checkout() ) {
-			$controller = LLMS_Controller_Checkout::instance();
-			$urls       = array(
+			$controller                    = LLMS_Controller_Checkout::instance();
+			$urls                          = array(
 				'createPendingOrder'  => $controller->get_url( $controller::ACTION_CREATE_PENDING_ORDER ),
 				'confirmPendingOrder' => $controller->get_url( $controller::ACTION_CONFIRM_PENDING_ORDER ),
 			);

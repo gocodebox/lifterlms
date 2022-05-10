@@ -179,24 +179,26 @@ function llms_get_possible_order_statuses( $order ) {
  */
 function llms_locate_order_for_email_and_plan( $email, $plan_id ) {
 
-	$query = new WP_Query( array(
-		'post_type'      => 'llms_order',
-		'post_status'    => 'llms-pending',
-		'fields'         => 'ids',
-		'posts_per_page' => 1,
-		'no_found_rows'  => true,
-		'meta_query'     => array(
-			'relation' => 'AND',
-			array(
-				'key'   => '_llms_billing_email',
-				'value' => $email,
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'llms_order',
+			'post_status'    => 'llms-pending',
+			'fields'         => 'ids',
+			'posts_per_page' => 1,
+			'no_found_rows'  => true,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'   => '_llms_billing_email',
+					'value' => $email,
+				),
+				array(
+					'key'   => '_llms_plan_id',
+					'value' => $plan_id,
+				),
 			),
-			array(
-				'key'   => '_llms_plan_id',
-				'value' => $plan_id,
-			),
-		),
-	) );
+		)
+	);
 
 	return $query->posts[0] ?? null;
 

@@ -213,10 +213,13 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 */
 	public function complete_transaction_ajax( $order, $data = array() ) {
 
-		$data = wp_parse_args( $data, array(
-			'redirect' => $this->get_complete_transaction_redirect_url( $order ),
-			'status'   => 'SUCCESS',
-		) );
+		$data = wp_parse_args(
+			$data,
+			array(
+				'redirect' => $this->get_complete_transaction_redirect_url( $order ),
+				'status'   => 'SUCCESS',
+			)
+		);
 
 		// Ensure notification processors get dispatched since shutdown wont be called.
 		do_action( 'llms_dispatch_notification_processors' );
@@ -964,7 +967,7 @@ abstract class LLMS_Payment_Gateway extends LLMS_Abstract_Options_Data {
 	 * gateway's `add_secure_string()` method.
 	 *
 	 * @since [version]
-	 * 
+	 *
 	 * @return string[]
 	 */
 	public function retrieve_secure_strings() {

@@ -170,8 +170,8 @@ class LLMS_Order_Generator {
 	 *
 	 * @since [version]
 	 *
-	 * @param array  $data {
-	 *      An associative array of input data used to generate the order, usually from $_POST.
+	 * @param array $data {
+	 *     An associative array of input data used to generate the order, usually from $_POST.
 	 *
 	 *     @type integer $llms_plan_id         An LLMS_Access_Plan ID.
 	 *     @type string  $llms_agree_to_terms  A yes/no value determining whether or not the user has agreed to the site's terms.
@@ -260,14 +260,14 @@ class LLMS_Order_Generator {
 			'plan' => $this->plan,
 		);
 
-		$user = get_current_user_id() ? 
-			llms_update_user( $this->data, 'checkout', $args ) : 
+		$user = get_current_user_id() ?
+			llms_update_user( $this->data, 'checkout', $args ) :
 			llms_register_user( $this->data, 'checkout', true, $args );
 
 		if ( ! is_wp_error( $user ) ) {
 			$this->student = llms_get_student( $user );
 		}
-		
+
 		return $user;
 
 	}
@@ -314,7 +314,7 @@ class LLMS_Order_Generator {
 
 		if ( $email ) {
 			$user = get_user_by( 'email', $email );
-			return $user ? $user->ID : null;	
+			return $user ? $user->ID : null;
 		}
 
 		return null;
@@ -640,7 +640,7 @@ class LLMS_Order_Generator {
 			return $this->error(
 				self::E_ORDER_NOT_CONFIRMABLE,
 				__( 'Could not locate an order to confirm.', 'lifterlms' )
-			);	
+			);
 		}
 
 		$this->order = $order;

@@ -24,14 +24,14 @@ class LLMS_Controller_Checkout {
 	/**
 	 * Action for creating a pending order.
 	 *
-	 * Used as both the nonce and the posted `action` field. 
+	 * Used as both the nonce and the posted `action` field.
 	 */
 	const ACTION_CREATE_PENDING_ORDER = 'create_pending_order';
 
 	/**
 	 * Action for confirming a pending order.
 	 *
-	 * Used as both the nonce and the posted `action` field. 
+	 * Used as both the nonce and the posted `action` field.
 	 */
 	const ACTION_CONFIRM_PENDING_ORDER = 'confirm_pending_order';
 
@@ -119,7 +119,7 @@ class LLMS_Controller_Checkout {
 	 *
 	 * Verifies the AJAX request, passes `$_POST` data to the `LLMS_Order_Generator`, and returns
 	 * a JSON response.
-	 * 
+	 *
 	 * Initiated via the confirm order form (via user form submission) or programmatically by payment gateways which
 	 * require an order confirmation step. PayPal is a two-step checkout that requires confirmation
 	 * whereas Stripe is a one-step checkout without a confirmation step.
@@ -139,17 +139,17 @@ class LLMS_Controller_Checkout {
 		remove_action( 'init', array( $this, 'confirm_pending_order' ) );
 
 		// Confirm the order.
-		$generator = new LLMS_Order_Generator( $_POST );
+		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$this->send_json( $generator->confirm() );
 
 	}
 
 	/**
 	 * Checkout new order controller.
-	 * 
+	 *
 	 * Handles form submission of the checkout form for new (or pending) orders.
 	 *
-	 * Verifies the request, validates request data, creates/updates the user, and creates/updates 
+	 * Verifies the request, validates request data, creates/updates the user, and creates/updates
 	 * the order post.
 	 *
 	 *
@@ -175,7 +175,7 @@ class LLMS_Controller_Checkout {
 			return $verify;
 		}
 
-		@set_time_limit( 0 );
+		@set_time_limit( 0 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 
 		/**
 		 * Allow 3rd parties to perform their own validation prior to standard validation.
@@ -193,7 +193,7 @@ class LLMS_Controller_Checkout {
 		}
 
 		// Setup the pending order.
-		$setup = llms_setup_pending_order( $this->extract_setup_data( $_POST ) );
+		$setup = llms_setup_pending_order( $this->extract_setup_data( $_POST ) );  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		if ( is_wp_error( $setup ) ) {
 			llms_add_notice( $setup->get_error_message(), 'error' );
 			return $setup;
@@ -218,7 +218,7 @@ class LLMS_Controller_Checkout {
 		$order_id = 'new';
 
 		// Get order ID by Key if it exists.
-		if ( ! empty( $_POST['llms_order_key'] ) ) {
+		if ( ! empty( $_POST['llms_order_key'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 			$locate = llms_get_order_by_key( llms_filter_input_sanitize_string( INPUT_POST, 'llms_order_key' ), 'id' );
 			if ( $locate ) {
 				$order_id = $locate;
@@ -245,11 +245,11 @@ class LLMS_Controller_Checkout {
 
 	/**
 	 * AJAX checkout new order controller.
-	 * 
+	 *
 	 * Handles AJAX form submission of the checkout form for new (or pending) orders.
 	 *
 	 * Verifies the AJAX request, passes the `$_POST` data to {@see LLMS_Order_Generator::generate},
-	 * hands the resulting order and data to the gateway's `handle_pending_order()` method and then 
+	 * hands the resulting order and data to the gateway's `handle_pending_order()` method and then
 	 * outputs a JSON response object.
 	 *
 	 * @since [version]
@@ -257,7 +257,7 @@ class LLMS_Controller_Checkout {
 	 * @return void
 	 */
 	public function create_pending_order_ajax() {
-		
+
 		$verify = $this->verify_request( self::AJAX_QS_VAR, self::ACTION_CREATE_PENDING_ORDER );
 		if ( ! $verify ) {
 			return $verify;
@@ -267,7 +267,7 @@ class LLMS_Controller_Checkout {
 		remove_action( 'init', array( $this, 'create_pending_order' ) );
 
 		// Generate the order.
-		$generator = new LLMS_Order_Generator( $_POST );
+		$generator = new LLMS_Order_Generator( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified via `verify_request()`.
 		$order     = $generator->generate( $generator::UA_VALIDATE );
 		if ( is_wp_error( $order ) ) {
 			$this->send_json( $order );
@@ -278,7 +278,7 @@ class LLMS_Controller_Checkout {
 			$order,
 			$generator->get_plan(),
 			$generator->get_user_data(),
-			$generator->get_coupon(),
+			$generator->get_coupon()
 		);
 
 		// Automatically add the order key to non-error return arrays.
@@ -367,7 +367,7 @@ class LLMS_Controller_Checkout {
 	 * @return void
 	 */
 	private function send_json( $data ) {
-		
+
 		// Tell WP we're doing AJAX.
 		add_filter( 'wp_doing_ajax', '__return_true' );
 		wp_send_json( $data, is_wp_error( $data ) ? 400 : 200 );
@@ -391,7 +391,7 @@ class LLMS_Controller_Checkout {
 			return null;
 		}
 
-		if ( $nonce !== llms_filter_input( INPUT_POST, 'action' ) ) {
+		if ( llms_filter_input( INPUT_POST, 'action' ) !== $nonce ) {
 			return false;
 		}
 

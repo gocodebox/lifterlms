@@ -740,7 +740,7 @@ class LLMS_Controller_Orders {
 	 */
 	public function confirm_pending_order() {
 		_deprecated_function( __METHOD__, '[verison]', 'LLMS_Controller_Checkout::confirm_pending_order' );
-		LLMS_Controller_Checkout::instance()->confirm_pending_order();		
+		LLMS_Controller_Checkout::instance()->confirm_pending_order();
 	}
 
 	/**
@@ -762,7 +762,7 @@ class LLMS_Controller_Orders {
 	 * @since 5.0.0 Build customer data using LLMS_Forms fields information.
 	 * @since 5.0.1 Delegate sanitization of user information fields of the `$_POST` to LLMS_Form_Handler::submit().
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
-	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order}. 
+	 * @deprecated [version] Deprecated in favor of {@see LLMS_Controller_Checkout::create_pending_order}.
 	 *
 	 * @return void
 	 */

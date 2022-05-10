@@ -379,7 +379,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 * @param LLMS_Order $order            Order object.
 		 * @param string     $gateway_id       Payment gateway ID.
 		 */
-		return apply_filters( 
+		return apply_filters(
 			'llms_order_can_be_confirmed',
 			( 'llms-pending' === $this->get( 'status' ) ),
 			$this,
