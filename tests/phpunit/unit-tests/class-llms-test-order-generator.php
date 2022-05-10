@@ -38,6 +38,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 	 */
 	public function test_confirm_gateway_errors() {
 
+		LLMS_Forms::instance()->install( true );
+
 		$gateway = new class() extends LLMS_Payment_Gateway {
 			public $id = 'fake-confirm-err';
 			public function handle_pending_order( $order, $plan, $person, $coupon = false ) {}
@@ -47,9 +49,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		};
 
 		$gateway->supports['recurring_payments'] = true;
-		$gateway->set_option( 'enabled', 'yes' );
-		llms()->payment_gateways()->payment_gateways[] = $gateway;
-
+		$this->load_payment_gateway( $gateway );
 
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-err' );
@@ -66,6 +66,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( 'gateway-err', $res );
 
+		$this->unload_payment_gateway( 'fake-confirm-err' );
 
 	}
 
@@ -90,8 +91,7 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		$gateway->supports['recurring_payments'] = true;
 		$gateway->set_option( 'enabled', 'yes' );
-		llms()->payment_gateways()->payment_gateways[] = $gateway;
-
+		$this->load_payment_gateway( $gateway );
 
 		$order = new LLMS_Order( 'new' );
 		$order->set( 'payment_gateway', 'fake-confirm-success' );
@@ -107,6 +107,8 @@ class LLMS_Test_Order_Generator extends LLMS_UnitTestCase {
 
 		// User data should have been stored.
 		$this->assertEquals( $data['email_address'], $order->get( 'billing_email' ) );
+
+		$this->unload_payment_gateway( 'fake-confirm-success' );
 
 	}
 
