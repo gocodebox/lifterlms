@@ -1,0 +1,7 @@
+significance: minor
+type: dev
+entry: The `LLMS_Student` object can be instantiated as an empty object and
+  bypass current user autoloading. In the future this may affect integrations
+  using the `lifterlms_new_pending_order` action hook which will receive an
+  "empty" student object during order setup by gateways utilizing new
+  AJAX-powered checkout endpoints.

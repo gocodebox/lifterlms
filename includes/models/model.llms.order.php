@@ -1474,7 +1474,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		do_action(
 			'lifterlms_new_pending_order',
 			$this,
-			is_array( $user_data ) ? new LLMS_Student( -1 ) : llms_get_student( $user_data ),
+			is_array( $user_data ) ? new LLMS_Student( null, false ) : llms_get_student( $user_data ),
 			$user_data
 		);
 

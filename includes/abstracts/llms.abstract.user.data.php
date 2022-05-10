@@ -42,18 +42,22 @@ abstract class LLMS_Abstract_User_Data {
 	protected $user;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * If no user id provided, will attempt to use the current user id
+	 * By default, the current user is loaded if no `$user` is supplied. This behavior can be disabled by providing `$autoload = false`.
 	 *
-	 * @param    mixed $user   WP_User ID, instance of WP_User, or instance of any student class extending this class
-	 * @return   void
-	 * @since    2.2.3
-	 * @version  3.9.0
+	 * @since 2.2.3
+	 * @since 3.9.0 Unknown.
+	 * @since [version]
+	 *
+	 * @param int|null|WP_User|LLMS_Abstract_User_Data $user     A `WP_User` ID, instance of a `WP_User`, or instance of any class extending this class.
+	 * @param boolean                                  $autoload If `true` and `$user` input is empty, the user will be loaded from `get_current_user_id()`.
+	 *                                                           If `$user` is not empty then this parameter has no impact.
+	 * @return void
 	 */
-	public function __construct( $user = null ) {
+	public function __construct( $user = null, $autoload = true ) {
 
-		$user = $this->get_user_id( $user );
+		$user = ( $user || ( ! $user && $autoload ) ) ? $this->get_user_id( $user ) : false;
 		if ( false !== $user ) {
 			$this->id   = $user;
 			$this->user = get_user_by( 'ID', $user );
