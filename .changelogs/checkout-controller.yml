@@ -1,0 +1,4 @@
+significance: minor
+type: added
+entry: Added new AJAX checkout endpoints for payment gateways to utilize instead
+  of the preexisting synchronous form submission methods.
