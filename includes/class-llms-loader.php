@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 4.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -230,6 +230,7 @@ class LLMS_Loader {
 	 * @since 5.6.0 Include `LLMS_Prevent_Concurrent_Logins`.
 	 * @since 6.0.0 Included `LLMS_Block_Library`, `LLMS_Controller_Awards`, and `LLMS_Engagement_Handler`.
 	 *              Removed loading of class files that don't instantiate their class in favor of autoloading.
+	 * @since [version] Include `LLMS_Controller_Checkout`.
 	 *
 	 * @return void
 	 */
@@ -280,6 +281,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-awards.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.certificates.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.lesson.progression.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class-llms-controller-checkout.php'; // Added out of alpha order to preserve action load order.
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.orders.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/controllers/class.llms.controller.quizzes.php';
 
