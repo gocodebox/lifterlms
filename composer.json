@@ -32,7 +32,7 @@
     "lifterlms/lifterlms-blocks": "2.4.2",
     "lifterlms/lifterlms-cli": "0.0.3",
     "lifterlms/lifterlms-helper": "3.4.2",
-    "lifterlms/lifterlms-rest": "1.0.0-beta.24",
+    "lifterlms/lifterlms-rest": "1.0.0-beta.25",
     "woocommerce/action-scheduler": "3.4.0"
   },
   "require-dev": {
