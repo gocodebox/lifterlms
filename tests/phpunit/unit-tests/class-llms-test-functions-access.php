@@ -7,7 +7,7 @@
  * @since 3.7.3
  * @since 3.16.0 Unknown.
  * @since 3.37.10 Added tests on sitewide membership restriction.
- * @since [version] Added tests for drip restrictions on completed lessons.
+ * @since 6.5.0 Added tests for drip restrictions on completed lessons.
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
@@ -83,7 +83,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * Test drip restriction for already completed lesson.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */

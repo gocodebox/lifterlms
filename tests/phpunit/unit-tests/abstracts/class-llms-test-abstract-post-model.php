@@ -9,7 +9,7 @@
  * @group post_models
  *
  * @since 4.10.0
- * @since [version] Added various tests on set()/set_bulk() methods.
+ * @since 6.5.0 Added various tests on set()/set_bulk() methods.
  */
 class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 
@@ -214,7 +214,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test (bulk) setting meta with the same values as the stored ones, default behavior: not allowed.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -265,7 +265,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test setting meta with the same values as the stored ones, default behavior: not allowed.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -316,7 +316,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test (bulk) setting meta with the same values as the stored ones, allowed.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -393,7 +393,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test (bulk) setting meta with the same values as the stored ones, allowed.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -468,7 +468,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk() method passing empty data array.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -517,7 +517,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk() method passing invalid data.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -569,7 +569,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test setting (bulk) post property that would generate an error.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -630,7 +630,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test setting post property that would generate an error.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -675,7 +675,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk() with post properties.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -726,7 +726,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk() with post properties.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -811,7 +811,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Test `set()` to ensure single quotes and double quotes are correctly slashed.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -961,7 +961,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * Unstage meta test.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @return void
 	 */
@@ -972,7 +972,7 @@ class LLMS_Test_Abstract_Post_Model extends LLMS_UnitTestCase {
 	/**
 	 * All types fields with values.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @param bool $alt Alternative values.
 	 * @return array

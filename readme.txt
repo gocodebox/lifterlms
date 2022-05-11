@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 5.5
 Tested up to: 5.9
 Requires PHP: 7.3
-Stable tag: 6.4.0
+Stable tag: 6.5.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,27 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.5.0 - 2022-05-11 =
+
+##### Upcoming PHP Version Requirement Change
+
+**This will be the last version of LifterLMS to support PHP 7.3. The next version of LifterLMS, expected before the end of May 2022, will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Rest to [v1.0.0-beta.25](https://make.lifterlms.com/2022/05/11/lifterlms-rest-api-version-1-0-0-beta-25/).
+
+##### Bug Fixes
+
++ Students who have already completed a lesson will now automatically bypass the lesson's drip restrictions. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
++ Properly encode certificate JS localization data. [#2140](https://github.com/gocodebox/lifterlms/issues/2140)
+
+##### Developer Notes
+
++ Added a new filter, `llms_lesson_drip_bypass_if_completed`, which controls the automatic bypass of drip restrictions for completed lessons. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
++ Allow avoiding error return when updating an `LLMS_Post_Model` post meta with the same value as the one stored in the database. [#909](https://github.com/gocodebox/lifterlms/issues/909)
+
+
 = v6.4.0 - 2022-04-19 =
 
 ##### Upcoming PHP Version Requirement Change
@@ -1047,22 +1068,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-navigation.php)
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-preview.php)
 + [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/parent-course.php)
-
-
-= v5.6.0 - 2021-12-07 =
-
-##### New Features
-
-+ Added an option to prevent users (by role) from copying site content and saving local copies of images.
-+ Added new site setting to disallow concurrent user sessions for specified user roles.
-
-##### Updates and Enhancements
-
-+ Updates LifterLMS REST to [v1.0.0-beta.21](https://make.lifterlms.com/2021/12/07/lifterlms-rest-api-version-1-0-0-beta-21/).
-
-##### Developer Notes
-
-+ Database migration functions can now be namespaced, eliminating the need to prefix update function names with a version number.
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

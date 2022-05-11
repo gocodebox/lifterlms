@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -198,7 +198,7 @@ class LLMS_Payment_Gateways {
 	 * Determines if any payment gateways are registered.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Refactor for code simplicity.
+	 * @since 6.5.0 Refactor for code simplicity.
 	 *
 	 * @param boolean $enabled Whether or not to check against only enabled gateways.
 	 * @return boolean
