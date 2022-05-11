@@ -30,9 +30,9 @@ class LLMS_Payment_Gateways {
 	public $payment_gateways = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @version 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class LLMS_Payment_Gateways {
 	}
 
 	/**
-	 * Register core gateways
+	 * Register core gateways.
 	 *
 	 * @since 3.0.0
 	 *
@@ -81,9 +81,9 @@ class LLMS_Payment_Gateways {
 	}
 
 	/**
-	 * Get only enabled payment gateways
+	 * Get only enabled payment gateways.
 	 *
-	 * @version 3.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array
 	 */
