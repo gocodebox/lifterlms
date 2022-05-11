@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 6.0.0
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -79,6 +79,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue block editor assets for certificate post types.
 	 *
 	 * @since 6.0.0
+	 * @since 6.5.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
 	 *
 	 * @return void
 	 */
@@ -112,7 +113,7 @@ class LLMS_Admin_Assets {
 		);
 		llms()->assets->enqueue_inline(
 			'llms-admin-certificate-settings',
-			"window.llms = window.llms || {};window.llms.certificates=JSON.parse( '" . wp_json_encode( wp_slash( $settings ) ) . "' );",
+			"window.llms = window.llms || {};window.llms.certificates=JSON.parse( '" . wp_slash( wp_json_encode( $settings ) ) . "' );",
 			'footer'
 		);
 
