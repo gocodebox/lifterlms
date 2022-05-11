@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -79,7 +79,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue block editor assets for certificate post types.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
+	 * @since 6.5.0 Use `wp_slash()` after `wp_json_encode()` to prevent issues encountered when strings contain single quotes.
 	 *
 	 * @return void
 	 */

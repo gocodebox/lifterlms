@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1263,7 +1263,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
 	 * @since 3.34.0 Turned to be only a wrapper for the set_bulk() method.
-	 * @since [version] Introduced `$allow_same_meta_value` param.
+	 * @since 6.5.0 Introduced `$allow_same_meta_value` param.
 	 *
 	 * @param string|array $key_or_array          Key of the property or an associative array of key/val pairs.
 	 * @param mixed        $val                   Value to set the property with.
@@ -1292,7 +1292,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.34.0
 	 * @since 3.36.1 Use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
 	 * @since 5.3.1 Fix quote slashing when the user is not an admin.
-	 * @since [version] Introduced `$allow_same_meta_value` param.
+	 * @since 6.5.0 Introduced `$allow_same_meta_value` param.
 	 *               Code reorganization.
 	 *
 	 * @param array   $model_array           Associative array of key/val pairs.
@@ -1336,7 +1336,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * Logic moved from `set_bulk()` method.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @return array|bool Returns `false` if nothing to set or an array that contains all the post properties and all the metas to set.
@@ -1429,7 +1429,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * Logic moved from `set_bulk()` method.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @param array $post_properties Array of post properties to set.
 	 * @return void|WP_Error

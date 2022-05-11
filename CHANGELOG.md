@@ -1,6 +1,28 @@
 LifterLMS Changelog
 ===================
 
+v6.5.0 - 2022-05-11
+-------------------
+
+##### Upcoming PHP Version Requirement Change
+
+**This will be the last version of LifterLMS to support PHP 7.3. The next version of LifterLMS, expected before the end of May 2022, will raise the minimum supported PHP version to 7.4. PHP 7.3 reached its official [end of life](https://www.php.net/eol.php) on December 6, 2021. If you are still using PHP 7.3 please upgrade to PHP 7.4 or later as soon as possible.**
+
+##### Updates and Enhancements
+
++ Updates LifterLMS Rest to [v1.0.0-beta.25](https://make.lifterlms.com/2022/05/11/lifterlms-rest-api-version-1-0-0-beta-25/).
+
+##### Bug Fixes
+
++ Students who have already completed a lesson will now automatically bypass the lesson's drip restrictions. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
++ Properly encode certificate JS localization data. [#2140](https://github.com/gocodebox/lifterlms/issues/2140)
+
+##### Developer Notes
+
++ Added a new filter, `llms_lesson_drip_bypass_if_completed`, which controls the automatic bypass of drip restrictions for completed lessons. [#1835](https://github.com/gocodebox/lifterlms/issues/1835)
++ Allow avoiding error return when updating an `LLMS_Post_Model` post meta with the same value as the one stored in the database. [#909](https://github.com/gocodebox/lifterlms/issues/909)
+
+
 v6.4.0 - 2022-04-19
 -------------------
 
