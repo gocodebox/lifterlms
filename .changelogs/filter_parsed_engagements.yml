@@ -1,0 +1,7 @@
+significance: patch
+type: fixed
+links:
+  - "https://github.com/gocodebox/lifterlms-integration-twilio/issues/32"
+entry: Fixed the ability for 3rd party plugins to use the
+  `lifterlms_external_engagement_handler_arguments` and
+  `lifterlms_external_engagement_query_arguments`.
