@@ -1,6 +1,0 @@
-significance: minor
-type: dev
-links:
-  - "#1835"
-entry: Added a new filter, `llms_lesson_drip_bypass_if_completed`, which controls
-  the automatic bypass of drip restrictions for completed lessons.

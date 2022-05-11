@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 6.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -312,7 +312,7 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.11 Unknown.
  * @since 3.37.10 Use strict comparison '===' in place of '=='.
- * @since [version] Improve code readability turning if-elseif into a switch-case.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
  *                Bypass drip content restriction on already completed lessons.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
@@ -345,7 +345,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 	/**
 	 * Filters whether or not to bypass drip restrictions on completed lessons.
 	 *
-	 * @since [version]
+	 * @since 6.5.0
 	 *
 	 * @param boolean $drip_bypass Whether or not to bypass drip restrictions on completed lessons.
 	 * @param int     $post_id     WP Post ID of a lesson or quiz potentially restricted by drip settings.
@@ -363,7 +363,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
- * @since [version] Improve code readability turning if-elseif into a switch-case.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -452,7 +452,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @since 3.0.0
  * @since 3.16.11 Unknown.
  * @since 5.7.0 Replaced the call to the deprecated `LLMS_Lesson::get_parent_course()` method with `LLMS_Lesson::get( 'parent_course' )`.
- * @since [version] Improve code readability turning if-elseif into a switch-case.
+ * @since 6.5.0 Improve code readability turning if-elseif into a switch-case.
  *
  * @param int      $post_id WP Post ID of a course, lesson, or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
