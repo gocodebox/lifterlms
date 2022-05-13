@@ -32,6 +32,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 			public $post_type = 'llms_mock_diploma';
 
 			public function __construct() {
+				register_post_type( 'llms_mock_diploma' );
 				add_filter( 'lifterlms_engagement_types', array( $this, 'register_engagement_types' ), 10, 1 );
 				add_filter( 'lifterlms_engagement_actions', array( $this, 'register_engagement_actions' ), 10, 1 );
 
@@ -48,6 +49,10 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 					10,
 					3
 				);
+			}
+
+			public function __destruct() {
+				unregister_post_type( 'llms_mock_diploma' );
 			}
 
 			public function filter_engagement_handler_arguments( $parsed, $engagement, $user_id, $related_post_id, $event_type ) {
