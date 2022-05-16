@@ -34,9 +34,6 @@ class LLMS_Cache_Helper {
 	/**
 	 * Sets a browser cookie that tells WP Engine to exclude a page from server caching.
 	 *
-	 * If "Settings -> Permalinks" is "Plain", i.e. the `permalink_structure` option is '',
-	 * then the entire site will be excluded from server caching.
-	 *
 	 * @see https://wpengine.com/support/cache/#Default_Cache_Exclusions
 	 * @see https://wpengine.com/support/determining-wp-engine-environment/
 	 *
@@ -49,6 +46,14 @@ class LLMS_Cache_Helper {
 	private function exclude_page_from_wpe_server_cache( $post = null ) {
 
 		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
+
+			/* If "Settings -> Permalinks" is "Plain", i.e. the `permalink_structure` option is '',
+			 * allow the entire site to be cached by WP Engine.
+			 * Note: This will prevent users from being able to successfully use the "Lost your password?" feature.
+			 */
+			if ( isset( $GLOBALS['wp_rewrite'] ) && '' === $GLOBALS['wp_rewrite']->permalink_structure ) {
+				return;
+			}
 
 			$path = wp_parse_url( get_permalink( $post ), PHP_URL_PATH );
 			llms_setcookie( 'wordpress_wpe_no_cache', '1', 0, $path, COOKIE_DOMAIN, is_ssl(), true );
