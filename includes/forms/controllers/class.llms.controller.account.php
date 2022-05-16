@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -381,6 +381,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 5.0.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Prevented client and server caching of the password reset form page.
 	 *
 	 * @return void
 	 */
