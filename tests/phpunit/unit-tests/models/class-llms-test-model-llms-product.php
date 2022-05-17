@@ -145,6 +145,22 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test exists().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_exists() {
+
+		$product = new LLMS_Product( 'new', 'Product ' );
+		$this->assertTrue( $product->exists() );
+
+		$product = new LLMS_Product( 0 );
+		$this->assertFalse( $product->exists() );
+	}
+
+	/**
 	 * Overwrite unnecessary parent test.
 	 *
 	 * @since 3.38.0

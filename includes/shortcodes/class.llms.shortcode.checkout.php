@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes/Classes
  *
  * @since 1.0.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,11 +39,28 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 * @since 3.36.3 Added l10n function to membership restriction error message.
 	 * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
+	 * @since [version] Added check for orphaned access plans.
 	 *
-	 * @param array $atts Shortcode attributes array.
+	 * @param array $atts {
+	 *     Shortcode attributes array.
+	 *
+	 *     @type int              $cols          The number of columns, 1 or 2, to display on the form.
+	 *     @type string           $form_fields   The rendered HTML of the form.
+	 *     @type string           $form_location Form location, one of: "checkout", "registration", or "account".
+	 *     @type string           $form_title    The title of the form.
+	 *     @type bool             $is_free       Should the free checkout process & interface be used for this access plan?
+	 *     @type LLMS_Access_Plan $plan          The access plan object.
+	 *     @type LLMS_Product     $product       The sellable product object.
+	 * }
 	 * @return void
 	 */
 	private static function checkout( $atts ) {
+
+		// Make sure the access plan's product exists.
+		if ( false === $atts['product']->exists() ) {
+			self::print_product_not_found_error();
+			return;
+		}
 
 		// if there are membership restrictions, check the user is in at least one membership.
 		// this is to combat CHEATERS.
@@ -271,6 +288,21 @@ class LLMS_Shortcode_Checkout {
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
 
+	}
+
+	/**
+	 * Prints an error that the access plan's product was not found.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private static function print_product_not_found_error() {
+
+		llms_print_notice(
+			__( 'The product that this access plan is for could not be found.', 'lifterlms' ),
+			'error'
+		);
 	}
 
 	/**

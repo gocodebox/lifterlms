@@ -1,0 +1,5 @@
+significance: patch
+type: fixed
+links:
+  - gocodebox/private-issues#9
+entry: Prevented display of the checkout form when the access plan's product is not found.
