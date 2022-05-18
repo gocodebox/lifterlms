@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.4.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,35 +29,6 @@ class LLMS_Cache_Helper {
 
 		add_action( 'wp', array( $this, 'maybe_no_cache' ) );
 
-	}
-
-	/**
-	 * Sets a browser cookie that tells WP Engine to exclude a page from server caching.
-	 *
-	 * @see https://wpengine.com/support/cache/#Default_Cache_Exclusions
-	 * @see https://wpengine.com/support/determining-wp-engine-environment/
-	 *
-	 * @since [version]
-	 *
-	 * @param int|WP_Post $post Optional. Post ID or post object. Default is the global `$post`.
-	 *
-	 * @return void
-	 */
-	private function exclude_page_from_wpe_server_cache( $post = null ) {
-
-		if ( function_exists( 'is_wpe' ) && is_wpe() ) {
-
-			/* If "Settings -> Permalinks" is "Plain", i.e. the `permalink_structure` option is '',
-			 * allow the entire site to be cached by WP Engine.
-			 * Note: This will prevent users from being able to successfully use the "Lost your password?" feature.
-			 */
-			if ( isset( $GLOBALS['wp_rewrite'] ) && '' === $GLOBALS['wp_rewrite']->permalink_structure ) {
-				return;
-			}
-
-			$path = wp_parse_url( get_permalink( $post ), PHP_URL_PATH );
-			llms_setcookie( 'wordpress_wpe_no_cache', '1', 0, $path, COOKIE_DOMAIN, is_ssl(), true );
-		}
 	}
 
 	/**
@@ -112,8 +83,7 @@ class LLMS_Cache_Helper {
 	 *
 	 * @since 3.15.0
 	 * @since 6.4.0 Force no caching on quiz pages.
-	 *              Added 'no-store' to the default WordPress nocache headers.
-	 * @since [version] Added WP Engine server-side cache exclusions.
+	 *               Added 'no-store' to the default WordPress nocache headers.
 	 *
 	 * @return void
 	 */
@@ -155,7 +125,6 @@ class LLMS_Cache_Helper {
 			llms_maybe_define_constant( 'DONOTCACHEOBJECT', true );
 			llms_maybe_define_constant( 'DONOTCACHEDB', true );
 			nocache_headers();
-			$this->exclude_page_from_wpe_server_cache();
 
 			remove_filter( 'nocache_headers', array( __CLASS__, 'additional_nocache_headers' ), 99 );
 
