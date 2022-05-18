@@ -5,7 +5,7 @@
  * @package LifterLMS/Forms/Controllers/Classes
  *
  * @since 3.7.0
- * @version 5.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -381,6 +381,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 5.0.0
 	 * @since 5.9.0 Stop using deprecated `FILTER_SANITIZE_STRING`.
+	 * @since [version] Prevented client and server caching of the password reset form page.
 	 *
 	 * @return void
 	 */
@@ -392,6 +393,7 @@ class LLMS_Controller_Account {
 			$uid  = $user ? $user->ID : 0;
 			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input_sanitize_string( INPUT_GET, 'key' ) ) );
 
+			( new LLMS_Cache_Helper() )->maybe_no_cache();
 			llms_set_password_reset_cookie( $val );
 			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );
 		}
