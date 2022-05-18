@@ -13,6 +13,86 @@
 class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 	/**
+	 * Returns a mock 3rd party engagements class.
+	 *
+	 * @since [version]
+	 *
+	 * @return object
+	 */
+	private function instantiate_mock_engagements() {
+
+		$mock_engagements = new class {
+
+			public $engagement_action = 'llms_mock_curriculum_completed';
+
+			public $event_type = 'diploma';
+
+			public $handler_action = 'lifterlms_engagement_ship_diploma';
+
+			public $post_type = 'llms_mock_diploma';
+
+			public function __construct() {
+				register_post_type( 'llms_mock_diploma' );
+				add_filter( 'lifterlms_engagement_types', array( $this, 'register_engagement_types' ), 10, 1 );
+				add_filter( 'lifterlms_engagement_actions', array( $this, 'register_engagement_actions' ), 10, 1 );
+
+				add_filter(
+					'lifterlms_external_engagement_handler_arguments',
+					array( $this, 'filter_engagement_handler_arguments' ),
+					10,
+					5
+				);
+
+				add_filter(
+					'lifterlms_external_engagement_query_arguments',
+					array( $this, 'filter_engagement_query_arguments' ),
+					10,
+					3
+				);
+			}
+
+			public function __destruct() {
+				unregister_post_type( 'llms_mock_diploma' );
+			}
+
+			public function filter_engagement_handler_arguments( $parsed, $engagement, $user_id, $related_post_id, $event_type ) {
+				if ( $this->event_type !== $event_type ) {
+					return $parsed;
+				}
+				$parsed['handler_action'] = $this->handler_action;
+				$parsed['handler_args']   = array( $user_id, $engagement->engagement_id, $related_post_id, $engagement->trigger_id );
+
+				return $parsed;
+			}
+
+			public function filter_engagement_query_arguments( $parsed, $action, $args ) {
+				if ( $this->engagement_action !== $action ) {
+					return $parsed;
+				}
+				$parsed['trigger_type']    = $action;
+				$parsed['user_id']         = $args[0];
+				$parsed['related_post_id'] = $args[1];
+
+				return $parsed;
+			}
+
+			public function register_engagement_types( $engagement_types ) {
+				$engagement_types[ $this->event_type ] = __( 'Print and mail a diploma', 'lifterlms' );
+
+				return $engagement_types;
+			}
+
+			public function register_engagement_actions( $engagement_actions ) {
+				$engagement_actions[] = $this->engagement_action;
+
+				return $engagement_actions;
+			}
+		};
+
+		return new $mock_engagements;
+	}
+
+	/**
 	 * Set up before class.
 	 *
 	 * @since 6.0.0
@@ -418,6 +498,137 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 
 		}
 
+	}
+
+	/**
+	 * Test parse_engagement().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 * @throws ReflectionException
+	 */
+	public function test_parse_engagement() {
+
+		$mock_engagements = $this->instantiate_mock_engagements();
+		$engagements      = llms()->engagements();
+
+		// Set up course, engagement to be triggered, trigger settings, and student.
+		$course_id       = $this->factory->course->create();
+		$engagement_id   = $this->factory->post->create( array( 'post_type' => $mock_engagements->post_type ) );
+		$mock_engagement = $this->create_mock_engagement(
+			'course_track_completed',
+			'certificate',
+			0,
+			$course_id,
+			$engagement_id
+		);
+		$trigger_id      = $mock_engagement->ID;
+		$student_id      = $this->factory->student->create();
+
+		// Set up parse_engagement() arguments.
+		$engagement                = new stdClass();
+		$engagement->engagement_id = $engagement_id;
+		$engagement->trigger_id    = $trigger_id;
+		$engagement->trigger_event = 'course_completed';
+		$engagement->event_type    = 'email';
+		$engagement->delay         = 0;
+
+		$parse_args = array(
+			$engagement,
+			array(
+				'trigger_type'    => 'course_enrollment',
+				'user_id'         => $student_id,
+				'related_post_id' => $course_id,
+			)
+		);
+
+		$expected_handler_args = array(
+			$student_id,
+			$engagement_id,
+			$course_id, // Related Post ID.
+			$trigger_id,
+		);
+
+		// Test a core email engagement event type.
+		$expected_handler_action = 'lifterlms_engagement_send_email';
+		$handler                 = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_engagement', $parse_args );
+		$this->assertEquals( $expected_handler_action, $handler['handler_action'] );
+		$this->assertEquals( $expected_handler_args, $handler['handler_args'] );
+
+		// Test a core certificate engagement event type.
+		$engagement->event_type  = 'certificate';
+		$expected_handler_action = 'lifterlms_engagement_award_certificate';
+		$handler                 = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_engagement', $parse_args );
+		$this->assertEquals( $expected_handler_action, $handler['handler_action'] );
+		$this->assertEquals( $expected_handler_args, $handler['handler_args'] );
+
+		// Test an unknown engagement event type.
+		$engagement->event_type = 'unknown_action';
+		$handler                = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_engagement', $parse_args );
+		$this->assertNull( $handler['handler_action'] );
+		$this->assertNull( $handler['handler_args'] );
+
+		// Test a non-core engagement event type.
+		$engagement->event_type  = $mock_engagements->event_type;
+		$expected_handler_action = $mock_engagements->handler_action;
+		$handler                 = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_engagement', $parse_args );
+		$this->assertEquals( $expected_handler_action, $handler['handler_action'] );
+		$this->assertEquals( $expected_handler_args, $handler['handler_args'] );
+	}
+
+	/**
+	 * Test parse_hook().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 * @throws ReflectionException
+	 */
+	public function test_parse_hook() {
+
+		$mock_engagements = $this->instantiate_mock_engagements();
+		$engagements      = llms()->engagements();
+
+		// Set up course and student.
+		$related_post_id = $this->factory->course->create();
+		$user_id         = $this->factory->student->create();
+
+		// Set up parse_hook() arguments.
+		$parse_args    = array(
+			&$action,
+			array(
+				$user_id,
+				$related_post_id,
+			),
+		);
+		$expected_hook = array(
+			'user_id'         => $user_id,
+			'trigger_type'    => &$trigger_type,
+			'related_post_id' => $related_post_id
+		);
+
+		// Test a core hook.
+		$action       = 'llms_user_enrolled_in_course';
+		$trigger_type = 'course_enrollment';
+		$actual_hook  = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_hook', $parse_args );
+		$this->assertEqualSetsWithIndex( $expected_hook, $actual_hook );
+
+		// Test an unknown action.
+		$action                = 'unknown';
+		$expected_unknown_hook = array(
+			'user_id'         => null,
+			'trigger_type'    => null,
+			'related_post_id' => null
+		);
+		$actual_hook           = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_hook', $parse_args );
+		$this->assertEqualSetsWithIndex( $expected_unknown_hook, $actual_hook );
+
+		// Test a non-core hook.
+		$action       = $mock_engagements->engagement_action; // Input to parse_hook().
+		$trigger_type = $mock_engagements->engagement_action; // Output from parse_hook().
+		$actual_hook  = LLMS_Unit_Test_Util::call_method( $engagements, 'parse_hook', $parse_args );
+		$this->assertEqualSetsWithIndex( $expected_hook, $actual_hook );
 	}
 
 	/**
