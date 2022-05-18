@@ -88,10 +88,21 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 	 * Test llms_get_certificate_content() with reusable blocks and merge codes.
 	 *
 	 * @since 6.4.0
+	 * @since [version] Remove layout filters for easier snapshots across WP versions.
 	 *
 	 * @return void
 	 */
 	public function test_llms_get_certificate_content_reusable_blocks() {
+
+		/**
+		 * Remove layout support for the purposes of this test.
+		 *
+		 * It's complicated to conditionally match the classes added to column wrappers (added via this filter)
+		 * so we'll just disable them.
+		 *
+		 * @todo When the minimum supported WP version is 6.0 we can remove this an update the snapshots.
+		 */
+		remove_filter( 'render_block', 'wp_render_layout_support_flag', 10 );
 
 		// Define reusable blocks.
 		$reusable_blocks = array(
@@ -192,6 +203,10 @@ class LLMS_Test_Functions_Certificates extends LLMS_UnitTestCase {
 				"template #$key, reusable block #$reusable_key"
 			);
 		}
+		
+		// Restore filter.
+		add_filter( 'render_block', 'wp_render_layout_support_flag', 10, 2 );
+
 	}
 
 	/**
