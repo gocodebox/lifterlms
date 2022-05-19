@@ -62,58 +62,35 @@ class LLMS_Shortcode_Checkout {
 			return;
 		}
 
-		// if there are membership restrictions, check the user is in at least one membership.
-		// this is to combat CHEATERS.
-		if ( $atts['plan']->has_availability_restrictions() ) {
-			$access = false;
-			foreach ( $atts['plan']->get_array( 'availability_restrictions' ) as $mid ) {
-
-				// once we find a membership, exit.
-				if ( llms_is_user_enrolled( self::$uid, $mid ) ) {
-					$access = true;
-					break;
-				}
-			}
-			if ( ! $access ) {
-				llms_print_notice( __( 'You must be a member in order to purchase this access plan.', 'lifterlms' ), 'error' );
-				return;
-			}
+		// If there are membership restrictions, check that the user is in at least one membership.
+		// This is to combat CHEATERS.
+		if ( false === $atts['plan']->is_available_to_user( self::$uid ) ) {
+			self::print_membership_required_error();
+			return;
 		}
 
 		if ( self::$uid ) {
-			// ensure the user isn't enrolled in the product being purchased.
-			if ( isset( $atts['product'] ) && llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
-
-				/**
-				 * Filter the displaying of the checkout form notice for already enrolled in the product being purchased.
-				 *
-				 * @since 4.2.0
-				 *
-				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
-				 */
-				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
-					llms_print_notice(
-						sprintf(
-							// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
-							__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
-							llms_get_page_url( 'myaccount' ),
-							$atts['product']->get_post_type_label()
-						),
-						'notice'
-					);
-				}
-
+			// Ensure the user isn't already enrolled in the product being purchased.
+			if ( llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
+				self::print_is_enrolled_notice( $atts['product'] );
 				return;
 			}
 
 			$user = get_userdata( self::$uid );
-			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
+			self::print_logged_in_notice( $atts['plan'], $user );
+
 		} else {
-			llms_get_login_form( sprintf( __( 'Already have an account? <a href="%s">Click here to login</a>', 'lifterlms' ), '#llms-show-login' ), $atts['plan']->get_checkout_url() );
+			llms_get_login_form(
+				sprintf(
+					/* translators: %s: URL anchor to show the login form */
+					__( 'Already have an account? <a href="%s">Click here to login.</a>', 'lifterlms' ),
+					'#llms-show-login'
+				),
+				$atts['plan']->get_checkout_url()
+			);
 		}
 
 		llms_get_template( 'checkout/form-checkout.php', $atts );
-
 	}
 
 	/**
@@ -288,6 +265,74 @@ class LLMS_Shortcode_Checkout {
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
 
+	}
+
+	/**
+	 * Prints a notice that the user already has access to the product.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Product $product The product object.
+	 * @return void
+	 */
+	private static function print_is_enrolled_notice( $product ) {
+		/**
+		 * Filter the displaying of the checkout form notice to students that are already enrolled
+		 * in the product being purchased.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param bool $display_notice Whether or not to display the checkout form notice to students that
+		 *                             are already enrolled in the product being purchased.
+		 */
+		if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
+			llms_print_notice(
+				sprintf(
+					/* translators: %1$s: product permalink, %2$s: the product type (course/membership) */
+					__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
+					llms_get_page_url( 'myaccount' ),
+					$product->get_post_type_label()
+				),
+				'notice'
+			);
+		}
+	}
+
+	/**
+	 * Prints a notice that the user is logged in.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Access_Plan $plan The access plan object.
+	 * @param WP_User          $user The user object.
+	 * @return void
+	 */
+	private static function print_logged_in_notice( $plan, $user ) {
+
+		llms_print_notice(
+			sprintf(
+				/* translators: %1$s: user email address, %2$s: logout URL with a redirect to the checkout URL */
+				__( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ),
+				$user->user_email,
+				wp_logout_url( $plan->get_checkout_url() )
+			),
+			'notice'
+		);
+	}
+
+	/**
+	 * Prints an error that the user must be a member to purchase the plan.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private static function print_membership_required_error() {
+
+		llms_print_notice(
+			__( 'You must be a member in order to purchase this access plan.', 'lifterlms' ),
+			'error'
+		);
 	}
 
 	/**
