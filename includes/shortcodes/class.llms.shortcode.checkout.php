@@ -39,7 +39,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 * @since 3.36.3 Added l10n function to membership restriction error message.
 	 * @since 4.2.0 Added filter to control the displaying of the notice informing the students they're already enrolled in the product being purchased.
-	 * @since [version] Added check for orphaned access plans.
+	 * @since [version] Added checks for orphaned access plans and non-purchasable products.
 	 *
 	 * @param array $atts {
 	 *     Shortcode attributes array.
@@ -66,6 +66,12 @@ class LLMS_Shortcode_Checkout {
 		// This is to combat CHEATERS.
 		if ( false === $atts['plan']->is_available_to_user( self::$uid ) ) {
 			self::print_membership_required_error();
+			return;
+		}
+
+		// Is the product purchasable, e.g. is the course restricted because
+		// enrollment capacity has been reached or we're not in the enrollment period?
+		if ( self::does_product_not_purchasable_template_print_error_notices( $atts['product'] ) ) {
 			return;
 		}
 
@@ -106,6 +112,26 @@ class LLMS_Shortcode_Checkout {
 
 		llms_get_template( 'checkout/form-confirm-payment.php', $atts );
 
+	}
+
+	/**
+	 * Loads the 'product/not-purchasable.php' template and returns true if it printed an error notice,
+	 * else returns false.
+	 *
+	 * The default LifterLMS 'product/not-purchasable.php' template prints error notices if a related course
+	 * is restricted, e.g. if enrollment capacity has been reached or we're not in the enrollment period.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Product $product The product object.
+	 * @return bool
+	 */
+	private static function does_product_not_purchasable_template_print_error_notices( $product ) {
+
+		$action_count = did_action( 'lifterlms_after_error_notices' );
+		llms_template_product_not_purchasable( $product );
+
+		return did_action( 'lifterlms_after_error_notices' ) > $action_count;
 	}
 
 	/**

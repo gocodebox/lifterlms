@@ -153,7 +153,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_exists() {
 
-		$product = new LLMS_Product( 'new', 'Product ' );
+		$product = new LLMS_Product( $this->factory->course->create() );
 		$this->assertTrue( $product->exists() );
 
 		$product = new LLMS_Product( 0 );
