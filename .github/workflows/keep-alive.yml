@@ -40,7 +40,7 @@ jobs:
 
           echo "Days since last commit: $DIFF_IN_DAYS"
 
-          if [[ $DIFF_IN_DAYS > 50 ]]; then
+          if (( $DIFF_IN_DAYS > 50 )); then
             echo "Adding a keep-alive commit."
           
             git config --global user.name "keepalive[bot]"
