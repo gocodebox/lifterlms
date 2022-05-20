@@ -51,7 +51,7 @@ class LLMS_Cache_Helper {
 			 * allow the entire site to be cached by WP Engine.
 			 * Note: This will prevent users from being able to successfully use the "Lost your password?" feature.
 			 */
-			if ( isset( $GLOBALS['wp_rewrite'] ) && '' === $GLOBALS['wp_rewrite']->permalink_structure ) {
+			if ( isset( $GLOBALS['wp_rewrite'] ) && ! $GLOBALS['wp_rewrite']->using_permalinks() ) {
 				return;
 			}
 
