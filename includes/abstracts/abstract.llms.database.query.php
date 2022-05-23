@@ -89,7 +89,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 		 *
 		 * @param array $args Array of default arguments to set up the query with.
 		 */
-		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '[version]', "llms_{$this->id}_query_get_default_args" );
+		return apply_filters_deprecated( 'llms_db_query_get_default_args', array( $args ), '6.0.0', "llms_{$this->id}_query_get_default_args" );
 
 	}
 
@@ -405,7 +405,7 @@ abstract class LLMS_Database_Query extends LLMS_Abstract_Query {
 			_doing_it_wrong(
 				__METHOD__,
 				sprintf( __( "Method '%s' not implemented. Must be overridden in subclass.", 'lifterlms' ), __METHOD__ ),
-				'[version]'
+				'6.0.0'
 			);
 		}
 	}

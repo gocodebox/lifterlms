@@ -10,14 +10,16 @@ const
  * Update [version] placeholders via a regex against a list of file globs
  *
  * @since 0.0.1
+ * @since 0.0.5 Added `flags` argument to allow customization of the regex flags.
  *
  * @param {string} files  Comma separated list of file globs.
  * @param {regex}  regex  A regular expression to use for the replacements.
+ * @param {string  flags  A regex options string.
  * @param {string} ignore A comma separated list of file globs to be ignored.
- * @param {string} ver    The semantic version string to replace the placeholder with.
+ * @param {string} ver   The semantic version string to replace the placeholder with.
  * @return {Object} Replacement result object from `replace.sync()`.
  */
-function updateVersions( files, regex, ignore, ver ) {
+function updateVersions( files, regex, flags, ignore, ver ) {
 	const commasToArray = ( string ) => string.split( ',' ).map( ( s ) => s.trim() );
 
 	files = commasToArray( files );
@@ -27,7 +29,7 @@ function updateVersions( files, regex, ignore, ver ) {
 	const
 		opts = {
 			files,
-			from: new RegExp( regex, 'g' ),
+			from: new RegExp( regex, flags ),
 			to: ver,
 			ignore: ignore ? commasToArray( ignore ) : null,
 			countMatches: true,
@@ -89,21 +91,56 @@ function updateConfig( ver ) {
 	return false;
 }
 
+const deprecatedFunctions = [
+	// WP deprecation warnings.
+	'_deprecated_argument',
+	'_deprecated_constructor',
+	'_deprecated_hook',
+	'_deprecated_file',
+	'_deprecated_function',
+
+	// Doing it wrong warning.
+	'_doing_it_wrong',
+
+	// Deprecated hook callers.
+	'apply_filters_deprecated',
+	'do_action_deprecated',
+	
+	// LLMS deprecation warnings.
+	'llms_deprecated_function',
+].join( '|' );
+
+
 const defaultReplacements = [
 	// 1. Replace [version] placeholder in all @since, @version, and @deprecated tags.
-	[ './**', '(?<=@(?:since|version|deprecated) +)(\\[version\\])' ],
+	[ 
+		'./**',
+		'(?<=@(?:since|version|deprecated) +)(\\[version\\])',
+	],
 
 	// 2. Replace [version] placeholder in all deprecate function methods tags.
-	[ './*.php,./**/*.php', '(?<=(?:llms_deprecated_function|_deprecated_function|_deprecated_file\\().+)(?<=\')(\\[version\\])(?=\')' ],
+	[ 
+		'./*.php,./**/*.php',
+		`(?<=(?:${ deprecatedFunctions }\\().+)(?<=\')(\\[version\\])(?=\')`,
+	],
 
 	// 3. Replace plugin metadata "Version" with current version.
-	[ '*lifterlms*.php', '(?<=[Vv]ersion *[:=] *[ \'\"])(0|[1-9]\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?' ],
+	[ 
+		'*lifterlms*.php',
+		'(?<=[Vv]ersion *[:=] *[ \'\"])(0|[1-9]\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?',
+	],
 
 	// 4. Replace LIFTERLMS*_VERSION constants with the current version.
-	[ '*lifterlms*.php', '(?<=define\\( \'(?:LLMS|LIFTERLMS).*_VERSION\', \')(.*)(?=\' \\);)' ],
+	[ 
+		'*lifterlms*.php',
+		'(?<=define\\( \'(?:LLMS|LIFTERLMS).*_VERSION\', \')(.*)(?=\' \\);)',
+	],
 
 	// 5. Replace theme stylesheet's version number with the current version.
-	[ './style.css', '(?<=Version: )(.+)' ],
+	[ 
+		'./style.css',
+		'(?<=Version: )(.+)',
+	],
 ];
 
 module.exports = {
@@ -113,7 +150,7 @@ module.exports = {
 		[ '-i, --increment <level>', 'Increment the version by the specified level. Accepts: major, minor, patch, premajor, preminor, prepatch, or prerelease.', 'patch' ],
 		[ '-p, --preid <identifier>', 'Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.' ],
 		[ '-F, --force <version>', 'Specify an explicit version instead of incrementing the current version with --increment.' ],
-		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested and a regex used to perform the replacement. It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
+		[ '-r, --replacements <replacement...>]', 'Replacements to be made. Each replacement is an array containing a list of globs for the files to be tested, a regex used to perform the replacement, and an optional list of RegEx flags (defaults to `g` if not supplied). It is recommended that this argument to configured via a configuration file as opposed to being passed via a CLI flag.', defaultReplacements ],
 		[ '-e, --extra-replacements <replacement...>]', 'Additional replacements added to --replacements array. This option allows adding to the default replacements instead of overwriting them.', [] ],
 		[ '-E, --exclude <glob...>', 'Specify files to exclude from the update.', './vendor/**, ./node_modules/**, ./tmp/**, ./dist/**, ./docs/**, ./packages/**' ],
 		[ '-s, --skip-config', 'Skip updating the version of the package.json or composer.json file.' ],
@@ -140,6 +177,9 @@ module.exports = {
 		logResult( `Updating project files to version ${ chalk.bold( version ) }.` );
 
 		for ( let i = 0; i < replacements.length; i++ ) {
+			if ( replacements[ i ].length < 3 ) {
+				replacements[ i ].push( 'g' );
+			}
 			updateVersions( ...replacements[ i ], exclude, version )
 				.filter( ( { hasChanged } ) => hasChanged )
 				.forEach( ( update ) => {

@@ -1,6 +1,13 @@
 @lifterlms/dev CHANGELOG
 ========================
 
+v0.0.5 - 2022-05-23
+-------------------
+
++ Added: `update-version` default replacements will now additionally replace the `[version]` placeholder in the following functions: `_deprecated_argument`, `_deprecated_constructor`, `_deprecated_hook`, `_doing_it_wrong`, `apply_filters_deprecated`, and `do_action_deprecated`.
++ Added: `update-version` command RegEx lists now accept an optional 3rd item used to specify the `RegExp` flags argument. If not supplied the flags list defaults to `g`.
+
+
 v0.0.4 - 2022-02-15
 -------------------
 

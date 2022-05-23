@@ -84,7 +84,7 @@ class LLMS_Engagement_Handler {
 			}
 		}
 
-		// Ensure we have an argument to check, engagements created prior to v[version] will not have this argument.
+		// Ensure we have an argument to check, engagements created prior to v6.0.0 will not have this argument.
 		if ( ! empty( $engagement_id ) ) {
 			$checks[] = self::check_post( $engagement_id, 'llms_engagement' );
 		}
@@ -133,7 +133,7 @@ class LLMS_Engagement_Handler {
 			return $args;
 		}
 
-		return apply_filters_deprecated( $hook[0], array( $args ), '[version]', $hook[1] );
+		return apply_filters_deprecated( $hook[0], array( $args ), '6.0.0', $hook[1] );
 
 	}
 
@@ -183,7 +183,7 @@ class LLMS_Engagement_Handler {
 			 */
 			$old_obj = new $old_class();
 			$old_obj->init( ...$init_args );
-			$args = apply_filters_deprecated( $deprecated, array( $args, $old_obj ), '[version]', $replacement );
+			$args = apply_filters_deprecated( $deprecated, array( $args, $old_obj ), '6.0.0', $replacement );
 		}
 
 		return $args;

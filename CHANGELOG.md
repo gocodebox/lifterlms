@@ -1,6 +1,28 @@
 LifterLMS Changelog
 ===================
 
+v6.6.0 - 2022-05-23
+-------------------
+
+##### PHP Minimum Required Version Change
+
++ **Raised the minimum supported PHP version to 7.4.**
+
+##### WordPress Minimum Required Version Change
+
++ **Raised the minimum supported WordPress core version to 5.6.**
+
+##### New Features
+
++ Added support for WordPress 6.0.
+
+##### Bug Fixes
+
++ Fixed the ability for 3rd party plugins to use the `lifterlms_external_engagement_handler_arguments` and `lifterlms_external_engagement_query_arguments` filters.
++ Added automatic exclusion of "no cache" pages from the WP Engine server-side cache when using "pretty" permalinks. [#1717](https://github.com/gocodebox/lifterlms/issues/1717)
++ Stop subtracting LifterLMS order note comments from global comment counts via the `wp_count_comments` filter on WordPress 6.0 and later. See related WordPress Trac ticket [#19901](https://core.trac.wordpress.org/ticket/19901)
+
+
 v6.5.0 - 2022-05-11
 -------------------
 
