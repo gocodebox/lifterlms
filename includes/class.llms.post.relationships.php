@@ -130,7 +130,7 @@ class LLMS_Post_Relationships {
 			array(
 				$earned_engagement,
 			),
-			'[version]',
+			'6.0.0',
 			'',
 			__( 'Use WordPress core  `before_delete_post` action hook', 'lifterlms' )
 		);
@@ -156,7 +156,7 @@ class LLMS_Post_Relationships {
 						array(
 							$earned_engagement,
 						),
-						'[version]',
+						'6.0.0',
 						'',
 						__( 'Use WordPress core `deleted_post` action hook.', 'lifterlms' )
 					);

@@ -4,10 +4,10 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Requires at least: 5.5
-Tested up to: 5.9
-Requires PHP: 7.3
-Stable tag: 6.5.0
+Requires at least: 5.6
+Tested up to: 6.0
+Requires PHP: 7.4
+Stable tag: 6.6.0
 
 LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 
@@ -538,6 +538,27 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 == Changelog ==
 
+= v6.6.0 - 2022-05-23 =
+
+##### PHP Minimum Required Version Change
+
++ **Raised the minimum supported PHP version to 7.4.**
+
+##### WordPress Minimum Required Version Change
+
++ **Raised the minimum supported WordPress core version to 5.6.**
+
+##### New Features
+
++ Added support for WordPress 6.0.
+
+##### Bug Fixes
+
++ Fixed the ability for 3rd party plugins to use the `lifterlms_external_engagement_handler_arguments` and `lifterlms_external_engagement_query_arguments` filters.
++ Added automatic exclusion of "no cache" pages from the WP Engine server-side cache when using "pretty" permalinks. [#1717](https://github.com/gocodebox/lifterlms/issues/1717)
++ Stop subtracting LifterLMS order note comments from global comment counts via the `wp_count_comments` filter on WordPress 6.0 and later. See related WordPress Trac ticket [#19901](https://core.trac.wordpress.org/ticket/19901)
+
+
 = v6.5.0 - 2022-05-11 =
 
 ##### Upcoming PHP Version Requirement Change
@@ -1040,34 +1061,6 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/5.8.0/templates/course/parent-course.php)
 + [templates/loop-main.php](https://github.com/gocodebox/lifterlms/blob/5.8.0/templates/loop-main.php)
 + [templates/loop.php](https://github.com/gocodebox/lifterlms/blob/5.8.0/templates/loop.php)
-
-
-= v5.7.0 - 2022-01-11 =
-
-##### Updates and Enhancements
-
-+ Informed developers about the deprecated `LLMS_Section::get_next_available_lesson_order()` method.
-+ Informed developers about the deprecated `LLMS_Section::get_order()` method.
-+ Informed developers about the deprecated `LLMS_Section::get_parent_course()` method.
-+ Informed developers about the deprecated `LLMS_Section::set_parent_course()` method.
-
-##### Deprecations
-
-+ Deprecated `LLMS_Frontend_Assets::enqueue_inline_pw_script()` with no replacement.
-+ Deprecated the `LLMS_Lesson::get_order()` method in favor of the `LLMS_Lesson::get( 'order' )` method.
-+ Deprecated the `LLMS_Lesson::get_parent_course()` method in favor of the `LLMS_Lesson::get( 'parent_course' )` method.
-+ Deprecated the `LLMS_Lesson::set_parent_course()` method in favor of the `LLMS_Lesson::set( 'parent_course', $course_id )` method.
-+ Deprecated the `LLMS_AJAX_Handler::add_lesson_to_course()` method with no replacement.
-+ Deprecated the `LLMS_AJAX_Handler::create_lesson()` method with no replacement.
-+ Deprecated the `LLMS_AJAX_Handler::create_section()` method with no replacement.
-+ Deprecated the `LLMS_Lesson_Handler::assign_to_course()` method with no replacement.
-+ Deprecated the `LLMS_Post_Handler::create_section()` method with no replacement.
-
-##### Updated Templates
-
-+ [templates/course/lesson-navigation.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-navigation.php)
-+ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/lesson-preview.php)
-+ [templates/course/parent-course.php](https://github.com/gocodebox/lifterlms/blob/trunk/templates/course/parent-course.php)
 
 
 [Read the full changelog](https://make.lifterlms.com/tag/lifterlms)

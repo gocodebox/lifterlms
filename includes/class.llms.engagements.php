@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 6.0.0
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -342,9 +342,11 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Parse incoming hook / callback data to determine if an engagement should be triggered from a given hook
+	 * Parse incoming hook / callback data to determine if an engagement should be triggered from a given hook.
 	 *
 	 * @since 6.0.0
+	 * @since 6.6.0 Fixed an issue where the `lifterlms_external_engagement_query_arguments` filter
+	 *              would not trigger if a 3rd party registered a trigger hook.
 	 *
 	 * @param string $action Action hook name.
 	 * @param array  $args   Array of arguments passed to the callback function.
@@ -364,29 +366,35 @@ class LLMS_Engagements {
 			'related_post_id' => null,
 		);
 
-		// Verify that it's a supported hook.
+		/**
+		 * Allows 3rd parties to hook into the core engagement system by parsing data passed to the hook.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param array $parsed {
+		 *     An associative array of parsed data used to trigger the engagement.
+		 *
+		 *     @type string $trigger_type    (Required) The name of the engagement trigger. See `llms_get_engagement_triggers()` for a list of valid triggers.
+		 *     @type int    $user_id         (Required) The WP_User ID of the user who the engagement is being awarded or sent to.
+		 *     @type int    $related_post_id (Optional) The WP_Post ID of a related post.
+		 *  }
+		 *  @param string $action The name of the hook which triggered the engagement.
+		 *  @param array  $args   The original arguments provided by the triggering hook.
+		 */
+		$filtered_parsed = apply_filters(
+			'lifterlms_external_engagement_query_arguments',
+			$parsed,
+			$action,
+			$args
+		);
+		// If valid, return the filtered parsed data.
+		if ( isset( $filtered_parsed['trigger_type'] ) && isset( $filtered_parsed['user_id'] ) ) {
+			return $filtered_parsed;
+		}
+
+		// Verify that the action is a supported hook.
 		if ( ! in_array( $action, $this->get_trigger_hooks(), true ) ) {
-			/**
-			 * Allows 3rd parties to hook into the core engagement system by parsing data passed to the hook.
-			 *
-			 * @since Unknown
-			 *
-			 * @param array $parsed {
-			 *     An associative array of parsed data used to trigger the engagement.
-			 *
-			 *     @type string $trigger_type    (Required) The name of the engagement trigger. See `llms_get_engagement_triggers()` for a list of valid triggers.
-			 *     @type int    $user_id         (Required) The WP_User ID of the user who the engagement is being awarded or sent to.
-			 *     @type int    $related_post_id (Optional) The WP_Post ID of a related post.
-			 *  }
-			 *  @param string $action The name of the hook which triggered the engagement.
-			 *  @param array  $args   The original arguments provided by the triggering hook.
-			 */
-			return apply_filters(
-				'lifterlms_external_engagement_query_arguments',
-				$parsed,
-				$action,
-				$args
-			);
+			return $parsed;
 		}
 
 		// The user registration action doesn't have a related post id.
@@ -481,9 +489,11 @@ class LLMS_Engagements {
 	}
 
 	/**
-	 * Parse engagement objects from the DB and return data needed to trigger the engagements
+	 * Parse engagement objects from the DB and return data needed to trigger the engagements.
 	 *
 	 * @since 6.0.0
+	 * @since 6.6.0 Fixed an issue where the `lifterlms_external_engagement_handler_arguments` filter
+	 *              would not trigger if a 3rd party registered an engagement type.
 	 *
 	 * @param object $engagement   The engagement object from the `get_engagements()` query.
 	 * @param array  $trigger_data Parsed hook data from `parse_hook()`.
@@ -501,31 +511,38 @@ class LLMS_Engagements {
 			'handler_args'   => null,
 		);
 
+		/**
+		 * Enable 3rd parties to parse custom engagement types.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param array $parsed {
+		 *     An associative array of parsed data used to trigger the engagement.
+		 *
+		 *     @type string $handler_action (Required) Hook name of the action that will handle awarding the sending the engagement.
+		 *     @type array  $handler_args   (Required) Arguments passed to the `$handler_action` callback.
+		 * }
+		 * @param object $engagement      The engagement object from the `get_engagements()` query.
+		 * @param int    $user_id         WP_User ID who will be awarded the engagement.
+		 * @param int    $related_post_id WP_Post ID of the related post.
+		 * @param string $event_type      The type of engagement event.
+		 */
+		$filtered_parsed = apply_filters(
+			'lifterlms_external_engagement_handler_arguments',
+			$parsed,
+			$engagement,
+			$trigger_data['user_id'],
+			$trigger_data['related_post_id'],
+			$engagement->event_type
+		);
+		// If valid, return the filtered parsed data.
+		if ( isset( $filtered_parsed['handler_action'] ) && isset( $filtered_parsed['handler_args'] ) ) {
+			return $filtered_parsed;
+		}
+
+		// Verify that the engagement event type is supported.
 		if ( ! array_key_exists( $engagement->event_type, llms_get_engagement_types() ) ) {
-			/**
-			 * Enable 3rd parties to parse custom engagement types
-			 *
-			 * @since Unknown
-			 *
-			 * @param array $parsed {
-			 *     An associative array of parsed data used to trigger the engagement.
-			 *
-			 *     @type string $handler_action (Required) Hook name of the action that will handle awarding the sending the engagement.
-			 *     @type array  $handler_args   (Required) Arguments passed to the `$handler_action` callback.
-			 * }
-			 * @param object $engagement      The engagement object from the `get_engagements()` query.
-			 * @param int    $user_id         WP_User ID who will be awarded the engagement.
-			 * @param int    $related_post_id WP_Post ID of the related post.
-			 * @param string $event_type      The type of engagement event.
-			 */
-			return apply_filters(
-				'lifterlms_external_engagement_handler_arguments',
-				$parsed,
-				$engagement,
-				$trigger_data['user_id'],
-				$trigger_data['related_post_id'],
-				$engagement->event_type
-			);
+			return $parsed;
 		}
 
 		$parsed['handler_args'] = array(
