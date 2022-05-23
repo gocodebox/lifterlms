@@ -1,5 +1,0 @@
-significance: patch
-type: fixed
-entry: Stop subtracting LifterLMS order note comments from global comment counts
-  via the `wp_count_comments` filter on WordPress 6.0 and later. See related
-  WordPress Trac ticket [19901](https://core.trac.wordpress.org/ticket/19901).

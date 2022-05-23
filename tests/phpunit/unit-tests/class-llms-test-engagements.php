@@ -15,7 +15,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Returns a mock 3rd party engagements class.
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return object
 	 */
@@ -503,7 +503,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_engagement().
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return void
 	 * @throws ReflectionException
@@ -580,7 +580,7 @@ class LLMS_Test_Engagements extends LLMS_UnitTestCase {
 	/**
 	 * Test parse_hook().
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return void
 	 * @throws ReflectionException

@@ -16,7 +16,7 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 	 *
 	 * @see https://wpengine.com/support/determining-wp-engine-environment/
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @param bool $is_live "Live" means a production, development or staging environment, but not a legacy staging site.
 	 * @return void
@@ -39,7 +39,7 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 	 *
 	 * @see LLMS_Cache_Helper::exclude_page_from_wpe_server_cache()
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @return void
 	 * @throws ReflectionException

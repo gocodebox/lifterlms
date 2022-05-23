@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,7 +37,7 @@ class LLMS_Cache_Helper {
 	 * @see https://wpengine.com/support/cache/#Default_Cache_Exclusions
 	 * @see https://wpengine.com/support/determining-wp-engine-environment/
 	 *
-	 * @since [version]
+	 * @since 6.6.0
 	 *
 	 * @param int|WP_Post $post Optional. Post ID or post object. Default is the global `$post`.
 	 *
@@ -113,7 +113,7 @@ class LLMS_Cache_Helper {
 	 * @since 3.15.0
 	 * @since 6.4.0 Force no caching on quiz pages.
 	 *              Added 'no-store' to the default WordPress nocache headers.
-	 * @since [version] Added WP Engine server-side cache exclusions.
+	 * @since 6.6.0 Added WP Engine server-side cache exclusions.
 	 *
 	 * @return void
 	 */

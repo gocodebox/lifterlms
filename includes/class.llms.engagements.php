@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version [version]
+ * @version 6.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -345,7 +345,7 @@ class LLMS_Engagements {
 	 * Parse incoming hook / callback data to determine if an engagement should be triggered from a given hook.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Fixed an issue where the `lifterlms_external_engagement_query_arguments` filter
+	 * @since 6.6.0 Fixed an issue where the `lifterlms_external_engagement_query_arguments` filter
 	 *              would not trigger if a 3rd party registered a trigger hook.
 	 *
 	 * @param string $action Action hook name.
@@ -492,7 +492,7 @@ class LLMS_Engagements {
 	 * Parse engagement objects from the DB and return data needed to trigger the engagements.
 	 *
 	 * @since 6.0.0
-	 * @since [version] Fixed an issue where the `lifterlms_external_engagement_handler_arguments` filter
+	 * @since 6.6.0 Fixed an issue where the `lifterlms_external_engagement_handler_arguments` filter
 	 *              would not trigger if a 3rd party registered an engagement type.
 	 *
 	 * @param object $engagement   The engagement object from the `get_engagements()` query.
